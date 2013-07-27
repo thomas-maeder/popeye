@@ -1538,22 +1538,16 @@ solving/single_piece_move_generator.h:
 
 debugging/trace.h:
 conditions/circe/rex_inclusive$(OBJ_SUFFIX): conditions/circe/rex_inclusive.c \
- conditions/circe/rex_inclusive.h utilities/boolean.h position/board.h \
- utilities/bitmask.h py.h utilities/boolean.h position/position.h \
- pieces/walks/vectors.h utilities/enumeration.h pylang.h pydata.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- solving/observation.h stipulation/slice_type.h pyproc.h \
- stipulation/stipulation.h stipulation/slice.h \
+ conditions/circe/rex_inclusive.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
+ pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h solving/observation.h stipulation/slice_type.h \
+ pyproc.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h debugging/trace.h
 
 conditions/circe/rex_inclusive.h:
-
-utilities/boolean.h:
-
-position/board.h:
-
-utilities/bitmask.h:
 
 py.h:
 
@@ -1561,7 +1555,13 @@ utilities/boolean.h:
 
 position/position.h:
 
+position/board.h:
+
+utilities/bitmask.h:
+
 pieces/walks/vectors.h:
+
+utilities/boolean.h:
 
 utilities/enumeration.h:
 

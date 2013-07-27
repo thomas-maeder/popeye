@@ -320,4 +320,27 @@ stip x1
 condition plus patrouille
 option nowk nobk
 
+next
+
+title king transmutes even if rebirth square is empty
+pieces white ke4 black sf6
+condition transmuted circe rexi
+stip ~1
+
+next
+
+title no longer necessary to disallow Anticirc + Circe rex incl.
+pieces white maf4 black ke6
+condition circe rexi anticirce
+stip ~1
+option nowk
+
+next
+
+title 4.63 used to happily capture the king
+pieces white sf4 black ke6
+condition circe rexi wormholes e6e8
+stip ~1
+option nowk
+
 end

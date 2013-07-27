@@ -15,6 +15,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/any/reached_tester.h"
 #include "stipulation/goals/capture/reached_tester.h"
+#include "stipulation/goals/king_capture/reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
@@ -102,7 +103,7 @@ static slice_index make_king_capture_legality_tester(Side side)
   slice_index const proxy_branch = alloc_proxy_slice();
   slice_index const help = alloc_help_branch(slack_length+1,slack_length+1);
   slice_index const proxy_goal = alloc_proxy_slice();
-  slice_index const system = alloc_goal_any_reached_tester_system();
+  slice_index const system = alloc_goal_king_capture_reached_tester_system();
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);

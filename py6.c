@@ -1478,19 +1478,16 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (rex_circe || immune_is_rex_inclusive) {
-    if (rex_circe && immune_is_rex_inclusive)
-    {
-      VerifieMsg(RexCirceImmun);
-      return false;
-    }
-    if (anyanticirce)
-    {
-      /* an additional pointer to evaluate-functions is
-         required  TLi */
-      VerifieMsg(SomeCondAndAntiCirce);
-      return false;
-    }
+  if (rex_circe && immune_is_rex_inclusive)
+  {
+    VerifieMsg(RexCirceImmun);
+    return false;
+  }
+
+  if (immune_is_rex_inclusive && anyanticirce)
+  {
+    VerifieMsg(SomeCondAndAntiCirce);
+    return false;
   }
 
   if (anyanticirce) {

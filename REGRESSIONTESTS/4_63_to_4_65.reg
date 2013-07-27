@@ -187,8 +187,8 @@ solution finished.
               HalfDuplex
 
 
-  add_to_move_generation_stack:          73
-                     play_move:          71
+  add_to_move_generation_stack:          72
+                     play_move:          70
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:           6
 solution finished. 
@@ -1485,8 +1485,8 @@ the capturee's identity, causing the king to be reborn on g2
    1.Bh1*g2[e4=K] + !
 
 
-  add_to_move_generation_stack:           1
-                     play_move:           1
+  add_to_move_generation_stack:           2
+                     play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
 solution finished. 
@@ -1561,6 +1561,124 @@ the Patrouille supporter doesn't need a Patrouille supporter
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+solution finished. 
+
+
+both sides need a king
+king transmutes even if rebirth square is empty
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -S   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+          Circe RexInclusive
+           TransmutedKings
+
+   1.Ke4-c3 !
+
+   1.Ke4-d2 !
+
+   1.Ke4-f2 !
+
+   1.Ke4-g3 !
+
+   1.Ke4-g5 !
+
+   1.Ke4*f6[+bSb8] !
+
+   1.Ke4-d6 !
+
+   1.Ke4-c5 !
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+no longer necessary to disallow Anticirc + Circe rex incl.
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  MA   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+          Circe RexInclusive
+              AntiCirce
+
+the side to play can capture the king
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
+solution finished. 
+
+
+
+4.63 used to happily capture the king
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+          Circe RexInclusive
+           Wormholes e6 e8
+
+the side to play can capture the king
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
 solution finished. 
 
 

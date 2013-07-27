@@ -1,0 +1,55 @@
+stipulation/goals/king_capture/reached_tester$(OBJ_SUFFIX): \
+ stipulation/goals/king_capture/reached_tester.c \
+ stipulation/goals/king_capture/reached_tester.h solving/solve.h py.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
+ utilities/enumeration.h pylang.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ stipulation/goals/reached_tester.h stipulation/boolean/true.h \
+ debugging/trace.h
+
+stipulation/goals/king_capture/reached_tester.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+stipulation/stipulation.h:
+
+stipulation/slice.h:
+
+stipulation/slice_type.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
+stipulation/pipe.h:
+
+stipulation/goals/reached_tester.h:
+
+stipulation/boolean/true.h:
+
+debugging/trace.h:

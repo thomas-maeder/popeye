@@ -4,7 +4,6 @@
 #include "conditions/bgl.h"
 #include "conditions/brunner.h"
 #include "conditions/central.h"
-#include "conditions/circe/rex_inclusive.h"
 #include "conditions/disparate.h"
 #include "conditions/geneva.h"
 #include "conditions/imitator.h"
@@ -437,7 +436,6 @@ static slice_index const observation_validation_slice_rank_order[] =
 {
     STValidatingCheck,
     STValidatingObservation,
-    STValidatingObservationCirceRexIncl,
     STValidatingObservationBackHome,
     STValidatingObservationBeamten,
     STValidatingObservationBGL,
@@ -483,13 +481,6 @@ boolean validate_observation_recursive(slice_index si,
 
   switch (slices[si].type)
   {
-    case STValidatingObservationCirceRexIncl:
-      result = circe_rex_inclusive_validate_observation(si,
-                                                        sq_observer,
-                                                        sq_landing,
-                                                        sq_observee);
-      break;
-
     case STValidatingObservationBackHome:
       result = back_home_validate_observation(si,
                                               sq_observer,
@@ -805,12 +796,14 @@ void optimise_is_square_observed(slice_index si)
   TraceStipulation(si);
 
   /* this is invoked when the proxy slices are still there ... */
-  if (slices[slices[slices[slices[temporary_hack_observation_validator[White]].next2].next1].next1].type==STTrue
+  if (slices[slices[slices[slices[temporary_hack_check_validator[White]].next2].next1].next1].type==STTrue
+      && slices[slices[slices[slices[temporary_hack_observation_validator[White]].next2].next1].next1].type==STTrue
       && slices[slices[slices[slices[temporary_hack_observation_geometry_validator[White]].next2].next1].next1].type==STTrue
       && slices[slices[slices[slices[temporary_hack_observer_validator[White]].next2].next1].next1].type==STTrue)
     optimise_side(si,White);
 
-  if (slices[slices[slices[slices[temporary_hack_observation_validator[Black]].next2].next1].next1].type==STTrue
+  if (slices[slices[slices[slices[temporary_hack_check_validator[White]].next2].next1].next1].type==STTrue
+      && slices[slices[slices[slices[temporary_hack_observation_validator[White]].next2].next1].next1].type==STTrue
       && slices[slices[slices[slices[temporary_hack_observation_geometry_validator[Black]].next2].next1].next1].type==STTrue
       && slices[slices[slices[slices[temporary_hack_observer_validator[Black]].next2].next1].next1].type==STTrue)
     optimise_side(si,Black);

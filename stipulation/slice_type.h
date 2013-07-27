@@ -96,6 +96,7 @@
     ENUMERATOR(STGoalChess81ReachedTester), /* tests whether an Chess81 goal has been reached */ \
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
+    ENUMERATOR(STGoalKingCaptureReachedTester), /* auxiliary slice enforcing that a side's king has been captured */ \
     /* boolean logic */                                                 \
     ENUMERATOR(STTrue),            /* true leaf slice */                \
     ENUMERATOR(STFalse),           /* false leaf slice */               \
@@ -447,7 +448,6 @@
     ENUMERATOR(STValidatingCheck),                                      \
     ENUMERATOR(STValidatingObservationFork),                            \
     ENUMERATOR(STValidatingObservation),                                \
-    ENUMERATOR(STValidatingObservationCirceRexIncl),                    \
     ENUMERATOR(STValidatingObservationBackHome),                        \
     ENUMERATOR(STValidatingObservationBeamten),                         \
     ENUMERATOR(STValidatingObservationBGL),                             \

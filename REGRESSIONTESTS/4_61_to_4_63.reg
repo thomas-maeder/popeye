@@ -405,16 +405,16 @@ Condition FileCirce RexInclusiv was accepted, but RexInclusiv was ignored
 a) 
 
 
-  add_to_move_generation_stack:          26
-                     play_move:          20
+  add_to_move_generation_stack:          29
+                     play_move:          23
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          20
 b) +wSa8 
 
   1...Rh3-a3 #
 
-  add_to_move_generation_stack:          53
-                     play_move:          44
+  add_to_move_generation_stack:          78
+                     play_move:          69
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          43
 solution finished. 
@@ -1121,8 +1121,8 @@ Until 4.61, Circe rebirths weren't considered in Koeko
    1.CAa6*d7[+bKe8] !
 
 
-  add_to_move_generation_stack:           3
-                     play_move:           3
+  add_to_move_generation_stack:           4
+                     play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
 solution finished. 
@@ -1407,8 +1407,8 @@ a)
    1.Qb1-g6 !
 
 
-  add_to_move_generation_stack:          25
-                     play_move:          28
+  add_to_move_generation_stack:          24
+                     play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) SingleBox    Type2

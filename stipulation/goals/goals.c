@@ -92,6 +92,7 @@ static slice_index const goal_slice_rank_order[] =
   STGoalAToBReachedTester,
   STGoalMateOrStalemateReachedTester,
   STGoalChess81ReachedTester,
+  STGoalKingCaptureReachedTester,
   STPiecesParalysingMateFilter,
   STPiecesParalysingMateFilterTester,
   STPiecesParalysingStalemateSpecial,

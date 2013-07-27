@@ -241,6 +241,7 @@
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/steingewinn/reached_tester.h"
 #include "stipulation/goals/target/reached_tester.h"
+#include "stipulation/goals/king_capture/reached_tester.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/move_player.h"
 #include "stipulation/move_played.h"
@@ -1280,6 +1281,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STGoalChess81ReachedTester:
       result = goal_chess81_reached_tester_solve(si,n);
+      break;
+
+    case STGoalKingCaptureReachedTester:
+      result = goal_king_capture_reached_tester_solve(si,n);
       break;
 
     case STPiecesParalysingMateFilterTester:
