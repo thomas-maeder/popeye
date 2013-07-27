@@ -612,10 +612,10 @@ boolean validate_check(square sq_observer,
                                           sq_landing,
                                           sq_observee);
 
-  next_observation_validator = &validate_observation;
-
   if (result)
     result = validate_observer(sq_observer,sq_landing,sq_observee);
+
+  next_observation_validator = &validate_observation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -648,10 +648,10 @@ boolean validate_observation(square sq_observer,
                                           sq_landing,
                                           sq_observee);
 
-  next_observation_validator = &validate_observation;
-
   if (result)
     result = validate_observer(sq_observer,sq_landing,sq_observee);
+
+  next_observation_validator = &validate_observation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

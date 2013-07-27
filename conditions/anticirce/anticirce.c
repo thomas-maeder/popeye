@@ -199,9 +199,9 @@ void anticirce_initialise_solving(slice_index si)
   stip_instrument_moves(si,STAnticirceDetermineRebirthSquare);
   stip_insert_anticirce_capture_forks(si);
 
-  stip_instrument_observation_validation(si,
-                                         nr_sides,
-                                         STValidatingObservationGeometryByPlayingMove);
+  stip_instrument_check_validation(si,
+                                   nr_sides,
+                                   STValidatingObservationGeometryByPlayingMove);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
