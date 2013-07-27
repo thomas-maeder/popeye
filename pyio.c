@@ -687,7 +687,8 @@ static void WriteConditions(int alignment)
                 || cond == circemalefiquevertical
                 || cond == circeclone
                 || cond == circeclonemalefique
-                || cond == circediagramm)))
+                || cond == circediagramm
+                || cond == circefile)))
     {
       strcat(CondLine, " ");
       strcat(CondLine, CondTab[rexincl]);
