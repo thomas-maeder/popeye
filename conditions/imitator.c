@@ -911,10 +911,10 @@ boolean imitator_validate_observation(slice_index si,
   }
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+    result = validate_observation_geometry_recursive(slices[si].next1,
+                                                     sq_observer,
+                                                     sq_landing,
+                                                     sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1357,7 +1357,9 @@ void stip_insert_imitator(slice_index si)
 
   stip_instrument_moves(si,STImitatorMover);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationImitator);
+  stip_instrument_observation_geometry_validation(si,
+                                                  nr_sides,
+                                                  STValidateObservationGeometryImitator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

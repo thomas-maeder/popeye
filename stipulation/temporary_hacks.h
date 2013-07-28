@@ -17,7 +17,10 @@ extern slice_index temporary_hack_brunner_check_defense_finder[nr_sides];
 /* fork slice into branch finding king captures without optimisations */
 extern slice_index temporary_hack_ultra_mummer_length_measurer[nr_sides];
 
-/* fork slice into branch finding Isardam specific defenses */
+/* fork slice into validating movees */
+slice_index temporary_hack_move_legality_tester[nr_sides];
+
+/* fork slice into validating king captures */
 extern slice_index temporary_hack_king_capture_legality_tester[nr_sides];
 
 /* fork slice into branch finding non-capturing moves in Cage Circe */

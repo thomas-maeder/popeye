@@ -184,6 +184,9 @@
     ENUMERATOR(STUncapturableRemoveCaptures),                           \
     ENUMERATOR(STNocatpureRemoveCaptures),                              \
     ENUMERATOR(STWoozlesRemoveIllegalCaptures),                         \
+    ENUMERATOR(STBiWoozlesRemoveIllegalCaptures),                       \
+    ENUMERATOR(STHeffalumpsRemoveIllegalCaptures),                      \
+    ENUMERATOR(STBiHeffalumpsRemoveIllegalCaptures),                    \
     ENUMERATOR(STImmuneRemoveCapturesOfImmune),                         \
     ENUMERATOR(STProvocateursRemoveUnobservedCaptures),                 \
     ENUMERATOR(STLortapRemoveSupportedCaptures),                        \
@@ -455,7 +458,7 @@
     ENUMERATOR(STValidatingObservationCentral),                         \
     ENUMERATOR(STValidatingObservationDisparate),                       \
     ENUMERATOR(STValidatingObservationGeneva),                          \
-    ENUMERATOR(STValidatingObservationImitator),                        \
+    ENUMERATOR(STValidateObservationGeometryImitator),                        \
     ENUMERATOR(STValidatingObservationImmune),                          \
     ENUMERATOR(STValidatingObservationLortap),                          \
     ENUMERATOR(STValidatingObservationUltraMummer),                     \
@@ -464,7 +467,10 @@
     ENUMERATOR(STValidatingObservationProvocateurs),                    \
     ENUMERATOR(STValidatingObservationShielded),                        \
     ENUMERATOR(STValidatingObservationSuperGuards),                     \
-    ENUMERATOR(STValidatingObservationWoozlesHeffalumps),               \
+    ENUMERATOR(STValidateObservationWoozles),                           \
+    ENUMERATOR(STValidateObservationBiWoozles),                         \
+    ENUMERATOR(STValidateObservationHeffalumps),                        \
+    ENUMERATOR(STValidateObservationBiHeffalumps),                      \
     ENUMERATOR(STValidatingObservationWormholes),                       \
     ENUMERATOR(STValidatingObserverFork),                               \
     ENUMERATOR(STValidatingObserver),                                   \
@@ -478,6 +484,7 @@
     ENUMERATOR(STValidateObservationGeometryMonochrome),                \
     ENUMERATOR(STValidateObservationGeometryBichrome),                  \
     ENUMERATOR(STValidatingObservationGeometryByPlayingMove),           \
+    ENUMERATOR(STValidateCheckMoveByPlayingCapture),                    \
     /* debugging slices */                                              \
     ENUMERATOR(STMoveTracer),                                           \
     ENUMERATOR(STMoveCounter),                                          \

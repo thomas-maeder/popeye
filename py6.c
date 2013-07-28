@@ -1538,7 +1538,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[heffalumps]
+  if ((CondFlag[heffalumps] || CondFlag[biheffalumps])
       && (may_exist[Rose]
           || may_exist[SpiralSpringer]
           || may_exist[UbiUbi]
@@ -1650,7 +1650,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[BGL]
       || CondFlag[dynasty] /* TODO why? */
       || TSTFLAG(some_pieces_flags,Magic)
-      || CondFlag[woozles]
+      || CondFlag[woozles] || CondFlag[biwoozles]
+      || CondFlag[heffalumps] || CondFlag[biheffalumps]
       || (CondFlag[singlebox]
           && (SingleBoxType==singlebox_type1 || SingleBoxType==singlebox_type3))
       || CondFlag[football]
@@ -2551,6 +2552,12 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[woozles])
     woozles_initialise_solving(result);
+  if (CondFlag[biwoozles])
+    biwoozles_initialise_solving(result);
+  if (CondFlag[heffalumps])
+    heffalumps_initialise_solving(result);
+  if (CondFlag[biheffalumps])
+    biheffalumps_initialise_solving(result);
 
   if (CondFlag[nocapture] || CondFlag[nowhcapture] || CondFlag[noblcapture])
     stip_insert_nocapture(result);

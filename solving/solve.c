@@ -1459,6 +1459,18 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = woozles_remove_illegal_captures_solve(si,n);
       break;
 
+    case STBiWoozlesRemoveIllegalCaptures:
+      result = biwoozles_remove_illegal_captures_solve(si,n);
+      break;
+
+    case STHeffalumpsRemoveIllegalCaptures:
+      result = heffalumps_remove_illegal_captures_solve(si,n);
+      break;
+
+    case STBiHeffalumpsRemoveIllegalCaptures:
+      result = biheffalumps_remove_illegal_captures_solve(si,n);
+      break;
+
     case STImmuneRemoveCapturesOfImmune:
       result = immune_remove_captures_of_immune_solve(si,n);
       break;

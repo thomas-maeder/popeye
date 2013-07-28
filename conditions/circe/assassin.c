@@ -23,13 +23,14 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
   boolean assassinable = false;
   Side const side_checking = advers(side_in_check);
 
-  nextply(side_checking);
-
-  if (is_square_observed(king_square[side_in_check],&validate_observation))
+  if (is_in_check(slices[si].next1,side_in_check))
     assassinable = true;
   else
   {
     square const *bnp;
+
+    nextply(side_checking);
+
     for (bnp = boardnum; *bnp; bnp++)
     {
       PieNam const p = get_walk_of_piece_on_square(*bnp);
@@ -37,17 +38,17 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
       if (p!=Empty
           && p!=King && TSTFLAG(spec[*bnp],side_in_check)
           && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check]
-          && is_square_observed(*bnp,&validate_observation))
+          && is_square_observed(*bnp,&validate_check))
       {
         assassinable = true;
         break;
       }
     }
+
+    finply();
   }
 
-  finply();
-
-  return assassinable || is_in_check(slices[si].next1,side_in_check);
+  return assassinable;
 }
 
 /* Try to solve in n half-moves.

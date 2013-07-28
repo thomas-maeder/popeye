@@ -57,7 +57,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/singlebox/type3.h conditions/immune.h conditions/geneva.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/phantom.h \
  conditions/annan.h conditions/vaulting_kings.h conditions/messigny.h \
- utilities/table.h debugging/trace.h
+ conditions/woozles.h utilities/table.h debugging/trace.h
 
 py.h:
 
@@ -200,6 +200,8 @@ conditions/annan.h:
 conditions/vaulting_kings.h:
 
 conditions/messigny.h:
+
+conditions/woozles.h:
 
 utilities/table.h:
 
@@ -1255,9 +1257,9 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/phantom.h conditions/annan.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h conditions/imitator.h conditions/messigny.h \
- options/degenerate_tree.h options/nontrivial.h options/maxthreatlength.h \
- options/maxflightsquares.h options/movenumbers.h \
- options/maxsolutions/maxsolutions.h \
+ conditions/woozles.h options/degenerate_tree.h options/nontrivial.h \
+ options/maxthreatlength.h options/maxflightsquares.h \
+ options/movenumbers.h options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -1470,6 +1472,8 @@ conditions/vaulting_kings.h:
 conditions/imitator.h:
 
 conditions/messigny.h:
+
+conditions/woozles.h:
 
 options/degenerate_tree.h:
 

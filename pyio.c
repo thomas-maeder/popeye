@@ -142,6 +142,7 @@
 #include "conditions/vaulting_kings.h"
 #include "conditions/imitator.h"
 #include "conditions/messigny.h"
+#include "conditions/woozles.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -375,12 +376,6 @@ static void WriteConditions(int alignment)
       continue;
 
     if (cond == rexexcl)
-      continue;
-    if (  (cond == woozles
-           && (CondFlag[biwoozles]
-               ||CondFlag[heffalumps]))
-          || ((cond == heffalumps || cond == biwoozles)
-              && CondFlag[biheffalumps]))
       continue;
 
     if (cond == volage && CondFlag[hypervolage])
@@ -694,10 +689,10 @@ static void WriteConditions(int alignment)
       strcat(CondLine, CondTab[rexincl]);
     }
 
-    if (  (messigny_rex_exclusive && cond == messigny)
-          || (rex_wooz_ex
-              && (cond == woozles
-                  || cond == biwoozles)))
+    if ((messigny_rex_exclusive && cond == messigny)
+        || (woozles_rex_exclusive
+            && (cond==woozles || cond==biwoozles
+                || cond==heffalumps || cond==biheffalumps)))
     {
       strcat(CondLine, " ");
       strcat(CondLine, CondTab[rexexcl]);
@@ -4987,17 +4982,6 @@ static char *ParseCond(void)
 
     switch (indexx)
     {
-      case biheffalumps:
-        CondFlag[heffalumps]= true;
-        CondFlag[biwoozles]= true;
-        CondFlag[woozles]= true;
-        break;
-      case heffalumps:
-        CondFlag[woozles]= true;
-        break;
-      case biwoozles:
-        CondFlag[woozles]= true;
-        break;
       case hypervolage:
         CondFlag[volage]= true;
         break;
@@ -5330,7 +5314,9 @@ static char *ParseCond(void)
         break;
       case woozles:
       case biwoozles:
-        tok = ParseRex(&rex_wooz_ex, rexexcl);
+      case heffalumps:
+      case biheffalumps:
+        tok = ParseRex(&woozles_rex_exclusive, rexexcl);
         break;
       case immun:
       case immunmalefique:

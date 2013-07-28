@@ -46,10 +46,10 @@ static PieNam get_paralyser(PieNam p)
   return result;
 }
 
-static boolean can_piece_move(square sq)
+static boolean is_paralysed(square sq)
 {
   PieNam const p = get_walk_of_piece_on_square(sq);
-  boolean result = true;
+  boolean result = false;
   PieNam eiffel_piece;
 
   TraceFunctionEntry(__func__);
@@ -64,9 +64,9 @@ static boolean can_piece_move(square sq)
     if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       nextply(eiffel_side);
-      result = !(*checkfunctions[eiffel_piece])(sq,
-                                                eiffel_piece,
-                                                &validate_observation_geometry);
+      result = (*checkfunctions[eiffel_piece])(sq,
+                                               eiffel_piece,
+                                               &validate_observation_geometry);
       finply();
     }
   }
@@ -92,7 +92,7 @@ void eiffel_generate_moves_for_piece(slice_index si,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (can_piece_move(sq_departure))
+  if (!is_paralysed(sq_departure))
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);
@@ -111,8 +111,6 @@ boolean eiffel_validate_observer(slice_index si,
                                  square sq_observee)
 {
   boolean result = true;
-  PieNam const pi_observer = get_walk_of_piece_on_square(sq_observer);
-  PieNam eiffel_piece;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -121,26 +119,11 @@ boolean eiffel_validate_observer(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  eiffel_piece = get_paralyser(pi_observer);
-
-  if (eiffel_piece!=Empty)
-  {
-    Side const eiffel_side = advers(trait[nbply]);
-    if (number_of_pieces[eiffel_side][eiffel_piece]>0)
-    {
-      nextply(eiffel_side);
-      result = !(*checkfunctions[eiffel_piece])(sq_observer,
-                                                eiffel_piece,
-                                                &validate_observation_geometry);
-      finply();
-    }
-  }
-
-  if (result)
-    result = validate_observer_recursive(slices[si].next1,
-                                         sq_observer,
-                                         sq_landing,
-                                         sq_observee);
+  result = (!is_paralysed(sq_observer)
+            && validate_observer_recursive(slices[si].next1,
+                                           sq_observer,
+                                           sq_landing,
+                                           sq_observee));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

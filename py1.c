@@ -91,6 +91,7 @@
 #include "conditions/annan.h"
 #include "conditions/vaulting_kings.h"
 #include "conditions/messigny.h"
+#include "conditions/woozles.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
 
@@ -250,7 +251,7 @@ void InitCond(void)
   phantom_chess_rex_inclusive = false;
   rex_geneva =false;
   messigny_rex_exclusive = false;
-  rex_wooz_ex = false;
+  woozles_rex_exclusive = false;
   rex_protean_ex = false;
 
   sentinelles_max_nr_pawns[Black] = 8;

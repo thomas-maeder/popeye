@@ -39,7 +39,7 @@ static boolean validate_paralyser(square sq_paralyser,
   return result;
 }
 
-static boolean is_piece_paralysed_on(square s)
+static boolean is_paralysed(square s)
 {
   boolean result;
 
@@ -95,7 +95,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
     if (move_generation_stack[curr].departure!=sq_departure)
     {
       sq_departure = move_generation_stack[curr].departure;
-      if (is_piece_paralysed_on(sq_departure))
+      if (is_paralysed(sq_departure))
         found_move_from_paralysed = true;
       else
       {
@@ -167,16 +167,14 @@ boolean paralysing_validate_observer(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_observer],Paralysing))
-    result = false;
-  else
-    result = !is_piece_paralysed_on(sq_observer);
-
-  if (result)
-    result = validate_observer_recursive(slices[si].next1,
-                                         sq_observer,
-                                         sq_landing,
-                                         sq_observee);
+  /* we are not validating a paralysis, but an observation (e.g. check or
+   * Patrol Chess) in the presence of paralysing pieces */
+  result = (!TSTFLAG(spec[sq_observer],Paralysing)
+            && !is_paralysed(sq_observer)
+            &&  validate_observer_recursive(slices[si].next1,
+                                            sq_observer,
+                                            sq_landing,
+                                            sq_observee));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -199,7 +197,7 @@ void paralysing_generate_moves_for_piece(slice_index si,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!is_piece_paralysed_on(sq_departure))
+  if (!is_paralysed(sq_departure))
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);

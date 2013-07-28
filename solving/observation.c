@@ -134,7 +134,20 @@ boolean validate_observation_geometry_recursive(slice_index si,
                                                        sq_observee);
       break;
 
+    case STValidateObservationGeometryImitator:
+      result = imitator_validate_observation(si,sq_observer,sq_landing,sq_observee);
+      break;
+
     case STValidatingObservationGeometryByPlayingMove:
+    {
+      init_single_move_generator(sq_observer,sq_landing,sq_observee);
+      result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
+                      length_unspecified)
+                ==next_move_has_solution);
+      break;
+    }
+
+    case STValidateCheckMoveByPlayingCapture:
     {
       init_single_move_generator(sq_observer,sq_landing,sq_observee);
       result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
@@ -198,7 +211,9 @@ static slice_index const observation_geometry_validation_slice_rank_order[] =
     STValidateObservationGeometryBichrome,
     STValidateObservationGeometryGridChess,
     STValidateObservationGeometryEdgeMover,
+    STValidateObservationGeometryImitator,
     STValidatingObservationGeometryByPlayingMove,
+    STValidateCheckMoveByPlayingCapture,
     STTrue
 };
 
@@ -361,7 +376,10 @@ boolean validate_observer(square sq_observer,
   next_observation_validator = &validate_observer;
 
   if (result)
-    result = validate_observation_geometry(sq_observer,sq_landing,sq_observee);
+    result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
+                                                     sq_observer,
+                                                     sq_landing,
+                                                     sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -443,7 +461,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STValidatingObservationCentral,
     STValidatingObservationDisparate,
     STValidatingObservationGeneva,
-    STValidatingObservationImitator,
     STValidatingObservationImmune,
     STValidatingObservationLortap,
     STValidatingObservationUltraMummer,
@@ -452,9 +469,13 @@ static slice_index const observation_validation_slice_rank_order[] =
     STValidatingObservationProvocateurs,
     STValidatingObservationShielded,
     STValidatingObservationSuperGuards,
-    STValidatingObservationWoozlesHeffalumps,
+    STValidateObservationWoozles,
+    STValidateObservationBiWoozles,
+    STValidateObservationHeffalumps,
+    STValidateObservationBiHeffalumps,
     STValidatingObservationWormholes,
     STValidatingObservationGeometryByPlayingMove,
+    STValidateCheckMoveByPlayingCapture,
     STTrue
 };
 
@@ -515,10 +536,6 @@ boolean validate_observation_recursive(slice_index si,
       result = geneva_validate_observation(si,sq_observer,sq_landing,sq_observee);
       break;
 
-    case STValidatingObservationImitator:
-      result = imitator_validate_observation(si,sq_observer,sq_landing,sq_observee);
-      break;
-
     case STValidatingObservationImmune:
       result = immune_validate_observation(si,sq_observer,sq_landing,sq_observee);
       break;
@@ -551,8 +568,20 @@ boolean validate_observation_recursive(slice_index si,
       result = superguards_validate_observation(si,sq_observer,sq_landing,sq_observee);
       break;
 
-    case STValidatingObservationWoozlesHeffalumps:
+    case STValidateObservationWoozles:
       result = woozles_validate_observation(si,sq_observer,sq_landing,sq_observee);
+      break;
+
+    case STValidateObservationBiWoozles:
+      result = biwoozles_validate_observation(si,sq_observer,sq_landing,sq_observee);
+      break;
+
+    case STValidateObservationHeffalumps:
+      result = heffalumps_validate_observation(si,sq_observer,sq_landing,sq_observee);
+      break;
+
+    case STValidateObservationBiHeffalumps:
+      result = biheffalumps_validate_observation(si,sq_observer,sq_landing,sq_observee);
       break;
 
     case STValidatingObservationWormholes:
@@ -560,6 +589,15 @@ boolean validate_observation_recursive(slice_index si,
       break;
 
     case STValidatingObservationGeometryByPlayingMove:
+    {
+      init_single_move_generator(sq_observer,sq_landing,sq_observee);
+      result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
+                      length_unspecified)
+                ==next_move_has_solution);
+      break;
+    }
+
+    case STValidateCheckMoveByPlayingCapture:
     {
       init_single_move_generator(sq_observer,sq_landing,sq_observee);
       result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
@@ -613,7 +651,22 @@ boolean validate_check(square sq_observer,
                                           sq_observee);
 
   if (result)
-    result = validate_observer(sq_observer,sq_landing,sq_observee);
+  {
+    next_observation_validator = &validate_observation_geometry;
+
+    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
+                                         sq_observer,
+                                         sq_landing,
+                                         sq_observee);
+
+    next_observation_validator = &validate_observer;
+
+    if (result)
+      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
+                                                       sq_observer,
+                                                       sq_landing,
+                                                       sq_observee);
+  }
 
   next_observation_validator = &validate_observation;
 
@@ -649,7 +702,22 @@ boolean validate_observation(square sq_observer,
                                           sq_observee);
 
   if (result)
-    result = validate_observer(sq_observer,sq_landing,sq_observee);
+  {
+    next_observation_validator = &validate_observation_geometry;
+
+    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
+                                         sq_observer,
+                                         sq_landing,
+                                         sq_observee);
+
+    next_observation_validator = &validate_observer;
+
+    if (result)
+      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
+                                                       sq_observer,
+                                                       sq_landing,
+                                                       sq_observee);
+  }
 
   next_observation_validator = &validate_observation;
 
@@ -802,8 +870,8 @@ void optimise_is_square_observed(slice_index si)
       && slices[slices[slices[slices[temporary_hack_observer_validator[White]].next2].next1].next1].type==STTrue)
     optimise_side(si,White);
 
-  if (slices[slices[slices[slices[temporary_hack_check_validator[White]].next2].next1].next1].type==STTrue
-      && slices[slices[slices[slices[temporary_hack_observation_validator[White]].next2].next1].next1].type==STTrue
+  if (slices[slices[slices[slices[temporary_hack_check_validator[Black]].next2].next1].next1].type==STTrue
+      && slices[slices[slices[slices[temporary_hack_observation_validator[Black]].next2].next1].next1].type==STTrue
       && slices[slices[slices[slices[temporary_hack_observation_geometry_validator[Black]].next2].next1].next1].type==STTrue
       && slices[slices[slices[slices[temporary_hack_observer_validator[Black]].next2].next1].next1].type==STTrue)
     optimise_side(si,Black);
@@ -847,7 +915,7 @@ boolean is_square_observed_recursive(slice_index si,
   switch (slices[si].type)
   {
     case STIsSquareObservedOrtho:
-      if (evaluate==&validate_observation)
+      if (evaluate==&validate_observation || evaluate==&validate_check)
         result = is_square_observed_ortho(sq_target);
       else
         result = is_square_observed_recursive(slices[si].next1,sq_target,evaluate);

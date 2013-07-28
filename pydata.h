@@ -97,7 +97,7 @@ extern numvec const * const * const CheckDir;
 
 EXTERN unsigned int number_of_pieces[nr_sides][PieceCount];
 
-EXTERN  boolean			rex_mad,rex_circe,rex_wooz_ex;
+EXTERN  boolean			rex_mad,rex_circe;
 
 EXTERN  pilecase current_anticirce_rebirth_square;
 EXTERN  numecoup current_move[maxply + 1];

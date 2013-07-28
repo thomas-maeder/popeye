@@ -42,6 +42,36 @@ boolean madrasi_is_moving_piece_observed(square sq)
   return result;
 }
 
+static boolean is_paralysed(square sq)
+{
+  boolean result;
+  Side const observed_side = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq);
+  TraceFunctionParamListEnd();
+
+  if (!rex_mad && sq==king_square[observed_side])
+    result = false;
+  else
+  {
+    PieNam const candidate = get_walk_of_piece_on_square(sq);
+    Side const observing_side = advers(observed_side);
+
+    trait[nbply] = observing_side;
+    result = (number_of_pieces[trait[nbply]][candidate]>0
+              && (*checkfunctions[candidate])(sq,
+                                              candidate,
+                                              &validate_observation_geometry));
+    trait[nbply] = observed_side;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate an observater according to Madrasi
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
@@ -62,53 +92,11 @@ boolean madrasi_validate_observer(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (!rex_mad && sq_observer==king_square[trait[nbply]])
-    result = true;
-  else
-  {
-    PieNam const pi_observer = get_walk_of_piece_on_square(sq_observer);
-
-    trait[nbply] = advers(trait[nbply]);
-    result = (number_of_pieces[trait[nbply]][pi_observer]==0
-              || !(*checkfunctions[pi_observer])(sq_observer,
-                                                 pi_observer,
-                                                 &validate_observation_geometry));
-    trait[nbply] = advers(trait[nbply]);
-  }
-
-  if (result)
-    result = validate_observer_recursive(slices[si].next1,
-                                         sq_observer,
-                                         sq_landing,
-                                         sq_observee);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean can_piece_move(square sq)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq);
-  TraceFunctionParamListEnd();
-
-  if (!rex_mad && sq==king_square[trait[nbply]])
-    result = true;
-  else
-  {
-    PieNam const candidate = get_walk_of_piece_on_square(sq);
-
-    trait[nbply] = advers(trait[nbply]);
-    result = (number_of_pieces[trait[nbply]][candidate]==0
-              || !(*checkfunctions[candidate])(sq,
-                                               candidate,
-                                               &validate_observation_geometry));
-    trait[nbply] = advers(trait[nbply]);
-  }
+  result = (!is_paralysed(sq_observer)
+            && validate_observer_recursive(slices[si].next1,
+                                           sq_observer,
+                                           sq_landing,
+                                           sq_observee));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -131,7 +119,7 @@ void madrasi_generate_moves_for_piece(slice_index si,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (can_piece_move(sq_departure))
+  if (!is_paralysed(sq_departure))
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);

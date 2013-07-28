@@ -12,7 +12,7 @@ void circe_rex_inclusive_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_check_validation(si,nr_sides,STValidatingObservationGeometryByPlayingMove);
+  stip_instrument_check_validation(si,nr_sides,STValidateCheckMoveByPlayingCapture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
