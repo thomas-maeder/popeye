@@ -45,8 +45,6 @@
 
 #include <assert.h>
 
-boolean (*next_observation_validator)(square sq_observer, square sq_landing, square sq_observee) = &validate_observation;
-
 vec_index_type interceptable_observation_vector_index[maxply+1];
 unsigned int observation_context = 0;
 
@@ -366,14 +364,10 @@ boolean validate_observer(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  next_observation_validator = &validate_observation_geometry;
-
   result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
                                        sq_observer,
                                        sq_landing,
                                        sq_observee);
-
-  next_observation_validator = &validate_observer;
 
   if (result)
     result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
@@ -643,8 +637,6 @@ boolean validate_check(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  next_observation_validator = &validate_observer;
-
   result = validate_observation_recursive(slices[temporary_hack_check_validator[trait[nbply]]].next2,
                                           sq_observer,
                                           sq_landing,
@@ -652,14 +644,10 @@ boolean validate_check(square sq_observer,
 
   if (result)
   {
-    next_observation_validator = &validate_observation_geometry;
-
     result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
                                          sq_observer,
                                          sq_landing,
                                          sq_observee);
-
-    next_observation_validator = &validate_observer;
 
     if (result)
       result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
@@ -667,8 +655,6 @@ boolean validate_check(square sq_observer,
                                                        sq_landing,
                                                        sq_observee);
   }
-
-  next_observation_validator = &validate_observation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -694,8 +680,6 @@ boolean validate_observation(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  next_observation_validator = &validate_observer;
-
   result = validate_observation_recursive(slices[temporary_hack_observation_validator[trait[nbply]]].next2,
                                           sq_observer,
                                           sq_landing,
@@ -703,14 +687,10 @@ boolean validate_observation(square sq_observer,
 
   if (result)
   {
-    next_observation_validator = &validate_observation_geometry;
-
     result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
                                          sq_observer,
                                          sq_landing,
                                          sq_observee);
-
-    next_observation_validator = &validate_observer;
 
     if (result)
       result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
@@ -718,8 +698,6 @@ boolean validate_observation(square sq_observer,
                                                        sq_landing,
                                                        sq_observee);
   }
-
-  next_observation_validator = &validate_observation;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

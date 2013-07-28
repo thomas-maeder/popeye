@@ -7,7 +7,7 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean patrol_is_supported(square sq_departure)
+static boolean is_supported(square sq_departure)
 {
   boolean result;
 
@@ -22,6 +22,13 @@ static boolean patrol_is_supported(square sq_departure)
   TraceFunctionResultEnd();
   return result;
 }
+
+enum
+{
+  idle,
+  seeking_supporter_for_observer
+} state;
+
 /* Validate an observation according to Patrol Chess
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
@@ -42,13 +49,23 @@ boolean patrol_validate_observation(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_observer],Patrol) && !patrol_is_supported(sq_observer))
-    result = false;
-  else
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+  if (state==idle && TSTFLAG(spec[sq_observer],Patrol))
+  {
+    boolean is_observer_supported;
+
+    /* the supporter of the piece on sq_departure doesn't need a supporter */
+    state = seeking_supporter_for_observer;
+    is_observer_supported = is_supported(sq_observer);
+    state = idle;
+
+    if (!is_observer_supported)
+      return false;
+  }
+
+  result = validate_observation_recursive(slices[si].next1,
+                                          sq_observer,
+                                          sq_landing,
+                                          sq_observee);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -74,7 +91,7 @@ static boolean is_not_patrol_or_supported_capture(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = !TSTFLAG(spec[sq_observer],Patrol) || patrol_is_supported(sq_observer);
+  result = !TSTFLAG(spec[sq_observer],Patrol) || is_supported(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -97,11 +114,7 @@ static boolean is_not_unsupported_patrol_capture(square sq_departure,
   if (is_square_empty(sq_capture))
     result = true;
   else
-  {
-    next_observation_validator = &validate_observer;
     result = is_not_patrol_or_supported_capture(sq_departure,sq_arrival,sq_capture);
-    next_observation_validator = &validate_observation;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -204,7 +217,7 @@ boolean ultrapatrol_validate_observation(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = patrol_is_supported(sq_observer);
+  result = is_supported(sq_observer);
 
   if (result)
     result = validate_observation_recursive(slices[si].next1,
@@ -233,7 +246,7 @@ void ultrapatrol_generate_moves_for_piece(slice_index si,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (patrol_is_supported(sq_departure))
+  if (is_supported(sq_departure))
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);

@@ -2304,7 +2304,7 @@ boolean eval_fromspecificsquare(square sq_departure, square sq_arrival, square s
   TraceFunctionParamListEnd();
 
   result = (sq_departure==fromspecificsquare
-            && (*next_observation_validator)(sq_departure,sq_arrival,sq_capture));
+            && validate_observation(sq_departure,sq_arrival,sq_capture));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
