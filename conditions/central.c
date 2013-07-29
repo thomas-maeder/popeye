@@ -5,11 +5,11 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean can_piece_move_from(square sq_departure);
+static boolean is_supported(square sq_departure);
 
-static boolean central_test_supporter(square sq_departure,
-                                      square sq_arrival,
-                                      square sq_capture)
+static boolean validate_supporter(square sq_departure,
+                                  square sq_arrival,
+                                  square sq_capture)
 {
   boolean result;
 
@@ -20,7 +20,7 @@ static boolean central_test_supporter(square sq_departure,
   TraceFunctionParamListEnd();
 
   if (validate_observer(sq_departure,sq_arrival,sq_capture))
-    result = can_piece_move_from(sq_departure);
+    result = is_supported(sq_departure);
   else
     result = false;
 
@@ -30,7 +30,7 @@ static boolean central_test_supporter(square sq_departure,
   return result;
 }
 
-static boolean can_piece_move_from(square sq_departure)
+static boolean is_supported(square sq_departure)
 {
   boolean result;
 
@@ -41,7 +41,7 @@ static boolean can_piece_move_from(square sq_departure)
   if (sq_departure==king_square[trait[nbply]])
     result = true;
   else
-    result = is_square_observed(sq_departure,&central_test_supporter);
+    result = is_square_observed(sq_departure,&validate_supporter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -61,6 +61,7 @@ boolean central_validate_observation(slice_index si,
                                      square sq_observee)
 {
   boolean result;
+  boolean is_observer_supported;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -69,13 +70,16 @@ boolean central_validate_observation(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (can_piece_move_from(sq_observer))
-    result = validate_observation_recursive(slices[si].next1,
+  nextply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+  is_observer_supported = is_supported(sq_observer);
+  finply();
+
+  return (is_observer_supported
+          && validate_observation_recursive(slices[si].next1,
                                             sq_observer,
                                             sq_landing,
-                                            sq_observee);
-  else
-    result = false;
+                                            sq_observee));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -98,7 +102,7 @@ void central_generate_moves_for_piece(slice_index si,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (can_piece_move_from(sq_departure))
+  if (is_supported(sq_departure))
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);

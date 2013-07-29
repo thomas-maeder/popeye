@@ -361,24 +361,6 @@ static void insert_move_generator(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void insert_single_move_generator(slice_index si,
-                                         stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const proto = alloc_single_move_generator_slice();
-    branch_insert_slices(slices[si].next2,&proto,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_single_piece_move_generator(slice_index si,
                                               stip_structure_traversal *st)
 {
@@ -439,8 +421,9 @@ static void substitute_single_move_generator(slice_index si,
 static structure_traversers_visitor const solver_inserters[] =
 {
   { STGeneratingMoves,                        &insert_move_generator                       },
-  { STBrunnerDefenderFinder,                  &insert_single_move_generator                },
-  { STKingCaptureLegalityTester,              &insert_single_move_generator                },
+  { STBrunnerDefenderFinder,                  &stip_traverse_structure_children_pipe       },
+  { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe       },
+  { STMoveLegalityTester,                     &stip_traverse_structure_children_pipe       },
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator          },
   { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator          },
   { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator },

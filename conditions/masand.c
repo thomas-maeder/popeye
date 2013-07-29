@@ -36,9 +36,12 @@ static boolean observed(square on_this, square by_that)
   TraceSquare(by_that);
   TraceFunctionParamListEnd();
 
+  nextply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
   fromspecificsquare = by_that;
   result = is_square_observed(on_this,&eval_fromspecificsquare);
   fromspecificsquare = save_fromspecificsquare;
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -341,6 +341,7 @@ static structure_traversers_visitor in_branch_guards_inserters[] =
   { STGoalReachedTester,               &insert_selfcheck_guard_goal              },
   { STCounterMateFilter,               &stip_traverse_structure_children_pipe    },
   { STKingCaptureLegalityTester,       &stip_traverse_structure_children_pipe    },
+  { STMoveLegalityTester,              &stip_traverse_structure_children_pipe    },
   { STCageCirceNonCapturingMoveFinder, &suspend_insertion                        },
   { STAnd,                             &instrument_doublestalemate_tester        },
   { STNot,                             &instrument_negated_tester                },

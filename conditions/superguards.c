@@ -28,6 +28,7 @@ boolean superguards_validate_observation(slice_index si,
   TraceFunctionParamListEnd();
 
   nextply(advers(trait[nbply]));
+  current_move[nbply] = current_move[nbply-1]+1;
   result = !is_square_observed(sq_observee,&validate_observer);
   finply();
 
@@ -56,6 +57,7 @@ static boolean avoid_observing_guarded(square sq_observer,
   TraceFunctionParamListEnd();
 
   nextply(advers(trait[nbply]));
+  current_move[nbply] = current_move[nbply-1]+1;
   result = !is_square_observed(sq_observee,&validate_observer);
   finply();
 

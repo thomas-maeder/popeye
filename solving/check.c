@@ -28,10 +28,19 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 {
   boolean result;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_in_check,"");
+  TraceFunctionParamListEnd();
+
   nextply(advers(side_in_check));
+  current_move[nbply] = current_move[nbply-1]+1;
   result = is_in_check(slices[si].next1,side_in_check);
   finply();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

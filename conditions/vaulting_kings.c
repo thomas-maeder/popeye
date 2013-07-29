@@ -35,6 +35,7 @@ static boolean is_kingsquare_observed(slice_index si)
   boolean result;
 
   nextply(advers(side));
+  current_move[nbply] = current_move[nbply-1]+1;
   result = is_square_observed_recursive(slices[si].next2,
                                         king_square[side],
                                         &validate_observation);

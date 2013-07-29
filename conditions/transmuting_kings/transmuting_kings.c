@@ -50,6 +50,7 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
   boolean result;
 
   nextply(advers(trait[nbply]));
+  current_move[nbply] = current_move[nbply-1]+1;
   result = (*checkfunctions[p])(sq_departure,p,&validate_observation);
   finply();
 

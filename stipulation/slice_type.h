@@ -281,13 +281,14 @@
     ENUMERATOR(STExclusiveChessUndecidableWriterTree),                \
     ENUMERATOR(STExclusiveChessUndecidableWriterLine),                \
     ENUMERATOR(STExclusiveChessGoalReachingMoveCounterSelfCheckGuard),\
-    ENUMERATOR(STMaffImmobilityTesterKing), \
-    ENUMERATOR(STOWUImmobilityTesterKing), \
-    ENUMERATOR(STBrunnerDefenderFinder), \
-    ENUMERATOR(STKingCaptureLegalityTester), \
-    ENUMERATOR(STCageCirceNonCapturingMoveFinder), \
-    ENUMERATOR(STSinglePieceMoveGenerator),                          \
-    ENUMERATOR(STSingleMoveGenerator), \
+    ENUMERATOR(STMaffImmobilityTesterKing),                             \
+    ENUMERATOR(STOWUImmobilityTesterKing),                              \
+    ENUMERATOR(STBrunnerDefenderFinder),                                \
+    ENUMERATOR(STKingCaptureLegalityTester),                            \
+    ENUMERATOR(STMoveLegalityTester),                                   \
+    ENUMERATOR(STCageCirceNonCapturingMoveFinder),                      \
+    ENUMERATOR(STSinglePieceMoveGenerator),                             \
+    ENUMERATOR(STSingleMoveGenerator),                                  \
     ENUMERATOR(STMummerOrchestrator),                                   \
     ENUMERATOR(STMummerBookkeeper),                                     \
     ENUMERATOR(STMummerDeadend),                                        \

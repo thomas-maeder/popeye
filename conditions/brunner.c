@@ -29,8 +29,14 @@ boolean brunner_validate_observation(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  init_single_move_generator(sq_observer,sq_landing,sq_observee);
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",current_move[nbply]);
+  move_generation_stack[current_move[nbply]].departure = sq_observer;
+  move_generation_stack[current_move[nbply]].arrival = sq_landing;
+  move_generation_stack[current_move[nbply]].capture = sq_observee;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   result = solve(slices[temporary_hack_brunner_check_defense_finder[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
+  current_move[nbply] = current_move[nbply-1]+1;
 
   if (result)
     result = validate_observation_recursive(slices[si].next1,

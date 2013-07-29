@@ -31,6 +31,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
     else
     {
       nextply(observing_side);
+      current_move[nbply] = current_move[nbply-1]+1;
       result = (*checkfunctions[p])(sq,p,&validate_observation_geometry);
       finply();
     }

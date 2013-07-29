@@ -52,6 +52,7 @@ static boolean is_paralysed(square s)
   else
   {
     nextply(advers(trait[nbply]));
+    current_move[nbply] = current_move[nbply-1]+1;
     result = is_square_observed(s,&validate_paralyser);
     finply();
   }

@@ -19,6 +19,7 @@ boolean lortap_validate_observation(slice_index si,
                                                  square sq_observee)
 {
   boolean result;
+  boolean is_observer_supported;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -27,39 +28,16 @@ boolean lortap_validate_observation(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (is_square_observed(sq_observer,&validate_observer))
-    result = false;
-  else
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+  nextply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+  is_observer_supported = is_square_observed(sq_observer,&validate_observer);
+  finply();
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Validate an observation according to Lortap
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
- * @return true iff the observation is valid
- */
-static boolean is_capture_not_supported(square sq_observer,
-                                        square sq_landing,
-                                        square sq_observee)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
-  TraceFunctionParamListEnd();
-
-  result = !is_square_observed(sq_observer,&validate_observer);
+  result = (!is_observer_supported
+            && validate_observation_recursive(slices[si].next1,
+                                              sq_observer,
+                                              sq_landing,
+                                              sq_observee));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -79,10 +57,8 @@ static boolean is_not_supported_capture(square sq_departure,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(sq_capture))
-    result = true;
-  else
-    result = is_capture_not_supported(sq_departure,sq_arrival,sq_capture);
+  result = (is_square_empty(sq_capture)
+            || !is_square_observed(sq_departure,&validate_observer));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

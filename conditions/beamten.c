@@ -14,6 +14,7 @@ static boolean is_observed(square sq_departure)
   TraceFunctionParamListEnd();
 
   nextply(advers(trait[nbply]));
+  current_move[nbply] = current_move[nbply-1]+1;
   result = is_square_observed(sq_departure,&validate_observer);
   finply();
 

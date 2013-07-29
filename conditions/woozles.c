@@ -141,6 +141,7 @@ static boolean woozles_is_paralysed(Side side_woozle, square to, square sq_obser
     sq_woo_to = to;
 
     nextply(side_woozle);
+    current_move[nbply] = current_move[nbply-1]+1;
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
@@ -172,6 +173,7 @@ static boolean heffalumps_is_paralysed(Side side_woozle, square to, square sq_ob
     sq_woo_to = to;
 
     nextply(side_woozle);
+    ++current_move[nbply];
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0

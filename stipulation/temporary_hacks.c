@@ -108,7 +108,7 @@ static slice_index make_move_legality_tester(Side side)
   link_to_branch(proxy_goal,system);
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
-  result = alloc_conditional_pipe(STKingCaptureLegalityTester,proxy_branch);
+  result = alloc_conditional_pipe(STMoveLegalityTester,proxy_branch);
   stip_impose_starter(result,side);
   return result;
 }

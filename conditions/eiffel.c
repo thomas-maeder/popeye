@@ -64,6 +64,7 @@ static boolean is_paralysed(square sq)
     if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       nextply(eiffel_side);
+      current_move[nbply] = current_move[nbply-1]+1;
       result = (*checkfunctions[eiffel_piece])(sq,
                                                eiffel_piece,
                                                &validate_observation_geometry);
