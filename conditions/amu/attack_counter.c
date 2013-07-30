@@ -36,6 +36,8 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 
   nextply(advers(trait_ply));
   current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].capture = sq_departure;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   is_square_observed(sq_departure,&eval_amu_attack);
   finply();
 

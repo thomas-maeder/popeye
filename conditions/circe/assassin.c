@@ -31,6 +31,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
 
     nextply(side_checking);
     current_move[nbply] = current_move[nbply-1]+1;
+    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
     for (bnp = boardnum; *bnp; bnp++)
     {
@@ -38,11 +39,14 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
 
       if (p!=Empty
           && p!=King && TSTFLAG(spec[*bnp],side_in_check)
-          && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check]
-          && is_square_observed(*bnp,&validate_check))
+          && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check])
       {
-        assassinable = true;
-        break;
+        move_generation_stack[current_move[nbply]].capture = *bnp;
+        if (is_square_observed(*bnp,&validate_check))
+        {
+          assassinable = true;
+          break;
+        }
       }
     }
 

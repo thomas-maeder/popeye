@@ -145,6 +145,8 @@ void InitCheckDir(void)
 }
 
 static ply ply_watermark;
+static ply ply_stack[maxply+1];
+static ply ply_stack_pointer;
 
 void nextply(Side side)
 {
@@ -156,13 +158,46 @@ void nextply(Side side)
 
   assert(ply_watermark<maxply);
 
+  ply_stack[ply_stack_pointer++] = nbply;
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
   ++ply_watermark;
 
+  TraceValue("%u",parent);
+  TraceValue("%u\n",nbply);
+
   parent_ply[nbply] = parent;
 
   trait[nbply] = side;
+
+  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+
+  ++post_move_iteration_id[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void siblingply(void)
+{
+  ply const elder = nbply;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(ply_watermark<maxply);
+
+  ply_stack[ply_stack_pointer++] = nbply;
+  nbply = ply_watermark+1;
+  current_move[nbply] = current_move[ply_watermark];
+  ++ply_watermark;
+
+  TraceValue("%u",elder);
+  TraceValue("%u\n",nbply);
+
+  parent_ply[nbply] = parent_ply[elder];
+
+  trait[nbply] = trait[elder];
 
   move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
 
@@ -179,6 +214,7 @@ void copyply(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  ply_stack[ply_stack_pointer++] = nbply;
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
   ++ply_watermark;
@@ -210,7 +246,8 @@ void finply()
 
   assert(nbply==ply_watermark);
   --ply_watermark;
-  nbply = parent_ply[nbply];
+
+  nbply = ply_stack[--ply_stack_pointer];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

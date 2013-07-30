@@ -1299,7 +1299,7 @@ Loesung beendet.
 
   1.g2-g1=CA   2.CAg1-d2   3.g3-g2   4.g2-g1=CA CAf5-e2 =
 
-  add_to_move_generation_stack:       30648
+  add_to_move_generation_stack:       25924
                      play_move:       24291
  is_white_king_square_attacked:        4955
  is_black_king_square_attacked:        8669
@@ -1815,7 +1815,7 @@ Loesung beendet.
 
   1.h2-h1=S   2.Sh1-f2   3.Sf2-h3   4.Sh3-f4   5.Sf4-e6   6.Se6-c7   7.Sc7-e8   8.Se8-d6   9.Sd6-c4 Dg2-c2 #
 
-  add_to_move_generation_stack:      397297
+  add_to_move_generation_stack:      346762
                      play_move:      381612
  is_white_king_square_attacked:       44921
  is_black_king_square_attacked:      119799
@@ -1850,7 +1850,7 @@ Loesung beendet.
 
   1.Kg6-f7   2.Lc2-h7   3.Kf7*g8   4.Kg8-g7   5.Lh7-g6   6.Kg7-f6   7.Lg6-f5   8.Kf6-e5   9.Lf5-e4  10.Ke5-d4  11.Le4-d3  12.Kd4-c3  13.Ld3-c4 #
 
-  add_to_move_generation_stack:        6847
+  add_to_move_generation_stack:        5599
                      play_move:        6749
  is_white_king_square_attacked:        1620
  is_black_king_square_attacked:        1849

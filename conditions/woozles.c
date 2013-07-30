@@ -142,6 +142,8 @@ static boolean woozles_is_paralysed(Side side_woozle, square to, square sq_obser
 
     nextply(side_woozle);
     current_move[nbply] = current_move[nbply-1]+1;
+    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+    move_generation_stack[current_move[nbply]].capture = sq_observer;
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
@@ -173,14 +175,18 @@ static boolean heffalumps_is_paralysed(Side side_woozle, square to, square sq_ob
     sq_woo_to = to;
 
     nextply(side_woozle);
-    ++current_move[nbply];
+    current_move[nbply] = current_move[nbply-1]+1;
+    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
     for (; *pcheck; ++pcheck)
-      if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(sq_observer,*pcheck,&heffalumps_aux_wh))
+      if (number_of_pieces[side_woozle][*pcheck]>0)
       {
-        result = true;
-        break;
+        move_generation_stack[current_move[nbply]].capture = sq_observer;
+        if ((*checkfunctions[*pcheck])(sq_observer,*pcheck,&heffalumps_aux_wh))
+        {
+          result = true;
+          break;
+        }
       }
 
     finply();

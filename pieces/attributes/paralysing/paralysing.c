@@ -53,6 +53,8 @@ static boolean is_paralysed(square s)
   {
     nextply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
+    move_generation_stack[current_move[nbply]].capture = s;
+    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
     result = is_square_observed(s,&validate_paralyser);
     finply();
   }

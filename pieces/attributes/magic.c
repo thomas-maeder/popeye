@@ -505,6 +505,7 @@ static void PushMagicViewsByOnePiece(square pos_magic)
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
       fromspecificsquare = pos_magic;
+      move_generation_stack[current_move[nbply]].capture = *pos_viewed;
       if (crosseyed_views_functions[pi_magic]!=0)
         (*crosseyed_views_functions[pi_magic])(pos_magic,*pos_viewed);
       else
@@ -541,6 +542,7 @@ static void PushMagicViews(void)
 
   nextply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   for (pos_magic = boardnum; *pos_magic; pos_magic++)
     if (TSTFLAG(spec[*pos_magic], Magic))

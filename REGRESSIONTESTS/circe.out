@@ -126,7 +126,7 @@ Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
 
   1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3][+wkTh1] #
 
-  add_to_move_generation_stack:       90845
+  add_to_move_generation_stack:       70274
                      play_move:       86256
  is_white_king_square_attacked:        5123
  is_black_king_square_attacked:       65461
@@ -444,7 +444,7 @@ Loesung beendet.
           2.Kc3-b4 #
 
 
-  add_to_move_generation_stack:        3947
+  add_to_move_generation_stack:        2294
                      play_move:        3192
  is_white_king_square_attacked:         150
  is_black_king_square_attacked:        1542

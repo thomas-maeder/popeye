@@ -21,6 +21,8 @@ static boolean is_piece_provoked_on(square sq_departure)
 
   nextply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].capture = sq_departure;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   result = is_square_observed(sq_departure,&validate_observer);
   finply();
 

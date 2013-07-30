@@ -546,7 +546,7 @@ eigentlich semi-r#2
               2...Td8*d3 #
 
 
-  add_to_move_generation_stack:      241225
+  add_to_move_generation_stack:      110886
                      play_move:      235746
  is_white_king_square_attacked:       73426
  is_black_king_square_attacked:        8413
@@ -602,7 +602,7 @@ und Einschraenkung kein wAngriff zum Matt
               2...Lf5*b1[sLb1->c8] #
 
 
-  add_to_move_generation_stack:       10605
+  add_to_move_generation_stack:        8974
                      play_move:        8882
  is_white_king_square_attacked:        6818
  is_black_king_square_attacked:        1045

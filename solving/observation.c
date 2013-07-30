@@ -142,8 +142,6 @@ boolean validate_observation_geometry_recursive(slice_index si,
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
       move_generation_stack[current_move[nbply]].arrival = sq_landing;
-      move_generation_stack[current_move[nbply]].capture = sq_observee;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
       result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
@@ -157,8 +155,6 @@ boolean validate_observation_geometry_recursive(slice_index si,
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
       move_generation_stack[current_move[nbply]].arrival = sq_landing;
-      move_generation_stack[current_move[nbply]].capture = sq_observee;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
       result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
@@ -600,8 +596,6 @@ boolean validate_observation_recursive(slice_index si,
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
       move_generation_stack[current_move[nbply]].arrival = sq_landing;
-      move_generation_stack[current_move[nbply]].capture = sq_observee;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
       result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
@@ -615,8 +609,6 @@ boolean validate_observation_recursive(slice_index si,
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
       move_generation_stack[current_move[nbply]].arrival = sq_landing;
-      move_generation_stack[current_move[nbply]].capture = sq_observee;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
       result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);

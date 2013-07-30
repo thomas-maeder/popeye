@@ -37,6 +37,7 @@ boolean extinction_check_tester_is_in_check(slice_index si, Side side_in_check)
 
   nextply(side_checking);
   current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   for (p = King; p<PieceCount; ++p)
     if (exist[p] && number_of_pieces[side_in_check][p]==1)
@@ -47,6 +48,7 @@ boolean extinction_check_tester_is_in_check(slice_index si, Side side_in_check)
             && TSTFLAG(spec[*bnp],side_in_check))
           break;
 
+      move_generation_stack[current_move[nbply]].capture = *bnp;
       if (is_square_observed(*bnp,&validate_observation))
       {
         result = true;

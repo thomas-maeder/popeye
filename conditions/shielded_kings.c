@@ -30,6 +30,8 @@ boolean shielded_kings_validate_observation(slice_index si,
     /* won't work for locust Ks etc.*/
     nextply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
+    move_generation_stack[current_move[nbply]].capture = sq_observee;
+    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
     result = !is_square_observed(sq_observee,&validate_observer);
     finply();
   }

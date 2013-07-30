@@ -690,7 +690,7 @@ Loesung beendet.
       1...Lb2-a3 !
 
 
-  add_to_move_generation_stack:       68153
+  add_to_move_generation_stack:       47122
                      play_move:       48509
  is_white_king_square_attacked:        1280
  is_black_king_square_attacked:       27217

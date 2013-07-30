@@ -14,9 +14,9 @@
  * @return true iff the observation is valid
  */
 boolean lortap_validate_observation(slice_index si,
-                                                 square sq_observer,
-                                                 square sq_landing,
-                                                 square sq_observee)
+                                    square sq_observer,
+                                    square sq_landing,
+                                    square sq_observee)
 {
   boolean result;
   boolean is_observer_supported;
@@ -28,8 +28,10 @@ boolean lortap_validate_observation(slice_index si,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  nextply(trait[nbply]);
+  siblingply();
   current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].capture = sq_observer;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   is_observer_supported = is_square_observed(sq_observer,&validate_observer);
   finply();
 

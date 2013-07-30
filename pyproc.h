@@ -221,6 +221,7 @@ void    hardinit(void);
 void copyply(void);
 void finply(void);
 void nextply(Side side);
+void siblingply(void);
 
 extern boolean(*is_square_attacked)(square sq_target, evalfunction_t *evaluate);
 
