@@ -61,11 +61,11 @@ void ubiubi_generate_moves(square sq_departure)
 }
 
 static boolean ubiubi_check_recursive(square intermediate_square,
-                                      square sq_king,
                                       PieNam p,
                                       ubiubi_traversal_state_type traversal_state,
                                       evalfunction_t *evaluate)
 {
+  square const sq_target = move_generation_stack[current_move[nbply]].capture;
   vec_index_type k;
 
   traversal_state[intermediate_square] = ubiubi_taboo;
@@ -77,14 +77,14 @@ static boolean ubiubi_check_recursive(square intermediate_square,
     {
       if (traversal_state[sq_departure]==ubiubi_empty)
       {
-        if (ubiubi_check_recursive(sq_departure,sq_king,p,traversal_state,evaluate))
+        if (ubiubi_check_recursive(sq_departure,p,traversal_state,evaluate))
           return true;
       }
       else
       {
         if (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && evaluate(sq_departure,sq_king))
+            && evaluate(sq_departure,sq_target))
           return true;
       }
     }
@@ -93,13 +93,14 @@ static boolean ubiubi_check_recursive(square intermediate_square,
   return false;
 }
 
-boolean ubiubi_check(square sq_king, PieNam p, evalfunction_t *evaluate)
+boolean ubiubi_check(PieNam p, evalfunction_t *evaluate)
 {
   ubiubi_traversal_state_type board_state;
+  square const sq_target = move_generation_stack[current_move[nbply]].capture;
 
   square const *bnp;
   for (bnp = boardnum; *bnp; ++bnp)
     board_state[*bnp] = is_square_empty(*bnp) ? ubiubi_empty : ubiubi_taboo;
 
-  return ubiubi_check_recursive(sq_king,sq_king,p,board_state,evaluate);
+  return ubiubi_check_recursive(sq_target,p,board_state,evaluate);
 }

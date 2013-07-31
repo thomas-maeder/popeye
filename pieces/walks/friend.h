@@ -12,7 +12,7 @@ void locate_observees(PieNam walk, square pos_observees[]);
 void isolate_observee(PieNam walk, square const pos_observees[], unsigned int isolated_observee);
 void restore_observees(PieNam walk, square const pos_observees[]);
 
-boolean find_next_friend_in_chain(square i,
+boolean find_next_friend_in_chain(square sq_target,
                                   PieNam pfr,
                                   PieNam p,
                                   evalfunction_t *evaluate);

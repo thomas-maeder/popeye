@@ -92,11 +92,11 @@ static boolean uninterceptably_attacked(square s)
   move_generation_stack[current_move[nbply]].capture = s;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
-  result = ((*checkfunctions[Pawn])(s,Pawn,eval_ortho)
-            || (*checkfunctions[Knight])(s,Knight,eval_ortho)
-            || (*checkfunctions[Fers])(s,Bishop,eval_ortho)
-            || (*checkfunctions[Wesir])(s,Rook,eval_ortho)
-            || (*checkfunctions[ErlKing])(s,Queen,eval_ortho));
+  result = ((*checkfunctions[Pawn])(Pawn,eval_ortho)
+            || (*checkfunctions[Knight])(Knight,eval_ortho)
+            || (*checkfunctions[Fers])(Bishop,eval_ortho)
+            || (*checkfunctions[Wesir])(Rook,eval_ortho)
+            || (*checkfunctions[ErlKing])(Queen,eval_ortho));
 
   finply();
 

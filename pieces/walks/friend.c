@@ -44,7 +44,7 @@ boolean find_next_friend_in_chain(square sq_target,
   boolean result = false;
 
   move_generation_stack[current_move[nbply]].capture = sq_target;
-  if ((*checkfunctions[friend_observer])(sq_target,friend_observer,evaluate))
+  if ((*checkfunctions[friend_observer])(friend_observer,evaluate))
     result = true;
   else
   {
@@ -64,7 +64,7 @@ boolean find_next_friend_in_chain(square sq_target,
 
         isolate_observee(Friend,pos_remaining_friends,k);
         move_generation_stack[current_move[nbply]].capture = sq_target;
-        is_friend_observed = (*checkfunctions[friend_observer])(sq_target,Friend,evaluate);
+        is_friend_observed = (*checkfunctions[friend_observer])(Friend,evaluate);
         restore_observees(Friend,pos_remaining_friends);
 
         if (is_friend_observed

@@ -187,7 +187,7 @@ solution finished.
               HalfDuplex
 
 
-  add_to_move_generation_stack:          72
+  add_to_move_generation_stack:          45
                      play_move:          70
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:           6
@@ -1485,7 +1485,7 @@ the capturee's identity, causing the king to be reborn on g2
    1.Bh1*g2[e4=K] + !
 
 
-  add_to_move_generation_stack:           2
+  add_to_move_generation_stack:           1
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -1641,7 +1641,7 @@ no longer necessary to disallow Anticirc + Circe rex incl.
               AntiCirce
 
 the side to play can capture the king
-  add_to_move_generation_stack:           1
+  add_to_move_generation_stack:           0
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
@@ -1675,7 +1675,7 @@ solution finished.
            Wormholes e6 e8
 
 the side to play can capture the king
-  add_to_move_generation_stack:           1
+  add_to_move_generation_stack:           0
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1

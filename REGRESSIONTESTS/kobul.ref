@@ -361,7 +361,7 @@ a)
 
   1.c2-c1=S Kb2*c1[d6=rS][wKc1->e1]   2.rSd6*b7[e1=rR][brSb7->g8] rRe1-e8 #
 
-  add_to_move_generation_stack:       83716
+  add_to_move_generation_stack:       72975
                      play_move:       60717
  is_white_king_square_attacked:        4278
  is_black_king_square_attacked:       52493
@@ -369,7 +369,7 @@ b) +bBg8
 
   1.c2-c1=R Kb2*c1[d6=rR][wKc1->e1]   2.rRd6*d4[e1=rB][brRd4->h8] rBe1-c3 #
 
-  add_to_move_generation_stack:      205870
+  add_to_move_generation_stack:      180984
                      play_move:      147963
  is_white_king_square_attacked:       10200
  is_black_king_square_attacked:      128667

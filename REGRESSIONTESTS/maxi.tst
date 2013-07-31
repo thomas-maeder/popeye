@@ -28,7 +28,7 @@ White king is not in check on b7 even if nBc8*bKb7 is not the longest
    1.Ka6*b7 # !
 
 
-  add_to_move_generation_stack:          44
+  add_to_move_generation_stack:          20
                      play_move:          43
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:          22
@@ -65,7 +65,7 @@ White king is not in check on d5 even if c6-d5 is shorter than the
    1.Ke6-d5 z !
 
 
-  add_to_move_generation_stack:          24
+  add_to_move_generation_stack:          19
                      play_move:          22
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0

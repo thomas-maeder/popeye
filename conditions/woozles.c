@@ -96,7 +96,7 @@ static boolean woozles_aux_wh(square sq_departure, square sq_arrival)
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
       move_generation_stack[current_move[nbply]].capture = sq_departure;
-      result = (*checkfunctions[p])(sq_departure,p,&woozles_aux_whx);
+      result = (*checkfunctions[p])(p,&woozles_aux_whx);
       finply();
     }
   }
@@ -121,7 +121,7 @@ static boolean heffalumps_aux_wh(square sq_departure, square sq_arrival)
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
       move_generation_stack[current_move[nbply]].capture = sq_departure;
-      result = (*checkfunctions[p])(sq_departure,p,&heffalumps_aux_whx);
+      result = (*checkfunctions[p])(p,&heffalumps_aux_whx);
       finply();
     }
   }
@@ -157,7 +157,7 @@ static boolean woozles_is_paralysed(Side side_woozle, square to, square sq_obser
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(sq_observer,*pcheck,&woozles_aux_wh))
+          && (*checkfunctions[*pcheck])(*pcheck,&woozles_aux_wh))
       {
         result = true;
         break;
@@ -194,7 +194,7 @@ static boolean heffalumps_is_paralysed(Side side_woozle, square to, square sq_ob
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(sq_observer,*pcheck,&heffalumps_aux_wh))
+          && (*checkfunctions[*pcheck])(*pcheck,&heffalumps_aux_wh))
       {
         result = true;
         break;

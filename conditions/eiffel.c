@@ -67,8 +67,7 @@ static boolean is_paralysed(square sq)
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]].capture = sq;
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-      result = (*checkfunctions[eiffel_piece])(sq,
-                                               eiffel_piece,
+      result = (*checkfunctions[eiffel_piece])(eiffel_piece,
                                                &validate_observation_geometry);
       finply();
     }

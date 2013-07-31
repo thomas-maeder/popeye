@@ -58,7 +58,7 @@ boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
 void    WriteGrid(void);
 
 typedef boolean (evalfunction_t)(square departure, square arrival);
-typedef boolean (checkfunction_t)(square, PieNam, evalfunction_t *);
+typedef boolean (checkfunction_t)(PieNam, evalfunction_t *);
 
 checkfunction_t pawnedpiececheck;
 
@@ -225,34 +225,34 @@ void siblingply(Side side);
 
 extern boolean(*is_square_attacked)(square sq_target, evalfunction_t *evaluate);
 
-boolean rcardech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
-boolean rcsech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
-boolean rcspech(square a, numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
+boolean rcardech(square sq, numvec k, PieNam p, int x, evalfunction_t *evaluate );
+boolean rcsech(numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
+boolean rcspech(numvec b, numvec c, PieNam p, evalfunction_t *evaluate);
 void    restaure(void);
 
-boolean rrefcech(square a, square b, int c, PieNam p, evalfunction_t *evaluate);
-boolean rrfouech(square sq, square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
+boolean rrefcech(square b, int c, PieNam p, evalfunction_t *evaluate);
+boolean rrfouech(square sqtest, numvec k, PieNam p, int x, evalfunction_t *evaluate );
 
 void    PrintTime();
-boolean leapcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
-boolean ridcheck(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
+boolean leapcheck(vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
+boolean ridcheck(vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
 
-boolean roicheck(square a, PieNam p, evalfunction_t *evaluate);
-boolean pioncheck(square a, PieNam p, evalfunction_t *evaluate);
-boolean cavcheck(square a, PieNam p, evalfunction_t *evaluate);
-boolean tourcheck(square a, PieNam p, evalfunction_t *evaluate);
-boolean damecheck(square a, PieNam p, evalfunction_t *evaluate);
-boolean foucheck(square a, PieNam p, evalfunction_t *evaluate);
+boolean roicheck(PieNam p, evalfunction_t *evaluate);
+boolean pioncheck(PieNam p, evalfunction_t *evaluate);
+boolean cavcheck(PieNam p, evalfunction_t *evaluate);
+boolean tourcheck(PieNam p, evalfunction_t *evaluate);
+boolean damecheck(PieNam p, evalfunction_t *evaluate);
+boolean foucheck(PieNam p, evalfunction_t *evaluate);
 
-boolean t_lioncheck(square i, PieNam p, evalfunction_t *evaluate);
-boolean f_lioncheck(square i, PieNam p, evalfunction_t *evaluate);
-boolean marine_rider_check(square a, vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
-boolean marine_leaper_check(square sq_king, vec_index_type kanf, vec_index_type kend, PieNam p, evalfunction_t *evaluate);
-boolean marine_pawn_check(square sq_king, PieNam p, evalfunction_t *evaluate);
-boolean marine_ship_check(square sq_king, PieNam p, evalfunction_t *evaluate);
+boolean t_lioncheck(PieNam p, evalfunction_t *evaluate);
+boolean f_lioncheck(PieNam p, evalfunction_t *evaluate);
+boolean marine_rider_check(vec_index_type b, vec_index_type c, PieNam p, evalfunction_t *evaluate);
+boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend, PieNam p, evalfunction_t *evaluate);
+boolean marine_pawn_check(PieNam p, evalfunction_t *evaluate);
+boolean marine_ship_check(PieNam p, evalfunction_t *evaluate);
 
 boolean orphan_find_observation_chain(square i, PieNam porph, evalfunction_t *evaluate);
-boolean reversepcheck(square a, PieNam p, evalfunction_t *evaluate);
+boolean reversepcheck(PieNam p, evalfunction_t *evaluate);
 
 Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
@@ -319,32 +319,27 @@ boolean noantelopecontact(square ia);
 void WriteBGLNumber(char* a, long int b);
 boolean CrossesGridLines(square i, square j);
 
-boolean leapleapcheck(square	 sq_king,
-                      vec_index_type kanf, vec_index_type kend,
+boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
                       int hurdletype,
                       boolean leaf,
                       PieNam p,
                       evalfunction_t *evaluate);
 checkfunction_t radialknightcheck;
 
-boolean detect_rosecheck_on_line(square sq_king,
-                                 PieNam p,
+boolean detect_rosecheck_on_line(PieNam p,
                                  vec_index_type k, vec_index_type k1,
                                  numvec delta_k,
                                  evalfunction_t *evaluate);
-boolean detect_roselioncheck_on_line(square sq_king,
-                                     PieNam p,
+boolean detect_roselioncheck_on_line(PieNam p,
                                      vec_index_type k, vec_index_type k1,
                                      numvec delta_k,
                                      evalfunction_t *evaluate);
-boolean detect_rosehoppercheck_on_line(square sq_king,
-                                       square sq_hurdle,
+boolean detect_rosehoppercheck_on_line(square sq_hurdle,
                                        PieNam p,
                                        vec_index_type k, vec_index_type k1,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
-boolean detect_roselocustcheck_on_line(square sq_king,
-                                       square sq_arrival,
+boolean detect_roselocustcheck_on_line(square sq_arrival,
                                        PieNam p,
                                        vec_index_type k, vec_index_type k1,
                                        numvec delta_k,

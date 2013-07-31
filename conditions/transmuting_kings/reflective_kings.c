@@ -56,7 +56,7 @@ boolean reflective_king_is_square_observed(slice_index si, evalfunction_t *evalu
     for (ptrans = transmpieces[side_attacking]; *ptrans; ptrans++)
       if (number_of_pieces[side_attacked][*ptrans]>0
           && is_king_transmuting_as(*ptrans,evaluate)
-          && (*checkfunctions[*ptrans])(move_generation_stack[current_move[nbply]].capture,King,evaluate))
+          && (*checkfunctions[*ptrans])(King,evaluate))
         return true;
   }
 

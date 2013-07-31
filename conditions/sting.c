@@ -27,7 +27,7 @@ void sting_generate_moves_for_piece(slice_index si,
 boolean sting_is_square_observed(slice_index si, evalfunction_t *evaluate)
 {
   if (number_of_pieces[trait[nbply]][King]>0
-      && (*checkfunctions[Grasshopper])(move_generation_stack[current_move[nbply]].capture,King,evaluate))
+      && (*checkfunctions[Grasshopper])(King,evaluate))
     return true;
   else
     return is_square_observed_recursive(slices[si].next1,evaluate);

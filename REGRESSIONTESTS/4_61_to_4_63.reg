@@ -405,7 +405,7 @@ Condition FileCirce RexInclusiv was accepted, but RexInclusiv was ignored
 a) 
 
 
-  add_to_move_generation_stack:          29
+  add_to_move_generation_stack:          26
                      play_move:          23
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          20
@@ -413,7 +413,7 @@ b) +wSa8
 
   1...Rh3-a3 #
 
-  add_to_move_generation_stack:          78
+  add_to_move_generation_stack:          53
                      play_move:          69
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          43
@@ -669,7 +669,7 @@ Until 4.61, 1.Sg6 was given as a solution (Bug #3515750)
             Take&MakeChess
 
 
-  add_to_move_generation_stack:          65
+  add_to_move_generation_stack:          64
                      play_move:          16
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          16
@@ -703,7 +703,7 @@ Until 4.61, 1.a7 was given as a solution (Bug #3515750)
             Take&MakeChess
 
 
-  add_to_move_generation_stack:          15
+  add_to_move_generation_stack:          13
                      play_move:          15
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          11
@@ -811,7 +811,7 @@ Until 4.61, Popeye crashed (Bug #3585629)
               AntiCirce
 
 
-  add_to_move_generation_stack:          31
+  add_to_move_generation_stack:          29
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          12
@@ -1121,7 +1121,7 @@ Until 4.61, Circe rebirths weren't considered in Koeko
    1.CAa6*d7[+bKe8] !
 
 
-  add_to_move_generation_stack:           4
+  add_to_move_generation_stack:           3
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
@@ -1161,7 +1161,7 @@ Until 4.61, pieces reborn on magic squares did not change
   1.Kh8-h7 + Kg1-f2 z
   1.Kh8-g8 + Kg1-f2 z
 
-  add_to_move_generation_stack:          36
+  add_to_move_generation_stack:          30
                      play_move:          13
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:           9
@@ -1467,7 +1467,7 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
    1.mRa7-d7 + !
 
 
-  add_to_move_generation_stack:          49
+  add_to_move_generation_stack:          47
                      play_move:          51
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          48

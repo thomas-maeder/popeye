@@ -28,7 +28,7 @@
                Isardam
 
 
-  add_to_move_generation_stack:         100
+  add_to_move_generation_stack:          72
                      play_move:          86
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:          55

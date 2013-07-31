@@ -252,7 +252,7 @@ solution finished.
 
   1.d7*e6 Ke5*e4[+wPe5] z
 
-  add_to_move_generation_stack:          61
+  add_to_move_generation_stack:          60
                      play_move:          15
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           6
@@ -286,7 +286,7 @@ solution finished.
 
   1.Gh4*d4 Kg3-f3[+bPc4] #
 
-  add_to_move_generation_stack:         221
+  add_to_move_generation_stack:         164
                      play_move:         146
  is_white_king_square_attacked:          56
  is_black_king_square_attacked:          23

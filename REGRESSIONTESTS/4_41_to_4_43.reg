@@ -135,7 +135,7 @@ solution finished.
   1.Sb8*a6 Ka7-a8[+wPa7]
   1.Sb8*a6 Ka7-b7[+wPb6]
 
-  add_to_move_generation_stack:           9
+  add_to_move_generation_stack:           8
                      play_move:          10
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:           0
@@ -201,7 +201,7 @@ solution finished.
       1...Bd1-f3 !
 
 
-  add_to_move_generation_stack:        2289
+  add_to_move_generation_stack:        1314
                      play_move:        1676
  is_white_king_square_attacked:         830
  is_black_king_square_attacked:         395

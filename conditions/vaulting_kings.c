@@ -89,7 +89,7 @@ boolean vaulting_king_is_square_observed(slice_index si, evalfunction_t *evaluat
     {
       PieNam const *pi_vaulter;
       for (pi_vaulter = king_vaulters[side_observing]; *pi_vaulter; ++pi_vaulter)
-        if ((*checkfunctions[*pi_vaulter])(move_generation_stack[current_move[nbply]].capture,King,evaluate))
+        if ((*checkfunctions[*pi_vaulter])(King,evaluate))
           return true;
 
       if (vaulting_kings_transmuting[side_observing])

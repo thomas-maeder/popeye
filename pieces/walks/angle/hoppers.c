@@ -6,6 +6,8 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
+#include <assert.h>
+
 /* Generated moves for an angle hopper
  * @param sq_departure departure square of moves to be generated
  * @param kanf first vectors index
@@ -60,13 +62,13 @@ static void angle_hoppers_generate_moves(square sq_departure,
   TraceFunctionResultEnd();
 }
 
-static boolean angle_hoppers_is_square_observed_one_dir(square sq_target,
-                                                        square sq_hurdle,
+static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
                                                         vec_index_type vec_index_departure_hurdle,
                                                         angle_t angle,
                                                         PieNam p,
                                                         evalfunction_t *evaluate)
 {
+  square const sq_target = move_generation_stack[current_move[nbply]].capture;
   numvec const vec_departure_hurdle = angle_vectors[angle][vec_index_departure_hurdle];
   square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
   PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
@@ -77,18 +79,17 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_target,
 }
 
 /* Is a particular square observed by a particular type of angle hopper?
- * @param sq_target the square
  * @param kanf first vectors index
  * @param kend last vectors index
  * @param angle angle to take from hurdle to arrival squares
  * @param p type of piece
  */
-boolean angle_hoppers_is_square_observed(square sq_target,
-                                         vec_index_type kanf, vec_index_type kend,
+boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type kend,
                                          angle_t angle,
                                          PieNam p,
                                          evalfunction_t *evaluate)
 {
+  square const sq_target = move_generation_stack[current_move[nbply]].capture;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -112,14 +113,12 @@ boolean angle_hoppers_is_square_observed(square sq_target,
     {
       vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation_vector_index[observation_context];
 
-      if (angle_hoppers_is_square_observed_one_dir(sq_target,
-                                                   sq_hurdle,
+      if (angle_hoppers_is_square_observed_one_dir(sq_hurdle,
                                                    vec_index_departure_hurdle,
                                                    angle,
                                                    p,
                                                    evaluate)
-          || angle_hoppers_is_square_observed_one_dir(sq_target,
-                                                      sq_hurdle,
+          || angle_hoppers_is_square_observed_one_dir(sq_hurdle,
                                                       vec_index_departure_hurdle-1,
                                                       angle,
                                                       p,

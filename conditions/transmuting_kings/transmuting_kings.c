@@ -46,7 +46,7 @@ boolean is_king_transmuting_as(PieNam p, evalfunction_t *evaluate)
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = king_square[side_attacking];
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;;
-  result = (*checkfunctions[p])(king_square[side_attacking],p,evaluate);
+  result = (*checkfunctions[p])(p,evaluate);
   finply();
 
   TraceFunctionExit(__func__);
@@ -63,7 +63,7 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = sq_departure;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = (*checkfunctions[p])(sq_departure,p,&validate_observation);
+  result = (*checkfunctions[p])(p,&validate_observation);
   finply();
 
   return result;
@@ -151,7 +151,7 @@ boolean transmuting_king_is_square_observed(slice_index si, evalfunction_t *eval
       if (number_of_pieces[side_attacked][*ptrans]>0
           && is_king_transmuting_as(*ptrans,evaluate))
       {
-        if ((*checkfunctions[*ptrans])(move_generation_stack[current_move[nbply]].capture,King,evaluate))
+        if ((*checkfunctions[*ptrans])(King,evaluate))
           return true;
         else
           transmuter = *ptrans;

@@ -217,7 +217,7 @@ a)
    1.Qc1-c8 # !
 
 
-  add_to_move_generation_stack:          99
+  add_to_move_generation_stack:          63
                      play_move:         104
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          62
@@ -226,7 +226,7 @@ b)  -wQc1
    1.h7*g8=R[+wQd1] # !
 
 
-  add_to_move_generation_stack:          27
+  add_to_move_generation_stack:          15
                      play_move:          33
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          21

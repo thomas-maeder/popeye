@@ -187,6 +187,7 @@ boolean en_passant_test_check(square sq_target,
                               PieNam p,
                               evalfunction_t *evaluate)
 {
+  assert(sq_target==move_generation_stack[current_move[nbply]].capture);
   boolean result = false;
 
   TraceFunctionEntry(__func__);

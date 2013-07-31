@@ -143,7 +143,7 @@ boolean mars_is_square_observed_by(square pos_observer,
     occupy_square(sq_rebirth,pi_checking,spec_checking);
 
     fromspecificsquare = sq_rebirth;
-    result = (*checkfunctions[pi_checking])(move_generation_stack[current_move[nbply]].capture,pi_checking,&eval_fromspecificsquare);
+    result = (*checkfunctions[pi_checking])(pi_checking,&eval_fromspecificsquare);
     fromspecificsquare = save_fromspecificsquare;
 
     empty_square(sq_rebirth);
