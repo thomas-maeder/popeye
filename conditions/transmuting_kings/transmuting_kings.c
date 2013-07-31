@@ -38,10 +38,20 @@ boolean is_king_transmuting_as(PieNam p, evalfunction_t *evaluate)
   boolean result;
   Side const side_attacking = trait[nbply];
 
-  trait[nbply] = advers(side_attacking);
-  result = (*checkfunctions[p])(king_square[side_attacking],p,evaluate);
-  trait[nbply] = side_attacking;
+  TraceFunctionEntry(__func__);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
 
+  siblingply(advers(side_attacking));
+  current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].capture = king_square[side_attacking];
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;;
+  result = (*checkfunctions[p])(king_square[side_attacking],p,evaluate);
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -49,7 +59,7 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
 {
   boolean result;
 
-  nextply(advers(trait[nbply]));
+  siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = sq_departure;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
@@ -126,12 +136,9 @@ void transmuting_kings_initialise_solving(slice_index si, Side side)
 /* Determine whether a square is observed be the side at the move according to
  * Transmuting Kings
  * @param si identifies next slice
- * @param sq_target the square
  * @return true iff sq_target is observed by the side at the move
  */
-boolean transmuting_king_is_square_observed(slice_index si,
-                                            square sq_target,
-                                            evalfunction_t *evaluate)
+boolean transmuting_king_is_square_observed(slice_index si, evalfunction_t *evaluate)
 {
   if (number_of_pieces[trait[nbply]][King]>0)
   {
@@ -144,17 +151,17 @@ boolean transmuting_king_is_square_observed(slice_index si,
       if (number_of_pieces[side_attacked][*ptrans]>0
           && is_king_transmuting_as(*ptrans,evaluate))
       {
-        if ((*checkfunctions[*ptrans])(sq_target,King,evaluate))
+        if ((*checkfunctions[*ptrans])(move_generation_stack[current_move[nbply]].capture,King,evaluate))
           return true;
         else
           transmuter = *ptrans;
       }
 
     if (transmuter!=Empty)
-      return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
+      return is_square_observed_recursive(slices[si].next2,evaluate);
   }
 
-  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+  return is_square_observed_recursive(slices[si].next1,evaluate);
 }
 
 typedef struct

@@ -14,9 +14,7 @@ boolean amu_attacked_exactly_once[maxply+1];
 static square single_attacker_departure;
 static unsigned int amu_attack_count;
 
-static boolean eval_amu_attack(square sq_departure,
-                               square sq_arrival,
-                               square sq_capture)
+static boolean eval_amu_attack(square sq_departure, square sq_arrival)
 {
   /* this deals correctly with double attacks by the same piece (e.g. a rose) */
   if (single_attacker_departure==sq_departure)
@@ -34,11 +32,11 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   amu_attack_count = 0;
   single_attacker_departure = initsquare;
 
-  nextply(advers(trait_ply));
+  siblingply(advers(trait_ply));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = sq_departure;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  is_square_observed(sq_departure,&eval_amu_attack);
+  is_square_observed(&eval_amu_attack);
   finply();
 
   return amu_attack_count==1;

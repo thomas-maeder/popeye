@@ -30,7 +30,8 @@ slice_index alloc_target_remove_non_reachers_slice(square target)
 
 static square target_square = initsquare;
 
-static boolean reaches_targetsquare(square sq_departure,
+static boolean reaches_targetsquare(numecoup n,
+                                    square sq_departure,
                                     square sq_arrival,
                                     square sq_capture)
 {

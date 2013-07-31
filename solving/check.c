@@ -51,6 +51,13 @@ DEFINE_COUNTER(is_black_king_square_attacked)
 static boolean king_square_observation_tester_is_in_check(slice_index si,
                                                           Side side_king_attacked)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_king_attacked,"");
+  TraceFunctionParamListEnd();
+
   if (side_king_attacked==White)
   {
     INCREMENT_COUNTER(is_white_king_square_attacked);
@@ -60,9 +67,15 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
     INCREMENT_COUNTER(is_black_king_square_attacked);
   }
 
+  TraceSquare(king_square[side_king_attacked]);TraceText("\n");
+
   move_generation_stack[current_move[nbply]].capture = king_square[side_king_attacked];
-  return is_square_observed(king_square[side_king_attacked],
-                            &validate_check);
+  result = is_square_observed(&validate_check);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether a side is in check

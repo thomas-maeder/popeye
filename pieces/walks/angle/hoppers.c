@@ -73,7 +73,7 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_target,
 
   return (hopper==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
-          && evaluate(sq_departure,sq_target,sq_target));
+          && evaluate(sq_departure,sq_target));
 }
 
 /* Is a particular square observed by a particular type of angle hopper?

@@ -75,7 +75,8 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   return result;
 }
 
-static boolean is_not_illegal_capture(square sq_departure,
+static boolean is_not_illegal_capture(numecoup n,
+                                      square sq_departure,
                                       square sq_arrival,
                                       square sq_capture)
 {

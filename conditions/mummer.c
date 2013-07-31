@@ -555,13 +555,11 @@ stip_length_type ultra_mummer_measurer_deadend_solve(slice_index si,
 /* Validate an observation according to Ultra-Mummer
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean ultra_mummer_validate_observation(slice_index si,
                                           square sq_observer,
-                                          square sq_landing,
-                                          square sq_observee)
+                                          square sq_landing)
 {
   boolean result;
   Side const side_observing = trait[nbply];
@@ -570,17 +568,15 @@ boolean ultra_mummer_validate_observation(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   solve(slices[temporary_hack_ultra_mummer_length_measurer[side_observing]].next2,length_unspecified);
-  result = (*mummer_measure_length[side_observing])(sq_observer,sq_landing,sq_observee)==mum_length[nbply+1];
+  result = (*mummer_measure_length[side_observing])(sq_observer,sq_landing,move_generation_stack[current_move[nbply]].capture)==mum_length[nbply+1];
 
   if (result)
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

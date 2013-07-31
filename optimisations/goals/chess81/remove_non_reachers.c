@@ -24,7 +24,8 @@ slice_index alloc_chess81_remove_non_reachers_slice(void)
   return result;
 }
 
-static boolean reaches_81(square sq_departure,
+static boolean reaches_81(numecoup n,
+                          square sq_departure,
                           square sq_arrival,
                           square sq_capture)
 {

@@ -108,9 +108,10 @@ static boolean pioncheck_ortho(square sq_king)
   return result;
 }
 
-boolean is_square_observed_ortho(square sq_target)
+boolean is_square_observed_ortho(void)
 {
   Side const side_checking = trait[nbply];
+  square const sq_target = move_generation_stack[current_move[nbply]].capture;
 
   if (number_of_pieces[side_checking][King]>0
       && roicheck_ortho(sq_target))

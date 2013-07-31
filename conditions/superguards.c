@@ -10,13 +10,11 @@
 /* Validate an observation according to Superguards
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean superguards_validate_observation(slice_index si,
                                          square sq_observer,
-                                         square sq_landing,
-                                         square sq_observee)
+                                         square sq_landing)
 {
   boolean result;
 
@@ -24,21 +22,19 @@ boolean superguards_validate_observation(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  nextply(advers(trait[nbply]));
+  siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_observee;
+  move_generation_stack[current_move[nbply]].capture = move_generation_stack[current_move[nbply-1]].capture;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = !is_square_observed(sq_observee,&validate_observer);
+  result = !is_square_observed(&validate_observer);
   finply();
 
   if (result)
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -58,11 +54,11 @@ static boolean avoid_observing_guarded(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  nextply(advers(trait[nbply]));
+  siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = sq_observee;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = !is_square_observed(sq_observee,&validate_observer);
+  result = !is_square_observed(&validate_observer);
   finply();
 
   TraceFunctionExit(__func__);
@@ -71,7 +67,8 @@ static boolean avoid_observing_guarded(square sq_observer,
   return result;
 }
 
-static boolean move_is_legal(square sq_observer,
+static boolean move_is_legal(numecoup n,
+                             square sq_observer,
                              square sq_landing,
                              square sq_observee)
 {

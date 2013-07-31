@@ -10,13 +10,11 @@
 /* Validate the geometry of observation according to Bichrome Chess
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean bichrome_validate_observation_geometry(slice_index si,
                                                square sq_observer,
-                                               square sq_landing,
-                                               square sq_observee)
+                                               square sq_landing)
 {
   boolean result;
 
@@ -25,13 +23,13 @@ boolean bichrome_validate_observation_geometry(slice_index si,
   else
     result = validate_observation_geometry_recursive(slices[si].next1,
                                                      sq_observer,
-                                                     sq_landing,
-                                                     sq_observee);
+                                                     sq_landing);
 
   return result;
 }
 
-static boolean is_move_bichrome(square sq_departure,
+static boolean is_move_bichrome(numecoup n,
+                                square sq_departure,
                                 square sq_arrival,
                                 square sq_capture)
 {

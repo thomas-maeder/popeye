@@ -12,13 +12,11 @@
 /* Validate the geometry of observation according to Edgemover
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean edgemover_validate_observation_geometry(slice_index si,
                                                 square sq_observer,
-                                                square sq_landing,
-                                                square sq_observee)
+                                                square sq_landing)
 {
   boolean result;
 
@@ -27,13 +25,13 @@ boolean edgemover_validate_observation_geometry(slice_index si,
   else
     result = validate_observation_geometry_recursive(slices[si].next1,
                                                      sq_observer,
-                                                     sq_landing,
-                                                     sq_observee);
+                                                     sq_landing);
 
   return result;
 }
 
-static boolean does_not_go_to_the_edge(square sq_departure,
+static boolean does_not_go_to_the_edge(numecoup n,
+                                       square sq_departure,
                                        square sq_arrival,
                                        square sq_capture)
 {

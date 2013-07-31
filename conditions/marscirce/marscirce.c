@@ -129,7 +129,6 @@ void marscirce_generate_moves_for_piece(slice_index si,
  */
 boolean mars_is_square_observed_by(square pos_observer,
                                    square sq_rebirth,
-                                   square sq_target,
                                    evalfunction_t *evaluate)
 {
   boolean result = false;
@@ -144,7 +143,7 @@ boolean mars_is_square_observed_by(square pos_observer,
     occupy_square(sq_rebirth,pi_checking,spec_checking);
 
     fromspecificsquare = sq_rebirth;
-    result = (*checkfunctions[pi_checking])(sq_target,pi_checking,&eval_fromspecificsquare);
+    result = (*checkfunctions[pi_checking])(move_generation_stack[current_move[nbply]].capture,pi_checking,&eval_fromspecificsquare);
     fromspecificsquare = save_fromspecificsquare;
 
     empty_square(sq_rebirth);
@@ -156,12 +155,9 @@ boolean mars_is_square_observed_by(square pos_observer,
 
 /* Determine whether a side observes a specific square
  * @param si identifies the tester slice
- * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean marscirce_is_square_observed(slice_index si,
-                                     square sq_target,
-                                     evalfunction_t *evaluate)
+boolean marscirce_is_square_observed(slice_index si, evalfunction_t *evaluate)
 {
   int i,j;
   square square_h = square_h8;
@@ -171,7 +167,6 @@ boolean marscirce_is_square_observed(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
-  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
@@ -191,7 +186,7 @@ boolean marscirce_is_square_observed(slice_index si,
                                                side_observed);
         result = mars_is_square_observed_by(pos_observing,
                                             sq_rebirth,
-                                            sq_target,evaluate);
+                                            evaluate);
       }
   }
 

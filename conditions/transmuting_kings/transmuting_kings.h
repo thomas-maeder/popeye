@@ -46,12 +46,9 @@ void transmuting_kings_initialise_solving(slice_index si, Side side);
 /* Determine whether a square is observed be the side at the move according to
  * Transmuting Kings
  * @param si identifies next slice
- * @param sq_target the square
  * @return true iff sq_target is observed by the side at the move
  */
-boolean transmuting_king_is_square_observed(slice_index si,
-                                            square sq_target,
-                                            evalfunction_t *evaluate);
+boolean transmuting_king_is_square_observed(slice_index si, evalfunction_t *evaluate);
 
 /* Instrument the square observation machinery for a side with an alternative
  * slice dealting with observations by kings.

@@ -178,7 +178,7 @@ void nextply(Side side)
   TraceFunctionResultEnd();
 }
 
-void siblingply(void)
+void siblingply(Side side)
 {
   ply const elder = nbply;
 
@@ -197,7 +197,7 @@ void siblingply(void)
 
   parent_ply[nbply] = parent_ply[elder];
 
-  trait[nbply] = trait[elder];
+  trait[nbply] = side;
 
   move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
 
@@ -471,7 +471,7 @@ boolean leapcheck(square sq_king,
     square const sq_departure= sq_king+vec[k];
     if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king))
       return true;
   }
 
@@ -501,7 +501,7 @@ boolean leapleapcheck(square     sq_king,
         if (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && sq_departure!=sq_king
-            && (*evaluate)(sq_departure,sq_king,sq_king))
+            && (*evaluate)(sq_departure,sq_king))
           return true;
       }
     }
@@ -537,7 +537,7 @@ boolean ridcheck(square sq_king,
     TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
     if (rider==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_king,sq_king))
+        && evaluate(sq_departure,sq_king))
     {
       result = true;
       break;
@@ -569,7 +569,7 @@ boolean marine_rider_check(square   sq_king,
       PieNam const marine = get_walk_of_piece_on_square(sq_departure);
       if (marine==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
-          && evaluate(sq_departure,sq_arrival,sq_king))
+          && evaluate(sq_departure,sq_arrival))
         return true;
     }
   }
@@ -590,7 +590,7 @@ boolean marine_leaper_check(square sq_king,
     if (is_square_empty(sq_arrival)
         && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_arrival,sq_king))
+        && evaluate(sq_departure,sq_arrival))
       return true;
   }
 
@@ -615,7 +615,7 @@ static boolean marine_pawn_test_check(square sq_departure,
   result = (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && is_square_empty(sq_arrival)
-            && evaluate(sq_departure,sq_arrival,sq_capture));
+            && evaluate(sq_departure,sq_arrival));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -733,11 +733,17 @@ static boolean find_next_orphan_in_chain(square sq_target,
   boolean result = false;
   unsigned int orphan_id;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_target);
+  TracePiece(orphan_observer);
+  TraceFunctionParamListEnd();
+
   for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][Orphan]; ++orphan_id)
   {
     boolean does_orphan_observe;
 
     isolate_observee(Orphan,pos_orphans,orphan_id);
+    move_generation_stack[current_move[nbply]].capture = sq_target;
     does_orphan_observe = (*checkfunctions[orphan_observer])(sq_target,
                                                              Orphan,
                                                              evaluate);
@@ -753,6 +759,9 @@ static boolean find_next_orphan_in_chain(square sq_target,
     }
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -762,8 +771,14 @@ boolean orphan_find_observation_chain(square sq_target,
 {
   boolean result;
 
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_target);
+  TracePiece(orphan_observer);
+  TraceFunctionParamListEnd();
+
   trait[nbply] = advers(trait[nbply]);
 
+  move_generation_stack[current_move[nbply]].capture = sq_target;
   if ((*checkfunctions[orphan_observer])(sq_target,orphan_observer,evaluate))
     result = true;
   else if (number_of_pieces[trait[nbply]][Orphan]==0)
@@ -788,6 +803,9 @@ boolean orphan_find_observation_chain(square sq_target,
 
   trait[nbply] = advers(trait[nbply]);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -806,6 +824,11 @@ boolean orphancheck(square sq_target,
 
   locate_observees(Orphan,pos_orphans);
 
+  siblingply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].capture = sq_target;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
         && find_next_orphan_in_chain(sq_target,
@@ -817,8 +840,11 @@ boolean orphancheck(square sq_target,
       break;
     }
 
+  finply();
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -837,6 +863,10 @@ boolean friendcheck(square sq_king,
 
   locate_observees(Friend,pos_friends);
 
+  siblingply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+
   for (pfr = orphanpieces; *pfr!=Empty; pfr++)
     if (number_of_pieces[trait[nbply]][*pfr]>0)
     {
@@ -846,6 +876,7 @@ boolean friendcheck(square sq_king,
         boolean does_friend_observe;
 
         isolate_observee(Friend,pos_friends,k);
+        move_generation_stack[current_move[nbply]].capture = sq_king;
         does_friend_observe = (*checkfunctions[*pfr])(sq_king,Friend,evaluate);
         restore_observees(Friend,pos_friends);
 
@@ -860,6 +891,8 @@ boolean friendcheck(square sq_king,
       if (result)
         break;
     }
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

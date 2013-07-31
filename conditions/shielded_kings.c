@@ -7,32 +7,30 @@
 /* Validate an observation according to Shielded Kings
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean shielded_kings_validate_observation(slice_index si,
                                             square sq_observer,
-                                            square sq_landing,
-                                            square sq_observee)
+                                            square sq_landing)
 {
   boolean result;
+  square const sq_observee = move_generation_stack[current_move[nbply]].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   if ((sq_observer==king_square[Black] && sq_observee==king_square[White])
       || (sq_observer==king_square[White] && sq_observee==king_square[Black]))
   {
     /* won't work for locust Ks etc.*/
-    nextply(advers(trait[nbply]));
+    siblingply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
     move_generation_stack[current_move[nbply]].capture = sq_observee;
     move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-    result = !is_square_observed(sq_observee,&validate_observer);
+    result = !is_square_observed(&validate_observer);
     finply();
   }
   else
@@ -41,8 +39,7 @@ boolean shielded_kings_validate_observation(slice_index si,
   if (result)
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

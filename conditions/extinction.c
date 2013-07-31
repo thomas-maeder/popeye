@@ -35,7 +35,7 @@ boolean extinction_check_tester_is_in_check(slice_index si, Side side_in_check)
 
   PieNam p;
 
-  nextply(side_checking);
+  siblingply(side_checking);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
@@ -49,7 +49,7 @@ boolean extinction_check_tester_is_in_check(slice_index si, Side side_in_check)
           break;
 
       move_generation_stack[current_move[nbply]].capture = *bnp;
-      if (is_square_observed(*bnp,&validate_observation))
+      if (is_square_observed(&validate_observation))
       {
         result = true;
         break;

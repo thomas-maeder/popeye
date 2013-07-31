@@ -35,7 +35,7 @@ static unsigned int magic_views_top[maxply + 1];
 
 static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed_to_magic)
 {
-  ply const parent = parent_ply[nbply];
+  unsigned int const top = magic_views_top[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceSquare(pos_viewed);
@@ -43,16 +43,16 @@ static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed
   TraceValue("%d",vec_viewed_to_magic);
   TraceFunctionParamListEnd();
 
-  assert(magic_views_top[parent]<magicviews_size);
+  assert(magic_views_top[nbply-1]<magicviews_size);
 
-  magicviews[magic_views_top[parent]].pos_viewed = pos_viewed;
-  magicviews[magic_views_top[parent]].viewedid = GetPieceId(spec[pos_viewed]);
-  magicviews[magic_views_top[parent]].magicpieceid = GetPieceId(spec[pos_magic]);
-  magicviews[magic_views_top[parent]].vec_viewed_to_magic = vec_viewed_to_magic;
-  ++magic_views_top[parent];
+  magicviews[top].pos_viewed = pos_viewed;
+  magicviews[top].viewedid = GetPieceId(spec[pos_viewed]);
+  magicviews[top].magicpieceid = GetPieceId(spec[pos_magic]);
+  magicviews[top].vec_viewed_to_magic = vec_viewed_to_magic;
+  ++magic_views_top[nbply-1];
 
-  TraceValue("%u",parent);
-  TraceValue("%u\n",magic_views_top[parent]);
+  TraceValue("%u",nbply);
+  TraceValue("%u\n",magic_views_top[nbply-1]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -157,7 +157,7 @@ static void GetRMHopAttackVectors(square from, square to,
         PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
         if (hopper==get_walk_of_piece_on_square(from)
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && eval_fromspecificsquare(sq_departure,to,to))
+            && eval_fromspecificsquare(sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
 
@@ -166,7 +166,7 @@ static void GetRMHopAttackVectors(square from, square to,
         PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
         if (hopper==get_walk_of_piece_on_square(from)
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && eval_fromspecificsquare(sq_departure,to,to))
+            && eval_fromspecificsquare(sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
     }
@@ -240,7 +240,6 @@ static void GetZigZagAttackVectors(square from, square to,
 {
   square sq_departure = to+k;
   square sq_arrival = to;
-  square sq_capture = to;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from);
@@ -258,8 +257,7 @@ static void GetZigZagAttackVectors(square from, square to,
       break;
   }
 
-  if (sq_departure==from
-      && validate_observation(sq_departure,sq_arrival,sq_capture))
+  if (sq_departure==from && validate_observation(sq_departure,sq_arrival))
     PushMagicView(to, from, 500+k );
 
   sq_departure = to+k;
@@ -272,8 +270,7 @@ static void GetZigZagAttackVectors(square from, square to,
       break;
   }
 
-  if (sq_departure==from
-      && validate_observation(sq_departure,sq_arrival,sq_capture))
+  if (sq_departure==from && validate_observation(sq_departure,sq_arrival))
     PushMagicView(to, from, 400+k );
 
   TraceFunctionExit(__func__);
@@ -540,7 +537,7 @@ static void PushMagicViews(void)
 
   magic_views_top[nbply] = magic_views_top[nbply-1];
 
-  nextply(trait[nbply]);
+  siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 

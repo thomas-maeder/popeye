@@ -9,6 +9,6 @@
  * observations
  */
 
-boolean is_square_observed_ortho(square sq_target);
+boolean is_square_observed_ortho(void);
 
 #endif

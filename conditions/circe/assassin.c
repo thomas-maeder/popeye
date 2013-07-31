@@ -29,7 +29,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
   {
     square const *bnp;
 
-    nextply(side_checking);
+    siblingply(side_checking);
     current_move[nbply] = current_move[nbply-1]+1;
     move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
@@ -42,7 +42,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
           && (*circerenai)(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)==king_square[side_in_check])
       {
         move_generation_stack[current_move[nbply]].capture = *bnp;
-        if (is_square_observed(*bnp,&validate_check))
+        if (is_square_observed(&validate_check))
         {
           assassinable = true;
           break;

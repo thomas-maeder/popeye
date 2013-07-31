@@ -53,7 +53,8 @@ void stip_insert_move_generators(slice_index si);
  * criterion
  * @param criterion criterion to be met by moves to not be removed
  */
-typedef boolean (*move_filter_criterion_type)(square sq_departure,
+typedef boolean (*move_filter_criterion_type)(numecoup n,
+                                              square sq_departure,
                                               square sq_arrival,
                                               square sq_capture);
 void move_generator_filter_moves(move_filter_criterion_type criterion);

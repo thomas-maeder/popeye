@@ -160,12 +160,9 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
 
 /* Determine whether a square is observed in Singlebox Type 3
 * @param si identifies tester slice
-* @param sq_target square potentially observed
 * @return true iff sq_target is observed
 */
-boolean singleboxtype3_is_square_observed(slice_index si,
-                                          square sq_target,
-                                          evalfunction_t *evaluate)
+boolean singleboxtype3_is_square_observed(slice_index si, evalfunction_t *evaluate)
 {
   unsigned int promotionstried = 0;
   Side const side_attacking = trait[nbply];
@@ -184,7 +181,7 @@ boolean singleboxtype3_is_square_observed(slice_index si,
       ++promotionstried;
       replace_piece(sq,pprom);
       ++number_of_pieces[side_attacking][pprom];
-      result = is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+      result = is_square_observed_recursive(slices[si].next1,evaluate);
       --number_of_pieces[side_attacking][pprom];
       replace_piece(sq,Pawn);
       if (result)
@@ -193,7 +190,7 @@ boolean singleboxtype3_is_square_observed(slice_index si,
   }
 
   return (promotionstried==0
-          && is_square_observed_recursive(slices[si].next1,sq_target,evaluate));
+          && is_square_observed_recursive(slices[si].next1,evaluate));
 }
 
 static square find_next_latent_pawn(square sq, Side side)

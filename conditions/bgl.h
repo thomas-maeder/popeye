@@ -17,13 +17,11 @@ enum
 /* Validate an observation according to BGL
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean bgl_validate_observation(slice_index si,
                                  square sq_observer,
-                                 square sq_landing,
-                                 square sq_observee);
+                                 square sq_landing);
 
 /* Undo a BGL adjustment
  * @param curr identifies the adjustment effect

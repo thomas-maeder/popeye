@@ -18,20 +18,17 @@
  */
 static boolean paralysis_suspended = false;
 
-static boolean validate_paralyser(square sq_paralyser,
-                                  square sq_landing,
-                                  square sq_paralysee)
+static boolean validate_paralyser(square sq_paralyser, square sq_landing)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_paralyser);
   TraceSquare(sq_landing);
-  TraceSquare(sq_paralysee);
   TraceFunctionParamListEnd();
 
   result = (TSTFLAG(spec[sq_paralyser],Paralysing)
-            && validate_observation_geometry(sq_paralyser,sq_landing,sq_paralysee));
+            && validate_observation_geometry(sq_paralyser,sq_landing));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -51,11 +48,11 @@ static boolean is_paralysed(square s)
     result = false;
   else
   {
-    nextply(advers(trait[nbply]));
+    siblingply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
     move_generation_stack[current_move[nbply]].capture = s;
     move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-    result = is_square_observed(s,&validate_paralyser);
+    result = is_square_observed(&validate_paralyser);
     finply();
   }
 
@@ -153,13 +150,11 @@ boolean suffocated_by_paralysis(Side side)
 /* Validate an observater according to Paralysing pieces
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean paralysing_validate_observer(slice_index si,
                                      square sq_observer,
-                                     square sq_landing,
-                                     square sq_observee)
+                                     square sq_landing)
 {
   boolean result;
 
@@ -167,7 +162,6 @@ boolean paralysing_validate_observer(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   /* we are not validating a paralysis, but an observation (e.g. check or
@@ -176,8 +170,7 @@ boolean paralysing_validate_observer(slice_index si,
             && !is_paralysed(sq_observer)
             &&  validate_observer_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee));
+                                            sq_landing));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

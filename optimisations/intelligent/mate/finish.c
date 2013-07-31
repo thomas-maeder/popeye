@@ -110,6 +110,8 @@ static square find_king_flight(void)
   TraceFunctionParamListEnd();
 
   nextply(White);
+  current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   empty_square(king_square[Black]);
 
@@ -117,12 +119,14 @@ static square find_king_flight(void)
   {
     square const flight = king_square[Black]+vec[i];
 
-    if (!is_square_blocked(flight)
-        && !TSTFLAG(spec[flight],Black)
-        && !is_square_observed_ortho(flight))
+    if (!is_square_blocked(flight) && !TSTFLAG(spec[flight],Black))
     {
-      result = flight;
-      break;
+      move_generation_stack[current_move[nbply]].capture = flight;
+      if (!is_square_observed_ortho())
+      {
+        result = flight;
+        break;
+      }
     }
   }
 

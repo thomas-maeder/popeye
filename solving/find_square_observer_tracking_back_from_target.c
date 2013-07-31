@@ -7,21 +7,20 @@
 #include <assert.h>
 
 boolean find_square_observer_tracking_back_from_target_king(slice_index si,
-                                                            square sq_target,
                                                             evalfunction_t *evaluate)
 {
   if (number_of_pieces[trait[nbply]][King]>0
-      && roicheck(sq_target,King,evaluate))
+      && roicheck(move_generation_stack[current_move[nbply]].capture,King,evaluate))
     return true;
 
-  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+  return is_square_observed_recursive(slices[si].next1,evaluate);
 }
 
 boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
-                                                                square sq_target,
                                                                 evalfunction_t *evaluate)
 {
   Side const side_observing = trait[nbply];
+  square const sq_target = move_generation_stack[current_move[nbply]].capture;
 
   if (number_of_pieces[side_observing][Pawn]>0
       && pioncheck(sq_target,Pawn,evaluate))
@@ -43,20 +42,20 @@ boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
       && ridcheck(sq_target,vec_bishop_start,vec_bishop_end,Bishop,evaluate))
     return true;
 
-  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+  return is_square_observed_recursive(slices[si].next1,evaluate);
 }
 
 boolean find_square_observer_tracking_back_from_target_fairy(slice_index si,
-                                                             square sq_target,
                                                              evalfunction_t *evaluate)
 {
   Side const side_observing = trait[nbply];
+  square const sq_target = move_generation_stack[current_move[nbply]].capture;
   PieNam const *pcheck;
 
   for (pcheck = checkpieces; *pcheck; ++pcheck)
     if (number_of_pieces[side_observing][*pcheck]>0
-        && (*checkfunctions[*pcheck])(sq_target, *pcheck, evaluate))
+        && (*checkfunctions[*pcheck])(sq_target,*pcheck,evaluate))
       return true;
 
-  return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+  return is_square_observed_recursive(slices[si].next1,evaluate);
 }

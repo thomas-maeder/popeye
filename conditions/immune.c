@@ -12,19 +12,21 @@ square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 boolean immune_is_rex_inclusive;
 
 static boolean is_capturee_immune(Side side_capturing,
+                                  numecoup n,
                                   square sq_departure,
-                                  square sq_arrival,
-                                  square sq_capture)
+                                  square sq_arrival)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_capturing,"");
+  TraceValue("%u",n);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   {
+    square const sq_capture = move_generation_stack[n].capture;
     square const sq_rebirth = (*immunrenai)(get_walk_of_piece_on_square(sq_capture),spec[sq_capture],
                                             sq_capture,
                                             sq_departure,
@@ -42,34 +44,32 @@ static boolean is_capturee_immune(Side side_capturing,
 /* Validate an observation according to Immune Chess
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean immune_validate_observation(slice_index si,
                                     square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee)
+                                    square sq_landing)
 {
   boolean result;
   Side const side_observing = trait[nbply];
+  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (immune_is_rex_inclusive || sq_observee!=king_square[advers(side_observing)])
-    result = !is_capturee_immune(side_observing,sq_observer,sq_landing,sq_observee);
+  if (immune_is_rex_inclusive
+      || sq_capture!=king_square[advers(side_observing)])
+    result = !is_capturee_immune(side_observing,current_move[nbply],sq_observer,sq_landing);
   else
     result = true;
 
   if (result)
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -77,7 +77,8 @@ boolean immune_validate_observation(slice_index si,
   return result;
 }
 
-static boolean is_not_capture_of_immune(square sq_departure,
+static boolean is_not_capture_of_immune(numecoup n,
+                                        square sq_departure,
                                         square sq_arrival,
                                         square sq_capture)
 {
@@ -92,7 +93,7 @@ static boolean is_not_capture_of_immune(square sq_departure,
   if (is_square_empty(sq_capture))
     result = true;
   else
-    result = !is_capturee_immune(trait[nbply],sq_departure,sq_arrival,sq_capture);
+    result = !is_capturee_immune(trait[nbply],n,sq_departure,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

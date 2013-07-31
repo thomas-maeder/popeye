@@ -6,7 +6,8 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-static boolean is_not_capture(square sq_departure,
+static boolean is_not_capture(numecoup n,
+                              square sq_departure,
                               square sq_arrival,
                               square sq_capture)
 {

@@ -45,16 +45,13 @@ void marscirce_generate_moves_for_piece(slice_index si,
  */
 boolean mars_is_square_observed_by(square pos_checking,
                                    square sq_rebirth,
-                                   square sq_target,
                                    evalfunction_t *evaluate);
 
 /* Determine whether a side observes a specific square
  * @param side_observing the side
- * @param sq_target square potentially observed
  * @return true iff side is in check
  */
 boolean marscirce_is_square_observed(slice_index si,
-                                     square sq_target,
                                      evalfunction_t *evaluate);
 
 /* Inialise thet solving machinery with Mars Circe

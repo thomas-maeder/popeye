@@ -565,8 +565,7 @@ static void remove_illegal_moves(void)
 }
 
 static boolean avoid_observing_if_imitator_blocked_rider(square sq_observer,
-                                                         square sq_landing,
-                                                         square sq_observee)
+                                                         square sq_landing)
 {
   boolean result;
   numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
@@ -576,7 +575,6 @@ static boolean avoid_observing_if_imitator_blocked_rider(square sq_observer,
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   empty_square(sq_observer);/* an imitator might be disturbed by the moving rider! */
@@ -590,26 +588,24 @@ static boolean avoid_observing_if_imitator_blocked_rider(square sq_observer,
 }
 
 static boolean avoid_observing_if_imitator_blocked_chinese_leaper(square sq_observer,
-                                                                  square sq_landing,
-                                                                  square sq_observee)
+                                                                  square sq_landing)
 {
   boolean result;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const vec_pass_target = vec[interceptable_observation_vector_index[observation_context]];
-  square const sq_pass = sq_observee+vec_pass_target;
+  square const sq_pass = sq_landing+vec_pass_target;
 
   empty_square(sq_observer);
   result = (are_all_imitator_arrivals_empty(sq_observer,sq_pass)
-            && are_all_imitator_arrivals_empty(sq_observer,sq_observee));
+            && are_all_imitator_arrivals_empty(sq_observer,sq_landing));
   occupy_square(sq_observer,p,flags);
 
   return result;
 }
 
 static boolean avoid_observing_if_imitator_blocked_rider_hopper(square sq_observer,
-                                                                square sq_landing,
-                                                                square sq_observee)
+                                                                square sq_landing)
 {
   boolean result;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
@@ -628,8 +624,7 @@ static boolean avoid_observing_if_imitator_blocked_rider_hopper(square sq_observ
 }
 
 static boolean avoid_observing_if_imitator_blocked_contragrasshopper(square sq_observer,
-                                                                     square sq_landing,
-                                                                     square sq_observee)
+                                                                     square sq_landing)
 {
   boolean result;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
@@ -646,7 +641,6 @@ static boolean avoid_observing_if_imitator_blocked_contragrasshopper(square sq_o
 
 static boolean avoid_observing_if_imitator_blocked_grasshopper_n(square sq_observer,
                                                                  square sq_landing,
-                                                                 square sq_observee,
                                                                  unsigned int dist_hurdle_target)
 {
   boolean result;
@@ -670,8 +664,7 @@ static boolean avoid_observing_if_imitator_blocked_grasshopper_n(square sq_obser
 }
 
 static boolean avoid_observing_if_imitator_blocked_nonstop_equihopper(square sq_observer,
-                                                                      square sq_landing,
-                                                                      square sq_observee)
+                                                                      square sq_landing)
 {
   boolean result;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
@@ -687,8 +680,7 @@ static boolean avoid_observing_if_imitator_blocked_nonstop_equihopper(square sq_
 }
 
 static boolean avoid_observing_if_imitator_blocked_orix(square sq_observer,
-                                                        square sq_landing,
-                                                        square sq_observee)
+                                                        square sq_landing)
 {
   boolean result;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
@@ -708,7 +700,6 @@ static boolean avoid_observing_if_imitator_blocked_orix(square sq_observer,
 
 static boolean avoid_observing_if_imitator_blocked_angle_hopper(square sq_observer,
                                                                 square sq_landing,
-                                                                square sq_observee,
                                                                 angle_t angle)
 {
   boolean result;
@@ -742,20 +733,17 @@ static boolean avoid_observing_if_imitator_blocked_angle_hopper(square sq_observ
 /* Validate an observation according to Imitators
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean imitator_validate_observation(slice_index si,
                                       square sq_observer,
-                                      square sq_landing,
-                                      square sq_observee)
+                                      square sq_landing)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   TracePiece(e[sq_observer]);TraceText("\n");
@@ -789,7 +777,7 @@ boolean imitator_validate_observation(slice_index si,
     case Pawn:
     case BerolinaPawn:
     case ReversePawn:
-      result = are_all_imitator_arrivals_empty(sq_observer,sq_observee);
+      result = are_all_imitator_arrivals_empty(sq_observer,sq_landing);
       break;
 
     case Queen:
@@ -808,40 +796,28 @@ boolean imitator_validate_observation(slice_index si,
     case BishopHunter:
     case WesirRider:
     case FersRider:
-      result = avoid_observing_if_imitator_blocked_rider(sq_observer,
-                                                         sq_landing,
-                                                         sq_observee);
+      result = avoid_observing_if_imitator_blocked_rider(sq_observer,sq_landing);
       break;
 
     case Mao:
     case Moa:
-      result = avoid_observing_if_imitator_blocked_chinese_leaper(sq_observer,
-                                                                  sq_landing,
-                                                                  sq_observee);
+      result = avoid_observing_if_imitator_blocked_chinese_leaper(sq_observer,sq_landing);
       break;
 
     case NonStopEquihopper:
     case NonStopOrix:
-      result = avoid_observing_if_imitator_blocked_nonstop_equihopper(sq_observer,
-                                                                      sq_landing,
-                                                                      sq_observee);
+      result = avoid_observing_if_imitator_blocked_nonstop_equihopper(sq_observer,sq_landing);
       break;
 
     case Orix:
-      result = avoid_observing_if_imitator_blocked_orix(sq_observer,
-                                                        sq_landing,
-                                                        sq_observee);
+      result = avoid_observing_if_imitator_blocked_orix(sq_observer,sq_landing);
       break;
 
     case EquiHopper:
       if (interceptable_observation_vector_index[observation_context]==0)
-        result = avoid_observing_if_imitator_blocked_nonstop_equihopper(sq_observer,
-                                                                        sq_landing,
-                                                                        sq_observee);
+        result = avoid_observing_if_imitator_blocked_nonstop_equihopper(sq_observer,sq_landing);
       else
-        result = avoid_observing_if_imitator_blocked_orix(sq_observer,
-                                                          sq_landing,
-                                                          sq_observee);
+        result = avoid_observing_if_imitator_blocked_orix(sq_observer,sq_landing);
         break;
 
     case Grasshopper:
@@ -853,28 +829,22 @@ boolean imitator_validate_observation(slice_index si,
     case BishopHopper:
     case KingHopper:
     case KnightHopper:
-      result = avoid_observing_if_imitator_blocked_rider_hopper(sq_observer,
-                                                                sq_landing,
-                                                                sq_observee);
+      result = avoid_observing_if_imitator_blocked_rider_hopper(sq_observer,sq_landing);
       break;
 
     case ContraGras:
-      result = avoid_observing_if_imitator_blocked_contragrasshopper(sq_observer,
-                                                                     sq_landing,
-                                                                     sq_observee);
+      result = avoid_observing_if_imitator_blocked_contragrasshopper(sq_observer,sq_landing);
       break;
 
     case GrassHopper2:
       result = avoid_observing_if_imitator_blocked_grasshopper_n(sq_observer,
                                                                  sq_landing,
-                                                                 sq_observee,
                                                                  2);
       break;
 
     case GrassHopper3:
       result = avoid_observing_if_imitator_blocked_grasshopper_n(sq_observer,
                                                                  sq_landing,
-                                                                 sq_observee,
                                                                  3);
       break;
 
@@ -883,7 +853,6 @@ boolean imitator_validate_observation(slice_index si,
     case BishopMoose:
       result = avoid_observing_if_imitator_blocked_angle_hopper(sq_observer,
                                                                 sq_landing,
-                                                                sq_observee,
                                                                 angle_45);
       break;
 
@@ -892,7 +861,6 @@ boolean imitator_validate_observation(slice_index si,
     case BishopEagle:
       result = avoid_observing_if_imitator_blocked_angle_hopper(sq_observer,
                                                                 sq_landing,
-                                                                sq_observee,
                                                                 angle_90);
       break;
 
@@ -901,7 +869,6 @@ boolean imitator_validate_observation(slice_index si,
     case BishopSparrow:
       result = avoid_observing_if_imitator_blocked_angle_hopper(sq_observer,
                                                                 sq_landing,
-                                                                sq_observee,
                                                                 angle_135);
       break;
 
@@ -913,8 +880,7 @@ boolean imitator_validate_observation(slice_index si,
   if (result)
     result = validate_observation_geometry_recursive(slices[si].next1,
                                                      sq_observer,
-                                                     sq_landing,
-                                                     sq_observee);
+                                                     sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

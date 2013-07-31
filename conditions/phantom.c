@@ -198,12 +198,9 @@ void solving_initialise_phantom(slice_index si)
 
 /* Determine whether a specific side is in check in Phantom Chess
  * @param si identifies tester slice
- * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean phantom_is_square_observed(slice_index si,
-                                   square sq_target,
-                                   evalfunction_t *evaluate)
+boolean phantom_is_square_observed(slice_index si, evalfunction_t *evaluate)
 {
   int i,j;
   Side const side_observing = trait[nbply];
@@ -213,7 +210,6 @@ boolean phantom_is_square_observed(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
-  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
@@ -232,14 +228,11 @@ boolean phantom_is_square_observed(slice_index si,
                                                initsquare,
                                                initsquare,
                                                side_observed);
-        result = mars_is_square_observed_by(pos_observing,
-                                            sq_rebirth,
-                                            sq_target,
-                                            evaluate);
+        result = mars_is_square_observed_by(pos_observing,sq_rebirth,evaluate);
       }
   }
 
-  result = result || is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+  result = result || is_square_observed_recursive(slices[si].next1,evaluate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

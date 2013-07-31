@@ -4,7 +4,8 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-static boolean is_not_capture_by_paralysing(square sq_departure,
+static boolean is_not_capture_by_paralysing(numecoup n,
+                                            square sq_departure,
                                             square sq_arrival,
                                             square sq_capture)
 {

@@ -43,6 +43,7 @@ boolean find_next_friend_in_chain(square sq_target,
 {
   boolean result = false;
 
+  move_generation_stack[current_move[nbply]].capture = sq_target;
   if ((*checkfunctions[friend_observer])(sq_target,friend_observer,evaluate))
     result = true;
   else
@@ -62,6 +63,7 @@ boolean find_next_friend_in_chain(square sq_target,
         boolean is_friend_observed;
 
         isolate_observee(Friend,pos_remaining_friends,k);
+        move_generation_stack[current_move[nbply]].capture = sq_target;
         is_friend_observed = (*checkfunctions[friend_observer])(sq_target,Friend,evaluate);
         restore_observees(Friend,pos_remaining_friends);
 
@@ -92,9 +94,19 @@ void friend_generate_moves(square sq_departure)
 
   PieNam const *friend_observer;
   for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
-    if (number_of_pieces[camp][*friend_observer]>0
-        && find_next_friend_in_chain(sq_departure,*friend_observer,Friend,&validate_observation))
-      generate_moves_for_piece_based_on_walk(sq_departure,*friend_observer);
+    if (number_of_pieces[camp][*friend_observer]>0)
+    {
+      boolean found_chain;
+
+      siblingply(trait[nbply]);
+      current_move[nbply] = current_move[nbply-1]+1;
+      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+      found_chain = find_next_friend_in_chain(sq_departure,*friend_observer,Friend,&validate_observation);
+      finply();
+
+      if (found_chain)
+        generate_moves_for_piece_based_on_walk(sq_departure,*friend_observer);
+    }
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }

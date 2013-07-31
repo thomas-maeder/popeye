@@ -168,13 +168,11 @@ stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
 /* Validate an observation according to BGL
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean bgl_validate_observation(slice_index si,
                                  square sq_observer,
-                                 square sq_landing,
-                                 square sq_observee)
+                                 square sq_landing)
 {
   boolean result;
   unsigned int const diff = abs(sq_observer-sq_landing);
@@ -183,7 +181,6 @@ boolean bgl_validate_observation(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   if (BGL_move_diff_code[diff]>BGL_values[trait[nbply]])
@@ -191,8 +188,7 @@ boolean bgl_validate_observation(slice_index si,
   else
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

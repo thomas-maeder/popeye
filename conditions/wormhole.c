@@ -201,13 +201,11 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
 /* Validate an observation according to Worm holes
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean wormhole_validate_observation(slice_index si,
                                       square sq_observer,
-                                      square sq_landing,
-                                      square sq_observee)
+                                      square sq_landing)
 {
   boolean result = false;
 
@@ -215,7 +213,6 @@ boolean wormhole_validate_observation(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(sq_spec[sq_observer],Wormhole))
@@ -239,8 +236,7 @@ boolean wormhole_validate_observation(slice_index si,
   if (result)
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

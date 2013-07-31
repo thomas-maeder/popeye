@@ -19,11 +19,11 @@ static boolean is_piece_provoked_on(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  nextply(advers(trait[nbply]));
+  siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = sq_departure;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = is_square_observed(sq_departure,&validate_observer);
+  result = is_square_observed(&validate_observer);
   finply();
 
   TraceFunctionExit(__func__);
@@ -35,13 +35,11 @@ static boolean is_piece_provoked_on(square sq_departure)
 /* Validate an observation according to Provocation Chess
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean provocateurs_validate_observation(slice_index si,
                                           square sq_observer,
-                                          square sq_landing,
-                                          square sq_observee)
+                                          square sq_landing)
 {
   boolean result;
 
@@ -49,14 +47,12 @@ boolean provocateurs_validate_observation(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   if (is_piece_provoked_on(sq_observer))
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
   else
     result = false;
 
@@ -66,7 +62,8 @@ boolean provocateurs_validate_observation(slice_index si,
   return result;
 }
 
-static boolean is_not_unprovoked_capture(square sq_departure,
+static boolean is_not_unprovoked_capture(numecoup n,
+                                         square sq_departure,
                                          square sq_arrival,
                                          square sq_capture)
 {

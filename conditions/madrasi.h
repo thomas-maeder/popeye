@@ -10,13 +10,11 @@
 /* Validate an observater according to Madrasi
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean madrasi_validate_observer(slice_index si,
                                   square sq_observer,
-                                  square sq_landing,
-                                  square sq_observee);
+                                  square sq_landing);
 
 /* Determine whether a particular piece of the moving side is observed
  * @param sq position of the piece

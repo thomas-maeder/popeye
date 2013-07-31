@@ -26,18 +26,15 @@ extern unsigned int observation_context;
 
 boolean validate_observation_geometry_recursive(slice_index si,
                                                 square sq_observer,
-                                                square sq_landing,
-                                                square sq_observee);
+                                                square sq_landing);
 
 /* Validate an observation
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean validate_observation_geometry(square sq_observer,
-                                      square sq_landing,
-                                      square sq_observee);
+                                      square sq_landing);
 
 /* Instrument observation geometry validation with a slice type
  * @param identifies where to start instrumentation
@@ -50,18 +47,15 @@ void stip_instrument_observation_geometry_validation(slice_index si,
 
 boolean validate_observer_recursive(slice_index si,
                                     square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee);
+                                    square sq_landing);
 
 /* Validate an observer
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean validate_observer(square sq_observer,
-                          square sq_landing,
-                          square sq_observee);
+                          square sq_landing);
 
 
 /* Instrument observer validation with a slice type
@@ -75,18 +69,15 @@ void stip_instrument_observer_validation(slice_index si,
 
 boolean validate_observation_recursive(slice_index si,
                                        square sq_observer,
-                                       square sq_landing,
-                                       square sq_observee);
+                                       square sq_landing);
 
 /* Validate an observation
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean validate_observation(square sq_observer,
-                             square sq_landing,
-                             square sq_observee);
+                             square sq_landing);
 
 /* Instrumenvalidationvation validation with a slice type
  * @param identifies where to start instrumentation
@@ -100,12 +91,9 @@ void stip_instrument_observation_validation(slice_index si,
 /* Validate a check
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
-boolean validate_check(square sq_observer,
-                       square sq_landing,
-                       square sq_observee);
+boolean validate_check(square sq_observer, square sq_landing);
 
 /* Instrument observation validation with a slice type
  * @param identifies where to start instrumentation
@@ -121,18 +109,15 @@ boolean is_observation_trivially_validated(Side side);
 /* Determine whether a square is observed be the side at the move; recursive
  * implementation over various slices
  * @param si identifies next slice
- * @param sq_target the square
  * @return true iff sq_target is observed by the side at the move
  */
 boolean is_square_observed_recursive(slice_index si,
-                                     square sq_target,
                                      evalfunction_t *evaluate);
 
 /* Determine whether a square is observed be the side at the move
- * @param sq_target the square
  * @return true iff sq_target is observed by the side at the move
  */
-boolean is_square_observed(square sq_target, evalfunction_t *evaluate);
+boolean is_square_observed(evalfunction_t *evaluate);
 
 /* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch

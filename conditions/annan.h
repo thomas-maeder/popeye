@@ -20,12 +20,9 @@ extern annan_type_type annan_type;
 
 /* Determine whether a square is observed in Annan Chess
 * @param si identifies tester slice
-* @param sq_target square potentially observed
 * @return true iff sq_target is observed
 */
-boolean annan_is_square_observed(slice_index si,
-                                 square sq_target,
-                                 evalfunction_t *evaluate);
+boolean annan_is_square_observed(slice_index si, evalfunction_t *evaluate);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

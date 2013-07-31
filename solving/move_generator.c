@@ -162,6 +162,8 @@ void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
+  TraceEnumerator(slice_type,slices[si].type,"\n");
+
   switch (slices[si].type)
   {
     case STSingleBoxType3TMovesForPieceGenerator:
@@ -468,7 +470,7 @@ void move_generator_filter_moves(move_filter_criterion_type criterion)
     square const sq_arrival = move_generation_stack[i].arrival;
     square const sq_capture = move_generation_stack[i].capture;
 
-    if ((*criterion)(sq_departure,sq_arrival,sq_capture))
+    if ((*criterion)(i,sq_departure,sq_arrival,sq_capture))
     {
       ++new_top;
       move_generation_stack[new_top] = move_generation_stack[i];

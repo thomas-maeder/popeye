@@ -34,13 +34,11 @@ static boolean is_kingsquare_observed(slice_index si)
   Side const side = trait[nbply];
   boolean result;
 
-  nextply(advers(side));
+  siblingply(advers(side));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = king_square[side];
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = is_square_observed_recursive(slices[si].next2,
-                                        king_square[side],
-                                        &validate_observation);
+  result = is_square_observed_recursive(slices[si].next2,&validate_observation);
   finply();
 
   return result;
@@ -79,15 +77,11 @@ void vaulting_kings_generate_moves_for_piece(slice_index si,
 /* Determine whether a square is observed be the side at the move according to
  * Vaulting Kings
  * @param si identifies next slice
- * @param sq_target the square
  * @return true iff sq_target is observed by the side at the move
  */
-boolean vaulting_king_is_square_observed(slice_index si,
-                                         square sq_target,
-                                         evalfunction_t *evaluate)
-{
+boolean vaulting_king_is_square_observed(slice_index si, evalfunction_t *evaluate){
   if (king_square[trait[nbply]]==initsquare)
-    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+    return is_square_observed_recursive(slices[si].next1,evaluate);
   else
   {
     Side const side_observing = trait[nbply];
@@ -95,14 +89,14 @@ boolean vaulting_king_is_square_observed(slice_index si,
     {
       PieNam const *pi_vaulter;
       for (pi_vaulter = king_vaulters[side_observing]; *pi_vaulter; ++pi_vaulter)
-        if ((*checkfunctions[*pi_vaulter])(sq_target,King,evaluate))
+        if ((*checkfunctions[*pi_vaulter])(move_generation_stack[current_move[nbply]].capture,King,evaluate))
           return true;
 
       if (vaulting_kings_transmuting[side_observing])
-        return is_square_observed_recursive(slices[si].next2,sq_target,evaluate);
+        return is_square_observed_recursive(slices[si].next2,evaluate);
     }
 
-    return is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+    return is_square_observed_recursive(slices[si].next1,evaluate);
   }
 }
 

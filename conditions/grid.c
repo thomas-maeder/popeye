@@ -10,28 +10,26 @@
 /* Validate the geometry of observation according to Grid Chess
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean grid_validate_observation_geometry(slice_index si,
                                            square sq_observer,
-                                           square sq_landing,
-                                           square sq_observee)
+                                           square sq_landing)
 {
   boolean result;
 
   if (GridLegal(sq_observer,sq_landing))
     result = validate_observation_geometry_recursive(slices[si].next1,
                                                      sq_observer,
-                                                     sq_landing,
-                                                     sq_observee);
+                                                     sq_landing);
   else
     result = false;
 
   return result;
 }
 
-static boolean is_not_in_same_cell(square sq_departure,
+static boolean is_not_in_same_cell(numecoup n,
+                                   square sq_departure,
                                    square sq_arrival,
                                    square sq_capture)
 {

@@ -55,13 +55,11 @@ boolean mummer_set_length_measurer(Side side,
 /* Validate an observation according to Ultra-Mummer
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean ultra_mummer_validate_observation(slice_index si,
                                           square sq_observer,
-                                          square sq_landing,
-                                          square sq_observee);
+                                          square sq_landing);
 
 /* Try to solve in n half-moves.
  * @param si slice index

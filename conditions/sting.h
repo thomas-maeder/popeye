@@ -18,12 +18,9 @@ void sting_generate_moves_for_piece(slice_index si,
 
 /* Determine whether a square is observed in Sting Chess
 * @param si identifies tester slice
-* @param sq_target square potentially observed
 * @return true iff sq_target is observed
 */
-boolean sting_is_square_observed(slice_index si,
-                                 square sq_target,
-                                 evalfunction_t *evaluate);
+boolean sting_is_square_observed(slice_index si, evalfunction_t *evaluate);
 
 /* Initialise the solving machinery with Sting Chess
  * @param si root slice of the solving machinery

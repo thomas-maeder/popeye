@@ -9,7 +9,8 @@
 
 #include <string.h>
 
-static boolean is_not_pawn_make_to_base_line(square sq_departure,
+static boolean is_not_pawn_make_to_base_line(numecoup n,
+                                             square sq_departure,
                                              square sq_arrival,
                                              square sq_capture)
 {

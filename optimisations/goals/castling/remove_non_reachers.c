@@ -24,7 +24,8 @@ slice_index alloc_castling_remove_non_reachers_slice(void)
   return result;
 }
 
-static boolean is_castling(square sq_departure,
+static boolean is_castling(numecoup n,
+                           square sq_departure,
                            square sq_arrival,
                            square sq_capture)
 {

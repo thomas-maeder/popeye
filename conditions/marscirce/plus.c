@@ -64,12 +64,9 @@ void plus_generate_moves_for_piece(slice_index si, square sq_departure, PieNam p
 
 /* Determine whether a side observes a specific square
  * @param identifies tester slice
- * @param sq_target square potentially observed
  * @return true iff side is in check
  */
-boolean plus_is_square_observed(slice_index si,
-                                square sq_target,
-                                evalfunction_t *evaluate)
+boolean plus_is_square_observed(slice_index si, evalfunction_t *evaluate)
 {
   int i,j;
   Side const side_observing = trait[nbply];
@@ -78,7 +75,6 @@ boolean plus_is_square_observed(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
-  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
   for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
@@ -86,15 +82,15 @@ boolean plus_is_square_observed(slice_index si,
     square pos_observing = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_observing += dir_left)
       if (TSTFLAG(spec[pos_observing],side_observing)
-          && pos_observing!=sq_target) /* exclude nK */
+          && pos_observing!=move_generation_stack[current_move[nbply]].capture) /* exclude nK */
       {
         if (pos_observing==square_d4 || pos_observing==square_d5 || pos_observing==square_e4 || pos_observing==square_e5)
-          result = (mars_is_square_observed_by(pos_observing,square_d4,sq_target,evaluate)
-                    || mars_is_square_observed_by(pos_observing,square_d5,sq_target,evaluate)
-                    || mars_is_square_observed_by(pos_observing,square_e4,sq_target,evaluate)
-                    || mars_is_square_observed_by(pos_observing,square_e5,sq_target,evaluate));
+          result = (mars_is_square_observed_by(pos_observing,square_d4,evaluate)
+                    || mars_is_square_observed_by(pos_observing,square_d5,evaluate)
+                    || mars_is_square_observed_by(pos_observing,square_e4,evaluate)
+                    || mars_is_square_observed_by(pos_observing,square_e5,evaluate));
         else
-          result = mars_is_square_observed_by(pos_observing,pos_observing,sq_target,evaluate);
+          result = mars_is_square_observed_by(pos_observing,pos_observing,evaluate);
       }
   }
 

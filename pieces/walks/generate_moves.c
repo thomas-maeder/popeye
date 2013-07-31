@@ -37,6 +37,7 @@
 #include "pieces/walks/hamster.h"
 #include "pieces/walks/bouncer.h"
 #include "pieces/walks/querquisite.h"
+#include "debugging/trace.h"
 #include "pyproc.h"
 #include "pydata.h"
 
@@ -48,6 +49,11 @@
  */
 void generate_moves_for_piece_based_on_walk(square sq_departure, PieNam p)
 {
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   switch (p)
   {
     case King:
@@ -666,4 +672,7 @@ void generate_moves_for_piece_based_on_walk(square sq_departure, PieNam p)
         hunter_generate_moves(sq_departure,p);
       break;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

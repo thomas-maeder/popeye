@@ -57,7 +57,7 @@ void    WritePiece(PieNam p);
 boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
 void    WriteGrid(void);
 
-typedef boolean (evalfunction_t)(square departure, square arrival, square capture);
+typedef boolean (evalfunction_t)(square departure, square arrival);
 typedef boolean (checkfunction_t)(square, PieNam, evalfunction_t *);
 
 checkfunction_t pawnedpiececheck;
@@ -214,14 +214,14 @@ square  coinequis(square a);
 
 boolean echecc(Side a);
 
-boolean eval_ortho(square departure, square arrival, square capture);
+boolean eval_ortho(square departure, square arrival);
 
 void    hardinit(void);
 
 void copyply(void);
 void finply(void);
 void nextply(Side side);
-void siblingply(void);
+void siblingply(Side side);
 
 extern boolean(*is_square_attacked)(square sq_target, evalfunction_t *evaluate);
 
@@ -352,6 +352,6 @@ boolean detect_roselocustcheck_on_line(square sq_king,
 
 extern square fromspecificsquare;
 
-boolean eval_fromspecificsquare(square departure, square arrival, square capture);
+boolean eval_fromspecificsquare(square departure, square arrival);
 
 #endif  /* PYPROC_H */

@@ -24,7 +24,8 @@ slice_index alloc_capture_remove_non_reachers_slice(void)
   return result;
 }
 
-static boolean is_capture(square sq_departure,
+static boolean is_capture(numecoup n,
+                          square sq_departure,
                           square sq_arrival,
                           square sq_capture)
 {

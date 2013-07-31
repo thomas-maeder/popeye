@@ -11,8 +11,7 @@ boolean rex_geneva;
 
 static boolean is_capture_legal(Side side_capturing,
                                 square sq_departure,
-                                square sq_arrival,
-                                square sq_capture)
+                                square sq_arrival)
 {
   boolean result;
   Side const side_capturee = advers(side_capturing);
@@ -20,7 +19,6 @@ static boolean is_capture_legal(Side side_capturing,
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   if (rex_geneva || sq_departure!=king_square[side_capturing])
@@ -39,7 +37,8 @@ static boolean is_capture_legal(Side side_capturing,
   return result;
 }
 
-static boolean is_not_illegal_capture(square sq_departure,
+static boolean is_not_illegal_capture(numecoup n,
+                                      square sq_departure,
                                       square sq_arrival,
                                       square sq_capture)
 {
@@ -48,13 +47,12 @@ static boolean is_not_illegal_capture(square sq_departure,
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   if (is_square_empty(sq_capture))
     result = true;
   else
-    result = is_capture_legal(trait[nbply],sq_departure,sq_arrival,sq_capture);
+    result = is_capture_legal(trait[nbply],sq_departure,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -65,13 +63,11 @@ static boolean is_not_illegal_capture(square sq_departure,
 /* Validate an observation according to Geneva Chess
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean geneva_validate_observation(slice_index si,
                                     square sq_observer,
-                                    square sq_landing,
-                                    square sq_observee)
+                                    square sq_landing)
 {
   boolean result;
 
@@ -79,14 +75,12 @@ boolean geneva_validate_observation(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (is_capture_legal(trait[nbply],sq_observer,sq_landing,sq_observee))
+  if (is_capture_legal(trait[nbply],sq_observer,sq_landing))
     result = validate_observation_recursive(slices[si].next1,
                                             sq_observer,
-                                            sq_landing,
-                                            sq_observee);
+                                            sq_landing);
   else
     result = false;
 

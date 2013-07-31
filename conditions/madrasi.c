@@ -30,7 +30,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
       result = false;
     else
     {
-      nextply(observing_side);
+      nextply(observing_side); /* not siblingply() or ep paralysis causes problems! */
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]].capture = sq;
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
@@ -61,12 +61,15 @@ static boolean is_paralysed(square sq)
     PieNam const candidate = get_walk_of_piece_on_square(sq);
     Side const observing_side = advers(observed_side);
 
-    trait[nbply] = observing_side;
+    siblingply(observing_side);
+    current_move[nbply] = current_move[nbply-1]+1;
+    move_generation_stack[current_move[nbply]].capture = sq;
+    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
     result = (number_of_pieces[trait[nbply]][candidate]>0
               && (*checkfunctions[candidate])(sq,
                                               candidate,
                                               &validate_observation_geometry));
-    trait[nbply] = observed_side;
+    finply();
   }
 
   TraceFunctionExit(__func__);
@@ -78,13 +81,11 @@ static boolean is_paralysed(square sq)
 /* Validate an observater according to Madrasi
  * @param sq_observer position of the observer
  * @param sq_landing landing square of the observer (normally==sq_observee)
- * @param sq_observee position of the piece to be observed
  * @return true iff the observation is valid
  */
 boolean madrasi_validate_observer(slice_index si,
                                   square sq_observer,
-                                  square sq_landing,
-                                  square sq_observee)
+                                  square sq_landing)
 {
   boolean result;
 
@@ -92,14 +93,12 @@ boolean madrasi_validate_observer(slice_index si,
   TraceFunctionParam("%u",si);
   TraceSquare(sq_observer);
   TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
   result = (!is_paralysed(sq_observer)
             && validate_observer_recursive(slices[si].next1,
                                            sq_observer,
-                                           sq_landing,
-                                           sq_observee));
+                                           sq_landing));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

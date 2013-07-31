@@ -38,12 +38,9 @@ static boolean annanises(Side side, square rear, square front)
 
 /* Determine whether a square is observed in Annan Chess
 * @param si identifies tester slice
-* @param sq_target square potentially observed
 * @return true iff sq_target is observed
 */
-boolean annan_is_square_observed(slice_index si,
-                                 square sq_target,
-                                 evalfunction_t *evaluate)
+boolean annan_is_square_observed(slice_index si, evalfunction_t *evaluate)
 {
   Side const side_attacking = trait[nbply];
   numvec const dir_annaniser = side_attacking==White ? dir_down : dir_up;
@@ -72,7 +69,7 @@ boolean annan_is_square_observed(slice_index si,
     }
   }
 
-  result = is_square_observed_recursive(slices[si].next1,sq_target,evaluate);
+  result = is_square_observed_recursive(slices[si].next1,evaluate);
 
   while (annan_cnt--)
     replace_piece(annan_sq[annan_cnt],annan_p[annan_cnt]);
