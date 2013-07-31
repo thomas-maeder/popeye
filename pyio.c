@@ -4924,9 +4924,6 @@ static char *ParseCond(void)
   char    *tok, *ptr;
   unsigned int CondCnt = 0;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
   tok = ReadNextTokStr();
   while (true)
   {
@@ -5617,9 +5614,6 @@ static char *ParseCond(void)
   if (CondCnt==0)
     IoErrorMsg(UnrecCondition,0);
 
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
-  TraceFunctionResultEnd();
   return tok;
 } /* ParseCond */
 
