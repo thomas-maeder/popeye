@@ -14,16 +14,16 @@ steine  weiss   kf7 la4h4 se2
 
 weiteresproblem
 
-autor 		Erich Bartel
-quelle 		2577, Problemkiste-72, 12/1990
+autor           Erich Bartel
+quelle          2577, Problemkiste-72, 12/1990
 
-forderung 	h=2
-bedingung 	spiegelcirce
+forderung       h=2
+bedingung       spiegelcirce
 
-option 		weissbeginnt
+option          weissbeginnt
 
-steine 		weiss kf1 de5 bg7 
-		schwarz kh4 bf2h2
+steine          weiss kf1 de5 bg7 
+                schwarz kh4 bf2h2
 
 weiteresproblem
 
@@ -39,33 +39,33 @@ steine  weiss   kc3 la5 sh4
 
 weiteresproblem
 
-autor		Theodor Tauber
-quelle		f-95, 6-9/1991, S. 303
+autor           Theodor Tauber
+quelle          f-95, 6-9/1991, S. 303
 
-forderung	#2
+forderung       #2
 
-steine		weiss	tf8 kc6 dg6 sb5b3 bd5 lf1
-		schwarz	bd6d4a3c3h2 ke3 ta2 se2f2
+steine          weiss   tf8 kc6 dg6 sb5b3 bd5 lf1
+                schwarz bd6d4a3c3h2 ke3 ta2 se2f2
 
-option		varianten
+option          varianten
 
 zwilling bedingung filecirce
 
 weiteresproblem
 
-autor		J"org Kuhlmann
-autor		Thorsten Zirkwitz
-quelle		2. Preis, Andernach 1989
-quelle		Korrektur: feenschach 113, 11/1994
+autor           J"org Kuhlmann
+autor           Thorsten Zirkwitz
+quelle          2. Preis, Andernach 1989
+quelle          Korrektur: feenschach 113, 11/1994
 
-forderung	h=3
+forderung       h=3
 
-bedingung	diametralcirce
+bedingung       diametralcirce
 
-steine	weiss	kb4 sse1 bb6
-	schwarz kf5 ba2
+steine  weiss   kb4 sse1 bb6
+        schwarz kf5 ba2
 
-zwilling	verse e1 f8
+zwilling        verse e1 f8
 
 weiteresproblem
 
@@ -142,29 +142,29 @@ zwilling tausche b5 a5
 
 weiteresproblem
 
-autor		G"unter Gla"s
-quelle		2776, PK-76, 8/1991
+autor           G"unter Gla"s
+quelle          2776, PK-76, 8/1991
 
-forderung 	h#2
+forderung       h#2
 
-bedingung	diagrammcirce
+bedingung       diagrammcirce
 
-steine 		weiss 	be7
-		schwarz lb8 kc8 td8 bc7 se5
+steine          weiss   be7
+                schwarz lb8 kc8 td8 bc7 se5
 
-option		ohnewk
+option          ohnewk
 
 weiteresproblem
 
-autor		Alexander Lehmkuhl
-quelle		2416, PK-68, 4/1990
+autor           Alexander Lehmkuhl
+quelle          2416, PK-68, 4/1990
 
-forderung 	h#3
+forderung       h#3
 
-bedingung	diagrammcirce
+bedingung       diagrammcirce
 
-steine 		weiss 	ke8 bd4e4
-		schwarz ke6 tg5 se3
+steine          weiss   ke8 bd4e4
+                schwarz ke6 tg5 se3
 
 zwilling versetze g5 e5
 
@@ -177,7 +177,7 @@ forderung       ser-h=8
 bedingung       equipollentscirce
 
 steine          weiss   kc8 bb6
-		schwarz ka8 ba7
+                schwarz ka8 ba7
 
 
 weiteresproblem
@@ -190,7 +190,7 @@ bedingung       equipollentscirce
 option          ohnewk
 
 steine          weiss   tc6 ld4
-		schwarz se7 ke4 be3
+                schwarz se7 ke4 be3
 
 weiteresproblem
 
@@ -202,7 +202,7 @@ bedingung       equipollentscirce
 option          ohnewk
 
 steine          weiss   tc6 ld4
-		schwarz se5 ke4 be3
+                schwarz se5 ke4 be3
 
 weiteresproblem
 
@@ -219,15 +219,15 @@ steine  weiss   ka2
 
 weiteresproblem
 
-autor  		Michal Dragoun
-quelle 		#5969, f-98
+autor           Michal Dragoun
+quelle          #5969, f-98
 
-forderung 	h#2
+forderung       h#2
 
-bedingung 	couscouscirce
+bedingung       couscouscirce
 
-steine   	weiss   kg8 df7
-         	schwarz bg7 kd6 tc1
+steine          weiss   kg8 df7
+                schwarz bg7 kd6 tc1
 
 weiteresproblem
 
@@ -286,20 +286,20 @@ option          varianten
 bedingung       symmetriecirce
 
 steine  weiss           le8d6 tb7 se5e4 kg5 dg2 ba2
-	schwarz         bg7f5a5c4a3d3e3 tb6a4 dc5 sh5 kb4 lc3
+        schwarz         bg7f5a5c4a3d3e3 tb6a4 dc5 sh5 kb4 lc3
 
 weiteresproblem
 
-autor		Antoine Tricon
-quelle		feenschach, 3/1979
+autor           Antoine Tricon
+quelle          feenschach, 3/1979
 
-forderung	h==3
-bedingung	symmetrieimmunschach
-		symmetriecirce
+forderung       h==3
+bedingung       symmetrieimmunschach
+                symmetriecirce
 
-option		zugnummer
+option          zugnummer
 
-steine	weiss	bf7g6g5c5h3a2g2 lb4 kg4
-	schwarz	kf8 bb7e7g7h7b6a4 th5 lh4
+steine  weiss   bf7g6g5c5h3a2g2 lb4 kg4
+        schwarz kf8 bb7e7g7h7b6a4 th5 lh4
 
 endeproblem

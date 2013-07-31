@@ -1,187 +1,187 @@
 anfang
-protokoll	woozles.out
+protokoll       woozles.out
 
 
-autor		Uri Avner
-autor		Kjell Widlert
-ausz		1.-2. Platz, Andernach 1999
+autor           Uri Avner
+autor           Kjell Widlert
+ausz            1.-2. Platz, Andernach 1999
 
-forderung	#2
-bedingung	biwoozles rexexklusive
+forderung       #2
+bedingung       biwoozles rexexklusive
 
-steine	weiss	kg1 dh7 tb4 le6h8 sd3f4 bc3d2e2h2
-	schwarz	ke4 db7 ta3 la1 sb8f5 bd5g4h5
+steine  weiss   kg1 dh7 tb4 le6h8 sd3f4 bc3d2e2h2
+        schwarz ke4 db7 ta3 la1 sb8f5 bd5g4h5
 
-option		vari verf
-
-weiter
-
-autor		Thomas Maeder
-autor		Manfred Rittirsch
-ausz		3. Platz, Andernach 1999
-
-forderung	h#2
-bedingung	biwoozles
-
-steine	weiss	kf3 db4 ta3g5 sc4c6
-	schwarz	kd4 td2d1 lb8g4 sa5b1 ba7b5b6b7
+option          vari verf
 
 weiter
 
-autor		Ruud Beugelsdijk
-autor		Dirk Borst
-autor		Peter van den Heuvel
-ausz		4.-5. Platz, Andernach 1999
+autor           Thomas Maeder
+autor           Manfred Rittirsch
+ausz            3. Platz, Andernach 1999
 
-forderung	s#2
-bedingung	heffalumps circe
+forderung       h#2
+bedingung       biwoozles
 
-steine	weiss	kh2 dd1 tc4g2 lf1g1 sb7e6 bb2e3g4
-	schwarz	kf3 dh7 th6 le2 sb4b8
-
-option		vari
+steine  weiss   kf3 db4 ta3g5 sc4c6
+        schwarz kd4 td2d1 lb8g4 sa5b1 ba7b5b6b7
 
 weiter
 
-autor		Markus Manhart
-autor		Thomas Maeder
-ausz		6. Platz, Andernach 1999
+autor           Ruud Beugelsdijk
+autor           Dirk Borst
+autor           Peter van den Heuvel
+ausz            4.-5. Platz, Andernach 1999
 
-forderung	h#2
-bedingung	biwoozles
+forderung       s#2
+bedingung       heffalumps circe
 
-steine	weiss	kc8 ta5g6 la1f1 sa4
-	schwarz	ke4 dh1 bc4d6e3h7
+steine  weiss   kh2 dd1 tc4g2 lf1g1 sb7e6 bb2e3g4
+        schwarz kf3 dh7 th6 le2 sb4b8
 
-weiter
-
-autor		Bernd Ellinghoven
-autor		Hans Gruber
-autor		Hans Peter Rehm
-quelle		1)
-
-forderung	h#1
-bedingung	woozles
-
-steine	weiss	kd6
-	schwarz	ke8 ta8
+option          vari
 
 weiter
 
-autor		Bernd Ellinghoven
-autor		Hans Gruber
-autor		Hans Peter Rehm
-quelle		2)
+autor           Markus Manhart
+autor           Thomas Maeder
+ausz            6. Platz, Andernach 1999
 
-forderung	#2
-bedingung	woozles
+forderung       h#2
+bedingung       biwoozles
 
-steine	weiss	ka7 de6 la6b4 sd6 bb6c3
-	schwarz kd4 dg6 le7 sa4 ba5c6e3f6
-
-option		vari satz
+steine  weiss   kc8 ta5g6 la1f1 sa4
+        schwarz ke4 dh1 bc4d6e3h7
 
 weiter
 
-autor		Bernd Ellinghoven
-autor		Hans Gruber
-autor		Hans Peter Rehm
-quelle		3)
+autor           Bernd Ellinghoven
+autor           Hans Gruber
+autor           Hans Peter Rehm
+quelle          1)
 
-forderung	h#3
-bedingung	woozles
+forderung       h#1
+bedingung       woozles
 
-steine	weiss	kc3 le5 bc4e2h7
-	schwarz	kh8 dg7 bc5e3
-
-option		satz
+steine  weiss   kd6
+        schwarz ke8 ta8
 
 weiter
 
-autor		Bernd Ellinghoven
-autor		Hans Gruber
-autor		Hans Peter Rehm
-quelle		4)
+autor           Bernd Ellinghoven
+autor           Hans Gruber
+autor           Hans Peter Rehm
+quelle          2)
 
-forderung	ser-h#12
-bedingung	woozles weisserkuerz schwarzerkuerz
+forderung       #2
+bedingung       woozles
 
-steine	weiss	kc8 bb6
-	schwarz	ka8 ba7
+steine  weiss   ka7 de6 la6b4 sd6 bb6c3
+        schwarz kd4 dg6 le7 sa4 ba5c6e3f6
 
-weiter
-
-autor		Theodor Tauber
-quelle		5)
-
-forderung	h#2
-bedingung	heffa
-
-steine	weiss	ke6 ta8 be2
-	schwarz	ke4 sf1g2 lh1
-
-option		satz
+option          vari satz
 
 weiter
 
-autor		Theodor Tauber
-quelle		6)
+autor           Bernd Ellinghoven
+autor           Hans Gruber
+autor           Hans Peter Rehm
+quelle          3)
 
-forderung	h#2
-bedingung	heffa
+forderung       h#3
+bedingung       woozles
 
-steine	weiss	Kc4 De4 Tb3 Bb5 Bf7 Bg6
-	schwarz	Kh4 Tf4 Tf6 La2 Lf8 Sb1 Sg1 Bb6 Bc5 Be6 Be7 Bg2 Bg7 Bh5
+steine  weiss   kc3 le5 bc4e2h7
+        schwarz kh8 dg7 bc5e3
 
-option		satz
-
-weiter
-
-autor		Theodor Tauber
-quelle		7)
-
-forderung	h#2
-bedingung	heffa
-
-steine	weiss	ka3 tb4 se5 ba2
-	schwarz	ke8 dc7 ta8 ld6 ba4
-
-option		satz
+option          satz
 
 weiter
 
-autor		Theodor Tauber
-quelle		8)
+autor           Bernd Ellinghoven
+autor           Hans Gruber
+autor           Hans Peter Rehm
+quelle          4)
 
-forderung	h#2
-bedingung	heffa
+forderung       ser-h#12
+bedingung       woozles weisserkuerz schwarzerkuerz
 
-steine	weiss	kg3 tg4 bc4e6
-	schwarz	ke8 de7f6 th8
-
-option		satz
-
-weiter
-
-autor		Josy Raz
-quelle		9)
-
-forderung	h#2
-bedingung	heffa
-
-steine	weiss	kg1 sd4f5 nc3
-	schwarz	kg4 de5 td6 lc8 be4f4f6h3
+steine  weiss   kc8 bb6
+        schwarz ka8 ba7
 
 weiter
 
-autor		Torsten Lin"s
-quelle		10)
+autor           Theodor Tauber
+quelle          5)
 
-forderung	2->ser-h#3
-bedingung	biwoozles
-option		zugnummer
+forderung       h#2
+bedingung       heffa
 
-steine	weiss	ke7 tf2
-	schwarz	kc8 dh1 bd7g2
+steine  weiss   ke6 ta8 be2
+        schwarz ke4 sf1g2 lh1
+
+option          satz
+
+weiter
+
+autor           Theodor Tauber
+quelle          6)
+
+forderung       h#2
+bedingung       heffa
+
+steine  weiss   Kc4 De4 Tb3 Bb5 Bf7 Bg6
+        schwarz Kh4 Tf4 Tf6 La2 Lf8 Sb1 Sg1 Bb6 Bc5 Be6 Be7 Bg2 Bg7 Bh5
+
+option          satz
+
+weiter
+
+autor           Theodor Tauber
+quelle          7)
+
+forderung       h#2
+bedingung       heffa
+
+steine  weiss   ka3 tb4 se5 ba2
+        schwarz ke8 dc7 ta8 ld6 ba4
+
+option          satz
+
+weiter
+
+autor           Theodor Tauber
+quelle          8)
+
+forderung       h#2
+bedingung       heffa
+
+steine  weiss   kg3 tg4 bc4e6
+        schwarz ke8 de7f6 th8
+
+option          satz
+
+weiter
+
+autor           Josy Raz
+quelle          9)
+
+forderung       h#2
+bedingung       heffa
+
+steine  weiss   kg1 sd4f5 nc3
+        schwarz kg4 de5 td6 lc8 be4f4f6h3
+
+weiter
+
+autor           Torsten Lin"s
+quelle          10)
+
+forderung       2->ser-h#3
+bedingung       biwoozles
+option          zugnummer
+
+steine  weiss   ke7 tf2
+        schwarz kc8 dh1 bd7g2
 
 ende
