@@ -1087,9 +1087,9 @@ boolean berolina_pawn_check(PieNam p, evalfunction_t *evaluate)
   {
     numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
 
-    if (pawn_test_check(sq_target-dir_forward,sq_target,sq_target,p,evaluate))
+    if (pawn_test_check(sq_target-dir_forward,sq_target,p,evaluate))
       return true;
-    if (en_passant_test_check(sq_target,dir_forward,&pawn_test_check,p,evaluate))
+    if (en_passant_test_check(dir_forward,&pawn_test_check,p,evaluate))
       return true;
   }
 
@@ -1220,13 +1220,13 @@ boolean pawnedpiececheck(PieNam p, evalfunction_t *evaluate)
     numvec const dir_forward_right = dir_forward+dir_right;
     numvec const dir_forward_left = dir_forward+dir_left;
 
-    if (pawn_test_check(sq_target-dir_forward_right,sq_target,sq_target,p,evaluate))
+    if (pawn_test_check(sq_target-dir_forward_right,sq_target,p,evaluate))
       result = true;
-    else if (pawn_test_check(sq_target-dir_forward_left,sq_target,sq_target,p,evaluate))
+    else if (pawn_test_check(sq_target-dir_forward_left,sq_target,p,evaluate))
       result = true;
-    else if (en_passant_test_check(sq_target,dir_forward_right,&pawn_test_check,p,evaluate))
+    else if (en_passant_test_check(dir_forward_right,&pawn_test_check,p,evaluate))
       result = true;
-    else if (en_passant_test_check(sq_target,dir_forward_left,&pawn_test_check,p,evaluate))
+    else if (en_passant_test_check(dir_forward_left,&pawn_test_check,p,evaluate))
       result = true;
   }
 
@@ -1626,13 +1626,13 @@ boolean pioncheck(PieNam p, evalfunction_t *evaluate)
     numvec const dir_forward_right = dir_forward+dir_right;
     numvec const dir_forward_left = dir_forward+dir_left;
 
-    if (pawn_test_check(sq_target-dir_forward_right,sq_target,sq_target,p,evaluate))
+    if (pawn_test_check(sq_target-dir_forward_right,sq_target,p,evaluate))
       result = true;
-    else if (pawn_test_check(sq_target-dir_forward_left,sq_target,sq_target,p,evaluate))
+    else if (pawn_test_check(sq_target-dir_forward_left,sq_target,p,evaluate))
       result = true;
-    else if (en_passant_test_check(sq_target,dir_forward_right,&pawn_test_check,p,evaluate))
+    else if (en_passant_test_check(dir_forward_right,&pawn_test_check,p,evaluate))
       result = true;
-    else if (en_passant_test_check(sq_target,dir_forward_left,&pawn_test_check,p,evaluate))
+    else if (en_passant_test_check(dir_forward_left,&pawn_test_check,p,evaluate))
       result = true;
   }
 
@@ -1653,13 +1653,13 @@ boolean reversepcheck(PieNam p, evalfunction_t *evaluate)
     numvec const dir_backward_right = dir_backward+dir_right;
     numvec const dir_backward_left = dir_backward+dir_left;
 
-    if (pawn_test_check(sq_target-dir_backward_right,sq_target,sq_target,p,evaluate))
+    if (pawn_test_check(sq_target-dir_backward_right,sq_target,p,evaluate))
       return true;
-    else if (pawn_test_check(sq_target-dir_backward_left,sq_target,sq_target,p,evaluate))
+    else if (pawn_test_check(sq_target-dir_backward_left,sq_target,p,evaluate))
       return true;
-    else if (en_passant_test_check(sq_target,dir_backward_right,&pawn_test_check,p,evaluate))
+    else if (en_passant_test_check(dir_backward_right,&pawn_test_check,p,evaluate))
       return true;
-    else if (en_passant_test_check(sq_target,dir_backward_left,&pawn_test_check,p,evaluate))
+    else if (en_passant_test_check(dir_backward_left,&pawn_test_check,p,evaluate))
       return true;
   }
 

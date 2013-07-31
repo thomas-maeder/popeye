@@ -63,26 +63,22 @@ square en_passant_find_capturee(void);
 /* Type of pawn type-specific check by ep. tester functions
  * @param sq_departure departure square of ep capture
  * @param sq_crossed square crossed by multistep move
- * @param sq_capture position of capturee (typically of the opposite king)
  * @param p type of pawn
  * @param evaluate address of evaluater function
  * @return true iff side trait[nbply] gives check by ep. capture to sq_arrival
  */
 typedef boolean (*en_passant_check_tester_type)(square sq_departure,
                                                 square sq_crossed,
-                                                square sq_capture,
                                                 PieNam p,
                                                 evalfunction_t *evaluate);
 
 /* Determine whether side trait[nbply] gives check by p. capture
- * @param sq_target target square
  * @param dir_capture direction of ep capture
  * @param tester pawn-specific tester function
  * @param evaluate address of evaluater function
  * @return true if side trait[nbply] gives check by ep. capture
  */
-boolean en_passant_test_check(square sq_target,
-                              numvec dir_capture,
+boolean en_passant_test_check(numvec dir_capture,
                               en_passant_check_tester_type tester,
                               PieNam p,
                               evalfunction_t *evaluate);

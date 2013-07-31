@@ -600,7 +600,6 @@ boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
 
 static boolean marine_pawn_test_check(square sq_departure,
                                       square sq_hurdle,
-                                      square sq_capture,
                                       PieNam p,
                                       evalfunction_t *evaluate)
 {
@@ -610,7 +609,6 @@ static boolean marine_pawn_test_check(square sq_departure,
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_hurdle);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   result = (get_walk_of_piece_on_square(sq_departure)==p
@@ -631,13 +629,13 @@ boolean marine_pawn_check(PieNam p, evalfunction_t *evaluate)
   numvec const dir_forward_right = dir_forward+dir_right;
   numvec const dir_forward_left = dir_forward+dir_left;
 
-  if (marine_pawn_test_check(sq_target-dir_forward_right,sq_target,sq_target,p,evaluate))
+  if (marine_pawn_test_check(sq_target-dir_forward_right,sq_target,p,evaluate))
     return true;
-  else if (marine_pawn_test_check(sq_target-dir_forward_left,sq_target,sq_target,p,evaluate))
+  else if (marine_pawn_test_check(sq_target-dir_forward_left,sq_target,p,evaluate))
     return true;
-  else if (en_passant_test_check(sq_target,dir_forward_right,&marine_pawn_test_check,p,evaluate))
+  else if (en_passant_test_check(dir_forward_right,&marine_pawn_test_check,p,evaluate))
     return true;
-  else if (en_passant_test_check(sq_target,dir_forward_left,&marine_pawn_test_check,p,evaluate))
+  else if (en_passant_test_check(dir_forward_left,&marine_pawn_test_check,p,evaluate))
     return true;
 
   return false;

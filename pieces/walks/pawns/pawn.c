@@ -66,12 +66,10 @@ void pawn_generate_moves(square sq_departure)
 /* Does any pawn deliver check?
  * @param sq_departure departure square of king capaturing move
  * @param sq_arrival arrival square of king capaturing move
- * @param sq_capture square where king is captured (often ==sq_arrival)
  * @return if any pawn delivers check
  */
 boolean pawn_test_check(square sq_departure,
                         square sq_arrival,
-                        square sq_capture,
                         PieNam p,
                         evalfunction_t *evaluate)
 {
@@ -80,7 +78,6 @@ boolean pawn_test_check(square sq_departure,
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
