@@ -23,13 +23,9 @@ stip_length_type patrol_remove_unsupported_captures_solve(slice_index si,
                                                           stip_length_type n);
 
 /* Validate an observation according to Patrol Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean patrol_validate_observation(slice_index si,
-                                    square sq_observer,
-                                    square sq_landing);
+boolean patrol_validate_observation(slice_index si);
 
 /* Initialise solving in Patrol Chess
  * @param si identifies the root slice of the stipulation
@@ -37,13 +33,9 @@ boolean patrol_validate_observation(slice_index si,
 void patrol_initialise_solving(slice_index si);
 
 /* Validate an observation according to Ultra-Patrol Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean ultrapatrol_validate_observation(slice_index si,
-                                         square sq_observer,
-                                         square sq_landing);
+boolean ultrapatrol_validate_observation(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

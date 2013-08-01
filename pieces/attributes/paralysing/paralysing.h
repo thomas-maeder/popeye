@@ -4,13 +4,9 @@
 #include "stipulation/slice.h"
 
 /* Validate an observater according to Paralysing pieces
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean paralysing_validate_observer(slice_index si,
-                                     square sq_observer,
-                                     square sq_landing);
+boolean paralysing_validate_observer(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

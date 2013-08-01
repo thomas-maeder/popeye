@@ -8,20 +8,16 @@
 #include "debugging/trace.h"
 
 /* Validate the geometry of observation according to Monochrome Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean monochrome_validate_observation_geometry(slice_index si,
-                                                 square sq_observer,
-                                                 square sq_landing)
+boolean monochrome_validate_observation_geometry(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
 
   if (SquareCol(sq_observer)==SquareCol(sq_landing))
-    result = validate_observation_geometry_recursive(slices[si].next1,
-                                                     sq_observer,
-                                                     sq_landing);
+    result = validate_observation_geometry_recursive(slices[si].next1);
   else
     result = false;
 

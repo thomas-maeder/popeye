@@ -14,8 +14,10 @@ boolean amu_attacked_exactly_once[maxply+1];
 static square single_attacker_departure;
 static unsigned int amu_attack_count;
 
-static boolean eval_amu_attack(square sq_departure, square sq_arrival)
+static boolean eval_amu_attack(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+
   /* this deals correctly with double attacks by the same piece (e.g. a rose) */
   if (single_attacker_departure==sq_departure)
     return false;

@@ -18,17 +18,15 @@
  */
 static boolean paralysis_suspended = false;
 
-static boolean validate_paralyser(square sq_paralyser, square sq_landing)
+static boolean validate_paralyser(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_paralyser);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  result = (TSTFLAG(spec[sq_paralyser],Paralysing)
-            && validate_observation_geometry(sq_paralyser,sq_landing));
+  result = (TSTFLAG(spec[move_generation_stack[current_move[nbply]].departure],Paralysing)
+            && validate_observation_geometry());
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -148,29 +146,22 @@ boolean suffocated_by_paralysis(Side side)
 }
 
 /* Validate an observater according to Paralysing pieces
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean paralysing_validate_observer(slice_index si,
-                                     square sq_observer,
-                                     square sq_landing)
+boolean paralysing_validate_observer(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   /* we are not validating a paralysis, but an observation (e.g. check or
    * Patrol Chess) in the presence of paralysing pieces */
   result = (!TSTFLAG(spec[sq_observer],Paralysing)
             && !is_paralysed(sq_observer)
-            &&  validate_observer_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing));
+            &&  validate_observer_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

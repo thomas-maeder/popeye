@@ -22,13 +22,9 @@ stip_length_type superguards_remove_illegal_captures_solve(slice_index si,
                                                            stip_length_type n);
 
 /* Validate an observation according to Superguards
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean superguards_validate_observation(slice_index si,
-                                         square sq_observer,
-                                         square sq_landing);
+boolean superguards_validate_observation(slice_index si);
 
 /* Initialise solving in Superguards
  * @param si identifies the root slice of the stipulation

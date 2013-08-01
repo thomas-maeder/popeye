@@ -9,16 +9,15 @@
 
 boolean rex_geneva;
 
-static boolean is_capture_legal(Side side_capturing,
-                                square sq_departure,
-                                square sq_arrival)
+static boolean is_capture_legal(numecoup n)
 {
   boolean result;
+  square const sq_departure = move_generation_stack[n].departure;
+  square const sq_arrival = move_generation_stack[n].arrival;
+  Side const side_capturing = trait[nbply];
   Side const side_capturee = advers(side_capturing);
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
   if (rex_geneva || sq_departure!=king_square[side_capturing])
@@ -52,7 +51,7 @@ static boolean is_not_illegal_capture(numecoup n,
   if (is_square_empty(sq_capture))
     result = true;
   else
-    result = is_capture_legal(trait[nbply],sq_departure,sq_arrival);
+    result = is_capture_legal(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -61,26 +60,18 @@ static boolean is_not_illegal_capture(numecoup n,
 }
 
 /* Validate an observation according to Geneva Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean geneva_validate_observation(slice_index si,
-                                    square sq_observer,
-                                    square sq_landing)
+boolean geneva_validate_observation(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  if (is_capture_legal(trait[nbply],sq_observer,sq_landing))
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing);
+  if (is_capture_legal(current_move[nbply]))
+    result = validate_observation_recursive(slices[si].next1);
   else
     result = false;
 

@@ -22,13 +22,9 @@ stip_length_type provocateurs_remove_unobserved_captures_solve(slice_index si,
                                                                stip_length_type n);
 
 /* Validate an observation according to Provocation Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean provocateurs_validate_observation(slice_index si,
-                                          square sq_observer,
-                                          square sq_landing);
+boolean provocateurs_validate_observation(slice_index si);
 
 /* Initialise solving in Provokation Chess
  * @param si identifies the root slice of the stipulation

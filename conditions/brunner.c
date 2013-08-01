@@ -10,33 +10,21 @@
 #include <assert.h>
 
 /* Validate an observation according to Brunner Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean brunner_validate_observation(slice_index si,
-                                     square sq_observer,
-                                     square sq_landing)
+boolean brunner_validate_observation(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",current_move[nbply]);
-  move_generation_stack[current_move[nbply]].departure = sq_observer;
-  move_generation_stack[current_move[nbply]].arrival = sq_landing;
   result = solve(slices[temporary_hack_brunner_check_defense_finder[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
   current_move[nbply] = current_move[nbply-1]+1;
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing);
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

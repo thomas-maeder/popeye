@@ -33,26 +33,19 @@ static boolean is_piece_provoked_on(square sq_departure)
 }
 
 /* Validate an observation according to Provocation Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean provocateurs_validate_observation(slice_index si,
-                                          square sq_observer,
-                                          square sq_landing)
+boolean provocateurs_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   if (is_piece_provoked_on(sq_observer))
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing);
+    result = validate_observation_recursive(slices[si].next1);
   else
     result = false;
 

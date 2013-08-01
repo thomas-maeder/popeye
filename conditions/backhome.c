@@ -71,20 +71,16 @@ stip_length_type back_home_moves_only_solve(slice_index si, stip_length_type n)
 }
 
 /* Validate an observation according to Back Home
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean back_home_validate_observation(slice_index si,
-                                       square sq_observer,
-                                       square sq_landing)
+boolean back_home_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   if (goes_back_home(sq_observer,sq_landing))
@@ -111,9 +107,7 @@ boolean back_home_validate_observation(slice_index si,
   }
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing);
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

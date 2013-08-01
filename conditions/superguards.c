@@ -8,20 +8,14 @@
 #include "pydata.h"
 
 /* Validate an observation according to Superguards
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean superguards_validate_observation(slice_index si,
-                                         square sq_observer,
-                                         square sq_landing)
+boolean superguards_validate_observation(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   siblingply(advers(trait[nbply]));
@@ -32,9 +26,7 @@ boolean superguards_validate_observation(slice_index si,
   finply();
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing);
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

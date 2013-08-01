@@ -24,17 +24,12 @@
 extern vec_index_type interceptable_observation_vector_index[maxply+1];
 extern unsigned int observation_context;
 
-boolean validate_observation_geometry_recursive(slice_index si,
-                                                square sq_observer,
-                                                square sq_landing);
+boolean validate_observation_geometry_recursive(slice_index si);
 
 /* Validate an observation
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_observation_geometry(square sq_observer,
-                                      square sq_landing);
+boolean validate_observation_geometry(void);
 
 /* Instrument observation geometry validation with a slice type
  * @param identifies where to start instrumentation
@@ -45,17 +40,12 @@ void stip_instrument_observation_geometry_validation(slice_index si,
                                                   Side side,
                                                   slice_type type);
 
-boolean validate_observer_recursive(slice_index si,
-                                    square sq_observer,
-                                    square sq_landing);
+boolean validate_observer_recursive(slice_index si);
 
 /* Validate an observer
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_observer(square sq_observer,
-                          square sq_landing);
+boolean validate_observer(void);
 
 
 /* Instrument observer validation with a slice type
@@ -67,17 +57,12 @@ void stip_instrument_observer_validation(slice_index si,
                                       Side side,
                                       slice_type type);
 
-boolean validate_observation_recursive(slice_index si,
-                                       square sq_observer,
-                                       square sq_landing);
+boolean validate_observation_recursive(slice_index si);
 
 /* Validate an observation
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_observation(square sq_observer,
-                             square sq_landing);
+boolean validate_observation(void);
 
 /* Instrumenvalidationvation validation with a slice type
  * @param identifies where to start instrumentation
@@ -93,7 +78,7 @@ void stip_instrument_observation_validation(slice_index si,
  * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_check(square sq_observer, square sq_landing);
+boolean validate_check(void);
 
 /* Instrument observation validation with a slice type
  * @param identifies where to start instrumentation

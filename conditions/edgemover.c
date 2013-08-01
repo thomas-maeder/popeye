@@ -10,22 +10,16 @@
 #include <assert.h>
 
 /* Validate the geometry of observation according to Edgemover
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean edgemover_validate_observation_geometry(slice_index si,
-                                                square sq_observer,
-                                                square sq_landing)
+boolean edgemover_validate_observation_geometry(slice_index si)
 {
   boolean result;
 
-  if (NoEdge(sq_landing))
+  if (NoEdge(move_generation_stack[current_move[nbply]].arrival))
     result = false;
   else
-    result = validate_observation_geometry_recursive(slices[si].next1,
-                                                     sq_observer,
-                                                     sq_landing);
+    result = validate_observation_geometry_recursive(slices[si].next1);
 
   return result;
 }

@@ -27,14 +27,11 @@ static boolean is_observed(square sq_departure)
 }
 
 /* Validate an observation according to Beamten Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean beamten_validate_observation(slice_index si,
-                                     square sq_observer,
-                                     square sq_landing)
+boolean beamten_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -46,9 +43,7 @@ boolean beamten_validate_observation(slice_index si,
   if (TSTFLAG(spec[sq_observer],Beamtet) && !is_observed(sq_observer))
     result = false;
   else
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing);
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

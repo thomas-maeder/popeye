@@ -83,7 +83,7 @@ boolean pawn_test_check(square sq_departure,
 
   result = (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && evaluate(sq_departure,sq_arrival));
+            && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

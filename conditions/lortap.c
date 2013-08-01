@@ -8,21 +8,16 @@
 #include "pydata.h"
 
 /* Validate an observation according to Lortap
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean lortap_validate_observation(slice_index si,
-                                    square sq_observer,
-                                    square sq_landing)
+boolean lortap_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
   boolean result;
   boolean is_observer_supported;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);
@@ -33,9 +28,7 @@ boolean lortap_validate_observation(slice_index si,
   finply();
 
   result = (!is_observer_supported
-            && validate_observation_recursive(slices[si].next1,
-                                              sq_observer,
-                                              sq_landing));
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

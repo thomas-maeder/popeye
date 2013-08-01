@@ -78,26 +78,19 @@ static boolean is_paralysed(square sq)
 }
 
 /* Validate an observater according to Madrasi
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean madrasi_validate_observer(slice_index si,
-                                  square sq_observer,
-                                  square sq_landing)
+boolean madrasi_validate_observer(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   result = (!is_paralysed(sq_observer)
-            && validate_observer_recursive(slices[si].next1,
-                                           sq_observer,
-                                           sq_landing));
+            && validate_observer_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

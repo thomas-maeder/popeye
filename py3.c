@@ -81,7 +81,7 @@ boolean rrfouech(square intermediate_square,
 
     if (p1==p && TSTFLAG(spec[sq_reflection],trait[nbply]))
     {
-      if (evaluate(sq_reflection,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_reflection,sq_target))
         return true;
     }
     else if (x && p1==Invalid)
@@ -126,7 +126,7 @@ boolean rcardech(square intermediate_square,
 
   if (p1==p && TSTFLAG(spec[sq_departure],trait[nbply]))
   {
-    if (evaluate(sq_departure,sq_target ))
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target ))
       return true;
   }
   else if (x && is_square_blocked(sq_departure))
@@ -142,7 +142,7 @@ boolean rcardech(square intermediate_square,
       if (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply]))
       {
-        if (evaluate(sq_departure,sq_target))
+        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
       }
       else if (is_square_empty(sq_departure))
@@ -173,16 +173,20 @@ boolean echecc(Side side_in_check)
 
 static evalfunction_t *next_evaluate;
 
-static boolean eval_up(square sq_departure, square sq_arrival)
+static boolean eval_up(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   return sq_arrival-sq_departure>8
-      && next_evaluate(sq_departure,sq_arrival);
+      && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival);
 }
 
-static boolean eval_down(square sq_departure, square sq_arrival)
+static boolean eval_down(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   return sq_arrival-sq_departure<-8
-      && next_evaluate(sq_departure,sq_arrival);
+      && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival);
 }
 
 boolean huntercheck(PieNam p, evalfunction_t *evaluate)
@@ -235,10 +239,10 @@ static boolean skycharcheck(PieNam p,
 {
   if (get_walk_of_piece_on_square(chp)==p && TSTFLAG(sq_spec[chp],trait[nbply]))
   {
-    if (is_square_empty(sq_arrival1) && evaluate(chp,sq_arrival1))
+    if (is_square_empty(sq_arrival1) && INVOKE_EVAL(evaluate,chp,sq_arrival1))
       return  true;
 
-    if (is_square_empty(sq_arrival2) && evaluate(chp,sq_arrival2))
+    if (is_square_empty(sq_arrival2) && INVOKE_EVAL(evaluate,chp,sq_arrival2))
       return  true;
   }
 

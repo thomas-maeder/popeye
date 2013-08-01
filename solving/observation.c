@@ -86,16 +86,12 @@ static void insert_slice(slice_index testing,
   TraceFunctionResultEnd();
 }
 
-boolean validate_observation_geometry_recursive(slice_index si,
-                                                square sq_observer,
-                                                square sq_landing)
+boolean validate_observation_geometry_recursive(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(slice_type,slices[si].type,"\n");
@@ -103,35 +99,29 @@ boolean validate_observation_geometry_recursive(slice_index si,
   switch (slices[si].type)
   {
     case STValidateObservationGeometryMonochrome:
-      result = monochrome_validate_observation_geometry(si,
-                                                        sq_observer,
-                                                        sq_landing);
+      result = monochrome_validate_observation_geometry(si);
       break;
 
     case STValidateObservationGeometryBichrome:
-      result = bichrome_validate_observation_geometry(si,
-                                                      sq_observer,
-                                                      sq_landing);
+      result = bichrome_validate_observation_geometry(si);
       break;
 
     case STValidateObservationGeometryGridChess:
-      result = grid_validate_observation_geometry(si,
-                                                  sq_observer,
-                                                  sq_landing);
+      result = grid_validate_observation_geometry(si);
       break;
 
     case STValidateObservationGeometryEdgeMover:
-      result = edgemover_validate_observation_geometry(si,
-                                                       sq_observer,
-                                                       sq_landing);
+      result = edgemover_validate_observation_geometry(si);
       break;
 
     case STValidateObservationGeometryImitator:
-      result = imitator_validate_observation(si,sq_observer,sq_landing);
+      result = imitator_validate_observation(si);
       break;
 
     case STValidatingObservationGeometryByPlayingMove:
     {
+      square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+      square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
       TraceValue("%u",nbply);
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
@@ -145,6 +135,8 @@ boolean validate_observation_geometry_recursive(slice_index si,
 
     case STValidateCheckMoveByPlayingCapture:
     {
+      square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+      square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
       TraceValue("%u",nbply);
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
@@ -176,22 +168,16 @@ boolean validate_observation_geometry_recursive(slice_index si,
 }
 
 /* Validate an observation
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_observation_geometry(square sq_observer, square sq_landing)
+boolean validate_observation_geometry(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
-                                                   sq_observer,
-                                                   sq_landing);
+  result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -294,16 +280,12 @@ enum
   nr_observer_validation_slice_rank_order = sizeof observer_validation_slice_rank_order / sizeof observer_validation_slice_rank_order[0]
 };
 
-boolean validate_observer_recursive(slice_index si,
-                                    square sq_observer,
-                                    square sq_landing)
+boolean validate_observer_recursive(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(slice_type,slices[si].type,"\n");
@@ -311,15 +293,15 @@ boolean validate_observer_recursive(slice_index si,
   switch (slices[si].type)
   {
     case STMadrasiObserverTester:
-      result = madrasi_validate_observer(si,sq_observer,sq_landing);
+      result = madrasi_validate_observer(si);
       break;
 
     case STEiffelObserverTester:
-      result = eiffel_validate_observer(si,sq_observer,sq_landing);
+      result = eiffel_validate_observer(si);
       break;
 
     case STParalysingPiecesObserverTester:
-      result = paralysing_validate_observer(si,sq_observer,sq_landing);
+      result = paralysing_validate_observer(si);
       break;
 
     case STTrue:
@@ -342,27 +324,19 @@ boolean validate_observer_recursive(slice_index si,
 }
 
 /* Validate an observation
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_observer(square sq_observer, square sq_landing)
+boolean validate_observer(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
-                                       sq_observer,
-                                       sq_landing);
+  result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
 
   if (result)
-    result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
-                                                     sq_observer,
-                                                     sq_landing);
+    result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -467,16 +441,12 @@ enum
   nr_observation_validation_slice_rank_order = sizeof observation_validation_slice_rank_order / sizeof observation_validation_slice_rank_order[0]
 };
 
-boolean validate_observation_recursive(slice_index si,
-                                       square sq_observer,
-                                       square sq_landing)
+boolean validate_observation_recursive(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(slice_type,slices[si].type,"\n");
@@ -484,87 +454,89 @@ boolean validate_observation_recursive(slice_index si,
   switch (slices[si].type)
   {
     case STValidatingObservationBackHome:
-      result = back_home_validate_observation(si,sq_observer,sq_landing);
+      result = back_home_validate_observation(si);
       break;
 
     case STValidatingObservationBeamten:
-      result = beamten_validate_observation(si,sq_observer,sq_landing);
+      result = beamten_validate_observation(si);
       break;
 
     case STValidatingObservationBGL:
-      result = bgl_validate_observation(si,sq_observer,sq_landing);
+      result = bgl_validate_observation(si);
       break;
 
     case STValidatingObservationBrunner:
-      result = brunner_validate_observation(si,sq_observer,sq_landing);
+      result = brunner_validate_observation(si);
       break;
 
     case STValidatingObservationCentral:
-      result = central_validate_observation(si,sq_observer,sq_landing);
+      result = central_validate_observation(si);
       break;
 
     case STValidatingObservationDisparate:
-      result = disparate_validate_observation(si,sq_observer,sq_landing);
+      result = disparate_validate_observation(si);
       break;
 
     case STValidatingObservationGeneva:
-      result = geneva_validate_observation(si,sq_observer,sq_landing);
+      result = geneva_validate_observation(si);
       break;
 
     case STValidatingObservationImmune:
-      result = immune_validate_observation(si,sq_observer,sq_landing);
+      result = immune_validate_observation(si);
       break;
 
     case STValidatingObservationLortap:
-      result = lortap_validate_observation(si,sq_observer,sq_landing);
+      result = lortap_validate_observation(si);
       break;
 
     case STValidatingObservationUltraMummer:
-      result = ultra_mummer_validate_observation(si,sq_observer,sq_landing);
+      result = ultra_mummer_validate_observation(si);
       break;
 
     case STValidatingObservationPatrol:
-      result = patrol_validate_observation(si,sq_observer,sq_landing);
+      result = patrol_validate_observation(si);
       break;
 
     case STValidatingObservationUltraPatrol:
-      result = ultrapatrol_validate_observation(si,sq_observer,sq_landing);
+      result = ultrapatrol_validate_observation(si);
       break;
 
     case STValidatingObservationProvocateurs:
-      result = provocateurs_validate_observation(si,sq_observer,sq_landing);
+      result = provocateurs_validate_observation(si);
       break;
 
     case STValidatingObservationShielded:
-      result = shielded_kings_validate_observation(si,sq_observer,sq_landing);
+      result = shielded_kings_validate_observation(si);
       break;
 
     case STValidatingObservationSuperGuards:
-      result = superguards_validate_observation(si,sq_observer,sq_landing);
+      result = superguards_validate_observation(si);
       break;
 
     case STValidateObservationWoozles:
-      result = woozles_validate_observation(si,sq_observer,sq_landing);
+      result = woozles_validate_observation(si);
       break;
 
     case STValidateObservationBiWoozles:
-      result = biwoozles_validate_observation(si,sq_observer,sq_landing);
+      result = biwoozles_validate_observation(si);
       break;
 
     case STValidateObservationHeffalumps:
-      result = heffalumps_validate_observation(si,sq_observer,sq_landing);
+      result = heffalumps_validate_observation(si);
       break;
 
     case STValidateObservationBiHeffalumps:
-      result = biheffalumps_validate_observation(si,sq_observer,sq_landing);
+      result = biheffalumps_validate_observation(si);
       break;
 
     case STValidatingObservationWormholes:
-      result = wormhole_validate_observation(si,sq_observer,sq_landing);
+      result = wormhole_validate_observation(si);
       break;
 
     case STValidatingObservationGeometryByPlayingMove:
     {
+      square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+      square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
       TraceValue("%u",nbply);
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
@@ -578,6 +550,8 @@ boolean validate_observation_recursive(slice_index si,
 
     case STValidateCheckMoveByPlayingCapture:
     {
+      square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+      square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
       TraceValue("%u",nbply);
       TraceValue("%u\n",current_move[nbply]);
       move_generation_stack[current_move[nbply]].departure = sq_observer;
@@ -609,33 +583,23 @@ boolean validate_observation_recursive(slice_index si,
 }
 
 /* Validate a check
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_check(square sq_observer, square sq_landing)
+boolean validate_check(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(slices[temporary_hack_check_validator[trait[nbply]]].next2,
-                                          sq_observer,
-                                          sq_landing);
+  result = validate_observation_recursive(slices[temporary_hack_check_validator[trait[nbply]]].next2);
 
   if (result)
   {
-    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
-                                         sq_observer,
-                                         sq_landing);
+    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
 
     if (result)
-      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
-                                                       sq_observer,
-                                                       sq_landing);
+      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
   }
 
   TraceFunctionExit(__func__);
@@ -645,33 +609,23 @@ boolean validate_check(square sq_observer, square sq_landing)
 }
 
 /* Validate an observation
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean validate_observation(square sq_observer, square sq_landing)
+boolean validate_observation(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(slices[temporary_hack_observation_validator[trait[nbply]]].next2,
-                                          sq_observer,
-                                          sq_landing);
+  result = validate_observation_recursive(slices[temporary_hack_observation_validator[trait[nbply]]].next2);
 
   if (result)
   {
-    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2,
-                                         sq_observer,
-                                         sq_landing);
+    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
 
     if (result)
-      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2,
-                                                       sq_observer,
-                                                       sq_landing);
+      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
   }
 
   TraceFunctionExit(__func__);

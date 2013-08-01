@@ -731,14 +731,12 @@ static boolean avoid_observing_if_imitator_blocked_angle_hopper(square sq_observ
 }
 
 /* Validate an observation according to Imitators
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean imitator_validate_observation(slice_index si,
-                                      square sq_observer,
-                                      square sq_landing)
+boolean imitator_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -878,9 +876,7 @@ boolean imitator_validate_observation(slice_index si,
   }
 
   if (result)
-    result = validate_observation_geometry_recursive(slices[si].next1,
-                                                     sq_observer,
-                                                     sq_landing);
+    result = validate_observation_geometry_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -157,7 +157,7 @@ static void GetRMHopAttackVectors(square from, square to,
         PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
         if (hopper==get_walk_of_piece_on_square(from)
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && eval_fromspecificsquare(sq_departure,to))
+            && INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
 
@@ -166,7 +166,7 @@ static void GetRMHopAttackVectors(square from, square to,
         PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
         if (hopper==get_walk_of_piece_on_square(from)
             && TSTFLAG(spec[sq_departure],trait[nbply])
-            && eval_fromspecificsquare(sq_departure,to))
+            && INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
     }
@@ -257,7 +257,7 @@ static void GetZigZagAttackVectors(square from, square to,
       break;
   }
 
-  if (sq_departure==from && validate_observation(sq_departure,sq_arrival))
+  if (sq_departure==from && INVOKE_EVAL(validate_observation,sq_departure,sq_arrival))
     PushMagicView(to, from, 500+k );
 
   sq_departure = to+k;
@@ -270,7 +270,7 @@ static void GetZigZagAttackVectors(square from, square to,
       break;
   }
 
-  if (sq_departure==from && validate_observation(sq_departure,sq_arrival))
+  if (sq_departure==from && INVOKE_EVAL(validate_observation,sq_departure,sq_arrival))
     PushMagicView(to, from, 400+k );
 
   TraceFunctionExit(__func__);

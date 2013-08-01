@@ -199,20 +199,16 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
 }
 
 /* Validate an observation according to Worm holes
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean wormhole_validate_observation(slice_index si,
-                                      square sq_observer,
-                                      square sq_landing)
+boolean wormhole_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(sq_spec[sq_observer],Wormhole))
@@ -234,9 +230,7 @@ boolean wormhole_validate_observation(slice_index si,
     result = true;
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing);
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

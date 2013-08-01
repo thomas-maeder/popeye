@@ -7,16 +7,15 @@
 
 static boolean is_supported(square sq_departure);
 
-static boolean validate_supporter(square sq_departure, square sq_arrival)
+static boolean validate_supporter(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  if (validate_observer(sq_departure,sq_arrival))
+  if (validate_observer())
     result = is_supported(sq_departure);
   else
     result = false;
@@ -50,21 +49,16 @@ static boolean is_supported(square sq_departure)
 }
 
 /* Validate an observation according to Central Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean central_validate_observation(slice_index si,
-                                     square sq_observer,
-                                     square sq_landing)
+boolean central_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
   boolean result;
   boolean is_observer_supported;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);
@@ -74,9 +68,7 @@ boolean central_validate_observation(slice_index si,
   finply();
 
   return (is_observer_supported
-          && validate_observation_recursive(slices[si].next1,
-                                            sq_observer,
-                                            sq_landing));
+          && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

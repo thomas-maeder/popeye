@@ -48,7 +48,6 @@ boolean find_square_observer_tracking_back_from_target_fairy(slice_index si,
                                                              evalfunction_t *evaluate)
 {
   Side const side_observing = trait[nbply];
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
   PieNam const *pcheck;
 
   for (pcheck = checkpieces; *pcheck; ++pcheck)

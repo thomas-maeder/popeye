@@ -57,8 +57,14 @@ void    WritePiece(PieNam p);
 boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
 void    WriteGrid(void);
 
-typedef boolean (evalfunction_t)(square departure, square arrival);
+typedef boolean (evalfunction_t)(void);
 typedef boolean (checkfunction_t)(PieNam, evalfunction_t *);
+
+#define INVOKE_EVAL(evaluate,sq_departure,sq_arrival) \
+  ( move_generation_stack[current_move[nbply]].departure = (sq_departure), \
+    move_generation_stack[current_move[nbply]].arrival = (sq_arrival), \
+    (*evaluate)() \
+  )
 
 checkfunction_t pawnedpiececheck;
 
@@ -214,7 +220,7 @@ square  coinequis(square a);
 
 boolean echecc(Side a);
 
-boolean eval_ortho(square departure, square arrival);
+boolean eval_ortho(void);
 
 void    hardinit(void);
 
@@ -347,6 +353,6 @@ boolean detect_roselocustcheck_on_line(square sq_arrival,
 
 extern square fromspecificsquare;
 
-boolean eval_fromspecificsquare(square departure, square arrival);
+boolean eval_fromspecificsquare(void);
 
 #endif  /* PYPROC_H */

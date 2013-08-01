@@ -32,14 +32,16 @@ static void init_woozlers(void)
   woozlers[i] = Empty;
 }
 
-static boolean woozles_aux_whx(square sq_departure, square sq_arrival)
+static boolean woozles_aux_whx(void)
 {
-  return (sq_departure==sq_woo_from
-          && validate_observation_geometry(sq_departure,sq_arrival));
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  return sq_departure==sq_woo_from && validate_observation_geometry();
 }
 
-static boolean heffalumps_aux_whx(square sq_departure, square sq_arrival)
+static boolean heffalumps_aux_whx(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   if (sq_departure==sq_woo_from)
   {
     int cd1= sq_departure%onerow - sq_arrival%onerow;
@@ -71,22 +73,21 @@ static boolean heffalumps_aux_whx(square sq_departure, square sq_arrival)
     rd2= rd2/t;
 
     if ((cd1==cd2 && rd1==rd2) || (cd1==-cd2 && rd1==-rd2))
-      return validate_observation_geometry(sq_departure,sq_arrival);
+      return validate_observation_geometry();
   }
 
   return false;
 }
 
-static boolean woozles_aux_wh(square sq_departure, square sq_arrival)
+static boolean woozles_aux_wh(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  if (validate_observation_geometry(sq_departure,sq_arrival))
+  if (validate_observation_geometry())
   {
     Side const side_woozled = trait[nbply-1];
     PieNam const p = get_walk_of_piece_on_square(sq_woo_from);
@@ -107,11 +108,12 @@ static boolean woozles_aux_wh(square sq_departure, square sq_arrival)
   return result;
 }
 
-static boolean heffalumps_aux_wh(square sq_departure, square sq_arrival)
+static boolean heffalumps_aux_wh(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
   boolean result = false;
 
-  if (validate_observation_geometry(sq_departure,sq_arrival))
+  if (validate_observation_geometry())
   {
     Side const side_woozled = trait[nbply-1];
     PieNam const p = get_walk_of_piece_on_square(sq_woo_from);
@@ -207,14 +209,12 @@ static boolean heffalumps_is_paralysed(Side side_woozle, square to, square sq_ob
 }
 
 /* Validate an observation according to Woozles
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean woozles_validate_observation(slice_index si,
-                                     square sq_observer,
-                                     square sq_landing)
+boolean woozles_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
   Side const side_woozle = trait[nbply];
 
@@ -225,9 +225,7 @@ boolean woozles_validate_observation(slice_index si,
   TraceFunctionParamListEnd();
 
   result = (!woozles_is_paralysed(side_woozle,sq_landing,sq_observer)
-            && validate_observation_recursive(slices[si].next1,
-                                              sq_observer,
-                                              sq_landing));
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -236,27 +234,21 @@ boolean woozles_validate_observation(slice_index si,
 }
 
 /* Validate an observation according to BiWoozles
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean biwoozles_validate_observation(slice_index si,
-                                       square sq_observer,
-                                       square sq_landing)
+boolean biwoozles_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
   Side const side_woozle = advers(trait[nbply]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   result = (!woozles_is_paralysed(side_woozle,sq_landing,sq_observer)
-            && validate_observation_recursive(slices[si].next1,
-                                              sq_observer,
-                                              sq_landing));
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -265,27 +257,21 @@ boolean biwoozles_validate_observation(slice_index si,
 }
 
 /* Validate an observation according to Heffalumps
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean heffalumps_validate_observation(slice_index si,
-                                        square sq_observer,
-                                        square sq_landing)
+boolean heffalumps_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
   Side const side_woozle = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   result = (!heffalumps_is_paralysed(side_woozle,sq_landing,sq_observer)
-            && validate_observation_recursive(slices[si].next1,
-                                              sq_observer,
-                                              sq_landing));
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -294,27 +280,21 @@ boolean heffalumps_validate_observation(slice_index si,
 }
 
 /* Validate an observation according to BiHeffalumps
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean biheffalumps_validate_observation(slice_index si,
-                                          square sq_observer,
-                                          square sq_landing)
+boolean biheffalumps_validate_observation(slice_index si)
 {
+  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
   Side const side_woozle = advers(trait[nbply]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   result = (!heffalumps_is_paralysed(side_woozle,sq_landing,sq_observer)
-            && validate_observation_recursive(slices[si].next1,
-                                              sq_observer,
-                                              sq_landing));
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

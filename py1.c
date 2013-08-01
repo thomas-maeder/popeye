@@ -472,7 +472,7 @@ boolean leapcheck(vec_index_type kanf, vec_index_type kend,
     square const sq_departure= sq_target+vec[k];
     if (get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_target))
+        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
 
@@ -502,7 +502,7 @@ boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
         if (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && sq_departure!=sq_target
-            && (*evaluate)(sq_departure,sq_target))
+            && INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
       }
     }
@@ -538,7 +538,7 @@ boolean ridcheck(vec_index_type kanf, vec_index_type kend,
     TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
     if (rider==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_target))
+        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
     {
       result = true;
       break;
@@ -570,7 +570,7 @@ boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
       PieNam const marine = get_walk_of_piece_on_square(sq_departure);
       if (marine==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
-          && evaluate(sq_departure,sq_arrival))
+          && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
         return true;
     }
   }
@@ -591,7 +591,7 @@ boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
     if (is_square_empty(sq_arrival)
         && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
-        && evaluate(sq_departure,sq_arrival))
+        && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
       return true;
   }
 
@@ -614,7 +614,7 @@ static boolean marine_pawn_test_check(square sq_departure,
   result = (get_walk_of_piece_on_square(sq_departure)==p
             && TSTFLAG(spec[sq_departure],trait[nbply])
             && is_square_empty(sq_arrival)
-            && evaluate(sq_departure,sq_arrival));
+            && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

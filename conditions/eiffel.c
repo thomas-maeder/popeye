@@ -102,26 +102,18 @@ void eiffel_generate_moves_for_piece(slice_index si,
 }
 
 /* Validate an observater according to Eiffel Chess
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean eiffel_validate_observer(slice_index si,
-                                 square sq_observer,
-                                 square sq_landing)
+boolean eiffel_validate_observer(slice_index si)
 {
   boolean result = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  result = (!is_paralysed(sq_observer)
-            && validate_observer_recursive(slices[si].next1,
-                                           sq_observer,
-                                           sq_landing));
+  result = (!is_paralysed(move_generation_stack[current_move[nbply]].departure)
+            && validate_observer_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

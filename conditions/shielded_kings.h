@@ -7,13 +7,9 @@
  */
 
 /* Validate an observation according to Shielded Kings
- * @param sq_observer position of the observer
- * @param sq_landing landing square of the observer (normally==sq_observee)
  * @return true iff the observation is valid
  */
-boolean shielded_kings_validate_observation(slice_index si,
-                                            square sq_observer,
-                                            square sq_landing);
+boolean shielded_kings_validate_observation(slice_index si);
 
 /* Inialise solving in Shielded kings
  * @param si identifies the root slice of the solving machinery
