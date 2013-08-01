@@ -89,8 +89,17 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
 static void remember_transmuter(numecoup base, PieNam p)
 {
   numecoup curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",base);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
   for (curr = base; curr<current_move[nbply]; ++curr)
     move_generation_stack[curr].current_supertransmutation = p;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean generate_moves_of_supertransmuting_king(slice_index si, square sq_departure)
@@ -130,7 +139,7 @@ void supertransmuting_kings_generate_moves_for_piece(slice_index si,
 
   if (!(p==King && generate_moves_of_supertransmuting_king(si,sq_departure)))
   {
-    numecoup const base = current_move[nbply]-1;
+    numecoup const base = current_move[nbply];
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
     remember_transmuter(base,Empty);
   }
