@@ -31,7 +31,7 @@ static void genleapleap(square sq_departure,
 
 static void genqlinesradial(square sq_departure, int hurdletype, boolean leaf)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, leaf);
   genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, leaf);
@@ -53,7 +53,7 @@ static void genqlinesradial(square sq_departure, int hurdletype, boolean leaf)
 
 static void genradial(square sq_departure, int hurdletype, boolean leaf)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   genleapleap(sq_departure, vec_rook_start, vec_rook_end, hurdletype, leaf);
   genleapleap(sq_departure, vec_dabbaba_start, vec_dabbaba_end, hurdletype, leaf);

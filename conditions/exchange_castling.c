@@ -28,7 +28,7 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = current_move[nbply];
+  numecoup const coup_id = current_move[nbply]-1;
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
   square const sq_capture = move_gen_top->capture;
 

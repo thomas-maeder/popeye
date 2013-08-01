@@ -102,8 +102,8 @@ static void store_solution(void)
     for (cp = 2; cp<=nbply; ++cp)
     {
       simplified_move_type * const elmt = *sol + cp;
-      elmt->from = move_generation_stack[current_move[cp]].departure;
-      elmt->to = move_generation_stack[current_move[cp]].arrival;
+      elmt->from = move_generation_stack[current_move[cp]-1].departure;
+      elmt->to = move_generation_stack[current_move[cp]-1].arrival;
       elmt->prom = get_walk_of_piece_on_square(elmt->to);
     }
   }
@@ -136,9 +136,9 @@ static boolean is_duplicate_solution(void)
       for (cp = 2; cp <= nbply && found; ++cp)
       {
         simplified_move_type * const elmt = (*sol)+cp;
-        found = (elmt->from==move_generation_stack[current_move[cp]].departure
-                 && elmt->to==move_generation_stack[current_move[cp]].arrival
-                 && elmt->prom==get_walk_of_piece_on_square(move_generation_stack[current_move[cp]].arrival));
+        found = (elmt->from==move_generation_stack[current_move[cp]-1].departure
+                 && elmt->to==move_generation_stack[current_move[cp]-1].arrival
+                 && elmt->prom==get_walk_of_piece_on_square(move_generation_stack[current_move[cp]-1].arrival));
       }
     }
   }

@@ -31,20 +31,20 @@ static void init_woozlers(void)
 
 static boolean woozles_aux_whx(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  return sq_departure==move_generation_stack[current_move[nbply-2]].departure && validate_observation_geometry();
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  return sq_departure==move_generation_stack[current_move[nbply-2]-1].departure && validate_observation_geometry();
 }
 
 static boolean heffalumps_aux_whx(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  if (sq_departure==move_generation_stack[current_move[nbply-2]].departure)
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  if (sq_departure==move_generation_stack[current_move[nbply-2]-1].departure)
   {
     int cd1= sq_departure%onerow - sq_arrival%onerow;
     int rd1= sq_departure/onerow - sq_arrival/onerow;
-    int cd2= move_generation_stack[current_move[nbply-2]].arrival%onerow - sq_departure%onerow;
-    int rd2= move_generation_stack[current_move[nbply-2]].arrival/onerow - sq_departure/onerow;
+    int cd2= move_generation_stack[current_move[nbply-2]-1].arrival%onerow - sq_departure%onerow;
+    int rd2= move_generation_stack[current_move[nbply-2]-1].arrival/onerow - sq_departure/onerow;
     int t= 7;
 
     if (cd1 != 0)
@@ -86,13 +86,13 @@ static boolean woozles_aux_wh(void)
   if (validate_observation_geometry())
   {
     Side const side_woozled = trait[nbply-1];
-    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[current_move[nbply-1]].departure);
+    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[current_move[nbply-1]-1].departure);
     if (number_of_pieces[side_woozled][p]>0)
     {
       siblingply(side_woozled);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-      move_generation_stack[current_move[nbply]].capture = move_generation_stack[current_move[nbply-1]].departure;
+      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
+      move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
       result = (*checkfunctions[p])(p,&woozles_aux_whx);
       finply();
     }
@@ -111,13 +111,13 @@ static boolean heffalumps_aux_wh(void)
   if (validate_observation_geometry())
   {
     Side const side_woozled = trait[nbply-1];
-    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[current_move[nbply-1]].departure);
+    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[current_move[nbply-1]-1].departure);
     if (number_of_pieces[side_woozled][p]>0)
     {
       siblingply(side_woozled);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-      move_generation_stack[current_move[nbply]].capture = move_generation_stack[current_move[nbply-1]].departure;
+      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
+      move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
       result = (*checkfunctions[p])(p,&heffalumps_aux_whx);
       finply();
     }
@@ -140,16 +140,16 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
   if (!woozles_rex_exclusive || sq_observer!=king_square[side_woozled])
   {
     PieNam const *pcheck = woozlers;
-    numecoup const save_current_move = current_move[nbply];
+    numecoup const save_current_move = current_move[nbply]-1;
 
     if (woozles_rex_exclusive)
       ++pcheck;
 
     siblingply(side_woozle);
     current_move[nbply] = current_move[nbply-1]+1;
-    current_move[nbply-1] = n; /* allow validation to refer to move n */
-    move_generation_stack[current_move[nbply]].capture = sq_observer;
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+    current_move[nbply-1] = n+1; /* allow validation to refer to move n */
+    move_generation_stack[current_move[nbply]-1].capture = sq_observer;
+    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
@@ -159,7 +159,7 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
         break;
       }
 
-    current_move[nbply-1] = save_current_move;
+    current_move[nbply-1] = save_current_move+1;
     finply();
   }
 
@@ -183,16 +183,16 @@ static boolean heffalumps_is_paralysed(Side side_woozle, numecoup n)
   if (!woozles_rex_exclusive || sq_observer!=king_square[side_woozled])
   {
     PieNam const *pcheck = woozlers;
-    numecoup const save_current_move = current_move[nbply];
+    numecoup const save_current_move = current_move[nbply]-1;
 
     if (woozles_rex_exclusive)
       ++pcheck;
 
     siblingply(side_woozle);
     current_move[nbply] = current_move[nbply-1]+1;
-    current_move[nbply-1] = n; /* allow validation to refer to move n */
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-    move_generation_stack[current_move[nbply]].capture = sq_observer;
+    current_move[nbply-1] = n+1; /* allow validation to refer to move n */
+    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
+    move_generation_stack[current_move[nbply]-1].capture = sq_observer;
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
@@ -202,7 +202,7 @@ static boolean heffalumps_is_paralysed(Side side_woozle, numecoup n)
         break;
       }
 
-    current_move[nbply-1] = save_current_move;
+    current_move[nbply-1] = save_current_move+1;
     finply();
   }
 
@@ -224,7 +224,7 @@ boolean woozles_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!woozles_is_paralysed(side_woozle,current_move[nbply])
+  result = (!woozles_is_paralysed(side_woozle,current_move[nbply]-1)
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -245,7 +245,7 @@ boolean biwoozles_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!woozles_is_paralysed(side_woozle,current_move[nbply])
+  result = (!woozles_is_paralysed(side_woozle,current_move[nbply]-1)
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -266,7 +266,7 @@ boolean heffalumps_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!heffalumps_is_paralysed(side_woozle,current_move[nbply])
+  result = (!heffalumps_is_paralysed(side_woozle,current_move[nbply]-1)
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -287,7 +287,7 @@ boolean biheffalumps_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!heffalumps_is_paralysed(side_woozle,current_move[nbply])
+  result = (!heffalumps_is_paralysed(side_woozle,current_move[nbply]-1)
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

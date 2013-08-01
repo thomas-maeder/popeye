@@ -16,7 +16,7 @@ boolean edgemover_validate_observation_geometry(slice_index si)
 {
   boolean result;
 
-  if (NoEdge(move_generation_stack[current_move[nbply]].arrival))
+  if (NoEdge(move_generation_stack[current_move[nbply]-1].arrival))
     result = false;
   else
     result = validate_observation_geometry_recursive(slices[si].next1);

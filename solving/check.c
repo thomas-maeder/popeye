@@ -68,7 +68,7 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
 
   TraceSquare(king_square[side_king_attacked]);TraceText("\n");
 
-  move_generation_stack[current_move[nbply]].capture = king_square[side_king_attacked];
+  move_generation_stack[current_move[nbply]-1].capture = king_square[side_king_attacked];
   result = is_square_observed(&validate_check);
 
   TraceFunctionExit(__func__);

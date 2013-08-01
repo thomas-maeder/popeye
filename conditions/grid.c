@@ -12,8 +12,8 @@
  */
 boolean grid_validate_observation_geometry(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   boolean result;
 
   if (GridLegal(sq_observer,sq_landing))

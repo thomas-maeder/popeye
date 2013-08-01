@@ -135,7 +135,7 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr
 stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply];
+  move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply]-1;
   int const move_diff = move_gen_top->departure-move_gen_top->arrival;
   long int const diff = BGL_move_diff_code[abs(move_diff)];
 
@@ -170,8 +170,8 @@ stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
  */
 boolean bgl_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   unsigned int const diff = abs(sq_observer-sq_landing);
   boolean result;
 

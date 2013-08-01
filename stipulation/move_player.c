@@ -29,7 +29,7 @@ slice_index alloc_move_player_slice(void)
 
 static void play_move(Side side)
 {
-  numecoup const coup_id = current_move[nbply];
+  numecoup const coup_id = current_move[nbply]-1;
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
   square const sq_capture = move_gen_top->capture;
   square const sq_departure = move_gen_top->departure;

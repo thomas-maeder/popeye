@@ -27,12 +27,12 @@ void marscirce_generate_non_captures(slice_index si,
 
   generate_moves_for_piece(slices[si].next1,sq_generate_from,p);
 
-  for (curr = base+1; curr<=current_move[nbply]; ++curr)
+  for (curr = base; curr<current_move[nbply]; ++curr)
     if (is_square_empty(move_generation_stack[curr].capture))
     {
-      ++top_filtered;
       move_generation_stack[top_filtered] = move_generation_stack[curr];
       move_generation_stack[top_filtered].departure = sq_real_departure;
+      ++top_filtered;
     }
 
   current_move[nbply] = top_filtered;
@@ -63,12 +63,12 @@ void marscirce_generate_captures(slice_index si,
 
   generate_moves_for_piece(slices[si].next1,sq_generate_from,p);
 
-  for (curr = base+1; curr<=current_move[nbply]; ++curr)
+  for (curr = base; curr<current_move[nbply]; ++curr)
     if (!is_square_empty(move_generation_stack[curr].capture))
     {
-      ++top_filtered;
       move_generation_stack[top_filtered] = move_generation_stack[curr];
       move_generation_stack[top_filtered].departure = sq_real_departure;
+      ++top_filtered;
     }
 
   current_move[nbply] = top_filtered;

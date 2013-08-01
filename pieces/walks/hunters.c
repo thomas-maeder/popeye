@@ -38,19 +38,19 @@ PieNam hunter_make_type(PieNam away, PieNam home)
 
 static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
 {
-  numecoup s = prevnbcou+1;
+  numecoup s = prevnbcou;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (s<=current_move[nbply])
+  while (s<current_move[nbply])
     if ((u==DOWN && move_generation_stack[s].arrival-sq_departure>-nr_files_on_board)
         || (u==UP && move_generation_stack[s].arrival-sq_departure<nr_files_on_board))
     {
       memmove(move_generation_stack+s,
               move_generation_stack+s+1,
-              (current_move[nbply]-s) * sizeof move_generation_stack[s]);
+              (current_move[nbply]-1-s) * sizeof move_generation_stack[s]);
       --current_move[nbply];
     }
     else

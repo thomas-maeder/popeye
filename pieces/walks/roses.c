@@ -79,7 +79,7 @@ static void rose_generate_circle(square sq_departure,
 void rose_generate_moves(square sq_departure,
                          vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
@@ -112,7 +112,7 @@ static void rao_generate_circle(square sq_departure,
 void rao_generate_moves(square sq_departure,
                         vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
@@ -167,7 +167,7 @@ static void roselion_generate_circle(square sq_departure,
 void roselion_generate_moves(square sq_departure,
                              vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start= vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
@@ -200,7 +200,7 @@ static void rosehopper_genrerate_circle(square sq_departure,
 void rosehopper_generate_moves(square sq_departure,
                                vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; vec_index_start++)

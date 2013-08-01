@@ -21,7 +21,7 @@ static boolean is_piece_provoked_on(numecoup n)
 
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = move_generation_stack[n].departure;
+  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
   result = is_square_observed(&validate_observer);
   finply();
 
@@ -42,7 +42,7 @@ boolean provocateurs_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_piece_provoked_on(current_move[nbply]))
+  if (is_piece_provoked_on(current_move[nbply]-1))
     result = validate_observation_recursive(slices[si].next1);
   else
     result = false;

@@ -39,9 +39,9 @@ static void angle_hoppers_generate_moves(square sq_departure,
         if (is_square_empty(sq_arrival)
             || piece_belongs_to_opponent(sq_arrival))
         {
-          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
           move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         }
       }
 
@@ -50,9 +50,9 @@ static void angle_hoppers_generate_moves(square sq_departure,
         if (is_square_empty(sq_arrival)
             || piece_belongs_to_opponent(sq_arrival))
         {
-          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
           move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
           move_generation_stack[current_move[nbply]].auxiliary.hopper.vec_index = k;
+          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         }
       }
     }
@@ -68,7 +68,7 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
                                                         PieNam p,
                                                         evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   numvec const vec_departure_hurdle = angle_vectors[angle][vec_index_departure_hurdle];
   square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
   PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
@@ -89,7 +89,7 @@ boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type ken
                                          PieNam p,
                                          evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -143,7 +143,7 @@ boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type ken
  */
 void elk_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45);
   if (!TSTFLAG(spec[sq_departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -154,7 +154,7 @@ void elk_generate_moves(square sq_departure)
  */
 void rook_moose_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_45);
   if (!TSTFLAG(spec[sq_departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -165,7 +165,7 @@ void rook_moose_generate_moves(square sq_departure)
  */
 void bishop_moose_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_45);
   if (!TSTFLAG(spec[sq_departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -176,7 +176,7 @@ void bishop_moose_generate_moves(square sq_departure)
  */
 void eagle_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90);
   if (!TSTFLAG(spec[sq_departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -203,7 +203,7 @@ void bishop_eagle_generate_moves(square sq_departure)
  */
 void sparrow_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135);
   if (!TSTFLAG(spec[sq_departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -214,7 +214,7 @@ void sparrow_generate_moves(square sq_departure)
  */
 void rook_sparrow_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_rook_start,vec_rook_end, angle_135);
   if (!TSTFLAG(spec[sq_departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -225,7 +225,7 @@ void rook_sparrow_generate_moves(square sq_departure)
  */
 void bishop_sparrow_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_bishop_start,vec_bishop_end, angle_135);
   if (!TSTFLAG(spec[sq_departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -236,7 +236,7 @@ void bishop_sparrow_generate_moves(square sq_departure)
  */
 void marguerite_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_45);
   angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_90);
   angle_hoppers_generate_moves(sq_departure, vec_queen_start,vec_queen_end, angle_135);

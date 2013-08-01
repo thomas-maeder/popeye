@@ -311,7 +311,7 @@ static void TraceCurrentMove(void)
   {
     fprintf(stdout," #%lu %lu ",level,move_counter++);
     output_plaintext_write_move();
-    fprintf(stdout," current_move[nbply]:%d",current_move[nbply]);
+    fprintf(stdout," current_move[nbply]-1:%d",current_move[nbply]-1);
     fprintf(stdout," current_ply:%d\n",nbply);
     fflush(stdout);
   }

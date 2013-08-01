@@ -61,8 +61,8 @@ typedef boolean (evalfunction_t)(void);
 typedef boolean (checkfunction_t)(PieNam, evalfunction_t *);
 
 #define INVOKE_EVAL(evaluate,sq_departure,sq_arrival) \
-  ( move_generation_stack[current_move[nbply]].departure = (sq_departure), \
-    move_generation_stack[current_move[nbply]].arrival = (sq_arrival), \
+  ( move_generation_stack[current_move[nbply]-1].departure = (sq_departure), \
+    move_generation_stack[current_move[nbply]-1].arrival = (sq_arrival), \
     (*evaluate)() \
   )
 

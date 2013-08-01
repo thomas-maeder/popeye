@@ -23,8 +23,8 @@ void pawns_generate_ep_capture_move(square sq_departure,
     square const sq_capture = en_passant_find_capturee();
     if (sq_capture!=initsquare)
     {
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
       move_generation_stack[current_move[nbply]].auxiliary.sq_en_passant = sq_arrival_singlestep;
+      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
     }
   }
 

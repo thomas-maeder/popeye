@@ -229,8 +229,8 @@ void copyply(void)
 
   {
     unsigned int const nr_moves = current_move[original]-current_move[original-1];
-    memcpy(&move_generation_stack[current_move[nbply]+1],
-           &move_generation_stack[current_move[original-1]+1],
+    memcpy(&move_generation_stack[current_move[nbply]],
+           &move_generation_stack[current_move[original-1]],
            nr_moves*sizeof move_generation_stack[0]);
     current_move[nbply] += nr_moves;
   }
@@ -433,7 +433,7 @@ void InitAlways(void)
   ply i;
 
   nbply = nil_ply;
-  current_move[nbply] = nil_coup;
+  current_move[nbply] = nil_coup+1;
   ply_watermark = nil_ply;
 
   flagfee = false;
@@ -463,7 +463,7 @@ boolean leapcheck(vec_index_type kanf, vec_index_type kend,
                   PieNam p,
                   evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
 
   /* detect "check" of leaper p */
   vec_index_type k;
@@ -485,7 +485,7 @@ boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
                       PieNam p,
                       evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* detect "check" of leaper p */
   vec_index_type  k;
 
@@ -515,7 +515,7 @@ boolean ridcheck(vec_index_type kanf, vec_index_type kend,
                  PieNam p,
                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* detect "check" of rider p */
   boolean result = false;
 
@@ -557,7 +557,7 @@ boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
                            PieNam p,
                            evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* detect "check" of marin piece p or a locust */
   vec_index_type k;
 
@@ -582,7 +582,7 @@ boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
                             PieNam p,
                             evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
   for (k = kanf; k<=kend; ++k)
   {
@@ -624,7 +624,7 @@ static boolean marine_pawn_test_check(square sq_departure,
 
 boolean marine_pawn_check(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
   numvec const dir_forward_right = dir_forward+dir_right;
   numvec const dir_forward_left = dir_forward+dir_left;
@@ -739,7 +739,7 @@ static boolean find_next_orphan_in_chain(square sq_target,
     boolean does_orphan_observe;
 
     isolate_observee(Orphan,pos_orphans,orphan_id);
-    move_generation_stack[current_move[nbply]].capture = sq_target;
+    move_generation_stack[current_move[nbply]-1].capture = sq_target;
     does_orphan_observe = (*checkfunctions[orphan_observer])(Orphan,
                                                              evaluate);
     restore_observees(Orphan,pos_orphans);
@@ -773,7 +773,7 @@ boolean orphan_find_observation_chain(square sq_target,
 
   trait[nbply] = advers(trait[nbply]);
 
-  move_generation_stack[current_move[nbply]].capture = sq_target;
+  move_generation_stack[current_move[nbply]-1].capture = sq_target;
   if ((*checkfunctions[orphan_observer])(orphan_observer,evaluate))
     result = true;
   else if (number_of_pieces[trait[nbply]][Orphan]==0)
@@ -807,7 +807,7 @@ boolean orphan_find_observation_chain(square sq_target,
 boolean orphancheck(PieNam orphan_type,
                     evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
   PieNam const *orphan_observer;
   square pos_orphans[63];
@@ -821,7 +821,7 @@ boolean orphancheck(PieNam orphan_type,
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_target;
+  move_generation_stack[current_move[nbply]-1].capture = sq_target;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
@@ -844,7 +844,7 @@ boolean orphancheck(PieNam orphan_type,
 
 boolean friendcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   PieNam const *pfr;
   boolean result = false;
   square pos_friends[63];
@@ -868,7 +868,7 @@ boolean friendcheck(PieNam p, evalfunction_t *evaluate)
         boolean does_friend_observe;
 
         isolate_observee(Friend,pos_friends,k);
-        move_generation_stack[current_move[nbply]].capture = sq_target;
+        move_generation_stack[current_move[nbply]-1].capture = sq_target;
         does_friend_observe = (*checkfunctions[*pfr])(Friend,evaluate);
         restore_observees(Friend,pos_friends);
 

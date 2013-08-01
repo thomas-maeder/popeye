@@ -36,7 +36,7 @@ static boolean is_kingsquare_observed(slice_index si)
 
   siblingply(advers(side));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = king_square[side];
+  move_generation_stack[current_move[nbply]-1].capture = king_square[side];
   result = is_square_observed_recursive(slices[si].next2,&validate_observation);
   finply();
 

@@ -14,7 +14,7 @@ static void remember_killer_move()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  killer_moves[nbply] = move_generation_stack[current_move[nbply]];
+  killer_moves[nbply] = move_generation_stack[current_move[nbply]-1];
 
   TraceValue("%u",nbply);
   TraceSquare(killer_moves[nbply].departure);

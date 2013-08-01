@@ -45,7 +45,7 @@ boolean immune_validate_observation(slice_index si)
 {
   boolean result;
   Side const side_observing = trait[nbply];
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+  square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -53,7 +53,7 @@ boolean immune_validate_observation(slice_index si)
 
   if (immune_is_rex_inclusive
       || sq_capture!=king_square[advers(side_observing)])
-    result = !is_capturee_immune(current_move[nbply]);
+    result = !is_capturee_immune(current_move[nbply]-1);
   else
     result = true;
 

@@ -9,9 +9,9 @@
  */
 boolean shielded_kings_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
-  square const sq_observee = move_generation_stack[current_move[nbply]].capture;
+  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -23,8 +23,8 @@ boolean shielded_kings_validate_observation(slice_index si)
     /* won't work for locust Ks etc.*/
     siblingply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]].capture = sq_observee;
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+    move_generation_stack[current_move[nbply]-1].capture = sq_observee;
+    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
     result = !is_square_observed(&validate_observer);
     finply();
   }

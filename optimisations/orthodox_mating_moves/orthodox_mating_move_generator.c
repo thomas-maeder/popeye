@@ -94,8 +94,8 @@ static void pawn_ep_try_direction(square sq_departure, Side side, numvec dir)
     square const pos_capturee = en_passant_find_capturee();
     if (pos_capturee!=initsquare)
     {
-      add_to_move_generation_stack(sq_departure,sq_arrival,pos_capturee);
       move_generation_stack[current_move[nbply]].auxiliary.sq_en_passant = sq_arrival;
+      add_to_move_generation_stack(sq_departure,sq_arrival,pos_capturee);
     }
   }
 }

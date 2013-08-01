@@ -18,7 +18,7 @@
 /* the mummer logic is (ab)used to priorise transmuting king moves */
 int len_supertransmuting_kings(void)
 {
-  return MAX_OTHER_LEN * (move_generation_stack[current_move[nbply]].current_supertransmutation!=Empty ? 1 : 0);
+  return MAX_OTHER_LEN * (move_generation_stack[current_move[nbply]-1].current_supertransmutation!=Empty ? 1 : 0);
 }
 
 /* Try to solve in n half-moves.
@@ -38,7 +38,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = current_move[nbply];
+  numecoup const coup_id = current_move[nbply]-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -79,7 +79,7 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
 
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_departure;
+  move_generation_stack[current_move[nbply]-1].capture = sq_departure;
   result = (*checkfunctions[p])(p,&validate_observation);
   finply();
 
@@ -89,7 +89,7 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
 static void remember_transmuter(numecoup base, PieNam p)
 {
   numecoup curr;
-  for (curr = base+1; curr<=current_move[nbply]; ++curr)
+  for (curr = base; curr<current_move[nbply]; ++curr)
     move_generation_stack[curr].current_supertransmutation = p;
 }
 
@@ -130,7 +130,7 @@ void supertransmuting_kings_generate_moves_for_piece(slice_index si,
 
   if (!(p==King && generate_moves_of_supertransmuting_king(si,sq_departure)))
   {
-    numecoup const base = current_move[nbply];
+    numecoup const base = current_move[nbply]-1;
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
     remember_transmuter(base,Empty);
   }

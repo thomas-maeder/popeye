@@ -35,7 +35,7 @@ static void bouncy_knight_generate_moves_recursive(square orig_departure,
  */
 void bouncy_knight_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   bouncy_knight_generate_moves_recursive(sq_departure, sq_departure, 2);
   remove_duplicate_moves_of_single_piece(save_current_move);
   return;
@@ -148,7 +148,7 @@ static void bouncy_nightrider_generate_moves_recursive(square orig_departure,
  */
 void bouncy_nightrider_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   clearedgestraversed();
   bouncy_nightrider_generate_moves_recursive(sq_departure, sq_departure);
   remove_duplicate_moves_of_single_piece(save_current_move);

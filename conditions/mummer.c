@@ -36,9 +36,9 @@ mummer_strictness_type mummer_strictness_default_side;
  */
 int maximummer_measure_length(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
 
   switch (sq_capture)
   {
@@ -129,7 +129,7 @@ boolean mummer_set_length_measurer(Side side,
 static void invert_move_order(void)
 {
   unsigned int const nr_moves = current_move[nbply]-current_move[nbply-1];
-  unsigned int hi = current_move[nbply];
+  unsigned int hi = current_move[nbply]-1;
   unsigned int low = hi-nr_moves+1;
   while (low<hi)
   {
@@ -150,7 +150,7 @@ static void reset_accepted_moves(ply ply)
   TraceFunctionParam("%u",ply);
   TraceFunctionParamListEnd();
 
-  last_candidate[ply] = current_move[ply-1];
+  last_candidate[ply] = current_move[ply-1]-1;
   TraceValue("%u\n",last_candidate[ply]);
 
   TraceFunctionExit(__func__);
@@ -206,7 +206,7 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
   finply();
 
   nbply = save_nbply;
-  current_move[nbply] = last_candidate[nbply];
+  current_move[nbply] = last_candidate[nbply]+1;
 
   result = solve(slices[si].next1,n);
 
@@ -249,7 +249,7 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
   }
   else if (current_length==mum_length[nbply-1])
     /* this move may be legal, but can't increase the maximum length */
-    accept_move(nbply-1,current_move[nbply]);
+    accept_move(nbply-1,current_move[nbply]-1);
   else if (solve(slices[si].next1,n)>=slack_length)
   {
     /* we have a new mum */
@@ -257,7 +257,7 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
     TraceValue("%u\n",mum_length[nbply-1]);
 
     reset_accepted_moves(nbply-1);
-    accept_move(nbply-1,current_move[nbply]);
+    accept_move(nbply-1,current_move[nbply]-1);
 
     /* no need to try other flavours of the same move */
     post_move_iteration_locked[nbply] = false;

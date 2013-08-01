@@ -12,7 +12,7 @@
  */
 boolean lortap_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
   boolean is_observer_supported;
 
@@ -22,7 +22,7 @@ boolean lortap_validate_observation(slice_index si)
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_observer;
+  move_generation_stack[current_move[nbply]-1].capture = sq_observer;
   is_observer_supported = is_square_observed(&validate_observer);
   finply();
 
@@ -54,8 +54,8 @@ static boolean is_not_supported_capture(numecoup n,
   {
     siblingply(trait[nbply]);
     current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]].capture = sq_departure;
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
     result = !is_square_observed(&validate_observer);
     finply();
   }

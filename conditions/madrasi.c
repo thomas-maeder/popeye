@@ -32,8 +32,8 @@ boolean madrasi_is_moving_piece_observed(square sq)
     {
       nextply(observing_side); /* not siblingply() or ep paralysis causes problems! */
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]].capture = sq;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+      move_generation_stack[current_move[nbply]-1].capture = sq;
+      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
       result = (*checkfunctions[p])(p,&validate_observation_geometry);
       finply();
     }
@@ -63,8 +63,8 @@ static boolean is_paralysed(square sq)
 
     siblingply(observing_side);
     current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]].capture = sq;
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+    move_generation_stack[current_move[nbply]-1].capture = sq;
+    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
     result = (number_of_pieces[trait[nbply]][candidate]>0
               && (*checkfunctions[candidate])(candidate,
                                               &validate_observation_geometry));
@@ -82,7 +82,7 @@ static boolean is_paralysed(square sq)
  */
 boolean madrasi_validate_observer(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);

@@ -25,7 +25,7 @@ static boolean validate_paralyser(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = (TSTFLAG(spec[move_generation_stack[current_move[nbply]].departure],Paralysing)
+  result = (TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],Paralysing)
             && validate_observation_geometry());
 
   TraceFunctionExit(__func__);
@@ -48,8 +48,8 @@ static boolean is_paralysed(square s)
   {
     siblingply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]].capture = s;
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+    move_generation_stack[current_move[nbply]-1].capture = s;
+    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
     result = is_square_observed(&validate_paralyser);
     finply();
   }
@@ -77,7 +77,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
-  numecoup curr = current_move[nbply-1];
+  numecoup curr = current_move[nbply-1]-1;
   square sq_departure = initsquare;
   boolean found_move_from_unparalysed = false;
   boolean found_move_from_paralysed = false;
@@ -89,7 +89,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
 
   paralysis_suspended = false;
 
-  for (curr = current_move[nbply-1]+1; curr<=current_move[nbply]; ++curr)
+  for (curr = current_move[nbply-1]; curr<current_move[nbply]; ++curr)
     if (move_generation_stack[curr].departure!=sq_departure)
     {
       sq_departure = move_generation_stack[curr].departure;
@@ -150,7 +150,7 @@ boolean suffocated_by_paralysis(Side side)
  */
 boolean paralysing_validate_observer(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);

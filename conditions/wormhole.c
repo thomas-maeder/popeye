@@ -203,8 +203,8 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
  */
 boolean wormhole_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   boolean result = false;
 
   TraceFunctionEntry(__func__);

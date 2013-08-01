@@ -40,7 +40,7 @@ static numecoup skip_over_remainder_of_line(numecoup i,
     ++i;
     sq_next_arrival += diff;
   }
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure
          && move_generation_stack[i].arrival==sq_next_arrival);
 
@@ -81,13 +81,13 @@ static numecoup remove_illegal_moves_by_same_rider_on_line(numecoup i,
   square const sq_departure = move_generation_stack[i].departure;
   square sq_next_arrival = sq_departure+diff;
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure
          && move_generation_stack[i].arrival==sq_next_arrival)
     if (are_all_imitator_arrivals_empty(sq_departure,sq_next_arrival))
     {
-      ++*new_top;
       move_generation_stack[*new_top] = move_generation_stack[i];
+      ++*new_top;
       ++i;
       sq_next_arrival += diff;
     }
@@ -109,7 +109,7 @@ static numecoup remove_illegal_moves_by_same_rider(numecoup i, numecoup *new_top
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
@@ -206,7 +206,7 @@ static numecoup remove_illegal_moves_by_same_equihopper(numecoup i, numecoup *ne
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
@@ -220,8 +220,8 @@ static numecoup remove_illegal_moves_by_same_equihopper(numecoup i, numecoup *ne
         && are_all_imitator_lines_clear(diff_hurdle+diff,diff,diff_arrival+diff)
         && are_all_imitator_arrivals_empty(sq_departure,sq_arrival))
     {
-      ++*new_top;
       move_generation_stack[*new_top] = move_generation_stack[i];
+      ++*new_top;
     }
 
     ++i;
@@ -242,7 +242,7 @@ static numecoup remove_illegal_moves_by_same_nonstop_equihopper(numecoup i, nume
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
@@ -252,8 +252,8 @@ static numecoup remove_illegal_moves_by_same_nonstop_equihopper(numecoup i, nume
     if (have_all_imitators_hurdle(diff_hurdle)
         && are_all_imitator_arrivals_empty(sq_departure,sq_arrival))
     {
-      ++*new_top;
       move_generation_stack[*new_top] = move_generation_stack[i];
+      ++*new_top;
     }
 
     ++i;
@@ -274,7 +274,7 @@ static numecoup remove_illegal_moves_by_same_hopper(numecoup i, numecoup *new_to
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
@@ -286,8 +286,8 @@ static numecoup remove_illegal_moves_by_same_hopper(numecoup i, numecoup *new_to
         && are_all_imitator_lines_clear(diff,diff,diff_hurdle)
         && are_all_imitator_arrivals_empty(sq_departure,sq_arrival))
     {
-      ++*new_top;
       move_generation_stack[*new_top] = move_generation_stack[i];
+      ++*new_top;
     }
 
     ++i;
@@ -308,7 +308,7 @@ static numecoup remove_illegal_moves_by_same_mao(numecoup i, numecoup *new_top)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
@@ -317,8 +317,8 @@ static numecoup remove_illegal_moves_by_same_mao(numecoup i, numecoup *new_top)
     if (are_all_imitator_arrivals_empty(sq_departure,sq_hurdle)
         && are_all_imitator_arrivals_empty(sq_departure,sq_arrival))
     {
-      ++*new_top;
       move_generation_stack[*new_top] = move_generation_stack[i];
+      ++*new_top;
     }
 
     ++i;
@@ -376,7 +376,7 @@ static numecoup remove_illegal_moves_by_same_king(numecoup i, numecoup *new_top)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
@@ -389,8 +389,8 @@ static numecoup remove_illegal_moves_by_same_king(numecoup i, numecoup *new_top)
       if (castlingimok(sq_departure,sq_arrival))
       {
         TraceText("accepting castling\n");
-        ++*new_top;
         move_generation_stack[*new_top] = move_generation_stack[i];
+        ++*new_top;
       }
     }
     else
@@ -398,8 +398,8 @@ static numecoup remove_illegal_moves_by_same_king(numecoup i, numecoup *new_top)
       if (are_all_imitator_arrivals_empty(sq_departure,sq_arrival))
       {
         TraceText("accepting regular move\n");
-        ++*new_top;
         move_generation_stack[*new_top] = move_generation_stack[i];
+        ++*new_top;
       }
     }
 
@@ -421,11 +421,11 @@ static numecoup accept_all_moves_by_same_piece(numecoup i, numecoup *new_top)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply]
+  while (i<current_move[nbply]
          && move_generation_stack[i].departure==sq_departure)
   {
-    ++*new_top;
     move_generation_stack[*new_top] = move_generation_stack[i];
+    ++*new_top;
     ++i;
   }
 
@@ -550,13 +550,13 @@ static numecoup remove_illegal_moves_by_same_piece(numecoup i, numecoup *new_top
 
 static void remove_illegal_moves(void)
 {
-  numecoup i = current_move[nbply-1]+1;
+  numecoup i = current_move[nbply-1];
   numecoup new_top = current_move[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  while (i<=current_move[nbply])
+  while (i<current_move[nbply])
     i = remove_illegal_moves_by_same_piece(i,&new_top);
 
   current_move[nbply] = new_top;
@@ -568,8 +568,8 @@ static void remove_illegal_moves(void)
 static boolean avoid_observing_if_imitator_blocked_rider(void)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
@@ -592,8 +592,8 @@ static boolean avoid_observing_if_imitator_blocked_rider(void)
 static boolean avoid_observing_if_imitator_blocked_chinese_leaper(void)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const vec_pass_target = vec[interceptable_observation_vector_index[observation_context]];
@@ -610,8 +610,8 @@ static boolean avoid_observing_if_imitator_blocked_chinese_leaper(void)
 static boolean avoid_observing_if_imitator_blocked_rider_hopper(void)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
@@ -630,8 +630,8 @@ static boolean avoid_observing_if_imitator_blocked_rider_hopper(void)
 static boolean avoid_observing_if_imitator_blocked_contragrasshopper(void)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
@@ -647,8 +647,8 @@ static boolean avoid_observing_if_imitator_blocked_contragrasshopper(void)
 static boolean avoid_observing_if_imitator_blocked_grasshopper_n(unsigned int dist_hurdle_target)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   numvec const step_hurdle_target = -vec[interceptable_observation_vector_index[observation_context]];
   square const sq_hurdle = sq_landing - dist_hurdle_target*step_hurdle_target;
 
@@ -671,8 +671,8 @@ static boolean avoid_observing_if_imitator_blocked_grasshopper_n(unsigned int di
 static boolean avoid_observing_if_imitator_blocked_nonstop_equihopper(void)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const diff_hurdle = (sq_landing-sq_observer)/2;
@@ -688,8 +688,8 @@ static boolean avoid_observing_if_imitator_blocked_nonstop_equihopper(void)
 static boolean avoid_observing_if_imitator_blocked_orix(void)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
@@ -708,8 +708,8 @@ static boolean avoid_observing_if_imitator_blocked_orix(void)
 static boolean avoid_observing_if_imitator_blocked_angle_hopper(angle_t angle)
 {
   boolean result;
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation_vector_index[observation_context];
@@ -742,7 +742,7 @@ static boolean avoid_observing_if_imitator_blocked_angle_hopper(angle_t angle)
  */
 boolean imitator_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -781,7 +781,7 @@ boolean imitator_validate_observation(slice_index si)
     case BerolinaPawn:
     case ReversePawn:
     {
-      square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+      square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
       result = are_all_imitator_arrivals_empty(sq_observer,sq_landing);
       break;
     }
@@ -1157,7 +1157,7 @@ stip_length_type imitator_mover_solve(slice_index si, stip_length_type n)
 stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
                                                         stip_length_type n)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);

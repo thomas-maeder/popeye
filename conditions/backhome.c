@@ -20,8 +20,8 @@ static boolean goes_back_home(square sq_departure, square sq_arrival)
 
 int len_backhome(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -57,8 +57,8 @@ stip_length_type back_home_moves_only_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (goes_back_home(move_generation_stack[current_move[nbply]].departure,
-                     move_generation_stack[current_move[nbply]].arrival))
+  if (goes_back_home(move_generation_stack[current_move[nbply]-1].departure,
+                     move_generation_stack[current_move[nbply]-1].arrival))
     result = solve(slices[si].next1,n);
   else
     result = previous_move_is_illegal;
@@ -74,8 +74,8 @@ stip_length_type back_home_moves_only_solve(slice_index si, stip_length_type n)
  */
 boolean back_home_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);

@@ -93,7 +93,7 @@ boolean rcsech(numvec  k,
                PieNam p,
                evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* ATTENTION: There is a parameter dependency between the
    *          indexes of k and of k1 !
    *              p       index of k (ik) I index of k1
@@ -143,7 +143,7 @@ boolean rcspech(numvec  k,
                 PieNam p,
                 evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure = sq_target+vec[k];
   square sq_arrival = sq_target;
 
@@ -279,7 +279,7 @@ boolean rrefcech(square i1,
                  PieNam p,
                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   /* ATTENTION:   first call of rrefech: x must be 2 !!   */
@@ -316,7 +316,7 @@ static boolean rrefnech(square i1,
                         PieNam p,
                         evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   if (!NoEdge(i1))
@@ -346,7 +346,7 @@ static boolean rrefnech(square i1,
 
 boolean nequicheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* check by non-stop equihopper? */
   numvec delta_horiz, delta_vert;
   numvec vector;
@@ -379,7 +379,7 @@ boolean nequicheck(PieNam p, evalfunction_t *evaluate)
 
 boolean norixcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* check by non-stop orix? */
   numvec delta_horiz, delta_vert;
 
@@ -416,7 +416,7 @@ boolean norixcheck(PieNam p, evalfunction_t *evaluate)
 
 boolean equifracheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* check by non-stop equistopper? */
   square sq_hurdle;
   square const *bnp;
@@ -539,7 +539,7 @@ static boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
                                    PieNam p,
                                    evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   ++observation_context;
@@ -573,7 +573,7 @@ static boolean lions_check(vec_index_type kanf, vec_index_type kend,
                                   PieNam p,
                                   evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   for (k = kanf; k <= kend; k++)
@@ -598,7 +598,7 @@ static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
                                     PieNam p,
                                     evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   ++observation_context;
@@ -656,7 +656,7 @@ static boolean grasshoppers_n_check(vec_index_type kanf, vec_index_type kend,
                                     unsigned int dist_hurdle_target,
                                     evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   ++observation_context;
@@ -710,7 +710,7 @@ static boolean doublehoppercheck(PieNam p,
                                  vec_index_type vec_start, vec_index_type vec_end,
                                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   for (k=vec_end; k>=vec_start; k--)
@@ -761,7 +761,7 @@ boolean doublebishoppercheck(PieNam p, evalfunction_t *evaluate)
 
 boolean contragrascheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   ++observation_context;
@@ -848,7 +848,7 @@ boolean detect_rosecheck_on_line(PieNam p,
                                  numvec delta_k,
                                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure= find_end_of_circle_line(sq_target,k,&k1,delta_k);
   return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
@@ -878,7 +878,7 @@ boolean detect_roselioncheck_on_line(PieNam p,
                                      numvec delta_k,
                                      evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_hurdle= find_end_of_circle_line(sq_target,k,&k1,delta_k);
   if (sq_hurdle!=sq_target && !is_square_blocked(sq_hurdle))
   {
@@ -926,7 +926,7 @@ boolean detect_rosehoppercheck_on_line(square sq_hurdle,
                                        numvec delta_k,
                                        evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure= find_end_of_circle_line(sq_hurdle,k,&k1,delta_k);
   return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
@@ -936,7 +936,7 @@ boolean detect_rosehoppercheck_on_line(square sq_hurdle,
 
 boolean rosehoppercheck(PieNam p, evalfunction_t *evaluate) {
   /* detects check by a rose hopper */
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
   square sq_hurdle;
 
@@ -967,7 +967,7 @@ boolean detect_roselocustcheck_on_line(square sq_arrival,
                                        numvec delta_k,
                                        evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure= find_end_of_circle_line(sq_target,k,&k1,delta_k);
   return (get_walk_of_piece_on_square(sq_departure)==p
           && TSTFLAG(spec[sq_departure],trait[nbply])
@@ -978,7 +978,7 @@ boolean detect_roselocustcheck_on_line(square sq_arrival,
 boolean roselocustcheck(PieNam p, evalfunction_t *evaluate)
 {
   /* detects check by a rose locust */
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
   square sq_arrival;
 
@@ -1008,7 +1008,7 @@ static boolean maooacheck_onedir(square sq_pass,
                                  PieNam p,
                                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   numvec const vec_departure_pass = angle_vectors[angle_45][vec_index_angle_departure_pass];
   square const sq_departure = sq_pass+vec_departure_pass;
 
@@ -1022,7 +1022,7 @@ static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
                           PieNam p,
                           evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   ++observation_context;
@@ -1080,7 +1080,7 @@ boolean leocheck(PieNam p, evalfunction_t *evaluate)
 
 boolean berolina_pawn_check(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
 
   if (TSTFLAG(sq_spec[sq_target],capturable) || p==Orphan || p>=Hunter0)
@@ -1098,7 +1098,7 @@ boolean berolina_pawn_check(PieNam p, evalfunction_t *evaluate)
 
 boolean bspawncheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
   if (!TSTFLAG(sq_spec[sq_target],base))
@@ -1117,7 +1117,7 @@ boolean bspawncheck(PieNam p, evalfunction_t *evaluate)
 
 boolean spawncheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
   if (!TSTFLAG(sq_spec[sq_target],base))
@@ -1210,7 +1210,7 @@ boolean shipcheck(PieNam p, evalfunction_t *evaluate)
 
 boolean pawnedpiececheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
 
@@ -1235,7 +1235,7 @@ boolean pawnedpiececheck(PieNam p, evalfunction_t *evaluate)
 
 boolean kangoucheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   for (k= vec_queen_end; k>=vec_queen_start; k--)
@@ -1261,7 +1261,7 @@ boolean kangoucheck(PieNam p, evalfunction_t *evaluate)
 
 boolean kanglioncheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   for (k = vec_queen_end; k>=vec_queen_start; k--)
@@ -1287,7 +1287,7 @@ boolean kanglioncheck(PieNam p, evalfunction_t *evaluate)
 
 boolean bobcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* 4 hurdle lion */
   numvec  k;
 
@@ -1384,7 +1384,7 @@ boolean bishopsparrcheck(PieNam p, evalfunction_t *evaluate)
 
 boolean archcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
@@ -1397,7 +1397,7 @@ boolean archcheck(PieNam p, evalfunction_t *evaluate)
 
 boolean reffoucheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
@@ -1410,7 +1410,7 @@ boolean reffoucheck(PieNam p, evalfunction_t *evaluate)
 
 boolean cardcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
@@ -1477,20 +1477,20 @@ boolean dcscheck(PieNam p, evalfunction_t *evaluate)
 
 boolean refccheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   return rrefcech(sq_target, 2, p, evaluate);
 }
 
 boolean refncheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   clearedgestraversed();
   return rrefnech(sq_target, p, evaluate);
 }
 
 boolean equicheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   if (orixcheck(p,evaluate))
     return true;
 
@@ -1516,7 +1516,7 @@ boolean equicheck(PieNam p, evalfunction_t *evaluate)
 
 boolean equiengcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   for (k = vec_queen_end; k>=vec_queen_start; k--)
@@ -1549,7 +1549,7 @@ boolean equiengcheck(PieNam p, evalfunction_t *evaluate)
 
 boolean catcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   if (leapcheck(vec_knight_start,vec_knight_end,p,evaluate))
     return true;
   else
@@ -1611,7 +1611,7 @@ boolean foucheck(PieNam p, evalfunction_t *evaluate)
 
 boolean pioncheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
   boolean result = false;
 
@@ -1644,7 +1644,7 @@ boolean pioncheck(PieNam p, evalfunction_t *evaluate)
 
 boolean reversepcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByBlPawnSq : CapturableByWhPawnSq;
 
   if (TSTFLAG(sq_spec[sq_target],capturable) || p==Orphan || p>=Hunter0)
@@ -1668,7 +1668,7 @@ boolean reversepcheck(PieNam p, evalfunction_t *evaluate)
 
 boolean edgehcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* detect "check" of edgehog p */
   vec_index_type k;
 
@@ -1691,7 +1691,7 @@ static boolean maooaridercheck(PieNam p,
                                numvec  sec,
                                evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square  middle_square;
 
   square sq_departure= sq_target+sec;
@@ -1772,7 +1772,7 @@ static boolean maooariderlioncheck(PieNam p,
                                    numvec  sec,
                                    evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square middle_square= sq_target+fir;
 
   square sq_departure= sq_target+sec;
@@ -1879,7 +1879,7 @@ boolean b_hopcheck(PieNam p, evalfunction_t *evaluate)
 
 boolean orixcheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   ++observation_context;
@@ -1939,7 +1939,7 @@ boolean dolphincheck(PieNam p, evalfunction_t *evaluate)
 
 boolean querquisitecheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   for (k = vec_rook_start; k<=vec_rook_end; k++)
@@ -2000,7 +2000,7 @@ static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
                                   PieNam p,
                                   evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   for (k= kend; k>=kbeg; k--)
@@ -2035,7 +2035,7 @@ boolean bishopbouncercheck(PieNam p, evalfunction_t *evaluate)
 
 boolean pchincheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure;
   numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
@@ -2071,7 +2071,7 @@ square fromspecificsquare;
 
 boolean eval_fromspecificsquare(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);

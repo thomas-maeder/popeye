@@ -27,7 +27,7 @@ void reflective_kings_generate_moves_for_piece(slice_index si,
 
   if (p==King)
   {
-    numecoup const save_nbcou = current_move[nbply];
+    numecoup const save_nbcou = current_move[nbply]-1;
     generate_moves_for_piece(slices[si].next1,sq_departure,King);
     if (generate_moves_of_transmuting_king(si,sq_departure))
       remove_duplicate_moves_of_single_piece(save_nbcou);

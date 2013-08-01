@@ -70,7 +70,7 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = current_move[nbply];
+  numecoup const coup_id = current_move[nbply]-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -266,7 +266,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si,
                                          sq_departure,
                                          sq==sq_departure ? sequence.promotee : p);
       replace_piece(sq,pi_departing);
-      for (++prev_nbcou; prev_nbcou<=current_move[nbply]; ++prev_nbcou)
+      for (; prev_nbcou<current_move[nbply]; ++prev_nbcou)
       {
         move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
         move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = sequence.promotee;
@@ -279,7 +279,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si,
   {
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
-    for (++save_nbcou; save_nbcou<=current_move[nbply]; ++save_nbcou)
+    for (; save_nbcou<current_move[nbply]; ++save_nbcou)
     {
       move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
       move_generation_stack[save_nbcou].singlebox_type3_promotion_what = Empty;

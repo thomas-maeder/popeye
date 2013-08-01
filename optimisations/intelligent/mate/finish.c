@@ -120,7 +120,7 @@ static square find_king_flight(void)
 
     if (!is_square_blocked(flight) && !TSTFLAG(spec[flight],Black))
     {
-      move_generation_stack[current_move[nbply]].capture = flight;
+      move_generation_stack[current_move[nbply]-1].capture = flight;
       if (!is_square_observed_ortho())
       {
         result = flight;

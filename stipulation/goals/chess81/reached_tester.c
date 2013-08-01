@@ -57,7 +57,7 @@ stip_length_type goal_chess81_reached_tester_solve(slice_index si, stip_length_t
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(current_move[nbply]!=nil_coup);
+  assert(current_move[nbply]-1!=nil_coup);
 
   {
     Side const just_moved = advers(slices[si].starter);

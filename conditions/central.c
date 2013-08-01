@@ -9,7 +9,7 @@ static boolean is_supported(square sq_departure);
 
 static boolean validate_supporter(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -38,7 +38,7 @@ static boolean is_supported(square sq_departure)
     result = true;
   else
   {
-    move_generation_stack[current_move[nbply]].capture = sq_departure;
+    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
     result = is_square_observed(&validate_supporter);
   }
 
@@ -53,7 +53,7 @@ static boolean is_supported(square sq_departure)
  */
 boolean central_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
   boolean is_observer_supported;
 

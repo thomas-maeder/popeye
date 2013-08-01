@@ -65,7 +65,7 @@ static boolean ubiubi_check_recursive(square intermediate_square,
                                       ubiubi_traversal_state_type traversal_state,
                                       evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
 
   traversal_state[intermediate_square] = ubiubi_taboo;
@@ -96,7 +96,7 @@ static boolean ubiubi_check_recursive(square intermediate_square,
 boolean ubiubi_check(PieNam p, evalfunction_t *evaluate)
 {
   ubiubi_traversal_state_type board_state;
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
 
   square const *bnp;
   for (bnp = boardnum; *bnp; ++bnp)

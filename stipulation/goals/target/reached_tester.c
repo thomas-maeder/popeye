@@ -62,9 +62,9 @@ stip_length_type goal_target_reached_tester_solve(slice_index si, stip_length_ty
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(current_move[nbply]!=nil_coup);
+  assert(current_move[nbply]-1!=nil_coup);
 
-  if (move_generation_stack[current_move[nbply]].arrival==target)
+  if (move_generation_stack[current_move[nbply]-1].arrival==target)
     result = solve(slices[si].next1,n);
   else
     result = n+2;

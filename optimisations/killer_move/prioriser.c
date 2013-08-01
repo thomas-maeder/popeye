@@ -52,7 +52,7 @@ static numecoup find_killer_move(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (result = current_move[nbply]; result>current_move[nbply-1]; --result)
+  for (result = current_move[nbply]-1; result>current_move[nbply-1]-1; --result)
     if (is_killer_move(result))
       break;
 
@@ -87,7 +87,7 @@ stip_length_type killer_move_prioriser_solve(slice_index si, stip_length_type n)
 
   killer_index = find_killer_move();
 
-  if (killer_index>current_move[nbply-1])
+  if (killer_index>current_move[nbply-1]-1)
     move_generator_priorise(killer_index);
 
   result = solve(slices[si].next1,n);

@@ -16,7 +16,7 @@ static unsigned int amu_attack_count;
 
 static boolean eval_amu_attack(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
 
   /* this deals correctly with double attacks by the same piece (e.g. a rose) */
   if (single_attacker_departure==sq_departure)
@@ -36,7 +36,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 
   siblingply(advers(trait_ply));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_departure;
+  move_generation_stack[current_move[nbply]-1].capture = sq_departure;
   is_square_observed(&eval_amu_attack);
   finply();
 
@@ -59,7 +59,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 stip_length_type amu_attack_counter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
   Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);

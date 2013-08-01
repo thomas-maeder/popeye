@@ -10,7 +10,7 @@
  */
 int forced_squares_measure_length(void)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
   SquareFlags const flag = trait[nbply]==White ? WhForcedSq : BlForcedSq;
   int const result = TSTFLAG(sq_spec[sq_arrival],flag);
 

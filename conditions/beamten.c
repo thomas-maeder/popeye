@@ -15,7 +15,7 @@ static boolean is_observed(square sq_departure)
 
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_departure;
+  move_generation_stack[current_move[nbply]-1].capture = sq_departure;
   result = is_square_observed(&validate_observer);
   finply();
 
@@ -30,7 +30,7 @@ static boolean is_observed(square sq_departure)
  */
 boolean beamten_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);

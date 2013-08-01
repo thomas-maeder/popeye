@@ -22,15 +22,15 @@ void lions_generate_moves(square sq_departure,
       square sq_arrival = sq_hurdle+vec[k];
       while (is_square_empty(sq_arrival))
       {
-        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         sq_arrival += vec[k];
       }
 
       if (piece_belongs_to_opponent(sq_arrival))
       {
-        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
         move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = sq_hurdle;
+        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
       }
     }
   }

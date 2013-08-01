@@ -98,7 +98,7 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply-1]+1, table_index = 0; i<=current_move[nbply]; ++i, ++table_index)
+  for (i = current_move[nbply-1], table_index = 0; i<current_move[nbply]; ++i, ++table_index)
   {
     nextply(slices[si].starter);
     table[table_index].move = move_generation_stack[i];
@@ -108,7 +108,7 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
 
   qsort(table, nr_moves, sizeof table[0], &compare_nr_opponent_moves);
 
-  for (i = current_move[nbply-1]+1, table_index = nr_moves; i<=current_move[nbply]; ++i, --table_index)
+  for (i = current_move[nbply-1], table_index = nr_moves; i<current_move[nbply]; ++i, --table_index)
     move_generation_stack[i] = table[table_index-1].move;
 
   result = solve(slices[si].next1,n);

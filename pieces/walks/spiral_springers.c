@@ -36,7 +36,7 @@ static void generate_pointed_and_obtuse(square sq_departure,
 
 void spiralspringer_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type const top = vec_knight_start+vec_knight_end;
   vec_index_type k;
@@ -48,7 +48,7 @@ void spiralspringer_generate_moves(square sq_departure)
 
 void diagonalspiralspringer_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -62,7 +62,7 @@ void diagonalspiralspringer_generate_moves(square sq_departure)
 
 void boyscout_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type const top = vec_bishop_start+vec_bishop_end;
   vec_index_type k;
@@ -74,7 +74,7 @@ void boyscout_generate_moves(square sq_departure)
 
 void girlscout_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type const top = vec_rook_start+vec_rook_end;
   vec_index_type k;
@@ -86,7 +86,7 @@ void girlscout_generate_moves(square sq_departure)
 
 void spiralspringer40_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -100,7 +100,7 @@ void spiralspringer40_generate_moves(square sq_departure)
 
 void spiralspringer20_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -114,7 +114,7 @@ void spiralspringer20_generate_moves(square sq_departure)
 
 void spiralspringer33_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -128,7 +128,7 @@ void spiralspringer33_generate_moves(square sq_departure)
 
 void spiralspringer11_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -142,7 +142,7 @@ void spiralspringer11_generate_moves(square sq_departure)
 
 void quintessence_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; ++k)

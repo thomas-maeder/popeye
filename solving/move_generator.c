@@ -459,12 +459,12 @@ void stip_insert_move_generators(slice_index si)
 void move_generator_filter_moves(move_filter_criterion_type criterion)
 {
   numecoup i;
-  numecoup new_top = current_move[nbply-1];
+  numecoup new_top = current_move[nbply-1]-1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply-1]+1; i<=current_move[nbply]; ++i)
+  for (i = current_move[nbply-1]; i<current_move[nbply]; ++i)
   {
     square const sq_departure = move_generation_stack[i].departure;
     square const sq_arrival = move_generation_stack[i].arrival;
@@ -477,7 +477,7 @@ void move_generator_filter_moves(move_filter_criterion_type criterion)
     }
   }
 
-  current_move[nbply] = new_top;
+  current_move[nbply] = new_top+1;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -497,12 +497,12 @@ void add_to_move_generation_stack(square sq_departure,
 
   INCREMENT_COUNTER(add_to_move_generation_stack);
 
-  ++current_move[nbply];
-  TraceValue("%u\n",current_move[nbply]);
   move_generation_stack[current_move[nbply]].departure= sq_departure;
   move_generation_stack[current_move[nbply]].arrival= sq_arrival;
   move_generation_stack[current_move[nbply]].capture= sq_capture;
+  ++current_move[nbply];
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+  TraceValue("%u\n",current_move[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -533,7 +533,7 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
     numecoup curr_move;
     numecoup last_unique_move = last_move_of_prev_piece;
     for (curr_move = last_move_of_prev_piece+1;
-         curr_move<=current_move[nbply];
+         curr_move<current_move[nbply];
          ++curr_move)
     {
       square const sq_arrival = move_generation_stack[curr_move].arrival;
@@ -549,7 +549,7 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
       }
     }
 
-    current_move[nbply] = last_unique_move;
+    current_move[nbply] = last_unique_move+1;
   }
 }
 
@@ -561,9 +561,9 @@ void move_generator_priorise(numecoup priorised)
 {
   /* we move the priorised move one position too far and then shift back one
    * move too many */
-  move_generation_stack[current_move[nbply]+1] = move_generation_stack[priorised];
+  move_generation_stack[current_move[nbply]] = move_generation_stack[priorised];
   memmove(&move_generation_stack[priorised],
           &move_generation_stack[priorised+1],
-          (current_move[nbply]+1-priorised)
+          (current_move[nbply]-priorised)
           * sizeof move_generation_stack[priorised]);
 }

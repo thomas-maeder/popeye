@@ -89,7 +89,7 @@ static boolean uninterceptably_attacked(square s)
 
   nextply(Black);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = s;
+  move_generation_stack[current_move[nbply]-1].capture = s;
 
   result = ((*checkfunctions[Pawn])(Pawn,eval_ortho)
             || (*checkfunctions[Knight])(Knight,eval_ortho)

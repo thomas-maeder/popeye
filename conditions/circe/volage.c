@@ -40,7 +40,7 @@ stip_length_type circe_volage_recolorer_solve(slice_index si,
 
   if (TSTFLAG(spec[sq_rebirth],Volage)
       && (SquareCol(sq_rebirth)
-          !=SquareCol(move_generation_stack[current_move[nbply]].capture)))
+          !=SquareCol(move_generation_stack[current_move[nbply]-1].capture)))
   {
     if (!TSTFLAG(spec[sq_rebirth],trait[nbply]))
       move_effect_journal_do_side_change(move_effect_reason_volage_side_change,

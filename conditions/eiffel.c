@@ -65,8 +65,8 @@ static boolean is_paralysed(square sq)
     {
       siblingply(eiffel_side);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]].capture = sq;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+      move_generation_stack[current_move[nbply]-1].capture = sq;
+      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
       result = (*checkfunctions[eiffel_piece])(eiffel_piece,
                                                &validate_observation_geometry);
       finply();
@@ -112,7 +112,7 @@ boolean eiffel_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!is_paralysed(move_generation_stack[current_move[nbply]].departure)
+  result = (!is_paralysed(move_generation_stack[current_move[nbply]-1].departure)
             && validate_observer_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

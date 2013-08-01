@@ -44,7 +44,7 @@ static void reflecting_bishop_generate_moves_recursive(square orig_departure,
  */
 void reflecting_bishop_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   vec_index_type k;
   for (k= vec_bishop_start; k <= vec_bishop_end; k++)
     reflecting_bishop_generate_moves_recursive(sq_departure,sq_departure,vec[k],4);
@@ -56,7 +56,7 @@ void reflecting_bishop_generate_moves(square sq_departure)
  */
 void archbishop_generate_moves(square sq_departure)
 {
-  numecoup const save_current_move = current_move[nbply];
+  numecoup const save_current_move = current_move[nbply]-1;
   vec_index_type k;
   for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
     reflecting_bishop_generate_moves_recursive(sq_departure,sq_departure,vec[k],1);

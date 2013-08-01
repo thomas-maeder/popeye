@@ -30,7 +30,7 @@ static boolean is_regular_arrival(square sq_arrival,
   TraceFunctionParamListEnd();
 
   for (curr_regular_move = start_regular_moves+1;
-       curr_regular_move<=start_moves_from_rebirth_square;
+       curr_regular_move<start_moves_from_rebirth_square;
        ++curr_regular_move)
     if (move_generation_stack[curr_regular_move].arrival==sq_arrival)
     {
@@ -54,7 +54,7 @@ void phantom_generate_moves_for_piece(slice_index si,
                                       square sq_departure,
                                       PieNam p)
 {
-  numecoup const start_regular_moves = current_move[nbply];
+  numecoup const start_regular_moves = current_move[nbply]-1;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -86,8 +86,8 @@ void phantom_generate_moves_for_piece(slice_index si,
       {
         numecoup top_filtered = start_moves_from_rebirth_square;
         numecoup curr_from_sq_rebirth;
-        for (curr_from_sq_rebirth = start_moves_from_rebirth_square+1;
-             curr_from_sq_rebirth<=current_move[nbply];
+        for (curr_from_sq_rebirth = start_moves_from_rebirth_square;
+             curr_from_sq_rebirth<current_move[nbply];
              ++curr_from_sq_rebirth)
         {
           square const sq_arrival = move_generation_stack[curr_from_sq_rebirth].arrival;
@@ -96,9 +96,9 @@ void phantom_generate_moves_for_piece(slice_index si,
                                      start_regular_moves,
                                      start_moves_from_rebirth_square))
           {
-            ++top_filtered;
             move_generation_stack[top_filtered] = move_generation_stack[curr_from_sq_rebirth];
             move_generation_stack[top_filtered].departure = sq_departure ;
+            ++top_filtered;
           }
         }
 

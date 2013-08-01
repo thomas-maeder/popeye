@@ -11,7 +11,7 @@
  */
 void orphan_generate_moves(square sq_departure)
 {
-  numecoup const save_nbcou = current_move[nbply];
+  numecoup const save_nbcou = current_move[nbply]-1;
   PieNam const *orphan_observer;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
@@ -21,7 +21,7 @@ void orphan_generate_moves(square sq_departure)
 
       siblingply(trait[nbply]);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
+      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
       found_chain = orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation);
       finply();
 

@@ -273,7 +273,7 @@ stip_length_type haunted_chess_ghost_rememberer_solve(slice_index si,
     result = solve(slices[si].next1,n);
   else
   {
-    square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+    square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
     ghost_index_type const preempted_idx = find_ghost(sq_capture);
 
     if (preempted_idx!=ghost_not_found)

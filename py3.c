@@ -70,7 +70,7 @@ boolean rrfouech(square intermediate_square,
                  int    x,
                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   if (is_square_blocked(intermediate_square+k))
     return false;
   else
@@ -120,7 +120,7 @@ boolean rcardech(square intermediate_square,
                  int    x,
                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure = find_end_of_line(intermediate_square,k);
   PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
 
@@ -175,16 +175,16 @@ static evalfunction_t *next_evaluate;
 
 static boolean eval_up(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
   return sq_arrival-sq_departure>8
       && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival);
 }
 
 static boolean eval_down(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
   return sq_arrival-sq_departure<-8
       && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival);
 }
@@ -250,7 +250,7 @@ static boolean skycharcheck(PieNam p,
 
 boolean skyllacheck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   return  skycharcheck(p, sq_target+dir_right, sq_target+dir_up+dir_left, sq_target+dir_down+dir_left, evaluate)
        || skycharcheck(p, sq_target+dir_left, sq_target+dir_up+dir_right, sq_target+dir_down+dir_right, evaluate)
        || skycharcheck(p, sq_target+dir_up, sq_target+dir_down+dir_right, sq_target+dir_down+dir_left, evaluate)
@@ -259,7 +259,7 @@ boolean skyllacheck(PieNam p, evalfunction_t *evaluate)
 
 boolean charybdischeck(PieNam p, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]].capture;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   return  skycharcheck(p, sq_target+dir_up+dir_right, sq_target+dir_left, sq_target - 24, evaluate)
        || skycharcheck(p, sq_target+dir_down+dir_left, sq_target+dir_right, sq_target + 24, evaluate)
        || skycharcheck(p, sq_target+dir_up+dir_left, sq_target+dir_right, sq_target - 24, evaluate)

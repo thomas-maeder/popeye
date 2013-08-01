@@ -21,7 +21,7 @@ static boolean is_rebirth_square_dirty[maxply+1];
 
 static square next_rebirth_square(square beyond_prev_rebirth_square)
 {
-  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+  square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
   square result = beyond_prev_rebirth_square;
 
   while (result!=sq_capture

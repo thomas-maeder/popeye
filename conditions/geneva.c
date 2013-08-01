@@ -70,7 +70,7 @@ boolean geneva_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_capture_legal(current_move[nbply]))
+  if (is_capture_legal(current_move[nbply]-1))
     result = validate_observation_recursive(slices[si].next1);
   else
     result = false;

@@ -14,15 +14,15 @@ static void gmaooa(square  sq_departure,
     if (is_square_empty(arrival1)
         || piece_belongs_to_opponent(arrival1))
     {
-      add_to_move_generation_stack(sq_departure,arrival1,arrival1);
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = pass;
+      add_to_move_generation_stack(sq_departure,arrival1,arrival1);
     }
 
     if (is_square_empty(arrival2)
         || piece_belongs_to_opponent(arrival2))
     {
-      add_to_move_generation_stack(sq_departure,arrival2,arrival2);
       move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = pass;
+      add_to_move_generation_stack(sq_departure,arrival2,arrival2);
     }
   }
 }
