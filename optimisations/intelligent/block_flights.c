@@ -104,7 +104,6 @@ static void plan_blocks_of_flights(void)
 
   nextply(White);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   assert(get_walk_of_piece_on_square(king_square[Black])==King);
   empty_square(king_square[Black]);

@@ -39,7 +39,6 @@ static boolean observed(square on_this, square by_that)
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = on_this;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   fromspecificsquare = by_that;
   result = is_square_observed(&eval_fromspecificsquare);
   fromspecificsquare = save_fromspecificsquare;

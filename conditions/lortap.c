@@ -23,7 +23,6 @@ boolean lortap_validate_observation(slice_index si)
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = sq_observer;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   is_observer_supported = is_square_observed(&validate_observer);
   finply();
 

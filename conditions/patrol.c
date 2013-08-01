@@ -26,7 +26,6 @@ static boolean is_supported(square sq_departure)
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   move_generation_stack[current_move[nbply]].capture = sq_departure;
   result = is_square_observed(&validate_observer);
   finply();

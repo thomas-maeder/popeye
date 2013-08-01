@@ -20,7 +20,6 @@ static boolean is_target_guarded(numecoup n)
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = move_generation_stack[n].capture;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   result = is_square_observed(&validate_observer);
   finply();
 

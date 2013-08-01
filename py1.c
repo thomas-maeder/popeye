@@ -822,7 +822,6 @@ boolean orphancheck(PieNam orphan_type,
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]].capture = sq_target;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
@@ -859,7 +858,6 @@ boolean friendcheck(PieNam p, evalfunction_t *evaluate)
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   for (pfr = orphanpieces; *pfr!=Empty; pfr++)
     if (number_of_pieces[trait[nbply]][*pfr]>0)

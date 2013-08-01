@@ -111,7 +111,6 @@ static square find_king_flight(void)
 
   nextply(White);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
 
   empty_square(king_square[Black]);
 

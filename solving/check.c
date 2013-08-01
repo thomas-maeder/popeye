@@ -35,7 +35,6 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 
   nextply(advers(side_in_check));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   result = is_in_check(slices[si].next1,side_in_check);
   finply();
 

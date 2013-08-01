@@ -63,7 +63,6 @@ boolean central_validate_observation(slice_index si)
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   is_observer_supported = is_supported(sq_observer);
   finply();
 
@@ -95,7 +94,6 @@ void central_generate_moves_for_piece(slice_index si,
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   is_mover_supported = is_supported(sq_departure);
   finply();
 
