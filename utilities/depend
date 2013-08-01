@@ -3,7 +3,8 @@ utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/enumeration.h pylang.h pymsg.h solving/move_effect_journal.h \
- solving/solve.h position/pieceid.h debugging/trace.h
+ solving/solve.h solving/castling_rights.h position/pieceid.h \
+ debugging/trace.h
 
 utilities/table.h:
 
@@ -38,6 +39,8 @@ pymsg.h:
 solving/move_effect_journal.h:
 
 solving/solve.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 

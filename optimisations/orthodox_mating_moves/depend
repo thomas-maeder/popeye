@@ -79,9 +79,9 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  utilities/boolean.h utilities/enumeration.h pylang.h \
  pieces/walks/generate_moves.h position/position.h \
  pieces/walks/pawns/promotion.h pieces/walks/pawns/en_passant.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h solving/castling.h \
- stipulation/slice_type.h solving/castling_rights.h \
- solving/move_effect_journal.h position/pieceid.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h solving/castling.h stipulation/slice_type.h \
  solving/move_generator.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
@@ -123,15 +123,15 @@ pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
-solving/castling.h:
-
-stipulation/slice_type.h:
+solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
-solving/move_effect_journal.h:
-
 position/pieceid.h:
+
+solving/castling.h:
+
+stipulation/slice_type.h:
 
 solving/move_generator.h:
 

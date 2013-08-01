@@ -2075,8 +2075,6 @@ boolean eval_fromspecificsquare(void)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
   result = sq_departure==fromspecificsquare && validate_observation();

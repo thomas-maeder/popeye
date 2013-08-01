@@ -16,7 +16,7 @@ static boolean is_piece_provoked_on(numecoup n)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   siblingply(advers(trait[nbply]));

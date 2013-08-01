@@ -197,8 +197,6 @@ boolean ultrapatrol_validate_observation(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   result = is_supported(sq_observer) && validate_observation_recursive(slices[si].next1);

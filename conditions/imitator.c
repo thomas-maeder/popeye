@@ -746,8 +746,7 @@ boolean imitator_validate_observation(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TracePiece(e[sq_observer]);TraceText("\n");

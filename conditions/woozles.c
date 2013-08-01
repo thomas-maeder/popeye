@@ -222,8 +222,6 @@ boolean woozles_validate_observation(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   result = (!woozles_is_paralysed(side_woozle,current_move[nbply])

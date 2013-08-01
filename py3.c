@@ -199,7 +199,6 @@ boolean huntercheck(PieNam p, evalfunction_t *evaluate)
   HunterType const * const huntertype = huntertypes+typeofhunter;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_target);
   TracePiece(p);
   TraceFunctionParamListEnd();
 

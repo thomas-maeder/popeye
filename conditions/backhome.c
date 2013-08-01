@@ -25,9 +25,6 @@ int len_backhome(void)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   result = goes_back_home(sq_departure,sq_arrival);

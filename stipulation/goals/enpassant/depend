@@ -9,7 +9,8 @@ stipulation/goals/enpassant/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- solving/move_effect_journal.h position/pieceid.h debugging/trace.h
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h debugging/trace.h
 
 stipulation/goals/enpassant/reached_tester.h:
 
@@ -62,6 +63,8 @@ stipulation/goals/reached_tester.h:
 stipulation/boolean/true.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 

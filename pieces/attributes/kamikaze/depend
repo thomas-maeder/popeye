@@ -13,7 +13,7 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/exchange_filter.h solving/move_effect_journal.h \
- position/pieceid.h debugging/trace.h
+ solving/castling_rights.h position/pieceid.h debugging/trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
@@ -78,6 +78,8 @@ conditions/anticirce/exchange_special.h:
 conditions/anticirce/exchange_filter.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 

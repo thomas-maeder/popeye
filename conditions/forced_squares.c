@@ -15,9 +15,6 @@ int forced_squares_measure_length(void)
   int const result = TSTFLAG(sq_spec[sq_arrival],flag);
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   TraceValue("%x\n",sq_spec[sq_arrival]);

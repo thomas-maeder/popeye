@@ -35,8 +35,6 @@ boolean beamten_validate_observation(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(spec[sq_observer],Beamtet) && !is_observed(sq_observer))

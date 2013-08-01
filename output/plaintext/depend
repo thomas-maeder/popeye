@@ -4,10 +4,10 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h stipulation/goals/goals.h pymsg.h conditions/republican.h \
  solving/solve.h conditions/bgl.h solving/move_effect_journal.h \
- position/pieceid.h conditions/kobul.h conditions/imitator.h \
- position/position.h pieces/walks/pawns/en_passant.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h \
- pydata.h pyproc.h
+ solving/castling_rights.h position/pieceid.h conditions/kobul.h \
+ conditions/imitator.h position/position.h \
+ pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h debugging/trace.h pydata.h pyproc.h
 
 output/plaintext/plaintext.h:
 
@@ -40,6 +40,8 @@ solving/solve.h:
 conditions/bgl.h:
 
 solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 position/pieceid.h:
 

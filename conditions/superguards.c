@@ -12,9 +12,7 @@ static boolean is_target_guarded(numecoup n)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   siblingply(advers(trait[nbply]));
