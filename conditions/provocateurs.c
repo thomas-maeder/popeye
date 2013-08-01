@@ -8,10 +8,10 @@
 #include "pydata.h"
 
 /* Determine whether a capturer is provoked
- * @param sq_departure position of the capturer
+ * @param n identifies the move
  * @return true iff the capturer is provoked
  */
-static boolean is_piece_provoked_on(square sq_departure)
+static boolean is_piece_provoked_on(numecoup n)
 {
   boolean result;
 
@@ -21,7 +21,7 @@ static boolean is_piece_provoked_on(square sq_departure)
 
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_departure;
+  move_generation_stack[current_move[nbply]].capture = move_generation_stack[n].departure;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   result = is_square_observed(&validate_observer);
   finply();
@@ -37,14 +37,13 @@ static boolean is_piece_provoked_on(square sq_departure)
  */
 boolean provocateurs_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_piece_provoked_on(sq_observer))
+  if (is_piece_provoked_on(current_move[nbply]))
     result = validate_observation_recursive(slices[si].next1);
   else
     result = false;
@@ -68,7 +67,7 @@ static boolean is_not_unprovoked_capture(numecoup n,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = is_square_empty(sq_capture) || is_piece_provoked_on(sq_departure);
+  result = is_square_empty(sq_capture) || is_piece_provoked_on(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

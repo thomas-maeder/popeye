@@ -7,36 +7,7 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-/* Validate an observation according to Superguards
- * @return true iff the observation is valid
- */
-boolean superguards_validate_observation(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  siblingply(advers(trait[nbply]));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = move_generation_stack[current_move[nbply-1]].capture;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = !is_square_observed(&validate_observer);
-  finply();
-
-  if (result)
-    result = validate_observation_recursive(slices[si].next1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean avoid_observing_guarded(square sq_observer,
-                                       square sq_landing,
-                                       square sq_observee)
+static boolean is_target_guarded(numecoup n)
 {
   boolean result;
 
@@ -48,10 +19,30 @@ static boolean avoid_observing_guarded(square sq_observer,
 
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].capture = sq_observee;
+  move_generation_stack[current_move[nbply]].capture = move_generation_stack[n].capture;
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = !is_square_observed(&validate_observer);
+  result = is_square_observed(&validate_observer);
   finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Validate an observation according to Superguards
+ * @return true iff the observation is valid
+ */
+boolean superguards_validate_observation(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = (!is_target_guarded(current_move[nbply])
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -72,10 +63,7 @@ static boolean move_is_legal(numecoup n,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(sq_observee))
-    result = true;
-  else
-    result = avoid_observing_guarded(sq_observer,sq_landing,sq_observee);
+  result = is_square_empty(sq_observee) || !is_target_guarded(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
