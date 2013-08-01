@@ -23,8 +23,14 @@ static boolean is_supported(square sq_departure)
 
   /* the supporter of the piece on sq_departure doesn't need a supporter */
   state = seeking_supporter_for_observer;
+
+  siblingply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   move_generation_stack[current_move[nbply]].capture = sq_departure;
   result = is_square_observed(&validate_observer);
+  finply();
+
   state = idle;
 
   TraceFunctionExit(__func__);
@@ -46,20 +52,8 @@ boolean patrol_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   if (state==idle && TSTFLAG(spec[sq_observer],Patrol))
-  {
-    boolean is_observer_supported;
-
-    siblingply(trait[nbply]);
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-    is_observer_supported = is_supported(sq_observer);
-    finply();
-
-    if (is_observer_supported)
-      result = validate_observation_recursive(slices[si].next1);
-    else
-      result = false;
-  }
+    result = (is_supported(sq_observer)
+              && validate_observation_recursive(slices[si].next1));
   else
     result = validate_observation_recursive(slices[si].next1);
 
@@ -87,16 +81,7 @@ static boolean is_not_patrol_or_supported_capture(square sq_observer,
   TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_observer],Patrol))
-  {
-    siblingply(trait[nbply]);
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-    result = is_supported(sq_observer);
-    finply();
-  }
-  else
-    result = true;
+  result = !TSTFLAG(spec[sq_observer],Patrol) || is_supported(sq_observer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -217,14 +202,7 @@ boolean ultrapatrol_validate_observation(slice_index si)
   TraceSquare(sq_landing);
   TraceFunctionParamListEnd();
 
-  siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  result = is_supported(sq_observer);
-  finply();
-
-  if (result)
-    result = validate_observation_recursive(slices[si].next1);
+  result = is_supported(sq_observer) && validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -241,21 +219,13 @@ void ultrapatrol_generate_moves_for_piece(slice_index si,
                                           square sq_departure,
                                           PieNam p)
 {
-  boolean is_mover_supported;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
-  is_mover_supported = is_supported(sq_departure);
-  finply();
-
-  if (is_mover_supported)
+  if (is_supported(sq_departure))
     generate_moves_for_piece(slices[si].next1,sq_departure,p);
 
   TraceFunctionExit(__func__);
