@@ -32,13 +32,14 @@ mummer_strictness_type mummer_strictness_default_side;
 
 /* Determine the length of a move for the Maximummer condition; the higher the
  * value the more likely the move is going to be played.
- * @param sq_departure departure square
- * @param sq_arrival arrival square
- * @param sq_capture capture square
  * @return a value expressing the precedence of this move
  */
-int maximummer_measure_length(square sq_departure, square sq_arrival, square sq_capture)
+int maximummer_measure_length(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+  square const sq_capture = move_generation_stack[current_move[nbply]].capture;
+
   switch (sq_capture)
   {
     case messigny_exchange:
@@ -75,14 +76,11 @@ int maximummer_measure_length(square sq_departure, square sq_arrival, square sq_
 
 /* Determine the length of a move for the Minimummer condition; the higher the
  * value the more likely the move is going to be played.
- * @param sq_departure departure square
- * @param sq_arrival arrival square
- * @param sq_capture capture square
  * @return a value expressing the precedence of this move
  */
-int minimummer_measure_length(square sq_departure, square sq_arrival, square sq_capture)
+int minimummer_measure_length(void)
 {
-  return -maximummer_measure_length(sq_departure,sq_arrival,sq_capture);
+  return -maximummer_measure_length();
 }
 
 /* Forget previous mummer activations and definition of length measurers */
@@ -241,9 +239,7 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_length = (*mummer_measure_length[slices[si].starter])(move_generation_stack[current_move[nbply]].departure,
-                                                                move_generation_stack[current_move[nbply]].arrival,
-                                                                move_generation_stack[current_move[nbply]].capture);
+  current_length = (*mummer_measure_length[slices[si].starter])();
   TraceValue("%d",current_length);
   TraceValue("%d\n",mum_length[nbply-1]);
 
@@ -557,8 +553,6 @@ stip_length_type ultra_mummer_measurer_deadend_solve(slice_index si,
  */
 boolean ultra_mummer_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]].arrival;
   Side const side_observing = trait[nbply];
   boolean result;
 
@@ -567,7 +561,7 @@ boolean ultra_mummer_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   solve(slices[temporary_hack_ultra_mummer_length_measurer[side_observing]].next2,length_unspecified);
-  result = (*mummer_measure_length[side_observing])(sq_observer,sq_landing,move_generation_stack[current_move[nbply]].capture)==mum_length[nbply+1];
+  result = (*mummer_measure_length[side_observing])()==mum_length[nbply+1];
 
   if (result)
     result = validate_observation_recursive(slices[si].next1);

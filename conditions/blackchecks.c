@@ -16,14 +16,11 @@
 
 /* Determine the length of a move for the Black Checks condition; the higher the
  * value the more likely the move is going to be played.
- * @param sq_departure departure square
- * @param sq_arrival arrival square
- * @param sq_capture capture square
  * @return a value expressing the precedence of this move
  */
-int blackchecks_measure_length(square sq_departure, square sq_arrival, square sq_capture)
+int blackchecks_measure_length(void)
 {
-   return sq_arrival==nullsquare ? 0 : 1;
+   return move_generation_stack[current_move[nbply]].arrival!=nullsquare;
 }
 
 /* Allocate a STNullMovePlayer slice.

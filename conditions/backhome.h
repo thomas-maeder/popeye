@@ -5,7 +5,7 @@
 
 #include "py.h"
 
-int len_backhome(square sq_departure, square sq_arrival, square sq_capture);
+int len_backhome(void);
 
 /* Validate an observation according to Back Home
  * @return true iff the observation is valid

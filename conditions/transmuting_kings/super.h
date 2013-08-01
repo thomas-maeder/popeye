@@ -6,9 +6,7 @@
 /* This module implements the condition Super-transmuting kings */
 
 /* the mummer logic is (ab)used to priorise transmuting king moves */
-int len_supertransmuting_kings(square sq_departure,
-                               square sq_arrival,
-                               square sq_capture);
+int len_supertransmuting_kings(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index

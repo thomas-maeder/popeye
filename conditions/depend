@@ -4912,7 +4912,9 @@ stipulation/goals/goals.h:
 conditions/must_capture$(OBJ_SUFFIX): conditions/must_capture.c \
  conditions/must_capture.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h debugging/trace.h
+ utilities/enumeration.h debugging/trace.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h py.h \
+ utilities/boolean.h position/position.h pylang.h
 
 conditions/must_capture.h:
 
@@ -4929,3 +4931,19 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:

@@ -16,9 +16,7 @@
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
 /* the mummer logic is (ab)used to priorise transmuting king moves */
-int len_supertransmuting_kings(square sq_departure,
-                               square sq_arrival,
-                               square sq_capture)
+int len_supertransmuting_kings(void)
 {
   return MAX_OTHER_LEN * (move_generation_stack[current_move[nbply]].current_supertransmutation!=Empty ? 1 : 0);
 }

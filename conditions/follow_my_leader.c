@@ -7,15 +7,12 @@
 
 /* Determine the length of a move for the Follow my leader condition; the higher
  * the value the more likely the move is going to be played.
- * @param sq_departure departure square
- * @param sq_arrival arrival square
- * @param sq_capture capture square
  * @return a value expressing the precedence of this move
  */
-int follow_my_leader_measure_length(square sq_departure,
-                                    square sq_arrival,
-                                    square sq_capture)
+int follow_my_leader_measure_length(void)
 {
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
+
   ply const parent = parent_ply[nbply];
   move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
   move_effect_journal_index_type const movement = parent_base+move_effect_journal_index_offset_movement;

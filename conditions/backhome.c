@@ -18,8 +18,10 @@ static boolean goes_back_home(square sq_departure, square sq_arrival)
   return sq_arrival==pieceid2pos[GetPieceId(spec[sq_departure])];
 }
 
-int len_backhome(square sq_departure, square sq_arrival, square sq_capture)
+int len_backhome(void)
 {
+  square const sq_departure = move_generation_stack[current_move[nbply]].departure;
+  square const sq_arrival = move_generation_stack[current_move[nbply]].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
