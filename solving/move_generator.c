@@ -497,9 +497,9 @@ void add_to_move_generation_stack(square sq_departure,
 
   INCREMENT_COUNTER(add_to_move_generation_stack);
 
-  move_generation_stack[current_move[nbply]].departure= sq_departure;
-  move_generation_stack[current_move[nbply]].arrival= sq_arrival;
-  move_generation_stack[current_move[nbply]].capture= sq_capture;
+  move_generation_stack[current_move[nbply]].departure = sq_departure;
+  move_generation_stack[current_move[nbply]].arrival = sq_arrival;
+  move_generation_stack[current_move[nbply]].capture = sq_capture;
   ++current_move[nbply];
   move_generation_stack[current_move[nbply]].auxiliary.hopper.sq_hurdle = initsquare;
   TraceValue("%u\n",current_move[nbply]);
