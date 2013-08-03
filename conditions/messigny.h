@@ -29,11 +29,8 @@ stip_length_type messigny_move_player_solve(slice_index si, stip_length_type n);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void messigny_generate_moves_for_piece(slice_index si,
-                                       square sq_departure,
-                                       PieNam p);
+void messigny_generate_moves_for_piece(slice_index si, PieNam p);
 
 #endif

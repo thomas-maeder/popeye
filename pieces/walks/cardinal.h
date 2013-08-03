@@ -6,8 +6,7 @@
 #include "position/board.h"
 
 /* Generate moves for a Cardinal
- * @param sq_departure common departure square of the generated moves
  */
-void cardinal_generate_moves(square sq_departure);
+void cardinal_generate_moves(void);
 
 #endif

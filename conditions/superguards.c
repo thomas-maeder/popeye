@@ -47,20 +47,14 @@ boolean superguards_validate_observation(slice_index si)
   return result;
 }
 
-static boolean move_is_legal(numecoup n,
-                             square sq_observer,
-                             square sq_landing,
-                             square sq_observee)
+static boolean move_is_legal(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_observer);
-  TraceSquare(sq_landing);
-  TraceSquare(sq_observee);
   TraceFunctionParamListEnd();
 
-  result = is_square_empty(sq_observee) || !is_target_guarded(n);
+  result = is_square_empty(move_generation_stack[n].capture) || !is_target_guarded(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -34,12 +34,11 @@ static boolean validate_paralyser(void)
   return result;
 }
 
-static boolean is_paralysed(square s)
+static boolean is_paralysed(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(s);
   TraceFunctionParamListEnd();
 
   if (paralysis_suspended)
@@ -48,8 +47,7 @@ static boolean is_paralysed(square s)
   {
     siblingply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = s;
-    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
+    move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
     result = is_square_observed(&validate_paralyser);
     finply();
   }
@@ -93,7 +91,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
     if (move_generation_stack[curr].departure!=sq_departure)
     {
       sq_departure = move_generation_stack[curr].departure;
-      if (is_paralysed(sq_departure))
+      if (is_paralysed(curr))
         found_move_from_paralysed = true;
       else
       {
@@ -150,7 +148,6 @@ boolean suffocated_by_paralysis(Side side)
  */
 boolean paralysing_validate_observer(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -159,8 +156,9 @@ boolean paralysing_validate_observer(slice_index si)
 
   /* we are not validating a paralysis, but an observation (e.g. check or
    * Patrol Chess) in the presence of paralysing pieces */
-  result = (!TSTFLAG(spec[sq_observer],Paralysing)
-            && !is_paralysed(sq_observer)
+  result = (!TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],
+                     Paralysing)
+            && !is_paralysed(current_move[nbply]-1)
             &&  validate_observer_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -171,21 +169,17 @@ boolean paralysing_validate_observer(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void paralysing_generate_moves_for_piece(slice_index si,
-                                         square sq_departure,
-                                         PieNam p)
+void paralysing_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!is_paralysed(sq_departure))
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  if (!is_paralysed(current_generation))
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

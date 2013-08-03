@@ -17,9 +17,8 @@ boolean find_next_friend_in_chain(square sq_target,
                                   PieNam p,
                                   evalfunction_t *evaluate);
 
-/* Generate moves for a rider piece
- * @param sq_departure common departure square of the generated moves
+/* Generate moves for a Friend
  */
-void friend_generate_moves(square sq_departure);
+void friend_generate_moves(void);
 
 #endif

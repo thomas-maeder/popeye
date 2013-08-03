@@ -4,8 +4,7 @@
 #include "pyproc.h"
 
 /* Generate moves for a reverse pawn
- * @param sq_departure common departure square of the generated moves
  */
-void reverse_pawn_generate_moves(square sq_departure);
+void reverse_pawn_generate_moves(void);
 
 #endif

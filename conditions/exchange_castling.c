@@ -67,14 +67,11 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void exchange_castling_generate_moves_for_piece(slice_index si,
-                                                square sq_departure,
-                                                PieNam p)
+void exchange_castling_generate_moves_for_piece(slice_index si, PieNam p)
 {
-  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,p);
 
   if (p==King && !castling_right_used_up[trait[nbply]])
   {
@@ -85,10 +82,10 @@ void exchange_castling_generate_moves_for_piece(slice_index si,
       int j;
       square pos_partner = square_a;
       for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
-        if (pos_partner!=sq_departure
+        if (pos_partner!=curr_generation->departure
             && TSTFLAG(spec[pos_partner],trait[nbply])
             && !is_pawn(get_walk_of_piece_on_square(pos_partner))) /* not sure if "castling" with Ps forbidden */
-          add_to_move_generation_stack(sq_departure,pos_partner,platzwechsel_rochade);
+          push_move_generation_capture_extra(pos_partner,platzwechsel_rochade);
     }
   }
 }

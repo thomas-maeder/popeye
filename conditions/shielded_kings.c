@@ -24,8 +24,7 @@ boolean shielded_kings_validate_observation(slice_index si)
     siblingply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
     move_generation_stack[current_move[nbply]-1].capture = sq_observee;
-    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-    result = !is_square_observed(&validate_observer);
+        result = !is_square_observed(&validate_observer);
     finply();
   }
   else

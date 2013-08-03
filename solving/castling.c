@@ -20,7 +20,6 @@ castling_flag_type castling_flag;
 castling_flag_type castling_mutual_exclusive[nr_sides][2];
 castling_flag_type castling_flags_no_castling;
 
-static square intermediate_move_square_departure;
 static square intermediate_move_square_arrival;
 
 /* Allocate a STCastlingIntermediateMoveGenerator slice.
@@ -42,21 +41,15 @@ slice_index alloc_castling_intermediate_move_generator_slice(void)
 }
 
 /* Initialise the next1 move generation
- * @param sq_departure departure square of move to be generated
  * @param sq_arrival arrival square of move to be generated
  */
-void castling_intermediate_move_generator_init_next(square sq_departure,
-                                                    square sq_arrival)
+void castling_intermediate_move_generator_init_next(square sq_arrival)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  /* avoid concurrent generations */
-  assert(intermediate_move_square_departure==initsquare);
-
-  intermediate_move_square_departure = sq_departure;
   intermediate_move_square_arrival = sq_arrival;
 
   TraceFunctionExit(__func__);
@@ -77,7 +70,7 @@ void castling_intermediate_move_generator_init_next(square sq_departure,
  *            n+3 no solution found in next branch
  */
 stip_length_type castling_intermediate_move_generator_solve(slice_index si,
-                                                             stip_length_type n)
+                                                            stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
@@ -94,14 +87,9 @@ stip_length_type castling_intermediate_move_generator_solve(slice_index si,
    * ply.
    */
   current_move[parent_ply[nbply]-1] = current_move[nbply]-1;
-  add_to_move_generation_stack(intermediate_move_square_departure,
-                               intermediate_move_square_arrival,
-                               intermediate_move_square_arrival);
+  push_move_generation(intermediate_move_square_arrival);
   result = solve(next,n);
   current_move[parent_ply[nbply]-1] = save_repere;
-
-  /* clean up after ourselves */
-  intermediate_move_square_departure = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -545,20 +533,16 @@ stip_length_type castling_rights_adjuster_solve(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void castling_generator_generate_castling(slice_index si,
-                                          square sq_departure,
-                                          PieNam p)
+void castling_generator_generate_castling(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,p);
 
   if (p==King || p==Poseidon)
     generate_castling();

@@ -79,29 +79,25 @@ boolean annan_is_square_observed(slice_index si, evalfunction_t *evaluate)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void annan_generate_moves_for_piece(slice_index si,
-                                    square sq_departure,
-                                    PieNam p)
+void annan_generate_moves_for_piece(slice_index si, PieNam p)
 {
   int const annaniser_dir = trait[nbply]==White ? -onerow : +onerow;
-  square const annaniser_pos = sq_departure+annaniser_dir;
+  square const annaniser_pos = curr_generation->departure+annaniser_dir;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (annanises(trait[nbply],annaniser_pos,sq_departure))
+  if (annanises(trait[nbply],annaniser_pos,curr_generation->departure))
   {
     PieNam const annaniser = get_walk_of_piece_on_square(annaniser_pos);
-    generate_moves_for_piece(slices[si].next1,sq_departure,annaniser);
+    generate_moves_for_piece(slices[si].next1,annaniser);
   }
   else
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

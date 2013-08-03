@@ -6,13 +6,11 @@
 #include "position/board.h"
 
 /* Generate moves for an Kangaroo
- * @param sq_departure common departure square of the generated moves
  */
-void kangaroo_generate_moves(square sq_departure);
+void kangaroo_generate_moves(void);
 
 /* Generate moves for an Kangaroo Lion
- * @param sq_departure common departure square of the generated moves
  */
-void kangaroo_lion_generate_moves(square sq_departure);
+void kangaroo_lion_generate_moves(void);
 
 #endif

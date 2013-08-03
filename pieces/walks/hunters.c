@@ -1,5 +1,6 @@
 #include "pieces/walks/hunters.h"
 #include "pieces/walks/generate_moves.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
@@ -36,12 +37,12 @@ PieNam hunter_make_type(PieNam away, PieNam home)
     return Invalid;
 }
 
-static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
+static void filter(numecoup prevnbcou, UPDOWN u)
 {
+  square const sq_departure = curr_generation->departure;
   numecoup s = prevnbcou;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   while (s<current_move[nbply])
@@ -60,17 +61,16 @@ static void filter(square sq_departure, numecoup prevnbcou, UPDOWN u)
   TraceFunctionResultEnd();
 }
 
-static void generate_one_dir(square sq_departure, PieNam part, UPDOWN updown)
+static void generate_one_dir(PieNam part, UPDOWN updown)
 {
   numecoup const savenbcou = current_move[nbply];
-  generate_moves_for_piece_based_on_walk(sq_departure,part);
-  filter(sq_departure,savenbcou,updown);
+  generate_moves_for_piece_based_on_walk(part);
+  filter(savenbcou,updown);
 }
 
-void hunter_generate_moves(square sq_departure, PieNam walk)
+void hunter_generate_moves(PieNam walk)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TracePiece(walk);
   TraceFunctionParamListEnd();
 
@@ -83,13 +83,13 @@ void hunter_generate_moves(square sq_departure, PieNam walk)
 
     if (trait[nbply]==White)
     {
-      generate_one_dir(sq_departure,huntertype->home,DOWN);
-      generate_one_dir(sq_departure,huntertype->away,UP);
+      generate_one_dir(huntertype->home,DOWN);
+      generate_one_dir(huntertype->away,UP);
     }
     else
     {
-      generate_one_dir(sq_departure,huntertype->away,DOWN);
-      generate_one_dir(sq_departure,huntertype->home,UP);
+      generate_one_dir(huntertype->away,DOWN);
+      generate_one_dir(huntertype->home,UP);
     }
   }
 
@@ -97,14 +97,14 @@ void hunter_generate_moves(square sq_departure, PieNam walk)
   TraceFunctionResultEnd();
 }
 
-void rook_hunter_generate_moves(square sq_departure)
+void rook_hunter_generate_moves(void)
 {
-  generate_one_dir(sq_departure,Bishop,DOWN);
-  generate_one_dir(sq_departure,Rook,UP);
+  generate_one_dir(Bishop,DOWN);
+  generate_one_dir(Rook,UP);
 }
 
-void bishop_hunter_generate_moves(square sq_departure)
+void bishop_hunter_generate_moves(void)
 {
-  generate_one_dir(sq_departure,Rook,DOWN);
-  generate_one_dir(sq_departure,Bishop,UP);
+  generate_one_dir(Rook,DOWN);
+  generate_one_dir(Bishop,UP);
 }

@@ -437,17 +437,18 @@ static boolean are_squares_empty(square from, square to, int direction)
   return true;
 }
 
-boolean castling_is_intermediate_king_move_legal(Side side, square from, square to)
+boolean castling_is_intermediate_king_move_legal(Side side, square to)
 {
   boolean result = false;
 
   if (complex_castling_through_flag)
   {
-    castling_intermediate_move_generator_init_next(from,to);
+    castling_intermediate_move_generator_init_next(to);
     result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==next_move_has_solution;
   }
   else
   {
+    square const from = curr_generation->departure;
     occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
 
@@ -498,12 +499,12 @@ void generate_castling(void)
     if (allowed_castlings!=0 && !echecc(side))
     {
       if ((allowed_castlings&rh_cancastle)
-          && castling_is_intermediate_king_move_legal(side,square_e,square_f))
-        add_to_move_generation_stack(square_e,square_g,kingside_castling);
+          && castling_is_intermediate_king_move_legal(side,square_f))
+        push_move_generation_capture_extra(square_g,kingside_castling);
 
       if ((allowed_castlings&ra_cancastle)
-          && castling_is_intermediate_king_move_legal(side,square_e,square_d))
-        add_to_move_generation_stack(square_e,square_c,queenside_castling);
+          && castling_is_intermediate_king_move_legal(side,square_d))
+        push_move_generation_capture_extra(square_c,queenside_castling);
     }
   }
 

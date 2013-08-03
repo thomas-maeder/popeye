@@ -6,10 +6,9 @@
 #include "pydata.h"
 #include "pyproc.h"
 
-/* Generate moves for a rider piece
- * @param sq_departure common departure square of the generated moves
+/* Generate moves for an Orphan
  */
-void orphan_generate_moves(square sq_departure)
+void orphan_generate_moves(void)
 {
   numecoup const save_nbcou = current_move[nbply]-1;
   PieNam const *orphan_observer;
@@ -21,12 +20,13 @@ void orphan_generate_moves(square sq_departure)
 
       siblingply(trait[nbply]);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-      found_chain = orphan_find_observation_chain(sq_departure,*orphan_observer,&validate_observation);
+            found_chain = orphan_find_observation_chain(curr_generation->departure,
+                                                        *orphan_observer,
+                                                        &validate_observation);
       finply();
 
       if (found_chain)
-        generate_moves_for_piece_based_on_walk(sq_departure,*orphan_observer);
+        generate_moves_for_piece_based_on_walk(*orphan_observer);
     }
 
   remove_duplicate_moves_of_single_piece(save_nbcou);

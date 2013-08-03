@@ -6,13 +6,11 @@
 #include "position/board.h"
 
 /* Generate moves for an reflecting bishop
- * @param sq_departure common departure square of the generated moves
  */
-void reflecting_bishop_generate_moves(square sq_departure);
+void reflecting_bishop_generate_moves(void);
 
 /* Generate moves for an reflecting bishop
- * @param sq_departure common departure square of the generated moves
  */
-void archbishop_generate_moves(square sq_departure);
+void archbishop_generate_moves(void);
 
 #endif

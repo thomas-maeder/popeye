@@ -47,7 +47,6 @@ stip_length_type orthodox_mating_king_contact_generator_solve(slice_index si,
   stip_length_type result;
   Side const moving = slices[si].starter;
   Side const mated = advers(moving);
-  square const sq_departure = king_square[moving];
   square const sq_mated_king = king_square[mated];
 
   TraceFunctionEntry(__func__);
@@ -57,15 +56,17 @@ stip_length_type orthodox_mating_king_contact_generator_solve(slice_index si,
 
   assert(n==slack_length+1);
 
-  if (sq_departure!=sq_mated_king)
+  curr_generation->departure = king_square[moving];
+
+  if (curr_generation->departure!=sq_mated_king)
   {
     vec_index_type k;
     for (k = vec_queen_start; k<=vec_queen_end; k++)
     {
-      square const sq_arrival = sq_departure+vec[k];
+      square const sq_arrival = curr_generation->departure+vec[k];
       if ((is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],mated))
           && move_diff_code[abs(sq_mated_king-sq_arrival)]<=1+1)
-        add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+        push_move_generation(sq_arrival);
     }
   }
 

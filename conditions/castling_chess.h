@@ -55,12 +55,9 @@ stip_length_type castling_chess_king_square_adjuster_solve(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void castlingchess_generate_moves_for_piece(slice_index si,
-                                            square sq_departure,
-                                            PieNam p);
+void castlingchess_generate_moves_for_piece(slice_index si, PieNam p);
 
 /* Instrument slices with Castling Chess slices
  */

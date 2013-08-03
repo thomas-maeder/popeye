@@ -59,11 +59,9 @@ void disable_castling_rights(move_effect_reason_type reason,
 slice_index alloc_castling_intermediate_move_generator_slice(void);
 
 /* Initialise the next move generation
- * @param sq_departure departure square of move to be generated
  * @param sq_arrival arrival square of move to be generated
  */
-void castling_intermediate_move_generator_init_next(square sq_departure,
-                                                    square sq_arrival);
+void castling_intermediate_move_generator_init_next(square sq_arrival);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -115,12 +113,9 @@ stip_length_type castling_rights_adjuster_solve(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void castling_generator_generate_castling(slice_index si,
-                                          square sq_departure,
-                                          PieNam p);
+void castling_generator_generate_castling(slice_index si, PieNam p);
 
 /* Instrument the solving machinery with castling
  * @param si identifies root slice of solving machinery

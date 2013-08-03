@@ -12,8 +12,7 @@ typedef enum
 
 typedef ubiubi_square_state_type ubiubi_traversal_state_type[maxsquare+4];
 
-static void utiubi_generate_moves_recursive(square orig_departure,
-                                            square step_departure,
+static void utiubi_generate_moves_recursive(square step_departure,
                                             ubiubi_traversal_state_type traversal_state)
 {
   vec_index_type k;
@@ -25,13 +24,13 @@ static void utiubi_generate_moves_recursive(square orig_departure,
       switch (traversal_state[sq_arrival])
       {
         case ubiubi_empty:
-          add_to_move_generation_stack(orig_departure,sq_arrival,sq_arrival);
+          push_move_generation(sq_arrival);
           traversal_state[sq_arrival] = ubiubi_taboo;
-          utiubi_generate_moves_recursive(orig_departure,sq_arrival,traversal_state);
+          utiubi_generate_moves_recursive(sq_arrival,traversal_state);
           break;
 
         case ubiubi_opposibe:
-          add_to_move_generation_stack(orig_departure,sq_arrival,sq_arrival);
+          push_move_generation(sq_arrival);
           traversal_state[sq_arrival] = ubiubi_taboo;
           break;
 
@@ -41,7 +40,7 @@ static void utiubi_generate_moves_recursive(square orig_departure,
   }
 }
 
-void ubiubi_generate_moves(square sq_departure)
+void ubiubi_generate_moves(void)
 {
   Side const opposite = advers(trait[nbply]);
   ubiubi_traversal_state_type board_state;
@@ -55,9 +54,9 @@ void ubiubi_generate_moves(square sq_departure)
     else
       board_state[*bnp] = ubiubi_taboo;
 
-  board_state[sq_departure] = ubiubi_taboo; /* for neutral UbiUbis */
+  board_state[curr_generation->departure] = ubiubi_taboo; /* for neutral UbiUbis */
 
-  utiubi_generate_moves_recursive(sq_departure,sq_departure,board_state);
+  utiubi_generate_moves_recursive(curr_generation->departure,board_state);
 }
 
 static boolean ubiubi_check_recursive(square intermediate_square,

@@ -85,7 +85,8 @@ stip_length_type single_move_generator_solve(slice_index si,
   TraceValue("%u",nbply);
   TraceValue("%u",current_move[nbply]);
   TraceValue("%u\n",current_move[nbply-1]);
-  add_to_move_generation_stack(square_departure[nbply],square_arrival[nbply],square_capture[nbply]);
+  curr_generation->departure = square_departure[nbply];
+  push_move_generation_capture_extra(square_arrival[nbply],square_capture[nbply]);
   result = solve(next,n);
 
   square_departure[nbply] = initsquare;

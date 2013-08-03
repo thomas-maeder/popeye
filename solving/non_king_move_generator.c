@@ -33,17 +33,17 @@ static boolean advance_departure_square(Side side,
 {
   while (true)
   {
-    square const sq_departure = **next_square_to_try;
-    if (sq_departure==0)
+    curr_generation->departure = **next_square_to_try;
+    if (curr_generation->departure==0)
       break;
     else
     {
       ++*next_square_to_try;
-      if (TSTFLAG(spec[sq_departure],side) && sq_departure!=king_square[side])
+      if (TSTFLAG(spec[curr_generation->departure],side)
+          && curr_generation->departure!=king_square[side])
       {
         generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2,
-                                 sq_departure,
-                                 get_walk_of_piece_on_square(sq_departure));
+                                 get_walk_of_piece_on_square(curr_generation->departure));
         return true;
       }
     }

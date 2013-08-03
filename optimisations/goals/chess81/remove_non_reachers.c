@@ -24,20 +24,15 @@ slice_index alloc_chess81_remove_non_reachers_slice(void)
   return result;
 }
 
-static boolean reaches_81(numecoup n,
-                          square sq_departure,
-                          square sq_arrival,
-                          square sq_capture)
+static boolean reaches_81(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = sq_arrival<=square_h1 || sq_arrival>=square_a8;
+  result = (move_generation_stack[n].arrival<=square_h1
+            || move_generation_stack[n].arrival>=square_a8);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

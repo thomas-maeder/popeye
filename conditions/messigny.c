@@ -57,36 +57,34 @@ void stip_insert_messigny(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void messigny_generate_moves_for_piece(slice_index si,
-                                       square sq_departure,
-                                       PieNam p)
+void messigny_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,p);
 
-  if (!(king_square[trait[nbply]]==sq_departure && messigny_rex_exclusive))
+  if (!(king_square[trait[nbply]]==curr_generation->departure
+      && messigny_rex_exclusive))
   {
     square forbidden_from;
     square forbidden_to;
 
     find_forbidden_squares(&forbidden_from,&forbidden_to);
 
-    if (sq_departure!=forbidden_from && sq_departure!=forbidden_to)
+    if (curr_generation->departure!=forbidden_from
+        && curr_generation->departure!=forbidden_to)
     {
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
         if (piece_belongs_to_opponent(*bnp)
             && get_walk_of_piece_on_square(*bnp)==p
             && *bnp!=forbidden_from && *bnp!=forbidden_to)
-          add_to_move_generation_stack(sq_departure,*bnp,messigny_exchange);
+          push_move_generation_capture_extra(*bnp,messigny_exchange);
     }
   }
 

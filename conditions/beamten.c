@@ -5,7 +5,7 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean is_observed(square sq_departure)
+static boolean is_observed(numecoup n)
 {
   boolean result;
 
@@ -15,7 +15,7 @@ static boolean is_observed(square sq_departure)
 
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
   result = is_square_observed(&validate_observer);
   finply();
 
@@ -37,7 +37,7 @@ boolean beamten_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_observer],Beamtet) && !is_observed(sq_observer))
+  if (TSTFLAG(spec[sq_observer],Beamtet) && !is_observed(current_move[nbply]-1))
     result = false;
   else
     result = validate_observation_recursive(slices[si].next1);
@@ -50,21 +50,18 @@ boolean beamten_validate_observation(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void beamten_generate_moves_for_piece(slice_index si,
-                                      square sq_departure,
-                                      PieNam p)
+void beamten_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(spec[sq_departure],Beamtet) || is_observed(sq_departure))
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  if (!TSTFLAG(spec[curr_generation->departure],Beamtet)
+      || is_observed(current_generation))
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

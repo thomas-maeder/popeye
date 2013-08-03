@@ -39,12 +39,9 @@ boolean ultrapatrol_validate_observation(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void ultrapatrol_generate_moves_for_piece(slice_index si,
-                                          square sq_departure,
-                                          PieNam p);
+void ultrapatrol_generate_moves_for_piece(slice_index si, PieNam p);
 
 /* Inialise the solving machinery with Ultra-Patrol Chess
  * @param si identifies root slice of solving machinery

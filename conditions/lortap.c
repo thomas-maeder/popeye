@@ -7,27 +7,18 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-/* Validate an observation according to Lortap
- * @return true iff the observation is valid
- */
-boolean lortap_validate_observation(slice_index si)
+static boolean is_mover_supported(numecoup n)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
-  boolean is_observer_supported;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = sq_observer;
-  is_observer_supported = is_square_observed(&validate_observer);
+  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
+  result = is_square_observed(&validate_observer);
   finply();
-
-  result = (!is_observer_supported
-            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -35,35 +26,18 @@ boolean lortap_validate_observation(slice_index si)
   return result;
 }
 
-static boolean is_not_supported_capture(numecoup n,
-                                        square sq_departure,
-                                        square sq_arrival,
-                                        square sq_capture)
+/* Validate an observation according to Lortap
+ * @return true iff the observation is valid
+ */
+boolean lortap_validate_observation(slice_index si)
 {
-  boolean result;
+  return (!is_mover_supported(current_move[nbply]-1)
+          && validate_observation_recursive(slices[si].next1));
+}
 
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  if (is_square_empty(sq_capture))
-    result = true;
-  else
-  {
-    siblingply(trait[nbply]);
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
-    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-    result = !is_square_observed(&validate_observer);
-    finply();
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+static boolean is_not_supported_capture(numecoup n)
+{
+  return is_square_empty(move_generation_stack[n].capture) || !is_mover_supported(n);
 }
 
 /* Try to solve in n half-moves.

@@ -43,7 +43,8 @@ pieces/walks/hunters$(OBJ_SUFFIX): pieces/walks/hunters.c pieces/walks/hunters.h
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h py.h \
  utilities/boolean.h position/position.h pylang.h \
- pieces/walks/generate_moves.h debugging/trace.h pydata.h pyproc.h \
+ pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
+ stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h
 
 pieces/walks/hunters.h:
@@ -69,6 +70,12 @@ position/position.h:
 pylang.h:
 
 pieces/walks/generate_moves.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
 
 debugging/trace.h:
 
@@ -230,13 +237,21 @@ stipulation/goals/goals.h:
 
 pyproc.h:
 pieces/walks/ubiubi$(OBJ_SUFFIX): pieces/walks/ubiubi.c pieces/walks/ubiubi.h \
+ solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
- position/position.h pylang.h stipulation/slice_type.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pydata.h pyproc.h
+ pylang.h stipulation/slice_type.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pydata.h pyproc.h
 
 pieces/walks/ubiubi.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+py.h:
+
+utilities/boolean.h:
 
 position/position.h:
 
@@ -249,16 +264,6 @@ pieces/walks/vectors.h:
 utilities/boolean.h:
 
 utilities/enumeration.h:
-
-solving/move_generator.h:
-
-solving/solve.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
 
 pylang.h:
 
@@ -935,7 +940,7 @@ stipulation/goals/goals.h:
 
 pyproc.h:
 pieces/walks/rabbit$(OBJ_SUFFIX): pieces/walks/rabbit.c pieces/walks/rabbit.h \
- position/board.h utilities/bitmask.h pieces/walks/riders.h \
+ pieces/walks/riders.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/move_generator.h solving/solve.h py.h \
  utilities/boolean.h position/position.h pylang.h \
@@ -944,11 +949,11 @@ pieces/walks/rabbit$(OBJ_SUFFIX): pieces/walks/rabbit.c pieces/walks/rabbit.h \
 
 pieces/walks/rabbit.h:
 
+pieces/walks/riders.h:
+
 position/board.h:
 
 utilities/bitmask.h:
-
-pieces/walks/riders.h:
 
 position/position.h:
 
@@ -1075,17 +1080,13 @@ stipulation/goals/goals.h:
 
 pyproc.h:
 pieces/walks/hamster$(OBJ_SUFFIX): pieces/walks/hamster.c pieces/walks/hamster.h \
- position/board.h utilities/bitmask.h solving/move_generator.h \
- solving/solve.h py.h utilities/boolean.h position/position.h \
+ solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
 
 pieces/walks/hamster.h:
-
-position/board.h:
-
-utilities/bitmask.h:
 
 solving/move_generator.h:
 
@@ -1096,6 +1097,10 @@ py.h:
 utilities/boolean.h:
 
 position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
 
 pieces/walks/vectors.h:
 
@@ -1218,8 +1223,8 @@ stipulation/goals/goals.h:
 
 pyproc.h:
 pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
- pieces/walks/generate_moves.h position/board.h utilities/bitmask.h \
- position/position.h pieces/walks/vectors.h utilities/boolean.h \
+ pieces/walks/generate_moves.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pieces/walks/pawns/en_passant.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h pylang.h solving/solve.h \
@@ -1244,11 +1249,11 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
 
 pieces/walks/generate_moves.h:
 
+position/position.h:
+
 position/board.h:
 
 utilities/bitmask.h:
-
-position/position.h:
 
 pieces/walks/vectors.h:
 

@@ -66,14 +66,13 @@ stip_length_type castling_chess_move_player_solve(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void castlingchess_generate_moves_for_piece(slice_index si,
-                                            square sq_departure,
-                                            PieNam p)
+void castlingchess_generate_moves_for_piece(slice_index si, PieNam p)
 {
-  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  square const sq_departure = curr_generation->departure;
+
+  generate_moves_for_piece(slices[si].next1,p);
 
   if (p==King && !echecc(trait[nbply]))
   {
@@ -86,10 +85,8 @@ void castlingchess_generate_moves_for_piece(slice_index si,
 
       if (sq_castler!=sq_passed && sq_castler!=sq_arrival
           && !is_square_blocked(sq_castler)
-          && castling_is_intermediate_king_move_legal(trait[nbply],
-                                                      sq_departure,
-                                                      sq_passed))
-        add_to_move_generation_stack(sq_departure,sq_arrival,maxsquare+sq_castler);
+          && castling_is_intermediate_king_move_legal(trait[nbply],sq_passed))
+        push_move_generation_capture_extra(sq_arrival,maxsquare+sq_castler);
     }
   }
 }

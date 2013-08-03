@@ -34,12 +34,12 @@ slice_index alloc_orthodox_mating_move_generator_slice(void)
 }
 
 static boolean IsABattery(square KingSquare,
-                          square FrontSquare,
                           numvec Direction,
                           Side side,
                           PieNam RearPiece1,
                           PieNam RearPiece2)
 {
+  square const FrontSquare = curr_generation->departure;
   square const sq_target = find_end_of_line(FrontSquare,Direction);
   if (sq_target==KingSquare)
   {
@@ -53,22 +53,19 @@ static boolean IsABattery(square KingSquare,
   return false;
 }
 
-static numvec detect_directed_battery(square sq_departure, square sq_king,
-                                      Side side,
-                                      PieNam rider)
+static numvec detect_directed_battery(square sq_king, Side side, PieNam rider)
 {
-  numvec const dir_battery = CheckDir[rider][sq_king-sq_departure];
+  numvec const dir_battery = CheckDir[rider][sq_king-curr_generation->departure];
   numvec result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_king);
   TraceEnumerator(Side,side,"");
   TracePiece(rider);
   TraceFunctionParamListEnd();
 
   if (dir_battery!=0
-      && IsABattery(sq_king,sq_departure,dir_battery,side,rider,Queen))
+      && IsABattery(sq_king,dir_battery,side,rider,Queen))
     result = abs(dir_battery);
   else
     result = 0;
@@ -79,39 +76,41 @@ static numvec detect_directed_battery(square sq_departure, square sq_king,
   return result;
 }
 
-static numvec detect_battery(square sq_departure, square sq_king, Side side)
+static numvec detect_battery(square sq_king, Side side)
 {
-  return (detect_directed_battery(sq_departure,sq_king,side,Bishop)
-          +detect_directed_battery(sq_departure,sq_king,side,Rook));
+  return (detect_directed_battery(sq_king,side,Bishop)
+          +detect_directed_battery(sq_king,side,Rook));
 }
 
-static void pawn_ep_try_direction(square sq_departure, Side side, numvec dir)
+static void pawn_ep_try_direction(Side side, numvec dir)
 {
-  square const sq_arrival = sq_departure+dir;
+  square const sq_arrival = curr_generation->departure+dir;
 
   if (en_passant_is_capture_possible_to(side,sq_arrival))
   {
     square const pos_capturee = en_passant_find_capturee();
     if (pos_capturee!=initsquare)
     {
-      move_generation_stack[current_move[nbply]].auxiliary.sq_en_passant = sq_arrival;
-      add_to_move_generation_stack(sq_departure,sq_arrival,pos_capturee);
+      curr_generation->auxiliary.sq_en_passant = sq_arrival;
+      push_move_generation_capture_extra(sq_arrival,pos_capturee);
+      curr_generation->auxiliary.sq_en_passant = initsquare;
     }
   }
 }
 
-static void pawn_ep(square sq_departure, Side side)
+static void pawn_ep(Side side)
 {
   if (trait[parent_ply[nbply]]!=trait[nbply])
   {
     numvec const dir_forward = side==White ? dir_up : dir_down;
-    pawn_ep_try_direction(sq_departure,side,dir_forward+dir_right);
-    pawn_ep_try_direction(sq_departure,side,dir_forward+dir_left);
+    pawn_ep_try_direction(side,dir_forward+dir_right);
+    pawn_ep_try_direction(side,dir_forward+dir_left);
   }
 }
 
-static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_king, Side side)
+static void pawn_no_capture(numvec dir_battery, square sq_king, Side side)
 {
+  square const sq_departure = curr_generation->departure;
   numvec const dir_forward = side==White ? dir_up : dir_down;
   square const sq_arrival_singlestep = sq_departure+dir_forward;
 
@@ -123,7 +122,7 @@ static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_k
         || (ForwardPromSq(side,sq_arrival_singlestep)
             && (CheckDir[Queen][sq_king-sq_arrival_singlestep]
                 || CheckDir[Knight][sq_king-sq_arrival_singlestep])))
-      add_to_move_generation_stack(sq_departure,sq_arrival_singlestep,sq_arrival_singlestep);
+      push_move_generation(sq_arrival_singlestep);
 
     {
       SquareFlags const double_step = side==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
@@ -134,16 +133,16 @@ static void pawn_no_capture(square sq_departure, numvec dir_battery, square sq_k
             && (dir_battery!=0
                 || sq_arrival_doublestep+dir_forward+dir_left==sq_king
                 || sq_arrival_doublestep+dir_forward+dir_right==sq_king))
-          add_to_move_generation_stack(sq_departure,sq_arrival_doublestep,sq_arrival_doublestep);
+          push_move_generation(sq_arrival_doublestep);
       }
     }
   }
 }
 
-static void pawn_capture(square sq_departure, Side side, numvec dir_battery, square sq_king, numvec leftright)
+static void pawn_capture(Side side, numvec dir_battery, square sq_king, numvec leftright)
 {
   numvec const dir_forward = side==White ? dir_up : dir_down;
-  square const sq_arrival = sq_departure+dir_forward+leftright;
+  square const sq_arrival = curr_generation->departure+dir_forward+leftright;
 
   if (!is_square_empty(sq_arrival) && piece_belongs_to_opponent(sq_arrival))
     if (dir_battery!=0
@@ -152,45 +151,44 @@ static void pawn_capture(square sq_departure, Side side, numvec dir_battery, squ
         || (ForwardPromSq(side,sq_arrival)
             && (CheckDir[Queen][sq_king-sq_arrival]
                 || CheckDir[Knight][sq_king-sq_arrival])))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
 }
 
-static void pawn(square sq_departure, square sq_king, Side side)
+static void pawn(square sq_king, Side side)
 {
   SquareFlags const base_square = side==White ? WhBaseSq : BlBaseSq;
 
-  if (!TSTFLAG(sq_spec[sq_departure],base_square))
+  if (!TSTFLAG(sq_spec[curr_generation->departure],base_square))
   {
-    numvec const abs_dir_battery = detect_battery(sq_departure,sq_king,side);
+    numvec const abs_dir_battery = detect_battery(sq_king,side);
 
-    pawn_ep(sq_departure,side);
+    pawn_ep(side);
 
     if (abs_dir_battery!=dir_up)
-      pawn_no_capture(sq_departure,abs_dir_battery,sq_king,side);
+      pawn_no_capture(abs_dir_battery,sq_king,side);
 
-    pawn_capture(sq_departure,side,abs_dir_battery,sq_king,dir_left);
-    pawn_capture(sq_departure,side,abs_dir_battery,sq_king,dir_right);
+    pawn_capture(side,abs_dir_battery,sq_king,dir_left);
+    pawn_capture(side,abs_dir_battery,sq_king,dir_right);
   }
 }
 
-static void king_neutral(square sq_departure, Side side)
+static void king_neutral(Side side)
 {
   vec_index_type vec_index;
   for (vec_index = vec_queen_start; vec_index<=vec_queen_end; ++vec_index)
   {
-    square const sq_arrival = sq_departure+vec[vec_index];
+    square const sq_arrival = curr_generation->departure+vec[vec_index];
     /* must capture to mate the opponent */
     if (piece_belongs_to_opponent(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 }
 
-static void king_nonneutral(square sq_departure, square sq_king, Side side)
+static void king_nonneutral(square sq_king, Side side)
 {
-  numvec const abs_dir_battery = detect_battery(sq_departure,sq_king,side);
+  numvec const abs_dir_battery = detect_battery(sq_king,side);
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 
@@ -203,10 +201,10 @@ static void king_nonneutral(square sq_departure, square sq_king, Side side)
       TraceValue("%d\n",dir);
       if (abs(dir)!=abs_dir_battery)
       {
-        square const sq_arrival = sq_departure+dir;
+        square const sq_arrival = curr_generation->departure+dir;
         if ((is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival))
             && move_diff_code[abs(sq_king-sq_arrival)]>1+1) /* no contact */
-          add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+          push_move_generation(sq_arrival);
       }
     }
   }
@@ -215,17 +213,16 @@ static void king_nonneutral(square sq_departure, square sq_king, Side side)
   TraceFunctionResultEnd();
 }
 
-static void king(square sq_departure, square sq_king, Side side)
+static void king(square sq_king, Side side)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 
   if (king_square[White]==king_square[Black])
-    king_neutral(sq_departure,side);
+    king_neutral(side);
   else
-    king_nonneutral(sq_departure,sq_king,side);
+    king_nonneutral(sq_king,side);
 
   generate_castling();
 
@@ -233,15 +230,16 @@ static void king(square sq_departure, square sq_king, Side side)
   TraceFunctionResultEnd();
 }
 
-static void knight(square sq_departure, square sq_king, Side side)
+static void knight(square sq_king, Side side)
 {
+  square const sq_departure = curr_generation->departure;
+
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 
   {
-    numvec const abs_dir_battery = detect_battery(sq_departure,sq_king,side);
+    numvec const abs_dir_battery = detect_battery(sq_king,side);
     numvec vec_to_king = abs(sq_king-sq_departure);
 
     if (abs_dir_battery!=0
@@ -255,7 +253,7 @@ static void knight(square sq_departure, square sq_king, Side side)
         square const sq_arrival = sq_departure+vec[vec_index];
         if (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival))
           if (abs_dir_battery!=0 || CheckDir[Knight][sq_arrival-sq_king]!=0)
-            add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+            push_move_generation(sq_arrival);
       }
     }
   }
@@ -264,13 +262,12 @@ static void knight(square sq_departure, square sq_king, Side side)
   TraceFunctionResultEnd();
 }
 
-static void rider_try_moving_to(square sq_departure, square sq_king,
+static void rider_try_moving_to(square sq_king,
                                 square sq_arrival, numvec dir_to_king)
 {
   square sq_target;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_king);
   TraceSquare(sq_arrival);
   TraceValue("%d",dir_to_king);
@@ -278,35 +275,33 @@ static void rider_try_moving_to(square sq_departure, square sq_king,
 
   sq_target = find_end_of_line(sq_arrival,dir_to_king);
   if (sq_target==sq_king)
-    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+    push_move_generation(sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void queen_try_moving_to(square sq_departure, square sq_king, square sq_arrival)
+static void queen_try_moving_to(square sq_king, square sq_arrival)
 {
   numvec const dir_to_king = CheckDir[Queen][sq_king-sq_arrival];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_king);
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
   if (dir_to_king!=0)
-    rider_try_moving_to(sq_departure,sq_king,sq_arrival,dir_to_king);
+    rider_try_moving_to(sq_king,sq_arrival,dir_to_king);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void queen(square sq_departure, square sq_king, Side side)
+static void queen(square sq_king, Side side)
 {
   vec_index_type vec_index;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 
@@ -315,19 +310,20 @@ static void queen(square sq_departure, square sq_king, Side side)
     numvec const dir = vec[vec_index];
 
     square sq_arrival;
-    for (sq_arrival = sq_departure+dir; is_square_empty(sq_arrival); sq_arrival += dir)
-      queen_try_moving_to(sq_departure,sq_king,sq_arrival);
+    for (sq_arrival = curr_generation->departure+dir;
+         is_square_empty(sq_arrival);
+         sq_arrival += dir)
+      queen_try_moving_to(sq_king,sq_arrival);
 
     if (piece_belongs_to_opponent(sq_arrival))
-      queen_try_moving_to(sq_departure,sq_king,sq_arrival);
+      queen_try_moving_to(sq_king,sq_arrival);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void simple_rider_fire_battery(square sq_departure,
-                                      Side side,
+static void simple_rider_fire_battery(Side side,
                                       vec_index_type index_start,
                                       vec_index_type index_end)
 {
@@ -337,31 +333,32 @@ static void simple_rider_fire_battery(square sq_departure,
     numvec const dir = vec[vec_index];
     square sq_arrival;
 
-    for (sq_arrival = sq_departure+dir; is_square_empty(sq_arrival); sq_arrival += dir)
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+    for (sq_arrival = curr_generation->departure+dir;
+         is_square_empty(sq_arrival);
+         sq_arrival += dir)
+      push_move_generation(sq_arrival);
 
     if (piece_belongs_to_opponent(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 }
 
-static void simple_rider_directly_approach_king(square sq_departure,
-                                                square sq_king,
+static void simple_rider_directly_approach_king(square sq_king,
                                                 Side side,
                                                 numvec dir_to_king)
 {
-  square const sq_arrival = find_end_of_line(sq_departure,dir_to_king);
+  square const sq_arrival = find_end_of_line(curr_generation->departure,dir_to_king);
   if (piece_belongs_to_opponent(sq_arrival))
-    rider_try_moving_to(sq_departure,sq_king,sq_arrival,dir_to_king);
+    rider_try_moving_to(sq_king,sq_arrival,dir_to_king);
 }
 
-static void simple_rider_indirectly_approach_king(square sq_departure,
-                                                  square sq_king,
+static void simple_rider_indirectly_approach_king(square sq_king,
                                                   Side side,
                                                   vec_index_type index_start,
                                                   vec_index_type index_end,
                                                   PieNam rider_walk)
 {
+  square const sq_departure = curr_generation->departure;
   move_diff_type const OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
   vec_index_type vec_index;
   for (vec_index = index_start; vec_index<=index_end; ++vec_index)
@@ -382,44 +379,45 @@ static void simple_rider_indirectly_approach_king(square sq_departure,
       /* We are at the end of the line or in checking distance */
       if (dir_to_king!=0
           && (is_square_empty(sq_arrival) || piece_belongs_to_opponent(sq_arrival)))
-        rider_try_moving_to(sq_departure,sq_king,sq_arrival,dir_to_king);
+        rider_try_moving_to(sq_king,sq_arrival,dir_to_king);
     }
   }
 }
 
-static void rook(square sq_departure, square sq_king, Side side)
+static void rook(square sq_king, Side side)
 {
-  numvec const dir_battery = detect_directed_battery(sq_departure,sq_king,side,Bishop);
+  numvec const dir_battery = detect_directed_battery(sq_king,side,Bishop);
 
   if (dir_battery!=0)
-    simple_rider_fire_battery(sq_departure,side,vec_rook_start,vec_rook_end);
+    simple_rider_fire_battery(side,vec_rook_start,vec_rook_end);
   else
   {
-    numvec const dir_to_king = CheckDir[Rook][sq_king-sq_departure];
+    numvec const dir_to_king = CheckDir[Rook][sq_king-curr_generation->departure];
     if (dir_to_king==0)
-      simple_rider_indirectly_approach_king(sq_departure,sq_king,side,
+      simple_rider_indirectly_approach_king(sq_king,side,
                                             vec_rook_start,vec_rook_end,
                                             Rook);
     else
-      simple_rider_directly_approach_king(sq_departure,sq_king,side,dir_to_king);
+      simple_rider_directly_approach_king(sq_king,side,dir_to_king);
   }
 }
 
-static void bishop(square sq_departure, square sq_king, Side side)
+static void bishop(square sq_king, Side side)
 {
-  numvec const dir_battery = detect_directed_battery(sq_departure,sq_king,side,Rook);
+  square const sq_departure = curr_generation->departure;
+  numvec const dir_battery = detect_directed_battery(sq_king,side,Rook);
 
   if (dir_battery!=0)
-    simple_rider_fire_battery(sq_departure,side,vec_bishop_start,vec_bishop_end);
+    simple_rider_fire_battery(side,vec_bishop_start,vec_bishop_end);
   else if (SquareCol(sq_departure)==SquareCol(sq_king))
   {
     numvec const dir_to_king = CheckDir[Bishop][sq_king-sq_departure];
     if (dir_to_king==0)
-      simple_rider_indirectly_approach_king(sq_departure,sq_king,side,
-                                           vec_bishop_start,vec_bishop_end,
-                                           Bishop);
+      simple_rider_indirectly_approach_king(sq_king,side,
+                                            vec_bishop_start,vec_bishop_end,
+                                            Bishop);
     else
-      simple_rider_directly_approach_king(sq_departure,sq_king,side,dir_to_king);
+      simple_rider_directly_approach_king(sq_king,side,dir_to_king);
   }
 }
 
@@ -438,41 +436,41 @@ static void generate_move_reaching_goal()
      * the fastest way to compute (due to compiler-optimizations!) */
     for (i = nr_rows_on_board; i>0; i--, square_a += onerow)
     {
-      square sq_departure = square_a;
       int j;
-      for (j = nr_files_on_board; j>0; j--, sq_departure += dir_right)
+      curr_generation->departure = square_a;
+      for (j = nr_files_on_board; j>0; j--, curr_generation->departure += dir_right)
       {
-        PieNam const p = get_walk_of_piece_on_square(sq_departure);
-        if (p!=Empty && TSTFLAG(spec[sq_departure],side_at_move))
+        PieNam const p = get_walk_of_piece_on_square(curr_generation->departure);
+        if (p!=Empty && TSTFLAG(spec[curr_generation->departure],side_at_move))
         {
           if (CondFlag[gridchess]
-              && !GridLegal(sq_departure,OpponentsKing))
-            generate_moves_for_piece_based_on_walk(sq_departure,p);
+              && !GridLegal(curr_generation->departure,OpponentsKing))
+            generate_moves_for_piece_based_on_walk(p);
           else
             switch (p)
             {
               case King:
-                king(sq_departure,OpponentsKing,side_at_move);
+                king(OpponentsKing,side_at_move);
                 break;
 
               case Pawn:
-                pawn(sq_departure,OpponentsKing,side_at_move);
+                pawn(OpponentsKing,side_at_move);
                 break;
 
               case Knight:
-                knight(sq_departure,OpponentsKing,side_at_move);
+                knight(OpponentsKing,side_at_move);
                 break;
 
               case Rook:
-                rook(sq_departure,OpponentsKing,side_at_move);
+                rook(OpponentsKing,side_at_move);
                 break;
 
               case Queen:
-                queen(sq_departure,OpponentsKing,side_at_move);
+                queen(OpponentsKing,side_at_move);
                 break;
 
               case Bishop:
-                bishop(sq_departure,OpponentsKing,side_at_move);
+                bishop(OpponentsKing,side_at_move);
                 break;
 
               default:

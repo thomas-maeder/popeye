@@ -10,32 +10,25 @@
 /* Generate non-capturing moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
- * @param sq_real_departure real departure square of the generated moves
  */
 void marscirce_generate_non_captures(slice_index si,
                                      PieNam p,
-                                     square sq_generate_from,
-                                     square sq_real_departure);
+                                     square sq_generate_from);
 
 /* Generate capturing moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
- * @param sq_real_departure real departure square of the generated moves
  */
 void marscirce_generate_captures(slice_index si,
                                  PieNam p,
-                                 square sq_generate_from,
-                                 square sq_real_departure);
+                                 square sq_generate_from);
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @param p indicates the walk according to which to generate moves
- * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves_for_piece(slice_index si,
-                                        square sq_departure,
-                                        PieNam p);
+void marscirce_generate_moves_for_piece(slice_index si, PieNam p);
 
 /* Determine whether a specific piece delivers check to a specific side from a
  * specific rebirth square

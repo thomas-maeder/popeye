@@ -4,8 +4,7 @@
 #include "pyproc.h"
 
 /* Generate moves for a Berolina pawn
- * @param sq_departure common departure square of the generated moves
  */
-void berolina_pawn_generate_moves(square sq_departure);
+void berolina_pawn_generate_moves(void);
 
 #endif

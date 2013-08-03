@@ -7,16 +7,31 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+static boolean is_monochrome(numecoup n)
+{
+  square const sq_observer = move_generation_stack[n].departure;
+  square const sq_landing = move_generation_stack[n].arrival;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = SquareCol(sq_observer)==SquareCol(sq_landing);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate the geometry of observation according to Monochrome Chess
  * @return true iff the observation is valid
  */
 boolean monochrome_validate_observation_geometry(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   boolean result;
 
-  if (SquareCol(sq_observer)==SquareCol(sq_landing))
+  if (is_monochrome(current_move[nbply]-1))
     result = validate_observation_geometry_recursive(slices[si].next1);
   else
     result = false;
@@ -24,23 +39,17 @@ boolean monochrome_validate_observation_geometry(slice_index si)
   return result;
 }
 
-static boolean is_move_monochrome(numecoup n,
-                                  square sq_departure,
-                                  square sq_arrival,
-                                  square sq_capture)
+static boolean is_move_monochrome(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  if (sq_capture==queenside_castling)
+  if (move_generation_stack[n].capture==queenside_castling)
     result = false;
   else
-    result = SquareCol(sq_departure)==SquareCol(sq_arrival);
+    result = is_monochrome(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

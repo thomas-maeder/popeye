@@ -4,6 +4,7 @@ pieces/walks/pawns/pawn$(OBJ_SUFFIX): pieces/walks/pawns/pawn.c \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/enumeration.h pylang.h \
  position/position.h pydata.h pyproc.h pieces/walks/pawns/pawns.h \
+ solving/move_generator.h solving/solve.h stipulation/slice_type.h \
  debugging/trace.h
 
 pieces/walks/pawns/pawn.h:
@@ -39,6 +40,12 @@ pydata.h:
 pyproc.h:
 
 pieces/walks/pawns/pawns.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
 
 debugging/trace.h:
 pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \
@@ -217,6 +224,7 @@ pieces/walks/pawns/reverse$(OBJ_SUFFIX): pieces/walks/pawns/reverse.c \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/enumeration.h pylang.h \
  pieces/walks/pawns/pawns.h position/position.h pieces/walks/pawns/pawn.h \
+ solving/move_generator.h solving/solve.h stipulation/slice_type.h \
  debugging/trace.h pydata.h pyproc.h
 
 pieces/walks/pawns/reverse.h:
@@ -251,6 +259,12 @@ position/position.h:
 
 pieces/walks/pawns/pawn.h:
 
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
+
 debugging/trace.h:
 
 pydata.h:
@@ -262,6 +276,7 @@ pieces/walks/pawns/berolina$(OBJ_SUFFIX): pieces/walks/pawns/berolina.c \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/enumeration.h pylang.h \
  pieces/walks/pawns/pawns.h position/position.h pieces/walks/pawns/pawn.h \
+ solving/move_generator.h solving/solve.h stipulation/slice_type.h \
  debugging/trace.h pydata.h pyproc.h
 
 pieces/walks/pawns/berolina.h:
@@ -295,6 +310,12 @@ pieces/walks/pawns/pawns.h:
 position/position.h:
 
 pieces/walks/pawns/pawn.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
 
 debugging/trace.h:
 
@@ -352,7 +373,8 @@ pieces/walks/pawns/combined$(OBJ_SUFFIX): pieces/walks/pawns/combined.c \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
  position/position.h pieces/walks/vectors.h utilities/enumeration.h \
  pylang.h position/position.h pieces/walks/pawns/pawns.h \
- pieces/walks/leapers.h pieces/walks/riders.h debugging/trace.h pydata.h \
+ pieces/walks/leapers.h pieces/walks/riders.h solving/move_generator.h \
+ solving/solve.h stipulation/slice_type.h debugging/trace.h pydata.h \
  pyproc.h
 
 pieces/walks/pawns/combined.h:
@@ -390,6 +412,12 @@ pieces/walks/pawns/pawns.h:
 pieces/walks/leapers.h:
 
 pieces/walks/riders.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+stipulation/slice_type.h:
 
 debugging/trace.h:
 

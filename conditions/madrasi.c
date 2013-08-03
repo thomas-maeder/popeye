@@ -33,8 +33,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
       nextply(observing_side); /* not siblingply() or ep paralysis causes problems! */
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]-1].capture = sq;
-      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-      result = (*checkfunctions[p])(p,&validate_observation_geometry);
+            result = (*checkfunctions[p])(p,&validate_observation_geometry);
       finply();
     }
   }
@@ -45,27 +44,27 @@ boolean madrasi_is_moving_piece_observed(square sq)
   return result;
 }
 
-static boolean is_paralysed(square sq)
+static boolean is_paralysed(numecoup n)
 {
+  square const sq_departure = move_generation_stack[n].departure;
   boolean result;
   Side const observed_side = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq);
+  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (!rex_mad && sq==king_square[observed_side])
+  if (!rex_mad && sq_departure==king_square[observed_side])
     result = false;
   else
   {
-    PieNam const candidate = get_walk_of_piece_on_square(sq);
+    PieNam const candidate = get_walk_of_piece_on_square(sq_departure);
     Side const observing_side = advers(observed_side);
 
     siblingply(observing_side);
     current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = sq;
-    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-    result = (number_of_pieces[trait[nbply]][candidate]>0
+    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+        result = (number_of_pieces[trait[nbply]][candidate]>0
               && (*checkfunctions[candidate])(candidate,
                                               &validate_observation_geometry));
     finply();
@@ -82,14 +81,13 @@ static boolean is_paralysed(square sq)
  */
 boolean madrasi_validate_observer(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!is_paralysed(sq_observer)
+  result = (!is_paralysed(current_move[nbply]-1)
             && validate_observer_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -100,21 +98,17 @@ boolean madrasi_validate_observer(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void madrasi_generate_moves_for_piece(slice_index si,
-                                      square sq_departure,
-                                      PieNam p)
+void madrasi_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!is_paralysed(sq_departure))
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  if (!is_paralysed(current_generation))
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

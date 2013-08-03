@@ -6,20 +6,14 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-static boolean is_not_capture(numecoup n,
-                              square sq_departure,
-                              square sq_arrival,
-                              square sq_capture)
+static boolean is_not_capture(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = is_square_empty(sq_capture);
+  result = is_square_empty(move_generation_stack[n].capture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

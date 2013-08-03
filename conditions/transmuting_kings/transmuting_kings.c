@@ -54,13 +54,13 @@ boolean is_king_transmuting_as(PieNam p, evalfunction_t *evaluate)
   return result;
 }
 
-static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
+static boolean is_square_observed_by_opponent(PieNam p)
 {
   boolean result;
 
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+  move_generation_stack[current_move[nbply]-1].capture = curr_generation->departure;
   result = (*checkfunctions[p])(p,&validate_observation);
   finply();
 
@@ -69,11 +69,10 @@ static boolean is_square_observed_by_opponent(PieNam p, square sq_departure)
 
 /* Generate moves of a potentially transmuting king
  * @param si identifies move generator slice
- * @param sq_departure common departure square of the generated moves
  * @return true iff the king is transmuting (which doesn't necessarily mean that
  *              any moves were generated!)
  */
-boolean generate_moves_of_transmuting_king(slice_index si, square sq_departure)
+boolean generate_moves_of_transmuting_king(slice_index si)
 {
   boolean result = false;
   Side const side_moving = trait[nbply];
@@ -82,9 +81,9 @@ boolean generate_moves_of_transmuting_king(slice_index si, square sq_departure)
   PieNam const *ptrans;
   for (ptrans = transmpieces[side_moving]; *ptrans!=Empty; ++ptrans)
     if (number_of_pieces[side_transmuting][*ptrans]>0
-        && is_square_observed_by_opponent(*ptrans,sq_departure))
+        && is_square_observed_by_opponent(*ptrans))
     {
-      generate_moves_for_piece(slices[si].next1,sq_departure,*ptrans);
+      generate_moves_for_piece(slices[si].next1,*ptrans);
       result = true;
     }
 
@@ -93,21 +92,17 @@ boolean generate_moves_of_transmuting_king(slice_index si, square sq_departure)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void transmuting_kings_generate_moves_for_piece(slice_index si,
-                                                square sq_departure,
-                                                PieNam p)
+void transmuting_kings_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!(p==King && generate_moves_of_transmuting_king(si,sq_departure)))
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  if (!(p==King && generate_moves_of_transmuting_king(si)))
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

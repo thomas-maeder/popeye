@@ -9,12 +9,9 @@
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void sting_generate_moves_for_piece(slice_index si,
-                                    square sq_departure,
-                                    PieNam p);
+void sting_generate_moves_for_piece(slice_index si, PieNam p);
 
 /* Determine whether a square is observed in Sting Chess
 * @param si identifies tester slice

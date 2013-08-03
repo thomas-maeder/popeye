@@ -71,8 +71,8 @@ stip_length_type single_piece_move_generator_solve(slice_index si,
 
   TraceValue("%u\n",current_move[nbply]);
 
+  curr_generation->departure = square_departure;
   generate_moves_for_piece(slices[temporary_hack_move_generator[side_at_move]].next2,
-                           square_departure,
                            get_walk_of_piece_on_square(square_departure));
 
   square_departure = initsquare;

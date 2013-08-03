@@ -22,16 +22,13 @@ int len_supertransmuting_kings(void);
  *            n+3 no solution found in next branch
  */
 stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
-                                                          stip_length_type n);
+                                                         stip_length_type n);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void supertransmuting_kings_generate_moves_for_piece(slice_index si,
-                                                     square sq_departure,
-                                                     PieNam p);
+void supertransmuting_kings_generate_moves_for_piece(slice_index si, PieNam p);
 
 /* Instrument slices with move tracers
  * @param si identifies root slice of solving machinery

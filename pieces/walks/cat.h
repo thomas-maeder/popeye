@@ -5,9 +5,8 @@
 
 #include "position/board.h"
 
-/* Generate moves for a rider piece
- * @param sq_departure common departure square of the generated moves
+/* Generate moves for a cat
  */
-void cat_generate_moves(square sq_departure);
+void cat_generate_moves(void);
 
 #endif

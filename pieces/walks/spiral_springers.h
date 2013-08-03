@@ -7,18 +7,18 @@
 
 /* Generation of moves for Spiral springers. */
 
-void spiralspringer_generate_moves(square sq_departure);
+void spiralspringer_generate_moves(void);
 
-void diagonalspiralspringer_generate_moves(square sq_departure);
+void diagonalspiralspringer_generate_moves(void);
 
-void boyscout_generate_moves(square sq_departure);
+void boyscout_generate_moves(void);
 
-void girlscout_generate_moves(square sq_departure);
+void girlscout_generate_moves(void);
 
-void spiralspringer40_generate_moves(square sq_departure);
-void spiralspringer20_generate_moves(square sq_departure);
-void spiralspringer33_generate_moves(square sq_departure);
-void spiralspringer11_generate_moves(square sq_departure);
-void quintessence_generate_moves(square sq_departure);
+void spiralspringer40_generate_moves(void);
+void spiralspringer20_generate_moves(void);
+void spiralspringer33_generate_moves(void);
+void spiralspringer11_generate_moves(void);
+void quintessence_generate_moves(void);
 
 #endif

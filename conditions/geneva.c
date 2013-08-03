@@ -36,22 +36,15 @@ static boolean is_capture_legal(numecoup n)
   return result;
 }
 
-static boolean is_not_illegal_capture(numecoup n,
-                                      square sq_departure,
-                                      square sq_arrival,
-                                      square sq_capture)
+static boolean is_not_illegal_capture(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(sq_capture))
-    result = true;
-  else
-    result = is_capture_legal(n);
+  return (is_square_empty(move_generation_stack[n].capture)
+          || is_capture_legal(n));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -64,21 +57,8 @@ static boolean is_not_illegal_capture(numecoup n,
  */
 boolean geneva_validate_observation(slice_index si)
 {
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (is_capture_legal(current_move[nbply]-1))
-    result = validate_observation_recursive(slices[si].next1);
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+  return (is_capture_legal(current_move[nbply]-1)
+          && validate_observation_recursive(slices[si].next1));
 }
 
 /* Try to solve in n half-moves.

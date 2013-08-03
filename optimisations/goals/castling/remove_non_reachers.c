@@ -24,20 +24,15 @@ slice_index alloc_castling_remove_non_reachers_slice(void)
   return result;
 }
 
-static boolean is_castling(numecoup n,
-                           square sq_departure,
-                           square sq_arrival,
-                           square sq_capture)
+static boolean is_castling(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = sq_capture==kingside_castling || sq_capture==queenside_castling;
+  result = (move_generation_stack[n].capture==kingside_castling
+            || move_generation_stack[n].capture==queenside_castling);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

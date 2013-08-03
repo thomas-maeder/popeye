@@ -309,7 +309,7 @@ void LaTeXEndDiagram(void);
 
 void transformPosition(SquareTransformation transformation);
 void generate_castling(void);
-boolean castling_is_intermediate_king_move_legal(Side side, square from, square to);
+boolean castling_is_intermediate_king_move_legal(Side side, square to);
 
 boolean nokingcontact(square ia);
 boolean nowazircontact(square ia);

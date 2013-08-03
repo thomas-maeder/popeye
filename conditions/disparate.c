@@ -6,13 +6,12 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean can_piece_move(square sq)
+static boolean can_piece_move(numecoup n)
 {
   boolean result = true;
   ply const parent = parent_ply[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq);
   TraceFunctionParamListEnd();
 
   if (nbply>2 && trait[nbply]!=trait[parent])
@@ -25,8 +24,9 @@ static boolean can_piece_move(square sq)
     }
     else
     {
+      square const sq_departure = move_generation_stack[n].departure;
       PieNam const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
-      if (get_walk_of_piece_on_square(sq)==pi_parent_moving)
+      if (get_walk_of_piece_on_square(sq_departure)==pi_parent_moving)
         result = false;
     }
   }
@@ -39,21 +39,17 @@ static boolean can_piece_move(square sq)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void disparate_generate_moves_for_piece(slice_index si,
-                                        square sq_departure,
-                                        PieNam p)
+void disparate_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (can_piece_move(sq_departure))
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  if (can_piece_move(current_generation))
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -64,14 +60,13 @@ void disparate_generate_moves_for_piece(slice_index si,
  */
 boolean disparate_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (can_piece_move(sq_observer))
+  if (can_piece_move(current_move[nbply]-1))
     result = validate_observation_recursive(slices[si].next1);
   else
     result = false;

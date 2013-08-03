@@ -10,26 +10,26 @@
 /* Generate moves for a radial knight
  * @param sq_departure common departure square of the generated moves
  */
-void radialknight_generate_moves(square sq_departure);
+void radialknight_generate_moves(void);
 
 /* Generate moves for a radial knight
  * @param sq_departure common departure square of the generated moves
  */
-void treehopper_generate_moves(square sq_departure);
+void treehopper_generate_moves(void);
 
 /* Generate moves for a radial knight
  * @param sq_departure common departure square of the generated moves
  */
-void greater_treehopper_generate_moves(square sq_departure);
+void greater_treehopper_generate_moves(void);
 
 /* Generate moves for a radial knight
  * @param sq_departure common departure square of the generated moves
  */
-void leafhopper_generate_moves(square sq_departure);
+void leafhopper_generate_moves(void);
 
 /* Generate moves for a radial knight
  * @param sq_departure common departure square of the generated moves
  */
-void greater_leafhopper_generate_moves(square sq_departure);
+void greater_leafhopper_generate_moves(void);
 
 #endif

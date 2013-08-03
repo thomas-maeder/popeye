@@ -9,40 +9,17 @@
 
 #include <assert.h>
 
+static boolean goes_to_the_edge(numecoup n)
+{
+  return !NoEdge(move_generation_stack[n].arrival);
+}
+
 /* Validate the geometry of observation according to Edgemover
  * @return true iff the observation is valid
  */
 boolean edgemover_validate_observation_geometry(slice_index si)
 {
-  boolean result;
-
-  if (NoEdge(move_generation_stack[current_move[nbply]-1].arrival))
-    result = false;
-  else
-    result = validate_observation_geometry_recursive(slices[si].next1);
-
-  return result;
-}
-
-static boolean does_not_go_to_the_edge(numecoup n,
-                                       square sq_departure,
-                                       square sq_arrival,
-                                       square sq_capture)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  result = !NoEdge(sq_arrival);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+  return goes_to_the_edge(current_move[nbply]-1);
 }
 
 /* Try to solve in n half-moves.
@@ -68,7 +45,7 @@ stip_length_type edgemover_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&does_not_go_to_the_edge);
+  move_generator_filter_moves(&goes_to_the_edge);
 
   result = solve(slices[si].next1,n);
 

@@ -230,61 +230,44 @@ static square find_next_latent_pawn(square sq, Side side)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void singleboxtype3_generate_moves_for_piece(slice_index si,
-                                             square sq_departure,
-                                             PieNam p)
+void singleboxtype3_generate_moves_for_piece(slice_index si, PieNam p)
 {
   Side const side = trait[nbply];
-  numecoup save_nbcou = current_move[nbply];
   unsigned int nr_latent_promotions = 0;
-  square sq;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  for (sq = find_next_latent_pawn(square_a1-dir_right,side);
-       sq!=initsquare;
-       sq = find_next_latent_pawn(sq,side))
+  for (curr_generation->singlebox_type3_promotion_where = find_next_latent_pawn(square_a1-dir_right,side);
+       curr_generation->singlebox_type3_promotion_where!=initsquare;
+       curr_generation->singlebox_type3_promotion_where = find_next_latent_pawn(curr_generation->singlebox_type3_promotion_where,side))
   {
     Side promoting_side;
     pieces_pawns_promotion_sequence_type sequence;
-    singlebox_type2_initialise_singlebox_promotion_sequence(sq,&promoting_side,&sequence);
+    singlebox_type2_initialise_singlebox_promotion_sequence(curr_generation->singlebox_type3_promotion_where,&promoting_side,&sequence);
     assert(promoting_side==side);
     while (sequence.promotee!=Empty)
     {
-      PieNam const pi_departing = get_walk_of_piece_on_square(sq);
-      numecoup prev_nbcou = current_move[nbply];
+      PieNam const pi_departing = get_walk_of_piece_on_square(curr_generation->singlebox_type3_promotion_where);
       ++nr_latent_promotions;
-      replace_piece(sq,sequence.promotee);
+      replace_piece(curr_generation->singlebox_type3_promotion_where,sequence.promotee);
+      curr_generation->singlebox_type3_promotion_what = sequence.promotee;
       generate_moves_for_piece(slices[si].next1,
-                                         sq_departure,
-                                         sq==sq_departure ? sequence.promotee : p);
-      replace_piece(sq,pi_departing);
-      for (; prev_nbcou<current_move[nbply]; ++prev_nbcou)
-      {
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_where = sq;
-        move_generation_stack[prev_nbcou].singlebox_type3_promotion_what = sequence.promotee;
-      }
+                               curr_generation->singlebox_type3_promotion_where==curr_generation->departure ? sequence.promotee : p);
+      replace_piece(curr_generation->singlebox_type3_promotion_where,pi_departing);
       singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
     }
   }
 
-  if (nr_latent_promotions==0)
-  {
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  curr_generation->singlebox_type3_promotion_where = initsquare;
+  curr_generation->singlebox_type3_promotion_what = Empty;
 
-    for (; save_nbcou<current_move[nbply]; ++save_nbcou)
-    {
-      move_generation_stack[save_nbcou].singlebox_type3_promotion_where = initsquare;
-      move_generation_stack[save_nbcou].singlebox_type3_promotion_what = Empty;
-    }
-  }
+  if (nr_latent_promotions==0)
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -7,42 +7,19 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+static boolean is_not_in_same_cell(numecoup n)
+{
+  return GridLegal(move_generation_stack[n].departure,
+                   move_generation_stack[n].arrival);
+}
+
 /* Validate the geometry of observation according to Grid Chess
  * @return true iff the observation is valid
  */
 boolean grid_validate_observation_geometry(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-  boolean result;
-
-  if (GridLegal(sq_observer,sq_landing))
-    result = validate_observation_geometry_recursive(slices[si].next1);
-  else
-    result = false;
-
-  return result;
-}
-
-static boolean is_not_in_same_cell(numecoup n,
-                                   square sq_departure,
-                                   square sq_arrival,
-                                   square sq_capture)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
-  TraceFunctionParamListEnd();
-
-  result = GridLegal(sq_departure,sq_arrival);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+  return (is_not_in_same_cell(current_move[nbply]-1)
+          && validate_observation_geometry_recursive(slices[si].next1));
 }
 
 /* Try to solve in n half-moves.

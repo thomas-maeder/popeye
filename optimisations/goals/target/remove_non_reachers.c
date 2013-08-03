@@ -30,20 +30,14 @@ slice_index alloc_target_remove_non_reachers_slice(square target)
 
 static square target_square = initsquare;
 
-static boolean reaches_targetsquare(numecoup n,
-                                    square sq_departure,
-                                    square sq_arrival,
-                                    square sq_capture)
+static boolean reaches_targetsquare(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = sq_arrival==target_square;
+  result = move_generation_stack[n].arrival==target_square;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

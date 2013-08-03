@@ -9,17 +9,13 @@
 
 #include <string.h>
 
-static boolean is_not_pawn_make_to_base_line(numecoup n,
-                                             square sq_departure,
-                                             square sq_arrival,
-                                             square sq_capture)
+static boolean is_not_pawn_make_to_base_line(numecoup n)
 {
+  square const sq_departure = move_generation_stack[n].departure;
+  square const sq_arrival = move_generation_stack[n].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   result = !(is_pawn(get_walk_of_piece_on_square(sq_departure))
@@ -115,7 +111,9 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
       trait[nbply] = advers(moving);
 
-      generate_moves_for_piece_based_on_walk(take_arrival,taken);
+      curr_generation->departure = take_arrival;
+      generate_moves_for_piece_based_on_walk(taken);
+      curr_generation->departure = take_departure;
 
       for (; make_current<current_move[nbply]; ++make_current)
         if (is_square_empty(move_generation_stack[make_current].capture))

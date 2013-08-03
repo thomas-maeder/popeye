@@ -11,13 +11,11 @@ boolean traversed(square edgesq);
 void settraversed(square edgesq);
 
 /* Generate moves for a bouncy night
- * @param sq_departure common departure square of the generated moves
  */
-void bouncy_knight_generate_moves(square sq_departure);
+void bouncy_knight_generate_moves(void);
 
 /* Generate moves for a bouncy nightrider
- * @param sq_departure common departure square of the generated moves
  */
-void bouncy_nightrider_generate_moves(square sq_departure);
+void bouncy_nightrider_generate_moves(void);
 
 #endif

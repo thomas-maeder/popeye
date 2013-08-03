@@ -22,12 +22,9 @@ void append_king_vaulter(Side side, PieNam p);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void vaulting_kings_generate_moves_for_piece(slice_index si,
-                                             square sq_departure,
-                                             PieNam p);
+void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p);
 
 /* Determine whether a square is observed be the side at the move according to
  * Vaulting Kings

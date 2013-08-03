@@ -7,24 +7,23 @@
 
 #include <assert.h>
 
-void pawns_generate_ep_capture_move(square sq_departure,
-                                    square sq_arrival,
+void pawns_generate_ep_capture_move(square sq_arrival,
                                     square sq_arrival_singlestep)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceSquare(sq_arrival_singlestep);
   TraceFunctionParamListEnd();
 
-  if (get_walk_of_piece_on_square(sq_departure)!=Orphan /* orphans cannot capture ep */
+  if (get_walk_of_piece_on_square(curr_generation->departure)!=Orphan /* orphans cannot capture ep */
       && en_passant_is_capture_possible_to(trait[nbply],sq_arrival_singlestep))
   {
     square const sq_capture = en_passant_find_capturee();
     if (sq_capture!=initsquare)
     {
-      move_generation_stack[current_move[nbply]].auxiliary.sq_en_passant = sq_arrival_singlestep;
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
+      curr_generation->auxiliary.sq_en_passant = sq_arrival_singlestep;
+      push_move_generation_capture_extra(sq_arrival,sq_capture);
+      curr_generation->auxiliary.sq_en_passant = initsquare;
     }
   }
 
@@ -35,18 +34,18 @@ void pawns_generate_ep_capture_move(square sq_departure,
 /* generates move of a pawn of side camp on departure capturing a piece on
  * arrival
  */
-void pawns_generate_capture_move(square sq_departure, numvec dir)
+void pawns_generate_capture_move(numvec dir)
 {
-  square const sq_arrival = sq_departure+dir;
+  square const sq_arrival = curr_generation->departure+dir;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   if (piece_belongs_to_opponent(sq_arrival))
-    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+    push_move_generation(sq_arrival);
   else
-    pawns_generate_ep_capture_move(sq_departure,sq_arrival,sq_arrival);
+    pawns_generate_ep_capture_move(sq_arrival,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -55,12 +54,11 @@ void pawns_generate_capture_move(square sq_departure, numvec dir)
 /* generates moves of a pawn in direction dir where steps single steps are
  * possible.
  */
-void pawns_generate_nocapture_moves(square sq_departure, numvec dir, int steps)
+void pawns_generate_nocapture_moves(numvec dir, int steps)
 {
-  square sq_arrival= sq_departure+dir;
+  square sq_arrival = curr_generation->departure+dir;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParam("%d",dir);
   TraceFunctionParam("%d",steps);
   TraceFunctionParamListEnd();
@@ -72,7 +70,7 @@ void pawns_generate_nocapture_moves(square sq_departure, numvec dir, int steps)
     TraceText("\n");
     if (is_square_empty(sq_arrival))
     {
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
       sq_arrival += dir;
     }
     else

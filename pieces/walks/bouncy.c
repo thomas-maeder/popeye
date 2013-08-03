@@ -6,37 +6,32 @@
 
 #include <assert.h>
 
-static void bouncy_knight_generate_moves_recursive(square orig_departure,
-                                                   square step_departure,
-                                                   int x)
+static void bouncy_knight_generate_moves_recursive(square step_departure, int x)
 {
   vec_index_type k;
 
   /* ATTENTION:   first call of grefcn: x must be 2 !!   */
-
-  square sq_departure = orig_departure;
 
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
     square const sq_arrival = step_departure+vec[k];
     if (is_square_empty(sq_arrival))
     {
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
       if (x>0 && !NoEdge(sq_arrival))
-        bouncy_knight_generate_moves_recursive(orig_departure,sq_arrival,x-1);
+        bouncy_knight_generate_moves_recursive(sq_arrival,x-1);
     }
     else if (piece_belongs_to_opponent(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 }
 
 /* Generate moves for a bouncy night
- * @param sq_departure common departure square of the generated moves
  */
-void bouncy_knight_generate_moves(square sq_departure)
+void bouncy_knight_generate_moves(void)
 {
   numecoup const save_current_move = current_move[nbply]-1;
-  bouncy_knight_generate_moves_recursive(sq_departure, sq_departure, 2);
+  bouncy_knight_generate_moves_recursive(curr_generation->departure,2);
   remove_duplicate_moves_of_single_piece(save_current_move);
   return;
 }
@@ -112,12 +107,9 @@ void settraversed(square edge_square)
   edgestraversed[square_2_edge_square_index(edge_square)] = true;
 }
 
-static void bouncy_nightrider_generate_moves_recursive(square orig_departure,
-                                                       square step_departure)
+static void bouncy_nightrider_generate_moves_recursive(square step_departure)
 {
   vec_index_type k;
-
-  square sq_departure= orig_departure;
 
   if (!NoEdge(step_departure))
     settraversed(step_departure);
@@ -128,10 +120,10 @@ static void bouncy_nightrider_generate_moves_recursive(square orig_departure,
 
     while (is_square_empty(sq_arrival))
     {
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
       if (!NoEdge(sq_arrival) && !traversed(sq_arrival))
       {
-        bouncy_nightrider_generate_moves_recursive(orig_departure,sq_arrival);
+        bouncy_nightrider_generate_moves_recursive(sq_arrival);
         break;
       }
       else
@@ -139,17 +131,16 @@ static void bouncy_nightrider_generate_moves_recursive(square orig_departure,
     }
 
     if (piece_belongs_to_opponent(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 }
 
 /* Generate moves for a bouncy nightrider
- * @param sq_departure common departure square of the generated moves
  */
-void bouncy_nightrider_generate_moves(square sq_departure)
+void bouncy_nightrider_generate_moves(void)
 {
   numecoup const save_current_move = current_move[nbply]-1;
   clearedgestraversed();
-  bouncy_nightrider_generate_moves_recursive(sq_departure, sq_departure);
+  bouncy_nightrider_generate_moves_recursive(curr_generation->departure);
   remove_duplicate_moves_of_single_piece(save_current_move);
 }

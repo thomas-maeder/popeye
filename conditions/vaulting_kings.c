@@ -49,12 +49,9 @@ static slice_index vaulting_king_square_observer[nr_sides];
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void vaulting_kings_generate_moves_for_piece(slice_index si,
-                                             square sq_departure,
-                                             PieNam p)
+void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p)
 {
   if (p==King)
   {
@@ -64,13 +61,13 @@ void vaulting_kings_generate_moves_for_piece(slice_index si,
     {
       PieNam const *pi_vaulter;
       for (pi_vaulter = king_vaulters[side]; *pi_vaulter!=Empty; ++pi_vaulter)
-        generate_moves_for_piece(slices[si].next1,sq_departure,*pi_vaulter);
+        generate_moves_for_piece(slices[si].next1,*pi_vaulter);
     }
     else if (vaulting_kings_transmuting[side])
       return; /* don't generate non-vaulting moves */
   }
 
-  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,p);
 }
 
 /* Determine whether a square is observed be the side at the move according to

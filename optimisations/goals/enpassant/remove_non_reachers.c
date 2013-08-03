@@ -26,19 +26,13 @@ slice_index alloc_enpassant_remove_non_reachers_slice(void)
   return result;
 }
 
-static boolean is_enpassant_capture(numecoup n,
-                                    square sq_departure,
-                                    square sq_arrival,
-                                    square sq_capture)
+static boolean is_enpassant_capture(numecoup n)
 {
   boolean result;
-  PieNam pi_moving = get_walk_of_piece_on_square(sq_departure);
-  PieNam pi_captured = get_walk_of_piece_on_square(sq_capture);
+  PieNam pi_moving = get_walk_of_piece_on_square(move_generation_stack[n].departure);
+  PieNam pi_captured = get_walk_of_piece_on_square(move_generation_stack[n].capture);
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   if (pi_moving>=Hunter0)
@@ -47,7 +41,7 @@ static boolean is_enpassant_capture(numecoup n,
   if (pi_captured>=Hunter0)
     pi_captured = huntertypes[pi_captured-Hunter0].away;
 
-  result = is_pawn(pi_moving) && is_pawn(pi_captured) && is_square_empty(sq_arrival);
+  result = is_pawn(pi_moving) && is_pawn(pi_captured) && is_square_empty(move_generation_stack[n].arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

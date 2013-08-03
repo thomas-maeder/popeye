@@ -5,20 +5,17 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean is_supported(square sq_departure);
+static boolean is_mover_supported_recursive(square sq_departure);
 
 static boolean validate_supporter(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (validate_observer())
-    result = is_supported(sq_departure);
-  else
-    result = false;
+  result = (validate_observer()
+            && is_mover_supported_recursive(move_generation_stack[current_move[nbply]-1].departure));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -26,7 +23,7 @@ static boolean validate_supporter(void)
   return result;
 }
 
-static boolean is_supported(square sq_departure)
+static boolean is_mover_supported_recursive(square sq_departure)
 {
   boolean result;
 
@@ -48,26 +45,38 @@ static boolean is_supported(square sq_departure)
   return result;
 }
 
+static boolean is_mover_supported(numecoup n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  siblingply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+  result = is_mover_supported_recursive(move_generation_stack[n].departure);
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate an observation according to Central Chess
  * @return true iff the observation is valid
  */
 boolean central_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
-  boolean is_observer_supported;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
-  is_observer_supported = is_supported(sq_observer);
-  finply();
-
-  return (is_observer_supported
-          && validate_observation_recursive(slices[si].next1));
+  result = (is_mover_supported(current_move[nbply]-1)
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -77,28 +86,17 @@ boolean central_validate_observation(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void central_generate_moves_for_piece(slice_index si,
-                                      square sq_departure,
-                                      PieNam p)
+void central_generate_moves_for_piece(slice_index si, PieNam p)
 {
-  boolean is_mover_supported;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
-  is_mover_supported = is_supported(sq_departure);
-  finply();
-
-  if (is_mover_supported)
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  if (is_mover_supported(current_generation))
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

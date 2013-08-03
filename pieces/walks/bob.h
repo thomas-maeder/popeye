@@ -6,8 +6,7 @@
 #include "position/board.h"
 
 /* Generate moves for an Bob
- * @param sq_departure common departure square of the generated moves
  */
-void bob_generate_moves(square sq_departure);
+void bob_generate_moves(void);
 
 #endif

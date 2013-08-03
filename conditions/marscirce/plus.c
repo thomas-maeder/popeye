@@ -8,13 +8,13 @@
 
 static void generate_additional_captures_from(slice_index si,
                                               PieNam p,
-                                              square from,
-                                              square sq_departure)
+                                              square from)
 {
+  square const sq_departure = curr_generation->departure;
+
   TraceFunctionEntry(__func__);
   TracePiece(p);
   TraceSquare(from);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   if (from!=sq_departure && is_square_empty(from))
@@ -22,7 +22,7 @@ static void generate_additional_captures_from(slice_index si,
     occupy_square(from,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
     empty_square(sq_departure);
 
-    marscirce_generate_captures(si,p,from,sq_departure);
+    marscirce_generate_captures(si,p,from);
 
     occupy_square(sq_departure,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
@@ -35,27 +35,27 @@ static void generate_additional_captures_from(slice_index si,
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @param p indicates the walk according to which to generate moves
- * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void plus_generate_moves_for_piece(slice_index si, square sq_departure, PieNam p)
+void plus_generate_moves_for_piece(slice_index si, PieNam p)
 {
+  square const sq_departure = curr_generation->departure;
+
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,p);
 
   if (sq_departure==square_d4
       || sq_departure==square_e4
       || sq_departure==square_d5
       || sq_departure==square_e5)
   {
-    generate_additional_captures_from(si,p,square_d4,sq_departure);
-    generate_additional_captures_from(si,p,square_e4,sq_departure);
-    generate_additional_captures_from(si,p,square_d5,sq_departure);
-    generate_additional_captures_from(si,p,square_e5,sq_departure);
+    generate_additional_captures_from(si,p,square_d4);
+    generate_additional_captures_from(si,p,square_e4);
+    generate_additional_captures_from(si,p,square_d5);
+    generate_additional_captures_from(si,p,square_e5);
   }
 
   TraceFunctionExit(__func__);

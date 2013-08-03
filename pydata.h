@@ -89,6 +89,10 @@ EXTERN char versionString[100];
 
 EXTERN square royal_square[nr_sides];
 
+enum
+{
+  current_generation = toppile
+};
 EXTERN move_generation_elmt move_generation_stack[toppile + 1];
 
 EXTERN  ply             nbply;

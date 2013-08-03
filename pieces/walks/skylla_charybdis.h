@@ -8,13 +8,11 @@
 #include "pieces/walks/vectors.h"
 
 /* Generate moves for a Skylla
- * @param sq_departure common departure square of the generated moves
  */
-void skylla_generate_moves(square sq_departure);
+void skylla_generate_moves(void);
 
 /* Generate moves for a Charybdis
- * @param sq_departure common departure square of the generated moves
  */
-void charybdis_generate_moves(square sq_departure);
+void charybdis_generate_moves(void);
 
 #endif

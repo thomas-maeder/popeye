@@ -75,23 +75,18 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   return result;
 }
 
-static boolean is_not_illegal_capture(numecoup n,
-                                      square sq_departure,
-                                      square sq_arrival,
-                                      square sq_capture)
+static boolean is_not_illegal_capture(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(sq_capture)
-             && (sq_departure==king_square[White]
-                 || sq_departure==king_square[Black]
-                 || get_walk_of_piece_on_square(sq_capture)!=get_walk_of_piece_on_square(sq_departure)));
+  result = !(!is_square_empty(move_generation_stack[n].capture)
+             && (move_generation_stack[n].departure==king_square[White]
+                 || move_generation_stack[n].departure==king_square[Black]
+                 || (get_walk_of_piece_on_square(move_generation_stack[n].capture)
+                     !=get_walk_of_piece_on_square(move_generation_stack[n].departure))));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

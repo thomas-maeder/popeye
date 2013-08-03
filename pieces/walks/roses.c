@@ -4,8 +4,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 
-static square generate_moves_on_circle_segment(square sq_departure,
-                                               square sq_base,
+static square generate_moves_on_circle_segment(square sq_base,
                                                vec_index_type vec_index_start,
                                                vec_index_type *rotation,
                                                rose_rotation_direction direction)
@@ -13,7 +12,6 @@ static square generate_moves_on_circle_segment(square sq_departure,
   square sq_arrival = sq_base+vec[vec_index_start+*rotation];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_base);
   TraceFunctionParam("%u",vec_index_start);
   TraceFunctionParam("%d",*rotation);
@@ -24,7 +22,7 @@ static square generate_moves_on_circle_segment(square sq_departure,
 
   while (sq_arrival!=sq_base && is_square_empty(sq_arrival))
   {
-    add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+    push_move_generation(sq_arrival);
     sq_arrival += vec[vec_index_start+*rotation];
     *rotation += direction;
   }
@@ -39,7 +37,7 @@ square find_end_of_circle_line(square sq_departure,
                                vec_index_type vec_index_start, vec_index_type *rotation,
                                rose_rotation_direction direction)
 {
-  square sq_result= sq_departure;
+  square sq_result = sq_departure;
   do {
     sq_result += vec[vec_index_start+*rotation];
     *rotation += direction;
@@ -48,15 +46,13 @@ square find_end_of_circle_line(square sq_departure,
   return sq_result;
 }
 
-static void rose_generate_circle(square sq_departure,
-                                 vec_index_type vec_index_start,
+static void rose_generate_circle(vec_index_type vec_index_start,
                                  vec_index_type vec_range_start, vec_index_type vec_range_end,
                                  rose_rotation_direction direction)
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParam("%u",vec_index_start);
   TraceFunctionParam("%d",rotation);
   TraceFunctionParam("%u",vec_range_start);
@@ -65,81 +61,76 @@ static void rose_generate_circle(square sq_departure,
   TraceFunctionParamListEnd();
 
   {
-    square const sq_arrival = generate_moves_on_circle_segment(sq_departure,sq_departure,
-                                                               vec_index_start,&rotation,direction);
-    if (sq_arrival!=sq_departure
+    square const sq_arrival = generate_moves_on_circle_segment(curr_generation->departure,vec_index_start,&rotation,direction);
+    if (sq_arrival!=curr_generation->departure
         && piece_belongs_to_opponent(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void rose_generate_moves(square sq_departure,
-                         vec_index_type vec_range_start, vec_index_type vec_range_end)
+void rose_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
   numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
   {
-    rose_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
-    rose_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
+    rose_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
+    rose_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
   }
 
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-static void rao_generate_circle(square sq_departure,
-                                vec_index_type vec_index_start,
+static void rao_generate_circle(vec_index_type vec_index_start,
                                 vec_index_type vec_range_start, vec_index_type vec_range_end,
                                 rose_rotation_direction direction)
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
-  square sq_hurdle = generate_moves_on_circle_segment(sq_departure,sq_departure,
+  square sq_hurdle = generate_moves_on_circle_segment(curr_generation->departure,
                                                       vec_index_start,&rotation,direction);
-  if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
+  if (sq_hurdle!=curr_generation->departure && !is_square_blocked(sq_hurdle))
   {
     square const sq_arrival = find_end_of_circle_line(sq_hurdle,vec_index_start,&rotation,direction);
-    if (sq_arrival!=sq_departure
+    if (sq_arrival!=curr_generation->departure
         && piece_belongs_to_opponent(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 }
 
-void rao_generate_moves(square sq_departure,
-                        vec_index_type vec_range_start, vec_index_type vec_range_end)
+void rao_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
   numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
   {
-    rao_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
-    rao_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
+    rao_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
+    rao_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
   }
 
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-static void roselion_generate_circle(square sq_departure,
-                                     vec_index_type vec_index_start,
+static void roselion_generate_circle(vec_index_type vec_index_start,
                                      vec_index_type vec_range_start, vec_index_type vec_range_end,
                                      rose_rotation_direction direction)
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
-  square sq_hurdle = find_end_of_circle_line(sq_departure,vec_index_start,&rotation,direction);
-  if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
+  square sq_hurdle = find_end_of_circle_line(curr_generation->departure,vec_index_start,&rotation,direction);
+  if (sq_hurdle!=curr_generation->departure && !is_square_blocked(sq_hurdle))
   {
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
     /* cf. issue 1747928 */
     /* temporarily remove the moving piece to prevent it from blocking
      * itself */
-    piece save_piece = e[sq_departure];
-    e[sq_departure] = vide;
+    piece save_piece = e[curr_generation->departure];
+    e[curr_generation->departure] = vide;
     /* could be going for another 8 steps
     let's make sure we don't run out of S vectors */
     if (delta_k > 0)
@@ -153,90 +144,85 @@ static void roselion_generate_circle(square sq_departure,
         k2+=8;
     }
 #endif
-    square const sq_arrival = generate_moves_on_circle_segment(sq_departure,sq_hurdle,
+    square const sq_arrival = generate_moves_on_circle_segment(sq_hurdle,
                                                                vec_index_start,&rotation,direction);
 #if defined(ROSE_LION_HURDLE_CAPTURE_POSSIBLE)
-    e[sq_departure] = save_piece;
+    e[curr_generation->departure] = save_piece;
 #endif
-    if (sq_arrival!=sq_departure
+    if (sq_arrival!=curr_generation->departure
         && piece_belongs_to_opponent(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 }
 
-void roselion_generate_moves(square sq_departure,
-                             vec_index_type vec_range_start, vec_index_type vec_range_end)
+void roselion_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
   numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start= vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
   {
-    roselion_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
-    roselion_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
+    roselion_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
+    roselion_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
   }
 
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-static void rosehopper_genrerate_circle(square sq_departure,
-                                        vec_index_type vec_index_start,
+static void rosehopper_genrerate_circle(vec_index_type vec_index_start,
                                         vec_index_type vec_range_start, vec_index_type vec_range_end,
                                         rose_rotation_direction direction)
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
-  square sq_hurdle= find_end_of_circle_line(sq_departure,vec_index_start,&rotation,direction);
-  if (sq_hurdle!=sq_departure && !is_square_blocked(sq_hurdle))
+  square sq_hurdle= find_end_of_circle_line(curr_generation->departure,vec_index_start,&rotation,direction);
+  if (sq_hurdle!=curr_generation->departure && !is_square_blocked(sq_hurdle))
   {
     square sq_arrival= sq_hurdle+vec[vec_index_start+rotation];
     if (is_square_empty(sq_arrival)
-        || (sq_arrival!=sq_departure
+        || (sq_arrival!=curr_generation->departure
             && piece_belongs_to_opponent(sq_arrival)))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_arrival);
+      push_move_generation(sq_arrival);
   }
 }
 
-void rosehopper_generate_moves(square sq_departure,
-                               vec_index_type vec_range_start, vec_index_type vec_range_end)
+void rosehopper_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
   numecoup const save_current_move = current_move[nbply]-1;
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; vec_index_start++)
   {
-    rosehopper_genrerate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
-    rosehopper_genrerate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
+    rosehopper_genrerate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
+    rosehopper_genrerate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
   }
 
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-static void roselocust_generate_circle(square sq_departure,
-                                       vec_index_type vec_index_start,
+static void roselocust_generate_circle(vec_index_type vec_index_start,
                                        vec_index_type vec_range_start, vec_index_type vec_range_end,
                                        rose_rotation_direction direction)
 {
   vec_index_type rotation = direction==rose_rotation_clockwise ? 0 : vec_range_end-vec_range_start+1;
 
-  square sq_capture= find_end_of_circle_line(sq_departure,vec_index_start,&rotation,direction);
-  if (sq_capture!=sq_departure
+  square sq_capture= find_end_of_circle_line(curr_generation->departure,vec_index_start,&rotation,direction);
+  if (sq_capture!=curr_generation->departure
       && !is_square_blocked(sq_capture)
       && piece_belongs_to_opponent(sq_capture))
   {
     square sq_arrival = sq_capture+vec[vec_index_start+rotation];
     if (is_square_empty(sq_arrival))
-      add_to_move_generation_stack(sq_departure,sq_arrival,sq_capture);
+      push_move_generation_capture_extra(sq_arrival,sq_capture);
   }
 }
 
-void roselocust_generate_moves(square sq_departure,
-                               vec_index_type vec_range_start, vec_index_type vec_range_end)
+void roselocust_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; vec_index_start++)
   {
-    roselocust_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
-    roselocust_generate_circle(sq_departure, vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
+    roselocust_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_clockwise);
+    roselocust_generate_circle(vec_index_start, vec_range_start,vec_range_end, rose_rotation_counterclockwise);
   }
 }

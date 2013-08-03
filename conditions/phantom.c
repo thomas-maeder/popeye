@@ -47,13 +47,11 @@ static boolean is_regular_arrival(square sq_arrival,
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @param p indicates the walk according to which to generate moves
- * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void phantom_generate_moves_for_piece(slice_index si,
-                                      square sq_departure,
-                                      PieNam p)
+void phantom_generate_moves_for_piece(slice_index si, PieNam p)
 {
+  square const sq_departure = curr_generation->departure;
   numecoup const start_regular_moves = current_move[nbply]-1;
 
   TraceFunctionEntry(__func__);
@@ -62,7 +60,7 @@ void phantom_generate_moves_for_piece(slice_index si,
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  generate_moves_for_piece(slices[si].next1,p);
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
@@ -78,7 +76,9 @@ void phantom_generate_moves_for_piece(slice_index si,
       occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
       empty_square(sq_departure);
 
-      generate_moves_for_piece(slices[si].next1,sq_rebirth,p);
+      curr_generation->departure = sq_rebirth;
+      generate_moves_for_piece(slices[si].next1,p);
+      curr_generation->departure = sq_departure;
 
       occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
       empty_square(sq_rebirth);

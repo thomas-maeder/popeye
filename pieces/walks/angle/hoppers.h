@@ -19,53 +19,43 @@ boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type ken
                                          evalfunction_t *evaluate);
 
 /* Generated moves for an Elk
- * @param sq_departure departure square of moves to be generated
  */
-void elk_generate_moves(square sq_departure);
+void elk_generate_moves(void);
 
 /* Generated moves for an Rook Moose
- * @param sq_departure departure square of moves to be generated
  */
-void rook_moose_generate_moves(square sq_departure);
+void rook_moose_generate_moves(void);
 
 /* Generated moves for an Bishop Moose
- * @param sq_departure departure square of moves to be generated
  */
-void bishop_moose_generate_moves(square sq_departure);
+void bishop_moose_generate_moves(void);
 
 /* Generated moves for an Eagle
- * @param sq_departure departure square of moves to be generated
  */
-void eagle_generate_moves(square sq_departure);
+void eagle_generate_moves(void);
 
 /* Generated moves for a Rook Eagle
- * @param sq_departure departure square of moves to be generated
  */
-void rook_eagle_generate_moves(square sq_departure);
+void rook_eagle_generate_moves(void);
 
 /* Generated moves for a Bishop Eagle
- * @param sq_departure departure square of moves to be generated
  */
-void bishop_eagle_generate_moves(square sq_departure);
+void bishop_eagle_generate_moves(void);
 
 /* Generated moves for a Sparrow
- * @param sq_departure departure square of moves to be generated
  */
-void sparrow_generate_moves(square sq_departure);
+void sparrow_generate_moves(void);
 
 /* Generated moves for a Rook Sparrow
- * @param sq_departure departure square of moves to be generated
  */
-void rook_sparrow_generate_moves(square sq_departure);
+void rook_sparrow_generate_moves(void);
 
 /* Generated moves for a Bishop Sparrow
- * @param sq_departure departure square of moves to be generated
  */
-void bishop_sparrow_generate_moves(square sq_departure);
+void bishop_sparrow_generate_moves(void);
 
 /* Generated moves for a Marguerite
- * @param sq_departure departure square of moves to be generated
  */
-void marguerite_generate_moves(square sq_departure);
+void marguerite_generate_moves(void);
 
 #endif

@@ -4,13 +4,11 @@
 #include "pyproc.h"
 
 /* Generate moves for a Super Pawn
- * @param sq_departure common departure square of the generated moves
  */
-void super_pawn_generate_moves(square sq_departure);
+void super_pawn_generate_moves(void);
 
 /* Generate moves for a Super-Berolina Pawn
- * @param sq_departure common departure square of the generated moves
  */
-void super_berolina_pawn_generate_moves(square sq_departure);
+void super_berolina_pawn_generate_moves(void);
 
 #endif

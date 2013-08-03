@@ -91,8 +91,7 @@ static boolean woozles_aux_wh(void)
     {
       siblingply(side_woozled);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-      move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
+            move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
       result = (*checkfunctions[p])(p,&woozles_aux_whx);
       finply();
     }
@@ -116,8 +115,7 @@ static boolean heffalumps_aux_wh(void)
     {
       siblingply(side_woozled);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-      move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
+            move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
       result = (*checkfunctions[p])(p,&heffalumps_aux_whx);
       finply();
     }
@@ -149,7 +147,6 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
     current_move[nbply] = current_move[nbply-1]+1;
     current_move[nbply-1] = n+1; /* allow validation to refer to move n */
     move_generation_stack[current_move[nbply]-1].capture = sq_observer;
-    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
@@ -191,8 +188,7 @@ static boolean heffalumps_is_paralysed(Side side_woozle, numecoup n)
     siblingply(side_woozle);
     current_move[nbply] = current_move[nbply-1]+1;
     current_move[nbply-1] = n+1; /* allow validation to refer to move n */
-    move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-    move_generation_stack[current_move[nbply]-1].capture = sq_observer;
+        move_generation_stack[current_move[nbply]-1].capture = sq_observer;
 
     for (; *pcheck; ++pcheck)
       if (number_of_pieces[side_woozle][*pcheck]>0
@@ -296,21 +292,15 @@ boolean biheffalumps_validate_observation(slice_index si)
   return result;
 }
 
-static boolean woozles_is_not_illegal_capture(numecoup n,
-                                              square sq_departure,
-                                              square sq_arrival,
-                                              square sq_capture)
+static boolean woozles_is_not_illegal_capture(numecoup n)
 {
   boolean result;
   Side const side_woozle = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(sq_capture)
+  result = !(!is_square_empty(move_generation_stack[n].capture)
              && woozles_is_paralysed(side_woozle,n));
 
   TraceFunctionExit(__func__);
@@ -396,10 +386,7 @@ void woozles_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean biwoozles_is_not_illegal_capture(numecoup n,
-                                                square sq_departure,
-                                                square sq_arrival,
-                                                square sq_capture)
+static boolean biwoozles_is_not_illegal_capture(numecoup n)
 {
   boolean result;
   Side const side_woozle = advers(trait[nbply]);
@@ -410,7 +397,7 @@ static boolean biwoozles_is_not_illegal_capture(numecoup n,
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(sq_capture)
+  result = !(!is_square_empty(move_generation_stack[n].capture)
              && woozles_is_paralysed(side_woozle,n));
 
   TraceFunctionExit(__func__);
@@ -496,21 +483,15 @@ void biwoozles_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean heffalumps_is_not_illegal_capture(numecoup n,
-                                                 square sq_departure,
-                                                 square sq_arrival,
-                                                 square sq_capture)
+static boolean heffalumps_is_not_illegal_capture(numecoup n)
 {
   boolean result;
   Side const side_woozle = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(sq_capture)
+  result = !(!is_square_empty(move_generation_stack[n].capture)
              && heffalumps_is_paralysed(side_woozle,n));
 
   TraceFunctionExit(__func__);
@@ -596,21 +577,15 @@ void heffalumps_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean biheffalumps_is_not_illegal_capture(numecoup n,
-                                                   square sq_departure,
-                                                   square sq_arrival,
-                                                   square sq_capture)
+static boolean biheffalumps_is_not_illegal_capture(numecoup n)
 {
   boolean result;
   Side const side_woozle = advers(trait[nbply]);
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(sq_capture)
+  result = !(!is_square_empty(move_generation_stack[n].capture)
              && heffalumps_is_paralysed(side_woozle,n));
 
   TraceFunctionExit(__func__);

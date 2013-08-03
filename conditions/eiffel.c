@@ -46,14 +46,14 @@ static PieNam get_paralyser(PieNam p)
   return result;
 }
 
-static boolean is_paralysed(square sq)
+static boolean is_paralysed(numecoup n)
 {
-  PieNam const p = get_walk_of_piece_on_square(sq);
+  square const sq_departure = move_generation_stack[n].departure;
+  PieNam const p = get_walk_of_piece_on_square(sq_departure);
   boolean result = false;
   PieNam eiffel_piece;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq);
   TraceFunctionParamListEnd();
 
   eiffel_piece = get_paralyser(p);
@@ -65,9 +65,8 @@ static boolean is_paralysed(square sq)
     {
       siblingply(eiffel_side);
       current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]-1].capture = sq;
-      move_generation_stack[current_move[nbply]-1].auxiliary.hopper.sq_hurdle = initsquare;
-      result = (*checkfunctions[eiffel_piece])(eiffel_piece,
+      move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+            result = (*checkfunctions[eiffel_piece])(eiffel_piece,
                                                &validate_observation_geometry);
       finply();
     }
@@ -81,21 +80,17 @@ static boolean is_paralysed(square sq)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void eiffel_generate_moves_for_piece(slice_index si,
-                                     square sq_departure,
-                                     PieNam p)
+void eiffel_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!is_paralysed(sq_departure))
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+  if (!is_paralysed(current_generation))
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -112,7 +107,7 @@ boolean eiffel_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!is_paralysed(move_generation_stack[current_move[nbply]-1].departure)
+  result = (!is_paralysed(current_move[nbply]-1)
             && validate_observer_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

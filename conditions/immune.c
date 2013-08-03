@@ -66,10 +66,7 @@ boolean immune_validate_observation(slice_index si)
   return result;
 }
 
-static boolean is_not_capture_of_immune(numecoup n,
-                                        square sq_departure,
-                                        square sq_arrival,
-                                        square sq_capture)
+static boolean is_not_capture_of_immune(numecoup n)
 {
   boolean result;
 
@@ -77,10 +74,8 @@ static boolean is_not_capture_of_immune(numecoup n,
   TraceValue("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(sq_capture))
-    result = true;
-  else
-    result = !is_capturee_immune(n);
+  return (is_square_empty(move_generation_stack[n].capture)
+          || !is_capturee_immune(n));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -53,20 +53,14 @@ boolean provocateurs_validate_observation(slice_index si)
   return result;
 }
 
-static boolean is_not_unprovoked_capture(numecoup n,
-                                         square sq_departure,
-                                         square sq_arrival,
-                                         square sq_capture)
+static boolean is_not_unprovoked_capture(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = is_square_empty(sq_capture) || is_piece_provoked_on(n);
+  result = is_square_empty(move_generation_stack[n].capture) || is_piece_provoked_on(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -8,11 +8,9 @@
 #include "pieces/walks/vectors.h"
 
 /* Generate moves for a chinese rider piece
- * @param sq_departure common departure square of the generated moves
  * @param kbeg start of range of vector indices to be used
  * @param kend end of range of vector indices to be used
  */
-void chinese_rider_generate_moves(square sq_departure,
-                                  vec_index_type kbeg, vec_index_type kend);
+void chinese_rider_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
 #endif

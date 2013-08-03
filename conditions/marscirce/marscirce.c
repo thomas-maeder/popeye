@@ -8,13 +8,12 @@
 /* Generate non-capturing moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
- * @param sq_real_departure real departure square of the generated moves
  */
 void marscirce_generate_non_captures(slice_index si,
                                      PieNam p,
-                                     square sq_generate_from,
-                                     square sq_real_departure)
+                                     square sq_generate_from)
 {
+  square const sq_real_departure = curr_generation->departure;
   numecoup const base = current_move[nbply];
   numecoup top_filtered = base;
   numecoup curr;
@@ -22,10 +21,11 @@ void marscirce_generate_non_captures(slice_index si,
   TraceFunctionEntry(__func__);
   TracePiece(p);
   TraceSquare(sq_generate_from);
-  TraceSquare(sq_real_departure);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,sq_generate_from,p);
+  curr_generation->departure = sq_generate_from;
+  generate_moves_for_piece(slices[si].next1,p);
+  curr_generation->departure = sq_real_departure;
 
   for (curr = base; curr<current_move[nbply]; ++curr)
     if (is_square_empty(move_generation_stack[curr].capture))
@@ -44,13 +44,12 @@ void marscirce_generate_non_captures(slice_index si,
 /* Generate capturing moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
- * @param sq_real_departure real departure square of the generated moves
  */
 void marscirce_generate_captures(slice_index si,
                                  PieNam p,
-                                 square sq_generate_from,
-                                 square sq_real_departure)
+                                 square sq_generate_from)
 {
+  square const sq_real_departure = curr_generation->departure;
   numecoup const base = current_move[nbply];
   numecoup top_filtered = base;
   numecoup curr;
@@ -61,7 +60,9 @@ void marscirce_generate_captures(slice_index si,
   TraceSquare(sq_real_departure);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,sq_generate_from,p);
+  curr_generation->departure = sq_generate_from;
+  generate_moves_for_piece(slices[si].next1,p);
+  curr_generation->departure = sq_real_departure;
 
   for (curr = base; curr<current_move[nbply]; ++curr)
     if (!is_square_empty(move_generation_stack[curr].capture))
@@ -80,13 +81,12 @@ void marscirce_generate_captures(slice_index si,
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @param p indicates the walk according to which to generate moves
- * @param sq_departure departure square of moves to be generated
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves_for_piece(slice_index si,
-                                        square sq_departure,
-                                        PieNam p)
+void marscirce_generate_moves_for_piece(slice_index si, PieNam p)
 {
+  square const sq_departure = curr_generation->departure;
+
   TraceFunctionEntry(__func__);
   TracePiece(p);
   TraceSquare(sq_departure);
@@ -99,17 +99,17 @@ void marscirce_generate_moves_for_piece(slice_index si,
                                            advers(trait[nbply]));
 
     if (sq_rebirth==sq_departure)
-      generate_moves_for_piece(slices[si].next1,sq_departure,p);
+      generate_moves_for_piece(slices[si].next1,p);
     else
     {
-      marscirce_generate_non_captures(si,p,sq_departure,sq_departure);
+      marscirce_generate_non_captures(si,p,sq_departure);
 
       if (is_square_empty(sq_rebirth))
       {
         occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
         empty_square(sq_departure);
 
-        marscirce_generate_captures(si,p,sq_rebirth,sq_departure);
+        marscirce_generate_captures(si,p,sq_rebirth);
 
         occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
         empty_square(sq_rebirth);

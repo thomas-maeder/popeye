@@ -19,10 +19,9 @@ void solving_instrument_move_generation(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void generate_moves_for_piece(slice_index si, square sq_departure, PieNam p);
+void generate_moves_for_piece(slice_index si, PieNam p);
 
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice
@@ -53,16 +52,13 @@ void stip_insert_move_generators(slice_index si);
  * criterion
  * @param criterion criterion to be met by moves to not be removed
  */
-typedef boolean (*move_filter_criterion_type)(numecoup n,
-                                              square sq_departure,
-                                              square sq_arrival,
-                                              square sq_capture);
+typedef boolean (*move_filter_criterion_type)(numecoup n);
 void move_generator_filter_moves(move_filter_criterion_type criterion);
 
+extern move_generation_elmt *curr_generation;
 
-void add_to_move_generation_stack(square sq_departure,
-                                  square sq_arrival,
-                                  square sq_capture);
+void push_move_generation(square sq_arrival);
+void push_move_generation_capture_extra(square sq_arrival, square sq_capture);
 
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates

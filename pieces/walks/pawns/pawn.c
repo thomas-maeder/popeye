@@ -1,6 +1,7 @@
 #include "pieces/walks/pawns/pawn.h"
 #include "pydata.h"
 #include "pieces/walks/pawns/pawns.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -40,7 +41,7 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
   return result;
 }
 
-void pawn_generate_moves(square sq_departure)
+void pawn_generate_moves(void)
 {
   unsigned int no_capture_length;
 
@@ -48,15 +49,16 @@ void pawn_generate_moves(square sq_departure)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  no_capture_length = pawn_get_no_capture_length(trait[nbply],sq_departure);
+  no_capture_length = pawn_get_no_capture_length(trait[nbply],
+                                                 curr_generation->departure);
 
   if (no_capture_length>0)
   {
     int const dir_vertical = trait[nbply]==White ? dir_up : dir_down;
 
-    pawns_generate_capture_move(sq_departure,dir_vertical+dir_left);
-    pawns_generate_capture_move(sq_departure,dir_vertical+dir_right);
-    pawns_generate_nocapture_moves(sq_departure,dir_vertical,no_capture_length);
+    pawns_generate_capture_move(dir_vertical+dir_left);
+    pawns_generate_capture_move(dir_vertical+dir_right);
+    pawns_generate_nocapture_moves(dir_vertical,no_capture_length);
   }
 
   TraceFunctionExit(__func__);

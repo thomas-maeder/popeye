@@ -7,42 +7,30 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-/* Validate the geometry of observation according to Bichrome Chess
- * @return true iff the observation is valid
- */
-boolean bichrome_validate_observation_geometry(slice_index si)
+static boolean is_move_bichrome(numecoup n)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-  boolean result;
-
-  if (SquareCol(sq_observer)==SquareCol(sq_landing))
-    result = false;
-  else
-    result = validate_observation_geometry_recursive(slices[si].next1);
-
-  return result;
-}
-
-static boolean is_move_bichrome(numecoup n,
-                                square sq_departure,
-                                square sq_arrival,
-                                square sq_capture)
-{
+  square const sq_observer = move_generation_stack[n].departure;
+  square const sq_landing = move_generation_stack[n].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = SquareCol(sq_departure)!=SquareCol(sq_arrival);
+  result = SquareCol(sq_observer)!=SquareCol(sq_landing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Validate the geometry of observation according to Bichrome Chess
+ * @return true iff the observation is valid
+ */
+boolean bichrome_validate_observation_geometry(slice_index si)
+{
+  return (is_move_bichrome(current_move[nbply]-1)
+          && validate_observation_geometry_recursive(slices[si].next1));
 }
 
 /* Try to solve in n half-moves.

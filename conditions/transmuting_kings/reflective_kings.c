@@ -12,28 +12,24 @@
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param sq_departure departure square of generated moves
  * @param p walk to be used for generating
  */
-void reflective_kings_generate_moves_for_piece(slice_index si,
-                                               square sq_departure,
-                                               PieNam p)
+void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceSquare(sq_departure);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (p==King)
   {
     numecoup const save_nbcou = current_move[nbply]-1;
-    generate_moves_for_piece(slices[si].next1,sq_departure,King);
-    if (generate_moves_of_transmuting_king(si,sq_departure))
+    generate_moves_for_piece(slices[si].next1,King);
+    if (generate_moves_of_transmuting_king(si))
       remove_duplicate_moves_of_single_piece(save_nbcou);
   }
   else
-    generate_moves_for_piece(slices[si].next1,sq_departure,p);
+    generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
