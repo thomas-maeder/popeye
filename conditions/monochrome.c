@@ -7,7 +7,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-static boolean is_monochrome(numecoup n)
+boolean monochrome_is_move_monochrome(numecoup n)
 {
   square const sq_observer = move_generation_stack[n].departure;
   square const sq_landing = move_generation_stack[n].arrival;
@@ -16,7 +16,11 @@ static boolean is_monochrome(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = SquareCol(sq_observer)==SquareCol(sq_landing);
+  if (move_generation_stack[n].capture==queenside_castling)
+    result = false;
+  else
+    result = (SquareCol(move_generation_stack[n].departure)
+              ==SquareCol(move_generation_stack[n].arrival));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -29,32 +33,8 @@ static boolean is_monochrome(numecoup n)
  */
 boolean monochrome_validate_observation_geometry(slice_index si)
 {
-  boolean result;
-
-  if (is_monochrome(current_move[nbply]-1))
-    result = validate_observation_geometry_recursive(slices[si].next1);
-  else
-    result = false;
-
-  return result;
-}
-
-static boolean is_move_monochrome(numecoup n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (move_generation_stack[n].capture==queenside_castling)
-    result = false;
-  else
-    result = is_monochrome(n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+  return (monochrome_is_move_monochrome(current_move[nbply]-1)
+          && validate_observation_geometry_recursive(slices[si].next1));
 }
 
 /* Try to solve in n half-moves.
@@ -80,7 +60,7 @@ stip_length_type monochrome_remove_bichrome_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_move_monochrome);
+  move_generator_filter_moves(&monochrome_is_move_monochrome);
 
   result = solve(slices[si].next1,n);
 

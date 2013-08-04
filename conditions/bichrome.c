@@ -1,27 +1,16 @@
 #include "conditions/bichrome.h"
-#include "pydata.h"
+#include "conditions/monochrome.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 static boolean is_move_bichrome(numecoup n)
 {
-  square const sq_observer = move_generation_stack[n].departure;
-  square const sq_landing = move_generation_stack[n].arrival;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = SquareCol(sq_observer)!=SquareCol(sq_landing);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+  return !monochrome_is_move_monochrome(n);
 }
 
 /* Validate the geometry of observation according to Bichrome Chess
