@@ -36,7 +36,6 @@ static boolean is_unobserved_beamter(numecoup n)
  */
 boolean beamten_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
