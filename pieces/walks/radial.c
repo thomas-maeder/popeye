@@ -18,11 +18,11 @@ static void genleapleap(vec_index_type kanf, vec_index_type kend,
       vec_index_type k1;
       for (k1= kanf; k1 <= kend; k1++)
       {
-        square const sq_arrival = (leaf ? curr_generation->departure : sq_hurdle) + vec[k1];
-        if (sq_arrival!=sq_hurdle
-            && (is_square_empty(sq_arrival)
-                || piece_belongs_to_opponent(sq_arrival)))
-          push_move_generation( sq_arrival);
+        curr_generation->arrival = (leaf ? curr_generation->departure : sq_hurdle) + vec[k1];
+        if (curr_generation->arrival!=sq_hurdle
+            && (is_square_empty(curr_generation->arrival)
+                || piece_belongs_to_opponent(curr_generation->arrival)))
+          push_move();
       }
     }
   }

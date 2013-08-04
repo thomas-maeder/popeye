@@ -18,9 +18,9 @@ void chinese_rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
     square const sq_hurdle = generate_moves_on_line_segment(curr_generation->departure,k);
     if (!is_square_blocked(sq_hurdle))
     {
-      square const sq_capture = find_end_of_line(sq_hurdle,vec[k]);
-      if (piece_belongs_to_opponent(sq_capture))
-        push_move_generation(sq_capture);
+      curr_generation->arrival = find_end_of_line(sq_hurdle,vec[k]);
+      if (piece_belongs_to_opponent(curr_generation->arrival))
+        push_move();
     }
   }
 }

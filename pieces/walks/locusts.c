@@ -13,9 +13,9 @@ void generate_locust_capture(square sq_capture,
 {
   if (piece_belongs_to_opponent(sq_capture))
   {
-    square const sq_arrival= sq_capture+vec[index_arrival_capture];
-    if (is_square_empty(sq_arrival))
-      push_move_generation_capture_extra(sq_arrival,sq_capture);
+    curr_generation->arrival = sq_capture+vec[index_arrival_capture];
+    if (is_square_empty(curr_generation->arrival))
+      push_move_capture_extra(sq_capture);
   }
 }
 

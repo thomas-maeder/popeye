@@ -500,11 +500,17 @@ void generate_castling(void)
     {
       if ((allowed_castlings&rh_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_f))
-        push_move_generation_capture_extra(square_g,kingside_castling);
+      {
+        curr_generation->arrival = square_g;
+        push_special_move(kingside_castling);
+      }
 
       if ((allowed_castlings&ra_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_d))
-        push_move_generation_capture_extra(square_c,queenside_castling);
+      {
+        curr_generation->arrival = square_c;
+        push_special_move(queenside_castling);
+      }
     }
   }
 

@@ -478,17 +478,17 @@ void move_generator_filter_moves(move_filter_criterion_type criterion)
 
 DEFINE_COUNTER(add_to_move_generation_stack)
 
-void push_move_generation(square sq_arrival)
+void push_move(void)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
   INCREMENT_COUNTER(add_to_move_generation_stack);
 
+  assert(current_move[nbply]<toppile);
+
+  curr_generation->capture = curr_generation->arrival;
   move_generation_stack[current_move[nbply]] = *curr_generation;
-  move_generation_stack[current_move[nbply]].arrival = sq_arrival;
-  move_generation_stack[current_move[nbply]].capture = sq_arrival;
   ++current_move[nbply];
   TraceValue("%u\n",current_move[nbply]);
 
@@ -496,18 +496,37 @@ void push_move_generation(square sq_arrival)
   TraceFunctionResultEnd();
 }
 
-void push_move_generation_capture_extra(square sq_arrival, square sq_capture)
+void push_move_capture_extra(square sq_capture)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   INCREMENT_COUNTER(add_to_move_generation_stack);
 
+  assert(current_move[nbply]<toppile);
+
+  curr_generation->capture = sq_capture;
   move_generation_stack[current_move[nbply]] = *curr_generation;
-  move_generation_stack[current_move[nbply]].arrival = sq_arrival;
-  move_generation_stack[current_move[nbply]].capture = sq_capture;
+  ++current_move[nbply];
+  TraceValue("%u\n",current_move[nbply]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void push_special_move(square sq_special)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_special);
+  TraceFunctionParamListEnd();
+
+  INCREMENT_COUNTER(add_to_move_generation_stack);
+
+  assert(current_move[nbply]<toppile);
+
+  curr_generation->capture = sq_special;
+  move_generation_stack[current_move[nbply]] = *curr_generation;
   ++current_move[nbply];
   TraceValue("%u\n",current_move[nbply]);
 

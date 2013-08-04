@@ -63,10 +63,11 @@ stip_length_type orthodox_mating_king_contact_generator_solve(slice_index si,
     vec_index_type k;
     for (k = vec_queen_start; k<=vec_queen_end; k++)
     {
-      square const sq_arrival = curr_generation->departure+vec[k];
-      if ((is_square_empty(sq_arrival) || TSTFLAG(spec[sq_arrival],mated))
-          && move_diff_code[abs(sq_mated_king-sq_arrival)]<=1+1)
-        push_move_generation(sq_arrival);
+      curr_generation->arrival = curr_generation->departure+vec[k];
+      if ((is_square_empty(curr_generation->arrival)
+          || TSTFLAG(spec[curr_generation->arrival],mated))
+          && move_diff_code[abs(sq_mated_king-curr_generation->arrival)]<=1+1)
+        push_move();
     }
   }
 

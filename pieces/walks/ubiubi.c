@@ -19,19 +19,19 @@ static void utiubi_generate_moves_recursive(square step_departure,
 
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
-    square const sq_arrival = step_departure+vec[k];
-    if (!is_square_blocked(sq_arrival))
-      switch (traversal_state[sq_arrival])
+    curr_generation->arrival = step_departure+vec[k];
+    if (!is_square_blocked(curr_generation->arrival))
+      switch (traversal_state[curr_generation->arrival])
       {
         case ubiubi_empty:
-          push_move_generation(sq_arrival);
-          traversal_state[sq_arrival] = ubiubi_taboo;
-          utiubi_generate_moves_recursive(sq_arrival,traversal_state);
+          push_move();
+          traversal_state[curr_generation->arrival] = ubiubi_taboo;
+          utiubi_generate_moves_recursive(curr_generation->arrival,traversal_state);
           break;
 
         case ubiubi_opposibe:
-          push_move_generation(sq_arrival);
-          traversal_state[sq_arrival] = ubiubi_taboo;
+          push_move();
+          traversal_state[curr_generation->arrival] = ubiubi_taboo;
           break;
 
         case ubiubi_taboo:

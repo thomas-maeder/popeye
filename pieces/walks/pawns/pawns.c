@@ -22,7 +22,8 @@ void pawns_generate_ep_capture_move(square sq_arrival,
     if (sq_capture!=initsquare)
     {
       curr_generation->auxiliary.sq_en_passant = sq_arrival_singlestep;
-      push_move_generation_capture_extra(sq_arrival,sq_capture);
+      curr_generation->arrival = sq_arrival;
+      push_move_capture_extra(sq_capture);
       curr_generation->auxiliary.sq_en_passant = initsquare;
     }
   }
@@ -36,16 +37,16 @@ void pawns_generate_ep_capture_move(square sq_arrival,
  */
 void pawns_generate_capture_move(numvec dir)
 {
-  square const sq_arrival = curr_generation->departure+dir;
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (piece_belongs_to_opponent(sq_arrival))
-    push_move_generation(sq_arrival);
+  curr_generation->arrival = curr_generation->departure+dir;
+
+  if (piece_belongs_to_opponent(curr_generation->arrival))
+    push_move();
   else
-    pawns_generate_ep_capture_move(sq_arrival,sq_arrival);
+    pawns_generate_ep_capture_move(curr_generation->arrival,curr_generation->arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -56,27 +57,21 @@ void pawns_generate_capture_move(numvec dir)
  */
 void pawns_generate_nocapture_moves(numvec dir, int steps)
 {
-  square sq_arrival = curr_generation->departure+dir;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
   TraceFunctionParam("%d",steps);
   TraceFunctionParamListEnd();
 
+  curr_generation->arrival = curr_generation->departure+dir;
+
   while (steps--)
-  {
-    TraceSquare(sq_arrival);
-    TracePiece(e[sq_arrival]);
-    TraceText("\n");
-    if (is_square_empty(sq_arrival))
+    if (is_square_empty(curr_generation->arrival))
     {
-      push_move_generation(sq_arrival);
-      sq_arrival += dir;
+      push_move();
+      curr_generation->arrival += dir;
     }
     else
       break;
-    TraceValue("%d\n",steps);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

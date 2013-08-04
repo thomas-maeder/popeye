@@ -16,9 +16,9 @@ void hamster_generate_moves(void)
     square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
     if (!is_square_blocked(sq_hurdle))
     {
-      square const sq_arrival = sq_hurdle-vec[k];
-      if (sq_arrival!=sq_departure)
-        push_move_generation(sq_arrival);
+      curr_generation->arrival = sq_hurdle-vec[k];
+      if (curr_generation->arrival!=sq_departure)
+        push_move();
     }
   }
 }

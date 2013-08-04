@@ -10,22 +10,22 @@
  */
 square generate_moves_on_line_segment(square sq_base, vec_index_type k)
 {
-  square sq_arrival = sq_base+vec[k];
-
   TraceFunctionEntry(__func__);
   TraceSquare(sq_base);
   TraceFunctionParamListEnd();
 
-  while (is_square_empty(sq_arrival))
+  curr_generation->arrival = sq_base+vec[k];
+
+  while (is_square_empty(curr_generation->arrival))
   {
-    push_move_generation(sq_arrival);
-    sq_arrival += vec[k];
+    push_move();
+    curr_generation->arrival += vec[k];
   }
 
   TraceFunctionExit(__func__);
-  TraceSquare(sq_arrival);
+  TraceSquare(curr_generation->arrival);
   TraceFunctionResultEnd();
-  return sq_arrival;
+  return curr_generation->arrival;
 }
 
 /* Generate moves for a rider piece
@@ -44,9 +44,9 @@ void rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
   for (k = kbeg; k<=kend; ++k)
   {
-    square const sq_arrival = generate_moves_on_line_segment(curr_generation->departure,k);
-    if (piece_belongs_to_opponent(sq_arrival))
-      push_move_generation(sq_arrival);
+    curr_generation->arrival = generate_moves_on_line_segment(curr_generation->departure,k);
+    if (piece_belongs_to_opponent(curr_generation->arrival))
+      push_move();
   }
 
   TraceFunctionExit(__func__);

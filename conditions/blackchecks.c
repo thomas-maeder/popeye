@@ -246,7 +246,8 @@ stip_length_type black_checks_null_move_generator_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   curr_generation->departure = nullsquare;
-  push_move_generation(nullsquare);
+  curr_generation->arrival = nullsquare;
+  push_move();
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

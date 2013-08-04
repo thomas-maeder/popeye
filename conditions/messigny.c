@@ -84,7 +84,10 @@ void messigny_generate_moves_for_piece(slice_index si, PieNam p)
         if (piece_belongs_to_opponent(*bnp)
             && get_walk_of_piece_on_square(*bnp)==p
             && *bnp!=forbidden_from && *bnp!=forbidden_to)
-          push_move_generation_capture_extra(*bnp,messigny_exchange);
+        {
+          curr_generation->arrival = *bnp;
+          push_special_move(messigny_exchange);
+        }
     }
   }
 

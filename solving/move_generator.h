@@ -50,15 +50,27 @@ void stip_insert_move_generators(slice_index si);
 
 /* From the moves just generated, remove all those that don't meet a certain
  * criterion
- * @param criterion criterion to be met by moves to not be removed
+ * @param criterion criterion to be met by moves not to be removed
  */
 typedef boolean (*move_filter_criterion_type)(numecoup n);
 void move_generator_filter_moves(move_filter_criterion_type criterion);
 
+/* address of an element used for holding the move currently being generated */
 extern move_generation_elmt *curr_generation;
 
-void push_move_generation(square sq_arrival);
-void push_move_generation_capture_extra(square sq_arrival, square sq_capture);
+/* Push the move described in *curr_generation onto the stack */
+void push_move(void);
+
+/* Push the capture move described in *curr_generation onto the stack.
+ * @param sq_capture place of capture
+ * @note use push_move() if sq_capture is equal to the arrival square
+ */
+void push_move_capture_extra(square sq_capture);
+
+/* Push the special move described in *curr_generation onto the stack
+ * @param sq_special special square value describing the speciality of the move
+ */
+void push_special_move(square sq_special);
 
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates

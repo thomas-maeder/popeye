@@ -40,15 +40,15 @@ static void marine_leaper_generate_moves(vec_index_type kanf, vec_index_type ken
 
   for (k = kanf; k<=kend; ++k)
   {
-    square sq_arrival = curr_generation->departure+vec[k];
-    if (is_square_empty(sq_arrival))
-      push_move_generation(sq_arrival);
-    else if (piece_belongs_to_opponent(sq_arrival))
+    curr_generation->arrival = curr_generation->departure+vec[k];
+    if (is_square_empty(curr_generation->arrival))
+      push_move();
+    else if (piece_belongs_to_opponent(curr_generation->arrival))
     {
-      square const sq_capture = sq_arrival;
-      sq_arrival += vec[k];
-      if (is_square_empty(sq_arrival))
-        push_move_generation_capture_extra(sq_arrival,sq_capture);
+      square const sq_capture = curr_generation->arrival;
+      curr_generation->arrival += vec[k];
+      if (is_square_empty(curr_generation->arrival))
+        push_move_capture_extra(sq_capture);
     }
   }
 
@@ -88,18 +88,19 @@ void poseidon_generate_moves(void)
 static void marine_pawn_generate_capture(int dir)
 {
   square const sq_capture = curr_generation->departure+dir;
-  square const sq_arrival = sq_capture+dir;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(sq_arrival))
+  curr_generation->arrival = sq_capture+dir;
+
+  if (is_square_empty(curr_generation->arrival))
   {
     if (piece_belongs_to_opponent(sq_capture))
-      push_move_generation_capture_extra(sq_arrival,sq_capture);
+      push_move_capture_extra(sq_capture);
     else
-      pawns_generate_ep_capture_move(sq_arrival,sq_capture);
+      pawns_generate_ep_capture_move(curr_generation->arrival,sq_capture);
   }
 
   TraceFunctionExit(__func__);

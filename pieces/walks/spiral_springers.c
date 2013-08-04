@@ -6,22 +6,22 @@
 
 static void generate_either_pointed_or_obtuse(numvec zig, numvec zag)
 {
-  square sq_arrival = curr_generation->departure+zig;
+  curr_generation->arrival = curr_generation->departure+zig;
 
-  while (is_square_empty(sq_arrival))
+  while (is_square_empty(curr_generation->arrival))
   {
-    push_move_generation(sq_arrival);
-    sq_arrival += zag;
-    if (is_square_empty(sq_arrival))
+    push_move();
+    curr_generation->arrival += zag;
+    if (is_square_empty(curr_generation->arrival))
     {
-      push_move_generation(sq_arrival);
-      sq_arrival += zig;
+      push_move();
+      curr_generation->arrival += zig;
     }
     else
       break;
   }
-  if (piece_belongs_to_opponent(sq_arrival))
-    push_move_generation(sq_arrival);
+  if (piece_belongs_to_opponent(curr_generation->arrival))
+    push_move();
 }
 
 static void generate_pointed_and_obtuse(vec_index_type index_zig,

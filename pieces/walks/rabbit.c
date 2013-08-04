@@ -19,9 +19,9 @@ void rabbit_generate_moves(void)
       square sq_arrival = find_end_of_line(sq_hurdle,vec[k]);
       if (!is_square_blocked(sq_arrival))
       {
-        square const sq_capture = generate_moves_on_line_segment(sq_arrival,k);
-        if (piece_belongs_to_opponent(sq_capture))
-          push_move_generation(sq_capture);
+        curr_generation->arrival = generate_moves_on_line_segment(sq_arrival,k);
+        if (piece_belongs_to_opponent(curr_generation->arrival))
+          push_move();
       }
     }
   }

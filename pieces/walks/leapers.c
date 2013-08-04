@@ -15,9 +15,9 @@ void leaper_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
   for (k= kbeg; k<= kend; ++k)
   {
-    square const sq_arrival = curr_generation->departure+vec[k];
-    if (is_square_empty(sq_arrival)
-        || piece_belongs_to_opponent(sq_arrival))
-      push_move_generation(sq_arrival);
+    curr_generation->arrival = curr_generation->departure+vec[k];
+    if (is_square_empty(curr_generation->arrival)
+        || piece_belongs_to_opponent(curr_generation->arrival))
+      push_move();
   }
 }

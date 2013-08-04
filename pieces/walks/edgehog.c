@@ -13,16 +13,16 @@ void edgehog_generate_moves(void)
 
   for (k= vec_queen_end; k >=vec_queen_start; k--)
   {
-    square sq_arrival = sq_departure+vec[k];
-    while (is_square_empty(sq_arrival))
+    curr_generation->arrival = sq_departure+vec[k];
+    while (is_square_empty(curr_generation->arrival))
     {
-      if (NoEdge(sq_arrival)!=NoEdge(sq_departure))
-        push_move_generation(sq_arrival);
-      sq_arrival+= vec[k];
+      if (NoEdge(curr_generation->arrival)!=NoEdge(sq_departure))
+        push_move();
+      curr_generation->arrival += vec[k];
     }
 
-    if (piece_belongs_to_opponent(sq_arrival)
-        && NoEdge(sq_arrival)!=NoEdge(sq_departure))
-      push_move_generation(sq_arrival);
+    if (piece_belongs_to_opponent(curr_generation->arrival)
+        && NoEdge(curr_generation->arrival)!=NoEdge(sq_departure))
+      push_move();
   }
 }

@@ -19,13 +19,13 @@ void hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
     if (!is_square_blocked(sq_hurdle))
     {
-      square const sq_arrival = sq_hurdle+vec[k];
-      if (piece_belongs_to_opponent(sq_arrival)
-          || is_square_empty(sq_arrival))
+      curr_generation->arrival = sq_hurdle+vec[k];
+      if (piece_belongs_to_opponent(curr_generation->arrival)
+          || is_square_empty(curr_generation->arrival))
       {
         curr_generation->auxiliary.hopper.vec_index = k;
         curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
-        push_move_generation(sq_arrival);
+        push_move();
       }
     }
   }
@@ -45,13 +45,13 @@ void leaper_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
     square const sq_hurdle = curr_generation->departure+vec[k];
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      square const sq_arrival = sq_hurdle+vec[k];
-      if (piece_belongs_to_opponent(sq_arrival)
-          || is_square_empty(sq_arrival))
+      curr_generation->arrival = sq_hurdle+vec[k];
+      if (piece_belongs_to_opponent(curr_generation->arrival)
+          || is_square_empty(curr_generation->arrival))
       {
         curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
         curr_generation->auxiliary.hopper.vec_index = k;
-        push_move_generation(sq_arrival);
+        push_move();
       }
     }
   }
@@ -83,10 +83,10 @@ void doublehopper_generate_moves(vec_index_type vec_start,
           square const sq_hurdle2 = find_end_of_line(past_sq_hurdle1,vec[k1]);
           if (!is_square_blocked(sq_hurdle2))
           {
-            square const sq_arrival = sq_hurdle2+vec[k1];
-            if (is_square_empty(sq_arrival)
-                || piece_belongs_to_opponent(sq_arrival))
-              push_move_generation(sq_arrival);
+            curr_generation->arrival = sq_hurdle2+vec[k1];
+            if (is_square_empty(curr_generation->arrival)
+                || piece_belongs_to_opponent(curr_generation->arrival))
+              push_move();
           }
         }
       }
@@ -110,18 +110,18 @@ void contra_grasshopper_generate_moves(vec_index_type kbeg, vec_index_type kend)
     {
       if (!is_square_blocked(sq_hurdle))
       {
-        square sq_arrival = sq_hurdle+vec[k];
-        while (is_square_empty(sq_arrival))
+        curr_generation->arrival = sq_hurdle+vec[k];
+        while (is_square_empty(curr_generation->arrival))
         {
           curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
-          push_move_generation(sq_arrival);
-          sq_arrival+= vec[k];
+          push_move();
+          curr_generation->arrival += vec[k];
         }
 
-        if (piece_belongs_to_opponent(sq_arrival))
+        if (piece_belongs_to_opponent(curr_generation->arrival))
         {
           curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
-          push_move_generation(sq_arrival);
+          push_move();
         }
       }
     }
@@ -163,13 +163,13 @@ void grasshoppers_n_generate_moves(vec_index_type kbeg, vec_index_type kend,
 
     if (!is_square_blocked(sq_hurdle))
     {
-      square const sq_arrival = grasshoppers_n_find_target(sq_hurdle,vec[k],dist_hurdle_target);
-      if (piece_belongs_to_opponent(sq_arrival)
-          || is_square_empty(sq_arrival))
+      curr_generation->arrival = grasshoppers_n_find_target(sq_hurdle,vec[k],dist_hurdle_target);
+      if (piece_belongs_to_opponent(curr_generation->arrival)
+          || is_square_empty(curr_generation->arrival))
       {
         curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
         curr_generation->auxiliary.hopper.vec_index = k;
-        push_move_generation(sq_arrival);
+        push_move();
       }
     }
   }
@@ -194,19 +194,19 @@ void equihopper_generate_moves(void)
       int const dist_hurdle_dep = abs(sq_hurdle-sq_departure);
       if (dist_hurdle_end>dist_hurdle_dep)
       {
-        square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
+        curr_generation->arrival = sq_hurdle+sq_hurdle-sq_departure;
         curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
         curr_generation->auxiliary.hopper.vec_index = k;
-        push_move_generation(sq_arrival);
+        push_move();
       }
       else if (dist_hurdle_end==dist_hurdle_dep)
       {
-        square const sq_arrival = end_of_line;
-        if (piece_belongs_to_opponent(sq_arrival))
+        curr_generation->arrival = end_of_line;
+        if (piece_belongs_to_opponent(curr_generation->arrival))
         {
           curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
           curr_generation->auxiliary.hopper.vec_index = k;
-          push_move_generation(sq_arrival);
+          push_move();
         }
       }
     }
@@ -214,15 +214,15 @@ void equihopper_generate_moves(void)
 
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)
   {
-    square const sq_hurdle= sq_departure+vec[k];
-    square const sq_arrival= sq_departure + 2*vec[k];
+    square const sq_hurdle = sq_departure+vec[k];
+    curr_generation->arrival = sq_departure + 2*vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle)>=King
-        && (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival)))
+        && (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival)))
     {
       curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
       curr_generation->auxiliary.hopper.vec_index = k;
-      push_move_generation(sq_arrival);
+      push_move();
     }
   }
 
@@ -256,13 +256,13 @@ void nonstop_equihopper_generate_moves(void)
           && !is_square_empty(sq_hurdle))
       {
         numvec const vector = sq_hurdle-sq_departure;
-        square const sq_arrival = sq_hurdle+vector;
+        curr_generation->arrival = sq_hurdle+vector;
 
-        if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival))
+        if (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival))
         {
           curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
-          push_move_generation(sq_arrival);
+          push_move();
         }
       }
     }
@@ -284,10 +284,10 @@ void equistopper_generate_moves(void)
     square const sq_hurdle1 = find_end_of_line(sq_departure,vec[k]);
     if (!is_square_blocked(sq_hurdle1))
     {
-      square const sq_arrival= (sq_hurdle1+sq_departure)/2;
+      curr_generation->arrival = (sq_hurdle1+sq_departure)/2;
       if (!((sq_hurdle1/onerow+sq_departure/onerow)%2
             || (sq_hurdle1%onerow+sq_departure%onerow)%2)) /* is sq_arrival a square? */
-        push_move_generation(sq_arrival);
+        push_move();
 
       {
         square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[k]);
@@ -296,7 +296,8 @@ void equistopper_generate_moves(void)
             && piece_belongs_to_opponent(sq_hurdle1))
         {
           square const sq_arrival = sq_hurdle1;
-          push_move_generation(sq_arrival);
+          curr_generation->arrival = sq_arrival;
+          push_move();
         }
       }
     }
@@ -304,12 +305,12 @@ void equistopper_generate_moves(void)
 
   for (k= vec_equi_nonintercept_start; k<=vec_equi_nonintercept_end; k++)
   {
-    square const sq_arrival = sq_departure + vec[k];
     square const sq_hurdle1 = sq_departure+2*vec[k];
+    curr_generation->arrival = sq_departure+vec[k];
     if (get_walk_of_piece_on_square(sq_hurdle1)>=King
-        && (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival)))
-      push_move_generation(sq_arrival);
+        && (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival)))
+      push_move();
   }
 }
 
@@ -320,7 +321,6 @@ void nonstop_equistopper_generate_moves(void)
 {
   square const sq_departure = curr_generation->departure;
   square sq_hurdle;
-  square sq_arrival;
   numvec delta_horiz, delta_vert;
   numvec vector;
 
@@ -334,15 +334,15 @@ void nonstop_equistopper_generate_moves(void)
          delta_vert!=dir_down;
          delta_vert+= dir_down) {
 
-      sq_arrival= coin+delta_horiz+delta_vert;
-      vector= sq_arrival-sq_departure;
-      sq_hurdle= sq_arrival+vector;
+      curr_generation->arrival = coin+delta_horiz+delta_vert;
+      vector= curr_generation->arrival-sq_departure;
+      sq_hurdle= curr_generation->arrival+vector;
 
-      if (sq_arrival!=sq_departure
+      if (curr_generation->arrival!=sq_departure
           && !is_square_empty(sq_hurdle)
-          && (is_square_empty(sq_arrival)
-              || piece_belongs_to_opponent(sq_arrival)))
-        push_move_generation(sq_arrival);
+          && (is_square_empty(curr_generation->arrival)
+              || piece_belongs_to_opponent(curr_generation->arrival)))
+        push_move();
     }
 }
 
@@ -359,19 +359,20 @@ void orix_generate_moves(void)
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_end_of_line = find_end_of_line(sq_hurdle,vec[k]);
-      square const sq_arrival = sq_hurdle+sq_hurdle-sq_departure;
+      curr_generation->arrival = sq_hurdle+sq_hurdle-sq_departure;
       if (abs(sq_end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure))
       {
         curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
         curr_generation->auxiliary.hopper.vec_index = k;
-        push_move_generation(sq_arrival);
+        push_move();
       }
       else if (abs(sq_end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
                && piece_belongs_to_opponent(sq_end_of_line))
       {
         curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
         curr_generation->auxiliary.hopper.vec_index = k;
-        push_move_generation(sq_end_of_line);
+        curr_generation->arrival = sq_end_of_line;
+        push_move();
       }
     }
   }
@@ -385,7 +386,6 @@ void nonstop_orix_generate_moves(void)
 {
   square const sq_departure = curr_generation->departure;
   square sq_hurdle;
-  square sq_arrival;
   numvec delta_horiz, delta_vert, delta;
   numvec vector;
   boolean queenlike;
@@ -410,13 +410,13 @@ void nonstop_orix_generate_moves(void)
       if (queenlike && !is_square_empty(sq_hurdle))
       {
         vector= sq_hurdle-sq_departure;
-        sq_arrival= sq_hurdle+vector;
+        curr_generation->arrival = sq_hurdle+vector;
 
-        if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival))
+        if (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival))
         {
           curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
-          push_move_generation(sq_arrival);
+          push_move();
         }
       }
     }

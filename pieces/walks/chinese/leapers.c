@@ -14,15 +14,15 @@ void chinese_leaper_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
   for (k = kbeg; k<=kend; ++k)
   {
-    square const sq_hurdle = curr_generation->departure + vec[k];
+    curr_generation->arrival = curr_generation->departure + vec[k];
 
-    if (is_square_empty(sq_hurdle))
-      push_move_generation(sq_hurdle);
-    else if (!is_square_blocked(sq_hurdle))
+    if (is_square_empty(curr_generation->arrival))
+      push_move();
+    else if (!is_square_blocked(curr_generation->arrival))
     {
-      square const sq_arrival = sq_hurdle+vec[k];
-      if (piece_belongs_to_opponent(sq_arrival))
-        push_move_generation(sq_arrival);
+      curr_generation->arrival += vec[k];
+      if (piece_belongs_to_opponent(curr_generation->arrival))
+        push_move();
     }
   }
 }

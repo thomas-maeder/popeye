@@ -7,21 +7,19 @@
 
 static void superpawn_generate_noncaptures(numvec dir)
 {
-  square sq_arrival;
-
-  for (sq_arrival = curr_generation->departure+dir;
-       is_square_empty(sq_arrival);
-       sq_arrival+= dir)
-    push_move_generation(sq_arrival);
+  for (curr_generation->arrival = curr_generation->departure+dir;
+       is_square_empty(curr_generation->arrival);
+       curr_generation->arrival += dir)
+    push_move();
 }
 
 static void superpawn_generate_captures(numvec dir)
 {
-  square const sq_arrival = find_end_of_line(curr_generation->departure,dir);
+  curr_generation->arrival = find_end_of_line(curr_generation->departure,dir);
 
   /* it can move from first rank */
-  if (piece_belongs_to_opponent(sq_arrival))
-    push_move_generation(sq_arrival);
+  if (piece_belongs_to_opponent(curr_generation->arrival))
+    push_move();
 }
 
 /* Generate moves for a Super Pawn

@@ -80,13 +80,14 @@ void castlingchess_generate_moves_for_piece(slice_index si, PieNam p)
     for (k = vec_queen_end; k>= vec_queen_start; --k)
     {
       square const sq_passed = sq_departure+vec[k];
-      square const sq_arrival = sq_passed+vec[k];
-      square const sq_castler = find_end_of_line(sq_departure,vec[k]);
+      square const sq_partner = find_end_of_line(sq_departure,vec[k]);
 
-      if (sq_castler!=sq_passed && sq_castler!=sq_arrival
-          && !is_square_blocked(sq_castler)
+      curr_generation->arrival = sq_passed+vec[k];
+
+      if (sq_partner!=sq_passed && sq_partner!=curr_generation->arrival
+          && !is_square_blocked(sq_partner)
           && castling_is_intermediate_king_move_legal(trait[nbply],sq_passed))
-        push_move_generation_capture_extra(sq_arrival,maxsquare+sq_castler);
+        push_special_move(maxsquare+sq_partner);
     }
   }
 }

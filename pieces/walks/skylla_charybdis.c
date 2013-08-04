@@ -9,9 +9,15 @@ static void generate_one_move(square sq_arrival, square sq_capture)
   if (is_square_empty(sq_arrival))
   {
     if (is_square_empty(sq_capture))
-      push_move_generation(sq_arrival);
+    {
+      curr_generation->arrival = sq_arrival;
+      push_move();
+    }
     else if (piece_belongs_to_opponent(sq_capture))
-      push_move_generation_capture_extra(sq_arrival,sq_capture);
+    {
+      curr_generation->arrival = sq_arrival;
+      push_move_capture_extra(sq_capture);
+    }
   }
 }
 

@@ -11,20 +11,21 @@ void cat_generate_moves(void)
   /* generate moves of a CAT */
   vec_index_type k;
 
-  for (k= vec_knight_start; k<=vec_knight_end; k++) {
-    square sq_arrival = curr_generation->departure+vec[k];
-    if (piece_belongs_to_opponent(sq_arrival))
-      push_move_generation(sq_arrival);
+  for (k= vec_knight_start; k<=vec_knight_end; k++)
+  {
+    curr_generation->arrival = curr_generation->departure+vec[k];
+    if (piece_belongs_to_opponent(curr_generation->arrival))
+      push_move();
     else
     {
-      while (is_square_empty(sq_arrival))
+      while (is_square_empty(curr_generation->arrival))
       {
-        push_move_generation(sq_arrival);
-        sq_arrival+= cat_vectors[k];
+        push_move();
+        curr_generation->arrival += cat_vectors[k];
       }
 
-      if (piece_belongs_to_opponent(sq_arrival))
-        push_move_generation(sq_arrival);
+      if (piece_belongs_to_opponent(curr_generation->arrival))
+        push_move();
     }
   }
 }

@@ -5,33 +5,48 @@
 #include "pydata.h"
 #include "pyproc.h"
 
-static void reflecting_bishop_generate_moves_recursive(square in, numvec k, int x)
+#include <assert.h>
+
+static vec_index_type find_vec_index(numvec dir)
 {
-  int k1;
+  vec_index_type result = vec_bishop_start;
 
-  square sq_arrival= in+k;
+  while (vec[result]!=dir)
+    result++;
 
-  if (is_square_blocked(sq_arrival))
+  assert(result<=vec_bishop_end);
+
+  return result;
+}
+
+static void reflecting_bishop_generate_moves_recursive(square in, numvec dir, unsigned int nr_remaining_reflections)
+{
+  curr_generation->arrival = in+dir;
+
+  if (is_square_blocked(curr_generation->arrival))
     return;
 
-  while (is_square_empty(sq_arrival))
+  while (is_square_empty(curr_generation->arrival))
   {
-    push_move_generation(sq_arrival);
-    sq_arrival+= k;
+    push_move();
+    curr_generation->arrival += dir;
   }
 
-  if (piece_belongs_to_opponent(sq_arrival))
-    push_move_generation(sq_arrival);
-  else if (x && is_square_blocked(sq_arrival))
+  if (piece_belongs_to_opponent(curr_generation->arrival))
+    push_move();
+  else if (nr_remaining_reflections>0 && is_square_blocked(curr_generation->arrival))
   {
-    sq_arrival-= k;
-    k1= 5;
-    while (vec[k1]!=k)
-      k1++;
-    k1*= 2;
-    reflecting_bishop_generate_moves_recursive(sq_arrival,angle_vectors[angle_90][k1],x-1);
-    k1--;
-    reflecting_bishop_generate_moves_recursive(sq_arrival,angle_vectors[angle_90][k1],x-1);
+    square const sq_reflection = curr_generation->arrival-dir;
+
+    vec_index_type const dir_index = find_vec_index(dir);
+    vec_index_type const dir_reflected_index = dir_index*2;
+
+    reflecting_bishop_generate_moves_recursive(sq_reflection,
+                                               angle_vectors[angle_90][dir_reflected_index],
+                                               nr_remaining_reflections-1);
+    reflecting_bishop_generate_moves_recursive(sq_reflection,
+                                               angle_vectors[angle_90][dir_reflected_index-1],
+                                               nr_remaining_reflections-1);
   }
 }
 

@@ -17,13 +17,14 @@ void bouncer_generate_moves(vec_index_type kbeg, vec_index_type kend)
     square const bounce_where = find_end_of_line(sq_departure,vec[k]);
     square const bounce_to = 2*sq_departure-bounce_where;
 
-    square sq_arrival = sq_departure-vec[k];
-    while (sq_arrival!=bounce_to && is_square_empty(sq_arrival))
-      sq_arrival -= vec[k];
+    curr_generation->arrival = sq_departure-vec[k];
+    while (curr_generation->arrival!=bounce_to
+           && is_square_empty(curr_generation->arrival))
+      curr_generation->arrival -= vec[k];
 
-    if (sq_arrival==bounce_to
-        && (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival)))
-      push_move_generation(sq_arrival);
+    if (curr_generation->arrival==bounce_to
+        && (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival)))
+      push_move();
   }
 }

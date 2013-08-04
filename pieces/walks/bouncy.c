@@ -14,15 +14,15 @@ static void bouncy_knight_generate_moves_recursive(square step_departure, int x)
 
   for (k = vec_knight_start; k<=vec_knight_end; ++k)
   {
-    square const sq_arrival = step_departure+vec[k];
-    if (is_square_empty(sq_arrival))
+    curr_generation->arrival = step_departure+vec[k];
+    if (is_square_empty(curr_generation->arrival))
     {
-      push_move_generation(sq_arrival);
-      if (x>0 && !NoEdge(sq_arrival))
-        bouncy_knight_generate_moves_recursive(sq_arrival,x-1);
+      push_move();
+      if (x>0 && !NoEdge(curr_generation->arrival))
+        bouncy_knight_generate_moves_recursive(curr_generation->arrival,x-1);
     }
-    else if (piece_belongs_to_opponent(sq_arrival))
-      push_move_generation(sq_arrival);
+    else if (piece_belongs_to_opponent(curr_generation->arrival))
+      push_move();
   }
 }
 
@@ -116,22 +116,22 @@ static void bouncy_nightrider_generate_moves_recursive(square step_departure)
 
   for (k= vec_knight_start; k<=vec_knight_end; k++)
   {
-    square sq_arrival = step_departure+vec[k];
+    curr_generation->arrival = step_departure+vec[k];
 
-    while (is_square_empty(sq_arrival))
+    while (is_square_empty(curr_generation->arrival))
     {
-      push_move_generation(sq_arrival);
-      if (!NoEdge(sq_arrival) && !traversed(sq_arrival))
+      push_move();
+      if (!NoEdge(curr_generation->arrival) && !traversed(curr_generation->arrival))
       {
-        bouncy_nightrider_generate_moves_recursive(sq_arrival);
+        bouncy_nightrider_generate_moves_recursive(curr_generation->arrival);
         break;
       }
       else
-        sq_arrival += vec[k];
+        curr_generation->arrival += vec[k];
     }
 
-    if (piece_belongs_to_opponent(sq_arrival))
-      push_move_generation(sq_arrival);
+    if (piece_belongs_to_opponent(curr_generation->arrival))
+      push_move();
   }
 }
 

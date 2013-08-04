@@ -32,24 +32,24 @@ static void angle_hoppers_generate_moves(vec_index_type kanf, vec_index_type ken
       vec_index_type const k1 = 2*k;
 
       {
-        square const sq_arrival= sq_hurdle+angle_vectors[angle][k1];
-        if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival))
+        curr_generation->arrival = sq_hurdle+angle_vectors[angle][k1];
+        if (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival))
         {
           curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
           curr_generation->auxiliary.hopper.vec_index = k;
-          push_move_generation(sq_arrival);
+          push_move();
         }
       }
 
       {
-        square const sq_arrival= sq_hurdle+angle_vectors[angle][k1-1];
-        if (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival))
+        curr_generation->arrival = sq_hurdle+angle_vectors[angle][k1-1];
+        if (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival))
         {
           curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
           curr_generation->auxiliary.hopper.vec_index = k;
-          push_move_generation(sq_arrival);
+          push_move();
         }
       }
     }

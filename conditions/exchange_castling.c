@@ -80,12 +80,12 @@ void exchange_castling_generate_moves_for_piece(slice_index si, PieNam p)
     for (i = nr_rows_on_board; i>0; --i, square_a += onerow)
     {
       int j;
-      square pos_partner = square_a;
-      for (j = nr_files_on_board; j>0; --j, pos_partner += dir_right)
-        if (pos_partner!=curr_generation->departure
-            && TSTFLAG(spec[pos_partner],trait[nbply])
-            && !is_pawn(get_walk_of_piece_on_square(pos_partner))) /* not sure if "castling" with Ps forbidden */
-          push_move_generation_capture_extra(pos_partner,platzwechsel_rochade);
+      curr_generation->arrival = square_a;
+      for (j = nr_files_on_board; j>0; --j, curr_generation->arrival += dir_right)
+        if (curr_generation->arrival!=curr_generation->departure
+            && TSTFLAG(spec[curr_generation->arrival],trait[nbply])
+            && !is_pawn(get_walk_of_piece_on_square(curr_generation->arrival))) /* not sure if "castling" with Ps forbidden */
+          push_special_move(platzwechsel_rochade);
     }
   }
 }

@@ -87,7 +87,8 @@ stip_length_type castling_intermediate_move_generator_solve(slice_index si,
    * ply.
    */
   current_move[parent_ply[nbply]-1] = current_move[nbply]-1;
-  push_move_generation(intermediate_move_square_arrival);
+  curr_generation->arrival = intermediate_move_square_arrival;
+  push_move();
   result = solve(next,n);
   current_move[parent_ply[nbply]-1] = save_repere;
 

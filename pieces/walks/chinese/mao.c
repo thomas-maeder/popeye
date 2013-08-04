@@ -14,14 +14,16 @@ static void gmaooa(square  pass,
         || piece_belongs_to_opponent(arrival1))
     {
       curr_generation->auxiliary.hopper.sq_hurdle = pass;
-      push_move_generation(arrival1);
+      curr_generation->arrival = arrival1;
+      push_move();
     }
 
     if (is_square_empty(arrival2)
         || piece_belongs_to_opponent(arrival2))
     {
       curr_generation->auxiliary.hopper.sq_hurdle = pass;
-      push_move_generation(arrival2);
+      curr_generation->arrival = arrival2;
+      push_move();
     }
 
     curr_generation->auxiliary.hopper.sq_hurdle = initsquare;
@@ -56,19 +58,19 @@ static void gemaooarider(numvec tomiddle, numvec todest)
 {
   square const sq_departure = curr_generation->departure;
 
-  square middle= sq_departure+tomiddle;
-  square sq_arrival= sq_departure+todest;
+  square middle = sq_departure+tomiddle;
+  curr_generation->arrival = sq_departure+todest;
 
-  while (is_square_empty(middle) && is_square_empty(sq_arrival))
+  while (is_square_empty(middle) && is_square_empty(curr_generation->arrival))
   {
-    push_move_generation(sq_arrival);
+    push_move();
     middle += todest;
-    sq_arrival += todest;
+    curr_generation->arrival += todest;
   }
 
   if (is_square_empty(middle)
-      && piece_belongs_to_opponent(sq_arrival))
-    push_move_generation(sq_arrival);
+      && piece_belongs_to_opponent(curr_generation->arrival))
+    push_move();
 }
 
 /* Generate moves for a Moa Rider
@@ -103,35 +105,35 @@ static void gemaooariderlion(numvec tomiddle, numvec todest)
 {
   square const sq_departure = curr_generation->departure;
   square middle = sq_departure + tomiddle;
-  square sq_arrival = sq_departure+todest;
+  curr_generation->arrival = sq_departure+todest;
 
-  while (is_square_empty(middle) && is_square_empty(sq_arrival))
+  while (is_square_empty(middle) && is_square_empty(curr_generation->arrival))
   {
     middle += todest;
-    sq_arrival += todest;
+    curr_generation->arrival += todest;
   }
 
-  if (!is_square_blocked(middle) && !is_square_blocked(sq_arrival))
+  if (!is_square_blocked(middle) && !is_square_blocked(curr_generation->arrival))
   {
     if (!is_square_empty(middle)
-        && (is_square_empty(sq_arrival)
-            || piece_belongs_to_opponent(sq_arrival)))
-      push_move_generation(sq_arrival);
-    if (is_square_empty(middle) || is_square_empty(sq_arrival))
+        && (is_square_empty(curr_generation->arrival)
+            || piece_belongs_to_opponent(curr_generation->arrival)))
+      push_move();
+    if (is_square_empty(middle) || is_square_empty(curr_generation->arrival))
     {
       middle += todest;
-      sq_arrival += todest;
-      while (is_square_empty(middle) && is_square_empty(sq_arrival))
+      curr_generation->arrival += todest;
+      while (is_square_empty(middle) && is_square_empty(curr_generation->arrival))
       {
-        push_move_generation(sq_arrival);
+        push_move();
         middle += todest;
-        sq_arrival += todest;
+        curr_generation->arrival += todest;
       }
     }
 
     if (is_square_empty(middle)
-        && piece_belongs_to_opponent(sq_arrival))
-      push_move_generation(sq_arrival);
+        && piece_belongs_to_opponent(curr_generation->arrival))
+      push_move();
   }
 }
 
