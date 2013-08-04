@@ -19,7 +19,8 @@ static boolean goes_to_the_edge(numecoup n)
  */
 boolean edgemover_validate_observation_geometry(slice_index si)
 {
-  return goes_to_the_edge(current_move[nbply]-1);
+  return (goes_to_the_edge(current_move[nbply]-1)
+          && validate_observation_geometry_recursive(slices[si].next1));
 }
 
 /* Try to solve in n half-moves.
