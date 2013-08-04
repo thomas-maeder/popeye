@@ -9,8 +9,6 @@
 
 boolean monochrome_is_move_monochrome(numecoup n)
 {
-  square const sq_observer = move_generation_stack[n].departure;
-  square const sq_landing = move_generation_stack[n].arrival;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -34,7 +32,7 @@ boolean monochrome_is_move_monochrome(numecoup n)
 boolean monochrome_validate_observation_geometry(slice_index si)
 {
   return (monochrome_is_move_monochrome(current_move[nbply]-1)
-          && validate_observation_geometry_recursive(slices[si].next1));
+          && validate_observation_recursive(slices[si].next1));
 }
 
 /* Try to solve in n half-moves.

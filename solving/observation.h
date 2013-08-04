@@ -24,7 +24,11 @@
 extern vec_index_type interceptable_observation_vector_index[maxply+1];
 extern unsigned int observation_context;
 
-boolean validate_observation_geometry_recursive(slice_index si);
+/* Continue validating an observation (or observer or observation geometry)
+ * @param si identifies the slice with which to continue
+ * @return rue iff the observation is valid
+ */
+boolean validate_observation_recursive(slice_index si);
 
 /* Validate an observation
  * @return true iff the observation is valid
@@ -40,8 +44,6 @@ void stip_instrument_observation_geometry_validation(slice_index si,
                                                   Side side,
                                                   slice_type type);
 
-boolean validate_observer_recursive(slice_index si);
-
 /* Validate an observer
  * @return true iff the observation is valid
  */
@@ -56,8 +58,6 @@ boolean validate_observer(void);
 void stip_instrument_observer_validation(slice_index si,
                                       Side side,
                                       slice_type type);
-
-boolean validate_observation_recursive(slice_index si);
 
 /* Validate an observation
  * @return true iff the observation is valid

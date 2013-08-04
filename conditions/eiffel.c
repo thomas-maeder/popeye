@@ -108,7 +108,7 @@ boolean eiffel_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (!is_paralysed(current_move[nbply]-1)
-            && validate_observer_recursive(slices[si].next1));
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

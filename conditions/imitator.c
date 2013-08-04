@@ -874,7 +874,7 @@ boolean imitator_validate_observation(slice_index si)
   }
 
   if (result)
-    result = validate_observation_geometry_recursive(slices[si].next1);
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

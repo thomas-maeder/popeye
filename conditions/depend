@@ -4835,10 +4835,10 @@ utilities/enumeration.h:
 pylang.h:
 conditions/forced_squares$(OBJ_SUFFIX): conditions/forced_squares.c \
  conditions/forced_squares.h position/board.h utilities/bitmask.h \
- debugging/trace.h py.h utilities/boolean.h position/position.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h
+ debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
+ position/position.h pieces/walks/vectors.h utilities/enumeration.h \
+ pylang.h
 
 conditions/forced_squares.h:
 
@@ -4848,6 +4848,16 @@ utilities/bitmask.h:
 
 debugging/trace.h:
 
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
 py.h:
 
 utilities/boolean.h:
@@ -4856,19 +4866,9 @@ position/position.h:
 
 pieces/walks/vectors.h:
 
-utilities/boolean.h:
-
 utilities/enumeration.h:
 
 pylang.h:
-
-pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
 conditions/synchronous$(OBJ_SUFFIX): conditions/synchronous.c \
  conditions/synchronous.h position/board.h utilities/bitmask.h \
  solving/move_effect_journal.h solving/solve.h py.h utilities/boolean.h \
@@ -4917,9 +4917,9 @@ stipulation/goals/goals.h:
 conditions/must_capture$(OBJ_SUFFIX): conditions/must_capture.c \
  conditions/must_capture.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h debugging/trace.h py.h utilities/boolean.h \
- position/position.h pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h
+ utilities/enumeration.h debugging/trace.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h py.h \
+ utilities/boolean.h position/position.h pylang.h
 
 conditions/must_capture.h:
 
@@ -4937,14 +4937,6 @@ utilities/enumeration.h:
 
 debugging/trace.h:
 
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-pylang.h:
-
 pydata.h:
 
 pyproc.h:
@@ -4952,3 +4944,11 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+py.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+pylang.h:

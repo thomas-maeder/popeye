@@ -159,7 +159,7 @@ boolean paralysing_validate_observer(slice_index si)
   result = (!TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],
                      Paralysing)
             && !is_paralysed(current_move[nbply]-1)
-            &&  validate_observer_recursive(slices[si].next1));
+            &&  validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

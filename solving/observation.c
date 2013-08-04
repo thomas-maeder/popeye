@@ -48,45 +48,11 @@
 vec_index_type interceptable_observation_vector_index[maxply+1];
 unsigned int observation_context = 0;
 
-typedef struct
-{
-    Side side;
-    slice_type type;
-} instrumentation_type;
-
-static void insert_slice(slice_index testing,
-                         slice_type type,
-                         slice_index const rank_order[],
-                         unsigned int nr_rank_order)
-{
-  slice_index const prototype = alloc_pipe(type);
-  stip_structure_traversal st;
-  branch_slice_insertion_state_type state =
-  {
-    &prototype,1,
-    rank_order, nr_rank_order,
-    branch_slice_rank_order_nonrecursive,
-    0,
-    testing,
-    0
-  };
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",testing);
-  TraceEnumerator(slice_type,type,"");
-  TraceFunctionParamListEnd();
-
-  state.base_rank = get_slice_rank(slices[testing].type,&state);
-  assert(state.base_rank!=no_slice_rank);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
-  stip_traverse_structure_children_pipe(testing,&st);
-  dealloc_slice(prototype);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-boolean validate_observation_geometry_recursive(slice_index si)
+/* Continue validating an observation (or observer or observation geometry)
+ * @param si identifies the slice with which to continue
+ * @return rue iff the observation is valid
+ */
+boolean validate_observation_recursive(slice_index si)
 {
   boolean result;
 
@@ -98,6 +64,98 @@ boolean validate_observation_geometry_recursive(slice_index si)
 
   switch (slices[si].type)
   {
+    case STValidatingObservationBackHome:
+      result = back_home_validate_observation(si);
+      break;
+
+    case STValidatingObservationBeamten:
+      result = beamten_validate_observation(si);
+      break;
+
+    case STValidatingObservationBGL:
+      result = bgl_validate_observation(si);
+      break;
+
+    case STValidatingObservationBrunner:
+      result = brunner_validate_observation(si);
+      break;
+
+    case STValidatingObservationCentral:
+      result = central_validate_observation(si);
+      break;
+
+    case STValidatingObservationDisparate:
+      result = disparate_validate_observation(si);
+      break;
+
+    case STValidatingObservationGeneva:
+      result = geneva_validate_observation(si);
+      break;
+
+    case STValidatingObservationImmune:
+      result = immune_validate_observation(si);
+      break;
+
+    case STValidatingObservationLortap:
+      result = lortap_validate_observation(si);
+      break;
+
+    case STValidatingObservationUltraMummer:
+      result = ultra_mummer_validate_observation(si);
+      break;
+
+    case STValidatingObservationPatrol:
+      result = patrol_validate_observation(si);
+      break;
+
+    case STValidatingObservationUltraPatrol:
+      result = ultrapatrol_validate_observation(si);
+      break;
+
+    case STValidatingObservationProvocateurs:
+      result = provocateurs_validate_observation(si);
+      break;
+
+    case STValidatingObservationShielded:
+      result = shielded_kings_validate_observation(si);
+      break;
+
+    case STValidatingObservationSuperGuards:
+      result = superguards_validate_observation(si);
+      break;
+
+    case STValidateObservationWoozles:
+      result = woozles_validate_observation(si);
+      break;
+
+    case STValidateObservationBiWoozles:
+      result = biwoozles_validate_observation(si);
+      break;
+
+    case STValidateObservationHeffalumps:
+      result = heffalumps_validate_observation(si);
+      break;
+
+    case STValidateObservationBiHeffalumps:
+      result = biheffalumps_validate_observation(si);
+      break;
+
+    case STValidatingObservationWormholes:
+      result = wormhole_validate_observation(si);
+      break;
+
+    case STMadrasiObserverTester:
+      result = madrasi_validate_observer(si);
+      break;
+
+    case STEiffelObserverTester:
+      result = eiffel_validate_observer(si);
+      break;
+
+    case STParalysingPiecesObserverTester:
+      result = paralysing_validate_observer(si);
+      break;
+
     case STValidateObservationGeometryMonochrome:
       result = monochrome_validate_observation_geometry(si);
       break;
@@ -167,6 +225,44 @@ boolean validate_observation_geometry_recursive(slice_index si)
   return result;
 }
 
+typedef struct
+{
+    Side side;
+    slice_type type;
+} instrumentation_type;
+
+static void insert_slice(slice_index testing,
+                         slice_type type,
+                         slice_index const rank_order[],
+                         unsigned int nr_rank_order)
+{
+  slice_index const prototype = alloc_pipe(type);
+  stip_structure_traversal st;
+  branch_slice_insertion_state_type state =
+  {
+    &prototype,1,
+    rank_order, nr_rank_order,
+    branch_slice_rank_order_nonrecursive,
+    0,
+    testing,
+    0
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",testing);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  state.base_rank = get_slice_rank(slices[testing].type,&state);
+  assert(state.base_rank!=no_slice_rank);
+  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  stip_traverse_structure_children_pipe(testing,&st);
+  dealloc_slice(prototype);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Validate an observation
  * @return true iff the observation is valid
  */
@@ -177,7 +273,7 @@ boolean validate_observation_geometry(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
+  result = validate_observation_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -280,49 +376,6 @@ enum
   nr_observer_validation_slice_rank_order = sizeof observer_validation_slice_rank_order / sizeof observer_validation_slice_rank_order[0]
 };
 
-boolean validate_observer_recursive(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-
-  switch (slices[si].type)
-  {
-    case STMadrasiObserverTester:
-      result = madrasi_validate_observer(si);
-      break;
-
-    case STEiffelObserverTester:
-      result = eiffel_validate_observer(si);
-      break;
-
-    case STParalysingPiecesObserverTester:
-      result = paralysing_validate_observer(si);
-      break;
-
-    case STTrue:
-      result = true;
-      break;
-
-    case STFalse:
-      result = false;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Validate an observation
  * @return true iff the observation is valid
  */
@@ -333,10 +386,10 @@ boolean validate_observer(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
+  result = validate_observation_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
 
   if (result)
-    result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
+    result = validate_observation_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -441,147 +494,6 @@ enum
   nr_observation_validation_slice_rank_order = sizeof observation_validation_slice_rank_order / sizeof observation_validation_slice_rank_order[0]
 };
 
-boolean validate_observation_recursive(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-
-  switch (slices[si].type)
-  {
-    case STValidatingObservationBackHome:
-      result = back_home_validate_observation(si);
-      break;
-
-    case STValidatingObservationBeamten:
-      result = beamten_validate_observation(si);
-      break;
-
-    case STValidatingObservationBGL:
-      result = bgl_validate_observation(si);
-      break;
-
-    case STValidatingObservationBrunner:
-      result = brunner_validate_observation(si);
-      break;
-
-    case STValidatingObservationCentral:
-      result = central_validate_observation(si);
-      break;
-
-    case STValidatingObservationDisparate:
-      result = disparate_validate_observation(si);
-      break;
-
-    case STValidatingObservationGeneva:
-      result = geneva_validate_observation(si);
-      break;
-
-    case STValidatingObservationImmune:
-      result = immune_validate_observation(si);
-      break;
-
-    case STValidatingObservationLortap:
-      result = lortap_validate_observation(si);
-      break;
-
-    case STValidatingObservationUltraMummer:
-      result = ultra_mummer_validate_observation(si);
-      break;
-
-    case STValidatingObservationPatrol:
-      result = patrol_validate_observation(si);
-      break;
-
-    case STValidatingObservationUltraPatrol:
-      result = ultrapatrol_validate_observation(si);
-      break;
-
-    case STValidatingObservationProvocateurs:
-      result = provocateurs_validate_observation(si);
-      break;
-
-    case STValidatingObservationShielded:
-      result = shielded_kings_validate_observation(si);
-      break;
-
-    case STValidatingObservationSuperGuards:
-      result = superguards_validate_observation(si);
-      break;
-
-    case STValidateObservationWoozles:
-      result = woozles_validate_observation(si);
-      break;
-
-    case STValidateObservationBiWoozles:
-      result = biwoozles_validate_observation(si);
-      break;
-
-    case STValidateObservationHeffalumps:
-      result = heffalumps_validate_observation(si);
-      break;
-
-    case STValidateObservationBiHeffalumps:
-      result = biheffalumps_validate_observation(si);
-      break;
-
-    case STValidatingObservationWormholes:
-      result = wormhole_validate_observation(si);
-      break;
-
-    case STValidatingObservationGeometryByPlayingMove:
-    {
-      square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-      square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-      TraceValue("%u",nbply);
-      TraceValue("%u\n",current_move[nbply]);
-      move_generation_stack[current_move[nbply]-1].departure = sq_observer;
-      move_generation_stack[current_move[nbply]-1].arrival = sq_landing;
-      result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
-                      length_unspecified)
-                ==next_move_has_solution);
-      current_move[nbply] = current_move[nbply-1]+1;
-      break;
-    }
-
-    case STValidateCheckMoveByPlayingCapture:
-    {
-      square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-      square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-      TraceValue("%u",nbply);
-      TraceValue("%u\n",current_move[nbply]);
-      move_generation_stack[current_move[nbply]-1].departure = sq_observer;
-      move_generation_stack[current_move[nbply]-1].arrival = sq_landing;
-      result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
-                      length_unspecified)
-                ==next_move_has_solution);
-      current_move[nbply] = current_move[nbply-1]+1;
-      break;
-    }
-
-    case STTrue:
-      result = true;
-      break;
-
-    case STFalse:
-      result = false;
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Validate a check
  * @return true iff the observation is valid
  */
@@ -596,10 +508,10 @@ boolean validate_check(void)
 
   if (result)
   {
-    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
+    result = validate_observation_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
 
     if (result)
-      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
+      result = validate_observation_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
   }
 
   TraceFunctionExit(__func__);
@@ -622,10 +534,10 @@ boolean validate_observation(void)
 
   if (result)
   {
-    result = validate_observer_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
+    result = validate_observation_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
 
     if (result)
-      result = validate_observation_geometry_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
+      result = validate_observation_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
   }
 
   TraceFunctionExit(__func__);

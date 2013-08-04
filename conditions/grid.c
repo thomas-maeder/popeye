@@ -19,7 +19,7 @@ static boolean is_not_in_same_cell(numecoup n)
 boolean grid_validate_observation_geometry(slice_index si)
 {
   return (is_not_in_same_cell(current_move[nbply]-1)
-          && validate_observation_geometry_recursive(slices[si].next1));
+          && validate_observation_recursive(slices[si].next1));
 }
 
 /* Try to solve in n half-moves.
