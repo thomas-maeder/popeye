@@ -628,6 +628,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = bgl_enforcer_solve(si,n);
       break;
 
+    case STBGLAdjuster:
+      result = bgl_adjuster_solve(si,n);
+      break;
+
     case STMasandRecolorer:
       result = masand_recolorer_solve(si,n);
       break;

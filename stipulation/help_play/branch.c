@@ -83,6 +83,7 @@ static slice_index const slice_rank_order[] =
   STMonochromeRemoveBichromeMoves,
   STBichromeRemoveMonochromeMoves,
   STEdgeMoverRemoveIllegalMoves,
+  STBGLEnforcer,
   STSuperguardsRemoveIllegalCaptures,
   STMummerOrchestrator,
   STDoneRemovingIllegalMoves,

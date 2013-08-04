@@ -5,19 +5,25 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean is_observed(numecoup n)
+static boolean is_unobserved_beamter(numecoup n)
 {
+  square const sq_departure = move_generation_stack[n].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  siblingply(advers(trait[nbply]));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
-  result = is_square_observed(&validate_observer);
-  finply();
+  if (TSTFLAG(spec[sq_departure],Beamtet))
+  {
+    siblingply(advers(trait[nbply]));
+    current_move[nbply] = current_move[nbply-1]+1;
+    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+    result = !is_square_observed(&validate_observer);
+    finply();
+  }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -37,10 +43,8 @@ boolean beamten_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_observer],Beamtet) && !is_observed(current_move[nbply]-1))
-    result = false;
-  else
-    result = validate_observation_recursive(slices[si].next1);
+  result = (!is_unobserved_beamter(current_move[nbply]-1)
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -59,8 +63,7 @@ void beamten_generate_moves_for_piece(slice_index si, PieNam p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(spec[curr_generation->departure],Beamtet)
-      || is_observed(current_generation))
+  if (!is_unobserved_beamter(current_generation))
     generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);

@@ -132,7 +132,7 @@ static slice_index const move_slice_rank_order[] =
     STMasandRecolorer,
     STLandingAfterMovePlay,
     STMoveCounter,
-    STBGLEnforcer,
+    STBGLAdjuster,
     STDetectMoveRetracted,
     STKoekoLegalityTester,
     STGridContactLegalityTester,

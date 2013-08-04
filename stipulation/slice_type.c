@@ -302,6 +302,7 @@
     ENUMERATOR(STAntikingsCheckTester),                                 \
     ENUMERATOR(STKingSquareObservationTester),                          \
     ENUMERATOR(STBGLEnforcer),                                          \
+    ENUMERATOR(STBGLAdjuster),                                          \
     ENUMERATOR(STMasandRecolorer),                                      \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \

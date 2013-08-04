@@ -1,6 +1,7 @@
 #include "conditions/bgl.h"
 #include "pydata.h"
 #include "solving/observation.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -119,6 +120,18 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr
   TraceFunctionResultEnd();
 }
 
+static long int calculate_diff(numecoup n)
+{
+  square const sq_departure = move_generation_stack[n].departure;
+  square const sq_arrival = move_generation_stack[n].arrival;
+  return BGL_move_diff_code[abs(sq_departure-sq_arrival)];
+}
+
+static boolean is_move_within_bounds(numecoup n)
+{
+  return calculate_diff(n)<=BGL_values[trait[nbply]];
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -135,29 +148,55 @@ void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr
 stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_generation_elmt const * const move_gen_top = move_generation_stack+current_move[nbply]-1;
-  int const move_diff = move_gen_top->departure-move_gen_top->arrival;
-  long int const diff = BGL_move_diff_code[abs(move_diff)];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (BGL_values[trait[nbply]]>=diff)
-  {
-    if (BGL_global)
-    {
-      do_bgl_adjustment(White,diff);
-      do_bgl_adjustment(Black,diff);
-    }
-    else
-      do_bgl_adjustment(trait[nbply],diff);
+  move_generator_filter_moves(&is_move_within_bounds);
+  result = solve(slices[si].next1,n);
 
-    result = solve(slices[si].next1,n);
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type bgl_adjuster_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  long int const diff = calculate_diff(current_move[nbply]-1);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(BGL_values[trait[nbply]]>=diff); /* BGL enforcer takes care of that */
+
+  if (BGL_global)
+  {
+    do_bgl_adjustment(White,diff);
+    do_bgl_adjustment(Black,diff);
   }
   else
-    result = previous_move_is_illegal;
+    do_bgl_adjustment(trait[nbply],diff);
+
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -170,24 +209,37 @@ stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
  */
 boolean bgl_validate_observation(slice_index si)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-  unsigned int const diff = abs(sq_observer-sq_landing);
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (BGL_move_diff_code[diff]>BGL_values[trait[nbply]])
-    result = false;
-  else
-    result = validate_observation_recursive(slices[si].next1);
+  result = (is_move_within_bounds(current_move[nbply]-1)
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void insert_remover(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  if (BGL_values[slices[si].starter]!=BGL_infinity)
+  {
+    slice_index const prototype = alloc_pipe(STBGLEnforcer);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
@@ -200,7 +252,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   if (BGL_values[slices[si].starter]!=BGL_infinity)
   {
-    slice_index const prototype = alloc_pipe(STBGLEnforcer);
+    slice_index const prototype = alloc_pipe(STBGLAdjuster);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
@@ -218,11 +270,23 @@ void bgl_initialise_solving(slice_index si)
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STDoneGeneratingMoves,
+                                             &insert_remover);
+    stip_traverse_structure(si,&st);
+  }
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,STMove,&instrument_move);
     stip_traverse_structure(si,&st);
   }
 
-  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationBGL);
+  if (BGL_values[White]!=BGL_infinity)
+    stip_instrument_observation_validation(si,White,STValidatingObservationBGL);
+  if (BGL_values[Black]!=BGL_infinity)
+    stip_instrument_observation_validation(si,Black,STValidatingObservationBGL);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
