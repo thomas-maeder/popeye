@@ -509,6 +509,10 @@ void push_move(void)
 
   assert(current_move[nbply]<toppile);
 
+  TraceSquare(curr_generation->departure);
+  TraceSquare(curr_generation->arrival);
+  TraceText("\n");
+
   curr_generation->capture = curr_generation->arrival;
   move_generation_stack[current_move[nbply]] = *curr_generation;
   ++current_move[nbply];
@@ -528,6 +532,10 @@ void push_move_capture_extra(square sq_capture)
 
   assert(current_move[nbply]<toppile);
 
+  TraceSquare(curr_generation->departure);
+  TraceSquare(curr_generation->arrival);
+  TraceText("\n");
+
   curr_generation->capture = sq_capture;
   move_generation_stack[current_move[nbply]] = *curr_generation;
   ++current_move[nbply];
@@ -546,6 +554,10 @@ void push_special_move(square sq_special)
   INCREMENT_COUNTER(add_to_move_generation_stack);
 
   assert(current_move[nbply]<toppile);
+
+  TraceSquare(curr_generation->departure);
+  TraceSquare(curr_generation->arrival);
+  TraceText("\n");
 
   curr_generation->capture = sq_special;
   move_generation_stack[current_move[nbply]] = *curr_generation;
