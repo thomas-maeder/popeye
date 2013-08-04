@@ -62,7 +62,6 @@ static void marine_leaper_generate_moves(vec_index_type kanf, vec_index_type ken
 void marine_knight_generate_moves(void)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   marine_leaper_generate_moves(vec_knight_start,vec_knight_end);
@@ -76,7 +75,6 @@ void marine_knight_generate_moves(void)
 void poseidon_generate_moves(void)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   marine_leaper_generate_moves(vec_queen_start,vec_queen_end);

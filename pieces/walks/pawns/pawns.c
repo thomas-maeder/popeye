@@ -38,7 +38,6 @@ void pawns_generate_ep_capture_move(square sq_arrival,
 void pawns_generate_capture_move(numvec dir)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   curr_generation->arrival = curr_generation->departure+dir;

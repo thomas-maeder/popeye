@@ -50,7 +50,6 @@ static boolean is_mover_supported(numecoup n)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);

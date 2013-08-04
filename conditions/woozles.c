@@ -391,9 +391,6 @@ static boolean biwoozles_is_not_illegal_capture(numecoup n)
   Side const side_woozle = advers(trait[nbply]);
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
-  TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
   result = !woozles_is_paralysed(side_woozle,n);

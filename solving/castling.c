@@ -46,7 +46,6 @@ slice_index alloc_castling_intermediate_move_generator_slice(void)
 void castling_intermediate_move_generator_init_next(square sq_arrival)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 

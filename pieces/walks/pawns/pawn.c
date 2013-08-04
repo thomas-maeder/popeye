@@ -46,7 +46,6 @@ void pawn_generate_moves(void)
   unsigned int no_capture_length;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   no_capture_length = pawn_get_no_capture_length(trait[nbply],
