@@ -82,11 +82,10 @@ static boolean is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(move_generation_stack[n].capture)
-             && (move_generation_stack[n].departure==king_square[White]
-                 || move_generation_stack[n].departure==king_square[Black]
-                 || (get_walk_of_piece_on_square(move_generation_stack[n].capture)
-                     !=get_walk_of_piece_on_square(move_generation_stack[n].departure))));
+  result = !(move_generation_stack[n].departure==king_square[White]
+             || move_generation_stack[n].departure==king_square[Black]
+             || (get_walk_of_piece_on_square(move_generation_stack[n].capture)
+                 !=get_walk_of_piece_on_square(move_generation_stack[n].departure)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -117,7 +116,7 @@ stip_length_type norsk_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_illegal_capture);
+  move_generator_filter_captures(&is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 

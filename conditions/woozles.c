@@ -300,8 +300,7 @@ static boolean woozles_is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(move_generation_stack[n].capture)
-             && woozles_is_paralysed(side_woozle,n));
+  result = !woozles_is_paralysed(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -332,7 +331,7 @@ stip_length_type woozles_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&woozles_is_not_illegal_capture);
+  move_generator_filter_captures(&woozles_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -397,8 +396,7 @@ static boolean biwoozles_is_not_illegal_capture(numecoup n)
   TraceSquare(sq_capture);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(move_generation_stack[n].capture)
-             && woozles_is_paralysed(side_woozle,n));
+  result = !woozles_is_paralysed(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -429,7 +427,7 @@ stip_length_type biwoozles_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&biwoozles_is_not_illegal_capture);
+  move_generator_filter_captures(&biwoozles_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -491,8 +489,7 @@ static boolean heffalumps_is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(move_generation_stack[n].capture)
-             && heffalumps_is_paralysed(side_woozle,n));
+  result = !heffalumps_is_paralysed(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -523,7 +520,7 @@ stip_length_type heffalumps_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&heffalumps_is_not_illegal_capture);
+  move_generator_filter_captures(&heffalumps_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -585,8 +582,7 @@ static boolean biheffalumps_is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !(!is_square_empty(move_generation_stack[n].capture)
-             && heffalumps_is_paralysed(side_woozle,n));
+  result = !heffalumps_is_paralysed(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -617,7 +613,7 @@ stip_length_type biheffalumps_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&biheffalumps_is_not_illegal_capture);
+  move_generator_filter_captures(&biheffalumps_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 

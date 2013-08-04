@@ -6,19 +6,9 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-static boolean is_not_capture(numecoup n)
+static boolean is_false(numecoup n)
 {
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = is_square_empty(move_generation_stack[n].capture);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
+  return false;
 }
 
 /* Try to solve in n half-moves.
@@ -44,7 +34,7 @@ stip_length_type nocapture_remove_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_capture);
+  move_generator_filter_captures(&is_false);
 
   result = solve(slices[si].next1,n);
 

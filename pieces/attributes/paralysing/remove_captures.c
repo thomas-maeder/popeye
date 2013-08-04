@@ -4,15 +4,14 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-static boolean is_not_capture_by_paralysing(numecoup n)
+static boolean mover_is_not_paralysing(numecoup n)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = (is_square_empty(move_generation_stack[n].capture)
-            || !TSTFLAG(spec[move_generation_stack[n].departure],Paralysing));
+  result = !TSTFLAG(spec[move_generation_stack[n].departure],Paralysing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -43,7 +42,7 @@ stip_length_type paralysing_remove_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_capture_by_paralysing);
+  move_generator_filter_captures(&mover_is_not_paralysing);
 
   result = solve(slices[si].next1,n);
 

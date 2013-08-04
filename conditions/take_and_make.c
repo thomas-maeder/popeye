@@ -51,7 +51,7 @@ stip_length_type take_and_make_avoid_pawn_make_to_base_line_solve(slice_index si
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_pawn_make_to_base_line);
+  move_generator_filter_captures(&is_not_pawn_make_to_base_line);
 
   result = solve(slices[si].next1,n);
 

@@ -53,21 +53,6 @@ boolean provocateurs_validate_observation(slice_index si)
   return result;
 }
 
-static boolean is_not_unprovoked_capture(numecoup n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = is_square_empty(move_generation_stack[n].capture) || is_piece_provoked_on(n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -91,7 +76,7 @@ stip_length_type provocateurs_remove_unobserved_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_unprovoked_capture);
+  move_generator_filter_captures(&is_piece_provoked_on);
 
   result = solve(slices[si].next1,n);
 

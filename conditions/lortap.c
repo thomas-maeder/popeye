@@ -7,7 +7,7 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean is_mover_supported(numecoup n)
+static boolean is_mover_unsupported(numecoup n)
 {
   boolean result;
 
@@ -17,7 +17,7 @@ static boolean is_mover_supported(numecoup n)
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
-  result = is_square_observed(&validate_observer);
+  result = !is_square_observed(&validate_observer);
   finply();
 
   TraceFunctionExit(__func__);
@@ -31,13 +31,8 @@ static boolean is_mover_supported(numecoup n)
  */
 boolean lortap_validate_observation(slice_index si)
 {
-  return (!is_mover_supported(current_move[nbply]-1)
+  return (is_mover_unsupported(current_move[nbply]-1)
           && validate_observation_recursive(slices[si].next1));
-}
-
-static boolean is_not_supported_capture(numecoup n)
-{
-  return is_square_empty(move_generation_stack[n].capture) || !is_mover_supported(n);
 }
 
 /* Try to solve in n half-moves.
@@ -63,7 +58,7 @@ stip_length_type lortap_remove_supported_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_supported_capture);
+  move_generator_filter_captures(&is_mover_unsupported);
 
   result = solve(slices[si].next1,n);
 

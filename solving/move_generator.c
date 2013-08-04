@@ -476,6 +476,28 @@ void move_generator_filter_moves(move_filter_criterion_type criterion)
   TraceFunctionResultEnd();
 }
 
+void move_generator_filter_captures(move_filter_criterion_type criterion)
+{
+  numecoup i;
+  numecoup new_top = current_move[nbply-1]-1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i = current_move[nbply-1]; i<current_move[nbply]; ++i)
+    if (is_square_empty(move_generation_stack[i].capture)
+        || (*criterion)(i))
+    {
+      ++new_top;
+      move_generation_stack[new_top] = move_generation_stack[i];
+    }
+
+  current_move[nbply] = new_top+1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 DEFINE_COUNTER(add_to_move_generation_stack)
 
 void push_move(void)

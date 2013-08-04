@@ -54,6 +54,7 @@ void stip_insert_move_generators(slice_index si);
  */
 typedef boolean (*move_filter_criterion_type)(numecoup n);
 void move_generator_filter_moves(move_filter_criterion_type criterion);
+void move_generator_filter_captures(move_filter_criterion_type criterion);
 
 /* address of an element used for holding the move currently being generated */
 extern move_generation_elmt *curr_generation;

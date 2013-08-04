@@ -72,9 +72,7 @@ static boolean is_not_unsupported_patrol_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (is_square_empty(move_generation_stack[n].capture))
-    result = true;
-  else if (TSTFLAG(spec[move_generation_stack[n].departure],Patrol))
+  if (TSTFLAG(spec[move_generation_stack[n].departure],Patrol))
     result = is_mover_supported(n);
   else
     result = true;
@@ -108,7 +106,7 @@ stip_length_type patrol_remove_unsupported_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_unsupported_patrol_capture);
+  move_generator_filter_captures(&is_not_unsupported_patrol_capture);
 
   result = solve(slices[si].next1,n);
 

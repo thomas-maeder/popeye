@@ -36,22 +36,6 @@ static boolean is_capture_legal(numecoup n)
   return result;
 }
 
-static boolean is_not_illegal_capture(numecoup n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  return (is_square_empty(move_generation_stack[n].capture)
-          || is_capture_legal(n));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Validate an observation according to Geneva Chess
  * @return true iff the observation is valid
  */
@@ -84,7 +68,7 @@ stip_length_type geneva_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_illegal_capture);
+  move_generator_filter_captures(&is_capture_legal);
 
   result = solve(slices[si].next1,n);
 

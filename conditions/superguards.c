@@ -7,7 +7,7 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static boolean is_target_guarded(numecoup n)
+static boolean is_target_unguarded(numecoup n)
 {
   boolean result;
 
@@ -18,7 +18,7 @@ static boolean is_target_guarded(numecoup n)
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].capture;
-  result = is_square_observed(&validate_observer);
+  result = !is_square_observed(&validate_observer);
   finply();
 
   TraceFunctionExit(__func__);
@@ -38,23 +38,8 @@ boolean superguards_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!is_target_guarded(current_move[nbply]-1)
+  result = (is_target_unguarded(current_move[nbply]-1)
             && validate_observation_recursive(slices[si].next1));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean move_is_legal(numecoup n)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = is_square_empty(move_generation_stack[n].capture) || !is_target_guarded(n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -85,7 +70,7 @@ stip_length_type superguards_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&move_is_legal);
+  move_generator_filter_captures(&is_target_unguarded);
 
   result = solve(slices[si].next1,n);
 
