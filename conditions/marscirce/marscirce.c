@@ -121,6 +121,25 @@ void marscirce_generate_moves_for_piece(slice_index si, PieNam p)
   TraceFunctionResultEnd();
 }
 
+static square current_rebirth_square;
+static evalfunction_t *next_evaluate;
+
+static boolean is_observed_from_rebirth_square(void)
+{
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = sq_departure==current_rebirth_square && (*next_evaluate)();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Determine whether a specific piece delivers check to a specific side from a
  * specific rebirth square
  * @param pos_checking potentially delivering check ...
@@ -137,14 +156,13 @@ boolean mars_is_square_observed_by(square pos_observer,
   {
     PieNam const pi_checking = get_walk_of_piece_on_square(pos_observer);
     Flags const spec_checking = spec[pos_observer];
-    square const save_fromspecificsquare = fromspecificsquare;
 
     empty_square(pos_observer);
     occupy_square(sq_rebirth,pi_checking,spec_checking);
 
-    fromspecificsquare = sq_rebirth;
-    result = (*checkfunctions[pi_checking])(pi_checking,&eval_fromspecificsquare);
-    fromspecificsquare = save_fromspecificsquare;
+    current_rebirth_square = sq_rebirth;
+    next_evaluate = evaluate;
+    result = (*checkfunctions[pi_checking])(pi_checking,&is_observed_from_rebirth_square);
 
     empty_square(sq_rebirth);
     occupy_square(pos_observer,pi_checking,spec_checking);

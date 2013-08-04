@@ -7,12 +7,6 @@
 #include "debugging/trace.h"
 #include "pydata.h"
 
-enum
-{
-  idle,
-  seeking_supporter_for_observer
-} state;
-
 static boolean is_mover_supported(numecoup n)
 {
   boolean result;
@@ -20,21 +14,11 @@ static boolean is_mover_supported(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* the supporter of the piece on sq_departure doesn't need a supporter */
-  if (state==idle)
-  {
-    state = seeking_supporter_for_observer;
-
-    siblingply(trait[nbply]);
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
-    result = is_square_observed(&validate_observer);
-    finply();
-
-    state = idle;
-  }
-  else
-    result = true;
+  siblingply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
+  result = is_square_observed(&validate_observer);
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

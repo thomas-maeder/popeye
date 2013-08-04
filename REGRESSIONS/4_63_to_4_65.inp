@@ -273,11 +273,48 @@ option try vari
 
 next
 
-title 4.63 crashed
-pieces white se4 sf7 black ph6
+title 4.63 found no solution in a) and crashed in b)
+pieces white be4 sf7 black ph6
 stip x1
 condition plus patrouille
 option nowk nobk
+twin add white se4
+
+next
+
+title 4.63 crashed
+pieces white sh3 ba4 black pc3
+stip x1
+condition marsc patrouille
+option nowk nobk
+twin remove a4 add white sa3
+
+next
+
+title 4.63 crashed
+pieces white sh3 ba4 black pc3
+stip x1
+condition phantom patrouille
+option nowk nobk
+twin remove a4 add white sa3
+
+next
+
+title 4.63 found no solution in a) and crashed in b)
+pieces white sf7 black be4 ph6
+stip x1
+condition plus functionarych
+option nowk nobk
+twin add black se4
+
+next
+
+title 4.63 found no solution
+pieces white sh6 black ba3 ph3
+stip x1
+condition marsc functionarych
+option nowk nobk
+twin remove a3 add black sa2
 
 next
 

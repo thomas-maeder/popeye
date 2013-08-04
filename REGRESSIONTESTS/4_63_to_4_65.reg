@@ -1342,7 +1342,7 @@ solution finished.
 
 
 
-             4.63 crashed
+4.63 found no solution in a) and crashed in b)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1354,7 +1354,7 @@ solution finished.
 |                                   |
 5   .   .   .   .   .   .   .   .   5
 |                                   |
-4   .   .   .   .   S   .   .   .   4
+4   .   .   .   .   B   .   .   .   4
 |                                   |
 3   .   .   .   .   .   .   .   .   3
 |                                   |
@@ -1367,10 +1367,209 @@ solution finished.
               Patrouille
               PlusChess
 
+a) 
+
+   1.Sf7*h6 x !
+
+
+  add_to_move_generation_stack:          56
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) wSe4 
+
    1.Sf7*h6 x !
 
 
   add_to_move_generation_stack:          37
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+             4.63 crashed
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   B   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -P   .   .   .   .   S   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          2 + 1
+              Patrouille
+              MarsCirce
+
+a) 
+
+   1.Sh3*c3 x !
+
+
+  add_to_move_generation_stack:          20
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b)  -wBa4  +wSa3 
+
+   1.Sh3*c3 x !
+
+
+  add_to_move_generation_stack:          12
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+             4.63 crashed
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   B   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .  -P   .   .   .   .   S   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          2 + 1
+              Patrouille
+             PhantomChess
+
+a) 
+
+   1.Sh3*c3 x !
+
+
+  add_to_move_generation_stack:          20
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b)  -wBa4  +wSa3 
+
+   1.Sh3*c3 x !
+
+
+  add_to_move_generation_stack:          12
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+4.63 found no solution in a) and crashed in b)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   S   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -P   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -B   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 2
+           FunctionaryChess
+              PlusChess
+
+a) 
+
+   1.Sf7*h6 x !
+
+
+  add_to_move_generation_stack:           6
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) bSe4 
+
+   1.Sf7*h6 x !
+
+
+  add_to_move_generation_stack:           6
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+        4.63 found no solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   S   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 2
+           FunctionaryChess
+              MarsCirce
+
+a) 
+
+   1.Sh6*h3 x !
+
+
+  add_to_move_generation_stack:           7
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b)  -bBa3  +bSa2 
+
+   1.Sh6*h3 x !
+
+
+  add_to_move_generation_stack:           7
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
