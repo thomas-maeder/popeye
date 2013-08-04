@@ -117,6 +117,7 @@ void superguards_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_observation_validation(si,nr_sides,STValidatingObservationSuperGuards);
+  stip_instrument_check_validation(si,nr_sides,STValidatingObservationSuperGuards);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -101,9 +101,7 @@ void newkoeko_initialise_solving(slice_index si)
   stip_instrument_moves(si,STNewKoekoRememberContact);
   stip_instrument_moves(si,STNewKoekoLegalityTester);
 
-  stip_instrument_observation_geometry_validation(si,
-                                                  nr_sides,
-                                                  STValidatingObservationGeometryByPlayingMove);
+  observation_play_move_to_validate(si,nr_sides);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

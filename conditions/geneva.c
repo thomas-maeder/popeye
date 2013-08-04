@@ -115,6 +115,7 @@ void geneva_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_observation_validation(si,nr_sides,STValidatingObservationGeneva);
+  stip_instrument_check_validation(si,nr_sides,STValidatingObservationGeneva);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

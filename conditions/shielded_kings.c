@@ -48,6 +48,7 @@ void shielded_kings_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_observation_validation(si,nr_sides,STValidatingObservationShielded);
+  stip_instrument_check_validation(si,nr_sides,STValidatingObservationShielded);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

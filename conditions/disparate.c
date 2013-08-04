@@ -88,6 +88,7 @@ void disparate_initialise_solving(slice_index si)
   solving_instrument_move_generation(si,nr_sides,STDisparateMovesForPieceGenerator);
 
   stip_instrument_observation_validation(si,nr_sides,STValidatingObservationDisparate);
+  stip_instrument_check_validation(si,nr_sides,STValidatingObservationDisparate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

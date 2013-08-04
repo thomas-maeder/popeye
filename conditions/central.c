@@ -112,6 +112,7 @@ void central_initialise_solving(slice_index si)
   solving_instrument_move_generation(si,nr_sides,STCentralMovesForPieceGenerator);
 
   stip_instrument_observation_validation(si,nr_sides,STValidatingObservationCentral);
+  stip_instrument_check_validation(si,nr_sides,STValidatingObservationCentral);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -614,10 +614,16 @@ void mummer_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   if (mummer_strictness[White]==mummer_strictness_ultra)
+  {
     stip_instrument_observation_validation(si,White,STValidatingObservationUltraMummer);
+    stip_instrument_check_validation(si,White,STValidatingObservationUltraMummer);
+  }
 
   if (mummer_strictness[Black]==mummer_strictness_ultra)
+  {
     stip_instrument_observation_validation(si,Black,STValidatingObservationUltraMummer);
+    stip_instrument_check_validation(si,Black,STValidatingObservationUltraMummer);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

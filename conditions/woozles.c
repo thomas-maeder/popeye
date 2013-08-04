@@ -378,6 +378,7 @@ void woozles_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_observation_validation(si,nr_sides,STValidateObservationWoozles);
+  stip_instrument_check_validation(si,nr_sides,STValidateObservationWoozles);
 
   init_woozlers();
 
@@ -471,6 +472,7 @@ void biwoozles_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_observation_validation(si,nr_sides,STValidateObservationBiWoozles);
+  stip_instrument_check_validation(si,nr_sides,STValidateObservationBiWoozles);
 
   init_woozlers();
 
@@ -564,6 +566,7 @@ void heffalumps_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_observation_validation(si,nr_sides,STValidateObservationHeffalumps);
+  stip_instrument_check_validation(si,nr_sides,STValidateObservationHeffalumps);
 
   init_woozlers();
 
@@ -657,6 +660,7 @@ void biheffalumps_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_observation_validation(si,nr_sides,STValidateObservationBiHeffalumps);
+  stip_instrument_check_validation(si,nr_sides,STValidateObservationBiHeffalumps);
 
   init_woozlers();
 

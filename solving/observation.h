@@ -89,6 +89,17 @@ void stip_instrument_check_validation(slice_index si,
                                       Side side,
                                       slice_type type);
 
+/* Cause observations to be validated by playing the move representing the
+ * observation.
+ * @param si root slice of solving machinery
+ * @param side for which side (pass nr_sides to indicate both sides)
+ */
+void observation_play_move_to_validate(slice_index si, Side side);
+
+/* Determine whether observations are trivially validated (allowing for some
+ * optimisations)
+ * @param side for which side?
+ */
 boolean is_observation_trivially_validated(Side side);
 
 /* Determine whether a square is observed be the side at the move; recursive

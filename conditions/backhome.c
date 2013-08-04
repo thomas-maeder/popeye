@@ -136,6 +136,7 @@ void backhome_initialise_solving(slice_index si)
   }
 
   stip_instrument_observation_validation(si,nr_sides,STValidatingObservationBackHome);
+  stip_instrument_check_validation(si,nr_sides,STValidatingObservationBackHome);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

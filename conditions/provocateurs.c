@@ -123,6 +123,7 @@ void provocateurs_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   stip_instrument_observation_validation(si,nr_sides,STValidatingObservationProvocateurs);
+  stip_instrument_check_validation(si,nr_sides,STValidatingObservationProvocateurs);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

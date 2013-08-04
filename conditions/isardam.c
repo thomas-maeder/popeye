@@ -25,9 +25,7 @@ void stip_insert_isardam_legality_testers(slice_index si)
   stip_instrument_moves(si,STIsardamLegalityTester);
 
   if (!IsardamB)
-    stip_instrument_observation_validation(si,
-                                           nr_sides,
-                                           STValidatingObservationGeometryByPlayingMove);
+    observation_play_move_to_validate(si,nr_sides);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
