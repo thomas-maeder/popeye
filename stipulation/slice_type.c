@@ -191,6 +191,7 @@
     ENUMERATOR(STMonochromeRemoveBichromeMoves),                        \
     ENUMERATOR(STBichromeRemoveMonochromeMoves),                        \
     ENUMERATOR(STEdgeMoverRemoveIllegalMoves),                          \
+    ENUMERATOR(STShieldedKingsRemoveIllegalCaptures),                   \
     ENUMERATOR(STSuperguardsRemoveIllegalCaptures),                     \
     ENUMERATOR(STKoekoLegalityTester),                                  \
     ENUMERATOR(STGridContactLegalityTester),                            \
@@ -452,7 +453,7 @@
     ENUMERATOR(STValidatingObservationCentral),                         \
     ENUMERATOR(STValidatingObservationDisparate),                       \
     ENUMERATOR(STValidatingObservationGeneva),                          \
-    ENUMERATOR(STValidateObservationGeometryImitator),                        \
+    ENUMERATOR(STValidateObservationGeometryImitator),                  \
     ENUMERATOR(STValidatingObservationImmune),                          \
     ENUMERATOR(STValidatingObservationLortap),                          \
     ENUMERATOR(STValidatingObservationUltraMummer),                     \

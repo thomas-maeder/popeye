@@ -106,6 +106,7 @@
 #include "conditions/superguards.h"
 #include "conditions/wormhole.h"
 #include "conditions/backhome.h"
+#include "conditions/shielded_kings.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -1525,6 +1526,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STEdgeMoverRemoveIllegalMoves:
       result = edgemover_remove_illegal_moves_solve(si,n);
+      break;
+
+    case STShieldedKingsRemoveIllegalCaptures:
+      result = shielded_kings_remove_illegal_captures_solve(si,n);
       break;
 
     case STSuperguardsRemoveIllegalCaptures:
