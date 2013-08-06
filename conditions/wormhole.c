@@ -159,16 +159,14 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     {
       wormhole_next_transfer[nbply] = 0;
       advance_wormhole(sq_departure,sq_arrival);
-      if (wormhole_next_transfer[nbply]==nr_wormholes+1)
-        wormhole_next_transfer[nbply] = nr_wormholes+2;
     }
     else
-      wormhole_next_transfer[nbply] = nr_wormholes+1;
+      wormhole_next_transfer[nbply] = nr_wormholes+2;
   }
 
-  if (wormhole_next_transfer[nbply]>nr_wormholes+1)
+  if (wormhole_next_transfer[nbply]==nr_wormholes+1)
     result = previous_move_is_illegal;
-  else if (wormhole_next_transfer[nbply]==nr_wormholes+1)
+  else if (wormhole_next_transfer[nbply]==nr_wormholes+2)
     result = solve(slices[si].next1,n);
   else
   {
