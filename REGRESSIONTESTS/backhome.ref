@@ -26,10 +26,10 @@
 
   1...e2-e1=B   2.Bc1-a3 b3-b2   3.Kb1-c2 b2-b1=Q   4.Ba3-c1 Qb1-b3 #
 
-  add_to_move_generation_stack:      229737
-                     play_move:       38459
- is_white_king_square_attacked:       21740
- is_black_king_square_attacked:       25474
+  add_to_move_generation_stack:      298916
+                     play_move:       26751
+ is_white_king_square_attacked:       19312
+ is_black_king_square_attacked:       16015
 solution finished. 
 
 
@@ -61,10 +61,10 @@ solution finished.
 
   1.Sa4*b6   2.Sc7*a6   3.Rd2*d7   4.Rd7-c7   5.Ka7-b8   6.Sb6-a4   7.Sa6-b4   8.Rc7-f7   9.Rf7-f1 #
 
-  add_to_move_generation_stack:      395907
-                     play_move:       24817
- is_white_king_square_attacked:       18638
- is_black_king_square_attacked:       11708
+  add_to_move_generation_stack:      338055
+                     play_move:       13556
+ is_white_king_square_attacked:       12965
+ is_black_king_square_attacked:        6111
 solution finished. 
 
 
@@ -95,10 +95,10 @@ solution finished.
 
   1.e2-e4 f7-f5   2.e4-e5 f5-f4   3.Qd1-g4 f4-f3   4.g2*f3 Sg8-h6   5.Qg4-h5 + Sh6-f7   6.f3-f4 Sf7-g5   7.Qh5-d1 Ke8-f7   8.f4*g5 dia
 
-  add_to_move_generation_stack:      868401
-                     play_move:      220270
- is_white_king_square_attacked:       61436
- is_black_king_square_attacked:       56070
+  add_to_move_generation_stack:     1635577
+                     play_move:      186806
+ is_white_king_square_attacked:       43447
+ is_black_king_square_attacked:       40512
 solution finished. 
 
 
@@ -132,26 +132,26 @@ a)
 
   1...g7-g8=B   2.b2-b1=S Ra1-a5   3.Sb1-a3 Ra5-b5 +   4.Kb4-a4 Bg8-b3 #
 
-  add_to_move_generation_stack:    13535570
-                     play_move:     1967491
- is_white_king_square_attacked:      641225
- is_black_king_square_attacked:     1395067
+  add_to_move_generation_stack:     9721291
+                     play_move:      615649
+ is_white_king_square_attacked:      248895
+ is_black_king_square_attacked:      400804
 b) bKb4-->d6
 
   1...Ra1-e1   2.b2-b1=S Re1-e5   3.Sb1-c3 g7-g8=Q   4.Sc3-d5 + Qg8*d5 #
 
-  add_to_move_generation_stack:    12866174
-                     play_move:     1716413
- is_white_king_square_attacked:      594737
- is_black_king_square_attacked:     1182023
+  add_to_move_generation_stack:     8730711
+                     play_move:      554130
+ is_white_king_square_attacked:      226185
+ is_black_king_square_attacked:      360299
 c) bKb4-->e5
 
   1...Ra1-g1   2.b2-b1=B Rg1-g6   3.Bb1-f5 g7-g8=Q   4.Ke5-f6 Qg8-g7 #
 
-  add_to_move_generation_stack:    13376069
-                     play_move:     1940154
- is_white_king_square_attacked:      638038
- is_black_king_square_attacked:     1365018
+  add_to_move_generation_stack:    11693004
+                     play_move:      714602
+ is_white_king_square_attacked:      313340
+ is_black_king_square_attacked:      448691
 solution finished. 
 
 
@@ -182,10 +182,10 @@ defense against check (5.Se2) precedes back home (5.Bf1)
 
   1.e2-e4 a7-a5   2.e4-e5 a5-a4   3.e5-e6 Ra8-a5   4.Bf1-a6 Ra5-e5 +   5.Sg1-e2 dia
 
-  add_to_move_generation_stack:         747
-                     play_move:         425
- is_white_king_square_attacked:          36
- is_black_king_square_attacked:          23
+  add_to_move_generation_stack:        1063
+                     play_move:         405
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:          14
 solution finished. 
 
 
