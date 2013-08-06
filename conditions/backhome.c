@@ -93,6 +93,33 @@ static boolean exists_legal_move_back_home(void)
   return result;
 }
 
+static boolean exists[maxply+1];
+
+static boolean goes_back_home_or_neednt(numecoup n)
+{
+  return !exists[nbply] || goes_back_home(n);
+}
+
+/* Determine whether there are moves Back Home for observation validation
+ * @return true iff the observation is valid
+ */
+boolean backhome_existance_tester_validate_observation(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  exists[nbply] = exists_legal_move_back_home();
+  result = validate_observation_recursive(slices[si].next1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Validate an observation according to Back Home
  * @return true iff the observation is valid
  */
@@ -104,8 +131,40 @@ boolean back_home_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = ((!exists_legal_move_back_home() || goes_back_home(current_move[nbply]-1))
+  result = (goes_back_home_or_neednt(current_move[nbply]-1)
             && validate_observation_recursive(slices[si].next1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type backhome_existance_tester_solve(slice_index si,
+                                                 stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  exists[nbply] = exists_legal_move_back_home();
+  result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -136,8 +195,7 @@ stip_length_type backhome_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (exists_legal_move_back_home())
-    move_generator_filter_moves(&goes_back_home);
+  move_generator_filter_moves(&goes_back_home_or_neednt);
 
   result = solve(slices[si].next1,n);
 
@@ -156,8 +214,12 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_pipe(STBackhomeRemoveIllegalMoves);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STBackhomeExistanceTester),
+        alloc_pipe(STBackhomeRemoveIllegalMoves)
+    };
+    branch_insert_slices_contextual(si,st->context,prototypes,2);
   }
 
   TraceFunctionExit(__func__);
@@ -197,8 +259,11 @@ void backhome_initialise_solving(slice_index si)
     stip_traverse_structure(si,&st);
   }
 
-  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationBackHome);
-  stip_instrument_check_validation(si,nr_sides,STValidatingObservationBackHome);
+  stip_instrument_observation_validation(si,nr_sides,STBackhomeExistanceTester);
+  stip_instrument_observation_validation(si,nr_sides,STBackhomeRemoveIllegalMoves);
+
+  stip_instrument_check_validation(si,nr_sides,STBackhomeExistanceTester);
+  stip_instrument_check_validation(si,nr_sides,STBackhomeRemoveIllegalMoves);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

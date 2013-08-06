@@ -184,6 +184,7 @@
     ENUMERATOR(STLortapRemoveSupportedCaptures),                        \
     ENUMERATOR(STPatrolRemoveUnsupportedCaptures),                      \
     ENUMERATOR(STUltraPatrolMovesForPieceGenerator),                    \
+    ENUMERATOR(STBackhomeExistanceTester),                              \
     ENUMERATOR(STBackhomeRemoveIllegalMoves),                           \
     ENUMERATOR(STGenevaRemoveIllegalCaptures),                          \
     ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
@@ -447,7 +448,6 @@
     ENUMERATOR(STValidatingCheck),                                      \
     ENUMERATOR(STValidatingObservationFork),                            \
     ENUMERATOR(STValidatingObservation),                                \
-    ENUMERATOR(STValidatingObservationBackHome),                        \
     ENUMERATOR(STValidatingObservationBeamten),                         \
     ENUMERATOR(STValidatingObservationBGL),                             \
     ENUMERATOR(STValidatingObservationBrunner),                         \

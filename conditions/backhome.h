@@ -5,6 +5,11 @@
 
 #include "py.h"
 
+/* Determine whether there are moves Back Home for observation validation
+ * @return true iff the observation is valid
+ */
+boolean backhome_existance_tester_validate_observation(slice_index si);
+
 /* Validate an observation according to Back Home
  * @return true iff the observation is valid
  */

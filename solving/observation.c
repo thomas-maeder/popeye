@@ -64,7 +64,11 @@ boolean validate_observation_recursive(slice_index si)
 
   switch (slices[si].type)
   {
-    case STValidatingObservationBackHome:
+    case STBackhomeExistanceTester:
+      result = backhome_existance_tester_validate_observation(si);
+      break;
+
+    case STBackhomeRemoveIllegalMoves:
       result = back_home_validate_observation(si);
       break;
 
@@ -267,7 +271,8 @@ static slice_index const observation_validation_slice_rank_order[] =
 {
     STValidatingCheck,
     STValidatingObservation,
-    STValidatingObservationBackHome,
+    STBackhomeExistanceTester,
+    STBackhomeRemoveIllegalMoves,
     STValidatingObservationBeamten,
     STValidatingObservationBGL,
     STValidatingObservationBrunner,
