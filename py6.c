@@ -1162,14 +1162,6 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (CondFlag[backhome]
-      && !(mummer_set_length_measurer(White,&len_backhome)
-           && mummer_set_length_measurer(Black,&len_backhome)))
-  {
-    VerifieMsg(TwoMummerCond);
-    return false;
-  }
-
   if (CondFlag[duellist]
       && !(mummer_set_length_measurer(Black,&duellists_measure_length)
            && mummer_set_length_measurer(White,&duellists_measure_length)))
@@ -1926,11 +1918,6 @@ static boolean verify_position(slice_index si)
       || CondFlag[ohneschach]
       || TSTFLAG(some_pieces_flags,ColourChange) /* killer machinery doesn't store hurdle */)
     disable_killer_move_optimisation(White);
-
-  if (mummer_strictness[Black]!=mummer_strictness_none)
-    disable_orthodox_mating_move_optimisation(Black);
-  if (mummer_strictness[White]!=mummer_strictness_none)
-    disable_orthodox_mating_move_optimisation(White);
 
   move_effect_journal_reset();
 

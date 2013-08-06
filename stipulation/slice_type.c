@@ -184,6 +184,7 @@
     ENUMERATOR(STLortapRemoveSupportedCaptures),                        \
     ENUMERATOR(STPatrolRemoveUnsupportedCaptures),                      \
     ENUMERATOR(STUltraPatrolMovesForPieceGenerator),                    \
+    ENUMERATOR(STBackhomeRemoveIllegalMoves),                           \
     ENUMERATOR(STGenevaRemoveIllegalCaptures),                          \
     ENUMERATOR(STNoPromotionsRemovePromotionMoving),                    \
     ENUMERATOR(STNoPromotionsRemovePromotionReborn),                    \

@@ -5395,12 +5395,6 @@ static char *ParseCond(void)
         tok = ReadNextTokStr();
         break;
 
-      case backhome:
-        mummer_strictness[White] = mummer_strictness_regular;
-        mummer_strictness[Black] = mummer_strictness_regular;
-        tok = ReadNextTokStr();
-        break;
-
       case blfollow:
       case blackalphabetic:
       case blacksynchron:
