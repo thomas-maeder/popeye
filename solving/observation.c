@@ -72,11 +72,11 @@ boolean validate_observation_recursive(slice_index si)
       result = back_home_validate_observation(si);
       break;
 
-    case STValidatingObservationBeamten:
+    case STBeamtenMovesForPieceGenerator:
       result = beamten_validate_observation(si);
       break;
 
-    case STValidatingObservationBGL:
+    case STBGLEnforcer:
       result = bgl_validate_observation(si);
       break;
 
@@ -84,23 +84,23 @@ boolean validate_observation_recursive(slice_index si)
       result = brunner_validate_observation(si);
       break;
 
-    case STValidatingObservationCentral:
+    case STCentralMovesForPieceGenerator:
       result = central_validate_observation(si);
       break;
 
-    case STValidatingObservationDisparate:
+    case STDisparateMovesForPieceGenerator:
       result = disparate_validate_observation(si);
       break;
 
-    case STValidatingObservationGeneva:
+    case STGenevaRemoveIllegalCaptures:
       result = geneva_validate_observation(si);
       break;
 
-    case STValidatingObservationImmune:
+    case STImmuneRemoveCapturesOfImmune:
       result = immune_validate_observation(si);
       break;
 
-    case STValidatingObservationLortap:
+    case STLortapRemoveSupportedCaptures:
       result = lortap_validate_observation(si);
       break;
 
@@ -108,39 +108,39 @@ boolean validate_observation_recursive(slice_index si)
       result = ultra_mummer_validate_observation(si);
       break;
 
-    case STValidatingObservationPatrol:
+    case STPatrolRemoveUnsupportedCaptures:
       result = patrol_validate_observation(si);
       break;
 
-    case STValidatingObservationUltraPatrol:
+    case STUltraPatrolMovesForPieceGenerator:
       result = ultrapatrol_validate_observation(si);
       break;
 
-    case STValidatingObservationProvocateurs:
+    case STProvocateursRemoveUnobservedCaptures:
       result = provocateurs_validate_observation(si);
       break;
 
-    case STValidatingObservationShielded:
+    case STShieldedKingsRemoveIllegalCaptures:
       result = shielded_kings_validate_observation(si);
       break;
 
-    case STValidatingObservationSuperGuards:
+    case STSuperguardsRemoveIllegalCaptures:
       result = superguards_validate_observation(si);
       break;
 
-    case STValidateObservationWoozles:
+    case STWoozlesRemoveIllegalCaptures:
       result = woozles_validate_observation(si);
       break;
 
-    case STValidateObservationBiWoozles:
+    case STBiWoozlesRemoveIllegalCaptures:
       result = biwoozles_validate_observation(si);
       break;
 
-    case STValidateObservationHeffalumps:
+    case STHeffalumpsRemoveIllegalCaptures:
       result = heffalumps_validate_observation(si);
       break;
 
-    case STValidateObservationBiHeffalumps:
+    case STBiHeffalumpsRemoveIllegalCaptures:
       result = biheffalumps_validate_observation(si);
       break;
 
@@ -148,35 +148,35 @@ boolean validate_observation_recursive(slice_index si)
       result = wormhole_validate_observation(si);
       break;
 
-    case STMadrasiObserverTester:
+    case STMadrasiMovesForPieceGenerator:
       result = madrasi_validate_observer(si);
       break;
 
-    case STEiffelObserverTester:
+    case STEiffelMovesForPieceGenerator:
       result = eiffel_validate_observer(si);
       break;
 
-    case STParalysingPiecesObserverTester:
+    case STParalysingMovesForPieceGenerator:
       result = paralysing_validate_observer(si);
       break;
 
-    case STValidateObservationGeometryMonochrome:
+    case STMonochromeRemoveBichromeMoves:
       result = monochrome_validate_observation_geometry(si);
       break;
 
-    case STValidateObservationGeometryBichrome:
+    case STBichromeRemoveMonochromeMoves:
       result = bichrome_validate_observation_geometry(si);
       break;
 
-    case STValidateObservationGeometryGridChess:
+    case STGridRemoveIllegalMoves:
       result = grid_validate_observation_geometry(si);
       break;
 
-    case STValidateObservationGeometryEdgeMover:
+    case STEdgeMoverRemoveIllegalMoves:
       result = edgemover_validate_observation_geometry(si);
       break;
 
-    case STValidateObservationGeometryImitator:
+    case STImitatorRemoveIllegalMoves:
       result = imitator_validate_observation(si);
       break;
 
@@ -273,37 +273,37 @@ static slice_index const observation_validation_slice_rank_order[] =
     STValidatingObservation,
     STBackhomeExistanceTester,
     STBackhomeRemoveIllegalMoves,
-    STValidatingObservationBeamten,
-    STValidatingObservationBGL,
+    STBeamtenMovesForPieceGenerator,
+    STBGLEnforcer,
     STValidatingObservationBrunner,
-    STValidatingObservationCentral,
-    STValidatingObservationDisparate,
-    STValidatingObservationGeneva,
-    STValidatingObservationImmune,
-    STValidatingObservationLortap,
+    STCentralMovesForPieceGenerator,
+    STDisparateMovesForPieceGenerator,
+    STGenevaRemoveIllegalCaptures,
+    STImmuneRemoveCapturesOfImmune,
+    STLortapRemoveSupportedCaptures,
     STValidatingObservationUltraMummer,
-    STValidatingObservationPatrol,
-    STValidatingObservationUltraPatrol,
-    STValidatingObservationProvocateurs,
-    STValidatingObservationShielded,
-    STValidatingObservationSuperGuards,
-    STValidateObservationWoozles,
-    STValidateObservationBiWoozles,
-    STValidateObservationHeffalumps,
-    STValidateObservationBiHeffalumps,
+    STPatrolRemoveUnsupportedCaptures,
+    STUltraPatrolMovesForPieceGenerator,
+    STProvocateursRemoveUnobservedCaptures,
+    STShieldedKingsRemoveIllegalCaptures,
+    STSuperguardsRemoveIllegalCaptures,
+    STWoozlesRemoveIllegalCaptures,
+    STBiWoozlesRemoveIllegalCaptures,
+    STHeffalumpsRemoveIllegalCaptures,
+    STBiHeffalumpsRemoveIllegalCaptures,
     STValidatingObservationWormholes,
 
     STValidatingObserver,
-    STMadrasiObserverTester,
-    STEiffelObserverTester,
-    STParalysingPiecesObserverTester,
+    STMadrasiMovesForPieceGenerator,
+    STEiffelMovesForPieceGenerator,
+    STParalysingMovesForPieceGenerator,
 
     STValidatingObservationGeometry,
-    STValidateObservationGeometryMonochrome,
-    STValidateObservationGeometryBichrome,
-    STValidateObservationGeometryGridChess,
-    STValidateObservationGeometryEdgeMover,
-    STValidateObservationGeometryImitator,
+    STMonochromeRemoveBichromeMoves,
+    STBichromeRemoveMonochromeMoves,
+    STGridRemoveIllegalMoves,
+    STEdgeMoverRemoveIllegalMoves,
+    STImitatorRemoveIllegalMoves,
     STValidatingObservationGeometryByPlayingMove,
     STValidateCheckMoveByPlayingCapture,
     STTrue

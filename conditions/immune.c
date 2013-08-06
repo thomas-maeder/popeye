@@ -135,8 +135,8 @@ void immune_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationImmune);
-  stip_instrument_check_validation(si,nr_sides,STValidatingObservationImmune);
+  stip_instrument_observation_validation(si,nr_sides,STImmuneRemoveCapturesOfImmune);
+  stip_instrument_check_validation(si,nr_sides,STImmuneRemoveCapturesOfImmune);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

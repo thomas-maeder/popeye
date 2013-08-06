@@ -124,7 +124,7 @@ void madrasi_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STMadrasiMovesForPieceGenerator);
 
-  stip_instrument_observer_validation(si,nr_sides,STMadrasiObserverTester);
+  stip_instrument_observer_validation(si,nr_sides,STMadrasiMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

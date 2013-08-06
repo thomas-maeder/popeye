@@ -101,11 +101,11 @@ void stip_insert_edgemover(slice_index si)
   if (CondFlag[whiteedge])
     stip_instrument_observation_geometry_validation(si,
                                                     White,
-                                                    STValidateObservationGeometryEdgeMover);
+                                                    STEdgeMoverRemoveIllegalMoves);
   if (CondFlag[blackedge])
     stip_instrument_observation_geometry_validation(si,
                                                     Black,
-                                                    STValidateObservationGeometryEdgeMover);
+                                                    STEdgeMoverRemoveIllegalMoves);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

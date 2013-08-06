@@ -380,7 +380,7 @@ void paralysing_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
-  stip_instrument_observer_validation(si,nr_sides,STParalysingPiecesObserverTester);
+  stip_instrument_observer_validation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

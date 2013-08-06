@@ -377,8 +377,8 @@ void woozles_initialise_solving(slice_index si)
                                            &woozles_insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidateObservationWoozles);
-  stip_instrument_check_validation(si,nr_sides,STValidateObservationWoozles);
+  stip_instrument_observation_validation(si,nr_sides,STWoozlesRemoveIllegalCaptures);
+  stip_instrument_check_validation(si,nr_sides,STWoozlesRemoveIllegalCaptures);
 
   init_woozlers();
 
@@ -471,8 +471,8 @@ void biwoozles_initialise_solving(slice_index si)
                                            &biwoozles_insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidateObservationBiWoozles);
-  stip_instrument_check_validation(si,nr_sides,STValidateObservationBiWoozles);
+  stip_instrument_observation_validation(si,nr_sides,STBiWoozlesRemoveIllegalCaptures);
+  stip_instrument_check_validation(si,nr_sides,STBiWoozlesRemoveIllegalCaptures);
 
   init_woozlers();
 
@@ -565,8 +565,8 @@ void heffalumps_initialise_solving(slice_index si)
                                            &heffalumps_insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidateObservationHeffalumps);
-  stip_instrument_check_validation(si,nr_sides,STValidateObservationHeffalumps);
+  stip_instrument_observation_validation(si,nr_sides,STHeffalumpsRemoveIllegalCaptures);
+  stip_instrument_check_validation(si,nr_sides,STHeffalumpsRemoveIllegalCaptures);
 
   init_woozlers();
 
@@ -659,8 +659,8 @@ void biheffalumps_initialise_solving(slice_index si)
                                            &biheffalumps_insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidateObservationBiHeffalumps);
-  stip_instrument_check_validation(si,nr_sides,STValidateObservationBiHeffalumps);
+  stip_instrument_observation_validation(si,nr_sides,STBiHeffalumpsRemoveIllegalCaptures);
+  stip_instrument_check_validation(si,nr_sides,STBiHeffalumpsRemoveIllegalCaptures);
 
   init_woozlers();
 

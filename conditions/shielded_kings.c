@@ -119,9 +119,9 @@ void shielded_kings_initialise_solving(slice_index si)
   stip_traverse_structure(si,&st);
 
   // needed for combination with transmuting kings etc.
-  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationShielded);
+  stip_instrument_observation_validation(si,nr_sides,STShieldedKingsRemoveIllegalCaptures);
 
-  stip_instrument_check_validation(si,nr_sides,STValidatingObservationShielded);
+  stip_instrument_check_validation(si,nr_sides,STShieldedKingsRemoveIllegalCaptures);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

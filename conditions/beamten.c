@@ -79,8 +79,8 @@ void beamten_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STBeamtenMovesForPieceGenerator);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationBeamten);
-  stip_instrument_check_validation(si,nr_sides,STValidatingObservationBeamten);
+  stip_instrument_observation_validation(si,nr_sides,STBeamtenMovesForPieceGenerator);
+  stip_instrument_check_validation(si,nr_sides,STBeamtenMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

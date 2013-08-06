@@ -93,7 +93,7 @@ void bichrome_initialise_solving(slice_index si)
 
   stip_instrument_observation_geometry_validation(si,
                                                   nr_sides,
-                                                  STValidateObservationGeometryBichrome);
+                                                  STBichromeRemoveMonochromeMoves);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

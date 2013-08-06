@@ -104,8 +104,8 @@ void lortap_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_instrument_observation_validation(si,nr_sides,STValidatingObservationLortap);
-  stip_instrument_check_validation(si,nr_sides,STValidatingObservationLortap);
+  stip_instrument_observation_validation(si,nr_sides,STLortapRemoveSupportedCaptures);
+  stip_instrument_check_validation(si,nr_sides,STLortapRemoveSupportedCaptures);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

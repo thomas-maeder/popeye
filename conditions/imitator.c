@@ -1319,7 +1319,7 @@ void stip_insert_imitator(slice_index si)
 
   stip_instrument_observation_geometry_validation(si,
                                                   nr_sides,
-                                                  STValidateObservationGeometryImitator);
+                                                  STImitatorRemoveIllegalMoves);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

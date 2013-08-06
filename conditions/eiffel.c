@@ -126,7 +126,7 @@ void eiffel_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STEiffelMovesForPieceGenerator);
 
-  stip_instrument_observer_validation(si,nr_sides,STEiffelObserverTester);
+  stip_instrument_observer_validation(si,nr_sides,STEiffelMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -285,13 +285,13 @@ void bgl_initialise_solving(slice_index si)
 
   if (BGL_values[White]!=BGL_infinity)
   {
-    stip_instrument_observation_validation(si,White,STValidatingObservationBGL);
-    stip_instrument_check_validation(si,White,STValidatingObservationBGL);
+    stip_instrument_observation_validation(si,White,STBGLEnforcer);
+    stip_instrument_check_validation(si,White,STBGLEnforcer);
   }
   if (BGL_values[Black]!=BGL_infinity)
   {
-    stip_instrument_observation_validation(si,Black,STValidatingObservationBGL);
-    stip_instrument_check_validation(si,Black,STValidatingObservationBGL);
+    stip_instrument_observation_validation(si,Black,STBGLEnforcer);
+    stip_instrument_check_validation(si,Black,STBGLEnforcer);
   }
 
   TraceFunctionExit(__func__);
