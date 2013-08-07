@@ -457,9 +457,8 @@
     ENUMERATOR(STValidatingCheck),                                      \
     ENUMERATOR(STValidatingObservationFork),                            \
     ENUMERATOR(STValidatingObservation),                                \
-    ENUMERATOR(STValidatingObservationBrunner),                         \
+    ENUMERATOR(STBrunnerValidateCheck),                                 \
     ENUMERATOR(STValidatingObservationUltraMummer),                     \
-    ENUMERATOR(STValidatingObservationWormholes),                       \
     ENUMERATOR(STValidatingObserverFork),                               \
     ENUMERATOR(STValidatingObserver),                                   \
     ENUMERATOR(STValidatingObservationGeometryFork),                    \

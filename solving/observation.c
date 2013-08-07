@@ -80,7 +80,7 @@ boolean validate_observation_recursive(slice_index si)
       result = bgl_validate_observation(si);
       break;
 
-    case STValidatingObservationBrunner:
+    case STBrunnerValidateCheck:
       result = brunner_validate_observation(si);
       break;
 
@@ -144,7 +144,7 @@ boolean validate_observation_recursive(slice_index si)
       result = biheffalumps_validate_observation(si);
       break;
 
-    case STValidatingObservationWormholes:
+    case STWormholeRemoveIllegalCaptures:
       result = wormhole_validate_observation(si);
       break;
 
@@ -275,7 +275,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STBackhomeRemoveIllegalMoves,
     STBeamtenMovesForPieceGenerator,
     STBGLEnforcer,
-    STValidatingObservationBrunner,
+    STBrunnerValidateCheck,
     STCentralMovesForPieceGenerator,
     STDisparateMovesForPieceGenerator,
     STGenevaRemoveIllegalCaptures,
@@ -291,7 +291,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STBiWoozlesRemoveIllegalCaptures,
     STHeffalumpsRemoveIllegalCaptures,
     STBiHeffalumpsRemoveIllegalCaptures,
-    STValidatingObservationWormholes,
+    STWormholeRemoveIllegalCaptures,
 
     STValidatingObserver,
     STMadrasiMovesForPieceGenerator,
