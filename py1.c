@@ -470,8 +470,7 @@ boolean leapcheck(vec_index_type kanf, vec_index_type kend,
   for (k= kanf; k<=kend; k++)
   {
     square const sq_departure= sq_target+vec[k];
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
 
@@ -497,8 +496,7 @@ boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
       for (k1= kanf; k1<= kend; k1++)
       {
         square const sq_departure = sq_hurdle + vec[k1];
-        if (TSTFLAG(spec[sq_departure],trait[nbply])
-            && sq_departure!=sq_target
+        if (sq_departure!=sq_target
             && INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
       }
@@ -527,8 +525,7 @@ boolean ridcheck(vec_index_type kanf, vec_index_type kend,
        ++interceptable_observation_vector_index[observation_context])
   {
     square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation_vector_index[observation_context]]);
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
     {
       result = true;
       break;
@@ -556,8 +553,7 @@ boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
     if (is_square_empty(sq_arrival))
     {
       square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
         return true;
     }
   }
@@ -575,7 +571,6 @@ boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
     square const sq_arrival = sq_target-vec[k];
     square const sq_departure = sq_target+vec[k];
     if (is_square_empty(sq_arrival)
-        && TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
       return true;
   }
@@ -595,8 +590,7 @@ static boolean marine_pawn_test_check(square sq_departure,
   TraceSquare(sq_hurdle);
   TraceFunctionParamListEnd();
 
-  result = (TSTFLAG(spec[sq_departure],trait[nbply])
-            && is_square_empty(sq_arrival)
+  result = (is_square_empty(sq_arrival)
             && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
 
   TraceFunctionExit(__func__);

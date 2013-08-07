@@ -87,7 +87,8 @@
 boolean eval_ortho(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  return get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply];
+  return (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
+          && TSTFLAG(spec[sq_departure],trait[nbply]));
 }
 
 boolean rcsech(numvec  k, numvec  k1, evalfunction_t *evaluate)
@@ -115,8 +116,7 @@ boolean rcsech(numvec  k, numvec  k1, evalfunction_t *evaluate)
       sq_departure += k;
   }
 
-  if (TSTFLAG(spec[sq_departure],trait[nbply])
-      && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
+  if (INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
     return true;
 
   sq_departure = sq_target+k;
@@ -128,8 +128,7 @@ boolean rcsech(numvec  k, numvec  k1, evalfunction_t *evaluate)
       sq_departure+= k;
   }
 
-  if (TSTFLAG(spec[sq_departure],trait[nbply])
-      && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
+  if (INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
     return true;
 
   return false;
@@ -149,8 +148,7 @@ boolean rcspech(numvec  k, numvec  k1, evalfunction_t *evaluate)
       sq_departure+= vec[k];
   }
 
-  if (TSTFLAG(spec[sq_departure],trait[nbply])
-      && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
+  if (INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
     return true;
 
   return false;
@@ -285,15 +283,13 @@ boolean rrefcech(square i1, int x, evalfunction_t *evaluate)
             return true;
         }
       }
-      else if (TSTFLAG(spec[sq_departure],trait[nbply])
-               && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      else if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
     }
     else
       for (k= vec_knight_start; k <= vec_knight_end; k++) {
         sq_departure= i1+vec[k];
-        if (TSTFLAG(spec[sq_departure],trait[nbply])
-            && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
       }
 
@@ -322,8 +318,7 @@ static boolean rrefnech(square i1, evalfunction_t *evaluate)
       sq_departure += vec[k];
     }
 
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
   return false;
@@ -352,7 +347,6 @@ boolean nequicheck(evalfunction_t *evaluate)
       sq_departure= sq_hurdle-vector;
 
       if (!is_square_empty(sq_hurdle)
-          && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_target!=sq_departure
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
@@ -388,7 +382,6 @@ boolean norixcheck(evalfunction_t *evaluate)
 
       if (queenlike
           && !is_square_empty(sq_hurdle)
-          && TSTFLAG(spec[sq_departure],trait[nbply])
           && sq_target!=sq_departure
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
@@ -413,7 +406,6 @@ boolean equifracheck(evalfunction_t *evaluate)
     sq_hurdle= sq_target+vector;
     if (!is_square_empty(sq_hurdle)
         && !is_square_blocked(sq_hurdle)
-        && TSTFLAG(spec[sq_departure],trait[nbply])
         && sq_target!=sq_departure
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
@@ -535,8 +527,7 @@ static boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation_vector_index[observation_context]]);
 
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -563,8 +554,7 @@ static boolean lions_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[k]);
 
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
     }
   }
@@ -590,8 +580,7 @@ static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = sq_hurdle+vec[interceptable_observation_vector_index[observation_context]];
 
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -646,8 +635,7 @@ static boolean grasshoppers_n_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation_vector_index[observation_context]]);
 
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -701,8 +689,7 @@ static boolean doublehoppercheck(vec_index_type vec_start, vec_index_type vec_en
           if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
           {
             square const sq_departure = find_end_of_line(sq_hurdle1,vec[k1]);
-            if (TSTFLAG(spec[sq_departure],trait[nbply])
-                && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+            if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
               return true;
           }
         }
@@ -747,8 +734,7 @@ boolean contragrascheck(evalfunction_t *evaluate)
     {
       square const sq_departure = sq_hurdle+vec[interceptable_observation_vector_index[observation_context]];
 
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -819,8 +805,7 @@ boolean detect_rosecheck_on_line(vec_index_type k, vec_index_type k1,
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure= find_end_of_circle_line(sq_target,k,&k1,delta_k);
-  return (TSTFLAG(spec[sq_departure],trait[nbply])
-          && sq_departure!=sq_target /* pieces don't give check to themselves */
+  return (sq_departure!=sq_target /* pieces don't give check to themselves */
           && INVOKE_EVAL(evaluate,sq_departure,sq_target));
 }
 
@@ -860,8 +845,7 @@ boolean detect_roselioncheck_on_line(vec_index_type k, vec_index_type k1,
     }
 #endif
 
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && sq_departure!=sq_target /* pieces don't give check to themselves */
+    if (sq_departure!=sq_target /* pieces don't give check to themselves */
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -890,8 +874,7 @@ boolean detect_rosehoppercheck_on_line(square sq_hurdle,
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure= find_end_of_circle_line(sq_hurdle,k,&k1,delta_k);
-  return (TSTFLAG(spec[sq_departure],trait[nbply])
-          && sq_departure!=sq_target
+  return (sq_departure!=sq_target
           && INVOKE_EVAL(evaluate,sq_departure,sq_target));
 }
 
@@ -929,8 +912,7 @@ boolean detect_roselocustcheck_on_line(square sq_arrival,
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure= find_end_of_circle_line(sq_target,k,&k1,delta_k);
-  return (TSTFLAG(spec[sq_departure],trait[nbply])
-          && sq_departure!=sq_target
+  return (sq_departure!=sq_target
           && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
 }
 
@@ -970,8 +952,7 @@ static boolean maooacheck_onedir(square sq_pass,
   numvec const vec_departure_pass = angle_vectors[angle_45][vec_index_angle_departure_pass];
   square const sq_departure = sq_pass+vec_departure_pass;
 
-  return (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target));
+  return (INVOKE_EVAL(evaluate,sq_departure,sq_target));
 }
 
 static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
@@ -1061,8 +1042,7 @@ boolean bspawncheck(evalfunction_t *evaluate)
   {
     numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
     square const sq_departure = find_end_of_line(sq_target,dir_backward);
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
 
@@ -1080,15 +1060,13 @@ boolean spawncheck(evalfunction_t *evaluate)
 
     {
       square const sq_departure = find_end_of_line(sq_target,dir_backward+dir_left);
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
     }
 
     {
       square const sq_departure = find_end_of_line(sq_target,dir_backward+dir_right);
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
     }
   }
@@ -1197,8 +1175,7 @@ boolean kangoucheck(evalfunction_t *evaluate)
       if (!is_square_blocked(sq_hurdle2))
       {
         square const sq_departure = find_end_of_line(sq_hurdle2,vec[k]);
-        if (TSTFLAG(spec[sq_departure],trait[nbply])
-            && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
       }
     }
@@ -1221,8 +1198,7 @@ boolean kanglioncheck(evalfunction_t *evaluate)
       if (!is_square_blocked(sq_hurdle2))
       {
         square const sq_departure = find_end_of_line(sq_hurdle2,vec[k]);
-        if (TSTFLAG(spec[sq_departure],trait[nbply])
-            && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
       }
     }
@@ -1252,8 +1228,7 @@ boolean bobcheck(evalfunction_t *evaluate)
           if (!is_square_blocked(sq_hurdle4))
           {
             square const sq_departure = find_end_of_line(sq_hurdle4,vec[k]);
-            if (TSTFLAG(spec[sq_departure],trait[nbply])
-                && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+            if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
               return true;
           }
         }
@@ -1448,7 +1423,6 @@ boolean equicheck(evalfunction_t *evaluate)
       square const sq_departure = sq_hurdle+vec[k];
       if (!is_square_empty(sq_hurdle)
           && !is_square_blocked(sq_hurdle)
-          && TSTFLAG(spec[sq_departure],trait[nbply])
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
     }
@@ -1468,8 +1442,7 @@ boolean equiengcheck(evalfunction_t *evaluate)
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_departure = find_end_of_line(sq_target,-vec[k]);
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && sq_departure-sq_target==sq_target-sq_hurdle
+      if (sq_departure-sq_target==sq_target-sq_hurdle
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
         return true;
     }
@@ -1480,7 +1453,6 @@ boolean equiengcheck(evalfunction_t *evaluate)
     square const sq_departure = sq_target-vec[k];
     square const sq_hurdle = sq_target+vec[k];
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle)
-        && TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1503,15 +1475,13 @@ boolean catcheck(evalfunction_t *evaluate)
       {
         {
           square const sq_departure= middle_square+cat_vectors[k-60];
-          if (TSTFLAG(spec[sq_departure],trait[nbply])
-              && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
             return true;
         }
 
         {
           square const sq_departure= middle_square+cat_vectors[k-56];
-          if (TSTFLAG(spec[sq_departure],trait[nbply])
-              && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
             return true;
         }
 
@@ -1613,8 +1583,7 @@ boolean edgehcheck(evalfunction_t *evaluate)
   for (k= vec_queen_end; k>=vec_queen_start; k--)
   {
     square const sq_departure = find_end_of_line(sq_target,vec[k]);
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && NoEdge(sq_target)!=NoEdge(sq_departure)
+    if (NoEdge(sq_target)!=NoEdge(sq_departure)
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1639,7 +1608,6 @@ static boolean maooaridercheck(numvec  fir,
   }
 
   return (is_square_empty(middle_square)
-          && TSTFLAG(spec[sq_departure],trait[nbply])
           && INVOKE_EVAL(evaluate,sq_departure,sq_target));
 }
 
@@ -1716,7 +1684,6 @@ static boolean maooariderlioncheck(numvec  fir,
     sq_departure+= sec;
   }
   if (!is_square_empty(middle_square)
-      && TSTFLAG(spec[sq_departure],trait[nbply])
       && INVOKE_EVAL(evaluate,sq_departure,sq_target))
     return true;
 
@@ -1732,7 +1699,6 @@ static boolean maooariderlioncheck(numvec  fir,
       sq_departure+= sec;
     }
     if (is_square_empty(middle_square)
-        && TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1823,8 +1789,7 @@ boolean orixcheck(evalfunction_t *evaluate)
     if (!is_square_blocked(sq_hurdle))
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation_vector_index[observation_context]]);
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
-          && sq_departure-sq_hurdle==sq_hurdle-sq_target
+      if (sq_departure-sq_hurdle==sq_hurdle-sq_target
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
         result = true;
@@ -1879,7 +1844,6 @@ boolean querquisitecheck(evalfunction_t *evaluate)
     if ((file_departure==file_rook_queenside
          || file_departure==file_queen
          || file_departure==file_rook_kingside)
-        && TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1891,7 +1855,6 @@ boolean querquisitecheck(evalfunction_t *evaluate)
     if ((file_departure==file_bishop_queenside
          || file_departure==file_queen
          || file_departure==file_bishop_kingside)
-        && TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1900,9 +1863,8 @@ boolean querquisitecheck(evalfunction_t *evaluate)
   {
     square const sq_departure= sq_target+vec[k];
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && (file_departure==file_knight_queenside
-            || file_departure==file_knight_kingside)
+    if ((file_departure==file_knight_queenside
+         || file_departure==file_knight_kingside)
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1911,8 +1873,7 @@ boolean querquisitecheck(evalfunction_t *evaluate)
   {
     square const sq_departure= sq_target+vec[k];
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && file_departure==file_king
+    if (file_departure==file_king
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1931,7 +1892,6 @@ static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
     square const sq_departure = find_end_of_line(sq_target,vec[k]);
     square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
     if (sq_departure-sq_target==sq_hurdle-sq_departure
-        && TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -1961,8 +1921,7 @@ boolean pchincheck(evalfunction_t *evaluate)
   numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 
   sq_departure= sq_target+dir_backward;
-  if (TSTFLAG(spec[sq_departure],trait[nbply])
-      && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+  if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
     return true;
 
   /* chinese pawns can capture side-ways if standing on the half of
@@ -1971,13 +1930,11 @@ boolean pchincheck(evalfunction_t *evaluate)
   if ((sq_target*2<(square_h8+square_a1)) == (trait[nbply]==Black))
   {
     sq_departure= sq_target+dir_right;
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
 
     sq_departure= sq_target+dir_left;
-    if (TSTFLAG(spec[sq_departure],trait[nbply])
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
 

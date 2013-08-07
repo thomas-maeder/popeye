@@ -73,8 +73,7 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
   square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
   PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
 
-  return (TSTFLAG(spec[sq_departure],trait[nbply])
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target));
+  return INVOKE_EVAL(evaluate,sq_departure,sq_target);
 }
 
 /* Is a particular square observed by a particular type of angle hopper?

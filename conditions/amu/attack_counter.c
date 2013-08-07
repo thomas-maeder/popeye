@@ -19,7 +19,8 @@ static boolean eval_amu_attack(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
 
-  if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
+  if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
+      && TSTFLAG(spec[sq_departure],trait[nbply]))
   {
     /* this deals correctly with double attacks by the same piece (e.g. a rose) */
     if (single_attacker_departure==sq_departure)

@@ -458,6 +458,7 @@
     ENUMERATOR(STValidatingObservationFork),                            \
     ENUMERATOR(STValidatingObservation),                                \
     ENUMERATOR(STEnforceObserverWalk),                                  \
+    ENUMERATOR(STEnforceObserverSide),                                  \
     ENUMERATOR(STBrunnerValidateCheck),                                 \
     ENUMERATOR(STValidatingObservationUltraMummer),                     \
     ENUMERATOR(STValidatingObserverFork),                               \

@@ -79,12 +79,7 @@ boolean rrfouech(square intermediate_square,
     square const sq_reflection = find_end_of_line(intermediate_square,k);
     PieNam const p1 = get_walk_of_piece_on_square(sq_reflection);
 
-    if (TSTFLAG(spec[sq_reflection],trait[nbply]))
-    {
-      if (INVOKE_EVAL(evaluate,sq_reflection,sq_target))
-        return true;
-    }
-    else if (x && p1==Invalid)
+    if (x && p1==Invalid)
     {
       square const sq_departure = sq_reflection-k;
 
@@ -107,6 +102,8 @@ boolean rrfouech(square intermediate_square,
                    evaluate))
         return true;
     }
+    else if (INVOKE_EVAL(evaluate,sq_reflection,sq_target))
+      return true;
 
     return false;
   }
@@ -120,12 +117,7 @@ boolean rcardech(square intermediate_square,
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure = find_end_of_line(intermediate_square,k);
 
-  if (TSTFLAG(spec[sq_departure],trait[nbply]))
-  {
-    if (INVOKE_EVAL(evaluate,sq_departure,sq_target ))
-      return true;
-  }
-  else if (x && is_square_blocked(sq_departure))
+  if (x && is_square_blocked(sq_departure))
   {
     numvec k1;
     for (k1 = 1; k1<=4; k1++)
@@ -135,12 +127,7 @@ boolean rcardech(square intermediate_square,
     if (k1<=4)
     {
       sq_departure += vec[k1];
-      if (TSTFLAG(spec[sq_departure],trait[nbply]))
-      {
-        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
-          return true;
-      }
-      else if (is_square_empty(sq_departure))
+      if (is_square_empty(sq_departure))
       {
         k1= 5;
         while (vec[k1]!=k)
@@ -154,8 +141,12 @@ boolean rcardech(square intermediate_square,
                      evaluate))
           return true;
       }
+      else if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        return true;
     }
   }
+  else if (INVOKE_EVAL(evaluate,sq_departure,sq_target ))
+    return true;
 
   return false;
 }
@@ -171,16 +162,16 @@ static boolean eval_up(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
-  return sq_arrival-sq_departure>8
-      && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival);
+  return (sq_arrival-sq_departure>8
+          && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival));
 }
 
 static boolean eval_down(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
-  return sq_arrival-sq_departure<-8
-      && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival);
+  return (sq_arrival-sq_departure<-8
+          && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival));
 }
 
 boolean huntercheck(evalfunction_t *evaluate)
@@ -228,14 +219,11 @@ static boolean skycharcheck(square chp,
                             square sq_arrival2,
                             evalfunction_t *evaluate)
 {
-  if (TSTFLAG(sq_spec[chp],trait[nbply]))
-  {
-    if (is_square_empty(sq_arrival1) && INVOKE_EVAL(evaluate,chp,sq_arrival1))
-      return  true;
+  if (is_square_empty(sq_arrival1) && INVOKE_EVAL(evaluate,chp,sq_arrival1))
+    return  true;
 
-    if (is_square_empty(sq_arrival2) && INVOKE_EVAL(evaluate,chp,sq_arrival2))
-      return  true;
-  }
+  if (is_square_empty(sq_arrival2) && INVOKE_EVAL(evaluate,chp,sq_arrival2))
+    return  true;
 
   return  false;
 }

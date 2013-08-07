@@ -81,8 +81,7 @@ boolean pawn_test_check(square sq_departure,
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  result = (TSTFLAG(spec[sq_departure],trait[nbply])
-            && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
+  result = INVOKE_EVAL(evaluate,sq_departure,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

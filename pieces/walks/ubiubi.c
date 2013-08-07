@@ -79,12 +79,8 @@ static boolean ubiubi_check_recursive(square intermediate_square,
         if (ubiubi_check_recursive(sq_departure,traversal_state,evaluate))
           return true;
       }
-      else
-      {
-        if (TSTFLAG(spec[sq_departure],trait[nbply])
-            && INVOKE_EVAL(evaluate,sq_departure,sq_target))
-          return true;
-      }
+      else if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        return true;
     }
   }
 
