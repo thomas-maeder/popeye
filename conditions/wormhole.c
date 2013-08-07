@@ -3,8 +3,11 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "solving/post_move_iteration.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/observation.h"
@@ -196,7 +199,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
   return result;
 }
 
-static boolean is_capture_allowed(numecoup n)
+static boolean is_move_allowed(numecoup n)
 {
   square const sq_departure = move_generation_stack[n].departure;
   square const sq_arrival = move_generation_stack[n].arrival;
@@ -206,6 +209,11 @@ static boolean is_capture_allowed(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  /* we don't detect illegal null moves here because
+   * - they are irrelevant for validating observations
+   * - they are hard to detect without having played them
+   */
 
   if (TSTFLAG(sq_spec[sq_departure],Wormhole))
     result = true;
@@ -242,7 +250,7 @@ boolean wormhole_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (is_capture_allowed(current_move[nbply]-1)
+  result = (is_move_allowed(current_move[nbply]-1)
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -273,7 +281,7 @@ stip_length_type wormhole_remove_illegal_captures_solve(slice_index si, stip_len
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_capture_allowed);
+  move_generator_filter_moves(&is_move_allowed);
 
   result = solve(slices[si].next1,n);
 
