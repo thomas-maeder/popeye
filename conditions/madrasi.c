@@ -33,7 +33,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
       nextply(observing_side); /* not siblingply() or ep paralysis causes problems! */
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]-1].capture = sq;
-            result = (*checkfunctions[p])(p,&validate_observation_geometry);
+      result = (*checkfunctions[p])(p,&validate_observation_geometry);
       finply();
     }
   }
