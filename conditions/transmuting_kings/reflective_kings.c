@@ -2,6 +2,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -51,9 +52,12 @@ boolean reflective_king_is_square_observed(slice_index si, evalfunction_t *evalu
 
     for (ptrans = transmpieces[side_attacking]; *ptrans; ptrans++)
       if (number_of_pieces[side_attacked][*ptrans]>0
-          && is_king_transmuting_as(*ptrans,evaluate)
-          && (*checkfunctions[*ptrans])(King,evaluate))
-        return true;
+          && is_king_transmuting_as(*ptrans,evaluate))
+      {
+        observing_walk[nbply] = King;
+        if ((*checkfunctions[*ptrans])(evaluate))
+          return true;
+      }
   }
 
   return is_square_observed_recursive(slices[si].next1,evaluate);

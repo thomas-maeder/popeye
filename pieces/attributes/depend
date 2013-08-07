@@ -85,6 +85,7 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/branch.h stipulation/move.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/observation.h pyproc.h \
+ solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h
 
 pieces/attributes/magic.h:
@@ -156,6 +157,8 @@ solving/castling_rights.h:
 solving/observation.h:
 
 pyproc.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:
 pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \

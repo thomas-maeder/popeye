@@ -1,6 +1,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -45,7 +46,8 @@ boolean is_king_transmuting_as(PieNam p, evalfunction_t *evaluate)
   siblingply(advers(side_attacking));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = king_square[side_attacking];;
-  result = (*checkfunctions[p])(p,evaluate);
+  observing_walk[nbply] = p;
+  result = (*checkfunctions[p])(evaluate);
   finply();
 
   TraceFunctionExit(__func__);
@@ -61,7 +63,8 @@ static boolean is_square_observed_by_opponent(PieNam p)
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = curr_generation->departure;
-  result = (*checkfunctions[p])(p,&validate_observation);
+  observing_walk[nbply] = p;
+  result = (*checkfunctions[p])(&validate_observation);
   finply();
 
   return result;
@@ -144,7 +147,8 @@ boolean transmuting_king_is_square_observed(slice_index si, evalfunction_t *eval
       if (number_of_pieces[side_attacked][*ptrans]>0
           && is_king_transmuting_as(*ptrans,evaluate))
       {
-        if ((*checkfunctions[*ptrans])(King,evaluate))
+        observing_walk[nbply] = King;
+        if ((*checkfunctions[*ptrans])(evaluate))
           return true;
         else
           transmuter = *ptrans;

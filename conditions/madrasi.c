@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 
 #include "debugging/trace.h"
@@ -33,7 +34,8 @@ boolean madrasi_is_moving_piece_observed(square sq)
       nextply(observing_side); /* not siblingply() or ep paralysis causes problems! */
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]-1].capture = sq;
-      result = (*checkfunctions[p])(p,&validate_observation_geometry);
+      observing_walk[nbply] = p;
+      result = (*checkfunctions[p])(&validate_observation_geometry);
       finply();
     }
   }
@@ -64,9 +66,9 @@ static boolean is_paralysed(numecoup n)
     siblingply(observing_side);
     current_move[nbply] = current_move[nbply-1]+1;
     move_generation_stack[current_move[nbply]-1].capture = sq_departure;
-        result = (number_of_pieces[trait[nbply]][candidate]>0
-              && (*checkfunctions[candidate])(candidate,
-                                              &validate_observation_geometry));
+    observing_walk[nbply] = candidate;
+    result = (number_of_pieces[trait[nbply]][candidate]>0
+              && (*checkfunctions[candidate])(&validate_observation_geometry));
     finply();
   }
 

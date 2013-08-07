@@ -66,6 +66,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/battle_play/try.h"
 #include "solving/castling.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
@@ -460,7 +461,6 @@ square coinequis(square i)
 }
 
 boolean leapcheck(vec_index_type kanf, vec_index_type kend,
-                  PieNam p,
                   evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
@@ -470,8 +470,7 @@ boolean leapcheck(vec_index_type kanf, vec_index_type kend,
   for (k= kanf; k<=kend; k++)
   {
     square const sq_departure= sq_target+vec[k];
-    if (get_walk_of_piece_on_square(sq_departure)==p
-        && TSTFLAG(spec[sq_departure],trait[nbply])
+    if (TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       return true;
   }
@@ -482,7 +481,6 @@ boolean leapcheck(vec_index_type kanf, vec_index_type kend,
 boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
                       int hurdletype,
                       boolean leaf,
-                      PieNam p,
                       evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
@@ -499,8 +497,7 @@ boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
       for (k1= kanf; k1<= kend; k1++)
       {
         square const sq_departure = sq_hurdle + vec[k1];
-        if (get_walk_of_piece_on_square(sq_departure)==p
-            && TSTFLAG(spec[sq_departure],trait[nbply])
+        if (TSTFLAG(spec[sq_departure],trait[nbply])
             && sq_departure!=sq_target
             && INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
@@ -512,7 +509,6 @@ boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
 }
 
 boolean ridcheck(vec_index_type kanf, vec_index_type kend,
-                 PieNam p,
                  evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
@@ -521,7 +517,6 @@ boolean ridcheck(vec_index_type kanf, vec_index_type kend,
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_target);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   ++observation_context;
@@ -532,12 +527,7 @@ boolean ridcheck(vec_index_type kanf, vec_index_type kend,
        ++interceptable_observation_vector_index[observation_context])
   {
     square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation_vector_index[observation_context]]);
-    PieNam const rider = get_walk_of_piece_on_square(sq_departure);
-    TraceSquare(sq_departure);
-    TracePiece(rider);
-    TraceValue("%u\n",TSTFLAG(spec[sq_departure],trait[nbply]));
-    if (rider==p
-        && TSTFLAG(spec[sq_departure],trait[nbply])
+    if (TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
     {
       result = true;
@@ -554,7 +544,6 @@ boolean ridcheck(vec_index_type kanf, vec_index_type kend,
 }
 
 boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
-                           PieNam p,
                            evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
@@ -567,9 +556,7 @@ boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
     if (is_square_empty(sq_arrival))
     {
       square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      PieNam const marine = get_walk_of_piece_on_square(sq_departure);
-      if (marine==p
-          && TSTFLAG(spec[sq_departure],trait[nbply])
+      if (TSTFLAG(spec[sq_departure],trait[nbply])
           && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
         return true;
     }
@@ -579,7 +566,6 @@ boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
 }
 
 boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
-                            PieNam p,
                             evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
@@ -589,7 +575,6 @@ boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
     square const sq_arrival = sq_target-vec[k];
     square const sq_departure = sq_target+vec[k];
     if (is_square_empty(sq_arrival)
-        && get_walk_of_piece_on_square(sq_departure)==p
         && TSTFLAG(spec[sq_departure],trait[nbply])
         && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
       return true;
@@ -600,7 +585,6 @@ boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
 
 static boolean marine_pawn_test_check(square sq_departure,
                                       square sq_hurdle,
-                                      PieNam p,
                                       evalfunction_t *evaluate)
 {
   boolean result;
@@ -611,8 +595,7 @@ static boolean marine_pawn_test_check(square sq_departure,
   TraceSquare(sq_hurdle);
   TraceFunctionParamListEnd();
 
-  result = (get_walk_of_piece_on_square(sq_departure)==p
-            && TSTFLAG(spec[sq_departure],trait[nbply])
+  result = (TSTFLAG(spec[sq_departure],trait[nbply])
             && is_square_empty(sq_arrival)
             && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
 
@@ -622,28 +605,28 @@ static boolean marine_pawn_test_check(square sq_departure,
   return result;
 }
 
-boolean marine_pawn_check(PieNam p, evalfunction_t *evaluate)
+boolean marine_pawn_check(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
   numvec const dir_forward_right = dir_forward+dir_right;
   numvec const dir_forward_left = dir_forward+dir_left;
 
-  if (marine_pawn_test_check(sq_target-dir_forward_right,sq_target,p,evaluate))
+  if (marine_pawn_test_check(sq_target-dir_forward_right,sq_target,evaluate))
     return true;
-  else if (marine_pawn_test_check(sq_target-dir_forward_left,sq_target,p,evaluate))
+  else if (marine_pawn_test_check(sq_target-dir_forward_left,sq_target,evaluate))
     return true;
-  else if (en_passant_test_check(dir_forward_right,&marine_pawn_test_check,p,evaluate))
+  else if (en_passant_test_check(dir_forward_right,&marine_pawn_test_check,evaluate))
     return true;
-  else if (en_passant_test_check(dir_forward_left,&marine_pawn_test_check,p,evaluate))
+  else if (en_passant_test_check(dir_forward_left,&marine_pawn_test_check,evaluate))
     return true;
 
   return false;
 }
 
-boolean marine_ship_check(PieNam p, evalfunction_t *evaluate)
+boolean marine_ship_check(evalfunction_t *evaluate)
 {
-  return marine_pawn_check(p,evaluate) || tritoncheck(p,evaluate);
+  return marine_pawn_check(evaluate) || tritoncheck(evaluate);
 }
 
 static boolean noleapcontact(square sq_arrival, vec_index_type kanf, vec_index_type kend)
@@ -740,8 +723,8 @@ static boolean find_next_orphan_in_chain(square sq_target,
 
     isolate_observee(Orphan,pos_orphans,orphan_id);
     move_generation_stack[current_move[nbply]-1].capture = sq_target;
-    does_orphan_observe = (*checkfunctions[orphan_observer])(Orphan,
-                                                             evaluate);
+    observing_walk[nbply] = Orphan;
+    does_orphan_observe = (*checkfunctions[orphan_observer])(evaluate);
     restore_observees(Orphan,pos_orphans);
 
     if (does_orphan_observe
@@ -774,7 +757,8 @@ boolean orphan_find_observation_chain(square sq_target,
   trait[nbply] = advers(trait[nbply]);
 
   move_generation_stack[current_move[nbply]-1].capture = sq_target;
-  if ((*checkfunctions[orphan_observer])(orphan_observer,evaluate))
+  observing_walk[nbply] = orphan_observer;
+  if ((*checkfunctions[orphan_observer])(evaluate))
     result = true;
   else if (number_of_pieces[trait[nbply]][Orphan]==0)
     result = false;
@@ -804,8 +788,7 @@ boolean orphan_find_observation_chain(square sq_target,
   return result;
 }
 
-boolean orphancheck(PieNam orphan_type,
-                    evalfunction_t *evaluate)
+boolean orphancheck(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
@@ -814,7 +797,6 @@ boolean orphancheck(PieNam orphan_type,
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_target);
-  TracePiece(orphan_type);
   TraceFunctionParamListEnd();
 
   locate_observees(Orphan,pos_orphans);
@@ -842,7 +824,7 @@ boolean orphancheck(PieNam orphan_type,
   return result;
 }
 
-boolean friendcheck(PieNam p, evalfunction_t *evaluate)
+boolean friendcheck(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   PieNam const *pfr;
@@ -851,7 +833,6 @@ boolean friendcheck(PieNam p, evalfunction_t *evaluate)
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_target);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   locate_observees(Friend,pos_friends);
@@ -869,7 +850,8 @@ boolean friendcheck(PieNam p, evalfunction_t *evaluate)
 
         isolate_observee(Friend,pos_friends,k);
         move_generation_stack[current_move[nbply]-1].capture = sq_target;
-        does_friend_observe = (*checkfunctions[*pfr])(Friend,evaluate);
+        observing_walk[nbply] = Friend;
+        does_friend_observe = (*checkfunctions[*pfr])(evaluate);
         restore_observees(Friend,pos_friends);
 
         if (does_friend_observe

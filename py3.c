@@ -55,6 +55,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/observation.h"
 #include "solving/check.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "conditions/annan.h"
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
@@ -66,7 +67,6 @@
 
 boolean rrfouech(square intermediate_square,
                  numvec k,
-                 PieNam p,
                  int    x,
                  evalfunction_t *evaluate)
 {
@@ -79,7 +79,7 @@ boolean rrfouech(square intermediate_square,
     square const sq_reflection = find_end_of_line(intermediate_square,k);
     PieNam const p1 = get_walk_of_piece_on_square(sq_reflection);
 
-    if (p1==p && TSTFLAG(spec[sq_reflection],trait[nbply]))
+    if (TSTFLAG(spec[sq_reflection],trait[nbply]))
     {
       if (INVOKE_EVAL(evaluate,sq_reflection,sq_target))
         return true;
@@ -95,7 +95,6 @@ boolean rrfouech(square intermediate_square,
       k1 *= 2;
       if (rrfouech(sq_departure,
                    angle_vectors[angle_90][k1],
-                   p,
                    x-1,
                    evaluate))
 
@@ -104,7 +103,6 @@ boolean rrfouech(square intermediate_square,
       k1--;
       if (rrfouech(sq_departure,
                    angle_vectors[angle_90][k1],
-                   p,
                    x-1,
                    evaluate))
         return true;
@@ -116,15 +114,13 @@ boolean rrfouech(square intermediate_square,
 
 boolean rcardech(square intermediate_square,
                  numvec k,
-                 PieNam p,
                  int    x,
                  evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   square sq_departure = find_end_of_line(intermediate_square,k);
-  PieNam const p1 = get_walk_of_piece_on_square(sq_departure);
 
-  if (p1==p && TSTFLAG(spec[sq_departure],trait[nbply]))
+  if (TSTFLAG(spec[sq_departure],trait[nbply]))
   {
     if (INVOKE_EVAL(evaluate,sq_departure,sq_target ))
       return true;
@@ -139,8 +135,7 @@ boolean rcardech(square intermediate_square,
     if (k1<=4)
     {
       sq_departure += vec[k1];
-      if (get_walk_of_piece_on_square(sq_departure)==p
-          && TSTFLAG(spec[sq_departure],trait[nbply]))
+      if (TSTFLAG(spec[sq_departure],trait[nbply]))
       {
         if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
@@ -155,7 +150,6 @@ boolean rcardech(square intermediate_square,
           k1--;
         if (rcardech(sq_departure,
                      angle_vectors[angle_90][k1],
-                     p,
                      x-1,
                      evaluate))
           return true;
@@ -189,23 +183,22 @@ static boolean eval_down(void)
       && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival);
 }
 
-boolean huntercheck(PieNam p, evalfunction_t *evaluate)
+boolean huntercheck(evalfunction_t *evaluate)
 {
   /* detect check by a hunter */
   boolean result;
   evalfunction_t * const eval_away = trait[nbply]==Black ? &eval_down : &eval_up;
   evalfunction_t * const eval_home = trait[nbply]==Black ? &eval_up : &eval_down;
-  unsigned int const typeofhunter = p-Hunter0;
+  unsigned int const typeofhunter = observing_walk[nbply]-Hunter0;
   HunterType const * const huntertype = huntertypes+typeofhunter;
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   assert(typeofhunter<maxnrhuntertypes);
   next_evaluate = evaluate;
-  result = ((*checkfunctions[huntertype->home])(p,eval_home)
-            || (*checkfunctions[huntertype->away])(p,eval_away));
+  result = ((*checkfunctions[huntertype->home])(eval_home)
+            || (*checkfunctions[huntertype->away])(eval_away));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -213,30 +206,29 @@ boolean huntercheck(PieNam p, evalfunction_t *evaluate)
   return result;
 }
 
-boolean rhuntcheck(PieNam p, evalfunction_t *evaluate)
+boolean rhuntcheck(evalfunction_t *evaluate)
 {
   /* detect check of a rook/bishop-hunter */
   /* it's not dependent of the piece-color !! */
   /* always moves up (rook), down (bishop) !! */
-  return ridcheck(4, 4, p, evaluate) || ridcheck(5, 6, p, evaluate);
+  return ridcheck(4, 4, evaluate) || ridcheck(5, 6, evaluate);
 }
 
-boolean bhuntcheck(PieNam p, evalfunction_t *evaluate)
+boolean bhuntcheck(evalfunction_t *evaluate)
 {
   /* detect check of a bishop/rook-hunter */
   /* it's not dependent of the piece-color !! */
   /* always moves up (bishop), down (rook) !! */
-  return ridcheck(2, 2, p, evaluate)
-      || ridcheck(7, 8, p, evaluate);
+  return ridcheck(2, 2, evaluate)
+      || ridcheck(7, 8, evaluate);
 }
 
-static boolean skycharcheck(PieNam p,
-                            square chp,
+static boolean skycharcheck(square chp,
                             square sq_arrival1,
                             square sq_arrival2,
                             evalfunction_t *evaluate)
 {
-  if (get_walk_of_piece_on_square(chp)==p && TSTFLAG(sq_spec[chp],trait[nbply]))
+  if (TSTFLAG(sq_spec[chp],trait[nbply]))
   {
     if (is_square_empty(sq_arrival1) && INVOKE_EVAL(evaluate,chp,sq_arrival1))
       return  true;
@@ -248,20 +240,20 @@ static boolean skycharcheck(PieNam p,
   return  false;
 }
 
-boolean skyllacheck(PieNam p, evalfunction_t *evaluate)
+boolean skyllacheck(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
-  return  skycharcheck(p, sq_target+dir_right, sq_target+dir_up+dir_left, sq_target+dir_down+dir_left, evaluate)
-       || skycharcheck(p, sq_target+dir_left, sq_target+dir_up+dir_right, sq_target+dir_down+dir_right, evaluate)
-       || skycharcheck(p, sq_target+dir_up, sq_target+dir_down+dir_right, sq_target+dir_down+dir_left, evaluate)
-       || skycharcheck(p, sq_target+dir_down, sq_target+dir_up+dir_left, sq_target+dir_up+dir_right, evaluate);
+  return  skycharcheck(sq_target+dir_right, sq_target+dir_up+dir_left, sq_target+dir_down+dir_left, evaluate)
+       || skycharcheck(sq_target+dir_left, sq_target+dir_up+dir_right, sq_target+dir_down+dir_right, evaluate)
+       || skycharcheck(sq_target+dir_up, sq_target+dir_down+dir_right, sq_target+dir_down+dir_left, evaluate)
+       || skycharcheck(sq_target+dir_down, sq_target+dir_up+dir_left, sq_target+dir_up+dir_right, evaluate);
 }
 
-boolean charybdischeck(PieNam p, evalfunction_t *evaluate)
+boolean charybdischeck(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
-  return  skycharcheck(p, sq_target+dir_up+dir_right, sq_target+dir_left, sq_target - 24, evaluate)
-       || skycharcheck(p, sq_target+dir_down+dir_left, sq_target+dir_right, sq_target + 24, evaluate)
-       || skycharcheck(p, sq_target+dir_up+dir_left, sq_target+dir_right, sq_target - 24, evaluate)
-       || skycharcheck(p, sq_target+dir_down+dir_right, sq_target+dir_left, sq_target + 24, evaluate);
+  return  skycharcheck(sq_target+dir_up+dir_right, sq_target+dir_left, sq_target - 24, evaluate)
+       || skycharcheck(sq_target+dir_down+dir_left, sq_target+dir_right, sq_target + 24, evaluate)
+       || skycharcheck(sq_target+dir_up+dir_left, sq_target+dir_right, sq_target - 24, evaluate)
+       || skycharcheck(sq_target+dir_down+dir_right, sq_target+dir_left, sq_target + 24, evaluate);
 }

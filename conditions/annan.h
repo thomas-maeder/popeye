@@ -18,11 +18,10 @@ typedef enum
 
 extern annan_type_type annan_type;
 
-/* Determine whether a square is observed in Annan Chess
-* @param si identifies tester slice
-* @return true iff sq_target is observed
-*/
-boolean annan_is_square_observed(slice_index si, evalfunction_t *evaluate);
+/* Make sure that the observer has the expected walk - annanised or originally
+ * @return true iff the observation is valid
+ */
+boolean annan_enforce_observer_walk(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

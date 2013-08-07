@@ -1,6 +1,7 @@
 #include "conditions/marscirce/marscirce.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
@@ -162,7 +163,8 @@ boolean mars_is_square_observed_by(square pos_observer,
 
     current_rebirth_square = sq_rebirth;
     next_evaluate = evaluate;
-    result = (*checkfunctions[pi_checking])(pi_checking,&is_observed_from_rebirth_square);
+    observing_walk[nbply] = pi_checking;
+    result = (*checkfunctions[pi_checking])(&is_observed_from_rebirth_square);
 
     empty_square(sq_rebirth);
     occupy_square(pos_observer,pi_checking,spec_checking);

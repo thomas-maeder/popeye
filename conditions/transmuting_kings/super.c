@@ -3,6 +3,7 @@
 #include "solving/observation.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
@@ -80,7 +81,8 @@ static boolean is_square_observed_by_opponent(PieNam p)
   siblingply(advers(trait[nbply]));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = curr_generation->departure;
-  result = (*checkfunctions[p])(p,&validate_observation);
+  observing_walk[nbply] = p;
+  result = (*checkfunctions[p])(&validate_observation);
   finply();
 
   return result;

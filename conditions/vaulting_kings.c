@@ -85,8 +85,11 @@ boolean vaulting_king_is_square_observed(slice_index si, evalfunction_t *evaluat
     {
       PieNam const *pi_vaulter;
       for (pi_vaulter = king_vaulters[side_observing]; *pi_vaulter; ++pi_vaulter)
-        if ((*checkfunctions[*pi_vaulter])(King,evaluate))
+      {
+        observing_walk[nbply] = King;
+        if ((*checkfunctions[*pi_vaulter])(evaluate))
           return true;
+      }
 
       if (vaulting_kings_transmuting[side_observing])
         return is_square_observed_recursive(slices[si].next2,evaluate);

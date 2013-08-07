@@ -428,7 +428,9 @@ optimisations/intelligent/place_white_king$(OBJ_SUFFIX): \
  stipulation/goals/goals.h optimisations/intelligent/intelligent.h \
  position/position.h position/pieceid.h stipulation/goals/goals.h \
  solving/solve.h optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/intercept_check_by_black.h debugging/trace.h
+ optimisations/intelligent/intercept_check_by_black.h \
+ solving/find_square_observer_tracking_back_from_target.h pyproc.h \
+ debugging/trace.h
 
 optimisations/intelligent/place_white_king.h:
 
@@ -471,6 +473,10 @@ solving/solve.h:
 optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/intercept_check_by_black.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
+
+pyproc.h:
 
 debugging/trace.h:
 optimisations/intelligent/place_black_piece$(OBJ_SUFFIX): \

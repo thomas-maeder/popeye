@@ -1,6 +1,7 @@
 #include "conditions/eiffel.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "pydata.h"
 
@@ -66,8 +67,8 @@ static boolean is_paralysed(numecoup n)
       siblingply(eiffel_side);
       current_move[nbply] = current_move[nbply-1]+1;
       move_generation_stack[current_move[nbply]-1].capture = sq_departure;
-            result = (*checkfunctions[eiffel_piece])(eiffel_piece,
-                                               &validate_observation_geometry);
+      observing_walk[nbply] = eiffel_piece;
+      result = (*checkfunctions[eiffel_piece])(&validate_observation_geometry);
       finply();
     }
   }

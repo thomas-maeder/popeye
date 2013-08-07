@@ -316,10 +316,12 @@ static slice_index make_check_validator(Side side)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STValidatingCheckFork,proxy);
   slice_index const check = alloc_pipe(STValidatingCheck);
+  slice_index const enforce = alloc_pipe(STEnforceObserverWalk);
   slice_index const observer = alloc_pipe(STValidatingObserver);
   slice_index const geometry = alloc_pipe(STValidatingObservationGeometry);
   pipe_link(proxy,check);
-  pipe_link(check,observer);
+  pipe_link(check,enforce);
+  pipe_link(enforce,observer);
   pipe_link(observer,geometry);
   pipe_link(geometry,alloc_true_slice());
   stip_impose_starter(result,side);
@@ -331,10 +333,12 @@ static slice_index make_observation_validator(Side side)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STValidatingObservationFork,proxy);
   slice_index const observation = alloc_pipe(STValidatingObservation);
+  slice_index const enforce = alloc_pipe(STEnforceObserverWalk);
   slice_index const observer = alloc_pipe(STValidatingObserver);
   slice_index const geometry = alloc_pipe(STValidatingObservationGeometry);
   pipe_link(proxy,observation);
-  pipe_link(observation,observer);
+  pipe_link(observation,enforce);
+  pipe_link(enforce,observer);
   pipe_link(observer,geometry);
   pipe_link(geometry,alloc_true_slice());
   stip_impose_starter(result,side);
@@ -346,9 +350,11 @@ static slice_index make_observer_validator(Side side)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STValidatingObserverFork,proxy);
   slice_index const observer = alloc_pipe(STValidatingObserver);
+  slice_index const enforce = alloc_pipe(STEnforceObserverWalk);
   slice_index const geometry = alloc_pipe(STValidatingObservationGeometry);
   pipe_link(proxy,observer);
-  pipe_link(observer,geometry);
+  pipe_link(observer,enforce);
+  pipe_link(enforce,geometry);
   pipe_link(geometry,alloc_true_slice());
   stip_impose_starter(result,side);
   return result;
@@ -358,9 +364,11 @@ static slice_index make_observation_geometry_validator(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STValidatingObservationGeometryFork,proxy);
+  slice_index const enforce = alloc_pipe(STEnforceObserverWalk);
   slice_index const testing = alloc_pipe(STValidatingObservationGeometry);
   pipe_link(proxy,testing);
-  pipe_link(testing,alloc_true_slice());
+  pipe_link(testing,enforce);
+  pipe_link(enforce,alloc_true_slice());
   stip_impose_starter(result,side);
   return result;
 }

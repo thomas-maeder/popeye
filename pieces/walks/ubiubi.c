@@ -1,5 +1,6 @@
 #include "pieces/walks/ubiubi.h"
 #include "solving/move_generator.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "pyproc.h"
 #include "pydata.h"
 
@@ -60,7 +61,6 @@ void ubiubi_generate_moves(void)
 }
 
 static boolean ubiubi_check_recursive(square intermediate_square,
-                                      PieNam p,
                                       ubiubi_traversal_state_type traversal_state,
                                       evalfunction_t *evaluate)
 {
@@ -76,13 +76,12 @@ static boolean ubiubi_check_recursive(square intermediate_square,
     {
       if (traversal_state[sq_departure]==ubiubi_empty)
       {
-        if (ubiubi_check_recursive(sq_departure,p,traversal_state,evaluate))
+        if (ubiubi_check_recursive(sq_departure,traversal_state,evaluate))
           return true;
       }
       else
       {
-        if (get_walk_of_piece_on_square(sq_departure)==p
-            && TSTFLAG(spec[sq_departure],trait[nbply])
+        if (TSTFLAG(spec[sq_departure],trait[nbply])
             && INVOKE_EVAL(evaluate,sq_departure,sq_target))
           return true;
       }
@@ -92,7 +91,7 @@ static boolean ubiubi_check_recursive(square intermediate_square,
   return false;
 }
 
-boolean ubiubi_check(PieNam p, evalfunction_t *evaluate)
+boolean ubiubi_check(evalfunction_t *evaluate)
 {
   ubiubi_traversal_state_type board_state;
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
@@ -101,5 +100,5 @@ boolean ubiubi_check(PieNam p, evalfunction_t *evaluate)
   for (bnp = boardnum; *bnp; ++bnp)
     board_state[*bnp] = is_square_empty(*bnp) ? ubiubi_empty : ubiubi_taboo;
 
-  return ubiubi_check_recursive(sq_target,p,board_state,evaluate);
+  return ubiubi_check_recursive(sq_target,board_state,evaluate);
 }

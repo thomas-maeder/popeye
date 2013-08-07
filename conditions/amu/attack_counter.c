@@ -1,5 +1,6 @@
 #include "conditions/amu/attack_counter.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -18,15 +19,20 @@ static boolean eval_amu_attack(void)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
 
-  /* this deals correctly with double attacks by the same piece (e.g. a rose) */
-  if (single_attacker_departure==sq_departure)
-    return false;
-  else
+  if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
   {
-    ++amu_attack_count;
-    single_attacker_departure = sq_departure;
-    return amu_attack_count==2;
+    /* this deals correctly with double attacks by the same piece (e.g. a rose) */
+    if (single_attacker_departure==sq_departure)
+      return false;
+    else
+    {
+      ++amu_attack_count;
+      single_attacker_departure = sq_departure;
+      return amu_attack_count==2;
+    }
   }
+  else
+    return false;
 }
 
 static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)

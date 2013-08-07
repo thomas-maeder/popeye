@@ -46,11 +46,13 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  pieces/walks/hunters.h position/position.h pieces/walks/friend.h \
  pyproc.h position/pieceid.h platform/maxtime.h \
  solving/move_effect_journal.h solving/battle_play/try.h \
- utilities/table.h solving/castling.h pieces/walks/pawns/en_passant.h \
- solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
- solving/post_move_iteration.h solving/king_capture_avoider.h \
- solving/observation.h conditions/bgl.h conditions/oscillating_kings.h \
- conditions/kobul.h conditions/anticirce/super.h conditions/circe/circe.h \
+ utilities/table.h solving/castling.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ pieces/walks/pawns/en_passant.h solving/moving_pawn_promotion.h \
+ pieces/walks/pawns/promotion.h solving/post_move_iteration.h \
+ solving/king_capture_avoider.h solving/observation.h conditions/bgl.h \
+ conditions/oscillating_kings.h conditions/kobul.h \
+ conditions/anticirce/super.h conditions/circe/circe.h \
  conditions/circe/chameleon.h conditions/circe/april.h \
  conditions/circe/rex_inclusive.h conditions/imitator.h \
  conditions/sentinelles.h conditions/mummer.h \
@@ -149,6 +151,8 @@ utilities/table.h:
 
 solving/castling.h:
 
+solving/find_square_observer_tracking_back_from_target.h:
+
 pieces/walks/pawns/en_passant.h:
 
 solving/moving_pawn_promotion.h:
@@ -219,10 +223,12 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h pieces/walks/pawns/en_passant.h pyproc.h \
- solving/observation.h stipulation/temporary_hacks.h \
- pieces/walks/pawns/pawn.h pieces/walks/roses.h \
- pieces/walks/angle/angles.h pieces/walks/angle/hoppers.h \
- pieces/walks/angle/angles.h pieces/walks/bouncy.h debugging/trace.h
+ solving/observation.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/temporary_hacks.h pieces/walks/pawns/pawn.h \
+ pieces/walks/roses.h pieces/walks/angle/angles.h \
+ pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
+ pieces/walks/bouncy.h debugging/trace.h
 
 py.h:
 
@@ -304,6 +310,8 @@ pyproc.h:
 
 solving/observation.h:
 
+solving/find_square_observer_tracking_back_from_target.h:
+
 stipulation/temporary_hacks.h:
 
 pieces/walks/pawns/pawn.h:
@@ -338,8 +346,10 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  conditions/vaulting_kings.h stipulation/stipulation.h \
  stipulation/temporary_hacks.h pieces/walks/pawns/en_passant.h \
- solving/observation.h solving/check.h conditions/annan.h \
- conditions/marscirce/plus.h debugging/trace.h debugging/measure.h
+ solving/observation.h solving/check.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ conditions/annan.h conditions/marscirce/plus.h debugging/trace.h \
+ debugging/measure.h
 
 py.h:
 
@@ -434,6 +444,8 @@ pieces/walks/pawns/en_passant.h:
 solving/observation.h:
 
 solving/check.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 conditions/annan.h:
 

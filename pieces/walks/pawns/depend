@@ -5,6 +5,7 @@ pieces/walks/pawns/pawn$(OBJ_SUFFIX): pieces/walks/pawns/pawn.c \
  pieces/walks/vectors.h utilities/enumeration.h pylang.h \
  position/position.h pydata.h pyproc.h pieces/walks/pawns/pawns.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
+ solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h
 
 pieces/walks/pawns/pawn.h:
@@ -46,6 +47,8 @@ solving/move_generator.h:
 solving/solve.h:
 
 stipulation/slice_type.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:
 pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \

@@ -448,7 +448,7 @@
     ENUMERATOR(STVaultingKingIsSquareObserved),                         \
     ENUMERATOR(STTransmutingKingIsSquareObserved),                      \
     ENUMERATOR(STReflectiveKingIsSquareObserved),                       \
-    ENUMERATOR(STAnnanIsSquareObserved),                                \
+    ENUMERATOR(STAnnanEnforceObserverWalk),                             \
     ENUMERATOR(STPhantomIsSquareObserved),                              \
     ENUMERATOR(STPlusIsSquareObserved),                                 \
     ENUMERATOR(STMarsIsSquareObserved),                                 \
@@ -457,6 +457,7 @@
     ENUMERATOR(STValidatingCheck),                                      \
     ENUMERATOR(STValidatingObservationFork),                            \
     ENUMERATOR(STValidatingObservation),                                \
+    ENUMERATOR(STEnforceObserverWalk),                                  \
     ENUMERATOR(STBrunnerValidateCheck),                                 \
     ENUMERATOR(STValidatingObservationUltraMummer),                     \
     ENUMERATOR(STValidatingObserverFork),                               \

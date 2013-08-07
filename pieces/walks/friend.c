@@ -2,6 +2,7 @@
 #include "pieces/walks/generate_moves.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
@@ -43,7 +44,8 @@ boolean find_next_friend_in_chain(square sq_target,
   boolean result = false;
 
   move_generation_stack[current_move[nbply]-1].capture = sq_target;
-  if ((*checkfunctions[friend_observer])(friend_observer,evaluate))
+  observing_walk[nbply] = friend_observer;
+  if ((*checkfunctions[friend_observer])(evaluate))
     result = true;
   else
   {
@@ -63,7 +65,8 @@ boolean find_next_friend_in_chain(square sq_target,
 
         isolate_observee(Friend,pos_remaining_friends,k);
         move_generation_stack[current_move[nbply]-1].capture = sq_target;
-        is_friend_observed = (*checkfunctions[friend_observer])(Friend,evaluate);
+        observing_walk[nbply] = Friend;
+        is_friend_observed = (*checkfunctions[friend_observer])(evaluate);
         restore_observees(Friend,pos_remaining_friends);
 
         if (is_friend_observed

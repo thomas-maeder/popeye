@@ -196,6 +196,10 @@ static void ProofInitialiseKingMoves(Side side)
   Cond const supertrans_king = side==White ? whsupertrans_king : blsupertrans_king;
   Cond const vault_king = side==White ? whvault_king : blvault_king;
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
   /* set all squares to a maximum */
   for (bnp = boardnum; *bnp; ++bnp)
     KingMoves[side][*bnp] = current_length;
@@ -279,11 +283,18 @@ static void ProofInitialiseKingMoves(Side side)
     }
     MoveNbr++;
   } while(GoOn);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void ProofInitialiseIntelligentSide(Side side)
 {
   square const square_base = side==White ? square_a1 : square_a8;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
 
   ProofNbrPieces[side] = 0;
 
@@ -352,6 +363,9 @@ void ProofInitialiseIntelligentSide(Side side)
     /* initialise king diff_move arrays */
     ProofInitialiseKingMoves(side);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void ProofInitialiseIntelligent(stip_length_type length)

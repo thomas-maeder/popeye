@@ -4,10 +4,12 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h solving/move_generator.h \
- stipulation/slice_type.h solving/observation.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- debugging/trace.h pydata.h pyproc.h
+ stipulation/slice_type.h solving/observation.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
+ pyproc.h
 
 conditions/marscirce/marscirce.h:
 
@@ -42,6 +44,8 @@ solving/move_generator.h:
 stipulation/slice_type.h:
 
 solving/observation.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/stipulation.h:
 

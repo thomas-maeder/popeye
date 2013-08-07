@@ -5,6 +5,7 @@
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
 
 #include <stdlib.h>
@@ -91,8 +92,9 @@ static boolean woozles_aux_wh(void)
     {
       siblingply(side_woozled);
       current_move[nbply] = current_move[nbply-1]+1;
-            move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
-      result = (*checkfunctions[p])(p,&woozles_aux_whx);
+      move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
+      observing_walk[nbply] = p;
+      result = (*checkfunctions[p])(&woozles_aux_whx);
       finply();
     }
   }
@@ -115,8 +117,9 @@ static boolean heffalumps_aux_wh(void)
     {
       siblingply(side_woozled);
       current_move[nbply] = current_move[nbply-1]+1;
-            move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
-      result = (*checkfunctions[p])(p,&heffalumps_aux_whx);
+      move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[current_move[nbply-1]-1].departure;
+      observing_walk[nbply] = p;
+      result = (*checkfunctions[p])(&heffalumps_aux_whx);
       finply();
     }
   }
@@ -149,12 +152,15 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
     move_generation_stack[current_move[nbply]-1].capture = sq_observer;
 
     for (; *pcheck; ++pcheck)
+    {
+      observing_walk[nbply] = *pcheck;
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(*pcheck,&woozles_aux_wh))
+          && (*checkfunctions[*pcheck])(&woozles_aux_wh))
       {
         result = true;
         break;
       }
+    }
 
     current_move[nbply-1] = save_current_move+1;
     finply();
@@ -191,12 +197,15 @@ static boolean heffalumps_is_paralysed(Side side_woozle, numecoup n)
         move_generation_stack[current_move[nbply]-1].capture = sq_observer;
 
     for (; *pcheck; ++pcheck)
+    {
+      observing_walk[nbply] = *pcheck;
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(*pcheck,&heffalumps_aux_wh))
+          && (*checkfunctions[*pcheck])(&heffalumps_aux_wh))
       {
         result = true;
         break;
       }
+    }
 
     current_move[nbply-1] = save_current_move+1;
     finply();

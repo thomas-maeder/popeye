@@ -3,6 +3,7 @@
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -83,6 +84,12 @@ static boolean guards_from(square white_king_square)
   return result;
 }
 
+static boolean uninterceptably_attacked_by(PieNam walk, PieNam attacker)
+{
+  observing_walk[nbply] = attacker;
+  return (*checkfunctions[walk])(eval_ortho);
+}
+
 static boolean uninterceptably_attacked(square s)
 {
   boolean result;
@@ -91,11 +98,11 @@ static boolean uninterceptably_attacked(square s)
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = s;
 
-  result = ((*checkfunctions[Pawn])(Pawn,eval_ortho)
-            || (*checkfunctions[Knight])(Knight,eval_ortho)
-            || (*checkfunctions[Fers])(Bishop,eval_ortho)
-            || (*checkfunctions[Wesir])(Rook,eval_ortho)
-            || (*checkfunctions[ErlKing])(Queen,eval_ortho));
+  result = (uninterceptably_attacked_by(Pawn,Pawn)
+            || uninterceptably_attacked_by(Knight,Knight)
+            || uninterceptably_attacked_by(Fers,Bishop)
+            || uninterceptably_attacked_by(Wesir,Rook)
+            || uninterceptably_attacked_by(ErlKing,Queen));
 
   finply();
 

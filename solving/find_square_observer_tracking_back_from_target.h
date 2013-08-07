@@ -4,6 +4,8 @@
 #include "utilities/boolean.h"
 #include "pyproc.h"
 
+extern PieNam observing_walk[maxply+1];
+
 boolean find_square_observer_tracking_back_from_target_king(slice_index si,
                                                             evalfunction_t *evaluate);
 

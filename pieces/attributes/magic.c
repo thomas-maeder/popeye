@@ -11,6 +11,7 @@
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -61,14 +62,15 @@ static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed
 void GetRoseAttackVectors(square from, square to)
 {
   vec_index_type vec_index_start;
+
+  observing_walk[nbply] = Rose;
+
   for (vec_index_start = vec_knight_start; vec_index_start<=vec_knight_end; vec_index_start++)
   {
-    if (detect_rosecheck_on_line(get_walk_of_piece_on_square(from),
-                                 vec_index_start,0,rose_rotation_clockwise,
+    if (detect_rosecheck_on_line(vec_index_start,0,rose_rotation_clockwise,
                                  eval_fromspecificsquare))
       PushMagicView(to, from, 200+vec[vec_index_start] );
-    if (detect_rosecheck_on_line(get_walk_of_piece_on_square(from),
-                                 vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
+    if (detect_rosecheck_on_line(vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                  eval_fromspecificsquare))
       PushMagicView(to, from, 300+vec[vec_index_start]);
   }
@@ -77,14 +79,15 @@ void GetRoseAttackVectors(square from, square to)
 void GetRoseLionAttackVectors(square from, square to)
 {
   vec_index_type vec_index_start;
+
+  observing_walk[nbply] = RoseLion;
+
   for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
-    if (detect_roselioncheck_on_line(get_walk_of_piece_on_square(from),
-                                     vec_index_start,0,rose_rotation_clockwise,
+    if (detect_roselioncheck_on_line(vec_index_start,0,rose_rotation_clockwise,
                                      eval_fromspecificsquare))
       PushMagicView(to, from, 200+vec[vec_index_start] );
-    if (detect_roselioncheck_on_line(get_walk_of_piece_on_square(from),
-                                     vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
+    if (detect_roselioncheck_on_line(vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
                                      eval_fromspecificsquare))
       PushMagicView(to, from, 300+vec[vec_index_start]);
   }
@@ -94,7 +97,9 @@ void GetRoseHopperAttackVectors(square from, square to)
 {
   vec_index_type vec_index_start;
 
-  for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
+  observing_walk[nbply] = RoseHopper;
+
+ for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
     square const sq_hurdle= to+vec[vec_index_start];
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
@@ -102,11 +107,11 @@ void GetRoseHopperAttackVectors(square from, square to)
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
          * sq_hurdle! */
-      if (detect_rosehoppercheck_on_line(sq_hurdle,get_walk_of_piece_on_square(from),
+      if (detect_rosehoppercheck_on_line(sq_hurdle,
                                          vec_index_start,1,rose_rotation_clockwise,
                                          eval_fromspecificsquare))
         PushMagicView(to, from, 200+vec[vec_index_start] );
-      if (detect_rosehoppercheck_on_line(sq_hurdle,get_walk_of_piece_on_square(from),
+      if (detect_rosehoppercheck_on_line(sq_hurdle,
                                          vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          eval_fromspecificsquare))
         PushMagicView(to, from, 300+vec[vec_index_start]);
@@ -119,6 +124,8 @@ void GetRoseLocustAttackVectors(square from, square to)
   /* detects check by a rose locust */
   vec_index_type  vec_index_start;
 
+  observing_walk[nbply] = RoseLocust;
+
   for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
     square const sq_arrival= to-vec[vec_index_start];
@@ -127,11 +134,11 @@ void GetRoseLocustAttackVectors(square from, square to)
         /* k1==0 (and the equivalent
          * vec_knight_end-vec_knight_start+1) were already used for
          * sq_hurdle! */
-      if (detect_roselocustcheck_on_line(sq_arrival,get_walk_of_piece_on_square(from),
+      if (detect_roselocustcheck_on_line(sq_arrival,
                                          vec_index_start,1,rose_rotation_clockwise,
                                          eval_fromspecificsquare))
         PushMagicView(to, from, 200+vec[vec_index_start] );
-      if (detect_roselocustcheck_on_line(sq_arrival,get_walk_of_piece_on_square(from),
+      if (detect_roselocustcheck_on_line(sq_arrival,
                                          vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
                                          eval_fromspecificsquare))
         PushMagicView(to, from, 300+vec[vec_index_start]);
@@ -175,54 +182,66 @@ static void GetRMHopAttackVectors(square from, square to,
 
 void GetMooseAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = Elk;
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
 }
 
 void GetRookMooseAttackVectors(square from, square to) {
+  observing_walk[nbply] = RookMoose;
   GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_45);
 }
 
 void GetBishopMooseAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = BishopMoose;
   GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_45);
 }
 
 void GetEagleAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = Eagle;
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
 }
 
 void GetRookEagleAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = RookEagle;
   GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_90);
 }
 
 void GetBishopEagleAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = BishopEagle;
   GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_90);
 }
 
 void GetSparrowAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = Sparrow;
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
 }
 
 void GetRookSparrowAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = RookSparrow;
   GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_135);
 }
 
 void GetBishopSparrowAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = BishopSparrow;
   GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_135);
 }
 
 void GetMargueriteAttackVectors(square from, square to)
 {
+  observing_walk[nbply] = Marguerite;
+
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
-  if (scheck(get_walk_of_piece_on_square(from), eval_fromspecificsquare))
+
+  if (scheck(eval_fromspecificsquare))
   {
     numvec attackVec;
     if (to < from)
@@ -282,6 +301,7 @@ void GetBoyscoutAttackVectors(square from, square to)
   vec_index_type const top = vec_bishop_start+vec_bishop_end;
   vec_index_type k;
 
+  observing_walk[nbply] = BoyScout;
   for (k = vec_bishop_start; k<=vec_bishop_end; k++)
     GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
 }
@@ -291,6 +311,7 @@ void GetGirlscoutAttackVectors(square from, square to)
   vec_index_type const top = vec_rook_start+vec_rook_end;
   vec_index_type k;
 
+  observing_walk[nbply] = GirlScout;
   for (k = vec_rook_start; k<=vec_rook_end; k++)
     GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
 }
@@ -300,6 +321,7 @@ void GetSpiralSpringerAttackVectors(square from, square to)
   vec_index_type const top = vec_knight_start+vec_knight_end;
   vec_index_type k;
 
+  observing_walk[nbply] = SpiralSpringer;
   for (k = vec_knight_start; k<=vec_knight_end; k++)
     GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
 }
@@ -307,6 +329,7 @@ void GetSpiralSpringerAttackVectors(square from, square to)
 void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
   vec_index_type k;
 
+  observing_walk[nbply] = DiagonalSpiralSpringer;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
   {
     GetZigZagAttackVectors(from, to, vec[k],vec[k+1]);
@@ -508,7 +531,8 @@ static void PushMagicViewsByOnePiece(square pos_magic)
       else
       {
        /* piece is not cross-eyed - use regular check function */
-        if ((*checkfunctions[pi_magic])(pi_magic,eval_fromspecificsquare))
+        observing_walk[nbply] = pi_magic;
+        if ((*checkfunctions[pi_magic])(eval_fromspecificsquare))
         {
           numvec vec_viewed_to_magic;
           if (*pos_viewed<pos_magic)

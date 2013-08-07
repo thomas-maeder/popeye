@@ -63,8 +63,9 @@ conditions/amu/attack_counter$(OBJ_SUFFIX): conditions/amu/attack_counter.c \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h solving/observation.h stipulation/slice_type.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/move.h debugging/trace.h pydata.h pyproc.h
@@ -100,6 +101,8 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/pipe.h:
 

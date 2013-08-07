@@ -165,12 +165,11 @@ square en_passant_find_capturee(void)
 static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
                                                         numvec dir_capture,
                                                         en_passant_check_tester_type tester,
-                                                        PieNam p,
                                                         evalfunction_t *evaluate)
 {
   square const sq_departure = sq_crossed-dir_capture;
-  return (get_walk_of_piece_on_square(sq_departure)!=Orphan
-          && (*tester)(sq_departure,sq_crossed,p,evaluate));
+  return ((get_walk_of_piece_on_square(sq_departure)!=Orphan
+          && (*tester)(sq_departure,sq_crossed,evaluate)));
 }
 
 /* Determine whether side trait[nbply] gives check by p. capture
@@ -181,14 +180,12 @@ static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
  */
 boolean en_passant_test_check(numvec dir_capture,
                               en_passant_check_tester_type tester,
-                              PieNam p,
                               evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (sq_target==en_passant_find_capturee())
@@ -196,13 +193,13 @@ boolean en_passant_test_check(numvec dir_capture,
     square const sq_crossed0 = en_passant_multistep_over[0][parent_ply[nbply]];
     if (sq_crossed0!=initsquare)
     {
-      if (en_passant_test_check_one_square_crossed(sq_crossed0,dir_capture,tester,p,evaluate))
+      if (en_passant_test_check_one_square_crossed(sq_crossed0,dir_capture,tester,evaluate))
         result = true;
       else
       {
         square const sq_crossed1 = en_passant_multistep_over[1][parent_ply[nbply]];
         if (sq_crossed1!=initsquare
-            && en_passant_test_check_one_square_crossed(sq_crossed1,dir_capture,tester,p,evaluate))
+            && en_passant_test_check_one_square_crossed(sq_crossed1,dir_capture,tester,evaluate))
           result = true;
       }
     }

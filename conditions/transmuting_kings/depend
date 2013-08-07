@@ -8,8 +8,10 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h solving/move_generator.h solving/solve.h \
- solving/observation.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/branch.h debugging/trace.h pydata.h pyproc.h
+ solving/observation.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
+ debugging/trace.h pydata.h pyproc.h
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -59,6 +61,8 @@ solving/solve.h:
 
 solving/observation.h:
 
+solving/find_square_observer_tracking_back_from_target.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -82,8 +86,9 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  stipulation/goals/goals.h output/mode.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h solving/observation.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/move_generator.h stipulation/pipe.h \
- stipulation/branch.h stipulation/has_solution_type.h \
+ position/pieceid.h solving/move_generator.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/has_solution_type.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  debugging/trace.h pydata.h pyproc.h
 
@@ -143,6 +148,8 @@ position/pieceid.h:
 
 solving/move_generator.h:
 
+solving/find_square_observer_tracking_back_from_target.h:
+
 stipulation/pipe.h:
 
 stipulation/branch.h:
@@ -170,6 +177,7 @@ conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \
  stipulation/goals/goals.h \
  conditions/transmuting_kings/transmuting_kings.h \
  solving/move_generator.h solving/solve.h solving/observation.h \
+ solving/find_square_observer_tracking_back_from_target.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
  debugging/trace.h pydata.h pyproc.h
 
@@ -222,6 +230,8 @@ solving/move_generator.h:
 solving/solve.h:
 
 solving/observation.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/proxy.h:
 
