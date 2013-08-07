@@ -203,6 +203,7 @@
     ENUMERATOR(STJiggerLegalityTester),                                 \
     ENUMERATOR(STTakeAndMakeGenerateMake),                              \
     ENUMERATOR(STTakeAndMakeAvoidPawnMakeToBaseLine),                   \
+    ENUMERATOR(STWormholeRemoveIllegalCaptures),                        \
     ENUMERATOR(STWormholeTransferer),                                   \
     ENUMERATOR(STWormholeTransferedPromoter),                           \
     ENUMERATOR(STHashOpener),                                           \

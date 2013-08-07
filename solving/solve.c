@@ -1560,6 +1560,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = take_and_make_avoid_pawn_make_to_base_line_solve(si,n);
       break;
 
+    case STWormholeRemoveIllegalCaptures:
+      result = wormhole_remove_illegal_captures_solve(si,n);
+      break;
+
     case STWormholeTransferer:
       result = wormhole_transferer_solve(si,n);
       break;
