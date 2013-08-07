@@ -38,7 +38,6 @@ void restore_observees(PieNam walk, square const pos_observees[])
 
 boolean find_next_friend_in_chain(square sq_target,
                                   PieNam friend_observer,
-                                  PieNam friend_type,
                                   evalfunction_t *evaluate)
 {
   boolean result = false;
@@ -50,7 +49,7 @@ boolean find_next_friend_in_chain(square sq_target,
   {
     --number_of_pieces[trait[nbply]][Friend];
 
-    if (number_of_pieces[trait[nbply]][friend_type]>0)
+    if (number_of_pieces[trait[nbply]][Friend]>0)
     {
       unsigned int k;
       square pos_remaining_friends[63];
@@ -58,7 +57,7 @@ boolean find_next_friend_in_chain(square sq_target,
       occupy_square(sq_target,Dummy,spec[sq_target]);
       locate_observees(Friend,pos_remaining_friends);
 
-      for (k = 0; k<number_of_pieces[trait[nbply]][friend_type]; k++)
+      for (k = 0; k<number_of_pieces[trait[nbply]][Friend]; k++)
       {
         boolean is_friend_observed;
 
@@ -68,7 +67,7 @@ boolean find_next_friend_in_chain(square sq_target,
         restore_observees(Friend,pos_remaining_friends);
 
         if (is_friend_observed
-            && find_next_friend_in_chain(pos_remaining_friends[k],friend_observer,friend_type,evaluate))
+            && find_next_friend_in_chain(pos_remaining_friends[k],friend_observer,evaluate))
         {
           result = true;
           break;
@@ -101,7 +100,6 @@ void friend_generate_moves(void)
       current_move[nbply] = current_move[nbply-1]+1;
             found_chain = find_next_friend_in_chain(curr_generation->departure,
                                                     *friend_observer,
-                                                    Friend,
                                                     &validate_observation);
       finply();
 

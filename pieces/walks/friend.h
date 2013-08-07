@@ -13,8 +13,7 @@ void isolate_observee(PieNam walk, square const pos_observees[], unsigned int is
 void restore_observees(PieNam walk, square const pos_observees[]);
 
 boolean find_next_friend_in_chain(square sq_target,
-                                  PieNam pfr,
-                                  PieNam p,
+                                  PieNam friend_observer,
                                   evalfunction_t *evaluate);
 
 /* Generate moves for a Friend

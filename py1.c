@@ -873,7 +873,7 @@ boolean friendcheck(PieNam p, evalfunction_t *evaluate)
         restore_observees(Friend,pos_friends);
 
         if (does_friend_observe
-            && find_next_friend_in_chain(pos_friends[k],*pfr,p,evaluate))
+            && find_next_friend_in_chain(pos_friends[k],*pfr,evaluate))
         {
           result = true;
           break;
