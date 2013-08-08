@@ -7,11 +7,9 @@
 
 #include <assert.h>
 
-void pawns_generate_ep_capture_move(square sq_arrival,
-                                    square sq_arrival_singlestep)
+void pawns_generate_ep_capture_move(square sq_arrival_singlestep)
 {
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
   TraceSquare(sq_arrival_singlestep);
   TraceFunctionParamListEnd();
 
@@ -22,7 +20,6 @@ void pawns_generate_ep_capture_move(square sq_arrival,
     if (sq_capture!=initsquare)
     {
       curr_generation->auxiliary.sq_en_passant = sq_arrival_singlestep;
-      curr_generation->arrival = sq_arrival;
       push_move_capture_extra(sq_capture);
       curr_generation->auxiliary.sq_en_passant = initsquare;
     }
@@ -45,7 +42,7 @@ void pawns_generate_capture_move(numvec dir)
   if (piece_belongs_to_opponent(curr_generation->arrival))
     push_move();
   else
-    pawns_generate_ep_capture_move(curr_generation->arrival,curr_generation->arrival);
+    pawns_generate_ep_capture_move(curr_generation->arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

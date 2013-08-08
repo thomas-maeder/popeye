@@ -98,7 +98,7 @@ static void marine_pawn_generate_capture(int dir)
     if (piece_belongs_to_opponent(sq_capture))
       push_move_capture_extra(sq_capture);
     else
-      pawns_generate_ep_capture_move(curr_generation->arrival,sq_capture);
+      pawns_generate_ep_capture_move(sq_capture);
   }
 
   TraceFunctionExit(__func__);
