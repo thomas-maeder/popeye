@@ -122,18 +122,19 @@ void marscirce_generate_moves_for_piece(slice_index si, PieNam p)
   TraceFunctionResultEnd();
 }
 
-static square current_rebirth_square;
-static evalfunction_t *next_evaluate;
+static square current_rebirth_square[maxply+1];
 
-static boolean is_observed_from_rebirth_square(void)
+boolean mars_enforce_observer(slice_index si)
 {
   square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observer = current_rebirth_square[nbply];
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = sq_departure==current_rebirth_square && (*next_evaluate)();
+  result = ((sq_observer== initsquare || sq_observer==sq_departure)
+            && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -155,19 +156,26 @@ boolean mars_is_square_observed_by(square pos_observer,
 
   if (is_square_empty(sq_rebirth) || sq_rebirth==pos_observer)
   {
+    square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
     PieNam const pi_checking = get_walk_of_piece_on_square(pos_observer);
-    Flags const spec_checking = spec[pos_observer];
+    if (pi_checking<Queen || pi_checking>Bishop
+        || CheckDir[pi_checking][sq_target-sq_rebirth]!=0)
+    {
+      Flags const spec_checking = spec[pos_observer];
 
-    empty_square(pos_observer);
-    occupy_square(sq_rebirth,pi_checking,spec_checking);
+      empty_square(pos_observer);
+      occupy_square(sq_rebirth,pi_checking,spec_checking);
 
-    current_rebirth_square = sq_rebirth;
-    next_evaluate = evaluate;
-    observing_walk[nbply] = pi_checking;
-    result = (*checkfunctions[pi_checking])(&is_observed_from_rebirth_square);
+      current_rebirth_square[nbply] = sq_rebirth;
 
-    empty_square(sq_rebirth);
-    occupy_square(pos_observer,pi_checking,spec_checking);
+      observing_walk[nbply] = pi_checking;
+      result = (*checkfunctions[pi_checking])(evaluate);
+
+      current_rebirth_square[nbply] = initsquare;
+
+      empty_square(sq_rebirth);
+      occupy_square(pos_observer,pi_checking,spec_checking);
+    }
   }
 
   return result;
@@ -226,6 +234,8 @@ void solving_initialise_marscirce(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
   stip_instrument_is_square_observed_testing(si,nr_sides,STMarsIsSquareObserved);
+  stip_instrument_observation_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
+  stip_instrument_observer_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

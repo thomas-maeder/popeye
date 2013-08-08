@@ -30,6 +30,12 @@ void marscirce_generate_captures(slice_index si,
  */
 void marscirce_generate_moves_for_piece(slice_index si, PieNam p);
 
+/* Validate an observation or observer by making sure it's the one that has just
+ * been reborn
+ * @param si identifies the validator slice
+ */
+boolean mars_enforce_observer(slice_index si);
+
 /* Determine whether a specific piece delivers check to a specific side from a
  * specific rebirth square
  * @param pos_checking potentially delivering check ...

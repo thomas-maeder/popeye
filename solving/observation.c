@@ -88,6 +88,10 @@ boolean validate_observation_recursive(slice_index si)
       result = annan_enforce_observer_walk(si);
       break;
 
+    case STMarsCirceMovesForPieceGenerator:
+      result = mars_enforce_observer(si);
+      break;
+
     case STBackhomeExistanceTester:
       result = backhome_existance_tester_validate_observation(si);
       break;
@@ -295,6 +299,7 @@ static slice_index const observation_validation_slice_rank_order[] =
 {
     STValidatingCheck,
     STValidatingObservation,
+    STMarsCirceMovesForPieceGenerator,
     STEnforceObserverWalk,
     STEnforceObserverSide,
     STAnnanEnforceObserverWalk,
@@ -321,6 +326,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STWormholeRemoveIllegalCaptures,
 
     STValidatingObserver,
+    STMarsCirceMovesForPieceGenerator,
     STEnforceObserverWalk,
     STEnforceObserverSide,
     STMadrasiMovesForPieceGenerator,
