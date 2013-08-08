@@ -856,7 +856,6 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STTestingIfSquareIsObserved,
     STIsSquareObservedOrtho,
     STSingleBoxType3IsSquareObserved,
-    STAnnanEnforceObserverWalk,
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
     STMarsIsSquareObserved,
