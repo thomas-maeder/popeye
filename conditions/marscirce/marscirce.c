@@ -233,7 +233,10 @@ void solving_initialise_marscirce(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
+
   stip_instrument_is_square_observed_testing(si,nr_sides,STMarsIsSquareObserved);
+
+  stip_instrument_check_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
   stip_instrument_observation_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
   stip_instrument_observer_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
 
