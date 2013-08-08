@@ -81,4 +81,20 @@ pieces white magic btd4g1 black pg7
 stip ~1
 option nowk nobk
 
+next
+
+title and another one (2 views -> no recoloring, 3 views -> recoloring)
+pieces white magic pd7 black se8 pb3e2
+stip ~1
+condition promonly ro
+option nowk nobk
+
+next
+
+title and another one (2 views -> no recoloring, 1 view -> recoloring)
+pieces white magic pc7d7 black sg8 pf6g7
+stip ~1
+condition promonly ea
+option nowk nobk
+
 end
