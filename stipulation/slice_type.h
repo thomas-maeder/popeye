@@ -360,6 +360,7 @@
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \
     ENUMERATOR(STMagicPiecesRecolorer),                                 \
+    ENUMERATOR(STMagicPiecesObserverEnforcer),                          \
     ENUMERATOR(STSingleboxType2LatentPawnSelector),                     \
     ENUMERATOR(STSingleboxType2LatentPawnPromoter),                     \
     ENUMERATOR(STDuellistsRememberDuellist),                            \

@@ -92,6 +92,10 @@ boolean validate_observation_recursive(slice_index si)
       result = mars_enforce_observer(si);
       break;
 
+    case STMagicPiecesObserverEnforcer:
+      result = magic_enforce_observer(si);
+      break;
+
     case STBackhomeExistanceTester:
       result = backhome_existance_tester_validate_observation(si);
       break;
@@ -300,6 +304,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STValidatingCheck,
     STValidatingObservation,
     STMarsCirceMovesForPieceGenerator,
+    STMagicPiecesObserverEnforcer,
     STEnforceObserverWalk,
     STEnforceObserverSide,
     STAnnanEnforceObserverWalk,

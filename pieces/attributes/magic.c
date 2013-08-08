@@ -68,10 +68,10 @@ void GetRoseAttackVectors(square from, square to)
   for (vec_index_start = vec_knight_start; vec_index_start<=vec_knight_end; vec_index_start++)
   {
     if (detect_rosecheck_on_line(vec_index_start,0,rose_rotation_clockwise,
-                                 eval_fromspecificsquare))
+                                 &validate_observation))
       PushMagicView(to, from, 200+vec[vec_index_start] );
     if (detect_rosecheck_on_line(vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
-                                 eval_fromspecificsquare))
+                                 &validate_observation))
       PushMagicView(to, from, 300+vec[vec_index_start]);
   }
 }
@@ -85,10 +85,10 @@ void GetRoseLionAttackVectors(square from, square to)
   for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
   {
     if (detect_roselioncheck_on_line(vec_index_start,0,rose_rotation_clockwise,
-                                     eval_fromspecificsquare))
+                                     &validate_observation))
       PushMagicView(to, from, 200+vec[vec_index_start] );
     if (detect_roselioncheck_on_line(vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
-                                     eval_fromspecificsquare))
+                                     &validate_observation))
       PushMagicView(to, from, 300+vec[vec_index_start]);
   }
 }
@@ -109,11 +109,11 @@ void GetRoseHopperAttackVectors(square from, square to)
          * sq_hurdle! */
       if (detect_rosehoppercheck_on_line(sq_hurdle,
                                          vec_index_start,1,rose_rotation_clockwise,
-                                         eval_fromspecificsquare))
+                                         &validate_observation))
         PushMagicView(to, from, 200+vec[vec_index_start] );
       if (detect_rosehoppercheck_on_line(sq_hurdle,
                                          vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
-                                         eval_fromspecificsquare))
+                                         &validate_observation))
         PushMagicView(to, from, 300+vec[vec_index_start]);
     }
   }
@@ -136,11 +136,11 @@ void GetRoseLocustAttackVectors(square from, square to)
          * sq_hurdle! */
       if (detect_roselocustcheck_on_line(sq_arrival,
                                          vec_index_start,1,rose_rotation_clockwise,
-                                         eval_fromspecificsquare))
+                                         &validate_observation))
         PushMagicView(to, from, 200+vec[vec_index_start] );
       if (detect_roselocustcheck_on_line(sq_arrival,
                                          vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
-                                         eval_fromspecificsquare))
+                                         &validate_observation))
         PushMagicView(to, from, 300+vec[vec_index_start]);
     }
   }
@@ -161,13 +161,13 @@ static void GetRMHopAttackVectors(square from, square to,
 
       {
         square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1]);
-        if (INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
+        if (INVOKE_EVAL(&validate_observation,sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
 
       {
         square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1-1]);
-        if (INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
+        if (INVOKE_EVAL(&validate_observation,sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
     }
@@ -235,7 +235,7 @@ void GetMargueriteAttackVectors(square from, square to)
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
   GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
 
-  if (scheck(eval_fromspecificsquare))
+  if (scheck(&validate_observation))
   {
     numvec attackVec;
     if (to < from)
@@ -501,6 +501,26 @@ boolean magic_is_piece_supported(PieNam p)
   return crosseyed_views_functions[p]!=&unsupported_uncalled_crosseyed_function;
 }
 
+static square current_magic_pos[maxply+1];
+
+boolean magic_enforce_observer(slice_index si)
+{
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observer = current_magic_pos[nbply];
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = ((sq_observer==initsquare || sq_observer==sq_departure)
+            && validate_observation_recursive(slices[si].next1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void PushMagicViewsByOnePiece(square pos_magic)
 {
   PieNam const pi_magic = get_walk_of_piece_on_square(pos_magic);
@@ -515,18 +535,18 @@ static void PushMagicViewsByOnePiece(square pos_magic)
         && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal))
         && !is_piece_neutral(spec[*pos_viewed]))
     {
-      square const save_fromspecificsquare = fromspecificsquare;
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
-      fromspecificsquare = pos_magic;
+      current_magic_pos[nbply] = pos_magic;
       move_generation_stack[current_move[nbply]-1].capture = *pos_viewed;
       if (crosseyed_views_functions[pi_magic]!=0)
         (*crosseyed_views_functions[pi_magic])(pos_magic,*pos_viewed);
-      else
+      else if (pi_magic<Queen || pi_magic>Bishop
+               || CheckDir[pi_magic][*pos_viewed-pos_magic]!=0)
       {
        /* piece is not cross-eyed - use regular check function */
         observing_walk[nbply] = pi_magic;
-        if ((*checkfunctions[pi_magic])(eval_fromspecificsquare))
+        if ((*checkfunctions[pi_magic])(&validate_observation))
         {
           numvec vec_viewed_to_magic;
           if (*pos_viewed<pos_magic)
@@ -537,7 +557,6 @@ static void PushMagicViewsByOnePiece(square pos_magic)
             PushMagicView(*pos_viewed,pos_magic,vec_viewed_to_magic);
         }
       }
-      fromspecificsquare = save_fromspecificsquare;
     }
 
   TraceFunctionExit(__func__);
@@ -733,6 +752,8 @@ void stip_insert_magic_pieces_recolorers(slice_index si)
     slice_index const prototype = alloc_pipe(STMagicViewsInitialiser);
     branch_insert_slices(si,&prototype,1);
   }
+
+  stip_instrument_observation_validation(si,nr_sides,STMagicPiecesObserverEnforcer);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
