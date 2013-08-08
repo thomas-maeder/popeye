@@ -308,6 +308,7 @@
     ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STBGLAdjuster),                                          \
     ENUMERATOR(STMasandRecolorer),                                      \
+    ENUMERATOR(STMasandEnforceObserver),                                \
     ENUMERATOR(STMessignyMovePlayer),                                   \
     ENUMERATOR(STActuatedRevolvingCentre),                              \
     ENUMERATOR(STActuatedRevolvingBoard),                               \

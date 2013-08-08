@@ -8,6 +8,11 @@
  */
 void stip_insert_masand(slice_index si);
 
+/* Validate an observation or observer by making sure it's the checking piece
+ * @param si identifies the validator slice
+ */
+boolean masand_enforce_observer(slice_index si);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

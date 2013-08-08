@@ -21,15 +21,38 @@ void stip_insert_masand(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STMasandRecolorer);
+  stip_instrument_observation_validation(si,nr_sides,STMasandEnforceObserver);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
+static square current_observer_pos[maxply+1];
+
+/* Validate an observation or observer by making sure it's the checking piece
+ * @param si identifies the validator slice
+ */
+boolean masand_enforce_observer(slice_index si)
+{
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observer = current_observer_pos[nbply];
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = ((sq_observer== initsquare || sq_observer==sq_departure)
+            && validate_observation_recursive(slices[si].next1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static boolean observed(square on_this, square by_that)
 {
   boolean result;
-  square const save_fromspecificsquare = fromspecificsquare;
 
   TraceFunctionEntry(__func__);
   TraceSquare(on_this);
@@ -39,9 +62,8 @@ static boolean observed(square on_this, square by_that)
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = on_this;
-  fromspecificsquare = by_that;
-  result = is_square_observed(&eval_fromspecificsquare);
-  fromspecificsquare = save_fromspecificsquare;
+  current_observer_pos[nbply] = by_that;
+  result = is_square_observed(&validate_observation);
   finply();
 
   TraceFunctionExit(__func__);
