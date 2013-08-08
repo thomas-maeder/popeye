@@ -152,28 +152,22 @@ static void GetRMHopAttackVectors(square from, square to,
 {
   vec_index_type k;
 
-  for (k= kend; k>=kanf; k--)
+  for (k = kend; k>=kanf; k--)
   {
     square const sq_hurdle = to+vec[k];
-    if (get_walk_of_piece_on_square(sq_hurdle)>=King)
+    if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
     {
       vec_index_type const k1 = 2*k;
 
       {
         square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1]);
-        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
-        if (hopper==get_walk_of_piece_on_square(from)
-            && TSTFLAG(spec[sq_departure],trait[nbply])
-            && INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
+        if (INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
 
       {
         square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1-1]);
-        PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
-        if (hopper==get_walk_of_piece_on_square(from)
-            && TSTFLAG(spec[sq_departure],trait[nbply])
-            && INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
+        if (INVOKE_EVAL(eval_fromspecificsquare,sq_departure,to))
           PushMagicView(to,from,vec[k]);
       }
     }

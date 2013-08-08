@@ -828,3 +828,79 @@ an example for cross-eyed magic pieces
 solution finished. 
 
 
+
+and another one (2 views -> no recoloring, 3 views -> recoloring)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -S   .   .   .   8
+|                                   |
+7   .   .   .   P   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -P   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 3
+               Magic d7
+             PromOnly RO
+
+   1.mPd7-d8=mRO[b3=w] !
+
+   1.mPd7*e8=mRO !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+and another one (2 views -> no recoloring, 1 view -> recoloring)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -S   .   8
+|                                   |
+7   .   .   P   P   .   .  -P   .   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 3
+             Magic c7 d7
+             PromOnly EA
+
+   1.mPc7-c8=mEA[g7=w] !
+
+   1.mPd7-d8=mEA !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
