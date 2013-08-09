@@ -380,4 +380,11 @@ condition circe rexi wormholes e6e8
 stip ~1
 option nowk
 
+next
+
+title leaf hopper checks have never been detected correctly
+pieces white gfe7 sf7 black kc5
+stip +1
+option nowk
+
 end

@@ -477,35 +477,6 @@ boolean leapcheck(vec_index_type kanf, vec_index_type kend,
   return false;
 }
 
-boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
-                      int hurdletype,
-                      boolean leaf,
-                      evalfunction_t *evaluate)
-{
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
-  /* detect "check" of leaper p */
-  vec_index_type  k;
-
-  for (k= kanf; k<= kend; k++)
-  {
-    square const sq_hurdle= sq_target + vec[k];
-    if ((hurdletype==0 && get_walk_of_piece_on_square(sq_hurdle)>Invalid && TSTFLAG(spec[sq_hurdle],advers(trait[nbply])))
-        || (hurdletype ==1 && get_walk_of_piece_on_square(sq_hurdle)>Invalid))
-    {
-      vec_index_type k1;
-      for (k1= kanf; k1<= kend; k1++)
-      {
-        square const sq_departure = sq_hurdle + vec[k1];
-        if (sq_departure!=sq_target
-            && INVOKE_EVAL(evaluate,sq_departure,sq_target))
-          return true;
-      }
-    }
-  }
-
-  return false;
-}
-
 boolean ridcheck(vec_index_type kanf, vec_index_type kend,
                  evalfunction_t *evaluate)
 {

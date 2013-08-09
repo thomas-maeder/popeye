@@ -3,32 +3,23 @@
 
 /* This module implements radial pieces */
 
-#include "position/board.h"
-#include "position/position.h"
-#include "pieces/walks/vectors.h"
-
 /* Generate moves for a radial knight
- * @param sq_departure common departure square of the generated moves
  */
 void radialknight_generate_moves(void);
 
-/* Generate moves for a radial knight
- * @param sq_departure common departure square of the generated moves
+/* Generate moves for a (lesser) tree hopper
  */
 void treehopper_generate_moves(void);
 
-/* Generate moves for a radial knight
- * @param sq_departure common departure square of the generated moves
+/* Generate moves for a greater tree hopper
  */
 void greater_treehopper_generate_moves(void);
 
-/* Generate moves for a radial knight
- * @param sq_departure common departure square of the generated moves
+/* Generate moves for a (lesser) leaf hopper
  */
 void leafhopper_generate_moves(void);
 
-/* Generate moves for a radial knight
- * @param sq_departure common departure square of the generated moves
+/* Generate moves for a greater leaf hopper
  */
 void greater_leafhopper_generate_moves(void);
 

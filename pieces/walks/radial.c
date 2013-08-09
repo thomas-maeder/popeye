@@ -4,124 +4,340 @@
 #include "pydata.h"
 #include "pyproc.h"
 
-static void genleapleap(vec_index_type kanf, vec_index_type kend,
-                        int hurdletype, boolean leaf)
+struct
 {
-  vec_index_type k;
+    vec_index_type start;
+    vec_index_type end;
+} const queen_radial_ranges[] =
+{
+    { vec_rook_start,    vec_rook_end },
+    { vec_dabbaba_start, vec_dabbaba_end },
+    { vec_leap03_start,  vec_leap03_end },
+    { vec_leap04_start,  vec_leap04_end },
+    { vec_leap05_start,  vec_leap05_end },
+    { vec_leap06_start,  vec_leap06_end },
+    { vec_leap07_start,  vec_leap07_end },
+    { vec_bishop_start,  vec_bishop_end },
+    { vec_alfil_start,   vec_alfil_end },
+    { vec_leap33_start,  vec_leap33_end },
+    { vec_leap44_start,  vec_leap44_end },
+    { vec_leap55_start,  vec_leap55_end },
+    { vec_leap66_start,  vec_leap66_end },
+    { vec_leap77_start,  vec_leap77_end }
+};
 
-  for (k= kanf; k<=kend; ++k)
+enum
+{
+  nr_queen_radial_ranges = sizeof queen_radial_ranges / sizeof queen_radial_ranges[0]
+};
+
+struct
+{
+    vec_index_type start;
+    vec_index_type end;
+} const radial_ranges[] =
+{
+    { vec_rook_start,      vec_rook_end },
+    { vec_dabbaba_start,   vec_dabbaba_end },
+    { vec_leap03_start,    vec_leap03_end },
+    { vec_leap04_start,    vec_leap04_end },
+    { vec_bucephale_start, vec_bucephale_end },
+    { vec_leap06_start,    vec_leap06_end },
+    { vec_leap07_start,    vec_leap07_end },
+    { vec_bishop_start,    vec_bishop_end },
+    { vec_knight_start,    vec_knight_end },
+    { vec_chameau_start,   vec_chameau_end },
+    { vec_girafe_start,    vec_girafe_end },
+    { vec_leap15_start,    vec_leap15_end },
+    { vec_leap16_start,    vec_leap16_end },
+    { vec_rccinq_start,    vec_rccinq_end },
+    { vec_alfil_start,     vec_alfil_end },
+    { vec_zebre_start,     vec_zebre_end },
+    { vec_leap24_start,    vec_leap24_end },
+    { vec_leap25_start,    vec_leap25_end },
+    { vec_leap26_start,    vec_leap26_end },
+    { vec_leap27_start,    vec_leap27_end },
+    { vec_leap33_start,    vec_leap33_end },
+    { vec_leap35_start,    vec_leap35_end },
+    { vec_leap36_start,    vec_leap36_end },
+    { vec_leap37_start,    vec_leap37_end },
+    { vec_leap44_start,    vec_leap44_end },
+    { vec_leap45_start,    vec_leap45_end },
+    { vec_leap46_start,    vec_leap46_end },
+    { vec_leap47_start,    vec_leap47_end },
+    { vec_leap56_start,    vec_leap56_end },
+    { vec_leap57_start,    vec_leap57_end },
+    { vec_leap66_start,    vec_leap66_end },
+    { vec_leap67_start,    vec_leap67_end },
+    { vec_leap77_start,    vec_leap77_end }
+};
+
+enum
+{
+  nr_radial_ranges = sizeof radial_ranges / sizeof radial_ranges[0]
+};
+
+static void generate(square sq_arrival)
+{
+  curr_generation->arrival = sq_arrival;
+  if (is_square_empty(curr_generation->arrival)
+      || piece_belongs_to_opponent(curr_generation->arrival))
+    push_move();
+}
+
+static void radialknight_generate(vec_index_type kanf, vec_index_type kend)
+{
+  vec_index_type idx_to_hurdle;
+
+  for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; ++idx_to_hurdle)
   {
-    square const sq_hurdle = curr_generation->departure+vec[k];
-    if ((hurdletype==0 && piece_belongs_to_opponent(sq_hurdle))
-        || (hurdletype==1 && get_walk_of_piece_on_square(sq_hurdle)>=King))
+    square const sq_hurdle = curr_generation->departure+vec[idx_to_hurdle];
+    if (piece_belongs_to_opponent(sq_hurdle))
     {
-      vec_index_type k1;
-      for (k1= kanf; k1 <= kend; k1++)
-      {
-        curr_generation->arrival = (leaf ? curr_generation->departure : sq_hurdle) + vec[k1];
-        if (curr_generation->arrival!=sq_hurdle
-            && (is_square_empty(curr_generation->arrival)
-                || piece_belongs_to_opponent(curr_generation->arrival)))
-          push_move();
-      }
+      vec_index_type idx_hurdle_to_arrival;
+      for (idx_hurdle_to_arrival = kanf; idx_hurdle_to_arrival<=kend; idx_hurdle_to_arrival++)
+        generate(sq_hurdle+vec[idx_hurdle_to_arrival]);
     }
   }
-}
-
-static void genqlinesradial(int hurdletype, boolean leaf)
-{
-  numecoup const save_current_move = current_move[nbply]-1;
-
-  genleapleap(vec_rook_start, vec_rook_end, hurdletype, leaf);
-  genleapleap(vec_dabbaba_start, vec_dabbaba_end, hurdletype, leaf);
-  genleapleap(vec_leap03_start, vec_leap03_end, hurdletype, leaf);
-  genleapleap(vec_leap04_start, vec_leap04_end, hurdletype, leaf);
-  genleapleap(vec_leap05_start, vec_leap05_end, hurdletype, leaf);
-  genleapleap(vec_leap06_start, vec_leap06_end, hurdletype, leaf);
-  genleapleap(vec_leap07_start, vec_leap07_end, hurdletype, leaf);
-  genleapleap(vec_bishop_start, vec_bishop_end, hurdletype, leaf);
-  genleapleap(vec_alfil_start, vec_alfil_end, hurdletype, leaf);
-  genleapleap(vec_leap33_start, vec_leap33_end, hurdletype, leaf);
-  genleapleap(vec_leap44_start, vec_leap44_end, hurdletype, leaf);
-  genleapleap(vec_leap55_start, vec_leap55_end, hurdletype, leaf);
-  genleapleap(vec_leap66_start, vec_leap66_end, hurdletype, leaf);
-  genleapleap(vec_leap77_start, vec_leap77_end, hurdletype, leaf);
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
-}
-
-static void genradial(int hurdletype, boolean leaf)
-{
-  numecoup const save_current_move = current_move[nbply]-1;
-
-  genleapleap(vec_rook_start, vec_rook_end, hurdletype, leaf);
-  genleapleap(vec_dabbaba_start, vec_dabbaba_end, hurdletype, leaf);
-  genleapleap(vec_leap03_start, vec_leap03_end, hurdletype, leaf);
-  genleapleap(vec_leap04_start, vec_leap04_end, hurdletype, leaf);
-  genleapleap(vec_bucephale_start, vec_bucephale_end, hurdletype, leaf);
-  genleapleap(vec_leap06_start, vec_leap06_end, hurdletype, leaf);
-  genleapleap(vec_leap07_start, vec_leap07_end, hurdletype, leaf);
-  genleapleap(vec_bishop_start, vec_bishop_end, hurdletype, leaf);
-  genleapleap(vec_knight_start, vec_knight_end, hurdletype, leaf);
-  genleapleap(vec_chameau_start, vec_chameau_end, hurdletype, leaf);
-  genleapleap(vec_girafe_start, vec_girafe_end, hurdletype, leaf);
-  genleapleap(vec_leap15_start, vec_leap15_end, hurdletype, leaf);
-  genleapleap(vec_leap16_start, vec_leap16_end, hurdletype, leaf);
-  genleapleap(vec_rccinq_start, vec_rccinq_end, hurdletype, leaf);
-  genleapleap(vec_alfil_start, vec_alfil_end, hurdletype, leaf);
-  genleapleap(vec_zebre_start, vec_zebre_end, hurdletype, leaf);
-  genleapleap(vec_leap24_start, vec_leap24_end, hurdletype, leaf);
-  genleapleap(vec_leap25_start, vec_leap25_end, hurdletype, leaf);
-  genleapleap(vec_leap26_start, vec_leap26_end, hurdletype, leaf);
-  genleapleap(vec_leap27_start, vec_leap27_end, hurdletype, leaf);
-  genleapleap(vec_leap33_start, vec_leap33_end, hurdletype, leaf);
-  genleapleap(vec_leap35_start, vec_leap35_end, hurdletype, leaf);
-  genleapleap(vec_leap36_start, vec_leap36_end, hurdletype, leaf);
-  genleapleap(vec_leap37_start, vec_rccinq_end, hurdletype, leaf);
-  genleapleap(vec_leap44_start, vec_leap44_end, hurdletype, leaf);
-  genleapleap(vec_leap45_start, vec_leap45_end, hurdletype, leaf);
-  genleapleap(vec_leap46_start, vec_leap46_end, hurdletype, leaf);
-  genleapleap(vec_leap47_start, vec_leap47_end, hurdletype, leaf);
-  genleapleap(vec_leap56_start, vec_leap56_end, hurdletype, leaf);
-  genleapleap(vec_leap57_start, vec_leap57_end, hurdletype, leaf);
-  genleapleap(vec_leap66_start, vec_leap66_end, hurdletype, leaf);
-  genleapleap(vec_leap67_start, vec_leap67_end, hurdletype, leaf);
-  genleapleap(vec_leap77_start, vec_leap77_end, hurdletype, leaf);
-
-  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
 /* Generate moves for a radial knight
  */
 void radialknight_generate_moves(void)
 {
-  genradial(0, false);
+  numecoup const save_current_move = current_move[nbply]-1;
+  unsigned int i;
+
+  for (i = 0; i!=nr_radial_ranges; ++i)
+    radialknight_generate(radial_ranges[i].start,radial_ranges[i].end);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-/* Generate moves for a radial knight
+static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
+                                       evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type idx_to_hurdle;
+
+  for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
+  {
+    square const sq_hurdle = sq_target+vec[idx_to_hurdle];
+    if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle)
+        && TSTFLAG(spec[sq_hurdle],advers(trait[nbply])))
+    {
+      vec_index_type idx_to_observer;
+      for (idx_to_observer= kanf; idx_to_observer<= kend; idx_to_observer++)
+      {
+        square const sq_observer = sq_hurdle+vec[idx_to_observer];
+        if (sq_observer!=sq_target
+            && INVOKE_EVAL(evaluate,sq_observer,sq_target))
+          return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+boolean radialknightcheck(evalfunction_t *evaluate)
+{
+  unsigned int i;
+
+  for (i = 0; i!=nr_radial_ranges; ++i)
+    if (test_radialknight_check(radial_ranges[i].start,radial_ranges[i].end, evaluate))
+      return true;
+
+  return false;
+}
+
+static boolean test_treehopper_check(vec_index_type kanf, vec_index_type kend,
+                                     evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type idx_to_hurdle;
+
+  for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
+  {
+    square const sq_hurdle = sq_target+vec[idx_to_hurdle];
+    if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
+    {
+      vec_index_type idx_hurdle_to_observer;
+      for (idx_hurdle_to_observer= kanf; idx_hurdle_to_observer<= kend; idx_hurdle_to_observer++)
+      {
+        square const sq_observer = sq_hurdle+vec[idx_hurdle_to_observer];
+        if (sq_observer!=sq_target
+            && INVOKE_EVAL(evaluate,sq_observer,sq_target))
+          return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+static void treehopper_generate(vec_index_type kanf, vec_index_type kend)
+{
+  vec_index_type idx_to_hurdle;
+
+  for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; ++idx_to_hurdle)
+  {
+    square const sq_hurdle = curr_generation->departure+vec[idx_to_hurdle];
+    if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
+    {
+      vec_index_type idx_hurdle_to_arrival;
+      for (idx_hurdle_to_arrival = kanf; idx_hurdle_to_arrival<=kend; idx_hurdle_to_arrival++)
+        generate(sq_hurdle+vec[idx_hurdle_to_arrival]);
+    }
+  }
+}
+
+/* Generate moves for a (lesser) tree hopper
  */
 void treehopper_generate_moves(void)
 {
-  genqlinesradial(1, false);
+  numecoup const save_current_move = current_move[nbply]-1;
+  unsigned int i;
+
+  for (i = 0; i!=nr_queen_radial_ranges; ++i)
+    treehopper_generate(queen_radial_ranges[i].start,queen_radial_ranges[i].end);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-/* Generate moves for a radial knight
+/* Generate moves for a greater tree hopper
  */
 void greater_treehopper_generate_moves(void)
 {
-  genradial(1, false);
+  numecoup const save_current_move = current_move[nbply]-1;
+  unsigned int i;
+
+  for (i = 0; i!=nr_radial_ranges; ++i)
+    treehopper_generate(radial_ranges[i].start,radial_ranges[i].end);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-/* Generate moves for a radial knight
+boolean treehoppercheck(evalfunction_t *evaluate)
+{
+  unsigned int i;
+
+  for (i = 0; i!=nr_queen_radial_ranges; ++i)
+    if (test_treehopper_check(queen_radial_ranges[i].start,queen_radial_ranges[i].end, evaluate))
+      return true;
+
+  return false;
+}
+
+boolean greatertreehoppercheck(evalfunction_t *evaluate)
+{
+  unsigned int i;
+
+  for (i = 0; i!=nr_radial_ranges; ++i)
+    if (test_treehopper_check(radial_ranges[i].start,radial_ranges[i].end, evaluate))
+      return true;
+
+  return false;
+}
+
+static void leafhopper_generate(vec_index_type kanf, vec_index_type kend)
+{
+  vec_index_type idx_to_hurdle;
+
+  for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; ++idx_to_hurdle)
+  {
+    square const sq_hurdle = curr_generation->departure+vec[idx_to_hurdle];
+    if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
+    {
+      vec_index_type idx_to_arrival;
+      for (idx_to_arrival = kanf; idx_to_arrival<=kend; idx_to_arrival++)
+        if (idx_to_arrival!=idx_to_hurdle)
+          generate(curr_generation->departure+vec[idx_to_arrival]);
+    }
+  }
+}
+
+/* Generate moves for a (lesser) leaf hopper
  */
 void leafhopper_generate_moves(void)
 {
-  genqlinesradial(1, true);
+  numecoup const save_current_move = current_move[nbply]-1;
+  unsigned int i;
+
+  for (i = 0; i!=nr_queen_radial_ranges; ++i)
+    leafhopper_generate(queen_radial_ranges[i].start,queen_radial_ranges[i].end);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-/* Generate moves for a radial knight
+/* Generate moves for a greater leaf hopper
  */
 void greater_leafhopper_generate_moves(void)
 {
-  genradial(1, true);
+  numecoup const save_current_move = current_move[nbply]-1;
+  unsigned int i;
+
+  for (i = 0; i!=nr_radial_ranges; ++i)
+    leafhopper_generate(radial_ranges[i].start,radial_ranges[i].end);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
+                                     evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type  idx_to_observer;
+
+  TraceSquare(sq_target);TraceText("\n");
+  for (idx_to_observer = kanf; idx_to_observer<=kend; idx_to_observer++)
+  {
+    square const sq_observer = sq_target+vec[idx_to_observer];
+    TraceSquare(sq_observer);
+    TraceValue("%u",is_square_blocked(sq_observer));
+    TraceValue("%u",is_square_empty(sq_observer));
+    TraceText("\n");
+    if (!is_square_blocked(sq_observer) && !is_square_empty(sq_observer))
+    {
+      vec_index_type idx_to_hurdle;
+      for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
+      {
+        square const sq_hurdle = sq_observer+vec[idx_to_hurdle];
+        TraceSquare(sq_hurdle);TraceText("\n");
+        if (sq_hurdle!=sq_target
+            && !is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
+        {
+          if (INVOKE_EVAL(evaluate,sq_observer,sq_target))
+            return true;
+          else
+            /* there won't be any more observation using a different hurdle */
+            break;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
+boolean leafhoppercheck(evalfunction_t *evaluate)
+{
+  unsigned int i;
+
+  for (i = 0; i!=nr_queen_radial_ranges; ++i)
+    if (test_leafhopper_check(queen_radial_ranges[i].start,queen_radial_ranges[i].end, evaluate))
+      return true;
+
+  return false;
+}
+
+boolean greaterleafhoppercheck(evalfunction_t *evaluate)
+{
+  unsigned int i;
+
+  for (i = 0; i!=nr_radial_ranges; ++i)
+    if (test_leafhopper_check(radial_ranges[i].start,radial_ranges[i].end, evaluate))
+      return true;
+
+  return false;
 }

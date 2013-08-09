@@ -325,10 +325,6 @@ boolean noantelopecontact(square ia);
 void WriteBGLNumber(char* a, long int b);
 boolean CrossesGridLines(square i, square j);
 
-boolean leapleapcheck(vec_index_type kanf, vec_index_type kend,
-                      int hurdletype,
-                      boolean leaf,
-                      evalfunction_t *evaluate);
 checkfunction_t radialknightcheck;
 
 boolean detect_rosecheck_on_line(vec_index_type k, vec_index_type k1,

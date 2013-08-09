@@ -517,26 +517,13 @@ stipulation/goals/goals.h:
 
 pyproc.h:
 pieces/walks/radial$(OBJ_SUFFIX): pieces/walks/radial.c pieces/walks/radial.h \
- position/board.h utilities/bitmask.h position/position.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
- position/position.h pylang.h stipulation/slice_type.h debugging/trace.h \
- pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- pyproc.h
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
+ pylang.h stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
 
 pieces/walks/radial.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-position/position.h:
-
-pieces/walks/vectors.h:
-
-utilities/boolean.h:
-
-utilities/enumeration.h:
 
 solving/move_generator.h:
 
@@ -547,6 +534,16 @@ py.h:
 utilities/boolean.h:
 
 position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/boolean.h:
+
+utilities/enumeration.h:
 
 pylang.h:
 

@@ -1881,3 +1881,37 @@ the side to play can capture the king
 solution finished. 
 
 
+
+leaf hopper checks have never been detected correctly
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  GF   S   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          2 + 1
+
+   1.Sf7-g5 + !
+
+
+  add_to_move_generation_stack:          10
+                     play_move:          10
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          11
+solution finished. 
+
+
