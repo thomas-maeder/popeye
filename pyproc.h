@@ -346,8 +346,4 @@ boolean detect_roselocustcheck_on_line(square sq_arrival,
                                        numvec delta_k,
                                        evalfunction_t *evaluate);
 
-extern square fromspecificsquare;
-
-boolean eval_fromspecificsquare(void);
-
 #endif  /* PYPROC_H */

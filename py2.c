@@ -1941,25 +1941,6 @@ boolean pchincheck(evalfunction_t *evaluate)
   return false;
 }
 
-
-square fromspecificsquare;
-
-boolean eval_fromspecificsquare(void)
-{
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = sq_departure==fromspecificsquare && validate_observation();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 boolean qlinesradialcheck(evalfunction_t *evaluate,
                           int hurdletype,
                           boolean leaf)
