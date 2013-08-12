@@ -70,6 +70,7 @@
 #if !defined(PYDATA_H)
 #define PYDATA_H
 
+#include "pieces/walks/roses.h"
 #include "pyproc.h"
 
 #include <limits.h>

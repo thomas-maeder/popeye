@@ -42,9 +42,9 @@ static square generate_moves_on_circle_segment(square sq_base,
  * @note sets *idx_curr_dir to the direction at the result square, allowing
  *       the circle to be continued from that square
  */
-square find_end_of_circle_line(square sq_departure,
-                               vec_index_type *idx_curr_dir,
-                               rose_rotation_sense sense)
+static square find_end_of_circle_line(square sq_departure,
+                                      vec_index_type *idx_curr_dir,
+                                      rose_rotation_sense sense)
 {
   square sq_result = sq_departure;
   do
@@ -99,9 +99,9 @@ void rose_generate_moves(vec_index_type vec_range_start, vec_index_type vec_rang
  * @param idx_curr_dir indicates the direction in which to start the line
  * @param indicates the rotation sense
  */
-boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
-                                  rose_rotation_sense sense,
-                                  evalfunction_t *evaluate)
+static boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
+                                         rose_rotation_sense sense,
+                                         evalfunction_t *evaluate)
 {
   boolean result;
 
@@ -254,9 +254,9 @@ void roselion_generate_moves(vec_index_type vec_range_start,
  * @param idx_curr_dir indicates the direction in which to start the line
  * @param indicates the rotation sense
  */
-boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
-                                      rose_rotation_sense sense,
-                                      evalfunction_t *evaluate)
+static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
+                                             rose_rotation_sense sense,
+                                             evalfunction_t *evaluate)
 {
   interceptable_observation[observation_context].vector_index = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
@@ -361,10 +361,10 @@ void rosehopper_generate_moves(vec_index_type vec_range_start,
  *                     from sq_hurdle
  * @param indicates the rotation sense
  */
-boolean detect_rosehopper_check_on_line(square sq_hurdle,
-                                        vec_index_type idx_curr_dir,
-                                        rose_rotation_sense sense,
-                                        evalfunction_t *evaluate)
+static boolean detect_rosehopper_check_on_line(square sq_hurdle,
+                                               vec_index_type idx_curr_dir,
+                                               rose_rotation_sense sense,
+                                               evalfunction_t *evaluate)
 {
   interceptable_observation[observation_context].vector_index = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
@@ -455,10 +455,10 @@ void roselocust_generate_moves(vec_index_type vec_range_start, vec_index_type ve
  *                     from the observee
  * @param indicates the rotation sense
  */
-boolean detect_roselocust_check_on_line(square sq_arrival,
-                                        vec_index_type idx_curr_dir,
-                                        rose_rotation_sense sense,
-                                        evalfunction_t *evaluate)
+static boolean detect_roselocust_check_on_line(square sq_arrival,
+                                               vec_index_type idx_curr_dir,
+                                               rose_rotation_sense sense,
+                                               evalfunction_t *evaluate)
 {
   interceptable_observation[observation_context].vector_index = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;

@@ -2,7 +2,6 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pieces/walks/roses.h"
-#include "pieces/walks/angle/angles.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
 #include "stipulation/stipulation.h"
@@ -165,8 +164,8 @@ static void identify_circular_line(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* we identify circular lines by the lowest square (*start) and the one
-   * immediately following it (*end)
+  /* we identify circular lines by the lowest square (start) and the one
+   * immediately following it (end)
    */
 
   do
@@ -240,6 +239,7 @@ static void identify_line(void)
   TraceText("\n");
   switch (e[sq_observer])
   {
+    /* TODO simplify using classes? */
     case Rook:
     case Queen:
     case Bishop:
@@ -375,7 +375,7 @@ static void identify_line(void)
     case Skylla:
     case Charybdis:
 
-    /* consider again */
+    /* TODO consider again */
     case BouncyNightrider:
     case DoubleGras:
     case DoubleRookHopper:
@@ -384,7 +384,7 @@ static void identify_line(void)
     case RookBouncer:
     case BishopBouncer :
 
-    /* combined pieces */
+    /* TODO combined pieces */
     case Amazone:
     case Empress:
     case Princess:
@@ -458,9 +458,9 @@ static void PushMagicViewsByOnePiece(square pos_magic)
       if (pi_magic<Queen || pi_magic>Bishop
           || CheckDir[pi_magic][*pos_viewed-pos_magic]!=0)
       {
-       /* piece is not cross-eyed - use regular check function */
         observing_walk[nbply] = pi_magic;
         current_magic_pos[nbply] = pos_magic;
+        /* ignore return value - it's ==false */
         (*checkfunctions[pi_magic])(&validate_observation);
         current_magic_pos[nbply] = initsquare;
       }

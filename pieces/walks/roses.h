@@ -30,32 +30,17 @@ typedef enum
   rose_rotation_clockwise = +1
 } rose_rotation_sense;
 
-/* Find the next occupied square on a circular line
- * @param sq_departure indicates where to start the search
- * @param idx_curr_dir indicates the direction in which to start the line
- * @param indicates the rotation sense
- * @return first occupied square met
- * @note sets *idx_curr_dir to the direction at the result square, allowing
- *       the circle to be continued from that square
- */
-square find_end_of_circle_line(square sq_departure,
-                               vec_index_type *idx_curr_dir,
-                               rose_rotation_sense sense);
-
-/* Detect observation on a Rose line
- * @param idx_curr_dir indicates the direction in which to start the line
- * @param indicates the rotation sense
- */
-boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
-                                  rose_rotation_sense sense,
-                                  evalfunction_t *evaluate);
-
 /* Generate moves for a Rose
  * @param vec_range_start start and ...
  * @param vec_range_end ... end of range of single step vectors
  */
 void rose_generate_moves(vec_index_type vec_range_start,
                          vec_index_type vec_range_end);
+
+/* Detect observation by a Rose
+ * @return true iff there is an observation
+ */
+boolean rose_check(evalfunction_t *evaluate);
 
 /* Generate moves for a Rao
  * @param vec_range_start start and ...
@@ -64,20 +49,17 @@ void rose_generate_moves(vec_index_type vec_range_start,
 void rao_generate_moves(vec_index_type vec_range_start,
                         vec_index_type vec_range_end);
 
-/* Detect observation on a Rose Lion (or Rao) line
- * @param idx_curr_dir indicates the direction in which to start the line
- * @param indicates the rotation sense
- */
-boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
-                                      rose_rotation_sense sense,
-                                      evalfunction_t *evaluate);
-
 /* Generate moves for a Rose Lion
  * @param vec_range_start start and ...
  * @param vec_range_end ... end of range of single step vectors
  */
 void roselion_generate_moves(vec_index_type vec_range_start,
                              vec_index_type vec_range_end);
+
+/* Detect observation by a Rose Lion or Rao
+ * @return true iff there is an observation
+ */
+boolean roselion_check(evalfunction_t *evaluate);
 
 /* Generate moves for a Rose Hopper
  * @param vec_range_start start and ...
@@ -86,16 +68,10 @@ void roselion_generate_moves(vec_index_type vec_range_start,
 void rosehopper_generate_moves(vec_index_type vec_range_start,
                                vec_index_type vec_range_end);
 
-/* Detect observation on a rose hopper line
- * @param sq_hurdle position of the hurdle
- * @param idx_curr_dir indicates the direction in which to continue the line
- *                     from sq_hurdle
- * @param indicates the rotation sense
+/* Detect observation by a Rose Hopper
+ * @return true iff there is an observation
  */
-boolean detect_rosehopper_check_on_line(square sq_hurdle,
-                                        vec_index_type idx_curr_dir,
-                                        rose_rotation_sense sense,
-                                        evalfunction_t *evaluate);
+boolean rosehopper_check(evalfunction_t *evaluate);
 
 /* Generate moves for a Rose Locust
  * @param vec_range_start start and ...
@@ -104,15 +80,9 @@ boolean detect_rosehopper_check_on_line(square sq_hurdle,
 void roselocust_generate_moves(vec_index_type vec_range_start,
                                vec_index_type vec_range_end);
 
-/* Detect observation on a rose hopper line
- * @param sq_arrival arrival square of the imgaginary capture
- * @param idx_curr_dir indicates the direction in which to continue the line
- *                     from the observee
- * @param indicates the rotation sense
+/* Detect observation by a Rose Locust
+ * @return true iff there is an observation
  */
-boolean detect_roselocust_check_on_line(square sq_arrival,
-                                        vec_index_type idx_curr_dir,
-                                        rose_rotation_sense sense,
-                                        evalfunction_t *evaluate);
+boolean roselocust_check(evalfunction_t *evaluate);
 
 #endif
