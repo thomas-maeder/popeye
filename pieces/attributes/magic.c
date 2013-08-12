@@ -34,40 +34,6 @@ static magicview_type magicviews[magicviews_size];
 
 static unsigned int magic_views_top[maxply + 1];
 
-enum
-{
-  line_identifier_dummy = INT_MAX
-};
-
-/* These are the codes for the length-difference between two squares */
-/* ATTENTION: use abs(square from - square to) for indexing this table. */
-/*        all move_down_codes are mapped this way to move_up_codes !    */
-static unsigned int const move_vec_code[square_h8-square_a1+1] =
-{
-  /* left/right   */         0,   1,   1,   1,   1,   1,   1,   1,
-  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
-  /* 1 left  up   */             17,  18,  19,  20,  21,  22,  23,
-  /* 1 right up   */        24,  25,  26,  27,  28,  29,  30,  31,
-  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
-  /* 2 left  up   */             41,  21,  43,  22,  45,  23,  47,
-  /* 2 right up   */        24,  49,  25,  51,  26,  53,  27,  55,
-  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
-  /* 3 left  up   */             65,  22,  67,  68,  23,  70,  71,
-  /* 3 right up   */        24,  73,  74,  25,  76,  77,  26,  79,
-  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
-  /* 4 left  up   */             89,  45,  91,  23,  93,  47,  95,
-  /* 4 right up   */        24,  97,  49,  99,  25, 101,  51, 103,
-  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
-  /* 5 left  up   */            113, 114,  23, 116, 117, 118, 119,
-  /* 5 right up   */        24, 121, 122, 123, 124,  25, 126, 127,
-  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
-  /* 6 left  up   */            137,  23, 139,  70,  47,  71, 143,
-  /* 6 right up   */        24, 145,  73,  49,  74, 149,  25, 151,
-  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
-  /* 7 left  up   */             23, 162, 163, 164, 165, 166, 167,
-  /* 7 right up   */        24, 169, 170, 171, 172, 173, 174,  25
-};
-
 static void PushMagicView(square pos_viewed, square pos_magic, square start, square end)
 {
   unsigned int const top = magic_views_top[nbply-1];

@@ -1,8 +1,9 @@
 pieces/walks/walks$(OBJ_SUFFIX): pieces/walks/walks.c pieces/walks/walks.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ utilities/enumeration.h pylang.h pydata.h pieces/walks/roses.h \
+ position/position.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/walks.h:
 
@@ -26,11 +27,17 @@ pylang.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+pyproc.h:
 pieces/walks/vectors$(OBJ_SUFFIX): pieces/walks/vectors.c pieces/walks/vectors.h \
  position/board.h utilities/bitmask.h
 
@@ -44,8 +51,8 @@ pieces/walks/hunters$(OBJ_SUFFIX): pieces/walks/hunters.c pieces/walks/hunters.h
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h py.h \
  utilities/boolean.h position/position.h pylang.h \
  pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
- stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ stipulation/slice_type.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
 
 pieces/walks/hunters.h:
 
@@ -81,18 +88,23 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+pyproc.h:
 pieces/walks/roses$(OBJ_SUFFIX): pieces/walks/roses.c pieces/walks/roses.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h pylang.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
- solving/observation.h debugging/trace.h pydata.h pyproc.h
+ solving/observation.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ pyproc.h
 
 pieces/walks/roses.h:
 
@@ -134,6 +146,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/marine$(OBJ_SUFFIX): pieces/walks/marine.c pieces/walks/marine.h \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
@@ -145,7 +159,7 @@ pieces/walks/marine$(OBJ_SUFFIX): pieces/walks/marine.c pieces/walks/marine.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h pieces/walks/locusts.h solving/move_generator.h \
  stipulation/slice_type.h solving/observation.h debugging/trace.h \
- pydata.h pyproc.h
+ pydata.h pieces/walks/roses.h pyproc.h
 
 pieces/walks/marine.h:
 
@@ -203,6 +217,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/spiral_springers$(OBJ_SUFFIX): pieces/walks/spiral_springers.c \
  pieces/walks/spiral_springers.h position/board.h utilities/bitmask.h \
@@ -211,7 +227,7 @@ pieces/walks/spiral_springers$(OBJ_SUFFIX): pieces/walks/spiral_springers.c \
  utilities/boolean.h position/position.h pylang.h \
  stipulation/slice_type.h solving/observation.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h \
- pydata.h pyproc.h
+ pydata.h pieces/walks/roses.h pyproc.h
 
 pieces/walks/spiral_springers.h:
 
@@ -253,6 +269,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/ubiubi$(OBJ_SUFFIX): pieces/walks/ubiubi.c pieces/walks/ubiubi.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
@@ -260,7 +278,8 @@ pieces/walks/ubiubi$(OBJ_SUFFIX): pieces/walks/ubiubi.c pieces/walks/ubiubi.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h stipulation/slice_type.h \
  solving/find_square_observer_tracking_back_from_target.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pydata.h pyproc.h
+ pieces/walks/vectors.h stipulation/goals/goals.h pydata.h \
+ pieces/walks/roses.h position/position.h pyproc.h
 
 pieces/walks/ubiubi.h:
 
@@ -298,6 +317,10 @@ stipulation/goals/goals.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 pieces/walks/hoppers$(OBJ_SUFFIX): pieces/walks/hoppers.c pieces/walks/hoppers.h \
  position/board.h utilities/bitmask.h position/position.h \
@@ -305,7 +328,8 @@ pieces/walks/hoppers$(OBJ_SUFFIX): pieces/walks/hoppers.c pieces/walks/hoppers.h
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h pylang.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
- solving/observation.h debugging/trace.h pydata.h pyproc.h
+ solving/observation.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ pyproc.h
 
 pieces/walks/hoppers.h:
 
@@ -347,14 +371,16 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/leapers$(OBJ_SUFFIX): pieces/walks/leapers.c pieces/walks/leapers.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h pylang.h stipulation/slice_type.h debugging/trace.h \
- pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- pyproc.h
+ pydata.h pieces/walks/roses.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/leapers.h:
 
@@ -388,6 +414,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -401,7 +429,8 @@ pieces/walks/riders$(OBJ_SUFFIX): pieces/walks/riders.c pieces/walks/riders.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h pylang.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
- solving/observation.h debugging/trace.h pydata.h pyproc.h
+ solving/observation.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ pyproc.h
 
 pieces/walks/riders.h:
 
@@ -443,6 +472,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/lions$(OBJ_SUFFIX): pieces/walks/lions.c pieces/walks/lions.h \
  position/board.h utilities/bitmask.h position/position.h \
@@ -450,7 +481,8 @@ pieces/walks/lions$(OBJ_SUFFIX): pieces/walks/lions.c pieces/walks/lions.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h pylang.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
- solving/observation.h debugging/trace.h pydata.h pyproc.h
+ solving/observation.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ pyproc.h
 
 pieces/walks/lions.h:
 
@@ -492,14 +524,16 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/skylla_charybdis$(OBJ_SUFFIX): pieces/walks/skylla_charybdis.c \
  pieces/walks/skylla_charybdis.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/move_generator.h solving/solve.h py.h \
  utilities/boolean.h position/position.h pylang.h \
- stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ stipulation/slice_type.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
 
 pieces/walks/skylla_charybdis.h:
 
@@ -533,6 +567,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -544,8 +580,9 @@ pieces/walks/radial$(OBJ_SUFFIX): pieces/walks/radial.c pieces/walks/radial.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ pylang.h stipulation/slice_type.h debugging/trace.h pydata.h \
+ pieces/walks/roses.h position/position.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/radial.h:
 
@@ -577,6 +614,10 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -590,7 +631,7 @@ pieces/walks/edgehog$(OBJ_SUFFIX): pieces/walks/edgehog.c pieces/walks/edgehog.h
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h stipulation/slice_type.h solving/observation.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h \
- pydata.h pyproc.h
+ pydata.h pieces/walks/roses.h position/position.h pyproc.h
 
 pieces/walks/edgehog.h:
 
@@ -630,6 +671,10 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 pieces/walks/friend$(OBJ_SUFFIX): pieces/walks/friend.c pieces/walks/friend.h \
  position/board.h utilities/bitmask.h position/position.h \
@@ -639,7 +684,7 @@ pieces/walks/friend$(OBJ_SUFFIX): pieces/walks/friend.c pieces/walks/friend.h \
  pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
  stipulation/slice_type.h solving/observation.h \
  solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h pydata.h pyproc.h
+ debugging/trace.h pydata.h pieces/walks/roses.h pyproc.h
 
 pieces/walks/friend.h:
 
@@ -685,6 +730,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/orphan$(OBJ_SUFFIX): pieces/walks/orphan.c pieces/walks/orphan.h \
  position/board.h utilities/bitmask.h position/position.h \
@@ -693,7 +740,7 @@ pieces/walks/orphan$(OBJ_SUFFIX): pieces/walks/orphan.c pieces/walks/orphan.h \
  utilities/boolean.h position/position.h pylang.h \
  pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
  stipulation/slice_type.h solving/observation.h debugging/trace.h \
- pydata.h pyproc.h
+ pydata.h pieces/walks/roses.h pyproc.h
 
 pieces/walks/orphan.h:
 
@@ -737,13 +784,16 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/cat$(OBJ_SUFFIX): pieces/walks/cat.c pieces/walks/cat.h \
  position/board.h utilities/bitmask.h solving/move_generator.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ pylang.h stipulation/slice_type.h debugging/trace.h pydata.h \
+ pieces/walks/roses.h position/position.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/cat.h:
 
@@ -775,6 +825,10 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -786,8 +840,9 @@ pieces/walks/bouncy$(OBJ_SUFFIX): pieces/walks/bouncy.c pieces/walks/bouncy.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h pieces/walks/vectors.h utilities/enumeration.h \
- pylang.h stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ pylang.h stipulation/slice_type.h debugging/trace.h pydata.h \
+ pieces/walks/roses.h position/position.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/bouncy.h:
 
@@ -819,6 +874,10 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -831,8 +890,8 @@ pieces/walks/cardinal$(OBJ_SUFFIX): pieces/walks/cardinal.c pieces/walks/cardina
  pieces/walks/vectors.h solving/move_generator.h solving/solve.h py.h \
  utilities/boolean.h position/position.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/slice_type.h \
- debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h pyproc.h
+ debugging/trace.h pydata.h pieces/walks/roses.h position/position.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
 
 pieces/walks/cardinal.h:
 
@@ -866,6 +925,10 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -878,8 +941,9 @@ pieces/walks/reflecting_bishop$(OBJ_SUFFIX): pieces/walks/reflecting_bishop.c \
  pieces/walks/angle/angles.h pieces/walks/vectors.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h utilities/boolean.h utilities/enumeration.h pylang.h \
- stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ stipulation/slice_type.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ position/position.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/reflecting_bishop.h:
 
@@ -913,6 +977,10 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -927,7 +995,7 @@ pieces/walks/bob$(OBJ_SUFFIX): pieces/walks/bob.c pieces/walks/bob.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  pylang.h solving/move_generator.h solving/solve.h \
  stipulation/slice_type.h solving/observation.h debugging/trace.h \
- pydata.h pyproc.h
+ pydata.h pieces/walks/roses.h pyproc.h
 
 pieces/walks/bob.h:
 
@@ -971,6 +1039,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/rabbit$(OBJ_SUFFIX): pieces/walks/rabbit.c pieces/walks/rabbit.h \
  pieces/walks/riders.h position/board.h utilities/bitmask.h \
@@ -978,7 +1048,8 @@ pieces/walks/rabbit$(OBJ_SUFFIX): pieces/walks/rabbit.c pieces/walks/rabbit.h \
  utilities/enumeration.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  pylang.h solving/move_generator.h solving/solve.h \
- stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h
+ stipulation/slice_type.h debugging/trace.h pydata.h pieces/walks/roses.h \
+ pyproc.h
 
 pieces/walks/rabbit.h:
 
@@ -1020,6 +1091,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/kangaroo$(OBJ_SUFFIX): pieces/walks/kangaroo.c pieces/walks/kangaroo.h \
  position/board.h utilities/bitmask.h solving/move_generator.h \
@@ -1027,7 +1100,7 @@ pieces/walks/kangaroo$(OBJ_SUFFIX): pieces/walks/kangaroo.c pieces/walks/kangaro
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h stipulation/slice_type.h solving/observation.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h \
- pydata.h pyproc.h
+ pydata.h pieces/walks/roses.h position/position.h pyproc.h
 
 pieces/walks/kangaroo.h:
 
@@ -1067,14 +1140,18 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 pieces/walks/locusts$(OBJ_SUFFIX): pieces/walks/locusts.c pieces/walks/locusts.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h pylang.h stipulation/slice_type.h debugging/trace.h \
- pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- pyproc.h
+ pydata.h pieces/walks/roses.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/locusts.h:
 
@@ -1108,6 +1185,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -1119,8 +1198,9 @@ pieces/walks/hamster$(OBJ_SUFFIX): pieces/walks/hamster.c pieces/walks/hamster.h
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ pylang.h stipulation/slice_type.h debugging/trace.h pydata.h \
+ pieces/walks/roses.h position/position.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/hamster.h:
 
@@ -1152,6 +1232,10 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
+position/position.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -1164,8 +1248,8 @@ pieces/walks/bouncer$(OBJ_SUFFIX): pieces/walks/bouncer.c pieces/walks/bouncer.h
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h pylang.h stipulation/slice_type.h debugging/trace.h \
- pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- pyproc.h
+ pydata.h pieces/walks/roses.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pyproc.h
 
 pieces/walks/bouncer.h:
 
@@ -1199,6 +1283,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -1213,7 +1299,7 @@ pieces/walks/querquisite$(OBJ_SUFFIX): pieces/walks/querquisite.c \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h py.h \
  utilities/boolean.h position/position.h pylang.h \
  solving/move_generator.h solving/solve.h stipulation/slice_type.h \
- debugging/trace.h pydata.h pyproc.h
+ debugging/trace.h pydata.h pieces/walks/roses.h pyproc.h
 
 pieces/walks/querquisite.h:
 
@@ -1257,6 +1343,8 @@ debugging/trace.h:
 
 pydata.h:
 
+pieces/walks/roses.h:
+
 pyproc.h:
 pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  pieces/walks/generate_moves.h position/position.h position/board.h \
@@ -1281,7 +1369,8 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  pieces/walks/cardinal.h pieces/walks/reflecting_bishop.h \
  pieces/walks/bob.h pieces/walks/rabbit.h pieces/walks/kangaroo.h \
  pieces/walks/locusts.h pieces/walks/hamster.h pieces/walks/bouncer.h \
- pieces/walks/querquisite.h debugging/trace.h pydata.h pyproc.h
+ pieces/walks/querquisite.h debugging/trace.h pydata.h \
+ pieces/walks/roses.h pyproc.h
 
 pieces/walks/generate_moves.h:
 
@@ -1398,5 +1487,7 @@ pieces/walks/querquisite.h:
 debugging/trace.h:
 
 pydata.h:
+
+pieces/walks/roses.h:
 
 pyproc.h:
