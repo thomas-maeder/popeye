@@ -29,3 +29,36 @@ void cat_generate_moves(void)
     }
   }
 }
+
+boolean catcheck(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  if (leapcheck(vec_knight_start,vec_knight_end,evaluate))
+    return true;
+  else
+  {
+    vec_index_type  k;
+    for (k = vec_dabbaba_start; k<=vec_dabbaba_end; k++)
+    {
+      square middle_square= sq_target+vec[k];
+      while (is_square_empty(middle_square))
+      {
+        {
+          square const sq_departure= middle_square+cat_vectors[k-60];
+          if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+            return true;
+        }
+
+        {
+          square const sq_departure= middle_square+cat_vectors[k-56];
+          if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+            return true;
+        }
+
+        middle_square += vec[k];
+      }
+    }
+
+    return false;
+  }
+}

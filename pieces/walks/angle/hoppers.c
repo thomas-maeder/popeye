@@ -71,7 +71,6 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   numvec const vec_departure_hurdle = angle_vectors[angle][vec_index_departure_hurdle];
   square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
-  PieNam const hopper = get_walk_of_piece_on_square(sq_departure);
 
   return INVOKE_EVAL(evaluate,sq_departure,sq_target);
 }
@@ -81,9 +80,9 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
  * @param kend last vectors index
  * @param angle angle to take from hurdle to arrival squares
  */
-boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type kend,
-                                         angle_t angle,
-                                         evalfunction_t *evaluate)
+static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type kend,
+                                                angle_t angle,
+                                                evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
@@ -97,16 +96,16 @@ boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type ken
 
   ++observation_context;
 
-  for (interceptable_observation_vector_index[observation_context] = kend;
-       interceptable_observation_vector_index[observation_context]>=kanf;
-       --interceptable_observation_vector_index[observation_context])
+  for (interceptable_observation[observation_context].vector_index = kend;
+       interceptable_observation[observation_context].vector_index>=kanf;
+       --interceptable_observation[observation_context].vector_index)
   {
-    numvec const vec_hurdle_target = vec[interceptable_observation_vector_index[observation_context]];
+    numvec const vec_hurdle_target = vec[interceptable_observation[observation_context].vector_index];
     square const sq_hurdle = sq_target+vec_hurdle_target;
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation_vector_index[observation_context];
+      vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index;
 
       if (angle_hoppers_is_square_observed_one_dir(sq_hurdle,
                                                    vec_index_departure_hurdle,
@@ -141,6 +140,11 @@ void elk_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
+boolean moosecheck(evalfunction_t *evaluate)
+{
+  return angle_hoppers_is_square_observed(vec_queen_start,vec_queen_end, angle_45, evaluate);
+}
+
 /* Generated moves for an Rook Moose
  */
 void rook_moose_generate_moves(void)
@@ -149,6 +153,12 @@ void rook_moose_generate_moves(void)
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_45);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+boolean rookmoosecheck(evalfunction_t *evaluate)
+{
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_45, evaluate);
 }
 
 /* Generated moves for an Bishop Moose
@@ -161,6 +171,12 @@ void bishop_moose_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
+boolean bishopmoosecheck(evalfunction_t *evaluate)
+{
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_45, evaluate);
+}
+
 /* Generated moves for an Eagle
  */
 void eagle_generate_moves(void)
@@ -171,6 +187,11 @@ void eagle_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
+boolean eaglecheck(evalfunction_t *evaluate)
+{
+  return angle_hoppers_is_square_observed(vec_queen_start,vec_queen_end, angle_90, evaluate);
+}
+
 /* Generated moves for a Rook Eagle
  */
 void rook_eagle_generate_moves(void)
@@ -178,11 +199,21 @@ void rook_eagle_generate_moves(void)
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_90);
 }
 
+boolean rookeaglecheck(evalfunction_t *evaluate)
+{
+  return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_90, evaluate);
+}
+
 /* Generated moves for a Bishop Eagle
  */
 void bishop_eagle_generate_moves(void)
 {
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_90);
+}
+
+boolean bishopeaglecheck(evalfunction_t *evaluate)
+{
+  return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_90, evaluate);
 }
 
 /* Generated moves for a Sparrow
@@ -195,6 +226,11 @@ void sparrow_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
+boolean sparrcheck(evalfunction_t *evaluate)
+{
+  return angle_hoppers_is_square_observed(vec_queen_start,vec_queen_end, angle_135, evaluate);
+}
+
 /* Generated moves for a Rook Sparrow
  */
 void rook_sparrow_generate_moves(void)
@@ -203,6 +239,12 @@ void rook_sparrow_generate_moves(void)
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_135);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+boolean rooksparrcheck(evalfunction_t *evaluate)
+{
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_135, evaluate);
 }
 
 /* Generated moves for a Bishop Sparrow
@@ -215,6 +257,12 @@ void bishop_sparrow_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
+boolean bishopsparrcheck(evalfunction_t *evaluate)
+{
+  /* these vector indices are correct - we are retracting along these vectors! */
+  return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_135, evaluate);
+}
+
 /* Generated moves for a Marguerite
  */
 void marguerite_generate_moves(void)
@@ -223,8 +271,16 @@ void marguerite_generate_moves(void)
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_45);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_90);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_135);
-  hoppers_generate_moves(vec_queen_start,vec_queen_end);
+  rider_hoppers_generate_moves(vec_queen_start,vec_queen_end);
   hamster_generate_moves();
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+boolean margueritecheck(evalfunction_t *evaluate)
+{
+  return (sparrcheck(evaluate)
+          || eaglecheck(evaluate)
+          || moosecheck(evaluate)
+          || grasshopper_check(evaluate));
 }

@@ -432,7 +432,7 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
       break;
 
     case Grasshopper:
-      hoppers_generate_moves(vec_queen_start,vec_queen_end);
+      rider_hoppers_generate_moves(vec_queen_start,vec_queen_end);
       break;
 
     case Lion:
@@ -440,20 +440,20 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
       break;
 
     case NightriderHopper:
-      hoppers_generate_moves(vec_knight_start,vec_knight_end);
+      rider_hoppers_generate_moves(vec_knight_start,vec_knight_end);
       break;
 
-    case CamelHopper:
-      hoppers_generate_moves(vec_chameau_start,vec_chameau_end);
+    case CamelRiderHopper:
+      rider_hoppers_generate_moves(vec_chameau_start,vec_chameau_end);
       break;
 
-    case ZebraHopper:
-      hoppers_generate_moves(vec_zebre_start,vec_zebre_end);
+    case ZebraRiderHopper:
+      rider_hoppers_generate_moves(vec_zebre_start,vec_zebre_end);
       break;
 
-    case GnuHopper:
-      hoppers_generate_moves(vec_chameau_start,vec_chameau_end);
-      hoppers_generate_moves(vec_knight_start,vec_knight_end);
+    case GnuRiderHopper:
+      rider_hoppers_generate_moves(vec_chameau_start,vec_chameau_end);
+      rider_hoppers_generate_moves(vec_knight_start,vec_knight_end);
       break;
 
     case RookLion:
@@ -465,11 +465,11 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
       break;
 
     case RookHopper:
-      hoppers_generate_moves(vec_rook_start,vec_rook_end);
+      rider_hoppers_generate_moves(vec_rook_start,vec_rook_end);
       break;
 
     case BishopHopper:
-      hoppers_generate_moves(vec_bishop_start,vec_bishop_end);
+      rider_hoppers_generate_moves(vec_bishop_start,vec_bishop_end);
       break;
 
     case ContraGras:
@@ -522,7 +522,7 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
 
     case Gral:
       leaper_generate_moves(vec_alfil_start,vec_alfil_end);
-      hoppers_generate_moves(vec_rook_start,vec_rook_end);
+      rider_hoppers_generate_moves(vec_rook_start,vec_rook_end);
       break;
 
     case RookMoose:
@@ -555,7 +555,7 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
 
     case Scorpion:
       leaper_generate_moves(vec_queen_start,vec_queen_end);
-      hoppers_generate_moves(vec_queen_start,vec_queen_end);
+      rider_hoppers_generate_moves(vec_queen_start,vec_queen_end);
       break;
 
     case NightRiderLion:
@@ -572,7 +572,7 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
 
     case Dolphin:
       kangaroo_generate_moves();
-      hoppers_generate_moves(vec_queen_start,vec_queen_end);
+      rider_hoppers_generate_moves(vec_queen_start,vec_queen_end);
       break;
 
     case Rabbit:
@@ -583,11 +583,11 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
       bob_generate_moves();
       break;
 
-    case EquiEnglish:
+    case EquiStopper:
       equistopper_generate_moves();
       break;
 
-    case EquiFrench:
+    case NonstopEquiStopper:
       nonstop_equistopper_generate_moves();
       break;
 

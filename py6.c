@@ -381,9 +381,9 @@ static boolean is_simplehopper(PieNam p)
   {
     case Grasshopper:
     case NightriderHopper:
-    case CamelHopper:
-    case ZebraHopper:
-    case GnuHopper:
+    case CamelRiderHopper:
+    case ZebraRiderHopper:
+    case GnuRiderHopper:
     case RookHopper:
     case BishopHopper:
     case EquiHopper:

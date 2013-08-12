@@ -27,21 +27,57 @@ typedef struct
   square pos_viewed;
   PieceIdType viewedid;
   PieceIdType magicpieceid;
-  numvec vec_viewed_to_magic;
+  square line_start;
+  square line_end;
 } magicview_type;
 
 static magicview_type magicviews[magicviews_size];
 
 static unsigned int magic_views_top[maxply + 1];
 
-static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed_to_magic)
+enum
+{
+  line_identifier_dummy = INT_MAX
+};
+
+/* These are the codes for the length-difference between two squares */
+/* ATTENTION: use abs(square from - square to) for indexing this table. */
+/*        all move_down_codes are mapped this way to move_up_codes !    */
+static unsigned int const move_vec_code[square_h8-square_a1+1] =
+{
+  /* left/right   */         0,   1,   1,   1,   1,   1,   1,   1,
+  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
+  /* 1 left  up   */             17,  18,  19,  20,  21,  22,  23,
+  /* 1 right up   */        24,  25,  26,  27,  28,  29,  30,  31,
+  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
+  /* 2 left  up   */             41,  21,  43,  22,  45,  23,  47,
+  /* 2 right up   */        24,  49,  25,  51,  26,  53,  27,  55,
+  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
+  /* 3 left  up   */             65,  22,  67,  68,  23,  70,  71,
+  /* 3 right up   */        24,  73,  74,  25,  76,  77,  26,  79,
+  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
+  /* 4 left  up   */             89,  45,  91,  23,  93,  47,  95,
+  /* 4 right up   */        24,  97,  49,  99,  25, 101,  51, 103,
+  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
+  /* 5 left  up   */            113, 114,  23, 116, 117, 118, 119,
+  /* 5 right up   */        24, 121, 122, 123, 124,  25, 126, 127,
+  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
+  /* 6 left  up   */            137,  23, 139,  70,  47,  71, 143,
+  /* 6 right up   */        24, 145,  73,  49,  74, 149,  25, 151,
+  /* dummies      */        line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,  line_identifier_dummy,
+  /* 7 left  up   */             23, 162, 163, 164, 165, 166, 167,
+  /* 7 right up   */        24, 169, 170, 171, 172, 173, 174,  25
+};
+
+static void PushMagicView(square pos_viewed, square pos_magic, square start, square end)
 {
   unsigned int const top = magic_views_top[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceSquare(pos_viewed);
   TraceSquare(pos_magic);
-  TraceValue("%d",vec_viewed_to_magic);
+  TraceSquare(start);
+  TraceSquare(end);
   TraceFunctionParamListEnd();
 
   assert(magic_views_top[nbply-1]<magicviews_size);
@@ -49,7 +85,8 @@ static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed
   magicviews[top].pos_viewed = pos_viewed;
   magicviews[top].viewedid = GetPieceId(spec[pos_viewed]);
   magicviews[top].magicpieceid = GetPieceId(spec[pos_magic]);
-  magicviews[top].vec_viewed_to_magic = vec_viewed_to_magic;
+  magicviews[top].line_start = start;
+  magicviews[top].line_end = end;
   ++magic_views_top[nbply-1];
 
   TraceValue("%u",nbply);
@@ -59,461 +96,341 @@ static void PushMagicView(square pos_viewed, square pos_magic, numvec vec_viewed
   TraceFunctionResultEnd();
 }
 
-void GetRoseAttackVectors(square from, square to)
-{
-  vec_index_type vec_index_start;
-
-  observing_walk[nbply] = Rose;
-
-  for (vec_index_start = vec_knight_start; vec_index_start<=vec_knight_end; vec_index_start++)
-  {
-    if (detect_rosecheck_on_line(vec_index_start,0,rose_rotation_clockwise,
-                                 &validate_observation))
-      PushMagicView(to, from, 200+vec[vec_index_start] );
-    if (detect_rosecheck_on_line(vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
-                                 &validate_observation))
-      PushMagicView(to, from, 300+vec[vec_index_start]);
-  }
-}
-
-void GetRoseLionAttackVectors(square from, square to)
-{
-  vec_index_type vec_index_start;
-
-  observing_walk[nbply] = RoseLion;
-
-  for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
-  {
-    if (detect_roselioncheck_on_line(vec_index_start,0,rose_rotation_clockwise,
-                                     &validate_observation))
-      PushMagicView(to, from, 200+vec[vec_index_start] );
-    if (detect_roselioncheck_on_line(vec_index_start,vec_knight_end-vec_knight_start+1,rose_rotation_counterclockwise,
-                                     &validate_observation))
-      PushMagicView(to, from, 300+vec[vec_index_start]);
-  }
-}
-
-void GetRoseHopperAttackVectors(square from, square to)
-{
-  vec_index_type vec_index_start;
-
-  observing_walk[nbply] = RoseHopper;
-
- for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
-  {
-    square const sq_hurdle= to+vec[vec_index_start];
-    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
-    {
-        /* k1==0 (and the equivalent
-         * vec_knight_end-vec_knight_start+1) were already used for
-         * sq_hurdle! */
-      if (detect_rosehoppercheck_on_line(sq_hurdle,
-                                         vec_index_start,1,rose_rotation_clockwise,
-                                         &validate_observation))
-        PushMagicView(to, from, 200+vec[vec_index_start] );
-      if (detect_rosehoppercheck_on_line(sq_hurdle,
-                                         vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
-                                         &validate_observation))
-        PushMagicView(to, from, 300+vec[vec_index_start]);
-    }
-  }
-}
-
-void GetRoseLocustAttackVectors(square from, square to)
-{
-  /* detects check by a rose locust */
-  vec_index_type  vec_index_start;
-
-  observing_walk[nbply] = RoseLocust;
-
-  for (vec_index_start = vec_knight_start; vec_index_start <= vec_knight_end; vec_index_start++)
-  {
-    square const sq_arrival= to-vec[vec_index_start];
-    if (is_square_empty(sq_arrival))
-    {
-        /* k1==0 (and the equivalent
-         * vec_knight_end-vec_knight_start+1) were already used for
-         * sq_hurdle! */
-      if (detect_roselocustcheck_on_line(sq_arrival,
-                                         vec_index_start,1,rose_rotation_clockwise,
-                                         &validate_observation))
-        PushMagicView(to, from, 200+vec[vec_index_start] );
-      if (detect_roselocustcheck_on_line(sq_arrival,
-                                         vec_index_start,vec_knight_end-vec_knight_start,rose_rotation_counterclockwise,
-                                         &validate_observation))
-        PushMagicView(to, from, 300+vec[vec_index_start]);
-    }
-  }
-}
-
-static void GetRMHopAttackVectors(square from, square to,
-                                  vec_index_type kend, vec_index_type kanf,
-                                  angle_t angle)
-{
-  vec_index_type k;
-
-  for (k = kend; k>=kanf; k--)
-  {
-    square const sq_hurdle = to+vec[k];
-    if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
-    {
-      vec_index_type const k1 = 2*k;
-
-      {
-        square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1]);
-        if (INVOKE_EVAL(&validate_observation,sq_departure,to))
-          PushMagicView(to,from,vec[k]);
-      }
-
-      {
-        square const sq_departure = find_end_of_line(sq_hurdle,angle_vectors[angle][k1-1]);
-        if (INVOKE_EVAL(&validate_observation,sq_departure,to))
-          PushMagicView(to,from,vec[k]);
-      }
-    }
-  }
-}
-
-void GetMooseAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = Elk;
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
-}
-
-void GetRookMooseAttackVectors(square from, square to) {
-  observing_walk[nbply] = RookMoose;
-  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_45);
-}
-
-void GetBishopMooseAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = BishopMoose;
-  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_45);
-}
-
-void GetEagleAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = Eagle;
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
-}
-
-void GetRookEagleAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = RookEagle;
-  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_90);
-}
-
-void GetBishopEagleAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = BishopEagle;
-  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_90);
-}
-
-void GetSparrowAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = Sparrow;
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
-}
-
-void GetRookSparrowAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = RookSparrow;
-  GetRMHopAttackVectors(from, to, vec_rook_end, vec_rook_start, angle_135);
-}
-
-void GetBishopSparrowAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = BishopSparrow;
-  GetRMHopAttackVectors(from, to, vec_bishop_end, vec_bishop_start, angle_135);
-}
-
-void GetMargueriteAttackVectors(square from, square to)
-{
-  observing_walk[nbply] = Marguerite;
-
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_45);
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_90);
-  GetRMHopAttackVectors(from, to, vec_queen_end, vec_queen_start, angle_135);
-
-  if (scheck(&validate_observation))
-  {
-    numvec attackVec;
-    if (to < from)
-      attackVec = move_vec_code[from - to];
-    else
-      attackVec = -move_vec_code[to - from];
-    if (attackVec)
-      PushMagicView(to, from, attackVec);
-  }
-}
-
-static void GetZigZagAttackVectors(square from, square to,
-                                   numvec  k,
-                                   numvec  k1)
-{
-  square sq_departure = to+k;
-  square sq_arrival = to;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceSquare(to);
-  TraceFunctionParam("%d",k);
-  TraceFunctionParam("%d",k1);
-  TraceFunctionParamListEnd();
-
-  while (is_square_empty(sq_departure))
-  {
-    sq_departure += k1;
-    if (is_square_empty(sq_departure))
-      sq_departure += k;
-    else
-      break;
-  }
-
-  if (sq_departure==from && INVOKE_EVAL(validate_observation,sq_departure,sq_arrival))
-    PushMagicView(to, from, 500+k );
-
-  sq_departure = to+k;
-  while (is_square_empty(sq_departure))
-  {
-    sq_departure -= k1;
-    if (is_square_empty(sq_departure))
-      sq_departure += k;
-    else
-      break;
-  }
-
-  if (sq_departure==from && INVOKE_EVAL(validate_observation,sq_departure,sq_arrival))
-    PushMagicView(to, from, 400+k );
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void GetBoyscoutAttackVectors(square from, square to)
-{
-  vec_index_type const top = vec_bishop_start+vec_bishop_end;
-  vec_index_type k;
-
-  observing_walk[nbply] = BoyScout;
-  for (k = vec_bishop_start; k<=vec_bishop_end; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
-}
-
-void GetGirlscoutAttackVectors(square from, square to)
-{
-  vec_index_type const top = vec_rook_start+vec_rook_end;
-  vec_index_type k;
-
-  observing_walk[nbply] = GirlScout;
-  for (k = vec_rook_start; k<=vec_rook_end; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
-}
-
-void GetSpiralSpringerAttackVectors(square from, square to)
-{
-  vec_index_type const top = vec_knight_start+vec_knight_end;
-  vec_index_type k;
-
-  observing_walk[nbply] = SpiralSpringer;
-  for (k = vec_knight_start; k<=vec_knight_end; k++)
-    GetZigZagAttackVectors(from, to, vec[k], vec[top-k]);
-}
-
-void GetDiagonalSpiralSpringerAttackVectors(square from, square to) {
-  vec_index_type k;
-
-  observing_walk[nbply] = DiagonalSpiralSpringer;
-  for (k = vec_knight_start; k<=vec_knight_end; k += 2)
-  {
-    GetZigZagAttackVectors(from, to, vec[k],vec[k+1]);
-    GetZigZagAttackVectors(from, to, vec[k+1],vec[k]);
-  }
-}
-
-/* should never get called if validation works
-(disallow magic + piecetype) */
-void unsupported_uncalled_crosseyed_function(square from, square to) {}
-
-typedef void (*crosseyed_views_function_t)(square, square);
-
-/* magic pieces -
-for most types a magic piece of that type can only
-solve another unit from one direction in any given position. Therefore
-all that is needed is to see if it checks, and use the relative diff to
-calculate the vector. These types have NULL entries in the table below.
-
-More complicated types can solve from more than one direction and need
-special functions listed below to calculate each potential direction.
-
-Unsupported types are listed below with the entry
-unsupported_uncalled_crosseyed_function
-*/
-static crosseyed_views_function_t crosseyed_views_functions[PieceCount] = {
-/*  0 */        0, /* not used */
-/*  1 */        0, /* not used */
-/*  2 */        0,
-/*  3 */        0,
-/*  4 */        0,
-/*  5 */        0,
-/*  6 */        0,
-/*  7 */        0,
-/*  8 */        0,
-/*  9 */        0,
-/* 10 */        0,
-/* 11 */        0,
-/* 12 */        &GetRoseAttackVectors,
-/* 13 */        0,
-/* 14 */        0,
-/* 15 */        0,
-/* 16 */        0,
-/* 17 */        0,
-/* 18 */        0,
-/* 19 */        0,
-/* 20 */        0,
-/* 21 */        0,
-/* 22 */        0,
-/* 23 */        0,
-/* 24 */        0,
-/* 25 */        0,
-/* 26 */        0,
-/* 27 */        0,
-/* 28 */        0,
-/* 29 */        0,
-/* 30 */        0,
-/* 31 */        0,
-/* 32 */        0,
-/* 33 */        0,
-/* 34 */        0,
-/* 35 */        0,
-/* 36 */        0,
-/* 37 */        &GetSpiralSpringerAttackVectors,
-/* 38 */        &unsupported_uncalled_crosseyed_function, /* ubiubi */
-/* 39 */        0,
-/* 40 */        &GetMooseAttackVectors,
-/* 41 */        &GetEagleAttackVectors,
-/* 42 */        &GetSparrowAttackVectors,
-/* 43 */        &unsupported_uncalled_crosseyed_function,  /* archbishop */
-/* 44 */        &unsupported_uncalled_crosseyed_function, /* ref B */
-/* 45 */        &unsupported_uncalled_crosseyed_function, /* cardinal */
-/* 46 */        0,
-/* 47 */        0,
-/* 48 */        0,
-/* 49 */        0,
-/* 50 */        0,
-/* 51 */        0,
-/* 52 */        0,
-/* 53 */        0,
-/* 54 */        &GetDiagonalSpiralSpringerAttackVectors,
-/* 55 */        &unsupported_uncalled_crosseyed_function, /* bouncy knight */
-/* 56 */        0,
-/* 57 */        &unsupported_uncalled_crosseyed_function, /* cat */
-/* 58 */        0,
-/* 59 */        0,
-/* 60 */        0,
-/* 61 */        0,
-/* 62 */        0,
-/* 63 */        0,
-/* 64 */        0,
-/* 65 */        &unsupported_uncalled_crosseyed_function,  /* orphan */
-/* 66 */        0,
-/* 67 */        0,
-/* 68 */        0,
-/* 69 */        0,
-/* 70 */        0,
-/* 71 */        0,
-/* 72 */        0,
-/* 73 */        0,
-/* 74 */        0,
-/* 75 */        &GetBoyscoutAttackVectors, /* boyscout */
-/* 76 */        &GetGirlscoutAttackVectors, /* girlscout */
-/* 77 */        0, /* skylla - depends on vacant sq?? */
-/* 78 */        0, /* charybdis - depends on vacant sq?? */
-/* 79 */        0,
-/* 80 */        &GetRoseLionAttackVectors,
-/* 81 */        &GetRoseHopperAttackVectors,
-/* 82 */        0,
-/* 83 */        0,
-/* 84 */        0,
-/* 85 */        0,
-/* 86 */        0,
-/* 87 */        0,
-/* 88 */        0,
-/* 89 */        0,
-/* 90 */        0,
-/* 91 */        0,
-/* 92 */        0,
-/* 93 */        0,
-/* 94 */        0,
-/* 95 */        0,
-/* 96 */        0,
-/* 97 */        0,
-/* 98 */        0,
-/* 99 */        0,
-/*100 */        0,
-/*101 */        0,
-/*102 */        0,
-/*103 */        &GetRookMooseAttackVectors,
-/*104 */        &GetRookEagleAttackVectors,
-/*105 */        &GetRookSparrowAttackVectors,
-/*106 */        &GetBishopMooseAttackVectors,
-/*107 */        &GetBishopEagleAttackVectors,
-/*108 */        &GetBishopSparrowAttackVectors,
-/*109 */        &GetRoseLionAttackVectors,   /* rao checks like roselion */
-/*110 */        0,
-/*111 */        &GetMargueriteAttackVectors, /* = G+M+EA+SW; magic - believe ok to treat as combination of these */
-/*112 */        0,
-/*113 */        0,
-/*114 */        0,
-/*115 */        0,
-/*116 */        &unsupported_uncalled_crosseyed_function,    /*friend*/
-/*117 */        0,  /* dolphin - do g, g2 count as different vectors? */
-/*118 */        0,
-/*119 */        0,
-/*120 */  0,
-/*121 */  0,
-/*122 */  0,
-/*123 */  0,
-/*124 */  0,
-/*125 */  0,
-/*126 */  0,
-/*127 */  &unsupported_uncalled_crosseyed_function, /*radial k*/
-/*128 */  0,
-/*129 */  &GetRoseLocustAttackVectors,
-/*130 */  &unsupported_uncalled_crosseyed_function,
-/*131 */  &unsupported_uncalled_crosseyed_function,
-/*132 */  &unsupported_uncalled_crosseyed_function,
-/*133 */  &unsupported_uncalled_crosseyed_function,
-/*134 */  &unsupported_uncalled_crosseyed_function,
-/*135 */  &unsupported_uncalled_crosseyed_function,
-/*136 */  &unsupported_uncalled_crosseyed_function,
-/*137 */  &unsupported_uncalled_crosseyed_function,
-/*138 */  &unsupported_uncalled_crosseyed_function,
-/*139 */  &unsupported_uncalled_crosseyed_function
-};
-
 /* Can a specific type of (fairy) piece be magic?
  * @param p type of piece
  * @return true iff pieces of type p can be magic
  */
 boolean magic_is_piece_supported(PieNam p)
 {
-  return crosseyed_views_functions[p]!=&unsupported_uncalled_crosseyed_function;
+  if (p>=Hunter0)
+    return false;
+  else
+    switch (p)
+    {
+      case UbiUbi:
+      case Archbishop:
+      case ReflectBishop:
+      case Cardinal:
+      case BouncyKnight:
+      case CAT:
+      case Orphan:
+      case Friend:
+        return false;
+
+      default:
+        return true;
+    }
+}
+
+static void identify_straight_line(void)
+{
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+
+  vec_index_type const idx = interceptable_observation[observation_context].vector_index;
+  numvec const dir = vec[idx];
+
+  /* we identify straight lines by the two virtual squares just outside of the
+   * board
+   */
+
+  square start = sq_observer;
+  square end = sq_observee;
+
+  do
+  {
+    start += dir;
+  } while (!is_square_blocked(start));
+
+  end = sq_observee;
+  do
+  {
+    end -= dir;
+  } while (!is_square_blocked(end));
+
+  PushMagicView(sq_observee,sq_observer,start,end);
+}
+
+static void identify_circular_line(void)
+{
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  rose_rotation_sense const sense = interceptable_observation[observation_context].auxiliary;
+  vec_index_type idx = interceptable_observation[observation_context].vector_index;
+  square sq_curr = sq_observee;
+
+  square start = sq_observee;
+  square end = start+vec[idx];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* we identify circular lines by the lowest square (*start) and the one
+   * immediately following it (*end)
+   */
+
+  do
+  {
+    sq_curr += vec[idx];
+    idx += sense;
+
+    if (start>sq_curr)
+    {
+      start = sq_curr;
+      end = start+vec[idx];
+    }
+  } while (sq_curr!=sq_observee);
+
+  PushMagicView(sq_observee,sq_observer,start,end);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void identify_zigzag_line(void)
+{
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type const idx_zig = interceptable_observation[observation_context].vector_index;
+  vec_index_type const idx_zag = interceptable_observation[observation_context].auxiliary;
+  square sq_curr = sq_observee+vec[idx_zig];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* we identify zigzag lines by the two first off the board squares
+   */
+
+  while (true)
+  {
+    if (is_square_blocked(sq_curr))
+    {
+      PushMagicView(sq_observee,sq_observer,sq_curr+vec[idx_zag],sq_curr);
+      break;
+    }
+    else
+    {
+      sq_curr += vec[idx_zag];
+
+      if (is_square_blocked(sq_curr))
+      {
+        PushMagicView(sq_observee,sq_observer,sq_curr+vec[idx_zig],sq_curr);
+        break;
+      }
+      else
+        sq_curr += vec[idx_zig];
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void identify_line(void)
+{
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_observer);
+  TraceSquare(sq_observee);
+  TracePiece(e[sq_observer]);
+  TraceText("\n");
+  switch (e[sq_observer])
+  {
+    case Rook:
+    case Queen:
+    case Bishop:
+    case NightRider:
+    case Waran:
+    case Camelrider:
+    case Zebrarider:
+    case Gnurider:
+    case SuperBerolinaPawn:
+    case SuperPawn:
+    case RookHunter:
+    case BishopHunter:
+    case WesirRider:
+    case FersRider:
+    case Elephant:
+    case Lion:
+    case RookLion:
+    case BishopLion:
+    case NightRiderLion:
+    case Pao:
+    case Leo:
+    case Vao:
+    case Nao:
+    case Locust:
+    case NightLocust:
+    case BishopLocust:
+    case RookLocust:
+    case Sirene:
+    case Triton:
+    case Nereide:
+    case Kangaroo:
+    case KangarooLion:
+    case Rabbit:
+    case Kao:
+    case Elk:
+    case RookMoose:
+    case BishopMoose:
+    case Eagle:
+    case RookEagle:
+    case BishopEagle:
+    case Sparrow:
+    case RookSparrow:
+    case BishopSparrow:
+    case Marguerite:
+    case EquiHopper:
+    case Orix:
+    case EdgeHog:
+    case Grasshopper:
+    case NightriderHopper:
+    case CamelRiderHopper:
+    case ZebraRiderHopper:
+    case GnuRiderHopper:
+    case RookHopper:
+    case BishopHopper:
+    case ContraGras:
+    case GrassHopper2:
+    case GrassHopper3:
+    case Bob:
+    case EquiStopper:
+    case MaoRider:
+    case MoaRider:
+    case MaoRiderLion:
+    case MoaRiderLion:
+      identify_straight_line();
+      break;
+
+    case Rose:
+    case RoseLion:
+    case RoseHopper:
+    case RoseLocust:
+    case Rao:
+      identify_circular_line();
+      break;
+
+    case SpiralSpringer:
+    case DiagonalSpiralSpringer:
+    case SpiralSpringer40:
+    case SpiralSpringer20:
+    case SpiralSpringer33:
+    case SpiralSpringer11:
+    case BoyScout:
+    case GirlScout:
+      identify_zigzag_line();
+      break;
+
+    case King:
+    case Poseidon:
+    case ErlKing:
+    case Knight:
+    case Zebra:
+    case Camel:
+    case Giraffe:
+    case RootFiftyLeaper:
+    case Bucephale:
+    case Wesir:
+    case Alfil:
+    case Fers:
+    case Dabbaba:
+    case Gnu:
+    case Antilope:
+    case Squirrel:
+    case Okapi:
+    case Leap37:
+    case Leap16:
+    case Leap24:
+    case Leap35:
+    case Leap15:
+    case Leap25:
+    case Bison:
+    case Zebu:
+    case Leap36:
+    case Mao:
+    case Moa:
+    case NonStopEquihopper:
+    case NonStopOrix:
+    case NonstopEquiStopper:
+    case KingHopper:
+    case KnightHopper:
+    case MarineKnight:
+
+    case Pawn:
+    case BerolinaPawn:
+    case ReversePawn:
+    case ChinesePawn:
+    case MarinePawn:
+
+    case RadialKnight:
+    case Treehopper:
+    case Leafhopper :
+    case GreaterTreehopper:
+    case GreaterLeafhopper:
+
+    case Skylla:
+    case Charybdis:
+
+    /* consider again */
+    case BouncyNightrider:
+    case DoubleGras:
+    case DoubleRookHopper:
+    case DoubleBishopper:
+    case Bouncer :
+    case RookBouncer:
+    case BishopBouncer :
+
+    /* combined pieces */
+    case Amazone:
+    case Empress:
+    case Princess:
+    case Dragon:
+    case Gryphon:
+    case Ship:
+    case Gral:
+    case Scorpion:
+    case Dolphin:
+    case Querquisite:
+    case MarineShip:
+      PushMagicView(sq_observee,sq_observer,sq_observer,sq_observee);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static square current_magic_pos[maxply+1];
 
 boolean magic_enforce_observer(slice_index si)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_observer = current_magic_pos[nbply];
+  square const sq_magician = current_magic_pos[nbply];
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = ((sq_observer==initsquare || sq_observer==sq_departure)
-            && validate_observation_recursive(slices[si].next1));
+  if (sq_magician==initsquare)
+    /* we are not detecting magic views */
+    result = validate_observation_recursive(slices[si].next1);
+  else
+  {
+    square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+
+    if (sq_magician==sq_observer
+        && validate_observation_recursive(slices[si].next1))
+      identify_line();
+
+    result = false; /* we need all views */
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -537,25 +454,15 @@ static void PushMagicViewsByOnePiece(square pos_magic)
     {
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
-      current_magic_pos[nbply] = pos_magic;
       move_generation_stack[current_move[nbply]-1].capture = *pos_viewed;
-      if (crosseyed_views_functions[pi_magic]!=0)
-        (*crosseyed_views_functions[pi_magic])(pos_magic,*pos_viewed);
-      else if (pi_magic<Queen || pi_magic>Bishop
-               || CheckDir[pi_magic][*pos_viewed-pos_magic]!=0)
+      if (pi_magic<Queen || pi_magic>Bishop
+          || CheckDir[pi_magic][*pos_viewed-pos_magic]!=0)
       {
        /* piece is not cross-eyed - use regular check function */
         observing_walk[nbply] = pi_magic;
-        if ((*checkfunctions[pi_magic])(&validate_observation))
-        {
-          numvec vec_viewed_to_magic;
-          if (*pos_viewed<pos_magic)
-            vec_viewed_to_magic = move_vec_code[pos_magic-*pos_viewed];
-          else
-            vec_viewed_to_magic = -move_vec_code[*pos_viewed-pos_magic];
-          if (vec_viewed_to_magic!=0)
-            PushMagicView(*pos_viewed,pos_magic,vec_viewed_to_magic);
-        }
+        current_magic_pos[nbply] = pos_magic;
+        (*checkfunctions[pi_magic])(&validate_observation);
+        current_magic_pos[nbply] = initsquare;
       }
     }
 
@@ -605,7 +512,8 @@ static boolean find_view(ply ply_id, int j)
 {
   PieceIdType const currid = magicviews[j].viewedid;
   PieceIdType const magicpieceid = magicviews[j].magicpieceid;
-  numvec const vec_viewed_to_magic = magicviews[j].vec_viewed_to_magic;
+  square const start = magicviews[j].line_start;
+  square const end = magicviews[j].line_end;
   boolean result = false;
   unsigned int k;
 
@@ -617,7 +525,8 @@ static boolean find_view(ply ply_id, int j)
   for (k = magic_views_top[ply_id-1]; k<magic_views_top[ply_id]; ++k)
     if (magicviews[k].viewedid==currid
         && magicviews[k].magicpieceid==magicpieceid
-        && magicviews[k].vec_viewed_to_magic==vec_viewed_to_magic)
+        && magicviews[k].line_start==start
+        && magicviews[k].line_end==end)
     {
       result = true;
       break;
@@ -772,7 +681,7 @@ static void WriteMagicViews(int ply)
     StdChar(' ');
     WriteSquare(magicviews[i].magicpieceid);
     StdChar(' ');
-    sprintf(buf, "%i", magicviews[i].vec_viewed_to_magic);
+    sprintf(buf, "%i", magicviews[i].line_identifier);
     StdString(buf);
     StdChar('\n');
   }

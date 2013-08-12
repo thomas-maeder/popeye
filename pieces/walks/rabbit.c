@@ -5,7 +5,7 @@
 #include "pydata.h"
 #include "pyproc.h"
 
-/* Generate moves for an Rabbit
+/* Generate moves for a Rabbit
  */
 void rabbit_generate_moves(void)
 {

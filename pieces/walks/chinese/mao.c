@@ -1,74 +1,135 @@
 #include "pieces/walks/chinese/mao.h"
+#include "pieces/walks/angle/angles.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
 
-static void gmaooa(square  pass,
-                   square  arrival1,
-                   square  arrival2)
+static square mao_passed(numvec to_arrival)
 {
-  if (is_square_empty(pass))
+  numvec const y = to_arrival/(onerow-2);
+  numvec const x = to_arrival - y*onerow;
+  return (y/2)*onerow + (x/2);
+}
+
+static square moa_passed(numvec to_arrival)
+{
+  numvec const y = to_arrival/(onerow-2);
+  numvec const x = to_arrival - y*onerow;
+  return (y>0 ? dir_up : dir_down) + (x>0 ? dir_right : dir_left);
+}
+
+static void maooa_generate_move(numvec to_passed, numvec to_arrival)
+{
+  square const sq_departure = curr_generation->departure;
+
+  curr_generation->auxiliary.hopper.sq_hurdle = sq_departure+to_passed;
+
+  if (is_square_empty(curr_generation->auxiliary.hopper.sq_hurdle))
   {
-    if (is_square_empty(arrival1)
-        || piece_belongs_to_opponent(arrival1))
-    {
-      curr_generation->auxiliary.hopper.sq_hurdle = pass;
-      curr_generation->arrival = arrival1;
-      push_move();
-    }
+    curr_generation->arrival = sq_departure+to_arrival;
 
-    if (is_square_empty(arrival2)
-        || piece_belongs_to_opponent(arrival2))
-    {
-      curr_generation->auxiliary.hopper.sq_hurdle = pass;
-      curr_generation->arrival = arrival2;
+    if (is_square_empty(curr_generation->arrival)
+        || piece_belongs_to_opponent(curr_generation->arrival))
       push_move();
-    }
-
-    curr_generation->auxiliary.hopper.sq_hurdle = initsquare;
   }
+
+  curr_generation->auxiliary.hopper.sq_hurdle = initsquare;
 }
 
 /* Generate moves for a Mao
  */
 void mao_generate_moves(void)
 {
-  square const sq_departure = curr_generation->departure;
+  vec_index_type k;
 
-  gmaooa(sq_departure+dir_up, sq_departure+2*dir_up+dir_left, sq_departure+2*dir_up+dir_right);
-  gmaooa(sq_departure+dir_down, sq_departure+2*dir_down+dir_right, sq_departure+2*dir_down+dir_left);
-  gmaooa(sq_departure+dir_right, sq_departure+dir_up+2*dir_right, sq_departure+dir_down+2*dir_right);
-  gmaooa(sq_departure+dir_left, sq_departure+dir_down+2*dir_left, sq_departure+dir_up+2*dir_left);
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    numvec const to_arrival = vec[k];
+    maooa_generate_move(mao_passed(to_arrival),to_arrival);
+  }
 }
 
 /* Generate moves for a Moa
  */
 void moa_generate_moves(void)
 {
-  square const sq_departure = curr_generation->departure;
+  vec_index_type k;
 
-  gmaooa(sq_departure+dir_up+dir_left, sq_departure+2*dir_up+dir_left, sq_departure+dir_up+2*dir_left);
-  gmaooa(sq_departure+dir_down+dir_right, sq_departure+2*dir_down+dir_right, sq_departure+dir_down+2*dir_right);
-  gmaooa(sq_departure+dir_up+dir_right, sq_departure+dir_up+2*dir_right, sq_departure+2*dir_up+dir_right);
-  gmaooa(sq_departure+dir_down+dir_left, sq_departure+dir_down+2*dir_left, sq_departure+2*dir_down+dir_left);
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    numvec const to_arrival = vec[k];
+    maooa_generate_move(moa_passed(to_arrival),to_arrival);
+  }
 }
 
-static void gemaooarider(numvec tomiddle, numvec todest)
+static boolean maooacheck_onedir(square sq_pass,
+                                 vec_index_type vec_index_angle_departure_pass,
+                                 evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  numvec const vec_departure_pass = angle_vectors[angle_45][vec_index_angle_departure_pass];
+  square const sq_departure = sq_pass+vec_departure_pass;
+
+  return (INVOKE_EVAL(evaluate,sq_departure,sq_target));
+}
+
+static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
+                          vec_index_type vec_index_pass_target_end,
+                          evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  boolean result = false;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index = vec_index_pass_target_end;
+       interceptable_observation[observation_context].vector_index>=vec_index_pass_target_begin;
+       --interceptable_observation[observation_context].vector_index)
+  {
+    numvec const vec_pass_target = vec[interceptable_observation[observation_context].vector_index];
+    square const sq_pass = sq_target+vec_pass_target;
+
+    if (is_square_empty(sq_pass)
+        && (maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index,evaluate)
+            || maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index-1,evaluate)))
+    {
+      result = true;
+      break;
+    }
+  }
+
+  --observation_context;
+
+  return result;
+}
+
+boolean maocheck(evalfunction_t *evaluate)
+{
+  return maooacheck(vec_bishop_start,vec_bishop_end,evaluate);
+}
+
+boolean moacheck(evalfunction_t *evaluate)
+{
+  return maooacheck(vec_rook_start,vec_rook_end,evaluate);
+}
+
+static void maooa_rider_generate_moves(numvec to_passed, numvec to_arrival)
 {
   square const sq_departure = curr_generation->departure;
 
-  square middle = sq_departure+tomiddle;
-  curr_generation->arrival = sq_departure+todest;
+  square sq_passed = sq_departure+to_passed;
+  curr_generation->arrival = sq_departure+to_arrival;
 
-  while (is_square_empty(middle) && is_square_empty(curr_generation->arrival))
+  while (is_square_empty(sq_passed) && is_square_empty(curr_generation->arrival))
   {
     push_move();
-    middle += todest;
-    curr_generation->arrival += todest;
+    sq_passed += to_arrival;
+    curr_generation->arrival += to_arrival;
   }
 
-  if (is_square_empty(middle)
+  if (is_square_empty(sq_passed)
       && piece_belongs_to_opponent(curr_generation->arrival))
     push_move();
 }
@@ -77,61 +138,127 @@ static void gemaooarider(numvec tomiddle, numvec todest)
  */
 void moarider_generate_moves(void)
 {
-  gemaooarider(+dir_up+dir_left,+2*dir_up+dir_left);
-  gemaooarider(+dir_up+dir_left,+dir_up+2*dir_left);
-  gemaooarider(+dir_down+dir_right,+2*dir_down+dir_right);
-  gemaooarider(+dir_down+dir_right,+dir_down+2*dir_right);
-  gemaooarider(+dir_up+dir_right,+dir_up+2*dir_right);
-  gemaooarider(+dir_up+dir_right,+2*dir_up+dir_right);
-  gemaooarider(+dir_down+dir_left,+dir_down+2*dir_left);
-  gemaooarider(+dir_down+dir_left,+2*dir_down+dir_left);
+  vec_index_type k;
+
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    numvec const to_arrival = vec[k];
+    maooa_rider_generate_moves(moa_passed(to_arrival),to_arrival);
+  }
 }
 
 /* Generate moves for a Mao Rider
  */
 void maorider_generate_moves(void)
 {
-  gemaooarider(+dir_right,+dir_up+2*dir_right);
-  gemaooarider(+dir_right,+dir_down+2*dir_right);
-  gemaooarider(+dir_down,+2*dir_down+dir_right);
-  gemaooarider(+dir_down,+2*dir_down+dir_left);
-  gemaooarider(+dir_left,+dir_down+2*dir_left);
-  gemaooarider(+dir_left,+dir_up+2*dir_left);
-  gemaooarider(+dir_up,+2*dir_up+dir_left);
-  gemaooarider(+dir_up,+2*dir_up+dir_right);
+  vec_index_type k;
+
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    numvec const to_arrival = vec[k];
+    maooa_rider_generate_moves(mao_passed(to_arrival),to_arrival);
+  }
 }
 
-static void gemaooariderlion(numvec tomiddle, numvec todest)
+static boolean maooarider_check(numvec to_passed,
+                                numvec to_departure,
+                                evalfunction_t *evaluate)
 {
-  square const sq_departure = curr_generation->departure;
-  square middle = sq_departure + tomiddle;
-  curr_generation->arrival = sq_departure+todest;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square sq_passed = sq_target+to_passed;
+  square sq_departure= sq_target+to_departure;
 
-  while (is_square_empty(middle) && is_square_empty(curr_generation->arrival))
+  while (is_square_empty(sq_passed) && is_square_empty(sq_departure))
   {
-    middle += todest;
-    curr_generation->arrival += todest;
+    sq_passed += to_departure;
+    sq_departure += to_departure;
   }
 
-  if (!is_square_blocked(middle) && !is_square_blocked(curr_generation->arrival))
+  return (is_square_empty(sq_passed)
+          && INVOKE_EVAL(evaluate,sq_departure,sq_target));
+}
+
+boolean moarider_check(evalfunction_t *evaluate)
+{
+  boolean result = false;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
+      interceptable_observation[observation_context].vector_index<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index)
   {
-    if (!is_square_empty(middle)
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    if (maooarider_check(mao_passed(to_departure), /* we are going backward! */
+                        to_departure,
+                        evaluate))
+    {
+      result = true;
+      break;
+    }
+  }
+
+  --observation_context;
+
+  return result;
+}
+
+boolean maorider_check(evalfunction_t *evaluate)
+{
+  boolean result = false;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
+      interceptable_observation[observation_context].vector_index<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index)
+  {
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    if (maooarider_check(moa_passed(to_departure), /* we are going backward! */
+                        to_departure,
+                        evaluate))
+    {
+      result = true;
+      break;
+    }
+  }
+
+  --observation_context;
+
+  return result;
+}
+
+static void maooa_rider_lion_generate_moves(numvec to_passed, numvec to_arrival)
+{
+  square const sq_departure = curr_generation->departure;
+  square sq_passed = sq_departure+to_passed;
+  curr_generation->arrival = sq_departure+to_arrival;
+
+  while (is_square_empty(sq_passed) && is_square_empty(curr_generation->arrival))
+  {
+    sq_passed += to_arrival;
+    curr_generation->arrival += to_arrival;
+  }
+
+  if (!is_square_blocked(sq_passed) && !is_square_blocked(curr_generation->arrival))
+  {
+    if (!is_square_empty(sq_passed)
         && (is_square_empty(curr_generation->arrival)
             || piece_belongs_to_opponent(curr_generation->arrival)))
       push_move();
-    if (is_square_empty(middle) || is_square_empty(curr_generation->arrival))
+    if (is_square_empty(sq_passed) || is_square_empty(curr_generation->arrival))
     {
-      middle += todest;
-      curr_generation->arrival += todest;
-      while (is_square_empty(middle) && is_square_empty(curr_generation->arrival))
+      sq_passed += to_arrival;
+      curr_generation->arrival += to_arrival;
+      while (is_square_empty(sq_passed) && is_square_empty(curr_generation->arrival))
       {
         push_move();
-        middle += todest;
-        curr_generation->arrival += todest;
+        sq_passed += to_arrival;
+        curr_generation->arrival += to_arrival;
       }
     }
 
-    if (is_square_empty(middle)
+    if (is_square_empty(sq_passed)
         && piece_belongs_to_opponent(curr_generation->arrival))
       push_move();
   }
@@ -141,26 +268,112 @@ static void gemaooariderlion(numvec tomiddle, numvec todest)
  */
 void maoriderlion_generate_moves(void)
 {
-  gemaooariderlion(+dir_right,+dir_up+2*dir_right);
-  gemaooariderlion(+dir_right,+dir_down+2*dir_right);
-  gemaooariderlion(+dir_down,+2*dir_down+dir_right);
-  gemaooariderlion(+dir_down,+2*dir_down+dir_left);
-  gemaooariderlion(+dir_left,+dir_down+2*dir_left);
-  gemaooariderlion(+dir_left,+dir_up+2*dir_left);
-  gemaooariderlion(+dir_up,+2*dir_up+dir_left);
-  gemaooariderlion(+dir_up,+2*dir_up+dir_right);
+  vec_index_type k;
+
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    numvec const to_arrival = vec[k];
+    maooa_rider_lion_generate_moves(mao_passed(to_arrival),to_arrival);
+  }
 }
 
 /* Generate moves for a Moa Rider Lion
  */
 void moariderlion_generate_moves(void)
 {
-  gemaooariderlion(+dir_up+dir_left,+2*dir_up+dir_left);
-  gemaooariderlion(+dir_up+dir_left,+dir_up+2*dir_left);
-  gemaooariderlion(+dir_down+dir_right,+2*dir_down+dir_right);
-  gemaooariderlion(+dir_down+dir_right,+dir_down+2*dir_right);
-  gemaooariderlion(+dir_up+dir_right,+dir_up+2*dir_right);
-  gemaooariderlion(+dir_up+dir_right,+2*dir_up+dir_right);
-  gemaooariderlion(+dir_down+dir_left,+dir_down+2*dir_left);
-  gemaooariderlion(+dir_down+dir_left,+2*dir_down+dir_left);
+  vec_index_type k;
+
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    numvec const to_arrival = vec[k];
+    maooa_rider_lion_generate_moves(moa_passed(to_arrival),to_arrival);
+  }
+}
+
+static boolean maooariderlion_check(numvec to_passed,
+                                    numvec to_departure,
+                                    evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square sq_passed = sq_target+to_passed;
+  square sq_departure = sq_target+to_departure;
+
+  while (is_square_empty(sq_passed) && is_square_empty(sq_departure))
+  {
+    sq_passed += to_departure;
+    sq_departure += to_departure;
+  }
+
+  if (!is_square_empty(sq_passed)
+      && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    return true;
+
+  if (!is_square_blocked(sq_passed) && !is_square_blocked(sq_departure)
+      && (is_square_empty(sq_passed) || is_square_empty(sq_departure)))
+  {
+    sq_passed += to_departure;
+    sq_departure += to_departure;
+
+    while (is_square_empty(sq_passed) && is_square_empty(sq_departure))
+    {
+      sq_passed += to_departure;
+      sq_departure += to_departure;
+    }
+
+    if (is_square_empty(sq_passed)
+        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      return true;
+  }
+
+  return false;
+}
+
+boolean maoriderlion_check(evalfunction_t *evaluate)
+{
+  boolean result = false;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
+      interceptable_observation[observation_context].vector_index<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index)
+  {
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    if (maooariderlion_check(moa_passed(to_departure), /* we are going backward! */
+                             to_departure,
+                             evaluate))
+    {
+      result = true;
+      break;
+    }
+  }
+
+  --observation_context;
+
+  return result;
+}
+
+boolean moariderlion_check(evalfunction_t *evaluate)
+{
+  boolean result = false;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
+      interceptable_observation[observation_context].vector_index<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index)
+  {
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    if (maooariderlion_check(mao_passed(to_departure), /* we are going backward! */
+                             to_departure,
+                             evaluate))
+    {
+      result = true;
+      break;
+    }
+  }
+
+  --observation_context;
+
+  return result;
 }

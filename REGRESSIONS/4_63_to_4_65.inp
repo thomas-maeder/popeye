@@ -387,4 +387,20 @@ pieces white gfe7 sf7 black kc5
 stip +1
 option nowk
 
+next
+
+title up to 4.63, Popeye wouldn't recolor Qd1
+pieces black magic qb4 white qb3
+stip x1
+condition anticirce circe
+
+next
+
+title so far, we haven't recolored the knight after 1.Sh1-g3 in spite of
+title the new observation via a3-b5 ...
+pieces black magic rob1 pa3 white sh1
+stip ~1
+option nowk nobk
+twin remove a3
+
 end

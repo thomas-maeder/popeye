@@ -2341,9 +2341,9 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/mummer.h conditions/patrol.h conditions/provocateurs.h \
  conditions/shielded_kings.h conditions/superguards.h \
  conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
- conditions/eiffel.h conditions/monochrome.h conditions/bichrome.h \
- conditions/grid.h conditions/edgemover.h conditions/annan.h \
- conditions/phantom.h conditions/marscirce/plus.h \
+ conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
+ conditions/bichrome.h conditions/grid.h conditions/edgemover.h \
+ conditions/annan.h conditions/phantom.h conditions/marscirce/plus.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/sting.h conditions/transmuting_kings/transmuting_kings.h \
  stipulation/stipulation.h stipulation/slice.h \
@@ -2351,6 +2351,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/goals/goals.h output/mode.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
+ pieces/attributes/magic.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/single_move_generator.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/branch.h stipulation/temporary_hacks.h \
@@ -2431,6 +2432,8 @@ conditions/wormhole.h:
 
 conditions/madrasi.h:
 
+conditions/masand.h:
+
 conditions/eiffel.h:
 
 conditions/monochrome.h:
@@ -2472,6 +2475,8 @@ conditions/transmuting_kings/reflective_kings.h:
 conditions/vaulting_kings.h:
 
 pieces/attributes/paralysing/paralysing.h:
+
+pieces/attributes/magic.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 
@@ -2588,8 +2593,9 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  utilities/boolean.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/enumeration.h pylang.h solving/observation.h \
- stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
+ utilities/enumeration.h pylang.h pieces/walks/riders.h \
+ position/position.h solving/observation.h stipulation/slice_type.h \
+ stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h \
  pyproc.h
@@ -2619,6 +2625,10 @@ pieces/walks/vectors.h:
 utilities/enumeration.h:
 
 pylang.h:
+
+pieces/walks/riders.h:
+
+position/position.h:
 
 solving/observation.h:
 

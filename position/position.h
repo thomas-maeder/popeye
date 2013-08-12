@@ -66,9 +66,9 @@ typedef enum
   Camelrider,             /* 48 */
   Zebrarider,             /* 49 */
   Gnurider,               /* 50 */
-  CamelHopper,            /* 51 */
-  ZebraHopper,            /* 52 */
-  GnuHopper,              /* 53 */
+  CamelRiderHopper,            /* 51 */
+  ZebraRiderHopper,            /* 52 */
+  GnuRiderHopper,              /* 53 */
   DiagonalSpiralSpringer, /* 54 */
   BouncyKnight,           /* 55 */
   EquiHopper,             /* 56 */
@@ -135,8 +135,8 @@ typedef enum
   Dolphin,               /* 117 */
   Rabbit,                /* 118 */
   Bob,                   /* 119 */
-  EquiEnglish,           /* 120 */
-  EquiFrench,            /* 121 */
+  EquiStopper,           /* 120 */
+  NonstopEquiStopper,            /* 121 */
   Querquisite,           /* 122 */
   Bouncer,               /* 123 */
   RookBouncer,           /* 124 */

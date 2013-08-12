@@ -4,6 +4,7 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
+#include "pyproc.h"
 
 /* This module implements hopper pieces.
  */
@@ -12,7 +13,10 @@
  * @param kbeg start of range of vector indices to be used
  * @param kend end of range of vector indices to be used
  */
-void hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend);
+void rider_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend);
+
+boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
+                            evalfunction_t *evaluate);
 
 /* Generate moves for a leaper hopper piece
  * @param kbeg start of range of vector indices to be used

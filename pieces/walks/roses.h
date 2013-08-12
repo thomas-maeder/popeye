@@ -4,8 +4,9 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
+#include "pyproc.h"
 
-/* Generation of moves for Rose and derived pieces.
+/* This module implements Rose and derived pieces.
  * The circle lines are generated in a clever way (which leads to
  * simple code):
  *
@@ -27,21 +28,91 @@ typedef enum
 {
   rose_rotation_counterclockwise = -1,
   rose_rotation_clockwise = +1
-} rose_rotation_direction;
+} rose_rotation_sense;
 
+/* Find the next occupied square on a circular line
+ * @param sq_departure indicates where to start the search
+ * @param idx_curr_dir indicates the direction in which to start the line
+ * @param indicates the rotation sense
+ * @return first occupied square met
+ * @note sets *idx_curr_dir to the direction at the result square, allowing
+ *       the circle to be continued from that square
+ */
 square find_end_of_circle_line(square sq_departure,
-                               vec_index_type vec_index_start,
-                               vec_index_type *rotation,
-                               rose_rotation_direction direction);
+                               vec_index_type *idx_curr_dir,
+                               rose_rotation_sense sense);
 
-void rose_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end);
+/* Detect observation on a Rose line
+ * @param idx_curr_dir indicates the direction in which to start the line
+ * @param indicates the rotation sense
+ */
+boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
+                                  rose_rotation_sense sense,
+                                  evalfunction_t *evaluate);
 
-void rao_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end);
+/* Generate moves for a Rose
+ * @param vec_range_start start and ...
+ * @param vec_range_end ... end of range of single step vectors
+ */
+void rose_generate_moves(vec_index_type vec_range_start,
+                         vec_index_type vec_range_end);
 
-void roselion_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end);
+/* Generate moves for a Rao
+ * @param vec_range_start start and ...
+ * @param vec_range_end ... end of range of single step vectors
+ */
+void rao_generate_moves(vec_index_type vec_range_start,
+                        vec_index_type vec_range_end);
 
-void rosehopper_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end);
+/* Detect observation on a Rose Lion (or Rao) line
+ * @param idx_curr_dir indicates the direction in which to start the line
+ * @param indicates the rotation sense
+ */
+boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
+                                      rose_rotation_sense sense,
+                                      evalfunction_t *evaluate);
 
-void roselocust_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end);
+/* Generate moves for a Rose Lion
+ * @param vec_range_start start and ...
+ * @param vec_range_end ... end of range of single step vectors
+ */
+void roselion_generate_moves(vec_index_type vec_range_start,
+                             vec_index_type vec_range_end);
+
+/* Generate moves for a Rose Hopper
+ * @param vec_range_start start and ...
+ * @param vec_range_end ... end of range of single step vectors
+ */
+void rosehopper_generate_moves(vec_index_type vec_range_start,
+                               vec_index_type vec_range_end);
+
+/* Detect observation on a rose hopper line
+ * @param sq_hurdle position of the hurdle
+ * @param idx_curr_dir indicates the direction in which to continue the line
+ *                     from sq_hurdle
+ * @param indicates the rotation sense
+ */
+boolean detect_rosehopper_check_on_line(square sq_hurdle,
+                                        vec_index_type idx_curr_dir,
+                                        rose_rotation_sense sense,
+                                        evalfunction_t *evaluate);
+
+/* Generate moves for a Rose Locust
+ * @param vec_range_start start and ...
+ * @param vec_range_end ... end of range of single step vectors
+ */
+void roselocust_generate_moves(vec_index_type vec_range_start,
+                               vec_index_type vec_range_end);
+
+/* Detect observation on a rose hopper line
+ * @param sq_arrival arrival square of the imgaginary capture
+ * @param idx_curr_dir indicates the direction in which to continue the line
+ *                     from the observee
+ * @param indicates the rotation sense
+ */
+boolean detect_roselocust_check_on_line(square sq_arrival,
+                                        vec_index_type idx_curr_dir,
+                                        rose_rotation_sense sense,
+                                        evalfunction_t *evaluate);
 
 #endif

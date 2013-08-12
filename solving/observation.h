@@ -21,7 +21,12 @@
  *   * ...
  */
 
-extern vec_index_type interceptable_observation_vector_index[maxply+1];
+typedef struct
+{
+    vec_index_type vector_index;
+    int auxiliary;
+} interceptable_observation_type;
+extern interceptable_observation_type interceptable_observation[maxply+1];
 extern unsigned int observation_context;
 
 /* Continue validating an observation (or observer or observation geometry)

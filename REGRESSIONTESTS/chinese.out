@@ -219,10 +219,10 @@ Loesung beendet.
       1...Te2-e4 !
 
 
-  add_to_move_generation_stack:       56714
-                     play_move:       30038
+  add_to_move_generation_stack:       56983
+                     play_move:       30228
  is_white_king_square_attacked:        1844
- is_black_king_square_attacked:       29763
+ is_black_king_square_attacked:       29953
 Loesung beendet. 
 
 

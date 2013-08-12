@@ -40,6 +40,7 @@
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/walks/angle/angles.h"
+#include "pieces/walks/riders.h"
 #include "conditions/sat.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "conditions/singlebox/type1.h"
@@ -202,7 +203,7 @@ boolean rhuntcheck(evalfunction_t *evaluate)
   /* detect check of a rook/bishop-hunter */
   /* it's not dependent of the piece-color !! */
   /* always moves up (rook), down (bishop) !! */
-  return ridcheck(4, 4, evaluate) || ridcheck(5, 6, evaluate);
+  return riders_check(4, 4, evaluate) || riders_check(5, 6, evaluate);
 }
 
 boolean bhuntcheck(evalfunction_t *evaluate)
@@ -210,8 +211,8 @@ boolean bhuntcheck(evalfunction_t *evaluate)
   /* detect check of a bishop/rook-hunter */
   /* it's not dependent of the piece-color !! */
   /* always moves up (bishop), down (rook) !! */
-  return ridcheck(2, 2, evaluate)
-      || ridcheck(7, 8, evaluate);
+  return riders_check(2, 2, evaluate)
+      || riders_check(7, 8, evaluate);
 }
 
 static boolean skycharcheck(square chp,

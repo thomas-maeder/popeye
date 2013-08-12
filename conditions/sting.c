@@ -13,7 +13,7 @@
 void sting_generate_moves_for_piece(slice_index si, PieNam p)
 {
   if (p==King)
-    hoppers_generate_moves(vec_queen_start,vec_queen_end);
+    rider_hoppers_generate_moves(vec_queen_start,vec_queen_end);
 
   generate_moves_for_piece(slices[si].next1,p);
 }

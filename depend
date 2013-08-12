@@ -223,6 +223,7 @@ py2$(OBJ_SUFFIX): py2.c py.h utilities/boolean.h position/position.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h stipulation/has_solution_type.h solving/solve.h \
  solving/single_move_generator.h pieces/walks/pawns/en_passant.h pyproc.h \
+ pieces/walks/riders.h pieces/walks/lions.h pieces/walks/hoppers.h \
  solving/observation.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/temporary_hacks.h pieces/walks/pawns/pawn.h \
@@ -308,6 +309,12 @@ pieces/walks/pawns/en_passant.h:
 
 pyproc.h:
 
+pieces/walks/riders.h:
+
+pieces/walks/lions.h:
+
+pieces/walks/hoppers.h:
+
 solving/observation.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
@@ -334,9 +341,9 @@ py3$(OBJ_SUFFIX): py3.c py.h utilities/boolean.h position/position.h \
  pieces/walks/pawns/pawn.h pyproc.h position/position.h \
  pieces/walks/hunters.h pieces/attributes/paralysing/paralysing.h \
  stipulation/slice.h stipulation/slice_type.h pieces/walks/angle/angles.h \
- conditions/sat.h solving/solve.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- conditions/ultraschachzwang/legality_tester.h \
+ pieces/walks/riders.h conditions/sat.h solving/solve.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/walks/pawns/promotion.h conditions/magic_square.h \
  conditions/immune.h conditions/phantom.h \
@@ -394,6 +401,8 @@ stipulation/slice.h:
 stipulation/slice_type.h:
 
 pieces/walks/angle/angles.h:
+
+pieces/walks/riders.h:
 
 conditions/sat.h:
 

@@ -11,6 +11,8 @@
  */
 boolean magic_is_piece_supported(PieNam p);
 
+boolean magic_enforce_observer(slice_index si);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

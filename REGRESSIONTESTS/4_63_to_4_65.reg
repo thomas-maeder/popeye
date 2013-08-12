@@ -1915,3 +1915,91 @@ leaf hopper checks have never been detected correctly
 solution finished. 
 
 
+both sides need a kingboth sides need a king
+up to 4.63, Popeye wouldn't recolor Qd1
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -Q   .   .   .   .   .   .   4
+|                                   |
+3   .   Q   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+               Magic b4
+                Circe
+              AntiCirce
+
+   1.Qb3*b4[wQb4->d1][+bmQd8][d1=b] x !
+
+
+  add_to_move_generation_stack:          19
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+so far, we haven't recolored the knight after 1.Sh1-g3 in spite of
+  the new observation via a3-b5 ...
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -P   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   . -RO   .   .   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+             Magic a3 b1
+
+a) 
+
+   1.Sh1-g3 !
+
+   1.Sh1-f2 !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b)  -bmPa3
+
+   1.Sh1-g3[g3=b] !
+
+   1.Sh1-f2 !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

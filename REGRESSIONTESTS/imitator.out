@@ -625,17 +625,6 @@ Loesung beendet.
              Imitator d5
         SchwarzerLaengstzueger
 
-   1.MAe6-g5[If4] ! Zugzwang.
-      1...cLc6-e4=cT[Ih2]
-          2.f2-f4[Ih4] Zugzwang.
-              2...cTe4-e8=cD[Ih8]
-                  3.MAg5-e4[If7] Zugzwang.
-                      3...cDe8-a4=cS[Ib3]
-                          4.Kd6-c6[Ia3] Zugzwang.
-                              4...Ld1-h5[Ie7] +
-                                  5.Kc6-b6[Id7]
-                                      5...Nd8-a2[Ia1] #
-
    1.MAe6-d4[Ic3] ! Zugzwang.
       1...Nd8-h6[Ig1]
           2.Kd6-e7[Ih2] Zugzwang.
@@ -657,11 +646,22 @@ Loesung beendet.
                                   5.Kc8-d8[Ig1]
                                       5...cTh1-b1=cD[Ia1] #
 
+   1.MAe6-g5[If4] ! Zugzwang.
+      1...cLc6-e4=cT[Ih2]
+          2.f2-f4[Ih4] Zugzwang.
+              2...cTe4-e8=cD[Ih8]
+                  3.MAg5-e4[If7] Zugzwang.
+                      3...cDe8-a4=cS[Ib3]
+                          4.Kd6-c6[Ia3] Zugzwang.
+                              4...Ld1-h5[Ie7] +
+                                  5.Kc6-b6[Id7]
+                                      5...Nd8-a2[Ia1] #
 
-  add_to_move_generation_stack:      649843
-                     play_move:      106782
- is_white_king_square_attacked:       48428
- is_black_king_square_attacked:       80370
+
+  add_to_move_generation_stack:      649243
+                     play_move:      106693
+ is_white_king_square_attacked:       48388
+ is_black_king_square_attacked:       80304
 Loesung beendet. 
 
 

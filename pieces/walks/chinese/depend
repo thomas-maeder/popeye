@@ -1,10 +1,11 @@
 pieces/walks/chinese/riders$(OBJ_SUFFIX): pieces/walks/chinese/riders.c \
  pieces/walks/chinese/riders.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pieces/walks/riders.h solving/move_generator.h \
- solving/solve.h py.h utilities/boolean.h position/position.h pylang.h \
- stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ utilities/enumeration.h pieces/walks/riders.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h py.h \
+ utilities/boolean.h position/position.h pylang.h \
+ solving/move_generator.h solving/solve.h stipulation/slice_type.h \
+ debugging/trace.h pydata.h pyproc.h
 
 pieces/walks/chinese/riders.h:
 
@@ -22,9 +23,11 @@ utilities/enumeration.h:
 
 pieces/walks/riders.h:
 
-solving/move_generator.h:
+pyproc.h:
 
-solving/solve.h:
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 
 py.h:
 
@@ -34,17 +37,15 @@ position/position.h:
 
 pylang.h:
 
+solving/move_generator.h:
+
+solving/solve.h:
+
 stipulation/slice_type.h:
 
 debugging/trace.h:
 
 pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
 
 pyproc.h:
 pieces/walks/chinese/leapers$(OBJ_SUFFIX): pieces/walks/chinese/leapers.c \
@@ -141,17 +142,22 @@ stipulation/goals/goals.h:
 pyproc.h:
 pieces/walks/chinese/mao$(OBJ_SUFFIX): pieces/walks/chinese/mao.c \
  pieces/walks/chinese/mao.h position/board.h utilities/bitmask.h \
+ pieces/walks/angle/angles.h pieces/walks/vectors.h \
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
- position/position.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/slice_type.h \
- debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h pyproc.h
+ position/position.h utilities/boolean.h utilities/enumeration.h pylang.h \
+ stipulation/slice_type.h solving/observation.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h \
+ pydata.h pyproc.h
 
 pieces/walks/chinese/mao.h:
 
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/walks/angle/angles.h:
+
+pieces/walks/vectors.h:
 
 solving/move_generator.h:
 
@@ -163,8 +169,6 @@ utilities/boolean.h:
 
 position/position.h:
 
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
 
 utilities/enumeration.h:
@@ -173,14 +177,16 @@ pylang.h:
 
 stipulation/slice_type.h:
 
-debugging/trace.h:
-
-pydata.h:
+solving/observation.h:
 
 pyproc.h:
 
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+debugging/trace.h:
+
+pydata.h:
 
 pyproc.h:

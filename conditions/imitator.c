@@ -501,9 +501,9 @@ static numecoup remove_illegal_moves_by_same_piece(numecoup i, numecoup *new_top
 
     case Grasshopper:
     case NightriderHopper:
-    case CamelHopper:
-    case ZebraHopper:
-    case GnuHopper:
+    case CamelRiderHopper:
+    case ZebraRiderHopper:
+    case GnuRiderHopper:
     case RookHopper:
     case BishopHopper:
     case KingHopper:
@@ -570,7 +570,7 @@ static boolean avoid_observing_if_imitator_blocked_rider(void)
   boolean result;
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-  numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
+  numvec const step = -vec[interceptable_observation[observation_context].vector_index];
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
 
@@ -596,7 +596,7 @@ static boolean avoid_observing_if_imitator_blocked_chinese_leaper(void)
   square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
-  numvec const vec_pass_target = vec[interceptable_observation_vector_index[observation_context]];
+  numvec const vec_pass_target = vec[interceptable_observation[observation_context].vector_index];
   square const sq_pass = sq_landing+vec_pass_target;
 
   empty_square(sq_observer);
@@ -614,7 +614,7 @@ static boolean avoid_observing_if_imitator_blocked_rider_hopper(void)
   square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
-  numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
+  numvec const step = -vec[interceptable_observation[observation_context].vector_index];
   square const sq_hurdle = sq_landing-step;
   numvec const diff_hurdle = sq_hurdle-sq_observer;
 
@@ -634,7 +634,7 @@ static boolean avoid_observing_if_imitator_blocked_contragrasshopper(void)
   square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
-  numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
+  numvec const step = -vec[interceptable_observation[observation_context].vector_index];
 
   empty_square(sq_observer);
   result = (have_all_imitators_hurdle(step)
@@ -649,7 +649,7 @@ static boolean avoid_observing_if_imitator_blocked_grasshopper_n(unsigned int di
   boolean result;
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-  numvec const step_hurdle_target = -vec[interceptable_observation_vector_index[observation_context]];
+  numvec const step_hurdle_target = -vec[interceptable_observation[observation_context].vector_index];
   square const sq_hurdle = sq_landing - dist_hurdle_target*step_hurdle_target;
 
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
@@ -692,7 +692,7 @@ static boolean avoid_observing_if_imitator_blocked_orix(void)
   square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
-  numvec const step = -vec[interceptable_observation_vector_index[observation_context]];
+  numvec const step = -vec[interceptable_observation[observation_context].vector_index];
   numvec const diff_observer_landing = sq_landing-sq_observer;
   numvec const diff_observer_hurdle = diff_observer_landing/2;
 
@@ -712,10 +712,10 @@ static boolean avoid_observing_if_imitator_blocked_angle_hopper(angle_t angle)
   square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
   PieNam const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
-  vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation_vector_index[observation_context];
+  vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index;
   numvec const vec_departure_hurdle1 = -angle_vectors[angle][vec_index_departure_hurdle];
   numvec const vec_departure_hurdle2 = -angle_vectors[angle][vec_index_departure_hurdle-1];
-  square const sq_hurdle = sq_landing+vec[interceptable_observation_vector_index[observation_context]];
+  square const sq_hurdle = sq_landing+vec[interceptable_observation[observation_context].vector_index];
   numvec const diff_observer_hurdle = sq_hurdle-sq_observer;
   int const nr_steps1 = abs(diff_observer_hurdle/vec_departure_hurdle1);
   int const nr_steps2 = abs(diff_observer_hurdle/vec_departure_hurdle2);
@@ -820,7 +820,7 @@ boolean imitator_validate_observation(slice_index si)
       break;
 
     case EquiHopper:
-      if (interceptable_observation_vector_index[observation_context]==0)
+      if (interceptable_observation[observation_context].vector_index==0)
         result = avoid_observing_if_imitator_blocked_nonstop_equihopper();
       else
         result = avoid_observing_if_imitator_blocked_orix();
@@ -828,9 +828,9 @@ boolean imitator_validate_observation(slice_index si)
 
     case Grasshopper:
     case NightriderHopper:
-    case CamelHopper:
-    case ZebraHopper:
-    case GnuHopper:
+    case CamelRiderHopper:
+    case ZebraRiderHopper:
+    case GnuRiderHopper:
     case RookHopper:
     case BishopHopper:
     case KingHopper:

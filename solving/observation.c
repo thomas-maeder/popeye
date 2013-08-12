@@ -17,6 +17,7 @@
 #include "conditions/woozles.h"
 #include "conditions/wormhole.h"
 #include "conditions/madrasi.h"
+#include "conditions/masand.h"
 #include "conditions/eiffel.h"
 #include "conditions/monochrome.h"
 #include "conditions/bichrome.h"
@@ -32,6 +33,7 @@
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/vaulting_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "pieces/attributes/magic.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/single_move_generator.h"
 #include "stipulation/has_solution_type.h"
@@ -45,7 +47,7 @@
 
 #include <assert.h>
 
-vec_index_type interceptable_observation_vector_index[maxply+1];
+interceptable_observation_type interceptable_observation[maxply+1];
 unsigned int observation_context = 0;
 
 /* Continue validating an observation (or observer or observation geometry)

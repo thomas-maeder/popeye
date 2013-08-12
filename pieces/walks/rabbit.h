@@ -3,7 +3,7 @@
 
 /* This module implements the Rabbit */
 
-/* Generate moves for an Rabbit
+/* Generate moves for a Rabbit
  */
 void rabbit_generate_moves(void);
 

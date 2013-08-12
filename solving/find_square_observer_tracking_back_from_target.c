@@ -1,4 +1,5 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "pieces/walks/riders.h"
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
@@ -36,17 +37,17 @@ boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
 
   observing_walk[nbply] = Queen;
   if (number_of_pieces[side_observing][Queen]>0
-      && ridcheck(vec_queen_start,vec_queen_end,evaluate))
+      && riders_check(vec_queen_start,vec_queen_end,evaluate))
     return true;
 
   observing_walk[nbply] = Rook;
   if (number_of_pieces[side_observing][Rook]>0
-      && ridcheck(vec_rook_start,vec_rook_end,evaluate))
+      && riders_check(vec_rook_start,vec_rook_end,evaluate))
     return true;
 
   observing_walk[nbply] = Bishop;
   if (number_of_pieces[side_observing][Bishop]>0
-      && ridcheck(vec_bishop_start,vec_bishop_end,evaluate))
+      && riders_check(vec_bishop_start,vec_bishop_end,evaluate))
     return true;
 
   return is_square_observed_recursive(slices[si].next1,evaluate);
