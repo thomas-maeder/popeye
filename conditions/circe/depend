@@ -4,12 +4,13 @@ conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pylang.h stipulation/slice_type.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h \
- conditions/circe/capture_fork.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- debugging/trace.h
+ conditions/circe/capture_fork.h pieces/walks/walks.h \
+ pieces/walks/classification.h position/position.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move.h debugging/trace.h pydata.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h
 
 conditions/circe/circe.h:
 
@@ -43,13 +44,11 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
-pydata.h:
+pieces/walks/walks.h:
 
-pyproc.h:
+pieces/walks/classification.h:
 
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+position/position.h:
 
 stipulation/has_solution_type.h:
 
@@ -68,6 +67,14 @@ output/mode.h:
 stipulation/move.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
  conditions/circe/goal_filters.h stipulation/slice.h py.h \
  utilities/boolean.h position/position.h position/board.h \

@@ -6,10 +6,12 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "utilities/boolean.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 /* Generate moves for an Orphan
  */
 void orphan_generate_moves(void);
+
+boolean orphan_check(evalfunction_t *evaluate);
 
 #endif

@@ -3,7 +3,6 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 /* Generate moves for an Kangaroo
  */
@@ -28,7 +27,7 @@ void kangaroo_generate_moves(void)
   }
 }
 
-boolean kangoucheck(evalfunction_t *evaluate)
+boolean kangaroo_check(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
@@ -87,7 +86,7 @@ void kangaroo_lion_generate_moves(void)
   }
 }
 
-boolean kanglioncheck(evalfunction_t *evaluate)
+boolean kangaroolion_check(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;

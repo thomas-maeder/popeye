@@ -3,6 +3,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "pieces/attributes/paralysing/paralysing.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

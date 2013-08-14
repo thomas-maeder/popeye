@@ -1,7 +1,7 @@
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pyproc.h"
+#include "solving/check.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 

@@ -1,5 +1,6 @@
 #include "conditions/exchange_castling.h"
 #include "conditions/castling_chess.h"
+#include "pieces/walks/classification.h"
 #include "solving/move_generator.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"

@@ -2,7 +2,7 @@
 #define CONDITIONS_MARSCIRCE_PLUS_H
 
 #include "solving/solve.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 /* This module provides implements the condition Echecs Plus
  */

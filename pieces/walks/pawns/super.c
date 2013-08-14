@@ -32,6 +32,31 @@ void super_pawn_generate_moves(void)
   superpawn_generate_captures(dir_forward+dir_right);
 }
 
+boolean superpawn_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+  if (!TSTFLAG(sq_spec[sq_target],base))
+  {
+    numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+
+    {
+      square const sq_departure = find_end_of_line(sq_target,dir_backward+dir_left);
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        return true;
+    }
+
+    {
+      square const sq_departure = find_end_of_line(sq_target,dir_backward+dir_right);
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        return true;
+    }
+  }
+
+  return false;
+}
+
 /* Generate moves for a Super-Berolina Pawn
  */
 void super_berolina_pawn_generate_moves(void)
@@ -40,4 +65,20 @@ void super_berolina_pawn_generate_moves(void)
   superpawn_generate_noncaptures(dir_forward+dir_left);
   superpawn_generate_noncaptures(dir_forward+dir_right);
   superpawn_generate_captures(dir_forward);
+}
+
+boolean superberolinapawn_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
+
+  if (!TSTFLAG(sq_spec[sq_target],base))
+  {
+    numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+    square const sq_departure = find_end_of_line(sq_target,dir_backward);
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      return true;
+  }
+
+  return false;
 }

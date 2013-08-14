@@ -682,7 +682,4 @@ typedef unsigned int slice_index;
 
 #define piece_belongs_to_opponent(sq)    TSTFLAG(spec[(sq)],advers(trait[nbply]))
 
-#define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
-  (numgridlines && CrossesGridLines((sq1), (sq2))))
-
 #endif  /* PY_H */

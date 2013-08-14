@@ -1,6 +1,7 @@
 #include "conditions/blackchecks.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
+#include "solving/check.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/proxy.h"

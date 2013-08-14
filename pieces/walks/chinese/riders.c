@@ -1,5 +1,6 @@
 #include "pieces/walks/chinese/riders.h"
 #include "pieces/walks/riders.h"
+#include "pieces/walks/lions.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"
@@ -23,4 +24,24 @@ void chinese_rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
         push_move();
     }
   }
+}
+
+boolean leo_check(evalfunction_t *evaluate)
+{
+  return lions_check(vec_queen_start,vec_queen_end, evaluate);
+}
+
+boolean pao_check(evalfunction_t *evaluate)
+{
+  return lions_check(vec_rook_start,vec_rook_end, evaluate);
+}
+
+boolean vao_check(evalfunction_t *evaluate)
+{
+  return lions_check(vec_bishop_start,vec_bishop_end, evaluate);
+}
+
+boolean nao_check(evalfunction_t *evaluate)
+{
+  return lions_check(vec_knight_start,vec_knight_end, evaluate);
 }

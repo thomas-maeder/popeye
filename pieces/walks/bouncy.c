@@ -144,3 +144,75 @@ void bouncy_nightrider_generate_moves(void)
   bouncy_nightrider_generate_moves_recursive(curr_generation->departure);
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
+
+static boolean rrefcech(square i1, int x, evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type k;
+
+  /* ATTENTION:   first call of rrefech: x must be 2 !!   */
+
+  square sq_departure;
+
+  for (k= vec_knight_start; k <= vec_knight_end; k++)
+    if (x) {
+      sq_departure= i1+vec[k];
+      if (is_square_empty(sq_departure)) {
+        if (!NoEdge(sq_departure)) {
+          if (rrefcech(sq_departure,x-1,evaluate))
+            return true;
+        }
+      }
+      else if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        return true;
+    }
+    else
+      for (k= vec_knight_start; k <= vec_knight_end; k++) {
+        sq_departure= i1+vec[k];
+        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          return true;
+      }
+
+  return false;
+}
+
+boolean bouncy_knight_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  return rrefcech(sq_target, 2, evaluate);
+}
+
+static boolean rrefnech(square i1, evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type k;
+
+  if (!NoEdge(i1))
+    settraversed(i1);
+
+  for (k= vec_knight_start; k<=vec_knight_end; k++) {
+    square sq_departure = i1+vec[k];
+
+    while (is_square_empty(sq_departure))
+    {
+      if (!NoEdge(sq_departure) &&
+          !traversed(sq_departure)) {
+        if (rrefnech(sq_departure,evaluate))
+          return true;
+        break;
+      }
+      sq_departure += vec[k];
+    }
+
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      return true;
+  }
+  return false;
+}
+
+boolean bouncy_nightrider_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  clearedgestraversed();
+  return rrefnech(sq_target, evaluate);
+}

@@ -58,17 +58,17 @@ static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
   return result;
 }
 
-boolean bouncercheck(evalfunction_t *evaluate)
+boolean bouncer_check(evalfunction_t *evaluate)
 {
   return bouncerfamilycheck(vec_queen_start,vec_queen_end, evaluate);
 }
 
-boolean rookbouncercheck(evalfunction_t *evaluate)
+boolean rookbouncer_check(evalfunction_t *evaluate)
 {
   return bouncerfamilycheck(vec_rook_start,vec_rook_end, evaluate);
 }
 
-boolean bishopbouncercheck(evalfunction_t *evaluate)
+boolean bishopbouncer_check(evalfunction_t *evaluate)
 {
   return bouncerfamilycheck(vec_bishop_start,vec_bishop_end, evaluate);
 }

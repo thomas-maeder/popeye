@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 
 /* Allocate a STUltraschachzwangLegalityTester slice.

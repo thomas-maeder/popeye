@@ -1,9 +1,9 @@
 #if !defined(PIECES_PAWNS_PAWN_H)
 #define PIECES_PAWNS_PAWN_H
 
-#include "pyproc.h"
 #include "position/board.h"
 #include "position/position.h"
+#include "solving/observation.h"
 
 unsigned int pawn_get_no_capture_length(Side side, square sq_departure);
 
@@ -17,5 +17,7 @@ void  pawn_generate_moves(void);
 boolean pawn_test_check(square sq_departure,
                         square sq_arrival,
                         evalfunction_t *evaluate);
+
+boolean pawn_check(evalfunction_t *evaluate);
 
 #endif

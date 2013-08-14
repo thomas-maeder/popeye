@@ -1,4 +1,5 @@
 #include "conditions/koeko/new.h"
+#include "conditions/koeko/koeko.h"
 #include "solving/observation.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"

@@ -76,7 +76,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h pylang.h \
+ utilities/boolean.h utilities/enumeration.h pylang.h conditions/grid.h \
  pieces/walks/generate_moves.h position/position.h \
  pieces/walks/pawns/promotion.h pieces/walks/pawns/en_passant.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
@@ -108,6 +108,8 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 pylang.h:
+
+conditions/grid.h:
 
 pieces/walks/generate_moves.h:
 

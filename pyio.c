@@ -119,8 +119,10 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
+#include "conditions/circe/circe.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
+#include "conditions/grid.h"
 #include "conditions/check_zigzag.h"
 #include "conditions/patience.h"
 #include "conditions/sat.h"
@@ -5873,7 +5875,7 @@ static void TwinResetPosition(void)
     isquare[i]= twin_isquare[i];
 }
 
-void transformPosition(SquareTransformation transformation)
+static void transformPosition(SquareTransformation transformation)
 {
   PieNam t_e[nr_squares_on_board];
   Flags t_spec[nr_squares_on_board];

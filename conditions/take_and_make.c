@@ -1,5 +1,6 @@
 #include "conditions/take_and_make.h"
 #include "pieces/walks/generate_moves.h"
+#include "pieces/walks/classification.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

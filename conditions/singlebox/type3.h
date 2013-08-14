@@ -5,7 +5,7 @@
  */
 
 #include "solving/solve.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

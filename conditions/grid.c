@@ -7,6 +7,38 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+boolean CrossesGridLines(square dep, square arr)
+{
+  int i, x1, y1, x2, y2, X1, Y1, X2, Y2, dx, dy, dX, dY, u1, u2, v;
+
+  X1= ((dep<<1) -15) % 24;
+  Y1= ((dep/24)<<1) - 15;
+  X2= ((arr<<1) -15) % 24;
+  Y2= ((arr/24)<<1) - 15;
+  dX= X2-X1;
+  dY= Y2-Y1;
+  for (i= 0; i < numgridlines; i++)
+  {
+    x1= gridlines[i][0];
+    y1= gridlines[i][1];
+    x2= gridlines[i][2];
+    y2= gridlines[i][3];
+    dx= x2-x1;
+    dy= y2-y1;
+    v=dY*dx-dX*dy;
+    if (!v)
+      continue;
+    u1= dX*(y1-Y1)-dY*(x1-X1);
+    if (v<0? (u1>0 || u1<v) : (u1<0 || u1>v))
+      continue;
+    u2= dx*(y1-Y1)-dy*(x1-X1);
+    if (v<0? (u2>0 || u2<v) : (u2<0 || u2>v))
+      continue;
+    return true;
+  }
+  return false;
+}
+
 static boolean is_not_in_same_cell(numecoup n)
 {
   return GridLegal(move_generation_stack[n].departure,

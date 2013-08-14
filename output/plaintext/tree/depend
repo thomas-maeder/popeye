@@ -628,11 +628,12 @@ output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/check_writer.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h output/plaintext/tree/tree.h debugging/trace.h
+ utilities/enumeration.h pylang.h solving/check.h position/position.h \
+ stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
+ output/plaintext/tree/tree.h debugging/trace.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h
 
 output/plaintext/tree/check_writer.h:
 
@@ -656,11 +657,9 @@ utilities/enumeration.h:
 
 pylang.h:
 
-pyproc.h:
+solving/check.h:
 
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+position/position.h:
 
 stipulation/stipulation.h:
 
@@ -681,6 +680,12 @@ stipulation/pipe.h:
 output/plaintext/tree/tree.h:
 
 debugging/trace.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 output/plaintext/tree/exclusive$(OBJ_SUFFIX): output/plaintext/tree/exclusive.c \
  output/plaintext/tree/exclusive.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \

@@ -4,9 +4,12 @@
 /* This module implements the Cat */
 
 #include "position/board.h"
+#include "solving/observation.h"
 
 /* Generate moves for a cat
  */
 void cat_generate_moves(void);
+
+boolean cat_check(evalfunction_t *evaluate);
 
 #endif

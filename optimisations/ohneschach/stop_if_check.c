@@ -1,7 +1,7 @@
 #include "optimisations/ohneschach/stop_if_check.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
+#include "solving/check.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 

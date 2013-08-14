@@ -6,7 +6,7 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 /* Generate moves to the square on a line segment
  * @param sq_base first square of line segment
@@ -21,5 +21,15 @@ square generate_moves_on_line_segment(square sq_base, vec_index_type k);
 void rider_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
 boolean riders_check(vec_index_type b, vec_index_type c, evalfunction_t *evaluate);
+
+boolean rook_check(evalfunction_t *evaluate);
+boolean queen_check(evalfunction_t *evaluate);
+boolean bishop_check(evalfunction_t *evaluate);
+boolean nightrider_check(evalfunction_t *evaluate);
+boolean elephant_check(evalfunction_t *evaluate);
+boolean waran_check(evalfunction_t *evaluate);
+boolean camel_rider_check(evalfunction_t *evaluate);
+boolean zebra_rider_check(evalfunction_t *evaluate);
+boolean gnu_rider_check(evalfunction_t *evaluate);
 
 #endif

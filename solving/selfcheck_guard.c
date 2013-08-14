@@ -9,7 +9,7 @@
 #include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "pyproc.h"
+#include "solving/check.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 

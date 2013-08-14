@@ -1,6 +1,6 @@
 #include "conditions/singlebox/type2.h"
-#include "pydata.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/classification.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -10,6 +10,7 @@
 #include "solving/move_effect_journal.h"
 #include "conditions/singlebox/type1.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

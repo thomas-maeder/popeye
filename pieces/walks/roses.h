@@ -4,7 +4,7 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 /* This module implements Rose and derived pieces.
  * The circle lines are generated in a clever way (which leads to

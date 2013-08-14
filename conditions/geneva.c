@@ -1,4 +1,5 @@
 #include "conditions/geneva.h"
+#include "conditions/circe/circe.h"
 #include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

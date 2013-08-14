@@ -4,7 +4,6 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 /* Generate moves for an Bob
  */
@@ -36,7 +35,7 @@ void bob_generate_moves(void)
   }
 }
 
-boolean bobcheck(evalfunction_t *evaluate)
+boolean bob_check(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   /* 4 hurdle lion */

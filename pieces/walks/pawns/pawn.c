@@ -1,6 +1,7 @@
 #include "pieces/walks/pawns/pawn.h"
 #include "pydata.h"
 #include "pieces/walks/pawns/pawns.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
@@ -82,6 +83,38 @@ boolean pawn_test_check(square sq_departure,
   TraceFunctionParamListEnd();
 
   result = INVOKE_EVAL(evaluate,sq_departure,sq_arrival);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean pawn_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_target);
+  TraceFunctionParamListEnd();
+
+  if (TSTFLAG(sq_spec[sq_target],capturable) || observing_walk[nbply]==Orphan || observing_walk[nbply]>=Hunter0)
+  {
+    numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
+    numvec const dir_forward_right = dir_forward+dir_right;
+    numvec const dir_forward_left = dir_forward+dir_left;
+
+    if (pawn_test_check(sq_target-dir_forward_right,sq_target,evaluate))
+      result = true;
+    else if (pawn_test_check(sq_target-dir_forward_left,sq_target,evaluate))
+      result = true;
+    else if (en_passant_test_check(dir_forward_right,&pawn_test_check,evaluate))
+      result = true;
+    else if (en_passant_test_check(dir_forward_left,&pawn_test_check,evaluate))
+      result = true;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

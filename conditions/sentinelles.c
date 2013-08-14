@@ -1,11 +1,12 @@
 #include "conditions/sentinelles.h"
-#include "pydata.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/walks/classification.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

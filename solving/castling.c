@@ -1,6 +1,8 @@
 #include "solving/castling.h"
 #include "pieces/walks/walks.h"
 #include "solving/move_generator.h"
+#include "solving/check.h"
+#include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
@@ -10,6 +12,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
@@ -771,6 +774,104 @@ void stip_insert_mutual_castling_rights_adjusters(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STMutualCastlingRightsAdjuster);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+
+/* Determine whether a sequence of squares are empty
+ * @param from start of sequence
+ * @param to end of sequence
+ * @param direction delta to (repeatedly) apply to reach to from from
+ * @return true if the squares between (and not including) from and to are empty
+ */
+static boolean are_squares_empty(square from, square to, int direction)
+{
+  square s;
+  for (s = from+direction; s!=to; s += direction)
+    if (!is_square_empty(s))
+      return false;
+
+  return true;
+}
+
+boolean castling_is_intermediate_king_move_legal(Side side, square to)
+{
+  boolean result = false;
+
+  if (complex_castling_through_flag)
+  {
+    castling_intermediate_move_generator_init_next(to);
+    result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==next_move_has_solution;
+  }
+  else
+  {
+    square const from = curr_generation->departure;
+    occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
+    empty_square(from);
+
+    if (king_square[side]!=initsquare)
+      king_square[side] = to;
+
+    result = !echecc(side);
+
+    occupy_square(from,get_walk_of_piece_on_square(to),spec[to]);
+    empty_square(to);
+
+    if (king_square[side]!=initsquare)
+      king_square[side] = from;
+  }
+
+  return result;
+}
+
+void generate_castling(void)
+{
+  Side const side = trait[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
+  {
+    castling_flag_type allowed_castlings = 0;
+
+    square const square_a = side==White ? square_a1 : square_a8;
+    square const square_c = square_a+file_c;
+    square const square_d = square_a+file_d;
+    square const square_e = square_a+file_e;
+    square const square_f = square_a+file_f;
+    square const square_g = square_a+file_g;
+    square const square_h = square_a+file_h;
+
+    /* 0-0 */
+    if (TSTCASTLINGFLAGMASK(side,k_castling)==k_castling
+        && are_squares_empty(square_e,square_h,dir_right))
+       allowed_castlings |= rh_cancastle;
+
+    /* 0-0-0 */
+    if (TSTCASTLINGFLAGMASK(side,q_castling)==q_castling
+        && are_squares_empty(square_e,square_a,dir_left))
+      allowed_castlings |= ra_cancastle;
+
+    if (allowed_castlings!=0 && !echecc(side))
+    {
+      if ((allowed_castlings&rh_cancastle)
+          && castling_is_intermediate_king_move_legal(side,square_f))
+      {
+        curr_generation->arrival = square_g;
+        push_special_move(kingside_castling);
+      }
+
+      if ((allowed_castlings&ra_cancastle)
+          && castling_is_intermediate_king_move_legal(side,square_d))
+      {
+        curr_generation->arrival = square_c;
+        push_special_move(queenside_castling);
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -5,7 +5,7 @@
 
 #include "utilities/boolean.h"
 #include "position/position.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 extern boolean vaulting_kings_transmuting[nr_sides];
 extern PieNam king_vaulters[nr_sides][PieceCount];

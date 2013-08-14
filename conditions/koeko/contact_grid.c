@@ -1,5 +1,6 @@
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/circe/circe.h"
+#include "conditions/grid.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
 #include "stipulation/has_solution_type.h"

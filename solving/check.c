@@ -8,6 +8,7 @@
 #include "solving/observation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "pydata.h"
@@ -237,4 +238,9 @@ void solving_instrument_check_testing(slice_index si, slice_type type)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+boolean echecc(Side side_in_check)
+{
+  return is_in_check(slices[temporary_hack_check_tester].next2,side_in_check);
 }

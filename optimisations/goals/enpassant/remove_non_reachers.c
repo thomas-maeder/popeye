@@ -1,6 +1,7 @@
 #include "optimisations/goals/enpassant/remove_non_reachers.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/classification.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

@@ -2,6 +2,7 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
+#include "solving/check.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"

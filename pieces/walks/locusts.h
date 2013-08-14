@@ -6,6 +6,7 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
+#include "solving/observation.h"
 
 /* Generate a single Locust capture
  * @param sq_capture capture square
@@ -19,5 +20,10 @@ void generate_locust_capture(square sq_capture,
  * @param kend end of range of vector indices to be used
  */
 void locust_generate_moves(vec_index_type kbeg, vec_index_type kend);
+
+boolean locust_check(evalfunction_t *evaluate);
+boolean nightlocust_check(evalfunction_t *evaluate);
+boolean rooklocust_check(evalfunction_t *evaluate);
+boolean bishoplocust_check(evalfunction_t *evaluate);
 
 #endif

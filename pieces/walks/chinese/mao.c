@@ -4,7 +4,6 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 static square mao_passed(numvec to_arrival)
 {
@@ -105,12 +104,12 @@ static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
   return result;
 }
 
-boolean maocheck(evalfunction_t *evaluate)
+boolean mao_check(evalfunction_t *evaluate)
 {
   return maooacheck(vec_bishop_start,vec_bishop_end,evaluate);
 }
 
-boolean moacheck(evalfunction_t *evaluate)
+boolean moa_check(evalfunction_t *evaluate)
 {
   return maooacheck(vec_rook_start,vec_rook_end,evaluate);
 }
@@ -134,19 +133,6 @@ static void maooa_rider_generate_moves(numvec to_passed, numvec to_arrival)
     push_move();
 }
 
-/* Generate moves for a Moa Rider
- */
-void moarider_generate_moves(void)
-{
-  vec_index_type k;
-
-  for (k = vec_knight_start; k<=vec_knight_end; ++k)
-  {
-    numvec const to_arrival = vec[k];
-    maooa_rider_generate_moves(moa_passed(to_arrival),to_arrival);
-  }
-}
-
 /* Generate moves for a Mao Rider
  */
 void maorider_generate_moves(void)
@@ -157,6 +143,19 @@ void maorider_generate_moves(void)
   {
     numvec const to_arrival = vec[k];
     maooa_rider_generate_moves(mao_passed(to_arrival),to_arrival);
+  }
+}
+
+/* Generate moves for a Moa Rider
+ */
+void moarider_generate_moves(void)
+{
+  vec_index_type k;
+
+  for (k = vec_knight_start; k<=vec_knight_end; ++k)
+  {
+    numvec const to_arrival = vec[k];
+    maooa_rider_generate_moves(moa_passed(to_arrival),to_arrival);
   }
 }
 
@@ -178,7 +177,7 @@ static boolean maooarider_check(numvec to_passed,
           && INVOKE_EVAL(evaluate,sq_departure,sq_target));
 }
 
-boolean moarider_check(evalfunction_t *evaluate)
+boolean maorider_check(evalfunction_t *evaluate)
 {
   boolean result = false;
 
@@ -189,7 +188,7 @@ boolean moarider_check(evalfunction_t *evaluate)
       ++interceptable_observation[observation_context].vector_index1)
   {
     numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
-    if (maooarider_check(mao_passed(to_departure), /* we are going backward! */
+    if (maooarider_check(moa_passed(to_departure), /* we are going backward! */
                         to_departure,
                         evaluate))
     {
@@ -203,7 +202,7 @@ boolean moarider_check(evalfunction_t *evaluate)
   return result;
 }
 
-boolean maorider_check(evalfunction_t *evaluate)
+boolean moarider_check(evalfunction_t *evaluate)
 {
   boolean result = false;
 
@@ -214,7 +213,7 @@ boolean maorider_check(evalfunction_t *evaluate)
       ++interceptable_observation[observation_context].vector_index1)
   {
     numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
-    if (maooarider_check(moa_passed(to_departure), /* we are going backward! */
+    if (maooarider_check(mao_passed(to_departure), /* we are going backward! */
                         to_departure,
                         evaluate))
     {

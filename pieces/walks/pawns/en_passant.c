@@ -1,5 +1,6 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/hunters.h"
+#include "pieces/walks/classification.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"

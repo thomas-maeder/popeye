@@ -71,3 +71,78 @@ void koeko_initialise_solving(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+static boolean noleapcontact(square sq_arrival, vec_index_type kanf, vec_index_type kend)
+{
+  boolean result = true;
+  vec_index_type k;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_arrival);
+  TraceFunctionParamListEnd();
+
+  for (k = kanf; k<=kend; ++k)
+  {
+    square const sq_candidate = sq_arrival+vec[k];
+    if (!is_square_empty(sq_candidate) && !is_square_blocked(sq_candidate))
+    {
+      result = false;
+      break;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+boolean nokingcontact(square ia)
+{
+  return noleapcontact(ia, vec_queen_start, vec_queen_end);
+}
+
+boolean nowazircontact(square ia)
+{
+  return noleapcontact(ia, vec_rook_start, vec_rook_end);
+}
+
+boolean noferscontact(square ia)
+{
+  return noleapcontact(ia, vec_bishop_start, vec_bishop_end);
+}
+
+boolean noknightcontact(square ia)
+{
+  return noleapcontact(ia, vec_knight_start, vec_knight_end);
+}
+
+boolean nocamelcontact(square ia)
+{
+  return noleapcontact(ia, vec_chameau_start, vec_chameau_end);
+}
+
+boolean noalfilcontact(square ia)
+{
+  return noleapcontact(ia, vec_alfil_start, vec_alfil_end);
+}
+
+boolean nodabbabacontact(square ia)
+{
+  return noleapcontact(ia, vec_dabbaba_start, vec_dabbaba_end);
+}
+
+boolean nozebracontact(square ia)
+{
+  return noleapcontact(ia, vec_zebre_start, vec_zebre_end);
+}
+
+boolean nogiraffecontact(square ia)
+{
+  return noleapcontact(ia, vec_girafe_start, vec_girafe_end);
+}
+
+boolean noantelopecontact(square ia)
+{
+  return noleapcontact(ia, vec_antilope_start, vec_antilope_end);
+}

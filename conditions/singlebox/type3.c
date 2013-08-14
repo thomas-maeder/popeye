@@ -2,6 +2,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/classification.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"

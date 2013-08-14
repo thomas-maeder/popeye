@@ -1,5 +1,6 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/walks.h"
+#include "pieces/walks/classification.h"
 #include "pydata.h"
 #include "debugging/trace.h"
 

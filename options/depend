@@ -258,7 +258,8 @@ options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
  stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/branch.h stipulation/dummy_move.h stipulation/move_played.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h
+ stipulation/goals/goals.h output/mode.h solving/check.h \
+ position/position.h debugging/trace.h
 
 options/maxthreatlength.h:
 
@@ -320,6 +321,10 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
+solving/check.h:
+
+position/position.h:
+
 debugging/trace.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
@@ -330,9 +335,10 @@ options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
+ solving/check.h position/position.h \
  options/movenumbers/restart_guard_intelligent.h \
- output/plaintext/plaintext.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h pydata.h pyproc.h pymsg.h debugging/trace.h
+ output/plaintext/plaintext.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pymsg.h debugging/trace.h
 
 options/movenumbers.h:
 
@@ -380,19 +386,21 @@ output/mode.h:
 
 stipulation/help_play/branch.h:
 
+solving/check.h:
+
+position/position.h:
+
 options/movenumbers/restart_guard_intelligent.h:
 
 output/plaintext/plaintext.h:
+
+pydata.h:
 
 pyproc.h:
 
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
-
-pydata.h:
-
-pyproc.h:
 
 pymsg.h:
 

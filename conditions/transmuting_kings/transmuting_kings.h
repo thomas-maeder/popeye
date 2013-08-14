@@ -5,7 +5,7 @@
 
 #include "position/position.h"
 #include "stipulation/stipulation.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 extern PieNam transmpieces[nr_sides][PieceCount];
 extern boolean transmuting_kings_lock_recursion;

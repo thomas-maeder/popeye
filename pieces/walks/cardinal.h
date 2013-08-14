@@ -4,9 +4,12 @@
 /* This module implements the Cardinal */
 
 #include "position/board.h"
+#include "solving/observation.h"
 
 /* Generate moves for a Cardinal
  */
 void cardinal_generate_moves(void);
+
+boolean cardinal_check(evalfunction_t *evaluate);
 
 #endif

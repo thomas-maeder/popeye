@@ -5,6 +5,11 @@
 
 /* This module implements the condition Grid Chess */
 
+boolean CrossesGridLines(square i, square j);
+
+#define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \
+  (numgridlines && CrossesGridLines((sq1), (sq2))))
+
 /* Validate the geometry of observation according to Grid Chess
  * @return true iff the observation is valid
  */

@@ -37,3 +37,30 @@ void chinese_pawn_generate_moves(void)
     }
   }
 }
+
+boolean chinese_pawn_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square sq_departure;
+  numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
+
+  sq_departure= sq_target+dir_backward;
+  if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    return true;
+
+  /* chinese pawns can capture side-ways if standing on the half of
+   * the board farther away from their camp's base line (i.e. if
+   * black, on the lower half, if white on the upper half) */
+  if ((sq_target*2<(square_h8+square_a1)) == (trait[nbply]==Black))
+  {
+    sq_departure= sq_target+dir_right;
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      return true;
+
+    sq_departure= sq_target+dir_left;
+    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      return true;
+  }
+
+  return false;
+}

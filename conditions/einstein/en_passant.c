@@ -1,5 +1,6 @@
 #include "conditions/einstein/en_passant.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/classification.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

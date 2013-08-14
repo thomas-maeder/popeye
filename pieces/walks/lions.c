@@ -68,22 +68,22 @@ boolean lions_check(vec_index_type kanf, vec_index_type kend,
   return result;
 }
 
-boolean nightriderlioncheck(evalfunction_t *evaluate)
+boolean lion_check(evalfunction_t *evaluate)
 {
-    return lions_check(vec_knight_start, vec_knight_end, evaluate);
+  return lions_check(vec_queen_start,vec_queen_end, evaluate);
 }
 
-boolean lioncheck(evalfunction_t *evaluate)
+boolean rooklion_check(evalfunction_t *evaluate)
 {
-    return lions_check(vec_queen_start,vec_queen_end, evaluate);
+  return lions_check(vec_rook_start,vec_rook_end, evaluate);
 }
 
-boolean t_lioncheck(evalfunction_t *evaluate)
+boolean bishoplion_check(evalfunction_t *evaluate)
 {
-    return lions_check(vec_rook_start,vec_rook_end, evaluate);
+  return lions_check(vec_bishop_start,vec_bishop_end, evaluate);
 }
 
-boolean f_lioncheck(evalfunction_t *evaluate)
+boolean nightriderlion_check(evalfunction_t *evaluate)
 {
-    return lions_check(vec_bishop_start,vec_bishop_end, evaluate);
+  return lions_check(vec_knight_start, vec_knight_end, evaluate);
 }

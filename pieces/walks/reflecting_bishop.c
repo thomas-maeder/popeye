@@ -61,6 +61,63 @@ void reflecting_bishop_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
+static boolean reflecting_bishop_check_recursive(square intermediate_square,
+                                                 numvec k,
+                                                 int x,
+                                                 evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  if (is_square_blocked(intermediate_square+k))
+    return false;
+  else
+  {
+    numvec k1;
+    square const sq_reflection = find_end_of_line(intermediate_square,k);
+    PieNam const p1 = get_walk_of_piece_on_square(sq_reflection);
+
+    if (x && p1==Invalid)
+    {
+      square const sq_departure = sq_reflection-k;
+
+      k1= 5;
+      while (vec[k1]!=k)
+        k1++;
+
+      k1 *= 2;
+      if (reflecting_bishop_check_recursive(sq_departure,
+                   angle_vectors[angle_90][k1],
+                   x-1,
+                   evaluate))
+
+        return true;
+
+      k1--;
+      if (reflecting_bishop_check_recursive(sq_departure,
+                   angle_vectors[angle_90][k1],
+                   x-1,
+                   evaluate))
+        return true;
+    }
+    else if (INVOKE_EVAL(evaluate,sq_reflection,sq_target))
+      return true;
+
+    return false;
+  }
+}
+
+boolean reflecting_bishop_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type  k;
+
+  for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
+    if (reflecting_bishop_check_recursive(sq_target, vec[k], 4, evaluate)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /* Generate moves for an reflecting bishop
  */
 void archbishop_generate_moves(void)
@@ -71,4 +128,17 @@ void archbishop_generate_moves(void)
     reflecting_bishop_generate_moves_recursive(curr_generation->departure,vec[k],1);
   if (!NoEdge(curr_generation->departure))
     remove_duplicate_moves_of_single_piece(save_current_move);
+}
+
+boolean archbishop_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type  k;
+
+  for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
+    if (reflecting_bishop_check_recursive(sq_target, vec[k], 1, evaluate)) {
+      return true;
+    }
+  }
+  return false;
 }

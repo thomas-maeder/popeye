@@ -3,6 +3,7 @@
 #include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

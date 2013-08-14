@@ -112,3 +112,53 @@ void friend_generate_moves(void)
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
+
+boolean friend_check(evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  PieNam const *pfr;
+  boolean result = false;
+  square pos_friends[63];
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_target);
+  TraceFunctionParamListEnd();
+
+  locate_observees(Friend,pos_friends);
+
+  siblingply(trait[nbply]);
+  current_move[nbply] = current_move[nbply-1]+1;
+
+  for (pfr = orphanpieces; *pfr!=Empty; pfr++)
+    if (number_of_pieces[trait[nbply]][*pfr]>0)
+    {
+      unsigned int k;
+      for (k = 0; k<number_of_pieces[trait[nbply]][Friend]; ++k)
+      {
+        boolean does_friend_observe;
+
+        isolate_observee(Friend,pos_friends,k);
+        move_generation_stack[current_move[nbply]-1].capture = sq_target;
+        observing_walk[nbply] = Friend;
+        does_friend_observe = (*checkfunctions[*pfr])(evaluate);
+        restore_observees(Friend,pos_friends);
+
+        if (does_friend_observe
+            && find_next_friend_in_chain(pos_friends[k],*pfr,evaluate))
+        {
+          result = true;
+          break;
+        }
+      }
+
+      if (result)
+        break;
+    }
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

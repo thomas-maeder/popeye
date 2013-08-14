@@ -1,8 +1,8 @@
 #include "pieces/walks/cat.h"
+#include "pieces/walks/leapers.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 /* Generate moves for a cat
  */
@@ -30,10 +30,10 @@ void cat_generate_moves(void)
   }
 }
 
-boolean catcheck(evalfunction_t *evaluate)
+boolean cat_check(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
-  if (leapcheck(vec_knight_start,vec_knight_end,evaluate))
+  if (leapers_check(vec_knight_start,vec_knight_end,evaluate))
     return true;
   else
   {

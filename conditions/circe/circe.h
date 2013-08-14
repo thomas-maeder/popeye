@@ -103,4 +103,18 @@ void stip_replace_circe_determine_relevant_piece(slice_index si,
  */
 void stip_insert_circe(slice_index si);
 
+
+square renfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renrank(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegelfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renpwc(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents_anti(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rensymmetrie(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renantipoden(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rendiagramm(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rennormal(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegel(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rendiametral(PieNam p, Flags pspec, square j, square i, square ia, Side camp);
+
 #endif

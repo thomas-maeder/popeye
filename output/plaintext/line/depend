@@ -103,7 +103,8 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  stipulation/structure_traversal.h stipulation/traversal.h output/mode.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h platform/beep.h debugging/trace.h
+ position/pieceid.h solving/check.h position/position.h platform/beep.h \
+ debugging/trace.h
 
 output/plaintext/line/line_writer.h:
 
@@ -166,6 +167,10 @@ solving/move_effect_journal.h:
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+solving/check.h:
+
+position/position.h:
 
 platform/beep.h:
 

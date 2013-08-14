@@ -1,5 +1,6 @@
 #include "conditions/marscirce/anti.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/classification.h"
 #include "conditions/marscirce/marscirce.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"

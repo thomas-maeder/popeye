@@ -7,6 +7,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/recursion_stopper.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

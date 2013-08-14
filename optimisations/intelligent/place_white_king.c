@@ -84,6 +84,13 @@ static boolean guards_from(square white_king_square)
   return result;
 }
 
+static boolean eval_ortho(void)
+{
+  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  return (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
+          && TSTFLAG(spec[sq_departure],trait[nbply]));
+}
+
 static boolean uninterceptably_attacked_by(PieNam walk, PieNam attacker)
 {
   observing_walk[nbply] = attacker;

@@ -4,7 +4,7 @@
 #include "stipulation/slice_type.h"
 #include "pieces/walks/vectors.h"
 #include "py.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 /* This module provides supports observation as used by many conditions and
  * piece attributes. This includes
@@ -47,8 +47,8 @@ boolean validate_observation_geometry(void);
  * @param type type of slice with which to instrument moves
  */
 void stip_instrument_observation_geometry_validation(slice_index si,
-                                                  Side side,
-                                                  slice_type type);
+                                                     Side side,
+                                                     slice_type type);
 
 /* Validate an observer
  * @return true iff the observation is valid
@@ -62,8 +62,8 @@ boolean validate_observer(void);
  * @param type type of slice with which to instrument moves
  */
 void stip_instrument_observer_validation(slice_index si,
-                                      Side side,
-                                      slice_type type);
+                                         Side side,
+                                         slice_type type);
 
 /* Validate an observation
  * @return true iff the observation is valid
@@ -107,6 +107,14 @@ void observation_play_move_to_validate(slice_index si, Side side);
  * @param side for which side?
  */
 boolean is_observation_trivially_validated(Side side);
+
+typedef boolean (evalfunction_t)(void);
+
+#define INVOKE_EVAL(evaluate,sq_departure,sq_arrival) \
+  ( move_generation_stack[current_move[nbply]-1].departure = (sq_departure), \
+    move_generation_stack[current_move[nbply]-1].arrival = (sq_arrival), \
+    (*evaluate)() \
+  )
 
 /* Determine whether a square is observed be the side at the move; recursive
  * implementation over various slices

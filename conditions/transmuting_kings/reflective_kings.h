@@ -5,7 +5,7 @@
 
 #include "position/position.h"
 #include "stipulation/stipulation.h"
-#include "pyproc.h"
+#include "solving/observation.h"
 
 /* Generate moves for a single piece
  * @param identifies generator slice

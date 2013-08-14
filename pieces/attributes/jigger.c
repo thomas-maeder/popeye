@@ -1,4 +1,5 @@
 #include "pieces/attributes/jigger.h"
+#include "conditions/koeko/koeko.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
 #include "stipulation/has_solution_type.h"

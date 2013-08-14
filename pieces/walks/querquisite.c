@@ -4,7 +4,6 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 /* Generate moves for an Querquisite
  */
@@ -33,7 +32,7 @@ void querquisite_generate_moves(void)
   }
 }
 
-boolean querquisitecheck(evalfunction_t *evaluate)
+boolean querquisite_check(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;

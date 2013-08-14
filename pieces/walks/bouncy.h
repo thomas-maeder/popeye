@@ -5,6 +5,7 @@
 
 #include "position/board.h"
 #include "utilities/boolean.h"
+#include "solving/observation.h"
 
 void clearedgestraversed(void);
 boolean traversed(square edgesq);
@@ -14,8 +15,12 @@ void settraversed(square edgesq);
  */
 void bouncy_knight_generate_moves(void);
 
+boolean bouncy_knight_check(evalfunction_t *evaluate);
+
 /* Generate moves for a bouncy nightrider
  */
 void bouncy_nightrider_generate_moves(void);
+
+boolean bouncy_nightrider_check(evalfunction_t *evaluate);
 
 #endif

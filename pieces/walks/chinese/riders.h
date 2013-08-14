@@ -6,11 +6,17 @@
 #include "position/board.h"
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
+#include "solving/observation.h"
 
 /* Generate moves for a chinese rider piece
  * @param kbeg start of range of vector indices to be used
  * @param kend end of range of vector indices to be used
  */
 void chinese_rider_generate_moves(vec_index_type kbeg, vec_index_type kend);
+
+boolean leo_check(evalfunction_t *evaluate);
+boolean pao_check(evalfunction_t *evaluate);
+boolean vao_check(evalfunction_t *evaluate);
+boolean nao_check(evalfunction_t *evaluate);
 
 #endif

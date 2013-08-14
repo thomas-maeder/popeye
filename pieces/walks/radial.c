@@ -2,7 +2,6 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 struct
 {
@@ -140,7 +139,7 @@ static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
   return false;
 }
 
-boolean radialknightcheck(evalfunction_t *evaluate)
+boolean radialknight_check(evalfunction_t *evaluate)
 {
   unsigned int i;
 
@@ -218,7 +217,7 @@ void greater_treehopper_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean treehoppercheck(evalfunction_t *evaluate)
+boolean treehopper_check(evalfunction_t *evaluate)
 {
   unsigned int i;
 
@@ -229,7 +228,7 @@ boolean treehoppercheck(evalfunction_t *evaluate)
   return false;
 }
 
-boolean greatertreehoppercheck(evalfunction_t *evaluate)
+boolean greatertreehopper_check(evalfunction_t *evaluate)
 {
   unsigned int i;
 
@@ -320,7 +319,7 @@ static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
   return false;
 }
 
-boolean leafhoppercheck(evalfunction_t *evaluate)
+boolean leafhopper_check(evalfunction_t *evaluate)
 {
   unsigned int i;
 
@@ -331,7 +330,7 @@ boolean leafhoppercheck(evalfunction_t *evaluate)
   return false;
 }
 
-boolean greaterleafhoppercheck(evalfunction_t *evaluate)
+boolean greaterleafhopper_check(evalfunction_t *evaluate)
 {
   unsigned int i;
 

@@ -1,9 +1,10 @@
 #include "output/plaintext/tree/check_writer.h"
-#include "pyproc.h"
+#include "solving/check.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
 
 /* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @return index of allocated slice

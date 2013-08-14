@@ -7,7 +7,7 @@ INCLUDES = pydata.h \
 		py.h py1.h py6.h pyproc.h pymsg.h \
 		pylang.h pyproof.h
 SRC_CFILES =	pydata.c \
-		py1.c py2.c py3.c py5.c py6.c pyio.c \
+		py1.c py6.c pyio.c \
 		pymsg.c pylang.c pyproof.c	       \
 		gengmarr.c
 GENERATED_CFILES = pygmarr.c

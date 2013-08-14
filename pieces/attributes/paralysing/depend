@@ -8,11 +8,11 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h solving/solve.h \
  pieces/attributes/paralysing/stalemate_special.h solving/observation.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  solving/move_generator.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/branch.h stipulation/boolean/or.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- debugging/trace.h pydata.h pyproc.h
+ debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -56,12 +56,6 @@ pieces/attributes/paralysing/stalemate_special.h:
 
 solving/observation.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
 solving/move_generator.h:
 
 stipulation/proxy.h:
@@ -81,6 +75,10 @@ debugging/trace.h:
 pydata.h:
 
 pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/mate_filter.c \
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
@@ -146,7 +144,8 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  solving/solve.h pydata.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h stipulation/pipe.h \
  stipulation/has_solution_type.h \
- pieces/attributes/paralysing/paralysing.h debugging/trace.h
+ pieces/attributes/paralysing/paralysing.h solving/check.h \
+ position/position.h debugging/trace.h
 
 pieces/attributes/paralysing/stalemate_special.h:
 
@@ -197,6 +196,10 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 pieces/attributes/paralysing/paralysing.h:
+
+solving/check.h:
+
+position/position.h:
 
 debugging/trace.h:
 pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \

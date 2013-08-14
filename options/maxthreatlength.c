@@ -8,6 +8,7 @@
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/solve.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

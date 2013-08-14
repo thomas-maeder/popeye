@@ -86,3 +86,50 @@ boolean riders_check(vec_index_type kanf, vec_index_type kend,
   TraceFunctionResultEnd();
   return result;
 }
+
+boolean queen_check(evalfunction_t *evaluate)
+{
+    return riders_check(vec_queen_start,vec_queen_end, evaluate);
+}
+
+boolean rook_check(evalfunction_t *evaluate)
+{
+    return riders_check(vec_rook_start,vec_rook_end, evaluate);
+}
+
+boolean bishop_check(evalfunction_t *evaluate)
+{
+    return riders_check(vec_bishop_start,vec_bishop_end, evaluate);
+}
+
+boolean nightrider_check(evalfunction_t *evaluate)
+{
+    return riders_check(vec_knight_start, vec_knight_end, evaluate);
+}
+
+boolean elephant_check(evalfunction_t *evaluate)
+{
+    return riders_check(vec_elephant_start, vec_elephant_end, evaluate);    /* queen+nightrider  */
+}
+
+boolean waran_check(evalfunction_t *evaluate)
+{
+  return  riders_check(vec_knight_start,vec_knight_end, evaluate)
+      || riders_check(vec_rook_start,vec_rook_end, evaluate);
+}
+
+boolean camel_rider_check(evalfunction_t *evaluate)
+{
+  return riders_check(vec_chameau_start, vec_chameau_end, evaluate);
+}
+
+boolean zebra_rider_check(evalfunction_t *evaluate)
+{
+  return riders_check(vec_zebre_start, vec_zebre_end, evaluate);
+}
+
+boolean gnu_rider_check(evalfunction_t *evaluate)
+{
+  return  riders_check(vec_knight_start,vec_knight_end, evaluate)
+      || riders_check(vec_chameau_start, vec_chameau_end, evaluate);
+}

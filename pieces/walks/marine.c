@@ -147,37 +147,8 @@ void marine_ship_generate_moves(vec_index_type kbeg, vec_index_type kend)
   TraceFunctionResultEnd();
 }
 
-boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
-                           evalfunction_t *evaluate)
-{
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
-  boolean result = false;
-
-  ++observation_context;
-
-  for (interceptable_observation[observation_context].vector_index1 = kanf;
-       interceptable_observation[observation_context].vector_index1<=kend;
-       interceptable_observation[observation_context].vector_index1++)
-  {
-    square const sq_arrival = sq_target-vec[interceptable_observation[observation_context].vector_index1];
-    if (is_square_empty(sq_arrival))
-    {
-      square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
-      if (INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
-      {
-        result = true;
-        break;
-      }
-    }
-  }
-
-  --observation_context;
-
-  return result;
-}
-
-boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
-                            evalfunction_t *evaluate)
+static boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
+                                   evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   vec_index_type k;
@@ -191,6 +162,16 @@ boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
   }
 
   return false;
+}
+
+boolean marine_knight_check(evalfunction_t *evaluate)
+{
+  return marine_leaper_check(vec_knight_start,vec_knight_end,evaluate);
+}
+
+boolean poseidon_check(evalfunction_t *evaluate)
+{
+  return marine_leaper_check(vec_queen_start,vec_queen_end,evaluate);
 }
 
 static boolean marine_pawn_test_check(square sq_departure,
@@ -235,5 +216,5 @@ boolean marine_pawn_check(evalfunction_t *evaluate)
 
 boolean marine_ship_check(evalfunction_t *evaluate)
 {
-  return marine_pawn_check(evaluate) || tritoncheck(evaluate);
+  return marine_pawn_check(evaluate) || rooklocust_check(evaluate);
 }

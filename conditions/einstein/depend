@@ -221,8 +221,9 @@ conditions/einstein/en_passant$(OBJ_SUFFIX): conditions/einstein/en_passant.c \
  utilities/enumeration.h pylang.h pieces/walks/pawns/en_passant.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_type.h stipulation/traversal.h \
+ position/pieceid.h pieces/walks/classification.h position/position.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
  debugging/trace.h pydata.h pyproc.h
@@ -262,6 +263,10 @@ solving/move_effect_journal.h:
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+pieces/walks/classification.h:
+
+position/position.h:
 
 stipulation/pipe.h:
 

@@ -4,9 +4,12 @@
 /* This module implements the Edgehog */
 
 #include "position/board.h"
+#include "solving/observation.h"
 
 /* Generate moves for an Edgehog
  */
 void edgehog_generate_moves(void);
+
+boolean edgehog_check(evalfunction_t *evaluate);
 
 #endif

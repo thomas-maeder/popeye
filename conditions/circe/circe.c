@@ -1,11 +1,13 @@
 #include "conditions/circe/circe.h"
 #include "conditions/circe/capture_fork.h"
-#include "pydata.h"
+#include "pieces/walks/walks.h"
+#include "pieces/walks/classification.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 
@@ -263,4 +265,237 @@ void stip_insert_circe(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+square renrank(PieNam p_captured, Flags p_captured_spec,
+               square sq_capture, square sq_departure, square sq_arrival,
+               Side capturer) {
+  square sq= ((sq_capture/onerow)%2==1
+              ? rennormal(p_captured,p_captured_spec,
+                          sq_capture,sq_departure,sq_arrival,capturer)
+              : renspiegel(p_captured,p_captured_spec,
+                           sq_capture,sq_departure,sq_arrival,capturer));
+  return onerow*(sq_capture/onerow) + sq%onerow;
+}
+
+square renfile(PieNam p_captured, Flags p_captured_spec,
+               square sq_capture, square sq_departure, square sq_arrival,
+               Side capturer)
+{
+  int col= sq_capture % onerow;
+  square result;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(p_captured);
+  TraceSquare(sq_capture);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceEnumerator(Side,capturer,"");
+  TraceFunctionParamListEnd();
+
+  if (capturer==Black)
+  {
+    if (is_pawn(p_captured))
+      result = col + (nr_of_slack_rows_below_board+1)*onerow;
+    else
+      result = col + nr_of_slack_rows_below_board*onerow;
+  }
+  else
+  {
+    if (is_pawn(p_captured))
+      result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
+    else
+      result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+square renspiegelfile(PieNam p_captured, Flags p_captured_spec,
+                      square sq_capture,
+                      square sq_departure, square sq_arrival,
+                      Side capturer)
+{
+  return renfile(p_captured,p_captured_spec,
+                 sq_capture,sq_departure,sq_arrival,advers(capturer));
+} /* renspiegelfile */
+
+square renpwc(PieNam p_captured, Flags p_captured_spec,
+              square sq_capture, square sq_departure, square sq_arrival,
+              Side capturer)
+{
+  return sq_departure;
+} /* renpwc */
+
+square renequipollents(PieNam p_captured, Flags p_captured_spec,
+                       square sq_capture,
+                       square sq_departure, square sq_arrival,
+                       Side capturer)
+{
+  /* we have to solve the enpassant capture / locust capture problem in the future. */
+#if defined(WINCHLOE)
+  return sq_capture + sq_arrival - sq_departure;
+#endif
+  return sq_capture + sq_capture - sq_departure;
+} /* renequipollents */
+
+square renequipollents_anti(PieNam p_captured, Flags p_captured_spec,
+                            square sq_capture,
+                            square sq_departure, square sq_arrival,
+                            Side capturer)
+{
+  /* we have to solve the enpassant capture / locust capture problem in the future. */
+#if defined(WINCHLOE)
+  return sq_arrival + sq_arrival - sq_departure;
+#endif
+  return sq_capture + sq_capture - sq_departure;
+} /* renequipollents_anti */
+
+square rensymmetrie(PieNam p_captured, Flags p_captured_spec,
+                    square sq_capture,
+                    square sq_departure, square sq_arrival,
+                    Side capturer)
+{
+  return (square_h8+square_a1) - sq_capture;
+} /* rensymmetrie */
+
+square renantipoden(PieNam p_captured, Flags p_captured_spec,
+                    square sq_capture,
+                    square sq_departure, square sq_arrival,
+                    Side capturer)
+{
+  int const row= sq_capture/onerow - nr_of_slack_rows_below_board;
+  int const file= sq_capture%onerow - nr_of_slack_files_left_of_board;
+
+  sq_departure= sq_capture;
+
+  if (row<nr_rows_on_board/2)
+    sq_departure+= nr_rows_on_board/2*dir_up;
+  else
+    sq_departure+= nr_rows_on_board/2*dir_down;
+
+  if (file<nr_files_on_board/2)
+    sq_departure+= nr_files_on_board/2*dir_right;
+  else
+    sq_departure+= nr_files_on_board/2*dir_left;
+
+  return sq_departure;
+} /* renantipoden */
+
+square rendiagramm(PieNam p_captured, Flags p_captured_spec,
+                   square sq_capture, square sq_departure, square sq_arrival,
+                   Side capturer)
+{
+  return GetPositionInDiagram(p_captured_spec);
+}
+
+square rennormal(PieNam pnam_captured, Flags p_captured_spec,
+                 square sq_capture, square sq_departure, square sq_arrival,
+                 Side capturer)
+{
+  square  Result;
+  unsigned int col = sq_capture % onerow;
+  unsigned int const ran = sq_capture / onerow;
+
+  TraceFunctionEntry(__func__);
+  TracePiece(pnam_captured);
+  TraceSquare(sq_capture);
+  TraceSquare(sq_departure);
+  TraceSquare(sq_arrival);
+  TraceEnumerator(Side,capturer,"");
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[circemalefiquevertical])
+  {
+    col = onerow-1 - col;
+    if (pnam_captured==Queen)
+      pnam_captured = King;
+    else if (pnam_captured==King)
+      pnam_captured = Queen;
+  }
+
+  {
+    Side const cou = (ran&1) != (col&1) ? White : Black;
+
+    if (capturer == Black)
+    {
+      if (is_pawn(pnam_captured))
+        Result = col + (nr_of_slack_rows_below_board+1)*onerow;
+      else if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf))
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+nr_rows_on_board-2
+                       : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
+      else if (pnam_captured==standard_walks[Knight])
+        Result = cou == White ? square_b1 : square_g1;
+      else if (pnam_captured==standard_walks[Rook])
+        Result = cou == White ? square_h1 : square_a1;
+      else if (pnam_captured==standard_walks[Queen])
+        Result = square_d1;
+      else if (pnam_captured==standard_walks[Bishop])
+        Result = cou == White ? square_f1 : square_c1;
+      else if (pnam_captured==standard_walks[King])
+        Result = square_e1;
+      else
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+nr_rows_on_board-2
+                       : nr_of_slack_rows_below_board+nr_rows_on_board-1)));
+    }
+    else
+    {
+      if (is_pawn(pnam_captured))
+        Result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
+      else if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf))
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+1
+                       : nr_of_slack_rows_below_board)));
+      else if (pnam_captured==standard_walks[King])
+        Result = square_e8;
+      else if (pnam_captured==standard_walks[Knight])
+        Result = cou == White ? square_g8 : square_b8;
+      else if (pnam_captured==standard_walks[Rook])
+        Result = cou == White ? square_a8 : square_h8;
+      else if (pnam_captured==standard_walks[Queen])
+        Result = square_d8;
+      else if (pnam_captured==standard_walks[Bishop])
+        Result = cou == White ? square_c8 : square_f8;
+      else
+        Result = (col
+                  + (onerow
+                     *(CondFlag[glasgow]
+                       ? nr_of_slack_rows_below_board+1
+                       : nr_of_slack_rows_below_board)));
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(Result);
+  TraceFunctionResultEnd();
+  return(Result);
+}
+
+square rendiametral(PieNam p_captured, Flags p_captured_spec,
+                    square sq_capture,
+                    square sq_departure, square sq_arrival,
+                    Side capturer) {
+  return (square_h8+square_a1
+          - rennormal(p_captured,p_captured_spec,
+                      sq_capture,sq_departure,sq_arrival,capturer));
+}
+
+square renspiegel(PieNam p_captured, Flags p_captured_spec,
+                  square sq_capture,
+                  square sq_departure, square sq_arrival,
+                  Side capturer)
+{
+  return rennormal(p_captured,p_captured_spec,
+                   sq_capture,sq_departure,sq_arrival,advers(capturer));
 }

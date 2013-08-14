@@ -127,6 +127,47 @@ void leaper_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
   curr_generation->auxiliary.hopper.sq_hurdle = initsquare;
 }
 
+static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
+                                    evalfunction_t *evaluate)
+{
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  boolean result = false;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index1 = kanf;
+       interceptable_observation[observation_context].vector_index1 <= kend;
+       interceptable_observation[observation_context].vector_index1++)
+  {
+    square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
+
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
+    {
+      square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
+
+      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      {
+        result = true;
+        break;
+      }
+    }
+  }
+
+  --observation_context;
+
+  return result;
+}
+
+boolean kinghopper_check(evalfunction_t *evaluate)
+{
+  return leaper_hoppers_check(vec_queen_start, vec_queen_end, evaluate);
+}
+
+boolean knighthopper_check(evalfunction_t *evaluate)
+{
+  return leaper_hoppers_check(vec_knight_start, vec_knight_end, evaluate);
+}
+
 /* Generate moves for a double hopper piece
  * @param kbeg start of range of vector indices to be used
  * @param kend end of range of vector indices to be used
@@ -467,6 +508,11 @@ boolean equihopper_check(evalfunction_t *evaluate)
   }
 
   return false;
+}
+
+static square coinequis(square i)
+{
+  return 75 + (onerow*(((i/onerow)+3)/2) + (((i%onerow)+3)/2));
 }
 
 /* Generate moves for an nonstop-equihopper

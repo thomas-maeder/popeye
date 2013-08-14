@@ -149,4 +149,8 @@ void insert_alternative_move_players(slice_index si, slice_type type);
  */
 void stip_insert_mutual_castling_rights_adjusters(slice_index si);
 
+void generate_castling(void);
+
+boolean castling_is_intermediate_king_move_legal(Side side, square to);
+
 #endif

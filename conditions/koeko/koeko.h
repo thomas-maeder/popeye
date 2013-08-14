@@ -27,4 +27,15 @@ stip_length_type koeko_legality_tester_solve(slice_index si, stip_length_type n)
  */
 void koeko_initialise_solving(slice_index si);
 
+boolean nokingcontact(square ia);
+boolean nowazircontact(square ia);
+boolean noferscontact(square ia);
+boolean noknightcontact(square ia);
+boolean nocamelcontact(square ia);
+boolean noalfilcontact(square ia);
+boolean nozebracontact(square ia);
+boolean nodabbabacontact(square ia);
+boolean nogiraffecontact(square ia);
+boolean noantelopecontact(square ia);
+
 #endif

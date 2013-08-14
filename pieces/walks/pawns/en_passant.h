@@ -1,9 +1,9 @@
 #if !defined(PIECES_PAWNS_EN_PASSANT_H)
 #define PIECES_PAWNS_EN_PASSANT_H
 
-#include "pyproc.h"
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
+#include "solving/observation.h"
 
 /* This module provides implements en passant captures
  */
