@@ -110,7 +110,7 @@ static boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
   TraceValue("%d",sense);
   TraceFunctionParamListEnd();
 
-  interceptable_observation[observation_context].vector_index = idx_curr_dir;
+  interceptable_observation[observation_context].vector_index1 = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
 
   {
@@ -258,7 +258,7 @@ static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
                                              rose_rotation_sense sense,
                                              evalfunction_t *evaluate)
 {
-  interceptable_observation[observation_context].vector_index = idx_curr_dir;
+  interceptable_observation[observation_context].vector_index1 = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
 
   {
@@ -366,7 +366,7 @@ static boolean detect_rosehopper_check_on_line(square sq_hurdle,
                                                rose_rotation_sense sense,
                                                evalfunction_t *evaluate)
 {
-  interceptable_observation[observation_context].vector_index = idx_curr_dir;
+  interceptable_observation[observation_context].vector_index1 = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
 
   {
@@ -460,7 +460,7 @@ static boolean detect_roselocust_check_on_line(square sq_arrival,
                                                rose_rotation_sense sense,
                                                evalfunction_t *evaluate)
 {
-  interceptable_observation[observation_context].vector_index = idx_curr_dir;
+  interceptable_observation[observation_context].vector_index1 = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
 
   {

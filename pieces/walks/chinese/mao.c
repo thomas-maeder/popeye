@@ -84,16 +84,16 @@ static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_index_pass_target_end;
-       interceptable_observation[observation_context].vector_index>=vec_index_pass_target_begin;
-       --interceptable_observation[observation_context].vector_index)
+  for (interceptable_observation[observation_context].vector_index1 = vec_index_pass_target_end;
+       interceptable_observation[observation_context].vector_index1>=vec_index_pass_target_begin;
+       --interceptable_observation[observation_context].vector_index1)
   {
-    numvec const vec_pass_target = vec[interceptable_observation[observation_context].vector_index];
+    numvec const vec_pass_target = vec[interceptable_observation[observation_context].vector_index1];
     square const sq_pass = sq_target+vec_pass_target;
 
     if (is_square_empty(sq_pass)
-        && (maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index,evaluate)
-            || maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index-1,evaluate)))
+        && (maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index1,evaluate)
+            || maooacheck_onedir(sq_pass,2*interceptable_observation[observation_context].vector_index1-1,evaluate)))
     {
       result = true;
       break;
@@ -184,11 +184,11 @@ boolean moarider_check(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
-      interceptable_observation[observation_context].vector_index<=vec_knight_end;
-      ++interceptable_observation[observation_context].vector_index)
+  for (interceptable_observation[observation_context].vector_index1 = vec_knight_start;
+      interceptable_observation[observation_context].vector_index1<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index1)
   {
-    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
     if (maooarider_check(mao_passed(to_departure), /* we are going backward! */
                         to_departure,
                         evaluate))
@@ -209,11 +209,11 @@ boolean maorider_check(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
-      interceptable_observation[observation_context].vector_index<=vec_knight_end;
-      ++interceptable_observation[observation_context].vector_index)
+  for (interceptable_observation[observation_context].vector_index1 = vec_knight_start;
+      interceptable_observation[observation_context].vector_index1<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index1)
   {
-    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
     if (maooarider_check(moa_passed(to_departure), /* we are going backward! */
                         to_departure,
                         evaluate))
@@ -334,11 +334,11 @@ boolean maoriderlion_check(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
-      interceptable_observation[observation_context].vector_index<=vec_knight_end;
-      ++interceptable_observation[observation_context].vector_index)
+  for (interceptable_observation[observation_context].vector_index1 = vec_knight_start;
+      interceptable_observation[observation_context].vector_index1<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index1)
   {
-    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
     if (maooariderlion_check(moa_passed(to_departure), /* we are going backward! */
                              to_departure,
                              evaluate))
@@ -359,11 +359,11 @@ boolean moariderlion_check(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_knight_start;
-      interceptable_observation[observation_context].vector_index<=vec_knight_end;
-      ++interceptable_observation[observation_context].vector_index)
+  for (interceptable_observation[observation_context].vector_index1 = vec_knight_start;
+      interceptable_observation[observation_context].vector_index1<=vec_knight_end;
+      ++interceptable_observation[observation_context].vector_index1)
   {
-    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index];
+    numvec const to_departure = vec[interceptable_observation[observation_context].vector_index1];
     if (maooariderlion_check(mao_passed(to_departure), /* we are going backward! */
                              to_departure,
                              evaluate))

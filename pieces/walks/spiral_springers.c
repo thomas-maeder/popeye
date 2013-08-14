@@ -34,7 +34,7 @@ static boolean zigzag_check(vec_index_type idx_zig, vec_index_type idx_zag,
 
   ++observation_context;
 
-  interceptable_observation[observation_context].vector_index = idx_zig;
+  interceptable_observation[observation_context].vector_index1 = idx_zig;
   interceptable_observation[observation_context].auxiliary = idx_zag;
 
   while (is_square_empty(sq_departure))

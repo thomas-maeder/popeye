@@ -44,23 +44,23 @@ boolean bobcheck(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_queen_end;
-       interceptable_observation[observation_context].vector_index>=vec_queen_start;
-       interceptable_observation[observation_context].vector_index--)
+  for (interceptable_observation[observation_context].vector_index1 = vec_queen_end;
+       interceptable_observation[observation_context].vector_index1>=vec_queen_start;
+       interceptable_observation[observation_context].vector_index1--)
   {
-    square const sq_hurdle1 = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index]);
+    square const sq_hurdle1 = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
     if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
     {
-      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[interceptable_observation[observation_context].vector_index]);
+      square const sq_hurdle2 = find_end_of_line(sq_hurdle1,vec[interceptable_observation[observation_context].vector_index1]);
       if (!is_square_blocked(sq_hurdle2))
       {
-        square const sq_hurdle3 = find_end_of_line(sq_hurdle2,vec[interceptable_observation[observation_context].vector_index]);
+        square const sq_hurdle3 = find_end_of_line(sq_hurdle2,vec[interceptable_observation[observation_context].vector_index1]);
         if (!is_square_blocked(sq_hurdle3))
         {
-          square const sq_hurdle4 = find_end_of_line(sq_hurdle3,vec[interceptable_observation[observation_context].vector_index]);
+          square const sq_hurdle4 = find_end_of_line(sq_hurdle3,vec[interceptable_observation[observation_context].vector_index1]);
           if (!is_square_blocked(sq_hurdle4))
           {
-            square const sq_departure = find_end_of_line(sq_hurdle4,vec[interceptable_observation[observation_context].vector_index]);
+            square const sq_departure = find_end_of_line(sq_hurdle4,vec[interceptable_observation[observation_context].vector_index1]);
             if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
             {
               result = true;

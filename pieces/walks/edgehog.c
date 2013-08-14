@@ -35,11 +35,11 @@ boolean edgehog_check(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_queen_end;
-      interceptable_observation[observation_context].vector_index>=vec_queen_start;
-      interceptable_observation[observation_context].vector_index--)
+  for (interceptable_observation[observation_context].vector_index1 = vec_queen_end;
+      interceptable_observation[observation_context].vector_index1>=vec_queen_start;
+      interceptable_observation[observation_context].vector_index1--)
   {
-    square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index]);
+    square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
     if (NoEdge(sq_target)!=NoEdge(sq_departure)
         && INVOKE_EVAL(evaluate,sq_departure,sq_target))
     {

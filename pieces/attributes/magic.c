@@ -92,7 +92,7 @@ static void identify_straight_line(void)
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
 
-  vec_index_type const idx = interceptable_observation[observation_context].vector_index;
+  vec_index_type const idx = interceptable_observation[observation_context].vector_index1;
   numvec const dir = vec[idx];
 
   /* we identify straight lines by the two virtual squares just outside of the
@@ -121,7 +121,7 @@ static void identify_circular_line(void)
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
   rose_rotation_sense const sense = interceptable_observation[observation_context].auxiliary;
-  vec_index_type idx = interceptable_observation[observation_context].vector_index;
+  vec_index_type idx = interceptable_observation[observation_context].vector_index1;
   square sq_curr = sq_observee;
 
   square start = sq_observee;
@@ -156,7 +156,7 @@ static void identify_zigzag_line(void)
 {
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
-  vec_index_type const idx_zig = interceptable_observation[observation_context].vector_index;
+  vec_index_type const idx_zig = interceptable_observation[observation_context].vector_index1;
   vec_index_type const idx_zag = interceptable_observation[observation_context].auxiliary;
   square sq_curr = sq_observee+vec[idx_zig];
 
@@ -186,6 +186,31 @@ static void identify_zigzag_line(void)
         sq_curr += vec[idx_zig];
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void identify_doublehopper_line(void)
+{
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  vec_index_type const idx_firstleg = interceptable_observation[observation_context].vector_index1;
+  numvec const dir_firstleg = vec[idx_firstleg];
+  vec_index_type const sq_intermediate = interceptable_observation[observation_context].auxiliary;
+  square sq_curr = sq_intermediate+dir_firstleg;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* we identify doublehopper lines by the intermediate square and the square
+   * just off the board on the first leg
+   */
+
+  while (!is_square_blocked(sq_curr))
+    sq_curr += dir_firstleg;
+
+  PushMagicView(sq_observee,sq_observer,sq_curr,sq_intermediate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -291,6 +316,12 @@ static void identify_line(void)
       identify_zigzag_line();
       break;
 
+    case DoubleGras:
+    case DoubleRookHopper:
+    case DoubleBishopper:
+      identify_doublehopper_line();
+      break;
+
     case King:
     case Poseidon:
     case ErlKing:
@@ -343,9 +374,6 @@ static void identify_line(void)
 
     /* TODO consider again */
     case BouncyNightrider:
-    case DoubleGras:
-    case DoubleRookHopper:
-    case DoubleBishopper:
     case Bouncer :
     case RookBouncer:
     case BishopBouncer :

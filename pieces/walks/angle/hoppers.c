@@ -96,16 +96,16 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = kend;
-       interceptable_observation[observation_context].vector_index>=kanf;
-       --interceptable_observation[observation_context].vector_index)
+  for (interceptable_observation[observation_context].vector_index1 = kend;
+       interceptable_observation[observation_context].vector_index1>=kanf;
+       --interceptable_observation[observation_context].vector_index1)
   {
-    numvec const vec_hurdle_target = vec[interceptable_observation[observation_context].vector_index];
+    numvec const vec_hurdle_target = vec[interceptable_observation[observation_context].vector_index1];
     square const sq_hurdle = sq_target+vec_hurdle_target;
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index;
+      vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index1;
 
       if (angle_hoppers_is_square_observed_one_dir(sq_hurdle,
                                                    vec_index_departure_hurdle,

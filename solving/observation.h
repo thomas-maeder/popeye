@@ -23,7 +23,8 @@
 
 typedef struct
 {
-    vec_index_type vector_index;
+    vec_index_type vector_index1;
+    vec_index_type vector_index2;
     int auxiliary;
 } interceptable_observation_type;
 extern interceptable_observation_type interceptable_observation[maxply+1];

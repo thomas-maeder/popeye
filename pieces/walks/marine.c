@@ -155,14 +155,14 @@ boolean marine_rider_check(vec_index_type kanf, vec_index_type kend,
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = kanf;
-       interceptable_observation[observation_context].vector_index<=kend;
-       interceptable_observation[observation_context].vector_index++)
+  for (interceptable_observation[observation_context].vector_index1 = kanf;
+       interceptable_observation[observation_context].vector_index1<=kend;
+       interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_arrival = sq_target-vec[interceptable_observation[observation_context].vector_index];
+    square const sq_arrival = sq_target-vec[interceptable_observation[observation_context].vector_index1];
     if (is_square_empty(sq_arrival))
     {
-      square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index]);
+      square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
       if (INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
       {
         result = true;

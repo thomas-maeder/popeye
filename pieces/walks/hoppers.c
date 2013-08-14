@@ -42,15 +42,15 @@ boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = kanf;
-       interceptable_observation[observation_context].vector_index<=kend;
-       interceptable_observation[observation_context].vector_index++)
+  for (interceptable_observation[observation_context].vector_index1 = kanf;
+       interceptable_observation[observation_context].vector_index1<=kend;
+       interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index];
+    square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index]);
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
 
       if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
@@ -167,33 +167,42 @@ void doublehopper_generate_moves(vec_index_type vec_start,
 static boolean doublehopper_check(vec_index_type vec_start, vec_index_type vec_end,
                                  evalfunction_t *evaluate)
 {
+  boolean result = false;
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
-  vec_index_type k;
 
-  for (k=vec_end; k>=vec_start; k--)
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index2 = vec_end;
+       interceptable_observation[observation_context].vector_index2>=vec_start && !result;
+       interceptable_observation[observation_context].vector_index2--)
   {
-    square sq_hurdle2 = sq_target+vec[k];
+    numvec const dir2 = vec[interceptable_observation[observation_context].vector_index2];
+    square const sq_hurdle2 = sq_target+dir2;
     if (!is_square_empty(sq_hurdle2) && !is_square_blocked(sq_hurdle2))
-    {
-      square sq_intermediate;
-      for (sq_intermediate = sq_hurdle2+vec[k]; is_square_empty(sq_intermediate); sq_intermediate += vec[k])
-      {
-        vec_index_type k1;
-        for (k1 = vec_end; k1>=vec_start; k1--)
+      for (interceptable_observation[observation_context].auxiliary = sq_hurdle2+dir2;
+           is_square_empty(interceptable_observation[observation_context].auxiliary);
+           interceptable_observation[observation_context].auxiliary += dir2)
+        for (interceptable_observation[observation_context].vector_index1 = vec_end;
+             interceptable_observation[observation_context].vector_index1>=vec_start;
+             interceptable_observation[observation_context].vector_index1--)
         {
-          square const sq_hurdle1 = sq_intermediate+vec[k1];
+          numvec const dir1 = vec[interceptable_observation[observation_context].vector_index1];
+          square const sq_hurdle1 = interceptable_observation[observation_context].auxiliary+dir1;
           if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
           {
-            square const sq_departure = find_end_of_line(sq_hurdle1,vec[k1]);
+            square const sq_departure = find_end_of_line(sq_hurdle1,dir1);
             if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
-              return true;
+            {
+              result = true;
+              break;
+            }
           }
         }
-      }
-    }
   }
 
-  return false;
+  --observation_context;
+
+  return result;
 }
 
 boolean doublegrasshopper_check(evalfunction_t *evaluate)
@@ -254,15 +263,15 @@ boolean contragrasshopper_check(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_queen_start;
-       interceptable_observation[observation_context].vector_index<=vec_queen_end;
-       interceptable_observation[observation_context].vector_index++)
+  for (interceptable_observation[observation_context].vector_index1 = vec_queen_start;
+       interceptable_observation[observation_context].vector_index1<=vec_queen_end;
+       interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_hurdle = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index]);
+    square const sq_hurdle = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index];
+      square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
 
       if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
@@ -351,15 +360,15 @@ static boolean grasshoppers_n_check(vec_index_type kanf, vec_index_type kend,
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = kanf;
-       interceptable_observation[observation_context].vector_index<=kend;
-       interceptable_observation[observation_context].vector_index++)
+  for (interceptable_observation[observation_context].vector_index1 = kanf;
+       interceptable_observation[observation_context].vector_index1<=kend;
+       interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_hurdle = grasshoppers_n_find_hurdle(sq_target,vec[interceptable_observation[observation_context].vector_index],dist_hurdle_target);
+    square const sq_hurdle = grasshoppers_n_find_hurdle(sq_target,vec[interceptable_observation[observation_context].vector_index1],dist_hurdle_target);
 
     if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index]);
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
 
       if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
@@ -442,7 +451,7 @@ boolean equihopper_check(evalfunction_t *evaluate)
   if (orix_check(evaluate))
     return true;
 
-  interceptable_observation[observation_context].vector_index = 0;
+  interceptable_observation[observation_context].vector_index1 = 0;
 
   {
     vec_index_type  k;
@@ -580,14 +589,14 @@ boolean equistopper_check(evalfunction_t *evaluate)
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
   boolean result = false;
 
-  for (interceptable_observation[observation_context].vector_index = vec_queen_end;
-       interceptable_observation[observation_context].vector_index>=vec_queen_start;
-       interceptable_observation[observation_context].vector_index--)
+  for (interceptable_observation[observation_context].vector_index1 = vec_queen_end;
+       interceptable_observation[observation_context].vector_index1>=vec_queen_start;
+       interceptable_observation[observation_context].vector_index1--)
   {
-    square const sq_hurdle = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index]);
+    square const sq_hurdle = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
     if (!is_square_blocked(sq_hurdle))
     {
-      square const sq_departure = find_end_of_line(sq_target,-vec[interceptable_observation[observation_context].vector_index]);
+      square const sq_departure = find_end_of_line(sq_target,-vec[interceptable_observation[observation_context].vector_index1]);
       if (sq_departure-sq_target==sq_target-sq_hurdle
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
@@ -598,12 +607,12 @@ boolean equistopper_check(evalfunction_t *evaluate)
   }
 
   if (!result)
-    for (interceptable_observation[observation_context].vector_index = vec_equi_nonintercept_start;
-        interceptable_observation[observation_context].vector_index<=vec_equi_nonintercept_end;
-        interceptable_observation[observation_context].vector_index++)      /* 2,4; 2,6; 4,6; */
+    for (interceptable_observation[observation_context].vector_index1 = vec_equi_nonintercept_start;
+        interceptable_observation[observation_context].vector_index1<=vec_equi_nonintercept_end;
+        interceptable_observation[observation_context].vector_index1++)      /* 2,4; 2,6; 4,6; */
     {
-      square const sq_departure = sq_target-vec[interceptable_observation[observation_context].vector_index];
-      square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index];
+      square const sq_departure = sq_target-vec[interceptable_observation[observation_context].vector_index1];
+      square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
       if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle)
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {
@@ -712,14 +721,14 @@ boolean orix_check(evalfunction_t *evaluate)
 
   ++observation_context;
 
-  for (interceptable_observation[observation_context].vector_index = vec_queen_end;
-       interceptable_observation[observation_context].vector_index>=vec_queen_start;
-       interceptable_observation[observation_context].vector_index--)
+  for (interceptable_observation[observation_context].vector_index1 = vec_queen_end;
+       interceptable_observation[observation_context].vector_index1>=vec_queen_start;
+       interceptable_observation[observation_context].vector_index1--)
   {
-    square const sq_hurdle = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index]);
+    square const sq_hurdle = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
     if (!is_square_blocked(sq_hurdle))
     {
-      square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index]);
+      square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
       if (sq_departure-sq_hurdle==sq_hurdle-sq_target
           && INVOKE_EVAL(evaluate,sq_departure,sq_target))
       {

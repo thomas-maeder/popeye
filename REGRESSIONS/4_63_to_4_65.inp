@@ -403,4 +403,11 @@ stip ~1
 option nowk nobk
 twin remove a3
 
+next
+
+title so far, f6 would be recolored as part of 1.mDGc1-d2
+pieces white magic dgc1a4 white be3 pe4f5f6
+stip zd21
+option nowk nobk
+
 end

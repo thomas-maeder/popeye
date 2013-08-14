@@ -2003,3 +2003,42 @@ b)  -bmPa3
 solution finished. 
 
 
+
+so far, f6 would be recolored as part of 1.mDGc1-d2
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   P   .   .   6
+|                                   |
+5   .   .   .   .   .   P   .   .   5
+|                                   |
+4  DG   .   .   .   P   .   .   .   4
+|                                   |
+3   .   .   .   .   B   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  DG   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zd21                        6 + 0
+             Magic a4 c1
+
+   1.mDGc1-d2 z !
+
+   1.Be3-d2 z !
+
+   1.mDGa4-d2[f6=b] z !
+
+
+  add_to_move_generation_stack:          16
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
