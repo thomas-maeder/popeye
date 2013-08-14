@@ -80,6 +80,7 @@ boolean magic_is_piece_supported(PieNam p)
       case CAT:
       case Orphan:
       case Friend:
+      case BouncyNightrider:
         return false;
 
       default:
@@ -219,7 +220,7 @@ static void identify_doublehopper_line(void)
   TraceFunctionResultEnd();
 }
 
-static void identify_combined_leaper_pseudoline(void)
+static void identify_leaper_pseudoline(void)
 {
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
@@ -229,7 +230,7 @@ static void identify_combined_leaper_pseudoline(void)
 static void identify_combined_rider_leaper_line(void)
 {
   if (observation_context==prev_observation_context[nbply])
-    identify_combined_leaper_pseudoline();
+    identify_leaper_pseudoline();
   else
     identify_straight_line();
 }
@@ -310,6 +311,10 @@ static void identify_line(void)
     case MoaRider:
     case MaoRiderLion:
     case MoaRiderLion:
+    case Dolphin:
+    case Bouncer :
+    case RookBouncer:
+    case BishopBouncer:
       identify_straight_line();
       break;
 
@@ -341,6 +346,12 @@ static void identify_line(void)
     case Amazone:
     case Empress:
     case Princess:
+    case Gryphon:
+    case Ship:
+    case Gral:
+    case Scorpion:
+    case Querquisite:
+    case MarineShip:
       identify_combined_rider_leaper_line();
       break;
 
@@ -394,22 +405,8 @@ static void identify_line(void)
     case Skylla:
     case Charybdis:
 
-    /* TODO consider again */
-    case BouncyNightrider:
-    case Bouncer :
-    case RookBouncer:
-    case BishopBouncer :
-
-    /* TODO combined pieces */
     case Dragon:
-    case Gryphon:
-    case Ship:
-    case Gral:
-    case Scorpion:
-    case Dolphin:
-    case Querquisite:
-    case MarineShip:
-      identify_combined_leaper_pseudoline();
+      identify_leaper_pseudoline();
       break;
 
     default:

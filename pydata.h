@@ -71,6 +71,7 @@
 #define PYDATA_H
 
 #include "pieces/walks/roses.h"
+#include "pieces/walks/bouncer.h"
 #include "pyproc.h"
 
 #include <limits.h>

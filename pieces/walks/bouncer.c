@@ -1,5 +1,6 @@
 #include "pieces/walks/bouncer.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"
@@ -27,4 +28,47 @@ void bouncer_generate_moves(vec_index_type kbeg, vec_index_type kend)
             || piece_belongs_to_opponent(curr_generation->arrival)))
       push_move();
   }
+}
+
+static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
+                                  evalfunction_t *evaluate)
+{
+  boolean result = false;
+  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index1 = kend;
+       interceptable_observation[observation_context].vector_index1>=kbeg;
+       interceptable_observation[observation_context].vector_index1--)
+  {
+    numvec const dir = vec[interceptable_observation[observation_context].vector_index1];
+    square const sq_departure = find_end_of_line(sq_target,dir);
+    square const sq_hurdle = find_end_of_line(sq_departure,dir);
+    if (sq_departure-sq_target==sq_hurdle-sq_departure
+        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    {
+      result = true;
+      break;
+    }
+  }
+
+  --observation_context;
+
+  return result;
+}
+
+boolean bouncercheck(evalfunction_t *evaluate)
+{
+  return bouncerfamilycheck(vec_queen_start,vec_queen_end, evaluate);
+}
+
+boolean rookbouncercheck(evalfunction_t *evaluate)
+{
+  return bouncerfamilycheck(vec_rook_start,vec_rook_end, evaluate);
+}
+
+boolean bishopbouncercheck(evalfunction_t *evaluate)
+{
+  return bouncerfamilycheck(vec_bishop_start,vec_bishop_end, evaluate);
 }

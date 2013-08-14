@@ -673,39 +673,6 @@ boolean dolphincheck(evalfunction_t *evaluate)
       || kangoucheck(evaluate);
 }
 
-static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
-                                  evalfunction_t *evaluate)
-{
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
-  vec_index_type k;
-
-  for (k= kend; k>=kbeg; k--)
-  {
-    square const sq_departure = find_end_of_line(sq_target,vec[k]);
-    square const sq_hurdle = find_end_of_line(sq_departure,vec[k]);
-    if (sq_departure-sq_target==sq_hurdle-sq_departure
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
-      return true;
-  }
-
-  return false;
-}
-
-boolean bouncercheck(evalfunction_t *evaluate)
-{
-  return bouncerfamilycheck(vec_queen_start,vec_queen_end, evaluate);
-}
-
-boolean rookbouncercheck(evalfunction_t *evaluate)
-{
-  return bouncerfamilycheck(vec_rook_start,vec_rook_end, evaluate);
-}
-
-boolean bishopbouncercheck(evalfunction_t *evaluate)
-{
-  return bouncerfamilycheck(vec_bishop_start,vec_bishop_end, evaluate);
-}
-
 boolean pchincheck(evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
