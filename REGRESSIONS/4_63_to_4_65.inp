@@ -410,4 +410,13 @@ pieces white magic dgc1a4 white be3 pe4f5f6
 stip zd21
 option nowk nobk
 
+next
+
+title just make sure that combined leaper/riders still work
+pieces white magic ama1 black pd4
+stip zb21
+option nowk nobk
+twin stip zd11
+twin stip zb31
+
 end

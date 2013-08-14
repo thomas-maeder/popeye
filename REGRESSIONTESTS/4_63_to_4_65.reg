@@ -2042,3 +2042,58 @@ so far, f6 would be recolored as part of 1.mDGc1-d2
 solution finished. 
 
 
+
+just make sure that combined leaper/riders still work
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1  AM   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zb21                        1 + 1
+               Magic a1
+
+a) 
+
+   1.mAMa1-b2 z !
+
+
+  add_to_move_generation_stack:          19
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) zd11
+
+   1.mAMa1-d1[d4=w] z !
+
+
+  add_to_move_generation_stack:          19
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+c) zb31
+
+   1.mAMa1-b3[d4=w] z !
+
+
+  add_to_move_generation_stack:          19
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

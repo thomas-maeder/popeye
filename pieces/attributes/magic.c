@@ -87,6 +87,9 @@ boolean magic_is_piece_supported(PieNam p)
     }
 }
 
+static square current_magic_pos[maxply+1];
+static unsigned int prev_observation_context[maxply+1];
+
 static void identify_straight_line(void)
 {
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
@@ -216,16 +219,29 @@ static void identify_doublehopper_line(void)
   TraceFunctionResultEnd();
 }
 
-static void identify_line(void)
+static void identify_combined_leaper_pseudoline(void)
 {
   square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
   square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  PushMagicView(sq_observee,sq_observer,sq_observer,sq_observee);
+}
+
+static void identify_combined_rider_leaper_line(void)
+{
+  if (observation_context==prev_observation_context[nbply])
+    identify_combined_leaper_pseudoline();
+  else
+    identify_straight_line();
+}
+
+static void identify_line(void)
+{
+  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_observer);
-  TraceSquare(sq_observee);
   TracePiece(e[sq_observer]);
   TraceText("\n");
   switch (e[sq_observer])
@@ -322,6 +338,12 @@ static void identify_line(void)
       identify_doublehopper_line();
       break;
 
+    case Amazone:
+    case Empress:
+    case Princess:
+      identify_combined_rider_leaper_line();
+      break;
+
     case King:
     case Poseidon:
     case ErlKing:
@@ -379,9 +401,6 @@ static void identify_line(void)
     case BishopBouncer :
 
     /* TODO combined pieces */
-    case Amazone:
-    case Empress:
-    case Princess:
     case Dragon:
     case Gryphon:
     case Ship:
@@ -390,7 +409,7 @@ static void identify_line(void)
     case Dolphin:
     case Querquisite:
     case MarineShip:
-      PushMagicView(sq_observee,sq_observer,sq_observer,sq_observee);
+      identify_combined_leaper_pseudoline();
       break;
 
     default:
@@ -401,8 +420,6 @@ static void identify_line(void)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-static square current_magic_pos[maxply+1];
 
 boolean magic_enforce_observer(slice_index si)
 {
@@ -475,6 +492,7 @@ static void PushMagicViews(void)
 
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
+  prev_observation_context[nbply] = observation_context;
 
   for (pos_magic = boardnum; *pos_magic; pos_magic++)
     if (TSTFLAG(spec[*pos_magic], Magic))
