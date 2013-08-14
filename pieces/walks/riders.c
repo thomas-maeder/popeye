@@ -3,7 +3,6 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 /* Generate moves to the square on a line segment
  * @param sq_base first square of line segment

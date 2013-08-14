@@ -1,6 +1,4 @@
 #include "pieces/attributes/magic.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "pieces/walks/roses.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
@@ -12,6 +10,9 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 #include <assert.h>
 

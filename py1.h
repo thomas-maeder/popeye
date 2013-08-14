@@ -9,10 +9,6 @@
 #if !defined(PY1_INCLUDED)
 #define PY1_INCLUDED
 
-#include "pyproc.h"
-#include "pydata.h"
-#include "conditions/haunted_chess.h"
-
 void InitCheckDir(void);
 void InitBoard(void);
 void InitOpt(void);

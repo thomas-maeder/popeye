@@ -1,6 +1,4 @@
 #include "output/plaintext/line/line_writer.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
@@ -12,6 +10,9 @@
 #include "solving/check.h"
 #include "platform/beep.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 #ifdef _SE_
 #include "se.h"

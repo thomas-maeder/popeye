@@ -1,12 +1,13 @@
 #include "output/plaintext/tree/try_writer.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "solving/battle_play/try.h"
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 #include <assert.h>
 

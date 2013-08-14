@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pyproc.h"
 
 static boolean is_unobserved_beamter(numecoup n)
 {

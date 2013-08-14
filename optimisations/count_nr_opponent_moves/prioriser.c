@@ -1,5 +1,4 @@
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
@@ -7,6 +6,8 @@
 #include "solving/single_move_generator.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

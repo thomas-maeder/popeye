@@ -4,7 +4,6 @@
 #include "py.h"
 #include "position/board.h"
 #include "utilities/boolean.h"
-#include "pyproc.h"
 
 /* This module implements the condition Annan Chess */
 

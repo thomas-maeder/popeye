@@ -1,6 +1,5 @@
 #include "conditions/mummer.h"
 #include "conditions/singlebox/type3.h"
-#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/testing_pipe.h"
@@ -14,6 +13,8 @@
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

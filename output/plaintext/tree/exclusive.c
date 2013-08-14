@@ -5,9 +5,10 @@
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/tree.h"
+#include "debugging/trace.h"
+#include "pyproc.h"
 #include "pymsg.h"
 #include "pydata.h"
-#include "debugging/trace.h"
 
 #include <assert.h>
 

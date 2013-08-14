@@ -17,7 +17,6 @@
 #endif
 
 #include "py.h"
-#include "pyproc.h"
 #define EXTERN
 #include "pydata.h"
 

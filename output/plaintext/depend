@@ -6,8 +6,9 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  solving/solve.h conditions/bgl.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h conditions/kobul.h \
  conditions/imitator.h position/position.h \
- pieces/walks/pawns/en_passant.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h debugging/trace.h pydata.h pyproc.h
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ stipulation/slice_type.h debugging/trace.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
 
 output/plaintext/plaintext.h:
 
@@ -53,17 +54,21 @@ position/position.h:
 
 pieces/walks/pawns/en_passant.h:
 
+solving/observation.h:
+
+stipulation/slice_type.h:
+
+debugging/trace.h:
+
 pyproc.h:
 
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
 
-debugging/trace.h:
-
 pydata.h:
 
-pyproc.h:
+py.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
  output/plaintext/end_of_phase_writer.h solving/solve.h py.h \
@@ -225,12 +230,12 @@ output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  output/plaintext/ohneschach_detect_undecidable_goal.h solving/solve.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/goals/goals.h pydata.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pymsg.h \
+ utilities/enumeration.h pylang.h stipulation/goals/goals.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h output/mode.h stipulation/has_solution_type.h \
- conditions/ohneschach.h debugging/trace.h
+ conditions/ohneschach.h debugging/trace.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h pymsg.h
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
@@ -256,16 +261,6 @@ pylang.h:
 
 stipulation/goals/goals.h:
 
-pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-pymsg.h:
-
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -285,6 +280,18 @@ stipulation/has_solution_type.h:
 conditions/ohneschach.h:
 
 debugging/trace.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pydata.h:
+
+py.h:
+
+pymsg.h:
 output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  output/plaintext/goal_writer.h stipulation/goals/goals.h \
  utilities/boolean.h py.h utilities/boolean.h position/position.h \

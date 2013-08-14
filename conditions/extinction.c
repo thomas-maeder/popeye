@@ -5,6 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
 
 #include <assert.h>
 

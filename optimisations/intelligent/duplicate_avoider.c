@@ -7,6 +7,7 @@
 #include "debugging/trace.h"
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 /* This module provides the slice type STIntelligentDuplicateAvoider

@@ -6,6 +6,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pyproc.h"
 
 static boolean orphan_find_observation_chain(square sq_target,
                                              PieNam orphan_observer,

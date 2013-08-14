@@ -5,7 +5,7 @@ pieces/walks/chinese/riders$(OBJ_SUFFIX): pieces/walks/chinese/riders.c \
  py.h utilities/boolean.h position/position.h pylang.h \
  pieces/walks/riders.h pieces/walks/lions.h solving/move_generator.h \
  solving/solve.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ pieces/walks/vectors.h stipulation/goals/goals.h
 
 pieces/walks/chinese/riders.h:
 
@@ -50,15 +50,13 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
-
-pyproc.h:
 pieces/walks/chinese/leapers$(OBJ_SUFFIX): pieces/walks/chinese/leapers.c \
  pieces/walks/chinese/leapers.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/move_generator.h solving/solve.h py.h \
  utilities/boolean.h position/position.h pylang.h \
  stipulation/slice_type.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pyproc.h
+ pieces/walks/vectors.h stipulation/goals/goals.h
 
 pieces/walks/chinese/leapers.h:
 
@@ -97,15 +95,13 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
-
-pyproc.h:
 pieces/walks/chinese/pawn$(OBJ_SUFFIX): pieces/walks/chinese/pawn.c \
  pieces/walks/chinese/pawn.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \
  pieces/walks/vectors.h py.h utilities/boolean.h position/position.h \
  utilities/boolean.h pylang.h solving/move_generator.h solving/solve.h \
  debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h pyproc.h
+ stipulation/goals/goals.h
 
 pieces/walks/chinese/pawn.h:
 
@@ -144,8 +140,6 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
-
-pyproc.h:
 pieces/walks/chinese/mao$(OBJ_SUFFIX): pieces/walks/chinese/mao.c \
  pieces/walks/chinese/mao.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \

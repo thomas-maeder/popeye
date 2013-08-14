@@ -3,7 +3,6 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"
-#include "pyproc.h"
 
 static void cardinal_generate_moves_recursive(square in, numvec k, int x)
 {

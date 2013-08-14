@@ -70,7 +70,9 @@
 #if !defined(PYDATA_H)
 #define PYDATA_H
 
-#include "pyproc.h"
+#include "position/position.h"
+#include "utilities/boolean.h"
+#include "py.h"
 
 #include <limits.h>
 

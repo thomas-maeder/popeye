@@ -1,12 +1,13 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 /* Allocate a STZugzwangWriter slice.
  * @return index of allocated slice

@@ -8,11 +8,12 @@
 #if defined(SIGNALS)
 
 #include <unistd.h>
-#include "py.h"
-#include "pydata.h"
 #include "optimisations/hash.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
+#include "pyproc.h"
+#include "py.h"
+#include "pydata.h"
 
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)

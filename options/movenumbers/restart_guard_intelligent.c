@@ -1,13 +1,14 @@
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
-#include "pymsg.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 #include "options/movenumbers.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 #include <assert.h>
 

@@ -10,6 +10,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 
@@ -31,7 +32,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
 
     siblingply(side_checking);
     current_move[nbply] = current_move[nbply-1]+1;
-    
+
     for (bnp = boardnum; *bnp; bnp++)
     {
       PieNam const p = get_walk_of_piece_on_square(*bnp);

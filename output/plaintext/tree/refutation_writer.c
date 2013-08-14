@@ -1,12 +1,13 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
-#include "pymsg.h"
 #include "solving/solve.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 /* Allocate a STRefutationsIntroWriter slice.
  * @return index of allocated slice

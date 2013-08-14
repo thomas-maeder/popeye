@@ -1,10 +1,11 @@
 #include "optimisations/intelligent/place_white_king.h"
-#include "pydata.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

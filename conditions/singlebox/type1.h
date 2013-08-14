@@ -5,7 +5,6 @@
  */
 
 #include "solving/solve.h"
-#include "pyproc.h"
 
 /* Determine whether the move just played is legal according to Singlebox Type 1
  * @return true iff the move is legal

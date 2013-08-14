@@ -1,12 +1,13 @@
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/solve.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 /* Allocate a STRefutingVariationWriter slice.
  * @return index of allocated slice

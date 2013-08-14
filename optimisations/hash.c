@@ -114,7 +114,6 @@
 #include "platform/maxmem.h"
 #include "debugging/trace.h"
 #include "py.h"
-#include "pyproc.h"
 #include "pydata.h"
 
 #if defined(HASHRATE)

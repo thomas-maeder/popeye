@@ -1,9 +1,10 @@
 #include "output/plaintext/tree/key_writer.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "platform/beep.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
 

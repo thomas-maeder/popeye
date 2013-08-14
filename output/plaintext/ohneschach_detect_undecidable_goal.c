@@ -1,11 +1,12 @@
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "conditions/ohneschach.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 /* Allocate a STOhneschachDetectUndecidableGoal slice.
  * @return index of allocated slice

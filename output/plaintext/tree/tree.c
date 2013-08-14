@@ -1,6 +1,4 @@
 #include "output/plaintext/tree/tree.h"
-#include "pydata.h"
-#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "stipulation/branch.h"
@@ -24,6 +22,9 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/exclusive.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
+#include "pymsg.h"
 
 #include <assert.h>
 

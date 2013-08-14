@@ -1,5 +1,4 @@
 #include "conditions/woozles.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -7,6 +6,8 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <stdlib.h>
 

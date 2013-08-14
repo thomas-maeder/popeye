@@ -1,6 +1,5 @@
 #include "optimisations/detect_retraction.h"
 #include "pydata.h"
-#include "pyproc.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"

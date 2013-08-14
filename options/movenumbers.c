@@ -9,6 +9,7 @@
 #include "output/plaintext/plaintext.h"
 #include "pydata.h"
 #include "pymsg.h"
+#include "pyproc.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

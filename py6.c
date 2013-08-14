@@ -96,7 +96,6 @@
 
 #include "py.h"
 #include "py1.h"
-#include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"
 #include "DHT/dhtbcmem.h"

@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/block_flights.h"
-#include "pydata.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
@@ -10,6 +9,8 @@
 #include "optimisations/orthodox_square_observation.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "debugging/trace.h"
+#include "pyproc.h"
+#include "pydata.h"
 
 #include <assert.h>
 
