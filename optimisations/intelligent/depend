@@ -23,8 +23,8 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
- platform/maxtime.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ platform/maxtime.h debugging/trace.h pyproc.h pieces/walks/vectors.h \
+ stipulation/goals/goals.h pydata.h
 
 optimisations/intelligent/intelligent.h:
 
@@ -118,13 +118,13 @@ platform/maxtime.h:
 
 debugging/trace.h:
 
-pydata.h:
-
 pyproc.h:
 
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+pydata.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  optimisations/intelligent/moves_left.c \
  optimisations/intelligent/moves_left.h solving/solve.h py.h \
@@ -419,9 +419,8 @@ optimisations/intelligent/place_white_king$(OBJ_SUFFIX): \
  position/pieceid.h stipulation/goals/goals.h solving/solve.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intercept_check_by_black.h \
- solving/find_square_observer_tracking_back_from_target.h \
- solving/observation.h stipulation/slice_type.h debugging/trace.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
+ optimisations/orthodox_square_observation.h debugging/trace.h pydata.h \
+ py.h
 
 optimisations/intelligent/place_white_king.h:
 
@@ -457,19 +456,9 @@ optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/intercept_check_by_black.h:
 
-solving/find_square_observer_tracking_back_from_target.h:
-
-solving/observation.h:
-
-stipulation/slice_type.h:
+optimisations/orthodox_square_observation.h:
 
 debugging/trace.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
 
 pydata.h:
 

@@ -262,11 +262,11 @@ stipulation/dummy_move$(OBJ_SUFFIX): stipulation/dummy_move.c \
  stipulation/dummy_move.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h stipulation/stipulation.h stipulation/slice.h \
+ pylang.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ pydata.h py.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/has_solution_type.h debugging/trace.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
+ stipulation/pipe.h stipulation/has_solution_type.h debugging/trace.h
 
 stipulation/dummy_move.h:
 
@@ -290,6 +290,16 @@ utilities/enumeration.h:
 
 pylang.h:
 
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
+
+pydata.h:
+
+py.h:
+
 stipulation/stipulation.h:
 
 stipulation/slice.h:
@@ -309,16 +319,6 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-pydata.h:
-
-py.h:
 stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  py.h utilities/boolean.h position/position.h position/board.h \

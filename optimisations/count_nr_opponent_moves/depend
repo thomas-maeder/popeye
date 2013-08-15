@@ -129,7 +129,7 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/prioriser.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h py.h stipulation/stipulation.h \
+ utilities/enumeration.h pylang.h stipulation/stipulation.h \
  stipulation/slice.h stipulation/slice_type.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
@@ -137,7 +137,7 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  solving/single_move_generator.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h
+ stipulation/goals/goals.h pydata.h py.h
 
 optimisations/count_nr_opponent_moves/prioriser.h:
 
@@ -160,10 +160,6 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-pydata.h:
-
-py.h:
 
 stipulation/stipulation.h:
 
@@ -196,3 +192,7 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+pydata.h:
+
+py.h:
