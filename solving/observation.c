@@ -795,7 +795,8 @@ boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
   {
     case STIsSquareObservedOrtho:
       if (evaluate==&validate_observation || evaluate==&validate_check)
-        result = is_square_observed_ortho();
+        result = is_square_observed_ortho(trait[nbply],
+                                          move_generation_stack[current_move[nbply]-1].capture);
       else
         result = is_square_observed_recursive(slices[si].next1,evaluate);
       break;

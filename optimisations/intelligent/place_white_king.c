@@ -2,9 +2,8 @@
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
-#include "solving/find_square_observer_tracking_back_from_target.h"
+#include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pydata.h"
 
 #include <assert.h>
@@ -85,38 +84,6 @@ static boolean guards_from(square white_king_square)
   return result;
 }
 
-static boolean eval_ortho(void)
-{
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  return (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
-          && TSTFLAG(spec[sq_departure],trait[nbply]));
-}
-
-static boolean uninterceptably_attacked_by(PieNam walk, PieNam attacker)
-{
-  observing_walk[nbply] = attacker;
-  return (*checkfunctions[walk])(eval_ortho);
-}
-
-static boolean uninterceptably_attacked(square s)
-{
-  boolean result;
-
-  nextply(Black);
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = s;
-
-  result = (uninterceptably_attacked_by(Pawn,Pawn)
-            || uninterceptably_attacked_by(Knight,Knight)
-            || uninterceptably_attacked_by(Fers,Bishop)
-            || uninterceptably_attacked_by(Wesir,Rook)
-            || uninterceptably_attacked_by(ErlKing,Queen));
-
-  finply();
-
-  return result;
-}
-
 /* Place the white king; intercept checks if necessary
  * @param place_on where to place the king
  * @param go_on what to do after having placed the king?
@@ -128,7 +95,7 @@ void intelligent_place_white_king(square place_on, void (*go_on)(void))
   TraceFunctionParamListEnd();
 
   if (!guards_from(place_on)
-      && !uninterceptably_attacked(place_on)
+      && !is_square_uninterceptably_observed_ortho(Black,place_on)
       && intelligent_reserve_white_king_moves_from_to(white[index_of_king].diagram_square,
                                                       place_on))
   {

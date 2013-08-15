@@ -118,14 +118,12 @@ static square find_king_flight(void)
   {
     square const flight = king_square[Black]+vec[i];
 
-    if (!is_square_blocked(flight) && !TSTFLAG(spec[flight],Black))
+    if (!is_square_blocked(flight)
+        && !TSTFLAG(spec[flight],Black)
+        && !is_square_observed_ortho(White,flight))
     {
-      move_generation_stack[current_move[nbply]-1].capture = flight;
-      if (!is_square_observed_ortho())
-      {
-        result = flight;
-        break;
-      }
+      result = flight;
+      break;
     }
   }
 

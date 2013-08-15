@@ -111,14 +111,13 @@ static void plan_blocks_of_flights(void)
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
-    move_generation_stack[current_move[nbply]-1].capture = king_square[Black]+vec[i];
+    square const flight = king_square[Black]+vec[i];
 
-    if (get_walk_of_piece_on_square(move_generation_stack[current_move[nbply]-1].capture)==Invalid
-        || TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].capture],Black))
+    if (is_square_blocked(flight) || TSTFLAG(spec[flight],Black))
       ; /* 'flight' is off board or blocked - don't bother */
-    else if (!is_square_observed_ortho())
+    else if (!is_square_observed_ortho(White,flight))
     {
-      if (TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].capture],White)
+      if (TSTFLAG(spec[flight],White)
           || nr_king_flights_to_be_blocked==nr_available_blockers)
       {
         /* flight can't be blocked! */
@@ -127,7 +126,7 @@ static void plan_blocks_of_flights(void)
       }
       else
       {
-        king_flights_to_be_blocked[nr_king_flights_to_be_blocked] = move_generation_stack[current_move[nbply]-1].capture;
+        king_flights_to_be_blocked[nr_king_flights_to_be_blocked] = flight;
         ++nr_king_flights_to_be_blocked;
       }
     }
