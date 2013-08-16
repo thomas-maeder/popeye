@@ -59,17 +59,16 @@ static boolean en_passant_test_check_ortho(Side side_checking,
 
   if (sq_target==en_passant_find_capturee())
   {
-    square const sq_crossed0 = en_passant_multistep_over[0][parent_ply[nbply]];
-    if (sq_crossed0!=initsquare)
+    unsigned int i;
+
+    for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
     {
-      if (pawn_test_check_ortho(side_checking,sq_crossed0-dir_capture))
-        result = true;
-      else
+      square const sq_crossed = en_passant_multistep_over[i][parent_ply[nbply]];
+      if (sq_crossed!=initsquare
+          && pawn_test_check_ortho(side_checking,sq_crossed-dir_capture))
       {
-        square const sq_crossed1 = en_passant_multistep_over[1][parent_ply[nbply]];
-        if (sq_crossed1!=initsquare
-            && pawn_test_check_ortho(side_checking,sq_crossed1-dir_capture))
-          result = true;
+        result = true;
+        break;
       }
     }
   }

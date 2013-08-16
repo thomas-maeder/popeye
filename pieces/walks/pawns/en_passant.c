@@ -11,7 +11,7 @@
 
 #include <assert.h>
 
-square en_passant_multistep_over[2][maxply+1];
+square en_passant_multistep_over[en_passant_max_nr_multistep_over][maxply+1];
 
 /* Remember a square avoided by a multistep move of a pawn
  * @param index index of square (between 0<=index<en_passant_max_nr_multistep_over)
@@ -35,11 +35,13 @@ void en_passant_remember_multistep_over(unsigned int index, square s)
  */
 void en_passant_forget_multistep(void)
 {
+  unsigned int i;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  en_passant_multistep_over[0][nbply] = initsquare;
-  en_passant_multistep_over[1][nbply] = initsquare;
+  for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
+    en_passant_multistep_over[i][nbply] = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -191,17 +193,19 @@ boolean en_passant_test_check(numvec dir_capture,
 
   if (sq_target==en_passant_find_capturee())
   {
-    square const sq_crossed0 = en_passant_multistep_over[0][parent_ply[nbply]];
-    if (sq_crossed0!=initsquare)
+    unsigned int i;
+
+    for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
     {
-      if (en_passant_test_check_one_square_crossed(sq_crossed0,dir_capture,tester,evaluate))
-        result = true;
-      else
+      square const sq_crossed = en_passant_multistep_over[i][parent_ply[nbply]];
+      if (sq_crossed!=initsquare
+          && en_passant_test_check_one_square_crossed(sq_crossed,
+                                                      dir_capture,
+                                                      tester,
+                                                      evaluate))
       {
-        square const sq_crossed1 = en_passant_multistep_over[1][parent_ply[nbply]];
-        if (sq_crossed1!=initsquare
-            && en_passant_test_check_one_square_crossed(sq_crossed1,dir_capture,tester,evaluate))
-          result = true;
+        result = true;
+        break;
       }
     }
   }
@@ -219,7 +223,7 @@ boolean en_passant_test_check(numvec dir_capture,
  */
 boolean en_passant_is_capture_possible_to(Side side, square s)
 {
-  boolean result;
+  boolean result = false;
   ply const ply_parent = parent_ply[nbply];
 
   TraceFunctionEntry(__func__);
@@ -227,9 +231,17 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  result = (trait[ply_parent]!=side
-            && (en_passant_multistep_over[0][ply_parent]==s
-                || en_passant_multistep_over[1][ply_parent]==s));
+  if (trait[ply_parent]!=side)
+  {
+    unsigned int i;
+
+    for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
+      if (en_passant_multistep_over[i][ply_parent]==s)
+      {
+        result = true;
+        break;
+      }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
