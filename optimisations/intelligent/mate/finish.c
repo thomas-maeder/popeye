@@ -1,6 +1,5 @@
 #include "optimisations/intelligent/mate/finish.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
@@ -10,6 +9,8 @@
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 

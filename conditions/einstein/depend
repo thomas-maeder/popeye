@@ -2,8 +2,7 @@ conditions/einstein/einstein$(OBJ_SUFFIX): conditions/einstein/einstein.c \
  conditions/einstein/einstein.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h stipulation/pipe.h \
+ pylang.h pydata.h py.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
@@ -35,11 +34,7 @@ pylang.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 
 stipulation/pipe.h:
 
@@ -72,9 +67,8 @@ conditions/einstein/reverse$(OBJ_SUFFIX): conditions/einstein/reverse.c \
  conditions/einstein/reverse.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h conditions/einstein/einstein.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ pylang.h pydata.h py.h conditions/einstein/einstein.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
  stipulation/has_solution_type.h stipulation/move.h \
@@ -105,11 +99,7 @@ pylang.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 
 conditions/einstein/einstein.h:
 
@@ -144,8 +134,7 @@ conditions/einstein/anti$(OBJ_SUFFIX): conditions/einstein/anti.c \
  conditions/einstein/anti.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h conditions/einstein/einstein.h \
+ pylang.h pydata.h py.h conditions/einstein/einstein.h \
  conditions/circe/circe.h stipulation/slice_type.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
@@ -177,11 +166,7 @@ pylang.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 
 conditions/einstein/einstein.h:
 
@@ -219,14 +204,13 @@ conditions/einstein/en_passant$(OBJ_SUFFIX): conditions/einstein/en_passant.c \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h pieces/walks/pawns/en_passant.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h pieces/walks/classification.h position/position.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- debugging/trace.h pydata.h pyproc.h
+ position/pieceid.h solving/observation.h stipulation/slice_type.h \
+ pieces/walks/classification.h position/position.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move.h debugging/trace.h pydata.h py.h
 
 conditions/einstein/en_passant.h:
 
@@ -252,17 +236,15 @@ pylang.h:
 
 pieces/walks/pawns/en_passant.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+solving/observation.h:
+
+stipulation/slice_type.h:
 
 pieces/walks/classification.h:
 
@@ -273,8 +255,6 @@ stipulation/pipe.h:
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/traversal.h:
 
@@ -292,4 +272,4 @@ debugging/trace.h:
 
 pydata.h:
 
-pyproc.h:
+py.h:

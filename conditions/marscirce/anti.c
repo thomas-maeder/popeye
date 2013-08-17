@@ -116,7 +116,7 @@ stip_length_type antimars_en_passant_adjuster_solve(slice_index si,
 
   multipstep_over = adjust();
   if (multipstep_over!=initsquare)
-    move_effect_journal_do_remember_ep(0,multipstep_over);
+    move_effect_journal_do_remember_ep(multipstep_over);
 
   result = solve(slices[si].next1,n);
 

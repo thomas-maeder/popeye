@@ -11,21 +11,23 @@
 
 #include <assert.h>
 
-square en_passant_multistep_over[en_passant_max_nr_multistep_over][maxply+1];
+square en_passant_multistep_over[maxply+1];
+
+unsigned int en_passant_top[maxply+1];
 
 /* Remember a square avoided by a multistep move of a pawn
- * @param index index of square (between 0<=index<en_passant_max_nr_multistep_over)
  * @param s avoided square
  */
-void en_passant_remember_multistep_over(unsigned int index, square s)
+void en_passant_remember_multistep_over(square s)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
   assert(s!=initsquare);
-  assert(index<en_passant_max_nr_multistep_over);
-  en_passant_multistep_over[index][nbply] = s;
+
+  ++en_passant_top[nbply];
+  en_passant_multistep_over[en_passant_top[nbply]] = s;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -35,13 +37,10 @@ void en_passant_remember_multistep_over(unsigned int index, square s)
  */
 void en_passant_forget_multistep(void)
 {
-  unsigned int i;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
-    en_passant_multistep_over[i][nbply] = initsquare;
+  en_passant_top[nbply] = en_passant_top[nbply-1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -50,13 +49,12 @@ void en_passant_forget_multistep(void)
 /* Remember a possible en passant capture
  * @param diff adjustment
  */
-void move_effect_journal_do_remember_ep(unsigned int index, square s)
+void move_effect_journal_do_remember_ep(square s)
 {
   move_effect_journal_index_type const top = move_effect_journal_top[nbply];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",index);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
@@ -64,7 +62,6 @@ void move_effect_journal_do_remember_ep(unsigned int index, square s)
 
   top_elmt->type = move_effect_remember_ep_capture_potential;
   top_elmt->reason = move_effect_reason_moving_piece_movement;
-  top_elmt->u.ep_capture_potential.index = index;
   top_elmt->u.ep_capture_potential.square = s;
  #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
@@ -73,7 +70,8 @@ void move_effect_journal_do_remember_ep(unsigned int index, square s)
 
   ++move_effect_journal_top[nbply];
 
-  en_passant_multistep_over[index][nbply] = s;
+  ++en_passant_top[nbply];
+  en_passant_multistep_over[en_passant_top[nbply]] = s;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -84,8 +82,6 @@ void move_effect_journal_do_remember_ep(unsigned int index, square s)
  */
 void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr)
 {
-  unsigned int const index = move_effect_journal[curr].u.ep_capture_potential.index;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
@@ -94,7 +90,7 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  en_passant_multistep_over[index][nbply] = initsquare;
+  --en_passant_top[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -105,7 +101,6 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr)
  */
 void move_effect_journal_redo_remember_ep(move_effect_journal_index_type curr)
 {
-  unsigned int const index = move_effect_journal[curr].u.ep_capture_potential.index;
   square const s = move_effect_journal[curr].u.ep_capture_potential.square;
 
   TraceFunctionEntry(__func__);
@@ -116,7 +111,8 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  en_passant_multistep_over[index][nbply] = s;
+  ++en_passant_top[nbply];
+  en_passant_multistep_over[en_passant_top[nbply]] = s;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -128,7 +124,7 @@ void move_effect_journal_redo_remember_ep(move_effect_journal_index_type curr)
  */
 boolean en_passant_was_multistep_played(ply ply)
 {
-  boolean const result = en_passant_multistep_over[0][ply]!=initsquare;
+  boolean const result = en_passant_top[nbply]>en_passant_top[nbply-1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply);
@@ -193,11 +189,12 @@ boolean en_passant_test_check(numvec dir_capture,
 
   if (sq_target==en_passant_find_capturee())
   {
+    ply const ply_parent = parent_ply[nbply];
     unsigned int i;
 
-    for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
+    for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
     {
-      square const sq_crossed = en_passant_multistep_over[i][parent_ply[nbply]];
+      square const sq_crossed = en_passant_multistep_over[i];
       if (sq_crossed!=initsquare
           && en_passant_test_check_one_square_crossed(sq_crossed,
                                                       dir_capture,
@@ -235,8 +232,8 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   {
     unsigned int i;
 
-    for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
-      if (en_passant_multistep_over[i][ply_parent]==s)
+    for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
+      if (en_passant_multistep_over[i]==s)
       {
         result = true;
         break;
@@ -353,7 +350,7 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
   {
     square const multistep_over = en_passant_find_potential(move_effect_journal[movement].u.piece_movement.from);
     if (multistep_over!=initsquare)
-      move_effect_journal_do_remember_ep(0,multistep_over);
+      move_effect_journal_do_remember_ep(multistep_over);
   }
 
   result = solve(slices[si].next1,n);

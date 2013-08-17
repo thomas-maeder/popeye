@@ -30,8 +30,8 @@ static void adjust_ep_squares(square sq_multistep_departure)
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_forward)
       {
-        move_effect_journal_do_remember_ep(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
-        move_effect_journal_do_remember_ep(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep((sq_multistep_departure+sq_arrival+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep((sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
       }
       break;
     }
@@ -42,8 +42,8 @@ static void adjust_ep_squares(square sq_multistep_departure)
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
       if (sq_arrival-sq_multistep_departure==3*dir_backward)
       {
-        move_effect_journal_do_remember_ep(0,(sq_multistep_departure+sq_arrival+sq_arrival) / 3);
-        move_effect_journal_do_remember_ep(1,(sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep((sq_multistep_departure+sq_arrival+sq_arrival) / 3);
+        move_effect_journal_do_remember_ep((sq_multistep_departure+sq_multistep_departure+sq_arrival) / 3);
       }
       break;
     }

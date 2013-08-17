@@ -8,18 +8,15 @@
 /* This module provides implements en passant captures
  */
 
-enum
-{
-  en_passant_max_nr_multistep_over = 2
-};
+extern square en_passant_multistep_over[maxply+1];
 
-extern square en_passant_multistep_over[en_passant_max_nr_multistep_over][maxply+1];
+extern unsigned int en_passant_top[maxply+1];
 
 /* Remember a square avoided by a multistep move of a pawn
  * @param index index of square (between 0<=index<en_passant_max_nr_multistep_over)
  * @param s avoided square
  */
-void en_passant_remember_multistep_over(unsigned int index, square s);
+void en_passant_remember_multistep_over(square s);
 
 /* Forget the last square remembered by en_passant_remember_multistep_over()
  */
@@ -28,7 +25,7 @@ void en_passant_forget_multistep(void);
 /* Remember a possible en passant capture
  * @param diff adjustment
  */
-void move_effect_journal_do_remember_ep(unsigned int index, square s);
+void move_effect_journal_do_remember_ep(square s);
 
 /* Undo remembering a possible en passant capture
  * @param curr identifies the adjustment effect

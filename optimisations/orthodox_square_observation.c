@@ -59,11 +59,12 @@ static boolean en_passant_test_check_ortho(Side side_checking,
 
   if (sq_target==en_passant_find_capturee())
   {
+    ply const ply_parent = parent_ply[nbply];
     unsigned int i;
 
-    for (i = 0; i!=en_passant_max_nr_multistep_over; ++i)
+    for (i = en_passant_top[ply_parent-1]+1; i<=en_passant_top[ply_parent]; ++i)
     {
-      square const sq_crossed = en_passant_multistep_over[i][parent_ply[nbply]];
+      square const sq_crossed = en_passant_multistep_over[i];
       if (sq_crossed!=initsquare
           && pawn_test_check_ortho(side_checking,sq_crossed-dir_capture))
       {
@@ -85,7 +86,7 @@ static boolean pawn_check_ortho(Side side_checking, square sq_king)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
+  TraceEnumerator(Side,side_checking,"");
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 

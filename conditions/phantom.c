@@ -171,7 +171,7 @@ stip_length_type phantom_en_passant_adjuster_solve(slice_index si, stip_length_t
 
   multistep_over = adjust(slices[si].starter);
   if (multistep_over!=initsquare)
-    move_effect_journal_do_remember_ep(0,multistep_over);
+    move_effect_journal_do_remember_ep(multistep_over);
 
   result = solve(slices[si].next1,n);
 

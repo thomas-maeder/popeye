@@ -171,6 +171,7 @@ void nextply(Side side)
   trait[nbply] = side;
 
   move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+  en_passant_top[nbply] = en_passant_top[nbply-1];
 
   ++post_move_iteration_id[nbply];
 
@@ -200,6 +201,7 @@ void siblingply(Side side)
   trait[nbply] = side;
 
   move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+  en_passant_top[nbply] = en_passant_top[nbply-1];
 
   ++post_move_iteration_id[nbply];
 
@@ -224,6 +226,7 @@ void copyply(void)
   trait[nbply] = trait[original];
 
   move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+  en_passant_top[nbply] = en_passant_top[nbply-1];
 
   ++post_move_iteration_id[nbply];
 

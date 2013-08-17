@@ -207,7 +207,6 @@ typedef struct
         } castling_rights_adjustment;
         struct
         {
-            unsigned int index;
             square square;
         } ep_capture_potential;
         struct

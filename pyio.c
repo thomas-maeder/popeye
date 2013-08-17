@@ -4415,12 +4415,12 @@ static char *ReadSquares(SquareListContext context)
               break;
 
             case 2:
-              en_passant_remember_multistep_over(0,move_effect_journal[movement].u.piece_movement.to);
+              en_passant_remember_multistep_over(move_effect_journal[movement].u.piece_movement.to);
               move_effect_journal[movement].u.piece_movement.to = sq;
               break;
 
             case 3:
-              en_passant_remember_multistep_over(1,move_effect_journal[movement].u.piece_movement.to);
+              en_passant_remember_multistep_over(move_effect_journal[movement].u.piece_movement.to);
               move_effect_journal[movement].u.piece_movement.to = sq;
               break;
 

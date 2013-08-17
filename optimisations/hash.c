@@ -1311,11 +1311,11 @@ byte *CommonEncode(byte *bp,
   if (min_length>slack_length+1)
     *bp++ = (byte)(validity_value);
 
-  if (en_passant_was_multistep_played(nbply))
   {
-    *bp++ = (byte)(en_passant_multistep_over[0][nbply] - square_a1);
-    if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
-      *bp++ = (byte)(en_passant_multistep_over[1][nbply] - square_a1);
+    unsigned int i;
+
+    for (i = en_passant_top[nbply-1]+1; i<=en_passant_top[nbply]; ++i)
+      *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
   }
 
   *bp++ = castling_flag;     /* Castling_Flag */
