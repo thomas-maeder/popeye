@@ -1,8 +1,9 @@
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "optimisations/hash.h"
 #include "output/plaintext/plaintext.h"
+#include "pydata.h"
+#include "pyproc.h"
 
 #include <assert.h>
 #include <ctype.h>
