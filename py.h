@@ -165,11 +165,16 @@ enum
   /* the following values are used instead of capture square
    * to indicate special moves */
   messigny_exchange = maxsquare+1,
+
   min_castling = maxsquare+2,
   kingside_castling = min_castling,
   queenside_castling = maxsquare+3,
   max_castling = queenside_castling,
-  platzwechsel_rochade = maxsquare+4,
+
+  pawn_multistep = maxsquare+4,
+  offset_en_passant_capture = 8*onerow,
+
+  offset_platzwechsel_rochade = 2*maxsquare
 };
 
 enum
@@ -219,7 +224,7 @@ enum
 
 /* These typedefs should be judged for efficiency */
 
-typedef int         numecoup;
+typedef unsigned int numecoup;
 
 enum
 {
@@ -230,22 +235,12 @@ typedef int         ply;
 
 typedef square       pilecase[maxply+1];
 
-typedef struct {
+typedef struct
+{
+    numecoup id;
     square departure;
     square arrival;
     square capture;
-    square singlebox_type3_promotion_where;
-    PieNam singlebox_type3_promotion_what;
-    PieNam current_supertransmutation;
-    union
-    {
-      square sq_en_passant;
-      struct
-      {
-          vec_index_type vec_index;
-          square sq_hurdle;
-      } hopper;
-    } auxiliary;
 } move_generation_elmt;
 
 /* These are definitions to implement arrays with lower index != 0

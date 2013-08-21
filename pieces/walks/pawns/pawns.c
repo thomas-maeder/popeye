@@ -18,11 +18,7 @@ void pawns_generate_ep_capture_move(square sq_arrival_singlestep)
   {
     square const sq_capture = en_passant_find_capturee();
     if (sq_capture!=initsquare)
-    {
-      curr_generation->auxiliary.sq_en_passant = sq_arrival_singlestep;
-      push_move_capture_extra(sq_capture);
-      curr_generation->auxiliary.sq_en_passant = initsquare;
-    }
+      push_special_move(offset_en_passant_capture+sq_capture);
   }
 
   TraceFunctionExit(__func__);
@@ -60,14 +56,20 @@ void pawns_generate_nocapture_moves(numvec dir, int steps)
 
   curr_generation->arrival = curr_generation->departure+dir;
 
-  while (steps--)
-    if (is_square_empty(curr_generation->arrival))
-    {
-      push_move();
-      curr_generation->arrival += dir;
-    }
-    else
-      break;
+  if (is_square_empty(curr_generation->arrival))
+  {
+    push_move();
+    curr_generation->arrival += dir;
+
+    while (--steps>0)
+      if (is_square_empty(curr_generation->arrival))
+      {
+        push_special_move(pawn_multistep);
+        curr_generation->arrival += dir;
+      }
+      else
+        break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

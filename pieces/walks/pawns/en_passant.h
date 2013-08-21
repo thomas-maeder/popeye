@@ -85,6 +85,13 @@ boolean en_passant_test_check(numvec dir_capture,
  */
 square en_passant_find_potential(square sq_multistep_departure);
 
+/* Does a square value represent an en passant capture?
+ * @param sq_capture the square value
+ * @return true iff a generated move with capture square sq_capture is an
+ *         en passant capture
+ */
+boolean en_passant_is_ep_capture(square sq_capture);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

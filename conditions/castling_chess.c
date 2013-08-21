@@ -39,7 +39,7 @@ stip_length_type castling_chess_move_player_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_capture>platzwechsel_rochade)
+  if (sq_capture>offset_platzwechsel_rochade)
   {
     square const sq_departure = move_gen_top->departure;
     square const sq_arrival = move_gen_top->arrival;
@@ -51,7 +51,7 @@ stip_length_type castling_chess_move_player_solve(slice_index si,
     move_effect_journal_do_piece_movement(move_effect_reason_castling_king_movement,
                                           sq_departure,sq_arrival);
     move_effect_journal_do_piece_movement(move_effect_reason_castling_partner_movement,
-                                          sq_capture-maxsquare,
+                                          sq_capture-offset_platzwechsel_rochade,
                                           sq_passed);
 
     result = solve(slices[si].next2,n);
@@ -88,7 +88,7 @@ void castlingchess_generate_moves_for_piece(slice_index si, PieNam p)
       if (sq_partner!=sq_passed && sq_partner!=curr_generation->arrival
           && !is_square_blocked(sq_partner)
           && castling_is_intermediate_king_move_legal(trait[nbply],sq_passed))
-        push_special_move(maxsquare+sq_partner);
+        push_special_move(offset_platzwechsel_rochade+sq_partner);
     }
   }
 }

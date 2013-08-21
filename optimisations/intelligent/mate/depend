@@ -5,14 +5,15 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h pydata.h \
- py.h stipulation/has_solution_type.h solving/solve.h solving/castling.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/has_solution_type.h solving/solve.h solving/castling.h \
  solving/castling_rights.h solving/move_effect_journal.h \
  position/pieceid.h optimisations/intelligent/intelligent.h \
  position/position.h optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/orthodox_square_observation.h debugging/trace.h
+ optimisations/orthodox_square_observation.h debugging/trace.h pydata.h \
+ py.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h
 
 optimisations/intelligent/mate/finish.h:
 
@@ -48,10 +49,6 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
-pydata.h:
-
-py.h:
-
 stipulation/has_solution_type.h:
 
 solving/solve.h:
@@ -77,6 +74,16 @@ optimisations/intelligent/place_white_king.h:
 optimisations/orthodox_square_observation.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+py.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+stipulation/goals/goals.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.c \
  optimisations/intelligent/mate/filter.h \

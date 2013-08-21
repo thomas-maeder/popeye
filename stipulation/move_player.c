@@ -35,25 +35,22 @@ static void play_move(Side side)
   square const sq_departure = move_gen_top->departure;
   square const sq_arrival = move_gen_top->arrival;
 
-  assert(sq_arrival!=nullsquare);
-
-  if (is_square_empty(sq_capture))
+  if (en_passant_is_ep_capture(sq_capture))
+    move_effect_journal_do_capture_move(sq_departure,
+                                        sq_arrival,
+                                        sq_capture-offset_en_passant_capture,
+                                        move_effect_reason_ep_capture);
+  else if (sq_capture==pawn_multistep || is_square_empty(sq_capture))
   {
     move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
                                           sq_departure,sq_arrival);
   }
   else
-  {
-    square const sq_auxiliary = move_gen_top->auxiliary.sq_en_passant;
-    boolean const is_ep = (is_square_empty(sq_auxiliary)
-                           && en_passant_is_capture_possible_to(side,sq_auxiliary));
-    move_effect_reason_type const removal_reason = (is_ep
-                                                    ? move_effect_reason_ep_capture
-                                                    : move_effect_reason_regular_capture);
-
-    move_effect_journal_do_capture_move(sq_departure,sq_arrival,sq_capture,removal_reason);
-  }
+    move_effect_journal_do_capture_move(sq_departure,
+                                        sq_arrival,
+                                        sq_capture,
+                                        move_effect_reason_regular_capture);
 }
 
 /* Try to solve in n half-moves.

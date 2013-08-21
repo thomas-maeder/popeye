@@ -88,8 +88,8 @@ pieces/walks/roses$(OBJ_SUFFIX): pieces/walks/roses.c pieces/walks/roses.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h pylang.h pieces/walks/locusts.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/roses.h:
 
@@ -116,6 +116,8 @@ utilities/boolean.h:
 position/position.h:
 
 pylang.h:
+
+pieces/walks/locusts.h:
 
 solving/move_generator.h:
 
@@ -400,8 +402,8 @@ pieces/walks/lions$(OBJ_SUFFIX): pieces/walks/lions.c pieces/walks/lions.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h pylang.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/lions.h:
 
@@ -429,6 +431,8 @@ position/position.h:
 
 pylang.h:
 
+pieces/walks/hoppers.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -443,7 +447,8 @@ pieces/walks/skylla_charybdis$(OBJ_SUFFIX): pieces/walks/skylla_charybdis.c \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/observation.h stipulation/slice_type.h \
  py.h utilities/boolean.h position/position.h pylang.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ pieces/walks/locusts.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/skylla_charybdis.h:
 
@@ -470,6 +475,8 @@ utilities/boolean.h:
 position/position.h:
 
 pylang.h:
+
+pieces/walks/locusts.h:
 
 solving/move_generator.h:
 
@@ -971,8 +978,8 @@ pieces/walks/locusts$(OBJ_SUFFIX): pieces/walks/locusts.c pieces/walks/locusts.h
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h pylang.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/locusts.h:
 
@@ -999,6 +1006,8 @@ utilities/boolean.h:
 position/position.h:
 
 pylang.h:
+
+pieces/walks/hoppers.h:
 
 solving/move_generator.h:
 

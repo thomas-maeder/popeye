@@ -1,4 +1,5 @@
 #include "conditions/marscirce/marscirce.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
@@ -29,12 +30,15 @@ void marscirce_generate_non_captures(slice_index si,
   curr_generation->departure = sq_real_departure;
 
   for (curr = base; curr<current_move[nbply]; ++curr)
-    if (is_square_empty(move_generation_stack[curr].capture))
+  {
+    square const sq_capture = move_generation_stack[curr].capture;
+    if (is_square_empty(sq_capture))
     {
       move_generation_stack[top_filtered] = move_generation_stack[curr];
       move_generation_stack[top_filtered].departure = sq_real_departure;
       ++top_filtered;
     }
+  }
 
   current_move[nbply] = top_filtered;
 
@@ -66,12 +70,15 @@ void marscirce_generate_captures(slice_index si,
   curr_generation->departure = sq_real_departure;
 
   for (curr = base; curr<current_move[nbply]; ++curr)
-    if (!is_square_empty(move_generation_stack[curr].capture))
+  {
+    square const sq_capture = move_generation_stack[curr].capture;
+    if (!is_square_empty(sq_capture))
     {
       move_generation_stack[top_filtered] = move_generation_stack[curr];
       move_generation_stack[top_filtered].departure = sq_real_departure;
       ++top_filtered;
     }
+  }
 
   current_move[nbply] = top_filtered;
 

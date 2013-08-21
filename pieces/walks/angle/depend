@@ -17,8 +17,7 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  position/position.h pylang.h pieces/walks/hoppers.h \
  pieces/walks/hamster.h solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/angle/hoppers.h:
 
@@ -62,8 +61,4 @@ debugging/trace.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:

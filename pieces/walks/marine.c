@@ -26,7 +26,7 @@ void marine_rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
   for (k = kbeg; k<=kend; k++)
   {
     square const sq_capture = generate_moves_on_line_segment(curr_generation->departure,k);
-    generate_locust_capture(sq_capture,k);
+    generate_locust_capture(sq_capture,vec[k]);
   }
 
   TraceFunctionExit(__func__);
@@ -42,16 +42,12 @@ static void marine_leaper_generate_moves(vec_index_type kanf, vec_index_type ken
 
   for (k = kanf; k<=kend; ++k)
   {
-    curr_generation->arrival = curr_generation->departure+vec[k];
+    numvec const dir = vec[k];
+    curr_generation->arrival = curr_generation->departure+dir;
     if (is_square_empty(curr_generation->arrival))
       push_move();
-    else if (piece_belongs_to_opponent(curr_generation->arrival))
-    {
-      square const sq_capture = curr_generation->arrival;
-      curr_generation->arrival += vec[k];
-      if (is_square_empty(curr_generation->arrival))
-        push_move_capture_extra(sq_capture);
-    }
+    else
+      generate_locust_capture(curr_generation->arrival,dir);
   }
 
   TraceFunctionExit(__func__);
@@ -98,7 +94,7 @@ static void marine_pawn_generate_capture(int dir)
   if (is_square_empty(curr_generation->arrival))
   {
     if (piece_belongs_to_opponent(sq_capture))
-      push_move_capture_extra(sq_capture);
+      generate_locust_capture(sq_capture,dir);
     else
       pawns_generate_ep_capture_move(sq_capture);
   }

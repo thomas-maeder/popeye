@@ -1,4 +1,5 @@
 #include "pieces/walks/locusts.h"
+#include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
@@ -6,16 +7,20 @@
 
 /* Generate a single Locust capture
  * @param sq_capture capture square
- * @param index_arrival_capturek identifies the vector from capture to arrival square
+ * @param dir_arrival_capture vector from capture to arrival square
  */
 void generate_locust_capture(square sq_capture,
-                             vec_index_type index_arrival_capture)
+                             numvec dir_arrival_capture)
 {
   if (piece_belongs_to_opponent(sq_capture))
   {
-    curr_generation->arrival = sq_capture+vec[index_arrival_capture];
+    curr_generation->arrival = sq_capture+dir_arrival_capture;
     if (is_square_empty(curr_generation->arrival))
+    {
       push_move_capture_extra(sq_capture);
+      hoppper_moves_auxiliary[move_generation_stack[current_move[nbply]-1].id].idx_dir = 0;
+      hoppper_moves_auxiliary[move_generation_stack[current_move[nbply]-1].id].sq_hurdle = sq_capture;
+    }
   }
 }
 
@@ -28,8 +33,9 @@ void locust_generate_moves(vec_index_type kbeg, vec_index_type kend)
   vec_index_type k;
   for (k= kbeg; k <= kend; k++)
   {
-    square const sq_capture = find_end_of_line(curr_generation->departure,vec[k]);
-    generate_locust_capture(sq_capture,k);
+    numvec const dir = vec[k];
+    square const sq_capture = find_end_of_line(curr_generation->departure,dir);
+    generate_locust_capture(sq_capture,dir);
   }
 }
 
@@ -69,12 +75,12 @@ boolean locust_check(evalfunction_t *evaluate)
 
 boolean rooklocust_check(evalfunction_t *evaluate)
 {
-    return locusts_check(vec_rook_start, vec_rook_end, evaluate);
+  return locusts_check(vec_rook_start, vec_rook_end, evaluate);
 }
 
 boolean bishoplocust_check(evalfunction_t *evaluate)
 {
-    return locusts_check(vec_bishop_start, vec_bishop_end, evaluate);
+  return locusts_check(vec_bishop_start, vec_bishop_end, evaluate);
 }
 
 boolean nightlocust_check(evalfunction_t *evaluate)

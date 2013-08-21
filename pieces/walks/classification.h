@@ -7,5 +7,6 @@
 boolean is_king(PieNam p);
 boolean is_pawn(PieNam p);
 boolean is_forwardpawn(PieNam p);
+boolean is_locust(PieNam p);
 
 #endif

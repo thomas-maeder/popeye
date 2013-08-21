@@ -91,11 +91,7 @@ static void pawn_ep_try_direction(Side side, numvec dir)
   {
     square const pos_capturee = en_passant_find_capturee();
     if (pos_capturee!=initsquare)
-    {
-      curr_generation->auxiliary.sq_en_passant = curr_generation->arrival;
-      push_move_capture_extra(pos_capturee);
-      curr_generation->auxiliary.sq_en_passant = initsquare;
-    }
+      push_special_move(offset_en_passant_capture+pos_capturee);
   }
 }
 
@@ -135,7 +131,7 @@ static void pawn_no_capture(numvec dir_battery, square sq_king, Side side)
             && (dir_battery!=0
                 || curr_generation->arrival+dir_forward+dir_left==sq_king
                 || curr_generation->arrival+dir_forward+dir_right==sq_king))
-          push_move();
+          push_special_move(pawn_multistep);
       }
     }
   }

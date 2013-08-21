@@ -38,7 +38,7 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_capture==platzwechsel_rochade)
+  if (sq_capture==offset_platzwechsel_rochade)
   {
     Side const trait_ply = trait[nbply];
 
@@ -86,7 +86,7 @@ void exchange_castling_generate_moves_for_piece(slice_index si, PieNam p)
         if (curr_generation->arrival!=curr_generation->departure
             && TSTFLAG(spec[curr_generation->arrival],trait[nbply])
             && !is_pawn(get_walk_of_piece_on_square(curr_generation->arrival))) /* not sure if "castling" with Ps forbidden */
-          push_special_move(platzwechsel_rochade);
+          push_special_move(offset_platzwechsel_rochade);
     }
   }
 }

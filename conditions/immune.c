@@ -1,11 +1,12 @@
 #include "conditions/immune.h"
-#include "pydata.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 
@@ -23,13 +24,17 @@ static boolean is_capturee_not_immune(numecoup n)
   {
     square const sq_departure = move_generation_stack[n].departure;
     square const sq_arrival = move_generation_stack[n].arrival;
-    square const sq_capture = move_generation_stack[n].capture;
-    square const sq_rebirth = (*immunrenai)(get_walk_of_piece_on_square(sq_capture),spec[sq_capture],
-                                            sq_capture,
-                                            sq_departure,
-                                            sq_arrival,
-                                            side_capturing);
-    result = sq_rebirth==sq_departure || is_square_empty(sq_rebirth);
+    square sq_capture = move_generation_stack[n].capture;
+    if (en_passant_is_ep_capture(sq_capture))
+      sq_capture -= offset_en_passant_capture;
+    {
+      square const sq_rebirth = (*immunrenai)(get_walk_of_piece_on_square(sq_capture),spec[sq_capture],
+                                              sq_capture,
+                                              sq_departure,
+                                              sq_arrival,
+                                              side_capturing);
+      result = sq_rebirth==sq_departure || is_square_empty(sq_rebirth);
+    }
   }
 
   TraceFunctionExit(__func__);

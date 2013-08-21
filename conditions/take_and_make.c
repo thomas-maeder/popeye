@@ -1,6 +1,7 @@
 #include "conditions/take_and_make.h"
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/classification.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -90,16 +91,18 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
   for (; take_current<=take_top; ++take_current)
   {
-    square const take_capture = move_generation_stack[take_current].capture;
-    PieNam const taken = get_walk_of_piece_on_square(take_capture);
+    square take_capture = move_generation_stack[take_current].capture;
+    if (en_passant_is_ep_capture(take_capture))
+      take_capture -= offset_en_passant_capture;
 
-    if (taken==Empty)
+    if (get_walk_of_piece_on_square(take_capture)==Empty)
     {
       ++current_move[nbply];
       move_generation_stack[current_move[nbply]-1] = move_generation_stack[take_current];
     }
     else
     {
+      PieNam const taken = get_walk_of_piece_on_square(take_capture);
       Flags const taken_spec = spec[take_capture];
       square const take_departure = move_generation_stack[take_current].departure;
       square const take_arrival = move_generation_stack[take_current].arrival;

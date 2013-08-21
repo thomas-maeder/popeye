@@ -941,11 +941,10 @@ Until 4.61, Popeye would produce spurious en passant captures
   hep1                        8 + 5
             AnnanChess    
 
-  1.a7-a5 b5*a6 ep.
   1.BPb7-d5 b5*c6 ep.
 
-  add_to_move_generation_stack:          58
-                     play_move:          51
+  add_to_move_generation_stack:          49
+                     play_move:          50
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

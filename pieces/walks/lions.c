@@ -1,4 +1,5 @@
 #include "pieces/walks/lions.h"
+#include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
@@ -20,20 +21,14 @@ void lions_generate_moves(vec_index_type kbeg, vec_index_type kend)
       curr_generation->arrival = sq_hurdle+vec[k];
       while (is_square_empty(curr_generation->arrival))
       {
-        curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
-        push_move();
+        push_hopper_move(k,sq_hurdle);
         curr_generation->arrival += vec[k];
       }
 
       if (piece_belongs_to_opponent(curr_generation->arrival))
-      {
-        curr_generation->auxiliary.hopper.sq_hurdle = sq_hurdle;
-        push_move();
-      }
+        push_hopper_move(k,sq_hurdle);
     }
   }
-
-  curr_generation->auxiliary.hopper.sq_hurdle = initsquare;
 }
 
 boolean lions_check(vec_index_type kanf, vec_index_type kend,

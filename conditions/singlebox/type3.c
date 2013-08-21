@@ -16,6 +16,12 @@
 
 #include <assert.h>
 
+static struct
+{
+    square where;
+    PieNam what;
+} promotion[toppile+1];
+
 /* Determine whether the move just played is legal according to Singlebox Type 3
  * @return true iff the move is legal
  */
@@ -78,12 +84,12 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[coup_id].singlebox_type3_promotion_what==Empty)
+  if (promotion[move_generation_stack[coup_id].id].what==Empty)
     move_effect_journal_do_null_effect();
   else
     move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
-                                        move_generation_stack[coup_id].singlebox_type3_promotion_where,
-                                        move_generation_stack[coup_id].singlebox_type3_promotion_what);
+                                        promotion[move_generation_stack[coup_id].id].where,
+                                        promotion[move_generation_stack[coup_id].id].what);
 
   result = solve(slices[si].next1,n);
 
@@ -237,38 +243,53 @@ void singleboxtype3_generate_moves_for_piece(slice_index si, PieNam p)
 {
   Side const side = trait[nbply];
   unsigned int nr_latent_promotions = 0;
+  square where;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  for (curr_generation->singlebox_type3_promotion_where = find_next_latent_pawn(square_a1-dir_right,side);
-       curr_generation->singlebox_type3_promotion_where!=initsquare;
-       curr_generation->singlebox_type3_promotion_where = find_next_latent_pawn(curr_generation->singlebox_type3_promotion_where,side))
+  for (where = find_next_latent_pawn(square_a1-dir_right,side);
+       where!=initsquare;
+       where = find_next_latent_pawn(where,side))
   {
     Side promoting_side;
     pieces_pawns_promotion_sequence_type sequence;
-    singlebox_type2_initialise_singlebox_promotion_sequence(curr_generation->singlebox_type3_promotion_where,&promoting_side,&sequence);
+    singlebox_type2_initialise_singlebox_promotion_sequence(where,&promoting_side,&sequence);
     assert(promoting_side==side);
     while (sequence.promotee!=Empty)
     {
-      PieNam const pi_departing = get_walk_of_piece_on_square(curr_generation->singlebox_type3_promotion_where);
+      numecoup curr = current_move[nbply];
+      PieNam const pi_departing = get_walk_of_piece_on_square(where);
       ++nr_latent_promotions;
-      replace_piece(curr_generation->singlebox_type3_promotion_where,sequence.promotee);
-      curr_generation->singlebox_type3_promotion_what = sequence.promotee;
+      replace_piece(where,sequence.promotee);
       generate_moves_for_piece(slices[si].next1,
-                               curr_generation->singlebox_type3_promotion_where==curr_generation->departure ? sequence.promotee : p);
-      replace_piece(curr_generation->singlebox_type3_promotion_where,pi_departing);
+                               where==curr_generation->departure ? sequence.promotee : p);
+
+      for (; curr!=current_move[nbply]; ++curr)
+      {
+        promotion[move_generation_stack[curr].id].where = where;
+        promotion[move_generation_stack[curr].id].what = sequence.promotee;
+      }
+      replace_piece(where,pi_departing);
       singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
     }
   }
 
-  curr_generation->singlebox_type3_promotion_where = initsquare;
-  curr_generation->singlebox_type3_promotion_what = Empty;
-
   if (nr_latent_promotions==0)
+  {
+    numecoup const base = current_move[nbply];
     generate_moves_for_piece(slices[si].next1,p);
+    {
+      numecoup curr;
+      for (curr = base; curr!=current_move[nbply]; ++curr)
+      {
+        promotion[move_generation_stack[curr].id].where = initsquare;
+        promotion[move_generation_stack[curr].id].what = Empty;
+      }
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

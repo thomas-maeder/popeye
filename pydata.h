@@ -107,6 +107,7 @@ EXTERN  boolean			rex_mad,rex_circe;
 
 EXTERN  pilecase current_anticirce_rebirth_square;
 EXTERN  numecoup current_move[maxply + 1];
+EXTERN  numecoup current_move_id[maxply + 1];
 
 EXTERN  ply      parent_ply[maxply + 1];
 

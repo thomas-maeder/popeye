@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "pymsg.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/hoppers.h"
 #include "pieces/walks/angle/angles.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
@@ -210,8 +211,8 @@ static numecoup remove_illegal_moves_by_same_equihopper(numecoup i, numecoup *ne
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
-    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
-    numvec const diff = vec[move_generation_stack[i].auxiliary.hopper.vec_index];
+    square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[i].id].sq_hurdle;
+    numvec const diff = vec[hoppper_moves_auxiliary[move_generation_stack[i].id].idx_dir];
     numvec const diff_hurdle = sq_hurdle-sq_departure;
     numvec const diff_arrival = sq_arrival-sq_departure;
 
@@ -246,7 +247,7 @@ static numecoup remove_illegal_moves_by_same_nonstop_equihopper(numecoup i, nume
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
-    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
+    square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[i].id].sq_hurdle;
     numvec const diff_hurdle = sq_hurdle-sq_departure;
 
     if (have_all_imitators_hurdle(diff_hurdle)
@@ -278,8 +279,8 @@ static numecoup remove_illegal_moves_by_same_hopper(numecoup i, numecoup *new_to
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
-    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
-    numvec const diff = vec[move_generation_stack[i].auxiliary.hopper.vec_index];
+    square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[i].id].sq_hurdle;
+    numvec const diff = vec[hoppper_moves_auxiliary[move_generation_stack[i].id].idx_dir];
     numvec const diff_hurdle = sq_hurdle-sq_departure;
 
     if (have_all_imitators_hurdle(diff_hurdle)
@@ -312,7 +313,7 @@ static numecoup remove_illegal_moves_by_same_mao(numecoup i, numecoup *new_top)
          && move_generation_stack[i].departure==sq_departure)
   {
     square const sq_arrival = move_generation_stack[i].arrival;
-    square const sq_hurdle = move_generation_stack[i].auxiliary.hopper.sq_hurdle;
+    square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[i].id].sq_hurdle;
 
     if (are_all_imitator_arrivals_empty(sq_departure,sq_hurdle)
         && are_all_imitator_arrivals_empty(sq_departure,sq_arrival))

@@ -316,6 +316,25 @@ square en_passant_find_potential(square sq_multistep_departure)
   return result;
 }
 
+/* Does a square value represent an en passant capture?
+ * @param sq_capture the square value
+ * @return true iff a generated move with capture square sq_capture is an
+ *         en passant capture
+ */
+boolean en_passant_is_ep_capture(square sq_capture)
+{
+  boolean const result = sq_capture>square_h8 && sq_capture<maxsquare;
+
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_capture-en_passant_capture);
+  TraceFunctionParamListEnd();
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -332,22 +351,16 @@ square en_passant_find_potential(square sq_multistep_departure)
 stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  PieNam pi_moving = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (pi_moving>=Hunter0)
-    pi_moving = huntertypes[pi_moving-Hunter0].away;
-
-  if (is_pawn(pi_moving)
-      && move_effect_journal[capture].type==move_effect_no_piece_removal)
+  if (move_generation_stack[current_move[nbply]-1].capture==pawn_multistep)
   {
+    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     square const multistep_over = en_passant_find_potential(move_effect_journal[movement].u.piece_movement.from);
     if (multistep_over!=initsquare)
       move_effect_journal_do_remember_ep(multistep_over);

@@ -1,4 +1,5 @@
 #include "pieces/walks/roses.h"
+#include "pieces/walks/locusts.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
@@ -423,13 +424,8 @@ static void roselocust_generate_circle(vec_index_type idx_curr_dir,
                                              &idx_curr_dir,
                                              sense);
   if (sq_capture!=curr_generation->departure
-      && !is_square_blocked(sq_capture)
-      && piece_belongs_to_opponent(sq_capture))
-  {
-    curr_generation->arrival = sq_capture+vec[idx_curr_dir];
-    if (is_square_empty(curr_generation->arrival))
-      push_move_capture_extra(sq_capture);
-  }
+      && !is_square_blocked(sq_capture))
+    generate_locust_capture(sq_capture,vec[idx_curr_dir]);
 }
 
 /* Generate moves for a Rose Locust

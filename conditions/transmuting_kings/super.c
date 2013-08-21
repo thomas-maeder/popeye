@@ -15,12 +15,15 @@
 
 #include <assert.h>
 
+
+static PieNam supertransmutation[toppile+1];
+
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
 /* the mummer logic is (ab)used to priorise transmuting king moves */
 int len_supertransmuting_kings(void)
 {
-  return MAX_OTHER_LEN * (move_generation_stack[current_move[nbply]-1].current_supertransmutation!=Empty ? 1 : 0);
+  return MAX_OTHER_LEN * (supertransmutation[move_generation_stack[current_move[nbply]-1].id]!=Empty ? 1 : 0);
 }
 
 /* Try to solve in n half-moves.
@@ -47,7 +50,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[coup_id].current_supertransmutation!=Empty)
+  if (supertransmutation[move_generation_stack[coup_id].id]!=Empty)
   {
     move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -64,7 +67,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
 
     move_effect_journal_do_piece_change(move_effect_reason_king_transmutation,
                                         pos,
-                                        move_generation_stack[coup_id].current_supertransmutation);
+                                        supertransmutation[move_generation_stack[coup_id].id]);
   }
 
   result = solve(slices[si].next1,n);
@@ -100,12 +103,12 @@ static boolean generate_moves_of_supertransmuting_king(slice_index si)
     if (number_of_pieces[side_transmuting][*ptrans]>0
         && is_square_observed_by_opponent(*ptrans))
     {
-      curr_generation->current_supertransmutation = *ptrans;
+      numecoup curr = current_move[nbply];
       generate_moves_for_piece(slices[si].next1,*ptrans);
+      for (; curr!=current_move[nbply]; ++curr)
+        supertransmutation[move_generation_stack[curr].id] = *ptrans;
       result = true;
     }
-
-  curr_generation->current_supertransmutation = Empty;
 
   return result;
 }
@@ -122,7 +125,12 @@ void supertransmuting_kings_generate_moves_for_piece(slice_index si, PieNam p)
   TraceFunctionParamListEnd();
 
   if (!(p==King && generate_moves_of_supertransmuting_king(si)))
+  {
+    numecoup curr = current_move[nbply];
     generate_moves_for_piece(slices[si].next1,p);
+    for (; curr!=current_move[nbply]; ++curr)
+      supertransmutation[move_generation_stack[curr].id] = Empty;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

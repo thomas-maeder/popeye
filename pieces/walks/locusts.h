@@ -10,10 +10,10 @@
 
 /* Generate a single Locust capture
  * @param sq_capture capture square
- * @param index_arrival_capturek identifies the vector from capture to arrival square
+ * @param dir_arrival_capture vector from capture to arrival square
  */
 void generate_locust_capture(square sq_capture,
-                             vec_index_type index_arrival_capture);
+                             numvec dir_arrival_capture);
 
 /* Generate moves for an Locust piece
  * @param kbeg start of range of vector indices to be used

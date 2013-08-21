@@ -1,5 +1,6 @@
 #include "pieces/walks/chinese/mao.h"
 #include "pieces/walks/angle/angles.h"
+#include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
@@ -22,19 +23,16 @@ static square moa_passed(numvec to_arrival)
 static void maooa_generate_move(numvec to_passed, numvec to_arrival)
 {
   square const sq_departure = curr_generation->departure;
+  square const sq_passed = sq_departure+to_passed;
 
-  curr_generation->auxiliary.hopper.sq_hurdle = sq_departure+to_passed;
-
-  if (is_square_empty(curr_generation->auxiliary.hopper.sq_hurdle))
+  if (is_square_empty(sq_passed))
   {
     curr_generation->arrival = sq_departure+to_arrival;
 
     if (is_square_empty(curr_generation->arrival)
         || piece_belongs_to_opponent(curr_generation->arrival))
-      push_move();
+      push_hopper_move(0,sq_passed);
   }
-
-  curr_generation->auxiliary.hopper.sq_hurdle = initsquare;
 }
 
 /* Generate moves for a Mao

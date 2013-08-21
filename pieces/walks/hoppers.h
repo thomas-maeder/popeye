@@ -9,6 +9,16 @@
 /* This module implements hopper pieces.
  */
 
+typedef struct
+{
+    vec_index_type idx_dir;
+    square sq_hurdle;
+} hoppper_moves_auxiliary_type;
+
+extern hoppper_moves_auxiliary_type hoppper_moves_auxiliary[toppile+1];
+
+void push_hopper_move(vec_index_type idx_dir, square sq_hurdle);
+
 /* Generate moves for a hopper piece
  * @param kbeg start of range of vector indices to be used
  * @param kend end of range of vector indices to be used

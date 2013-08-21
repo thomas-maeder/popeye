@@ -52,7 +52,7 @@ int maximummer_measure_length(void)
     case queenside_castling:
       return 25;
 
-    case platzwechsel_rochade:
+    case offset_platzwechsel_rochade:
       return 2 * move_diff_code[abs(sq_arrival-sq_departure)];
 
     default:
@@ -65,7 +65,7 @@ int maximummer_measure_length(void)
           return 6;
 
         default:
-          if (sq_capture>platzwechsel_rochade)
+          if (sq_capture>offset_platzwechsel_rochade)
             return (move_diff_code[abs(sq_arrival-sq_departure)]) +
               (move_diff_code[abs((sq_capture-maxsquare)-(sq_departure+sq_arrival)/2)]);
           else

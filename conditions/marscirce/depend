@@ -3,7 +3,9 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h solving/observation.h \
- stipulation/slice_type.h solving/move_generator.h \
+ stipulation/slice_type.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
@@ -34,6 +36,14 @@ pylang.h:
 solving/observation.h:
 
 stipulation/slice_type.h:
+
+pieces/walks/pawns/en_passant.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
 
 solving/move_generator.h:
 

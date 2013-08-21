@@ -161,6 +161,7 @@ void nextply(Side side)
   ply_stack[ply_stack_pointer++] = nbply;
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
+  current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
   TraceValue("%u",parent);
@@ -191,6 +192,7 @@ void siblingply(Side side)
   ply_stack[ply_stack_pointer++] = nbply;
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
+  current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
   TraceValue("%u",elder);
@@ -219,6 +221,7 @@ void copyply(void)
   ply_stack[ply_stack_pointer++] = nbply;
   nbply = ply_watermark+1;
   current_move[nbply] = current_move[ply_watermark];
+  current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
 
   parent_ply[nbply] = parent_ply[original];

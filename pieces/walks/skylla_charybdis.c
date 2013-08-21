@@ -1,10 +1,15 @@
 #include "pieces/walks/skylla_charybdis.h"
+#include "pieces/walks/locusts.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 
-static void generate_one_move(square sq_arrival, square sq_capture)
+static void generate_one_move(numvec dir_arrival, numvec dir_capture)
 {
+  square const sq_departure = curr_generation->departure;
+  square const sq_capture = sq_departure+dir_capture;
+  square const sq_arrival = sq_capture+dir_arrival;
+
   if (is_square_empty(sq_arrival))
   {
     if (is_square_empty(sq_capture))
@@ -12,11 +17,8 @@ static void generate_one_move(square sq_arrival, square sq_capture)
       curr_generation->arrival = sq_arrival;
       push_move();
     }
-    else if (piece_belongs_to_opponent(sq_capture))
-    {
-      curr_generation->arrival = sq_arrival;
-      push_move_capture_extra(sq_capture);
-    }
+    else
+      generate_locust_capture(sq_capture,dir_arrival);
   }
 }
 
@@ -24,32 +26,28 @@ static void generate_one_move(square sq_arrival, square sq_capture)
  */
 void skylla_generate_moves(void)
 {
-  square const sq_departure = curr_generation->departure;
-
-  generate_one_move(sq_departure+dir_up+2*dir_right, sq_departure+dir_right);
-  generate_one_move(sq_departure+2*dir_up+dir_right, sq_departure+dir_up);
-  generate_one_move(sq_departure+2*dir_up+dir_left, sq_departure+dir_up);
-  generate_one_move(sq_departure+dir_up+2*dir_left, sq_departure+dir_left);
-  generate_one_move(sq_departure+dir_down+2*dir_left, sq_departure+dir_left);
-  generate_one_move(sq_departure+2*dir_down+dir_left, sq_departure+dir_down);
-  generate_one_move(sq_departure+2*dir_down+dir_right, sq_departure+dir_down);
-  generate_one_move(sq_departure+dir_down+2*dir_right, sq_departure+dir_right);
+  generate_one_move(dir_up+dir_right,   dir_right);
+  generate_one_move(dir_up+dir_right,   dir_up);
+  generate_one_move(dir_up+dir_left,    dir_up);
+  generate_one_move(dir_up+dir_left,    dir_left);
+  generate_one_move(dir_down+dir_left,  dir_left);
+  generate_one_move(dir_down+dir_left,  dir_down);
+  generate_one_move(dir_down+dir_right, dir_down);
+  generate_one_move(dir_down+dir_right, dir_right);
 }
 
 /* Generate moves for a Charybdis
  */
 void charybdis_generate_moves(void)
 {
-  square const sq_departure = curr_generation->departure;
-
-  generate_one_move(sq_departure+dir_up+2*dir_right, sq_departure+dir_up+dir_right);
-  generate_one_move(sq_departure+2*dir_up+dir_right, sq_departure+dir_up+dir_right);
-  generate_one_move(sq_departure+2*dir_up+dir_left, sq_departure+dir_up+dir_left);
-  generate_one_move(sq_departure+dir_up+2*dir_left, sq_departure+dir_up+dir_left);
-  generate_one_move(sq_departure+dir_down+2*dir_left, sq_departure+dir_down+dir_left);
-  generate_one_move(sq_departure+2*dir_down+dir_left, sq_departure+dir_down+dir_left);
-  generate_one_move(sq_departure+2*dir_down+dir_right, sq_departure+dir_down+dir_right);
-  generate_one_move(sq_departure+dir_down+2*dir_right, sq_departure+dir_down+dir_right);
+  generate_one_move(dir_right, dir_up+dir_right);
+  generate_one_move(dir_up,    dir_up+dir_right);
+  generate_one_move(dir_up,    dir_up+dir_left);
+  generate_one_move(dir_left,  dir_up+dir_left);
+  generate_one_move(dir_left,  dir_down+dir_left);
+  generate_one_move(dir_down,  dir_down+dir_left);
+  generate_one_move(dir_down,  dir_down+dir_right);
+  generate_one_move(dir_right, dir_down+dir_right);
 }
 
 static boolean skycharcheck(square chp,
