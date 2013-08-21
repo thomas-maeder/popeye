@@ -171,8 +171,8 @@ enum
   queenside_castling = maxsquare+3,
   max_castling = queenside_castling,
 
-  pawn_multistep = maxsquare+4,
-  offset_en_passant_capture = 8*onerow,
+  pawn_multistep = maxsquare, /* must refer to a square that is always empty */
+  offset_en_passant_capture = 8*onerow, /* must refer to squares that are never empty */
 
   offset_platzwechsel_rochade = 2*maxsquare
 };

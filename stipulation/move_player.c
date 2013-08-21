@@ -40,7 +40,7 @@ static void play_move(Side side)
                                         sq_arrival,
                                         sq_capture-offset_en_passant_capture,
                                         move_effect_reason_ep_capture);
-  else if (sq_capture==pawn_multistep || is_square_empty(sq_capture))
+  else if (is_square_empty(sq_capture))
   {
     move_effect_journal_do_no_piece_removal();
     move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
