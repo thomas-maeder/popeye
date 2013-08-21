@@ -109,10 +109,10 @@ erroneous maxflight numbers weren't completely ignored
    1.Ka8-b8 !
 
 
-  add_to_move_generation_stack:       12877
-                     play_move:       10410
- is_white_king_square_attacked:        4642
- is_black_king_square_attacked:        4705
+  add_to_move_generation_stack:        9522
+                     play_move:        6368
+ is_white_king_square_attacked:        1230
+ is_black_king_square_attacked:        4093
 solution finished. 
 
 

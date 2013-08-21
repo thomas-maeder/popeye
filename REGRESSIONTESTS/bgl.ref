@@ -435,10 +435,10 @@ solution finished.
                       3...f3-f2 (1.01/2) #
 
 
-  add_to_move_generation_stack:      142905
-                     play_move:       72902
- is_white_king_square_attacked:       72765
- is_black_king_square_attacked:       43421
+  add_to_move_generation_stack:      142575
+                     play_move:       72560
+ is_white_king_square_attacked:       72435
+ is_black_king_square_attacked:       43409
 solution finished. 
 
 

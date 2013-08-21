@@ -284,10 +284,10 @@ solution finished.
                   3.Sf8-d7 #
 
 
-  add_to_move_generation_stack:      214894
-                     play_move:      156748
- is_white_king_square_attacked:       36733
- is_black_king_square_attacked:      120764
+  add_to_move_generation_stack:      210094
+                     play_move:      151304
+ is_white_king_square_attacked:       31933
+ is_black_king_square_attacked:      120632
 solution finished. 
 
 

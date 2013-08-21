@@ -243,10 +243,10 @@ solution finished.
                   3.Qe3-c5 #
 
 
-  add_to_move_generation_stack:      254585
-                     play_move:      151336
- is_white_king_square_attacked:       62521
- is_black_king_square_attacked:      100517
+  add_to_move_generation_stack:      250649
+                     play_move:      147271
+ is_white_king_square_attacked:       58585
+ is_black_king_square_attacked:      100388
 solution finished. 
 
 

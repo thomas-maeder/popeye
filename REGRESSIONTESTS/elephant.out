@@ -496,10 +496,10 @@ Loesung beendet.
                   3.Sg4-e5 #
 
 
-  add_to_move_generation_stack:      278103
-                     play_move:      162864
- is_white_king_square_attacked:       70758
- is_black_king_square_attacked:       97374
+  add_to_move_generation_stack:      277951
+                     play_move:      162708
+ is_white_king_square_attacked:       70606
+ is_black_king_square_attacked:       97370
 Loesung beendet. 
 
 

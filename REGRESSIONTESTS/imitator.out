@@ -403,10 +403,10 @@ Loesung beendet.
           2.Da8-c6[Id1] #
 
 
-  add_to_move_generation_stack:      328513
-                     play_move:      144293
- is_white_king_square_attacked:       63069
- is_black_king_square_attacked:       88569
+  add_to_move_generation_stack:      301915
+                     play_move:      128828
+ is_white_king_square_attacked:       51154
+ is_black_king_square_attacked:       84922
 Loesung beendet. 
 
 
@@ -463,10 +463,10 @@ Loesung beendet.
                       3...Ke1-f2[Ib5] #
 
 
-  add_to_move_generation_stack:       22247
-                     play_move:        9181
- is_white_king_square_attacked:        8930
- is_black_king_square_attacked:        2273
+  add_to_move_generation_stack:       20980
+                     play_move:        8482
+ is_white_king_square_attacked:        8267
+ is_black_king_square_attacked:        2229
 Loesung beendet. 
 
 
@@ -590,10 +590,10 @@ Loesung beendet.
               2...b3-b2[Ib6] #
 
 
-  add_to_move_generation_stack:      564291
-                     play_move:      354507
- is_white_king_square_attacked:      323603
- is_black_king_square_attacked:       39171
+  add_to_move_generation_stack:      562479
+                     play_move:      352797
+ is_white_king_square_attacked:      321980
+ is_black_king_square_attacked:       39084
 Loesung beendet. 
 
 

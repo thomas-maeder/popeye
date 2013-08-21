@@ -3,6 +3,7 @@
 #include "stipulation/pipe.h"
 #include "pydata.h"
 #include "solving/legal_move_counter.h"
+#include "solving/post_move_iteration.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
@@ -68,6 +69,9 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
     opponent_moves_few_moves_prioriser_table[move_id] = legal_move_counter_count[nbply];
 
   legal_move_counter_count[nbply] = 0;
+
+  /* one promotion per pawn move is normally enough */
+  post_move_iteration_locked[nbply] = false;
 
   result = n;
 

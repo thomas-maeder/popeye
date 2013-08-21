@@ -1000,10 +1000,10 @@ Loesung beendet.
                           4.Tf4-f7 #
 
 
-  add_to_move_generation_stack:      253853
-                     play_move:      113902
- is_white_king_square_attacked:       70625
- is_black_king_square_attacked:       57141
+  add_to_move_generation_stack:      249051
+                     play_move:      110800
+ is_white_king_square_attacked:       68029
+ is_black_king_square_attacked:       56399
 Loesung beendet. 
 
 

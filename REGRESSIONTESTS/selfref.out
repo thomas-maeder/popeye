@@ -474,10 +474,10 @@ Loesung beendet.
                       3...Ld1-f3 #
 
 
-  add_to_move_generation_stack:      512667
-                     play_move:      272815
- is_white_king_square_attacked:      249633
- is_black_king_square_attacked:       74006
+  add_to_move_generation_stack:      508833
+                     play_move:      268573
+ is_white_king_square_attacked:      245511
+ is_black_king_square_attacked:       73886
 Loesung beendet. 
 
 

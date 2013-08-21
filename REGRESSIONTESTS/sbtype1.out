@@ -328,10 +328,10 @@ Beispiel 1
                                           6.De5-g5 #
 
 
-  add_to_move_generation_stack:    14749195
-                     play_move:    15754339
- is_white_king_square_attacked:     9258524
- is_black_king_square_attacked:     3642734
+  add_to_move_generation_stack:     7704423
+                     play_move:     8234495
+ is_white_king_square_attacked:     4946477
+ is_black_king_square_attacked:     1774849
 Loesung beendet. 
 
 
