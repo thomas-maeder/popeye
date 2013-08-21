@@ -3,7 +3,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/temporary_hacks.h"
-#include "solving/single_move_generator.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
@@ -30,46 +29,12 @@ slice_index alloc_opponent_moves_few_moves_prioriser_slice(void)
   return result;
 }
 
-static int count_opponent_moves(numecoup i)
+static int compare_nr_opponent_moves(void const *a, void const *b)
 {
-  int result;
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",i);
-  TraceFunctionParamListEnd();
-
-  init_opponent_moves_counter();
-
-  TraceSquare(move_generation_stack[i].departure);
-  TraceSquare(move_generation_stack[i].arrival);
-  TraceSquare(move_generation_stack[i].capture);
-  TraceText("\n");
-
-  init_single_move_generator(move_generation_stack[i].departure,
-                             move_generation_stack[i].arrival,
-                             move_generation_stack[i].capture);
-
-  solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,
-        length_unspecified);
-
-  result = fini_opponent_moves_counter();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-typedef struct
-{
-  move_generation_elmt move;
-  int nr_opponent_moves;
-} table_elmt;
-
-static int compare_nr_opponent_moves(const void *a, const void *b)
-{
-  return  (((table_elmt *)a)->nr_opponent_moves
-           - ((table_elmt *)b)->nr_opponent_moves);
+  move_generation_elmt const * const elmt_a = a;
+  move_generation_elmt const * const elmt_b = b;
+  return (opponent_moves_few_moves_prioriser_table[elmt_b->id]
+          -opponent_moves_few_moves_prioriser_table[elmt_a->id]);
 }
 
 /* Try to solve in n half-moves.
@@ -89,28 +54,26 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  table_elmt table[100];
-  unsigned int const nr_moves = current_move[nbply]-current_move[nbply-1];
-  unsigned int table_index;
-  numecoup i;
+  numecoup const base = current_move[nbply-1];
+  numecoup const top = current_move[nbply];
+  unsigned int const nr_moves = top-base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply-1], table_index = 0; i<current_move[nbply]; ++i, ++table_index)
-  {
-    nextply(slices[si].starter);
-    table[table_index].move = move_generation_stack[i];
-    table[table_index].nr_opponent_moves = count_opponent_moves(i);
-    finply();
-  }
+  copyply();
 
-  qsort(table, nr_moves, sizeof table[0], &compare_nr_opponent_moves);
+  solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,
+        length_unspecified);
 
-  for (i = current_move[nbply-1], table_index = nr_moves; i<current_move[nbply]; ++i, --table_index)
-    move_generation_stack[i] = table[table_index-1].move;
+  finply();
+
+  qsort(&move_generation_stack[base],
+        nr_moves,
+        sizeof move_generation_stack[0],
+        &compare_nr_opponent_moves);
 
   result = solve(slices[si].next1,n);
 

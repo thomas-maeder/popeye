@@ -296,10 +296,10 @@ Loesung beendet.
                               4...d2-d1=D #
 
 
-  add_to_move_generation_stack:      899605
-                     play_move:      515187
- is_white_king_square_attacked:      511256
- is_black_king_square_attacked:      326370
+  add_to_move_generation_stack:      769724
+                     play_move:      474755
+ is_white_king_square_attacked:      470945
+ is_black_king_square_attacked:      291305
 Loesung beendet. 
 
 

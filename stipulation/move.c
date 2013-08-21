@@ -19,6 +19,7 @@ static slice_index const move_slice_rank_order[] =
     STFindAttack,
     STForEachDefense,
     STFindDefense,
+    STOpponentMovesCounter,
     STMoveEffectJournalUndoer,
     STNewKoekoRememberContact,
     STSingleBoxType3PawnPromoter,

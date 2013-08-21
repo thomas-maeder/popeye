@@ -40,10 +40,10 @@
                           4.Tf5-f3 #
 
 
-  add_to_move_generation_stack:       36368
-                     play_move:       20673
- is_white_king_square_attacked:        9388
- is_black_king_square_attacked:       14173
+  add_to_move_generation_stack:       35327
+                     play_move:       20855
+ is_white_king_square_attacked:        9353
+ is_black_king_square_attacked:       14355
 Loesung beendet. 
 
 
@@ -124,10 +124,10 @@ Loesung beendet.
                                                           8.Se5-c6 #
 
 
-  add_to_move_generation_stack:       72406
-                     play_move:       58715
- is_white_king_square_attacked:       36183
- is_black_king_square_attacked:       26835
+  add_to_move_generation_stack:       74163
+                     play_move:       69142
+ is_white_king_square_attacked:       39347
+ is_black_king_square_attacked:       34759
 Loesung beendet. 
 
 
@@ -228,10 +228,10 @@ nebenloesig - eigentlich #6
                           4.ROe6*c5[+sBe6] #
 
 
-  add_to_move_generation_stack:      167756
-                     play_move:      120325
- is_white_king_square_attacked:       50487
- is_black_king_square_attacked:       74442
+  add_to_move_generation_stack:      245628
+                     play_move:      180494
+ is_white_king_square_attacked:       71968
+ is_black_king_square_attacked:      114974
 Loesung beendet. 
 
 

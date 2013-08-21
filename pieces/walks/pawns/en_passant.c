@@ -326,11 +326,11 @@ boolean en_passant_is_ep_capture(square sq_capture)
   boolean const result = sq_capture>square_h8 && sq_capture<maxsquare;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_capture-en_passant_capture);
+  TraceSquare(sq_capture-offset_en_passant_capture);
   TraceFunctionParamListEnd();
 
   TraceFunctionExit(__func__);
-  TraceSquare(result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }

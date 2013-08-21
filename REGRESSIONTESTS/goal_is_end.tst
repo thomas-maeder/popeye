@@ -71,7 +71,7 @@ solution finished.
                                       5...a2-a1=B c81
 
 
-  add_to_move_generation_stack:          90
+  add_to_move_generation_stack:          79
                      play_move:         102
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0

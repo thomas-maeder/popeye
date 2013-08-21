@@ -77,10 +77,10 @@ solution finished.
                                               6...f2-f1=Q[h3=b] #
 
 
-  add_to_move_generation_stack:    42731146
-                     play_move:    17835358
- is_white_king_square_attacked:    28026866
- is_black_king_square_attacked:    17897854
+  add_to_move_generation_stack:    42604748
+                     play_move:    17927868
+ is_white_king_square_attacked:    28211883
+ is_black_king_square_attacked:    17990364
 solution finished. 
 
 

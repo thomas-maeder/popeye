@@ -251,10 +251,10 @@ Loesung beendet.
                               4...0-0
 
 
-  add_to_move_generation_stack:     2019362
-                     play_move:      395083
- is_white_king_square_attacked:      375996
- is_black_king_square_attacked:       30564
+  add_to_move_generation_stack:     2256004
+                     play_move:      420678
+ is_white_king_square_attacked:      396228
+ is_black_king_square_attacked:       33248
 Loesung beendet. 
 
 
@@ -990,10 +990,10 @@ c) exact-#3
                   3.Lc1*f4[+sBf7] #
 
 
-  add_to_move_generation_stack:        3226
-                     play_move:        1553
+  add_to_move_generation_stack:        3158
+                     play_move:        1585
  is_white_king_square_attacked:         695
- is_black_king_square_attacked:        1034
+ is_black_king_square_attacked:        1066
 d) exact-#4
 
    1.d7-d8=S !
@@ -1017,10 +1017,10 @@ d) exact-#4
                           4.Sd2-e4 #
 
 
-  add_to_move_generation_stack:       37908
-                     play_move:       22079
- is_white_king_square_attacked:       13975
- is_black_king_square_attacked:        9550
+  add_to_move_generation_stack:       35793
+                     play_move:       21978
+ is_white_king_square_attacked:       13875
+ is_black_king_square_attacked:        9444
 Loesung beendet. 
 
 
@@ -1079,10 +1079,10 @@ c) exact-#3
                   3.Tc6-e6 #
 
 
-  add_to_move_generation_stack:       23062
-                     play_move:        8444
- is_white_king_square_attacked:        3639
- is_black_king_square_attacked:        6460
+  add_to_move_generation_stack:       22351
+                     play_move:        8824
+ is_white_king_square_attacked:        3588
+ is_black_king_square_attacked:        6840
 d) exact-#4
 
    1.Sd4-e2 !
@@ -1094,10 +1094,10 @@ d) exact-#4
                           4.La8-e4 #
 
 
-  add_to_move_generation_stack:      436011
-                     play_move:      189055
- is_white_king_square_attacked:      115359
- is_black_king_square_attacked:       98335
+  add_to_move_generation_stack:      424557
+                     play_move:      185898
+ is_white_king_square_attacked:      108551
+ is_black_king_square_attacked:      101339
 Loesung beendet. 
 
 
@@ -1157,10 +1157,10 @@ c) exact-#3
                   3.Ld8-c7 #
 
 
-  add_to_move_generation_stack:        6417
-                     play_move:        3376
- is_white_king_square_attacked:        1517
- is_black_king_square_attacked:        2314
+  add_to_move_generation_stack:        6340
+                     play_move:        3450
+ is_white_king_square_attacked:        1520
+ is_black_king_square_attacked:        2382
 d) exact-#4
 
    1.d7-d8=S !
@@ -1178,10 +1178,10 @@ d) exact-#4
                           4.d5-d6 #
 
 
-  add_to_move_generation_stack:       77741
-                     play_move:       39672
- is_white_king_square_attacked:       23500
- is_black_king_square_attacked:       20429
+  add_to_move_generation_stack:       76003
+                     play_move:       40824
+ is_white_king_square_attacked:       23505
+ is_black_king_square_attacked:       21615
 Loesung beendet. 
 
 
@@ -1264,10 +1264,10 @@ Loesung beendet.
                                   5.Sg5-h3 z
 
 
-  add_to_move_generation_stack:     5804834
-                     play_move:     2760608
- is_white_king_square_attacked:     2464928
- is_black_king_square_attacked:      295732
+  add_to_move_generation_stack:     7044779
+                     play_move:     3794776
+ is_white_king_square_attacked:     3413172
+ is_black_king_square_attacked:      381656
 Loesung beendet. 
 
 
@@ -1554,10 +1554,10 @@ Loesung beendet.
                   3.Sc8-d6 z
 
 
-  add_to_move_generation_stack:       10393
-                     play_move:        3658
- is_white_king_square_attacked:        2461
- is_black_king_square_attacked:        1208
+  add_to_move_generation_stack:        8523
+                     play_move:        3340
+ is_white_king_square_attacked:        2412
+ is_black_king_square_attacked:         939
 Loesung beendet. 
 
 

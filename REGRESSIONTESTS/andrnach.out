@@ -421,10 +421,10 @@ Loesung beendet.
                       3...Sc6-b4 #
 
 
-  add_to_move_generation_stack:      827075
-                     play_move:      489647
- is_white_king_square_attacked:      487991
- is_black_king_square_attacked:      298425
+  add_to_move_generation_stack:      832401
+                     play_move:      493985
+ is_white_king_square_attacked:      492197
+ is_black_king_square_attacked:      297433
 Loesung beendet. 
 
 
@@ -487,10 +487,10 @@ Loesung beendet.
                   3.Tb4-e4 #
 
 
-  add_to_move_generation_stack:      109219
-                     play_move:       75956
- is_white_king_square_attacked:       41025
- is_black_king_square_attacked:       36585
+  add_to_move_generation_stack:      110471
+                     play_move:       78749
+ is_white_king_square_attacked:       45241
+ is_black_king_square_attacked:       35121
 Loesung beendet. 
 
 
@@ -835,10 +835,10 @@ Loesung beendet.
                   3.Te8-e6 #
 
 
-  add_to_move_generation_stack:       70712
-                     play_move:       34342
- is_white_king_square_attacked:       18017
- is_black_king_square_attacked:       20782
+  add_to_move_generation_stack:       72907
+                     play_move:       35875
+ is_white_king_square_attacked:       18330
+ is_black_king_square_attacked:       22264
 Loesung beendet. 
 
 

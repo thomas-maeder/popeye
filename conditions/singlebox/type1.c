@@ -9,7 +9,6 @@
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/observation.h"
-#include "solving/single_move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

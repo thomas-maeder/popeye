@@ -28,10 +28,10 @@
    1.Th1-a1 !
 
 
-  add_to_move_generation_stack:    12861703
-                     play_move:    11077050
+  add_to_move_generation_stack:    11732132
+                     play_move:    10914250
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1764385
+ is_black_king_square_attacked:     1712604
 Loesung beendet. 
 
 

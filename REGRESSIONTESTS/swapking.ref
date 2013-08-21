@@ -343,10 +343,10 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
                   3.Qg6-g2[Kh3<->Kg1] #
 
 
-  add_to_move_generation_stack:       30939
-                     play_move:       21899
- is_white_king_square_attacked:        8004
- is_black_king_square_attacked:       37248
+  add_to_move_generation_stack:       30258
+                     play_move:       21498
+ is_white_king_square_attacked:        8013
+ is_black_king_square_attacked:       36407
 solution finished. 
 
 

@@ -110,10 +110,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-  add_to_move_generation_stack:       42304
-                     play_move:       19020
- is_white_king_square_attacked:        8370
- is_black_king_square_attacked:       13759
+  add_to_move_generation_stack:       39950
+                     play_move:       18870
+ is_white_king_square_attacked:        8115
+ is_black_king_square_attacked:       13641
 Loesung beendet. 
 
 
@@ -864,10 +864,10 @@ Loesung beendet.
                   3.Lf7-c4 #
 
 
-  add_to_move_generation_stack:       42304
-                     play_move:       19020
- is_white_king_square_attacked:        8370
- is_black_king_square_attacked:       13759
+  add_to_move_generation_stack:       39950
+                     play_move:       18870
+ is_white_king_square_attacked:        8115
+ is_black_king_square_attacked:       13641
 Loesung beendet. 
 
 
@@ -1000,10 +1000,10 @@ Loesung beendet.
                           4.Tf4-f7 #
 
 
-  add_to_move_generation_stack:      259554
-                     play_move:      116776
- is_white_king_square_attacked:       69875
- is_black_king_square_attacked:       62515
+  add_to_move_generation_stack:      253853
+                     play_move:      113902
+ is_white_king_square_attacked:       70625
+ is_black_king_square_attacked:       57141
 Loesung beendet. 
 
 

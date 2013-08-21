@@ -1,7 +1,6 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "solving/observation.h"
-#include "solving/single_move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

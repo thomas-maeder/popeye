@@ -39,7 +39,10 @@ stip_length_type circe_kamikaze_capture_fork_solve(slice_index si,
     if (TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Kamikaze))
       result = anticirce_capture_fork_solve(si,n);
     else
+    {
+      current_anticirce_rebirth_square[nbply] = initsquare;
       result = solve(slices[si].next2,n);
+    }
   }
 
   TraceFunctionExit(__func__);

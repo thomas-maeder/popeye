@@ -7,18 +7,12 @@
  * in STOpponentMovesCounter stipulation slices.
  */
 
+extern int opponent_moves_few_moves_prioriser_table[toppile+1];
+
 /* Allocate a STOpponentMovesCounter slice.
  * @return index of allocated slice
  */
 slice_index alloc_opponent_moves_counter_slice(void);
-
-/* Initialise counting the opponent's moves after the move just generated */
-void init_opponent_moves_counter();
-
-/* Retrieve the number opponent's moves after the move just generated
- * @return number of opponent's moves
- */
-int fini_opponent_moves_counter();
 
 /* Try to solve in n half-moves.
  * @param si slice index

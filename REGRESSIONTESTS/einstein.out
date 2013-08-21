@@ -184,10 +184,10 @@ Loesung beendet.
                   3.Le1-b4=S #
 
 
-  add_to_move_generation_stack:        8663
-                     play_move:        7422
- is_white_king_square_attacked:        1433
- is_black_king_square_attacked:        6127
+  add_to_move_generation_stack:       10900
+                     play_move:        9023
+ is_white_king_square_attacked:        1548
+ is_black_king_square_attacked:        7728
 Loesung beendet. 
 
 

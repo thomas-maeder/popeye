@@ -292,7 +292,6 @@
     ENUMERATOR(STMoveLegalityTester),                                   \
     ENUMERATOR(STCageCirceNonCapturingMoveFinder),                      \
     ENUMERATOR(STSinglePieceMoveGenerator),                             \
-    ENUMERATOR(STSingleMoveGenerator),                                  \
     ENUMERATOR(STMummerOrchestrator),                                   \
     ENUMERATOR(STMummerBookkeeper),                                     \
     ENUMERATOR(STMummerDeadend),                                        \

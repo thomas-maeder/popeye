@@ -35,7 +35,6 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/magic.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
-#include "solving/single_move_generator.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

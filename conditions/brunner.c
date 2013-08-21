@@ -3,7 +3,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
-#include "solving/single_move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 

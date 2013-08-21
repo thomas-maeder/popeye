@@ -9,8 +9,7 @@
 #include <assert.h>
 #include <limits.h>
 
-/* current value of the count */
-static int opponent_moves_counter_count;
+int opponent_moves_few_moves_prioriser_table[toppile + 1];
 
 /* Allocate a STOpponentMovesCounter slice.
  * @return index of allocated slice
@@ -26,37 +25,6 @@ slice_index alloc_opponent_moves_counter_slice(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise counting the opponent's moves after the move just generated */
-void init_opponent_moves_counter()
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(legal_move_counter_count[nbply]==0);
-  legal_move_counter_interesting[nbply] = UINT_MAX;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Retrieve the number opponent's moves after the move just generated
- * @return number of opponent's moves
- */
-int fini_opponent_moves_counter()
-{
-  int const result = opponent_moves_counter_count;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  legal_move_counter_count[nbply] = 0;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%d",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -78,11 +46,15 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
                                               stip_length_type n)
 {
   stip_length_type result;
+  numecoup const move_id = move_generation_stack[current_move[nbply]-1].id;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  assert(legal_move_counter_count[nbply]==0);
+  legal_move_counter_interesting[nbply] = UINT_MAX;
 
   result = solve(slices[si].next1,n);
 
@@ -91,11 +63,13 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
      * But still make sure that we can correctly compute the difference of two
      * counts.
      */
-    opponent_moves_counter_count = INT_MAX/2;
+    opponent_moves_few_moves_prioriser_table[move_id] = INT_MAX/2;
   else
-    opponent_moves_counter_count = legal_move_counter_count[nbply];
+    opponent_moves_few_moves_prioriser_table[move_id] = legal_move_counter_count[nbply];
 
-  TraceValue("%d\n",opponent_moves_counter_count);
+  legal_move_counter_count[nbply] = 0;
+
+  result = n;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

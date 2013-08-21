@@ -223,10 +223,10 @@ b) s#3
       1...Lc6*d5 !
 
 
-  add_to_move_generation_stack:      715024
-                     play_move:      240416
- is_white_king_square_attacked:      243440
- is_black_king_square_attacked:      133350
+  add_to_move_generation_stack:      709879
+                     play_move:      238811
+ is_white_king_square_attacked:      241833
+ is_black_king_square_attacked:      131644
 Loesung beendet. 
 
 

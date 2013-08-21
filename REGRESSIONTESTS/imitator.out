@@ -226,10 +226,10 @@ Loesung beendet.
                           4.Td6-a6[Ib1] #
 
 
-  add_to_move_generation_stack:       70278
-                     play_move:       31447
- is_white_king_square_attacked:        9951
- is_black_king_square_attacked:       23087
+  add_to_move_generation_stack:       69509
+                     play_move:       31525
+ is_white_king_square_attacked:        9913
+ is_black_king_square_attacked:       23175
 Loesung beendet. 
 
 
@@ -325,10 +325,10 @@ Loesung beendet.
    1.Tf1*g1[Ib8] + !
 
 
-  add_to_move_generation_stack:       16125
-                     play_move:        4014
+  add_to_move_generation_stack:       16039
+                     play_move:        4044
  is_white_king_square_attacked:        1848
- is_black_king_square_attacked:        3215
+ is_black_king_square_attacked:        3245
 Loesung beendet. 
 
 
@@ -403,10 +403,10 @@ Loesung beendet.
           2.Da8-c6[Id1] #
 
 
-  add_to_move_generation_stack:      303608
-                     play_move:      126846
- is_white_king_square_attacked:       50917
- is_black_king_square_attacked:       83109
+  add_to_move_generation_stack:      328513
+                     play_move:      144293
+ is_white_king_square_attacked:       63069
+ is_black_king_square_attacked:       88569
 Loesung beendet. 
 
 
@@ -463,10 +463,10 @@ Loesung beendet.
                       3...Ke1-f2[Ib5] #
 
 
-  add_to_move_generation_stack:       21647
-                     play_move:        8585
- is_white_king_square_attacked:        8370
- is_black_king_square_attacked:        2254
+  add_to_move_generation_stack:       22247
+                     play_move:        9181
+ is_white_king_square_attacked:        8930
+ is_black_king_square_attacked:        2273
 Loesung beendet. 
 
 
@@ -590,10 +590,10 @@ Loesung beendet.
               2...b3-b2[Ib6] #
 
 
-  add_to_move_generation_stack:      529599
-                     play_move:      325406
- is_white_king_square_attacked:      297515
- is_black_king_square_attacked:       33327
+  add_to_move_generation_stack:      564291
+                     play_move:      354507
+ is_white_king_square_attacked:      323603
+ is_black_king_square_attacked:       39171
 Loesung beendet. 
 
 

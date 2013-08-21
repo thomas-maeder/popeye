@@ -230,7 +230,6 @@ static slice_type const move_generator_slice_types[] =
     STCastlingIntermediateMoveGenerator,
     STOrthodoxMatingMoveGenerator,
     STOrthodoxMatingKingContactGenerator,
-    STSingleMoveGenerator,
     STSinglePieceMoveGenerator,
     STBlackChecksNullMoveGenerator
 };

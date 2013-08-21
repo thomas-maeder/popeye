@@ -7,7 +7,6 @@
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
 #include "conditions/madrasi.h"
-#include "solving/single_move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 

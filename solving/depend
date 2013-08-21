@@ -409,10 +409,10 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  pieces/walks/generate_moves.h solving/single_piece_move_generator.h \
  solving/castling.h solving/castling_rights.h \
  solving/move_effect_journal.h position/pieceid.h \
- solving/single_move_generator.h solving/king_move_generator.h \
- stipulation/branch.h stipulation/pipe.h stipulation/temporary_hacks.h \
- debugging/measure.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h debugging/trace.h pydata.h py.h
+ solving/king_move_generator.h stipulation/branch.h stipulation/pipe.h \
+ stipulation/temporary_hacks.h debugging/measure.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h debugging/trace.h \
+ pydata.h py.h
 
 solving/move_generator.h:
 
@@ -507,8 +507,6 @@ solving/castling_rights.h:
 solving/move_effect_journal.h:
 
 position/pieceid.h:
-
-solving/single_move_generator.h:
 
 solving/king_move_generator.h:
 
@@ -1038,61 +1036,6 @@ debugging/trace.h:
 pydata.h:
 
 py.h:
-solving/single_move_generator$(OBJ_SUFFIX): solving/single_move_generator.c \
- solving/single_move_generator.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h solving/move_generator.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- debugging/trace.h pydata.h py.h
-
-solving/single_move_generator.h:
-
-solving/solve.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-pieces/walks/vectors.h:
-
-utilities/boolean.h:
-
-utilities/enumeration.h:
-
-pylang.h:
-
-solving/move_generator.h:
-
-stipulation/slice_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
-
-debugging/trace.h:
-
-pydata.h:
-
-py.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
  solving/trivial_end_filter.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -1542,12 +1485,11 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  solving/fork_on_remaining.h solving/king_move_generator.h \
  solving/legal_move_counter.h solving/move_generator.h \
  solving/non_king_move_generator.h solving/play_suppressor.h \
- solving/single_move_generator.h solving/single_piece_move_generator.h \
- solving/trivial_end_filter.h pieces/walks/pawns/en_passant.h \
- solving/selfcheck_guard.h solving/post_move_iteration.h \
- solving/king_capture_avoider.h stipulation/has_solution_type.h \
- solving/recursion_stopper.h stipulation/move_inverter.h \
- stipulation/battle_play/attack_adapter.h \
+ solving/single_piece_move_generator.h solving/trivial_end_filter.h \
+ pieces/walks/pawns/en_passant.h solving/selfcheck_guard.h \
+ solving/post_move_iteration.h solving/king_capture_avoider.h \
+ stipulation/has_solution_type.h solving/recursion_stopper.h \
+ stipulation/move_inverter.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
@@ -2026,8 +1968,6 @@ solving/non_king_move_generator.h:
 
 solving/play_suppressor.h:
 
-solving/single_move_generator.h:
-
 solving/single_piece_move_generator.h:
 
 solving/trivial_end_filter.h:
@@ -2286,8 +2226,8 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/magic.h \
  solving/find_square_observer_tracking_back_from_target.h \
- solving/single_move_generator.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/branch.h stipulation/temporary_hacks.h \
+ stipulation/has_solution_type.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/temporary_hacks.h \
  optimisations/orthodox_square_observation.h debugging/trace.h pydata.h \
  py.h
 
@@ -2406,8 +2346,6 @@ pieces/attributes/paralysing/paralysing.h:
 pieces/attributes/magic.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
-
-solving/single_move_generator.h:
 
 stipulation/has_solution_type.h:
 

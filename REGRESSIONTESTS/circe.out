@@ -331,10 +331,10 @@ Loesung beendet.
                           4.Dd1*d2[+sTh8] #
 
 
-  add_to_move_generation_stack:      526579
-                     play_move:      344203
- is_white_king_square_attacked:      230202
- is_black_king_square_attacked:      130980
+  add_to_move_generation_stack:      555975
+                     play_move:      372575
+ is_white_king_square_attacked:      242679
+ is_black_king_square_attacked:      148469
 Loesung beendet. 
 
 

@@ -1116,10 +1116,10 @@ solution finished.
                           4.Sf8-e6 #
 
 
-  add_to_move_generation_stack:       32814
-                     play_move:       20286
- is_white_king_square_attacked:       12363
- is_black_king_square_attacked:        9841
+  add_to_move_generation_stack:       32015
+                     play_move:       20523
+ is_white_king_square_attacked:       12623
+ is_black_king_square_attacked:        9746
 solution finished. 
 
 

@@ -54,10 +54,10 @@
                           4.Tf8-h8 #
 
 
-  add_to_move_generation_stack:       15128
-                     play_move:        8315
- is_white_king_square_attacked:        5307
- is_black_king_square_attacked:        3510
+  add_to_move_generation_stack:       13699
+                     play_move:        8136
+ is_white_king_square_attacked:        5180
+ is_black_king_square_attacked:        3575
 Loesung beendet. 
 
 
@@ -141,10 +141,10 @@ Loesung beendet.
                                                   7.Kd4-e5 #
 
 
-  add_to_move_generation_stack:       84769
-                     play_move:       22271
- is_white_king_square_attacked:       18016
- is_black_king_square_attacked:        4319
+  add_to_move_generation_stack:      430360
+                     play_move:      147041
+ is_white_king_square_attacked:      122595
+ is_black_king_square_attacked:       24714
 Loesung beendet. 
 
 
@@ -186,10 +186,10 @@ Loesung beendet.
                                   5.Kd4-e5 #
 
 
-  add_to_move_generation_stack:       15535
-                     play_move:        4857
- is_white_king_square_attacked:        2562
- is_black_king_square_attacked:        2430
+  add_to_move_generation_stack:       18295
+                     play_move:        7118
+ is_white_king_square_attacked:        4593
+ is_black_king_square_attacked:        2654
 Loesung beendet. 
 
 
@@ -231,10 +231,10 @@ Loesung beendet.
                                   5.Ta8-a1 #
 
 
-  add_to_move_generation_stack:     1160394
-                     play_move:      555436
- is_white_king_square_attacked:      447109
- is_black_king_square_attacked:      135295
+  add_to_move_generation_stack:     1510334
+                     play_move:      730319
+ is_white_king_square_attacked:      586749
+ is_black_king_square_attacked:      170050
 Loesung beendet. 
 
 
@@ -301,10 +301,10 @@ Loesung beendet.
                                   5.Ta8-h8 #
 
 
-  add_to_move_generation_stack:     1203012
-                     play_move:      545384
- is_white_king_square_attacked:      441741
- is_black_king_square_attacked:      123455
+  add_to_move_generation_stack:     1243756
+                     play_move:      629572
+ is_white_king_square_attacked:      507883
+ is_black_king_square_attacked:      142560
 Loesung beendet. 
 
 
@@ -542,10 +542,10 @@ Michael Barth und Sven Trommler gewidmet
                                       5...Lh6-d2 #
 
 
-  add_to_move_generation_stack:     2176774
-                     play_move:     1373086
- is_white_king_square_attacked:      434799
- is_black_king_square_attacked:      235639
+  add_to_move_generation_stack:     2252809
+                     play_move:     1424867
+ is_white_king_square_attacked:      457155
+ is_black_king_square_attacked:      249182
 Loesung beendet. 
 
 

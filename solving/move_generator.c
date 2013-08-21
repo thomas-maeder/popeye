@@ -24,7 +24,6 @@
 #include "pieces/walks/generate_moves.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
-#include "solving/single_move_generator.h"
 #include "solving/king_move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
@@ -397,8 +396,7 @@ static void insert_castling_intermediate_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void substitute_single_move_generator(slice_index si,
-                                         stip_structure_traversal *st)
+static void remove_move_generator(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -411,7 +409,7 @@ static void substitute_single_move_generator(slice_index si,
                                                     slices[si].next2,
                                                     stip_traversal_context_intro);
     assert(generator!=no_slice);
-    pipe_substitute(generator,alloc_single_move_generator_slice());
+    pipe_remove(generator);
   }
 
   TraceFunctionExit(__func__);
@@ -427,7 +425,7 @@ static structure_traversers_visitor const solver_inserters[] =
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator          },
   { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator          },
   { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator },
-  { STOpponentMovesCounterFork,               &substitute_single_move_generator            }
+  { STOpponentMovesCounterFork,               &remove_move_generator                       }
 };
 
 enum

@@ -309,10 +309,10 @@ Loesung beendet.
  26  (bTe5-g5 )
  27  (bTe5-f5 )
 
-  add_to_move_generation_stack:    11974429
-                     play_move:     9831277
- is_white_king_square_attacked:     5854962
- is_black_king_square_attacked:     4238901
+  add_to_move_generation_stack:    12358798
+                     play_move:    10475634
+ is_white_king_square_attacked:     6233887
+ is_black_king_square_attacked:     4514922
 Loesung beendet. 
 
 

@@ -31,10 +31,10 @@ a)
                   3.e7-e8=T #
 
 
-  add_to_move_generation_stack:        2682
-                     play_move:        1599
- is_white_king_square_attacked:         810
- is_black_king_square_attacked:         973
+  add_to_move_generation_stack:        2698
+                     play_move:        1632
+ is_white_king_square_attacked:         813
+ is_black_king_square_attacked:        1006
 b) StingSchach
 
    1.Kc7-b6 ! Drohung:
@@ -47,10 +47,10 @@ b) StingSchach
                   3.La6-b7 #
 
 
-  add_to_move_generation_stack:        7317
-                     play_move:        5550
- is_white_king_square_attacked:        1276
- is_black_king_square_attacked:        4770
+  add_to_move_generation_stack:        7278
+                     play_move:        5416
+ is_white_king_square_attacked:        1292
+ is_black_king_square_attacked:        4637
 Loesung beendet. 
 
 

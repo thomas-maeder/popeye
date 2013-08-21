@@ -835,10 +835,10 @@ Loesung beendet.
           2.Df7-f2 #
 
 
-  add_to_move_generation_stack:       59571
-                     play_move:       42809
- is_white_king_square_attacked:       21967
- is_black_king_square_attacked:       22786
+  add_to_move_generation_stack:       56834
+                     play_move:       41364
+ is_white_king_square_attacked:       21896
+ is_black_king_square_attacked:       21347
 Loesung beendet. 
 
 

@@ -545,10 +545,10 @@ solution finished.
           2.Se6-c7 #
 
 
-  add_to_move_generation_stack:        3576
-                     play_move:        2461
- is_white_king_square_attacked:        1414
- is_black_king_square_attacked:        1164
+  add_to_move_generation_stack:        3375
+                     play_move:        2419
+ is_white_king_square_attacked:        1408
+ is_black_king_square_attacked:        1122
 solution finished. 
 
 
@@ -1549,10 +1549,10 @@ solution finished.
  15  (Sd8-e6 )
  16  (Sd8-f7 )
 
-  add_to_move_generation_stack:        8591
-                     play_move:        6325
- is_white_king_square_attacked:        5625
- is_black_king_square_attacked:        1213
+  add_to_move_generation_stack:        8466
+                     play_move:        6286
+ is_white_king_square_attacked:        5550
+ is_black_king_square_attacked:        1215
 solution finished. 
 
 
@@ -1614,7 +1614,7 @@ a r#2 solution does not solve an exact r#3
   exact-r#3                   2 + 1
 
 
-  add_to_move_generation_stack:        1104
+  add_to_move_generation_stack:        1100
                      play_move:         470
  is_white_king_square_attacked:         453
  is_black_king_square_attacked:           0
@@ -1854,10 +1854,10 @@ solution finished.
               2...Ke8-f7
                   3.Rh8-f8 #
 
-  add_to_move_generation_stack:       19684
-                     play_move:       15684
- is_white_king_square_attacked:        8666
- is_black_king_square_attacked:        8395
+  add_to_move_generation_stack:       19409
+                     play_move:       15733
+ is_white_king_square_attacked:        8665
+ is_black_king_square_attacked:        8443
 solution finished. 
 
 
