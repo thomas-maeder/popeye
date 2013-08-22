@@ -4,6 +4,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/observation.h"
+#include "solving/solve.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

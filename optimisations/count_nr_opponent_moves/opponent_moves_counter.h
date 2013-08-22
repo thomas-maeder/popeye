@@ -2,6 +2,7 @@
 #define OPTIMISATIONS_COUNTNROPPONENTMOVES_COUNTER_H
 
 #include "solving/solve.h"
+#include "solving/move_generator.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STOpponentMovesCounter stipulation slices.

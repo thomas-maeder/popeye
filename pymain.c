@@ -6,6 +6,8 @@
 #include "optimisations/hash.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/moves_traversal.h"
+#include "optimisations/orthodox_check_directions.h"
+#include "output/plaintext/language_dependant.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
@@ -76,7 +78,7 @@ int main(int argc, char *argv[])
           "Popeye %s-%uBit v%.2f",
           OSTYPE,guessPlatformBitness(),VERSION);
 
-  MaxPositions = ULONG_MAX;
+  hash_max_number_storable_positions = ULONG_MAX;
   LaTeXout = false;
   flag_regression = false;
 

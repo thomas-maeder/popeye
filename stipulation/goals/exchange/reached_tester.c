@@ -1,11 +1,12 @@
 #include "stipulation/goals/exchange/reached_tester.h"
 #include "position/pieceid.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

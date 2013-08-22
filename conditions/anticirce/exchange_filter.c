@@ -1,4 +1,5 @@
 #include "conditions/anticirce/exchange_filter.h"
+#include "conditions/anticirce/anticirce.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "pydata.h"
@@ -44,7 +45,7 @@ stip_length_type anticirce_exchange_filter_solve(slice_index si, stip_length_typ
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
-  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
+  square const sq_rebirth = anticirce_current_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

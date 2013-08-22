@@ -2,6 +2,7 @@
 #define OUTPUT_PLAINTEXT_LINE_END_OF_INTRO_SERIES_MARKER_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 /* This module provides the STOutputPlaintextLineEndOfIntroSeriesMarker
  * slice type. Slices of this type remember the end of an intro series.

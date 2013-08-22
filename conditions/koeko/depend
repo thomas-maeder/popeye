@@ -8,7 +8,7 @@ conditions/koeko/koeko$(OBJ_SUFFIX): conditions/koeko/koeko.c \
  stipulation/slice.h stipulation/structure_traversal.h \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/move.h stipulation/temporary_hacks.h debugging/trace.h \
- pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h
+ pydata.h py.h
 
 conditions/koeko/koeko.h:
 
@@ -64,11 +64,7 @@ debugging/trace.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  conditions/koeko/contact_grid.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
@@ -81,8 +77,7 @@ conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
  stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ stipulation/temporary_hacks.h debugging/trace.h pydata.h py.h
 
 conditions/koeko/contact_grid.h:
 
@@ -150,11 +145,7 @@ debugging/trace.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/anti.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
@@ -165,8 +156,7 @@ conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/ant
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ stipulation/temporary_hacks.h debugging/trace.h pydata.h py.h
 
 conditions/koeko/anti.h:
 
@@ -222,23 +212,19 @@ debugging/trace.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  conditions/koeko/koeko.h solving/observation.h stipulation/slice_type.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ position/pieceid.h solving/move_generator.h \
+ stipulation/has_solution_type.h stipulation/stipulation.h \
+ stipulation/slice.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/move.h stipulation/temporary_hacks.h debugging/trace.h \
+ pydata.h py.h
 
 conditions/koeko/new.h:
 
@@ -274,6 +260,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+solving/move_generator.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/stipulation.h:
@@ -296,8 +284,4 @@ debugging/trace.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:

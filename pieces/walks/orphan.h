@@ -8,6 +8,8 @@
 #include "utilities/boolean.h"
 #include "solving/observation.h"
 
+extern PieNam orphanpieces[PieceCount];
+
 /* Generate moves for an Orphan
  */
 void orphan_generate_moves(void);

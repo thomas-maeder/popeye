@@ -5,6 +5,7 @@
 #include "position/position.h"
 #include "pieces/walks/vectors.h"
 #include "solving/observation.h"
+#include "solving/move_generator.h"
 
 /* This module implements hopper pieces.
  */

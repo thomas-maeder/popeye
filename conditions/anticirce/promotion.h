@@ -3,6 +3,7 @@
 
 #include "solving/solve.h"
 #include "solving/moving_pawn_promotion.h"
+#include "solving/ply.h"
 
 extern pieces_pawns_promotion_sequence_type current_promotion_of_reborn_moving[maxply+1];
 

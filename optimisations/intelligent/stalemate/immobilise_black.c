@@ -10,6 +10,7 @@
 #include "optimisations/intelligent/stalemate/white_block.h"
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"

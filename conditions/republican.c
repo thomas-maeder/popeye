@@ -14,6 +14,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
+#include "output/plaintext/language_dependant.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

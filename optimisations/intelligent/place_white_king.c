@@ -3,6 +3,7 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "optimisations/orthodox_square_observation.h"
+#include "solving/move_diff_code.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 

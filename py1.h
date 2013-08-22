@@ -9,7 +9,6 @@
 #if !defined(PY1_INCLUDED)
 #define PY1_INCLUDED
 
-void InitCheckDir(void);
 void InitBoard(void);
 void InitOpt(void);
 void InitAlways(void);

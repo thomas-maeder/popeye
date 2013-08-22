@@ -2,6 +2,7 @@
 #include "conditions/anticirce/capture_fork.h"
 #include "solving/observation.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -17,6 +18,9 @@ Flags anticirce_current_reborn_spec[maxply+1];
 PieNam anticirce_current_relevant_piece[maxply+1];
 Flags anticirce_current_relevant_spec[maxply+1];
 Side anticirce_current_relevant_side[maxply+1];
+pilecase anticirce_current_rebirth_square;
+
+square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -130,7 +134,7 @@ stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    current_anticirce_rebirth_square[nbply] = (*antirenai)(anticirce_current_relevant_piece[nbply],
+    anticirce_current_rebirth_square[nbply] = (*anticirce_determine_rebirth_square)(anticirce_current_relevant_piece[nbply],
                                                            anticirce_current_relevant_spec[nbply],
                                                            sq_capture,
                                                            sq_departure,

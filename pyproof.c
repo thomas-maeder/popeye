@@ -35,6 +35,7 @@
 #include "solving/observation.h"
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "platform/maxtime.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
@@ -43,6 +44,7 @@
 #include "position/position.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/walks.h"
+#include "output/plaintext/language_dependant.h"
 #include "debugging/trace.h"
 
 

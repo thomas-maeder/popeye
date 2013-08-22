@@ -66,11 +66,15 @@
 #include "solving/battle_play/try.h"
 #include "solving/castling.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/move_generator.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/king_capture_avoider.h"
 #include "solving/observation.h"
+#include "conditions/madrasi.h"
+#include "conditions/grid.h"
+#include "conditions/protean.h"
 #include "conditions/bgl.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/kobul.h"
@@ -79,6 +83,9 @@
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/rex_inclusive.h"
+#include "conditions/marscirce/marscirce.h"
+#include "conditions/football.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/imitator.h"
 #include "conditions/sentinelles.h"
 #include "conditions/mummer.h"
@@ -94,170 +101,6 @@
 #include "conditions/woozles.h"
 #include "utilities/table.h"
 #include "debugging/trace.h"
-
-static numvec ortho_opt[4][2*(square_h8-square_a1)+1];
-
-static numvec const * const check_dir_impl[4] = {
-    ortho_opt[Queen-Queen]+(square_h8-square_a1),
-    ortho_opt[Knight-Queen]+(square_h8-square_a1),
-    ortho_opt[Rook-Queen]+(square_h8-square_a1),
-    ortho_opt[Bishop-Queen]+(square_h8-square_a1)
-};
-
-numvec const * const * const CheckDir = check_dir_impl-Queen;
-
-void InitCheckDir(void)
-{
-  vec_index_type i;
-  unsigned int j;
-
-  assert(Queen<Rook);
-  assert(Rook-Queen<4);
-  assert(Queen<Bishop);
-  assert(Bishop-Queen<4);
-  assert(Queen<Knight);
-  assert(Knight-Queen<4);
-
-  for (i = -(square_h8-square_a1); i<=square_h8-square_a1; i++)
-  {
-    ortho_opt[Queen-Queen][(square_h8-square_a1)+i] = 0;
-    ortho_opt[Rook-Queen][(square_h8-square_a1)+i] = 0;
-    ortho_opt[Bishop-Queen][(square_h8-square_a1)+i] = 0;
-    ortho_opt[Knight-Queen][(square_h8-square_a1)+i] = 0;
-  }
-
-  for (i = vec_knight_start; i <= vec_knight_end; i++)
-    ortho_opt[Knight-Queen][(square_h8-square_a1)+vec[i]] = vec[i];
-
-  for (i = vec_rook_start; i<=vec_rook_end; i++)
-    for (j = 1; j<=max_nr_straight_rider_steps; j++)
-    {
-      ortho_opt[Queen-Queen][(square_h8-square_a1)+j*vec[i]] = vec[i];
-      ortho_opt[Rook-Queen][(square_h8-square_a1)+j*vec[i]] = vec[i];
-    }
-
-  for (i = vec_bishop_start; i<=vec_bishop_end; i++)
-    for (j = 1; j<=max_nr_straight_rider_steps; j++)
-    {
-      ortho_opt[Queen-Queen][(square_h8-square_a1)+j*vec[i]] = vec[i];
-      ortho_opt[Bishop-Queen][(square_h8-square_a1)+j*vec[i]] = vec[i];
-    }
-}
-
-static ply ply_watermark;
-static ply ply_stack[maxply+1];
-static ply ply_stack_pointer;
-
-void nextply(Side side)
-{
-  ply const parent = nbply;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side,"");
-  TraceFunctionParamListEnd();
-
-  assert(ply_watermark<maxply);
-
-  ply_stack[ply_stack_pointer++] = nbply;
-  nbply = ply_watermark+1;
-  current_move[nbply] = current_move[ply_watermark];
-  current_move_id[nbply] = current_move_id[ply_watermark];
-  ++ply_watermark;
-
-  TraceValue("%u",parent);
-  TraceValue("%u\n",nbply);
-
-  parent_ply[nbply] = parent;
-
-  trait[nbply] = side;
-
-  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
-  en_passant_top[nbply] = en_passant_top[nbply-1];
-
-  ++post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void siblingply(Side side)
-{
-  ply const elder = nbply;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(ply_watermark<maxply);
-
-  ply_stack[ply_stack_pointer++] = nbply;
-  nbply = ply_watermark+1;
-  current_move[nbply] = current_move[ply_watermark];
-  current_move_id[nbply] = current_move_id[ply_watermark];
-  ++ply_watermark;
-
-  TraceValue("%u",elder);
-  TraceValue("%u\n",nbply);
-
-  parent_ply[nbply] = parent_ply[elder];
-
-  trait[nbply] = side;
-
-  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
-  en_passant_top[nbply] = en_passant_top[nbply-1];
-
-  ++post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void copyply(void)
-{
-  ply const original = nbply;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  ply_stack[ply_stack_pointer++] = nbply;
-  nbply = ply_watermark+1;
-  current_move[nbply] = current_move[ply_watermark];
-  current_move_id[nbply] = current_move_id[ply_watermark];
-  ++ply_watermark;
-
-  parent_ply[nbply] = parent_ply[original];
-
-  trait[nbply] = trait[original];
-
-  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
-  en_passant_top[nbply] = en_passant_top[nbply-1];
-
-  ++post_move_iteration_id[nbply];
-
-  {
-    unsigned int const nr_moves = current_move[original]-current_move[original-1];
-    memcpy(&move_generation_stack[current_move[nbply]],
-           &move_generation_stack[current_move[original-1]],
-           nr_moves*sizeof move_generation_stack[0]);
-    current_move[nbply] += nr_moves;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void finply()
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(nbply==ply_watermark);
-  --ply_watermark;
-
-  nbply = ply_stack[--ply_stack_pointer];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 void InitCond(void)
 {
@@ -278,24 +121,24 @@ void InitCond(void)
   anygeneva = false;
   anyparrain= false;
 
-  antirenai = rennormal;
-  circerenai = rennormal;
+  anticirce_determine_rebirth_square = rennormal;
+  circe_determine_rebirth_square = rennormal;
   immunrenai = rennormal;
-  marsrenai = rennormal;
+  marscirce_determine_rebirth_square = rennormal;
 
   royal_square[White] = initsquare;
   royal_square[Black] = initsquare;
 
   CondFlag[circeassassin]= false;
   flagparasent= false;
-  rex_mad = false;
-  rex_circe = false;
+  madrasi_is_rex_inclusive = false;
+  circe_is_rex_inclusive = false;
   immune_is_rex_inclusive = false;
   phantom_chess_rex_inclusive = false;
   rex_geneva =false;
   messigny_rex_exclusive = false;
   woozles_rex_exclusive = false;
-  rex_protean_ex = false;
+  protean_is_rex_exclusive = false;
 
   sentinelles_max_nr_pawns[Black] = 8;
   sentinelles_max_nr_pawns[White] = 8;
@@ -403,13 +246,6 @@ void InitBoard(void)
   square i;
   square const *bnp;
 
-  ActTitle[0] = '\0';
-  ActAuthor[0] = '\0';
-  ActOrigin[0] = '\0';
-  ActTwinning[0] = '\0';
-  ActAward[0] = '\0';
-  ActStip[0] = '\0';
-
   for (i= maxsquare-1; i>=0; i--)
   {
     empty_square(i);
@@ -438,9 +274,7 @@ void InitAlways(void)
 {
   ply i;
 
-  nbply = nil_ply;
-  current_move[nbply] = nil_coup+1;
-  ply_watermark = nil_ply;
+  ply_reset();
 
   flagfee = false;
 
@@ -450,7 +284,7 @@ void InitAlways(void)
     killer_moves[i].arrival = initsquare;
     current_circe_rebirth_square[i] = initsquare;
     trait[i] = White;
-    current_anticirce_rebirth_square[i] = initsquare;
+    anticirce_current_rebirth_square[i] = initsquare;
   }
 
   reset_tables();

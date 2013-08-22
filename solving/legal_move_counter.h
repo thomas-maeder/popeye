@@ -2,6 +2,7 @@
 #define SOLVING_LEGAL_MOVE_COUNTER_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STLegalAttackCounter stipulation slices.

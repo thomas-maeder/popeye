@@ -3,6 +3,7 @@
 
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
+#include "solving/ply.h"
 #include "position/position.h"
 
 /* This module implements imitators */

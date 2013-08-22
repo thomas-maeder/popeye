@@ -1,4 +1,5 @@
 #include "conditions/anticirce/exchange_special.h"
+#include "conditions/anticirce/anticirce.h"
 #include "position/pieceid.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
@@ -45,7 +46,7 @@ slice_index alloc_anticirce_exchange_special_slice(void)
 stip_length_type anticirce_exchange_special_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
+  square const sq_rebirth = anticirce_current_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

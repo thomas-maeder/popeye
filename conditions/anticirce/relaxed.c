@@ -44,13 +44,13 @@ stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
                                          pos);
   }
 
-  if (is_square_empty(current_anticirce_rebirth_square[nbply]))
+  if (is_square_empty(anticirce_current_rebirth_square[nbply]))
     move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
-                                            current_anticirce_rebirth_square[nbply],
+                                            anticirce_current_rebirth_square[nbply],
                                             anticirce_current_reborn_piece[nbply],
                                             anticirce_current_reborn_spec[nbply]);
   else
-    current_anticirce_rebirth_square[nbply] = initsquare;
+    anticirce_current_rebirth_square[nbply] = initsquare;
 
   result = solve(slices[si].next1,n);
 

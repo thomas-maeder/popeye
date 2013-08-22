@@ -7,6 +7,11 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
+int gridvar;
+int currentgridnum;
+int gridlines[112][4];
+int numgridlines;
+
 boolean CrossesGridLines(square dep, square arr)
 {
   int i, x1, y1, x2, y2, X1, Y1, X2, Y2, dx, dy, dX, dY, u1, u2, v;

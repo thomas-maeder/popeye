@@ -26,6 +26,7 @@ typedef unsigned long trace_level;
 #include <stddef.h>
 #include <stdio.h>
 
+#include "solving/ply.h"
 #include "py.h"
 
 /* Set the maximal level of trace messages to be produced.

@@ -3,6 +3,7 @@
 
 #include "stipulation/structure_traversal.h"
 #include "solving/solve.h"
+#include "solving/ply.h"
 #include "utilities/table.h"
 
 /* This module provides functionality dealing with threats

@@ -3,6 +3,7 @@
 
 #include "stipulation/slice.h"
 #include "stipulation/goals/goals.h"
+#include "solving/ply.h"
 
 /* remember if the prerequistes for the relvant goals are met */
 extern unsigned int goal_preprequisites_met[maxply];

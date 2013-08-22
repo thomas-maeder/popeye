@@ -3,8 +3,10 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/moving_pawn_promotion.h"
+#include "solving/move_diff_code.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 

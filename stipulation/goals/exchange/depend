@@ -4,12 +4,12 @@ stipulation/goals/exchange/reached_tester$(OBJ_SUFFIX): \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pylang.h position/pieceid.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
+ solving/move_generator.h stipulation/slice_type.h \
+ stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- debugging/trace.h
+ debugging/trace.h pydata.h py.h
 
 stipulation/goals/exchange/reached_tester.h:
 
@@ -35,11 +35,13 @@ pylang.h:
 
 position/pieceid.h:
 
+solving/move_generator.h:
+
+stipulation/slice_type.h:
+
 stipulation/stipulation.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/structure_traversal.h:
 
@@ -51,16 +53,12 @@ output/mode.h:
 
 stipulation/pipe.h:
 
-pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
 stipulation/goals/reached_tester.h:
 
 stipulation/boolean/true.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+py.h:

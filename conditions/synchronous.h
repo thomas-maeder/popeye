@@ -3,8 +3,6 @@
 
 /* This module implements Synchronous and Anti-synchronous Chess */
 
-#include "position/board.h"
-
 /* Determine the length of a move in Synchronous Chess; the higher
  * the value the more likely the move is going to be played.
  * @return a value expressing the precedence of this move

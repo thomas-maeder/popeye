@@ -810,6 +810,7 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
+ solving/move_generator.h \
  optimisations/count_nr_opponent_moves/move_generator.h debugging/trace.h
 
 stipulation/temporary_hacks.h:
@@ -899,6 +900,8 @@ solving/castling_rights.h:
 position/pieceid.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
+
+solving/move_generator.h:
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
@@ -1371,7 +1374,7 @@ stipulation/move_player$(OBJ_SUFFIX): stipulation/move_player.c \
  pieces/walks/vectors.h utilities/boolean.h pylang.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/observation.h \
- stipulation/stipulation.h stipulation/slice.h \
+ solving/move_generator.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
  stipulation/has_solution_type.h debugging/trace.h pydata.h py.h
@@ -1409,6 +1412,8 @@ solving/castling_rights.h:
 position/pieceid.h:
 
 solving/observation.h:
+
+solving/move_generator.h:
 
 stipulation/stipulation.h:
 

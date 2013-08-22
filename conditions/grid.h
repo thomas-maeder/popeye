@@ -5,6 +5,11 @@
 
 /* This module implements the condition Grid Chess */
 
+extern int gridvar;
+extern int currentgridnum;
+extern int gridlines[112][4];
+extern int numgridlines;
+
 boolean CrossesGridLines(square i, square j);
 
 #define GridLegal(sq1, sq2) (GridNum(sq1) != GridNum(sq2) ||  \

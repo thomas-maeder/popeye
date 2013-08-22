@@ -42,7 +42,7 @@ stip_length_type anticirce_capture_fork_solve(slice_index si,
 
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
   {
-    current_anticirce_rebirth_square[nbply] = initsquare;
+    anticirce_current_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);
   }
   else

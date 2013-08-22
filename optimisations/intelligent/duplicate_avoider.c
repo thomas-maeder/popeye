@@ -1,10 +1,11 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
-#include "stipulation/stipulation.h"
-#include "pydata.h"
-#include "stipulation/pipe.h"
 #include "optimisations/intelligent/intelligent.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 #include <stdio.h>

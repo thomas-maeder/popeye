@@ -3,12 +3,12 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h py.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- solving/solve.h stipulation/proxy.h stipulation/moves_traversal.h \
- solving/fork_on_remaining.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ pydata.h py.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h solving/solve.h stipulation/proxy.h \
+ stipulation/moves_traversal.h solving/fork_on_remaining.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
  debugging/trace.h
@@ -30,6 +30,10 @@ pieces/walks/vectors.h:
 utilities/boolean.h:
 
 utilities/enumeration.h:
+
+solving/ply.h:
+
+position/position.h:
 
 pylang.h:
 
@@ -71,16 +75,18 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h pylang.h conditions/grid.h \
- pieces/walks/generate_moves.h position/position.h \
- pieces/walks/pawns/promotion.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/observation.h stipulation/slice_type.h \
- solving/castling.h solving/move_generator.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/has_solution_type.h stipulation/pipe.h debugging/trace.h \
- pydata.h py.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h
+ utilities/boolean.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h conditions/grid.h \
+ pieces/walks/generate_moves.h pieces/walks/pawns/promotion.h \
+ pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/observation.h stipulation/slice_type.h solving/castling.h \
+ solving/move_generator.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/pipe.h solving/move_diff_code.h \
+ optimisations/orthodox_check_directions.h debugging/trace.h pydata.h \
+ py.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -102,13 +108,15 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 conditions/grid.h:
 
 pieces/walks/generate_moves.h:
-
-position/position.h:
 
 pieces/walks/pawns/promotion.h:
 
@@ -117,6 +125,8 @@ pieces/walks/pawns/en_passant.h:
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
+
+solving/ply.h:
 
 position/pieceid.h:
 
@@ -144,6 +154,10 @@ stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
 
+solving/move_diff_code.h:
+
+optimisations/orthodox_check_directions.h:
+
 debugging/trace.h:
 
 pydata.h:
@@ -160,12 +174,12 @@ optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
  solving/solve.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h pylang.h \
- solving/move_generator.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
+ utilities/boolean.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h solving/move_generator.h solving/ply.h \
+ stipulation/slice_type.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/has_solution_type.h \
- stipulation/pipe.h \
+ stipulation/pipe.h solving/move_diff_code.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  debugging/trace.h pydata.h py.h
 
@@ -189,9 +203,15 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 solving/move_generator.h:
+
+solving/ply.h:
 
 stipulation/slice_type.h:
 
@@ -210,6 +230,8 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
+
+solving/move_diff_code.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 

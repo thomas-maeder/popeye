@@ -13,6 +13,9 @@
 #include <assert.h>
 
 PieNam current_football_substitution[maxply+1];
+boolean is_football_substitute[PieceCount];
+PieNam next_football_substitute[PieceCount];
+boolean football_are_substitutes_limited;
 
 static PieNam const *bench[maxply+1];
 

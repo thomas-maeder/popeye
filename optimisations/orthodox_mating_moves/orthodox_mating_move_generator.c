@@ -9,6 +9,8 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
+#include "solving/move_diff_code.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"

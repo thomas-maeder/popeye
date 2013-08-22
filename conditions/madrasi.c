@@ -8,6 +8,8 @@
 
 #include "debugging/trace.h"
 
+boolean madrasi_is_rex_inclusive;
+
 /* Determine whether a particular piece of the moving side is observed
  * @param sq position of the piece
  * @return true iff the piece occupying square sq is observed by the opponent
@@ -21,7 +23,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
-  if (!rex_mad && sq==king_square[observed_side])
+  if (!madrasi_is_rex_inclusive && sq==king_square[observed_side])
     result = false;
   else
   {
@@ -57,7 +59,7 @@ static boolean is_paralysed(numecoup n)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (!rex_mad && sq_departure==king_square[observed_side])
+  if (!madrasi_is_rex_inclusive && sq_departure==king_square[observed_side])
     result = false;
   else
   {

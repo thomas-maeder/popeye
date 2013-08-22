@@ -75,6 +75,7 @@
 #include "pyproof.h"
 #include "stipulation/pipe.h"
 #include "output/output.h"
+#include "output/plaintext/language_dependant.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/has_solution_type.h"
@@ -119,7 +120,11 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
-#include "conditions/circe/circe.h"
+#include "conditions/isardam.h"
+#include "conditions/synchronous.h"
+#include "conditions/protean.h"
+#include "conditions/madrasi.h"
+#include "conditions/circe/rex_inclusive.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 #include "conditions/grid.h"
@@ -128,8 +133,11 @@
 #include "conditions/sat.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/kobul.h"
+#include "conditions/circe/circe.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/chameleon.h"
+#include "conditions/marscirce/marscirce.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/sentinelles.h"
 #include "conditions/magic_square.h"
 #include "conditions/mummer.h"
@@ -145,6 +153,7 @@
 #include "conditions/imitator.h"
 #include "conditions/messigny.h"
 #include "conditions/woozles.h"
+#include "conditions/football.h"
 #include "options/degenerate_tree.h"
 #include "options/nontrivial.h"
 #include "options/maxthreatlength.h"
@@ -175,6 +184,13 @@ static char AlphaStip[200];
 /* This is only correct, cause only lowercase letters are passed
    as arguments
 */
+
+static char ActAuthor[256];
+static char ActOrigin[256];
+static char ActTitle[256];
+static char ActTwinning[1532];
+static char ActAward[256];
+static char ActStip[37];
 
 static char Sep[] = "\n";
 /* All entries in this table have to be in lower case */
@@ -670,14 +686,14 @@ static void WriteConditions(int alignment)
           AddSquare(CondLine,i);
     }
 
-    if ((cond == madras && rex_mad)
+    if ((cond == madras && madrasi_is_rex_inclusive)
         || (cond == phantom && phantom_chess_rex_inclusive)
         || (cond == geneva && rex_geneva)
         || (immune_is_rex_inclusive
             && (cond == immun
                 || cond == immunmalefique
                 || cond == immundiagramm))
-        || (rex_circe
+        || (circe_is_rex_inclusive
             && (cond == circe
                 || cond == circemalefique
                 || cond == circediametral
@@ -700,7 +716,7 @@ static void WriteConditions(int alignment)
       strcat(CondLine, CondTab[rexexcl]);
     }
 
-    if ( rex_protean_ex && cond == protean)
+    if ( protean_is_rex_exclusive && cond == protean)
     {
       strcat(CondLine, "    ");
       strcat(CondLine, CondTab[rexexcl]);
@@ -5013,18 +5029,6 @@ static char *ParseCond(void)
       case holes:
         ReadSquares(ReadHoles);
         break;
-      case blacksynchron:
-        flag_synchron= true;
-        break;
-      case whitesynchron:
-        flag_synchron= true;
-        break;
-      case blackantisynchron:
-        flag_synchron= true;
-        break;
-      case whiteantisynchron:
-        flag_synchron= true;
-        break;
       case trans_king:
         CondFlag[whtrans_king] = true;
         CondFlag[bltrans_king] = true;
@@ -5089,10 +5093,10 @@ static char *ParseCond(void)
         anycirprom= true;
         anycirce= true;
         CondFlag[couscous]= true;
-        circerenai= renspiegel;
+        circe_determine_rebirth_square= renspiegel;
         break;
       case pwc:
-        circerenai= renpwc;
+        circe_determine_rebirth_square= renpwc;
         anycirprom= true;
         anycirce= true;
         break;
@@ -5107,7 +5111,7 @@ static char *ParseCond(void)
         anyparrain= true;
         break;
       case circediametral:
-        circerenai= rendiametral;
+        circe_determine_rebirth_square= rendiametral;
         anycirce= true;
         break;
       case frischauf:
@@ -5124,52 +5128,52 @@ static char *ParseCond(void)
         break;
       case supercirce:
       case circecage:
-        circerenai= 0;
+        circe_determine_rebirth_square= 0;
         anycirprom= true;
         anycirce= true;
         break;
       case circeequipollents:
-        circerenai= renequipollents;
+        circe_determine_rebirth_square= renequipollents;
         anycirce= true;
         anycirprom= true;
         break;
       case circemalefique:
-        circerenai= renspiegel;
+        circe_determine_rebirth_square= renspiegel;
         anycirce= true;
         break;
       case circerank:
-        circerenai= renrank;
+        circe_determine_rebirth_square= renrank;
         anycirce= true;
         break;
       case circefile:
-        circerenai= renfile;
+        circe_determine_rebirth_square= renfile;
         anycirce= true;
         break;
       case circefilemalefique:
-        circerenai= renspiegelfile;
+        circe_determine_rebirth_square= renspiegelfile;
         anycirce= true;
         break;
       case circediagramm:
-        circerenai= rendiagramm;
+        circe_determine_rebirth_square= rendiagramm;
         anycirce= true;
         break;
       case circesymmetry:
-        circerenai= rensymmetrie;
+        circe_determine_rebirth_square= rensymmetrie;
         anycirce= true;
         anycirprom= true;
         break;
       case circeantipoden:
-        circerenai= renantipoden;
+        circe_determine_rebirth_square= renantipoden;
         anycirce= true;
         anycirprom= true;
         break;
       case circeclonemalefique:
-        circerenai= renspiegel;
+        circe_determine_rebirth_square= renspiegel;
         anycirce= true;
         anyclone= true;
         break;
       case circeclone:
-        circerenai = rennormal;
+        circe_determine_rebirth_square = rennormal;
         anycirce= true;
         anyclone= true;
         break;
@@ -5184,42 +5188,42 @@ static char *ParseCond(void)
         /* different types of anticirce */
       case circeturncoats:
         anycirce= true;
-        circerenai= rennormal;
+        circe_determine_rebirth_square= rennormal;
         break;
       case circedoubleagents:
         anycirce= true;
-        circerenai= renspiegel;
+        circe_determine_rebirth_square= renspiegel;
         break;
       case anti:
         anyanticirce= true;
         break;
       case antispiegel:
-        antirenai= renspiegel;
+        anticirce_determine_rebirth_square= renspiegel;
         anyanticirce= true;
         break;
       case antidiagramm:
-        antirenai= rendiagramm;
+        anticirce_determine_rebirth_square= rendiagramm;
         anyanticirce= true;
         break;
       case antifile:
-        antirenai= renfile;
+        anticirce_determine_rebirth_square= renfile;
         anyanticirce= true;
         break;
       case antisymmetrie:
-        antirenai= rensymmetrie;
+        anticirce_determine_rebirth_square= rensymmetrie;
         anyanticirce= true;
         break;
       case antispiegelfile:
-        antirenai= renspiegelfile;
+        anticirce_determine_rebirth_square= renspiegelfile;
         anyanticirce= true;
         break;
       case antiantipoden:
-        antirenai= renantipoden;
+        anticirce_determine_rebirth_square= renantipoden;
         anyanticirce= true;
         anyanticirprom = true;
         break;
       case antiequipollents:
-        antirenai= renequipollents_anti;
+        anticirce_determine_rebirth_square= renequipollents_anti;
         anyanticirce= true;
         anyanticirprom = true;
         break;
@@ -5263,30 +5267,30 @@ static char *ParseCond(void)
 
         /* different types of mars circe */
       case mars:
-        marsrenai= rennormal;
+        marscirce_determine_rebirth_square= rennormal;
         anymars= true;
         break;
       case marsmirror:
-        marsrenai= renspiegel;
+        marscirce_determine_rebirth_square= renspiegel;
         anymars= true;
         break;
       case antimars:
-        marsrenai= rennormal;
+        marscirce_determine_rebirth_square= rennormal;
         anyantimars= true;
         break;
       case antimarsmirror:
-        marsrenai= renspiegel;
+        marscirce_determine_rebirth_square= renspiegel;
         anyantimars= true;
         break;
       case antimarsantipodean:
-        marsrenai= renantipoden;
+        marscirce_determine_rebirth_square= renantipoden;
         anyantimars= true;
         break;
       case phantom:
-        marsrenai= rennormal;
+        marscirce_determine_rebirth_square= rennormal;
         break;
       case plus:
-        marsrenai= 0;
+        marscirce_determine_rebirth_square= 0;
         anymars= true;
         break;
 
@@ -5339,16 +5343,16 @@ static char *ParseCond(void)
       case circediametral:
       case circerank:
       case frischauf:
-        tok = ParseRex(&rex_circe, rexincl);
+        tok = ParseRex(&circe_is_rex_inclusive, rexincl);
         break;
       case protean:
-        tok = ParseRex(&rex_protean_ex, rexexcl);
+        tok = ParseRex(&protean_is_rex_exclusive, rexexcl);
         break;
       case phantom:
         tok = ParseRex(&phantom_chess_rex_inclusive,rexincl);
         break;
       case madras:
-        tok = ParseRex(&rex_mad, rexincl);
+        tok = ParseRex(&madrasi_is_rex_inclusive, rexincl);
         break;
       case isardam:
         tok = ParseVariant(&IsardamB, gpType);
@@ -5519,7 +5523,7 @@ static char *ParseCond(void)
         tok = ReadPieces(april);
         if (CondFlag[april])
         {
-          circerenai= 0;
+          circe_determine_rebirth_square= 0;
           anycirprom= true;
           anycirce= true;
         }
@@ -7724,6 +7728,15 @@ void WriteSquare(square i)
     StdChar('1' - nr_rows_on_board + i/onerow);
 }
 
+void InitMetaData(void)
+{
+  ActTitle[0] = '\0';
+  ActAuthor[0] = '\0';
+  ActOrigin[0] = '\0';
+  ActTwinning[0] = '\0';
+  ActAward[0] = '\0';
+  ActStip[0] = '\0';
+}
 
 /* The input accepted by popeye is defined by the following grammar.
 ** If there is no space between two nonterminals, then there is also

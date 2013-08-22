@@ -2,6 +2,7 @@
 #define CONDITIONS_WORMHOLE_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 /* This module implements the condition Wormholes */
 

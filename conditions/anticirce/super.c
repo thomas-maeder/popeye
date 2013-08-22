@@ -9,6 +9,7 @@
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
+#include "solving/move_generator.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
@@ -40,15 +41,15 @@ static boolean advance_rebirth_square()
   TraceFunctionParamListEnd();
 
   {
-    square const next = next_rebirth_square(current_anticirce_rebirth_square[nbply]+1);
+    square const next = next_rebirth_square(anticirce_current_rebirth_square[nbply]+1);
     if (next>square_h8)
     {
-      current_anticirce_rebirth_square[nbply] = square_a1;
+      anticirce_current_rebirth_square[nbply] = square_a1;
       result = false;
     }
     else
     {
-      current_anticirce_rebirth_square[nbply] = next;
+      anticirce_current_rebirth_square[nbply] = next;
       result = true;
     }
   }
@@ -86,13 +87,13 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
-    current_anticirce_rebirth_square[nbply] = square_a1-1;
+    anticirce_current_rebirth_square[nbply] = square_a1-1;
     is_rebirth_square_dirty[nbply] = true;
   }
 
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
   {
-    current_anticirce_rebirth_square[nbply] = initsquare;
+    anticirce_current_rebirth_square[nbply] = initsquare;
     result = previous_move_is_illegal;
   }
   else

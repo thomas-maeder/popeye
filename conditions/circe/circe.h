@@ -8,6 +8,9 @@
 #include "solving/solve.h"
 #include "stipulation/slice_type.h"
 #include "solving/move_effect_journal.h"
+#include "solving/ply.h"
+#include "position/position.h"
+#include "utilities/boolean.h"
 
 extern pilecase current_circe_rebirth_square;
 
@@ -19,6 +22,8 @@ extern Flags current_circe_relevant_spec[maxply+1];
 extern Side current_circe_relevant_side[maxply+1];
 
 extern move_effect_reason_type current_circe_rebirth_reason[maxply+1];
+
+extern square (*circe_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
 /* Try to solve in n half-moves.
  * @param si slice index

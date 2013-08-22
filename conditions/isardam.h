@@ -1,7 +1,11 @@
 #if !defined(CONDITIONS_ISARDAM_H)
 #define CONDITIONS_ISARDAM_H
 
+/* This module implements Isardam */
+
 #include "solving/solve.h"
+
+extern boolean IsardamB;
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

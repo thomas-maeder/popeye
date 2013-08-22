@@ -76,6 +76,7 @@
 
 #include "utilities/boolean.h"
 #include "position/position.h"
+#include "solving/ply.h"
 
 #ifdef _SE_DECORATE_SOLUTION_
 #define _SE_
@@ -177,44 +178,11 @@ enum
   offset_platzwechsel_rochade = 2*maxsquare
 };
 
-enum
-{
-#if defined(__unix)
-  maxply =   1002
-#else
-#if defined(_WIN32)
-  maxply = 2702
-#elif defined(_OS2)
-  maxply = 302
-#else
-#if defined(SIXTEEN) /* DOS 16 Bit, ... */
-#if defined(MSG_IN_MEM)
-  maxply = 26
-#else
-  maxply = 48
-#endif /* MSG_IN_MEM */
-#else
-  maxply = 702
-#endif/* SIXTEEN */
-#endif /* _WIN32 */
-#endif /* __unix */
-};
-
-enum
-{
-  nil_ply = 1
-};
-
 typedef unsigned int stip_length_type;
 
 enum
 {
   no_stip_length = maxply
-};
-
-enum
-{
-  toppile = 60*maxply
 };
 
 enum
@@ -231,17 +199,7 @@ enum
   nil_coup = 1
 };
 
-typedef int         ply;
-
 typedef square       pilecase[maxply+1];
-
-typedef struct
-{
-    numecoup id;
-    square departure;
-    square arrival;
-    square capture;
-} move_generation_elmt;
 
 /* These are definitions to implement arrays with lower index != 0
 ** as they are common in PASCAL. The arrays zzza? are defined in
@@ -277,9 +235,6 @@ typedef enum
 
   TokenCount       /* 22 */
 } Token;
-
-typedef char PieceChar[2];
-typedef PieceChar       PieTable[PieceCount];
 
 /* for multiple variants of conditions */
 typedef enum

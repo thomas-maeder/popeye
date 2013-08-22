@@ -107,6 +107,7 @@
 #include "solving/solve.h"
 #include "solving/observation.h"
 #include "output/output.h"
+#include "output/plaintext/language_dependant.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
 #include "conditions/koeko/contact_grid.h"
@@ -261,6 +262,7 @@
 #include "solving/play_suppressor.h"
 #include "solving/castling.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/orphan.h"
 #include "solving/move_generator.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"
@@ -976,7 +978,7 @@ static boolean verify_position(slice_index si)
 
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
-       || rex_circe
+       || circe_is_rex_inclusive
        || immune_is_rex_inclusive
        || TSTFLAG(some_pieces_flags,Royal))
       && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
@@ -1295,7 +1297,7 @@ static boolean verify_position(slice_index si)
   if (king_square[Black]==initsquare && number_of_pieces[Black][King]==0 && !OptFlag[sansrn])
     ErrorMsg(MissingKing);
 
-  if (rex_circe)
+  if (circe_is_rex_inclusive)
   {
     if (CondFlag[circeequipollents]
         || CondFlag[circeclone]
@@ -1334,7 +1336,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (rex_circe
+  if (circe_is_rex_inclusive
       || CondFlag[bicolores])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
@@ -1469,7 +1471,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (rex_circe && immune_is_rex_inclusive)
+  if (circe_is_rex_inclusive && immune_is_rex_inclusive)
   {
     VerifieMsg(RexCirceImmun);
     return false;
@@ -1783,8 +1785,6 @@ static boolean verify_position(slice_index si)
   /* check castling possibilities */
   CLEARFL(castling_flag);
 
-  complex_castling_through_flag = CondFlag[imitators];
-
   if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
       && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
     SETCASTLINGFLAGMASK(White,k_cancastle);
@@ -2071,12 +2071,12 @@ int parseCommandlineOptions(int argc, char *argv[])
     {
       char *end;
       idx++;
-      MaxPositions = strtoul(argv[idx], &end, 10);
+      hash_max_number_storable_positions = strtoul(argv[idx], &end, 10);
       if (argv[idx]==end)
       {
         /* conversion failure
          * -> set to 0 now and to default value later */
-        MaxPositions = 0;
+        hash_max_number_storable_positions = 0;
       }
       idx++;
       continue;
@@ -2749,7 +2749,7 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[brunner])
     brunner_initialise_solving(result);
 
-  if (rex_circe)
+  if (circe_is_rex_inclusive)
     circe_rex_inclusive_initialise_solving(result);
 
   if (CondFlag[backhome])
@@ -3017,6 +3017,7 @@ void iterate_problems(void)
 
   do
   {
+    InitMetaData();
     InitBoard();
     InitCond();
     InitOpt();

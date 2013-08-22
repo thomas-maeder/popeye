@@ -2,7 +2,10 @@
 #define CONDITIONS_ANTICIRCE_ANTICIRCE_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 #include "stipulation/slice_type.h"
+#include "position/position.h"
+#include "py.h"
 
 extern PieNam anticirce_current_reborn_piece[maxply+1];
 extern Flags anticirce_current_reborn_spec[maxply+1];
@@ -10,6 +13,9 @@ extern Flags anticirce_current_reborn_spec[maxply+1];
 extern PieNam anticirce_current_relevant_piece[maxply+1];
 extern Flags anticirce_current_relevant_spec[maxply+1];
 extern Side anticirce_current_relevant_side[maxply+1];
+extern pilecase anticirce_current_rebirth_square;
+
+extern square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
 /* Try to solve in n half-moves.
  * @param si slice index

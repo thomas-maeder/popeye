@@ -1,7 +1,8 @@
 pieces/walks/walks$(OBJ_SUFFIX): pieces/walks/walks.c pieces/walks/walks.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h py.h
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ pydata.h py.h
 
 pieces/walks/walks.h:
 
@@ -21,6 +22,10 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 pydata.h:
@@ -38,8 +43,9 @@ pieces/walks/hunters$(OBJ_SUFFIX): pieces/walks/hunters.c pieces/walks/hunters.h
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h pieces/walks/riders.h \
- pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ pieces/walks/riders.h pieces/walks/generate_moves.h \
+ solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pydata.h py.h
 
@@ -67,7 +73,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/riders.h:
 
@@ -88,8 +98,9 @@ pieces/walks/roses$(OBJ_SUFFIX): pieces/walks/roses.c pieces/walks/roses.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h pieces/walks/locusts.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ pieces/walks/locusts.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/roses.h:
 
@@ -115,7 +126,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/locusts.h:
 
@@ -131,11 +146,11 @@ py.h:
 pieces/walks/marine$(OBJ_SUFFIX): pieces/walks/marine.c pieces/walks/marine.h \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
  position/position.h utilities/boolean.h utilities/enumeration.h py.h \
- utilities/boolean.h position/position.h pylang.h solving/observation.h \
- stipulation/slice_type.h pieces/walks/riders.h \
- pieces/walks/pawns/pawns.h pieces/walks/pawns/pawn.h \
- pieces/walks/pawns/en_passant.h solving/solve.h \
- solving/move_effect_journal.h solving/castling_rights.h \
+ utilities/boolean.h position/position.h solving/ply.h pylang.h \
+ solving/observation.h stipulation/slice_type.h solving/ply.h \
+ pieces/walks/riders.h pieces/walks/pawns/pawns.h \
+ pieces/walks/pawns/pawn.h pieces/walks/pawns/en_passant.h \
+ solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h pieces/walks/locusts.h solving/move_generator.h \
  debugging/trace.h pydata.h py.h
 
@@ -159,11 +174,15 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
 
 solving/observation.h:
 
 stipulation/slice_type.h:
+
+solving/ply.h:
 
 pieces/walks/riders.h:
 
@@ -194,8 +213,9 @@ pieces/walks/spiral_springers$(OBJ_SUFFIX): pieces/walks/spiral_springers.c \
  pieces/walks/spiral_springers.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/observation.h stipulation/slice_type.h \
- py.h utilities/boolean.h position/position.h pylang.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ py.h utilities/boolean.h position/position.h solving/ply.h pylang.h \
+ solving/ply.h solving/move_generator.h solving/solve.h debugging/trace.h \
+ pydata.h py.h
 
 pieces/walks/spiral_springers.h:
 
@@ -221,7 +241,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -235,9 +259,10 @@ py.h:
 pieces/walks/ubiubi$(OBJ_SUFFIX): pieces/walks/ubiubi.c pieces/walks/ubiubi.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \
  pieces/walks/vectors.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h utilities/boolean.h pylang.h \
- solving/move_generator.h solving/solve.h \
- solving/find_square_observer_tracking_back_from_target.h pydata.h py.h
+ position/board.h utilities/bitmask.h utilities/boolean.h solving/ply.h \
+ position/position.h pylang.h solving/ply.h solving/move_generator.h \
+ solving/solve.h solving/find_square_observer_tracking_back_from_target.h \
+ pydata.h py.h
 
 pieces/walks/ubiubi.h:
 
@@ -261,7 +286,13 @@ utilities/bitmask.h:
 
 utilities/boolean.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -276,8 +307,8 @@ pieces/walks/hoppers$(OBJ_SUFFIX): pieces/walks/hoppers.c pieces/walks/hoppers.h
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/hoppers.h:
 
@@ -303,7 +334,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -318,8 +353,8 @@ pieces/walks/leapers$(OBJ_SUFFIX): pieces/walks/leapers.c pieces/walks/leapers.h
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/leapers.h:
 
@@ -345,7 +380,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -360,8 +399,8 @@ pieces/walks/riders$(OBJ_SUFFIX): pieces/walks/riders.c pieces/walks/riders.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/riders.h:
 
@@ -387,7 +426,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -402,8 +445,9 @@ pieces/walks/lions$(OBJ_SUFFIX): pieces/walks/lions.c pieces/walks/lions.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h pieces/walks/hoppers.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ pieces/walks/hoppers.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/lions.h:
 
@@ -429,7 +473,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/hoppers.h:
 
@@ -446,9 +494,9 @@ pieces/walks/skylla_charybdis$(OBJ_SUFFIX): pieces/walks/skylla_charybdis.c \
  pieces/walks/skylla_charybdis.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/observation.h stipulation/slice_type.h \
- py.h utilities/boolean.h position/position.h pylang.h \
- pieces/walks/locusts.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ py.h utilities/boolean.h position/position.h solving/ply.h pylang.h \
+ solving/ply.h pieces/walks/locusts.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/skylla_charybdis.h:
 
@@ -474,7 +522,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/locusts.h:
 
@@ -490,8 +542,9 @@ py.h:
 pieces/walks/radial$(OBJ_SUFFIX): pieces/walks/radial.c pieces/walks/radial.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \
  pieces/walks/vectors.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h utilities/boolean.h pylang.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ position/board.h utilities/bitmask.h utilities/boolean.h solving/ply.h \
+ position/position.h pylang.h solving/ply.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/radial.h:
 
@@ -515,7 +568,13 @@ utilities/bitmask.h:
 
 utilities/boolean.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -530,8 +589,8 @@ pieces/walks/edgehog$(OBJ_SUFFIX): pieces/walks/edgehog.c pieces/walks/edgehog.h
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
  py.h utilities/boolean.h position/position.h utilities/boolean.h \
- pylang.h solving/move_generator.h solving/solve.h debugging/trace.h \
- pydata.h py.h
+ solving/ply.h position/position.h pylang.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/edgehog.h:
 
@@ -555,7 +614,13 @@ position/position.h:
 
 utilities/boolean.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -570,7 +635,8 @@ pieces/walks/friend$(OBJ_SUFFIX): pieces/walks/friend.c pieces/walks/friend.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h pieces/walks/generate_moves.h \
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ pieces/walks/orphan.h pieces/walks/generate_moves.h \
  solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pydata.h py.h pyproc.h pieces/walks/vectors.h \
@@ -600,7 +666,13 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
+
+pieces/walks/orphan.h:
 
 pieces/walks/generate_moves.h:
 
@@ -625,8 +697,9 @@ pieces/walks/orphan$(OBJ_SUFFIX): pieces/walks/orphan.c pieces/walks/orphan.h \
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h pieces/walks/friend.h \
- pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ pieces/walks/friend.h pieces/walks/generate_moves.h \
+ solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pydata.h py.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h
@@ -655,7 +728,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/friend.h:
 
@@ -682,8 +759,9 @@ pieces/walks/cat$(OBJ_SUFFIX): pieces/walks/cat.c pieces/walks/cat.h \
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
  py.h utilities/boolean.h position/position.h utilities/boolean.h \
- pylang.h pieces/walks/leapers.h position/position.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ solving/ply.h position/position.h pylang.h solving/ply.h \
+ pieces/walks/leapers.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/cat.h:
 
@@ -707,11 +785,15 @@ position/position.h:
 
 utilities/boolean.h:
 
-pylang.h:
-
-pieces/walks/leapers.h:
+solving/ply.h:
 
 position/position.h:
+
+pylang.h:
+
+solving/ply.h:
+
+pieces/walks/leapers.h:
 
 solving/move_generator.h:
 
@@ -726,8 +808,8 @@ pieces/walks/bouncy$(OBJ_SUFFIX): pieces/walks/bouncy.c pieces/walks/bouncy.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \
  pieces/walks/vectors.h py.h utilities/boolean.h position/position.h \
- pylang.h solving/move_generator.h solving/solve.h debugging/trace.h \
- pydata.h py.h
+ solving/ply.h position/position.h pylang.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/bouncy.h:
 
@@ -751,7 +833,13 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -766,8 +854,9 @@ pieces/walks/cardinal$(OBJ_SUFFIX): pieces/walks/cardinal.c pieces/walks/cardina
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
  py.h utilities/boolean.h position/position.h utilities/boolean.h \
- pylang.h pieces/walks/angle/angles.h solving/move_generator.h \
- solving/solve.h debugging/trace.h pydata.h py.h
+ solving/ply.h position/position.h pylang.h solving/ply.h \
+ pieces/walks/angle/angles.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/cardinal.h:
 
@@ -791,7 +880,13 @@ position/position.h:
 
 utilities/boolean.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/angle/angles.h:
 
@@ -808,8 +903,9 @@ pieces/walks/reflecting_bishop$(OBJ_SUFFIX): pieces/walks/reflecting_bishop.c \
  pieces/walks/reflecting_bishop.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \
  pieces/walks/vectors.h py.h utilities/boolean.h position/position.h \
- utilities/boolean.h pylang.h pieces/walks/angle/angles.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ utilities/boolean.h solving/ply.h position/position.h pylang.h \
+ solving/ply.h pieces/walks/angle/angles.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/reflecting_bishop.h:
 
@@ -833,7 +929,13 @@ position/position.h:
 
 utilities/boolean.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/angle/angles.h:
 
@@ -850,8 +952,9 @@ pieces/walks/bob$(OBJ_SUFFIX): pieces/walks/bob.c pieces/walks/bob.h \
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
  py.h utilities/boolean.h position/position.h utilities/boolean.h \
- pylang.h pieces/walks/riders.h position/position.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ solving/ply.h position/position.h pylang.h solving/ply.h \
+ pieces/walks/riders.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/bob.h:
 
@@ -875,11 +978,15 @@ position/position.h:
 
 utilities/boolean.h:
 
-pylang.h:
-
-pieces/walks/riders.h:
+solving/ply.h:
 
 position/position.h:
+
+pylang.h:
+
+solving/ply.h:
+
+pieces/walks/riders.h:
 
 solving/move_generator.h:
 
@@ -894,8 +1001,9 @@ pieces/walks/rabbit$(OBJ_SUFFIX): pieces/walks/rabbit.c pieces/walks/rabbit.h \
  pieces/walks/riders.h position/board.h utilities/bitmask.h \
  position/position.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/observation.h stipulation/slice_type.h \
- py.h utilities/boolean.h position/position.h pylang.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ py.h utilities/boolean.h position/position.h solving/ply.h pylang.h \
+ solving/ply.h solving/move_generator.h solving/solve.h debugging/trace.h \
+ pydata.h py.h
 
 pieces/walks/rabbit.h:
 
@@ -923,7 +1031,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -938,8 +1050,8 @@ pieces/walks/kangaroo$(OBJ_SUFFIX): pieces/walks/kangaroo.c pieces/walks/kangaro
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/slice_type.h utilities/enumeration.h pieces/walks/vectors.h \
  py.h utilities/boolean.h position/position.h utilities/boolean.h \
- pylang.h solving/move_generator.h solving/solve.h debugging/trace.h \
- pydata.h py.h
+ solving/ply.h position/position.h pylang.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/kangaroo.h:
 
@@ -963,7 +1075,13 @@ position/position.h:
 
 utilities/boolean.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -978,8 +1096,9 @@ pieces/walks/locusts$(OBJ_SUFFIX): pieces/walks/locusts.c pieces/walks/locusts.h
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h pieces/walks/hoppers.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ pieces/walks/hoppers.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h pydata.h py.h
 
 pieces/walks/locusts.h:
 
@@ -1005,7 +1124,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 pieces/walks/hoppers.h:
 
@@ -1022,7 +1145,8 @@ pieces/walks/hamster$(OBJ_SUFFIX): pieces/walks/hamster.c pieces/walks/hamster.h
  solving/move_generator.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h stipulation/slice_type.h debugging/trace.h pydata.h py.h
+ solving/ply.h position/position.h pylang.h solving/ply.h \
+ stipulation/slice_type.h debugging/trace.h pydata.h py.h
 
 pieces/walks/hamster.h:
 
@@ -1046,7 +1170,13 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+solving/ply.h:
 
 stipulation/slice_type.h:
 
@@ -1059,8 +1189,8 @@ pieces/walks/bouncer$(OBJ_SUFFIX): pieces/walks/bouncer.c pieces/walks/bouncer.h
  position/board.h utilities/bitmask.h position/position.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h solving/ply.h pylang.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/bouncer.h:
 
@@ -1086,7 +1216,11 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -1101,9 +1235,9 @@ pieces/walks/querquisite$(OBJ_SUFFIX): pieces/walks/querquisite.c \
  pieces/walks/querquisite.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \
  pieces/walks/vectors.h py.h utilities/boolean.h position/position.h \
- utilities/boolean.h pylang.h pieces/walks/leapers.h position/position.h \
- pieces/walks/riders.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ utilities/boolean.h solving/ply.h position/position.h pylang.h \
+ solving/ply.h pieces/walks/leapers.h pieces/walks/riders.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/querquisite.h:
 
@@ -1127,11 +1261,15 @@ position/position.h:
 
 utilities/boolean.h:
 
-pylang.h:
-
-pieces/walks/leapers.h:
+solving/ply.h:
 
 position/position.h:
+
+pylang.h:
+
+solving/ply.h:
+
+pieces/walks/leapers.h:
 
 pieces/walks/riders.h:
 
@@ -1147,12 +1285,13 @@ py.h:
 pieces/walks/combined$(OBJ_SUFFIX): pieces/walks/combined.c pieces/walks/combined.h \
  solving/observation.h stipulation/slice_type.h utilities/enumeration.h \
  pieces/walks/vectors.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h utilities/boolean.h pylang.h \
- pieces/walks/pawns/pawn.h position/position.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h solving/ply.h \
+ position/position.h pylang.h solving/ply.h pieces/walks/pawns/pawn.h \
  pieces/walks/pawns/en_passant.h solving/solve.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h pieces/walks/leapers.h pieces/walks/riders.h \
- pieces/walks/hoppers.h pieces/walks/kangaroo.h pydata.h py.h
+ pieces/walks/hoppers.h solving/move_generator.h pieces/walks/kangaroo.h \
+ pydata.h py.h
 
 pieces/walks/combined.h:
 
@@ -1176,11 +1315,15 @@ utilities/bitmask.h:
 
 utilities/boolean.h:
 
-pylang.h:
-
-pieces/walks/pawns/pawn.h:
+solving/ply.h:
 
 position/position.h:
+
+pylang.h:
+
+solving/ply.h:
+
+pieces/walks/pawns/pawn.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -1198,6 +1341,8 @@ pieces/walks/riders.h:
 
 pieces/walks/hoppers.h:
 
+solving/move_generator.h:
+
 pieces/walks/kangaroo.h:
 
 pydata.h:
@@ -1207,13 +1352,14 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  pieces/walks/generate_moves.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h pieces/walks/pawns/en_passant.h solving/solve.h \
- py.h utilities/boolean.h position/position.h pylang.h \
- solving/move_effect_journal.h solving/castling_rights.h \
+ py.h utilities/boolean.h position/position.h solving/ply.h pylang.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h solving/observation.h stipulation/slice_type.h \
- pieces/walks/hoppers.h pieces/walks/leapers.h pieces/walks/riders.h \
- pieces/walks/pawns/pawns.h pieces/walks/pawns/pawn.h \
- pieces/walks/pawns/reverse.h pieces/walks/pawns/berolina.h \
- pieces/walks/lions.h pieces/walks/hunters.h pieces/walks/roses.h \
+ pieces/walks/hoppers.h solving/move_generator.h pieces/walks/leapers.h \
+ pieces/walks/riders.h pieces/walks/pawns/pawns.h \
+ pieces/walks/pawns/pawn.h pieces/walks/pawns/reverse.h \
+ pieces/walks/pawns/berolina.h pieces/walks/lions.h \
+ pieces/walks/hunters.h pieces/walks/roses.h \
  pieces/walks/spiral_springers.h pieces/walks/marine.h \
  pieces/walks/ubiubi.h pieces/walks/angle/angles.h \
  pieces/walks/angle/hoppers.h pieces/walks/chinese/riders.h \
@@ -1251,11 +1397,15 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
 
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
+
+solving/ply.h:
 
 position/pieceid.h:
 
@@ -1264,6 +1414,8 @@ solving/observation.h:
 stipulation/slice_type.h:
 
 pieces/walks/hoppers.h:
+
+solving/move_generator.h:
 
 pieces/walks/leapers.h:
 

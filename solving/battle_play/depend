@@ -63,13 +63,13 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h \
  stipulation/slice_type.h stipulation/traversal.h solving/solve.h \
- utilities/table.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h stipulation/has_solution_type.h \
- stipulation/testing_pipe.h stipulation/pipe.h stipulation/branch.h \
- stipulation/proxy.h stipulation/dummy_move.h stipulation/move_played.h \
+ solving/ply.h position/position.h utilities/table.h pydata.h py.h \
+ solving/ply.h stipulation/has_solution_type.h stipulation/testing_pipe.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
+ stipulation/dummy_move.h stipulation/move_played.h \
  stipulation/battle_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h output/mode.h solving/avoid_unsolvable.h \
- solving/check.h position/position.h debugging/trace.h
+ solving/check.h debugging/trace.h
 
 solving/battle_play/threat.h:
 
@@ -101,15 +101,17 @@ stipulation/traversal.h:
 
 solving/solve.h:
 
+solving/ply.h:
+
+position/position.h:
+
 utilities/table.h:
 
 pydata.h:
 
-pyproc.h:
+py.h:
 
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+solving/ply.h:
 
 stipulation/has_solution_type.h:
 
@@ -137,15 +139,13 @@ solving/avoid_unsolvable.h:
 
 solving/check.h:
 
-position/position.h:
-
 debugging/trace.h:
 solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  solving/battle_play/try.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h utilities/table.h \
- pydata.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ pydata.h py.h solving/ply.h position/position.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_type.h stipulation/traversal.h solving/solve.h \
  stipulation/fork.h pymsg.h stipulation/branch.h stipulation/constraint.h \
  stipulation/moves_traversal.h stipulation/goals/goals.h output/mode.h \
@@ -178,11 +178,11 @@ utilities/table.h:
 
 pydata.h:
 
-pyproc.h:
+py.h:
 
-pieces/walks/vectors.h:
+solving/ply.h:
 
-stipulation/goals/goals.h:
+position/position.h:
 
 stipulation/pipe.h:
 

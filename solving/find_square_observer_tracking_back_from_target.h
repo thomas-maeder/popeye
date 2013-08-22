@@ -2,6 +2,7 @@
 #define SOLVING_FIND_SQUARE_OBSERVER_TRACKING_BACK_FROM_TARGET_H
 
 #include "solving/observation.h"
+#include "solving/ply.h"
 #include "utilities/boolean.h"
 
 extern PieNam observing_walk[maxply+1];

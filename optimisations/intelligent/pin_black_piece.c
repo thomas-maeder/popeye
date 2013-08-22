@@ -2,6 +2,7 @@
 #include "pydata.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

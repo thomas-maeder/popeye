@@ -2,6 +2,8 @@
 #define OPTIMISATION_KILLER_MOVE_H
 
 #include "stipulation/slice.h"
+#include "solving/move_generator.h"
+#include "solving/ply.h"
 
 extern move_generation_elmt killer_moves[maxply+1];
 

@@ -1,6 +1,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/walks/walks.h"
 #include "conditions/anticirce/promotion.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/promotion.h"
 #include "solving/post_move_iteration.h"
@@ -160,7 +161,7 @@ stip_length_type chameleon_promote_circe_reborn_into_solve(slice_index si,
 stip_length_type chameleon_promote_anticirce_reborn_into_solve(slice_index si,
                                                                 stip_length_type n)
 {
-  square const sq_rebirth = current_anticirce_rebirth_square[nbply];
+  square const sq_rebirth = anticirce_current_rebirth_square[nbply];
   stip_length_type result;
 
   TraceFunctionEntry(__func__);

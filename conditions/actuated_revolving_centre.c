@@ -1,9 +1,10 @@
 #include "conditions/actuated_revolving_centre.h"
-#include "pydata.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

@@ -8,6 +8,8 @@
 #include "pydata.h"
 #include "pyproc.h"
 
+PieNam orphanpieces[PieceCount];
+
 static boolean orphan_find_observation_chain(square sq_target,
                                              PieNam orphan_observer,
                                              evalfunction_t *evaluate);

@@ -40,7 +40,7 @@ stip_length_type anticirce_cheylan_filter_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    if (pos==current_anticirce_rebirth_square[nbply])
+    if (pos==anticirce_current_rebirth_square[nbply])
       result = previous_move_is_illegal;
     else
       result = solve(slices[si].next1,n);

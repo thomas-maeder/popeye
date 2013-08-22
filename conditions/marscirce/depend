@@ -2,14 +2,16 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  conditions/marscirce/marscirce.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h solving/observation.h \
- stipulation/slice_type.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/move_generator.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ solving/observation.h stipulation/slice_type.h solving/ply.h \
+ pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h py.h
+ stipulation/goals/goals.h output/mode.h \
+ optimisations/orthodox_check_directions.h debugging/trace.h pydata.h \
+ py.h
 
 conditions/marscirce/marscirce.h:
 
@@ -31,11 +33,17 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 solving/observation.h:
 
 stipulation/slice_type.h:
+
+solving/ply.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -61,6 +69,8 @@ stipulation/goals/goals.h:
 
 output/mode.h:
 
+optimisations/orthodox_check_directions.h:
+
 debugging/trace.h:
 
 pydata.h:
@@ -70,10 +80,11 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  conditions/marscirce/anti.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h solving/observation.h \
- stipulation/slice_type.h pieces/walks/classification.h \
- position/position.h conditions/marscirce/marscirce.h \
+ solving/ply.h position/position.h pylang.h \
+ pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/observation.h stipulation/slice_type.h \
+ pieces/walks/classification.h conditions/marscirce/marscirce.h \
  solving/move_generator.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
@@ -100,6 +111,10 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 pieces/walks/pawns/en_passant.h:
@@ -108,6 +123,8 @@ solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
+solving/ply.h:
+
 position/pieceid.h:
 
 solving/observation.h:
@@ -115,8 +132,6 @@ solving/observation.h:
 stipulation/slice_type.h:
 
 pieces/walks/classification.h:
-
-position/position.h:
 
 conditions/marscirce/marscirce.h:
 
@@ -149,9 +164,9 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  conditions/marscirce/plus.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h solving/observation.h stipulation/slice_type.h \
- conditions/marscirce/marscirce.h solving/move_generator.h \
- stipulation/stipulation.h stipulation/slice.h \
+ solving/ply.h position/position.h pylang.h solving/observation.h \
+ stipulation/slice_type.h solving/ply.h conditions/marscirce/marscirce.h \
+ solving/move_generator.h stipulation/stipulation.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h py.h
 
@@ -175,11 +190,17 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 solving/observation.h:
 
 stipulation/slice_type.h:
+
+solving/ply.h:
 
 conditions/marscirce/marscirce.h:
 

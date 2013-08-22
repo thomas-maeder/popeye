@@ -66,7 +66,7 @@ void phantom_generate_moves_for_piece(slice_index si, PieNam p)
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
-    square const sq_rebirth = (*marsrenai)(p,
+    square const sq_rebirth = (*marscirce_determine_rebirth_square)(p,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(trait[nbply]));
@@ -224,7 +224,7 @@ boolean phantom_is_square_observed(slice_index si, evalfunction_t *evaluate)
       {
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_observing);
         Flags const spec_checking = spec[pos_observing];
-        square const sq_rebirth = (*marsrenai)(pi_checking,
+        square const sq_rebirth = (*marscirce_determine_rebirth_square)(pi_checking,
                                                spec_checking,
                                                pos_observing,
                                                initsquare,

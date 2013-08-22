@@ -3,9 +3,12 @@
 
 #include "solving/solve.h"
 #include "solving/observation.h"
+#include "position/position.h"
 
 /* This module provides implements the condition Mars-Circe
  */
+
+extern square (*marscirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
 /* Generate non-capturing moves
  * @param p walk according to which to generate moves

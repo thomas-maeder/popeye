@@ -1,4 +1,5 @@
 #include "conditions/anticirce/target_square_filter.h"
+#include "conditions/anticirce/anticirce.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/move_effect_journal.h"
@@ -48,7 +49,7 @@ static boolean is_mover_removed_from_target(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (move_effect_journal[capture].type==move_effect_piece_removal
-            && current_anticirce_rebirth_square[nbply]!=target);
+            && anticirce_current_rebirth_square[nbply]!=target);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -2,6 +2,7 @@
 #define SOLVING_POST_MOVE_ITERATION_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 /* This module provides functionality for coordinating "post move iterations"
  * (i.e. promotions, Supercirce rebirths etc.).

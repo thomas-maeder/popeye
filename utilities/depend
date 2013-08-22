@@ -1,9 +1,9 @@
 utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
- utilities/boolean.h pydata.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/enumeration.h pylang.h pymsg.h solving/move_effect_journal.h \
- solving/solve.h solving/castling_rights.h position/pieceid.h \
+ utilities/boolean.h pydata.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
+ utilities/boolean.h py.h pylang.h solving/ply.h position/position.h \
+ pymsg.h solving/move_effect_journal.h solving/solve.h py.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
  debugging/trace.h
 
 utilities/table.h:
@@ -11,16 +11,6 @@ utilities/table.h:
 utilities/boolean.h:
 
 pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
-
-utilities/boolean.h:
 
 position/position.h:
 
@@ -32,7 +22,15 @@ pieces/walks/vectors.h:
 
 utilities/enumeration.h:
 
+utilities/boolean.h:
+
+py.h:
+
 pylang.h:
+
+solving/ply.h:
+
+position/position.h:
 
 pymsg.h:
 
@@ -40,7 +38,11 @@ solving/move_effect_journal.h:
 
 solving/solve.h:
 
+py.h:
+
 solving/castling_rights.h:
+
+solving/ply.h:
 
 position/pieceid.h:
 

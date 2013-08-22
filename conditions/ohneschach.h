@@ -5,6 +5,7 @@
  */
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 extern boolean ohneschach_undecidable_goal_detected[maxply+1];
 

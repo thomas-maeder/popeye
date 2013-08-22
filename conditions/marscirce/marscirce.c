@@ -4,8 +4,11 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+
+square (*marscirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
 /* Generate non-capturing moves
  * @param p walk according to which to generate moves
@@ -101,7 +104,7 @@ void marscirce_generate_moves_for_piece(slice_index si, PieNam p)
   TraceFunctionParamListEnd();
 
   {
-    square const sq_rebirth = (*marsrenai)(p,
+    square const sq_rebirth = (*marscirce_determine_rebirth_square)(p,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(trait[nbply]));
@@ -213,7 +216,7 @@ boolean marscirce_is_square_observed(slice_index si, evalfunction_t *evaluate)
       {
         PieNam const pi_checking = get_walk_of_piece_on_square(pos_observing);
         Flags const spec_checking = spec[pos_observing];
-        square const sq_rebirth = (*marsrenai)(pi_checking,
+        square const sq_rebirth = (*marscirce_determine_rebirth_square)(pi_checking,
                                                spec_checking,
                                                pos_observing,
                                                initsquare,

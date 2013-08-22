@@ -38,6 +38,8 @@
 
 move_generation_elmt *curr_generation = &move_generation_stack[toppile];
 
+move_generation_elmt move_generation_stack[toppile + 1];
+
 static slice_index const slice_rank_order[] =
 {
     STGeneratingMovesForPiece,

@@ -46,7 +46,7 @@
  **   dhtEnterElement:  This procedure enters an encoded position
  ** with its values into the hashtable.
  **
- ** When there is no more memory, or more than MaxPositions positions
+ ** When there is no more memory, or more than hash_max_number_storable_positions positions
  ** are stored in the hash-table, then some positions are removed
  ** from the table. This is done in the compress procedure.
  ** This procedure uses a little improved scheme introduced by Torsten.
@@ -119,6 +119,8 @@
 #if defined(HASHRATE)
 #include "platform/pytime.h"
 #endif
+
+unsigned long  hash_max_number_storable_positions;
 
 typedef unsigned int hash_value_type;
 
@@ -1123,7 +1125,8 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
     len++;
 
-  if (flag_synchron)
+  if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
+      || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
     len++;
 
   if (CondFlag[imitators])
@@ -1248,7 +1251,8 @@ byte *CommonEncode(byte *bp,
     *bp++ = (byte)(move_effect_journal[movement].u.piece_movement.from - square_a1);
   }
 
-  if (flag_synchron)
+  if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
+      || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
   {
     move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -1679,8 +1683,8 @@ static void inithash(slice_index si)
   if (is_proofgame(si))
   {
     encode = ProofEncode;
-    if (hashtable_kilos>0 && MaxPositions==0)
-      MaxPositions= hashtable_kilos/(24+sizeof(char *)+1);
+    if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
+      hash_max_number_storable_positions= hashtable_kilos/(24+sizeof(char *)+1);
   }
   else
   {
@@ -1689,25 +1693,25 @@ static void inithash(slice_index si)
     if (Small<=Large)
     {
       encode = SmallEncode;
-      if (hashtable_kilos>0 && MaxPositions==0)
-        MaxPositions= hashtable_kilos/(Small+sizeof(char *)+1);
+      if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
+        hash_max_number_storable_positions= hashtable_kilos/(Small+sizeof(char *)+1);
     }
     else
     {
       encode = LargeEncode;
-      if (hashtable_kilos>0 && MaxPositions==0)
-        MaxPositions= hashtable_kilos/(Large+sizeof(char *)+1);
+      if (hashtable_kilos>0 && hash_max_number_storable_positions==0)
+        hash_max_number_storable_positions= hashtable_kilos/(Large+sizeof(char *)+1);
     }
   }
 
 #if defined(FXF)
-  ifTESTHASH(printf("MaxPositions: %lu\n", MaxPositions));
+  ifTESTHASH(printf("MaxPositions: %lu\n", hash_max_number_storable_positions));
   assert(hashtable_kilos/1024<UINT_MAX);
   ifTESTHASH(printf("hashtable_kilos:    %7u KB\n",
                     (unsigned int)(hashtable_kilos/1024)));
 #else
   ifTESTHASH(
-      printf("room for up to %lu positions in hash table\n", MaxPositions));
+      printf("room for up to %lu positions in hash table\n", hash_max_number_storable_positions));
 #endif /*FXF*/
 
 #if defined(TESTHASH) && defined(FXF)

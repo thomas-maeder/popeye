@@ -1,4 +1,5 @@
 #include "conditions/circe/capture_fork.h"
+#include "conditions/circe/rex_inclusive.h"
 #include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -46,7 +47,7 @@ stip_length_type circe_capture_fork_solve(slice_index si,
     current_circe_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);
   }
-  else if (rex_circe || !TSTFLAG(removedspec,Royal))
+  else if (circe_is_rex_inclusive || !TSTFLAG(removedspec,Royal))
     result = solve(slices[si].next1,n);
   else
   {

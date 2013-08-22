@@ -1,4 +1,5 @@
 #include "pieces/walks/friend.h"
+#include "pieces/walks/orphan.h"
 #include "pieces/walks/generate_moves.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"

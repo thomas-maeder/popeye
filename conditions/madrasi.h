@@ -7,6 +7,8 @@
 /* Implementation of condition Madrasi
  */
 
+extern boolean madrasi_is_rex_inclusive;
+
 /* Validate an observater according to Madrasi
  * @return true iff the observation is valid
  */

@@ -1,4 +1,5 @@
 #include "conditions/alphabetic.h"
+#include "solving/move_generator.h"
 #include "pydata.h"
 
 #include <assert.h>

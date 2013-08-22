@@ -12,6 +12,8 @@
 
 #include <assert.h>
 
+boolean IsardamB;
+
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */

@@ -1,4 +1,5 @@
 #include "conditions/anticirce/promotion.h"
+#include "conditions/anticirce/anticirce.h"
 #include "pydata.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
@@ -38,7 +39,7 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    pieces_pawns_initialise_promotion_sequence(current_anticirce_rebirth_square[nbply],
+    pieces_pawns_initialise_promotion_sequence(anticirce_current_rebirth_square[nbply],
                                                &current_promotion_of_reborn_moving[nbply]);
 
   if (current_promotion_of_reborn_moving[nbply].promotee==Empty)
@@ -46,7 +47,7 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
   else
   {
     move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
-                                        current_anticirce_rebirth_square[nbply],
+                                        anticirce_current_rebirth_square[nbply],
                                         current_promotion_of_reborn_moving[nbply].promotee);
 
     result = solve(slices[si].next1,n);

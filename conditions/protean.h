@@ -2,8 +2,11 @@
 #define CONDITIONS_PROTEAN_H
 
 #include "solving/solve.h"
+#include "utilities/boolean.h"
 
 /* This module implements the condition Protean Chess */
+
+extern boolean protean_is_rex_exclusive;
 
 /* Try to solve in n half-moves.
  * @param si slice index

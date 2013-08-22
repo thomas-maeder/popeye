@@ -2,11 +2,11 @@ conditions/amu/mate_filter$(OBJ_SUFFIX): conditions/amu/mate_filter.c \
  conditions/amu/mate_filter.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h conditions/amu/attack_counter.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h py.h \
- debugging/trace.h
+ pylang.h conditions/amu/attack_counter.h solving/ply.h \
+ position/position.h stipulation/stipulation.h stipulation/slice.h \
+ stipulation/slice_type.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ stipulation/pipe.h pydata.h py.h solving/ply.h debugging/trace.h
 
 conditions/amu/mate_filter.h:
 
@@ -32,6 +32,10 @@ pylang.h:
 
 conditions/amu/attack_counter.h:
 
+solving/ply.h:
+
+position/position.h:
+
 stipulation/stipulation.h:
 
 stipulation/slice.h:
@@ -52,18 +56,22 @@ pydata.h:
 
 py.h:
 
+solving/ply.h:
+
 debugging/trace.h:
 conditions/amu/attack_counter$(OBJ_SUFFIX): conditions/amu/attack_counter.c \
  conditions/amu/attack_counter.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h solving/observation.h stipulation/slice_type.h \
+ pylang.h solving/ply.h position/position.h solving/observation.h \
+ stipulation/slice_type.h \
  solving/find_square_observer_tracking_back_from_target.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
- stipulation/move.h debugging/trace.h pydata.h py.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ stipulation/move.h debugging/trace.h pydata.h py.h solving/ply.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h
 
 conditions/amu/attack_counter.h:
 
@@ -87,11 +95,17 @@ utilities/enumeration.h:
 
 pylang.h:
 
+solving/ply.h:
+
+position/position.h:
+
 solving/observation.h:
 
 stipulation/slice_type.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/move_generator.h:
 
 stipulation/pipe.h:
 
@@ -116,6 +130,8 @@ debugging/trace.h:
 pydata.h:
 
 py.h:
+
+solving/ply.h:
 
 pyproc.h:
 

@@ -2,6 +2,7 @@
 #define CONDITIONS_AMU_ATTACK_COUNTER_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 /* This module implements the condition Traitor Chess */
 

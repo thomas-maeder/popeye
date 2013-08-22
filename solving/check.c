@@ -6,6 +6,7 @@
 #include "conditions/bicolores.h"
 #include "conditions/antikings.h"
 #include "solving/observation.h"
+#include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/temporary_hacks.h"

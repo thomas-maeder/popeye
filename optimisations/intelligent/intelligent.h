@@ -13,6 +13,7 @@
 #include "position/pieceid.h"
 #include "stipulation/goals/goals.h"
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 #define piece_usageENUMERATORS \
     ENUMERATOR(piece_is_unused), \

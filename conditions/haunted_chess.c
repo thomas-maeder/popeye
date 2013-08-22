@@ -5,6 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

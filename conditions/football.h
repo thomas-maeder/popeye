@@ -2,10 +2,16 @@
 #define SOLVING_CONDITIONS_FOOTBALL_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
+#include "position/position.h"
+#include "utilities/boolean.h"
 
 /* This module implements Football Chess */
 
 extern PieNam current_football_substitution[maxply+1];
+extern boolean is_football_substitute[PieceCount];
+extern PieNam next_football_substitute[PieceCount];
+extern boolean football_are_substitutes_limited;
 
 /* Initialise the substitutes' bench for the current twin
  */

@@ -22,6 +22,8 @@ Side current_circe_relevant_side[maxply+1];
 
 move_effect_reason_type current_circe_rebirth_reason[maxply+1];
 
+square (*circe_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -129,7 +131,7 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
   current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
-  current_circe_rebirth_square[nbply] = (*circerenai)(current_circe_relevant_piece[nbply],
+  current_circe_rebirth_square[nbply] = (*circe_determine_rebirth_square)(current_circe_relevant_piece[nbply],
                                                       current_circe_relevant_spec[nbply],
                                                       sq_capture,
                                                       sq_departure,

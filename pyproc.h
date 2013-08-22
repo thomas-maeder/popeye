@@ -48,6 +48,7 @@
 #include "utilities/boolean.h"
 #include <stdio.h>
 
+void InitMetaData(void);
 void    OpenInput(char *s);
 void    CloseInput(void);
 void    MultiCenter(char *s);
@@ -58,11 +59,6 @@ boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
 void    WriteGrid(void);
 
 void    hardinit(void);
-
-void copyply(void);
-void finply(void);
-void nextply(Side side);
-void siblingply(Side side);
 
 void    PrintTime();
 

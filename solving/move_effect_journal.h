@@ -10,6 +10,7 @@
 
 #include "solving/solve.h"
 #include "solving/castling_rights.h"
+#include "solving/ply.h"
 #include "position/pieceid.h"
 #include "py.h"
 

@@ -2,11 +2,33 @@
 #define SOLVING_MOVE_GENERATOR_H
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 #include "stipulation/slice_type.h"
+#include "py.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STMoveGenerator stipulation slices.
  */
+
+typedef struct
+{
+    numecoup id;
+    square departure;
+    square arrival;
+    square capture;
+} move_generation_elmt;
+
+enum
+{
+  toppile = 60*maxply
+};
+
+extern move_generation_elmt move_generation_stack[toppile + 1];
+
+enum
+{
+  current_generation = toppile
+};
 
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation

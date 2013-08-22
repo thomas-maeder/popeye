@@ -4,6 +4,7 @@
 /* This module implements Chameleon pieces and Chameleon Chess */
 
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 extern boolean promotion_of_moving_into_chameleon[maxply+1];
 extern boolean promotion_of_circe_reborn_into_chameleon[maxply+1];

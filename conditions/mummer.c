@@ -12,6 +12,8 @@
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"
+#include "solving/move_generator.h"
+#include "solving/move_diff_code.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
 #include "pydata.h"

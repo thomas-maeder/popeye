@@ -12,6 +12,7 @@
 #include "DHT/dhtbcmem.h"
 #include "py.h"
 #include "solving/solve.h"
+#include "solving/ply.h"
 
 /* typedefs */
 typedef unsigned char byte;
@@ -28,6 +29,8 @@ typedef union
 } HashBuffer;
 
 extern HashBuffer hashBuffers[maxply+1];
+
+extern unsigned long  hash_max_number_storable_positions;
 
 /* exported functions */
 void check_hash_assumptions(void);

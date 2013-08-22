@@ -5,6 +5,8 @@
 
 #include "py.h"
 
+extern boolean circe_is_rex_inclusive;
+
 /* Inialise solving in Circe rex inclusive
  * @param si identifies root slice of solving machinery
  */
