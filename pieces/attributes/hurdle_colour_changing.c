@@ -46,7 +46,7 @@ stip_length_type hurdle_colour_changer_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;
     if (TSTFLAG(movingspec,ColourChange))

@@ -3,15 +3,14 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  conditions/transmuting_kings/transmuting_kings.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h stipulation/stipulation.h \
- py.h utilities/boolean.h position/position.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h solving/observation.h \
- solving/move_generator.h solving/solve.h \
- solving/find_square_observer_tracking_back_from_target.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
+ solving/ply.h pylang.h stipulation/slice_type.h output/mode.h \
+ solving/observation.h solving/ply.h solving/move_generator.h \
+ solving/solve.h solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
  debugging/trace.h pydata.h py.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h
+ stipulation/goals/goals.h stipulation/stipulation.h
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -29,27 +28,25 @@ utilities/enumeration.h:
 
 stipulation/stipulation.h:
 
+stipulation/goals/goals.h:
+
 py.h:
 
 utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
 
-stipulation/slice.h:
-
 stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
 
 output/mode.h:
 
 solving/observation.h:
+
+solving/ply.h:
 
 solving/move_generator.h:
 
@@ -60,6 +57,12 @@ solving/find_square_observer_tracking_back_from_target.h:
 stipulation/proxy.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 stipulation/branch.h:
 
@@ -74,23 +77,26 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
 conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  conditions/transmuting_kings/super.c \
  conditions/transmuting_kings/super.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h \
- conditions/transmuting_kings/transmuting_kings.h position/position.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h solving/observation.h \
- solving/move_effect_journal.h solving/castling_rights.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h \
+ conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
+ solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
- stipulation/pipe.h stipulation/branch.h stipulation/has_solution_type.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h pydata.h py.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h \
+ stipulation/has_solution_type.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h debugging/trace.h pydata.h py.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/stipulation.h
 
 conditions/transmuting_kings/super.h:
 
@@ -112,27 +118,25 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
-pylang.h:
-
-conditions/transmuting_kings/transmuting_kings.h:
+solving/ply.h:
 
 position/position.h:
 
+pylang.h:
+
 stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
+stipulation/slice_type.h:
+
 output/mode.h:
 
+conditions/transmuting_kings/transmuting_kings.h:
+
 solving/observation.h:
+
+solving/ply.h:
 
 solving/move_effect_journal.h:
 
@@ -145,6 +149,12 @@ solving/move_generator.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 stipulation/branch.h:
 
@@ -165,19 +175,21 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
 conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \
  conditions/transmuting_kings/reflective_kings.c \
  conditions/transmuting_kings/reflective_kings.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h stipulation/stipulation.h \
- py.h utilities/boolean.h position/position.h pylang.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h solving/observation.h \
+ stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
+ solving/ply.h pylang.h stipulation/slice_type.h output/mode.h \
+ solving/observation.h solving/ply.h \
  conditions/transmuting_kings/transmuting_kings.h \
  solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
  debugging/trace.h pydata.h py.h
 
 conditions/transmuting_kings/reflective_kings.h:
@@ -196,27 +208,25 @@ utilities/enumeration.h:
 
 stipulation/stipulation.h:
 
+stipulation/goals/goals.h:
+
 py.h:
 
 utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
 
-stipulation/slice.h:
-
 stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
 
 output/mode.h:
 
 solving/observation.h:
+
+solving/ply.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -229,6 +239,12 @@ solving/find_square_observer_tracking_back_from_target.h:
 stipulation/proxy.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 stipulation/branch.h:
 

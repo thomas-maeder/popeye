@@ -14,7 +14,7 @@
  */
 void andernach_assume_side(Side side)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
   if (!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
@@ -45,7 +45,7 @@ void andernach_assume_side(Side side)
 stip_length_type andernach_side_changer_solve(slice_index si,
                                                stip_length_type n)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   stip_length_type result;
 

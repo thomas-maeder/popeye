@@ -56,7 +56,7 @@ stip_length_type contact_grid_legality_tester_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);

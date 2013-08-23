@@ -1287,7 +1287,7 @@ static boolean ProofFairyImpossible(void)
       boolean parrain_pawn[nr_sides] = { false, false };
       if (anyparrain)
       {
-        move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+        move_effect_journal_index_type const top = move_effect_journal_base[nbply];
         move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
         if (move_effect_journal[capture].u.piece_removal.removed==Pawn)
         {
@@ -1526,7 +1526,7 @@ static boolean ProofImpossible(void)
 
   if (CondFlag[haanerchess])
   {
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     TraceText("impossible hole created\n");
     return target.board[move_effect_journal[movement].u.piece_movement.from] != Empty;

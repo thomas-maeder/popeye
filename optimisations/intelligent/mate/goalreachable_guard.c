@@ -16,7 +16,7 @@ static unsigned int OpeningsRequired[maxply+1];
 static boolean mate_isGoalReachable(void)
 {
   boolean result;
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
@@ -29,7 +29,7 @@ static boolean mate_isGoalReachable(void)
 
   else
   {
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
     TraceValue("%u",MovesLeft[White]);
     TraceValue("%u\n",MovesLeft[Black]);
 

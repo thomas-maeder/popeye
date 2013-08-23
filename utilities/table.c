@@ -142,10 +142,10 @@ static boolean is_effect_relevant(move_effect_journal_index_type idx)
 
 static void make_move_snapshot(table_elmt_type *snapshot)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
   snapshot->nr_relevant_effects = 0;
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     if (is_effect_relevant(curr))
     {
       assert(snapshot->nr_relevant_effects<max_nr_relevant_effects_per_move);
@@ -156,12 +156,12 @@ static void make_move_snapshot(table_elmt_type *snapshot)
 
 static boolean moves_equal(table_elmt_type const *snapshot)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
 
   relevant_effects_idx_type id_relevant = 0;
 
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     if (is_effect_relevant(curr))
     {
       if (id_relevant==snapshot->nr_relevant_effects)

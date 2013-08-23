@@ -24,14 +24,14 @@ int duellists_measure_length(void)
  */
 static void remember_duellist(Side side, square to)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_remember_duellist;
   top_elmt->reason = move_effect_reason_moving_piece_movement;
@@ -43,7 +43,7 @@ static void remember_duellist(Side side, square to)
   TraceValue("%lu\n",top_elmt->id);
  #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   duellists[side] = to;
 
@@ -119,7 +119,7 @@ stip_length_type duellists_remember_duellist_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);

@@ -18,10 +18,10 @@ static void adjust(void)
   {
     square const capturer_origin = einstein_collect_capturers();
 
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
     move_effect_journal_index_type curr;
-    assert(move_effect_journal_top[parent_ply[nbply]]<=top);
-    for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
+    assert(move_effect_journal_base[parent_ply[nbply]+1]<=top);
+    for (curr = move_effect_journal_base[parent_ply[nbply]+1]; curr!=top; ++curr)
       if (move_effect_journal[curr].type==move_effect_piece_movement
           && (move_effect_journal[curr].reason==move_effect_reason_moving_piece_movement
               || move_effect_journal[curr].reason==move_effect_reason_castling_king_movement

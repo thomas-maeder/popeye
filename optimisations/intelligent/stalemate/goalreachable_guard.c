@@ -15,7 +15,7 @@
 static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(void)
 {
   boolean result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
@@ -37,7 +37,7 @@ static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(v
 static boolean stalemate_isGoalReachable(void)
 {
   boolean result;
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
@@ -50,7 +50,7 @@ static boolean stalemate_isGoalReachable(void)
 
   else
   {
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
     TraceValue("%u",MovesLeft[White]);
     TraceValue("%u\n",MovesLeft[Black]);
 

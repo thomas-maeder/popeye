@@ -110,7 +110,7 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
       skip_wormhole();
     else
     {
-      move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+      move_effect_journal_index_type const top = move_effect_journal_base[nbply];
       move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
       if (move_effect_journal[capture].type==move_effect_no_piece_removal
           && moving_pawn_promotion_state[nbply].promotee==Empty
@@ -143,7 +143,7 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
 stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;

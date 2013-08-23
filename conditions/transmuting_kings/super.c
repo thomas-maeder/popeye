@@ -52,7 +52,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
 
   if (supertransmutation[move_generation_stack[coup_id].id]!=Empty)
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);

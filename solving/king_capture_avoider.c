@@ -126,8 +126,8 @@ static boolean is_king_captured(Side side)
 {
   boolean result = false;
 
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
 
   for (curr = base; curr<top; ++curr)

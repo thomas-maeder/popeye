@@ -11,7 +11,7 @@
 
 ply nbply = nil_ply;
 
-ply parent_ply[maxply+1] = { 1, 1 };
+ply parent_ply[maxply+1];
 
 static ply ply_watermark;
 static ply ply_stack[maxply+1];
@@ -52,7 +52,7 @@ void nextply(Side side)
 
   trait[nbply] = side;
 
-  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
 
   ++post_move_iteration_id[nbply];
@@ -87,7 +87,7 @@ void siblingply(Side side)
 
   trait[nbply] = side;
 
-  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
 
   ++post_move_iteration_id[nbply];
@@ -114,7 +114,7 @@ void copyply(void)
 
   trait[nbply] = trait[original];
 
-  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
 
   ++post_move_iteration_id[nbply];

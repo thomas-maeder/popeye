@@ -39,7 +39,7 @@ stip_length_type magic_square_side_changer_solve(slice_index si,
                                                   stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
@@ -47,7 +47,7 @@ stip_length_type magic_square_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     switch (move_effect_journal[curr].type)
     {
       case move_effect_piece_movement:

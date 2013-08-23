@@ -57,13 +57,13 @@ static void lose_space(ghost_index_type ghost_pos)
 
 static void move_effect_journal_do_forget_ghost(ghost_index_type const summoned)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",summoned);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_forget_ghost;
   top_elmt->reason = move_effect_reason_summon_ghost;
@@ -76,7 +76,7 @@ static void move_effect_journal_do_forget_ghost(ghost_index_type const summoned)
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   lose_space(summoned);
 
@@ -139,7 +139,7 @@ stip_length_type haunted_chess_ghost_summoner_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   ghost_index_type const ghost_pos = find_ghost(sq_departure);
@@ -169,9 +169,9 @@ stip_length_type haunted_chess_ghost_summoner_solve(slice_index si,
 
 void move_effect_journal_do_remember_ghost(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
   PieNam const removed = move_effect_journal[capture].u.piece_removal.removed;
@@ -194,7 +194,7 @@ void move_effect_journal_do_remember_ghost(void)
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   ghosts[nr_ghosts].on = sq_capture;
   ghosts[nr_ghosts].ghost = removed;
@@ -262,7 +262,7 @@ stip_length_type haunted_chess_ghost_rememberer_solve(slice_index si,
                                                        stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);

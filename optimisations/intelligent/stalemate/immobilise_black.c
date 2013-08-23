@@ -165,7 +165,7 @@ boolean intelligent_stalemate_immobilise_black(void)
 
 static void update_leaper_requirement(immobilisation_requirement_type if_unblockable)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -182,7 +182,7 @@ static void update_leaper_requirement(immobilisation_requirement_type if_unblock
 
 static void update_rider_requirement(immobilisation_requirement_type if_unblockable)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -190,7 +190,7 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
   int const dir = CheckDir[Queen][diff];
   if (diff==dir)
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
@@ -209,7 +209,7 @@ static void update_rider_requirement(immobilisation_requirement_type if_unblocka
 
 static void update_pawn_requirement(void)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
@@ -265,7 +265,7 @@ stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
   PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;

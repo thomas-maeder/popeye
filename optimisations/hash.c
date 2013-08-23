@@ -1225,7 +1225,7 @@ byte *CommonEncode(byte *bp,
 {
   if (CondFlag[messigny])
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     if (move_effect_journal[movement].type==move_effect_piece_exchange
         && move_effect_journal[movement].reason==move_effect_reason_messigny_exchange)
@@ -1246,7 +1246,7 @@ byte *CommonEncode(byte *bp,
 
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     *bp++ = (byte)(move_effect_journal[movement].u.piece_movement.from - square_a1);
   }
@@ -1254,7 +1254,7 @@ byte *CommonEncode(byte *bp,
   if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
       || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     *bp++= (byte)(sq_num[move_effect_journal[movement].u.piece_movement.from]
                   -sq_num[move_effect_journal[movement].u.piece_movement.to]
@@ -1278,7 +1278,7 @@ byte *CommonEncode(byte *bp,
 
   if (anyparrain)
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
     if (move_effect_journal[capture].type==move_effect_piece_removal)
     {
@@ -1333,7 +1333,7 @@ byte *CommonEncode(byte *bp,
 
   if (CondFlag[disparate])
   {
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     *bp++ = (byte)(nbply>=2 ? move_effect_journal[movement].u.piece_movement.moving : Empty);
     *bp++ = trait[nbply];

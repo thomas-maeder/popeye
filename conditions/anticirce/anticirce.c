@@ -46,7 +46,7 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
@@ -125,7 +125,7 @@ stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
 
   {
     square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
     square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;

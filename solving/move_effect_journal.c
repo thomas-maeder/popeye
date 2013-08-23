@@ -18,7 +18,7 @@
 
 move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
 
-move_effect_journal_index_type move_effect_journal_top[maxply+1] = { 3, 4 };
+move_effect_journal_index_type move_effect_journal_base[maxply+1] = { 0, 3, 4 };
 
 move_effect_journal_index_type move_effect_journal_index_offset_capture = 0;
 move_effect_journal_index_type move_effect_journal_index_offset_movement = 1;
@@ -43,8 +43,8 @@ void move_effect_journal_register_pre_capture_effect(void)
   move_effect_journal[1] = move_effect_journal[2];
   move_effect_journal[2].type = move_effect_none;
 
-  move_effect_journal_top[0] = 2;
-  move_effect_journal_top[1] = 4;
+  move_effect_journal_base[1] = 2;
+  move_effect_journal_base[2] = 4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -64,8 +64,8 @@ void move_effect_journal_reset(void)
   move_effect_journal[2].type = move_effect_no_piece_removal;
   move_effect_journal[2].u.piece_removal.removed = Empty;
   CLEARFL(move_effect_journal[2].u.piece_removal.removedspec);
-  move_effect_journal_top[0] = 3;
-  move_effect_journal_top[1] = 4;
+  move_effect_journal_base[1] = 3;
+  move_effect_journal_base[2] = 4;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -102,7 +102,7 @@ static void push_movement_elmt(move_effect_reason_type reason,
                                square from,
                                square to)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
@@ -111,7 +111,7 @@ static void push_movement_elmt(move_effect_reason_type reason,
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_piece_movement;
   top_elmt->reason = reason;
@@ -124,7 +124,7 @@ static void push_movement_elmt(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -241,7 +241,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
                                              PieNam added,
                                              Flags addedspec)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
@@ -250,7 +250,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TracePiece(added);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_piece_readdition;
   top_elmt->reason = reason;
@@ -262,7 +262,7 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   assert(is_square_empty(on));
   if (TSTFLAG(addedspec,White))
@@ -350,7 +350,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
                                            PieNam created,
                                            Flags createdspec)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
@@ -359,7 +359,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   TracePiece(created);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_piece_creation;
   top_elmt->reason = reason;
@@ -371,7 +371,7 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   assert(is_square_empty(on));
   if (TSTFLAG(createdspec,White))
@@ -456,13 +456,13 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
  */
 void move_effect_journal_do_no_piece_removal(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_no_piece_removal;
   top_elmt->reason = move_effect_no_reason;
@@ -473,7 +473,7 @@ void move_effect_journal_do_no_piece_removal(void)
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -481,7 +481,7 @@ void move_effect_journal_do_no_piece_removal(void)
 
 static void push_removal_elmt(move_effect_reason_type reason, square from)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
@@ -489,7 +489,7 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   TraceValue("%u",top);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(e[from]);TraceText("\n");
 
@@ -503,7 +503,7 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -614,7 +614,7 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
                                          square on,
                                          PieNam to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -622,7 +622,7 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
   TracePiece(to);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
   assert(!is_square_blocked(on));
   assert(!is_square_empty(on));
 
@@ -636,7 +636,7 @@ void move_effect_journal_do_piece_change(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   if (TSTFLAG(spec[on],White))
     --number_of_pieces[White][get_walk_of_piece_on_square(on)];
@@ -728,7 +728,7 @@ void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
                                            square from,
                                            square to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
   PieNam const pi_to = get_walk_of_piece_on_square(to);
   Flags const spec_pi_to = spec[to];
 
@@ -738,7 +738,7 @@ void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_piece_exchange;
   top_elmt->reason = reason;
@@ -749,7 +749,7 @@ void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
   occupy_square(from,pi_to,spec_pi_to);
@@ -828,7 +828,7 @@ static void redo_piece_exchange(move_effect_journal_index_type curr)
  */
 void move_effect_journal_do_side_change(move_effect_reason_type reason, square on)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
   Side const to = TSTFLAG(spec[on],White) ? Black : White;
 
   TraceFunctionEntry(__func__);
@@ -839,7 +839,7 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
 
   assert(!is_piece_neutral(spec[on]));
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_side_change;
   top_elmt->reason = reason;
@@ -850,7 +850,7 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
   piece_change_side(&spec[on]);
@@ -912,14 +912,14 @@ static void redo_side_change(move_effect_journal_index_type curr)
 void move_effect_journal_do_square_block(move_effect_reason_type reason,
                                          square square)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceSquare(square);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_square_block;
   top_elmt->reason = reason;
@@ -929,7 +929,7 @@ void move_effect_journal_do_square_block(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   block_square(square);
 
@@ -982,7 +982,7 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
                                                  Side side,
                                                  square to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
@@ -990,7 +990,7 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_king_square_movement;
   top_elmt->reason = reason;
@@ -1002,7 +1002,7 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   king_square[side] = to;
 
@@ -1071,7 +1071,7 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
                                          square on,
                                          Flags to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceSquare(on);
@@ -1079,7 +1079,7 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
 
   assert(GetPieceId(spec[on])==GetPieceId(to));
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_flags_change;
   top_elmt->reason = reason;
@@ -1091,7 +1091,7 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   if (!TSTFLAG(spec[on],Royal) && TSTFLAG(to,Royal))
   {
@@ -1241,13 +1241,13 @@ static void transformBoard(SquareTransformation transformation)
 void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
                                                  SquareTransformation transformation)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",transformation);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_board_transformation;
   top_elmt->reason = reason;
@@ -1257,7 +1257,7 @@ void move_effect_journal_do_board_transformation(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   transformBoard(transformation);
 
@@ -1363,7 +1363,7 @@ void move_effect_journal_do_capture_move(square sq_departure,
  */
 void move_effect_journal_do_null_effect(void)
 {
-  move_effect_journal_index_type top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type top = move_effect_journal_base[nbply+1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1373,7 +1373,7 @@ void move_effect_journal_do_null_effect(void)
   move_effect_journal[top].type = move_effect_none;
   move_effect_journal[top].reason = move_effect_no_reason;
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1404,8 +1404,8 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
                                                               PieceIdType followed_id,
                                                               square pos)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[ply-1];
-  move_effect_journal_index_type const top = move_effect_journal_top[ply];
+  move_effect_journal_index_type const base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const top = move_effect_journal_base[ply+1];
   move_effect_journal_index_type other;
 
   TraceFunctionEntry(__func__);
@@ -1496,15 +1496,15 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
  */
 void redo_move_effects(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply-1]<=top);
+  assert(move_effect_journal_base[nbply]<=top);
 
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     switch (move_effect_journal[curr].type)
     {
       case move_effect_none:
@@ -1623,15 +1623,15 @@ void redo_move_effects(void)
  */
 void undo_move_effects(void)
 {
-  move_effect_journal_index_type const parent_top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const parent_top = move_effect_journal_base[nbply];
   move_effect_journal_index_type top;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]>=parent_top);
+  assert(move_effect_journal_base[nbply+1]>=parent_top);
 
-  for (top = move_effect_journal_top[nbply]; top!=parent_top; --top)
+  for (top = move_effect_journal_base[nbply+1]; top!=parent_top; --top)
   {
     switch (move_effect_journal[top-1].type)
     {
@@ -1771,7 +1771,7 @@ stip_length_type move_effect_journal_undoer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_top[nbply] = move_effect_journal_top[nbply-1];
+  move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   result = solve(slices[si].next1,n);
   undo_move_effects();
 

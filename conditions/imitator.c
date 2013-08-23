@@ -947,14 +947,14 @@ static void move_imitators(int delta)
 static void move_effect_journal_do_imitator_movement(move_effect_reason_type reason,
                                                      int delta)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_imitator_movement;
   top_elmt->reason = reason;
@@ -964,7 +964,7 @@ static void move_effect_journal_do_imitator_movement(move_effect_reason_type rea
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   move_imitators(delta);
 
@@ -1014,13 +1014,13 @@ void redo_imitator_movement(move_effect_journal_index_type curr)
 static void move_effect_journal_do_imitator_addition(move_effect_reason_type reason,
                                                      square to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_imitator_addition;
   top_elmt->reason = reason;
@@ -1030,7 +1030,7 @@ static void move_effect_journal_do_imitator_addition(move_effect_reason_type rea
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   if (number_of_imitators==maxinum)
     FtlMsg(ManyImitators);
@@ -1082,14 +1082,14 @@ void redo_imitator_addition(move_effect_journal_index_type curr)
 
 static int imitator_diff(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
   int result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_movement)
       switch (move_effect_journal[curr].reason)
       {

@@ -26,7 +26,7 @@
 stip_length_type antiandernach_side_changer_solve(slice_index si,
                                                    stip_length_type n)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   stip_length_type result;
 

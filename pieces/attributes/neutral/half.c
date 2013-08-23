@@ -15,14 +15,14 @@
  */
 static void do_deneutralisation(square on, Side to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
   TraceSquare(on);
   TraceEnumerator(Side,to,"");
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_half_neutral_deneutralisation;
   top_elmt->reason = move_effect_reason_half_neutral_deneutralisation;
@@ -33,7 +33,7 @@ static void do_deneutralisation(square on, Side to)
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   assert(TSTFLAG(spec[on],White));
   assert(TSTFLAG(spec[on],Black));
@@ -102,7 +102,7 @@ void redo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
  */
 static void do_neutralisation(square on)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_top[nbply]];
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
   Side const from = TSTFLAG(spec[on],White) ? White : Black;
 
   TraceFunctionEntry(__func__);
@@ -110,7 +110,7 @@ static void do_neutralisation(square on)
   TraceEnumerator(Side,from,"");
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_half_neutral_neutralisation;
   top_elmt->reason = move_effect_reason_half_neutral_neutralisation;
@@ -121,7 +121,7 @@ static void do_neutralisation(square on)
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(advers(from)));
   ++number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
@@ -208,7 +208,7 @@ stip_length_type half_neutral_recolorer_solve(slice_index si, stip_length_type n
   TraceFunctionParamListEnd();
 
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;

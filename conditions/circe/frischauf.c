@@ -13,15 +13,15 @@
 
 static void mark_promotees(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[parent_ply[nbply]]<=top);
+  assert(move_effect_journal_base[parent_ply[nbply]+1]<=top);
 
-  for (curr = move_effect_journal_top[parent_ply[nbply]]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[parent_ply[nbply]+1]; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_change
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {

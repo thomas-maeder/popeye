@@ -27,7 +27,7 @@ static boolean init_rebirth_squares(Side side_reborn)
   square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
   PieNam const pi_capturing = get_walk_of_piece_on_square(sq_capture);
   Flags const flags_capturing = spec[sq_capture];
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);

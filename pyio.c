@@ -4419,7 +4419,7 @@ static char *ReadSquares(SquareListContext context)
 
         case ReadEpSquares:
         {
-          move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+          move_effect_journal_index_type const base = move_effect_journal_base[nbply];
           move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
           switch (nr_squares_read)

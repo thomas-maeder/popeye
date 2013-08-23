@@ -228,20 +228,19 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  pieces/walks/pawns/promotion.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
- solving/solve.h solving/observation.h solving/observation.h \
- output/output.h output/plaintext/language_dependant.h pylang.h \
- conditions/annan.h conditions/bgl.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
- conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
- utilities/table.h conditions/republican.h conditions/blackchecks.h \
- conditions/extinction.h conditions/madrasi.h \
+ solving/solve.h solving/observation.h output/output.h \
+ output/plaintext/language_dependant.h pylang.h conditions/annan.h \
+ conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/koeko/contact_grid.h \
+ conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
+ conditions/exclusive.h utilities/table.h conditions/republican.h \
+ conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
- conditions/patience.h conditions/isardam.h conditions/masand.h \
- conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
- conditions/circe/assassin.h \
+ solving/observation.h conditions/patience.h conditions/isardam.h \
+ conditions/masand.h conditions/disparate.h conditions/dynasty.h \
+ conditions/eiffel.h conditions/circe/assassin.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
@@ -406,8 +405,6 @@ solving/solve.h:
 
 solving/observation.h:
 
-solving/observation.h:
-
 output/output.h:
 
 output/plaintext/language_dependant.h:
@@ -455,6 +452,8 @@ conditions/singlebox/type1.h:
 conditions/singlebox/type2.h:
 
 conditions/singlebox/type3.h:
+
+solving/observation.h:
 
 conditions/patience.h:
 

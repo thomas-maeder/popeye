@@ -191,7 +191,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
                                       Side side,
                                       castling_flag_type right)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
@@ -199,7 +199,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
   TraceFunctionParam("%u",right);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_disable_castling_right;
   top_elmt->reason = reason;
@@ -210,7 +210,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
  #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   CLRCASTLINGFLAGMASK(side,right);
 
@@ -271,7 +271,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
                                      Side side,
                                      castling_flag_type right)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
@@ -279,7 +279,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
   TraceFunctionParam("%u",right);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_enable_castling_right;
   top_elmt->reason = reason;
@@ -290,7 +290,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
   TraceValue("%lu\n",top_elmt->id);
  #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   SETCASTLINGFLAGMASK(side,right);
 
@@ -451,16 +451,16 @@ void disable_castling_rights(move_effect_reason_type reason,
  */
 static void adjust_castling_rights(Side trait_ply)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,trait_ply,"");
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply-1]<=top);
+  assert(move_effect_journal_base[nbply]<=top);
 
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     switch (move_effect_journal[curr].type)
     {
       case move_effect_piece_movement:

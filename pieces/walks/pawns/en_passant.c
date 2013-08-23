@@ -52,14 +52,14 @@ void en_passant_forget_multistep(void)
  */
 void move_effect_journal_do_remember_ep(square s)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_remember_ep_capture_potential;
   top_elmt->reason = move_effect_reason_moving_piece_movement;
@@ -69,7 +69,7 @@ void move_effect_journal_do_remember_ep(square s)
   TraceValue("%lu\n",top_elmt->id);
  #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   ++en_passant_top[nbply];
   en_passant_multistep_over[en_passant_top[nbply]] = s;
@@ -145,7 +145,7 @@ boolean en_passant_was_multistep_played(ply ply)
 square en_passant_find_capturee(void)
 {
   ply const ply_parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_top[ply_parent-1];
+  move_effect_journal_index_type const parent_base = move_effect_journal_base[ply_parent];
   move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
   PieceIdType const capturee_id = GetPieceId(move_effect_journal[parent_movement].u.piece_movement.movingspec);
   square const sq_arrival = move_effect_journal[parent_movement].u.piece_movement.to;
@@ -255,7 +255,7 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
 square en_passant_find_potential(square sq_multistep_departure)
 {
   square result = initsquare;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   PieNam pi_moving = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
@@ -360,7 +360,7 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
 
   if (move_generation_stack[current_move[nbply]-1].capture==pawn_multistep)
   {
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     square const multistep_over = en_passant_find_potential(move_effect_journal[movement].u.piece_movement.from);
     if (multistep_over!=initsquare)

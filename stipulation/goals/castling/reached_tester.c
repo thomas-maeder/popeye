@@ -51,7 +51,7 @@ slice_index alloc_goal_castling_reached_tester_system(void)
 stip_length_type goal_castling_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
   TraceFunctionEntry(__func__);

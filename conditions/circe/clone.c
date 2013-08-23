@@ -24,7 +24,7 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;

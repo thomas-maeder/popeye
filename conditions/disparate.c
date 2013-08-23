@@ -15,9 +15,9 @@ static boolean can_piece_move(numecoup n)
 
   if (nbply>2 && trait[nbply]!=trait[parent])
   {
-    move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+    move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
     move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
-    if (parent_movement>=move_effect_journal_top[parent])
+    if (parent_movement>=move_effect_journal_base[parent+1])
     {
       /* we are solving a threat - no disparate effect there */
     }

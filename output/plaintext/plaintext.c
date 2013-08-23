@@ -153,7 +153,7 @@ static void write_singlebox_promotion(move_effect_journal_index_type promotion)
 
 static void write_singlebox_type3_promotion(void)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const sb3_prom = capture-1;
 
@@ -169,7 +169,7 @@ static void write_singlebox_type3_promotion(void)
 
 static void write_regular_move(move_context *context)
 {
-  move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_type const capture_type = move_effect_journal[capture].type;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -560,8 +560,8 @@ static void write_bgl_status(move_context *context,
 
 static void write_other_effects(move_context *context)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
-  move_effect_journal_index_type curr = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr = move_effect_journal_base[nbply];
 
   for (curr += move_effect_journal_index_offset_other_effects; curr!=top; ++curr)
     switch (move_effect_journal[curr].type)

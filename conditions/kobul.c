@@ -18,7 +18,7 @@ enum
 
 static void substitute(Side trait_ply)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   square const king_pos = king_square[advers(trait_ply)];
 

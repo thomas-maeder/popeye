@@ -15,9 +15,9 @@ boolean messigny_rex_exclusive;
 static void find_forbidden_squares(square *from, square *to)
 {
   ply const parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+  move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
   move_effect_journal_index_type const parent_movement = parent_base+move_effect_journal_index_offset_movement;
-  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
+  move_effect_journal_index_type const parent_top = move_effect_journal_base[parent+1];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

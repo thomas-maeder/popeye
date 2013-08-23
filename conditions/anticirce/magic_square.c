@@ -34,7 +34,7 @@ stip_length_type magic_square_anticirce_relevant_side_adapter_solve(slice_index 
 
   if (!TSTFLAG(anticirce_current_relevant_spec[nbply],Royal))
   {
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);

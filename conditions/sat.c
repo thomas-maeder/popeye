@@ -150,14 +150,14 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
  */
 static void do_strict_sat_adjustment(Side side)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_strict_sat_adjustment;
   top_elmt->reason = move_effect_reason_sat_adjustment;
@@ -167,7 +167,7 @@ static void do_strict_sat_adjustment(Side side)
   TraceValue("%lu\n",top_elmt->id);
  #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   StrictSAT[side] = true;
 

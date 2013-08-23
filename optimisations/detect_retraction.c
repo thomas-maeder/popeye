@@ -166,10 +166,10 @@ static boolean retracting_opponent_move(void)
   if (trait[nbply]!=trait[parent]
       && move_effect_journal_index_offset_capture==0)
   {
-    move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
-    move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
-    move_effect_journal_index_type const base = move_effect_journal_top[nbply-1];
-    move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+    move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
+    move_effect_journal_index_type const parent_top = move_effect_journal_base[parent+1];
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
     if (parent_top-parent_base==top-base
         && move_effect_journal[parent_base].type==move_effect_no_piece_removal
         && move_effect_journal[base].type==move_effect_no_piece_removal
@@ -237,8 +237,8 @@ static boolean is_previous_move_retractable(void)
   boolean result = false;
   ply const parent = parent_ply[nbply];
 
-  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
-  move_effect_journal_index_type const parent_top = move_effect_journal_top[parent];
+  move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
+  move_effect_journal_index_type const parent_top = move_effect_journal_base[parent+1];
   if (move_effect_journal[parent_base].type==move_effect_no_piece_removal
       && move_effect_journal[parent_base+1].type==move_effect_piece_movement)
   {

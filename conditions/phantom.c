@@ -116,7 +116,7 @@ void phantom_generate_moves_for_piece(slice_index si, PieNam p)
 static square adjust(Side trait_ply)
 {
   square result = initsquare;
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;

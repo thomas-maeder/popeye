@@ -232,7 +232,7 @@ enum
 extern move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
 
 /* index of next effect per ply (i.e. 1 position beyond the last effect) */
-extern move_effect_journal_index_type move_effect_journal_top[maxply+1];
+extern move_effect_journal_index_type move_effect_journal_base[maxply+1];
 
 extern move_effect_journal_index_type move_effect_journal_index_offset_capture;
 extern move_effect_journal_index_type move_effect_journal_index_offset_movement;

@@ -11,16 +11,16 @@
 
 static int move_vector(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
   int result = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply-1]<=top);
+  assert(move_effect_journal_base[nbply]<=top);
 
-  for (curr = move_effect_journal_top[nbply-1]; curr!=top; ++curr)
+  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_movement)
     {
       square const from = move_effect_journal[curr].u.piece_movement.from;
@@ -55,7 +55,7 @@ stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
 {
   stip_length_type result;
   ply const parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_top[parent-1];
+  move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
   move_effect_journal_index_type const parent_capture = parent_base+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
@@ -63,7 +63,7 @@ stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (parent_capture>=move_effect_journal_top[parent] /* threat! */
+  if (parent_capture>=move_effect_journal_base[parent+1] /* threat! */
       || move_effect_journal[parent_capture].type==move_effect_no_piece_removal)
   {
     current_circe_rebirth_square[nbply] = initsquare;

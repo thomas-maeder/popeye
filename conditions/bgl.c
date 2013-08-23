@@ -46,14 +46,14 @@ static long int BGL_move_diff_code[square_h8 - square_a1 + 1] =
  */
 static void do_bgl_adjustment(Side side, long int diff)
 {
-  move_effect_journal_index_type const top = move_effect_journal_top[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%lu",diff);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_top[nbply]+1<move_effect_journal_size);
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
   top_elmt->type = move_effect_bgl_adjustment;
   top_elmt->reason = move_effect_reason_moving_piece_movement;
@@ -64,7 +64,7 @@ static void do_bgl_adjustment(Side side, long int diff)
   TraceValue("%lu\n",top_elmt->id);
  #endif
 
-  ++move_effect_journal_top[nbply];
+  ++move_effect_journal_base[nbply+1];
 
   BGL_values[side] -= diff;
 
