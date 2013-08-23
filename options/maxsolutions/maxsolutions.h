@@ -1,7 +1,8 @@
 #if !defined(OPTIMISATIONS_MAXSOLUTIONS_MAXSOLUTIONS_H)
 #define OPTIMISATIONS_MAXSOLUTIONS_MAXSOLUTIONS_H
 
-#include "stipulation/slice.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* This module provides functionality dealing with the filter slices
  * implement the maxsolutions option

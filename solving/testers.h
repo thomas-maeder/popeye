@@ -1,7 +1,7 @@
 #if !defined(SOLVING_H)
 #define SOLVING_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation

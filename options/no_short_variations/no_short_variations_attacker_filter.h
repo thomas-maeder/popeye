@@ -1,8 +1,7 @@
 #if !defined(OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_ATTACKER_FILTER_H)
 #define OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_ATTACKER_FILTER_H
 
-#include "utilities/boolean.h"
-#include "solving/solve.h"
+#include "stipulation/stipulation.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STNoShortVariations stipulation slices.

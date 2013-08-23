@@ -1,8 +1,8 @@
 #if !defined(CONDITIONS_LORTAP_H)
 #define CONDITIONS_LORTAP_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* This module implements the condition Lortap */
 

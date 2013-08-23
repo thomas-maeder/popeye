@@ -35,13 +35,6 @@
 
 #include "utilities/enumeration.h"
 
-/* slice identification */
-enum
-{
-  max_nr_slices = 11000,
-  no_slice = max_nr_slices
-};
-
 /* Retrieve the structural type of a slice type
  * @param type identifies slice type of which to retrieve structural type
  * @return structural type of slice type type
@@ -53,21 +46,6 @@ slice_structural_type slice_type_get_structural_type(slice_type type);
  * @return functional type of slice type type
  */
 slice_functional_type slice_type_get_functional_type(slice_type type);
-
-/* Allocate a slice index
- * @return a so far unused slice index
- */
-slice_index alloc_slice(void);
-
-/* Dellocate a slice index
- * @param si slice index deallocated
- */
-void dealloc_slice(slice_index si);
-
-/* Make sure that there are now allocated slices that are not
- * reachable
- */
-void assert_no_leaked_slices(void);
 
 /* Initialise slice properties at start of program */
 void initialise_slice_properties(void);

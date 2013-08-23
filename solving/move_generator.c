@@ -25,7 +25,6 @@
 #include "solving/single_piece_move_generator.h"
 #include "solving/castling.h"
 #include "solving/king_move_generator.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/temporary_hacks.h"
@@ -39,6 +38,9 @@
 move_generation_elmt *curr_generation = &move_generation_stack[toppile];
 
 move_generation_elmt move_generation_stack[toppile + 1];
+
+numecoup current_move[maxply+1];
+numecoup current_move_id[maxply+1];
 
 static slice_index const slice_rank_order[] =
 {

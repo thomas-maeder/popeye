@@ -5,6 +5,14 @@
 
 #include <stddef.h>
 
+typedef enum
+{
+  republican_type1,
+  republican_type2
+} republican_type_type;
+
+extern republican_type_type RepublicanType;
+
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem
  * @param si identifies root slice of stipulation

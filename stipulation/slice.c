@@ -4,10 +4,6 @@
 #include <assert.h>
 
 
-/* Keep track of allocated slice indices
- */
-static boolean is_slice_index_free[max_nr_slices];
-
 #define ENUMERATION_TYPENAME slice_structural_type
 #define ENUMERATORS                             \
     ENUMERATOR(slice_structure_pipe),                            \
@@ -390,90 +386,9 @@ slice_functional_type slice_type_get_functional_type(slice_type type)
   return functional_type[type];
 }
 
-/* Make sure that there are now allocated slices that are not
- * reachable
- */
-void assert_no_leaked_slices(void)
-{
-  slice_index i;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (i = 0; i!=max_nr_slices; ++i)
-  {
-    if (!is_slice_index_free[i])
-    {
-      TraceValue("leaked:%u",i);
-    }
-    assert(is_slice_index_free[i]);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Initialize the slice allocation machinery. To be called once at
- * program start
- */
-static void init_slice_allocator(void)
-{
-  slice_index si;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (si = 0; si!=max_nr_slices; ++si)
-    is_slice_index_free[si] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Allocate a slice index
- * @return a so far unused slice index
- */
-slice_index alloc_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (result = 0; result!=max_nr_slices; ++result)
-    if (is_slice_index_free[result])
-      break;
-
-  assert(result<max_nr_slices);
-
-  is_slice_index_free[result] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Dellocate a slice index
- * @param si slice index deallocated
- */
-void dealloc_slice(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  assert(!is_slice_index_free[si]);
-  is_slice_index_free[si] = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Initialise slice properties at start of program */
 void initialise_slice_properties(void)
 {
   init_highest_structural_type();
   init_functional_type();
-  init_slice_allocator();
 }

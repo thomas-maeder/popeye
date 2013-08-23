@@ -6,9 +6,9 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  pymsg.h conditions/republican.h solving/solve.h conditions/bgl.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/kobul.h conditions/imitator.h \
- pieces/walks/pawns/en_passant.h solving/observation.h \
- stipulation/slice_type.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
+ conditions/singlebox/type1.h pieces/walks/pawns/en_passant.h \
+ solving/observation.h stipulation/slice_type.h debugging/trace.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
 
 output/plaintext/plaintext.h:
 
@@ -55,6 +55,8 @@ position/pieceid.h:
 conditions/kobul.h:
 
 conditions/imitator.h:
+
+conditions/singlebox/type1.h:
 
 pieces/walks/pawns/en_passant.h:
 

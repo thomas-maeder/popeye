@@ -2,6 +2,7 @@
 #define OUTPUT_PLAINTEXT_TREE_CHECK_WRITER_H
 
 #include "solving/solve.h"
+#include "stipulation/stipulation.h"
 
 /* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @return index of allocated slice

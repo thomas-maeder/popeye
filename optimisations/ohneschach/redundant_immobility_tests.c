@@ -1,6 +1,5 @@
 #include "optimisations/ohneschach/redundant_immobility_tests.h"
 #include "pydata.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"

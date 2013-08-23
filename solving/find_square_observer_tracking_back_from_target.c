@@ -40,6 +40,8 @@
 
 PieNam observing_walk[maxply+1];
 
+PieNam checkpieces[PieceCount-Leo+1]; /* only fairies ! */
+
 static boolean never_check(evalfunction_t *evaluate)
 {
   return false;

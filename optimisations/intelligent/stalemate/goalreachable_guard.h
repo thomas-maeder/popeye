@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_STALEMATE_GOALREACHABLE_GUARD_H)
 #define OPTIMISATION_INTELLIGENT_STALEMATE_GOALREACHABLE_GUARD_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -17,6 +17,6 @@
  *            n+3 no solution found in next branch
  */
 stip_length_type goalreachable_guard_stalemate_solve(slice_index si,
-                                                      stip_length_type n);
+                                                     stip_length_type n);
 
 #endif

@@ -6,6 +6,7 @@
  */
 
 #include "py.h"
+#include "stipulation/stipulation.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index

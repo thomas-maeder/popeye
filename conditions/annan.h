@@ -1,9 +1,9 @@
 #if !defined(CONDITIONS_ANNAN_H)
 #define CONDITIONS_ANNAN_H
 
-#include "py.h"
-#include "position/board.h"
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
+#include "position/board.h"
 
 /* This module implements the condition Annan Chess */
 

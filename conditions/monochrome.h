@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_MONOCHROME_H)
 #define CONDITIONS_MONOCHROME_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 
 /* This module implements the condition Monochrome Chess */

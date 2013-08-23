@@ -5,6 +5,7 @@
  */
 
 #include "solving/solve.h"
+#include "stipulation/pipe.h"
 
 /* Allocate a STExclusiveChessUndecidableWriterTree slice
  * @return identifier of the allocated slice

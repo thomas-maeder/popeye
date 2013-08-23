@@ -1,7 +1,6 @@
 #include "conditions/shielded_kings.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "debugging/trace.h"

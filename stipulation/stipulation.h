@@ -1,10 +1,8 @@
 #if !defined(STIPULATION_STIPULATION_H)
 #define STIPULATION_STIPULATION_H
 
-#include "py.h"
-#include "stipulation/slice.h"
-#include "stipulation/structure_traversal.h"
 #include "stipulation/goals/goals.h"
+#include "stipulation/slice_type.h"
 #include "output/mode.h"
 #include "utilities/boolean.h"
 
@@ -18,6 +16,8 @@ typedef enum
   goal_applies_to_starter,
   goal_applies_to_adversary
 } goal_applies_to_starter_or_adversary;
+
+typedef unsigned int slice_index;
 
 typedef struct
 {
@@ -78,8 +78,29 @@ typedef struct
     } u;
 } Slice;
 
+/* slice identification */
+enum
+{
+  max_nr_slices = 11000,
+  no_slice = max_nr_slices
+};
 
 extern Slice slices[max_nr_slices];
+
+/* Initialize the slice allocation machinery. To be called once at
+ * program start
+ */
+void init_slice_allocator(void);
+
+/* Dellocate a slice index
+ * @param si slice index deallocated
+ */
+void dealloc_slice(slice_index si);
+
+/* Make sure that there are now allocated slices that are not
+ * reachable
+ */
+void assert_no_leaked_slices(void);
 
 /* Create a slice
  * @param type which type
@@ -136,6 +157,8 @@ void stip_detect_starter(slice_index si);
  */
 void stip_impose_starter(slice_index si, Side starter);
 
+struct stip_structure_traversal;
+
 /* Set the starting side of the stipulation from within an ongoing iteration
  * @param si identifies slice where to start
  * @param starter starting side at the root of the stipulation
@@ -164,8 +187,8 @@ typedef slice_index stip_deep_copies_type[max_nr_slices];
  * @note after this initialisation, *st can be used for a deep copy operation;
  *       or st can be further modified for some special copy operation
  */
-void init_deep_copy(stip_structure_traversal *st,
-                    stip_structure_traversal *st_parent,
+void init_deep_copy(struct stip_structure_traversal *st,
+                    struct stip_structure_traversal *st_parent,
                     stip_deep_copies_type *copies);
 
 /* structure holding state in traversals for

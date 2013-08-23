@@ -6,7 +6,7 @@
  * is immobile (e.g. branches that end in mate or stalemate).
  */
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* Instrument STEndOfBranch* slices in help play in order to
  * - avoid writing short solutions when looking for longer ones

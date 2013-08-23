@@ -1,4 +1,5 @@
 #include "conditions/football.h"
+#include "conditions/singlebox/type1.h"
 #include "pieces/walks/classification.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/post_move_iteration.h"

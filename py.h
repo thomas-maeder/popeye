@@ -625,11 +625,4 @@ enum
 
 typedef boolean (*nocontactfunc_t)(square);
 
-typedef unsigned int slice_index;
-
-#define encore()        (current_move[nbply]-1 > current_move[nbply-1]-1)
-#define advers(camp)    ((camp) ? White : Black)
-
-#define piece_belongs_to_opponent(sq)    TSTFLAG(spec[(sq)],advers(trait[nbply]))
-
 #endif  /* PY_H */

@@ -3,7 +3,6 @@
 #include "pieces/walks/classification.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "debugging/trace.h"

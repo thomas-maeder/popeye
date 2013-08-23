@@ -1,5 +1,4 @@
 #include "stipulation/pipe.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "debugging/trace.h"

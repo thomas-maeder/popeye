@@ -1,6 +1,5 @@
 #include "output/plaintext/tree/check_writer.h"
 #include "solving/check.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "debugging/trace.h"

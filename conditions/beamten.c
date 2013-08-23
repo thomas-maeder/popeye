@@ -1,7 +1,6 @@
 #include "conditions/beamten.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
-#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
 #include "pyproc.h"

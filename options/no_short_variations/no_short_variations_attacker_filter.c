@@ -1,10 +1,11 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
-#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/solve.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

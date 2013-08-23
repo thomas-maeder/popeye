@@ -3,7 +3,6 @@
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/or.h"

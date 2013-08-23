@@ -1,7 +1,7 @@
 #if !defined(PIECES_PARALYSING_REMOVE_CAPTURES_H)
 #define PIECES_PARALYSING_REMOVE_CAPTURES_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* This module removes generated capturing moves by paralysing pieces */
 

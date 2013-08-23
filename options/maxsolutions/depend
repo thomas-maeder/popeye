@@ -1,18 +1,23 @@
 options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolutions.c \
- options/maxsolutions/maxsolutions.h stipulation/slice.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ options/maxsolutions/maxsolutions.h stipulation/stipulation.h \
+ stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/slice_type.h output/mode.h \
  stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/help_play/branch.h \
- solving/solve.h options/maxsolutions/initialiser.h \
- options/maxsolutions/guard.h debugging/trace.h
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/solve.h \
+ options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
+ debugging/trace.h
 
 options/maxsolutions/maxsolutions.h:
 
-stipulation/slice.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 py.h:
 
@@ -26,13 +31,17 @@ utilities/bitmask.h:
 
 pieces/walks/vectors.h:
 
-utilities/boolean.h:
-
 utilities/enumeration.h:
+
+solving/ply.h:
+
+position/position.h:
 
 pylang.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
 
 stipulation/has_solution_type.h:
 
@@ -40,15 +49,11 @@ stipulation/branch.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
 
 stipulation/battle_play/branch.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
 
 stipulation/help_play/branch.h:
 
@@ -63,10 +68,12 @@ options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.
  options/maxsolutions/initialiser.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h solving/solve.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- options/maxsolutions/maxsolutions.h stipulation/pipe.h debugging/trace.h
+ solving/ply.h position/position.h pylang.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h \
+ options/maxsolutions/maxsolutions.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
 
 options/maxsolutions/initialiser.h:
 
@@ -86,21 +93,19 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 solving/solve.h:
 
 stipulation/stipulation.h:
 
-stipulation/slice.h:
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
 
 output/mode.h:
 
@@ -108,16 +113,23 @@ options/maxsolutions/maxsolutions.h:
 
 stipulation/pipe.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
 debugging/trace.h:
 options/maxsolutions/guard$(OBJ_SUFFIX): options/maxsolutions/guard.c \
  options/maxsolutions/guard.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  options/maxsolutions/maxsolutions.h stipulation/pipe.h \
- stipulation/has_solution_type.h debugging/trace.h
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ debugging/trace.h
 
 options/maxsolutions/guard.h:
 
@@ -139,25 +151,29 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 stipulation/stipulation.h:
 
-stipulation/slice.h:
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
 
 output/mode.h:
 
 options/maxsolutions/maxsolutions.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 stipulation/has_solution_type.h:
 

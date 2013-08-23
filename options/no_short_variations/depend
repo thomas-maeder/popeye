@@ -1,18 +1,23 @@
 options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations.c \
- options/no_short_variations/no_short_variations.h stipulation/slice.h \
+ options/no_short_variations/no_short_variations.h \
+ stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/slice_type.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
+ solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
+ output/mode.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- solving/solve.h stipulation/battle_play/branch.h \
- stipulation/stipulation.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h debugging/trace.h
+ stipulation/battle_play/branch.h stipulation/slice.h \
+ stipulation/structure_traversal.h stipulation/traversal.h \
+ stipulation/pipe.h solving/solve.h debugging/trace.h
 
 options/no_short_variations/no_short_variations.h:
 
-stipulation/slice.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 py.h:
 
@@ -26,51 +31,52 @@ utilities/bitmask.h:
 
 pieces/walks/vectors.h:
 
-utilities/boolean.h:
-
 utilities/enumeration.h:
+
+solving/ply.h:
+
+position/position.h:
 
 pylang.h:
 
 stipulation/slice_type.h:
 
-options/no_short_variations/no_short_variations_attacker_filter.h:
+output/mode.h:
 
-solving/solve.h:
+options/no_short_variations/no_short_variations_attacker_filter.h:
 
 stipulation/battle_play/branch.h:
 
-stipulation/stipulation.h:
+stipulation/slice.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
-stipulation/goals/goals.h:
-
-output/mode.h:
-
 stipulation/pipe.h:
+
+solving/solve.h:
 
 debugging/trace.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
- utilities/boolean.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- pieces/walks/vectors.h utilities/enumeration.h pylang.h pydata.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/has_solution_type.h stipulation/testing_pipe.h \
+ stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
+ py.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
+ solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
+ output/mode.h stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- stipulation/battle_play/branch.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h
+ stipulation/traversal.h solving/solve.h stipulation/battle_play/branch.h \
+ solving/move_generator.h solving/ply.h debugging/trace.h pydata.h py.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-solving/solve.h:
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 py.h:
 
@@ -86,15 +92,15 @@ pieces/walks/vectors.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
-pydata.h:
+stipulation/slice_type.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+output/mode.h:
 
 stipulation/has_solution_type.h:
 
@@ -106,16 +112,18 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/slice_type.h:
-
 stipulation/traversal.h:
+
+solving/solve.h:
 
 stipulation/battle_play/branch.h:
 
-stipulation/stipulation.h:
+solving/move_generator.h:
 
-stipulation/goals/goals.h:
-
-output/mode.h:
+solving/ply.h:
 
 debugging/trace.h:
+
+pydata.h:
+
+py.h:

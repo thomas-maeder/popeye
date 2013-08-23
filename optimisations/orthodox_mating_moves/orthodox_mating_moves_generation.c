@@ -1,6 +1,5 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "pydata.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/moves_traversal.h"

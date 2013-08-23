@@ -10,7 +10,6 @@
 #include "solving/move_effect_journal.h"
 #include "solving/ply.h"
 #include "position/position.h"
-#include "utilities/boolean.h"
 
 extern pilecase current_circe_rebirth_square;
 

@@ -3,6 +3,7 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
+#include "solving/move_generator.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"

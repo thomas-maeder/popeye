@@ -13,6 +13,8 @@
 
 #include <assert.h>
 
+singlebox_type_type SingleBoxType;
+
 static boolean singlebox_officer_out_of_box(void)
 {
   boolean result = false;

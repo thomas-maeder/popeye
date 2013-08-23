@@ -2,7 +2,6 @@
 #include "conditions/circe/circe.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "solving/move_effect_journal.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

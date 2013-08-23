@@ -1,5 +1,4 @@
 #include "output/output.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "output/plaintext/end_of_phase_writer.h"

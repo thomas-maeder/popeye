@@ -7,6 +7,7 @@
 #include "utilities/boolean.h"
 #include "utilities/table.h"
 #include "position/position.h"
+#include "stipulation/stipulation.h"
 #include "solving/solve.h"
 #include "solving/ply.h"
 

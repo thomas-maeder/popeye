@@ -1,10 +1,13 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/classification.h"
-#include "pydata.h"
+#include "conditions/singlebox/type1.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
+
+boolean promonly[PieceCount];
 
 PieNam pieces_pawns_promotee_chain[pieces_pawns_nr_promotee_chains][PieceCount];
 

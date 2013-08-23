@@ -1,5 +1,4 @@
 #include "stipulation/end_of_branch_tester.h"
-#include "stipulation/stipulation.h"
 #include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

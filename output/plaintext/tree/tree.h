@@ -1,8 +1,8 @@
 #if !defined(OUTPUT_PLAINTEXT_TREE_H)
 #define OUTPUT_PLAINTEXT_TREE_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "stipulation/slice.h"
 
 /* Instrument the stipulation structure with slices that implement
  * plaintext tree mode output.

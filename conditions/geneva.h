@@ -1,8 +1,8 @@
 #if !defined(CONDITIONS_GENEVA_H)
 #define CONDITIONS_GENEVA_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* This module implements the condition Geneva Chess */
 

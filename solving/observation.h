@@ -1,10 +1,9 @@
 #if !defined(SOLVING_OBSERVATION_H)
 #define SOLVING_OBSERVATION_H
 
-#include "stipulation/slice_type.h"
+#include "stipulation/stipulation.h"
 #include "pieces/walks/vectors.h"
 #include "py.h"
-#include "solving/observation.h"
 #include "solving/ply.h"
 
 /* This module provides supports observation as used by many conditions and

@@ -2,14 +2,13 @@ conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  conditions/circe/circe.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/circe/capture_fork.h pieces/walks/walks.h \
  pieces/walks/classification.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- debugging/trace.h pydata.h py.h
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h pydata.h py.h
 
 conditions/circe/circe.h:
 
@@ -37,7 +36,13 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
 stipulation/slice_type.h:
+
+output/mode.h:
 
 solving/move_effect_journal.h:
 
@@ -55,19 +60,13 @@ pieces/walks/classification.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/move.h:
 
 debugging/trace.h:
 
@@ -75,22 +74,25 @@ pydata.h:
 
 py.h:
 conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
- conditions/circe/goal_filters.h stipulation/slice.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/slice_type.h stipulation/stipulation.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- solving/solve.h stipulation/branch.h stipulation/proxy.h \
- stipulation/boolean/or.h stipulation/boolean/true.h \
+ conditions/circe/goal_filters.h stipulation/stipulation.h \
+ stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
+ position/position.h position/board.h utilities/bitmask.h \
+ pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/slice_type.h output/mode.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/solve.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/circe/circuit_by_rebirth_special.h \
  conditions/circe/exchange_by_rebirth_special.h \
  conditions/circe/steingewinn_filter.h debugging/trace.h
 
 conditions/circe/goal_filters.h:
 
-stipulation/slice.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 py.h:
 
@@ -104,8 +106,6 @@ utilities/bitmask.h:
 
 pieces/walks/vectors.h:
 
-utilities/boolean.h:
-
 utilities/enumeration.h:
 
 solving/ply.h:
@@ -116,17 +116,15 @@ pylang.h:
 
 stipulation/slice_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 solving/solve.h:
 
@@ -149,15 +147,16 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  conditions/circe/assassin.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h conditions/circe/circe.h \
- stipulation/slice_type.h solving/move_effect_journal.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/circe/capture_fork.h solving/observation.h solving/check.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h solving/move_generator.h \
- stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
- pydata.h py.h pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h
+ solving/move_generator.h stipulation/has_solution_type.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h pydata.h py.h pyproc.h \
+ pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/stipulation.h
 
 conditions/circe/assassin.h:
 
@@ -185,9 +184,15 @@ position/position.h:
 
 pylang.h:
 
-conditions/circe/circe.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
 
 solving/move_effect_journal.h:
 
@@ -203,23 +208,17 @@ solving/observation.h:
 
 solving/check.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
 solving/move_generator.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 debugging/trace.h:
 
@@ -232,18 +231,20 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \
  conditions/circe/steingewinn_filter.c \
  conditions/circe/steingewinn_filter.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h py.h \
- conditions/circe/circe.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h pydata.h py.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h debugging/trace.h
 
 conditions/circe/steingewinn_filter.h:
 
@@ -273,19 +274,19 @@ pylang.h:
 
 stipulation/stipulation.h:
 
-stipulation/slice.h:
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
 
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 pydata.h:
 
@@ -308,10 +309,10 @@ conditions/circe/circuit_by_rebirth_special$(OBJ_SUFFIX): \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- position/pieceid.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h pydata.h py.h conditions/circe/circe.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h position/pieceid.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h pydata.h py.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  debugging/trace.h
 
@@ -341,23 +342,23 @@ position/position.h:
 
 pylang.h:
 
-position/pieceid.h:
-
 stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
+stipulation/slice_type.h:
+
 output/mode.h:
 
+position/pieceid.h:
+
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 pydata.h:
 
@@ -378,10 +379,10 @@ conditions/circe/exchange_by_rebirth_special$(OBJ_SUFFIX): \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- position/pieceid.h stipulation/stipulation.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h pydata.h py.h conditions/circe/circe.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h position/pieceid.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h pydata.h py.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  debugging/trace.h
 
@@ -411,23 +412,23 @@ position/position.h:
 
 pylang.h:
 
-position/pieceid.h:
-
 stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
+stipulation/slice_type.h:
+
 output/mode.h:
 
+position/pieceid.h:
+
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 pydata.h:
 
@@ -446,15 +447,15 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- solving/solve.h conditions/circe/capture_fork.h stipulation/slice_type.h \
+ solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h conditions/circe/capture_fork.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h pydata.h py.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/branch.h stipulation/temporary_hacks.h \
- solving/single_piece_move_generator.h solving/post_move_iteration.h \
- debugging/trace.h
+ stipulation/has_solution_type.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h \
+ stipulation/temporary_hacks.h solving/single_piece_move_generator.h \
+ solving/post_move_iteration.h debugging/trace.h
 
 conditions/circe/cage.h:
 
@@ -482,9 +483,15 @@ pylang.h:
 
 solving/solve.h:
 
-conditions/circe/capture_fork.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
+
+conditions/circe/capture_fork.h:
 
 conditions/circe/circe.h:
 
@@ -502,19 +509,13 @@ py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
 
 stipulation/branch.h:
 
@@ -529,14 +530,14 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  conditions/circe/kamikaze.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h \
- conditions/anticirce/anticirce.h solving/ply.h stipulation/slice_type.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ conditions/anticirce/anticirce.h solving/ply.h \
  conditions/anticirce/capture_fork.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/move.h debugging/trace.h pydata.h py.h
+ stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h pydata.h py.h
 
 conditions/circe/kamikaze.h:
 
@@ -564,11 +565,17 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 conditions/anticirce/anticirce.h:
 
 solving/ply.h:
-
-stipulation/slice_type.h:
 
 conditions/anticirce/capture_fork.h:
 
@@ -580,19 +587,13 @@ position/pieceid.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/move.h:
 
 debugging/trace.h:
 
@@ -603,13 +604,13 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  conditions/circe/parrain.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h pydata.h py.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h conditions/circe/circe.h debugging/trace.h
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ conditions/circe/circe.h debugging/trace.h
 
 conditions/circe/parrain.h:
 
@@ -637,27 +638,27 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 pydata.h:
 
 py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/move.h:
 
 solving/move_effect_journal.h:
 
@@ -674,15 +675,15 @@ conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  conditions/circe/volage.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h pydata.h py.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/move_generator.h conditions/circe/circe.h debugging/trace.h
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h stipulation/has_solution_type.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/move_generator.h conditions/circe/circe.h \
+ debugging/trace.h
 
 conditions/circe/volage.h:
 
@@ -710,27 +711,27 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 pydata.h:
 
 py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
 
 stipulation/branch.h:
 
@@ -755,16 +756,16 @@ conditions/circe/promotion$(OBJ_SUFFIX): conditions/circe/promotion.c \
  conditions/circe/promotion.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h solving/ply.h \
- pieces/walks/pawns/promotion.h pydata.h py.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/post_move_iteration.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h debugging/trace.h
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ solving/ply.h pieces/walks/pawns/promotion.h pydata.h py.h \
+ stipulation/has_solution_type.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ solving/post_move_iteration.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h conditions/circe/circe.h \
+ debugging/trace.h
 
 conditions/circe/promotion.h:
 
@@ -792,6 +793,14 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 solving/ply.h:
 
 pieces/walks/pawns/promotion.h:
@@ -802,21 +811,13 @@ py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
 
 stipulation/branch.h:
 
@@ -839,13 +840,12 @@ conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  conditions/circe/frischauf.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h pydata.h py.h \
- conditions/andernach.h stipulation/pipe.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h conditions/andernach.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- solving/moving_pawn_promotion.h solving/ply.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ stipulation/move.h solving/moving_pawn_promotion.h solving/ply.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h debugging/trace.h
 
@@ -875,6 +875,14 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 pydata.h:
 
 py.h:
@@ -887,17 +895,9 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/slice_type.h:
-
 stipulation/traversal.h:
 
 stipulation/has_solution_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
 
 stipulation/move.h:
 
@@ -918,14 +918,13 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  conditions/circe/super.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h \
- conditions/circe/capture_fork.h stipulation/slice_type.h \
- conditions/circe/circe.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h pydata.h py.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/move.h solving/post_move_iteration.h debugging/trace.h
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ conditions/circe/capture_fork.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h pydata.h py.h stipulation/has_solution_type.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h
 
 conditions/circe/super.h:
 
@@ -953,9 +952,15 @@ position/position.h:
 
 pylang.h:
 
-conditions/circe/capture_fork.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
+
+conditions/circe/capture_fork.h:
 
 conditions/circe/circe.h:
 
@@ -973,19 +978,13 @@ py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/move.h:
 
 solving/post_move_iteration.h:
 
@@ -995,15 +994,14 @@ conditions/circe/capture_fork$(OBJ_SUFFIX): conditions/circe/capture_fork.c \
  utilities/enumeration.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h solving/ply.h \
- position/position.h pylang.h conditions/circe/rex_inclusive.h pydata.h \
- py.h stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
- stipulation/fork.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/circe.h debugging/trace.h
+ position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h output/mode.h conditions/circe/rex_inclusive.h \
+ pydata.h py.h stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h stipulation/fork.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h conditions/circe/circe.h debugging/trace.h
 
 conditions/circe/capture_fork.h:
 
@@ -1033,6 +1031,12 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
 conditions/circe/rex_inclusive.h:
 
 pydata.h:
@@ -1041,21 +1045,15 @@ py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
 stipulation/proxy.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 stipulation/branch.h:
 
@@ -1080,12 +1078,10 @@ conditions/circe/april$(OBJ_SUFFIX): conditions/circe/april.c \
  conditions/circe/april.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h \
- conditions/circe/capture_fork.h stipulation/slice_type.h \
- conditions/circe/super.h pydata.h py.h stipulation/has_solution_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h solving/move_effect_journal.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ conditions/circe/capture_fork.h conditions/circe/super.h pydata.h py.h \
+ stipulation/has_solution_type.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  debugging/trace.h
 
@@ -1115,9 +1111,15 @@ position/position.h:
 
 pylang.h:
 
-conditions/circe/capture_fork.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
+
+conditions/circe/capture_fork.h:
 
 conditions/circe/super.h:
 
@@ -1126,18 +1128,6 @@ pydata.h:
 py.h:
 
 stipulation/has_solution_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
 
 solving/move_effect_journal.h:
 
@@ -1152,11 +1142,11 @@ conditions/circe/turncoats$(OBJ_SUFFIX): conditions/circe/turncoats.c \
  conditions/circe/turncoats.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h pydata.h py.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/circe/circe.h debugging/trace.h
 
@@ -1186,6 +1176,14 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 pydata.h:
 
 py.h:
@@ -1196,17 +1194,9 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/slice_type.h:
-
 stipulation/traversal.h:
 
 stipulation/has_solution_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
 
 stipulation/move.h:
 
@@ -1225,12 +1215,11 @@ conditions/circe/clone$(OBJ_SUFFIX): conditions/circe/clone.c \
  conditions/circe/clone.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h pydata.h py.h \
- stipulation/stipulation.h stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h conditions/circe/circe.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/trace.h
 
 conditions/circe/clone.h:
 
@@ -1258,23 +1247,17 @@ position/position.h:
 
 pylang.h:
 
-pydata.h:
-
-py.h:
-
 stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
 
 stipulation/goals/goals.h:
 
+stipulation/slice_type.h:
+
 output/mode.h:
+
+pydata.h:
+
+py.h:
 
 conditions/circe/circe.h:
 
@@ -1291,14 +1274,13 @@ conditions/circe/chameleon$(OBJ_SUFFIX): conditions/circe/chameleon.c \
  conditions/circe/chameleon.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h pydata.h py.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- conditions/circe/circe.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- pieces/walks/walks.h debugging/trace.h
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h pieces/walks/walks.h debugging/trace.h
 
 conditions/circe/chameleon.h:
 
@@ -1326,27 +1308,27 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 pydata.h:
 
 py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/move.h:
 
 conditions/circe/circe.h:
 
@@ -1366,13 +1348,14 @@ conditions/circe/double_agents$(OBJ_SUFFIX): conditions/circe/double_agents.c \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- pydata.h py.h stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/move.h \
- pieces/attributes/neutral/neutral.h conditions/circe/circe.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h pydata.h py.h \
+ stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h pieces/attributes/neutral/neutral.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/trace.h
 
 conditions/circe/double_agents.h:
 
@@ -1400,27 +1383,27 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 pydata.h:
 
 py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/slice_type.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/move.h:
 
 pieces/attributes/neutral/neutral.h:
 
@@ -1439,12 +1422,11 @@ conditions/circe/couscous$(OBJ_SUFFIX): conditions/circe/couscous.c \
  conditions/circe/couscous.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h conditions/circe/circe.h \
- stipulation/slice_type.h solving/move_effect_journal.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h pydata.h py.h
+ debugging/trace.h pydata.h py.h
 
 conditions/circe/couscous.h:
 
@@ -1472,9 +1454,15 @@ position/position.h:
 
 pylang.h:
 
-conditions/circe/circe.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
 
 solving/move_effect_journal.h:
 
@@ -1483,18 +1471,6 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
 
 debugging/trace.h:
 
@@ -1505,14 +1481,13 @@ conditions/circe/takemake$(OBJ_SUFFIX): conditions/circe/takemake.c \
  conditions/circe/takemake.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h \
- conditions/circe/capture_fork.h stipulation/slice_type.h \
- conditions/circe/circe.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h pydata.h py.h \
- stipulation/has_solution_type.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/goals/goals.h output/mode.h \
- stipulation/pipe.h stipulation/battle_play/branch.h \
+ solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ conditions/circe/capture_fork.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h pydata.h py.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
  stipulation/temporary_hacks.h solving/post_move_iteration.h \
  solving/single_piece_move_generator.h solving/move_generator.h \
@@ -1544,9 +1519,15 @@ position/position.h:
 
 pylang.h:
 
-conditions/circe/capture_fork.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
+
+conditions/circe/capture_fork.h:
 
 conditions/circe/circe.h:
 
@@ -1564,19 +1545,13 @@ py.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
 
 stipulation/battle_play/branch.h:
 
@@ -1594,16 +1569,20 @@ solving/move_generator.h:
 
 debugging/trace.h:
 conditions/circe/rex_inclusive$(OBJ_SUFFIX): conditions/circe/rex_inclusive.c \
- conditions/circe/rex_inclusive.h py.h utilities/boolean.h \
+ conditions/circe/rex_inclusive.h stipulation/stipulation.h \
+ stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h pydata.h py.h \
- solving/observation.h stipulation/slice_type.h solving/ply.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h debugging/trace.h
+ pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h solving/observation.h solving/ply.h debugging/trace.h
 
 conditions/circe/rex_inclusive.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
 
 py.h:
 
@@ -1617,8 +1596,6 @@ utilities/bitmask.h:
 
 pieces/walks/vectors.h:
 
-utilities/boolean.h:
-
 utilities/enumeration.h:
 
 solving/ply.h:
@@ -1627,26 +1604,16 @@ position/position.h:
 
 pylang.h:
 
+stipulation/slice_type.h:
+
+output/mode.h:
+
 pydata.h:
 
 py.h:
 
 solving/observation.h:
 
-stipulation/slice_type.h:
-
 solving/ply.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
 
 debugging/trace.h:

@@ -1,8 +1,8 @@
 #if !defined(OPTIONS_STOPONSHORTSOLUTIONS_STOPONSHORTSOLUTIONS_H)
 #define OPTIONS_STOPONSHORTSOLUTIONS_STOPONSHORTSOLUTIONS_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "stipulation/slice.h"
 
 /* This module provides functionality dealing with the filter slices
  * implement the stoponshortsolutions option and command line parameter.

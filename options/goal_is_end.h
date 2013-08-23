@@ -4,8 +4,8 @@
 /* This module implements option GoalIsEnd
  */
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "stipulation/slice.h"
 
 /* Instrument a stipulation for option GoalIsEnd
  * @param root_slice identifies root slice of stipulation

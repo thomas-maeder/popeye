@@ -1,7 +1,8 @@
 #if !defined(OPTIONS_QUODLIBET_H)
 #define OPTIONS_QUODLIBET_H
 
-#include "stipulation/slice.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* Transform a stipulation tree to a quodlibet.
  * @param si identifies slice where to start

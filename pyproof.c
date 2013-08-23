@@ -47,6 +47,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "debugging/trace.h"
 
+boolean change_moving_piece;
 
 static position start;
 static position target;

@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_BRUNNER_H)
 #define CONDITIONS_BRUNNER_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* Validate an observation according to Brunner Chess
  * @return true iff the observation is valid

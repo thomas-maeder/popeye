@@ -1,8 +1,8 @@
 #if !defined(CONDITIONS_BEAMTEN_H)
 #define CONDITIONS_BEAMTEN_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* This module implements the condition Beamtenschach */
 

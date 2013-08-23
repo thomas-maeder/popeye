@@ -1,5 +1,6 @@
 #include "stipulation/goals/chess81/reached_tester.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/goals/reached_tester.h"

@@ -1,7 +1,7 @@
 #if !defined(PIECES_ATTRIBUTES_HURDLE_UNCAPTURABLE_H)
 #define PIECES_ATTRIBUTES_HURDLE_UNCAPTURABLE_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* This module implements Uncapturable pieces */
 

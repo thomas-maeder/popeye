@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/stalemate/goalreachable_guard.h"
-#include "stipulation/stipulation.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"

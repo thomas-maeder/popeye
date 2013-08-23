@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_TAKE_AND_MAKE_H)
 #define CONDITIONS_TAKE_AND_MAKE_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* This module implements the condition Take&Make*/
 

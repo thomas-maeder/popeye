@@ -1,7 +1,8 @@
 #if !defined(OPTIMISATION_INTELLIGENT_STALEMATE_IMMOBILISE_BLACK_H)
 #define OPTIMISATION_INTELLIGENT_STALEMATE_IMMOBILISE_BLACK_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* @return true iff >=1 black pieces needed to be immobilised
  */

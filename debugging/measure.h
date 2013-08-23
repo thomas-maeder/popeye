@@ -10,6 +10,7 @@
 #if defined(DOMEASURE)
 
 #include "pyproc.h"
+#include "stipulation/stipulation.h"
 
 #include <stdio.h>
 

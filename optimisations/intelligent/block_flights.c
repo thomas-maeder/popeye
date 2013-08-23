@@ -8,6 +8,7 @@
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "options/maxsolutions/maxsolutions.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
 #include "pydata.h"

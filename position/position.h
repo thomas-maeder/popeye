@@ -203,6 +203,9 @@ typedef unsigned long Flags;
 
 #include "utilities/enumeration.h"
 
+#define advers(side)    ((side)==Black ? White : Black)
+
+
 typedef enum
 {
   color_white,
@@ -278,6 +281,7 @@ void replace_piece(square s, PieNam piece);
 #define is_square_blocked(s) (e[(s)]==Invalid)
 #define get_walk_of_piece_on_square(s) (e[(s)])
 square find_end_of_line(square from, numvec dir);
+#define piece_belongs_to_opponent(sq)    TSTFLAG(spec[(sq)],advers(trait[nbply]))
 
 /* Change the side of some piece specs
  * @param spec address of piece specs where to change the side

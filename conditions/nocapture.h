@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_NOCAPTURE_H)
 #define CONDITIONS_NOCAPTURE_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* This module implements the condition Nocapture */
 

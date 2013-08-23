@@ -1,7 +1,6 @@
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "options/stoponshortsolutions/initialiser.h"
 #include "options/stoponshortsolutions/filter.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"

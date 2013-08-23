@@ -3,7 +3,8 @@
 
 /* This module implements Circe rex inclusive */
 
-#include "py.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 extern boolean circe_is_rex_inclusive;
 

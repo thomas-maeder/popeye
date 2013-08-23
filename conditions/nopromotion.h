@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_NOPROMOTION_H)
 #define CONDITIONS_NOPROMOTION_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* This module implements the (side dependent) NoPromotions condition */
 

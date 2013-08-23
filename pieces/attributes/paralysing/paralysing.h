@@ -1,7 +1,8 @@
 #if !defined(PIECES_PARALYSING_H)
 #define PIECES_PARALYSING_H
 
-#include "stipulation/slice.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* Validate an observater according to Paralysing pieces
  * @return true iff the observation is valid

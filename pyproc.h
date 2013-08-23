@@ -45,7 +45,9 @@
 
 #include "pieces/walks/vectors.h"
 #include "stipulation/goals/goals.h"
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
+
 #include <stdio.h>
 
 void InitMetaData(void);

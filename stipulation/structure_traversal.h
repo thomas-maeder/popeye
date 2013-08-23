@@ -3,6 +3,7 @@
 
 #include "stipulation/slice.h"
 #include "stipulation/traversal.h"
+#include "stipulation/stipulation.h"
 
 struct stip_structure_traversal;
 

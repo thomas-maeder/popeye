@@ -1,7 +1,6 @@
 #include "conditions/circe/rex_inclusive.h"
 #include "pydata.h"
 #include "solving/observation.h"
-#include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 
 boolean circe_is_rex_inclusive;

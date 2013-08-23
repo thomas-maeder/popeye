@@ -3,6 +3,7 @@
 
 #include "py.h"
 #include "utilities/table.h"
+#include "stipulation/stipulation.h"
 
 /* This module provides functionality dealing with writing tries.
  * This functionality is a superset of that provided by solution_writer

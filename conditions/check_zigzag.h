@@ -1,7 +1,7 @@
 #if !defined(CONDITIONS_CHECK_ZIGZAG_H)
 #define CONDITIONS_CHECK_ZIGZAG_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* Instrument a battle branch
  * @param adapter identifies adapter slice into the battle branch

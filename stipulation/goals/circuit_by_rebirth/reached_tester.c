@@ -1,9 +1,10 @@
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

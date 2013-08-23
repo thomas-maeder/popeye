@@ -6,6 +6,15 @@
 
 #include "solving/solve.h"
 
+typedef enum
+{
+  singlebox_type1,
+  singlebox_type2,
+  singlebox_type3
+} singlebox_type_type;
+
+extern singlebox_type_type SingleBoxType;
+
 /* Determine whether the move just played is legal according to Singlebox Type 1
  * @return true iff the move is legal
  */

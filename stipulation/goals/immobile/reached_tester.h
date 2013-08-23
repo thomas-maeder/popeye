@@ -2,6 +2,7 @@
 #define STIPULATION_GOAL_IMMOBILE_REACHED_TESTER_H
 
 #include "stipulation/stipulation.h"
+#include "stipulation/structure_traversal.h"
 #include "solving/solve.h"
 
 /* This module provides functionality dealing with slices that detect

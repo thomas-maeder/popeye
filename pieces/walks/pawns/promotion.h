@@ -22,6 +22,8 @@ typedef struct
 #define ForwardPromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
 #define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
 
+extern boolean promonly[PieceCount];
+
 /* Initialise a sequence of promotions
  * @param sq_arrival arrival square of the move
  * @param sequence address of structure to represent the sequence

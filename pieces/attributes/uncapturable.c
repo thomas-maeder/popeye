@@ -1,6 +1,5 @@
 #include "pieces/attributes/uncapturable.h"
 #include "pydata.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"

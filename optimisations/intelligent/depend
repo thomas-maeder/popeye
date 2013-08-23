@@ -588,8 +588,8 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/finish.h \
  optimisations/orthodox_square_observation.h \
  options/maxsolutions/maxsolutions.h stipulation/slice.h \
- stipulation/slice_type.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
+ stipulation/slice_type.h solving/move_generator.h debugging/trace.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
 
 optimisations/intelligent/block_flights.h:
 
@@ -644,6 +644,8 @@ options/maxsolutions/maxsolutions.h:
 stipulation/slice.h:
 
 stipulation/slice_type.h:
+
+solving/move_generator.h:
 
 debugging/trace.h:
 

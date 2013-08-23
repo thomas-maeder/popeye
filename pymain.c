@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
   set_nice_priority();
 
   initialise_slice_properties();
+  init_slice_allocator();
   init_structure_children_visitors();
   init_moves_children_visitors();
 

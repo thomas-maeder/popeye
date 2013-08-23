@@ -1,8 +1,8 @@
 #if !defined(CONDITIONS_EIFFEL_H)
 #define CONDITIONS_EIFFEL_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* Implementation of condition Eiffel chess
  */

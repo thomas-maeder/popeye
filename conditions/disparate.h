@@ -1,8 +1,8 @@
 #if !defined(CONDITIONS_DISPARATE_H)
 #define CONDITIONS_DISPARATE_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* Implementation of condition Disparate Chess
  */

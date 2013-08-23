@@ -122,8 +122,8 @@ pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
  position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h pieces/walks/walks.h \
- pieces/walks/classification.h pydata.h py.h debugging/trace.h \
- solving/ply.h
+ pieces/walks/classification.h conditions/singlebox/type1.h \
+ solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/pawns/promotion.h:
 
@@ -153,13 +153,15 @@ pieces/walks/walks.h:
 
 pieces/walks/classification.h:
 
-pydata.h:
+conditions/singlebox/type1.h:
 
-py.h:
+solving/solve.h:
 
 debugging/trace.h:
 
-solving/ply.h:
+pydata.h:
+
+py.h:
 pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  pieces/walks/pawns/en_passant.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \

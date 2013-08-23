@@ -1,7 +1,6 @@
 #include "output/plaintext/tree/exclusive.h"
 #include "conditions/exclusive.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/move_writer.h"
 #include "output/plaintext/tree/tree.h"

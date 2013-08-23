@@ -7,6 +7,8 @@
 
 #include "solving/solve.h"
 
+extern boolean AntiCirCheylan;
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

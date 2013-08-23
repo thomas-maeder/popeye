@@ -284,10 +284,10 @@ solution finished.
   1.d2-d1=R   2.Rd1-d3   3.Rd3-f3 Qf2-g2 #
   1.d2-d1=B   2.Bd1-g4   3.Bg4-h3 Qf2-h2 #
 
-  add_to_move_generation_stack:       24668
-                     play_move:       21289
- is_white_king_square_attacked:        3845
- is_black_king_square_attacked:       21289
+  add_to_move_generation_stack:        8042
+                     play_move:        7018
+ is_white_king_square_attacked:        1203
+ is_black_king_square_attacked:        7018
 solution finished. 
 
 
@@ -1174,10 +1174,10 @@ solution finished.
 
   1...Kd8*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8*b2=R =
 
-  add_to_move_generation_stack:      295088
-                     play_move:       71545
- is_white_king_square_attacked:       38807
- is_black_king_square_attacked:       61072
+  add_to_move_generation_stack:      203834
+                     play_move:       52843
+ is_white_king_square_attacked:       29119
+ is_black_king_square_attacked:       43596
 solution finished. 
 
 
@@ -1212,7 +1212,7 @@ solution finished.
       1...h4*g3[+wPg2] !
 
 
-  add_to_move_generation_stack:        8340
+  add_to_move_generation_stack:        8022
                      play_move:         952
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -1720,10 +1720,10 @@ identities (read: rebirth squares) into account.
 
   1.Qc3-d4 e3*d4[+bQc3]   2.Qc3-e3 d2*e3[+bQc3]   3.Qc3-d3 g2*f3 #
 
-  add_to_move_generation_stack:     3928842
-                     play_move:     1603725
+  add_to_move_generation_stack:     1327768
+                     play_move:      732502
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1547930
+ is_black_king_square_attacked:      710606
 solution finished. 
 
 

@@ -261,6 +261,7 @@
 #include "solving/avoid_unsolvable.h"
 #include "solving/play_suppressor.h"
 #include "solving/castling.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/orphan.h"
 #include "solving/move_generator.h"
@@ -890,7 +891,6 @@ static boolean verify_position(slice_index si)
   boolean flagsymmetricfairy = false;
   boolean flagsimplehoppers = false;
 
-  supergenre = false;
   reset_killer_move_optimisation();
   reset_orthodox_mating_move_optimisation();
 
@@ -1393,8 +1393,7 @@ static boolean verify_position(slice_index si)
     if (CondFlag[circecage]) numsuper++;
     if (CondFlag[april]) numsuper++;
     if (CondFlag[antisuper]) numsuper++;
-    if (numsuper>1
-        || (supergenre && numsuper>0))
+    if (numsuper>1)
     {
       VerifieMsg(SuperCirceAndOthers);
       return false;
@@ -1811,12 +1810,6 @@ static boolean verify_position(slice_index si)
   if (CondFlag[isardam]
       || CondFlag[ohneschach])
     disable_orthodox_mating_move_optimisation(nr_sides);
-
-  supergenre = supergenre
-      || CondFlag[supercirce]
-      || CondFlag[circecage]
-      || CondFlag[antisuper]
-      || CondFlag[april];
 
   if (CondFlag[extinction] || CondFlag[circeassassin])
     disable_orthodox_mating_move_optimisation(nr_sides);

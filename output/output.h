@@ -2,7 +2,7 @@
 #define OUTPUT_OUTPUT_H
 
 #include "output/mode.h"
-#include "stipulation/slice.h"
+#include "stipulation/stipulation.h"
 
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice

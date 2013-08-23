@@ -1,7 +1,7 @@
 #if !defined(OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_H)
 #define OPTIONS_NO_SHORT_VARIATIONS_NO_SHORT_VARIATIONS_H
 
-#include "stipulation/slice.h"
+#include "stipulation/stipulation.h"
 
 /* This module provides functionality dealing with the filter slices
  * implement the noshortvariations option

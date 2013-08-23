@@ -1,7 +1,6 @@
 #include "conditions/backhome.h"
 #include "conditions/mummer.h"
 #include "position/pieceid.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

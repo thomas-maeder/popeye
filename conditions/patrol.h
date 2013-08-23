@@ -1,8 +1,8 @@
 #if !defined(CONDITIONS_PATROL_H)
 #define CONDITIONS_PATROL_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* This module implements the conditions Patrol Chess and Ultra-Patro Chess */
 

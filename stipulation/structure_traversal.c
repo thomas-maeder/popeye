@@ -1,5 +1,4 @@
 #include "stipulation/structure_traversal.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/testing_pipe.h"
 #include "debugging/trace.h"
 

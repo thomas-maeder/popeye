@@ -8,6 +8,7 @@
 #include "stipulation/pipe.h"
 #include "solving/move_effect_journal.h"
 #include "solving/check.h"
+#include "solving/move_generator.h"
 #include "platform/beep.h"
 #include "debugging/trace.h"
 #include "pyproc.h"

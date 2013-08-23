@@ -6,7 +6,7 @@
  * immobility doesn't matter.
  */
 
-#include "py.h"
+#include "stipulation/stipulation.h"
 
 /* Optimise away redundant immobility tests
  * @param si identifies root slice of stipulation

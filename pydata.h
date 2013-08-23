@@ -91,49 +91,22 @@ EXTERN square royal_square[nr_sides];
 
 EXTERN unsigned int number_of_pieces[nr_sides][PieceCount];
 
-EXTERN  numecoup current_move[maxply + 1];
-EXTERN  numecoup current_move_id[maxply + 1];
-
 EXTERN  boolean  exist[PieceCount];
 EXTERN  boolean  may_exist[PieceCount];
-EXTERN  boolean  promonly[PieceCount];
 
 EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyanticirprom, anyimmun, anyclone, anygeneva;
 
-/* new anticirce implementation */
-EXTERN  boolean         AntiCirCheylan;
-EXTERN  enum
-{
-  singlebox_type1,
-  singlebox_type2,
-  singlebox_type3
-} SingleBoxType;
+EXTERN  pileside trait;
+EXTERN  boolean flagfee;
 
-EXTERN  enum
-{
-  republican_type1,
-  republican_type2
-} RepublicanType;
-
-EXTERN  pileside     trait;
-EXTERN  boolean         flagfee,
-            change_moving_piece,
-            supergenre ;
-
-EXTERN  int        zzzaj[square_h8 - square_a1 + 1];  /* gridnumber */
-
-EXTERN  boolean         anymars;
-EXTERN  boolean         is_phantomchess;
-
-EXTERN  PieNam          checkpieces[PieceCount - Leo + 1]; /* only fairies ! */
-
-EXTERN boolean		anyantimars;
-EXTERN boolean          calc_reflective_king[nr_sides];
-EXTERN boolean			anyparrain;
+EXTERN boolean anymars;
+EXTERN boolean anyantimars;
+EXTERN boolean calc_reflective_king[nr_sides];
+EXTERN boolean anyparrain;
 
 
 EXTERN boolean CondFlag[CondCount];
-EXTERN boolean  ExtraCondFlag[ExtraCondCount];
+EXTERN boolean ExtraCondFlag[ExtraCondCount];
 EXTERN boolean OptFlag[OptCount];
 
 #if defined(WE_ARE_EXTERN)

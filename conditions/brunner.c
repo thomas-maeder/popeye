@@ -1,11 +1,11 @@
 #include "conditions/brunner.h"
-#include "pydata.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/observation.h"
 #include "solving/solve.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
+#include "pydata.h"
 
 #include <assert.h>
 

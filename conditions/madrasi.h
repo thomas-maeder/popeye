@@ -1,8 +1,8 @@
 #if !defined(CONDITIONS_MADRASI_H)
 #define CONDITIONS_MADRASI_H
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* Implementation of condition Madrasi
  */

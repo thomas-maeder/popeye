@@ -1,7 +1,8 @@
 #if !defined(CONDITIONS_SHIELDED_KINGS_H)
 #define CONDITIONS_SHIELDED_KINGS_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* Implementation of condition Shielded kings
  */

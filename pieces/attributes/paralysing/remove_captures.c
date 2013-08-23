@@ -1,6 +1,5 @@
 #include "pieces/attributes/paralysing/remove_captures.h"
 #include "pydata.h"
-#include "stipulation/stipulation.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 

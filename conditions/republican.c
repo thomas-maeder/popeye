@@ -20,6 +20,8 @@
 #include <assert.h>
 #include <string.h>
 
+republican_type_type RepublicanType;
+
 static pilecase king_placement;
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
@@ -116,11 +118,6 @@ boolean republican_verifie_position(slice_index si)
     VerifieMsg(NoRepublicanWithConditionsDependingOnCheck);
     result = false;
   }
-  else if (supergenre)
-  {
-    VerifieMsg(SuperCirceAndOthers);
-    result = false;
-  }
   else
   {
     Goal const goal = find_unique_goal(si);
@@ -135,7 +132,6 @@ boolean republican_verifie_position(slice_index si)
       OptFlag[sansrn] = true;
       OptFlag[sansrb] = true;
       disable_orthodox_mating_move_optimisation(nr_sides);
-      supergenre = true;
       result = true;
     }
   }

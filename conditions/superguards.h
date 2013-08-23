@@ -1,7 +1,8 @@
 #if !defined(CONDITIONS_SUPERGUARDS_H)
 #define CONDITIONS_SUPERGUARDS_H
 
-#include "py.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* This module implements the condition Superguards */
 

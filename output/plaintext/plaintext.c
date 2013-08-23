@@ -4,6 +4,7 @@
 #include "conditions/bgl.h"
 #include "conditions/kobul.h"
 #include "conditions/imitator.h"
+#include "conditions/singlebox/type1.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "debugging/trace.h"
 #include "pyproc.h"

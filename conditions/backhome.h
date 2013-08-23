@@ -3,7 +3,8 @@
 
 /* This module implements the fairy condition "Back-Home" */
 
-#include "py.h"
+#include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
 
 /* Determine whether there are moves Back Home for observation validation
  * @return true iff the observation is valid

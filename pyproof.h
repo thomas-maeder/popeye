@@ -10,7 +10,9 @@
 #define PYPROOF_H
 
 #include "py.h"
-#include "stipulation/slice.h"
+#include "stipulation/stipulation.h"
+
+extern boolean change_moving_piece;
 
 /* Encode the hash key for the current position
  */
@@ -74,7 +76,7 @@ slice_type proof_make_goal_reachable_type(void);
  *            n+3 no solution found in next branch
  */
 stip_length_type goalreachable_guard_proofgame_solve(slice_index si,
-                                                      stip_length_type n);
+                                                     stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -90,7 +92,7 @@ stip_length_type goalreachable_guard_proofgame_solve(slice_index si,
  *            n+3 no solution found in next branch
  */
 stip_length_type goalreachable_guard_proofgame_fairy_solve(slice_index si,
-                                                            stip_length_type n);
+                                                           stip_length_type n);
 
 extern int const ProofKnightMoves[];
 

@@ -1,9 +1,7 @@
 #if !defined(STIPULATION_BOOLEAN_NOT_H)
 #define STIPULATION_BOOLEAN_NOT_H
 
-#include "py.h"
-#include "solving/solve.h"
-#include "utilities/boolean.h"
+#include "stipulation/stipulation.h"
 
 /* This module provides functionality dealing with STNot stipulation
  * slices.

@@ -2,7 +2,6 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"

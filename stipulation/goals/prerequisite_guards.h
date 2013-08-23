@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_GOALS_PREREQUISITE_GUARDS_H)
 #define STIPULATION_GOALS_PREREQUISITE_GUARDS_H
 
-#include "stipulation/slice.h"
+#include "stipulation/stipulation.h"
 #include "stipulation/goals/goals.h"
 #include "solving/ply.h"
 

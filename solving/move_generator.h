@@ -4,6 +4,7 @@
 #include "solving/solve.h"
 #include "solving/ply.h"
 #include "stipulation/slice_type.h"
+#include "stipulation/stipulation.h"
 #include "py.h"
 
 /* This module provides functionality dealing with the attacking side
@@ -29,6 +30,11 @@ enum
 {
   current_generation = toppile
 };
+
+extern numecoup current_move[maxply+1];
+extern numecoup current_move_id[maxply+1];
+
+#define encore() (current_move[nbply]-1>current_move[nbply-1]-1)
 
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation

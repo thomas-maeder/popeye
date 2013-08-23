@@ -3,10 +3,10 @@
 
 /* This module implements the condition Immune Chess */
 
+#include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 #include "position/board.h"
 #include "position/position.h"
-#include "py.h"
 
 /* Address of function used to determine the relevant square for finding out
  * whether a piece is immune

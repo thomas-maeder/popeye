@@ -1,6 +1,5 @@
 #include "conditions/bichrome.h"
 #include "conditions/monochrome.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"
