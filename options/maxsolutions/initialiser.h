@@ -1,7 +1,6 @@
 #if !defined(OPTIONS_MAXSOLUTIONS_INITIALISER_H)
 #define OPTIONS_MAXSOLUTIONS_INITIALISER_H
 
-#include "py.h"
 #include "solving/solve.h"
 
 /* This module provides functionality dealing with

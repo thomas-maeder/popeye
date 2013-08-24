@@ -1,14 +1,15 @@
 options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  options/stoponshortsolutions/stoponshortsolutions.c \
  options/stoponshortsolutions/stoponshortsolutions.h \
- stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
- py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h options/stoponshortsolutions/initialiser.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h \
+ options/stoponshortsolutions/initialiser.h solving/solve.h \
  options/stoponshortsolutions/filter.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/help_play/branch.h debugging/trace.h
+ stipulation/traversal.h stipulation/help_play/branch.h debugging/trace.h \
+ solving/ply.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -16,29 +17,21 @@ stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
-utilities/boolean.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/walks/vectors.h:
+utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-pylang.h:
+pieces/pieces.h:
 
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -59,41 +52,20 @@ stipulation/traversal.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
- options/stoponshortsolutions/initialiser.c \
- options/stoponshortsolutions/initialiser.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h \
- options/stoponshortsolutions/stoponshortsolutions.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
-
-options/stoponshortsolutions/initialiser.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-pieces/walks/vectors.h:
-
-utilities/boolean.h:
-
-utilities/enumeration.h:
 
 solving/ply.h:
+options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
+ options/stoponshortsolutions/initialiser.c \
+ options/stoponshortsolutions/initialiser.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h \
+ options/stoponshortsolutions/stoponshortsolutions.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h solving/ply.h
 
-position/position.h:
-
-pylang.h:
+options/stoponshortsolutions/initialiser.h:
 
 solving/solve.h:
 
@@ -101,7 +73,21 @@ stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
 stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -116,49 +102,42 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
  options/stoponshortsolutions/filter.c \
- options/stoponshortsolutions/filter.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h \
+ options/stoponshortsolutions/filter.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h \
  options/stoponshortsolutions/stoponshortsolutions.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h
 
 options/stoponshortsolutions/filter.h:
 
 solving/solve.h:
 
-py.h:
+stipulation/stipulation.h:
 
-utilities/boolean.h:
-
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-pylang.h:
+pieces/pieces.h:
 
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -173,3 +152,5 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:

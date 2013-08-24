@@ -1,7 +1,6 @@
 #if !defined(OUTPUT_PLAINTEXT_PLAINTEXT_H)
 #define OUTPUT_PLAINTEXT_PLAINTEXT_H
 
-#include "py.h"
 #include "stipulation/goals/goals.h"
 
 /* Write the current move

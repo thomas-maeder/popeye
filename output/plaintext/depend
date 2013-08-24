@@ -1,7 +1,7 @@
 output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
- output/plaintext/plaintext.h py.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h utilities/boolean.h pymsg.h \
- pylang.h utilities/boolean.h conditions/republican.h solving/solve.h \
+ output/plaintext/plaintext.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h pymsg.h pylang.h \
+ utilities/boolean.h conditions/republican.h solving/solve.h \
  stipulation/stipulation.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/bgl.h \
@@ -10,12 +10,10 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  conditions/singlebox/type1.h pieces/walks/pawns/en_passant.h \
  solving/observation.h debugging/trace.h pyproc.h pieces/walks/vectors.h \
  pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pydata.h position/position.h py.h solving/ply.h \
+ input/plaintext/token.h pydata.h position/position.h solving/ply.h \
  conditions/conditions.h
 
 output/plaintext/plaintext.h:
-
-py.h:
 
 stipulation/goals/goals.h:
 
@@ -87,14 +85,12 @@ pydata.h:
 
 position/position.h:
 
-py.h:
-
 solving/ply.h:
 
 conditions/conditions.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
- output/plaintext/end_of_phase_writer.h solving/solve.h py.h \
+ output/plaintext/end_of_phase_writer.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
@@ -106,8 +102,6 @@ output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
 output/plaintext/end_of_phase_writer.h:
 
 solving/solve.h:
-
-py.h:
 
 stipulation/stipulation.h:
 
@@ -150,7 +144,7 @@ debugging/trace.h:
 solving/ply.h:
 output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
- output/plaintext/illegal_selfcheck_writer.h solving/solve.h py.h \
+ output/plaintext/illegal_selfcheck_writer.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
@@ -162,8 +156,6 @@ output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
 output/plaintext/illegal_selfcheck_writer.h:
 
 solving/solve.h:
-
-py.h:
 
 stipulation/stipulation.h:
 
@@ -208,7 +200,7 @@ debugging/trace.h:
 solving/ply.h:
 output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  output/plaintext/move_inversion_counter.c \
- output/plaintext/move_inversion_counter.h solving/solve.h py.h \
+ output/plaintext/move_inversion_counter.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
@@ -219,8 +211,6 @@ output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
 output/plaintext/move_inversion_counter.h:
 
 solving/solve.h:
-
-py.h:
 
 stipulation/stipulation.h:
 
@@ -258,22 +248,20 @@ solving/ply.h:
 output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  output/plaintext/ohneschach_detect_undecidable_goal.c \
  output/plaintext/ohneschach_detect_undecidable_goal.h solving/solve.h \
- py.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h utilities/boolean.h \
- stipulation/slice_type.h utilities/enumeration.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  conditions/ohneschach.h solving/ply.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
  stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
- pydata.h position/position.h py.h solving/ply.h pymsg.h pylang.h
+ pydata.h position/position.h solving/ply.h pymsg.h pylang.h
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
 solving/solve.h:
-
-py.h:
 
 stipulation/stipulation.h:
 
@@ -331,8 +319,6 @@ pydata.h:
 
 position/position.h:
 
-py.h:
-
 solving/ply.h:
 
 pymsg.h:
@@ -340,8 +326,8 @@ pymsg.h:
 pylang.h:
 output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  output/plaintext/goal_writer.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h utilities/boolean.h py.h \
- solving/solve.h stipulation/stipulation.h stipulation/slice_type.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h solving/solve.h \
+ stipulation/stipulation.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h pyproc.h pieces/walks/vectors.h \
  pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
@@ -359,8 +345,6 @@ position/board.h:
 utilities/bitmask.h:
 
 utilities/boolean.h:
-
-py.h:
 
 solving/solve.h:
 

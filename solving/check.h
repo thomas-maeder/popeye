@@ -6,7 +6,6 @@
 #include "utilities/boolean.h"
 #include "position/position.h"
 #include "stipulation/stipulation.h"
-#include "py.h"
 
 /* Determine whether a side is in check
  * @param si identifies the check tester

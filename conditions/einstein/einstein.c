@@ -1,5 +1,4 @@
 #include "conditions/einstein/einstein.h"
-#include "py.h"
 #include "pydata.h"
 #include "pieces/pieces.h"
 #include "stipulation/pipe.h"

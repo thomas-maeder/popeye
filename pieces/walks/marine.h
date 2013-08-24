@@ -4,7 +4,6 @@
 #include "pieces/walks/vectors.h"
 #include "position/board.h"
 #include "position/position.h"
-#include "py.h"
 #include "solving/observation.h"
 
 /* Generate moves for a marine rider

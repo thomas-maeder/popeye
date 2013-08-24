@@ -21,7 +21,6 @@
 
 #define PYMSG
 
-#include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pymsg.h"

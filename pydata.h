@@ -72,7 +72,6 @@
 
 #include "position/position.h"
 #include "utilities/boolean.h"
-#include "py.h"
 #include "solving/ply.h"
 
 #include <limits.h>

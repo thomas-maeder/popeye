@@ -1,5 +1,4 @@
 #include "position/position.h"
-#include "py.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "debugging/trace.h"
 

@@ -46,7 +46,6 @@
 #include <string.h>
 #include <assert.h>
 
-#include "py.h"
 #include "pymsg.h"
 #include "py1.h"
 #include "pydata.h"

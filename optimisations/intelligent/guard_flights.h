@@ -1,7 +1,6 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_GUARDS_FLIGHTS_H)
 #define OPTIMISATIONS_INTELLIGENT_GUARDS_FLIGHTS_H
 
-#include "py.h"
 #include "pieces/walks/vectors.h"
 #include "position/board.h"
 

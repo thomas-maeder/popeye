@@ -1,7 +1,6 @@
 #if !defined(STIPULATION_SLICE_H)
 #define STIPULATION_SLICE_H
 
-#include "py.h"
 #include "stipulation/slice_type.h"
 
 #define ENUMERATION_TYPENAME slice_structural_type

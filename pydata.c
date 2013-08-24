@@ -16,6 +16,5 @@
 #       include "platform/unix/mac.h"
 #endif
 
-#include "py.h"
 #define EXTERN
 #include "pydata.h"

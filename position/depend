@@ -1,8 +1,9 @@
 position/position$(OBJ_SUFFIX): position/position.c position/position.h \
  position/board.h utilities/bitmask.h pieces/pieces.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h py.h \
- utilities/boolean.h position/position.h solving/ply.h pylang.h \
- pieces/attributes/neutral/neutral.h debugging/trace.h
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
+ pieces/attributes/neutral/neutral.h debugging/trace.h solving/ply.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h
 
 position/position.h:
 
@@ -18,19 +19,19 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-solving/ply.h:
-
-pylang.h:
-
 pieces/attributes/neutral/neutral.h:
 
 debugging/trace.h:
+
+solving/ply.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
 position/board$(OBJ_SUFFIX): position/board.c position/board.h utilities/bitmask.h
 
 position/board.h:

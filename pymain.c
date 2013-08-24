@@ -62,6 +62,28 @@ static void checkGlobalAssumptions(void)
   enforce_piecename_uniqueness();
 }
 
+#if !defined(OSTYPE)
+#  if defined(C370)
+#    define OSTYPE "MVS"
+#  elseif defined(DOS)
+#    define OSTYPE "DOS"
+#  elseif defined(ATARI)
+#    define OSTYPE "ATARI"
+#  elseif defined(_WIN98)
+#    define OSTYPE "WINDOWS98"
+#  elseif defined(_WIN16) || defined(_WIN32)
+#    define OSTYPE "WINDOWS"
+#  elseif defined(__unix)
+#    if defined(__GO32__)
+#      define OSTYPE "DOS"
+#    else
+#      define OSTYPE "UNIX"
+#    endif  /* __GO32__ */
+#  else
+#    define OSTYPE "C"
+#  endif
+#endif
+
 int main(int argc, char *argv[])
 {
   int idx_end_of_options;

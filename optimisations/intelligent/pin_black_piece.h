@@ -1,7 +1,6 @@
 #if !defined(OPTIMISATION_INTELLIGENT_PIN_BLACK_PIECE_H)
 #define OPTIMISATION_INTELLIGENT_PIN_BLACK_PIECE_H
 
-#include "py.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 
 /* Find out whether a black piece can be pinned

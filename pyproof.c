@@ -21,7 +21,6 @@
 #if defined(__TURBOC__)
 # include <mem.h>
 #endif
-#include "py.h"
 #include "stipulation/stipulation.h"
 #include "pyproc.h"
 #include "pydata.h"

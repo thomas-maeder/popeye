@@ -5,7 +5,6 @@
  * depending on the slice type
  */
 
-#include "py.h"
 #include "stipulation/stipulation.h"
 
 /* Try to solve in n half-moves.

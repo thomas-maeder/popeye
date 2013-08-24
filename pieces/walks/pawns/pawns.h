@@ -4,7 +4,6 @@
 #include "pieces/walks/vectors.h"
 #include "position/board.h"
 #include "position/position.h"
-#include "py.h"
 
 /* Generate en passant capture moves for any kind of pawn if there are any
  * @param sq_arrival_singlestep imaginary single step arrival square of the

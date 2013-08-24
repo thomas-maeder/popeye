@@ -9,7 +9,6 @@
 #if !defined(PYPROOF_H)
 #define PYPROOF_H
 
-#include "py.h"
 #include "stipulation/stipulation.h"
 
 extern boolean change_moving_piece;

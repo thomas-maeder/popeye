@@ -3,7 +3,6 @@
 
 #include "position/board.h"
 #include "utilities/boolean.h"
-#include "py.h"
 
 /* A goal describes a property
  * - of the position reached at the end of play, or

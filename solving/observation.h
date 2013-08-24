@@ -3,7 +3,6 @@
 
 #include "stipulation/stipulation.h"
 #include "pieces/walks/vectors.h"
-#include "py.h"
 #include "solving/ply.h"
 
 /* This module provides supports observation as used by many conditions and

@@ -32,7 +32,6 @@
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
-#include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
 #include "pieces/pieces.h"

@@ -6,16 +6,16 @@ platform/maxmem.h:
 utilities/boolean.h:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
  platform/maxtime.h utilities/boolean.h pymsg.h pylang.h \
- optimisations/hash.h DHT/dhtbcmem.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
- pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
- position/position.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h solving/moving_pawn_promotion.h \
+ utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h pieces/pieces.h \
+ solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/walks/vectors.h \
+ output/mode.h solving/ply.h solving/moving_pawn_promotion.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/move_generator.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h pydata.h py.h
+ pyproc.h pieces/walks/vectors.h pieces/pieces.h \
+ stipulation/goals/goals.h stipulation/stipulation.h \
+ input/plaintext/token.h pydata.h position/position.h solving/ply.h
 
 platform/maxtime_impl.h:
 
@@ -27,29 +27,13 @@ pymsg.h:
 
 pylang.h:
 
+utilities/boolean.h:
+
 optimisations/hash.h:
 
 DHT/dhtbcmem.h:
 
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
 pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-utilities/enumeration.h:
-
-solving/ply.h:
-
-position/position.h:
 
 solving/solve.h:
 
@@ -57,7 +41,17 @@ stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
+position/board.h:
+
+utilities/bitmask.h:
+
 stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -79,13 +73,19 @@ pyproc.h:
 
 pieces/walks/vectors.h:
 
+pieces/pieces.h:
+
 stipulation/goals/goals.h:
 
 stipulation/stipulation.h:
 
+input/plaintext/token.h:
+
 pydata.h:
 
-py.h:
+position/position.h:
+
+solving/ply.h:
 platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/pytime.h
 
 platform/pytime.h:

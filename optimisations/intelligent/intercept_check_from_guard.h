@@ -1,7 +1,6 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_INTERCEPT_FROM_GUARD_H)
 #define OPTIMISATIONS_INTELLIGENT_INTERCEPT_FROM_GUARD_H
 
-#include "py.h"
 #include "position/board.h"
 
 /* Intercept a check by a white rider on the flight guarded by the rider

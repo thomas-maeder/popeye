@@ -94,7 +94,6 @@
 #include <process.h>
 #endif  /* _WIN32 */
 
-#include "py.h"
 #include "py1.h"
 #include "pydata.h"
 #include "pieces/pieces.h"

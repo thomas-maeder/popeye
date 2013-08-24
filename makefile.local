@@ -4,7 +4,7 @@
 # ========================================
 
 INCLUDES = pydata.h \
-		py.h py1.h py6.h pyproc.h pymsg.h \
+		py1.h py6.h pyproc.h pymsg.h \
 		pylang.h pyproof.h
 SRC_CFILES =	pydata.c \
 		py1.c py6.c pyio.c \
@@ -32,7 +32,7 @@ DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
 # ===========================================================
 # Target for compiling .c source files into object files
 
-pyio:           pyio.c pydata.h py.h pydata$(OBJ_SUFFIX) pymac.h
+pyio:           pyio.c pydata.h pydata$(OBJ_SUFFIX) pymac.h
 		$(CCTARGET) $(DEFINEMACRO)STANDALONE $(CFLAGS) \
 			$(EXEFILE)pyio pydata$(OBJ_SUFFIX) pyio.c
 

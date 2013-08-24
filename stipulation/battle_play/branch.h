@@ -1,7 +1,6 @@
 #if !defined(STIPULATION_BATTLE_PLAY_BRANCH_H)
 #define STIPULATION_BATTLE_PLAY_BRANCH_H
 
-#include "py.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/slice.h"
 #include "stipulation/structure_traversal.h"

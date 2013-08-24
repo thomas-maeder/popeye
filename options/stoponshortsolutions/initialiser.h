@@ -1,7 +1,6 @@
 #if !defined(OPTIONS_STOPONSHORTSOLUTIONS_H)
 #define OPTIONS_STOPONSHORTSOLUTIONS_H
 
-#include "py.h"
 #include "solving/solve.h"
 
 /* This module provides functionality dealing with

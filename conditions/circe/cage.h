@@ -1,7 +1,6 @@
 #if !defined(CONDITIONS_CIRCE_CAGE_H)
 #define CONDITIONS_CIRCE_CAGE_H
 
-#include "py.h"
 #include "solving/solve.h"
 
 /* Try to solve in n half-moves.

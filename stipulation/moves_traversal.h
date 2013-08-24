@@ -1,7 +1,6 @@
 #if !defined(STIPULATION_MOVES_TRAVERSAL_H)
 #define STIPULATION_MOVES_TRAVERSAL_H
 
-#include "py.h"
 #include "stipulation/slice.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/goals/goals.h"
