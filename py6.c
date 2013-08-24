@@ -111,6 +111,7 @@
 #include "solving/observation.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
+#include "input/plaintext/token.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
 #include "conditions/koeko/contact_grid.h"

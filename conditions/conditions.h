@@ -3,6 +3,18 @@
 
 #include "position/position.h"
 
+/* Some remarks to the conditions:
+**      if hypervolage is set, also volage will be set
+**      if leofamily is set, also chinoises will be set
+**      if patrouille is set, also patrcalcule and patrsoutien will
+**              be set.
+**      if immunmalefique is set, also immun and malefique will be set
+**      if pwc is set, also circe will be set
+**      if iprom is set, also imitators will be set
+**      if equipollents or coucou is set, also pwc will be set
+*/
+
+
 /* Names for conditions */
 typedef enum
 {

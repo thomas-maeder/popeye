@@ -631,7 +631,7 @@ void output_plaintext_tree_write_move(void)
 
   Message(NewLine);
 
-  sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,blank,move_depth/2);
+  sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,' ',move_depth/2);
   StdString(GlobalStr);
   if (move_depth%2==1)
     StdString("..");

@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = 
+
+INCLUDES = token.h
+
+include makefile.rules $(CURRPWD)depend

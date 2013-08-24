@@ -55,7 +55,7 @@ stip_length_type exclusive_chess_undecidable_writer_tree_solve(slice_index si,
   if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
   {
     output_plaintext_tree_write_move();
-    StdChar(blank);
+    StdChar(' ');
     Message(ExclusiveRefutedUndecidable);
     StdChar('\n');
     result = previous_move_is_illegal;
@@ -68,7 +68,7 @@ stip_length_type exclusive_chess_undecidable_writer_tree_solve(slice_index si,
         && table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])+exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]>1)
     {
       output_plaintext_tree_write_move();
-      StdChar(blank);
+      StdChar(' ');
       Message(ChecklessUndecidable);
     }
   }

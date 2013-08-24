@@ -69,7 +69,7 @@ static void IncrementMoveNbr(slice_index si)
     output_plaintext_write_move();
     if (echecc(slices[si].starter))
       StdString(" +");
-    StdChar(blank);
+    StdChar(' ');
 
     if (!flag_regression)
     {

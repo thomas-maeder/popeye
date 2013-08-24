@@ -51,7 +51,7 @@ stip_length_type refutations_intro_writer_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   Message(NewLine);
-  sprintf(GlobalStr,"%*c",4,blank);
+  sprintf(GlobalStr,"%*c",4,' ');
   StdString(GlobalStr);
   Message(But);
 

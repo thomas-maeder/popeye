@@ -14,6 +14,12 @@
 #include "solving/solve.h"
 #include "solving/ply.h"
 
+#if defined(TESTHASH)
+#       if !defined(HASHRATE)
+#               define HASHRATE
+#       endif   /* !HASHRATE */
+#endif  /* TESTHASH */
+
 /* typedefs */
 typedef unsigned char byte;
 

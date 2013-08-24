@@ -57,7 +57,7 @@ refuting_variation_writer_solve(slice_index si, stip_length_type n)
   {
     unsigned int const move_depth = nbply+output_plaintext_nr_move_inversions;
     Message(NewLine);
-    sprintf(GlobalStr,"%*c",4*move_depth-4,blank);
+    sprintf(GlobalStr,"%*c",4*move_depth-4,' ');
     StdString(GlobalStr);
     Message(Refutation);
   }

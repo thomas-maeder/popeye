@@ -79,6 +79,7 @@
 #include "stipulation/pipe.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
+#include "input/plaintext/token.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/has_solution_type.h"

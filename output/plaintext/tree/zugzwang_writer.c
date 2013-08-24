@@ -62,7 +62,7 @@ stip_length_type zugzwang_writer_solve(slice_index si, stip_length_type n)
    * self play variation */
   if (n>slack_length && result==n+2)
   {
-    StdChar(blank);
+    StdChar(' ');
     Message(Zugzwang);
   }
 

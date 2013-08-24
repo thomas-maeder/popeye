@@ -217,6 +217,11 @@ boolean InitMsgTab(Language l)
 #endif	/* MSG_IN_MEM */
 
 
+#if defined(DEBUG)
+#       define  DBG(x) fprintf x
+#else
+#       define DBG(x)
+#endif
 
 void Message(message_id_t id)
 {

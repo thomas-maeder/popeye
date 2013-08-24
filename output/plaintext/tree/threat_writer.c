@@ -51,7 +51,7 @@ stip_length_type threat_writer_solve(slice_index si, stip_length_type n)
 
   if (table_length(threats[nbply])==0)
   {
-    StdChar(blank);
+    StdChar(' ');
     Message(Threat);
   }
 

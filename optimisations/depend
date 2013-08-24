@@ -4,7 +4,7 @@ optimisations/immobility_tester_king_first$(OBJ_SUFFIX): \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
- position/position.h pylang.h stipulation/slice_type.h output/mode.h \
+ position/position.h stipulation/slice_type.h output/mode.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/solve.h pydata.h py.h \
  conditions/mummer.h stipulation/proxy.h stipulation/pipe.h \
@@ -39,8 +39,6 @@ utilities/enumeration.h:
 solving/ply.h:
 
 position/position.h:
-
-pylang.h:
 
 stipulation/slice_type.h:
 
@@ -77,7 +75,7 @@ optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  optimisations/keepmating.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
+ solving/ply.h position/position.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  pydata.h py.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
@@ -110,8 +108,6 @@ solving/ply.h:
 
 position/position.h:
 
-pylang.h:
-
 stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
@@ -141,11 +137,11 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  DHT/dhtbcmem.h py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h solving/solve.h \
+ solving/ply.h position/position.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h solving/ply.h pymsg.h pyproof.h \
- py.h stipulation/stipulation.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ stipulation/slice_type.h output/mode.h solving/ply.h pymsg.h pylang.h \
+ pyproof.h py.h stipulation/stipulation.h DHT/dhtvalue.h DHT/fxf.h \
+ DHT/dht.h pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/observation.h \
  conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
  conditions/imitator.h options/nontrivial.h solving/avoid_unsolvable.h \
@@ -182,8 +178,6 @@ solving/ply.h:
 
 position/position.h:
 
-pylang.h:
-
 solving/solve.h:
 
 stipulation/stipulation.h:
@@ -197,6 +191,8 @@ output/mode.h:
 solving/ply.h:
 
 pymsg.h:
+
+pylang.h:
 
 pyproof.h:
 
@@ -269,7 +265,7 @@ optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pieces/walks/pawns/en_passant.h solving/solve.h py.h utilities/boolean.h \
- position/position.h solving/ply.h pylang.h stipulation/stipulation.h \
+ position/position.h solving/ply.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h solving/observation.h debugging/trace.h pydata.h py.h
@@ -301,8 +297,6 @@ utilities/boolean.h:
 position/position.h:
 
 solving/ply.h:
-
-pylang.h:
 
 stipulation/stipulation.h:
 
@@ -353,14 +347,13 @@ optimisations/detect_retraction$(OBJ_SUFFIX): optimisations/detect_retraction.c 
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h pylang.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- pydata.h py.h solving/move_generator.h solving/ply.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h \
- stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
- debugging/trace.h
+ position/position.h stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h pydata.h py.h \
+ solving/move_generator.h solving/ply.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ stipulation/proxy.h stipulation/branch.h debugging/trace.h
 
 optimisations/detect_retraction.h:
 
@@ -387,8 +380,6 @@ utilities/enumeration.h:
 solving/ply.h:
 
 position/position.h:
-
-pylang.h:
 
 stipulation/stipulation.h:
 

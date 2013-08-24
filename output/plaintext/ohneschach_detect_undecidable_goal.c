@@ -55,7 +55,7 @@ stip_length_type ohneschach_detect_undecidable_goal_solve(slice_index si,
   {
     ohneschach_undecidable_goal_detected[nbply+1] = false;
     result = previous_move_is_illegal;
-    StdChar(blank);
+    StdChar(' ');
     Message(ChecklessUndecidable);
   }
   else
