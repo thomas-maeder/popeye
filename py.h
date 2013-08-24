@@ -134,8 +134,6 @@ enum
   blank = ' '
 };
 
-typedef square       pilecase[maxply+1];
-
 /* These are definitions to implement arrays with lower index != 0
 ** as they are common in PASCAL. The arrays zzza? are defined in
 ** pydata.h                                                     ElB

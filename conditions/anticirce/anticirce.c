@@ -19,7 +19,7 @@ Flags anticirce_current_reborn_spec[maxply+1];
 PieNam anticirce_current_relevant_piece[maxply+1];
 Flags anticirce_current_relevant_spec[maxply+1];
 Side anticirce_current_relevant_side[maxply+1];
-pilecase anticirce_current_rebirth_square;
+square anticirce_current_rebirth_square[maxply+1];
 
 square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 

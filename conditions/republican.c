@@ -25,7 +25,7 @@
 
 republican_type_type RepublicanType;
 
-static pilecase king_placement;
+static square king_placement[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 

@@ -13,7 +13,7 @@
 
 #include <assert.h>
 
-pilecase current_circe_rebirth_square;
+square current_circe_rebirth_square[maxply+1];
 
 PieNam current_circe_reborn_piece[maxply+1];
 Flags current_circe_reborn_spec[maxply+1];

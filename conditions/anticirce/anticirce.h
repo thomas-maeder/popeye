@@ -13,7 +13,7 @@ extern Flags anticirce_current_reborn_spec[maxply+1];
 extern PieNam anticirce_current_relevant_piece[maxply+1];
 extern Flags anticirce_current_relevant_spec[maxply+1];
 extern Side anticirce_current_relevant_side[maxply+1];
-extern pilecase anticirce_current_rebirth_square;
+extern square anticirce_current_rebirth_square[maxply+1];
 
 extern square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
