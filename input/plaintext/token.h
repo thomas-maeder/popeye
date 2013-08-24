@@ -1,5 +1,8 @@
-#if !defined(INPUT_INPUT_H)
-#define INPUT_INPUT_H
+#if !defined(INPUT_PLAINTEXT_TOKEN_H)
+#define INPUT_PLAINTEXT_TOKEN_H
+
+#include "pylang.h"
+#include "input/plaintext/line.h"
 
 typedef enum
 {
@@ -28,5 +31,18 @@ typedef enum
 
   TokenCount       /* 22 */
 } Token;
+
+extern char LastChar;
+
+extern char const *TokenString[LanguageCount][TokenCount];
+
+extern char TokenLine[LINESIZE];
+
+/* advance LastChar to the next1 input character */
+void NextChar(void);
+
+char *ReadNextCaseSensitiveTokStr(void);
+
+char *ReadNextTokStr(void);
 
 #endif

@@ -53,8 +53,6 @@
 #include <stdio.h>
 
 void InitMetaData(void);
-void    OpenInput(char *s);
-void    CloseInput(void);
 void    MultiCenter(char *s);
 void    WritePosition(void);
 void    WriteSquare(square a);
@@ -83,11 +81,6 @@ void	InitCond(void);
 char	*MakeTimeString(void);
 
 char *ReadPieces(int cond);
-
-void LaTeXOpen(void);
-void LaTeXClose(void);
-void LaTeXBeginDiagram(void);
-void LaTeXEndDiagram(void);
 
 void WriteBGLNumber(char* a, long int b);
 

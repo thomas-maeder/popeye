@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = 
+SRC_CFILES = token.c pieces.c line.c input_stack.c
 
-INCLUDES = token.h
+INCLUDES = token.h pieces.h line.h input_stack.h
 
 include makefile.rules $(CURRPWD)depend

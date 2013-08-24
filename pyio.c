@@ -80,6 +80,9 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/latex/latex.h"
 #include "input/plaintext/token.h"
+#include "input/plaintext/line.h"
+#include "input/plaintext/pieces.h"
+#include "input/plaintext/input_stack.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/has_solution_type.h"
@@ -186,99 +189,10 @@
 
 static char AlphaStip[200];
 
-#define MAXNEST 10
 #define UPCASE(c)   toupper(c)      /* (c+('A'-'a')) */
 /* This is only correct, cause only lowercase letters are passed
    as arguments
 */
-
-static char ActAuthor[256];
-static char ActOrigin[256];
-static char ActTitle[256];
-static char ActTwinning[1532];
-static char ActAward[256];
-static char ActStip[37];
-
-static char Sep[] = "\n";
-/* All entries in this table have to be in lower case */
-static char *TokenString[LanguageCount][TokenCount] = {
-  { /* francais */
-    /* 0*/  "DebutProbleme",
-    /* 1*/  "FinProbleme",
-    /* 2*/  "asuivre",
-    /* 3*/  "enonce",
-    /* 3*/  "senonce",
-    /* 4*/  "auteur",
-    /* 5*/  "source",
-    /* 6*/  "pieces",
-    /* 7*/  "condition",
-    /* 8*/  "option",
-    /* 9*/  "remarque",
-    /*10*/  "protocol",
-    /*11*/  "entree",
-    /*12*/  Sep,
-    /*13*/  "titre",
-    /*14*/  "jumeau",
-    /*15*/  "zeroposition",
-    /*16*/  "LaTeX",
-    /*17*/  "PiecesLaTeX",
-    /*18*/  "prix",
-    /*19*/  "PositionInitialPartie",
-    /*20*/  "Forsyth"
-  },
-  { /* Deutsch */
-    /* 0*/  "AnfangProblem",
-    /* 1*/  "EndeProblem",
-    /* 2*/  "WeiteresProblem",
-    /* 3*/  "Forderung",
-    /* 3*/  "sForderung",
-    /* 4*/  "Autor",
-    /* 5*/  "Quelle",
-    /* 6*/  "Steine",
-    /* 7*/  "Bedingung",
-    /* 8*/  "Option",
-    /* 9*/  "Bemerkung",
-    /*10*/  "Protokoll",
-    /*11*/  "Eingabe",
-    /*12*/  Sep,
-    /*13*/  "Titel",
-    /*14*/  "Zwilling",
-    /*15*/  "NullStellung",
-    /*16*/  "LaTeX",
-    /*17*/  "LaTeXSteine",
-    /*18*/  "Auszeichnung",
-    /*19*/  "PartieAnfangsStellung",
-    /*20*/  "Forsyth"
-  },
-  { /* english */
-    /* 0*/  "beginproblem",
-    /* 1*/  "endproblem",
-    /* 2*/  "nextproblem",
-    /* 3*/  "stipulation",
-    /* 3*/  "sstipulation",
-    /* 4*/  "author",
-    /* 5*/  "origin",
-    /* 6*/  "pieces",
-    /* 7*/  "condition",
-    /* 8*/  "option",
-    /* 9*/  "remark",
-    /*10*/  "protocol",
-    /*11*/  "input",
-    /*12*/  Sep,
-    /*13*/  "title",
-    /*14*/  "twin",
-    /*15*/  "zeroposition",
-    /*16*/  "LaTeX",
-    /*17*/  "LaTeXPieces",
-    /*18*/  "award",
-    /*19*/  "InitialGameArray",
-    /*20*/  "Forsyth"
-  }
-};
-
-#define WCcentered    0
-#define WCleft        1
-#define WCLaTeX       2
 
 static void WritePieces(PieNam const *p, char* CondLine)
 {
@@ -297,67 +211,13 @@ static void WritePieces(PieNam const *p, char* CondLine)
   }
 }
 
-static char **CondTab;  /* set according to language */
-static char    **ExtraCondTab;
-static char **mummer_strictness_tab;
+static char const **CondTab;  /* set according to language */
+static char const **ExtraCondTab;
+static char const **mummer_strictness_tab;
 
 char ChameleonSequence[256];
 
-static  FILE    *LaTeXFile, *SolFile;
-
-
-static void LaTeXStr(char *line)
-{
-  while (*line) {
-    switch (*line) {
-    case '#':
-      fprintf(LaTeXFile, "\\%c", *line);
-      break;
-    case '&':
-      fprintf(LaTeXFile, "\\%c", *line);
-      break;
-    case '%':
-      if (*(line+1) == '%') {
-        /* it's introducing a comment */
-        fprintf(LaTeXFile, "%%");
-        line++;
-      }
-      else {
-        fprintf(LaTeXFile, "\\%%");
-      }
-      break;
-    case '0':
-      if (strncmp(line, "0-0-0", 5) == 0) {
-        fprintf(LaTeXFile, "{\\OOO}");
-        line += 4;
-      }
-      else if (strncmp(line, "0-0", 3) == 0) {
-        fprintf(LaTeXFile, "{\\OO}");
-        line += 2;
-      }
-      else {
-        fprintf(LaTeXFile, "%c", *line);
-      }
-      break;
-    case '-':
-      if (*(line+1) == '>') {   /* convert -> to \ra   FCO */
-        fprintf(LaTeXFile, "{\\ra}");
-        line++;
-      } else {  /* ordinary minus */
-        fprintf(LaTeXFile, "%c", *line);
-      }
-      break;
-
-    default:
-      fprintf(LaTeXFile, "%c", *line);
-      fflush(LaTeXFile);         /* non-buffered output  FCO */
-      break;
-    }
-    line++;
-  }
-}
-
-static void AddSquare(char *List, square i)
+void AddSquare(char *List, square i)
 {
   char    add[4];
 
@@ -370,7 +230,7 @@ static void AddSquare(char *List, square i)
 
 static int  AntiCirType;
 
-static void CenterLine(char *s)
+static void CenterLine(char const *s)
 {
   /* TODO move into one module per platform */
 #if defined(ATARI)
@@ -386,17 +246,14 @@ static void CenterLine(char *s)
   StdString(GlobalStr);
 }
 
-static void WriteConditions(int alignment)
+boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first))
 {
   Cond  cond;
-  enum
-  {
-    CondLineLength = 256
-  };
-  char  CondLine[CondLineLength];
-  boolean   CondPrinted= false;
+  boolean CondPrinted= false;
+  char CondLine[256];
 
-  for (cond= 1; cond < CondCount; cond++) {
+  for (cond= 1; cond < CondCount; cond++)
+  {
     if (!CondFlag[cond])
       continue;
 
@@ -820,7 +677,7 @@ static void WriteConditions(int alignment)
     }
 
     if (cond == republican)
-      republican_write_diagram_caption(CondLine,CondLineLength);
+      republican_write_diagram_caption(CondLine, sizeof CondLine);
 
     if (cond == sentinelles) {
       char pawns[7];
@@ -904,40 +761,14 @@ static void WriteConditions(int alignment)
     default:
       break;
     }
-    switch (alignment) {
-    case WCcentered:
-      CenterLine(CondLine);
-      break;
 
-    case WCLaTeX:
-      if (CondPrinted) {
-        fprintf(LaTeXFile, "{\\newline}\n   ");
-      }
-      else {
-        fprintf(LaTeXFile, " \\condition{");
-      }
-      LaTeXStr(CondLine);
-      break;
+    (*WriteCondition)(CondLine,!CondPrinted);
 
-    case WCleft:
-      if (CondPrinted) {
-        if (LaTeXout) {
-          strcat(ActTwinning, ", ");
-        }
-        StdString("\n   ");
-      }
-      StdString(CondLine);
-      if (LaTeXout) {
-        strcat(ActTwinning, CondLine);
-      }
-      break;
-    }
     CondPrinted= true;
   }
 
-  if (alignment == WCLaTeX && CondPrinted)
-    fprintf(LaTeXFile, "}%%\n");
-} /* WriteConditions */
+  return CondPrinted;
+}
 
 static void WriteCastlingMutuallyExclusive(void)
 {
@@ -1009,7 +840,7 @@ typedef enum
   TwinningCount   /* 17 */
 } TwinningType;
 
-char    *TwinningString[LanguageCount][TwinningCount] = {
+static char const *TwinningString[LanguageCount][TwinningCount] = {
   { /* francais */
     /* 0*/  "deplacement",
     /* 1*/  "echange",
@@ -1074,60 +905,14 @@ char    *TwinningString[LanguageCount][TwinningCount] = {
 
 /***** twinning ***** end */
 
-static char **TokenTab; /* set according to language */
-static char **OptTab;   /* set according to language */
-
-static char  **VariantTypeTab;
-static char **TwinningTab;
-static char LastChar;
-
-static  FILE    *TraceFile;
-static  FILE    *InputStack[MAXNEST];
-
-static    char *LaTeXPiecesAbbr[PieceCount];
-static    char *LaTeXPiecesFull[PieceCount];
-char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
-
-static  int NestLevel=0;
+static char const **TokenTab; /* set according to language */
+static char const **VariantTypeTab;
+static char const **TwinningTab;
 
 Side OscillatingKingsSide;  /* this is all a hack */
 
-void    OpenInput(char *s)
-{
-  if((InputStack[0] = fopen(s,"r")) == NULL)
-  {
-    InputStack[0] = stdin;
-  }
-}
-
-void    CloseInput(void)
-{
-  if(InputStack[0] != stdin)
-  {
-    fclose(InputStack[0]);
-  }
-}
-
 /* These two arrays should have the same size */
 #define LINESIZE    256
-
-static char InputLine[LINESIZE];    /* This array contains the input as is */
-static char TokenLine[LINESIZE];    /* This array contains the lowercase input */
-
-static char SpaceChar[] = " \t\n\r;.,";
-static char LineSpaceChar[] = " \t;.,";
-static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]{}";
-/* Steingewinn ! */
-/* introductory move */
-/* h##! */
-/* dia3.5 */
-/* a1<-->h1  */
-/* reci-h(=)#n */
-/* h~2  do ANY helpmove */
-
-static char CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-static char SepraChar[] = "\n\r;.,";
 
 static void pyfputc(char c, FILE *f)
 {
@@ -1181,7 +966,7 @@ void ErrString(char const *s)
   pyfputs(s, stderr);
 }
 
-static void IoErrorMsg(int n, int val)
+void IoErrorMsg(int n, int val)
 {
   ErrorMsg(InputError);
   logIntArg(val);
@@ -1192,161 +977,11 @@ static void IoErrorMsg(int n, int val)
   ErrChar('\n');
 }
 
-static int PushInput(char *FileName) {
-  if ((NestLevel+1) < MAXNEST) {
-    if ((InputStack[NestLevel + 1]= fopen(FileName,"r")) == NULL) {
-      IoErrorMsg(RdOpenError,0);
-      return -1;
-    }
-    else {
-      NestLevel++;
-      return 0;
-    }
-  }
-  else {
-    IoErrorMsg(TooManyInputs,0);
-    return -1;
-  }
-}
-
-static int PopInput() {
-  fclose(InputStack[NestLevel]);
-  if (NestLevel--)
-    return 0;
-  else
-    return -1;
-}
-
-/* advance LastChar to the next1 input character */
-static void NextChar(void)
-{
-  static boolean eof = false;
-  int const ch = getc(InputStack[NestLevel]);
-  if (ch==-1)
-  {
-    if (eof)
-    {
-      if (PopInput()<0)
-        FtlMsg(EoFbeforeEoP);
-      NextChar();
-    }
-    eof = true;
-    LastChar= ' ';
-  }
-  else
-    LastChar = ch;
-}
-
-/* read into InputLine until the next1 end of line */
-static void ReadToEndOfLine(void)
-{
-  char *p = InputLine;
-
-  do
-  {
-    NextChar();
-  } while (strchr(LineSpaceChar,LastChar));
-
-  while (LastChar!='\n')
-  {
-    *p++ = LastChar;
-    NextChar();
-  }
-
-  if (p >= (InputLine + sizeof(InputLine)))
-    FtlMsg(InpLineOverflow);
-
-  *p = '\0';
-}
-
-static char *ReadNextTokStr(void)
-{
-  while (strchr(SpaceChar,LastChar))
-    NextChar();
-
-  if (strchr(TokenChar,LastChar))
-  {
-    char *p = InputLine;
-    char *t = TokenLine;
-    do {
-      *p++ = LastChar;
-      *t++ = (isupper((int)LastChar) ? tolower((int)LastChar) : LastChar);
-      /* *t++= (isupper(ch)?tolower(ch):ch);  */
-      /* EBCDIC support ! HD */
-      NextChar();
-    } while (strchr(TokenChar,LastChar));
-
-    if (p >= (InputLine+sizeof(InputLine)))
-      FtlMsg(InpLineOverflow);
-
-    *t = '\0';
-    *p = '\0';
-
-    return TokenLine;
-  }
-  else if (strchr(SepraChar,LastChar))
-  {
-    do
-    {
-      NextChar();
-    } while (strchr(SepraChar,LastChar));
-    return Sep;
-  }
-  else
-  {
-    IoErrorMsg(WrongChar,LastChar);
-    LastChar = TokenLine[0]= ' ';
-    TokenLine[1] = '\0';
-    return TokenLine;
-  }
-}
-
-static char *ReadNextCaseSensitiveTokStr(void) {
-  while (strchr(" \t\n\r;,:",LastChar))  /* SpaceChar minus '.' which can be first char of extended Forsyth */
-    NextChar();
-
-  if (strchr(TokenChar,LastChar))
-  {
-    char *p = InputLine;
-    char *t = TokenLine;
-
-    do {
-      *p++ = LastChar;
-      *t++ = LastChar;
-      /* *t++= (isupper(ch)?tolower(ch):ch);  */
-      /* EBCDIC support ! HD */
-      NextChar();
-    } while (strchr(TokenChar,LastChar));
-
-    if (p >= (InputLine+sizeof(InputLine)))
-      FtlMsg(InpLineOverflow);
-
-    *t = '\0';
-    *p = '\0';
-    return TokenLine;
-  }
-  else if (strchr(SepraChar,LastChar))
-  {
-    do
-    {
-      NextChar();
-    } while (strchr(SepraChar,LastChar));
-    return Sep;
-  }
-  else
-  {
-    IoErrorMsg(WrongChar,LastChar);
-    LastChar = TokenLine[0]= ' ';
-    TokenLine[1] = '\0';
-    return TokenLine;
-  }
-}
-
-static boolean sncmp(char *a, char *b)
+static boolean sncmp(char const *a, char const *b)
 {
   while (*b)
   {
-    if ((isupper((int)*a) ? tolower((int)*a) : *a) == *b++)
+    if ((isupper((int const)*a) ? tolower((int const)*a) : *a) == *b++)
       /* EBCDIC support ! HD */
       ++a;
     else
@@ -1357,7 +992,7 @@ static boolean sncmp(char *a, char *b)
 }
 
 static unsigned int GetIndex(unsigned int index, unsigned int limit,
-                             char **list, char *tok)
+                             char const **list, char const *tok)
 {
   while (index<limit)
     if (sncmp(list[index],tok))
@@ -1368,7 +1003,7 @@ static unsigned int GetIndex(unsigned int index, unsigned int limit,
   return limit;
 }
 
-static unsigned int GetUniqIndex(unsigned int limit, char **list, char *tok)
+static unsigned int GetUniqIndex(unsigned int limit, char const **list, char const *tok)
 {
   unsigned int const index = GetIndex(0,limit,list,tok);
   if (index==limit)
@@ -1447,7 +1082,7 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
-static char    *mummer_strictness_string[LanguageCount][nr_mummer_strictness] = {
+static char const *mummer_strictness_string[LanguageCount][nr_mummer_strictness] = {
 {
   /* French */
     "",
@@ -1480,12 +1115,12 @@ static void ReadBeginSpec(void)
       TokenTab= &(TokenString[UserLanguage][0]);
       if (GetUniqIndex(TokenCount,TokenTab,tok)==BeginProblem)
       {
-        OptTab= &(OptString[UserLanguage][0]);
-        CondTab= &(CondString[UserLanguage][0]);
-        TwinningTab= &(TwinningString[UserLanguage][0]);
-        VariantTypeTab= &(VariantTypeString[UserLanguage][0]);
-        ExtraCondTab= &(ExtraCondString[UserLanguage][0]);
-        mummer_strictness_tab = &(mummer_strictness_string[UserLanguage][0]);
+        OptTab= &OptString[UserLanguage][0];
+        CondTab= &CondString[UserLanguage][0];
+        TwinningTab= &TwinningString[UserLanguage][0];
+        VariantTypeTab= &VariantTypeString[UserLanguage][0];
+        ExtraCondTab= &ExtraCondString[UserLanguage][0];
+        mummer_strictness_tab = &mummer_strictness_string[UserLanguage][0];
         PieceTab= PieNamString[UserLanguage];
         PieSpTab= PieSpString[UserLanguage];
         ColorTab= ColorString[UserLanguage];
@@ -1496,26 +1131,6 @@ static void ReadBeginSpec(void)
 
     IoErrorMsg(NoBegOfProblem, 0);
   }
-}
-
-static int GetPieNamIndex(char a,char b)
-{
-  /* We search the array PieNam, for an index, where
-     it matches the two characters a and b
-  */
-  int indexx;
-  char *ch;
-
-  ch= PieceTab[2];
-  for (indexx= 2;
-       indexx<PieceCount;
-       indexx++,ch+= sizeof(PieceChar))
-  {
-    if (*ch == a && *(ch + 1) == b) {
-      return indexx;
-    }
-  }
-  return 0;
 }
 
 static square SquareNum(char a,char b)
@@ -1530,73 +1145,6 @@ static square SquareNum(char a,char b)
 ** the last token they couldn't interprete.
 */
 
-static char *ParseLaTeXPieces(char *tok) {
-  PieNam Name;
-  int i;
-
-  /* don't delete all this. Since both arrays are declared static,
-   * they are initialized to NULL.
-   * Simply allow overwriting these definitions within the LaTeX clause
-   * and let it be initialized from pie-<lang>.dat
-   *
-   for (Name= 1; Name < PieceCount; Name++) {
-   if (LaTeXPiecesAbbr[Name]) {
-   free(LaTeXPiecesAbbr[Name]);
-   free(LaTeXPiecesFull[Name]);
-   }
-   LaTeXPiecesAbbr[Name]= NULL;
-   LaTeXPiecesFull[Name]= NULL;
-   }
-  */
-
-  if (strlen(tok) < 3) {
-    while (true) {
-      Name= GetPieNamIndex(*tok, strlen(tok) == 1 ? ' ' : tok[1]);
-
-      if (Name < King) {
-        return tok;
-      }
-
-      if (LaTeXPiecesAbbr[Name]) {
-        free(LaTeXPiecesAbbr[Name]);
-        free(LaTeXPiecesFull[Name]);
-      }
-
-      tok = ReadNextTokStr();
-      LaTeXPiecesAbbr[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      i= 0;
-      while (tok[i]) {
-        /* to avoid compiler warnings below made "better readable" */
-        /*      LaTeXPiecesAbbr[Name][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[Name][i]= tok[i] + 'A' - 'a';
-        i++;
-      }
-      LaTeXPiecesAbbr[Name][i]= tok[i];
-
-      ReadToEndOfLine();
-      tok = InputLine;
-      LaTeXPiecesFull[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      strcpy(LaTeXPiecesFull[Name], tok);
-
-      tok = ReadNextTokStr();
-    }
-  }
-
-  return tok;
-}
-
-static char *LaTeXPiece(PieNam Name)
-{
-  if (Name > Bishop) {
-    if (LaTeXPiecesAbbr[Name] == NULL) {
-      ErrorMsg(UndefLatexPiece);
-      return "??";
-    } else
-      return LaTeXPiecesAbbr[Name];
-  } else
-    return LaTeXStdPie[Name];
-} /* LaTeXPiece */
-
 static void signal_overwritten_square(square Square)
 {
   WriteSquare(Square);
@@ -1606,18 +1154,8 @@ static void signal_overwritten_square(square Square)
 
 static void echo_added_piece(Flags Spec, PieNam Name, square Square)
 {
-  if (LaTeXout) {
-    sprintf(GlobalStr,
-            "%s\\%c%s %c%c",
-            is_square_empty(Square) ? "+" : "",
-            is_piece_neutral(Spec)
-            ? 'n'
-            : TSTFLAG(Spec, White) ? 'w' : 's',
-            LaTeXPiece(Name),
-            'a'-nr_of_slack_files_left_of_board+Square%onerow,
-            '1'-nr_of_slack_rows_below_board+Square/onerow);
-    strcat(ActTwinning, GlobalStr);
-  }
+  if (LaTeXout)
+    LaTeXEchoAddedPiece(Spec,Name,Square);
 
   if (is_square_empty(Square))
     StdChar('+');
@@ -6049,16 +5587,7 @@ static char *ParseTwinningMove(int indexx)
 
   /* issue the twinning */
   if (LaTeXout)
-  {
-    sprintf(GlobalStr, "\\%c%s %c%c",
-            is_piece_neutral(spec[sq1])
-            ? 'n'
-            : TSTFLAG(spec[sq1], White) ? 'w' : 's',
-            LaTeXPiece(get_walk_of_piece_on_square(sq1)),
-            'a'-nr_files_on_board+sq1%onerow,
-            '1'-nr_rows_on_board+sq1/onerow);
-    strcat(ActTwinning, GlobalStr);
-  }
+    LaTeXEchoAddedPiece(spec[sq1],get_walk_of_piece_on_square(sq1),sq1);
 
   WriteSpec(spec[sq1],get_walk_of_piece_on_square(sq1),!is_square_empty(sq1));
   WritePiece(get_walk_of_piece_on_square(sq1));
@@ -6067,15 +5596,8 @@ static char *ParseTwinningMove(int indexx)
     StdString("<-->");
     WriteSpec(spec[sq2], get_walk_of_piece_on_square(sq2),!is_square_empty(sq2));
     WritePiece(get_walk_of_piece_on_square(sq2));
-    if (LaTeXout) {
-      strcat(ActTwinning, "{\\lra}");
-      sprintf(GlobalStr, "\\%c%s ",
-              is_piece_neutral(spec[sq2])
-              ? 'n'
-              : TSTFLAG(spec[sq2], White) ? 'w' : 's',
-              LaTeXPiece(get_walk_of_piece_on_square(sq2)));
-      strcat(ActTwinning, GlobalStr);
-    }
+    if (LaTeXout)
+      LaTeXEchoExchangedPiece(spec[sq2],get_walk_of_piece_on_square(sq2));
   }
   else {
     StdString("-->");
@@ -6297,19 +5819,8 @@ static char *ParseTwinningRemove(void) {
       Message(NothingToRemove);
     }
     else {
-      if (LaTeXout) {
-        strcat(ActTwinning, " --");
-        strcat(ActTwinning,
-               is_piece_neutral(spec[sq])
-               ? "\\n"
-               : TSTFLAG(spec[sq], White) ? "\\w" : "\\s");
-        strcat(ActTwinning,
-               LaTeXPiece(get_walk_of_piece_on_square(sq)));
-        sprintf(GlobalStr, " %c%c",
-                'a'-nr_files_on_board+sq%onerow,
-                '1'-nr_rows_on_board+sq/onerow);
-        strcat(ActTwinning, GlobalStr);
-      }
+      if (LaTeXout)
+        LaTeXEchoRemovedPiece(spec[sq],get_walk_of_piece_on_square(sq),sq);
 
       StdString(" -");
       WriteSpec(spec[sq], get_walk_of_piece_on_square(sq),!is_square_empty(sq));
@@ -6387,11 +5898,8 @@ static char *ParseTwinningSubstitute(void)
     return tok;
   }
 
-  if (LaTeXout) {
-    sprintf(GlobalStr, "{\\w%s} $\\Rightarrow$ \\w%s",
-            LaTeXPiece(p_old), LaTeXPiece(p_new));
-    strcat(ActTwinning, GlobalStr);
-  }
+  if (LaTeXout)
+    LaTeXEchoSubstitutedPiece(p_old,p_new);
 
   WritePiece(p_old);
   StdString(" ==> ");
@@ -6418,6 +5926,19 @@ void WriteTwinNumber(void)
   StdString(GlobalStr);
   if (LaTeXout)
     strcat(ActTwinning, GlobalStr);
+}
+
+static void WriteConditionTwinning(char const CondLine[], boolean is_first)
+{
+  if (!is_first)
+  {
+    if (LaTeXout)
+      strcat(ActTwinning, ", ");
+    StdString("\n   ");
+  }
+  StdString(CondLine);
+  if (LaTeXout)
+    strcat(ActTwinning, CondLine);
 }
 
 static char *ParseTwinning(slice_index root_slice_hook)
@@ -6550,7 +6071,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
       case TwinningCond:
         InitCond();
         tok = ParseCond();
-        WriteConditions(WCleft);
+        WriteConditions(&WriteConditionTwinning);
         break;
       case TwinningRemove:
         tok = ParseTwinningRemove();
@@ -6626,20 +6147,6 @@ char *ReadPieces(int condition)
     }
   }
   return tok;
-}
-
-static void ReadRemark(void)
-{
-  if (LastChar != '\n')
-  {
-    ReadToEndOfLine();
-    if (TraceFile!=NULL)
-    {
-      fputs(InputLine, TraceFile);
-      fflush(TraceFile);
-    }
-    Message(NewLine);
-  }
 }
 
 Token ReadTwin(Token tk, slice_index root_slice_hook)
@@ -6858,22 +6365,10 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case LaTeXToken:
-            LaTeXout = true;
-            if (LaTeXFile!=NULL)
-            {
-              LaTeXClose();
-              fclose(LaTeXFile);
-            }
+            LaTeXClose();
 
             ReadToEndOfLine();
-            LaTeXFile= fopen(InputLine,open_mode);
-            if (LaTeXFile==NULL)
-            {
-              IoErrorMsg(WrOpenError,0);
-              LaTeXout= false;
-            }
-            else
-              LaTeXOpen();
+            LaTeXout = LaTeXOpen();
 
             if (SolFile!=NULL)
               fclose(SolFile);
@@ -6936,6 +6431,11 @@ static boolean is_square_occupied_by_imitator(square s)
     }
 
   return result;
+}
+
+static void WriteCondition(char const CondLine[], boolean is_first)
+{
+  CenterLine(CondLine);
 }
 
 void WritePosition()
@@ -7115,7 +6615,7 @@ void WritePosition()
           && !(sp==Beamtet && CondFlag[beamten]))
         CenterLine(ListSpec[sp-nr_sides]);
 
-  WriteConditions(WCcentered);
+  WriteConditions(&WriteCondition);
 
   WriteCastlingMutuallyExclusive();
 
@@ -7169,547 +6669,6 @@ void WriteGrid(void)
 
   StdString(BorderL);
 }
-
-/**** LaTeX output ***** begin *****/
-
-void LaTeXOpen(void) {
-  fprintf(LaTeXFile, "\\documentclass{article}%%");
-  if (!flag_regression)
-    fprintf(LaTeXFile, "%s", versionString);
-  fprintf(LaTeXFile, "\n");
-  fprintf(LaTeXFile, "\\usepackage{diagram}\n");
-  if (UserLanguage == German) {
-    fprintf(LaTeXFile, "\\usepackage{german}\n");
-  }
-  fprintf(LaTeXFile, "\n\\begin{document}\n\n");
-}
-
-void LaTeXClose(void) {
-  fprintf(LaTeXFile, "\n\\putsol\n\n\\end{document}\n");
-}
-
-void LaTeXEndDiagram(void) {
-  char line[256];
-
-  /* twins */
-  if (ActTwinning[0] != '\0') {
-    fprintf(LaTeXFile, " \\twins{");
-    /* remove the last "{\\newline} */
-    ActTwinning[strlen(ActTwinning)-10]= '\0';
-    LaTeXStr(ActTwinning);
-    fprintf(LaTeXFile, "}%%\n");
-  }
-
-  /* solution */
-  fprintf(LaTeXFile, " \\solution{%%\n");
-  rewind(SolFile);
-  while (fgets(line, 255, SolFile)) {
-    if (!strstr(line, GetMsgString(TimeString))) {
-      if (strlen(line) > 1 && line[1] == ')') {
-        /* twin */
-        fprintf(LaTeXFile, "%c)", line[0]);
-      }
-      else if (strlen(line) > 2 && line[2] == ')') {
-        if (line[0] == '+')        /* twin (continued) */
-          fprintf(LaTeXFile, "%c)", line[1]);
-        else
-          fprintf(LaTeXFile, "%c%c)", line[0], line[1]);
-      }
-      else if (strlen(line) > 3 && line[3] == ')') {
-        /* continued twinning and >z */
-        fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
-      }
-      if (strchr(line, '.')) {   /* line containing a move */
-        LaTeXStr(line);
-      }
-    }
-  }
-
-  fprintf(LaTeXFile, " }%%\n");
-  fclose(SolFile);
-
-  if ((SolFile= tmpfile()) == NULL) {
-    IoErrorMsg(WrOpenError,0);
-  }
-
-  if (!(OptFlag[solmenaces]
-        || OptFlag[solflights]
-        || OptFlag[nontrivial]
-        || max_solutions_reached()
-        || was_max_nr_solutions_per_target_position_reached()
-        || has_short_solution_been_found_in_problem()
-        || hasMaxtimeElapsed()))
-  {
-    fprintf(LaTeXFile, " \\Co+%%");
-    if (!flag_regression)
-      fprintf(LaTeXFile, "%s", versionString);
-    fprintf(LaTeXFile, "\n");
-  }
-
-  fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
-}
-
-void LaTeXBeginDiagram(void)
-{
-  boolean firstpiece= true, fairypieces= false, holess= false,
-    modifiedpieces=false;
-  PieSpec sp;
-  boolean is_piece_on_side[PieceCount][nr_sides+1];
-  char ListSpec[PieSpCount-nr_sides][256];
-  unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
-  char    HolesSqList[256] = "";
-  square const *bnp;
-
-  for (sp= nr_sides; sp<PieSpCount; ++sp)
-    strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
-
-  fprintf(LaTeXFile, "\\begin{diagram}%%\n");
-
-  /* authors */
-  if (ActAuthor[0] != '\0') {
-    if (strchr(ActAuthor, ',')) {
-      /* , --> correct format */
-      char *cp, *endcp = 0;
-
-      while ((cp=strchr(ActAuthor, '\n'))) {
-        *cp= ';';
-        endcp= cp;
-      }
-      if (endcp)
-        *endcp= '\0';
-
-      sprintf(GlobalStr, " \\author{%s}%%%%\n", ActAuthor);
-      LaTeXStr(GlobalStr);
-
-      if (endcp)
-        *endcp= '\n';
-      while ((cp=strchr(ActAuthor, ';')))
-        *cp= '\n';
-    }
-    else {
-      /* reverse first and surnames */
-      char *cp1, *cp2, *cp3;
-
-      fprintf(LaTeXFile, " \\author{");
-      cp1= ActAuthor;
-      while ((cp2=strchr(cp1, '\n'))) {
-        *cp2= '\0';
-        if (cp1 != ActAuthor)
-          fprintf(LaTeXFile, "; ");
-        cp3= cp2;
-        while (cp3 > cp1 && *cp3 != ' ')
-          cp3--;
-        /* wrong LaTeX output if the authors surname only given */
-        if (cp3 == cp1) {
-          /* we got only the surname ! */
-          sprintf(GlobalStr, "%s, ", cp3);
-        } else {
-          /* we got firstname and surname */
-          *cp3= '\0';
-          sprintf(GlobalStr, "%s, %s", cp3+1, cp1);
-        }
-        LaTeXStr(GlobalStr);
-        *cp3= *cp2= '\n';
-
-        cp1= cp2+1;
-      }
-      fprintf(LaTeXFile, "}%%\n");
-    }
-  }
-
-  /* source */
-  /* format: [diagram number,] source [issue number,] [date] */
-  if (ActOrigin[0] != '\0') {
-    char *source= ActOrigin;
-    char *date, *eol, *tmp;
-
-    /* diagram number */
-    while (strchr(CharChar, *source))
-      source++;
-
-    if (*source == ',') {
-      *source= '\0';
-      fprintf(LaTeXFile, " \\sourcenr{%s}%%\n", ActOrigin);
-      *source= ',';
-      while (*(++source) == ' ')
-        ;
-    }
-    else {
-      source= ActOrigin;
-    }
-
-    /* date */
-    /* supported formats: year
-    **            month/year
-    **            month-month/year
-    **            day. month. year
-    **            day.-day. month. year
-    */
-    /* year */
-    eol= date= strchr(source, '\n');
-    *eol= '\0';
-
-    while (strchr("0123456789-", *(date-1))) {
-      date--;
-    }
-
-    if (date != eol) {
-      /* sucessfully parsed a year */
-      fprintf(LaTeXFile, " \\year{%s}%%\n", date);
-
-      /* parse month(s) now */
-      /* while (*(date-1) == ' ') date--; */
-      switch (*(date-1)) {
-      case '/':
-        /* format is either month/year or month-month/year */
-        date--;
-        while (*(date-1) == ' ')
-          date--;
-        tmp= date;
-        while (strchr("0123456789-", *(date-1)))
-          date--;
-        fprintf(LaTeXFile, " \\month%s{%.*s}%%\n",
-                strchr(date, '-') ? "s" : "", (int)(tmp-date), date);
-        break;
-
-      case '.':
-        /* format is either
-           day. month. year or day.-day. month. year
-        */
-        date--;
-        tmp= date;
-        while (strchr("0123456789", *(date-1)))
-          date--;
-        fprintf(LaTeXFile, " \\month{%.*s}%%\n",
-                (int)(tmp-date), date);
-        /* now parse day(s) */
-        while (*(--date) == ' ');
-        tmp= date;
-        while (strchr("0123456789-.", *(date-1)))
-          date--;
-        fprintf(LaTeXFile, " \\day{%.*s}%%\n",
-                (int)(tmp-date), date);
-        break;
-      }
-    } /* month(s), day(s) */
-
-    /* issue number */
-    while (*(date-1) == ' ')
-      date--;
-    if (*(date-1) == ',') {
-      /* issue number found */
-      tmp= --date;
-      while (*(date-1) != ' ')
-        date--;
-      fprintf(LaTeXFile, " \\issue{%.*s}%%\n",
-              (int)(tmp-date), date);
-    } /* issue */
-
-    /* default */
-    /* source name or complete source if not interpretable */
-    while (*(date-1) == ' ')
-      date--;
-    sprintf(GlobalStr,
-            " \\source{%.*s}%%%%\n", (int)(date-source), source);
-    LaTeXStr(GlobalStr);
-
-    *eol= '\n';
-  }
-
-  /* award */
-  if (ActAward[0] != '\0')
-  {
-    char *tour= strchr(ActAward, ',');
-    char *eol= strchr(ActAward, '\n');
-    *eol= '\0';
-    if (tour)
-    {
-      fprintf(LaTeXFile,
-              " \\award{%.*s}%%\n", (int)(tour-ActAward), ActAward);
-      while (*(++tour) == ' ');
-      fprintf(LaTeXFile, " \\tournament{%s}%%\n", tour);
-    } else
-      fprintf(LaTeXFile, " \\award{%s}%%\n", ActAward);
-    *eol= '\n';
-  }
-
-  /* dedication */
-  if (ActTitle[0] != '\0')
-  {
-    sprintf(GlobalStr, "\\dedication{%s}%%%%\n", ActTitle);
-    LaTeXStr(GlobalStr);
-  }
-
-  /* pieces & twins */
-  if (OptFlag[duplex])
-  {
-    strcat(ActTwinning, OptTab[duplex]);
-    strcat(ActTwinning, "{\\newline}");
-  }
-  else if (OptFlag[halfduplex])
-  {
-    strcat(ActTwinning, OptTab[halfduplex]);
-    strcat(ActTwinning, "{\\newline}");
-  }
-  if (OptFlag[quodlibet])
-  {
-    strcat(ActTwinning, OptTab[quodlibet]);
-    strcat(ActTwinning, "{\\newline}");
-  }
-
-  fprintf(LaTeXFile, " \\pieces{");
-
-  {
-    PieNam p;
-    for (p = Empty; p < PieceCount; ++p)
-    {
-      is_piece_on_side[p][White] = false;
-      is_piece_on_side[p][Black] = false;
-      is_piece_on_side[p][nr_sides] = false;
-    }
-  }
-
-  for (bnp= boardnum; *bnp; bnp++) {
-    if (is_square_blocked(*bnp))
-    {
-      /* holes */
-      if (holess)
-        strcat(HolesSqList, ", ");
-      else
-        holess= true;
-      AddSquare(HolesSqList, *bnp);
-    }
-    else if (!is_square_empty(*bnp))
-    {
-      PieNam const p = get_walk_of_piece_on_square(*bnp);
-      if (!firstpiece)
-        fprintf(LaTeXFile, ", ");
-      else
-        firstpiece= false;
-
-      fprintf(LaTeXFile, "%c%s%c%c",
-              is_piece_neutral(spec[*bnp]) ? 'n' :
-              TSTFLAG(spec[*bnp], White)   ? 'w' : 's',
-              LaTeXPiece(p),
-              *bnp%onerow-200%onerow+'a',
-              *bnp/onerow-200/onerow+'1');
-
-      if (p>Bishop && (LaTeXPiecesAbbr[p] != NULL))
-      {
-        fairypieces= true;
-
-        if (is_piece_neutral(spec[*bnp])) {
-          is_piece_on_side[p][nr_sides] = true;
-        }
-        else if (TSTFLAG(spec[*bnp], White)) {
-          is_piece_on_side[p][White] = true;
-        }
-        else {
-          is_piece_on_side[p][Black] = true;
-        }
-      }
-
-      for (sp= nr_sides; sp<PieSpCount; ++sp)
-      {
-        if (TSTFLAG(spec[*bnp], sp)
-            && !(sp==Royal && (p==King || p==Poseidon)))
-        {
-          AddSquare(ListSpec[sp-nr_sides], *bnp);
-          ++SpecCount[sp-nr_sides];
-        }
-      }
-    }
-  }
-  fprintf(LaTeXFile, "}%%\n");
-  fflush(LaTeXFile);
-
-  if (holess) {
-    fprintf(LaTeXFile, " \\nofields{");
-    fprintf(LaTeXFile, "%s}%%\n", HolesSqList);
-    fprintf(LaTeXFile, " \\fieldframe{");
-    fprintf(LaTeXFile, "%s}%%\n", HolesSqList);
-  }
-
-  for (sp= nr_sides; sp<PieSpCount; ++sp)
-    if (SpecCount[sp-nr_sides]>0
-        && !(sp==Patrol && CondFlag[patrouille])
-        && !(sp==Volage && CondFlag[volage])
-        && !(sp==Beamtet && CondFlag[beamten]))
-      modifiedpieces =true;     /* to be used below */
-
-  /* stipulation */
-  fprintf(LaTeXFile, " \\stipulation{");
-  LaTeXStr(ActStip);
-  if (OptFlag[solapparent])
-    fprintf(LaTeXFile, "*");
-  if (OptFlag[whitetoplay])
-    fprintf(LaTeXFile,
-            " %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
-
-  fprintf(LaTeXFile, "}%%\n");
-
-  /* conditions */
-  if (CondFlag[gridchess] && !OptFlag[suppressgrid]) {
-    boolean entry=false;
-    switch (grid_type)
-    {
-      case grid_normal:
-        fprintf(LaTeXFile, " \\stdgrid%%\n");
-        break;
-
-      case grid_vertical_shift:
-        fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v208, v408, v608}%%\n");
-        break;
-
-      case grid_horizontal_shift:
-        fprintf(LaTeXFile, " \\gridlines{h028, h048, h068, v108, v308, v508, v708}%%\n");
-        break;
-
-      case grid_diagonal_shift:
-        fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v108, v308, v508, v708}%%\n");
-        break;
-
-      case grid_orthogonal_lines:
-      {
-        unsigned int i;
-        for (i=1; i<8; i++)
-          if (GridNum(square_a1+i-1) != GridNum(square_a1+i))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " v%u08", i);
-          }
-        for (i=1; i<8; i++)
-          if (GridNum(square_a1+24*(i-1)) != GridNum(square_a1+24*i))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " h0%u8", i);
-          }
-        if (entry)
-          fprintf(LaTeXFile, "}%%\n");
-        break;
-      }
-
-      /* of course, only the following block is necessary */
-      case grid_irregular:
-        for (bnp = boardnum; *bnp; bnp++)
-        {
-          int i= *bnp%24-8, j= *bnp/24-8;
-          if (i && GridLegal((*bnp)-1, *bnp))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " v%d%d1", i, j);
-          }
-          if (j && GridLegal((*bnp)-24, *bnp))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " h%d%d1", i, j);
-          }
-        }
-        if (entry)
-          fprintf(LaTeXFile, "}%%\n");
-        break;
-    }
-  }
-  WriteConditions(WCLaTeX);
-
-  /* magical squares with frame */
-  if (CondFlag[magicsquare])
-  {
-    char    MagicSqList[256] = "";
-    boolean first_magic_piece= true;
-    square  i;
-
-    fprintf(LaTeXFile, " \\fieldframe{");
-    for (i= square_a1; i <= square_h8; i++)
-      if (TSTFLAG(sq_spec[i], MagicSq))
-      {
-        if (!first_magic_piece)
-          strcat(MagicSqList, ", ");
-        else
-          first_magic_piece= false;
-        AddSquare(MagicSqList, i);
-      }
-    fprintf(LaTeXFile, "%s}%%\n", MagicSqList);
-  }
-
-  /* fairy pieces, modified pieces, holes */
-  if (fairypieces || holess || modifiedpieces)
-  {
-    PieNam p;
-    boolean firstline= true;
-
-    fprintf(LaTeXFile, " \\remark{");
-    for (p = Bishop+1; p < PieceCount; ++p)
-    {
-      PieNam q;
-      if (is_piece_on_side[p][White] || is_piece_on_side[p][Black] || is_piece_on_side[p][nr_sides])
-      {
-        for (q = Bishop+1; q < p; q++) {
-          if ((is_piece_on_side[q][White]
-               || is_piece_on_side[q][Black]
-               || is_piece_on_side[q][nr_sides])
-              && LaTeXPiecesAbbr[p][0] == LaTeXPiecesAbbr[q][0]
-              && LaTeXPiecesAbbr[p][1] == LaTeXPiecesAbbr[q][1])
-          {
-            fprintf(stderr, "+++ Warning: "
-                    "double representation '%s' for %s and %s\n",
-                    LaTeXPiecesAbbr[q],
-                    LaTeXPiecesFull[p], LaTeXPiecesFull[q]);
-          }
-        }
-
-        if (!firstline)
-          fprintf(LaTeXFile, "{\\newline}\n    ");
-        fprintf(LaTeXFile, "\\mbox{");
-        if (is_piece_on_side[p][White])
-          fprintf(LaTeXFile, "\\w%s ", LaTeXPiecesAbbr[p]);
-        if (is_piece_on_side[p][ Black])
-          fprintf(LaTeXFile, "\\s%s ", LaTeXPiecesAbbr[p]);
-        if (is_piece_on_side[p][nr_sides])
-          fprintf(LaTeXFile, "\\n%s ", LaTeXPiecesAbbr[p]);
-        fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
-        firstline= false;
-      }
-    }
-
-    if (modifiedpieces)
-    {
-      for (sp = nr_sides; sp<PieSpCount; ++sp)
-        if (SpecCount[sp-nr_sides]>0)
-        {
-          if (!firstline)
-            fprintf(LaTeXFile, "{\\newline}\n    ");
-          fprintf(LaTeXFile, "%s\n", ListSpec[sp-nr_sides]);
-          firstline= false;
-        }
-    }
-
-    if (holess) {
-      if (!firstline)
-        fprintf(LaTeXFile, "{\\newline}\n    ");
-      fprintf(LaTeXFile, "%s %s%%\n",
-              CondString[UserLanguage][holes], HolesSqList);
-    }
-    fprintf(LaTeXFile, "}%%\n");
-  } /* fairy, modified pieces, holes */
-} /* LaTeXBeginDiagram */
-/**** LaTeX output ***** end *****/
 
 void WritePiece(PieNam p) {
   if (p<Hunter0 || p>= (Hunter0 + maxnrhuntertypes))

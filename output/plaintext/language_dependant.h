@@ -14,22 +14,20 @@ typedef PieceChar PieTable[PieceCount];
 extern PieTable PieNamString[LanguageCount];
 
 extern PieceChar *PieceTab;
+extern char const * *OptTab;
 
-extern char *OptString[LanguageCount][OptCount];
+extern char const *OptString[LanguageCount][OptCount];
 
-extern boolean  CondFlag[CondCount];
-extern char *CondString[LanguageCount][CondCount];
+extern char const *CondString[LanguageCount][CondCount];
+extern char const *ExtraCondString[LanguageCount][ExtraCondCount];
 
-extern char *ColorString[LanguageCount][nr_colors];
-extern char **ColorTab;
+extern char const *ColorString[LanguageCount][nr_colors];
+extern char const **ColorTab;
 
-extern  char *PieSpString[LanguageCount][PieSpCount-nr_sides];
-extern  char **PieSpTab;
+extern  char const *PieSpString[LanguageCount][PieSpCount-nr_sides];
+extern  char const **PieSpTab;
 
-extern char *VariantTypeString[LanguageCount][VariantTypeCount];
-
-extern boolean  ExtraCondFlag[ExtraCondCount];
-extern char *ExtraCondString[LanguageCount][ExtraCondCount];
+extern char const *VariantTypeString[LanguageCount][VariantTypeCount];
 
 /* Make sure that we don't define ambiguous piece name shortcuts */
 void enforce_piecename_uniqueness(void);

@@ -474,7 +474,9 @@ PieTable PieNamString[LanguageCount] =
 /* later set according to language */
 PieceChar *PieceTab = PieNamString[German];
 
-char    *OptString[LanguageCount][OptCount] =
+char const * *OptTab;
+
+char const *OptString[LanguageCount][OptCount] =
 {
   {
   /* Francais French Franzoesisch */
@@ -593,7 +595,7 @@ char    *OptString[LanguageCount][OptCount] =
   }
 };
 
-char    *CondString[LanguageCount][CondCount] =
+char const *CondString[LanguageCount][CondCount] =
 {
   {
     /* French Condition Names */
@@ -1171,9 +1173,9 @@ char    *CondString[LanguageCount][CondCount] =
   }
 };
 
-char **ColorTab;
+char const **ColorTab;
 
-char *ColorString[LanguageCount][nr_colors] =
+char const *ColorString[LanguageCount][nr_colors] =
 {
   {
      /* French */
@@ -1196,9 +1198,9 @@ char *ColorString[LanguageCount][nr_colors] =
 };
 
 
-char    **PieSpTab;
+char const **PieSpTab;
 
-char    *PieSpString[LanguageCount][PieSpCount-nr_sides] =
+char const *PieSpString[LanguageCount][PieSpCount-nr_sides] =
 {
   {
     /* French */
@@ -1253,7 +1255,7 @@ char    *PieSpString[LanguageCount][PieSpCount-nr_sides] =
   }
 };
 
-char    *VariantTypeString[LanguageCount][VariantTypeCount] =
+char const *VariantTypeString[LanguageCount][VariantTypeCount] =
 {
   {
   /* French */
@@ -1339,7 +1341,7 @@ char    *VariantTypeString[LanguageCount][VariantTypeCount] =
   }
 };
 
-char    *ExtraCondString[LanguageCount][ExtraCondCount] =
+char const *ExtraCondString[LanguageCount][ExtraCondCount] =
 {
   {
   /* French */

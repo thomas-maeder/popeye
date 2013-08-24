@@ -3,9 +3,23 @@
 
 #include "stipulation/goals/goals.h"
 
+#include <stdio.h>
+
 extern char GlobalStr[];
 
+extern FILE *TraceFile;
+
 extern char versionString[100];
+
+extern char ActAuthor[256];
+extern char ActOrigin[256];
+extern char ActTitle[256];
+extern char ActTwinning[1532];
+extern char ActAward[256];
+extern char ActStip[37];
+
+#include <stdio.h>
+extern FILE *SolFile;
 
 /* Write the current move
  */

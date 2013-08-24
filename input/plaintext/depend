@@ -1,0 +1,142 @@
+input/plaintext/token$(OBJ_SUFFIX): input/plaintext/token.c input/plaintext/token.h \
+ pylang.h input/plaintext/line.h input/plaintext/input_stack.h \
+ output/output.h output/mode.h utilities/enumeration.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h pymsg.h \
+ pylang.h utilities/boolean.h
+
+input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
+
+input/plaintext/input_stack.h:
+
+output/output.h:
+
+output/mode.h:
+
+utilities/enumeration.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+pymsg.h:
+
+pylang.h:
+
+utilities/boolean.h:
+input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
+ input/plaintext/pieces.h output/plaintext/language_dependant.h \
+ pieces/pieces.h utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
+ pylang.h conditions/conditions.h options/options.h
+
+input/plaintext/pieces.h:
+
+output/plaintext/language_dependant.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+conditions/conditions.h:
+
+options/options.h:
+input/plaintext/line$(OBJ_SUFFIX): input/plaintext/line.c input/plaintext/line.h \
+ input/plaintext/token.h pylang.h input/plaintext/input_stack.h \
+ output/plaintext/plaintext.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h pymsg.h pylang.h \
+ utilities/boolean.h
+
+input/plaintext/line.h:
+
+input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/input_stack.h:
+
+output/plaintext/plaintext.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+pymsg.h:
+
+pylang.h:
+
+utilities/boolean.h:
+input/plaintext/input_stack$(OBJ_SUFFIX): input/plaintext/input_stack.c \
+ input/plaintext/input_stack.h output/output.h output/mode.h \
+ utilities/enumeration.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h position/position.h \
+ pieces/pieces.h pieces/walks/vectors.h pymsg.h pylang.h \
+ utilities/boolean.h
+
+input/plaintext/input_stack.h:
+
+output/output.h:
+
+output/mode.h:
+
+utilities/enumeration.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+pymsg.h:
+
+pylang.h:
+
+utilities/boolean.h:

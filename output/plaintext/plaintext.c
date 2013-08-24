@@ -16,7 +16,16 @@
 
 char GlobalStr[4000];
 
-char versionString[100];
+FILE *TraceFile;
+
+char ActAuthor[256];
+char ActOrigin[256];
+char ActTitle[256];
+char ActTwinning[1532];
+char ActAward[256];
+char ActStip[37];
+
+FILE *SolFile;
 
 typedef struct
 {

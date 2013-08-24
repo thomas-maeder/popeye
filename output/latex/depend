@@ -1,6 +1,75 @@
 output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
- utilities/boolean.h
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
+ utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
+ output/output.h output/mode.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ output/plaintext/plaintext.h output/plaintext/language_dependant.h \
+ pylang.h conditions/conditions.h options/options.h \
+ input/plaintext/pieces.h input/plaintext/token.h input/plaintext/line.h \
+ options/maxsolutions/maxsolutions.h \
+ options/stoponshortsolutions/stoponshortsolutions.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ solving/solve.h pieces/attributes/neutral/neutral.h conditions/grid.h \
+ platform/maxtime.h pymsg.h pylang.h utilities/boolean.h
 
 output/latex/latex.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+pieces/walks/vectors.h:
+
+utilities/enumeration.h:
+
+output/output.h:
+
+output/mode.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/plaintext/plaintext.h:
+
+output/plaintext/language_dependant.h:
+
+pylang.h:
+
+conditions/conditions.h:
+
+options/options.h:
+
+input/plaintext/pieces.h:
+
+input/plaintext/token.h:
+
+input/plaintext/line.h:
+
+options/maxsolutions/maxsolutions.h:
+
+options/stoponshortsolutions/stoponshortsolutions.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+solving/solve.h:
+
+pieces/attributes/neutral/neutral.h:
+
+conditions/grid.h:
+
+platform/maxtime.h:
+
+pymsg.h:
+
+pylang.h:
 
 utilities/boolean.h:

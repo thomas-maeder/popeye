@@ -8,6 +8,8 @@
 
 #include "debugging/trace.h"
 
+char versionString[100];
+
 #ifdef _SE_
 #include "se.h"
 #endif
