@@ -54,9 +54,10 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  conditions/football.h conditions/anticirce/anticirce.h \
  conditions/imitator.h conditions/sentinelles.h conditions/mummer.h \
  conditions/singlebox/type3.h conditions/immune.h conditions/geneva.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h conditions/phantom.h \
- conditions/annan.h conditions/vaulting_kings.h conditions/messigny.h \
- conditions/woozles.h utilities/table.h debugging/trace.h
+ conditions/koeko/koeko.h conditions/koeko/anti.h \
+ conditions/koeko/koeko.h conditions/phantom.h conditions/annan.h \
+ conditions/vaulting_kings.h conditions/messigny.h conditions/woozles.h \
+ utilities/table.h debugging/trace.h
 
 py.h:
 
@@ -204,6 +205,8 @@ conditions/koeko/koeko.h:
 
 conditions/koeko/anti.h:
 
+conditions/koeko/koeko.h:
+
 conditions/phantom.h:
 
 conditions/annan.h:
@@ -232,9 +235,10 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  output/plaintext/language_dependant.h pylang.h conditions/annan.h \
  conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/koeko/contact_grid.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
- conditions/exclusive.h utilities/table.h conditions/republican.h \
- conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
+ conditions/koeko/koeko.h conditions/koeko/anti.h \
+ conditions/koeko/koeko.h conditions/koeko/new.h conditions/exclusive.h \
+ utilities/table.h conditions/republican.h conditions/blackchecks.h \
+ conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -274,10 +278,10 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  conditions/football.h conditions/mummer.h conditions/woozles.h \
  conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
  conditions/patrol.h conditions/nocapture.h conditions/nopromotion.h \
- conditions/geneva.h conditions/monochrome.h conditions/bichrome.h \
- conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
- conditions/superguards.h conditions/central.h conditions/beamten.h \
- conditions/brunner.h conditions/wormhole.h \
+ conditions/geneva.h conditions/monochrome.h solving/move_generator.h \
+ conditions/bichrome.h conditions/edgemover.h conditions/grid.h \
+ conditions/take_and_make.h conditions/superguards.h conditions/central.h \
+ conditions/beamten.h conditions/brunner.h conditions/wormhole.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h conditions/backhome.h \
  conditions/vogtlaender.h conditions/bicolores.h conditions/antikings.h \
@@ -316,7 +320,7 @@ py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  DHT/dhtbcmem.h optimisations/intelligent/intelligent.h \
  optimisations/keepmating.h optimisations/goals/optimisation_guards.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- optimisations/killer_move/killer_move.h solving/move_generator.h \
+ optimisations/killer_move/killer_move.h \
  optimisations/killer_move/final_defense_move.h \
  optimisations/ohneschach/non_checking_first.h \
  optimisations/ohneschach/redundant_immobility_tests.h \
@@ -426,6 +430,8 @@ conditions/koeko/contact_grid.h:
 conditions/koeko/koeko.h:
 
 conditions/koeko/anti.h:
+
+conditions/koeko/koeko.h:
 
 conditions/koeko/new.h:
 
@@ -615,6 +621,8 @@ conditions/geneva.h:
 
 conditions/monochrome.h:
 
+solving/move_generator.h:
+
 conditions/bichrome.h:
 
 conditions/edgemover.h:
@@ -781,8 +789,6 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 optimisations/killer_move/killer_move.h:
 
-solving/move_generator.h:
-
 optimisations/killer_move/final_defense_move.h:
 
 optimisations/ohneschach/non_checking_first.h:
@@ -875,7 +881,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  stipulation/battle_play/defense_adapter.h stipulation/help_play/branch.h \
  stipulation/help_play/adapter.h solving/find_shortest.h \
  solving/play_suppressor.h solving/battle_play/continuation.h \
- solving/battle_play/try.h utilities/table.h \
+ solving/battle_play/try.h utilities/table.h solving/move_generator.h \
  pieces/walks/pawns/en_passant.h solving/moving_pawn_promotion.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
  conditions/isardam.h conditions/synchronous.h conditions/protean.h \
@@ -889,7 +895,7 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  conditions/sentinelles.h conditions/magic_square.h conditions/mummer.h \
  conditions/transmuting_kings/super.h conditions/immune.h \
  conditions/geneva.h conditions/koeko/koeko.h conditions/koeko/anti.h \
- conditions/phantom.h conditions/annan.h \
+ conditions/koeko/koeko.h conditions/phantom.h conditions/annan.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h conditions/imitator.h conditions/messigny.h \
  conditions/woozles.h conditions/football.h conditions/singlebox/type1.h \
@@ -1063,6 +1069,8 @@ solving/battle_play/try.h:
 
 utilities/table.h:
 
+solving/move_generator.h:
+
 pieces/walks/pawns/en_passant.h:
 
 solving/moving_pawn_promotion.h:
@@ -1124,6 +1132,8 @@ conditions/geneva.h:
 conditions/koeko/koeko.h:
 
 conditions/koeko/anti.h:
+
+conditions/koeko/koeko.h:
 
 conditions/phantom.h:
 

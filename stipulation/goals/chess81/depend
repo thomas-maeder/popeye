@@ -4,13 +4,13 @@ stipulation/goals/chess81/reached_tester$(OBJ_SUFFIX): \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/move_generator.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- debugging/trace.h pydata.h py.h
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/goals/reached_tester.h \
+ stipulation/boolean/true.h debugging/trace.h pydata.h py.h
 
 stipulation/goals/chess81/reached_tester.h:
 
@@ -38,6 +38,14 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
@@ -48,21 +56,13 @@ position/pieceid.h:
 
 solving/move_generator.h:
 
-stipulation/slice_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
 
 stipulation/goals/reached_tester.h:
 

@@ -3114,11 +3114,10 @@ conditions/monochrome$(OBJ_SUFFIX): conditions/monochrome.c conditions/monochrom
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h pydata.h py.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/solve.h stipulation/branch.h \
- solving/move_generator.h solving/ply.h solving/observation.h \
- debugging/trace.h
+ output/mode.h solving/move_generator.h solving/solve.h solving/ply.h \
+ pydata.h py.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
+ solving/observation.h debugging/trace.h
 
 conditions/monochrome.h:
 
@@ -3152,6 +3151,12 @@ stipulation/slice_type.h:
 
 output/mode.h:
 
+solving/move_generator.h:
+
+solving/solve.h:
+
+solving/ply.h:
+
 pydata.h:
 
 py.h:
@@ -3164,13 +3169,7 @@ stipulation/slice.h:
 
 stipulation/traversal.h:
 
-solving/solve.h:
-
 stipulation/branch.h:
-
-solving/move_generator.h:
-
-solving/ply.h:
 
 solving/observation.h:
 
@@ -3180,10 +3179,10 @@ conditions/bichrome$(OBJ_SUFFIX): conditions/bichrome.c conditions/bichrome.h \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h conditions/monochrome.h stipulation/pipe.h \
+ output/mode.h conditions/monochrome.h solving/move_generator.h \
+ solving/solve.h solving/ply.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/solve.h stipulation/branch.h \
- solving/move_generator.h solving/ply.h solving/observation.h \
+ stipulation/traversal.h stipulation/branch.h solving/observation.h \
  debugging/trace.h pydata.h py.h
 
 conditions/bichrome.h:
@@ -3220,6 +3219,12 @@ output/mode.h:
 
 conditions/monochrome.h:
 
+solving/move_generator.h:
+
+solving/solve.h:
+
+solving/ply.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -3228,13 +3233,7 @@ stipulation/slice.h:
 
 stipulation/traversal.h:
 
-solving/solve.h:
-
 stipulation/branch.h:
-
-solving/move_generator.h:
-
-solving/ply.h:
 
 solving/observation.h:
 

@@ -96,7 +96,7 @@ EXTERN  boolean  may_exist[PieceCount];
 
 EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyanticirprom, anyimmun, anyclone, anygeneva;
 
-EXTERN  pileside trait;
+EXTERN  Side trait[maxply+1];
 EXTERN  boolean flagfee;
 
 EXTERN boolean anymars;

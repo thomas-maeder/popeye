@@ -2,6 +2,7 @@
 #define PIECES_ATTRIBUTES_HURDLE_JIGGER_H
 
 #include "solving/solve.h"
+#include "conditions/koeko/koeko.h"
 
 /* This module implements Jigger pieces */
 

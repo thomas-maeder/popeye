@@ -117,6 +117,7 @@
 #include "solving/play_suppressor.h"
 #include "solving/battle_play/continuation.h"
 #include "solving/battle_play/try.h"
+#include "solving/move_generator.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
@@ -754,8 +755,11 @@ static void WriteConditions(int alignment)
 
     if (cond == gridchess && OptFlag[suppressgrid]) {
       strcat(CondLine, "  ");
-      switch (gridvar)
+      switch (grid_type)
       {
+        case grid_normal:
+          /* nothing */
+          break;
         case grid_vertical_shift:
           strcat(CondLine, VariantTypeString[UserLanguage][ShiftRank]);
           break;
@@ -4665,7 +4669,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 8)/2)+4*((*bnp/24-7)/2)) << Grid;
       }
-      gridvar = grid_vertical_shift;
+      grid_type = grid_vertical_shift;
     }
     else if (type==ShiftFile && group==gpGrid)
     {
@@ -4675,7 +4679,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-8)/2)) << Grid;
       }
-      gridvar = grid_horizontal_shift;
+      grid_type = grid_horizontal_shift;
     }
     else if (type==ShiftRankFile && group==gpGrid)
     {
@@ -4685,7 +4689,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-7)/2)) << Grid;
       }
-      gridvar = grid_diagonal_shift;
+      grid_type = grid_diagonal_shift;
     }
     else if (type==Orthogonal && group==gpGrid)
     {
@@ -4721,14 +4725,14 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
         ClearGridNum(*bnp);
         sq_spec[*bnp] += (files[*bnp%24-8]+filenum*ranks[*bnp/24-8]) << Grid;
       }
-      gridvar = grid_orthogonal_lines;
+      grid_type = grid_orthogonal_lines;
     }
     else if (type==Irregular && group==gpGrid)
     {
       square const *bnp;
       for (bnp= boardnum; *bnp; bnp++)
       ClearGridNum(*bnp);
-      gridvar = grid_irregular;
+      grid_type = grid_irregular;
       currentgridnum=1;
       do
       {
@@ -4777,7 +4781,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group) {
             gridlines[numgridlines][2]=2*f+(horiz?2*l:0);
             gridlines[numgridlines][3]=2*r+(horiz?0:2*l);
             numgridlines++;
-            gridvar= grid_irregular;
+            grid_type= grid_irregular;
           }
         }
         else
@@ -7543,7 +7547,7 @@ void LaTeXBeginDiagram(void)
   /* conditions */
   if (CondFlag[gridchess] && !OptFlag[suppressgrid]) {
     boolean entry=false;
-    switch (gridvar)
+    switch (grid_type)
     {
       case grid_normal:
         fprintf(LaTeXFile, " \\stdgrid%%\n");

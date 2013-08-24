@@ -1519,7 +1519,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/ohneschach.h conditions/maff/immobility_tester.h \
  conditions/owu/immobility_tester.h conditions/immune.h \
  conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/monochrome.h conditions/bichrome.h \
+ conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
  conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h solving/observation.h conditions/patience.h \
@@ -1550,7 +1550,6 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h py.h utilities/boole
  conditions/wormhole.h conditions/backhome.h conditions/shielded_kings.h \
  optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- solving/move_generator.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
  optimisations/goals/enpassant/filter.h \
@@ -1793,6 +1792,8 @@ conditions/patrol.h:
 
 conditions/monochrome.h:
 
+solving/move_generator.h:
+
 conditions/bichrome.h:
 
 conditions/ultraschachzwang/legality_tester.h:
@@ -1932,8 +1933,6 @@ DHT/dhtbcmem.h:
 optimisations/keepmating.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
-
-solving/move_generator.h:
 
 optimisations/count_nr_opponent_moves/prioriser.h:
 
@@ -2360,16 +2359,17 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/shielded_kings.h conditions/superguards.h \
  conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
  conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
- conditions/bichrome.h conditions/grid.h conditions/edgemover.h \
- conditions/annan.h conditions/phantom.h conditions/marscirce/plus.h \
- conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
- conditions/sting.h conditions/transmuting_kings/transmuting_kings.h \
+ solving/move_generator.h conditions/bichrome.h conditions/grid.h \
+ conditions/edgemover.h conditions/annan.h conditions/phantom.h \
+ conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
+ conditions/singlebox/type3.h conditions/sting.h \
+ conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/magic.h \
  solving/find_square_observer_tracking_back_from_target.h \
- solving/move_generator.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/has_solution_type.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/temporary_hacks.h \
  optimisations/orthodox_square_observation.h debugging/trace.h pydata.h \
@@ -2459,6 +2459,8 @@ conditions/eiffel.h:
 
 conditions/monochrome.h:
 
+solving/move_generator.h:
+
 conditions/bichrome.h:
 
 conditions/grid.h:
@@ -2488,8 +2490,6 @@ pieces/attributes/paralysing/paralysing.h:
 pieces/attributes/magic.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
-
-solving/move_generator.h:
 
 stipulation/has_solution_type.h:
 

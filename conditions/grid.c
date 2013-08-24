@@ -6,7 +6,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-int gridvar;
+grid_type_type grid_type;
 int currentgridnum;
 int gridlines[112][4];
 int numgridlines;

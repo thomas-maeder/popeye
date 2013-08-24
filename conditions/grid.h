@@ -6,7 +6,17 @@
 
 /* This module implements the condition Grid Chess */
 
-extern int gridvar;
+typedef enum
+{
+  grid_normal,
+  grid_vertical_shift,
+  grid_horizontal_shift,
+  grid_diagonal_shift,
+  grid_orthogonal_lines,
+  grid_irregular
+} grid_type_type;
+
+extern grid_type_type grid_type;
 extern int currentgridnum;
 extern int gridlines[112][4];
 extern int numgridlines;

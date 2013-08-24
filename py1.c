@@ -145,7 +145,7 @@ void InitCond(void)
   sentinelles_max_nr_pawns_total = 16;
   sentinelle = Pawn;
 
-  gridvar = grid_normal;
+  grid_type = grid_normal;
   numgridlines = 0;
 
   {

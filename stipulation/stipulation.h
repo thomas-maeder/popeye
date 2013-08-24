@@ -19,6 +19,13 @@ typedef enum
 
 typedef unsigned int slice_index;
 
+typedef unsigned int stip_length_type;
+
+enum
+{
+  no_stip_length = maxply
+};
+
 typedef struct
 {
     slice_type type;

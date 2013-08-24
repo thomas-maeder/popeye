@@ -8,11 +8,14 @@ platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_imp
  platform/maxtime.h utilities/boolean.h pymsg.h pylang.h \
  optimisations/hash.h DHT/dhtbcmem.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \
- pieces/walks/vectors.h utilities/enumeration.h solving/solve.h \
- solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/move_generator.h stipulation/slice_type.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h
+ pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
+ position/position.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ solving/ply.h solving/moving_pawn_promotion.h \
+ pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/move_generator.h \
+ pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/stipulation.h pydata.h py.h
 
 platform/maxtime_impl.h:
 
@@ -42,7 +45,21 @@ pieces/walks/vectors.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
+solving/ply.h:
 
 solving/moving_pawn_promotion.h:
 
@@ -56,13 +73,13 @@ position/pieceid.h:
 
 solving/move_generator.h:
 
-stipulation/slice_type.h:
-
 pyproc.h:
 
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
 
 pydata.h:
 

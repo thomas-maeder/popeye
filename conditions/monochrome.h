@@ -2,6 +2,7 @@
 #define CONDITIONS_MONOCHROME_H
 
 #include "stipulation/stipulation.h"
+#include "solving/move_generator.h"
 #include "utilities/boolean.h"
 
 /* This module implements the condition Monochrome Chess */

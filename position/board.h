@@ -141,6 +141,18 @@ enum
   file_h = square_h1-square_a1
 };
 
+enum
+{
+  file_rook_queenside,
+  file_knight_queenside,
+  file_bishop_queenside,
+  file_queen,
+  file_king,
+  file_bishop_kingside,
+  file_knight_kingside,
+  file_rook_kingside
+};
+
 typedef enum
 {
   rot90,        /* 0 */

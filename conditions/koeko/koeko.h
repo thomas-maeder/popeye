@@ -2,8 +2,11 @@
 #define CONDITIONS_KOEKO_H
 
 #include "solving/solve.h"
+#include "utilities/boolean.h"
 
 /* This module implements the condition Koeko */
+
+typedef boolean (*nocontactfunc_t)(square);
 
 extern nocontactfunc_t koeko_nocontact;
 

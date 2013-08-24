@@ -11,6 +11,25 @@
  * in STMoveGenerator stipulation slices.
  */
 
+typedef unsigned int numecoup;
+
+enum
+{
+  /* the following values are used instead of capture square
+   * to indicate special moves */
+  messigny_exchange = maxsquare+1,
+
+  min_castling = maxsquare+2,
+  kingside_castling = min_castling,
+  queenside_castling = maxsquare+3,
+  max_castling = queenside_castling,
+
+  pawn_multistep = maxsquare, /* must refer to a square that is always empty */
+  offset_en_passant_capture = 8*onerow, /* must refer to squares that are never empty */
+
+  offset_platzwechsel_rochade = 2*maxsquare
+};
+
 typedef struct
 {
     numecoup id;
@@ -33,6 +52,11 @@ enum
 
 extern numecoup current_move[maxply+1];
 extern numecoup current_move_id[maxply+1];
+
+enum
+{
+  nil_coup = 1
+};
 
 #define encore() (current_move[nbply]-1>current_move[nbply-1]-1)
 

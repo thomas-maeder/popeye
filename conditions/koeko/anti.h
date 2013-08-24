@@ -2,6 +2,7 @@
 #define CONDITIONS_KOEKO_ANTI_H
 
 #include "solving/solve.h"
+#include "conditions/koeko/koeko.h"
 
 /* This module implements the condition Anti-Koeko */
 
