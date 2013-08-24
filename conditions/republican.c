@@ -1,6 +1,7 @@
 #include "conditions/republican.h"
 #include "stipulation/stipulation.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "pylang.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"

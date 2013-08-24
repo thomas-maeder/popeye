@@ -22,7 +22,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/exclusive.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h pydata.h py.h pymsg.h
+ stipulation/stipulation.h pydata.h py.h conditions/conditions.h pymsg.h
 
 output/plaintext/tree/tree.h:
 
@@ -121,6 +121,8 @@ stipulation/stipulation.h:
 pydata.h:
 
 py.h:
+
+conditions/conditions.h:
 
 pymsg.h:
 output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX): \

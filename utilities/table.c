@@ -1,5 +1,6 @@
 #include "utilities/table.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "pymsg.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"

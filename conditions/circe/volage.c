@@ -1,5 +1,6 @@
 #include "conditions/circe/volage.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

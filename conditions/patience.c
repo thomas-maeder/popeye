@@ -1,5 +1,6 @@
 #include "conditions/patience.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"

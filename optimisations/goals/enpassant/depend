@@ -3,14 +3,14 @@ optimisations/goals/enpassant/filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/filter.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/observation.h stipulation/slice_type.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h stipulation/goals/prerequisite_guards.h \
- debugging/trace.h pydata.h py.h
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/observation.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ stipulation/goals/prerequisite_guards.h debugging/trace.h pydata.h py.h
 
 optimisations/goals/enpassant/filter.h:
 
@@ -32,7 +32,19 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -40,25 +52,19 @@ solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
+solving/ply.h:
+
 position/pieceid.h:
 
 solving/observation.h:
 
-stipulation/slice_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 
@@ -74,15 +80,16 @@ optimisations/goals/enpassant/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/remove_non_reachers.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pieces/walks/hunters.h \
- position/position.h solving/observation.h stipulation/slice_type.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- pieces/walks/classification.h solving/move_generator.h \
- stipulation/stipulation.h stipulation/slice.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h debugging/trace.h pydata.h py.h
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h pieces/walks/hunters.h \
+ solving/observation.h solving/ply.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h pieces/walks/classification.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ debugging/trace.h pydata.h py.h
 
 optimisations/goals/enpassant/remove_non_reachers.h:
 
@@ -104,15 +111,25 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
-pylang.h:
-
-pieces/walks/hunters.h:
+solving/ply.h:
 
 position/position.h:
 
-solving/observation.h:
+pylang.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
+
+output/mode.h:
+
+pieces/walks/hunters.h:
+
+solving/observation.h:
+
+solving/ply.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -126,19 +143,13 @@ pieces/walks/classification.h:
 
 solving/move_generator.h:
 
-stipulation/stipulation.h:
-
-stipulation/slice.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
+stipulation/slice.h:
+
 stipulation/traversal.h:
-
-stipulation/goals/goals.h:
-
-output/mode.h:
-
-stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 

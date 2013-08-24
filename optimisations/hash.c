@@ -115,6 +115,7 @@
 #include "debugging/trace.h"
 #include "py.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 
 #if defined(HASHRATE)
 #include "platform/pytime.h"

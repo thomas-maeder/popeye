@@ -4,6 +4,7 @@
 #include "conditions/singlebox/type1.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 
 #include <assert.h>
 

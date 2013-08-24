@@ -5,7 +5,8 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h pydata.h py.h stipulation/pipe.h \
+ stipulation/slice_type.h output/mode.h pydata.h py.h \
+ conditions/conditions.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/proxy.h \
  stipulation/boolean/or.h stipulation/boolean/true.h stipulation/move.h \
@@ -52,6 +53,8 @@ output/mode.h:
 pydata.h:
 
 py.h:
+
+conditions/conditions.h:
 
 stipulation/pipe.h:
 

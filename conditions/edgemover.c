@@ -1,5 +1,6 @@
 #include "conditions/edgemover.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/move_generator.h"

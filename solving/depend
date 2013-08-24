@@ -1057,7 +1057,8 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/fork.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h pydata.h py.h
+ stipulation/temporary_hacks.h debugging/trace.h pydata.h py.h \
+ conditions/conditions.h
 
 solving/castling.h:
 
@@ -1136,6 +1137,8 @@ debugging/trace.h:
 pydata.h:
 
 py.h:
+
+conditions/conditions.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
  solving/trivial_end_filter.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \

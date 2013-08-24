@@ -2,7 +2,7 @@ pieces/walks/walks$(OBJ_SUFFIX): pieces/walks/walks.c pieces/walks/walks.h py.h 
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- pydata.h py.h
+ pydata.h py.h conditions/conditions.h
 
 pieces/walks/walks.h:
 
@@ -31,6 +31,8 @@ pylang.h:
 pydata.h:
 
 py.h:
+
+conditions/conditions.h:
 pieces/walks/vectors$(OBJ_SUFFIX): pieces/walks/vectors.c pieces/walks/vectors.h \
  position/board.h utilities/bitmask.h
 

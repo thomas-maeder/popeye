@@ -4,9 +4,9 @@ pieces/walks/pawns/pawn$(OBJ_SUFFIX): pieces/walks/pawns/pawn.c \
  utilities/enumeration.h solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  solving/ply.h pylang.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pydata.h py.h pieces/walks/pawns/pawns.h \
- pieces/walks/pawns/en_passant.h solving/solve.h \
- solving/move_effect_journal.h solving/castling_rights.h \
+ solving/ply.h pydata.h py.h conditions/conditions.h \
+ pieces/walks/pawns/pawns.h pieces/walks/pawns/en_passant.h \
+ solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h
@@ -50,6 +50,8 @@ solving/ply.h:
 pydata.h:
 
 py.h:
+
+conditions/conditions.h:
 
 pieces/walks/pawns/pawns.h:
 
@@ -139,7 +141,8 @@ pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
  solving/ply.h position/position.h pylang.h pieces/walks/walks.h \
  pieces/walks/classification.h conditions/singlebox/type1.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h debugging/trace.h pydata.h py.h
+ stipulation/slice_type.h output/mode.h debugging/trace.h pydata.h py.h \
+ conditions/conditions.h
 
 pieces/walks/pawns/promotion.h:
 
@@ -186,6 +189,8 @@ debugging/trace.h:
 pydata.h:
 
 py.h:
+
+conditions/conditions.h:
 pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  pieces/walks/pawns/en_passant.h solving/solve.h py.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \

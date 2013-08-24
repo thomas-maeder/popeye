@@ -50,6 +50,7 @@
 #include "pymsg.h"
 #include "py1.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/killer_move/killer_move.h"

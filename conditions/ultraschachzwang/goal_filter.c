@@ -5,6 +5,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "conditions/ultraschachzwang/legality_tester.h"
 #include "debugging/trace.h"
 

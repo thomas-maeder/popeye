@@ -6,6 +6,7 @@
 #include "position/position.h"
 #include "pylang.h"
 #include "py.h"
+#include "conditions/conditions.h"
 
 typedef char PieceChar[2];
 typedef PieceChar PieTable[PieceCount];

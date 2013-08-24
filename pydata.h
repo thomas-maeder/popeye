@@ -87,26 +87,14 @@ EXTERN boolean flag_regression;
 
 EXTERN char versionString[100];
 
-EXTERN square royal_square[nr_sides];
-
 EXTERN unsigned int number_of_pieces[nr_sides][PieceCount];
 
 EXTERN  boolean  exist[PieceCount];
 EXTERN  boolean  may_exist[PieceCount];
 
-EXTERN  boolean         anycirce, anycirprom, anyanticirce, anyanticirprom, anyimmun, anyclone, anygeneva;
-
 EXTERN  Side trait[maxply+1];
 EXTERN  boolean flagfee;
 
-EXTERN boolean anymars;
-EXTERN boolean anyantimars;
-EXTERN boolean calc_reflective_king[nr_sides];
-EXTERN boolean anyparrain;
-
-
-EXTERN boolean CondFlag[CondCount];
-EXTERN boolean ExtraCondFlag[ExtraCondCount];
 EXTERN boolean OptFlag[OptCount];
 
 #if defined(WE_ARE_EXTERN)

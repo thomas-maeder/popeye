@@ -15,6 +15,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 
 #include <assert.h>
 

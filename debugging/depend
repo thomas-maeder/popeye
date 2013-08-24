@@ -4,8 +4,9 @@ debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h pyproc.h
  utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- pydata.h py.h optimisations/hash.h DHT/dhtbcmem.h solving/solve.h \
- solving/ply.h output/plaintext/plaintext.h stipulation/move.h \
+ stipulation/stipulation.h pydata.h py.h optimisations/hash.h \
+ DHT/dhtbcmem.h solving/solve.h solving/ply.h \
+ output/plaintext/plaintext.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h
 
@@ -47,6 +48,8 @@ stipulation/slice_type.h:
 
 output/mode.h:
 
+stipulation/stipulation.h:
+
 pydata.h:
 
 py.h:
@@ -75,7 +78,8 @@ debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h \
  solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
  output/mode.h optimisations/hash.h DHT/dhtbcmem.h solving/solve.h \
  solving/ply.h output/plaintext/plaintext.h pydata.h py.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h
+ pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/stipulation.h
 
 debugging/trace.h:
 
@@ -128,3 +132,5 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+stipulation/stipulation.h:

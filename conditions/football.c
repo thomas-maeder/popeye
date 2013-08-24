@@ -10,6 +10,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 
 #include <assert.h>
 

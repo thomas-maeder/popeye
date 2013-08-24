@@ -24,6 +24,7 @@
 #include "debugging/trace.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "pymsg.h"
 
 #include <assert.h>

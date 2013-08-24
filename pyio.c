@@ -69,6 +69,7 @@
 #include "py.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "pymsg.h"
 #include "solving/solve.h"
 #include "solving/castling.h"

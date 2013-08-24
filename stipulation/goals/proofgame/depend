@@ -3,12 +3,12 @@ stipulation/goals/proofgame/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/proofgame/reached_tester.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h pydata.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pyproof.h py.h \
- stipulation/slice.h stipulation/goals/reached_tester.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h pydata.h py.h pyproof.h \
+ stipulation/stipulation.h stipulation/goals/reached_tester.h \
  stipulation/boolean/true.h debugging/trace.h
 
 stipulation/goals/proofgame/reached_tester.h:
@@ -31,37 +31,35 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 stipulation/stipulation.h:
 
-stipulation/slice.h:
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
 
 output/mode.h:
 
 stipulation/pipe.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
 pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-pyproof.h:
 
 py.h:
 
-stipulation/slice.h:
+pyproof.h:
+
+stipulation/stipulation.h:
 
 stipulation/goals/reached_tester.h:
 

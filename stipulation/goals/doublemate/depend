@@ -3,14 +3,14 @@ stipulation/goals/doublemate/filter$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/filter.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h pydata.h py.h \
  stipulation/has_solution_type.h stipulation/conditional_pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
- stipulation/goals/immobile/reached_tester.h stipulation/stipulation.h \
- output/mode.h debugging/trace.h
+ stipulation/traversal.h stipulation/goals/prerequisite_guards.h \
+ solving/ply.h stipulation/goals/immobile/reached_tester.h \
+ debugging/trace.h
 
 stipulation/goals/doublemate/filter.h:
 
@@ -32,15 +32,23 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 
 stipulation/has_solution_type.h:
 
@@ -52,19 +60,13 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/slice_type.h:
-
 stipulation/traversal.h:
 
 stipulation/goals/prerequisite_guards.h:
 
-stipulation/goals/goals.h:
+solving/ply.h:
 
 stipulation/goals/immobile/reached_tester.h:
-
-stipulation/stipulation.h:
-
-output/mode.h:
 
 debugging/trace.h:
 stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
@@ -72,16 +74,17 @@ stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/reached_tester.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h stipulation/pipe.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h pydata.h py.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h stipulation/proxy.h \
- stipulation/goals/prerequisite_guards.h stipulation/goals/goals.h \
+ stipulation/traversal.h stipulation/proxy.h \
+ stipulation/goals/prerequisite_guards.h solving/ply.h \
  stipulation/goals/reached_tester.h \
- stipulation/goals/check/reached_tester.h stipulation/stipulation.h \
- output/mode.h stipulation/goals/immobile/reached_tester.h \
- stipulation/boolean/true.h stipulation/boolean/and.h \
- solving/king_capture_avoider.h debugging/trace.h
+ stipulation/goals/check/reached_tester.h \
+ stipulation/goals/immobile/reached_tester.h stipulation/boolean/true.h \
+ stipulation/boolean/and.h solving/king_capture_avoider.h \
+ debugging/trace.h
 
 stipulation/goals/doublemate/reached_tester.h:
 
@@ -103,15 +106,23 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
 
 pydata.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
+py.h:
 
 stipulation/pipe.h:
 
@@ -119,23 +130,17 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/slice_type.h:
-
 stipulation/traversal.h:
 
 stipulation/proxy.h:
 
 stipulation/goals/prerequisite_guards.h:
 
-stipulation/goals/goals.h:
+solving/ply.h:
 
 stipulation/goals/reached_tester.h:
 
 stipulation/goals/check/reached_tester.h:
-
-stipulation/stipulation.h:
-
-output/mode.h:
 
 stipulation/goals/immobile/reached_tester.h:
 

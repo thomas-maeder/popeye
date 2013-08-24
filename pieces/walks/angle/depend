@@ -13,9 +13,11 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
  position/position.h utilities/boolean.h utilities/enumeration.h \
- solving/observation.h stipulation/slice_type.h py.h utilities/boolean.h \
- position/position.h pylang.h pieces/walks/hoppers.h \
- pieces/walks/hamster.h solving/move_generator.h solving/solve.h \
+ solving/observation.h stipulation/stipulation.h \
+ stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
+ solving/ply.h pylang.h stipulation/slice_type.h output/mode.h \
+ solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
+ solving/solve.h pieces/walks/hamster.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pydata.h py.h
 
@@ -37,7 +39,9 @@ utilities/enumeration.h:
 
 solving/observation.h:
 
-stipulation/slice_type.h:
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
 
 py.h:
 
@@ -45,15 +49,23 @@ utilities/boolean.h:
 
 position/position.h:
 
+solving/ply.h:
+
 pylang.h:
 
-pieces/walks/hoppers.h:
+stipulation/slice_type.h:
 
-pieces/walks/hamster.h:
+output/mode.h:
+
+solving/ply.h:
+
+pieces/walks/hoppers.h:
 
 solving/move_generator.h:
 
 solving/solve.h:
+
+pieces/walks/hamster.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 

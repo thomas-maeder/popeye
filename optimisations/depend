@@ -149,7 +149,7 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/branch.h platform/maxtime.h \
- platform/maxmem.h debugging/trace.h pydata.h
+ platform/maxmem.h debugging/trace.h pydata.h conditions/conditions.h
 
 optimisations/hash.h:
 
@@ -252,6 +252,8 @@ platform/maxmem.h:
 debugging/trace.h:
 
 pydata.h:
+
+conditions/conditions.h:
 optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  optimisations/orthodox_square_observation.c \
  optimisations/orthodox_square_observation.h position/position.h \

@@ -7,6 +7,7 @@
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index

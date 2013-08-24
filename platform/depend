@@ -2,7 +2,9 @@ platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
  utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- pylang.h solving/solve.h
+ solving/ply.h position/position.h pylang.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h solving/ply.h
 
 platform/maxmem.h:
 
@@ -26,15 +28,28 @@ pieces/walks/vectors.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
+solving/ply.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \
- platform/maxtime.h utilities/boolean.h pydata.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- pylang.h
+ platform/maxtime.h utilities/boolean.h pydata.h position/position.h \
+ position/board.h utilities/bitmask.h pieces/walks/vectors.h \
+ utilities/enumeration.h utilities/boolean.h py.h solving/ply.h \
+ position/position.h pylang.h
 
 platform/maxtime_impl.h:
 
@@ -43,16 +58,6 @@ platform/maxtime.h:
 utilities/boolean.h:
 
 pydata.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-stipulation/goals/goals.h:
-
-py.h:
-
-utilities/boolean.h:
 
 position/position.h:
 
@@ -63,6 +68,14 @@ utilities/bitmask.h:
 pieces/walks/vectors.h:
 
 utilities/enumeration.h:
+
+utilities/boolean.h:
+
+py.h:
+
+solving/ply.h:
+
+position/position.h:
 
 pylang.h:
 platform/beep$(OBJ_SUFFIX): platform/beep.c platform/beep.h utilities/boolean.h \

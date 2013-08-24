@@ -4,11 +4,12 @@ stipulation/goals/exchange_by_rebirth/reached_tester$(OBJ_SUFFIX): \
  py.h utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
  utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- stipulation/boolean/true.h stipulation/goals/reached_tester.h \
- stipulation/goals/goals.h solving/move_generator.h solving/ply.h \
- debugging/trace.h pydata.h py.h
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/boolean/true.h \
+ stipulation/goals/reached_tester.h solving/move_generator.h \
+ solving/ply.h debugging/trace.h pydata.h py.h
 
 stipulation/goals/exchange_by_rebirth/reached_tester.h:
 
@@ -36,21 +37,25 @@ position/position.h:
 
 pylang.h:
 
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/slice_type.h:
-
 stipulation/traversal.h:
 
 stipulation/boolean/true.h:
 
 stipulation/goals/reached_tester.h:
-
-stipulation/goals/goals.h:
 
 solving/move_generator.h:
 

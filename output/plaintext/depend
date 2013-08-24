@@ -10,7 +10,7 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  conditions/imitator.h conditions/singlebox/type1.h \
  pieces/walks/pawns/en_passant.h solving/observation.h debugging/trace.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h pydata.h py.h
+ stipulation/stipulation.h pydata.h py.h conditions/conditions.h
 
 output/plaintext/plaintext.h:
 
@@ -83,6 +83,8 @@ stipulation/stipulation.h:
 pydata.h:
 
 py.h:
+
+conditions/conditions.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
  output/plaintext/end_of_phase_writer.h solving/solve.h py.h \
@@ -398,7 +400,8 @@ output/plaintext/language_dependant$(OBJ_SUFFIX): \
  output/plaintext/language_dependant.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h pylang.h py.h \
- utilities/boolean.h position/position.h solving/ply.h pylang.h
+ utilities/boolean.h position/position.h solving/ply.h pylang.h \
+ conditions/conditions.h
 
 output/plaintext/language_dependant.h:
 
@@ -425,3 +428,5 @@ position/position.h:
 solving/ply.h:
 
 pylang.h:
+
+conditions/conditions.h:

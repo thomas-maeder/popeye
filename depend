@@ -30,6 +30,7 @@ py1$(OBJ_SUFFIX): py1.c py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h solving/ply.h \
  position/position.h pylang.h pymsg.h py1.h pydata.h \
+ conditions/conditions.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  solving/solve.h py.h stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h \
@@ -86,6 +87,8 @@ pymsg.h:
 py1.h:
 
 pydata.h:
+
+conditions/conditions.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -223,22 +226,22 @@ debugging/trace.h:
 py6$(OBJ_SUFFIX): py6.c py.h utilities/boolean.h position/position.h \
  position/board.h utilities/bitmask.h pieces/walks/vectors.h \
  utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h pylang.h py1.h pydata.h pymsg.h DHT/dhtbcmem.h \
- pyproof.h stipulation/stipulation.h stipulation/goals/goals.h py.h \
- stipulation/slice_type.h output/mode.h solving/selfcheck_guard.h \
- solving/solve.h stipulation/stipulation.h \
+ position/position.h pylang.h py1.h pydata.h conditions/conditions.h \
+ pymsg.h DHT/dhtbcmem.h pyproof.h stipulation/stipulation.h \
+ stipulation/goals/goals.h py.h stipulation/slice_type.h output/mode.h \
+ solving/selfcheck_guard.h solving/solve.h stipulation/stipulation.h \
  solving/moving_pawn_promotion.h solving/ply.h \
  pieces/walks/pawns/promotion.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/solve.h solving/observation.h output/output.h \
- output/plaintext/language_dependant.h pylang.h conditions/annan.h \
- conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/koeko/contact_grid.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h \
- conditions/koeko/koeko.h conditions/koeko/new.h conditions/exclusive.h \
- utilities/table.h conditions/republican.h conditions/blackchecks.h \
- conditions/extinction.h conditions/madrasi.h \
+ output/plaintext/language_dependant.h pylang.h conditions/conditions.h \
+ conditions/annan.h conditions/bgl.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h \
+ conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
+ conditions/koeko/anti.h conditions/koeko/koeko.h conditions/koeko/new.h \
+ conditions/exclusive.h utilities/table.h conditions/republican.h \
+ conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h conditions/singlebox/type3.h \
@@ -365,6 +368,8 @@ py1.h:
 
 pydata.h:
 
+conditions/conditions.h:
+
 pymsg.h:
 
 DHT/dhtbcmem.h:
@@ -414,6 +419,8 @@ output/output.h:
 output/plaintext/language_dependant.h:
 
 pylang.h:
+
+conditions/conditions.h:
 
 conditions/annan.h:
 
@@ -844,18 +851,20 @@ pyio$(OBJ_SUFFIX): pyio.c py.h utilities/boolean.h position/position.h \
  position/position.h pylang.h pyproc.h pieces/walks/vectors.h \
  stipulation/goals/goals.h py.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- pydata.h pymsg.h solving/solve.h stipulation/stipulation.h \
- solving/castling.h solving/solve.h solving/castling_rights.h \
- solving/move_effect_journal.h solving/ply.h position/pieceid.h pyproof.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ pydata.h conditions/conditions.h pymsg.h solving/solve.h \
+ stipulation/stipulation.h solving/castling.h solving/solve.h \
+ solving/castling_rights.h solving/move_effect_journal.h solving/ply.h \
+ position/pieceid.h pyproof.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h output/output.h \
- output/plaintext/language_dependant.h pylang.h pieces/walks/hunters.h \
- solving/observation.h pieces/attributes/neutral/neutral.h \
- stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/branch.h stipulation/move_inverter.h \
- stipulation/if_then_else.h stipulation/boolean/or.h \
- stipulation/boolean/and.h stipulation/boolean/not.h \
- stipulation/boolean/true.h stipulation/goals/reached_tester.h \
+ output/plaintext/language_dependant.h pylang.h conditions/conditions.h \
+ pieces/walks/hunters.h solving/observation.h \
+ pieces/attributes/neutral/neutral.h stipulation/has_solution_type.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/move_inverter.h stipulation/if_then_else.h \
+ stipulation/boolean/or.h stipulation/boolean/and.h \
+ stipulation/boolean/not.h stipulation/boolean/true.h \
+ stipulation/goals/reached_tester.h \
  stipulation/goals/mate/reached_tester.h \
  stipulation/goals/stalemate/reached_tester.h \
  stipulation/goals/doublestalemate/reached_tester.h \
@@ -947,6 +956,8 @@ output/mode.h:
 
 pydata.h:
 
+conditions/conditions.h:
+
 pymsg.h:
 
 solving/solve.h:
@@ -980,6 +991,8 @@ output/output.h:
 output/plaintext/language_dependant.h:
 
 pylang.h:
+
+conditions/conditions.h:
 
 pieces/walks/hunters.h:
 
@@ -1240,17 +1253,19 @@ pyproof$(OBJ_SUFFIX): pyproof.c py.h utilities/boolean.h position/position.h \
  position/position.h pylang.h stipulation/stipulation.h \
  stipulation/goals/goals.h py.h stipulation/slice_type.h output/mode.h \
  pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h pydata.h \
- DHT/dhtbcmem.h pyproof.h pymsg.h stipulation/has_solution_type.h \
- solving/solve.h stipulation/stipulation.h solving/castling.h \
- solving/solve.h solving/castling_rights.h solving/move_effect_journal.h \
- solving/ply.h position/pieceid.h pieces/walks/pawns/en_passant.h \
- solving/observation.h solving/observation.h optimisations/hash.h \
- DHT/dhtbcmem.h optimisations/intelligent/moves_left.h \
+ conditions/conditions.h DHT/dhtbcmem.h pyproof.h pymsg.h \
+ stipulation/has_solution_type.h solving/solve.h \
+ stipulation/stipulation.h solving/castling.h solving/solve.h \
+ solving/castling_rights.h solving/move_effect_journal.h solving/ply.h \
+ position/pieceid.h pieces/walks/pawns/en_passant.h solving/observation.h \
+ solving/observation.h optimisations/hash.h DHT/dhtbcmem.h \
+ optimisations/intelligent/moves_left.h \
  optimisations/orthodox_check_directions.h platform/maxtime.h \
  conditions/duellists.h conditions/haunted_chess.h \
  conditions/vaulting_kings.h conditions/imitator.h \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
- output/plaintext/language_dependant.h pylang.h debugging/trace.h
+ output/plaintext/language_dependant.h pylang.h conditions/conditions.h \
+ debugging/trace.h
 
 py.h:
 
@@ -1291,6 +1306,8 @@ pieces/walks/vectors.h:
 stipulation/goals/goals.h:
 
 pydata.h:
+
+conditions/conditions.h:
 
 DHT/dhtbcmem.h:
 
@@ -1347,6 +1364,8 @@ pieces/walks/walks.h:
 output/plaintext/language_dependant.h:
 
 pylang.h:
+
+conditions/conditions.h:
 
 debugging/trace.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \

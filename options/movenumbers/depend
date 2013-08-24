@@ -3,13 +3,15 @@ options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  options/movenumbers/restart_guard_intelligent.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/stipulation.h \
- stipulation/slice.h stipulation/slice_type.h \
- stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/goals/goals.h output/mode.h stipulation/pipe.h \
- stipulation/has_solution_type.h debugging/trace.h options/movenumbers.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ debugging/trace.h options/movenumbers.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h pydata.h py.h pymsg.h
+ pieces/walks/vectors.h stipulation/goals/goals.h \
+ stipulation/stipulation.h pydata.h py.h pymsg.h
 
 options/movenumbers/restart_guard_intelligent.h:
 
@@ -31,23 +33,27 @@ utilities/boolean.h:
 
 utilities/enumeration.h:
 
+solving/ply.h:
+
+position/position.h:
+
 pylang.h:
 
 stipulation/stipulation.h:
 
-stipulation/slice.h:
+stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/goals/goals.h:
 
 output/mode.h:
 
 stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 stipulation/has_solution_type.h:
 
@@ -64,6 +70,8 @@ pyproc.h:
 pieces/walks/vectors.h:
 
 stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
 
 pydata.h:
 

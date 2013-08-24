@@ -1,5 +1,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"

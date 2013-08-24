@@ -1,5 +1,6 @@
 #include "pieces/walks/walks.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 
 standard_walks_type standard_walks;
 

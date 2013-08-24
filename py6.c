@@ -97,6 +97,7 @@
 #include "py.h"
 #include "py1.h"
 #include "pydata.h"
+#include "conditions/conditions.h"
 #include "pymsg.h"
 #include "DHT/dhtbcmem.h"
 #include "pyproof.h"
