@@ -1,7 +1,6 @@
 #include "conditions/circe/cage.h"
 #include "conditions/circe/capture_fork.h"
 #include "conditions/circe/circe.h"
-#include "pydata.h"
 #include "conditions/conditions.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

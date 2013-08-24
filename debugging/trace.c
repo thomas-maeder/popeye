@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "optimisations/hash.h"
 #include "output/plaintext/plaintext.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "pyproc.h"
 
@@ -539,7 +538,6 @@ void TraceStipulation(slice_index si)
   }
 }
 
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "pyproc.h"
 #include "stipulation/pipe.h"

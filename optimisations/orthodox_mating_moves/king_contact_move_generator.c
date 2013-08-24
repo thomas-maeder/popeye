@@ -6,7 +6,6 @@
 #include "solving/move_diff_code.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

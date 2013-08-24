@@ -13,7 +13,6 @@
 #include "debugging/trace.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pyproc.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "pymsg.h"
 

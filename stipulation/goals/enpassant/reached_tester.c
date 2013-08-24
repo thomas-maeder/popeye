@@ -1,7 +1,6 @@
 #include "stipulation/goals/enpassant/reached_tester.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "solving/move_effect_journal.h"

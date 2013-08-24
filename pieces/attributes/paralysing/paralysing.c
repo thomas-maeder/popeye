@@ -9,7 +9,6 @@
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "pyproc.h"
 

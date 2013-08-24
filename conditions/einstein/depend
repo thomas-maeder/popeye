@@ -1,10 +1,9 @@
 conditions/einstein/einstein$(OBJ_SUFFIX): conditions/einstein/einstein.c \
- conditions/einstein/einstein.h pieces/pieces.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ conditions/einstein/einstein.h pieces/pieces.h utilities/boolean.h \
+ solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h pydata.h position/position.h utilities/boolean.h \
- solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
+ output/mode.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/move.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
@@ -13,6 +12,8 @@ conditions/einstein/einstein$(OBJ_SUFFIX): conditions/einstein/einstein.c \
 conditions/einstein/einstein.h:
 
 pieces/pieces.h:
+
+utilities/boolean.h:
 
 solving/solve.h:
 
@@ -24,8 +25,6 @@ position/board.h:
 
 utilities/bitmask.h:
 
-utilities/boolean.h:
-
 stipulation/slice_type.h:
 
 utilities/enumeration.h:
@@ -35,14 +34,6 @@ position/position.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
-
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-solving/ply.h:
 
 stipulation/pipe.h:
 
@@ -70,7 +61,6 @@ conditions/einstein/reverse$(OBJ_SUFFIX): conditions/einstein/reverse.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- pydata.h position/position.h utilities/boolean.h solving/ply.h \
  conditions/einstein/einstein.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
@@ -104,14 +94,6 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-solving/ply.h:
-
 conditions/einstein/einstein.h:
 
 stipulation/pipe.h:
@@ -140,7 +122,6 @@ conditions/einstein/anti$(OBJ_SUFFIX): conditions/einstein/anti.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- pydata.h position/position.h utilities/boolean.h solving/ply.h \
  conditions/einstein/einstein.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
@@ -172,14 +153,6 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
-
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-solving/ply.h:
 
 conditions/einstein/einstein.h:
 
@@ -216,8 +189,7 @@ conditions/einstein/en_passant$(OBJ_SUFFIX): conditions/einstein/en_passant.c \
  position/pieceid.h solving/observation.h pieces/walks/classification.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h debugging/trace.h pydata.h position/position.h \
- utilities/boolean.h solving/ply.h
+ stipulation/move.h debugging/trace.h
 
 conditions/einstein/en_passant.h:
 
@@ -272,11 +244,3 @@ stipulation/has_solution_type.h:
 stipulation/move.h:
 
 debugging/trace.h:
-
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-solving/ply.h:

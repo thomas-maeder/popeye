@@ -5,7 +5,6 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 
 square (*immunrenai)(PieNam, Flags, square, square, square, Side);

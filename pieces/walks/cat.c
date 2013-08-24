@@ -2,7 +2,6 @@
 #include "pieces/walks/leapers.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 /* Generate moves for a cat
  */

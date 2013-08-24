@@ -6,7 +6,6 @@
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 

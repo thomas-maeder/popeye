@@ -1,5 +1,4 @@
 #include "conditions/ohneschach.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"

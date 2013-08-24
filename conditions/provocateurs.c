@@ -5,7 +5,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pyproc.h"
 
 /* Determine whether a capturer is provoked

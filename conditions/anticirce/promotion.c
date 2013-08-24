@@ -1,6 +1,5 @@
 #include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/anticirce.h"
-#include "pydata.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

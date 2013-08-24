@@ -12,6 +12,8 @@
 #include "se.h"
 #endif
 
+boolean flag_regression;
+
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice
  * @return identifier of the allocated slice

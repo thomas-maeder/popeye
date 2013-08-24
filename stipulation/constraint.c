@@ -1,7 +1,6 @@
 #include "stipulation/constraint.h"
 #include "stipulation/fork.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"

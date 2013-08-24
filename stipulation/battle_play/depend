@@ -12,8 +12,7 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/end_of_branch_goal.h stipulation/move.h \
  stipulation/move_played.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/defense_adapter.h debugging/trace.h \
- solving/ply.h
+ stipulation/battle_play/defense_adapter.h debugging/trace.h
 
 stipulation/battle_play/branch.h:
 
@@ -82,20 +81,18 @@ stipulation/battle_play/attack_adapter.h:
 stipulation/battle_play/defense_adapter.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
  stipulation/battle_play/attack_adapter.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h utilities/enumeration.h stipulation/traversal.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/solve.h \
- stipulation/has_solution_type.h stipulation/branch.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ stipulation/traversal.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ solving/solve.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/pipe.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -103,6 +100,8 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+utilities/boolean.h:
+
 stipulation/slice_type.h:
 
 utilities/enumeration.h:
@@ -116,8 +115,6 @@ stipulation/goals/goals.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-utilities/boolean.h:
 
 position/position.h:
 
@@ -140,18 +137,16 @@ stipulation/battle_play/defense_adapter.h:
 stipulation/pipe.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
  stipulation/battle_play/defense_adapter.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h utilities/enumeration.h stipulation/traversal.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
- solving/solve.h stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/battle_play/branch.h debugging/trace.h solving/ply.h
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ stipulation/traversal.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ stipulation/pipe.h solving/solve.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/battle_play/branch.h debugging/trace.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -159,6 +154,8 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+utilities/boolean.h:
+
 stipulation/slice_type.h:
 
 utilities/enumeration.h:
@@ -172,8 +169,6 @@ stipulation/goals/goals.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-utilities/boolean.h:
 
 position/position.h:
 
@@ -194,5 +189,3 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:

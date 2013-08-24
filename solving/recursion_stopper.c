@@ -1,8 +1,8 @@
 #include "solving/recursion_stopper.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
+#include "solving/ply.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

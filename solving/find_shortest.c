@@ -1,5 +1,4 @@
 #include "solving/find_shortest.h"
-#include "pydata.h"
 #include "options/options.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"

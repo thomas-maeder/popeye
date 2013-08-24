@@ -1,5 +1,4 @@
 #include "conditions/haan.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

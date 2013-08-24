@@ -1,7 +1,6 @@
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"

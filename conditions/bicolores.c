@@ -1,6 +1,6 @@
 #include "conditions/bicolores.h"
 #include "solving/check.h"
-#include "pydata.h"
+#include "solving/ply.h"
 
 /* Determine whether a side is in check
  * @param si identifies the check tester

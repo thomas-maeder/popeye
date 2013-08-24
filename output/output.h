@@ -3,6 +3,9 @@
 
 #include "output/mode.h"
 #include "stipulation/stipulation.h"
+#include "utilities/boolean.h"
+
+extern boolean flag_regression;
 
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice

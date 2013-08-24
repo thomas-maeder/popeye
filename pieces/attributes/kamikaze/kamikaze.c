@@ -1,5 +1,4 @@
 #include "pieces/attributes/kamikaze/kamikaze.h"
-#include "pydata.h"
 #include "conditions/conditions.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

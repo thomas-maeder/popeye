@@ -1,51 +1,42 @@
 options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  options/movenumbers/restart_guard_intelligent.c \
- options/movenumbers/restart_guard_intelligent.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h pylang.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ options/movenumbers/restart_guard_intelligent.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  debugging/trace.h options/movenumbers.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h pydata.h py.h options/options.h pymsg.h
+ pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
+ stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
+ options/options.h output/output.h output/plaintext/plaintext.h pymsg.h \
+ pylang.h
 
 options/movenumbers/restart_guard_intelligent.h:
 
 solving/solve.h:
 
-py.h:
+stipulation/stipulation.h:
 
-utilities/boolean.h:
-
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-pylang.h:
+pieces/pieces.h:
 
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -71,14 +62,22 @@ pyproc.h:
 
 pieces/walks/vectors.h:
 
+pieces/pieces.h:
+
 stipulation/goals/goals.h:
 
 stipulation/stipulation.h:
 
-pydata.h:
+input/plaintext/token.h:
 
-py.h:
+utilities/boolean.h:
 
 options/options.h:
 
+output/output.h:
+
+output/plaintext/plaintext.h:
+
 pymsg.h:
+
+pylang.h:

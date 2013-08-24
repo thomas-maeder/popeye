@@ -2,7 +2,6 @@
 #include "pieces/walks/angle/angles.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 
 #include <assert.h>

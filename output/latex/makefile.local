@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = latex.c
+
+INCLUDES = latex.h
+
+include makefile.rules $(CURRPWD)depend

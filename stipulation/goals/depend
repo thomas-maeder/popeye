@@ -5,7 +5,7 @@ stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/solve.h stipulation/boolean/false.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 stipulation/goals/goals.h:
 
@@ -42,8 +42,6 @@ solving/solve.h:
 stipulation/boolean/false.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.c \
  stipulation/goals/reached_tester.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h solving/solve.h \
@@ -53,7 +51,7 @@ stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
  stipulation/conditional_pipe.h stipulation/boolean/true.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 stipulation/goals/reached_tester.h:
 
@@ -98,8 +96,6 @@ stipulation/conditional_pipe.h:
 stipulation/boolean/true.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 stipulation/goals/prerequisite_guards$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_guards.c \
  stipulation/goals/prerequisite_guards.h stipulation/stipulation.h \
@@ -186,10 +182,9 @@ stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h pydata.h position/position.h utilities/boolean.h \
- solving/ply.h stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/goals/prerequisite_guards.h solving/ply.h \
- solving/avoid_unsolvable.h debugging/trace.h
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ stipulation/branch.h stipulation/goals/prerequisite_guards.h \
+ solving/ply.h solving/avoid_unsolvable.h debugging/trace.h
 
 stipulation/goals/prerequisite_optimiser.h:
 
@@ -224,14 +219,6 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
-
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-solving/ply.h:
 
 stipulation/has_solution_type.h:
 

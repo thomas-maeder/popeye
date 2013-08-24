@@ -16,7 +16,6 @@
 #include "solving/move_diff_code.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
-#include "pydata.h"
 
 #include <assert.h>
 #include <stdlib.h>

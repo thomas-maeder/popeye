@@ -1,6 +1,5 @@
 #include "conditions/republican.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"

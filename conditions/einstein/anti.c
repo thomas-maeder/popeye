@@ -1,5 +1,4 @@
 #include "conditions/einstein/anti.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "conditions/einstein/einstein.h"
 #include "conditions/circe/circe.h"

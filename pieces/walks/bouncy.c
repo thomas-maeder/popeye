@@ -1,7 +1,6 @@
 #include "pieces/walks/bouncy.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 

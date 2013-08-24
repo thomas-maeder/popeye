@@ -7,7 +7,7 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
- stipulation/battle_play/branch.h debugging/trace.h solving/ply.h
+ stipulation/battle_play/branch.h debugging/trace.h
 
 solving/battle_play/continuation.h:
 
@@ -52,19 +52,16 @@ stipulation/pipe.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  solving/battle_play/threat.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_type.h utilities/enumeration.h \
- stipulation/traversal.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h position/position.h pieces/pieces.h \
+ stipulation/slice.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h stipulation/traversal.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/solve.h solving/ply.h \
- utilities/table.h pydata.h position/position.h utilities/boolean.h \
- solving/ply.h stipulation/has_solution_type.h stipulation/testing_pipe.h \
- stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
- stipulation/dummy_move.h stipulation/move_played.h \
+ utilities/table.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/dummy_move.h stipulation/move_played.h \
  stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
  solving/check.h debugging/trace.h
 
@@ -73,6 +70,8 @@ solving/battle_play/threat.h:
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
+
+utilities/boolean.h:
 
 stipulation/slice_type.h:
 
@@ -88,8 +87,6 @@ position/board.h:
 
 utilities/bitmask.h:
 
-utilities/boolean.h:
-
 position/position.h:
 
 pieces/pieces.h:
@@ -103,14 +100,6 @@ solving/solve.h:
 solving/ply.h:
 
 utilities/table.h:
-
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-solving/ply.h:
 
 stipulation/has_solution_type.h:
 
@@ -138,14 +127,13 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- pydata.h position/position.h utilities/boolean.h solving/ply.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/solve.h stipulation/fork.h pymsg.h \
- pylang.h stipulation/branch.h stipulation/constraint.h \
- stipulation/moves_traversal.h stipulation/dead_end.h stipulation/proxy.h \
- stipulation/binary.h stipulation/boolean/true.h \
- stipulation/boolean/false.h stipulation/battle_play/branch.h \
- debugging/trace.h solving/ply.h
+ pylang.h utilities/boolean.h stipulation/branch.h \
+ stipulation/constraint.h stipulation/moves_traversal.h \
+ stipulation/dead_end.h stipulation/proxy.h stipulation/binary.h \
+ stipulation/boolean/true.h stipulation/boolean/false.h \
+ stipulation/battle_play/branch.h debugging/trace.h
 
 solving/battle_play/try.h:
 
@@ -173,14 +161,6 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-solving/ply.h:
-
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -196,6 +176,8 @@ stipulation/fork.h:
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 
 stipulation/branch.h:
 
@@ -216,8 +198,6 @@ stipulation/boolean/false.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
  solving/battle_play/setplay.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -226,8 +206,7 @@ solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
  stipulation/branch.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/battle_play/branch.h \
- solving/battle_play/try.h utilities/table.h debugging/trace.h \
- solving/ply.h
+ solving/battle_play/try.h utilities/table.h debugging/trace.h
 
 solving/battle_play/setplay.h:
 
@@ -270,8 +249,6 @@ solving/battle_play/try.h:
 utilities/table.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
  solving/battle_play/min_length_optimiser.c \
  solving/battle_play/min_length_optimiser.h solving/solve.h \
@@ -280,8 +257,7 @@ solving/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/avoid_unsolvable.h debugging/trace.h \
- solving/ply.h
+ stipulation/traversal.h solving/avoid_unsolvable.h debugging/trace.h
 
 solving/battle_play/min_length_optimiser.h:
 
@@ -320,8 +296,6 @@ stipulation/traversal.h:
 solving/avoid_unsolvable.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  solving/battle_play/min_length_guard.c \
  solving/battle_play/min_length_guard.h solving/solve.h \
@@ -333,8 +307,7 @@ solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  stipulation/traversal.h stipulation/proxy.h \
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
- solving/battle_play/min_length_optimiser.h debugging/trace.h \
- solving/ply.h
+ solving/battle_play/min_length_optimiser.h debugging/trace.h
 
 solving/battle_play/min_length_guard.h:
 
@@ -381,5 +354,3 @@ stipulation/battle_play/branch.h:
 solving/battle_play/min_length_optimiser.h:
 
 debugging/trace.h:
-
-solving/ply.h:

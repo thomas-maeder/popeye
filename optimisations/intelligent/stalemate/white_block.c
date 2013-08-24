@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/stalemate/white_block.h"
-#include "pydata.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/place_white_piece.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"

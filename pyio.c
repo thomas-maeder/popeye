@@ -67,7 +67,6 @@
 #include <limits.h>
 
 #include "pyproc.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
@@ -77,7 +76,9 @@
 #include "pyproof.h"
 #include "stipulation/pipe.h"
 #include "output/output.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/latex/latex.h"
 #include "input/plaintext/token.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/neutral/neutral.h"
@@ -1701,7 +1702,7 @@ static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam)
 static char *ParsePieceName(char *tok, PieNam *name)
 {
   size_t len_token;
-  char const * const hunterseppos = strchr(tok,hunterseparator);
+  char const * const hunterseppos = strchr(tok,'/');
   if (hunterseppos!=0 && hunterseppos-tok<=2)
   {
     PieNam away, home;

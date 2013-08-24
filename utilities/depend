@@ -1,9 +1,8 @@
 utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
- utilities/boolean.h pydata.h position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
- utilities/enumeration.h utilities/boolean.h py.h solving/ply.h \
- position/position.h pylang.h conditions/conditions.h pymsg.h \
- solving/move_effect_journal.h solving/solve.h py.h \
+ utilities/boolean.h conditions/conditions.h position/position.h \
+ position/board.h utilities/bitmask.h pieces/pieces.h \
+ pieces/walks/vectors.h utilities/enumeration.h pymsg.h pylang.h \
+ utilities/boolean.h solving/move_effect_journal.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/castling_rights.h \
  solving/ply.h position/pieceid.h debugging/trace.h
@@ -12,7 +11,7 @@ utilities/table.h:
 
 utilities/boolean.h:
 
-pydata.h:
+conditions/conditions.h:
 
 position/position.h:
 
@@ -26,25 +25,15 @@ pieces/walks/vectors.h:
 
 utilities/enumeration.h:
 
-utilities/boolean.h:
-
-py.h:
-
-solving/ply.h:
-
-position/position.h:
+pymsg.h:
 
 pylang.h:
 
-conditions/conditions.h:
-
-pymsg.h:
+utilities/boolean.h:
 
 solving/move_effect_journal.h:
 
 solving/solve.h:
-
-py.h:
 
 stipulation/stipulation.h:
 

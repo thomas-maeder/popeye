@@ -1,5 +1,4 @@
 #include "optimisations/goals/remove_non_reachers.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"

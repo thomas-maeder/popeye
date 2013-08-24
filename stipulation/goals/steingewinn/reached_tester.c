@@ -4,7 +4,6 @@
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "solving/move_effect_journal.h"
-#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

@@ -10,7 +10,6 @@
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "pyproc.h"
 

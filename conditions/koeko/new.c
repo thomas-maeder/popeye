@@ -8,7 +8,6 @@
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 static boolean contact_before_move[maxply+1];
 

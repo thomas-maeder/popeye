@@ -7,8 +7,9 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
 #include "pyproc.h"
-#include "pydata.h"
 #include "options/options.h"
+#include "output/output.h"
+#include "output/plaintext/plaintext.h"
 #include "pymsg.h"
 
 #include <assert.h>

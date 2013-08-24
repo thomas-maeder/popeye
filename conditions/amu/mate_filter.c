@@ -2,7 +2,6 @@
 #include "conditions/amu/attack_counter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

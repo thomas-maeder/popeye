@@ -95,7 +95,6 @@
 #endif  /* _WIN32 */
 
 #include "py1.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
@@ -109,6 +108,7 @@
 #include "solving/solve.h"
 #include "solving/observation.h"
 #include "output/output.h"
+#include "output/latex/latex.h"
 #include "output/plaintext/language_dependant.h"
 #include "input/plaintext/token.h"
 #include "conditions/annan.h"

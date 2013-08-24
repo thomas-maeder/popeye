@@ -1,0 +1,6 @@
+output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
+ utilities/boolean.h
+
+output/latex/latex.h:
+
+utilities/boolean.h:

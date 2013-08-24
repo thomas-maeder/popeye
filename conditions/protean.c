@@ -1,5 +1,4 @@
 #include "conditions/protean.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"

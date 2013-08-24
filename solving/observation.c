@@ -43,7 +43,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 

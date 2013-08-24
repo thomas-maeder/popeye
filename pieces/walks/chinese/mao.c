@@ -4,7 +4,6 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 static square mao_passed(numvec to_arrival)
 {

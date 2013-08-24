@@ -7,7 +7,6 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 
 #include <assert.h>

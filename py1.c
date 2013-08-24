@@ -48,7 +48,6 @@
 
 #include "pymsg.h"
 #include "py1.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"

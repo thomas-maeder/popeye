@@ -3,7 +3,6 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

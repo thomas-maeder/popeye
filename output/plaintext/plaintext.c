@@ -8,12 +8,15 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 
 #include <assert.h>
 #include <stdlib.h>
+
+char GlobalStr[4000];
+
+char versionString[100];
 
 typedef struct
 {

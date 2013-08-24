@@ -1,5 +1,4 @@
 #include "conditions/circe/double_agents.h"
-#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"

@@ -1,47 +1,47 @@
 stipulation/goals/doublestalemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublestalemate/reached_tester.c \
- stipulation/goals/doublestalemate/reached_tester.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h pylang.h stipulation/pipe.h \
+ stipulation/goals/doublestalemate/reached_tester.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_type.h stipulation/traversal.h \
- solving/selfcheck_guard.h stipulation/proxy.h \
- stipulation/goals/reached_tester.h stipulation/goals/goals.h \
- stipulation/boolean/true.h stipulation/boolean/and.h \
- stipulation/goals/immobile/reached_tester.h stipulation/stipulation.h \
- output/mode.h stipulation/goals/notcheck/reached_tester.h \
- debugging/trace.h
+ stipulation/traversal.h solving/selfcheck_guard.h stipulation/proxy.h \
+ stipulation/goals/reached_tester.h stipulation/boolean/true.h \
+ stipulation/boolean/and.h stipulation/goals/immobile/reached_tester.h \
+ stipulation/goals/notcheck/reached_tester.h debugging/trace.h
 
 stipulation/goals/doublestalemate/reached_tester.h:
 
 solving/solve.h:
 
-py.h:
+stipulation/stipulation.h:
 
-utilities/boolean.h:
-
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-pylang.h:
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
 
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
-
-stipulation/slice_type.h:
 
 stipulation/traversal.h:
 
@@ -51,17 +51,11 @@ stipulation/proxy.h:
 
 stipulation/goals/reached_tester.h:
 
-stipulation/goals/goals.h:
-
 stipulation/boolean/true.h:
 
 stipulation/boolean/and.h:
 
 stipulation/goals/immobile/reached_tester.h:
-
-stipulation/stipulation.h:
-
-output/mode.h:
 
 stipulation/goals/notcheck/reached_tester.h:
 

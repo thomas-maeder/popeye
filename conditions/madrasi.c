@@ -1,5 +1,4 @@
 #include "conditions/madrasi.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"

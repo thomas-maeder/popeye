@@ -1,5 +1,4 @@
 #include "solving/move_effect_journal.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"

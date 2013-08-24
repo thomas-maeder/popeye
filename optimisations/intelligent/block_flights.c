@@ -11,7 +11,6 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 
 #include <assert.h>

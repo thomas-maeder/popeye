@@ -1,5 +1,4 @@
 #include "solving/battle_play/threat.h"
-#include "pydata.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"

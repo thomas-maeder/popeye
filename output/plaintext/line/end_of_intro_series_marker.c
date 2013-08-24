@@ -1,6 +1,5 @@
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 

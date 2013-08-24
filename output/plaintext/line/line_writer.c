@@ -12,7 +12,6 @@
 #include "platform/beep.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
-#include "pydata.h"
 #include "options/options.h"
 #include "pymsg.h"
 

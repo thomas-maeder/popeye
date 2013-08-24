@@ -44,6 +44,8 @@ extern ply nbply;
 
 extern ply parent_ply[maxply+1];
 
+extern Side trait[maxply+1];
+
 /* resset the ply module */
 void ply_reset(void);
 

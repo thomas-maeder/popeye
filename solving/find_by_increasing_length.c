@@ -1,5 +1,4 @@
 #include "solving/find_by_increasing_length.h"
-#include "pydata.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

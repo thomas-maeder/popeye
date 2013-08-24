@@ -1,5 +1,4 @@
 #include "conditions/monochrome.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/observation.h"

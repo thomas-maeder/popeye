@@ -3,10 +3,11 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/solve.h"
+#include "solving/ply.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "debugging/trace.h"
 #include "pyproc.h"
-#include "pydata.h"
 #include "pymsg.h"
 
 /* Allocate a STRefutingVariationWriter slice.

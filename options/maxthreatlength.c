@@ -1,5 +1,4 @@
 #include "options/maxthreatlength.h"
-#include "pydata.h"
 #include "stipulation/proxy.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/testing_pipe.h"

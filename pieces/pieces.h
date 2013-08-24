@@ -1,6 +1,8 @@
 #if !defined(PIECES_PIECES_H)
 #define PIECES_PIECES_H
 
+#include "utilities/boolean.h"
+
 enum
 {
   maxnrhuntertypes = 10
@@ -194,8 +196,12 @@ typedef enum
  */
 typedef unsigned long Flags;
 
-extern  Flags some_pieces_flags;
-extern  Flags all_pieces_flags;
-extern  Flags all_royals_flags;
+extern Flags some_pieces_flags;
+extern Flags all_pieces_flags;
+extern Flags all_royals_flags;
+
+extern boolean exist[PieceCount];
+extern boolean may_exist[PieceCount];
+extern boolean flagfee;
 
 #endif

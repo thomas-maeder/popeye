@@ -5,7 +5,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 

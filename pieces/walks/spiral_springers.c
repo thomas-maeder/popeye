@@ -2,7 +2,6 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 static void generate_zigzag(vec_index_type idx_zig, vec_index_type idx_zag)
 {

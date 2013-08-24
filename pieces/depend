@@ -1,3 +1,5 @@
-pieces/pieces$(OBJ_SUFFIX): pieces/pieces.c pieces/pieces.h
+pieces/pieces$(OBJ_SUFFIX): pieces/pieces.c pieces/pieces.h utilities/boolean.h
 
 pieces/pieces.h:
+
+utilities/boolean.h:

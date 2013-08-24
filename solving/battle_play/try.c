@@ -1,5 +1,4 @@
 #include "solving/battle_play/try.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "pymsg.h"

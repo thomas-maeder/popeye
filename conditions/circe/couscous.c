@@ -3,7 +3,6 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 

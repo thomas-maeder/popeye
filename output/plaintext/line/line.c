@@ -1,5 +1,4 @@
 #include "output/plaintext/line/line.h"
-#include "pydata.h"
 #include "conditions/conditions.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"

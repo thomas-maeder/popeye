@@ -1,8 +1,8 @@
 pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/paralysing.c \
  pieces/attributes/paralysing/paralysing.h pieces/pieces.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h py.h stipulation/slice_type.h \
+ utilities/boolean.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h pieces/attributes/paralysing/mate_filter.h solving/solve.h \
  pieces/attributes/paralysing/stalemate_special.h solving/observation.h \
@@ -10,14 +10,15 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/boolean/or.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- debugging/trace.h pydata.h position/position.h utilities/boolean.h py.h \
- solving/ply.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
+ debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h
+ input/plaintext/token.h utilities/boolean.h
 
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/pieces.h:
+
+utilities/boolean.h:
 
 stipulation/stipulation.h:
 
@@ -26,10 +27,6 @@ stipulation/goals/goals.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-utilities/boolean.h:
-
-py.h:
 
 stipulation/slice_type.h:
 
@@ -73,16 +70,6 @@ stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-py.h:
-
-solving/ply.h:
-
 pyproc.h:
 
 pieces/walks/vectors.h:
@@ -94,17 +81,18 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+utilities/boolean.h:
 pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/mate_filter.c \
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h py.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h solving/solve.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- pieces/attributes/paralysing/paralysing.h debugging/trace.h \
- solving/ply.h
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ solving/solve.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h \
+ stipulation/has_solution_type.h \
+ pieces/attributes/paralysing/paralysing.h debugging/trace.h
 
 pieces/attributes/paralysing/mate_filter.h:
 
@@ -117,8 +105,6 @@ position/board.h:
 utilities/bitmask.h:
 
 utilities/boolean.h:
-
-py.h:
 
 stipulation/slice_type.h:
 
@@ -147,20 +133,17 @@ stipulation/has_solution_type.h:
 pieces/attributes/paralysing/paralysing.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/stalemate_special.c \
  pieces/attributes/paralysing/stalemate_special.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h py.h stipulation/slice_type.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h solving/solve.h pydata.h \
- position/position.h utilities/boolean.h py.h solving/ply.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ pieces/walks/vectors.h output/mode.h solving/solve.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h solving/check.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 pieces/attributes/paralysing/stalemate_special.h:
 
@@ -173,8 +156,6 @@ position/board.h:
 utilities/bitmask.h:
 
 utilities/boolean.h:
-
-py.h:
 
 stipulation/slice_type.h:
 
@@ -189,16 +170,6 @@ pieces/walks/vectors.h:
 output/mode.h:
 
 solving/solve.h:
-
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-py.h:
-
-solving/ply.h:
 
 stipulation/pipe.h:
 
@@ -215,17 +186,13 @@ pieces/attributes/paralysing/paralysing.h:
 solving/check.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/remove_captures.c \
  pieces/attributes/paralysing/remove_captures.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h py.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h pydata.h position/position.h \
- utilities/boolean.h py.h solving/ply.h solving/move_generator.h \
- solving/solve.h solving/ply.h debugging/trace.h
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ solving/move_generator.h solving/solve.h solving/ply.h debugging/trace.h
 
 pieces/attributes/paralysing/remove_captures.h:
 
@@ -239,8 +206,6 @@ utilities/bitmask.h:
 
 utilities/boolean.h:
 
-py.h:
-
 stipulation/slice_type.h:
 
 utilities/enumeration.h:
@@ -252,16 +217,6 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
-
-pydata.h:
-
-position/position.h:
-
-utilities/boolean.h:
-
-py.h:
-
-solving/ply.h:
 
 solving/move_generator.h:
 

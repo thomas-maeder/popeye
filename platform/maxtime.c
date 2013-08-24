@@ -1,5 +1,6 @@
 #include "maxtime_impl.h"
-#include "pydata.h"
+
+#include <limits.h>
 
 static maxtime_type maxTimeCommandLine = no_time_set;
 
@@ -33,7 +34,7 @@ void setCommandlineMaxtime(maxtime_type commandlineValue)
 {
   maxTimeCommandLine = commandlineValue;
 }
-  
+
 /* Reset the value of the maxtime option.
  * To be called whenever the value set with option maxtime becomes obsolete.
  */

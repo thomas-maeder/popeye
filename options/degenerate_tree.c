@@ -1,6 +1,5 @@
 #include "options/degenerate_tree.h"
 #include "stipulation/stipulation.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"

@@ -8,7 +8,6 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/legal_move_counter.h"
-#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

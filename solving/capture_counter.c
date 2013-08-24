@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/move_effect_journal.h"
-#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

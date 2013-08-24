@@ -1,7 +1,6 @@
 #include "optimisations/orthodox_square_observation.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 
 static boolean leapers_check_ortho(Side side_checking,

@@ -1,5 +1,4 @@
 #include "conditions/anticirce/super.h"
-#include "pydata.h"
 #include "conditions/circe/circe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

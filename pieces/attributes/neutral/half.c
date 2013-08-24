@@ -1,5 +1,4 @@
 #include "pieces/attributes/neutral/half.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/stipulation.h"

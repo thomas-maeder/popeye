@@ -3,7 +3,6 @@
 #include "pieces/walks/riders.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 /* Generate moves for an Querquisite
  */

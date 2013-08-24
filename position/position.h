@@ -54,6 +54,7 @@ extern Flags spec[maxsquare+4];
 extern square king_square[nr_sides];
 extern boolean areColorsSwapped;
 extern boolean isBoardReflected;
+extern unsigned int number_of_pieces[nr_sides][PieceCount];
 
 enum
 {

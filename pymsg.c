@@ -22,8 +22,9 @@
 #define PYMSG
 
 #include "pyproc.h"
-#include "pydata.h"
 #include "pymsg.h"
+#include "output/output.h"
+#include "output/plaintext/plaintext.h"
 #include "platform/pytime.h"
 
 typedef unsigned int UnInt;

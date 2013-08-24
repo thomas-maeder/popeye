@@ -1,6 +1,5 @@
 #include "output/plaintext/tree/threat_writer.h"
 #include "pymsg.h"
-#include "pydata.h"
 #include "pyproc.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"

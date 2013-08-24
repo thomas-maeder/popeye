@@ -1,7 +1,6 @@
 #include "pieces/walks/ubiubi.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
-#include "pydata.h"
 
 typedef enum
 {

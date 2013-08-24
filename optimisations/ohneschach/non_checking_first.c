@@ -1,5 +1,4 @@
 #include "optimisations/ohneschach/non_checking_first.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

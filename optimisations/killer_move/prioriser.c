@@ -5,7 +5,6 @@
 #include "stipulation/pipe.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 #include <string.h>

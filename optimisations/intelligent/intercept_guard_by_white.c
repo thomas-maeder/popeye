@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/intercept_guard_by_white.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/place_white_piece.h"

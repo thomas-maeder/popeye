@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/pin_black_piece.h"

@@ -1,5 +1,4 @@
 #include "pieces/walks/pawns/pawn.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "pieces/walks/pawns/pawns.h"

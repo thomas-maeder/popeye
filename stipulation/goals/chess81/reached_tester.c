@@ -6,7 +6,6 @@
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 

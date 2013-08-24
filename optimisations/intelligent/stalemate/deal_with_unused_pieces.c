@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
-#include "pydata.h"
 #include "solving/solve.h"
 #include "platform/maxtime.h"
 #include "optimisations/intelligent/intelligent.h"

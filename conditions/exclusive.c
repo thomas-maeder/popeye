@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "optimisations/detect_retraction.h"
 #include "pymsg.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"

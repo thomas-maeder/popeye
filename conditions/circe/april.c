@@ -1,7 +1,6 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/capture_fork.h"
 #include "conditions/circe/super.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

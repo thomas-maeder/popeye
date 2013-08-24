@@ -7,7 +7,6 @@
 #include "debugging/trace.h"
 #include "pyproc.h"
 #include "pymsg.h"
-#include "pydata.h"
 
 #include <assert.h>
 

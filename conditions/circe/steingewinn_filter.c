@@ -1,7 +1,6 @@
 #include "conditions/circe/steingewinn_filter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 

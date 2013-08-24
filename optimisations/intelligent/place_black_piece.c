@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/place_black_piece.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"

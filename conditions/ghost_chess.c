@@ -1,5 +1,4 @@
 #include "conditions/ghost_chess.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"

@@ -1,5 +1,4 @@
 #include "debugging/measure.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "optimisations/hash.h"
 #include "output/plaintext/plaintext.h"

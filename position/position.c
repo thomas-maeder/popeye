@@ -21,6 +21,7 @@ Flags spec[maxsquare+4];
 square king_square[nr_sides];
 boolean areColorsSwapped;
 boolean isBoardReflected;
+unsigned int number_of_pieces[nr_sides][PieceCount];
 
 /* This is the InitialGameArray */
 PieNam const PAS[nr_squares_on_board] = {

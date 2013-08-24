@@ -1,5 +1,4 @@
 #include "solving/testers.h"
-#include "pydata.h"
 #include "stipulation/fork.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/if_then_else.h"

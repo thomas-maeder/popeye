@@ -1,7 +1,6 @@
 #include "conditions/circe/takemake.h"
 #include "conditions/circe/capture_fork.h"
 #include "conditions/circe/circe.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

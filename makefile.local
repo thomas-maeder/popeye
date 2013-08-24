@@ -3,11 +3,9 @@
 # Common Popeye source and generated files
 # ========================================
 
-INCLUDES = pydata.h \
-		py1.h py6.h pyproc.h pymsg.h \
+INCLUDES = py1.h py6.h pyproc.h pymsg.h \
 		pylang.h pyproof.h
-SRC_CFILES =	pydata.c \
-		py1.c py6.c pyio.c \
+SRC_CFILES =	py1.c py6.c pyio.c \
 		pymsg.c pylang.c pyproof.c	       \
 		gengmarr.c
 GENERATED_CFILES = pygmarr.c
@@ -32,9 +30,9 @@ DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
 # ===========================================================
 # Target for compiling .c source files into object files
 
-pyio:           pyio.c pydata.h pydata$(OBJ_SUFFIX) pymac.h
+pyio:           pyio.c pymac.h
 		$(CCTARGET) $(DEFINEMACRO)STANDALONE $(CFLAGS) \
-			$(EXEFILE)pyio pydata$(OBJ_SUFFIX) pyio.c
+			$(EXEFILE)pyio pyio.c
 
 # pylang.c is compiled both for the host and the target.
 # pylang-host$(OBJ_SUFFIX) is the object file for the host.

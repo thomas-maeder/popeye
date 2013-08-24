@@ -1,6 +1,5 @@
 #include "solving/legal_move_counter.h"
 #include "stipulation/pipe.h"
-#include "pydata.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

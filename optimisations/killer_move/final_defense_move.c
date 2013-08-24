@@ -1,5 +1,4 @@
 #include "optimisations/killer_move/final_defense_move.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/binary.h"
 #include "stipulation/has_solution_type.h"

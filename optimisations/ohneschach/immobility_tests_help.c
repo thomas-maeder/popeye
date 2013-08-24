@@ -1,5 +1,4 @@
 #include "optimisations/ohneschach/immobility_tests_help.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"

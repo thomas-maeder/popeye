@@ -2,7 +2,6 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 /* Generate moves for an Kangaroo
  */

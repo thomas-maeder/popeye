@@ -23,7 +23,6 @@
 #endif
 #include "stipulation/stipulation.h"
 #include "pyproc.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "DHT/dhtbcmem.h"

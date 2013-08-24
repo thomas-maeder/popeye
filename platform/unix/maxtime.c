@@ -13,7 +13,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "pyproc.h"
-#include "pydata.h"
+#include "output/plaintext/plaintext.h"
 #include "pieces/pieces.h"
 
 /* default signal handler: */

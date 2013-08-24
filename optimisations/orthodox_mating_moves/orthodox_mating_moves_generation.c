@@ -1,5 +1,4 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
-#include "pydata.h"
 #include "conditions/conditions.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"

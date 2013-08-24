@@ -1,9 +1,9 @@
 #include "conditions/ultraschachzwang/legality_tester.h"
-#include "pydata.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "solving/check.h"
+#include "solving/ply.h"
 #include "debugging/trace.h"
 
 /* Allocate a STUltraschachzwangLegalityTester slice.

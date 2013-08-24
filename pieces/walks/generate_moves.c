@@ -38,7 +38,6 @@
 #include "pieces/walks/bouncer.h"
 #include "pieces/walks/querquisite.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 
 #include <assert.h>

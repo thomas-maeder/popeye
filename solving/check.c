@@ -12,7 +12,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
-#include "pydata.h"
 
 #include <assert.h>
 

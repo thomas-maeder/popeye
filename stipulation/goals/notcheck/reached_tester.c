@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/check.h"
-#include "pydata.h"
 #include "debugging/trace.h"
 
 /* This module provides functionality dealing with slices that detect

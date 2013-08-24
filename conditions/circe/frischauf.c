@@ -1,5 +1,4 @@
 #include "conditions/circe/frischauf.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "conditions/andernach.h"
 #include "stipulation/pipe.h"

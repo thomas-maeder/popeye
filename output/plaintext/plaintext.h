@@ -3,6 +3,10 @@
 
 #include "stipulation/goals/goals.h"
 
+extern char GlobalStr[];
+
+extern char versionString[100];
+
 /* Write the current move
  */
 void output_plaintext_write_move(void);

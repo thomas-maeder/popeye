@@ -1,5 +1,4 @@
 #include "conditions/antiandernach.h"
-#include "pydata.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

@@ -14,12 +14,11 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h utilities/boolean.h \
  utilities/enumeration.h solving/observation.h stipulation/stipulation.h \
- stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
- solving/ply.h pylang.h stipulation/slice_type.h output/mode.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
  solving/solve.h pieces/walks/hamster.h \
  solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h pydata.h py.h
+ debugging/trace.h
 
 pieces/walks/angle/hoppers.h:
 
@@ -45,16 +44,6 @@ stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-solving/ply.h:
-
-pylang.h:
-
 stipulation/slice_type.h:
 
 output/mode.h:
@@ -72,7 +61,3 @@ pieces/walks/hamster.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:
-
-pydata.h:
-
-py.h:

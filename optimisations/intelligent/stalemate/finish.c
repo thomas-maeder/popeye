@@ -1,5 +1,4 @@
 #include "optimisations/intelligent/stalemate/finish.h"
-#include "pydata.h"
 #include "solving/solve.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/place_white_king.h"

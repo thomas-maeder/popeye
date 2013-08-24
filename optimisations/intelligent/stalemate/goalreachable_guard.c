@@ -2,7 +2,6 @@
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
-#include "pydata.h"
 #include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "optimisations/intelligent/intelligent.h"

@@ -4,7 +4,6 @@
 #include "solving/post_move_iteration.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
-#include "pydata.h"
 
 #include <assert.h>
 #include <string.h>
@@ -12,6 +11,8 @@
 ply nbply = nil_ply;
 
 ply parent_ply[maxply+1];
+
+Side trait[maxply+1];
 
 static ply ply_watermark;
 static ply ply_stack[maxply+1];
