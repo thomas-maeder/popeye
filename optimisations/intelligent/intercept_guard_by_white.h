@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_MATE_INTERCEPT_GUARD_BY_WHITE_H)
 #define OPTIMISATION_INTELLIGENT_MATE_INTERCEPT_GUARD_BY_WHITE_H
 
-#include "py.h"
+#include "position/position.h"
 
 /* Intercept a guard by white
  * @param target guard of what square

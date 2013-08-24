@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_MATE_GENERATE_CHECKING_MOVES_H)
 #define OPTIMISATION_INTELLIGENT_MATE_GENERATE_CHECKING_MOVES_H
 
-#include "py.h"
+#include "position/position.h"
 
 #include <limits.h>
 

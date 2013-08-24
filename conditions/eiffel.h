@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_EIFFEL_H)
 #define CONDITIONS_EIFFEL_H
 
+#include "pieces/pieces.h"
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 

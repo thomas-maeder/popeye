@@ -1,6 +1,7 @@
 #if !defined(CONDITION_SENTINELLES_H)
 #define CONDITION_SENTINELLES_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* This module implements Echecs Sentinelles.

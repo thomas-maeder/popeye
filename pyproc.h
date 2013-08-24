@@ -44,6 +44,7 @@
 #define PYPROC_H
 
 #include "pieces/walks/vectors.h"
+#include "pieces/pieces.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/stipulation.h"
 #include "input/plaintext/token.h"

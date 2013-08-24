@@ -1,11 +1,11 @@
 #if !defined(CONDITIONS_ANTICIRCE_ANTICIRCE_H)
 #define CONDITIONS_ANTICIRCE_ANTICIRCE_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/ply.h"
 #include "stipulation/slice_type.h"
 #include "position/position.h"
-#include "py.h"
 
 extern PieNam anticirce_current_reborn_piece[maxply+1];
 extern Flags anticirce_current_reborn_spec[maxply+1];

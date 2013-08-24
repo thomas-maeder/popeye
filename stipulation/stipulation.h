@@ -3,9 +3,11 @@
 
 #include "stipulation/goals/goals.h"
 #include "stipulation/slice_type.h"
+#include "position/position.h"
 #include "output/mode.h"
 #include "utilities/boolean.h"
 
+#include <limits.h>
 #include <stddef.h>
 
 /* This module provides generic declarations and functionality about
@@ -23,7 +25,7 @@ typedef unsigned int stip_length_type;
 
 enum
 {
-  no_stip_length = maxply
+  no_stip_length = INT_MAX
 };
 
 typedef struct

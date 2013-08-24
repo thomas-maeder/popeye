@@ -1,0 +1,132 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on Windows using
+# Microsoft Visual C++ v6
+# I.e. Windows (32bit) is both host and target platform
+
+# Requirements:
+#
+# The environment must have the settings as if VCVARS32.BAT had been run.
+# The easiest way to achive this is to start cmd.exe from bash, run
+# VCVARS32.BAT in the cmd.exe shell and then start a nested bash.
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on host
+CCHOST=CL.EXE
+
+# Linker for creating executables on host
+# (fully qualified to disambiguate from Cygwin's /usr/bin/link)
+LDHOST=LINK.EXE
+
+# Compiler for creating executables on target
+CCTARGET=CL.EXE
+
+# Linker for creating executables on target
+# (fully qualified to disambiguate from Cygwin's /usr/bin/link)
+LDTARGET=LINK.EXE
+
+
+# Librarian
+# ---------
+
+# A library is called archive on Unix-ish platforms
+
+# Archive generator
+ARCHIVER=LIB.EXE
+
+# Archiver options
+# suppress logo - other options will be added by makefile.unx based
+# on setttings below
+ARCHIVERFLAGS=/NOLOGO
+
+
+# Compiler options
+# ================
+
+# suppress logo
+# suppress spurious warnings
+# disable warning 4996: deprecated functions
+# other options will be added by makefile.unx based on setttings below
+CFLAGS=/nologo /D_CRT_SECURE_NO_WARNINGS /wd4996
+
+# Select whether to produce an executable with debugging and profiling
+# info
+#DBG=/Zi /Yd
+DBG=
+
+# Select target compiler optimization level
+CCOPTIM=/GAs /O2itb2
+
+# Option for producing dependency information in makefile format
+# none - we re-use the dependency file generated using gcc
+
+# Option for compiling only
+COMPILEONLY=/c
+
+# Option for indicating generated object file
+OBJFILE=/Fo
+
+# Option for defining a C preprocessor macro
+DEFINEMACRO=/D
+
+
+# Librarian options
+# =================
+
+# Option for indicating generated library file
+LIBFILE=/OUT:
+
+
+# Linker options
+# ==============
+
+# suppress "logo" - other options will be added by makefile.unx based
+# on setttings below
+LDFLAGS=/NOLOGO
+
+# Select taret linker optimization level
+LDOPTIM=
+
+# Option for indicating generated executable file
+EXEFILE=/OUT:
+
+# Path to library files to be linked
+LIBRARYPATHS=
+
+# Names of libraries to link
+LIBRARIES=WINMM.LIB
+# WINMM = Windows Multimedia Library (we use Multimedia Timers to
+# implement option maxtime)
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.obj
+
+# suffix for libraries
+LIB_SUFFIX=lib
+
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=win32
+
+# suffix for executables
+EXE_SUFFIX=.exe
+
+
+# Meta information
+# ----------------
+OSTYPE=Windows
+
+
+# Selector for platform-specific files
+# ====================================
+
+PLATFORM=windows32
+
+# tell Windows 98 version from regular Windows 32 version
+# OTHER=$(DEFINEMACRO)_WIN98

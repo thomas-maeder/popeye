@@ -12,7 +12,7 @@
 #include "solving/castling_rights.h"
 #include "solving/ply.h"
 #include "position/pieceid.h"
-#include "py.h"
+#include "pieces/pieces.h"
 
 #include <limits.h>
 

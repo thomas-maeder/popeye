@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_PATROL_H)
 #define CONDITIONS_PATROL_H
 
+#include "pieces/pieces.h"
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 

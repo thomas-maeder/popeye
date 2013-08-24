@@ -3,8 +3,8 @@
 
 /* This module implements the fairy condition Vaulting Kings */
 
+#include "pieces/pieces.h"
 #include "position/position.h"
-#include "py.h"
 #include "solving/observation.h"
 
 /* Generate moves for a single piece

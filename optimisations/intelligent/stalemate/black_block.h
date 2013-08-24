@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_STALEMATE_BLACK_BLOCK_H)
 #define OPTIMISATION_INTELLIGENT_STALEMATE_BLACK_BLOCK_H
 
-#include "py.h"
+#include "position/position.h"
 
 /* Place black blocks for mobile pieces (not the king)
  * @param to_be_blocked one ore more squares to be blocked

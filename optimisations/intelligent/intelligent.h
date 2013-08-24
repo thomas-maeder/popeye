@@ -9,6 +9,7 @@
 #if !defined(PYINT_H)
 #define PYINT_H
 
+#include "pieces/pieces.h"
 #include "position/position.h"
 #include "position/pieceid.h"
 #include "stipulation/goals/goals.h"

@@ -1,6 +1,7 @@
 #if !defined(STIPULATION_GOALS_GOALS_H)
 #define STIPULATION_GOALS_GOALS_H
 
+#include "position/board.h"
 #include "utilities/boolean.h"
 #include "py.h"
 

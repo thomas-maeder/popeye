@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_PHANTOM_H)
 #define CONDITIONS_PHANTOM_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/observation.h"
 

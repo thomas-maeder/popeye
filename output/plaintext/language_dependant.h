@@ -3,9 +3,9 @@
 
 /* This module provides language dependant strings
  */
+#include "pieces/pieces.h"
 #include "position/position.h"
 #include "pylang.h"
-#include "py.h"
 #include "conditions/conditions.h"
 #include "options/options.h"
 

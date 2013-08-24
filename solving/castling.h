@@ -8,6 +8,7 @@
 #include "solving/solve.h"
 #include "solving/castling_rights.h"
 #include "solving/move_effect_journal.h"
+#include "pieces/pieces.h"
 
 extern  castling_flag_type castling_flag;
 extern castling_flag_type castling_mutual_exclusive[nr_sides][2];

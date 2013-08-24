@@ -3,6 +3,7 @@
 
 /* This module implements the condition Immune Chess */
 
+#include "pieces/pieces.h"
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 #include "position/board.h"

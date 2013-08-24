@@ -1,50 +1,40 @@
 conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
- conditions/marscirce/marscirce.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h pylang.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/observation.h solving/ply.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/move_generator.h \
+ conditions/marscirce/marscirce.h pieces/pieces.h solving/solve.h py.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/walks/vectors.h \
+ output/mode.h solving/observation.h solving/ply.h \
+ pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
  optimisations/orthodox_check_directions.h debugging/trace.h pydata.h \
- py.h
+ position/position.h utilities/boolean.h py.h solving/ply.h
 
 conditions/marscirce/marscirce.h:
+
+pieces/pieces.h:
 
 solving/solve.h:
 
 py.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-pylang.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -70,54 +60,52 @@ debugging/trace.h:
 
 pydata.h:
 
+position/position.h:
+
+utilities/boolean.h:
+
 py.h:
+
+solving/ply.h:
 conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
- conditions/marscirce/anti.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h pieces/walks/classification.h \
+ conditions/marscirce/anti.h pieces/pieces.h solving/solve.h py.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/walks/vectors.h \
+ output/mode.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/observation.h pieces/walks/classification.h \
  conditions/marscirce/marscirce.h solving/move_generator.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h debugging/trace.h pydata.h py.h
+ stipulation/move.h debugging/trace.h pydata.h position/position.h \
+ utilities/boolean.h py.h solving/ply.h
 
 conditions/marscirce/anti.h:
+
+pieces/pieces.h:
 
 solving/solve.h:
 
 py.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-pylang.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -155,49 +143,48 @@ debugging/trace.h:
 
 pydata.h:
 
+position/position.h:
+
+utilities/boolean.h:
+
 py.h:
+
+solving/ply.h:
 conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
- conditions/marscirce/plus.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/observation.h solving/ply.h conditions/marscirce/marscirce.h \
- solving/move_generator.h debugging/trace.h pydata.h py.h
+ conditions/marscirce/plus.h pieces/pieces.h solving/solve.h py.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/walks/vectors.h \
+ output/mode.h solving/observation.h solving/ply.h \
+ conditions/marscirce/marscirce.h solving/move_generator.h \
+ debugging/trace.h pydata.h position/position.h utilities/boolean.h py.h \
+ solving/ply.h
 
 conditions/marscirce/plus.h:
+
+pieces/pieces.h:
 
 solving/solve.h:
 
 py.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-pylang.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -213,4 +200,10 @@ debugging/trace.h:
 
 pydata.h:
 
+position/position.h:
+
+utilities/boolean.h:
+
 py.h:
+
+solving/ply.h:

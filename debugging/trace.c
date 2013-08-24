@@ -16,6 +16,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
+#include "solving/move_generator.h"
 
 static trace_level level;
 

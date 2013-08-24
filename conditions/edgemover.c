@@ -82,7 +82,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 void stip_insert_edgemover(slice_index si)
 {
   stip_structure_traversal st;
-  boolean const enabled[nr_sides] = { CondFlag[whiteedge], CondFlag[blackedge] };
+  boolean enabled[nr_sides] = { CondFlag[whiteedge], CondFlag[blackedge] };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

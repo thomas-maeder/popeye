@@ -1,6 +1,7 @@
 #if !defined(PIECES_PARALYSING_H)
 #define PIECES_PARALYSING_H
 
+#include "pieces/pieces.h"
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 

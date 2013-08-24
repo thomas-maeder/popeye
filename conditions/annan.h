@@ -4,6 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 #include "position/board.h"
+#include "pieces/pieces.h"
 
 /* This module implements the condition Annan Chess */
 

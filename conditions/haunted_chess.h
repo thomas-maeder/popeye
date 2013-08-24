@@ -1,6 +1,7 @@
 #if !defined(CONDITION_HAUNTED_CHESS_H)
 #define CONDITION_HAUNTED_CHESS_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
 

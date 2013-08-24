@@ -3,9 +3,10 @@
 
 /* This module implements the fairy condition Vaulting Kings */
 
-#include "utilities/boolean.h"
+#include "pieces/pieces.h"
 #include "position/position.h"
 #include "solving/observation.h"
+#include "utilities/boolean.h"
 
 extern boolean vaulting_kings_transmuting[nr_sides];
 extern PieNam king_vaulters[nr_sides][PieceCount];

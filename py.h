@@ -72,12 +72,6 @@
 #if !defined(PY_H)
 #define PY_H
 
-#include <limits.h>
-
-#include "utilities/boolean.h"
-#include "position/position.h"
-#include "solving/ply.h"
-
 #ifdef _SE_DECORATE_SOLUTION_
 #define _SE_
 #endif
@@ -105,11 +99,6 @@
 #  else
 #    define OSTYPE "C"
 #  endif
-#endif
-
-#if defined(_MSC_VER) && _MSC_VER == 1400
-/*disable warning of deprecated functions*/
-#pragma warning( disable : 4996 )
 #endif
 
 #endif  /* PY_H */

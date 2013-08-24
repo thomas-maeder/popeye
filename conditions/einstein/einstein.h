@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_EINSTEIN_EINSTEIN_H)
 #define CONDITIONS_EINSTEIN_EINSTEIN_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* This module implements the condition Einstein Chess */

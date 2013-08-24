@@ -4,6 +4,7 @@
 #include "solving/observation.h"
 #include "solving/ply.h"
 #include "utilities/boolean.h"
+#include "pieces/pieces.h"
 
 extern PieNam observing_walk[maxply+1];
 

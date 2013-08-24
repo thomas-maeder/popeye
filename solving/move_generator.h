@@ -5,7 +5,7 @@
 #include "solving/ply.h"
 #include "stipulation/slice_type.h"
 #include "stipulation/stipulation.h"
-#include "py.h"
+#include "pieces/pieces.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STMoveGenerator stipulation slices.

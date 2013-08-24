@@ -3,6 +3,7 @@
 
 /* This module generates moves for pieces based on their walk */
 
+#include "pieces/pieces.h"
 #include "position/position.h"
 
 /* Generate moves for a piece based on its walk

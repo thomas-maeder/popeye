@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_TRANSMUTING_KINGS_SUPER_H)
 #define CONDITIONS_TRANSMUTING_KINGS_SUPER_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* This module implements the condition Super-transmuting kings */

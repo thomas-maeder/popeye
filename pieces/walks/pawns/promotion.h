@@ -1,7 +1,9 @@
 #if !defined(PIECES_PAWNS_PROMOTION_H)
 #define PIECES_PAWNS_PROMOTION_H
 
-#include "py.h"
+#include "pieces/pieces.h"
+#include "position/position.h"
+#include "utilities/boolean.h"
 
 typedef enum
 {

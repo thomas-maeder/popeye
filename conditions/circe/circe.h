@@ -5,6 +5,7 @@
  * implementation of Circe variations
  */
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "stipulation/slice_type.h"
 #include "solving/move_effect_journal.h"

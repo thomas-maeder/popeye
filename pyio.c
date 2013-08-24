@@ -3296,7 +3296,7 @@ static char *ParseStructuredStip_nested_branch(char *tok,
                                                nested_branch_type *type,
                                                unsigned int level)
 {
-  expression_type * const etype = (expression_type *)type;
+  expression_type * etype = (expression_type *)type;
   boolean is_forced = false;
   boolean is_suppressed = false;
 

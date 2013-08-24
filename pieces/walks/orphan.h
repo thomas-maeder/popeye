@@ -3,6 +3,7 @@
 
 /* This module implements the Orphan */
 
+#include "pieces/pieces.h"
 #include "position/board.h"
 #include "position/position.h"
 #include "utilities/boolean.h"

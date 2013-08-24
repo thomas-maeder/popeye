@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_INTELLIGENT_PLACE_WHITE_KING_H)
 #define OPTIMISATION_INTELLIGENT_PLACE_WHITE_KING_H
 
-#include "py.h"
+#include "position/position.h"
 
 /* Place the white king; intercept checks if necessary
  * @param place_on where to place the king

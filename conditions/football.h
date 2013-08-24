@@ -1,6 +1,7 @@
 #if !defined(SOLVING_CONDITIONS_FOOTBALL_H)
 #define SOLVING_CONDITIONS_FOOTBALL_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/ply.h"
 #include "position/position.h"

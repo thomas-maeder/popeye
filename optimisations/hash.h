@@ -10,7 +10,7 @@
 #define OPTIMISATIONS_HASH_H
 
 #include "DHT/dhtbcmem.h"
-#include "py.h"
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/ply.h"
 

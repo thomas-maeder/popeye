@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_EXCHANGE_CASTLING_H)
 #define CONDITIONS_EXCHANGE_CASTLING_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* This module implements the condition Exchange Castling */

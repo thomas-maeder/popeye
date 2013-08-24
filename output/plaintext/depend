@@ -1,47 +1,35 @@
 output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
- output/plaintext/plaintext.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
- pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- solving/ply.h position/position.h stipulation/goals/goals.h pymsg.h \
- pylang.h conditions/republican.h solving/solve.h \
- stipulation/stipulation.h stipulation/slice_type.h output/mode.h \
- conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h conditions/kobul.h \
- conditions/imitator.h conditions/singlebox/type1.h \
- pieces/walks/pawns/en_passant.h solving/observation.h debugging/trace.h \
- pyproc.h pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pydata.h py.h \
+ output/plaintext/plaintext.h py.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h pymsg.h \
+ pylang.h utilities/boolean.h conditions/republican.h solving/solve.h \
+ stipulation/stipulation.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h conditions/bgl.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h conditions/kobul.h conditions/imitator.h \
+ conditions/singlebox/type1.h pieces/walks/pawns/en_passant.h \
+ solving/observation.h debugging/trace.h pyproc.h pieces/walks/vectors.h \
+ pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
+ input/plaintext/token.h pydata.h position/position.h py.h solving/ply.h \
  conditions/conditions.h
 
 output/plaintext/plaintext.h:
 
 py.h:
 
-utilities/boolean.h:
-
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
-
-utilities/enumeration.h:
-
-solving/ply.h:
-
-position/position.h:
-
-stipulation/goals/goals.h:
 
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 
 conditions/republican.h:
 
@@ -50,6 +38,14 @@ solving/solve.h:
 stipulation/stipulation.h:
 
 stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -79,6 +75,8 @@ pyproc.h:
 
 pieces/walks/vectors.h:
 
+pieces/pieces.h:
+
 stipulation/goals/goals.h:
 
 stipulation/stipulation.h:
@@ -87,19 +85,23 @@ input/plaintext/token.h:
 
 pydata.h:
 
+position/position.h:
+
 py.h:
+
+solving/ply.h:
 
 conditions/conditions.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
  output/plaintext/end_of_phase_writer.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h pymsg.h pylang.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
+ utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h debugging/trace.h \
+ solving/ply.h
 
 output/plaintext/end_of_phase_writer.h:
 
@@ -107,37 +109,33 @@ solving/solve.h:
 
 py.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-stipulation/stipulation.h:
+pieces/pieces.h:
 
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 
 stipulation/pipe.h:
 
@@ -148,17 +146,18 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
  output/plaintext/illegal_selfcheck_writer.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h pymsg.h pylang.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- debugging/trace.h
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
+ utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h \
+ stipulation/has_solution_type.h debugging/trace.h solving/ply.h
 
 output/plaintext/illegal_selfcheck_writer.h:
 
@@ -166,37 +165,33 @@ solving/solve.h:
 
 py.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-stipulation/stipulation.h:
+pieces/pieces.h:
 
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 
 stipulation/pipe.h:
 
@@ -209,16 +204,17 @@ stipulation/traversal.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  output/plaintext/move_inversion_counter.c \
  output/plaintext/move_inversion_counter.h solving/solve.h py.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h stipulation/pipe.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h
 
 output/plaintext/move_inversion_counter.h:
 
@@ -226,31 +222,25 @@ solving/solve.h:
 
 py.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-stipulation/stipulation.h:
+pieces/pieces.h:
 
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -263,20 +253,21 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  output/plaintext/ohneschach_detect_undecidable_goal.c \
  output/plaintext/ohneschach_detect_undecidable_goal.h solving/solve.h \
- py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h stipulation/pipe.h \
+ py.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h \
+ stipulation/slice_type.h utilities/enumeration.h position/position.h \
+ pieces/pieces.h pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  conditions/ohneschach.h solving/ply.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pydata.h py.h pymsg.h \
- pylang.h
+ pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
+ stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
+ pydata.h position/position.h py.h solving/ply.h pymsg.h pylang.h
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
@@ -284,31 +275,25 @@ solving/solve.h:
 
 py.h:
 
-utilities/boolean.h:
+stipulation/stipulation.h:
 
-position/position.h:
+stipulation/goals/goals.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
 utilities/boolean.h:
+
+stipulation/slice_type.h:
 
 utilities/enumeration.h:
 
-solving/ply.h:
-
 position/position.h:
 
-stipulation/stipulation.h:
+pieces/pieces.h:
 
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -332,56 +317,50 @@ pyproc.h:
 
 pieces/walks/vectors.h:
 
+pieces/pieces.h:
+
 stipulation/goals/goals.h:
 
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
 
+utilities/boolean.h:
+
 pydata.h:
 
+position/position.h:
+
 py.h:
+
+solving/ply.h:
 
 pymsg.h:
 
 pylang.h:
 output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  output/plaintext/goal_writer.h stipulation/goals/goals.h \
- utilities/boolean.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h pieces/pieces.h \
- pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
- position/position.h solving/solve.h stipulation/stipulation.h \
- stipulation/slice_type.h output/mode.h pyproc.h pieces/walks/vectors.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h stipulation/pipe.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h py.h \
+ solving/solve.h stipulation/stipulation.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h pyproc.h pieces/walks/vectors.h \
+ pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
+ input/plaintext/token.h utilities/boolean.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h output/plaintext/tree/tree.h debugging/trace.h
+ stipulation/traversal.h output/plaintext/tree/tree.h debugging/trace.h \
+ solving/ply.h
 
 output/plaintext/goal_writer.h:
 
 stipulation/goals/goals.h:
 
-utilities/boolean.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
 position/board.h:
 
 utilities/bitmask.h:
 
-pieces/pieces.h:
+utilities/boolean.h:
 
-pieces/walks/vectors.h:
-
-utilities/enumeration.h:
-
-solving/ply.h:
-
-position/position.h:
+py.h:
 
 solving/solve.h:
 
@@ -389,17 +368,29 @@ stipulation/stipulation.h:
 
 stipulation/slice_type.h:
 
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
 output/mode.h:
 
 pyproc.h:
 
 pieces/walks/vectors.h:
 
+pieces/pieces.h:
+
 stipulation/goals/goals.h:
 
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+utilities/boolean.h:
 
 stipulation/pipe.h:
 
@@ -412,23 +403,24 @@ stipulation/traversal.h:
 output/plaintext/tree/tree.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 output/plaintext/language_dependant$(OBJ_SUFFIX): \
  output/plaintext/language_dependant.c \
- output/plaintext/language_dependant.h position/position.h \
- position/board.h utilities/bitmask.h pieces/pieces.h \
+ output/plaintext/language_dependant.h pieces/pieces.h \
+ position/position.h position/board.h utilities/bitmask.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
- pylang.h py.h utilities/boolean.h position/position.h solving/ply.h \
- conditions/conditions.h options/options.h
+ pylang.h conditions/conditions.h options/options.h
 
 output/plaintext/language_dependant.h:
+
+pieces/pieces.h:
 
 position/position.h:
 
 position/board.h:
 
 utilities/bitmask.h:
-
-pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -437,14 +429,6 @@ utilities/boolean.h:
 utilities/enumeration.h:
 
 pylang.h:
-
-py.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-solving/ply.h:
 
 conditions/conditions.h:
 

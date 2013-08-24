@@ -1,7 +1,8 @@
 #if !defined(OPTIMISATION_INTELLIGENT_PLACE_WHITE_PIECE_H)
 #define OPTIMISATION_INTELLIGENT_PLACE_WHITE_PIECE_H
 
-#include "py.h"
+#include "pieces/pieces.h"
+#include "position/position.h"
 
 /* Place a white piece (other than the king) on an square deal with a possible
  * check to the black king

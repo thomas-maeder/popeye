@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_CASTLING_CHESS_H)
 #define CONDITIONS_CASTLING_CHESS__H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* This module implements the condition Castling Chess */

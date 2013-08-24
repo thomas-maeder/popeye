@@ -1,6 +1,7 @@
 #if !defined(PIECES_WALKS_CLASSIFICATION_H)
 #define PIECES_WALKS_CLASSIFICATION_H
 
+#include "pieces/pieces.h"
 #include "position/position.h"
 #include "utilities/boolean.h"
 

@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_MARSCIRCE_MARSCIRCE_H)
 #define CONDITIONS_MARSCIRCE_MARSCIRCE_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/observation.h"
 #include "position/position.h"

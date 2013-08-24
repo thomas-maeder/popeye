@@ -22,6 +22,7 @@
 #define PYMSG_H
 
 #include "pylang.h"
+#include "utilities/boolean.h"
 
 /* This is the file where all language dependent defines
 ** for messages are coded.

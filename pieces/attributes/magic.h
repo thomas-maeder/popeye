@@ -3,6 +3,7 @@
 
 /* This module implements magic pieces */
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* Can a specific type of (fairy) piece be magic?

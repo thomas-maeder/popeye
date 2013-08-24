@@ -3,6 +3,7 @@
 
 /* This module contains the implementation of Messigny Chess */
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 extern boolean messigny_rex_exclusive;

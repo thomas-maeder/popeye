@@ -3,6 +3,7 @@
 
 /* This module implements Transmuting Kings */
 
+#include "pieces/pieces.h"
 #include "position/position.h"
 #include "stipulation/stipulation.h"
 #include "solving/observation.h"

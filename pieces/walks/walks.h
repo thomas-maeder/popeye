@@ -3,7 +3,7 @@
 
 /* this module deals with how pieces wakl */
 
-#include "py.h"
+#include "pieces/pieces.h"
 
 /* standard walks
  * Maps King..Pawn to the associated standard walks

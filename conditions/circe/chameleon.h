@@ -3,6 +3,7 @@
 
 /* This module implements Chameleon Circe */
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* Reset the mapping from captured to reborn pieces

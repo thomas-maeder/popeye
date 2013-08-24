@@ -4,6 +4,7 @@
 /* Implementation of condition Singlebox Type 3
  */
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/observation.h"
 

@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_MARSCIRCE_ANTI_H)
 #define CONDITIONS_MARSCIRCE_ANTI_H
 
+#include "pieces/pieces.h"
 #include "solving/solve.h"
 
 /* This module provides implements the condition Anti-Mars-Circe

@@ -1,8 +1,9 @@
 #if !defined(OPTIMISATIONS_INTELLIGENT_COUNT_NR_OF_MOVES_H)
 #define OPTIMISATIONS_INTELLIGENT_COUNT_NR_OF_MOVES_H
 
-#include "py.h"
-#include "position/board.h"
+#include "pieces/pieces.h"
+#include "position/position.h"
+#include "utilities/boolean.h"
 
 unsigned int intelligent_count_moves_to_white_promotion(square from_square);
 
