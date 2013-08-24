@@ -1,5 +1,6 @@
 #include "conditions/wormhole.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"

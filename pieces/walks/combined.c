@@ -6,6 +6,7 @@
 #include "pieces/walks/hoppers.h"
 #include "pieces/walks/kangaroo.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 
 static boolean pawnedpiececheck(evalfunction_t *evaluate)
 {

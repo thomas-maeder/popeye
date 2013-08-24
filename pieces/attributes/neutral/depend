@@ -1,13 +1,13 @@
 pieces/attributes/neutral/half$(OBJ_SUFFIX): pieces/attributes/neutral/half.c \
  pieces/attributes/neutral/half.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h pydata.h py.h \
- pieces/attributes/neutral/neutral.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h pydata.h py.h pieces/attributes/neutral/neutral.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
  debugging/trace.h
 
@@ -24,6 +24,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

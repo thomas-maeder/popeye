@@ -8,6 +8,7 @@
 #include "platform/maxtime.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "options/options.h"
 #include "pymsg.h"
 
 #include <assert.h>

@@ -2,7 +2,7 @@ optimisations/immobility_tester_king_first$(OBJ_SUFFIX): \
  optimisations/immobility_tester_king_first.c \
  stipulation/goals/immobile/reached_tester.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
  position/position.h pylang.h stipulation/slice_type.h output/mode.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -29,6 +29,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -73,7 +75,7 @@ solving/non_king_move_generator.h:
 debugging/trace.h:
 optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  optimisations/keepmating.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
@@ -95,6 +97,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -135,21 +139,22 @@ stipulation/help_play/branch.h:
 debugging/trace.h:
 optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  DHT/dhtbcmem.h py.h utilities/boolean.h position/position.h \
- position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h solving/ply.h \
- position/position.h pylang.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pymsg.h pyproof.h py.h stipulation/stipulation.h \
- DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/observation.h conditions/bgl.h \
- conditions/duellists.h conditions/haunted_chess.h conditions/imitator.h \
- options/nontrivial.h solving/avoid_unsolvable.h solving/castling.h \
- stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/board.h utilities/bitmask.h pieces/pieces.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
+ solving/ply.h position/position.h pylang.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h solving/ply.h pymsg.h pyproof.h \
+ py.h stipulation/stipulation.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
+ pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/observation.h \
+ conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
+ conditions/imitator.h options/nontrivial.h solving/avoid_unsolvable.h \
+ solving/castling.h stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/branch.h platform/maxtime.h \
- platform/maxmem.h debugging/trace.h pydata.h conditions/conditions.h
+ platform/maxmem.h debugging/trace.h pydata.h options/options.h \
+ conditions/conditions.h
 
 optimisations/hash.h:
 
@@ -164,6 +169,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -253,12 +260,14 @@ debugging/trace.h:
 
 pydata.h:
 
+options/options.h:
+
 conditions/conditions.h:
 optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  optimisations/orthodox_square_observation.c \
  optimisations/orthodox_square_observation.h position/position.h \
- position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h \
+ position/board.h utilities/bitmask.h pieces/pieces.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  pieces/walks/pawns/en_passant.h solving/solve.h py.h utilities/boolean.h \
  position/position.h solving/ply.h pylang.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
@@ -272,6 +281,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -319,7 +330,7 @@ py.h:
 optimisations/orthodox_check_directions$(OBJ_SUFFIX): \
  optimisations/orthodox_check_directions.c \
  optimisations/orthodox_check_directions.h pieces/walks/vectors.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  utilities/boolean.h utilities/enumeration.h
 
 optimisations/orthodox_check_directions.h:
@@ -332,21 +343,24 @@ position/board.h:
 
 utilities/bitmask.h:
 
+pieces/pieces.h:
+
 utilities/boolean.h:
 
 utilities/enumeration.h:
 optimisations/detect_retraction$(OBJ_SUFFIX): optimisations/detect_retraction.c \
  optimisations/detect_retraction.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h pydata.h py.h \
- solving/move_generator.h solving/ply.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/proxy.h stipulation/branch.h debugging/trace.h
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ pydata.h py.h solving/move_generator.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h \
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
+ debugging/trace.h
 
 optimisations/detect_retraction.h:
 
@@ -361,6 +375,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

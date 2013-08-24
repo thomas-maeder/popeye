@@ -1,6 +1,7 @@
 #include "conditions/circe/capture_fork.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"

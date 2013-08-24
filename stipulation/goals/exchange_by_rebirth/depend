@@ -2,11 +2,11 @@ stipulation/goals/exchange_by_rebirth/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/exchange_by_rebirth/reached_tester.c \
  stipulation/goals/exchange_by_rebirth/reached_tester.h solving/solve.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/boolean/true.h \
  stipulation/goals/reached_tester.h solving/move_generator.h \
  solving/ply.h debugging/trace.h pydata.h py.h
@@ -24,6 +24,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

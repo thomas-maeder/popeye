@@ -115,6 +115,8 @@
 #include "debugging/trace.h"
 #include "py.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
+#include "options/options.h"
 #include "conditions/conditions.h"
 
 #if defined(HASHRATE)

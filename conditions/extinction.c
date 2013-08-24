@@ -1,5 +1,6 @@
 #include "conditions/extinction.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "solving/check.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"

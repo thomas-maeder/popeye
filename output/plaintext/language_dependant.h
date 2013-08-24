@@ -7,6 +7,7 @@
 #include "pylang.h"
 #include "py.h"
 #include "conditions/conditions.h"
+#include "options/options.h"
 
 typedef char PieceChar[2];
 typedef PieceChar PieTable[PieceCount];
@@ -14,7 +15,6 @@ extern PieTable PieNamString[LanguageCount];
 
 extern PieceChar *PieceTab;
 
-extern boolean OptFlag[OptCount];
 extern char *OptString[LanguageCount][OptCount];
 
 extern boolean  CondFlag[CondCount];

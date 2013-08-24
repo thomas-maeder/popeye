@@ -4,6 +4,7 @@
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 
 static boolean can_piece_move(numecoup n)
 {

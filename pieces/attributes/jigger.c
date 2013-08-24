@@ -8,6 +8,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index

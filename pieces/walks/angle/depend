@@ -12,8 +12,8 @@ utilities/bitmask.h:
 pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
  pieces/walks/vectors.h position/board.h utilities/bitmask.h \
- position/position.h utilities/boolean.h utilities/enumeration.h \
- solving/observation.h stipulation/stipulation.h \
+ position/position.h pieces/pieces.h utilities/boolean.h \
+ utilities/enumeration.h solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
  solving/ply.h pylang.h stipulation/slice_type.h output/mode.h \
  solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
@@ -32,6 +32,8 @@ position/board.h:
 utilities/bitmask.h:
 
 position/position.h:
+
+pieces/pieces.h:
 
 utilities/boolean.h:
 

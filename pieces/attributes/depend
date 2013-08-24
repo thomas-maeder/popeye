@@ -2,10 +2,10 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  pieces/attributes/hurdle_colour_changing.c \
  pieces/attributes/hurdle_colour_changing.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h \
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  pieces/attributes/neutral/neutral.h pieces/walks/hoppers.h \
  solving/observation.h solving/ply.h solving/move_generator.h \
  stipulation/has_solution_type.h stipulation/move.h \
@@ -27,6 +27,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -81,7 +83,7 @@ pydata.h:
 py.h:
 pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  pieces/attributes/magic.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
@@ -109,6 +111,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -179,7 +183,7 @@ py.h:
 pymsg.h:
 pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  pieces/attributes/chameleon.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
@@ -206,6 +210,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -272,7 +278,7 @@ py.h:
 conditions/conditions.h:
 pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  pieces/attributes/jigger.h solving/solve.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h \
  solving/ply.h position/position.h pylang.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
@@ -296,6 +302,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -349,7 +357,7 @@ py.h:
 pieces/attributes/uncapturable$(OBJ_SUFFIX): pieces/attributes/uncapturable.c \
  pieces/attributes/uncapturable.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
  position/position.h pylang.h stipulation/slice_type.h output/mode.h \
  pydata.h py.h stipulation/pipe.h stipulation/structure_traversal.h \
@@ -374,6 +382,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

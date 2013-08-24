@@ -1,5 +1,6 @@
 #include "conditions/imitator.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "pymsg.h"
 #include "pieces/walks/pawns/promotion.h"

@@ -15,6 +15,7 @@
 #include "pyproc.h"
 #include "py.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)

@@ -9,6 +9,7 @@
 #include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 
 #include <assert.h>
 #include <stdlib.h>

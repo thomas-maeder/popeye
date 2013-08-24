@@ -3,9 +3,9 @@ options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h \
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/slice_type.h output/mode.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  stipulation/battle_play/branch.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
@@ -28,6 +28,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -63,10 +65,11 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h stipulation/has_solution_type.h stipulation/testing_pipe.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/slice_type.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/testing_pipe.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/solve.h stipulation/battle_play/branch.h \
  solving/move_generator.h solving/ply.h debugging/trace.h pydata.h py.h
 
@@ -87,6 +90,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

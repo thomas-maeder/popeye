@@ -1,5 +1,6 @@
 #include "conditions/circe/clone.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "stipulation/stipulation.h"
 #include "conditions/circe/circe.h"
 #include "solving/move_effect_journal.h"

@@ -1,5 +1,6 @@
 #include "conditions/singlebox/type1.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/stipulation.h"

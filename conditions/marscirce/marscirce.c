@@ -7,6 +7,7 @@
 #include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 
 square (*marscirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 

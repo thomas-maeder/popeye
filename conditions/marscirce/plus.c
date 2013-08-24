@@ -5,6 +5,7 @@
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 
 static void generate_additional_captures_from(slice_index si,
                                               PieNam p,

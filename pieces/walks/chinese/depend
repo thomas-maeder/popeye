@@ -1,11 +1,12 @@
 pieces/walks/chinese/riders$(OBJ_SUFFIX): pieces/walks/chinese/riders.c \
  pieces/walks/chinese/riders.h position/board.h utilities/bitmask.h \
- position/position.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/observation.h stipulation/stipulation.h \
- stipulation/goals/goals.h py.h utilities/boolean.h position/position.h \
- solving/ply.h pylang.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/riders.h pieces/walks/lions.h \
- solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
+ position/position.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h solving/observation.h \
+ stipulation/stipulation.h stipulation/goals/goals.h py.h \
+ utilities/boolean.h position/position.h solving/ply.h pylang.h \
+ stipulation/slice_type.h output/mode.h solving/ply.h \
+ pieces/walks/riders.h pieces/walks/lions.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/chinese/riders.h:
 
@@ -14,6 +15,8 @@ position/board.h:
 utilities/bitmask.h:
 
 position/position.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -58,12 +61,12 @@ pydata.h:
 py.h:
 pieces/walks/chinese/leapers$(OBJ_SUFFIX): pieces/walks/chinese/leapers.c \
  pieces/walks/chinese/leapers.h position/board.h utilities/bitmask.h \
- position/position.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/move_generator.h solving/solve.h py.h \
- utilities/boolean.h position/position.h solving/ply.h pylang.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h solving/ply.h debugging/trace.h \
- pydata.h py.h
+ position/position.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h solving/move_generator.h \
+ solving/solve.h py.h utilities/boolean.h position/position.h \
+ solving/ply.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ solving/ply.h debugging/trace.h pydata.h py.h
 
 pieces/walks/chinese/leapers.h:
 
@@ -72,6 +75,8 @@ position/board.h:
 utilities/bitmask.h:
 
 position/position.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -112,10 +117,10 @@ pieces/walks/chinese/pawn$(OBJ_SUFFIX): pieces/walks/chinese/pawn.c \
  pieces/walks/chinese/pawn.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h pieces/walks/vectors.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h solving/ply.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/slice_type.h output/mode.h solving/ply.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/chinese/pawn.h:
 
@@ -136,6 +141,8 @@ py.h:
 utilities/boolean.h:
 
 position/position.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -166,11 +173,11 @@ pieces/walks/chinese/mao$(OBJ_SUFFIX): pieces/walks/chinese/mao.c \
  pieces/walks/chinese/mao.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h pieces/walks/vectors.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h solving/ply.h pieces/walks/angle/angles.h \
- pieces/walks/hoppers.h solving/move_generator.h solving/solve.h \
- debugging/trace.h pydata.h py.h
+ position/position.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/slice_type.h output/mode.h solving/ply.h \
+ pieces/walks/angle/angles.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h pydata.h py.h
 
 pieces/walks/chinese/mao.h:
 
@@ -191,6 +198,8 @@ py.h:
 utilities/boolean.h:
 
 position/position.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

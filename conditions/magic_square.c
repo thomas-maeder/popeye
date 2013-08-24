@@ -1,5 +1,6 @@
 #include "conditions/magic_square.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/pieceid.h"
 #include "stipulation/has_solution_type.h"

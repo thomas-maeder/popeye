@@ -9,6 +9,7 @@
 #include "debugging/trace.h"
 #include "pyproc.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "conditions/conditions.h"
 
 #include <assert.h>

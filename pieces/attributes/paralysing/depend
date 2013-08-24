@@ -2,7 +2,7 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/paralysing.c \
  pieces/attributes/paralysing/paralysing.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
  position/position.h pylang.h stipulation/slice_type.h output/mode.h \
  pieces/attributes/paralysing/mate_filter.h solving/solve.h \
@@ -31,6 +31,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -93,7 +95,7 @@ pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/mate_filter.c \
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
  position/position.h pylang.h stipulation/slice_type.h output/mode.h \
  solving/solve.h stipulation/pipe.h stipulation/structure_traversal.h \
@@ -118,6 +120,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -153,10 +157,10 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/stalemate_special.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  py.h utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- solving/ply.h position/position.h pylang.h stipulation/slice_type.h \
- output/mode.h solving/solve.h pydata.h py.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/enumeration.h solving/ply.h position/position.h pylang.h \
+ stipulation/slice_type.h output/mode.h solving/solve.h pydata.h py.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h solving/check.h \
  debugging/trace.h
@@ -178,6 +182,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
@@ -218,7 +224,7 @@ pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/remove_captures.c \
  pieces/attributes/paralysing/remove_captures.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h py.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
+ position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h solving/ply.h \
  position/position.h pylang.h stipulation/slice_type.h output/mode.h \
  pydata.h py.h solving/move_generator.h solving/solve.h solving/ply.h \
@@ -241,6 +247,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

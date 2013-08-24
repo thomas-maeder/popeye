@@ -1,0 +1,3 @@
+pieces/pieces$(OBJ_SUFFIX): pieces/pieces.c pieces/pieces.h
+
+pieces/pieces.h:

@@ -1,7 +1,7 @@
 position/position$(OBJ_SUFFIX): position/position.c position/position.h \
- position/board.h utilities/bitmask.h pieces/walks/vectors.h \
- utilities/boolean.h utilities/enumeration.h py.h utilities/boolean.h \
- position/position.h solving/ply.h pylang.h \
+ position/board.h utilities/bitmask.h pieces/pieces.h \
+ pieces/walks/vectors.h utilities/boolean.h utilities/enumeration.h py.h \
+ utilities/boolean.h position/position.h solving/ply.h pylang.h \
  pieces/attributes/neutral/neutral.h debugging/trace.h
 
 position/position.h:
@@ -9,6 +9,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

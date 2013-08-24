@@ -1,5 +1,6 @@
 #include "conditions/circe/chameleon.h"
 #include "pydata.h"
+#include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"

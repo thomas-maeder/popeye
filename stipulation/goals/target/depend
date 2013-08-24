@@ -2,14 +2,14 @@ stipulation/goals/target/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/target/reached_tester.c \
  stipulation/goals/target/reached_tester.h solving/solve.h py.h \
  utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/boolean.h \
- utilities/enumeration.h solving/ply.h position/position.h pylang.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h solving/move_generator.h \
- solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h \
- stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- debugging/trace.h pydata.h py.h
+ utilities/bitmask.h pieces/pieces.h pieces/walks/vectors.h \
+ utilities/boolean.h utilities/enumeration.h solving/ply.h \
+ position/position.h pylang.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ solving/move_generator.h solving/ply.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/goals/reached_tester.h \
+ stipulation/boolean/true.h debugging/trace.h pydata.h py.h
 
 stipulation/goals/target/reached_tester.h:
 
@@ -24,6 +24,8 @@ position/position.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+pieces/pieces.h:
 
 pieces/walks/vectors.h:
 

@@ -95,17 +95,9 @@ EXTERN  boolean  may_exist[PieceCount];
 EXTERN  Side trait[maxply+1];
 EXTERN  boolean flagfee;
 
-EXTERN boolean OptFlag[OptCount];
-
 #if defined(WE_ARE_EXTERN)
-  extern  Flags   some_pieces_flags;
-  extern  Flags   all_pieces_flags;
-  extern  Flags   all_royals_flags;
   extern char GlobalStr[];
 #else
-  Flags   some_pieces_flags;   /* used for problem-wide piecespecification */
-  Flags   all_pieces_flags;
-  Flags   all_royals_flags;
   char GlobalStr[4*maxply];
 #endif
 
