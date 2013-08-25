@@ -24,7 +24,7 @@
 
 boolean LaTeXout;
 
-static char ActTwinning[1532];
+static char twinning[1532];
 
 static FILE *LaTeXFile;
 
@@ -55,19 +55,19 @@ void LaTeXEchoAddedPiece(Flags Spec, PieNam Name, square Square)
           LaTeXPiece(Name),
           'a'-nr_of_slack_files_left_of_board+Square%onerow,
           '1'-nr_of_slack_rows_below_board+Square/onerow);
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
 }
 
 void LaTeXEchoRemovedPiece(Flags Spec, PieNam Name, square Square)
 {
-  strcat(ActTwinning, " --");
-  strcat(ActTwinning,
+  strcat(twinning, " --");
+  strcat(twinning,
          is_piece_neutral(Spec) ? "\\n" : (TSTFLAG(Spec, White) ? "\\w" : "\\s"));
-  strcat(ActTwinning,LaTeXPiece(Name));
+  strcat(twinning,LaTeXPiece(Name));
   sprintf(GlobalStr, " %c%c",
           'a'-nr_files_on_board+Square%onerow,
           '1'-nr_rows_on_board+Square/onerow);
-  strcat(ActTwinning,GlobalStr);
+  strcat(twinning,GlobalStr);
 }
 
 void LaTeXEchoMovedPiece(Flags Spec, PieNam Name, square FromSquare, square ToSquare)
@@ -78,14 +78,14 @@ void LaTeXEchoMovedPiece(Flags Spec, PieNam Name, square FromSquare, square ToSq
           LaTeXPiece(Name),
           'a'-nr_of_slack_files_left_of_board+FromSquare%onerow,
           '1'-nr_of_slack_rows_below_board+FromSquare/onerow);
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
 
-  strcat(ActTwinning, "{\\ra}");
+  strcat(twinning, "{\\ra}");
 
   sprintf(GlobalStr, "%c%c",
           'a'-nr_files_on_board+ToSquare%onerow,
           '1'-nr_rows_on_board+ToSquare/onerow);
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
 }
 
 void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
@@ -97,25 +97,25 @@ void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
           LaTeXPiece(Name1),
           'a'-nr_of_slack_files_left_of_board+Square1%onerow,
           '1'-nr_of_slack_rows_below_board+Square1/onerow);
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
 
-  strcat(ActTwinning, "{\\lra}");
+  strcat(twinning, "{\\lra}");
 
   sprintf(GlobalStr, "\\%c%s ",
           is_piece_neutral(Spec2) ? 'n' : (TSTFLAG(Spec2, White) ? 'w' : 's'),
           LaTeXPiece(Name2));
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
   sprintf(GlobalStr, "%c%c",
           'a'-nr_files_on_board+Square2%onerow,
           '1'-nr_rows_on_board+Square2/onerow);
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
 }
 
 void LaTeXEchoSubstitutedPiece(PieNam from, PieNam to)
 {
   sprintf(GlobalStr,"{\\w%s} $\\Rightarrow$ \\w%s",
           LaTeXPiece(from),LaTeXPiece(to));
-  strcat(ActTwinning,GlobalStr);
+  strcat(twinning,GlobalStr);
 }
 
 char *ParseLaTeXPieces(char *tok)
@@ -268,13 +268,15 @@ void LaTeXEndDiagram(void)
   char line[256];
 
   /* twins */
-  if (ActTwinning[0] != '\0')
+  if (twinning[0] != '\0')
   {
     fprintf(LaTeXFile, " \\twins{");
     /* remove the last "{\\newline} */
-    ActTwinning[strlen(ActTwinning)-10]= '\0';
-    LaTeXStr(ActTwinning);
+    twinning[strlen(twinning)-10]= '\0';
+    LaTeXStr(twinning);
     fprintf(LaTeXFile, "}%%\n");
+
+    twinning[0] = 0;
   }
 
   /* solution */
@@ -533,18 +535,18 @@ void LaTeXBeginDiagram(void)
   /* pieces & twins */
   if (OptFlag[duplex])
   {
-    strcat(ActTwinning, OptTab[duplex]);
-    strcat(ActTwinning, "{\\newline}");
+    strcat(twinning, OptTab[duplex]);
+    strcat(twinning, "{\\newline}");
   }
   else if (OptFlag[halfduplex])
   {
-    strcat(ActTwinning, OptTab[halfduplex]);
-    strcat(ActTwinning, "{\\newline}");
+    strcat(twinning, OptTab[halfduplex]);
+    strcat(twinning, "{\\newline}");
   }
   if (OptFlag[quodlibet])
   {
-    strcat(ActTwinning, OptTab[quodlibet]);
-    strcat(ActTwinning, "{\\newline}");
+    strcat(twinning, OptTab[quodlibet]);
+    strcat(twinning, "{\\newline}");
   }
 
   fprintf(LaTeXFile, " \\pieces{");
@@ -802,46 +804,41 @@ void LaTeXBeginDiagram(void)
   }
 }
 
-void LatexResetTwinning(void)
-{
-  ActTwinning[0] = '\0';
-}
-
 void LaTeXBeginTwinning(char const number[])
 {
-  strcat(ActTwinning,number);
+  strcat(twinning,number);
 }
 
 void LaTeXEndTwinning(void)
 {
-  strcat(ActTwinning,"{\\newline}");
+  strcat(twinning,"{\\newline}");
 }
 
 void LaTeXNextTwinning(void)
 {
-  strcat(ActTwinning, ", ");
+  strcat(twinning, ", ");
 }
 
 void LaTeXContinuedTwinning(void)
 {
-  strcat(ActTwinning, "+");
+  strcat(twinning, "+");
 }
 
 void LaTeXTwinningRotate(char const text[])
 {
   sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], text);
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
 }
 
 void LaTeXTwinningFirstCondition(char const text[])
 {
-  strcat(ActTwinning,text);
+  strcat(twinning,text);
 }
 
 void LaTeXTwinningNextCondition(char const text[])
 {
-  strcat(ActTwinning, ", ");
-  strcat(ActTwinning,text);
+  strcat(twinning, ", ");
+  strcat(twinning,text);
 }
 
 void LaTeXTwinningShift(square From, square To)
@@ -852,19 +849,19 @@ void LaTeXTwinningShift(square From, square To)
           '1'-nr_rows_on_board+From/onerow,
           'a'-nr_files_on_board+To%onerow,
           '1'-nr_rows_on_board+To/onerow);
-  strcat(ActTwinning, GlobalStr);
+  strcat(twinning, GlobalStr);
 }
 
 void LaTeXTwinningPolish(void)
 {
-  strcat(ActTwinning, TwinningTab[TwinningPolish]);
+  strcat(twinning, TwinningTab[TwinningPolish]);
 }
 
 void LaTeXTwinningStipulation(char const text[])
 {
-  strcat(ActTwinning, text);
+  strcat(twinning, text);
   if (OptFlag[solapparent]) {
-    strcat(ActTwinning, "*");
+    strcat(twinning, "*");
   }
 
   if (OptFlag[whitetoplay])
@@ -872,6 +869,6 @@ void LaTeXTwinningStipulation(char const text[])
     char temp[10];        /* increased due to buffer overflow */
     sprintf(temp, " %c{\\ra}",
             tolower(*PieSpString[UserLanguage][White]));
-    strcat(ActTwinning, temp);
+    strcat(twinning, temp);
   }
 }

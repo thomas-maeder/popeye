@@ -65,7 +65,6 @@ void iterate_problems(void)
 
   do
   {
-    LatexResetTwinning();
     InitMetaData();
     InitBoard();
     InitCond();

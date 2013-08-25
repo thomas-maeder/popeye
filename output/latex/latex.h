@@ -18,8 +18,6 @@ void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
 void LaTeXEchoSubstitutedPiece(PieNam from, PieNam to);
 char *ParseLaTeXPieces(char *tok);
 
-void LatexResetTwinning(void);
-
 void LaTeXBeginTwinning(char const number[]);
 void LaTeXEndTwinning(void);
 
