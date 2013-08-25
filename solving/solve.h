@@ -1,5 +1,5 @@
-#if !defined(SOLVING_BATTLE_PLAY_ATTACK_PLAY_H)
-#define SOLVING_BATTLE_PLAY_ATTACK_PLAY_H
+#if !defined(SOLVING_SOLVE_H)
+#define SOLVING_SOLVE_H
 
 /* Interface for dynamically dispatching solve operations to slices
  * depending on the slice type
