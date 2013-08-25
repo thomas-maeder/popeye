@@ -1,6 +1,5 @@
 #include "pyproc.h"
 #include "pymsg.h"
-#include "py6.h"
 #include "optimisations/hash.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/moves_traversal.h"
@@ -15,9 +14,12 @@
 #include "platform/maxtime.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
+#include "debugging/trace.h"
 
 #include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /* Guess the "bitness" of the platform
  * @return 32 if we run on a 32bit platform etc.
@@ -63,6 +65,83 @@ static void checkGlobalAssumptions(void)
 
   check_hash_assumptions();
   enforce_piecename_uniqueness();
+}
+
+int parseCommandlineOptions(int argc, char *argv[])
+{
+  int idx = 1;
+
+  while (idx<argc)
+  {
+    if (idx+1<argc && strcmp(argv[idx], "-maxpos")==0)
+    {
+      char *end;
+      idx++;
+      hash_max_number_storable_positions = strtoul(argv[idx], &end, 10);
+      if (argv[idx]==end)
+      {
+        /* conversion failure
+         * -> set to 0 now and to default value later */
+        hash_max_number_storable_positions = 0;
+      }
+      idx++;
+      continue;
+    }
+    else if (idx+1<argc && strcmp(argv[idx], "-maxtime")==0)
+    {
+      char *end;
+      maxtime_type value;
+      idx++;
+      value = strtoul(argv[idx], &end, 10);
+      if (argv[idx]==end)
+        ; /* conversion failure -> assume no max time */
+      else
+        setCommandlineMaxtime(value);
+
+      idx++;
+      continue;
+    }
+    else if (idx+1<argc && strcmp(argv[idx],"-maxmem")==0)
+    {
+      readMaxmem(argv[idx+1]);
+      idx += 2;
+      continue;
+    }
+    else if (strcmp(argv[idx], "-regression")==0)
+    {
+      flag_regression = true;
+      idx++;
+      continue;
+    }
+    else if (strcmp(argv[idx], "-maxtrace")==0)
+    {
+      trace_level max_trace_level;
+      char *end;
+
+      idx++;
+      if (idx<argc)
+      {
+        max_trace_level = strtoul(argv[idx], &end, 10);
+#if defined(DOTRACE)
+        if (*end==0)
+          TraceSetMaxLevel(max_trace_level);
+        else
+        {
+          /* conversion failure  - ignore option */
+        }
+#else
+      /* ignore */
+#endif
+      }
+
+      idx++;
+      continue;
+    }
+    else
+      break;
+  }
+
+  return idx;
 }
 
 #if !defined(OSTYPE)

@@ -56,7 +56,6 @@ void    MultiCenter(char *s);
 void    WritePosition(void);
 void    WriteSquare(square a);
 void    WritePiece(PieNam p);
-boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
 void    WriteGrid(void);
 
 void    hardinit(void);

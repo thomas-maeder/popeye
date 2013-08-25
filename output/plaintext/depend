@@ -630,3 +630,72 @@ stipulation/stipulation.h:
 input/plaintext/token.h:
 
 utilities/boolean.h:
+output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
+ output/plaintext/pieces.h pieces/pieces.h utilities/boolean.h \
+ output/plaintext/language_dependant.h position/position.h \
+ position/board.h utilities/bitmask.h pieces/walks/vectors.h \
+ utilities/enumeration.h pylang.h conditions/conditions.h \
+ options/options.h input/plaintext/twin.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
+ solving/solve.h pieces/attributes/neutral/neutral.h pyproc.h \
+ pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
+ stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+
+output/plaintext/pieces.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+output/plaintext/language_dependant.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+utilities/enumeration.h:
+
+pylang.h:
+
+conditions/conditions.h:
+
+options/options.h:
+
+input/plaintext/twin.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
+input/plaintext/token.h:
+
+input/plaintext/line.h:
+
+conditions/mummer.h:
+
+solving/solve.h:
+
+pieces/attributes/neutral/neutral.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+pieces/pieces.h:
+
+stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
+
+input/plaintext/token.h:
+
+utilities/boolean.h:
