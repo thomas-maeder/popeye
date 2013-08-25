@@ -2606,9 +2606,6 @@ static slice_index build_solvers(slice_index stipulation_root_hook)
   stip_optimise_with_orthodox_mating_move_generators(result);
 
   stip_optimise_with_goal_non_reacher_removers(result);
-//
-//  if (is_piece_neutral(some_pieces_flags))
-//    solving_optimise_by_detecting_retracted_moves(result);
 
   if (!OptFlag[solvariantes])
     stip_insert_play_suppressors(result);
