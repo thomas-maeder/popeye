@@ -1,5 +1,5 @@
-#if !defined(INPUT_PIECES_H)
-#define INPUT_PIECES_H
+#if !defined(INPUT_PLAINTEXT_PIECES_H)
+#define INPUT_PLAINTEXT_PIECES_H
 
 #include "position/position.h"
 #include "utilities/boolean.h"
