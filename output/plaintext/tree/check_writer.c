@@ -3,7 +3,7 @@
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
+#include "pymsg.h"
 
 /* Allocate a STOutputPlaintextTreeCheckWriter slice.
  * @return index of allocated slice

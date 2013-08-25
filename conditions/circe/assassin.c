@@ -11,7 +11,6 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
-#include "pyproc.h"
 
 #include <assert.h>
 

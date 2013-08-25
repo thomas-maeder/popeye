@@ -76,10 +76,8 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  solving/move_effect_journal.h solving/castling_rights.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h debugging/trace.h \
- optimisations/orthodox_check_directions.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h pymsg.h pylang.h
+ optimisations/orthodox_check_directions.h pymsg.h pylang.h \
+ utilities/boolean.h
 
 pieces/attributes/magic.h:
 
@@ -141,27 +139,11 @@ debugging/trace.h:
 
 optimisations/orthodox_check_directions.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  pieces/attributes/chameleon.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

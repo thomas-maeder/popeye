@@ -10,7 +10,6 @@
 #include "conditions/singlebox/type1.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pieces/pieces.h"
 
 #include <assert.h>

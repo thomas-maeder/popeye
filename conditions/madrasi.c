@@ -4,7 +4,6 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
-#include "pyproc.h"
 
 #include "debugging/trace.h"
 

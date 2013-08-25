@@ -13,9 +13,6 @@ platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_imp
  output/mode.h solving/ply.h solving/moving_pawn_promotion.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/move_generator.h \
- pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
  output/plaintext/plaintext.h output/plaintext/position.h \
  output/plaintext/pieces.h
 
@@ -70,22 +67,6 @@ solving/castling_rights.h:
 position/pieceid.h:
 
 solving/move_generator.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
 
 output/plaintext/plaintext.h:
 

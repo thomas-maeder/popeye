@@ -3,7 +3,7 @@
 #include "stipulation/pipe.h"
 #include "platform/beep.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
+#include "pymsg.h"
 #include "options/options.h"
 
 #include <assert.h>

@@ -1,7 +1,7 @@
 #include "output/plaintext/twinning.h"
 #include "output/plaintext/plaintext.h"
 #include "output/latex/latex.h"
-#include "pyproc.h"
+#include "pymsg.h"
 
 #include <stdio.h>
 #include <string.h>

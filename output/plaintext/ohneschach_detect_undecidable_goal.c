@@ -4,7 +4,6 @@
 #include "stipulation/has_solution_type.h"
 #include "conditions/ohneschach.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pymsg.h"
 
 /* Allocate a STOhneschachDetectUndecidableGoal slice.

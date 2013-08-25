@@ -11,7 +11,6 @@
 #include "solving/move_generator.h"
 #include "platform/beep.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "options/options.h"
 #include "pymsg.h"
 

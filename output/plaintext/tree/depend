@@ -20,11 +20,8 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/key_writer.h output/plaintext/tree/try_writer.h \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/refutation_writer.h \
- output/plaintext/tree/exclusive.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h options/options.h \
- conditions/conditions.h pymsg.h pylang.h
+ output/plaintext/tree/exclusive.h debugging/trace.h options/options.h \
+ conditions/conditions.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/tree/tree.h:
 
@@ -106,24 +103,6 @@ output/plaintext/tree/exclusive.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 options/options.h:
 
 conditions/conditions.h:
@@ -131,6 +110,8 @@ conditions/conditions.h:
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/end_of_solution_writer.c \
  output/plaintext/tree/end_of_solution_writer.h solving/solve.h \
@@ -192,10 +173,8 @@ output/plaintext/tree/key_writer$(OBJ_SUFFIX): output/plaintext/tree/key_writer.
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h platform/beep.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h options/options.h
+ stipulation/traversal.h platform/beep.h debugging/trace.h pymsg.h \
+ pylang.h utilities/boolean.h options/options.h
 
 output/plaintext/tree/key_writer.h:
 
@@ -235,21 +214,9 @@ platform/beep.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
+pymsg.h:
 
 pylang.h:
-
-input/plaintext/line.h:
 
 utilities/boolean.h:
 
@@ -263,10 +230,7 @@ output/plaintext/tree/try_writer$(OBJ_SUFFIX): output/plaintext/tree/try_writer.
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/battle_play/try.h utilities/table.h \
  solving/trivial_end_filter.h output/plaintext/tree/key_writer.h \
- debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h pymsg.h pylang.h
+ debugging/trace.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/tree/try_writer.h:
 
@@ -312,27 +276,11 @@ output/plaintext/tree/key_writer.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 output/plaintext/tree/move_writer$(OBJ_SUFFIX): output/plaintext/tree/move_writer.c \
  output/plaintext/tree/move_writer.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -389,10 +337,7 @@ output/plaintext/tree/refuting_variation_writer$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h solving/ply.h \
  output/plaintext/plaintext.h output/plaintext/move_inversion_counter.h \
- debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h pymsg.h pylang.h
+ debugging/trace.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/tree/refuting_variation_writer.h:
 
@@ -438,27 +383,11 @@ output/plaintext/move_inversion_counter.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 output/plaintext/tree/refutation_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/refutation_writer.c \
  output/plaintext/tree/refutation_writer.h solving/solve.h \
@@ -469,10 +398,7 @@ output/plaintext/tree/refutation_writer$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h output/plaintext/plaintext.h \
  output/plaintext/tree/tree.h output/plaintext/tree/check_writer.h \
- debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h pymsg.h pylang.h
+ debugging/trace.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/tree/refutation_writer.h:
 
@@ -516,27 +442,11 @@ output/plaintext/tree/check_writer.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/threat_writer.c \
  output/plaintext/tree/threat_writer.h solving/solve.h \
@@ -544,12 +454,9 @@ output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
- utilities/boolean.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/battle_play/threat.h solving/ply.h \
- utilities/table.h debugging/trace.h
+ utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h solving/battle_play/threat.h \
+ solving/ply.h utilities/table.h debugging/trace.h
 
 output/plaintext/tree/threat_writer.h:
 
@@ -583,22 +490,6 @@ pylang.h:
 
 utilities/boolean.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -623,10 +514,8 @@ output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h solving/ply.h \
- output/plaintext/tree/check_writer.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h pymsg.h pylang.h
+ output/plaintext/tree/check_writer.h debugging/trace.h pymsg.h pylang.h \
+ utilities/boolean.h
 
 output/plaintext/tree/zugzwang_writer.h:
 
@@ -670,27 +559,11 @@ output/plaintext/tree/check_writer.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/check_writer.c \
  output/plaintext/tree/check_writer.h solving/solve.h \
@@ -700,10 +573,7 @@ output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h solving/check.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h output/plaintext/tree/tree.h debugging/trace.h \
- pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h
+ pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/tree/check_writer.h:
 
@@ -745,21 +615,9 @@ output/plaintext/tree/tree.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
+pymsg.h:
 
 pylang.h:
-
-input/plaintext/line.h:
 
 utilities/boolean.h:
 output/plaintext/tree/exclusive$(OBJ_SUFFIX): output/plaintext/tree/exclusive.c \
@@ -772,10 +630,7 @@ output/plaintext/tree/exclusive$(OBJ_SUFFIX): output/plaintext/tree/exclusive.c 
  stipulation/traversal.h conditions/exclusive.h utilities/table.h \
  solving/ply.h stipulation/has_solution_type.h \
  output/plaintext/tree/move_writer.h output/plaintext/tree/tree.h \
- debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h pymsg.h pylang.h
+ debugging/trace.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/tree/exclusive.h:
 
@@ -825,24 +680,8 @@ output/plaintext/tree/tree.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:

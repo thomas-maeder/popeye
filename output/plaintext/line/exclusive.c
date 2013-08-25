@@ -5,7 +5,6 @@
 #include "conditions/exclusive.h"
 #include "output/plaintext/line/line_writer.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pymsg.h"
 
 #include <assert.h>

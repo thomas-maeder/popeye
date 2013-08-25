@@ -3,7 +3,6 @@
 #include "optimisations/hash.h"
 #include "output/plaintext/plaintext.h"
 #include "pieces/pieces.h"
-#include "pyproc.h"
 
 #include <assert.h>
 #include <ctype.h>
@@ -539,7 +538,6 @@ void TraceStipulation(slice_index si)
 }
 
 #include "pieces/pieces.h"
-#include "pyproc.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 

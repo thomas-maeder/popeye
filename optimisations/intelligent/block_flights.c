@@ -10,7 +10,6 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pieces/pieces.h"
 
 #include <assert.h>

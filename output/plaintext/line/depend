@@ -95,11 +95,8 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/check.h \
- solving/move_generator.h platform/beep.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h options/options.h pymsg.h \
- pylang.h
+ solving/move_generator.h platform/beep.h debugging/trace.h \
+ options/options.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/line/line_writer.h:
 
@@ -159,29 +156,13 @@ platform/beep.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 options/options.h:
 
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:
 output/plaintext/line/end_of_intro_series_marker$(OBJ_SUFFIX): \
  output/plaintext/line/end_of_intro_series_marker.c \
  output/plaintext/line/end_of_intro_series_marker.h solving/solve.h \
@@ -238,10 +219,7 @@ output/plaintext/line/exclusive$(OBJ_SUFFIX): output/plaintext/line/exclusive.c 
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h conditions/exclusive.h utilities/table.h \
  solving/ply.h output/plaintext/line/line_writer.h debugging/trace.h \
- pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h pymsg.h pylang.h
+ pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/line/exclusive.h:
 
@@ -289,24 +267,8 @@ output/plaintext/line/line_writer.h:
 
 debugging/trace.h:
 
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
-
 pymsg.h:
 
 pylang.h:
+
+utilities/boolean.h:

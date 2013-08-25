@@ -1,6 +1,6 @@
 #include "output/plaintext/goal_writer.h"
 #include "stipulation/stipulation.h"
-#include "pyproc.h"
+#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "debugging/trace.h"

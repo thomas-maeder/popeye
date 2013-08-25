@@ -10,7 +10,6 @@
 #include "pieces/walks/hunters.h"
 #include "solving/move_generator.h"
 #include "platform/maxtime.h"
-#include "pyproc.h"
 #include "pymsg.h"
 
 char ActAuthor[256];

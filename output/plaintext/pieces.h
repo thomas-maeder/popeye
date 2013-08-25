@@ -9,4 +9,6 @@ boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
 void WritePiece(PieNam p);
 void WriteSquare(square s);
 
+void AppendSquare(char *List, square s);
+
 #endif

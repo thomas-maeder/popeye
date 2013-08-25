@@ -6,7 +6,6 @@
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pymsg.h"
 
 /* Allocate a STRefutationsIntroWriter slice.

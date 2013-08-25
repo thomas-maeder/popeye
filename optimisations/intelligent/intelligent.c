@@ -33,7 +33,6 @@
 #include "output/plaintext/pieces.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pieces/pieces.h"
 #include "options/options.h"
 

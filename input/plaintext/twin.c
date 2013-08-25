@@ -71,7 +71,6 @@
 #include "platform/pytime.h"
 #include "solving/proofgames.h"
 #include "pymsg.h"
-#include "pyproc.h"
 
 #include "debugging/trace.h"
 #include "debugging/measure.h"

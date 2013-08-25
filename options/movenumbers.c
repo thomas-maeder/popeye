@@ -9,7 +9,6 @@
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "pymsg.h"
-#include "pyproc.h"
 #include "debugging/trace.h"
 
 #include <assert.h>

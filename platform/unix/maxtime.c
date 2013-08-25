@@ -12,7 +12,6 @@
 #include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
-#include "pyproc.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/position.h"
 #include "output/plaintext/pieces.h"

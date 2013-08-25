@@ -225,12 +225,9 @@ stipulation/dummy_move$(OBJ_SUFFIX): stipulation/dummy_move.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h \
- stipulation/has_solution_type.h solving/ply.h debugging/trace.h
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h solving/ply.h \
+ debugging/trace.h
 
 stipulation/dummy_move.h:
 
@@ -257,24 +254,6 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
 
 stipulation/pipe.h:
 

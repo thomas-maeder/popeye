@@ -5,7 +5,6 @@
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
-#include "pyproc.h"
 
 static boolean is_mover_supported(numecoup n)
 {

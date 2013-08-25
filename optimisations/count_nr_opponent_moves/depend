@@ -123,10 +123,7 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/temporary_hacks.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- solving/move_generator.h solving/ply.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h
+ solving/move_generator.h solving/ply.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/prioriser.h:
 
@@ -173,21 +170,3 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:

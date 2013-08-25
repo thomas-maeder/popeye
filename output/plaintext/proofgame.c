@@ -2,7 +2,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/position.h"
 #include "pylang.h"
-#include "pyproc.h"
+#include "pymsg.h"
 
 #include <stdio.h>
 

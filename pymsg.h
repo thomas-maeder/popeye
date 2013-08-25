@@ -24,6 +24,8 @@
 #include "pylang.h"
 #include "utilities/boolean.h"
 
+#include <stdio.h>
+
 /* This is the file where all language dependent defines
 ** for messages are coded.
 ** They belong to the corresponding numbers in the
@@ -171,5 +173,19 @@ void VerifieMsg(message_id_t id);
 void ErrorMsg(message_id_t id);
 void Message(message_id_t id);
 void FtlMsg(message_id_t id);
+void IoErrorMsg(message_id_t n, int val);
+
+void PrintTime();
+char  *MakeTimeString(void);
+
+void ErrString(char const *s);
+void StdChar(char c);
+void StdString(char const *s);
+void logChrArg(char arg);
+void logStrArg(char *arg);
+void logIntArg(int arg);
+void logLngArg(long arg);
+
+void pyfputs(char const *s, FILE *f);
 
 #endif  /* PYMSG_H */

@@ -23,7 +23,6 @@
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/exclusive.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
 #include "pymsg.h"

@@ -5,7 +5,6 @@
 #include "stipulation/temporary_hacks.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 
 #include <assert.h>
 #include <stdlib.h>

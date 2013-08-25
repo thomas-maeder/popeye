@@ -4,7 +4,6 @@
 #include "stipulation/pipe.h"
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 
 #include <assert.h>
 

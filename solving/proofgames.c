@@ -22,7 +22,6 @@
 # include <mem.h>
 #endif
 #include "stipulation/stipulation.h"
-#include "pyproc.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "DHT/dhtbcmem.h"

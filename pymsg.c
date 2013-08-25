@@ -21,8 +21,8 @@
 
 #define PYMSG
 
-#include "pyproc.h"
 #include "pymsg.h"
+#include "input/plaintext/line.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "platform/pytime.h"
@@ -267,6 +267,54 @@ void VerifieMsg(message_id_t id)
   ErrorMsg(NewLine);
 }
 
+static void pyfputc(char c, FILE *f)
+{
+#if !defined(QUIET)
+  fputc(c,f);
+  fflush(f);
+  if (TraceFile) {
+    fputc(c,TraceFile);
+    fflush(TraceFile);
+  }
+  if (SolFile) {
+    fputc(c,SolFile);
+    fflush(SolFile);
+  }
+#endif
+}
+
+void pyfputs(char const *s, FILE *f)
+{
+#if !defined(QUIET)
+  fputs(s,f);
+  fflush(f);
+  if (TraceFile) {
+    fputs(s,TraceFile);
+    fflush(TraceFile);
+  }
+  if (SolFile) {
+    fputs(s,SolFile);
+    fflush(SolFile);
+  }
+#endif
+}
+
+static void ErrChar(char c)
+{
+  pyfputc(c, stderr);
+}
+
+void IoErrorMsg(message_id_t n, int val)
+{
+  ErrorMsg(InputError);
+  logIntArg(val);
+  ErrorMsg(n);
+  ErrChar('\n');
+  logStrArg(InputLine);
+  ErrorMsg(OffendingItem);
+  ErrChar('\n');
+}
+
 char *MakeTimeString(void)
 {
   unsigned long msec;
@@ -308,4 +356,19 @@ void PrintTime()
     StdString(GetMsgString(TimeString));
     StdString(MakeTimeString());
   }
+}
+
+void StdChar(char c)
+{
+  pyfputc(c, stdout);
+}
+
+void StdString(char const *s)
+{
+  pyfputs(s, stdout);
+}
+
+void ErrString(char const *s)
+{
+  pyfputs(s, stderr);
 }

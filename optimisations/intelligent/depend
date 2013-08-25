@@ -23,10 +23,8 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
- output/plaintext/pieces.h platform/maxtime.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h options/options.h
+ output/plaintext/pieces.h platform/maxtime.h debugging/trace.h \
+ options/options.h
 
 optimisations/intelligent/intelligent.h:
 
@@ -113,24 +111,6 @@ output/plaintext/pieces.h:
 platform/maxtime.h:
 
 debugging/trace.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
 
 options/options.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
@@ -530,10 +510,7 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/finish.h \
  optimisations/orthodox_square_observation.h \
  options/maxsolutions/maxsolutions.h solving/move_generator.h \
- debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h
+ debugging/trace.h
 
 optimisations/intelligent/block_flights.h:
 
@@ -586,24 +563,6 @@ options/maxsolutions/maxsolutions.h:
 solving/move_generator.h:
 
 debugging/trace.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.c \
  optimisations/intelligent/guard_flights.h pieces/walks/vectors.h \

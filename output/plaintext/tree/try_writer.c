@@ -5,7 +5,6 @@
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 #include "pymsg.h"
 
 #include <assert.h>

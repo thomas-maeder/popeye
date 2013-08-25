@@ -3,7 +3,6 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
-#include "pyproc.h"
 
 static boolean is_mover_supported_recursive(square sq_departure);
 

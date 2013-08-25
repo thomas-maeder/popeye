@@ -285,9 +285,6 @@ options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  stipulation/help_play/branch.h solving/check.h \
  options/movenumbers/restart_guard_intelligent.h output/output.h \
  output/plaintext/plaintext.h pymsg.h pylang.h utilities/boolean.h \
- pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
  debugging/trace.h
 
 options/movenumbers.h:
@@ -345,22 +342,6 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
 
 debugging/trace.h:
 options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \

@@ -16,7 +16,7 @@
 #include "position/position.h"
 #include "solving/castling.h"
 #include "solving/move_generator.h"
-#include "pyproc.h"
+#include "pymsg.h"
 
 #include <assert.h>
 #include <ctype.h>
@@ -232,7 +232,7 @@ void WritePosition()
           if (TSTFLAG(spec[square],sp)
               && !(sp==Royal && (pp==King || pp==Poseidon)))
           {
-            AddSquare(ListSpec[sp-nr_sides], square);
+            AppendSquare(ListSpec[sp-nr_sides], square);
             ++SpecCount[sp-nr_sides];
           }
 

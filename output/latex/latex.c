@@ -2,6 +2,7 @@
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/pieces.h"
 #include "input/plaintext/problem.h"
 #include "input/plaintext/pieces.h"
 #include "input/plaintext/token.h"
@@ -566,7 +567,7 @@ void LaTeXBeginDiagram(void)
         strcat(HolesSqList, ", ");
       else
         holess= true;
-      AddSquare(HolesSqList, *bnp);
+      AppendSquare(HolesSqList, *bnp);
     }
     else if (!is_square_empty(*bnp))
     {
@@ -603,7 +604,7 @@ void LaTeXBeginDiagram(void)
         if (TSTFLAG(spec[*bnp], sp)
             && !(sp==Royal && (p==King || p==Poseidon)))
         {
-          AddSquare(ListSpec[sp-nr_sides], *bnp);
+          AppendSquare(ListSpec[sp-nr_sides], *bnp);
           ++SpecCount[sp-nr_sides];
         }
       }
@@ -734,7 +735,7 @@ void LaTeXBeginDiagram(void)
           strcat(MagicSqList, ", ");
         else
           first_magic_piece= false;
-        AddSquare(MagicSqList, i);
+        AppendSquare(MagicSqList, i);
       }
     fprintf(LaTeXFile, "%s}%%\n", MagicSqList);
   }

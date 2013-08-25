@@ -11,10 +11,7 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/orthodox_square_observation.h debugging/trace.h pyproc.h \
- pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h utilities/boolean.h
+ optimisations/orthodox_square_observation.h debugging/trace.h
 
 optimisations/intelligent/mate/finish.h:
 
@@ -67,24 +64,6 @@ optimisations/intelligent/place_white_king.h:
 optimisations/orthodox_square_observation.h:
 
 debugging/trace.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
 optimisations/intelligent/mate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.c \
  optimisations/intelligent/mate/filter.h \

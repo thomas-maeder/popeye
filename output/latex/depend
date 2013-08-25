@@ -6,8 +6,9 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  output/plaintext/plaintext.h output/plaintext/language_dependant.h \
  pylang.h conditions/conditions.h options/options.h \
  input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
- conditions/mummer.h solving/solve.h input/plaintext/problem.h \
- input/plaintext/pieces.h options/maxsolutions/maxsolutions.h \
+ conditions/mummer.h solving/solve.h output/plaintext/pieces.h \
+ input/plaintext/problem.h input/plaintext/pieces.h \
+ options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  pieces/attributes/neutral/neutral.h conditions/grid.h platform/maxtime.h \
@@ -58,6 +59,8 @@ input/plaintext/line.h:
 conditions/mummer.h:
 
 solving/solve.h:
+
+output/plaintext/pieces.h:
 
 input/plaintext/problem.h:
 

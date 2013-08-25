@@ -6,7 +6,6 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
-#include "pyproc.h"
 
 PieNam orphanpieces[PieceCount];
 

@@ -5,7 +5,6 @@
 #include "output/latex/latex.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/hunters.h"
-#include "pyproc.h"
 #include "pymsg.h"
 
 #include <string.h>

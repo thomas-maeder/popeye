@@ -11,7 +11,6 @@
 #include "optimisations/orthodox_square_observation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
-#include "pyproc.h"
 
 #include <assert.h>
 

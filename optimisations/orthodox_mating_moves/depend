@@ -74,10 +74,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_diff_code.h \
  optimisations/orthodox_check_directions.h debugging/trace.h \
- conditions/conditions.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h
+ conditions/conditions.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -144,24 +141,6 @@ optimisations/orthodox_check_directions.h:
 debugging/trace.h:
 
 conditions/conditions.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
 optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/king_contact_move_generator.c \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \

@@ -1,4 +1,3 @@
-#include "pyproc.h"
 #include "pymsg.h"
 #include "optimisations/hash.h"
 #include "stipulation/structure_traversal.h"

@@ -10,10 +10,7 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/boolean/or.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h
+ debugging/trace.h
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -70,24 +67,6 @@ stipulation/has_solution_type.h:
 stipulation/temporary_hacks.h:
 
 debugging/trace.h:
-
-pyproc.h:
-
-pieces/walks/vectors.h:
-
-pieces/pieces.h:
-
-stipulation/goals/goals.h:
-
-stipulation/stipulation.h:
-
-input/plaintext/token.h:
-
-pylang.h:
-
-input/plaintext/line.h:
-
-utilities/boolean.h:
 pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/mate_filter.c \
  pieces/attributes/paralysing/mate_filter.h stipulation/stipulation.h \

@@ -7,7 +7,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
-#include "pyproc.h"
 
 #include <assert.h>
 

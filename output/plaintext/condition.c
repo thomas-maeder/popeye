@@ -1,6 +1,7 @@
 #include "output/plaintext/condition.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/pieces.h"
 #include "input/plaintext/condition.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/pawns/promotion.h"
@@ -298,7 +299,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     {
       unsigned int imi_idx;
       for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
-        AddSquare(CondLine,isquare[imi_idx]);
+        AppendSquare(CondLine,isquare[imi_idx]);
     }
 
     if (cond == noiprom && !CondFlag[imitators])
@@ -313,7 +314,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       }
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], MagicSq)) {
-          AddSquare(CondLine, i);
+          AppendSquare(CondLine, i);
         }
       }
     }
@@ -322,7 +323,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], WhForcedSq)) {
-          AddSquare(CondLine, i);
+          AppendSquare(CondLine, i);
         }
       }
     }
@@ -330,7 +331,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], BlForcedSq)) {
-          AddSquare(CondLine, i);
+          AppendSquare(CondLine, i);
         }
       }
     }
@@ -339,7 +340,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], WhPromSq)) {
-          AddSquare(CondLine, i);
+          AppendSquare(CondLine, i);
         }
       }
     }
@@ -347,17 +348,17 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], BlPromSq)) {
-          AddSquare(CondLine, i);
+          AppendSquare(CondLine, i);
         }
       }
     }
 
     if (cond == blroyalsq) {
-      AddSquare(CondLine, royal_square[Black]);
+      AppendSquare(CondLine, royal_square[Black]);
     }
 
     if (cond == whroyalsq) {
-      AddSquare(CondLine, royal_square[White]);
+      AppendSquare(CondLine, royal_square[White]);
     }
 
     if (cond==wormholes)
@@ -365,7 +366,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       square i;
       for (i = square_a1; i<=square_h8; ++i)
         if (TSTFLAG(sq_spec[i],Wormhole))
-          AddSquare(CondLine,i);
+          AppendSquare(CondLine,i);
     }
 
     if ((cond == madras && madrasi_is_rex_inclusive)

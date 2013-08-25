@@ -2,10 +2,11 @@
 #include "output/plaintext/language_dependant.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/hunters.h"
-#include "pyproc.h"
+#include "pymsg.h"
 
 #include <assert.h>
 #include <ctype.h>
+#include <string.h>
 
 boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
 {
@@ -75,4 +76,15 @@ void WriteSquare(square i)
     StdChar('8' + nr_rows_on_board - i/onerow);
   else
     StdChar('1' - nr_rows_on_board + i/onerow);
+}
+
+void AppendSquare(char *List, square s)
+{
+  char    add[4];
+
+  add[0]= ' ';
+  add[1]= 'a' - nr_files_on_board + s%onerow;
+  add[2]= '1' - nr_rows_on_board + s/onerow;
+  add[3]= '\0';
+  strcat(List, add);
 }

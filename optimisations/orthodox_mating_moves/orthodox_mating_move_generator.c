@@ -14,7 +14,6 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
-#include "pyproc.h"
 
 #include <assert.h>
 #include <stdlib.h>

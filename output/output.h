@@ -19,10 +19,6 @@ slice_index alloc_output_mode_selector(output_mode mode);
  */
 void stip_insert_output_slices(slice_index si);
 
-void IoErrorMsg(int n, int val);
-
-void AddSquare(char *List, square i);
-
 boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first));
 
 #endif

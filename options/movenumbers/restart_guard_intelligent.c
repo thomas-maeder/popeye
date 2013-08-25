@@ -6,7 +6,6 @@
 #include "options/movenumbers.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "platform/maxtime.h"
-#include "pyproc.h"
 #include "options/options.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
