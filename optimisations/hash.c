@@ -82,15 +82,7 @@
 #include <stdlib.h>
 #include <limits.h>
 
-/* TurboC and BorlandC  TLi */
-#if defined(__TURBOC__)
-# include <mem.h>
-# include <alloc.h>
-# include <conio.h>
-#else
-# include <memory.h>
-#endif  /* __TURBOC__ */
-
+#include <memory.h>
 #include "optimisations/hash.h"
 #include "pymsg.h"
 #include "solving/proofgames.h"
