@@ -76,7 +76,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  optimisations/orthodox_check_directions.h debugging/trace.h \
  conditions/conditions.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -155,6 +156,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \

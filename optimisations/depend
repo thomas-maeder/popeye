@@ -110,8 +110,8 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- pymsg.h pylang.h utilities/boolean.h pyproof.h stipulation/stipulation.h \
- DHT/dhtvalue.h DHT/fxf.h DHT/dht.h pieces/walks/pawns/en_passant.h \
+ pymsg.h pylang.h utilities/boolean.h solving/proofgames.h DHT/dhtvalue.h \
+ DHT/fxf.h DHT/dht.h pieces/walks/pawns/en_passant.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/observation.h conditions/bgl.h \
  conditions/duellists.h conditions/haunted_chess.h conditions/imitator.h \
@@ -159,9 +159,7 @@ pylang.h:
 
 utilities/boolean.h:
 
-pyproof.h:
-
-stipulation/stipulation.h:
+solving/proofgames.h:
 
 DHT/dhtvalue.h:
 

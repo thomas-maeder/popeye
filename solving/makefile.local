@@ -13,7 +13,7 @@ SRC_CFILES =   testers.c move_effect_journal.c \
            post_move_iteration.c solve.c king_capture_avoider.c \
            recursion_stopper.c observation.c check.c \
            find_square_observer_tracking_back_from_target.c ply.c \
-           move_diff_code.c
+           move_diff_code.c solvers.c proofgames.c
 INCLUDES = testers.h move_effect_journal.h \
            find_shortest.h find_by_increasing_length.h fork_on_remaining.h \
            play_suppressor.h move_generator.h \
@@ -27,6 +27,6 @@ INCLUDES = testers.h move_effect_journal.h \
            post_move_iteration.h solve.h king_capture_avoider.h \
            recursion_stopper.h observation.h check.h castling_rights.h \
            find_square_observer_tracking_back_from_target.h ply.h \
-           move_diff_code.h
+           move_diff_code.h solvers.h proofgames.h
 
 include makefile.rules $(CURRPWD)depend

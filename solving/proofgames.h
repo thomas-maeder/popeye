@@ -43,11 +43,6 @@ void ProofSaveTargetPosition(void);
  */
 void ProofRestoreTargetPosition(void);
 
-/* write start position (0 resp. 1 diagram)
- * @param start identifies start slice
- */
-void ProofWriteStartPosition(slice_index start);
-
 /* Initialise data structure for intelligent solving
  * @param length number of half-moves until goal has to be reached
  */
@@ -92,7 +87,5 @@ stip_length_type goalreachable_guard_proofgame_solve(slice_index si,
  */
 stip_length_type goalreachable_guard_proofgame_fairy_solve(slice_index si,
                                                            stip_length_type n);
-
-extern int const ProofKnightMoves[];
 
 #endif

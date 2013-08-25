@@ -136,7 +136,8 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 conditions/circe/assassin.h:
 
@@ -205,6 +206,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \

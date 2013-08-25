@@ -13,6 +13,7 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "output/plaintext/language_dependant.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/castling.h"
@@ -297,4 +298,35 @@ char *ParseOpt(slice_index root_slice_hook)
     IoErrorMsg(UnrecOption,0);
 
   return tok;
+}
+
+void InitOpt(void)
+{
+  {
+    Side side;
+    square castling;
+    for (side = White; side<=Black; ++side)
+      for (castling = min_castling; castling<=max_castling; ++castling)
+        castling_mutual_exclusive[side][castling-min_castling] = 0;
+  }
+
+  castling_flags_no_castling = bl_castlings|wh_castlings;
+
+  en_passant_forget_multistep();
+
+  resetOptionMaxtime();
+
+  reset_max_flights();
+  set_max_nr_refutations(0);
+  reset_restart_number();
+  reset_max_threat_length();
+  reset_nontrivial_settings();
+
+  {
+    unsigned int i;
+    for (i = 0; i<OptCount; i++)
+      OptFlag[i] = false;
+  }
+
+  move_effect_journal_reset_retro_capture();
 }

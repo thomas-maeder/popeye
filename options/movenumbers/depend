@@ -10,9 +10,9 @@ options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  debugging/trace.h options/movenumbers.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
- options/options.h output/output.h output/plaintext/plaintext.h pymsg.h \
- pylang.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h options/options.h \
+ output/output.h output/plaintext/plaintext.h pymsg.h pylang.h
 
 options/movenumbers/restart_guard_intelligent.h:
 
@@ -69,6 +69,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 

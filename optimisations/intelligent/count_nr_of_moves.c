@@ -1,5 +1,5 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/moving_pawn_promotion.h"
@@ -22,6 +22,25 @@ typedef struct
 static reserve_elmt_type reserve[nr_squares_on_board];
 
 static unsigned int curr_reserve;
+
+int const minimum_number_knight_moves[square_h8-square_a1+1]=
+{
+  /*   1-  7 */     0,  3,  2,  3,  2,  3,  4,  5,
+  /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /*  17- 31*/      4,  3,  4,  3,  2,  1,  2,  3,  2, 1, 2, 3, 4, 3, 4,
+  /* dummies 32- 40 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /*  41- 55 */     5,  4,  3,  2,  3,  4,  1,  2,  1, 4, 3, 2, 3, 4, 5,
+  /* dummies 56- 64 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  /*  65- 79*/      4,  3,  4,  3,  2,  3,  2,  3,  2, 3, 2, 3, 4, 3, 4,
+  /* dummies 80- 88 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /*  89-103 */     5,  4,  3,  4,  3,  2,  3,  2,  3, 2, 3, 4, 3, 4, 5,
+  /* dummies104-112 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* 113-127 */     4,  5,  4,  3,  4,  3,  4,  3,  4, 3, 4, 3, 4, 5, 4,
+  /* dummies128-136 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* 137-151 */     5,  4,  5,  4,  3,  4,  3,  4,  3, 4, 3, 4, 5, 4, 5,
+  /* dummies152-160 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
+  /* 161-175 */     6,  5,  4,  5,  4,  5,  4,  5,  4, 5, 4, 5, 4, 5, 6
+};
 
 static unsigned int king_no_castling(square from, square to)
 {
@@ -209,7 +228,7 @@ static unsigned int knight(square from_square, square to_square)
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
-  result = ProofKnightMoves[abs(from_square-to_square)];
+  result = minimum_number_knight_moves[abs(from_square-to_square)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

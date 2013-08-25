@@ -4,8 +4,9 @@ debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h pyproc.h
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- input/plaintext/token.h utilities/boolean.h stipulation/stipulation.h \
- optimisations/hash.h DHT/dhtbcmem.h solving/solve.h solving/ply.h \
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h stipulation/stipulation.h optimisations/hash.h \
+ DHT/dhtbcmem.h solving/solve.h solving/ply.h \
  output/plaintext/plaintext.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h
@@ -44,6 +45,10 @@ output/mode.h:
 
 input/plaintext/token.h:
 
+pylang.h:
+
+input/plaintext/line.h:
+
 utilities/boolean.h:
 
 stipulation/stipulation.h:
@@ -72,7 +77,8 @@ debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h \
  pieces/walks/vectors.h output/mode.h optimisations/hash.h DHT/dhtbcmem.h \
  solving/solve.h solving/ply.h output/plaintext/plaintext.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 debugging/trace.h:
 
@@ -119,5 +125,9 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:

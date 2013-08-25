@@ -559,7 +559,8 @@ pieces/walks/friend$(OBJ_SUFFIX): pieces/walks/friend.c pieces/walks/friend.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 pieces/walks/friend.h:
 
@@ -612,6 +613,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 pieces/walks/orphan$(OBJ_SUFFIX): pieces/walks/orphan.c pieces/walks/orphan.h \
@@ -624,7 +629,8 @@ pieces/walks/orphan$(OBJ_SUFFIX): pieces/walks/orphan.c pieces/walks/orphan.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 pieces/walks/orphan.h:
 
@@ -677,6 +683,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 pieces/walks/cat$(OBJ_SUFFIX): pieces/walks/cat.c pieces/walks/cat.h \

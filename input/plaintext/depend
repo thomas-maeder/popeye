@@ -202,19 +202,46 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h input/plaintext/token.h pylang.h \
  input/plaintext/line.h input/plaintext/pieces.h \
- input/plaintext/stipulation.h input/plaintext/condition.h \
+ input/plaintext/problem.h input/plaintext/stipulation.h \
+ input/plaintext/sstipulation.h input/plaintext/condition.h \
  input/plaintext/option.h input/plaintext/input_stack.h output/output.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h conditions/mummer.h solving/solve.h \
- output/plaintext/plaintext.h output/plaintext/condition.h \
- output/latex/latex.h conditions/imitator.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- pieces/attributes/neutral/neutral.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h platform/maxmem.h pymsg.h pylang.h \
- utilities/boolean.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
- stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h debugging/trace.h
+ output/plaintext/condition.h output/plaintext/plaintext.h \
+ output/plaintext/proofgame.h output/latex/latex.h conditions/imitator.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h optimisations/killer_move/killer_move.h \
+ stipulation/slice.h solving/move_generator.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
+ optimisations/count_nr_opponent_moves/move_generator.h \
+ options/quodlibet.h options/goal_is_end.h pieces/walks/walks.h \
+ pieces/walks/pawns/promotion.h pieces/walks/orphan.h \
+ solving/observation.h pieces/walks/classification.h \
+ pieces/attributes/neutral/neutral.h pieces/attributes/magic.h \
+ conditions/alphabetic.h conditions/blackchecks.h \
+ conditions/circe/circe.h conditions/circe/chameleon.h \
+ conditions/anticirce/anticirce.h conditions/circe/rex_inclusive.h \
+ conditions/duellists.h conditions/exclusive.h utilities/table.h \
+ conditions/immune.h conditions/sentinelles.h \
+ conditions/follow_my_leader.h conditions/football.h \
+ conditions/forced_squares.h conditions/isardam.h \
+ conditions/must_capture.h conditions/oscillating_kings.h \
+ conditions/republican.h conditions/singlebox/type1.h \
+ conditions/synchronous.h \
+ conditions/transmuting_kings/transmuting_kings.h \
+ conditions/transmuting_kings/super.h conditions/vaulting_kings.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ solving/king_capture_avoider.h solving/castling.h solving/solvers.h \
+ stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/traversal.h stipulation/branch.h stipulation/proxy.h \
+ stipulation/move_inverter.h stipulation/has_solution_type.h \
+ stipulation/help_play/branch.h stipulation/battle_play/branch.h \
+ stipulation/goals/prerequisite_guards.h stipulation/moves_traversal.h \
+ platform/maxmem.h platform/pytime.h solving/proofgames.h pymsg.h \
+ pylang.h utilities/boolean.h pyproc.h pieces/walks/vectors.h \
+ pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
+ input/plaintext/token.h debugging/trace.h debugging/measure.h
 
 input/plaintext/twin.h:
 
@@ -248,7 +275,11 @@ input/plaintext/line.h:
 
 input/plaintext/pieces.h:
 
+input/plaintext/problem.h:
+
 input/plaintext/stipulation.h:
+
+input/plaintext/sstipulation.h:
 
 input/plaintext/condition.h:
 
@@ -268,9 +299,11 @@ conditions/mummer.h:
 
 solving/solve.h:
 
+output/plaintext/condition.h:
+
 output/plaintext/plaintext.h:
 
-output/plaintext/condition.h:
+output/plaintext/proofgame.h:
 
 output/latex/latex.h:
 
@@ -284,17 +317,117 @@ solving/ply.h:
 
 position/pieceid.h:
 
+optimisations/killer_move/killer_move.h:
+
+stipulation/slice.h:
+
+solving/move_generator.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
+
+optimisations/count_nr_opponent_moves/move_generator.h:
+
+options/quodlibet.h:
+
+options/goal_is_end.h:
+
+pieces/walks/walks.h:
+
+pieces/walks/pawns/promotion.h:
+
+pieces/walks/orphan.h:
+
+solving/observation.h:
+
+pieces/walks/classification.h:
+
 pieces/attributes/neutral/neutral.h:
+
+pieces/attributes/magic.h:
+
+conditions/alphabetic.h:
+
+conditions/blackchecks.h:
+
+conditions/circe/circe.h:
+
+conditions/circe/chameleon.h:
+
+conditions/anticirce/anticirce.h:
+
+conditions/circe/rex_inclusive.h:
+
+conditions/duellists.h:
+
+conditions/exclusive.h:
+
+utilities/table.h:
+
+conditions/immune.h:
+
+conditions/sentinelles.h:
+
+conditions/follow_my_leader.h:
+
+conditions/football.h:
+
+conditions/forced_squares.h:
+
+conditions/isardam.h:
+
+conditions/must_capture.h:
+
+conditions/oscillating_kings.h:
+
+conditions/republican.h:
+
+conditions/singlebox/type1.h:
+
+conditions/synchronous.h:
+
+conditions/transmuting_kings/transmuting_kings.h:
+
+conditions/transmuting_kings/super.h:
+
+conditions/vaulting_kings.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
+
+solving/king_capture_avoider.h:
+
+solving/castling.h:
+
+solving/solvers.h:
 
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
-stipulation/slice.h:
-
 stipulation/traversal.h:
 
+stipulation/branch.h:
+
+stipulation/proxy.h:
+
+stipulation/move_inverter.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/help_play/branch.h:
+
+stipulation/battle_play/branch.h:
+
+stipulation/goals/prerequisite_guards.h:
+
+stipulation/moves_traversal.h:
+
 platform/maxmem.h:
+
+platform/pytime.h:
+
+solving/proofgames.h:
 
 pymsg.h:
 
@@ -315,15 +448,17 @@ stipulation/stipulation.h:
 input/plaintext/token.h:
 
 debugging/trace.h:
+
+debugging/measure.h:
 input/plaintext/stipulation$(OBJ_SUFFIX): input/plaintext/stipulation.c \
  input/plaintext/stipulation.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  input/plaintext/goal.h input/plaintext/token.h pylang.h \
- input/plaintext/line.h output/output.h output/plaintext/plaintext.h \
- conditions/check_zigzag.h position/pieceid.h \
- stipulation/has_solution_type.h stipulation/branch.h \
+ input/plaintext/line.h input/plaintext/problem.h output/output.h \
+ output/plaintext/plaintext.h conditions/check_zigzag.h \
+ position/pieceid.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/help_play/branch.h solving/solve.h \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
@@ -362,6 +497,8 @@ input/plaintext/token.h:
 pylang.h:
 
 input/plaintext/line.h:
+
+input/plaintext/problem.h:
 
 output/output.h:
 
@@ -543,7 +680,7 @@ input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h
  stipulation/goals/proofgame/reached_tester.h \
  stipulation/goals/atob/reached_tester.h \
  stipulation/goals/chess81/reached_tester.h debugging/trace.h pymsg.h \
- pylang.h utilities/boolean.h pyproof.h stipulation/stipulation.h
+ pylang.h utilities/boolean.h solving/proofgames.h
 
 input/plaintext/goal.h:
 
@@ -645,9 +782,7 @@ pylang.h:
 
 utilities/boolean.h:
 
-pyproof.h:
-
-stipulation/stipulation.h:
+solving/proofgames.h:
 input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  input/plaintext/condition.h position/board.h utilities/bitmask.h \
  input/plaintext/pieces.h position/position.h pieces/pieces.h \
@@ -820,11 +955,11 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  input/plaintext/twin.h conditions/mummer.h \
- pieces/attributes/neutral/neutral.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/move_generator.h solving/castling.h solving/battle_play/try.h \
- utilities/table.h platform/beep.h platform/maxtime.h pymsg.h pylang.h \
- utilities/boolean.h
+ pieces/attributes/neutral/neutral.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/observation.h solving/move_generator.h \
+ solving/castling.h solving/battle_play/try.h utilities/table.h \
+ platform/beep.h platform/maxtime.h pymsg.h pylang.h utilities/boolean.h
 
 input/plaintext/option.h:
 
@@ -890,6 +1025,8 @@ conditions/mummer.h:
 
 pieces/attributes/neutral/neutral.h:
 
+pieces/walks/pawns/en_passant.h:
+
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
@@ -897,6 +1034,8 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+solving/observation.h:
 
 solving/move_generator.h:
 
@@ -915,3 +1054,92 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
+input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
+ input/plaintext/problem.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h input/plaintext/condition.h position/board.h \
+ utilities/bitmask.h input/plaintext/option.h stipulation/stipulation.h \
+ stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h input/plaintext/twin.h \
+ output/latex/latex.h options/maxsolutions/maxsolutions.h \
+ optimisations/intelligent/limit_nr_solutions_per_target.h \
+ solving/solve.h options/stoponshortsolutions/stoponshortsolutions.h \
+ pieces/walks/hunters.h solving/observation.h solving/ply.h \
+ solving/move_generator.h platform/maxtime.h pyproc.h \
+ pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
+ stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
+ pymsg.h pylang.h
+
+input/plaintext/problem.h:
+
+input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
+
+input/plaintext/condition.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+input/plaintext/option.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+input/plaintext/twin.h:
+
+output/latex/latex.h:
+
+options/maxsolutions/maxsolutions.h:
+
+optimisations/intelligent/limit_nr_solutions_per_target.h:
+
+solving/solve.h:
+
+options/stoponshortsolutions/stoponshortsolutions.h:
+
+pieces/walks/hunters.h:
+
+solving/observation.h:
+
+solving/ply.h:
+
+solving/move_generator.h:
+
+platform/maxtime.h:
+
+pyproc.h:
+
+pieces/walks/vectors.h:
+
+pieces/pieces.h:
+
+stipulation/goals/goals.h:
+
+stipulation/stipulation.h:
+
+input/plaintext/token.h:
+
+utilities/boolean.h:
+
+pymsg.h:
+
+pylang.h:

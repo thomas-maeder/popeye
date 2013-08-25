@@ -73,12 +73,13 @@
 #include "pymsg.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 #include "stipulation/pipe.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/latex/latex.h"
+#include "input/plaintext/problem.h"
 #include "input/plaintext/token.h"
 #include "input/plaintext/line.h"
 #include "input/plaintext/pieces.h"
@@ -623,16 +624,6 @@ void WriteSquare(square i)
     StdChar('8' + nr_rows_on_board - i/onerow);
   else
     StdChar('1' - nr_rows_on_board + i/onerow);
-}
-
-void InitMetaData(void)
-{
-  ActTitle[0] = '\0';
-  ActAuthor[0] = '\0';
-  ActOrigin[0] = '\0';
-  ActTwinning[0] = '\0';
-  ActAward[0] = '\0';
-  ActStip[0] = '\0';
 }
 
 /* The input accepted by popeye is defined by the following grammar.

@@ -7,8 +7,8 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/slice_type.h output/mode.h \
  solving/ply.h pieces/walks/pawns/en_passant.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- solving/observation.h pyproof.h stipulation/stipulation.h \
- solving/castling.h stipulation/help_play/branch.h stipulation/fork.h \
+ solving/observation.h solving/proofgames.h solving/castling.h \
+ stipulation/help_play/branch.h stipulation/fork.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/branch.h \
  stipulation/temporary_hacks.h \
@@ -24,7 +24,8 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
  platform/maxtime.h debugging/trace.h pyproc.h pieces/walks/vectors.h \
- pieces/pieces.h stipulation/goals/goals.h input/plaintext/token.h \
+ pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
  utilities/boolean.h options/options.h
 
 optimisations/intelligent/intelligent.h:
@@ -65,9 +66,7 @@ solving/castling_rights.h:
 
 solving/observation.h:
 
-pyproof.h:
-
-stipulation/stipulation.h:
+solving/proofgames.h:
 
 solving/castling.h:
 
@@ -121,7 +120,13 @@ pieces/pieces.h:
 
 stipulation/goals/goals.h:
 
+stipulation/stipulation.h:
+
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 
@@ -181,7 +186,7 @@ optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c 
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h pyproof.h stipulation/stipulation.h \
+ pieces/walks/vectors.h output/mode.h solving/proofgames.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
@@ -211,9 +216,7 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
-pyproof.h:
-
-stipulation/stipulation.h:
+solving/proofgames.h:
 
 stipulation/pipe.h:
 
@@ -527,7 +530,8 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  options/maxsolutions/maxsolutions.h solving/move_generator.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 optimisations/intelligent/block_flights.h:
 
@@ -592,6 +596,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
@@ -952,11 +960,11 @@ optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h pieces/pieces.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- pyproof.h stipulation/stipulation.h stipulation/goals/goals.h \
+ solving/proofgames.h stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h pieces/walks/pawns/en_passant.h \
- solving/solve.h stipulation/stipulation.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h solving/castling.h solving/moving_pawn_promotion.h \
+ solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
+ solving/ply.h position/pieceid.h solving/observation.h \
+ solving/castling.h solving/moving_pawn_promotion.h \
  pieces/walks/pawns/promotion.h solving/move_diff_code.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h \
@@ -978,7 +986,7 @@ pieces/walks/vectors.h:
 
 utilities/enumeration.h:
 
-pyproof.h:
+solving/proofgames.h:
 
 stipulation/stipulation.h:
 
@@ -991,8 +999,6 @@ output/mode.h:
 pieces/walks/pawns/en_passant.h:
 
 solving/solve.h:
-
-stipulation/stipulation.h:
 
 solving/move_effect_journal.h:
 

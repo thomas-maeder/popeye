@@ -1,6 +1,7 @@
 #include "input/plaintext/stipulation.h"
 #include "input/plaintext/goal.h"
 #include "input/plaintext/token.h"
+#include "input/plaintext/problem.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "conditions/check_zigzag.h"

@@ -5,4 +5,6 @@
 
 char *ParseOpt(slice_index root_slice_hook);
 
+void InitOpt(void);
+
 #endif

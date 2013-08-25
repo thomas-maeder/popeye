@@ -11,7 +11,7 @@
 #include "optimisations/intelligent/intelligent.h"
 
 #include "pieces/walks/pawns/en_passant.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
 #include "stipulation/help_play/branch.h"

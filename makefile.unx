@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.194 2013/08/25 03:34:15 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.195 2013/08/25 05:22:13 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -287,7 +287,8 @@ NESTEDLIBDIRS = . \
     output output/latex output/plaintext/tree output/plaintext/line output/plaintext \
     position \
     platform platform/$(PLATFORM) \
-    utilities debugging
+    utilities debugging \
+    .
 
 STRFILES=       py-fran.str py-deut.str py-engl.str
 TEXFILES=       pie-fran.txt pie-deut.txt pie-engl.txt piecenam.txt    \

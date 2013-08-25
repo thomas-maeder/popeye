@@ -5,6 +5,8 @@
 #include "position/position.h"
 #include "utilities/boolean.h"
 
+extern int const minimum_number_knight_moves[];
+
 unsigned int intelligent_count_moves_to_white_promotion(square from_square);
 
 /* Tests if a specific checking white sequence of moves by the same black pawn

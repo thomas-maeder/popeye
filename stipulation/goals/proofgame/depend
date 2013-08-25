@@ -6,7 +6,7 @@ stipulation/goals/proofgame/reached_tester$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h pyproof.h stipulation/stipulation.h \
+ stipulation/traversal.h solving/proofgames.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
  debugging/trace.h
 
@@ -44,9 +44,7 @@ stipulation/slice.h:
 
 stipulation/traversal.h:
 
-pyproof.h:
-
-stipulation/stipulation.h:
+solving/proofgames.h:
 
 stipulation/goals/reached_tester.h:
 

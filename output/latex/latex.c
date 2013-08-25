@@ -2,6 +2,7 @@
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
+#include "input/plaintext/problem.h"
 #include "input/plaintext/pieces.h"
 #include "input/plaintext/token.h"
 #include "input/plaintext/line.h"
@@ -21,6 +22,8 @@
 #include <string.h>
 
 boolean LaTeXout;
+
+char ActTwinning[1532];
 
 static FILE *LaTeXFile;
 
@@ -66,12 +69,44 @@ void LaTeXEchoRemovedPiece(Flags Spec, PieNam Name, square Square)
   strcat(ActTwinning,GlobalStr);
 }
 
-void LaTeXEchoExchangedPiece(Flags Spec, PieNam Name)
+void LaTeXEchoMovedPiece(Flags Spec, PieNam Name, square FromSquare, square ToSquare)
 {
-  strcat(ActTwinning, "{\\lra}");
-  sprintf(GlobalStr, "\\%c%s ",
+  sprintf(GlobalStr,
+          "\\%c%s %c%c",
           is_piece_neutral(Spec) ? 'n' : (TSTFLAG(Spec, White) ? 'w' : 's'),
-          LaTeXPiece(Name));
+          LaTeXPiece(Name),
+          'a'-nr_of_slack_files_left_of_board+FromSquare%onerow,
+          '1'-nr_of_slack_rows_below_board+FromSquare/onerow);
+  strcat(ActTwinning, GlobalStr);
+
+  strcat(ActTwinning, "{\\ra}");
+
+  sprintf(GlobalStr, "%c%c",
+          'a'-nr_files_on_board+ToSquare%onerow,
+          '1'-nr_rows_on_board+ToSquare/onerow);
+  strcat(ActTwinning, GlobalStr);
+}
+
+void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
+                             Flags Spec2, PieNam Name2, square Square2)
+{
+  sprintf(GlobalStr,
+          "\\%c%s %c%c",
+          is_piece_neutral(Spec1) ? 'n' : (TSTFLAG(Spec1, White) ? 'w' : 's'),
+          LaTeXPiece(Name1),
+          'a'-nr_of_slack_files_left_of_board+Square1%onerow,
+          '1'-nr_of_slack_rows_below_board+Square1/onerow);
+  strcat(ActTwinning, GlobalStr);
+
+  strcat(ActTwinning, "{\\lra}");
+
+  sprintf(GlobalStr, "\\%c%s ",
+          is_piece_neutral(Spec2) ? 'n' : (TSTFLAG(Spec2, White) ? 'w' : 's'),
+          LaTeXPiece(Name2));
+  strcat(ActTwinning, GlobalStr);
+  sprintf(GlobalStr, "%c%c",
+          'a'-nr_files_on_board+Square2%onerow,
+          '1'-nr_rows_on_board+Square2/onerow);
   strcat(ActTwinning, GlobalStr);
 }
 
@@ -319,7 +354,8 @@ void LaTeXBeginDiagram(void)
   fprintf(LaTeXFile, "\\begin{diagram}%%\n");
 
   /* authors */
-  if (ActAuthor[0] != '\0') {
+  if (ActAuthor[0] != '\0')
+  {
     if (strchr(ActAuthor, ',')) {
       /* , --> correct format */
       char *cp, *endcp = 0;

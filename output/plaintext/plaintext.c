@@ -1,5 +1,7 @@
 #include "output/plaintext/plaintext.h"
+#include "output/plaintext/condition.h"
 #include "pymsg.h"
+#include "conditions/conditions.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
 #include "conditions/kobul.h"
@@ -9,7 +11,6 @@
 #include "debugging/trace.h"
 #include "pyproc.h"
 #include "pieces/pieces.h"
-#include "conditions/conditions.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -17,14 +18,6 @@
 char GlobalStr[4000];
 
 FILE *TraceFile;
-
-char ActAuthor[256];
-char ActOrigin[256];
-char ActTitle[256];
-char ActTwinning[1532];
-char ActAward[256];
-char ActStip[37];
-
 FILE *SolFile;
 
 typedef struct

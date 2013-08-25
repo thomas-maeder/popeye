@@ -26,4 +26,6 @@ char *ReadSquares(SquareListContext context);
 
 char *ParseCond(void);
 
+void  InitCond(void);
+
 #endif

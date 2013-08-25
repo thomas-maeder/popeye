@@ -26,7 +26,7 @@
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "DHT/dhtbcmem.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 #include "pymsg.h"
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
@@ -36,6 +36,7 @@
 #include "optimisations/hash.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/orthodox_check_directions.h"
+#include "optimisations/intelligent/count_nr_of_moves.h"
 #include "platform/maxtime.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
@@ -575,16 +576,6 @@ void ProofRestoreTargetPosition(void)
   TraceFunctionResultEnd();
 }
 
-void ProofWriteStartPosition(slice_index start)
-{
-  char InitialLine[40];
-  sprintf(InitialLine,
-          "\nInitial (%s ->):\n",
-          ColorString[UserLanguage][slices[start].starter]);
-  StdString(InitialLine);
-  WritePosition();
-}
-
 static boolean compareProofPieces(void)
 {
   boolean result = true;
@@ -678,25 +669,6 @@ boolean ProofIdentical(void)
   TraceFunctionResultEnd();
   return result;
 }
-
-int const ProofKnightMoves[square_h8-square_a1+1]=
-{
-  /*   1-  7 */     0,  3,  2,  3,  2,  3,  4,  5,
-  /* dummies  8- 16 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  /*  17- 31*/      4,  3,  4,  3,  2,  1,  2,  3,  2, 1, 2, 3, 4, 3, 4,
-  /* dummies 32- 40 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  /*  41- 55 */     5,  4,  3,  2,  3,  4,  1,  2,  1, 4, 3, 2, 3, 4, 5,
-  /* dummies 56- 64 */ -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  /*  65- 79*/      4,  3,  4,  3,  2,  3,  2,  3,  2, 3, 2, 3, 4, 3, 4,
-  /* dummies 80- 88 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /*  89-103 */     5,  4,  3,  4,  3,  2,  3,  2,  3, 2, 3, 4, 3, 4, 5,
-  /* dummies104-112 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /* 113-127 */     4,  5,  4,  3,  4,  3,  4,  3,  4, 3, 4, 3, 4, 5, 4,
-  /* dummies128-136 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /* 137-151 */     5,  4,  5,  4,  3,  4,  3,  4,  3, 4, 3, 4, 5, 4, 5,
-  /* dummies152-160 */ -1, -1, -1, -1, -1, -1, -1, -1,-1,
-  /* 161-175 */     6,  5,  4,  5,  4,  5,  4,  5,  4, 5, 4, 5, 4, 5, 6
-};
 
 static int ProofKingMovesNeeded(Side side)
 {
@@ -870,7 +842,7 @@ static void OfficerMovesFromTo(PieNam p,
   switch (p)
   {
     case Knight:
-      *moves= ProofKnightMoves[abs(sqdiff)];
+      *moves= minimum_number_knight_moves[abs(sqdiff)];
       if (*moves > 1)
       {
         square    sqi, sqj;
@@ -888,7 +860,7 @@ static void OfficerMovesFromTo(PieNam p,
               sqj= to+vec[j];
               if (!blocked_by_pawn(sqj) && !is_square_blocked(sqj))
               {
-                testmov= ProofKnightMoves[abs(sqi-sqj)]+2;
+                testmov= minimum_number_knight_moves[abs(sqi-sqj)]+2;
                 if (testmov == *moves)
                   return;
                 if (testmov < testmin)

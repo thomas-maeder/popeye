@@ -1,6 +1,6 @@
 #include "solving/solve.h"
 #include "stipulation/fork.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/amu/attack_counter.h"
 #include "conditions/anticirce/cheylan.h"

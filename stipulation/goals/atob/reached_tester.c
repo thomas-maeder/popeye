@@ -1,6 +1,6 @@
 #include "stipulation/goals/atob/reached_tester.h"
 #include "stipulation/pipe.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
 #include "debugging/trace.h"

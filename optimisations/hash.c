@@ -93,7 +93,7 @@
 
 #include "optimisations/hash.h"
 #include "pymsg.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
 #include "pieces/walks/pawns/en_passant.h"

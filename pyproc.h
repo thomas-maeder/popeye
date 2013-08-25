@@ -52,7 +52,6 @@
 
 #include <stdio.h>
 
-void InitMetaData(void);
 void    MultiCenter(char *s);
 void    WritePosition(void);
 void    WriteSquare(square a);
@@ -76,7 +75,6 @@ void    logLngArg(long arg);
 void pyfputs(char const *s, FILE *f);
 
 void	pyInitSignal(void);
-void	InitCond(void);
 char	*MakeTimeString(void);
 
 #endif  /* PYPROC_H */

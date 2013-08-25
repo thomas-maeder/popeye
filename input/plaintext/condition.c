@@ -1390,3 +1390,111 @@ char *ParseCond(void)
 
   return tok;
 }
+
+void InitCond(void)
+{
+  square const *bnp;
+  square i, j;
+
+  mummer_strictness[White] = mummer_strictness_none;
+  mummer_strictness[Black] = mummer_strictness_none;
+
+  anyclone = false;
+  anycirprom = false;
+  anycirce = false;
+  anyimmun = false;
+  anyanticirce = false;
+  anyanticirprom = false;
+  anymars = false;
+  anyantimars = false;
+  anygeneva = false;
+  anyparrain= false;
+
+  anticirce_determine_rebirth_square = rennormal;
+  circe_determine_rebirth_square = rennormal;
+  immunrenai = rennormal;
+  marscirce_determine_rebirth_square = rennormal;
+
+  royal_square[White] = initsquare;
+  royal_square[Black] = initsquare;
+
+  CondFlag[circeassassin]= false;
+  flagparasent= false;
+  madrasi_is_rex_inclusive = false;
+  circe_is_rex_inclusive = false;
+  immune_is_rex_inclusive = false;
+  phantom_chess_rex_inclusive = false;
+  rex_geneva =false;
+  messigny_rex_exclusive = false;
+  woozles_rex_exclusive = false;
+  protean_is_rex_exclusive = false;
+
+  sentinelles_max_nr_pawns[Black] = 8;
+  sentinelles_max_nr_pawns[White] = 8;
+  sentinelles_max_nr_pawns_total = 16;
+  sentinelle = Pawn;
+
+  grid_type = grid_normal;
+  numgridlines = 0;
+
+  {
+    PieceIdType id;
+    for (id = MinPieceId; id<=MaxPieceId; ++id)
+      PiecePositionsInDiagram[id] = initsquare;
+  }
+
+  for (bnp= boardnum; *bnp; bnp++) {
+    int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
+    int const row= *bnp/onerow - nr_of_slack_rows_below_board;
+
+    ClearPieceId(spec[*bnp]);
+    CLEARFL(sq_spec[*bnp]);
+    sq_num[*bnp]= (int)(bnp-boardnum);
+
+    /* initialise sq_spec and set grid number */
+    sq_spec[*bnp] += ((file/2)+4*(row/2)) << Grid;
+    if (file!=0 && file!=nr_files_on_board-1
+        && row!=0 && row!=nr_rows_on_board-1)
+      SETFLAG(sq_spec[*bnp], NoEdgeSq);
+  }
+
+  for (i= square_a1; i < square_h8; i+= onerow)
+  {
+    if (i > square_a1)
+      if (!TSTFLAG(sq_spec[i+dir_down], SqColor))
+        SETFLAG(sq_spec[i], SqColor);
+    for (j= i+1; j < i+nr_files_on_board; j++)
+      if (!TSTFLAG(sq_spec[j+dir_left], SqColor))
+        SETFLAG(sq_spec[j], SqColor);
+  }
+
+  for (i= 0; i < CondCount; ++i)
+    CondFlag[i] = false;
+
+  for (i= 0; i < ExtraCondCount; ++i)
+    ExtraCondFlag[i] = false;
+
+  number_of_imitators = 0;
+
+  memset((char *) promonly, 0, sizeof(promonly));
+  memset((char *) is_football_substitute, 0, sizeof(promonly));
+  memset((char *) is_april_kind,0,sizeof(is_april_kind));
+  koeko_nocontact= nokingcontact;
+  antikoeko_nocontact= nokingcontact;
+  OscillatingKingsTypeB[White]= false;
+  OscillatingKingsTypeB[Black]= false;
+  OscillatingKingsTypeC[White]= false;
+  OscillatingKingsTypeC[Black]= false;
+
+  BGL_values[White] = BGL_infinity;
+  BGL_values[Black] = BGL_infinity;
+  BGL_global= false;
+
+  calc_reflective_king[White] = false;
+  calc_reflective_king[Black] = false;
+
+  reset_king_vaulters();
+
+  kobulking[White] = false;
+  kobulking[Black] = false;
+} /* InitCond */

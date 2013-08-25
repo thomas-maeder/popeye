@@ -69,3 +69,128 @@ boolean is_locust(PieNam p)
       return  false;
   }
 }
+
+boolean is_rider(PieNam p)
+{
+  switch (p)
+  {
+    case    NightRider:
+    case    Amazone:
+    case    Empress:
+    case    Princess:
+    case    Waran:
+    case    Camelrider:
+    case    Zebrarider:
+    case    Gnurider:
+    case    RookHunter:
+    case    BishopHunter:
+    case    Rook:
+    case    Queen:
+    case    Bishop:
+    case    WesirRider:
+    case    FersRider:
+    case    Elephant:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+boolean is_leaper(PieNam p)
+{
+  switch (p)
+  {
+    case    Zebra:
+    case    Camel:
+    case    Giraffe:
+    case    RootFiftyLeaper:
+    case    Bucephale:
+    case    Wesir:
+    case    Alfil:
+    case    Fers:
+    case    Dabbaba:
+    case    Gnu:
+    case    Antilope:
+    case    Squirrel:
+    case    ErlKing:
+    case    Okapi:
+    case    Bison:
+    case    Knight:
+    case    Leap15:
+    case    Leap16:
+    case    Leap24:
+    case    Leap25:
+    case    Leap35:
+    case    Leap37:
+    case    Leap36:
+      return true;
+    default:  return false;
+  }
+}
+
+boolean is_simplehopper(PieNam p)
+{
+  switch (p)
+  {
+    case Grasshopper:
+    case NightriderHopper:
+    case CamelRiderHopper:
+    case ZebraRiderHopper:
+    case GnuRiderHopper:
+    case RookHopper:
+    case BishopHopper:
+    case EquiHopper:
+    case NonStopEquihopper:
+    case GrassHopper2:
+    case GrassHopper3:
+    case KingHopper:
+    case Orix:
+    case NonStopOrix:
+    case Elk:
+    case RookMoose:
+    case BishopMoose:
+    case Eagle:
+    case RookEagle:
+    case BishopEagle:
+    case Sparrow:
+    case RookSparrow:
+    case BishopSparrow:
+    case KnightHopper:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+boolean is_simpledecomposedleaper(PieNam p)
+{
+  switch (p)
+  {
+    case Mao:
+    case Moa:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+boolean is_symmetricfairy(PieNam p)
+{
+  /* any piece where, if p captures X is legal, then it's also legal if p and X are swapped */
+  switch (p)
+  {
+    case Leo:
+    case Vao:
+    case Pao:
+    case Lion:
+    case RookLion:
+    case BishopLion:
+      return true;
+
+    default:
+      return false;
+  }
+}

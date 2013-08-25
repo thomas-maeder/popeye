@@ -97,8 +97,9 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  solving/castling_rights.h position/pieceid.h solving/check.h \
  solving/move_generator.h platform/beep.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
- options/options.h pymsg.h pylang.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h options/options.h pymsg.h \
+ pylang.h
 
 output/plaintext/line/line_writer.h:
 
@@ -170,6 +171,10 @@ stipulation/stipulation.h:
 
 input/plaintext/token.h:
 
+pylang.h:
+
+input/plaintext/line.h:
+
 utilities/boolean.h:
 
 options/options.h:
@@ -235,7 +240,8 @@ output/plaintext/line/exclusive$(OBJ_SUFFIX): output/plaintext/line/exclusive.c 
  solving/ply.h output/plaintext/line/line_writer.h debugging/trace.h \
  pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h pymsg.h pylang.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h pymsg.h pylang.h
 
 output/plaintext/line/exclusive.h:
 
@@ -294,6 +300,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 

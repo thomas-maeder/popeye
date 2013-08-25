@@ -3,10 +3,9 @@
 # Common Popeye source and generated files
 # ========================================
 
-INCLUDES = py1.h py6.h pyproc.h pymsg.h \
-		pylang.h pyproof.h
-SRC_CFILES =	py1.c py6.c pyio.c \
-		pymsg.c pylang.c pyproof.c	       \
+INCLUDES = py6.h pyproc.h pymsg.h pylang.h
+SRC_CFILES =	py6.c pyio.c \
+		pymsg.c pylang.c       \
 		gengmarr.c
 GENERATED_CFILES = pygmarr.c
 ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c

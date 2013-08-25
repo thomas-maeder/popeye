@@ -28,7 +28,7 @@
 #include "position/pieceid.h"
 #include "debugging/trace.h"
 #include "pymsg.h"
-#include "pyproof.h"
+#include "solving/proofgames.h"
 
 #include <assert.h>
 #include <string.h>

@@ -77,7 +77,8 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  stipulation/temporary_hacks.h solving/post_move_iteration.h \
  solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h output/plaintext/language_dependant.h \
- debugging/trace.h
+ input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
+ conditions/mummer.h debugging/trace.h
 
 conditions/republican.h:
 
@@ -150,6 +151,14 @@ solving/castling_rights.h:
 position/pieceid.h:
 
 output/plaintext/language_dependant.h:
+
+input/plaintext/twin.h:
+
+input/plaintext/token.h:
+
+input/plaintext/line.h:
+
+conditions/mummer.h:
 
 debugging/trace.h:
 conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h solving/solve.h \
@@ -366,7 +375,8 @@ conditions/extinction$(OBJ_SUFFIX): conditions/extinction.c conditions/extinctio
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 conditions/extinction.h:
 
@@ -425,6 +435,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/patience$(OBJ_SUFFIX): conditions/patience.c conditions/patience.h \
@@ -497,8 +511,8 @@ conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h \
  solving/solve.h solving/ply.h solving/observation.h \
  solving/find_square_observer_tracking_back_from_target.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
- debugging/trace.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h debugging/trace.h
 
 conditions/madrasi.h:
 
@@ -545,6 +559,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 
@@ -662,8 +680,8 @@ conditions/eiffel$(OBJ_SUFFIX): conditions/eiffel.c conditions/eiffel.h \
  solving/solve.h solving/ply.h solving/observation.h \
  solving/find_square_observer_tracking_back_from_target.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
- debugging/trace.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h debugging/trace.h
 
 conditions/eiffel.h:
 
@@ -710,6 +728,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 
@@ -793,7 +815,8 @@ conditions/masand$(OBJ_SUFFIX): conditions/masand.c conditions/masand.h \
  stipulation/slice.h stipulation/traversal.h stipulation/move.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 conditions/masand.h:
 
@@ -860,6 +883,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/dynasty$(OBJ_SUFFIX): conditions/dynasty.c conditions/dynasty.h \
@@ -2559,7 +2586,8 @@ conditions/mummer$(OBJ_SUFFIX): conditions/mummer.c conditions/mummer.h \
  solving/post_move_iteration.h solving/move_generator.h \
  solving/move_diff_code.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 conditions/mummer.h:
 
@@ -2636,6 +2664,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/monochrome$(OBJ_SUFFIX): conditions/monochrome.c conditions/monochrome.h \
@@ -2863,7 +2895,8 @@ conditions/patrol$(OBJ_SUFFIX): conditions/patrol.c conditions/patrol.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 conditions/patrol.h:
 
@@ -2921,6 +2954,10 @@ stipulation/stipulation.h:
 
 input/plaintext/token.h:
 
+pylang.h:
+
+input/plaintext/line.h:
+
 utilities/boolean.h:
 conditions/lortap$(OBJ_SUFFIX): conditions/lortap.c conditions/lortap.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -2931,7 +2968,8 @@ conditions/lortap$(OBJ_SUFFIX): conditions/lortap.c conditions/lortap.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 conditions/lortap.h:
 
@@ -2989,6 +3027,10 @@ stipulation/stipulation.h:
 
 input/plaintext/token.h:
 
+pylang.h:
+
+input/plaintext/line.h:
+
 utilities/boolean.h:
 conditions/beamten$(OBJ_SUFFIX): conditions/beamten.c conditions/beamten.h \
  pieces/pieces.h utilities/boolean.h stipulation/stipulation.h \
@@ -2998,7 +3040,8 @@ conditions/beamten$(OBJ_SUFFIX): conditions/beamten.c conditions/beamten.h \
  solving/solve.h solving/ply.h solving/observation.h debugging/trace.h \
  pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 conditions/beamten.h:
 
@@ -3046,6 +3089,10 @@ stipulation/stipulation.h:
 
 input/plaintext/token.h:
 
+pylang.h:
+
+input/plaintext/line.h:
+
 utilities/boolean.h:
 conditions/provocateurs$(OBJ_SUFFIX): conditions/provocateurs.c \
  conditions/provocateurs.h solving/solve.h stipulation/stipulation.h \
@@ -3056,7 +3103,8 @@ conditions/provocateurs$(OBJ_SUFFIX): conditions/provocateurs.c \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 conditions/provocateurs.h:
 
@@ -3114,6 +3162,10 @@ stipulation/stipulation.h:
 
 input/plaintext/token.h:
 
+pylang.h:
+
+input/plaintext/line.h:
+
 utilities/boolean.h:
 conditions/central$(OBJ_SUFFIX): conditions/central.c conditions/central.h \
  pieces/pieces.h utilities/boolean.h stipulation/stipulation.h \
@@ -3123,7 +3175,8 @@ conditions/central$(OBJ_SUFFIX): conditions/central.c conditions/central.h \
  solving/solve.h solving/ply.h solving/observation.h debugging/trace.h \
  pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 conditions/central.h:
 
@@ -3170,6 +3223,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/immune$(OBJ_SUFFIX): conditions/immune.c conditions/immune.h \
@@ -3245,7 +3302,8 @@ conditions/woozles$(OBJ_SUFFIX): conditions/woozles.c conditions/woozles.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 conditions/woozles.h:
 
@@ -3304,6 +3362,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/nocapture$(OBJ_SUFFIX): conditions/nocapture.c conditions/nocapture.h \
@@ -3690,7 +3752,8 @@ conditions/shielded_kings$(OBJ_SUFFIX): conditions/shielded_kings.c \
  stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 conditions/shielded_kings.h:
 
@@ -3748,6 +3811,10 @@ stipulation/stipulation.h:
 
 input/plaintext/token.h:
 
+pylang.h:
+
+input/plaintext/line.h:
+
 utilities/boolean.h:
 conditions/superguards$(OBJ_SUFFIX): conditions/superguards.c \
  conditions/superguards.h stipulation/stipulation.h \
@@ -3759,7 +3826,8 @@ conditions/superguards$(OBJ_SUFFIX): conditions/superguards.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h
 
 conditions/superguards.h:
 
@@ -3816,6 +3884,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/brunner$(OBJ_SUFFIX): conditions/brunner.c conditions/brunner.h \
@@ -3946,7 +4018,8 @@ conditions/vaulting_kings$(OBJ_SUFFIX): conditions/vaulting_kings.c \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h
+ input/plaintext/token.h pylang.h input/plaintext/line.h \
+ utilities/boolean.h
 
 conditions/vaulting_kings.h:
 
@@ -3997,6 +4070,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 conditions/backhome$(OBJ_SUFFIX): conditions/backhome.c conditions/backhome.h \
