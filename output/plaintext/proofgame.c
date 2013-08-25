@@ -1,5 +1,6 @@
 #include "output/plaintext/proofgame.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/position.h"
 #include "pylang.h"
 #include "pyproc.h"
 

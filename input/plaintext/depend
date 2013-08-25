@@ -51,11 +51,12 @@ input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  options/options.h input/plaintext/twin.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
- solving/solve.h output/output.h output/latex/latex.h \
- pieces/attributes/neutral/neutral.h pieces/walks/hunters.h \
- solving/observation.h solving/ply.h pyproc.h pieces/walks/vectors.h \
- pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h utilities/boolean.h pymsg.h pylang.h
+ solving/solve.h output/plaintext/pieces.h output/output.h \
+ output/latex/latex.h pieces/attributes/neutral/neutral.h \
+ pieces/walks/hunters.h solving/observation.h solving/ply.h pyproc.h \
+ pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
+ stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
+ pymsg.h pylang.h
 
 input/plaintext/pieces.h:
 
@@ -98,6 +99,8 @@ input/plaintext/line.h:
 conditions/mummer.h:
 
 solving/solve.h:
+
+output/plaintext/pieces.h:
 
 output/output.h:
 
@@ -207,11 +210,13 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  input/plaintext/option.h input/plaintext/input_stack.h output/output.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h conditions/mummer.h solving/solve.h \
- output/plaintext/condition.h output/plaintext/plaintext.h \
- output/plaintext/proofgame.h output/latex/latex.h conditions/imitator.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h optimisations/killer_move/killer_move.h \
- stipulation/slice.h solving/move_generator.h \
+ output/plaintext/condition.h output/plaintext/pieces.h \
+ output/plaintext/plaintext.h output/plaintext/position.h \
+ output/plaintext/proofgame.h output/plaintext/twinning.h \
+ output/latex/latex.h conditions/imitator.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ optimisations/killer_move/killer_move.h stipulation/slice.h \
+ solving/move_generator.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
@@ -301,9 +306,15 @@ solving/solve.h:
 
 output/plaintext/condition.h:
 
+output/plaintext/pieces.h:
+
 output/plaintext/plaintext.h:
 
+output/plaintext/position.h:
+
 output/plaintext/proofgame.h:
+
+output/plaintext/twinning.h:
 
 output/latex/latex.h:
 

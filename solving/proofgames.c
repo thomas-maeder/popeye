@@ -46,6 +46,7 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/walks.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/pieces.h"
 #include "debugging/trace.h"
 
 boolean change_moving_piece;

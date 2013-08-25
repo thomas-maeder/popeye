@@ -161,7 +161,9 @@ typedef enum
   mirra1h1,     /* 3 */
   mirra1a8,     /* 4 */
   mirra1h8,     /* 5 */
-  mirra8h1      /* 6 */
+  mirra8h1,     /* 6 */
+
+  nr_square_transformation
 } SquareTransformation;
 
 enum

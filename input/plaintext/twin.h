@@ -30,8 +30,6 @@ typedef enum
 
 Token ReadTwin(Token tk, slice_index root_slice_hook);
 
-void WriteTwinNumber(void);
-
 /* Iterate over the twins of a problem
  * @prev_token token that ended the previous twin
  * @return token that ended the current twin

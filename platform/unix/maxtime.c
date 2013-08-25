@@ -14,6 +14,8 @@
 #include "solving/move_generator.h"
 #include "pyproc.h"
 #include "output/plaintext/plaintext.h"
+#include "output/plaintext/position.h"
+#include "output/plaintext/pieces.h"
 #include "pieces/pieces.h"
 
 /* default signal handler: */

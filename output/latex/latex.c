@@ -23,7 +23,7 @@
 
 boolean LaTeXout;
 
-char ActTwinning[1532];
+static char ActTwinning[1532];
 
 static FILE *LaTeXFile;
 
@@ -798,5 +798,79 @@ void LaTeXBeginDiagram(void)
               CondString[UserLanguage][holes], HolesSqList);
     }
     fprintf(LaTeXFile, "}%%\n");
+  }
+}
+
+void LatexResetTwinning(void)
+{
+  ActTwinning[0] = '\0';
+}
+
+void LaTeXBeginTwinning(char const number[])
+{
+  strcat(ActTwinning,number);
+}
+
+void LaTeXEndTwinning(void)
+{
+  strcat(ActTwinning,"{\\newline}");
+}
+
+void LaTeXNextTwinning(void)
+{
+  strcat(ActTwinning, ", ");
+}
+
+void LaTeXContinuedTwinning(void)
+{
+  strcat(ActTwinning, "+");
+}
+
+void LaTeXTwinningRotate(char const text[])
+{
+  sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], text);
+  strcat(ActTwinning, GlobalStr);
+}
+
+void LaTeXTwinningFirstCondition(char const text[])
+{
+  strcat(ActTwinning,text);
+}
+
+void LaTeXTwinningNextCondition(char const text[])
+{
+  strcat(ActTwinning, ", ");
+  strcat(ActTwinning,text);
+}
+
+void LaTeXTwinningShift(square From, square To)
+{
+  sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
+          TwinningTab[TwinningShift],
+          'a'-nr_files_on_board+From%onerow,
+          '1'-nr_rows_on_board+From/onerow,
+          'a'-nr_files_on_board+To%onerow,
+          '1'-nr_rows_on_board+To/onerow);
+  strcat(ActTwinning, GlobalStr);
+}
+
+void LaTeXTwinningPolish(void)
+{
+  strcat(ActTwinning, TwinningTab[TwinningPolish]);
+}
+
+void LaTeXTwinningStipulation(char const text[])
+{
+  strcat(ActTwinning, text);
+  if (OptFlag[solapparent]) {
+    strcat(ActTwinning, "*");
+  }
+
+  if (OptFlag[whitetoplay])
+  {
+    char temp[10];        /* increased due to buffer overflow */
+    sprintf(temp, " %c{\\ra}",
+            tolower(*PieSpString[UserLanguage][White]));
+    strcat(ActTwinning, temp);
   }
 }

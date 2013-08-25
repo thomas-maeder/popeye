@@ -30,6 +30,7 @@
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
+#include "output/plaintext/pieces.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
 #include "pyproc.h"

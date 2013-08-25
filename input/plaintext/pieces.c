@@ -1,5 +1,6 @@
 #include "input/plaintext/pieces.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/pieces.h"
 #include "output/output.h"
 #include "output/latex/latex.h"
 #include "pieces/attributes/neutral/neutral.h"

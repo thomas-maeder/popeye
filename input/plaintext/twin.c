@@ -10,8 +10,11 @@
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/condition.h"
+#include "output/plaintext/pieces.h"
 #include "output/plaintext/plaintext.h"
+#include "output/plaintext/position.h"
 #include "output/plaintext/proofgame.h"
+#include "output/plaintext/twinning.h"
 #include "output/latex/latex.h"
 #include "conditions/imitator.h"
 #include "optimisations/killer_move/killer_move.h"
@@ -307,28 +310,36 @@ static void transformPosition(SquareTransformation transformation)
   }
 } /* transformPosition */
 
+static SquareTransformation detect_rotation(char const tok[])
+{
+  if (strcmp(tok,"90")==0)
+    return rot90;
+  else if (strcmp(tok,"180")==0)
+    return rot180;
+  else if (strcmp(tok,"270")==0)
+    return rot270;
+  else
+    return nr_square_transformation;
+}
+
 static char *ParseTwinningRotate(void)
 {
   char *tok = ReadNextTokStr();
+  SquareTransformation const rotation = detect_rotation(tok);
 
-  if (strcmp(tok,"90")==0)
-    transformPosition(rot90);
-  else if (strcmp(tok,"180")==0)
-    transformPosition(rot180);
-  else if (strcmp(tok,"270")==0)
-    transformPosition(rot270);
-  else
+  if (rotation==nr_square_transformation)
     IoErrorMsg(UnrecRotMirr,0);
-
-  if (LaTeXout)
+  else
   {
-    sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], tok);
-    strcat(ActTwinning, GlobalStr);
-  }
+    transformPosition(rotation);
 
-  StdString(TwinningTab[TwinningRotate]);
-  StdString(" ");
-  StdString(tok);
+    if (LaTeXout)
+      LaTeXTwinningRotate(tok);
+
+    StdString(TwinningTab[TwinningRotate]);
+    StdString(" ");
+    StdString(tok);
+  }
 
   return ReadNextTokStr();
 }
@@ -375,15 +386,19 @@ static char *ParseTwinningMirror(void)
 
 static void WriteConditionTwinning(char const CondLine[], boolean is_first)
 {
-  if (!is_first)
+  if (is_first)
   {
+    StdString(CondLine);
     if (LaTeXout)
-      strcat(ActTwinning, ", ");
-    StdString("\n   ");
+      LaTeXTwinningFirstCondition(CondLine);
   }
-  StdString(CondLine);
-  if (LaTeXout)
-    strcat(ActTwinning, CondLine);
+  else
+  {
+    StdString("\n   ");
+    StdString(CondLine);
+    if (LaTeXout)
+      LaTeXTwinningNextCondition(CondLine);
+  }
 }
 
 static void MovePieceFromTo(square from, square to)
@@ -429,7 +444,8 @@ static char *ParseTwinningShift(void)
   }
 
   /* read the second square */
-  while (sq2 == 0) {
+  while (sq2 == 0)
+  {
     tok = ReadNextTokStr();
     sq2= SquareNum(tok[0], tok[1]);
     if (sq2 == initsquare) {
@@ -437,16 +453,8 @@ static char *ParseTwinningShift(void)
     }
   }
 
-  /* issue the twinning */
-  if (LaTeXout) {
-    sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
-            TwinningTab[TwinningShift],
-            'a'-nr_files_on_board+sq1%onerow,
-            '1'-nr_rows_on_board+sq1/onerow,
-            'a'-nr_files_on_board+sq2%onerow,
-            '1'-nr_rows_on_board+sq2/onerow);
-    strcat(ActTwinning, GlobalStr);
-  }
+  if (LaTeXout)
+    LaTeXTwinningShift(sq1,sq2);
 
   StdString(TwinningTab[TwinningShift]);
   StdString(" ");
@@ -593,7 +601,7 @@ static char *ParseTwinningPolish(void)
   StdString(TwinningTab[TwinningPolish]);
 
   if (LaTeXout)
-    strcat(ActTwinning, TwinningTab[TwinningPolish]);
+    LaTeXTwinningPolish();
 
   return ReadNextTokStr();
 }
@@ -767,7 +775,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
     {
       Message(NewLine);
       if (LaTeXout)
-        strcat(ActTwinning, "{\\newline}");
+        LaTeXEndTwinning();
       return tok;
     }
 
@@ -789,24 +797,24 @@ static char *ParseTwinning(slice_index root_slice_hook)
           break;
       }
 
-    if (!TwinningRead)
+    if (TwinningRead)
+    {
+      StdString("  ");
+      if (LaTeXout)
+        LaTeXNextTwinning();
+    }
+    else
     {
       if (continued)
       {
         StdChar('+');
         if (LaTeXout)
-          strcat(ActTwinning, "+");
+          LaTeXContinuedTwinning();
       }
       else
         TwinResetPosition();
 
-      WriteTwinNumber();
-    }
-    else
-    {
-      StdString("  ");
-      if (LaTeXout)
-        strcat(ActTwinning, ", ");
+      WriteTwinNumber(TwinNumber);
     } /* !TwinningRead */
 
     TwinningRead= true;
@@ -834,18 +842,8 @@ static char *ParseTwinning(slice_index root_slice_hook)
 
         /* issue the twinning */
         StdString(AlphaStip);
-        if (LaTeXout) {
-          strcat(ActTwinning, AlphaStip);
-          if (OptFlag[solapparent]) {
-            strcat(ActTwinning, "*");
-          }
-          if (OptFlag[whitetoplay]) {
-            char temp[10];        /* increased due to buffer overflow */
-            sprintf(temp, " %c{\\ra}",
-                    tolower(*PieSpString[UserLanguage][White]));
-            strcat(ActTwinning, temp);
-          }
-        }
+        if (LaTeXout)
+          LaTeXTwinningStipulation(AlphaStip);
         break;
       case TwinningStructStip:
         {
@@ -857,18 +855,8 @@ static char *ParseTwinning(slice_index root_slice_hook)
 
         /* issue the twinning */
         StdString(AlphaStip);
-        if (LaTeXout) {
-          strcat(ActTwinning, AlphaStip);
-          if (OptFlag[solapparent]) {
-            strcat(ActTwinning, "*");
-          }
-          if (OptFlag[whitetoplay]) {
-            char temp[10];        /* increased due to buffer overflow */
-            sprintf(temp, " %c{\\ra}",
-                    tolower(*PieSpString[UserLanguage][White]));
-            strcat(ActTwinning, temp);
-          }
-        }
+        if (LaTeXout)
+          LaTeXTwinningStipulation(AlphaStip);
         break;
       case TwinningAdd:
         tok = ParsePieces(piece_addition_twinning);
@@ -1158,18 +1146,6 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
         }
     } /* while */
   }
-}
-
-void WriteTwinNumber(void)
-{
-  if (TwinNumber-1<='z'-'a')
-    sprintf(GlobalStr, "%c) ", 'a'+TwinNumber-1);
-  else
-    sprintf(GlobalStr, "z%u) ", (unsigned int)(TwinNumber-1-('z'-'a')));
-
-  StdString(GlobalStr);
-  if (LaTeXout)
-    strcat(ActTwinning, GlobalStr);
 }
 
 static void InitAlways(void)
@@ -2826,11 +2802,11 @@ static void solve_twin(slice_index si,
       if (LaTeXout)
       {
         LaTeXout = false;
-        WriteTwinNumber();
+        WriteTwinNumber(TwinNumber);
         LaTeXout = true;
       }
       else
-        WriteTwinNumber();
+        WriteTwinNumber(TwinNumber);
 
       Message(NewLine);
     }

@@ -3122,7 +3122,7 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h options/options.h \
  input/plaintext/twin.h input/plaintext/token.h conditions/mummer.h \
- debugging/trace.h
+ output/plaintext/pieces.h debugging/trace.h
 
 stipulation/stipulation.h:
 
@@ -3223,5 +3223,7 @@ input/plaintext/twin.h:
 input/plaintext/token.h:
 
 conditions/mummer.h:
+
+output/plaintext/pieces.h:
 
 debugging/trace.h:

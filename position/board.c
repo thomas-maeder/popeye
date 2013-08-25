@@ -1,5 +1,7 @@
 #include "position/board.h"
 
+#include <assert.h>
+
 /* 0 terminated sequence of the effective squares of the board
  */
 square const boardnum[65] = {
@@ -54,6 +56,10 @@ square transformSquare(square sq, SquareTransformation transformation)
 
     case mirra1h8:
       ret = ((onerow-1)-sq/onerow)+onerow*((onerow-1)-sq%onerow);
+      break;
+
+    default:
+      assert(0);
       break;
   }
 

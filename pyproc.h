@@ -52,17 +52,10 @@
 
 #include <stdio.h>
 
-void    MultiCenter(char *s);
-void    WritePosition(void);
-void    WriteSquare(square a);
-void    WritePiece(PieNam p);
-void    WriteGrid(void);
-
 void    hardinit(void);
 
 void    PrintTime();
 
-void WriteTwinNumber(void);
 void    ErrString(char const *s);
 void    StdChar(char c);
 void    StdString(char const *s);

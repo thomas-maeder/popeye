@@ -1,8 +1,10 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/language_dependant.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/walks/hunters.h"
 #include "pyproc.h"
 
+#include <assert.h>
 #include <ctype.h>
 
 boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
@@ -45,4 +47,32 @@ boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
     }
 
   return ret;
+}
+
+void WritePiece(PieNam p)
+{
+  if (p<Hunter0 || p>= (Hunter0 + maxnrhuntertypes))
+  {
+    char const p1 = PieceTab[p][1];
+    StdChar(toupper(PieceTab[p][0]));
+    if (p1!=' ')
+      StdChar(toupper(p1));
+  }
+  else
+  {
+    unsigned int const i = p-Hunter0;
+    assert(i<maxnrhuntertypes);
+    WritePiece(huntertypes[i].away);
+    StdChar('/');
+    WritePiece(huntertypes[i].home);
+  }
+}
+
+void WriteSquare(square i)
+{
+  StdChar('a' - nr_files_on_board + i%onerow);
+  if (isBoardReflected)
+    StdChar('8' + nr_rows_on_board - i/onerow);
+  else
+    StdChar('1' - nr_rows_on_board + i/onerow);
 }

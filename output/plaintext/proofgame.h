@@ -1,5 +1,5 @@
-#if !defined(OUTPUT_PLAINTEXT_PLAINTEXT_H)
-#define OUTPUT_PLAINTEXT_PLAINTEXT_H
+#if !defined(OUTPUT_PLAINTEXT_PROOFGAME_H)
+#define OUTPUT_PLAINTEXT_PROOFGAME_H
 
 #include "stipulation/stipulation.h"
 

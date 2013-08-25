@@ -1,5 +1,6 @@
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/condition.h"
+#include "output/plaintext/pieces.h"
 #include "pymsg.h"
 #include "conditions/conditions.h"
 #include "conditions/republican.h"

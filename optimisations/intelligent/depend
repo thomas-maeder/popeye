@@ -23,10 +23,10 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/filter.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
- platform/maxtime.h debugging/trace.h pyproc.h pieces/walks/vectors.h \
- pieces/pieces.h stipulation/goals/goals.h stipulation/stipulation.h \
- input/plaintext/token.h pylang.h input/plaintext/line.h \
- utilities/boolean.h options/options.h
+ output/plaintext/pieces.h platform/maxtime.h debugging/trace.h pyproc.h \
+ pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h options/options.h
 
 optimisations/intelligent/intelligent.h:
 
@@ -107,6 +107,8 @@ optimisations/intelligent/mate/filter.h:
 optimisations/intelligent/mate/generate_checking_moves.h:
 
 optimisations/intelligent/mate/generate_doublechecking_moves.h:
+
+output/plaintext/pieces.h:
 
 platform/maxtime.h:
 

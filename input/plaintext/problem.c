@@ -24,7 +24,6 @@ static void InitMetaData(void)
   ActTitle[0] = '\0';
   ActAuthor[0] = '\0';
   ActOrigin[0] = '\0';
-  ActTwinning[0] = '\0';
   ActAward[0] = '\0';
   ActStip[0] = '\0';
 }
@@ -67,6 +66,7 @@ void iterate_problems(void)
 
   do
   {
+    LatexResetTwinning();
     InitMetaData();
     InitBoard();
     InitCond();
