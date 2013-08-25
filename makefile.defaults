@@ -82,11 +82,6 @@ VERSION=4.64
 #   multi-threading             _MT
 # Borland's TURBO-C             __TURBOC__
 
-# If the library of the C implementation doesn't have the Standard C
-# memset() function, you have to define
-
-#                               NOMEMSET
-
 
 # Optional Popeye features
 # ------------------------
@@ -165,6 +160,7 @@ EXE_SUFFIX=
 
 # Option for indicating generated object file works
 OBJFILE_WORKS=1
+
 
 # Utilities
 # =========

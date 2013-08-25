@@ -3037,11 +3037,3 @@ void iterate_problems(void)
       LaTeXEndDiagram();
   } while (prev_token==NextProblem);
 }
-
-#if defined(NOMEMSET)
-void memset(char *poi, char val, int len)
-{
-  while (len--)
-    *poi++ = val;
-}
-#endif
