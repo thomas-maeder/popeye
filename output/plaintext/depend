@@ -385,7 +385,11 @@ output/plaintext/language_dependant$(OBJ_SUFFIX): \
  output/plaintext/language_dependant.h pieces/pieces.h \
  utilities/boolean.h position/position.h position/board.h \
  utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- pylang.h conditions/conditions.h options/options.h
+ pylang.h conditions/conditions.h options/options.h \
+ input/plaintext/twin.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
+ solving/solve.h
 
 output/plaintext/language_dependant.h:
 
@@ -408,3 +412,153 @@ pylang.h:
 conditions/conditions.h:
 
 options/options.h:
+
+input/plaintext/twin.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
+
+input/plaintext/token.h:
+
+input/plaintext/line.h:
+
+conditions/mummer.h:
+
+solving/solve.h:
+output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
+ output/plaintext/condition.h utilities/boolean.h output/output.h \
+ output/mode.h utilities/enumeration.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ stipulation/slice_type.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/plaintext/language_dependant.h pylang.h \
+ conditions/conditions.h options/options.h input/plaintext/twin.h \
+ input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
+ solving/solve.h input/plaintext/condition.h \
+ pieces/walks/pawns/promotion.h pieces/attributes/chameleon.h \
+ solving/ply.h conditions/annan.h conditions/bgl.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/circe/april.h \
+ conditions/circe/rex_inclusive.h conditions/football.h \
+ conditions/geneva.h conditions/grid.h conditions/imitator.h \
+ conditions/immune.h conditions/isardam.h conditions/kobul.h \
+ conditions/koeko/anti.h conditions/koeko/koeko.h conditions/madrasi.h \
+ conditions/magic_square.h conditions/messigny.h \
+ conditions/oscillating_kings.h conditions/phantom.h \
+ solving/observation.h conditions/protean.h conditions/republican.h \
+ conditions/sat.h conditions/sentinelles.h conditions/singlebox/type1.h \
+ conditions/vaulting_kings.h conditions/woozles.h
+
+output/plaintext/condition.h:
+
+utilities/boolean.h:
+
+output/output.h:
+
+output/mode.h:
+
+utilities/enumeration.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+stipulation/slice_type.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/plaintext/language_dependant.h:
+
+pylang.h:
+
+conditions/conditions.h:
+
+options/options.h:
+
+input/plaintext/twin.h:
+
+input/plaintext/token.h:
+
+input/plaintext/line.h:
+
+conditions/mummer.h:
+
+solving/solve.h:
+
+input/plaintext/condition.h:
+
+pieces/walks/pawns/promotion.h:
+
+pieces/attributes/chameleon.h:
+
+solving/ply.h:
+
+conditions/annan.h:
+
+conditions/bgl.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/circe/april.h:
+
+conditions/circe/rex_inclusive.h:
+
+conditions/football.h:
+
+conditions/geneva.h:
+
+conditions/grid.h:
+
+conditions/imitator.h:
+
+conditions/immune.h:
+
+conditions/isardam.h:
+
+conditions/kobul.h:
+
+conditions/koeko/anti.h:
+
+conditions/koeko/koeko.h:
+
+conditions/madrasi.h:
+
+conditions/magic_square.h:
+
+conditions/messigny.h:
+
+conditions/oscillating_kings.h:
+
+conditions/phantom.h:
+
+solving/observation.h:
+
+conditions/protean.h:
+
+conditions/republican.h:
+
+conditions/sat.h:
+
+conditions/sentinelles.h:
+
+conditions/singlebox/type1.h:
+
+conditions/vaulting_kings.h:
+
+conditions/woozles.h:

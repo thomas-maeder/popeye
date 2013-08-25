@@ -26,6 +26,8 @@ static char SepraChar[] = "\n\r;.,";
 
 static char Sep[] = "\n";
 
+char const **TokenTab; /* set according to language */
+
 char const *TokenString[LanguageCount][TokenCount] =
 {
   { /* francais */
@@ -204,4 +206,51 @@ char *ReadNextTokStr(void)
     TokenLine[1] = '\0';
     return TokenLine;
   }
+}
+
+static boolean sncmp(char const *a, char const *b)
+{
+  while (*b)
+  {
+    if ((isupper((int const)*a) ? tolower((int const)*a) : *a) == *b++)
+      /* EBCDIC support ! HD */
+      ++a;
+    else
+      return false;
+  }
+
+  return true;
+}
+
+static unsigned int GetIndex(unsigned int index, unsigned int limit,
+                             char const **list, char const *tok)
+{
+  while (index<limit)
+    if (sncmp(list[index],tok))
+      return index;
+    else
+      ++index;
+
+  return limit;
+}
+
+unsigned int GetUniqIndex(unsigned int limit, char const **list, char const *tok)
+{
+  unsigned int const index = GetIndex(0,limit,list,tok);
+  if (index==limit)
+    return index;
+  else
+  {
+    if (strlen(tok)==strlen(list[index]))
+      return index;
+    else if (GetIndex(index+1,limit,list,tok)==limit)
+      return index;
+    else
+      return limit+1;
+  }
+}
+
+Token StringToToken(char const *tok)
+{
+  return GetUniqIndex(TokenCount,TokenTab,tok);
 }

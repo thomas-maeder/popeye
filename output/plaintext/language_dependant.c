@@ -595,6 +595,8 @@ char const *OptString[LanguageCount][OptCount] =
   }
 };
 
+char const **CondTab;
+
 char const *CondString[LanguageCount][CondCount] =
 {
   {
@@ -1255,6 +1257,9 @@ char const *PieSpString[LanguageCount][PieSpCount-nr_sides] =
   }
 };
 
+
+char const **VariantTypeTab;
+
 char const *VariantTypeString[LanguageCount][VariantTypeCount] =
 {
   {
@@ -1341,6 +1346,8 @@ char const *VariantTypeString[LanguageCount][VariantTypeCount] =
   }
 };
 
+char const **ExtraCondTab;
+
 char const *ExtraCondString[LanguageCount][ExtraCondCount] =
 {
   {
@@ -1355,6 +1362,97 @@ char const *ExtraCondString[LanguageCount][ExtraCondCount] =
   /* English */
   /* 0*/  "Maximummer",
   /* 1*/  "UltraSchachZwang"
+  }
+};
+
+char const **TwinningTab;
+
+char const *TwinningString[LanguageCount][TwinningCount] =
+{
+  { /* francais */
+    /* 0*/  "deplacement",
+    /* 1*/  "echange",
+    /* 2*/  "enonce",
+    /* 3*/  "senonce",
+    /* 4*/  "ajoute",
+    /* 5*/  "ote",
+    /* 6*/  "enplus",
+    /* 7*/  "rotation",
+    /* 8*/  "condition",
+    /* 9*/  "CouleurEchange",
+    /*10*/  "miroir",
+    /*11*/  "a1<-->h1",
+    /*12*/  "a1<-->a8",
+    /*13*/  "a1<-->h8",
+    /*14*/  "a8<-->h1",
+    /*15*/  "translation",
+    /*16*/  "remplace",
+    /*17*/  "forsyth"
+  },
+  { /* German */
+    /* 0*/  "versetze",
+    /* 1*/  "tausche",
+    /* 2*/  "Forderung",
+    /* 3*/  "SForderung",
+    /* 4*/  "hinzufuegen",
+    /* 5*/  "entferne",
+    /* 6*/  "ferner",
+    /* 7*/  "Drehung",
+    /* 8*/  "Bedingung",
+    /* 9*/  "Farbwechsel",
+    /*10*/  "Spiegelung",
+    /*11*/  "a1<-->h1",
+    /*12*/  "a1<-->a8",
+    /*13*/  "a1<-->h8",
+    /*14*/  "a8<-->h1",
+    /*15*/  "Verschiebung",
+    /*16*/  "ersetze",
+    /*17*/  "forsyth"
+  },
+  { /* English */
+    /* 0*/  "move",
+    /* 1*/  "exchange",
+    /* 2*/  "stipulation",
+    /* 3*/  "sstipulation",
+    /* 4*/  "add",
+    /* 5*/  "remove",
+    /* 6*/  "continued",
+    /* 7*/  "rotate",
+    /* 8*/  "condition",
+    /* 9*/  "PolishType",
+    /*10*/  "mirror",
+    /*11*/  "a1<-->h1",
+    /*12*/  "a1<-->a8",
+    /*13*/  "a1<-->h8",
+    /*14*/  "a8<-->h1",
+    /*15*/  "shift",
+    /*16*/  "substitute",
+    /*17*/  "forsyth"
+  }
+};
+
+char const **mummer_strictness_tab;
+
+char const *mummer_strictness_string[LanguageCount][nr_mummer_strictness] =
+{
+  {
+  /* French */
+    "",
+    "",
+    "exact",
+    "ultra"
+  },{
+  /* German */
+      "",
+      "",
+      "exakt",
+      "Ultra"
+  },{
+  /* English */
+      "",
+      "",
+      "exact",
+      "ultra"
   }
 };
 

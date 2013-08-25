@@ -19,6 +19,9 @@
 
 boolean promotion_of_moving_into_chameleon[maxply+1];
 boolean promotion_of_circe_reborn_into_chameleon[maxply+1];
+
+char ChameleonSequence[256];
+
 static boolean promotion_of_anticirce_reborn_into_chameleon[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id_moving[maxply+1];

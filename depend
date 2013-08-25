@@ -203,8 +203,9 @@ py6$(OBJ_SUFFIX): py6.c py1.h pieces/pieces.h utilities/boolean.h options/option
  stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
  solving/solve.h solving/observation.h output/output.h \
  output/latex/latex.h output/plaintext/language_dependant.h pylang.h \
- conditions/conditions.h options/options.h input/plaintext/token.h \
- input/plaintext/line.h conditions/annan.h conditions/bgl.h \
+ conditions/conditions.h options/options.h input/plaintext/twin.h \
+ input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
+ input/plaintext/token.h conditions/annan.h conditions/bgl.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h \
@@ -391,9 +392,15 @@ conditions/conditions.h:
 
 options/options.h:
 
+input/plaintext/twin.h:
+
 input/plaintext/token.h:
 
 input/plaintext/line.h:
+
+conditions/mummer.h:
+
+input/plaintext/token.h:
 
 conditions/annan.h:
 
@@ -831,15 +838,16 @@ pyio$(OBJ_SUFFIX): pyio.c pyproc.h pieces/walks/vectors.h pieces/pieces.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h output/output.h output/plaintext/plaintext.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
- options/options.h output/latex/latex.h input/plaintext/line.h \
+ options/options.h input/plaintext/twin.h input/plaintext/token.h \
+ conditions/mummer.h output/latex/latex.h input/plaintext/line.h \
  input/plaintext/pieces.h input/plaintext/input_stack.h \
- pieces/walks/hunters.h solving/observation.h \
- pieces/attributes/neutral/neutral.h stipulation/has_solution_type.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
- stipulation/move_inverter.h stipulation/if_then_else.h \
- stipulation/boolean/or.h stipulation/boolean/and.h \
- stipulation/boolean/not.h stipulation/boolean/true.h \
- stipulation/goals/reached_tester.h \
+ input/plaintext/stipulation.h pieces/walks/hunters.h \
+ solving/observation.h pieces/attributes/neutral/neutral.h \
+ stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/move_inverter.h \
+ stipulation/if_then_else.h stipulation/boolean/or.h \
+ stipulation/boolean/and.h stipulation/boolean/not.h \
+ stipulation/boolean/true.h stipulation/goals/reached_tester.h \
  stipulation/goals/mate/reached_tester.h \
  stipulation/goals/stalemate/reached_tester.h \
  stipulation/goals/doublestalemate/reached_tester.h \
@@ -973,6 +981,12 @@ conditions/conditions.h:
 
 options/options.h:
 
+input/plaintext/twin.h:
+
+input/plaintext/token.h:
+
+conditions/mummer.h:
+
 output/latex/latex.h:
 
 input/plaintext/line.h:
@@ -980,6 +994,8 @@ input/plaintext/line.h:
 input/plaintext/pieces.h:
 
 input/plaintext/input_stack.h:
+
+input/plaintext/stipulation.h:
 
 pieces/walks/hunters.h:
 
@@ -1260,7 +1276,8 @@ pyproof$(OBJ_SUFFIX): pyproof.c stipulation/stipulation.h stipulation/goals/goal
  conditions/vaulting_kings.h conditions/imitator.h position/position.h \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
- options/options.h debugging/trace.h
+ options/options.h input/plaintext/twin.h input/plaintext/token.h \
+ conditions/mummer.h debugging/trace.h
 
 stipulation/stipulation.h:
 
@@ -1363,6 +1380,12 @@ output/plaintext/language_dependant.h:
 conditions/conditions.h:
 
 options/options.h:
+
+input/plaintext/twin.h:
+
+input/plaintext/token.h:
+
+conditions/mummer.h:
 
 debugging/trace.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \

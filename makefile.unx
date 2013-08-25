@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.193 2013/08/24 19:10:25 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.194 2013/08/25 03:34:15 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -241,6 +241,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
 
 # TODO avoid mentioning solving solving/battle_play twice
 NESTEDLIBDIRS = . \
+    input/plaintext \
     solving solving/battle_play \
     conditions conditions/amu conditions/ultraschachzwang conditions/marscirce \
     conditions/circe conditions/anticirce \
@@ -283,7 +284,6 @@ NESTEDLIBDIRS = . \
     optimisations/goals/castling optimisations/goals/enpassant \
     optimisations/goals/chess81 optimisations/goals/capture \
     optimisations/goals/target \
-    input/plaintext \
     output output/latex output/plaintext/tree output/plaintext/line output/plaintext \
     position \
     platform platform/$(PLATFORM) \

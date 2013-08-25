@@ -8,6 +8,7 @@
 
 extern boolean promotion_of_moving_into_chameleon[maxply+1];
 extern boolean promotion_of_circe_reborn_into_chameleon[maxply+1];
+extern char ChameleonSequence[256];
 
 /* Try to solve in n half-moves.
  * @param si slice index

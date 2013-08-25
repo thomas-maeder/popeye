@@ -64,7 +64,6 @@ void    hardinit(void);
 
 void    PrintTime();
 
-Token   ReadTwin(Token tk, slice_index root_slice_hook);
 void WriteTwinNumber(void);
 void    ErrString(char const *s);
 void    StdChar(char c);
@@ -79,9 +78,5 @@ void pyfputs(char const *s, FILE *f);
 void	pyInitSignal(void);
 void	InitCond(void);
 char	*MakeTimeString(void);
-
-char *ReadPieces(int cond);
-
-void WriteBGLNumber(char* a, long int b);
 
 #endif  /* PYPROC_H */

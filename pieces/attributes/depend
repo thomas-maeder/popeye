@@ -78,8 +78,8 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  solving/move_generator.h debugging/trace.h \
  optimisations/orthodox_check_directions.h pyproc.h \
  pieces/walks/vectors.h pieces/pieces.h stipulation/goals/goals.h \
- stipulation/stipulation.h input/plaintext/token.h utilities/boolean.h \
- pymsg.h pylang.h
+ stipulation/stipulation.h input/plaintext/token.h pylang.h \
+ input/plaintext/line.h utilities/boolean.h pymsg.h pylang.h
 
 pieces/attributes/magic.h:
 
@@ -152,6 +152,10 @@ stipulation/goals/goals.h:
 stipulation/stipulation.h:
 
 input/plaintext/token.h:
+
+pylang.h:
+
+input/plaintext/line.h:
 
 utilities/boolean.h:
 

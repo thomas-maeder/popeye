@@ -35,6 +35,7 @@ typedef enum
 extern char LastChar;
 
 extern char const *TokenString[LanguageCount][TokenCount];
+extern char const **TokenTab; /* set according to language */
 
 extern char TokenLine[LINESIZE];
 
@@ -44,5 +45,9 @@ void NextChar(void);
 char *ReadNextCaseSensitiveTokStr(void);
 
 char *ReadNextTokStr(void);
+
+unsigned int GetUniqIndex(unsigned int limit, char const **list, char const *tok);
+
+Token StringToToken(char const *tok);
 
 #endif
