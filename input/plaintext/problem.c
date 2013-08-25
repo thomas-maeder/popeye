@@ -84,11 +84,11 @@ void iterate_problems(void)
     else
       StdString(GetMsgString(FinishProblem));
 
+    if (LaTeXout)
+      LaTeXEndDiagram();
+
     StdString(" ");
     PrintTime();
     StdString("\n\n\n");
-
-    if (LaTeXout)
-      LaTeXEndDiagram();
   } while (prev_token==NextProblem);
 }

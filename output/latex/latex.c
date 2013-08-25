@@ -268,7 +268,7 @@ void LaTeXEndDiagram(void)
   char line[256];
 
   /* twins */
-  if (twinning[0] != '\0')
+  if (twinning[0]!='\0')
   {
     fprintf(LaTeXFile, " \\twins{");
     /* remove the last "{\\newline} */
@@ -282,37 +282,32 @@ void LaTeXEndDiagram(void)
   /* solution */
   fprintf(LaTeXFile, " \\solution{%%\n");
   rewind(SolFile);
-  while (fgets(line, 255, SolFile))
+  while (fgets(line, (sizeof line)-1, SolFile))
   {
-    if (!strstr(line, GetMsgString(TimeString)))
+    if (strlen(line)>1 && line[1]==')')
+      /* twin */
+      fprintf(LaTeXFile, "%c)", line[0]);
+    else if (strlen(line)>2 && line[2]==')')
     {
-      if (strlen(line) > 1 && line[1] == ')') {
-        /* twin */
-        fprintf(LaTeXFile, "%c)", line[0]);
-      }
-      else if (strlen(line) > 2 && line[2] == ')') {
-        if (line[0] == '+')        /* twin (continued) */
-          fprintf(LaTeXFile, "%c)", line[1]);
-        else
-          fprintf(LaTeXFile, "%c%c)", line[0], line[1]);
-      }
-      else if (strlen(line) > 3 && line[3] == ')') {
-        /* continued twinning and >z */
-        fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
-      }
-      if (strchr(line, '.')) {   /* line containing a move */
-        LaTeXStr(line);
-      }
+      if (line[0] == '+')        /* twin (continued) */
+        fprintf(LaTeXFile, "%c)", line[1]);
+      else
+        fprintf(LaTeXFile, "%c%c)", line[0], line[1]);
     }
+    else if (strlen(line)>3 && line[3]==')')
+      /* continued twinning and >z */
+      fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
+
+    if (strchr(line, '.'))   /* line containing a move */
+      LaTeXStr(line);
   }
 
-  fprintf(LaTeXFile, " }%%\n");
+  fprintf(LaTeXFile, "\n }%%\n");
   fclose(SolFile);
 
-  SolFile= tmpfile();
-  if (SolFile == NULL) {
+  SolFile = tmpfile();
+  if (SolFile == NULL)
     IoErrorMsg(WrOpenError,0);
-  }
 
   if (!(OptFlag[solmenaces]
         || OptFlag[solflights]
@@ -340,24 +335,9 @@ static void WriteCondition(char const CondLine[], boolean is_first)
   LaTeXStr(CondLine);
 }
 
-void LaTeXBeginDiagram(void)
+static void WriteAuthor(void)
 {
-  boolean firstpiece= true, fairypieces= false, holess= false,
-    modifiedpieces=false;
-  PieSpec sp;
-  boolean is_piece_on_side[PieceCount][nr_sides+1];
-  char ListSpec[PieSpCount-nr_sides][256];
-  unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
-  char    HolesSqList[256] = "";
-  square const *bnp;
-
-  for (sp= nr_sides; sp<PieSpCount; ++sp)
-    strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
-
-  fprintf(LaTeXFile, "\\begin{diagram}%%\n");
-
-  /* authors */
-  if (ActAuthor[0] != '\0')
+  if (ActAuthor[0]!='\0')
   {
     if (strchr(ActAuthor, ',')) {
       /* , --> correct format */
@@ -408,8 +388,10 @@ void LaTeXBeginDiagram(void)
       fprintf(LaTeXFile, "}%%\n");
     }
   }
+}
 
-  /* source */
+static void WriteSource(void)
+{
   /* format: [diagram number,] source [issue number,] [date] */
   if (ActOrigin[0] != '\0') {
     char *source= ActOrigin;
@@ -507,8 +489,10 @@ void LaTeXBeginDiagram(void)
 
     *eol= '\n';
   }
+}
 
-  /* award */
+static void WriteAward(void)
+{
   if (ActAward[0] != '\0')
   {
     char *tour= strchr(ActAward, ',');
@@ -524,15 +508,19 @@ void LaTeXBeginDiagram(void)
       fprintf(LaTeXFile, " \\award{%s}%%\n", ActAward);
     *eol= '\n';
   }
+}
 
-  /* dedication */
+static void WriteDedication(void)
+{
   if (ActTitle[0] != '\0')
   {
     sprintf(GlobalStr, "\\dedication{%s}%%%%\n", ActTitle);
     LaTeXStr(GlobalStr);
   }
+}
 
-  /* pieces & twins */
+static void WriteOptions(void)
+{
   if (OptFlag[duplex])
   {
     strcat(twinning, OptTab[duplex]);
@@ -548,109 +536,325 @@ void LaTeXBeginDiagram(void)
     strcat(twinning, OptTab[quodlibet]);
     strcat(twinning, "{\\newline}");
   }
+}
+
+static void WritePieces(void)
+{
+  square const *bnp;
+  boolean piece_found = false;
 
   fprintf(LaTeXFile, " \\pieces{");
+
+  for (bnp = boardnum; *bnp; bnp++)
+  {
+    if (!is_square_blocked(*bnp) && !is_square_empty(*bnp))
+    {
+      PieNam const p = get_walk_of_piece_on_square(*bnp);
+
+      if (piece_found)
+        fprintf(LaTeXFile, ", ");
+      else
+        piece_found = true;
+
+      fprintf(LaTeXFile,"%c%s%c%c",
+              is_piece_neutral(spec[*bnp]) ? 'n' : TSTFLAG(spec[*bnp],White) ? 'w' : 's',
+              LaTeXPiece(p),
+              *bnp%onerow-200%onerow+'a',
+              *bnp/onerow-200/onerow+'1');
+    }
+  }
+
+  fprintf(LaTeXFile, "}%%\n");
+}
+
+static boolean FindFairyWalks(boolean side_has_piece[PieceCount][nr_sides+1])
+{
+  boolean result = false;
 
   {
     PieNam p;
     for (p = Empty; p < PieceCount; ++p)
     {
-      is_piece_on_side[p][White] = false;
-      is_piece_on_side[p][Black] = false;
-      is_piece_on_side[p][nr_sides] = false;
+      side_has_piece[p][White] = false;
+      side_has_piece[p][Black] = false;
+      side_has_piece[p][nr_sides] = false;
     }
   }
 
-  for (bnp= boardnum; *bnp; bnp++) {
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+    {
+      if (!is_square_blocked(*bnp) && !is_square_empty(*bnp))
+      {
+        PieNam const p = get_walk_of_piece_on_square(*bnp);
+        if (p>Bishop && LaTeXPiecesAbbr[p]!=NULL)
+        {
+          result = true;
+
+          if (is_piece_neutral(spec[*bnp]))
+            side_has_piece[p][nr_sides] = true;
+          else if (TSTFLAG(spec[*bnp], White))
+            side_has_piece[p][White] = true;
+          else
+            side_has_piece[p][Black] = true;
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
+static boolean FindPiecesWithSpecs(unsigned int SpecCount[PieSpCount-nr_sides],
+                                   char ListSpec[PieSpCount-nr_sides][256])
+{
+  {
+    PieSpec sp;
+    for (sp= nr_sides; sp<PieSpCount; ++sp)
+      strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
+  }
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (!is_square_blocked(*bnp) && !is_square_empty(*bnp))
+      {
+        PieNam const p = get_walk_of_piece_on_square(*bnp);
+
+        PieSpec sp;
+        for (sp= nr_sides; sp<PieSpCount; ++sp)
+          if (TSTFLAG(spec[*bnp], sp)
+              && !(sp==Royal && (p==King || p==Poseidon)))
+          {
+            AppendSquare(ListSpec[sp-nr_sides],*bnp);
+            ++SpecCount[sp-nr_sides];
+          }
+      }
+  }
+
+  {
+    PieSpec sp;
+    for (sp= nr_sides; sp<PieSpCount; ++sp)
+      if (SpecCount[sp-nr_sides]>0
+          && !(sp==Patrol && CondFlag[patrouille])
+          && !(sp==Volage && CondFlag[volage])
+          && !(sp==Beamtet && CondFlag[beamten]))
+        return true;
+
+    return false;
+  }
+}
+
+static boolean FindHoles(char HolesSqList[256])
+{
+  boolean result = false;
+
+  square const *bnp;
+  for (bnp = boardnum; *bnp; bnp++)
+  {
     if (is_square_blocked(*bnp))
     {
-      /* holes */
-      if (holess)
+      if (result)
         strcat(HolesSqList, ", ");
       else
-        holess= true;
-      AppendSquare(HolesSqList, *bnp);
+        result = true;
+      AppendSquare(HolesSqList,*bnp);
     }
-    else if (!is_square_empty(*bnp))
+  }
+
+  if (result)
+  {
+    fprintf(LaTeXFile," \\nofields{%s}%%\n",HolesSqList);
+    fprintf(LaTeXFile," \\fieldframe{%s}%%\n",HolesSqList);
+  }
+
+  return result;
+}
+
+static void WriteFairyWalks(boolean side_has_walk[PieceCount][nr_sides+1])
+{
+  boolean fairy_walk_written = false;
+
+  PieNam p;
+  for (p = Bishop+1; p<PieceCount; ++p)
+    if (side_has_walk[p][White] || side_has_walk[p][Black] || side_has_walk[p][nr_sides])
     {
-      PieNam const p = get_walk_of_piece_on_square(*bnp);
-      if (!firstpiece)
-        fprintf(LaTeXFile, ", ");
-      else
-        firstpiece= false;
+      PieNam q;
+      for (q = Bishop+1; q<p; q++)
+        if ((side_has_walk[q][White]
+             || side_has_walk[q][Black]
+             || side_has_walk[q][nr_sides])
+            && LaTeXPiecesAbbr[p][0]==LaTeXPiecesAbbr[q][0]
+            && LaTeXPiecesAbbr[p][1]==LaTeXPiecesAbbr[q][1])
+          fprintf(stderr,
+                  "+++ Warning: double representation '%s' for %s and %s\n",
+                  LaTeXPiecesAbbr[q],
+                  LaTeXPiecesFull[p],
+                  LaTeXPiecesFull[q]);
 
-      fprintf(LaTeXFile, "%c%s%c%c",
-              is_piece_neutral(spec[*bnp]) ? 'n' :
-              TSTFLAG(spec[*bnp], White)   ? 'w' : 's',
-              LaTeXPiece(p),
-              *bnp%onerow-200%onerow+'a',
-              *bnp/onerow-200/onerow+'1');
-
-      if (p>Bishop && (LaTeXPiecesAbbr[p] != NULL))
-      {
-        fairypieces= true;
-
-        if (is_piece_neutral(spec[*bnp])) {
-          is_piece_on_side[p][nr_sides] = true;
-        }
-        else if (TSTFLAG(spec[*bnp], White)) {
-          is_piece_on_side[p][White] = true;
-        }
-        else {
-          is_piece_on_side[p][Black] = true;
-        }
-      }
-
-      for (sp= nr_sides; sp<PieSpCount; ++sp)
-      {
-        if (TSTFLAG(spec[*bnp], sp)
-            && !(sp==Royal && (p==King || p==Poseidon)))
-        {
-          AppendSquare(ListSpec[sp-nr_sides], *bnp);
-          ++SpecCount[sp-nr_sides];
-        }
-      }
+      if (fairy_walk_written)
+        fprintf(LaTeXFile, "{\\newline}\n    ");
+      fprintf(LaTeXFile, "\\mbox{");
+      if (side_has_walk[p][White])
+        fprintf(LaTeXFile, "\\w%s ",LaTeXPiecesAbbr[p]);
+      if (side_has_walk[p][ Black])
+        fprintf(LaTeXFile, "\\s%s ",LaTeXPiecesAbbr[p]);
+      if (side_has_walk[p][nr_sides])
+        fprintf(LaTeXFile, "\\n%s ",LaTeXPiecesAbbr[p]);
+      fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
+      fairy_walk_written = true;
     }
+}
+
+static void WritePiecesWithSpecs(boolean remark_written,
+                                 unsigned int const SpecCount[PieSpCount-nr_sides],
+                                 char ListSpec[PieSpCount-nr_sides][256])
+{
+  PieSpec sp;
+  for (sp = nr_sides; sp<PieSpCount; ++sp)
+    if (SpecCount[sp-nr_sides]>0)
+    {
+      if (remark_written)
+        fprintf(LaTeXFile, "{\\newline}\n    ");
+      fprintf(LaTeXFile, "%s\n", ListSpec[sp-nr_sides]);
+      remark_written = true;
+    }
+}
+
+static void WriteHoles(boolean remark_written,
+                       char const HolesSqList[256])
+{
+  if (remark_written)
+    fprintf(LaTeXFile,"{\\newline}\n    ");
+  fprintf(LaTeXFile,"%s %s%%\n",CondString[UserLanguage][holes],HolesSqList);
+}
+
+static void WriteFairyPieces(void)
+{
+  boolean side_has_walk[PieceCount][nr_sides+1];
+  boolean const fairy_walk_found = FindFairyWalks(side_has_walk);
+
+  unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
+  char ListSpec[PieSpCount-nr_sides][256];
+  boolean const piece_with_specs_found = FindPiecesWithSpecs(SpecCount,ListSpec);
+
+  char HolesSqList[256] = "";
+  boolean const hole_found = FindHoles(HolesSqList);
+
+  if (fairy_walk_found || hole_found || piece_with_specs_found)
+  {
+    fprintf(LaTeXFile," \\remark{");
+
+    if (fairy_walk_found)
+      WriteFairyWalks(side_has_walk);
+
+    if (piece_with_specs_found)
+      WritePiecesWithSpecs(fairy_walk_found,SpecCount,ListSpec);
+
+    if (hole_found)
+      WriteHoles(fairy_walk_found || piece_with_specs_found, HolesSqList);
+
+    fprintf(LaTeXFile,"}%%\n");
   }
-  fprintf(LaTeXFile, "}%%\n");
-  fflush(LaTeXFile);
+}
 
-  if (holess) {
-    fprintf(LaTeXFile, " \\nofields{");
-    fprintf(LaTeXFile, "%s}%%\n", HolesSqList);
-    fprintf(LaTeXFile, " \\fieldframe{");
-    fprintf(LaTeXFile, "%s}%%\n", HolesSqList);
-  }
-
-  for (sp= nr_sides; sp<PieSpCount; ++sp)
-    if (SpecCount[sp-nr_sides]>0
-        && !(sp==Patrol && CondFlag[patrouille])
-        && !(sp==Volage && CondFlag[volage])
-        && !(sp==Beamtet && CondFlag[beamten]))
-      modifiedpieces =true;     /* to be used below */
-
-  /* stipulation */
+static void WriteStipulation(void)
+{
   fprintf(LaTeXFile, " \\stipulation{");
   LaTeXStr(ActStip);
   if (OptFlag[solapparent])
     fprintf(LaTeXFile, "*");
   if (OptFlag[whitetoplay])
-    fprintf(LaTeXFile,
-            " %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
-
+    fprintf(LaTeXFile," %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
   fprintf(LaTeXFile, "}%%\n");
+}
 
-  /* conditions */
-  if (CondFlag[gridchess] && !OptFlag[suppressgrid]) {
-    boolean entry=false;
+static void WriteGridOrthogonalLines(void)
+{
+  unsigned int i;
+  boolean line_written = false;
+
+  for (i = 1; i<nr_files_on_board; i++)
+    if (GridNum(square_a1+dir_right*(i-1))!=GridNum(square_a1+dir_right*i))
+    {
+      if (line_written)
+        fprintf(LaTeXFile, ", ");
+      else
+      {
+        fprintf(LaTeXFile, " \\gridlines{");
+        line_written = true;
+      }
+      fprintf(LaTeXFile, " v%u08", i);
+    }
+
+  for (i = 1; i<nr_rows_on_board; i++)
+    if (GridNum(square_a1+dir_up*(i-1))!=GridNum(square_a1+dir_up*i))
+    {
+      if (line_written)
+        fprintf(LaTeXFile, ", ");
+      else
+      {
+        fprintf(LaTeXFile, " \\gridlines{");
+        line_written = true;
+      }
+      fprintf(LaTeXFile, " h0%u8", i);
+    }
+
+  if (line_written)
+    fprintf(LaTeXFile, "}%%\n");
+}
+
+static void WriteGridIrregular(void)
+{
+  boolean line_written = false;
+
+  square const *bnp;
+  for (bnp = boardnum; *bnp; bnp++)
+  {
+    unsigned int const file = *bnp%onerow - nr_of_slack_files_left_of_board;
+    unsigned int const row = *bnp/onerow - nr_of_slack_rows_below_board;
+
+    if (file>0 && GridLegal(*bnp+dir_left,*bnp))
+    {
+      if (line_written)
+        fprintf(LaTeXFile, ", ");
+      else
+      {
+        fprintf(LaTeXFile, " \\gridlines{");
+        line_written = true;
+      }
+      fprintf(LaTeXFile," v%d%d1",file,row);
+    }
+
+    if (row>0 && GridLegal(*bnp+dir_down,*bnp))
+    {
+      if (line_written)
+        fprintf(LaTeXFile, ", ");
+      else
+      {
+        fprintf(LaTeXFile, " \\gridlines{");
+        line_written = true;
+      }
+      fprintf(LaTeXFile," h%d%d1",file,row);
+    }
+  }
+
+  if (line_written)
+    fprintf(LaTeXFile, "}%%\n");
+}
+
+static void WriteGrid(void)
+{
+  if (CondFlag[gridchess] && !OptFlag[suppressgrid])
     switch (grid_type)
     {
       case grid_normal:
-        fprintf(LaTeXFile, " \\stdgrid%%\n");
+        fprintf(LaTeXFile," \\stdgrid%%\n");
         break;
 
       case grid_vertical_shift:
-        fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v208, v408, v608}%%\n");
+        fprintf(LaTeXFile," \\gridlines{h018, h038, h058, h078, v208, v408, v608}%%\n");
         break;
 
       case grid_horizontal_shift:
@@ -658,150 +862,60 @@ void LaTeXBeginDiagram(void)
         break;
 
       case grid_diagonal_shift:
-        fprintf(LaTeXFile, " \\gridlines{h018, h038, h058, h078, v108, v308, v508, v708}%%\n");
+        fprintf(LaTeXFile," \\gridlines{h018, h038, h058, h078, v108, v308, v508, v708}%%\n");
         break;
 
       case grid_orthogonal_lines:
-      {
-        unsigned int i;
-        for (i=1; i<8; i++)
-          if (GridNum(square_a1+i-1) != GridNum(square_a1+i))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " v%u08", i);
-          }
-        for (i=1; i<8; i++)
-          if (GridNum(square_a1+24*(i-1)) != GridNum(square_a1+24*i))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " h0%u8", i);
-          }
-        if (entry)
-          fprintf(LaTeXFile, "}%%\n");
+        WriteGridOrthogonalLines();
         break;
-      }
 
-      /* of course, only the following block is necessary */
+      /* of course, WriteGridIrregular() could cover the above cases as well */
       case grid_irregular:
-        for (bnp = boardnum; *bnp; bnp++)
-        {
-          int i= *bnp%24-8, j= *bnp/24-8;
-          if (i && GridLegal((*bnp)-1, *bnp))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " v%d%d1", i, j);
-          }
-          if (j && GridLegal((*bnp)-24, *bnp))
-          {
-            if (!entry)
-              fprintf(LaTeXFile, " \\gridlines{");
-            else
-              fprintf(LaTeXFile, ", ");
-            entry= true;
-            fprintf(LaTeXFile, " h%d%d1", i, j);
-          }
-        }
-        if (entry)
-          fprintf(LaTeXFile, "}%%\n");
+        WriteGridIrregular();
         break;
     }
+}
+
+void WriteSquareFrames(void)
+{
+  if (CondFlag[magicsquare])
+  {
+    char MagicSqList[256] = "";
+    boolean magic_piece_found = false;
+
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (TSTFLAG(sq_spec[*bnp], MagicSq))
+      {
+        if (magic_piece_found)
+          strcat(MagicSqList, ", ");
+        else
+          magic_piece_found = true;
+        AppendSquare(MagicSqList,*bnp);
+      }
+
+    fprintf(LaTeXFile," \\fieldframe{%s}%%\n", MagicSqList);
   }
+}
+
+void LaTeXBeginDiagram(void)
+{
+  fprintf(LaTeXFile, "\\begin{diagram}%%\n");
+
+  WriteAuthor();
+  WriteSource();
+  WriteAward();
+  WriteDedication();
+  WriteOptions();
+  WritePieces();
+  WriteFairyPieces();
+  WriteStipulation();
+  WriteGrid();
 
   if (WriteConditions(&WriteCondition))
     fprintf(LaTeXFile, "}%%\n");
 
-  /* magical squares with frame */
-  if (CondFlag[magicsquare])
-  {
-    char    MagicSqList[256] = "";
-    boolean first_magic_piece= true;
-    square  i;
-
-    fprintf(LaTeXFile, " \\fieldframe{");
-    for (i= square_a1; i <= square_h8; i++)
-      if (TSTFLAG(sq_spec[i], MagicSq))
-      {
-        if (!first_magic_piece)
-          strcat(MagicSqList, ", ");
-        else
-          first_magic_piece= false;
-        AppendSquare(MagicSqList, i);
-      }
-    fprintf(LaTeXFile, "%s}%%\n", MagicSqList);
-  }
-
-  /* fairy pieces, modified pieces, holes */
-  if (fairypieces || holess || modifiedpieces)
-  {
-    PieNam p;
-    boolean firstline= true;
-
-    fprintf(LaTeXFile, " \\remark{");
-    for (p = Bishop+1; p < PieceCount; ++p)
-    {
-      PieNam q;
-      if (is_piece_on_side[p][White] || is_piece_on_side[p][Black] || is_piece_on_side[p][nr_sides])
-      {
-        for (q = Bishop+1; q < p; q++) {
-          if ((is_piece_on_side[q][White]
-               || is_piece_on_side[q][Black]
-               || is_piece_on_side[q][nr_sides])
-              && LaTeXPiecesAbbr[p][0] == LaTeXPiecesAbbr[q][0]
-              && LaTeXPiecesAbbr[p][1] == LaTeXPiecesAbbr[q][1])
-          {
-            fprintf(stderr, "+++ Warning: "
-                    "double representation '%s' for %s and %s\n",
-                    LaTeXPiecesAbbr[q],
-                    LaTeXPiecesFull[p], LaTeXPiecesFull[q]);
-          }
-        }
-
-        if (!firstline)
-          fprintf(LaTeXFile, "{\\newline}\n    ");
-        fprintf(LaTeXFile, "\\mbox{");
-        if (is_piece_on_side[p][White])
-          fprintf(LaTeXFile, "\\w%s ", LaTeXPiecesAbbr[p]);
-        if (is_piece_on_side[p][ Black])
-          fprintf(LaTeXFile, "\\s%s ", LaTeXPiecesAbbr[p]);
-        if (is_piece_on_side[p][nr_sides])
-          fprintf(LaTeXFile, "\\n%s ", LaTeXPiecesAbbr[p]);
-        fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
-        firstline= false;
-      }
-    }
-
-    if (modifiedpieces)
-    {
-      for (sp = nr_sides; sp<PieSpCount; ++sp)
-        if (SpecCount[sp-nr_sides]>0)
-        {
-          if (!firstline)
-            fprintf(LaTeXFile, "{\\newline}\n    ");
-          fprintf(LaTeXFile, "%s\n", ListSpec[sp-nr_sides]);
-          firstline= false;
-        }
-    }
-
-    if (holess) {
-      if (!firstline)
-        fprintf(LaTeXFile, "{\\newline}\n    ");
-      fprintf(LaTeXFile, "%s %s%%\n",
-              CondString[UserLanguage][holes], HolesSqList);
-    }
-    fprintf(LaTeXFile, "}%%\n");
-  }
+  WriteSquareFrames();
 }
 
 void LaTeXBeginTwinning(unsigned int TwinNumber)
