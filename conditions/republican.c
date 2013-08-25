@@ -144,19 +144,6 @@ boolean republican_verifie_position(slice_index si)
   return result;
 }
 
-/* Write the Republican Chess diagram caption
- * @param CondLine string containing the condition caption
- * @param lineLength size of array CondLine
- */
-void republican_write_diagram_caption(char CondLine[], size_t lineLength)
-{
-  strncat(CondLine, "    ", lineLength);
-  if (RepublicanType==republican_type1)
-    strncat(CondLine, VariantTypeString[UserLanguage][Type1], lineLength);
-  if (RepublicanType==republican_type2)
-    strncat(CondLine, VariantTypeString[UserLanguage][Type2], lineLength);
-}
-
 /* Place the opposite king as part of playing a move
  * @param moving side at the move
  */

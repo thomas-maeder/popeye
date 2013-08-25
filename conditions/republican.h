@@ -20,12 +20,6 @@ extern republican_type_type RepublicanType;
  */
 boolean republican_verifie_position(slice_index si);
 
-/* Write the Republican Chess diagram caption
- * @param CondLine string containing the condition caption
- * @param lineLength size of array CondLine
- */
-void republican_write_diagram_caption(char CondLine[], size_t lineLength);
-
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */

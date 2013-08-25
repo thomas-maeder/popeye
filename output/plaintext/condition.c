@@ -36,21 +36,21 @@
 #include <stdio.h>
 #include <string.h>
 
-static void WritePieces(PieNam const *p, char* CondLine)
+static unsigned int WritePieces(char *pos, PieNam const *p)
 {
-      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
-  char LocalBuf[4];
-  while (*p) {
-      if (PieceTab[*p][1] != ' ')
-      sprintf(LocalBuf, " %c%c",
-              toupper(PieceTab[*p][0]),
-              toupper(PieceTab[*p][1]));
+  unsigned int result = 0;
+
+  while (*p)
+  {
+    if (PieceTab[*p][1]==' ')
+      result += sprintf(pos+result, " %c",toupper(PieceTab[*p][0]));
     else
-      sprintf(LocalBuf, " %c",
-              toupper(PieceTab[*p][0]));
-      strcat(CondLine, LocalBuf);
+      result += sprintf(pos+result," %c%c",toupper(PieceTab[*p][0]),toupper(PieceTab[*p][1]));
+
     p++;
   }
+
+  return result;
 }
 
 void WriteBGLNumber(char* buf, long int num)
@@ -65,14 +65,25 @@ void WriteBGLNumber(char* buf, long int num)
     sprintf(buf, "%i.%.2i", (int) (num / 100), (int) (num % 100));
 }
 
+static unsigned int AppendSquareToCond(char *pos, square s)
+{
+  *pos++ = ' ';
+  *pos++ = 'a' - nr_files_on_board + s%onerow;
+  *pos++ = '1' - nr_rows_on_board + s/onerow;
+  *pos = '\0';
+  return 3;
+}
+
 boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first))
 {
   Cond  cond;
   boolean CondPrinted= false;
-  char CondLine[256];
+  char CondLine[256] = { '\0' };
 
-  for (cond= 1; cond < CondCount; cond++)
+  for (cond = 1; cond<CondCount; ++cond)
   {
+    unsigned int written = 0;
+
     if (!CondFlag[cond])
       continue;
 
@@ -85,17 +96,16 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     if (cond == chinoises && CondFlag[leofamily])
       continue;
 
-    if (  (cond == gridchess || cond == koeko)
-          && CondFlag[contactgrid])
+    if ((cond==gridchess || cond==koeko) && CondFlag[contactgrid])
       continue;
 
-    if (cond == tibet && CondFlag[dbltibet])
+    if (cond==tibet && CondFlag[dbltibet])
       continue;
 
-    if (cond == holes)
+    if (cond==holes)
       continue;
 
-    if (cond == couscous && CondFlag[couscousmirror])
+    if (cond==couscous && CondFlag[couscousmirror])
       continue;
 
     /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
@@ -118,23 +128,21 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       continue;
 
     /* Write DEFAULT Conditions */
-    strcpy(CondLine, CondTab[cond]);
+    written += snprintf(CondLine+written, (sizeof CondLine)-written, "%s", CondTab[cond]);
 
     if ((cond == blmax || cond == whmax) && ExtraCondFlag[maxi])
-      strcpy(CondLine, ExtraCondTab[maxi]);
+      written = snprintf(CondLine,sizeof CondLine,"%s", ExtraCondTab[maxi]);
 
     if ((cond==blackultraschachzwang || cond==whiteultraschachzwang)
         && ExtraCondFlag[ultraschachzwang])
-      strcpy(CondLine, ExtraCondTab[ultraschachzwang]);
+      written = snprintf(CondLine,sizeof CondLine, "%s", ExtraCondTab[ultraschachzwang]);
 
-    if (cond == sentinelles && flagparasent) {
-      strcpy(CondLine, "Para");
-      strcat(CondLine, CondTab[cond]);
-    }
+    if (cond == sentinelles && flagparasent)
+      written = snprintf(CondLine,sizeof CondLine,"Para%s",CondTab[cond]);
 
-    if (cond == koeko || cond == antikoeko) {
+    if (cond == koeko || cond == antikoeko)
+    {
       PieNam koekop = King;
-      char LocalBuf[4];
       nocontactfunc_t const nocontactfunc = cond==koeko ? koeko_nocontact : antikoeko_nocontact;
       if (nocontactfunc == noknightcontact)
         koekop= Knight;
@@ -155,17 +163,17 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       if (nocontactfunc == noantelopecontact)
         koekop= Antilope;
 
-      if (koekop == King)
-        strcpy(LocalBuf, "");
-      else if (PieceTab[koekop][1] != ' ')
-        sprintf(LocalBuf, "%c%c-",
-                toupper(PieceTab[koekop][0]),
-                toupper(PieceTab[koekop][1]));
-      else
-        sprintf(LocalBuf, " %c-",
-                toupper(PieceTab[koekop][0]));
+      written = 0;
 
-      sprintf(CondLine, "%s%s", LocalBuf, CondTab[cond]);
+      if (koekop!=King)
+      {
+        if (PieceTab[koekop][1]==' ')
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, " %c-",toupper(PieceTab[koekop][0]));
+        else
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "%c%c-",toupper(PieceTab[koekop][0]),toupper(PieceTab[koekop][1]));
+      }
+
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, "%s", CondTab[cond]);
     }
 
     if (cond == BGL)
@@ -175,58 +183,42 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       if (BGL_global)
       {
         WriteBGLNumber(buf1, BGL_values[White]);
-        sprintf(CondLine, "%s %s", CondTab[cond], buf1);
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " %s", buf1);
       }
       else
       {
         WriteBGLNumber(buf1, BGL_values[White]);
         WriteBGLNumber(buf2, BGL_values[Black]);
-        sprintf(CondLine, "%s %s/%s", CondTab[cond],buf1,buf2);
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " %s/%s", buf1,buf2);
       }
     }
 
     if ( cond == kobulkings )
     {
       if (!kobulking[White])
-      {
-        strcat(CondLine, " Black");
-      }
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " Black");
       if (!kobulking[Black])
-      {
-        strcat(CondLine, " White");
-      }
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " White");
     }
 
     if ( cond == whvault_king || cond == vault_king)
     {
-        if (king_vaulters[White][0] != EquiHopper || king_vaulters[White][1] != Empty)
-          WritePieces(king_vaulters[White], CondLine);
-        if (vaulting_kings_transmuting[White])
-        {
-          char LocalBuf[4];
-          sprintf(LocalBuf, " -%c",
-          toupper(PieceTab[King][0]));
-          strcat(CondLine, LocalBuf);
-        }
+      if (king_vaulters[White][0] != EquiHopper || king_vaulters[White][1] != Empty)
+        written += WritePieces(CondLine+written,king_vaulters[White]);
+      if (vaulting_kings_transmuting[White])
+        written += snprintf(CondLine+written, (sizeof CondLine)-written,  " -%c",toupper(PieceTab[King][0]));
     }
 
     if ( cond == blvault_king )
     {
-        if (king_vaulters[Black][0] != EquiHopper || king_vaulters[Black][1] != Empty)
-          WritePieces(king_vaulters[Black], CondLine);
-        if (vaulting_kings_transmuting[Black])
-        {
-          char LocalBuf[4];
-          sprintf(LocalBuf, " -%c",
-          toupper(PieceTab[King][0]));
-          strcat(CondLine, LocalBuf);
-        }
+      if (king_vaulters[Black][0] != EquiHopper || king_vaulters[Black][1] != Empty)
+        written += WritePieces(CondLine+written,king_vaulters[Black]);
+      if (vaulting_kings_transmuting[Black])
+        written += snprintf(CondLine+written, (sizeof CondLine)-written,  " -%c",toupper(PieceTab[King][0]));
     }
 
     if (cond == promotiononly)
     {
-      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
-      char LocalBuf[4];
       PieNam pp = Empty;
       while (true)
       {
@@ -234,14 +226,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         if (pp==Empty)
           break;
 
-        if (PieceTab[pp][1] != ' ')
-          sprintf(LocalBuf, " %c%c",
-                  toupper(PieceTab[pp][0]),
-                  toupper(PieceTab[pp][1]));
+        if (PieceTab[pp][1]==' ')
+          written += snprintf(CondLine+written, (sizeof CondLine)-written,  " %c",toupper(PieceTab[pp][0]));
         else
-          sprintf(LocalBuf, " %c",
-                  toupper(PieceTab[pp][0]));
-        strcat(CondLine, LocalBuf);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, " %c%c",toupper(PieceTab[pp][0]),toupper(PieceTab[pp][1]));
       }
       if (strlen(CondLine) <= strlen(CondTab[promotiononly])) {
         /* due to zeroposition, where pieces_pawns_promotee_chain is not */
@@ -251,9 +239,8 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       }
     }
 
-    if (cond == football) {
-      /* due to a Borland C++ 4.5 bug we have to use LocalBuf ... */
-      char LocalBuf[4];
+    if (cond == football)
+    {
       PieNam pp= Empty;
       while (true)
       {
@@ -261,14 +248,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         if (pp==Empty)
           break;
 
-        if (PieceTab[pp][1] != ' ')
-          sprintf(LocalBuf, " %c%c",
-                  toupper(PieceTab[pp][0]),
-                  toupper(PieceTab[pp][1]));
+        if (PieceTab[pp][1]==' ')
+          written += snprintf(CondLine+written, (sizeof CondLine)-written,  " %c",toupper(PieceTab[pp][0]));
         else
-          sprintf(LocalBuf, " %c",
-                  toupper(PieceTab[pp][0]));
-        strcat(CondLine, LocalBuf);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, " %c%c",toupper(PieceTab[pp][0]),toupper(PieceTab[pp][1]));
       }
       if (strlen(CondLine) <= strlen(CondTab[football])) {
         /* due to zeroposition, where pieces_pawns_promotee_chain is not */
@@ -278,20 +261,16 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       }
     }
 
-    if (cond == april) {
-      /* due to a Borland C++ 4.5 bug we have to use LocalBuf...*/
-      char LocalBuf[4];
+    if (cond == april)
+    {
       PieNam pp;
       for (pp = Empty; pp!=PieceCount; ++pp)
-        if (is_april_kind[pp]) {
-          if (PieceTab[pp][1] != ' ')
-            sprintf(LocalBuf, " %c%c",
-                    toupper(PieceTab[pp][0]),
-                    toupper(PieceTab[pp][1]));
+        if (is_april_kind[pp])
+        {
+          if (PieceTab[pp][1]==' ')
+            written += snprintf(CondLine+written, (sizeof CondLine)-written,  " %c",toupper(PieceTab[pp][0]));
           else
-            sprintf(LocalBuf, " %c",
-                    toupper(PieceTab[pp][0]));
-          strcat(CondLine, LocalBuf);
+            written += snprintf(CondLine+written, (sizeof CondLine)-written, " %c%c",toupper(PieceTab[pp][0]),toupper(PieceTab[pp][1]));
         }
     }
 
@@ -299,7 +278,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     {
       unsigned int imi_idx;
       for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
-        AppendSquare(CondLine,isquare[imi_idx]);
+        written += AppendSquareToCond(CondLine+written,isquare[imi_idx]);
     }
 
     if (cond == noiprom && !CondFlag[imitators])
@@ -308,65 +287,56 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     if (cond == magicsquare) {
       square  i;
       if (magic_square_type==magic_square_type2)
-      {
-        strcat(CondLine, " ");
-        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
-      }
+        written += snprintf(CondLine+written, (sizeof CondLine)-written,  " %s", VariantTypeString[UserLanguage][Type2]);
+
       for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], MagicSq)) {
-          AppendSquare(CondLine, i);
-        }
+        if (TSTFLAG(sq_spec[i], MagicSq))
+          written += AppendSquareToCond(CondLine+written,i);
       }
     }
     if (cond == whforsqu || cond == whconforsqu)
     {
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhForcedSq)) {
-          AppendSquare(CondLine, i);
-        }
+        if (TSTFLAG(sq_spec[i], WhForcedSq))
+          written += AppendSquareToCond(CondLine+written,i);
       }
     }
     if (cond == blforsqu || cond == blconforsqu) {
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlForcedSq)) {
-          AppendSquare(CondLine, i);
-        }
+        if (TSTFLAG(sq_spec[i], BlForcedSq))
+          written += AppendSquareToCond(CondLine+written,i);
       }
     }
 
     if (cond == whprom_sq) {
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhPromSq)) {
-          AppendSquare(CondLine, i);
-        }
+        if (TSTFLAG(sq_spec[i], WhPromSq))
+          written += AppendSquareToCond(CondLine+written,i);
       }
     }
     if (cond == blprom_sq) {
       square  i;
       for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlPromSq)) {
-          AppendSquare(CondLine, i);
-        }
+        if (TSTFLAG(sq_spec[i], BlPromSq))
+          written += AppendSquareToCond(CondLine+written,i);
       }
     }
 
-    if (cond == blroyalsq) {
-      AppendSquare(CondLine, royal_square[Black]);
-    }
+    if (cond == blroyalsq)
+      written += AppendSquareToCond(CondLine+written,royal_square[Black]);
 
-    if (cond == whroyalsq) {
-      AppendSquare(CondLine, royal_square[White]);
-    }
+    if (cond == whroyalsq)
+      written += AppendSquareToCond(CondLine+written,royal_square[White]);
 
     if (cond==wormholes)
     {
       square i;
       for (i = square_a1; i<=square_h8; ++i)
         if (TSTFLAG(sq_spec[i],Wormhole))
-          AppendSquare(CondLine,i);
+          written += AppendSquareToCond(CondLine+written,i);
     }
 
     if ((cond == madras && madrasi_is_rex_inclusive)
@@ -385,200 +355,168 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
                 || cond == circeclonemalefique
                 || cond == circediagramm
                 || cond == circefile)))
-    {
-      strcat(CondLine, " ");
-      strcat(CondLine, CondTab[rexincl]);
-    }
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, " %s",CondTab[rexincl]);
 
     if ((messigny_rex_exclusive && cond == messigny)
         || (woozles_rex_exclusive
             && (cond==woozles || cond==biwoozles
                 || cond==heffalumps || cond==biheffalumps)))
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, " %s",CondTab[rexexcl]);
+
+    if (protean_is_rex_exclusive && cond==protean)
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, " %s",CondTab[rexexcl]);
+
+    if (cond==chamcirce && ChameleonSequence[0])
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",ChameleonSequence);
+
+    if (cond==isardam && IsardamB)
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][TypeB]);
+
+    if (cond == annan)
     {
-      strcat(CondLine, " ");
-      strcat(CondLine, CondTab[rexexcl]);
-    }
-
-    if ( protean_is_rex_exclusive && cond == protean)
-    {
-      strcat(CondLine, "    ");
-      strcat(CondLine, CondTab[rexexcl]);
-    }
-
-    if (cond == chamcirce && ChameleonSequence[0]) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, ChameleonSequence);
-    }
-
-    if ((cond == isardam) && IsardamB) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-    }
-
-    if (cond == annan) {
-      strcat(CondLine, "    ");
       switch (annan_type)
       {
         case annan_type_A:
           break;
         case annan_type_B:
-          strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][TypeB]);
           break;
         case annan_type_C:
-          strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][TypeC]);
           break;
         case annan_type_D:
-          strcat(CondLine, VariantTypeString[UserLanguage][TypeD]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][TypeD]);
           break;
       }
     }
 
-    if (cond == gridchess && OptFlag[suppressgrid]) {
-      strcat(CondLine, "  ");
+    if (cond == gridchess && OptFlag[suppressgrid])
+    {
       switch (grid_type)
       {
         case grid_normal:
           /* nothing */
           break;
         case grid_vertical_shift:
-          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRank]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][ShiftRank]);
           break;
         case grid_horizontal_shift:
-          strcat(CondLine, VariantTypeString[UserLanguage][ShiftFile]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][ShiftFile]);
           break;
         case grid_diagonal_shift:
-          strcat(CondLine, VariantTypeString[UserLanguage][ShiftRankFile]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][ShiftRankFile]);
           break;
         case grid_orthogonal_lines:
-          strcat(CondLine, VariantTypeString[UserLanguage][Orthogonal]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][Orthogonal]);
           /* to do - write lines */
           break;
         case grid_irregular:
-          strcat(CondLine, VariantTypeString[UserLanguage][Irregular]);
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][Irregular]);
           /* to do - write squares */
           break;
       }
     }
 
-    if ((cond == white_oscillatingKs) && OscillatingKingsTypeB[White]) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-    }
+    if (cond==white_oscillatingKs && OscillatingKingsTypeB[White])
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][TypeB]);
 
-    if ((cond == black_oscillatingKs) && OscillatingKingsTypeB[Black]) {
-      strcat(CondLine, "    ");
-      strcat(CondLine, VariantTypeString[UserLanguage][TypeB]);
-    }
+    if (cond==black_oscillatingKs && OscillatingKingsTypeB[Black])
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][TypeB]);
 
-    if ((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) {
-      if (! CondFlag[swappingkings]) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
-      }
-    }
+    if (cond==white_oscillatingKs
+        && OscillatingKingsTypeC[White]
+        && ! CondFlag[swappingkings])
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][TypeC]);
 
-    if ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black]) {
-      if (! CondFlag[swappingkings]) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][TypeC]);
-      }
-    }
+    if (cond==black_oscillatingKs
+        && OscillatingKingsTypeC[Black]
+        && !CondFlag[swappingkings])
+      written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][TypeC]);
 
     if (cond==singlebox)
     {
-      strcat(CondLine, "    ");
       if (SingleBoxType==singlebox_type1)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type1]);
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][Type1]);
       if (SingleBoxType==singlebox_type2)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type2]);
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][Type2]);
       if (SingleBoxType==singlebox_type3)
-        strcat(CondLine, VariantTypeString[UserLanguage][Type3]);
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][Type3]);
     }
 
     if (cond == republican)
-      republican_write_diagram_caption(CondLine, sizeof CondLine);
+    {
+      if (RepublicanType==republican_type1)
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][Type1]);
+      if (RepublicanType==republican_type2)
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, "    %s",VariantTypeString[UserLanguage][Type2]);
+    }
 
-    if (cond == sentinelles) {
-      char pawns[7];
+    if (cond == sentinelles)
+    {
       if (sentinelle == BerolinaPawn)
-        strcat(CondLine, " Berolina");
-      if (SentPionAdverse) {
-        strcat(CondLine, "  ");
-        strcat(CondLine,
-               VariantTypeString[UserLanguage][PionAdverse]);
-      }
-      if (SentPionNeutral) {
-        strcat(CondLine, "  ");
-        strcat(CondLine,
-               VariantTypeString[UserLanguage][PionNeutral]);
-      }
-      if (sentinelles_max_nr_pawns[Black] !=8 || sentinelles_max_nr_pawns[White] != 8) {
-        sprintf(pawns, " %u/%u", sentinelles_max_nr_pawns[White], sentinelles_max_nr_pawns[Black]);
-        strcat (CondLine, pawns);
-      }
-      if (sentinelles_max_nr_pawns_total != 16) {
-        sprintf(pawns, " //%u", sentinelles_max_nr_pawns_total);
-        strcat (CondLine, pawns);
-      }
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " Berolina");
+      if (SentPionAdverse)
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][PionAdverse]);
+      if (SentPionNeutral)
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][PionNeutral]);
+      if (sentinelles_max_nr_pawns[Black] !=8 || sentinelles_max_nr_pawns[White] != 8)
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " %u/%u",sentinelles_max_nr_pawns[White],sentinelles_max_nr_pawns[Black]);
+      if (sentinelles_max_nr_pawns_total != 16)
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " //%u", sentinelles_max_nr_pawns_total);
     }
 
-    if ((cond == SAT || cond == strictSAT) && (SAT_max_nr_allowed_flights[White] != 1 || SAT_max_nr_allowed_flights[Black] != 1)) {
-      char extra[10];
-      char roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
+    if ((cond==SAT || cond==strictSAT)
+        && (SAT_max_nr_allowed_flights[White]!=1
+            || SAT_max_nr_allowed_flights[Black]!=1)) {
+      char const roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
       if (SAT_max_nr_allowed_flights[White] == SAT_max_nr_allowed_flights[Black])
-        sprintf(extra, " %s", roman[SAT_max_nr_allowed_flights[White]-1]);
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " %s", roman[SAT_max_nr_allowed_flights[White]-1]);
       else
-        sprintf(extra, " %s/%s", roman[SAT_max_nr_allowed_flights[White]-1], roman[SAT_max_nr_allowed_flights[Black]-1]);
-      strcat (CondLine, extra);
+        written += snprintf(CondLine+written, (sizeof CondLine)-written, " %s/%s", roman[SAT_max_nr_allowed_flights[White]-1], roman[SAT_max_nr_allowed_flights[Black]-1]);
     }
 
-    switch (cond) {
-    case anti:
-    case antispiegel:
-    case antidiagramm:
-    case antifile:
-    case antisymmetrie:
-    case antispiegelfile:
-    case antiantipoden:
-    case antiequipollents:
-    case antisuper:
-      /* AntiCirTypeCalvet is default in AntiCirce */
-      if (AntiCirType != AntiCirTypeCalvet) {
-        strcat(CondLine, "  ");
-        strcat(CondLine, VariantTypeString[UserLanguage][AntiCirType]);
-      }
-      break;
-    default:
-      break;
-    }
+    switch (cond)
+    {
+      case anti:
+      case antispiegel:
+      case antidiagramm:
+      case antifile:
+      case antisymmetrie:
+      case antispiegelfile:
+      case antiantipoden:
+      case antiequipollents:
+      case antisuper:
+        /* AntiCirTypeCalvet is default in AntiCirce */
+        if (AntiCirType!=AntiCirTypeCalvet)
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][AntiCirType]);
+        break;
 
-    switch (cond) {
-    case blmax:
-    case blmin:
-    case blcapt:
-      if (mummer_strictness[Black]>mummer_strictness_regular)
-      {
-        strcat(CondLine, "  ");
-        if (mummer_strictness[Black]==mummer_strictness_ultra)
-          strcat(CondLine, mummer_strictness_tab[mummer_strictness_ultra]);
-        else
-          strcat(CondLine, mummer_strictness_tab[mummer_strictness_exact]);
-      }
-      break;
-    case whmax:
-    case whmin:
-    case whcapt:
-      if (mummer_strictness[White]>mummer_strictness_regular)
-      {
-        strcat(CondLine, "  ");
-        if (mummer_strictness[White]==mummer_strictness_ultra)
-          strcat(CondLine, mummer_strictness_tab[mummer_strictness_ultra]);
-        else
-          strcat(CondLine, mummer_strictness_tab[mummer_strictness_exact]);
-      }
-      break;
-    default:
-      break;
+      case blmax:
+      case blmin:
+      case blcapt:
+        if (mummer_strictness[Black]>mummer_strictness_regular)
+        {
+          if (mummer_strictness[Black]==mummer_strictness_ultra)
+            written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",mummer_strictness_tab[mummer_strictness_ultra]);
+          else
+            written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",mummer_strictness_tab[mummer_strictness_exact]);
+        }
+        break;
+
+      case whmax:
+      case whmin:
+      case whcapt:
+        if (mummer_strictness[White]>mummer_strictness_regular)
+        {
+          if (mummer_strictness[White]==mummer_strictness_ultra)
+            written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",mummer_strictness_tab[mummer_strictness_ultra]);
+          else
+            written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",mummer_strictness_tab[mummer_strictness_exact]);
+        }
+        break;
+
+      default:
+        break;
     }
 
     (*WriteCondition)(CondLine,!CondPrinted);
