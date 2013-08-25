@@ -804,9 +804,14 @@ void LaTeXBeginDiagram(void)
   }
 }
 
-void LaTeXBeginTwinning(char const number[])
+void LaTeXBeginTwinning(unsigned int TwinNumber)
 {
-  strcat(twinning,number);
+  if (TwinNumber-1<='z'-'a')
+    sprintf(GlobalStr, "%c) ", 'a'+TwinNumber-1);
+  else
+    sprintf(GlobalStr, "z%u) ", (unsigned int)(TwinNumber-1-('z'-'a')));
+
+  strcat(twinning,GlobalStr);
 }
 
 void LaTeXEndTwinning(void)

@@ -814,6 +814,8 @@ static char *ParseTwinning(slice_index root_slice_hook)
         TwinResetPosition();
 
       WriteTwinNumber(TwinNumber);
+      if (LaTeXout)
+        LaTeXBeginTwinning(TwinNumber);
     } /* !TwinningRead */
 
     TwinningRead= true;
@@ -2797,16 +2799,7 @@ static void solve_twin(slice_index si,
     if (end_of_twin_token==TwinProblem)
     {
       Message(NewLine);
-
-      if (LaTeXout)
-      {
-        LaTeXout = false;
-        WriteTwinNumber(TwinNumber);
-        LaTeXout = true;
-      }
-      else
-        WriteTwinNumber(TwinNumber);
-
+      WriteTwinNumber(TwinNumber);
       Message(NewLine);
     }
   }

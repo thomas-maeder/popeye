@@ -1,6 +1,5 @@
 #include "output/plaintext/twinning.h"
 #include "output/plaintext/plaintext.h"
-#include "output/latex/latex.h"
 #include "pymsg.h"
 
 #include <stdio.h>
@@ -14,6 +13,4 @@ void WriteTwinNumber(unsigned int TwinNumber)
     sprintf(GlobalStr, "z%u) ", (unsigned int)(TwinNumber-1-('z'-'a')));
 
   StdString(GlobalStr);
-  if (LaTeXout)
-    LaTeXBeginTwinning(GlobalStr);
 }

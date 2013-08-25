@@ -18,7 +18,7 @@ void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
 void LaTeXEchoSubstitutedPiece(PieNam from, PieNam to);
 char *ParseLaTeXPieces(char *tok);
 
-void LaTeXBeginTwinning(char const number[]);
+void LaTeXBeginTwinning(unsigned int TwinNumber);
 void LaTeXEndTwinning(void);
 
 void LaTeXNextTwinning(void);
