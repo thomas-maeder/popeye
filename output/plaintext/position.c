@@ -162,15 +162,12 @@ void WritePosition()
   PieSpec sp;
   char    ListSpec[PieSpCount-nr_sides][256];
   unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
-  FILE    *OrigSolFile= SolFile;
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
   static char HorizL[]="%c   .   .   .   .   .   .   .   .   %c\n";
   static char BlankL[]="|                                   |\n";
 
   unsigned int const fileWidth = 4;
-
-  SolFile= NULL;
 
   for (sp = nr_sides; sp<PieSpCount; ++sp)
     strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
@@ -341,6 +338,4 @@ void WritePosition()
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid();
-
-  SolFile= OrigSolFile;
 }

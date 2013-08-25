@@ -1107,19 +1107,13 @@ Token ReadTwin(Token tk, slice_index root_slice_hook)
             break;
 
           case LaTeXToken:
-            LaTeXClose();
+            if (LaTeXout)
+              LaTeXShutdown();
 
             ReadToEndOfLine();
-            LaTeXout = LaTeXOpen();
+            LaTeXout = LaTeXSetup();
 
-            if (SolFile!=NULL)
-              fclose(SolFile);
-
-            SolFile = tmpfile();
-            if (SolFile==NULL)
-              IoErrorMsg(WrOpenError,0);
-            else
-              tok = ParseLaTeXPieces(ReadNextTokStr());
+            tok = ParseLaTeXPieces(ReadNextTokStr());
             break;
 
           case SepToken:

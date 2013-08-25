@@ -4,12 +4,17 @@
 #include "position/position.h"
 #include "utilities/boolean.h"
 
-extern boolean LaTeXout;
+#include <stdio.h>
 
-boolean LaTeXOpen(void);
-void LaTeXClose(void);
+extern boolean LaTeXout;
+extern FILE *TextualSolutionBuffer;
+
+boolean LaTeXSetup(void);
+void LaTeXShutdown(void);
+
 void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
+
 void LaTeXEchoAddedPiece(Flags Spec, PieNam Name, square Square);
 void LaTeXEchoRemovedPiece(Flags Spec, PieNam Name, square Square);
 void LaTeXEchoMovedPiece(Flags Spec, PieNam Name, square FromSquare, square ToSquare);

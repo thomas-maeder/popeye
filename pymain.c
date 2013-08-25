@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
   CloseInput();
 
   if (LaTeXout)
-    LaTeXClose();
+    LaTeXShutdown();
 
   return 0;
 }

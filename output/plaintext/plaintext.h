@@ -11,9 +11,6 @@ extern FILE *TraceFile;
 
 extern char versionString[100];
 
-#include <stdio.h>
-extern FILE *SolFile;
-
 /* Write the current move
  */
 void output_plaintext_write_move(void);

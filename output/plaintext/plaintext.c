@@ -18,7 +18,6 @@
 char GlobalStr[4000];
 
 FILE *TraceFile;
-FILE *SolFile;
 
 typedef struct
 {

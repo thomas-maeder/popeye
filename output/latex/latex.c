@@ -17,6 +17,7 @@
 #include "pylang.h"
 #include "pymsg.h"
 
+#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,9 +25,12 @@
 
 boolean LaTeXout;
 
+static char filename[LINESIZE];    /* This array contains the input as is */
+
 static char twinning[1532];
 
 static FILE *LaTeXFile;
+FILE *TextualSolutionBuffer;
 
 static    char *LaTeXPiecesAbbr[PieceCount];
 static    char *LaTeXPiecesFull[PieceCount];
@@ -227,13 +231,22 @@ static void LaTeXStr(char const *line)
   }
 }
 
-boolean LaTeXOpen(void)
+static void WriteIntro(void)
 {
-  /* open mode for protocol and/or TeX file; overwrite existing file(s)
-   * if we are doing a regression test */
-  char const *open_mode = flag_regression ? "w" : "a";
+  fprintf(LaTeXFile, "\\documentclass{article}%%");
+  if (!flag_regression)
+    fprintf(LaTeXFile, "%s", versionString);
+  fprintf(LaTeXFile, "\n");
+  fprintf(LaTeXFile, "\\usepackage{diagram}\n");
+  if (UserLanguage == German) {
+    fprintf(LaTeXFile, "\\usepackage{german}\n");
+  }
+  fprintf(LaTeXFile, "\n\\begin{document}\n\n");
+}
 
-  LaTeXFile = fopen(InputLine,open_mode);
+boolean LaTeXSetup(void)
+{
+  LaTeXFile = fopen(InputLine,"w");
   if (LaTeXFile==NULL)
   {
     IoErrorMsg(WrOpenError,0);
@@ -241,26 +254,36 @@ boolean LaTeXOpen(void)
   }
   else
   {
-    fprintf(LaTeXFile, "\\documentclass{article}%%");
-    if (!flag_regression)
-      fprintf(LaTeXFile, "%s", versionString);
-    fprintf(LaTeXFile, "\n");
-    fprintf(LaTeXFile, "\\usepackage{diagram}\n");
-    if (UserLanguage == German) {
-      fprintf(LaTeXFile, "\\usepackage{german}\n");
-    }
-    fprintf(LaTeXFile, "\n\\begin{document}\n\n");
+    strcpy(filename,InputLine);
+    WriteIntro();
+    fclose(LaTeXFile);
+    LaTeXFile = NULL;
     return true;
   }
 }
 
-void LaTeXClose(void)
+void LaTeXShutdown(void)
 {
-  if (LaTeXFile!=NULL)
+  LaTeXFile = fopen(filename,"a");
+
+  if (LaTeXFile!=0)
   {
     fprintf(LaTeXFile, "\n\\putsol\n\n\\end{document}\n");
     fclose(LaTeXFile);
+    LaTeXFile = NULL;
   }
+}
+
+static void Close(void)
+{
+  assert(LaTeXFile!=NULL);
+  assert(TextualSolutionBuffer!=NULL);
+
+  fclose(LaTeXFile);
+  LaTeXFile = NULL;
+
+  fclose(TextualSolutionBuffer);
+  TextualSolutionBuffer = NULL;
 }
 
 void LaTeXEndDiagram(void)
@@ -281,8 +304,8 @@ void LaTeXEndDiagram(void)
 
   /* solution */
   fprintf(LaTeXFile, " \\solution{%%\n");
-  rewind(SolFile);
-  while (fgets(line, (sizeof line)-1, SolFile))
+  rewind(TextualSolutionBuffer);
+  while (fgets(line, (sizeof line)-1, TextualSolutionBuffer))
   {
     if (strlen(line)>1 && line[1]==')')
       /* twin */
@@ -303,10 +326,10 @@ void LaTeXEndDiagram(void)
   }
 
   fprintf(LaTeXFile, "\n }%%\n");
-  fclose(SolFile);
+  fclose(TextualSolutionBuffer);
 
-  SolFile = tmpfile();
-  if (SolFile == NULL)
+  TextualSolutionBuffer = tmpfile();
+  if (TextualSolutionBuffer == NULL)
     IoErrorMsg(WrOpenError,0);
 
   if (!(OptFlag[solmenaces]
@@ -324,6 +347,8 @@ void LaTeXEndDiagram(void)
   }
 
   fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
+
+  Close();
 }
 
 static void WriteCondition(char const CondLine[], boolean is_first)
@@ -898,24 +923,56 @@ void WriteSquareFrames(void)
   }
 }
 
+static boolean Open(void)
+{
+  if (filename[0]==0)
+    return false;
+  else
+  {
+    LaTeXFile = fopen(filename,"a");
+    if (LaTeXFile==NULL)
+    {
+      IoErrorMsg(WrOpenError,0);
+      return false;
+    }
+    else
+    {
+      TextualSolutionBuffer = tmpfile();
+      if (TextualSolutionBuffer==NULL)
+      {
+        IoErrorMsg(WrOpenError,0);
+        fclose(LaTeXFile);
+        return false;
+      }
+      else
+        return true;
+    }
+  }
+}
+
 void LaTeXBeginDiagram(void)
 {
-  fprintf(LaTeXFile, "\\begin{diagram}%%\n");
+  if (Open())
+  {
+    fprintf(LaTeXFile, "\\begin{diagram}%%\n");
 
-  WriteAuthor();
-  WriteSource();
-  WriteAward();
-  WriteDedication();
-  WriteOptions();
-  WritePieces();
-  WriteFairyPieces();
-  WriteStipulation();
-  WriteGrid();
+    WriteAuthor();
+    WriteSource();
+    WriteAward();
+    WriteDedication();
+    WriteOptions();
+    WritePieces();
+    WriteFairyPieces();
+    WriteStipulation();
+    WriteGrid();
 
-  if (WriteConditions(&WriteCondition))
-    fprintf(LaTeXFile, "}%%\n");
+    if (WriteConditions(&WriteCondition))
+      fprintf(LaTeXFile, "}%%\n");
 
-  WriteSquareFrames();
+    WriteSquareFrames();
+
+    LaTeXout = true;
+  }
 }
 
 void LaTeXBeginTwinning(unsigned int TwinNumber)

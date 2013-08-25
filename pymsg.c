@@ -25,6 +25,7 @@
 #include "input/plaintext/line.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
+#include "output/latex/latex.h"
 #include "platform/pytime.h"
 
 typedef unsigned int UnInt;
@@ -276,9 +277,9 @@ static void pyfputc(char c, FILE *f)
     fputc(c,TraceFile);
     fflush(TraceFile);
   }
-  if (SolFile) {
-    fputc(c,SolFile);
-    fflush(SolFile);
+  if (TextualSolutionBuffer) {
+    fputc(c,TextualSolutionBuffer);
+    fflush(TextualSolutionBuffer);
   }
 #endif
 }
@@ -292,9 +293,9 @@ void pyfputs(char const *s, FILE *f)
     fputs(s,TraceFile);
     fflush(TraceFile);
   }
-  if (SolFile) {
-    fputs(s,SolFile);
-    fflush(SolFile);
+  if (TextualSolutionBuffer) {
+    fputs(s,TextualSolutionBuffer);
+    fflush(TextualSolutionBuffer);
   }
 #endif
 }
