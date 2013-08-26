@@ -1,28 +1,26 @@
 #include "conditions/extinction.h"
 #include "pieces/pieces.h"
-#include "solving/check.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
-#include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
-#include "stipulation/move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
-
+/* test for extinction rather than king capture */
 static void substitute_extinction_tester(slice_index si, stip_structure_traversal*st)
 {
   stip_traverse_structure_children(si,st);
   pipe_substitute(si,alloc_pipe(STExtinctionExtinctedTester));
 }
 
+/* test all attacked pieces, not just the king */
 static void substitute_all_pieces_observation_tester(slice_index si, stip_structure_traversal*st)
 {
   stip_traverse_structure_children(si,st);
   pipe_substitute(si,alloc_pipe(STExtinctionAllSquareObservationTester));
 }
 
+/* there may be check without a king present */
 static void remove_no_king_tester(slice_index si, stip_structure_traversal*st)
 {
   stip_traverse_structure_children(si,st);
@@ -38,6 +36,9 @@ void stip_insert_extinction_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  /* we have to actually play potentially extincting moves to find out whether
+   * they really are in conditions such as Circe
+   */
   stip_instrument_check_validation(si,
                                    nr_sides,
                                    STValidateCheckMoveByPlayingCapture);
