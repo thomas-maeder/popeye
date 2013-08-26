@@ -33,6 +33,7 @@
 #include "conditions/circe/turncoats.h"
 #include "conditions/circe/takemake.h"
 #include "conditions/exclusive.h"
+#include "conditions/extinction.h"
 #include "conditions/ohneschach.h"
 #include "conditions/maff/immobility_tester.h"
 #include "conditions/owu/immobility_tester.h"
@@ -1565,6 +1566,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STWormholeTransferedPromoter:
       result = wormhole_transfered_promoter_solve(si,n);
+      break;
+
+    case STExtinctionExtinctedTester:
+      result = extinction_extincted_tester_solve(si,n);
       break;
 
     case STBlackChecksNullMoveGenerator:

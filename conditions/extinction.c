@@ -3,11 +3,31 @@
 #include "solving/check.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
+#include "stipulation/pipe.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
+
+static void substitute_extinction_tester(slice_index si, stip_structure_traversal*st)
+{
+  stip_traverse_structure_children(si,st);
+  pipe_substitute(si,alloc_pipe(STExtinctionExtinctedTester));
+}
+
+static void substitute_all_pieces_observation_tester(slice_index si, stip_structure_traversal*st)
+{
+  stip_traverse_structure_children(si,st);
+  pipe_substitute(si,alloc_pipe(STExtinctionAllSquareObservationTester));
+}
+
+static void remove_no_king_tester(slice_index si, stip_structure_traversal*st)
+{
+  stip_traverse_structure_children(si,st);
+  pipe_remove(si);
+}
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
@@ -18,7 +38,24 @@ void stip_insert_extinction_chess(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_instrument_check_testing(si,STExtinctionCheckTester);
+  stip_instrument_check_validation(si,
+                                   nr_sides,
+                                   STValidateCheckMoveByPlayingCapture);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STGoalKingCaptureReachedTester,
+                                             &substitute_extinction_tester);
+    stip_structure_traversal_override_single(&st,
+                                             STNoKingCheckTester,
+                                             &remove_no_king_tester);
+    stip_structure_traversal_override_single(&st,
+                                             STKingSquareObservationTester,
+                                             &substitute_all_pieces_observation_tester);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -29,34 +66,82 @@ void stip_insert_extinction_chess(slice_index si)
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean extinction_check_tester_is_in_check(slice_index si, Side side_in_check)
+boolean exctinction_all_square_observation_tester_is_in_check(slice_index si,
+                                                              Side side_attacked)
 {
-  Side const side_checking = advers(side_in_check);
   boolean result = false;
+  square const *bnp;
 
-  PieNam p;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_attacked,"");
+  TraceFunctionParamListEnd();
 
-  siblingply(side_checking);
-  current_move[nbply] = current_move[nbply-1]+1;
-
-  for (p = King; p<PieceCount; ++p)
-    if (exist[p] && number_of_pieces[side_in_check][p]==1)
+  for (bnp = boardnum; *bnp; ++bnp)
+    if (TSTFLAG(spec[*bnp],side_attacked))
     {
-      square const *bnp;
-      for (bnp  = boardnum; *bnp; ++bnp)
-        if (get_walk_of_piece_on_square(*bnp)==p
-            && TSTFLAG(spec[*bnp],side_in_check))
-          break;
-
       move_generation_stack[current_move[nbply]-1].capture = *bnp;
-      if (is_square_observed(&validate_observation))
+      if (is_square_observed(&validate_check))
       {
         result = true;
         break;
       }
     }
 
-  finply();
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
+static PieNam find_capturee(void)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base + move_effect_journal_index_offset_capture;
+
+  if (move_effect_journal[capture].type==move_effect_piece_removal)
+    return move_effect_journal[capture].u.piece_removal.removed;
+  else
+    return Empty;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type extinction_extincted_tester_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  {
+    Side const side_in_check = slices[si].starter;
+    PieNam const capturee = find_capturee();
+
+    TracePiece(capturee);
+    TraceEnumerator(Side,side_in_check,"\n");
+
+    if (capturee!=Empty && number_of_pieces[side_in_check][capturee]==0)
+      result = solve(slices[si].next1,n);
+    else
+      result = n+2;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }

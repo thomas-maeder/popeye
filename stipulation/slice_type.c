@@ -294,7 +294,8 @@
     ENUMERATOR(STCheckTesterFork),                                      \
     ENUMERATOR(STTestingCheck),                                         \
     ENUMERATOR(STVogtlaenderCheckTester),                               \
-    ENUMERATOR(STExtinctionCheckTester),                                \
+    ENUMERATOR(STExtinctionExtinctedTester),                            \
+    ENUMERATOR(STExtinctionAllSquareObservationTester),                 \
     ENUMERATOR(STNoKingCheckTester),                                    \
     ENUMERATOR(STSATCheckTester),                                       \
     ENUMERATOR(STSATxyCheckTester),                                     \
