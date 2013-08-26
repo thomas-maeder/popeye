@@ -11,6 +11,7 @@
 #include <string.h>
 
 #if defined(DOTRACE)
+#include "output/plaintext/pieces.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
