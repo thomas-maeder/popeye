@@ -1,9 +1,9 @@
 anfangproblem
 
 protokoll       twin.out
-latex		twin.tex
-		n SU Nachtreiter
-		g DU Grash"upfer
+latex           twin.tex
+                n SU Nachtreiter
+                g DU Grash"upfer
 
 autor           M. Tomasevi\'c
 quelle          feenschach 1982
@@ -34,7 +34,7 @@ zwilling        forderung h=2
 weiteresproblem
 
 autor           Matti Myllyniemi
-auszeichnung	1. Preis, O. Kaila JT 1967
+auszeichnung    1. Preis, O. Kaila JT 1967
 
 forderung       #2
 
@@ -57,7 +57,7 @@ forderung       h#2
 steine  weiss   ka1 td4 ld5
         schwarz kh7 te6g4 ld2 bf3
 
-option		intell
+option          intell
 
 zwilling        versetze h7 a6
 zwilling        versetze h7 f1
@@ -73,7 +73,7 @@ forderung       h#2
 steine  weiss   kg3 tb4 lf2 bf5
         schwarz ke5 tc4h4 la7 sd6e3 be7
 
-option		intell
+option          intell
 
 zwilling        tausche d6 e5
 
@@ -87,7 +87,7 @@ forderung       h#2
 steine  weiss   kf5 tb4 sg7 bb5
         schwarz kc7 dc3 tc8 la2h8 se8 bd7e7
 
-option		intell
+option          intell
 
 zwilling        entferne c8
 zwilling        ferner  entferne a2
@@ -109,7 +109,7 @@ forderung       ser-h#4
 steine  weiss   ke1 da3 lg3
         schwarz kd4 ta2 lg1 ba6c3e3h7
 
-option		intell
+option          intell
 
 zwilling        entferne a2
 zwilling        ferner  entferne a6
@@ -135,7 +135,7 @@ weiteresproblem
 
 autor           Michel Caillaud
 quelle          MAT 3-4/1982
-ausz		1. Preis
+ausz            1. Preis
 
 forderung       #2
 
@@ -150,7 +150,7 @@ zwilling        bedingung circe
 weiteresproblem
 
 autor           Peter Gvozdj\'ak
-auszeichnung	3. Preis, Osmo-Kaila-Memorial 1992-?
+auszeichnung    3. Preis, Osmo-Kaila-Memorial 1992-?
 
 forderung       #2
 
@@ -166,7 +166,7 @@ weiteresproblem
 autor           Johan C. van Gool
 autor           D. van der Scheuer
 quelle          Probleemblad 1982
-auszeichnung	2. Preis
+auszeichnung    2. Preis
 
 forderung       #2
 
@@ -232,7 +232,7 @@ weiteresproblem
 
 autor           Torsten Lin"s
 quelle          3097, USPB 96/97, 7-10/1994
-auszeichnung	4. Lob
+auszeichnung    4. Lob
 
 forderung       #2
 
@@ -330,7 +330,7 @@ weiteresproblem
 
 autor           Torsten Lin"s
 quelle          1240, Europa-Rochade 9/1995
-auszeichnung	1. ehrende Erw"ahnung
+auszeichnung    1. ehrende Erw"ahnung
 
 forderung       #2
 
@@ -347,7 +347,7 @@ zwilling        bedingung       circeclone
 weiteresproblem
 
 autor           Emil Klemani\'c
-auszeichnung	2. Spezialpreis (Abt. A), Gvozdj\'ak-30 TT c. 16. 11. 1995
+auszeichnung    2. Spezialpreis (Abt. A), Gvozdj\'ak-30 TT c. 16. 11. 1995
 
 forderung       #2
 
@@ -361,7 +361,7 @@ zwilling        tausche c4 d3
 weiteresproblem
 
 autor           Emil Klemani\'c
-auszeichnung	1. Spezialpreis (Abt. A), Gvozdj\'ak-30 TT c. 16. 11. 1995
+auszeichnung    1. Spezialpreis (Abt. A), Gvozdj\'ak-30 TT c. 16. 11. 1995
 
 forderung       #2
 
@@ -382,7 +382,7 @@ forderung       h#2
 steine  weiss   kg4 tb4 sd3
         schwarz ka3 da6
 
-option		intell
+option          intell
 
 zwilling        hinzufuegen schw ta6
 zwilling        hinzufuegen schw la6
@@ -468,7 +468,7 @@ forderung       h#2
 steine  weiss   kh3 dd1 ba4e7g3h6
         schwarz kd5 te4g2 ld4f1 sf5 bc7e3f6
 
-option		intell
+option          intell
 
 zwilling        drehung 180
 
@@ -483,7 +483,7 @@ forderung       h#2
 steine  weiss   ka8 bd7e7
         schwarz kf5 tb6c5 le5 sh8 bg6
 
-option		intell
+option          intell
 
 zwilling        entferne e7 hinzu weiss se8
 zwilling        entferne e7 hinzu weiss le8
@@ -500,7 +500,7 @@ forderung       h#2
 steine  weiss   kg5 tc5f5
         schwarz ke1 tc3d1
 
-option		intell
+option          intell
 
 zwilling        ersetze t l
 zwilling        ersetze t s
@@ -515,7 +515,7 @@ forderung       h#2
 steine  weiss   kg4 tb4 sd3
         schwarz ka3 da6
 
-option		intell
+option          intell
 
 zwilling        hinzufuegen schwarz ta6
 zwilling        hinzufuegen schwarz la6
@@ -532,7 +532,7 @@ forderung       h#2
 steine  weiss   kh1 ta4 ld7 sd1h3 bd4g2
         schwarz ke4 da8 th8 lg6 sc7 bc6f7
 
-option		intell
+option          intell
 
 zwilling        entferne c7
 zwilling ferner entferne a8
@@ -550,7 +550,7 @@ forderung       h#2
 steine  weiss   kb8 tf8 lc6
         schwarz kh4 ta6 bh2h5
 
-option		intell
+option          intell
 
 zwilling        tausche h4 c6
 zwilling ferner tausche h4 f8
@@ -568,7 +568,7 @@ forderung       h#2
 steine  weiss   kh1 da2 th8 bf3
         schwarz ke5 ta8 la1 sg2g5 ba6b7c2d2
 
-option		intell
+option          intell
 
 zwilling        versetze a6 b6
 zwilling        versetze a6 c6
