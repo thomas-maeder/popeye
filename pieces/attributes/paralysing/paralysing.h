@@ -5,7 +5,12 @@
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 
-/* Validate an observater according to Paralysing pieces
+/* Validate an observation geometry according to Paralysing pieces
+ * @return true iff the observation is valid
+ */
+boolean paralysing_validate_observation_geometry(slice_index si);
+
+/* Validate an observer according to Paralysing pieces
  * @return true iff the observation is valid
  */
 boolean paralysing_validate_observer(slice_index si);

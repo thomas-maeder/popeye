@@ -262,6 +262,8 @@
     ENUMERATOR(STEiffelMovesForPieceGenerator),                       \
     ENUMERATOR(STDisparateMovesForPieceGenerator),                    \
     ENUMERATOR(STParalysingMovesForPieceGenerator),                   \
+    ENUMERATOR(STParalysingObserverValidator),                        \
+    ENUMERATOR(STParalysingObservationGeometryValidator),             \
     ENUMERATOR(STCentralMovesForPieceGenerator),                      \
     ENUMERATOR(STCentralObservationValidator),                        \
     ENUMERATOR(STCentralObserverValidator),                           \

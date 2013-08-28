@@ -17,15 +17,22 @@
  */
 static boolean paralysis_suspended = false;
 
-static boolean validate_paralyser(void)
+static boolean validating_paralysis_observation_geometry = false;
+
+/* Validate an observation geometry according to Paralysing pieces
+ * @return true iff the observation is valid
+ */
+boolean paralysing_validate_observation_geometry(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = (TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],Paralysing)
-            && validate_observation_geometry());
+  result = validate_observation_recursive(slices[si].next1);
+
+  if (result && validating_paralysis_observation_geometry)
+    result = TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],Paralysing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -44,10 +51,13 @@ static boolean is_paralysed(numecoup n)
     result = false;
   else
   {
+    assert(!validating_paralysis_observation_geometry);
     siblingply(advers(trait[nbply]));
     current_move[nbply] = current_move[nbply-1]+1;
     move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
-    result = is_square_observed(&validate_paralyser);
+    validating_paralysis_observation_geometry = true;
+    result = is_square_observed(&validate_observation_geometry);
+    validating_paralysis_observation_geometry = false;
     finply();
   }
 
@@ -142,7 +152,7 @@ boolean suffocated_by_paralysis(Side side)
   return result;
 }
 
-/* Validate an observater according to Paralysing pieces
+/* Validate an observer according to Paralysing pieces
  * @return true iff the observation is valid
  */
 boolean paralysing_validate_observer(slice_index si)
@@ -379,7 +389,8 @@ void paralysing_initialise_solving(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STParalysingMovesForPieceGenerator);
 
-  stip_instrument_observer_validation(si,nr_sides,STParalysingMovesForPieceGenerator);
+  stip_instrument_observer_validation(si,nr_sides,STParalysingObserverValidator);
+  stip_instrument_observation_geometry_validation(si,nr_sides,STParalysingObservationGeometryValidator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

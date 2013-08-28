@@ -202,8 +202,12 @@ boolean validate_observation_recursive(slice_index si)
       result = eiffel_validate_observer(si);
       break;
 
-    case STParalysingMovesForPieceGenerator:
+    case STParalysingObserverValidator:
       result = paralysing_validate_observer(si);
+      break;
+
+    case STParalysingObservationGeometryValidator:
+      result = paralysing_validate_observation_geometry(si);
       break;
 
     case STMonochromeRemoveBichromeMoves:
@@ -353,9 +357,10 @@ static slice_index const observation_validation_slice_rank_order[] =
     STEnforceObserverSide,
     STMadrasiMovesForPieceGenerator,
     STEiffelMovesForPieceGenerator,
-    STParalysingMovesForPieceGenerator,
+    STParalysingObserverValidator,
 
     STValidatingObservationGeometry,
+    STParalysingObservationGeometryValidator,
     STEnforceObserverWalk,
     STEnforceObserverSide,
     STMonochromeRemoveBichromeMoves,
