@@ -14,38 +14,60 @@ boolean amu_attacked_exactly_once[maxply+1];
 
 static square single_attacker_departure;
 static unsigned int amu_attack_count;
+static boolean are_we_counting = false;
 
-static boolean eval_amu_attack(void)
+boolean amu_count_observation(slice_index si)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  boolean result;
 
-  if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
-      && TSTFLAG(spec[sq_departure],trait[nbply]))
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (are_we_counting)
   {
-    /* this deals correctly with double attacks by the same piece (e.g. a rose) */
-    if (single_attacker_departure==sq_departure)
-      return false;
-    else
+    square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+
+    if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
+        && TSTFLAG(spec[sq_departure],trait[nbply]))
     {
-      ++amu_attack_count;
-      single_attacker_departure = sq_departure;
-      return amu_attack_count==2;
+      /* this deals correctly with double attacks by the same piece (e.g. a rose) */
+      if (single_attacker_departure==sq_departure)
+        return false;
+      else
+      {
+        ++amu_attack_count;
+        single_attacker_departure = sq_departure;
+        return amu_attack_count==2;
+      }
     }
+    else
+      return false;
   }
   else
-    return false;
+    result = validate_observation_recursive(slices[si].next1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 {
+  assert(!are_we_counting);
+
+  are_we_counting = true;
+
   amu_attack_count = 0;
   single_attacker_departure = initsquare;
 
   siblingply(advers(trait_ply));
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = sq_departure;
-  is_square_observed(&eval_amu_attack);
+  is_square_observed(&validate_observation);
   finply();
+
+  are_we_counting = false;
 
   return amu_attack_count==1;
 }
@@ -91,6 +113,7 @@ void stip_insert_amu_attack_counter(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAMUAttackCounter);
+  stip_instrument_observation_validation(si,nr_sides,STAMUObservationCounter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

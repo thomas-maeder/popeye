@@ -418,6 +418,7 @@
     ENUMERATOR(STMessignyMovesForPieceGenerator),                       \
     ENUMERATOR(STAnnanMovesForPieceGenerator),                          \
     ENUMERATOR(STAMUAttackCounter),                                     \
+    ENUMERATOR(STAMUObservationCounter),                                \
     ENUMERATOR(STMutualCastlingRightsAdjuster),                         \
     ENUMERATOR(STImitatorMover),                                        \
     ENUMERATOR(STImitatorRemoveIllegalMoves),                           \

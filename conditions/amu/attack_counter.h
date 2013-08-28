@@ -8,6 +8,8 @@
 
 extern boolean amu_attacked_exactly_once[maxply+1];
 
+boolean amu_count_observation(slice_index si);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

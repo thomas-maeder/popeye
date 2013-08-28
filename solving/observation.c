@@ -1,4 +1,5 @@
 #include "solving/observation.h"
+#include "conditions/amu/attack_counter.h"
 #include "conditions/backhome.h"
 #include "conditions/beamten.h"
 #include "conditions/bgl.h"
@@ -95,6 +96,10 @@ boolean validate_observation_recursive(slice_index si)
 
     case STMagicPiecesObserverEnforcer:
       result = magic_enforce_observer(si);
+      break;
+
+    case STAMUObservationCounter:
+      result = amu_count_observation(si);
       break;
 
     case STMasandEnforceObserver:
@@ -310,6 +315,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STValidatingObservation,
     STMarsCirceMovesForPieceGenerator,
     STMagicPiecesObserverEnforcer,
+    STAMUObservationCounter,
     STMasandEnforceObserver,
     STEnforceObserverWalk,
     STEnforceObserverSide,
