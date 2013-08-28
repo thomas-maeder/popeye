@@ -419,4 +419,18 @@ option nowk nobk
 twin stip zd11
 twin stip zb31
 
+next
+
+title Until 4.63, we produced 1.d3-d4 + !, but no extinction is threatened
+pieces white pa5d3 black pe5
+stip +1
+condition extinction circe
+
+next
+
+title Until 4.63, we produced 1.d3-d4 + !, but no extinction is threatened
+pieces white pa5d3 black pe5
+stip +1
+condition extinction andernach
+
 end
