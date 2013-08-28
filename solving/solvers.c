@@ -4,6 +4,7 @@
 #include "conditions/conditions.h"
 #include "pymsg.h"
 #include "solving/selfcheck_guard.h"
+#include "solving/check.h"
 #include "stipulation/proxy.h"
 #include "solving/observation.h"
 #include "output/output.h"
@@ -243,6 +244,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
    */
   if (CondFlag[ohneschach])
     ohneschach_insert_check_guards(result);
+
+  if (CondFlag[losingchess])
+    solving_instrument_check_testing(result,STNoCheckConceptCheckTester);
 
   /* must come here because in conditions like MAFF, we are going to tamper with
    * the slices inserted here
@@ -758,6 +762,16 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[backhome])
     backhome_initialise_solving(result);
+
+  if (CondFlag[dynasty]
+      || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
+      || CondFlag[brunner] // needed where exactly?
+      || CondFlag[shieldedkings] // needed where exactly?
+      || OptFlag[intelligent] // only STIntelligentMateFilter needed
+      || (((number_of_pieces[White][King]+number_of_pieces[White][Poseidon])==0
+           || (number_of_pieces[Black][King]+number_of_pieces[Black][Poseidon])==0)
+          && !CondFlag[extinction]))
+    solving_instrument_check_testing(result,STNoKingCheckTester);
 
   optimise_is_square_observed(result);
 

@@ -125,7 +125,7 @@ stip_length_type masand_recolorer_solve(slice_index si, stip_length_type n)
                                                                               moving_id,
                                                                               sq_arrival);
     Side const opponent = advers(slices[si].starter);
-    if (echecc(opponent) && observed(king_square[opponent],pos))
+    if (is_in_check(opponent) && observed(king_square[opponent],pos))
       change_observed(pos);
   }
 

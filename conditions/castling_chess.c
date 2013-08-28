@@ -75,7 +75,7 @@ void castlingchess_generate_moves_for_piece(slice_index si, PieNam p)
 
   generate_moves_for_piece(slices[si].next1,p);
 
-  if (p==King && !echecc(trait[nbply]))
+  if (p==King && !is_in_check(trait[nbply]))
   {
     vec_index_type k;
     for (k = vec_queen_end; k>= vec_queen_start; --k)

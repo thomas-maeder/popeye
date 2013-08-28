@@ -48,7 +48,7 @@ output_plaintext_tree_check_writer_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(slices[si].starter))
+  if (is_in_check(slices[si].starter))
     StdString(" +");
   result = solve(next,n);
 

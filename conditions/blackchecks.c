@@ -175,7 +175,7 @@ stip_length_type blackchecks_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (move_generation_stack[current_move[nbply]-1].arrival==nullsquare
-      || echecc(White))
+      || is_in_check(White))
     result = solve(slices[si].next1,n);
   else
     result = previous_move_is_illegal;

@@ -7,14 +7,18 @@
 #include "position/position.h"
 #include "stipulation/stipulation.h"
 
-/* Determine whether a side is in check
+/* Continue determining whether a side is in check
  * @param si identifies the check tester
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean is_in_check(slice_index si, Side side_in_check);
+boolean is_in_check_recursive(slice_index si, Side side_in_check);
 
-boolean echecc(Side a);
+/* Determine whether a side is in check
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean is_in_check(Side a);
 
 /* Instrument check testing with a slice type
  * @param identifies where to start instrumentation

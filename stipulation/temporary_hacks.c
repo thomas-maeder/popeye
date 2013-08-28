@@ -282,12 +282,10 @@ static slice_index make_check_tester(void)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STCheckTesterFork,proxy);
   slice_index const testing = alloc_pipe(STTestingCheck);
-  slice_index const no_king_tester = alloc_pipe(STNoKingCheckTester);
   slice_index const initialiser = alloc_pipe(STKingSquareObservationTesterPlyInitialiser);
   slice_index const king_square_observation_tester = alloc_pipe(STKingSquareObservationTester);
   link_to_branch(proxy,testing);
-  pipe_append(testing,no_king_tester);
-  pipe_append(no_king_tester,initialiser);
+  pipe_append(testing,initialiser);
   pipe_append(initialiser,king_square_observation_tester);
   pipe_link(king_square_observation_tester,alloc_true_slice());
   stip_impose_starter(result,Black);

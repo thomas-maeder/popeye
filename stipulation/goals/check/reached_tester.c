@@ -79,7 +79,7 @@ stip_length_type goal_check_reached_tester_solve(slice_index si, stip_length_typ
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(in_check))
+  if (is_in_check(in_check))
     result = solve(slices[si].next1,n);
   else
     result = n+2;

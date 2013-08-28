@@ -112,7 +112,7 @@ stip_length_type maxthreatlength_guard_solve(slice_index si,
      expensive, so let's try to avoid it */
   if (max_len_threat==0)
   {
-    if (echecc(slices[si].starter))
+    if (is_in_check(slices[si].starter))
       result = solve(next,n);
     else
       result = n+2;
@@ -122,7 +122,7 @@ stip_length_type maxthreatlength_guard_solve(slice_index si,
     stip_length_type const n_max = 2*(max_len_threat-1)+slack_length+2;
     if (n>=n_max)
     {
-      if (echecc(slices[si].starter))
+      if (is_in_check(slices[si].starter))
         result = solve(next,n);
       else if (n_max<solve(slices[si].next2,n_max))
         result = n+2;

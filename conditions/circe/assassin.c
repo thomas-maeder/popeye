@@ -24,7 +24,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
   boolean assassinable = false;
   Side const side_checking = advers(side_in_check);
 
-  if (is_in_check(slices[si].next1,side_in_check))
+  if (is_in_check_recursive(slices[si].next1,side_in_check))
     assassinable = true;
   else
   {

@@ -55,7 +55,7 @@ stip_length_type selfcheck_guard_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(advers(slices[si].starter)))
+  if (is_in_check(advers(slices[si].starter)))
     result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);

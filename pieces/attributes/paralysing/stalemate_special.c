@@ -63,7 +63,7 @@ stip_length_type paralysing_stalemate_special_solve(slice_index si, stip_length_
 
   /* only flag selfcheck if the side that has just moved is not the one to be
    * stalemated (i.e. if the stipulation is not auto-stalemate) */
-  if (applies_to_who==goal_applies_to_starter && echecc(advers(starter)))
+  if (applies_to_who==goal_applies_to_starter && is_in_check(advers(starter)))
     result = previous_move_is_illegal;
   else if (suffocated_by_paralysis(stalemated))
     result = n;

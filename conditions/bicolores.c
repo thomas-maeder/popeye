@@ -11,12 +11,12 @@ boolean bicolores_check_tester_is_in_check(slice_index si, Side side_in_check)
 {
   boolean result;
 
-  if (is_in_check(slices[si].next1,side_in_check))
+  if (is_in_check_recursive(slices[si].next1,side_in_check))
     result = true;
   else
   {
     trait[nbply] = side_in_check;
-    result = is_in_check(slices[si].next1,side_in_check);
+    result = is_in_check_recursive(slices[si].next1,side_in_check);
   }
 
   return result;

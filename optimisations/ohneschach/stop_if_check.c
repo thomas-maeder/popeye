@@ -140,7 +140,7 @@ stip_length_type ohneschach_stop_if_check_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(slices[si].starter))
+  if (is_in_check(slices[si].starter))
     result = previous_move_is_illegal;
   else
     result = solve(slices[si].next1,n);

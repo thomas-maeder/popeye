@@ -130,7 +130,7 @@ stip_length_type ohneschach_stop_if_check_and_not_mate_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(slices[si].starter))
+  if (is_in_check(slices[si].starter))
   {
     ohneschach_undecidable_goal_detected[nbply+1] = false;
 

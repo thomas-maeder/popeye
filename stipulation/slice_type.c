@@ -293,6 +293,7 @@
     ENUMERATOR(STBackHomeMovesOnly),                                    \
     ENUMERATOR(STCheckTesterFork),                                      \
     ENUMERATOR(STTestingCheck),                                         \
+    ENUMERATOR(STNoCheckConceptCheckTester),                            \
     ENUMERATOR(STVogtlaenderCheckTester),                               \
     ENUMERATOR(STExtinctionExtinctedTester),                            \
     ENUMERATOR(STExtinctionAllSquareObservationTester),                 \

@@ -798,7 +798,7 @@ static boolean are_squares_empty(square from, square to, int direction)
 
 boolean castling_is_intermediate_king_move_legal(Side side, square to)
 {
-  boolean result = false;
+  boolean result;
 
   if (CondFlag[imitators])
   {
@@ -814,7 +814,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
     if (king_square[side]!=initsquare)
       king_square[side] = to;
 
-    result = !echecc(side);
+    result = !is_in_check(side);
 
     occupy_square(from,get_walk_of_piece_on_square(to),spec[to]);
     empty_square(to);
@@ -855,7 +855,7 @@ void generate_castling(void)
         && are_squares_empty(square_e,square_a,dir_left))
       allowed_castlings |= ra_cancastle;
 
-    if (allowed_castlings!=0 && !echecc(side))
+    if (allowed_castlings!=0 && !is_in_check(side))
     {
       if ((allowed_castlings&rh_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_f))

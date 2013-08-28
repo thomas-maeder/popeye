@@ -66,7 +66,7 @@ static void IncrementMoveNbr(slice_index si)
     sprintf(GlobalStr,"\n%3u  (", MoveNbr);
     StdString(GlobalStr);
     output_plaintext_write_move();
-    if (echecc(slices[si].starter))
+    if (is_in_check(slices[si].starter))
       StdString(" +");
     StdChar(' ');
 

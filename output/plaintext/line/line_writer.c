@@ -97,7 +97,7 @@ static void write_potential_check(void)
   TraceValue("%u",nbply);
   TraceEnumerator(Side,trait[nbply],"\n");
 
-  if (echecc(advers(trait[nbply])))
+  if (is_in_check(advers(trait[nbply])))
     StdString(" +");
 
   TraceFunctionExit(__func__);

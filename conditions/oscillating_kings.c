@@ -85,7 +85,7 @@ stip_length_type oscillating_kings_type_b_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(starter))
+  if (is_in_check(starter))
     result = previous_move_is_illegal;
   else
   {
@@ -123,7 +123,7 @@ stip_length_type oscillating_kings_type_c_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(advers(starter)))
+  if (is_in_check(advers(starter)))
     perform_oscillation();
 
   result = solve(slices[si].next1,n);

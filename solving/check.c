@@ -21,7 +21,7 @@ static boolean no_king_check_tester_is_in_check(slice_index si,
   if (king_square[side_in_check]==initsquare)
     return false;
   else
-    return is_in_check(slices[si].next1,side_in_check);
+    return is_in_check_recursive(slices[si].next1,side_in_check);
 }
 
 static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_index si,
@@ -36,7 +36,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 
   nextply(advers(side_in_check));
   current_move[nbply] = current_move[nbply-1]+1;
-  result = is_in_check(slices[si].next1,side_in_check);
+  result = is_in_check_recursive(slices[si].next1,side_in_check);
   finply();
 
   TraceFunctionExit(__func__);
@@ -68,6 +68,7 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
   }
 
   TraceSquare(king_square[side_king_attacked]);TraceText("\n");
+  assert(king_square[side_king_attacked]!=initsquare);
 
   move_generation_stack[current_move[nbply]-1].capture = king_square[side_king_attacked];
   result = is_square_observed(&validate_check);
@@ -78,12 +79,12 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
   return result;
 }
 
-/* Determine whether a side is in check
+/* Continue determining whether a side is in check
  * @param si identifies the check tester
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean is_in_check(slice_index si, Side side_in_check)
+boolean is_in_check_recursive(slice_index si, Side side_in_check)
 {
   boolean result;
 
@@ -95,6 +96,10 @@ boolean is_in_check(slice_index si, Side side_in_check)
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
+    case STNoCheckConceptCheckTester:
+      result = false;
+      break;
+
     case STVogtlaenderCheckTester:
       result = vogtlaender_check_tester_is_in_check(si,side_in_check);
       break;
@@ -151,9 +156,20 @@ boolean is_in_check(slice_index si, Side side_in_check)
   return result;
 }
 
+/* Determine whether a side is in check
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean is_in_check(Side side_in_check)
+{
+  return is_in_check_recursive(slices[temporary_hack_check_tester].next2,
+                               side_in_check);
+}
+
 static slice_index const slice_rank_order[] =
 {
     STTestingCheck,
+    STNoCheckConceptCheckTester,
     STVogtlaenderCheckTester,
     STNoKingCheckTester,
     STSATCheckTester,
@@ -238,9 +254,4 @@ void solving_instrument_check_testing(slice_index si, slice_type type)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-boolean echecc(Side side_in_check)
-{
-  return is_in_check(slices[temporary_hack_check_tester].next2,side_in_check);
 }

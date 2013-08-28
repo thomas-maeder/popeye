@@ -48,7 +48,7 @@ stip_length_type goal_notcheck_reached_tester_solve(slice_index si, stip_length_
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(slices[si].starter))
+  if (is_in_check(slices[si].starter))
     result = n+2;
   else
     result = solve(slices[si].next1,n);

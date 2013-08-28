@@ -47,7 +47,7 @@ stip_length_type ultraschachzwang_legality_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (echecc(advers(trait[nbply])))
+  if (is_in_check(advers(trait[nbply])))
     result = solve(slices[si].next1,n);
   else
     result = previous_move_is_illegal;

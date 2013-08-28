@@ -35,7 +35,7 @@ static boolean find_flights(slice_index si,
     if ((is_square_empty(king_square[side_in_check])
          || TSTFLAG(spec[king_square[side_in_check]],advers(side_in_check)))
         && king_square[side_in_check]!=king_square[advers(side_in_check)]
-        && !is_in_check(slices[si].next1,side_in_check))
+        && !is_in_check_recursive(slices[si].next1,side_in_check))
       ++nr_flights_found;
     king_square[side_in_check] -= vec[i];
   }
@@ -74,7 +74,7 @@ boolean strictsat_check_tester_is_in_check(slice_index si, Side side_in_check)
 
   if (StrictSAT[side_in_check])
   {
-    if (!is_in_check(slices[si].next1,side_in_check))
+    if (!is_in_check_recursive(slices[si].next1,side_in_check))
       --max_nr_allowed_flights;
   }
 
@@ -96,7 +96,7 @@ boolean satxy_check_tester_is_in_check(slice_index si, Side side_in_check)
   boolean result;
   unsigned int max_nr_allowed_flights = SAT_max_nr_allowed_flights[side_in_check];
 
-  if (!is_in_check(slices[si].next1,side_in_check))
+  if (!is_in_check_recursive(slices[si].next1,side_in_check))
     --max_nr_allowed_flights;
 
   if (max_nr_allowed_flights==0)
@@ -130,12 +130,14 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  strict_sat_flight_tester = branch_find_slice(STStrictSATCheckTester,
-                                               slices[temporary_hack_check_tester].next2,
-                                               stip_traversal_context_intro);
+  strict_sat_flight_tester = slices[temporary_hack_check_tester].next2;
+  if (slices[strict_sat_flight_tester].type!=STStrictSATCheckTester)
+    strict_sat_flight_tester = branch_find_slice(STStrictSATCheckTester,
+                                                 strict_sat_flight_tester,
+                                                 stip_traversal_context_intro);
   assert(strict_sat_flight_tester!=no_slice);
-  StrictSAT[White] = is_in_check(slices[strict_sat_flight_tester].next1,White);
-  StrictSAT[Black] = is_in_check(slices[strict_sat_flight_tester].next1,Black);
+  StrictSAT[White] = is_in_check_recursive(slices[strict_sat_flight_tester].next1,White);
+  StrictSAT[Black] = is_in_check_recursive(slices[strict_sat_flight_tester].next1,Black);
 
   result = solve(slices[si].next1,n);
 
@@ -239,9 +241,9 @@ stip_length_type strict_sat_updater_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!StrictSAT[White] && is_in_check(slices[strict_sat_flight_tester].next1,White))
+  if (!StrictSAT[White] && is_in_check_recursive(slices[strict_sat_flight_tester].next1,White))
     do_strict_sat_adjustment(White);
-  if (!StrictSAT[Black] && is_in_check(slices[strict_sat_flight_tester].next1,Black))
+  if (!StrictSAT[Black] && is_in_check_recursive(slices[strict_sat_flight_tester].next1,Black))
     do_strict_sat_adjustment(Black);
 
   result = solve(slices[si].next1,n);

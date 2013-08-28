@@ -147,7 +147,7 @@ stip_length_type threat_solver_solve(slice_index si, stip_length_type n)
   TraceValue("%u\n",threats_ply);
   threats[threats_ply] = allocate_table();
 
-  if (!echecc(slices[si].starter))
+  if (!is_in_check(slices[si].starter))
     threat_lengths[threats_ply] = solve(slices[si].next2,n)-1;
 
   result = solve(next,n);
