@@ -1234,11 +1234,11 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
  conditions/circe/april.h conditions/circe/turncoats.h \
  conditions/circe/takemake.h conditions/exclusive.h utilities/table.h \
- conditions/ohneschach.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/immune.h \
- conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
- conditions/ultraschachzwang/legality_tester.h \
+ conditions/extinction.h conditions/ohneschach.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
+ conditions/patrol.h conditions/monochrome.h solving/move_generator.h \
+ conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  conditions/singlebox/type3.h solving/observation.h conditions/patience.h \
  conditions/isardam.h conditions/sat.h conditions/dynasty.h \
@@ -1480,6 +1480,8 @@ conditions/circe/takemake.h:
 conditions/exclusive.h:
 
 utilities/table.h:
+
+conditions/extinction.h:
 
 conditions/ohneschach.h:
 
@@ -2024,13 +2026,13 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h solving/ply.h conditions/backhome.h \
- conditions/beamten.h conditions/bgl.h solving/solve.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/brunner.h conditions/central.h \
- conditions/disparate.h conditions/geneva.h conditions/imitator.h \
- conditions/immune.h conditions/lortap.h conditions/mummer.h \
- conditions/patrol.h conditions/provocateurs.h \
+ pieces/walks/vectors.h output/mode.h solving/ply.h \
+ conditions/amu/attack_counter.h solving/solve.h conditions/backhome.h \
+ conditions/beamten.h conditions/bgl.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h conditions/brunner.h \
+ conditions/central.h conditions/disparate.h conditions/geneva.h \
+ conditions/imitator.h conditions/immune.h conditions/lortap.h \
+ conditions/mummer.h conditions/patrol.h conditions/provocateurs.h \
  conditions/shielded_kings.h conditions/superguards.h \
  conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
  conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
@@ -2075,13 +2077,15 @@ output/mode.h:
 
 solving/ply.h:
 
+conditions/amu/attack_counter.h:
+
+solving/solve.h:
+
 conditions/backhome.h:
 
 conditions/beamten.h:
 
 conditions/bgl.h:
-
-solving/solve.h:
 
 solving/move_effect_journal.h:
 
@@ -2438,10 +2442,10 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h options/options.h \
  conditions/conditions.h pymsg.h pylang.h utilities/boolean.h \
- solving/selfcheck_guard.h solving/solve.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/observation.h solving/ply.h \
- output/output.h conditions/annan.h conditions/bgl.h \
+ solving/selfcheck_guard.h solving/solve.h solving/check.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h solving/observation.h \
+ solving/ply.h output/output.h conditions/annan.h conditions/bgl.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
@@ -2568,6 +2572,8 @@ utilities/boolean.h:
 solving/selfcheck_guard.h:
 
 solving/solve.h:
+
+solving/check.h:
 
 stipulation/proxy.h:
 

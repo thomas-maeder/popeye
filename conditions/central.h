@@ -7,6 +7,11 @@
 
 /* This module implements the condition Central Chess */
 
+/* Validate an observer according to Central Chess
+ * @return true iff the observation is valid
+ */
+boolean central_validate_observer(slice_index si);
+
 /* Validate an observation according to Central Chess
  * @return true iff the observation is valid
  */

@@ -126,8 +126,12 @@ boolean validate_observation_recursive(slice_index si)
       result = brunner_validate_observation(si);
       break;
 
-    case STCentralMovesForPieceGenerator:
+    case STCentralObservationValidator:
       result = central_validate_observation(si);
+      break;
+
+    case STCentralObserverValidator:
+      result = central_validate_observer(si);
       break;
 
     case STDisparateMovesForPieceGenerator:
@@ -325,7 +329,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STBeamtenMovesForPieceGenerator,
     STBGLEnforcer,
     STBrunnerValidateCheck,
-    STCentralMovesForPieceGenerator,
+    STCentralObservationValidator,
     STDisparateMovesForPieceGenerator,
     STGenevaRemoveIllegalCaptures,
     STImmuneRemoveCapturesOfImmune,
@@ -343,6 +347,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STWormholeRemoveIllegalCaptures,
 
     STValidatingObserver,
+    STCentralObserverValidator,
     STMarsCirceMovesForPieceGenerator,
     STEnforceObserverWalk,
     STEnforceObserverSide,

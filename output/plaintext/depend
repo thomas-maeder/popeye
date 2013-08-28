@@ -751,9 +751,7 @@ utilities/boolean.h:
 output/plaintext/twinning$(OBJ_SUFFIX): output/plaintext/twinning.c \
  output/plaintext/twinning.h output/plaintext/plaintext.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h output/latex/latex.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h utilities/enumeration.h pymsg.h \
- pylang.h utilities/boolean.h
+ utilities/boolean.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/twinning.h:
 
@@ -766,16 +764,6 @@ position/board.h:
 utilities/bitmask.h:
 
 utilities/boolean.h:
-
-output/latex/latex.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-utilities/enumeration.h:
 
 pymsg.h:
 

@@ -4,7 +4,7 @@ pymsg$(OBJ_SUFFIX): pymsg.c pymsg.h pylang.h utilities/boolean.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/plaintext/plaintext.h \
- platform/pytime.h pyallmsg.h
+ output/latex/latex.h platform/pytime.h pyallmsg.h
 
 pymsg.h:
 
@@ -39,6 +39,8 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/plaintext/plaintext.h:
+
+output/latex/latex.h:
 
 platform/pytime.h:
 
