@@ -67,7 +67,7 @@ caused all kinds of trouble, including this shortie not being solved.
   1.f2-f4 e7-e5 dia
 
   add_to_move_generation_stack:          40
-                     play_move:          40
+                     play_move:          42
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
