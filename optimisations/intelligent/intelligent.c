@@ -14,6 +14,7 @@
 #include "solving/proofgames.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
+#include "solving/check.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/fork.h"
 #include "stipulation/pipe.h"
@@ -1018,6 +1019,7 @@ boolean init_intelligent_mode(slice_index si)
         goal_to_be_reached = determine_goal_to_be_reached(si);
         stip_insert_intelligent_filters(si,goal_to_be_reached);
         stip_insert_goalreachable_guards(si,goal_to_be_reached);
+        solving_instrument_check_testing(si,STNoKingCheckTester);
       }
       break;
 
@@ -1026,6 +1028,7 @@ boolean init_intelligent_mode(slice_index si)
       goal_to_be_reached = determine_goal_to_be_reached(si);
       stip_insert_intelligent_filters(si,goal_to_be_reached);
       stip_insert_goalreachable_guards(si,goal_to_be_reached);
+      solving_instrument_check_testing(si,STNoKingCheckTester);
       break;
 
     default:

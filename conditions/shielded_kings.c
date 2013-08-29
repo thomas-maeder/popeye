@@ -1,5 +1,6 @@
 #include "conditions/shielded_kings.h"
 #include "solving/observation.h"
+#include "solving/check.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -123,6 +124,7 @@ void shielded_kings_initialise_solving(slice_index si)
   stip_instrument_observation_validation(si,nr_sides,STShieldedKingsRemoveIllegalCaptures);
 
   stip_instrument_check_validation(si,nr_sides,STShieldedKingsRemoveIllegalCaptures);
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

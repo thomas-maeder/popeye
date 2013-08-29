@@ -4,6 +4,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/check.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
@@ -176,6 +177,8 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
 
   solving_instrument_move_generation(si,side,STSuperTransmutingKingsMovesForPieceGenerator);
   instrument_alternative_is_square_observed_king_testing(si,side,STTransmutingKingIsSquareObserved);
+
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

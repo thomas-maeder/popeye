@@ -818,7 +818,7 @@ conditions/dynasty$(OBJ_SUFFIX): conditions/dynasty.c conditions/dynasty.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/castling.h solving/castling_rights.h \
  solving/move_effect_journal.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ solving/check.h debugging/trace.h
 
 conditions/dynasty.h:
 
@@ -865,6 +865,8 @@ solving/move_effect_journal.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+solving/check.h:
 
 debugging/trace.h:
 conditions/oscillating_kings$(OBJ_SUFFIX): conditions/oscillating_kings.c \
@@ -3518,10 +3520,10 @@ conditions/shielded_kings$(OBJ_SUFFIX): conditions/shielded_kings.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/observation.h solving/ply.h solving/move_generator.h \
- solving/solve.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
- debugging/trace.h
+ solving/observation.h solving/ply.h solving/check.h \
+ solving/move_generator.h solving/solve.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h debugging/trace.h
 
 conditions/shielded_kings.h:
 
@@ -3550,6 +3552,8 @@ output/mode.h:
 solving/observation.h:
 
 solving/ply.h:
+
+solving/check.h:
 
 solving/move_generator.h:
 
@@ -3624,8 +3628,8 @@ conditions/brunner$(OBJ_SUFFIX): conditions/brunner.c conditions/brunner.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
- stipulation/temporary_hacks.h solving/observation.h solving/ply.h \
- solving/solve.h solving/move_generator.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/check.h solving/observation.h \
+ solving/ply.h solving/solve.h solving/move_generator.h debugging/trace.h
 
 conditions/brunner.h:
 
@@ -3654,6 +3658,8 @@ output/mode.h:
 stipulation/has_solution_type.h:
 
 stipulation/temporary_hacks.h:
+
+solving/check.h:
 
 solving/observation.h:
 

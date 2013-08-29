@@ -1,6 +1,7 @@
 #include "conditions/brunner.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/temporary_hacks.h"
+#include "solving/check.h"
 #include "solving/observation.h"
 #include "solving/solve.h"
 #include "solving/move_generator.h"
@@ -40,6 +41,7 @@ void brunner_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_check_validation(si,nr_sides,STBrunnerValidateCheck);
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

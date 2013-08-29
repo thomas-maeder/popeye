@@ -21,9 +21,9 @@ boolean exctinction_all_square_observation_tester_is_in_check(slice_index si,
  */
 boolean extinction_extincted_tester_solve(slice_index si, Side side_in_check);
 
-/* Instrument a stipulation
+/* Initialise the solving machinery with Extinction Chess
  * @param si identifies root slice of stipulation
  */
-void stip_insert_extinction_chess(slice_index si);
+void extinction_initialise_solving(slice_index si);
 
 #endif

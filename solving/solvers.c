@@ -281,8 +281,13 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[exclusive])
     optimise_away_unnecessary_selfcheckguards(result);
 
+  if (king_square[White]==initsquare || king_square[Black]==initsquare)
+    solving_instrument_check_testing(result,STNoKingCheckTester);
+
+  /* this must come after init_intelligent_mode() and
+   * solving_instrument_check_testing(result,STNoKingCheckTester)! */
   if (CondFlag[extinction])
-    stip_insert_extinction_chess(result);
+    extinction_initialise_solving(result);
 
   if (CondFlag[singlebox])
     switch (SingleBoxType)
@@ -329,7 +334,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_masand(result);
 
   if (CondFlag[dynasty])
-    stip_insert_dynasty(result);
+    dynasty_initialise_solving(result);
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
     stip_insert_hurdle_colour_changers(result);
@@ -762,16 +767,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[backhome])
     backhome_initialise_solving(result);
-
-  if (CondFlag[dynasty]
-      || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
-      || CondFlag[brunner] // needed where exactly?
-      || CondFlag[shieldedkings] // needed where exactly?
-      || OptFlag[intelligent] // only STIntelligentMateFilter needed
-      || (((number_of_pieces[White][King]+number_of_pieces[White][Poseidon])==0
-           || (number_of_pieces[Black][King]+number_of_pieces[Black][Poseidon])==0)
-          && !CondFlag[extinction]))
-    solving_instrument_check_testing(result,STNoKingCheckTester);
 
   optimise_is_square_observed(result);
 

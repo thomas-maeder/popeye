@@ -5,6 +5,7 @@
 #include "stipulation/move.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -87,16 +88,17 @@ stip_length_type dynasty_king_square_updater_solve(slice_index si,
   return result;
 }
 
-/* Instrument a stipulation
+/* Initialise the solving machinery with Royal Dynasty
  * @param si identifies root slice of stipulation
  */
-void stip_insert_dynasty(slice_index si)
+void dynasty_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STDynastyKingSquareUpdater);
+  solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

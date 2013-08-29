@@ -8,7 +8,7 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  solving/ply.h pieces/walks/pawns/en_passant.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  solving/observation.h solving/proofgames.h solving/castling.h \
- stipulation/help_play/branch.h stipulation/fork.h \
+ solving/check.h stipulation/help_play/branch.h stipulation/fork.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/branch.h \
  stipulation/temporary_hacks.h \
@@ -67,6 +67,8 @@ solving/observation.h:
 solving/proofgames.h:
 
 solving/castling.h:
+
+solving/check.h:
 
 stipulation/help_play/branch.h:
 

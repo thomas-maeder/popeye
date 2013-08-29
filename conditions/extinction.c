@@ -20,10 +20,17 @@ static void substitute_all_pieces_observation_tester(slice_index si, stip_struct
   pipe_substitute(si,alloc_pipe(STExtinctionAllSquareObservationTester));
 }
 
-/* Instrument a stipulation
+/* there may be check without a king present */
+static void remove_no_king_tester(slice_index si, stip_structure_traversal*st)
+{
+  stip_traverse_structure_children(si,st);
+  pipe_remove(si);
+}
+
+/* Initialise the solving machinery with Extinction Chess
  * @param si identifies root slice of stipulation
  */
-void stip_insert_extinction_chess(slice_index si)
+void extinction_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -42,6 +49,9 @@ void stip_insert_extinction_chess(slice_index si)
     stip_structure_traversal_override_single(&st,
                                              STGoalKingCaptureReachedTester,
                                              &substitute_extinction_tester);
+    stip_structure_traversal_override_single(&st,
+                                             STNoKingCheckTester,
+                                             &remove_no_king_tester);
     stip_structure_traversal_override_single(&st,
                                              STKingSquareObservationTester,
                                              &substitute_all_pieces_observation_tester);

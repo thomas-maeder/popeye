@@ -21,9 +21,9 @@
 stip_length_type dynasty_king_square_updater_solve(slice_index si,
                                                     stip_length_type n);
 
-/* Instrument a stipulation for Royal Dynasty
+/* Initialise the solving machinery with Royal Dynasty
  * @param si identifies root slice of stipulation
  */
-void stip_insert_dynasty(slice_index si);
+void dynasty_initialise_solving(slice_index si);
 
 #endif
