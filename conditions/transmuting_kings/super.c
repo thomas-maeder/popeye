@@ -178,7 +178,7 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   solving_instrument_move_generation(si,side,STSuperTransmutingKingsMovesForPieceGenerator);
   instrument_alternative_is_square_observed_king_testing(si,side,STTransmutingKingIsSquareObserved);
 
-  solving_instrument_check_testing(si,STNoKingCheckTester);
+  check_no_king_is_possible();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

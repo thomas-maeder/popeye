@@ -281,11 +281,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[exclusive])
     optimise_away_unnecessary_selfcheckguards(result);
 
-  if (king_square[White]==initsquare || king_square[Black]==initsquare)
-    solving_instrument_check_testing(result,STNoKingCheckTester);
-
-  /* this must come after init_intelligent_mode() and
-   * solving_instrument_check_testing(result,STNoKingCheckTester)! */
   if (CondFlag[extinction])
     extinction_initialise_solving(result);
 
@@ -351,35 +346,35 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     stip_insert_actuated_revolving_board(result);
 
   if (anyparrain)
-    stip_insert_circe_parrain_rebirth_handlers(result);
+    circe_parrain_initialise_solving(result);
   else if (CondFlag[supercirce])
-    stip_insert_supercirce_rebirth_handlers(result);
+    supercirce_initialise_solving(result);
   else if (CondFlag[april])
-    stip_insert_april_chess(result);
+    april_chess_initialise_solving(result);
   else if (CondFlag[circecage])
-    stip_insert_circe_cage(result);
+    circe_cage_initialise_solving(result);
   else if (CondFlag[circeassassin])
     assassin_circe_initalise_solving(result);
   else if (CondFlag[circetakeandmake])
     stip_insert_take_make_circe(result);
   else if (anycirce)
   {
-    stip_insert_circe(result);
+    circe_initialise_solving(result);
     if (CondFlag[circedoubleagents])
-      stip_insert_circe_double_agents(result);
+      circe_double_agents_initialise_solving(result);
     if (CondFlag[chamcirce])
-      stip_insert_chameleon_circe(result);
+      chameleon_circe_initialise_solving(result);
     if (anyclone)
-      stip_insert_circe_clone(result);
+      circe_clone_initialise_solving(result);
     if (TSTFLAG(some_pieces_flags,Kamikaze))
     {
-      stip_insert_anticirce_relaxed(result);
-      stip_insert_circe_kamikaze_rebirth_handlers(result);
+      anticirce_relaxed_initialise_solving(result);
+      circe_kamikaze_initialise_solving(result);
       if (CondFlag[couscous])
-        stip_insert_anticirce_couscous(result);
+        anticirce_couscous_initialise_solving(result);
     }
     if (CondFlag[couscous])
-      stip_insert_couscous_circe(result);
+      couscous_circe_initialise_solving(result);
   }
 
   if (anycirce)
@@ -414,7 +409,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     if (anyanticirprom)
       stip_insert_anticirce_promotion(result);
     if (CondFlag[couscous])
-      stip_insert_anticirce_couscous(result);
+      anticirce_couscous_initialise_solving(result);
   }
 
   if (CondFlag[duellist])
@@ -769,6 +764,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     backhome_initialise_solving(result);
 
   optimise_is_square_observed(result);
+  optimise_is_in_check(result);
 
   stip_impose_starter(result,slices[result].starter);
 

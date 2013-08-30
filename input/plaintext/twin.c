@@ -1165,6 +1165,8 @@ static void InitAlways(void)
   reset_max_nr_solutions_per_target_position();
 
   king_capture_avoiders_reset();
+
+  check_reset_no_king_knowledge();
 }
 
 typedef enum

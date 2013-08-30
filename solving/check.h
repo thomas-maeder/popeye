@@ -26,4 +26,20 @@ boolean is_in_check(Side a);
  */
 void solving_instrument_check_testing(slice_index si, slice_type type);
 
+/* Tell the check detection machinery to forget everythign about no kings */
+void check_reset_no_king_knowledge(void);
+
+
+/* Tell the check detection machinery that a side may have no king */
+void check_no_king_is_possible(void);
+
+/* Tell the check detection machinery that a side may be in check even if it
+ * doesn't have a king*/
+void check_even_if_no_king(void);
+
+/* Optimise the check machinery if possible
+ * @param si identifies the root slice of the solving machinery
+ */
+void optimise_is_in_check(slice_index si);
+
 #endif

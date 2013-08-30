@@ -1019,7 +1019,7 @@ boolean init_intelligent_mode(slice_index si)
         goal_to_be_reached = determine_goal_to_be_reached(si);
         stip_insert_intelligent_filters(si,goal_to_be_reached);
         stip_insert_goalreachable_guards(si,goal_to_be_reached);
-        solving_instrument_check_testing(si,STNoKingCheckTester);
+        check_no_king_is_possible();
       }
       break;
 
@@ -1028,7 +1028,7 @@ boolean init_intelligent_mode(slice_index si)
       goal_to_be_reached = determine_goal_to_be_reached(si);
       stip_insert_intelligent_filters(si,goal_to_be_reached);
       stip_insert_goalreachable_guards(si,goal_to_be_reached);
-      solving_instrument_check_testing(si,STNoKingCheckTester);
+      check_no_king_is_possible();
       break;
 
     default:

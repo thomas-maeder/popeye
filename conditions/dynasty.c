@@ -98,7 +98,7 @@ void dynasty_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STDynastyKingSquareUpdater);
-  solving_instrument_check_testing(si,STNoKingCheckTester);
+  check_no_king_is_possible();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
