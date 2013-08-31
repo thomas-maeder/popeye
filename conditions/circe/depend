@@ -1334,3 +1334,58 @@ solving/observation.h:
 solving/ply.h:
 
 debugging/trace.h:
+conditions/circe/diametral$(OBJ_SUFFIX): conditions/circe/diametral.c \
+ conditions/circe/diametral.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/diametral.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:

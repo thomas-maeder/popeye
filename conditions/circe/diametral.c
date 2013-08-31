@@ -1,10 +1,6 @@
-#include "conditions/circe/turncoats.h"
-#include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/stipulation.h"
-#include "stipulation/move.h"
-#include "solving/move_effect_journal.h"
+#include "conditions/circe/diametral.h"
 #include "conditions/circe/circe.h"
+#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -22,8 +18,8 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type circe_turncoats_side_changer_solve(slice_index si,
-                                                    stip_length_type n)
+stip_length_type circe_diametral_adjust_rebirth_square_solve(slice_index si,
+                                                               stip_length_type n)
 {
   stip_length_type result;
 
@@ -32,10 +28,8 @@ stip_length_type circe_turncoats_side_changer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_circe_rebirth_square[nbply]!=initsquare
-      && !TSTFLAG(spec[current_circe_rebirth_square[nbply]],trait[nbply]))
-    move_effect_journal_do_side_change(move_effect_reason_circe_turncoats,
-                                       current_circe_rebirth_square[nbply]);
+  current_circe_rebirth_square[nbply] = (square_h8+square_a1
+                                         - current_circe_rebirth_square[nbply]);
 
   result = solve(slices[si].next1,n);
 
@@ -46,15 +40,16 @@ stip_length_type circe_turncoats_side_changer_solve(slice_index si,
 }
 
 /* Override the Circe instrumentation of the solving machinery with
- * Circe Turncoats
+ * Couscous Circe
  * @param si identifies root slice of stipulation
  */
-void circe_turncoats_initialise_solving(slice_index si)
+void diametral_circe_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STCirceTraitorSideChanger);
+  stip_instrument_moves(si,STCirceDiametralAdjustRebirthSquare);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

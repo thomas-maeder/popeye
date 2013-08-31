@@ -45,16 +45,16 @@ stip_length_type april_chess_fork_solve(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Instrument a stipulation
+/* Instrument the solving machinery with April Chess
  * @param si identifies root slice of stipulation
  */
-void stip_insert_april_chess(slice_index si)
+void april_chess_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_insert_supercirce_rebirth_handlers(si);
+  supercirce_initialise_solving(si);
   stip_insert_rebirth_avoider(si,STAprilAprilFork);
 
   TraceFunctionExit(__func__);

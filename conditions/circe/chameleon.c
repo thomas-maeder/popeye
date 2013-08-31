@@ -90,10 +90,11 @@ stip_length_type chameleon_circe_adapt_reborn_piece_solve(slice_index si,
   return result;
 }
 
-/* Instrument a stipulation
+/* Override the Circe instrumentation of the solving machinery with
+ * Chameleon Circe
  * @param si identifies root slice of stipulation
  */
-void stip_insert_chameleon_circe(slice_index si)
+void chameleon_circe_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

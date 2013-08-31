@@ -186,10 +186,10 @@ static void instrument_capture_fork(slice_index capture_fork, stip_structure_tra
   stip_traverse_structure_children(capture_fork,st);
 }
 
-/* Instrument a stipulation
+/* Instrument the solving machinery with Circe Take&Make
  * @param si identifies root slice of stipulation
  */
-void stip_insert_take_make_circe(slice_index si)
+void circe_take_make_initialse_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

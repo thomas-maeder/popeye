@@ -103,10 +103,10 @@ void stip_replace_circe_determine_reborn_piece(slice_index si,
 void stip_replace_circe_determine_relevant_piece(slice_index si,
                                                  slice_type substitute);
 
-/* Instrument a stipulation for Circe
+/* Instrument the solving machinery with Circe
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe(slice_index si);
+void circe_initialise_solving(slice_index si);
 
 
 square renfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
@@ -120,6 +120,5 @@ square renantipoden(PieNam p, Flags pspec, square j, square i, square ip, Side c
 square rendiagramm(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square rennormal(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegel(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square rendiametral(PieNam p, Flags pspec, square j, square i, square ia, Side camp);
 
 #endif

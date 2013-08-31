@@ -43,6 +43,7 @@
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/clone.h"
 #include "conditions/circe/couscous.h"
+#include "conditions/circe/diametral.h"
 #include "conditions/circe/double_agents.h"
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
@@ -356,7 +357,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   else if (CondFlag[circeassassin])
     assassin_circe_initalise_solving(result);
   else if (CondFlag[circetakeandmake])
-    stip_insert_take_make_circe(result);
+    circe_take_make_initialse_solving(result);
   else if (anycirce)
   {
     circe_initialise_solving(result);
@@ -366,6 +367,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       chameleon_circe_initialise_solving(result);
     if (anyclone)
       circe_clone_initialise_solving(result);
+    if (CondFlag[circediametral])
+      diametral_circe_initialise_solving(result);
     if (TSTFLAG(some_pieces_flags,Kamikaze))
     {
       anticirce_relaxed_initialise_solving(result);
@@ -380,11 +383,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (anycirce)
   {
     if  (TSTFLAG(some_pieces_flags,Volage))
-      stip_insert_circe_volage_recolorers(result);
+      circe_volage_initialise_solving(result);
     if  (anycirprom)
       stip_insert_circe_promoters(result);
     if (CondFlag[circeturncoats])
-      stip_insert_circe_turncoats_side_changers(result);
+      circe_turncoats_initialise_solving(result);
   }
 
   if (CondFlag[sentinelles])

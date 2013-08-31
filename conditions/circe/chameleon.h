@@ -43,9 +43,10 @@ PieNam chameleon_circe_get_reborn_piece(PieNam captured);
 stip_length_type chameleon_circe_adapt_reborn_piece_solve(slice_index si,
                                                           stip_length_type n);
 
-/* Instrument a stipulation
+/* Override the Circe instrumentation of the solving machinery with
+ * Chameleon Circe
  * @param si identifies root slice of stipulation
  */
-void stip_insert_chameleon_circe(slice_index si);
+void chameleon_circe_initialise_solving(slice_index si);
 
 #endif

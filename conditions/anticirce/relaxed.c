@@ -59,10 +59,11 @@ stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
   return result;
 }
 
-/* Instrument a stipulation
+/* Override the Circe instrumentation of the solving machinery with
+ * relaxed (i.e. non-strict) Anticirce
  * @param si identifies root slice of stipulation
  */
-void stip_insert_anticirce_relaxed(slice_index si)
+void anticirce_relaxed_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

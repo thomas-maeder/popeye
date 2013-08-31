@@ -44,10 +44,11 @@ stip_length_type anticirce_couscous_determine_relevant_piece_solve(slice_index s
   return result;
 }
 
-/* Instrument a stipulation
+/* Override the Circe instrumentation of the solving machinery with
+ * Anticirce Couscous
  * @param si identifies root slice of stipulation
  */
-void stip_insert_anticirce_couscous(slice_index si)
+void anticirce_couscous_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

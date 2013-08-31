@@ -21,9 +21,9 @@
 stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
                                                              stip_length_type n);
 
-/* Instrument a stipulation
+/* Override the Circe instrumentation of the solving machinery with Double Agens
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_double_agents(slice_index si);
+void circe_double_agents_initialise_solving(slice_index si);
 
 #endif

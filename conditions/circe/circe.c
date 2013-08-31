@@ -251,10 +251,10 @@ void stip_replace_circe_determine_relevant_piece(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
+/* Instrument the solving machinery with Circe
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe(slice_index si)
+void circe_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -272,7 +272,8 @@ void stip_insert_circe(slice_index si)
 
 square renrank(PieNam p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
-               Side capturer) {
+               Side capturer)
+{
   square sq= ((sq_capture/onerow)%2==1
               ? rennormal(p_captured,p_captured_spec,
                           sq_capture,sq_departure,sq_arrival,capturer)
@@ -483,15 +484,6 @@ square rennormal(PieNam pnam_captured, Flags p_captured_spec,
   TraceSquare(Result);
   TraceFunctionResultEnd();
   return(Result);
-}
-
-square rendiametral(PieNam p_captured, Flags p_captured_spec,
-                    square sq_capture,
-                    square sq_departure, square sq_arrival,
-                    Side capturer) {
-  return (square_h8+square_a1
-          - rennormal(p_captured,p_captured_spec,
-                      sq_capture,sq_departure,sq_arrival,capturer));
 }
 
 square renspiegel(PieNam p_captured, Flags p_captured_spec,

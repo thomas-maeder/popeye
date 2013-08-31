@@ -155,10 +155,10 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
+/* Instrument the solving machinery with Circe Cage
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_cage(slice_index si)
+void circe_cage_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 

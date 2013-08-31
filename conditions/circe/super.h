@@ -37,9 +37,9 @@ stip_length_type supercirce_no_rebirth_fork_solve(slice_index si,
 stip_length_type supercirce_rebirth_handler_solve(slice_index si,
                                                    stip_length_type n);
 
-/* Instrument a stipulation for Super Circe
+/* Instrument the solving machinery with Super-Circe
  * @param si identifies root slice of stipulation
  */
-void stip_insert_supercirce_rebirth_handlers(slice_index si);
+void supercirce_initialise_solving(slice_index si);
 
 #endif

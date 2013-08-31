@@ -54,9 +54,9 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
 stip_length_type take_make_circe_no_rebirth_solve(slice_index si,
                                                   stip_length_type n);
 
-/* Instrument a stipulation for Circe
+/* Instrument the solving machinery with Circe Take&Make
  * @param si identifies root slice of stipulation
  */
-void stip_insert_take_make_circe(slice_index si);
+void circe_take_make_initialse_solving(slice_index si);
 
 #endif

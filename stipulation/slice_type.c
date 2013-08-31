@@ -329,6 +329,7 @@
     ENUMERATOR(STCirceDetermineRelevantPiece),                          \
     ENUMERATOR(STCirceCouscousDetermineRelevantPiece),                  \
     ENUMERATOR(STCirceDetermineRebirthSquare),                          \
+    ENUMERATOR(STCirceDiametralAdjustRebirthSquare),                    \
     ENUMERATOR(STTakeMakeCirceDetermineRebirthSquares),                 \
     ENUMERATOR(STTakeMakeCirceNoRebirth),                               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquaresFork),               \

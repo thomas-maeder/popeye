@@ -21,8 +21,10 @@
 stip_length_type circe_turncoats_side_changer_solve(slice_index si,
                                                     stip_length_type n);
 
-/* Instrument slices with move tracers
+/* Override the Circe instrumentation of the solving machinery with
+ * Circe Turncoats
+ * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_turncoats_side_changers(slice_index si);
+void circe_turncoats_initialise_solving(slice_index si);
 
 #endif

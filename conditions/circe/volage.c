@@ -81,10 +81,11 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
+/* Override the Circe instrumentation of the solving machinery with
+ * Volage
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_volage_recolorers(slice_index si)
+void circe_volage_initialise_solving(slice_index si)
 {
   stip_structure_traversal st;
 

@@ -885,7 +885,7 @@ char *ParseCond(void)
         anyparrain= true;
         break;
       case circediametral:
-        circe_determine_rebirth_square= rendiametral;
+        circe_determine_rebirth_square = rennormal;
         anycirce= true;
         break;
       case frischauf:

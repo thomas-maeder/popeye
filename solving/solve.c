@@ -21,6 +21,7 @@
 #include "conditions/koeko/anti.h"
 #include "conditions/koeko/new.h"
 #include "conditions/circe/chameleon.h"
+#include "conditions/circe/diametral.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/clone.h"
 #include "conditions/circe/couscous.h"
@@ -687,6 +688,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceDetermineRebirthSquare:
       result = circe_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STCirceDiametralAdjustRebirthSquare:
+      result = circe_diametral_adjust_rebirth_square_solve(si,n);
       break;
 
     case STTakeMakeCirceDetermineRebirthSquares:

@@ -64,10 +64,11 @@ static void replace(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation for Kamikaze pieces in Circe
+/* Override the Circe instrumentation of the solving machinery with
+ * Kamikaze+Circe
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si)
+void circe_kamikaze_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

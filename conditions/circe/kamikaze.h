@@ -35,9 +35,10 @@ stip_length_type circe_kamikaze_capture_fork_solve(slice_index si,
 stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
                                                       stip_length_type n);
 
-/* Instrument a stipulation for Kamikaze pieces in Circe
+/* Override the Circe instrumentation of the solving machinery with
+ * Kamikaze+Circe
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_kamikaze_rebirth_handlers(slice_index si);
+void circe_kamikaze_initialise_solving(slice_index si);
 
 #endif

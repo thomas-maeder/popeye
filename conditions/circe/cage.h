@@ -35,9 +35,9 @@ stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
 stip_length_type circe_cage_cage_tester_solve(slice_index si,
                                                stip_length_type n);
 
-/* Instrument a stipulation
+/* Instrument the solving machinery with Circe Cage
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_cage(slice_index si);
+void circe_cage_initialise_solving(slice_index si);
 
 #endif

@@ -52,10 +52,11 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   return result;
 }
 
-/* Instrument a stipulation
+/* Override the Circe instrumentation of the solving machinery with
+ * Circe Clone
  * @param si identifies root slice of stipulation
  */
-void stip_insert_circe_clone(slice_index si)
+void circe_clone_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
