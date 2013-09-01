@@ -55,6 +55,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/king_capture_avoider.h"
 #include "solving/castling.h"
+#include "solving/check.h"
 #include "solving/solvers.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
