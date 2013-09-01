@@ -20,12 +20,16 @@
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/anti.h"
 #include "conditions/koeko/new.h"
+#include "conditions/circe/antipodes.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/diametral.h"
 #include "conditions/circe/circuit_by_rebirth_special.h"
 #include "conditions/circe/clone.h"
 #include "conditions/circe/couscous.h"
+#include "conditions/circe/diagram.h"
+#include "conditions/circe/equipollents.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
+#include "conditions/circe/file.h"
 #include "conditions/circe/steingewinn_filter.h"
 #include "conditions/circe/assassin.h"
 #include "conditions/circe/frischauf.h"
@@ -33,6 +37,10 @@
 #include "conditions/circe/april.h"
 #include "conditions/circe/turncoats.h"
 #include "conditions/circe/takemake.h"
+#include "conditions/circe/mirror.h"
+#include "conditions/circe/pwc.h"
+#include "conditions/circe/rank.h"
+#include "conditions/circe/symmetry.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/ohneschach.h"
@@ -686,12 +694,28 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_couscous_determine_relevant_piece_solve(si,n);
       break;
 
+    case STSpiegelCirceDetermineRelevantSide:
+      result = mirror_circe_determine_relevant_side_solve(si,n);
+      break;
+
     case STCirceDetermineRebirthSquare:
       result = circe_determine_rebirth_square_solve(si,n);
       break;
 
+    case STFileCirceDetermineRebirthSquare:
+      result = file_circe_determine_rebirth_square_solve(si,n);
+      break;
+
     case STCirceDiametralAdjustRebirthSquare:
       result = circe_diametral_adjust_rebirth_square_solve(si,n);
+      break;
+
+    case STRankCirceDetermineRelevantSide:
+      result = rank_circe_determine_relevant_side_solve(si,n);
+      break;
+
+    case STRankCirceAdjustRebirthSquare:
+      result = rank_circe_adjust_rebirth_square_solve(si,n);
       break;
 
     case STTakeMakeCirceDetermineRebirthSquares:
@@ -704,6 +728,26 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STTakeMakeCirceCollectRebirthSquares:
       result = take_make_circe_collect_rebirth_squares_solve(si,n);
+      break;
+
+    case STAntipodesCirceDetermineRebirthSquare:
+      result = antipodes_circe_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STSymmetryCirceDetermineRebirthSquare:
+      result = symmetry_circe_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STPWCDetermineRebirthSquare:
+      result = pwc_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STDiagramCirceDetermineRebirthSquare:
+      result = diagram_circe_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STCirceEquipollentsDetermineRebirthSquare:
+      result = circe_equipollents_determine_rebirth_square_solve(si,n);
       break;
 
     case STContactGridAvoidCirceRebirth:

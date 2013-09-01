@@ -23,8 +23,6 @@ Side current_circe_relevant_side[maxply+1];
 
 move_effect_reason_type current_circe_rebirth_reason[maxply+1];
 
-square (*circe_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -132,12 +130,12 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
   current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
-  current_circe_rebirth_square[nbply] = (*circe_determine_rebirth_square)(current_circe_relevant_piece[nbply],
-                                                      current_circe_relevant_spec[nbply],
-                                                      sq_capture,
-                                                      sq_departure,
-                                                      sq_arrival,
-                                                      current_circe_relevant_side[nbply]);
+  current_circe_rebirth_square[nbply] = rennormal(current_circe_relevant_piece[nbply],
+                                                  current_circe_relevant_spec[nbply],
+                                                  sq_capture,
+                                                  sq_departure,
+                                                  sq_arrival,
+                                                  current_circe_relevant_side[nbply]);
 
   result = solve(slices[si].next1,n);
   current_circe_rebirth_reason[nbply] = move_effect_no_reason;
@@ -169,6 +167,10 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  TracePiece(current_circe_reborn_piece[nbply]);
+  TraceSquare(current_circe_rebirth_square[nbply]);
+  TraceValue("%u\n",is_square_empty(current_circe_rebirth_square[nbply]));
 
   if (current_circe_reborn_piece[nbply]!=Empty
       && is_square_empty(current_circe_rebirth_square[nbply]))
@@ -270,18 +272,6 @@ void circe_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-square renrank(PieNam p_captured, Flags p_captured_spec,
-               square sq_capture, square sq_departure, square sq_arrival,
-               Side capturer)
-{
-  square sq= ((sq_capture/onerow)%2==1
-              ? rennormal(p_captured,p_captured_spec,
-                          sq_capture,sq_departure,sq_arrival,capturer)
-              : renspiegel(p_captured,p_captured_spec,
-                           sq_capture,sq_departure,sq_arrival,capturer));
-  return onerow*(sq_capture/onerow) + sq%onerow;
-}
-
 square renfile(PieNam p_captured, Flags p_captured_spec,
                square sq_capture, square sq_departure, square sq_arrival,
                Side capturer)
@@ -371,23 +361,23 @@ square renantipoden(PieNam p_captured, Flags p_captured_spec,
                     square sq_departure, square sq_arrival,
                     Side capturer)
 {
-  int const row= sq_capture/onerow - nr_of_slack_rows_below_board;
-  int const file= sq_capture%onerow - nr_of_slack_files_left_of_board;
+  unsigned int const row = sq_capture/onerow - nr_of_slack_rows_below_board;
+  unsigned int const file = sq_capture%onerow - nr_of_slack_files_left_of_board;
 
-  sq_departure= sq_capture;
+  square result = sq_capture;
 
   if (row<nr_rows_on_board/2)
-    sq_departure+= nr_rows_on_board/2*dir_up;
+    result += nr_rows_on_board/2*dir_up;
   else
-    sq_departure+= nr_rows_on_board/2*dir_down;
+    result += nr_rows_on_board/2*dir_down;
 
   if (file<nr_files_on_board/2)
-    sq_departure+= nr_files_on_board/2*dir_right;
+    result += nr_files_on_board/2*dir_right;
   else
-    sq_departure+= nr_files_on_board/2*dir_left;
+    result += nr_files_on_board/2*dir_left;
 
-  return sq_departure;
-} /* renantipoden */
+  return result;
+}
 
 square rendiagramm(PieNam p_captured, Flags p_captured_spec,
                    square sq_capture, square sq_departure, square sq_arrival,

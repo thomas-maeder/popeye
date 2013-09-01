@@ -1,0 +1,21 @@
+begin
+
+protocol circe.tst
+
+title only example of Rank Circe
+pieces white rc4 black sa4d4 qc6
+stip x1
+condition rankcirce
+option nowk nobk
+twin shift a1 a2
+
+next
+
+title only example of Mirror File Circe
+pieces white pd4 black se5
+condition filecirce
+stip x1
+option nowk nobk
+twin condition MirrorFileCirce
+
+end

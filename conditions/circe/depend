@@ -1389,3 +1389,463 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+conditions/circe/mirror$(OBJ_SUFFIX): conditions/circe/mirror.c \
+ conditions/circe/mirror.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/mirror.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/circe/rank$(OBJ_SUFFIX): conditions/circe/rank.c conditions/circe/rank.h \
+ solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h \
+ stipulation/slice_type.h utilities/enumeration.h position/position.h \
+ pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/rank.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/circe/antipodes$(OBJ_SUFFIX): conditions/circe/antipodes.c \
+ conditions/circe/antipodes.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ conditions/circe/capture_fork.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/antipodes.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+conditions/circe/capture_fork.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/circe/pwc$(OBJ_SUFFIX): conditions/circe/pwc.c conditions/circe/pwc.h \
+ solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h \
+ stipulation/slice_type.h utilities/enumeration.h position/position.h \
+ pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ conditions/circe/capture_fork.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/pwc.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+conditions/circe/capture_fork.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/circe/equipollents$(OBJ_SUFFIX): conditions/circe/equipollents.c \
+ conditions/circe/equipollents.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h conditions/circe/capture_fork.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/equipollents.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+conditions/circe/capture_fork.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/circe/file$(OBJ_SUFFIX): conditions/circe/file.c conditions/circe/file.h \
+ solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h \
+ stipulation/slice_type.h utilities/enumeration.h position/position.h \
+ pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ conditions/circe/capture_fork.h pieces/walks/classification.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/file.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+conditions/circe/capture_fork.h:
+
+pieces/walks/classification.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/circe/diagram$(OBJ_SUFFIX): conditions/circe/diagram.c \
+ conditions/circe/diagram.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ conditions/circe/capture_fork.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/diagram.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+conditions/circe/capture_fork.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/circe/symmetry$(OBJ_SUFFIX): conditions/circe/symmetry.c \
+ conditions/circe/symmetry.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ conditions/circe/capture_fork.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/circe/symmetry.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+conditions/circe/capture_fork.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:

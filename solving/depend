@@ -1226,15 +1226,18 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/anticirce/magic_square.h conditions/bgl.h \
  conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
- conditions/koeko/new.h conditions/circe/chameleon.h \
- conditions/circe/diametral.h \
+ conditions/koeko/new.h conditions/circe/antipodes.h \
+ conditions/circe/chameleon.h conditions/circe/diametral.h \
  conditions/circe/circuit_by_rebirth_special.h conditions/circe/clone.h \
- conditions/circe/couscous.h \
- conditions/circe/exchange_by_rebirth_special.h \
+ conditions/circe/couscous.h conditions/circe/diagram.h \
+ conditions/circe/equipollents.h \
+ conditions/circe/exchange_by_rebirth_special.h conditions/circe/file.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
  conditions/circe/april.h conditions/circe/turncoats.h \
- conditions/circe/takemake.h conditions/exclusive.h utilities/table.h \
+ conditions/circe/takemake.h conditions/circe/mirror.h \
+ conditions/circe/pwc.h conditions/circe/rank.h \
+ conditions/circe/symmetry.h conditions/exclusive.h utilities/table.h \
  conditions/extinction.h conditions/ohneschach.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
@@ -1454,6 +1457,8 @@ conditions/koeko/anti.h:
 
 conditions/koeko/new.h:
 
+conditions/circe/antipodes.h:
+
 conditions/circe/chameleon.h:
 
 conditions/circe/diametral.h:
@@ -1464,7 +1469,13 @@ conditions/circe/clone.h:
 
 conditions/circe/couscous.h:
 
+conditions/circe/diagram.h:
+
+conditions/circe/equipollents.h:
+
 conditions/circe/exchange_by_rebirth_special.h:
+
+conditions/circe/file.h:
 
 conditions/circe/steingewinn_filter.h:
 
@@ -1479,6 +1490,14 @@ conditions/circe/april.h:
 conditions/circe/turncoats.h:
 
 conditions/circe/takemake.h:
+
+conditions/circe/mirror.h:
+
+conditions/circe/pwc.h:
+
+conditions/circe/rank.h:
+
+conditions/circe/symmetry.h:
 
 conditions/exclusive.h:
 
@@ -2464,14 +2483,18 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/circe/circe.h \
- conditions/circe/cage.h conditions/circe/chameleon.h \
- conditions/circe/clone.h conditions/circe/couscous.h \
+ conditions/circe/antipodes.h conditions/circe/cage.h \
+ conditions/circe/chameleon.h conditions/circe/clone.h \
+ conditions/circe/couscous.h conditions/circe/diagram.h \
  conditions/circe/diametral.h conditions/circe/double_agents.h \
+ conditions/circe/equipollents.h conditions/circe/file.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
  conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/circe/frischauf.h conditions/circe/super.h \
- conditions/circe/april.h conditions/circe/turncoats.h \
- conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
+ conditions/circe/frischauf.h conditions/circe/mirror.h \
+ conditions/circe/pwc.h conditions/circe/super.h \
+ conditions/circe/symmetry.h conditions/circe/april.h \
+ conditions/circe/turncoats.h conditions/circe/takemake.h \
+ conditions/circe/rex_inclusive.h conditions/circe/rank.h \
  conditions/anticirce/cheylan.h conditions/anticirce/couscous.h \
  conditions/anticirce/anticirce.h conditions/anticirce/promotion.h \
  solving/moving_pawn_promotion.h conditions/anticirce/strict.h \
@@ -2667,6 +2690,8 @@ conditions/actuated_revolving_board.h:
 
 conditions/circe/circe.h:
 
+conditions/circe/antipodes.h:
+
 conditions/circe/cage.h:
 
 conditions/circe/chameleon.h:
@@ -2675,9 +2700,15 @@ conditions/circe/clone.h:
 
 conditions/circe/couscous.h:
 
+conditions/circe/diagram.h:
+
 conditions/circe/diametral.h:
 
 conditions/circe/double_agents.h:
+
+conditions/circe/equipollents.h:
+
+conditions/circe/file.h:
 
 conditions/circe/kamikaze.h:
 
@@ -2689,7 +2720,13 @@ conditions/circe/promotion.h:
 
 conditions/circe/frischauf.h:
 
+conditions/circe/mirror.h:
+
+conditions/circe/pwc.h:
+
 conditions/circe/super.h:
+
+conditions/circe/symmetry.h:
 
 conditions/circe/april.h:
 
@@ -2698,6 +2735,8 @@ conditions/circe/turncoats.h:
 conditions/circe/takemake.h:
 
 conditions/circe/rex_inclusive.h:
+
+conditions/circe/rank.h:
 
 conditions/anticirce/cheylan.h:
 

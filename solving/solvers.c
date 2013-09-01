@@ -39,22 +39,30 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/actuated_revolving_board.h"
 #include "conditions/circe/circe.h"
+#include "conditions/circe/antipodes.h"
 #include "conditions/circe/cage.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/clone.h"
 #include "conditions/circe/couscous.h"
+#include "conditions/circe/diagram.h"
 #include "conditions/circe/diametral.h"
 #include "conditions/circe/double_agents.h"
+#include "conditions/circe/equipollents.h"
+#include "conditions/circe/file.h"
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/volage.h"
 #include "conditions/circe/promotion.h"
 #include "conditions/circe/frischauf.h"
+#include "conditions/circe/mirror.h"
+#include "conditions/circe/pwc.h"
 #include "conditions/circe/super.h"
+#include "conditions/circe/symmetry.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/turncoats.h"
 #include "conditions/circe/takemake.h"
 #include "conditions/circe/rex_inclusive.h"
+#include "conditions/circe/rank.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/anticirce.h"
@@ -358,6 +366,23 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     assassin_circe_initalise_solving(result);
   else if (CondFlag[circetakeandmake])
     circe_take_make_initialse_solving(result);
+  else if (CondFlag[circeantipoden])
+    antipodes_circe_initialise_solving(result);
+  else if (CondFlag[pwc])
+    pwc_initialise_solving(result);
+  else if (CondFlag[circeequipollents])
+    circe_equipollents_initialise_solving(result);
+  else if (CondFlag[circefile])
+    file_circe_initialise_solving(result);
+  else if (CondFlag[circefilemalefique])
+  {
+    file_circe_initialise_solving(result);
+    mirror_circe_initialise_solving(result);
+  }
+  else if (CondFlag[circediagramm])
+    diagram_circe_initialise_solving(result);
+  else if (CondFlag[circesymmetry])
+    symmetry_circe_initialise_solving(result);
   else if (anycirce)
   {
     circe_initialise_solving(result);
@@ -369,6 +394,13 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       circe_clone_initialise_solving(result);
     if (CondFlag[circediametral])
       diametral_circe_initialise_solving(result);
+    if (CondFlag[couscousmirror]
+        || CondFlag[circemalefique]
+        || CondFlag[circeclonemalefique]
+        || CondFlag[circedoubleagents])
+      mirror_circe_initialise_solving(result);
+    if (CondFlag[circerank])
+      rank_circe_initialise_solving(result);
     if (TSTFLAG(some_pieces_flags,Kamikaze))
     {
       anticirce_relaxed_initialise_solving(result);

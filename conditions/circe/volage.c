@@ -98,7 +98,25 @@ void circe_volage_initialise_solving(slice_index si)
                                            STCirceDetermineRebirthSquare,
                                            &instrument_rebirth);
   stip_structure_traversal_override_single(&st,
+                                           STAntipodesCirceDetermineRebirthSquare,
+                                           &instrument_rebirth);
+  stip_structure_traversal_override_single(&st,
+                                           STPWCDetermineRebirthSquare,
+                                           &instrument_rebirth);
+  stip_structure_traversal_override_single(&st,
+                                           STCirceEquipollentsDetermineRebirthSquare,
+                                           &instrument_rebirth);
+  stip_structure_traversal_override_single(&st,
                                            STSuperCirceRebirthHandler,
+                                           &instrument_rebirth);
+  stip_structure_traversal_override_single(&st,
+                                           STFileCirceDetermineRebirthSquare,
+                                           &instrument_rebirth);
+  stip_structure_traversal_override_single(&st,
+                                           STDiagramCirceDetermineRebirthSquare,
+                                           &instrument_rebirth);
+  stip_structure_traversal_override_single(&st,
+                                           STSymmetryCirceDetermineRebirthSquare,
                                            &instrument_rebirth);
   stip_traverse_structure(si,&st);
 

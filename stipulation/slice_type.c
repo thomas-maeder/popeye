@@ -328,12 +328,21 @@
     ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                     \
     ENUMERATOR(STCirceDetermineRelevantPiece),                          \
     ENUMERATOR(STCirceCouscousDetermineRelevantPiece),                  \
+    ENUMERATOR(STSpiegelCirceDetermineRelevantSide),                    \
     ENUMERATOR(STCirceDetermineRebirthSquare),                          \
+    ENUMERATOR(STFileCirceDetermineRebirthSquare),                      \
     ENUMERATOR(STCirceDiametralAdjustRebirthSquare),                    \
+    ENUMERATOR(STRankCirceDetermineRelevantSide),                       \
+    ENUMERATOR(STRankCirceAdjustRebirthSquare),                         \
     ENUMERATOR(STTakeMakeCirceDetermineRebirthSquares),                 \
     ENUMERATOR(STTakeMakeCirceNoRebirth),                               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquaresFork),               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquares),                   \
+    ENUMERATOR(STAntipodesCirceDetermineRebirthSquare),                 \
+    ENUMERATOR(STSymmetryCirceDetermineRebirthSquare),                  \
+    ENUMERATOR(STPWCDetermineRebirthSquare),                            \
+    ENUMERATOR(STDiagramCirceDetermineRebirthSquare),                   \
+    ENUMERATOR(STCirceEquipollentsDetermineRebirthSquare),              \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
     ENUMERATOR(STCircePlaceReborn),                                     \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \

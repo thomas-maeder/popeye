@@ -867,10 +867,8 @@ char *ParseCond(void)
         anycirprom= true;
         anycirce= true;
         CondFlag[couscous]= true;
-        circe_determine_rebirth_square= renspiegel;
         break;
       case pwc:
-        circe_determine_rebirth_square= renpwc;
         anycirprom= true;
         anycirce= true;
         break;
@@ -885,7 +883,6 @@ char *ParseCond(void)
         anyparrain= true;
         break;
       case circediametral:
-        circe_determine_rebirth_square = rennormal;
         anycirce= true;
         break;
       case frischauf:
@@ -902,52 +899,41 @@ char *ParseCond(void)
         break;
       case supercirce:
       case circecage:
-        circe_determine_rebirth_square= 0;
         anycirprom= true;
         anycirce= true;
         break;
       case circeequipollents:
-        circe_determine_rebirth_square= renequipollents;
         anycirce= true;
         anycirprom= true;
         break;
       case circemalefique:
-        circe_determine_rebirth_square= renspiegel;
         anycirce= true;
         break;
       case circerank:
-        circe_determine_rebirth_square= renrank;
         anycirce= true;
         break;
       case circefile:
-        circe_determine_rebirth_square= renfile;
         anycirce= true;
         break;
       case circefilemalefique:
-        circe_determine_rebirth_square= renspiegelfile;
         anycirce= true;
         break;
       case circediagramm:
-        circe_determine_rebirth_square= rendiagramm;
         anycirce= true;
         break;
       case circesymmetry:
-        circe_determine_rebirth_square= rensymmetrie;
         anycirce= true;
         anycirprom= true;
         break;
       case circeantipoden:
-        circe_determine_rebirth_square= renantipoden;
         anycirce= true;
         anycirprom= true;
         break;
       case circeclonemalefique:
-        circe_determine_rebirth_square= renspiegel;
         anycirce= true;
         anyclone= true;
         break;
       case circeclone:
-        circe_determine_rebirth_square = rennormal;
         anycirce= true;
         anyclone= true;
         break;
@@ -962,11 +948,9 @@ char *ParseCond(void)
         /* different types of anticirce */
       case circeturncoats:
         anycirce= true;
-        circe_determine_rebirth_square= rennormal;
         break;
       case circedoubleagents:
         anycirce= true;
-        circe_determine_rebirth_square= renspiegel;
         break;
       case anti:
         anyanticirce= true;
@@ -1297,7 +1281,6 @@ char *ParseCond(void)
         tok = ReadPieces(april);
         if (CondFlag[april])
         {
-          circe_determine_rebirth_square= 0;
           anycirprom= true;
           anycirce= true;
         }
@@ -1411,7 +1394,6 @@ void InitCond(void)
   anyparrain= false;
 
   anticirce_determine_rebirth_square = rennormal;
-  circe_determine_rebirth_square = rennormal;
   immunrenai = rennormal;
   marscirce_determine_rebirth_square = rennormal;
 

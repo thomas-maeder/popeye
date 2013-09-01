@@ -23,8 +23,6 @@ extern Side current_circe_relevant_side[maxply+1];
 
 extern move_effect_reason_type current_circe_rebirth_reason[maxply+1];
 
-extern square (*circe_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -71,7 +69,7 @@ stip_length_type circe_determine_relevant_piece_solve(slice_index si,
  *            n+3 no solution found in next branch
  */
 stip_length_type circe_determine_rebirth_square_solve(slice_index si,
-                                              stip_length_type n);
+                                                      stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -110,7 +108,6 @@ void circe_initialise_solving(slice_index si);
 
 
 square renfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renrank(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegelfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renpwc(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renequipollents(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
