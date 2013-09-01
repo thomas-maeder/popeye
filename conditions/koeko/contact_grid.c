@@ -138,28 +138,10 @@ void contact_grid_initialise_solving(slice_index si)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STCirceDetermineRebirthSquare,
-                                           &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STAntipodesCirceDetermineRebirthSquare,
-                                           &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STPWCDetermineRebirthSquare,
-                                           &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STCirceEquipollentsDetermineRebirthSquare,
+                                           STCirceDetermineRebornPiece,
                                            &instrument_rebirth);
   stip_structure_traversal_override_single(&st,
                                            STCirceParrainDetermineRebirth,
-                                           &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STFileCirceDetermineRebirthSquare,
-                                           &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STDiagramCirceDetermineRebirthSquare,
-                                           &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STSymmetryCirceDetermineRebirthSquare,
                                            &instrument_rebirth);
   stip_traverse_structure(si,&st);
 
