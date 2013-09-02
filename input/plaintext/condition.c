@@ -1044,9 +1044,6 @@ char *ParseCond(void)
         marscirce_determine_rebirth_square= renantipoden;
         anyantimars= true;
         break;
-      case phantom:
-        marscirce_determine_rebirth_square= rennormal;
-        break;
       case plus:
         marscirce_determine_rebirth_square= 0;
         anymars= true;

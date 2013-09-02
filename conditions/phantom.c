@@ -66,10 +66,10 @@ void phantom_generate_moves_for_piece(slice_index si, PieNam p)
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
-    square const sq_rebirth = (*marscirce_determine_rebirth_square)(p,
-                                           spec[sq_departure],
-                                           sq_departure,initsquare,initsquare,
-                                           advers(trait[nbply]));
+    square const sq_rebirth = rennormal(p,
+                                        spec[sq_departure],
+                                        sq_departure,initsquare,initsquare,
+                                        advers(trait[nbply]));
 
     if (sq_rebirth!=sq_departure && is_square_empty(sq_rebirth))
     {
