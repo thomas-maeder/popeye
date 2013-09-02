@@ -12,7 +12,6 @@ static boolean is_capture_legal(numecoup n)
 {
   boolean result;
   square const sq_departure = move_generation_stack[n].departure;
-  square const sq_arrival = move_generation_stack[n].arrival;
   Side const side_capturing = trait[nbply];
   Side const side_capturee = advers(side_capturing);
 
@@ -21,8 +20,9 @@ static boolean is_capture_legal(numecoup n)
 
   if (rex_geneva || sq_departure!=king_square[side_capturing])
   {
-    square const sq_rebirth = rennormal(get_walk_of_piece_on_square(sq_departure),spec[sq_departure],
-                                        sq_departure,sq_departure,sq_arrival,
+    square const sq_rebirth = rennormal(get_walk_of_piece_on_square(sq_departure),
+                                        spec[sq_departure],
+                                        sq_departure,
                                         side_capturee);
     result = is_square_empty(sq_rebirth);
   }

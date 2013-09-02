@@ -66,9 +66,8 @@ void phantom_generate_moves_for_piece(slice_index si, PieNam p)
 
   if (!TSTFLAG(spec[sq_departure],Royal) || phantom_chess_rex_inclusive)
   {
-    square const sq_rebirth = rennormal(p,
-                                        spec[sq_departure],
-                                        sq_departure,initsquare,initsquare,
+    square const sq_rebirth = rennormal(p,spec[sq_departure],
+                                        sq_departure,
                                         advers(trait[nbply]));
 
     if (sq_rebirth!=sq_departure && is_square_empty(sq_rebirth))
@@ -126,11 +125,8 @@ static square adjust(Side trait_ply)
   {
     PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
     square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-    square const sq_multistep_departure = rennormal(pi_moving,
-                                                    spec[sq_arrival],
+    square const sq_multistep_departure = rennormal(pi_moving,spec[sq_arrival],
                                                     sq_departure,
-                                                    initsquare,
-                                                    initsquare,
                                                     advers(trait_ply));
     result = en_passant_find_potential(sq_multistep_departure);
 

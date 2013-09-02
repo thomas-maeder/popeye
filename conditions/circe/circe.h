@@ -107,15 +107,20 @@ void stip_replace_circe_determine_relevant_piece(slice_index si,
 void circe_initialise_solving(slice_index si);
 
 
-square renfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegelfile(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renpwc(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renequipollents(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renequipollents_anti(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square rensymmetrie(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renantipoden(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square rendiagramm(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square rennormal(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegel(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rennormal_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegel_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rendiagramm_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renantipoden_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square rensymmetrie_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renequipollents_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renantiequipollents_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renfile_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegelfile_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+
+square rennormal(PieNam pnam_captured, Flags p_captured_spec,
+                 square sq_capture,
+                 Side capturer);
+square renfile(PieNam p_captured, square sq_capture, Side capturer);
+
 
 #endif

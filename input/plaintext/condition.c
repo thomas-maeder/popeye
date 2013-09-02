@@ -956,32 +956,32 @@ char *ParseCond(void)
         anyanticirce= true;
         break;
       case antispiegel:
-        anticirce_determine_rebirth_square= renspiegel;
+        anticirce_determine_rebirth_square= renspiegel_polymorphic;
         anyanticirce= true;
         break;
       case antidiagramm:
-        anticirce_determine_rebirth_square= rendiagramm;
+        anticirce_determine_rebirth_square= rendiagramm_polymorphic;
         anyanticirce= true;
         break;
       case antifile:
-        anticirce_determine_rebirth_square= renfile;
+        anticirce_determine_rebirth_square= renfile_polymorphic;
         anyanticirce= true;
         break;
       case antisymmetrie:
-        anticirce_determine_rebirth_square= rensymmetrie;
+        anticirce_determine_rebirth_square= rensymmetrie_polymorphic;
         anyanticirce= true;
         break;
       case antispiegelfile:
-        anticirce_determine_rebirth_square= renspiegelfile;
+        anticirce_determine_rebirth_square= renspiegelfile_polymorphic;
         anyanticirce= true;
         break;
       case antiantipoden:
-        anticirce_determine_rebirth_square= renantipoden;
+        anticirce_determine_rebirth_square= renantipoden_polymorphic;
         anyanticirce= true;
         anyanticirprom = true;
         break;
       case antiequipollents:
-        anticirce_determine_rebirth_square= renequipollents_anti;
+        anticirce_determine_rebirth_square= renantiequipollents_polymorphic;
         anyanticirce= true;
         anyanticirprom = true;
         break;
@@ -995,53 +995,53 @@ char *ParseCond(void)
         anyimmun= true;
         break;
       case immunmalefique:
-        immunrenai= renspiegel;
+        immunrenai= renspiegel_polymorphic;
         anyimmun= true;
         break;
       case immunfile:
-        immunrenai= renfile;
+        immunrenai= renfile_polymorphic;
         anyimmun= true;
         break;
       case immundiagramm:
-        immunrenai= rendiagramm;
+        immunrenai= rendiagramm_polymorphic;
         anyimmun= true;
         break;
       case immunspiegelfile:
-        immunrenai= renspiegelfile;
+        immunrenai= renspiegelfile_polymorphic;
         anyimmun= true;
         break;
       case immunsymmetry:
-        immunrenai= rensymmetrie;
+        immunrenai= rensymmetrie_polymorphic;
         anyimmun= true;
         break;
       case immunantipoden:
-        immunrenai= renantipoden;
+        immunrenai= renantipoden_polymorphic;
         anyimmun= true;
         break;
       case immunequipollents:
-        immunrenai= renequipollents;
+        immunrenai= renequipollents_polymorphic;
         anyimmun= true;
         break;
 
         /* different types of mars circe */
       case mars:
-        marscirce_determine_rebirth_square= rennormal;
+        marscirce_determine_rebirth_square= rennormal_polymorphic;
         anymars= true;
         break;
       case marsmirror:
-        marscirce_determine_rebirth_square= renspiegel;
+        marscirce_determine_rebirth_square= renspiegel_polymorphic;
         anymars= true;
         break;
       case antimars:
-        marscirce_determine_rebirth_square= rennormal;
+        marscirce_determine_rebirth_square= rennormal_polymorphic;
         anyantimars= true;
         break;
       case antimarsmirror:
-        marscirce_determine_rebirth_square= renspiegel;
+        marscirce_determine_rebirth_square= renspiegel_polymorphic;
         anyantimars= true;
         break;
       case antimarsantipodean:
-        marscirce_determine_rebirth_square= renantipoden;
+        marscirce_determine_rebirth_square= renantipoden_polymorphic;
         anyantimars= true;
         break;
       case plus:
@@ -1390,9 +1390,9 @@ void InitCond(void)
   anygeneva = false;
   anyparrain= false;
 
-  anticirce_determine_rebirth_square = rennormal;
-  immunrenai = rennormal;
-  marscirce_determine_rebirth_square = rennormal;
+  anticirce_determine_rebirth_square = rennormal_polymorphic;
+  immunrenai = rennormal_polymorphic;
+  marscirce_determine_rebirth_square = rennormal_polymorphic;
 
   royal_square[White] = initsquare;
   royal_square[Black] = initsquare;

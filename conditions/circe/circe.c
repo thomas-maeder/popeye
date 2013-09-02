@@ -117,9 +117,6 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
 
   TraceFunctionEntry(__func__);
@@ -133,8 +130,6 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
   current_circe_rebirth_square[nbply] = rennormal(current_circe_relevant_piece[nbply],
                                                   current_circe_relevant_spec[nbply],
                                                   sq_capture,
-                                                  sq_departure,
-                                                  sq_arrival,
                                                   current_circe_relevant_side[nbply]);
 
   result = solve(slices[si].next1,n);
@@ -272,18 +267,20 @@ void circe_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-square renfile(PieNam p_captured, Flags p_captured_spec,
-               square sq_capture, square sq_departure, square sq_arrival,
-               Side capturer)
+square renfile_polymorphic(PieNam p_captured, Flags p_captured_spec,
+                           square sq_capture, square sq_departure, square sq_arrival,
+                           Side capturer)
 {
-  int col= sq_capture % onerow;
+  return renfile(p_captured,sq_capture,capturer);
+}
+square renfile(PieNam p_captured, square sq_capture, Side capturer)
+{
+  int col = sq_capture % onerow;
   square result;
 
   TraceFunctionEntry(__func__);
   TracePiece(p_captured);
   TraceSquare(sq_capture);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
   TraceEnumerator(Side,capturer,"");
   TraceFunctionParamListEnd();
 
@@ -308,14 +305,13 @@ square renfile(PieNam p_captured, Flags p_captured_spec,
   return result;
 }
 
-square renspiegelfile(PieNam p_captured, Flags p_captured_spec,
+square renspiegelfile_polymorphic(PieNam p_captured, Flags p_captured_spec,
                       square sq_capture,
                       square sq_departure, square sq_arrival,
                       Side capturer)
 {
-  return renfile(p_captured,p_captured_spec,
-                 sq_capture,sq_departure,sq_arrival,advers(capturer));
-} /* renspiegelfile */
+  return renfile(p_captured,sq_capture,advers(capturer));
+}
 
 square renpwc(PieNam p_captured, Flags p_captured_spec,
               square sq_capture, square sq_departure, square sq_arrival,
@@ -324,7 +320,7 @@ square renpwc(PieNam p_captured, Flags p_captured_spec,
   return sq_departure;
 } /* renpwc */
 
-square renequipollents(PieNam p_captured, Flags p_captured_spec,
+square renequipollents_polymorphic(PieNam p_captured, Flags p_captured_spec,
                        square sq_capture,
                        square sq_departure, square sq_arrival,
                        Side capturer)
@@ -334,9 +330,9 @@ square renequipollents(PieNam p_captured, Flags p_captured_spec,
   return sq_capture + sq_arrival - sq_departure;
 #endif
   return sq_capture + sq_capture - sq_departure;
-} /* renequipollents */
+}
 
-square renequipollents_anti(PieNam p_captured, Flags p_captured_spec,
+square renantiequipollents_polymorphic(PieNam p_captured, Flags p_captured_spec,
                             square sq_capture,
                             square sq_departure, square sq_arrival,
                             Side capturer)
@@ -346,17 +342,17 @@ square renequipollents_anti(PieNam p_captured, Flags p_captured_spec,
   return sq_arrival + sq_arrival - sq_departure;
 #endif
   return sq_capture + sq_capture - sq_departure;
-} /* renequipollents_anti */
+}
 
-square rensymmetrie(PieNam p_captured, Flags p_captured_spec,
+square rensymmetrie_polymorphic(PieNam p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
                     Side capturer)
 {
   return (square_h8+square_a1) - sq_capture;
-} /* rensymmetrie */
+}
 
-square renantipoden(PieNam p_captured, Flags p_captured_spec,
+square renantipoden_polymorphic(PieNam p_captured, Flags p_captured_spec,
                     square sq_capture,
                     square sq_departure, square sq_arrival,
                     Side capturer)
@@ -379,16 +375,23 @@ square renantipoden(PieNam p_captured, Flags p_captured_spec,
   return result;
 }
 
-square rendiagramm(PieNam p_captured, Flags p_captured_spec,
+square rendiagramm_polymorphic(PieNam p_captured, Flags p_captured_spec,
                    square sq_capture, square sq_departure, square sq_arrival,
                    Side capturer)
 {
   return GetPositionInDiagram(p_captured_spec);
 }
 
-square rennormal(PieNam pnam_captured, Flags p_captured_spec,
+square rennormal_polymorphic(PieNam pnam_captured, Flags p_captured_spec,
                  square sq_capture, square sq_departure, square sq_arrival,
                  Side capturer)
+{
+  return rennormal(pnam_captured,p_captured_spec,sq_capture,capturer);
+}
+
+square rennormal(PieNam pnam_captured, Flags p_captured_spec,
+                  square sq_capture,
+                  Side capturer)
 {
   square  Result;
   unsigned int col = sq_capture % onerow;
@@ -476,11 +479,10 @@ square rennormal(PieNam pnam_captured, Flags p_captured_spec,
   return(Result);
 }
 
-square renspiegel(PieNam p_captured, Flags p_captured_spec,
+square renspiegel_polymorphic(PieNam p_captured, Flags p_captured_spec,
                   square sq_capture,
                   square sq_departure, square sq_arrival,
                   Side capturer)
 {
-  return rennormal(p_captured,p_captured_spec,
-                   sq_capture,sq_departure,sq_arrival,advers(capturer));
+  return rennormal(p_captured,p_captured_spec,sq_capture,advers(capturer));
 }

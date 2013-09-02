@@ -39,8 +39,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
 
       if (p!=Empty
           && p!=King && TSTFLAG(spec[*bnp],side_in_check)
-          && (rennormal(p,spec[*bnp],*bnp,initsquare,initsquare,side_checking)
-              ==king_square[side_in_check]))
+          && rennormal(p,spec[*bnp],*bnp,side_checking)==king_square[side_in_check])
       {
         move_generation_stack[current_move[nbply]-1].capture = *bnp;
         if (is_square_observed(&validate_check))
