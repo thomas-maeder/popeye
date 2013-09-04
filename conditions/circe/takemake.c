@@ -1,5 +1,5 @@
 #include "conditions/circe/takemake.h"
-#include "conditions/circe/capture_fork.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "conditions/circe/circe.h"
 #include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
@@ -123,9 +123,7 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   else
   {
     current_circe_rebirth_square[nbply] = rebirth_square[take_make_circe_current_rebirth_square_index[nbply]];
-    current_circe_rebirth_reason[nbply] = move_effect_reason_supercirce_rebirth;
     result = solve(slices[si].next1,n);
-    current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -199,12 +197,14 @@ void circe_take_make_initialse_solving(slice_index si)
   stip_instrument_moves(si,STCirceDetermineRelevantPiece);
   stip_instrument_moves(si,STTakeMakeCirceDetermineRebirthSquares);
   stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_circe_capture_forks(si);
+  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork);
 
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override_single(&st,STCirceCaptureFork,&instrument_capture_fork);
+    stip_structure_traversal_override_single(&st,
+                                             STSuperCirceCaptureFork,
+                                             &instrument_capture_fork);
     stip_traverse_structure(si,&st);
   }
 

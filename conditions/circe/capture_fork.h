@@ -3,7 +3,6 @@
 
 /* bypass Circe slices if there is no capture */
 
-#include "stipulation/slice_type.h"
 #include "solving/solve.h"
 
 /* Try to solve in n half-moves.
@@ -26,13 +25,5 @@ stip_length_type circe_capture_fork_solve(slice_index si,
  * @param si identifies root slice of stipulation
  */
 void stip_insert_circe_capture_forks(slice_index si);
-
-/* Instrument a stipulation with a type of "Circe rebirth avoiders" (i.e.
- * slices that may detour around Circe rebirth under a certain condition;
- * STCaptureFork is an example).
- * @param si identifies root slice of stipulation
- * @param type tye of Circe rebirth avoider
- */
-void stip_insert_rebirth_avoider(slice_index si, slice_type type);
 
 #endif

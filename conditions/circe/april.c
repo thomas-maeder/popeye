@@ -1,5 +1,5 @@
 #include "conditions/circe/april.h"
-#include "conditions/circe/capture_fork.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "conditions/circe/super.h"
 #include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
@@ -55,7 +55,7 @@ void april_chess_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   supercirce_initialise_solving(si);
-  stip_insert_rebirth_avoider(si,STAprilAprilFork);
+  stip_insert_rebirth_avoider(si,STAprilCaptureFork);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

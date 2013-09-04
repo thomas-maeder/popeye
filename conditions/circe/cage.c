@@ -1,5 +1,5 @@
 #include "conditions/circe/cage.h"
-#include "conditions/circe/capture_fork.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "conditions/circe/circe.h"
 #include "conditions/conditions.h"
 #include "stipulation/has_solution_type.h"
@@ -47,9 +47,7 @@ stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
       result = solve(slices[si].next2,n);
     else
     {
-      current_circe_rebirth_reason[nbply] = move_effect_reason_supercirce_rebirth;
       result = solve(slices[si].next1,n);
-      current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
       if (!post_move_iteration_locked[nbply]
           && current_circe_rebirth_square[nbply]==initsquare
@@ -174,7 +172,7 @@ void circe_cage_initialise_solving(slice_index si)
                                            &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
-  stip_insert_circe_capture_forks(si);
+  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork);
 
   if (!CondFlag[immuncage])
     stip_insert_rebirth_avoider(si,STCirceCageNoCageFork);

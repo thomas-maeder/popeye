@@ -328,7 +328,7 @@
     ENUMERATOR(STRepublicanKingPlacer),                                 \
     ENUMERATOR(STRepublicanType1DeadEnd),                               \
     ENUMERATOR(STCirceCaptureFork),                                     \
-    ENUMERATOR(STAprilAprilFork),                                       \
+    ENUMERATOR(STAprilCaptureFork),                                     \
     ENUMERATOR(STCirceDetermineRebornPiece),                            \
     ENUMERATOR(STCirceCloneDetermineRebornPiece),                       \
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornPiece),                    \
@@ -353,6 +353,7 @@
     ENUMERATOR(STCirceEquipollentsDetermineRebirthSquare),              \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
     ENUMERATOR(STCircePlaceReborn),                                     \
+    ENUMERATOR(STSuperCirceCaptureFork),                                \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \
     ENUMERATOR(STSuperCirceRebirthHandler),                             \
     ENUMERATOR(STCirceCageNoCageFork)    ,                              \

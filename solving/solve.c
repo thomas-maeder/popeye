@@ -758,7 +758,7 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_place_reborn_solve(si,n);
       break;
 
-    case STAprilAprilFork:
+    case STAprilCaptureFork:
       result = april_chess_fork_solve(si,n);
       break;
 
@@ -768,6 +768,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STSuperCirceRebirthHandler:
       result = supercirce_rebirth_handler_solve(si,n);
+      break;
+
+    case STSuperCirceCaptureFork:
+      result = supercirce_capture_fork_solve(si,n);
       break;
 
     case STCirceRebirthPromoter:
