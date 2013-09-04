@@ -126,14 +126,12 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
 
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
-  current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
   current_circe_rebirth_square[nbply] = rennormal(current_circe_relevant_piece[nbply],
                                                   current_circe_relevant_spec[nbply],
                                                   sq_capture,
                                                   current_circe_relevant_side[nbply]);
 
   result = solve(slices[si].next1,n);
-  current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

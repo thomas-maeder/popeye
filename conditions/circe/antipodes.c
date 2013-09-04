@@ -46,11 +46,7 @@ stip_length_type antipodes_circe_determine_rebirth_square_solve(slice_index si,
   else
     current_circe_rebirth_square[nbply] += nr_files_on_board/2*dir_left;
 
-  current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
-
   result = solve(slices[si].next1,n);
-
-  current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

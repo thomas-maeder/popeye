@@ -49,10 +49,7 @@ stip_length_type file_circe_determine_rebirth_square_solve(slice_index si,
       current_circe_rebirth_square[nbply] = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
 
-  current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
-
   result = solve(slices[si].next1,n);
-  current_circe_rebirth_reason[nbply] = move_effect_no_reason;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

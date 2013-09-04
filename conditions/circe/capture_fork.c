@@ -48,7 +48,11 @@ stip_length_type circe_capture_fork_solve(slice_index si,
     result = solve(slices[si].next2,n);
   }
   else if (circe_is_rex_inclusive || !TSTFLAG(removedspec,Royal))
+  {
+    current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
     result = solve(slices[si].next1,n);
+    current_circe_rebirth_reason[nbply] = move_effect_no_reason;
+  }
   else
   {
     current_circe_rebirth_square[nbply] = initsquare;
