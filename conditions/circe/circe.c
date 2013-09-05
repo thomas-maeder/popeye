@@ -6,6 +6,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
@@ -115,20 +116,15 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
   current_circe_rebirth_square[nbply] = rennormal(current_circe_relevant_piece[nbply],
                                                   current_circe_relevant_spec[nbply],
-                                                  sq_capture,
+                                                  move_generation_stack[current_move[nbply]-1].capture,
                                                   current_circe_relevant_side[nbply]);
 
   result = solve(slices[si].next1,n);
