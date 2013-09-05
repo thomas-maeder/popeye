@@ -103,6 +103,8 @@ stip_length_type anti_einstein_determine_reborn_piece_solve(slice_index si,
 
   current_circe_reborn_walk[nbply] = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.removed);
   current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
+  current_circe_relevant_walk[nbply] = current_circe_reborn_walk[nbply];
+  current_circe_relevant_spec[nbply] = current_circe_reborn_spec[nbply];
 
   result = solve(slices[si].next1,n);
 
@@ -120,7 +122,7 @@ void stip_insert_anti_einstein_moving_adjusters(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAntiEinsteinArrivingAdjuster);
-  stip_replace_circe_determine_reborn_piece(si,STAntiEinsteinDetermineRebornPiece);
+  stip_instrument_moves(si,STAntiEinsteinDetermineRebornPiece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

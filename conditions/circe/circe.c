@@ -44,7 +44,6 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -55,10 +54,12 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
   current_circe_reborn_walk[nbply] = move_effect_journal[capture].u.piece_removal.removed;
-  current_circe_reborn_spec[nbply] = removedspec;
+  current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
   current_circe_relevant_square[nbply] = move_effect_journal[capture].u.piece_removal.from;
+
   current_circe_relevant_walk[nbply] = current_circe_reborn_walk[nbply];
   current_circe_relevant_spec[nbply] = current_circe_reborn_spec[nbply];
+
   current_circe_relevant_side[nbply] = slices[si].starter;
 
   result = solve(slices[si].next1,n);
@@ -149,44 +150,6 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void replace(slice_index si, stip_structure_traversal *st)
-{
-  slice_type const * const substitute = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  slices[si].type = *substitute;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Use an alternative type of slices for determining the reborn piece
- * @param si identifies root slice of stipulation
- * @param substitute substitute slice type
- */
-void stip_replace_circe_determine_reborn_piece(slice_index si,
-                                               slice_type substitute)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,substitute,"");
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&substitute);
-  stip_structure_traversal_override_single(&st,STCirceDetermineRebornPiece,&replace);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Instrument the solving machinery with Circe

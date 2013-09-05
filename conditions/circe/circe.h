@@ -72,13 +72,6 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
  */
 stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n);
 
-/* Use an alternative type of slices for determining the reborn piece
- * @param si identifies root slice of stipulation
- * @param substitute substitute slice type
- */
-void stip_replace_circe_determine_reborn_piece(slice_index si,
-                                               slice_type substitute);
-
 /* Instrument the solving machinery with Circe
  * @param si identifies root slice of stipulation
  */
