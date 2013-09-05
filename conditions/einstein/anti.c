@@ -101,7 +101,7 @@ stip_length_type anti_einstein_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_piece[nbply] = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.removed);
+  current_circe_reborn_walk[nbply] = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.removed);
   current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
 
   result = solve(slices[si].next1,n);

@@ -14,10 +14,12 @@
 
 extern square current_circe_rebirth_square[maxply+1];
 
-extern PieNam current_circe_reborn_piece[maxply+1];
+extern PieNam current_circe_reborn_walk[maxply+1];
 extern Flags current_circe_reborn_spec[maxply+1];
 
-extern PieNam current_circe_relevant_piece[maxply+1];
+extern square current_circe_relevant_square[maxply+1];
+
+extern PieNam current_circe_relevant_walk[maxply+1];
 extern Flags current_circe_relevant_spec[maxply+1];
 extern Side current_circe_relevant_side[maxply+1];
 
@@ -38,22 +40,6 @@ extern move_effect_reason_type current_circe_rebirth_reason[maxply+1];
  */
 stip_length_type circe_determine_reborn_piece_solve(slice_index si,
                                                     stip_length_type n);
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played (or being played)
- *                                     is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type circe_determine_relevant_piece_solve(slice_index si,
-                                                      stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -92,14 +78,6 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n);
  */
 void stip_replace_circe_determine_reborn_piece(slice_index si,
                                                slice_type substitute);
-
-/* Use an alternative type of slices for determining the piece relevant for
- * determining the rebirth square
- * @param si identifies root slice of stipulation
- * @param substitute substitute slice type
- */
-void stip_replace_circe_determine_relevant_piece(slice_index si,
-                                                 slice_type substitute);
 
 /* Instrument the solving machinery with Circe
  * @param si identifies root slice of stipulation

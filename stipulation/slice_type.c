@@ -324,9 +324,8 @@
     ENUMERATOR(STCirceDetermineRebornPiece),                            \
     ENUMERATOR(STCirceCloneDetermineRebornPiece),                       \
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornPiece),                    \
-    ENUMERATOR(STChameleonCirceAdaptRebornPiece),                       \
+    ENUMERATOR(STChameleonCirceAdaptRebornWalk),                        \
     ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                     \
-    ENUMERATOR(STCirceDetermineRelevantPiece),                          \
     ENUMERATOR(STCirceCouscousDetermineRelevantPiece),                  \
     ENUMERATOR(STSpiegelCirceDetermineRelevantSide),                    \
     ENUMERATOR(STCirceDetermineRebirthSquare),                          \

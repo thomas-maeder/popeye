@@ -85,7 +85,7 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
   {
     move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
                                             current_circe_rebirth_square[nbply],
-                                            current_circe_reborn_piece[nbply],
+                                            current_circe_reborn_walk[nbply],
                                             current_circe_reborn_spec[nbply]);
     result = solve(slices[si].next1,n);
   }
@@ -97,7 +97,7 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
                                          current_circe_rebirth_square[nbply]);
     move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
                                             current_circe_rebirth_square[nbply],
-                                            current_circe_reborn_piece[nbply],
+                                            current_circe_reborn_walk[nbply],
                                             current_circe_reborn_spec[nbply]);
     result = solve(slices[si].next1,n);
   }
@@ -118,7 +118,6 @@ void assassin_circe_initalise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  stip_instrument_moves(si,STCirceDetermineRelevantPiece);
   stip_instrument_moves(si,STCirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCirceAssassinPlaceReborn);
   stip_insert_circe_capture_forks(si);

@@ -6,7 +6,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
-#include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
@@ -15,10 +14,12 @@
 
 square current_circe_rebirth_square[maxply+1];
 
-PieNam current_circe_reborn_piece[maxply+1];
+PieNam current_circe_reborn_walk[maxply+1];
 Flags current_circe_reborn_spec[maxply+1];
 
-PieNam current_circe_relevant_piece[maxply+1];
+square current_circe_relevant_square[maxply+1];
+
+PieNam current_circe_relevant_walk[maxply+1];
 Flags current_circe_relevant_spec[maxply+1];
 Side current_circe_relevant_side[maxply+1];
 
@@ -53,41 +54,10 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
   /* circe capture fork makes sure of that */
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
-  current_circe_reborn_piece[nbply] = move_effect_journal[capture].u.piece_removal.removed;
+  current_circe_reborn_walk[nbply] = move_effect_journal[capture].u.piece_removal.removed;
   current_circe_reborn_spec[nbply] = removedspec;
-
-  result = solve(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played (or being played)
- *                                     is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type circe_determine_relevant_piece_solve(slice_index si,
-                                                      stip_length_type n)
-{
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  current_circe_relevant_piece[nbply] = current_circe_reborn_piece[nbply];
+  current_circe_relevant_square[nbply] = move_effect_journal[capture].u.piece_removal.from;
+  current_circe_relevant_walk[nbply] = current_circe_reborn_walk[nbply];
   current_circe_relevant_spec[nbply] = current_circe_reborn_spec[nbply];
   current_circe_relevant_side[nbply] = slices[si].starter;
 
@@ -122,9 +92,9 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_rebirth_square[nbply] = rennormal(current_circe_relevant_piece[nbply],
+  current_circe_rebirth_square[nbply] = rennormal(current_circe_relevant_walk[nbply],
                                                   current_circe_relevant_spec[nbply],
-                                                  move_generation_stack[current_move[nbply]-1].capture,
+                                                  current_circe_relevant_square[nbply],
                                                   current_circe_relevant_side[nbply]);
 
   result = solve(slices[si].next1,n);
@@ -157,17 +127,17 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TracePiece(current_circe_reborn_piece[nbply]);
+  TracePiece(current_circe_reborn_walk[nbply]);
   TraceSquare(current_circe_rebirth_square[nbply]);
   TraceValue("%u\n",is_square_empty(current_circe_rebirth_square[nbply]));
 
-  if (current_circe_reborn_piece[nbply]!=Empty
+  if (current_circe_reborn_walk[nbply]!=Empty
       && is_square_empty(current_circe_rebirth_square[nbply]))
   {
     assert(current_circe_rebirth_reason[nbply]!=move_effect_no_reason);
     move_effect_journal_do_piece_readdition(current_circe_rebirth_reason[nbply],
                                             current_circe_rebirth_square[nbply],
-                                            current_circe_reborn_piece[nbply],
+                                            current_circe_reborn_walk[nbply],
                                             current_circe_reborn_spec[nbply]);
   }
   else
@@ -219,29 +189,6 @@ void stip_replace_circe_determine_reborn_piece(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Use an alternative type of slices for determining the piece relevant for
- * determining the rebirth square
- * @param si identifies root slice of stipulation
- * @param substitute substitute slice type
- */
-void stip_replace_circe_determine_relevant_piece(slice_index si,
-                                                 slice_type substitute)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,substitute,"");
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&substitute);
-  stip_structure_traversal_override_single(&st,STCirceDetermineRelevantPiece,&replace);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument the solving machinery with Circe
  * @param si identifies root slice of stipulation
  */
@@ -252,7 +199,6 @@ void circe_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  stip_instrument_moves(si,STCirceDetermineRelevantPiece);
   stip_instrument_moves(si,STCirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_circe_capture_forks(si);
@@ -394,8 +340,6 @@ square rennormal(PieNam pnam_captured, Flags p_captured_spec,
   TraceFunctionEntry(__func__);
   TracePiece(pnam_captured);
   TraceSquare(sq_capture);
-  TraceSquare(sq_departure);
-  TraceSquare(sq_arrival);
   TraceEnumerator(Side,capturer,"");
   TraceFunctionParamListEnd();
 

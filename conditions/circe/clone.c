@@ -25,24 +25,17 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
 {
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
-  PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[capture].type==move_effect_piece_removal);
+  if (!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
+    current_circe_reborn_walk[nbply] = move_effect_journal[movement].u.piece_movement.moving;
 
-  current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
-
-  if (TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
-    current_circe_reborn_piece[nbply] = pi_captured;
-  else
-    current_circe_reborn_piece[nbply] = pi_departing;
+  current_circe_relevant_walk[nbply] = current_circe_reborn_walk[nbply];
 
   result = solve(slices[si].next1,n);
 
@@ -62,7 +55,7 @@ void circe_clone_initialise_solving(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_replace_circe_determine_reborn_piece(si,STCirceCloneDetermineRebornPiece);
+  stip_instrument_moves(si,STCirceCloneDetermineRebornPiece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

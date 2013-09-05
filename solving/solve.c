@@ -678,16 +678,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_doubleagents_adapt_reborn_piece_solve(si,n);
       break;
 
-    case STChameleonCirceAdaptRebornPiece:
-      result = chameleon_circe_adapt_reborn_piece_solve(si,n);
+    case STChameleonCirceAdaptRebornWalk:
+      result = chameleon_circe_adapt_reborn_walk_solve(si,n);
       break;
 
     case STAntiEinsteinDetermineRebornPiece:
       result = anti_einstein_determine_reborn_piece_solve(si,n);
-      break;
-
-    case STCirceDetermineRelevantPiece:
-      result = circe_determine_relevant_piece_solve(si,n);
       break;
 
     case STCirceCouscousDetermineRelevantPiece:

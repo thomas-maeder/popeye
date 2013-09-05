@@ -72,7 +72,7 @@ stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
   else
   {
     current_circe_rebirth_square[nbply] = move_effect_journal[parent_capture].u.piece_removal.from+move_vector();
-    current_circe_reborn_piece[nbply] = move_effect_journal[parent_capture].u.piece_removal.removed;
+    current_circe_reborn_walk[nbply] = move_effect_journal[parent_capture].u.piece_removal.removed;
     current_circe_reborn_spec[nbply] = move_effect_journal[parent_capture].u.piece_removal.removedspec;
     current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
     result = solve(slices[si].next1,n);

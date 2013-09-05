@@ -6,15 +6,15 @@
 #include "pieces/pieces.h"
 #include "solving/solve.h"
 
-/* Reset the mapping from captured to reborn pieces
+/* Reset the mapping from captured to reborn walks
  */
-void chameleon_circe_reset_reborn_pieces(void);
+void chameleon_circe_reset_reborn_walks(void);
 
 /* Initialise one mapping captured->reborn from an explicit indication
- * @param captured captured piece
- * @param reborn type of reborn piece if a piece of type captured is captured
+ * @param captured captured walk
+ * @param reborn type of reborn walk if a piece with walk captured is captured
  */
-void chameleon_circe_set_reborn_piece_explicit(PieNam captured, PieNam reborn);
+void chameleon_circe_set_reborn_walk_explicit(PieNam from, PieNam to);
 
 /* Initialise the reborn pieces if they haven't been already initialised
  * from explicit indications
@@ -25,7 +25,7 @@ void chameleon_circe_init_implicit(void);
  * @param captured kind of captured piece
  * @return kind of piece to be reborn
  */
-PieNam chameleon_circe_get_reborn_piece(PieNam captured);
+PieNam chameleon_circe_get_reborn_walk(PieNam captured);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -40,8 +40,8 @@ PieNam chameleon_circe_get_reborn_piece(PieNam captured);
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type chameleon_circe_adapt_reborn_piece_solve(slice_index si,
-                                                          stip_length_type n);
+stip_length_type chameleon_circe_adapt_reborn_walk_solve(slice_index si,
+                                                         stip_length_type n);
 
 /* Override the Circe instrumentation of the solving machinery with
  * Chameleon Circe

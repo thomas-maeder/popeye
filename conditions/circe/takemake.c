@@ -194,7 +194,6 @@ void circe_take_make_initialse_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  stip_instrument_moves(si,STCirceDetermineRelevantPiece);
   stip_instrument_moves(si,STTakeMakeCirceDetermineRebirthSquares);
   stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork);

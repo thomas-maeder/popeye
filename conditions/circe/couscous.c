@@ -37,7 +37,7 @@ stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    current_circe_relevant_piece[nbply] = get_walk_of_piece_on_square(pos);
+    current_circe_relevant_walk[nbply] = get_walk_of_piece_on_square(pos);
     current_circe_relevant_spec[nbply] = spec[pos];
     current_circe_relevant_side[nbply] = advers(slices[si].starter);
   }
@@ -60,8 +60,7 @@ void couscous_circe_initialise_solving(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_replace_circe_determine_relevant_piece(si,
-                                              STCirceCouscousDetermineRelevantPiece);
+  stip_instrument_moves(si,STCirceCouscousDetermineRelevantPiece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -36,14 +36,14 @@ stip_length_type file_circe_determine_rebirth_square_solve(slice_index si,
 
   if (current_circe_relevant_side[nbply]==Black)
   {
-    if (is_pawn(current_circe_relevant_piece[nbply]))
+    if (is_pawn(current_circe_relevant_walk[nbply]))
       current_circe_rebirth_square[nbply] = col_capture + (nr_of_slack_rows_below_board+1)*onerow;
     else
       current_circe_rebirth_square[nbply] = col_capture + nr_of_slack_rows_below_board*onerow;
   }
   else
   {
-    if (is_pawn(current_circe_relevant_piece[nbply]))
+    if (is_pawn(current_circe_relevant_walk[nbply]))
       current_circe_rebirth_square[nbply] = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else
       current_circe_rebirth_square[nbply] = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
@@ -68,7 +68,6 @@ void file_circe_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  stip_instrument_moves(si,STCirceDetermineRelevantPiece);
   stip_instrument_moves(si,STFileCirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_circe_capture_forks(si);
