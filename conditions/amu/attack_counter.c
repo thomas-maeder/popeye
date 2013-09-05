@@ -32,16 +32,16 @@ boolean amu_count_observation(slice_index si)
     {
       /* this deals correctly with double attacks by the same piece (e.g. a rose) */
       if (single_attacker_departure==sq_departure)
-        return false;
+        result = false;
       else
       {
         ++amu_attack_count;
         single_attacker_departure = sq_departure;
-        return amu_attack_count==2;
+        result = amu_attack_count==2;
       }
     }
     else
-      return false;
+      result = false;
   }
   else
     result = validate_observation_recursive(slices[si].next1);
