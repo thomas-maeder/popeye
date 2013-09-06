@@ -31,7 +31,7 @@ stip_length_type pwc_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_rebirth_square[nbply] = move_effect_journal[movement].u.piece_movement.from;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = move_effect_journal[movement].u.piece_movement.from;
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

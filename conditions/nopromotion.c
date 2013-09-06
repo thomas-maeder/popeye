@@ -68,7 +68,7 @@ stip_length_type nopromotion_avoid_promotion_reborn_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  square const sq_rebirth = current_circe_rebirth_square[nbply];
+  square const sq_rebirth = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square;
   Side promotion_for_side;
 
   TraceFunctionEntry(__func__);

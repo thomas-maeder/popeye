@@ -34,19 +34,19 @@ stip_length_type file_circe_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_circe_relevant_side[nbply]==Black)
+  if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side==Black)
   {
-    if (is_pawn(current_circe_relevant_walk[nbply]))
-      current_circe_rebirth_square[nbply] = col_capture + (nr_of_slack_rows_below_board+1)*onerow;
+    if (is_pawn(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk))
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+1)*onerow;
     else
-      current_circe_rebirth_square[nbply] = col_capture + nr_of_slack_rows_below_board*onerow;
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + nr_of_slack_rows_below_board*onerow;
   }
   else
   {
-    if (is_pawn(current_circe_relevant_walk[nbply]))
-      current_circe_rebirth_square[nbply] = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
+    if (is_pawn(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk))
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
     else
-      current_circe_rebirth_square[nbply] = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
 
   result = solve(slices[si].next1,n);

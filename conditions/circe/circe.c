@@ -12,18 +12,33 @@
 
 #include <assert.h>
 
-square current_circe_rebirth_square[maxply+1];
+circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
+circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;
 
-PieNam current_circe_reborn_walk[maxply+1];
-Flags current_circe_reborn_spec[maxply+1];
+/* Find the Circe rebirth effect in the current move
+ * @return the index of the rebirth effect
+ *         move_effect_journal_base[nbply+1] if there is none
+ */
+move_effect_journal_index_type circe_find_current_rebirth(void)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type result;
 
-square current_circe_relevant_square[maxply+1];
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-PieNam current_circe_relevant_walk[maxply+1];
-Flags current_circe_relevant_spec[maxply+1];
-Side current_circe_relevant_side[maxply+1];
+  for (result = base+move_effect_journal_index_offset_other_effects; result<top; ++result)
+    if (move_effect_journal[result].type==move_effect_piece_readdition
+        && (move_effect_journal[result].reason==move_effect_reason_rebirth_no_choice
+            || move_effect_journal[result].reason==move_effect_reason_rebirth_choice))
+      break;
 
-move_effect_reason_type current_circe_rebirth_reason[maxply+1];
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -44,6 +59,7 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -53,14 +69,14 @@ stip_length_type circe_determine_reborn_piece_solve(slice_index si,
   /* circe capture fork makes sure of that */
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
-  current_circe_reborn_walk[nbply] = move_effect_journal[capture].u.piece_removal.removed;
-  current_circe_reborn_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
-  current_circe_relevant_square[nbply] = move_effect_journal[capture].u.piece_removal.from;
+  context->reborn_walk = move_effect_journal[capture].u.piece_removal.removed;
+  context->reborn_spec = move_effect_journal[capture].u.piece_removal.removedspec;
+  context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
 
-  current_circe_relevant_walk[nbply] = current_circe_reborn_walk[nbply];
-  current_circe_relevant_spec[nbply] = current_circe_reborn_spec[nbply];
+  context->relevant_walk = context->reborn_walk;
+  context->relevant_spec = context->reborn_spec;
 
-  current_circe_relevant_side[nbply] = slices[si].starter;
+  context->relevant_side = slices[si].starter;
 
   result = solve(slices[si].next1,n);
 
@@ -87,16 +103,17 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_rebirth_square[nbply] = rennormal(current_circe_relevant_walk[nbply],
-                                                  current_circe_relevant_spec[nbply],
-                                                  current_circe_relevant_square[nbply],
-                                                  current_circe_relevant_side[nbply]);
+  context->rebirth_square = rennormal(context->relevant_walk,
+                                      context->relevant_spec,
+                                      context->relevant_square,
+                                      context->relevant_side);
 
   result = solve(slices[si].next1,n);
 
@@ -122,29 +139,25 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
 stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TracePiece(current_circe_reborn_walk[nbply]);
-  TraceSquare(current_circe_rebirth_square[nbply]);
-  TraceValue("%u\n",is_square_empty(current_circe_rebirth_square[nbply]));
-
-  if (current_circe_reborn_walk[nbply]!=Empty
-      && is_square_empty(current_circe_rebirth_square[nbply]))
+  if (context->reborn_walk!=Empty && is_square_empty(context->rebirth_square))
   {
-    assert(current_circe_rebirth_reason[nbply]!=move_effect_no_reason);
-    move_effect_journal_do_piece_readdition(current_circe_rebirth_reason[nbply],
-                                            current_circe_rebirth_square[nbply],
-                                            current_circe_reborn_walk[nbply],
-                                            current_circe_reborn_spec[nbply]);
+    move_effect_journal_do_piece_readdition(context->rebirth_reason,
+                                            context->rebirth_square,
+                                            context->reborn_walk,
+                                            context->reborn_spec);
+    ++circe_rebirth_context_stack_pointer;
+    result = solve(slices[si].next1,n);
+    --circe_rebirth_context_stack_pointer;
   }
   else
-    current_circe_rebirth_square[nbply] = initsquare;
-
-  result = solve(slices[si].next1,n);
+    result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

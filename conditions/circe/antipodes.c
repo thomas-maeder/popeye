@@ -34,17 +34,17 @@ stip_length_type antipodes_circe_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_rebirth_square[nbply] = sq_capture;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = sq_capture;
 
   if (row<nr_rows_on_board/2)
-    current_circe_rebirth_square[nbply] += nr_rows_on_board/2*dir_up;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square += nr_rows_on_board/2*dir_up;
   else
-    current_circe_rebirth_square[nbply] += nr_rows_on_board/2*dir_down;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square += nr_rows_on_board/2*dir_down;
 
   if (file<nr_files_on_board/2)
-    current_circe_rebirth_square[nbply] += nr_files_on_board/2*dir_right;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square += nr_files_on_board/2*dir_right;
   else
-    current_circe_rebirth_square[nbply] += nr_files_on_board/2*dir_left;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square += nr_files_on_board/2*dir_left;
 
   result = solve(slices[si].next1,n);
 

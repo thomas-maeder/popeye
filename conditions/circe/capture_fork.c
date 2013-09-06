@@ -36,21 +36,14 @@ stip_length_type circe_capture_fork_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-  {
-    current_circe_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);
-  }
   else if (circe_is_rex_inclusive || !TSTFLAG(removedspec,Royal))
   {
-    current_circe_rebirth_reason[nbply] = move_effect_reason_circe_rebirth;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
     result = solve(slices[si].next1,n);
-    current_circe_rebirth_reason[nbply] = move_effect_no_reason;
   }
   else
-  {
-    current_circe_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

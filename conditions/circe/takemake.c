@@ -122,7 +122,7 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
     result = previous_move_is_illegal;
   else
   {
-    current_circe_rebirth_square[nbply] = rebirth_square[take_make_circe_current_rebirth_square_index[nbply]];
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[nbply]];
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])

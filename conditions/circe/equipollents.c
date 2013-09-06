@@ -36,10 +36,10 @@ stip_length_type circe_equipollents_determine_rebirth_square_solve(slice_index s
 
   /* we have to solve the enpassant capture / locust capture problem in the future. */
 #if defined(WINCHLOE)
-  current_circe_rebirth_square[nbply] = sq_capture + move_effect_journal[movement].u.piece_movement.to - sq_departure;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = sq_capture + move_effect_journal[movement].u.piece_movement.to - sq_departure;
 #endif
 
-  current_circe_rebirth_square[nbply] = sq_capture + sq_capture - sq_departure;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = sq_capture + sq_capture - sq_departure;
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

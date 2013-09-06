@@ -42,15 +42,11 @@ stip_length_type supercirce_capture_fork_solve(slice_index si,
 
   if (move_effect_journal[capture].type==move_effect_no_piece_removal
       || TSTFLAG(removedspec,Royal))
-  {
-    current_circe_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);
-  }
   else
   {
-    current_circe_rebirth_reason[nbply] = move_effect_reason_supercirce_rebirth;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_choice;
     result = solve(slices[si].next1,n);
-    current_circe_rebirth_reason[nbply] = move_effect_no_reason;
   }
 
   TraceFunctionExit(__func__);
@@ -108,15 +104,15 @@ static boolean advance_rebirth_square(void)
 
   do
   {
-    if (current_circe_rebirth_square[nbply]<square_h8)
-      ++current_circe_rebirth_square[nbply];
+    if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square<square_h8)
+      ++circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square;
     else
     {
-      current_circe_rebirth_square[nbply] = initsquare;
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = initsquare;
       result = false;
       break;
     }
-  } while (!is_square_empty(current_circe_rebirth_square[nbply]));
+  } while (!is_square_empty(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square));
 
   is_rebirth_square_dirty[nbply] = false;
 
@@ -151,7 +147,7 @@ stip_length_type supercirce_rebirth_handler_solve(slice_index si,
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_rebirth[nbply])
   {
-    current_circe_rebirth_square[nbply] = square_a1-1;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = square_a1-1;
     is_rebirth_square_dirty[nbply] = true;
   }
 

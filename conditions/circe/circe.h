@@ -1,8 +1,7 @@
-#if !defined(CONDITIONS_CIRCE_REBIRTH_HANDLER_H)
-#define CONDITIONS_CIRCE_REBIRTH_HANDLER_H
+#if !defined(CONDITIONS_CIRCE_CIRCE_H)
+#define CONDITIONS_CIRCE_CIRCE_H
 
-/* This module implements regular Circe and provides hooks for the
- * implementation of Circe variations
+/* This module implements Circe
  */
 
 #include "pieces/pieces.h"
@@ -12,18 +11,29 @@
 #include "solving/ply.h"
 #include "position/position.h"
 
-extern square current_circe_rebirth_square[maxply+1];
+typedef struct
+{
+    PieNam reborn_walk;
+    Flags reborn_spec;
+    square rebirth_square;
+    PieNam relevant_walk;
+    Flags relevant_spec;
+    square relevant_square;
+    Side relevant_side;
+    move_effect_reason_type rebirth_reason;
+} circe_rebirth_context_elmt_type;
 
-extern PieNam current_circe_reborn_walk[maxply+1];
-extern Flags current_circe_reborn_spec[maxply+1];
+extern circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 
-extern square current_circe_relevant_square[maxply+1];
+typedef unsigned int circe_rebirth_context_index;
 
-extern PieNam current_circe_relevant_walk[maxply+1];
-extern Flags current_circe_relevant_spec[maxply+1];
-extern Side current_circe_relevant_side[maxply+1];
+extern circe_rebirth_context_index circe_rebirth_context_stack_pointer;
 
-extern move_effect_reason_type current_circe_rebirth_reason[maxply+1];
+/* Find the Circe rebirth effect in the current move
+ * @return the index of the rebirth effect
+ *         move_effect_journal_base[nbply+1] if there is none
+ */
+move_effect_journal_index_type circe_find_current_rebirth(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index

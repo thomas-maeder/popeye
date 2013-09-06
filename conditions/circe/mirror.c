@@ -28,7 +28,7 @@ stip_length_type mirror_circe_determine_relevant_side_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_relevant_side[nbply] = advers(slices[si].starter);
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side = advers(slices[si].starter);
 
   result = solve(slices[si].next1,n);
 

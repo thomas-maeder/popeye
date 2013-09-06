@@ -33,9 +33,9 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
-    current_circe_reborn_walk[nbply] = move_effect_journal[movement].u.piece_movement.moving;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = move_effect_journal[movement].u.piece_movement.moving;
 
-  current_circe_relevant_walk[nbply] = current_circe_reborn_walk[nbply];
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk;
 
   result = solve(slices[si].next1,n);
 

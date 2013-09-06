@@ -79,27 +79,31 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_circe_rebirth_square[nbply]==initsquare)
+  if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare)
     result = solve(slices[si].next1,n);
-  else if (is_square_empty(current_circe_rebirth_square[nbply]))
+  else if (is_square_empty(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square))
   {
-    move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
-                                            current_circe_rebirth_square[nbply],
-                                            current_circe_reborn_walk[nbply],
-                                            current_circe_reborn_spec[nbply]);
+    move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_no_choice,
+                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square,
+                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk,
+                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec);
+    ++circe_rebirth_context_stack_pointer;
     result = solve(slices[si].next1,n);
+    --circe_rebirth_context_stack_pointer;
   }
-  else if (current_circe_rebirth_square[nbply]==king_square[slices[si].starter])
+  else if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==king_square[slices[si].starter])
     result = previous_move_is_illegal;
   else
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
-                                         current_circe_rebirth_square[nbply]);
-    move_effect_journal_do_piece_readdition(move_effect_reason_circe_rebirth,
-                                            current_circe_rebirth_square[nbply],
-                                            current_circe_reborn_walk[nbply],
-                                            current_circe_reborn_spec[nbply]);
+                                         circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);
+    move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_no_choice,
+                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square,
+                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk,
+                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec);
+    ++circe_rebirth_context_stack_pointer;
     result = solve(slices[si].next1,n);
+    --circe_rebirth_context_stack_pointer;
   }
 
   TraceFunctionExit(__func__);

@@ -223,7 +223,7 @@ a)
  is_black_king_square_attacked:          62
 b)  -wQc1
 
-   1.h7*g8=R[+wQd1] # !
+   1.h7*g8=R[+bQd1=w] # !
 
 
   add_to_move_generation_stack:          15

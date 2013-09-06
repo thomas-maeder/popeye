@@ -109,7 +109,6 @@ stip_length_type chameleon_promote_moving_into_solve(slice_index si,
 stip_length_type chameleon_promote_circe_reborn_into_solve(slice_index si,
                                                             stip_length_type n)
 {
-  square const sq_rebirth = current_circe_rebirth_square[nbply];
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -117,31 +116,41 @@ stip_length_type chameleon_promote_circe_reborn_into_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_circe_reborn[nbply])
-    promotion_of_circe_reborn_into_chameleon[nbply] = false;
-
-  if (promotion_of_circe_reborn_into_chameleon[nbply])
   {
-    Flags changed = spec[sq_rebirth];
-    SETFLAG(changed,Chameleon);
-    move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
-                                        sq_rebirth,changed);
-
-    result = solve(slices[si].next1,n);
-  }
-  else
-  {
-    result = solve(slices[si].next1,n);
-
-    if (reborn_pawn_promotion_state[nbply].promotee!=Empty
-        && !post_move_iteration_locked[nbply])
+    move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
+    if (rebirth==move_effect_journal_base[nbply+1])
+      result = solve(slices[si].next1,n);
+    else
     {
-      promotion_of_circe_reborn_into_chameleon[nbply] = true;
-      lock_post_move_iterations();
+      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
+
+      if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_circe_reborn[nbply])
+        promotion_of_circe_reborn_into_chameleon[nbply] = false;
+
+      if (promotion_of_circe_reborn_into_chameleon[nbply])
+      {
+        Flags changed = spec[sq_rebirth];
+        SETFLAG(changed,Chameleon);
+        move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
+                                            sq_rebirth,changed);
+
+        result = solve(slices[si].next1,n);
+      }
+      else
+      {
+        result = solve(slices[si].next1,n);
+
+        if (reborn_pawn_promotion_state[nbply].promotee!=Empty
+            && !post_move_iteration_locked[nbply])
+        {
+          promotion_of_circe_reborn_into_chameleon[nbply] = true;
+          lock_post_move_iterations();
+        }
+      }
+
+      prev_post_move_iteration_id_circe_reborn[nbply] = post_move_iteration_id[nbply];
     }
   }
-
-  prev_post_move_iteration_id_circe_reborn[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

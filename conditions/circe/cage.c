@@ -50,7 +50,7 @@ stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
       result = solve(slices[si].next1,n);
 
       if (!post_move_iteration_locked[nbply]
-          && current_circe_rebirth_square[nbply]==initsquare
+          && circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
           && !cage_found_for_current_capture[nbply])
       {
         no_cage_for_current_capture[nbply] = true;
@@ -114,13 +114,25 @@ stip_length_type circe_cage_cage_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (find_non_capturing_move(current_circe_rebirth_square[nbply],
-                              advers(slices[si].starter)))
-    result = previous_move_is_illegal;
-  else
   {
-    cage_found_for_current_capture[nbply] = true;
-    result = solve(slices[si].next1,n);
+    move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
+    if (rebirth==move_effect_journal_base[nbply+1])
+      result = solve(slices[si].next1,n);
+    else
+    {
+      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
+      assert(move_effect_journal[rebirth].type==move_effect_piece_readdition);
+
+      TraceSquare(sq_rebirth);TraceText("\n");
+
+      if (find_non_capturing_move(sq_rebirth,advers(slices[si].starter)))
+        result = previous_move_is_illegal;
+      else
+      {
+        cage_found_for_current_capture[nbply] = true;
+        result = solve(slices[si].next1,n);
+      }
+    }
   }
 
   TraceFunctionExit(__func__);

@@ -37,9 +37,9 @@ stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    current_circe_relevant_walk[nbply] = get_walk_of_piece_on_square(pos);
-    current_circe_relevant_spec[nbply] = spec[pos];
-    current_circe_relevant_side[nbply] = advers(slices[si].starter);
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = get_walk_of_piece_on_square(pos);
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_spec = spec[pos];
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side = advers(slices[si].starter);
   }
 
   result = solve(slices[si].next1,n);

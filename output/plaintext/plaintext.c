@@ -407,8 +407,8 @@ static void write_piece_addition(move_context *context,
 {
   switch (move_effect_journal[curr].reason)
   {
-    case move_effect_reason_circe_rebirth:
-    case move_effect_reason_supercirce_rebirth:
+    case move_effect_reason_rebirth_no_choice:
+    case move_effect_reason_rebirth_choice:
     case move_effect_reason_republican_king_insertion:
     case move_effect_reason_sentinelles:
     case move_effect_reason_summon_ghost:

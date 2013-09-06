@@ -32,8 +32,13 @@ stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!is_piece_neutral(current_circe_reborn_spec[nbply]))
-    piece_change_side(&current_circe_reborn_spec[nbply]);
+  {
+    move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
+    if (rebirth!=move_effect_journal_base[nbply+1]
+        && !is_piece_neutral(move_effect_journal[rebirth].u.piece_addition.addedspec))
+      move_effect_journal_do_side_change(move_effect_reason_circe_turncoats,
+                                         move_effect_journal[rebirth].u.piece_addition.on);
+  }
 
   result = solve(slices[si].next1,n);
 

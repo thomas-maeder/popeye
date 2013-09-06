@@ -1156,7 +1156,6 @@ static void InitAlways(void)
   {
     killer_moves[i].departure = initsquare;
     killer_moves[i].arrival = initsquare;
-    current_circe_rebirth_square[i] = initsquare;
     trait[i] = White;
     anticirce_current_rebirth_square[i] = initsquare;
   }

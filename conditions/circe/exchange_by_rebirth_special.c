@@ -43,22 +43,27 @@ slice_index alloc_circe_exchange_special_slice(void)
  */
 stip_length_type circe_exchange_special_solve(slice_index si, stip_length_type n)
 {
-  stip_length_type result;
-  square const sq_rebirth = current_circe_rebirth_square[nbply];
-  square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
+  stip_length_type result = n+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth!=initsquare
-      && GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
-      && TSTFLAG(spec[sq_diagram],slices[si].starter)
-      && sq_diagram!=sq_rebirth)
-    result = solve(slices[si].next1,n);
-  else
-    result = n+2;
+  {
+    move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
+
+    if (rebirth!=move_effect_journal_base[nbply+1])
+    {
+      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
+      square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);
+      if (sq_rebirth!=initsquare
+          && GetPositionInDiagram(spec[sq_diagram])==sq_rebirth
+          && TSTFLAG(spec[sq_diagram],slices[si].starter)
+          && sq_diagram!=sq_rebirth)
+        result = solve(slices[si].next1,n);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

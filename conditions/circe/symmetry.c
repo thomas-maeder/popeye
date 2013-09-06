@@ -32,7 +32,7 @@ stip_length_type symmetry_circe_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_rebirth_square[nbply] = (square_h8+square_a1) - sq_capture;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = (square_h8+square_a1) - sq_capture;
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

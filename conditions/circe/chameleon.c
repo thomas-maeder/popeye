@@ -80,8 +80,8 @@ stip_length_type chameleon_circe_adapt_reborn_walk_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_reborn_walk[nbply] = chameleon_circe_get_reborn_walk(current_circe_reborn_walk[nbply]);
-  current_circe_relevant_walk[nbply] = current_circe_reborn_walk[nbply];
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = chameleon_circe_get_reborn_walk(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk);
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk;
 
   result = solve(slices[si].next1,n);
 

@@ -37,7 +37,7 @@ stip_length_type rank_circe_determine_relevant_side_solve(slice_index si,
      * capture square */
     unsigned const row_capture = sq_capture/onerow;
     if (row_capture%2==0)
-      current_circe_relevant_side[nbply] = advers(current_circe_relevant_side[nbply]);
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side = advers(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side);
   }
 
   result = solve(slices[si].next1,n);
@@ -76,8 +76,8 @@ stip_length_type rank_circe_adjust_rebirth_square_solve(slice_index si,
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
     square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
     unsigned const row_capture = sq_capture/onerow;
-    unsigned int const file_rebirth = current_circe_rebirth_square[nbply]%onerow;
-    current_circe_rebirth_square[nbply] = onerow*row_capture + file_rebirth;
+    unsigned int const file_rebirth = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square%onerow;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = onerow*row_capture + file_rebirth;
   }
 
   result = solve(slices[si].next1,n);

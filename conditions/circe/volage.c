@@ -32,27 +32,33 @@ stip_length_type circe_volage_recolorer_solve(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
-  square const sq_rebirth = current_circe_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-
-  if (TSTFLAG(spec[sq_rebirth],Volage)
-      && (SquareCol(sq_rebirth)
-          !=SquareCol(move_generation_stack[current_move[nbply]-1].capture)))
   {
-    if (!TSTFLAG(spec[sq_rebirth],trait[nbply]))
-      move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
-                                         sq_rebirth);
-    if (!CondFlag[hypervolage])
+    move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
+    if (rebirth!=move_effect_journal_base[nbply+1])
     {
-      Flags changed = spec[sq_rebirth];
-      CLRFLAG(changed,Volage);
-      move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
-                                          sq_rebirth,changed);
+      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
+
+      if (TSTFLAG(spec[sq_rebirth],Volage)
+          && (SquareCol(sq_rebirth)
+              !=SquareCol(move_generation_stack[current_move[nbply]-1].capture)))
+      {
+        if (!TSTFLAG(spec[sq_rebirth],trait[nbply]))
+          move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
+                                             sq_rebirth);
+        if (!CondFlag[hypervolage])
+        {
+          Flags changed = spec[sq_rebirth];
+          CLRFLAG(changed,Volage);
+          move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
+                                              sq_rebirth,changed);
+        }
+      }
     }
   }
 

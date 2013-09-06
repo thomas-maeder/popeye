@@ -43,15 +43,14 @@ slice_index alloc_circe_steingewinn_filter_slice(void)
 stip_length_type circe_steingewinn_filter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (current_circe_rebirth_square[nbply]==initsquare)
-    result = solve(next,n);
+  if (circe_find_current_rebirth()==move_effect_journal_base[nbply+1])
+    result = solve(slices[si].next1,n);
   else
     result = n+2;
 

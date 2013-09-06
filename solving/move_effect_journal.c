@@ -1417,6 +1417,8 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
   for (other = base+move_effect_journal_index_offset_other_effects;
        other<top;
        ++other)
+  {
+    TraceValue("%u\n",move_effect_journal[other].type);
     switch (move_effect_journal[other].type)
     {
       case move_effect_piece_removal:
@@ -1485,6 +1487,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
         assert(0);
         break;
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceSquare(pos);

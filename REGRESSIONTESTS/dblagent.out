@@ -26,17 +26,17 @@
 
    1.Le3-d4 ! Drohung:
           2.Ld4-b2 #
-      1...Th3*a3[+sBa7] +
-          2.Ka2*a3[+wTa1] #
+      1...Th3*a3[+wBa7=s] +
+          2.Ka2*a3[+sTa1=w] #
       1...Th3-b3
-          2.Lc2*b3[+wTh1] #
+          2.Lc2*b3[+sTh1=w] #
       1...Th3-c3
-          2.d2*c3[+wTa1] #
-          2.Ld4*c3[+wTa1] #
-      1...Db7*b4[+sSb8]
-          2.a3*b4[+wDd1] #
+          2.d2*c3[+sTa1=w] #
+          2.Ld4*c3[+sTa1=w] #
+      1...Db7*b4[+wSb8=s]
+          2.a3*b4[+sDd1=w] #
       1...Db7-g7
-          2.Ld4*g7[+wDd1] #
+          2.Ld4*g7[+sDd1=w] #
 
 
   add_to_move_generation_stack:       11338
@@ -73,7 +73,7 @@ Loesung beendet.
               OhneSchach
           DoppelAgentenCirce
 
-  1.Kb1-c2   2.Kc2-d3   3.Kd3*e3[+wBe2]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 #
+  1.Kb1-c2   2.Kc2-d3   3.Kd3*e3[+sBe2=w]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 #
 
   add_to_move_generation_stack:        9542
                      play_move:        9300

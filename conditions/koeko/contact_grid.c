@@ -97,8 +97,8 @@ stip_length_type contact_grid_avoid_circe_rebirth(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nogridcontact(current_circe_rebirth_square[nbply]))
-    current_circe_rebirth_square[nbply] = initsquare;
+  if (nogridcontact(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square))
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = initsquare;
 
   result = solve(slices[si].next1,n);
 

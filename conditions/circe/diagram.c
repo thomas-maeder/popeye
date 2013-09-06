@@ -30,7 +30,7 @@ stip_length_type diagram_circe_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  current_circe_rebirth_square[nbply] = GetPositionInDiagram(current_circe_relevant_spec[nbply]);
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = GetPositionInDiagram(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_spec);
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
