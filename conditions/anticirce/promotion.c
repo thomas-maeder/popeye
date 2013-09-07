@@ -1,5 +1,6 @@
 #include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -37,29 +38,39 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    pieces_pawns_initialise_promotion_sequence(anticirce_current_rebirth_square[nbply],
-                                               &current_promotion_of_reborn_moving[nbply]);
-
-  if (current_promotion_of_reborn_moving[nbply].promotee==Empty)
-    result = solve(slices[si].next1,n);
-  else
   {
-    move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
-                                        anticirce_current_rebirth_square[nbply],
-                                        current_promotion_of_reborn_moving[nbply].promotee);
-
-    result = solve(slices[si].next1,n);
-
-    if (!post_move_iteration_locked[nbply])
+    move_effect_journal_index_type const rebirth = anticirce_find_current_rebirth();
+    if (rebirth==move_effect_journal_base[nbply+1])
+      result = solve(slices[si].next1,n);
+    else
     {
-      pieces_pawns_continue_promotion_sequence(&current_promotion_of_reborn_moving[nbply]);
-      TracePiece(current_promotion_of_reborn_moving[nbply].promotee);TraceText("\n");
-      if (current_promotion_of_reborn_moving[nbply].promotee!=Empty)
-        lock_post_move_iterations();
-    }
+      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
 
-    prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
+        pieces_pawns_initialise_promotion_sequence(sq_rebirth,
+                                                   &current_promotion_of_reborn_moving[nbply]);
+
+      if (current_promotion_of_reborn_moving[nbply].promotee==Empty)
+        result = solve(slices[si].next1,n);
+      else
+      {
+        move_effect_journal_do_piece_change(move_effect_reason_promotion_of_reborn,
+                                            sq_rebirth,
+                                            current_promotion_of_reborn_moving[nbply].promotee);
+
+        result = solve(slices[si].next1,n);
+
+        if (!post_move_iteration_locked[nbply])
+        {
+          pieces_pawns_continue_promotion_sequence(&current_promotion_of_reborn_moving[nbply]);
+          TracePiece(current_promotion_of_reborn_moving[nbply].promotee);TraceText("\n");
+          if (current_promotion_of_reborn_moving[nbply].promotee!=Empty)
+            lock_post_move_iterations();
+        }
+
+        prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      }
+    }
   }
 
   TraceFunctionExit(__func__);

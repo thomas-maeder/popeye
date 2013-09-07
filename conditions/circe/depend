@@ -441,9 +441,9 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/anticirce/anticirce.h solving/ply.h \
- conditions/anticirce/capture_fork.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- stipulation/has_solution_type.h stipulation/move.h \
+ conditions/anticirce/capture_fork.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
@@ -478,6 +478,8 @@ conditions/anticirce/anticirce.h:
 solving/ply.h:
 
 conditions/anticirce/capture_fork.h:
+
+conditions/circe/circe.h:
 
 solving/move_effect_journal.h:
 

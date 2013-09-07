@@ -1,5 +1,6 @@
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -25,13 +26,14 @@ stip_length_type magic_square_anticirce_relevant_side_adapter_solve(slice_index 
                                                                     stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(anticirce_current_relevant_spec[nbply],Royal))
+  if (!TSTFLAG(context->relevant_spec,Royal))
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -41,7 +43,7 @@ stip_length_type magic_square_anticirce_relevant_side_adapter_solve(slice_index 
                                                                               moving_id,
                                                                               sq_arrival);
     if (TSTFLAG(sq_spec[pos],MagicSq))
-      anticirce_current_relevant_side[nbply] = slices[si].starter;
+      context->relevant_side = slices[si].starter;
   }
 
   result = solve(slices[si].next1,n);

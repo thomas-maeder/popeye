@@ -33,7 +33,6 @@
 #include "conditions/blackchecks.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/chameleon.h"
-#include "conditions/anticirce/anticirce.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/duellists.h"
 #include "conditions/exclusive.h"
@@ -1157,7 +1156,6 @@ static void InitAlways(void)
     killer_moves[i].departure = initsquare;
     killer_moves[i].arrival = initsquare;
     trait[i] = White;
-    anticirce_current_rebirth_square[i] = initsquare;
   }
 
   reset_tables();

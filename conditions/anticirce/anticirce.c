@@ -1,7 +1,7 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
+#include "conditions/circe/circe.h"
 #include "solving/observation.h"
-#include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -12,15 +12,32 @@
 
 #include <assert.h>
 
-PieNam anticirce_current_reborn_piece[maxply+1];
-Flags anticirce_current_reborn_spec[maxply+1];
-
-PieNam anticirce_current_relevant_piece[maxply+1];
-Flags anticirce_current_relevant_spec[maxply+1];
-Side anticirce_current_relevant_side[maxply+1];
-square anticirce_current_rebirth_square[maxply+1];
-
 square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
+
+/* Find the Circe rebirth effect in the current move
+ * @return the index of the rebirth effect
+ *         move_effect_journal_base[nbply+1] if there is none
+ */
+move_effect_journal_index_type anticirce_find_current_rebirth(void)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (result = base+move_effect_journal_index_offset_other_effects; result<top; ++result)
+    if (move_effect_journal[result].type==move_effect_piece_readdition
+        && (move_effect_journal[result].reason==move_effect_reason_anticirce_rebirth
+            || move_effect_journal[result].reason==move_effect_reason_antisupercirce_rebirth))
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -53,8 +70,10 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    anticirce_current_reborn_piece[nbply] = get_walk_of_piece_on_square(pos);
-    anticirce_current_reborn_spec[nbply] = spec[pos];
+    circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+    context->reborn_walk = get_walk_of_piece_on_square(pos);
+    context->reborn_spec = spec[pos];
   }
 
   result = solve(slices[si].next1,n);
@@ -82,15 +101,16 @@ stip_length_type anticirce_determine_relevant_piece_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  anticirce_current_relevant_piece[nbply] = anticirce_current_reborn_piece[nbply];
-  anticirce_current_relevant_spec[nbply] = anticirce_current_reborn_spec[nbply];
-  anticirce_current_relevant_side[nbply] = advers(slices[si].starter);
+  context->relevant_walk = context->reborn_walk;
+  context->relevant_spec = context->reborn_spec;
+  context->relevant_side = advers(slices[si].starter);
 
   result = solve(slices[si].next1,n);
 
@@ -134,12 +154,14 @@ stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    anticirce_current_rebirth_square[nbply] = (*anticirce_determine_rebirth_square)(anticirce_current_relevant_piece[nbply],
-                                                           anticirce_current_relevant_spec[nbply],
+    circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+    context->rebirth_square = (*anticirce_determine_rebirth_square)(context->relevant_walk,
+                                                           context->relevant_spec,
                                                            sq_capture,
                                                            sq_departure,
                                                            pos,
-                                                           anticirce_current_relevant_side[nbply]);
+                                                           context->relevant_side);
   }
 
   result = solve(slices[si].next1,n);

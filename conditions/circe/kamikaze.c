@@ -1,6 +1,7 @@
 #include "conditions/circe/kamikaze.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/capture_fork.h"
+#include "conditions/circe/circe.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -39,7 +40,7 @@ stip_length_type circe_kamikaze_capture_fork_solve(slice_index si,
       result = anticirce_capture_fork_solve(si,n);
     else
     {
-      anticirce_current_rebirth_square[nbply] = initsquare;
+      circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = initsquare;
       result = solve(slices[si].next2,n);
     }
   }

@@ -1,5 +1,6 @@
 #include "conditions/anticirce/exchange_filter.h"
 #include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
@@ -43,16 +44,14 @@ slice_index alloc_anticirce_exchange_filter_slice(void)
 stip_length_type anticirce_exchange_filter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
-  square const sq_rebirth = anticirce_current_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth==initsquare)
-    result = solve(next,n);
+  if (anticirce_find_current_rebirth()==move_effect_journal_base[nbply+1])
+    result = solve(slices[si].next1,n);
   else
     result = n+2;
 

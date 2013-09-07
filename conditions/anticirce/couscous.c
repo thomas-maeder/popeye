@@ -1,5 +1,6 @@
 #include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "solving/move_effect_journal.h"
@@ -26,15 +27,16 @@ stip_length_type anticirce_couscous_determine_relevant_piece_solve(slice_index s
   stip_length_type result;
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  anticirce_current_relevant_piece[nbply] = move_effect_journal[capture].u.piece_removal.removed;
-  anticirce_current_relevant_spec[nbply] = move_effect_journal[capture].u.piece_removal.removedspec;
-  anticirce_current_relevant_side[nbply] = slices[si].starter;
+  context->relevant_walk = move_effect_journal[capture].u.piece_removal.removed;
+  context->relevant_spec = move_effect_journal[capture].u.piece_removal.removedspec;
+  context->relevant_side = slices[si].starter;
 
   result = solve(slices[si].next1,n);
 

@@ -1,4 +1,6 @@
 #include "conditions/anticirce/capture_fork.h"
+#include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
@@ -9,7 +11,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/move_effect_journal.h"
-#include "conditions/anticirce/anticirce.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -40,12 +41,12 @@ stip_length_type anticirce_capture_fork_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_no_piece_removal)
-  {
-    anticirce_current_rebirth_square[nbply] = initsquare;
     result = solve(slices[si].next2,n);
-  }
   else
+  {
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_anticirce_rebirth;
     result = solve(slices[si].next1,n);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

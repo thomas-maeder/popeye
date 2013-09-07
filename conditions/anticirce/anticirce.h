@@ -4,18 +4,17 @@
 #include "pieces/pieces.h"
 #include "solving/solve.h"
 #include "solving/ply.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/slice_type.h"
 #include "position/position.h"
 
-extern PieNam anticirce_current_reborn_piece[maxply+1];
-extern Flags anticirce_current_reborn_spec[maxply+1];
-
-extern PieNam anticirce_current_relevant_piece[maxply+1];
-extern Flags anticirce_current_relevant_spec[maxply+1];
-extern Side anticirce_current_relevant_side[maxply+1];
-extern square anticirce_current_rebirth_square[maxply+1];
-
 extern square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
+
+/* Find the Circe rebirth effect in the current move
+ * @return the index of the rebirth effect
+ *         move_effect_journal_base[nbply+1] if there is none
+ */
+move_effect_journal_index_type anticirce_find_current_rebirth(void);
 
 /* Try to solve in n half-moves.
  * @param si slice index

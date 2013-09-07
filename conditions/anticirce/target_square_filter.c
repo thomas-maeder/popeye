@@ -1,5 +1,6 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/move_effect_journal.h"
@@ -39,16 +40,19 @@ slice_index alloc_anticirce_target_square_filter_slice(square target)
 static boolean is_mover_removed_from_target(slice_index si)
 {
   boolean result;
-  square const target = slices[si].u.goal_handler.goal.target;
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (move_effect_journal[capture].type==move_effect_piece_removal
-            && anticirce_current_rebirth_square[nbply]!=target);
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const sq_eventual_arrival = move_effect_journal_follow_piece_through_other_effects(nbply,moving_id,sq_arrival);
+    result = sq_eventual_arrival!=sq_arrival;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

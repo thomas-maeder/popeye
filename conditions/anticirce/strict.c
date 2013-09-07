@@ -1,5 +1,6 @@
 #include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -25,6 +26,7 @@ stip_length_type anticirce_place_reborn_strict_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -43,19 +45,18 @@ stip_length_type anticirce_place_reborn_strict_solve(slice_index si,
                                          pos);
   }
 
-  if (is_square_empty(anticirce_current_rebirth_square[nbply]))
+  if (is_square_empty(context->rebirth_square))
   {
-    move_effect_journal_do_piece_readdition(move_effect_reason_anticirce_rebirth,
-                                            anticirce_current_rebirth_square[nbply],
-                                            anticirce_current_reborn_piece[nbply],
-                                            anticirce_current_reborn_spec[nbply]);
+    move_effect_journal_do_piece_readdition(context->rebirth_reason,
+                                            context->rebirth_square,
+                                            context->reborn_walk,
+                                            context->reborn_spec);
+    ++circe_rebirth_context_stack_pointer;
     result = solve(slices[si].next1,n);
+    --circe_rebirth_context_stack_pointer;
   }
   else
-  {
-    anticirce_current_rebirth_square[nbply] = initsquare;
     result = previous_move_is_illegal;
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

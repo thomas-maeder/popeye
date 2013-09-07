@@ -1,5 +1,6 @@
 #include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/anticirce.h"
+#include "conditions/circe/circe.h"
 #include "position/pieceid.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
@@ -46,16 +47,12 @@ slice_index alloc_anticirce_exchange_special_slice(void)
 stip_length_type anticirce_exchange_special_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_rebirth = anticirce_current_rebirth_square[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth==initsquare)
-    result = n+2;
-  else
   {
     Side const just_moved = advers(slices[si].starter);
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -69,7 +66,7 @@ stip_length_type anticirce_exchange_special_solve(slice_index si, stip_length_ty
     square const sq_diagram = GetPositionInDiagram(movingspec);
     if (GetPositionInDiagram(spec[sq_diagram])==pos
         && TSTFLAG(spec[sq_diagram],just_moved)
-        && sq_diagram!=sq_rebirth)
+        && sq_diagram!=pos)
       result = solve(slices[si].next1,n);
     else
       result = n+2;
