@@ -2,6 +2,8 @@
 #include "conditions/circe/capture_fork.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/classification.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -247,18 +249,18 @@ square renequipollents_polymorphic(PieNam p_captured, Flags p_captured_spec,
 #endif
   return sq_capture + sq_capture - sq_departure;
 }
-
-square renantiequipollents_polymorphic(PieNam p_captured, Flags p_captured_spec,
-                            square sq_capture,
-                            square sq_departure, square sq_arrival,
-                            Side capturer)
-{
-  /* we have to solve the enpassant capture / locust capture problem in the future. */
-#if defined(WINCHLOE)
-  return sq_arrival + sq_arrival - sq_departure;
-#endif
-  return sq_capture + sq_capture - sq_departure;
-}
+//
+//square renantiequipollents_polymorphic(PieNam p_captured, Flags p_captured_spec,
+//                            square sq_capture,
+//                            square sq_departure, square sq_arrival,
+//                            Side capturer)
+//{
+//  /* we have to solve the enpassant capture / locust capture problem in the future. */
+//#if defined(WINCHLOE)
+//  return sq_arrival + sq_arrival - sq_departure;
+//#endif
+//  return sq_capture + sq_capture - sq_departure;
+//}
 
 square rensymmetrie_polymorphic(PieNam p_captured, Flags p_captured_spec,
                     square sq_capture,
@@ -394,9 +396,46 @@ square rennormal(PieNam pnam_captured, Flags p_captured_spec,
 }
 
 square renspiegel_polymorphic(PieNam p_captured, Flags p_captured_spec,
-                  square sq_capture,
-                  square sq_departure, square sq_arrival,
-                  Side capturer)
+                              square sq_capture,
+                              square sq_departure, square sq_arrival,
+                              Side capturer)
 {
   return rennormal(p_captured,p_captured_spec,sq_capture,advers(capturer));
+}
+
+static void instrument(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_type const * const type = st->param;
+    slice_index const prototype = alloc_pipe(*type);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the Circe solving machinery with some slice
+ * @param si identifies root slice of stipulation
+ * @param type slice type of which to add instances
+ */
+void circe_instrument_solving(slice_index si, slice_type type)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&type);
+  stip_structure_traversal_override_single(&st,STCirceDetermineRebornPiece,&instrument);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

@@ -87,6 +87,11 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n);
  */
 void circe_initialise_solving(slice_index si);
 
+/* Instrument the Circe solving machinery with some slice
+ * @param si identifies root slice of stipulation
+ * @param type slice type of which to add instances
+ */
+void circe_instrument_solving(slice_index si, slice_type type);
 
 square rennormal_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegel_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
@@ -94,7 +99,6 @@ square rendiagramm_polymorphic(PieNam p, Flags pspec, square j, square i, square
 square renantipoden_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square rensymmetrie_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renequipollents_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renantiequipollents_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renfile_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegelfile_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 

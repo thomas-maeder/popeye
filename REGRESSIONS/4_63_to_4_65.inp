@@ -433,4 +433,13 @@ pieces white pa5d3 black pe5
 stip +1
 condition extinction andernach
 
+next
+
+title Until 4.63, there was no way to indicate Mirror File Anticirce with
+title English as input language
+pieces white sc3 black rd5
+stip x1
+condition mirrorfileanticirce
+option nowk nobk
+
 end

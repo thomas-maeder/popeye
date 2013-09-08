@@ -21,10 +21,4 @@
 stip_length_type mirror_circe_determine_relevant_side_solve(slice_index si,
                                                             stip_length_type n);
 
-/* Override the Circe instrumentation of the solving machinery with
- * Mirror Circe
- * @param si identifies root slice of stipulation
- */
-void mirror_circe_initialise_solving(slice_index si);
-
 #endif

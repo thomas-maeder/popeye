@@ -1043,7 +1043,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*57*/  "DiagramAntiCirce",
     /*58*/  "FileAntiCirce",
     /*59*/  "SymmetryAntiCirce",
-    /*60*/  "MirrorAntiCirce",
+    /*60*/  "MirrorFileAntiCirce",
     /*61*/  "AntipodeanAntiCirce",
     /*62*/  "EquipollentsAntiCirce",
     /*63*/  "FileImmunChess",

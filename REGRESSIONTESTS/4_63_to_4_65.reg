@@ -2165,3 +2165,39 @@ Until 4.63, we produced 1.d3-d4 + !, but no extinction is threatened
 solution finished. 
 
 
+
+Until 4.63, there was no way to indicate Mirror File Anticirce with
+      English as input language
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -R   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   S   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+         MirrorFileAntiCirce
+
+   1.Sc3*d5[wSd5->d8] x !
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

@@ -8,8 +8,6 @@
 #include "stipulation/slice_type.h"
 #include "position/position.h"
 
-extern square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
-
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
  *         move_effect_journal_base[nbply+1] if there is none
@@ -77,5 +75,19 @@ void stip_replace_anticirce_determine_relevant_piece(slice_index si,
  * @param si identifies root slice of stipulation
  */
 void anticirce_initialise_solving(slice_index si);
+
+/* Instrument the Anticirce solving machinery with some slice
+ * @param si identifies root slice of stipulation
+ * @param type slice type of which to add instances
+ */
+void anticirce_instrument_solving(slice_index si, slice_type type);
+
+/* Replace a pipe slice type by another in the Anticirce solving machinery
+ * @param si identifies root slice of stipulation
+ * @param pipe_from slice type to be replace
+ * @param pipe_to substitute slice type
+ */
+void anticirce_solving_substitute(slice_index si,
+                                  slice_type pipe_from, slice_type pipe_to);
 
 #endif

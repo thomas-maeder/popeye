@@ -868,13 +868,36 @@ char *ParseCond(void)
         anycirce= true;
         CondFlag[couscous]= true;
         break;
-      case pwc:
-        anycirprom= true;
+      case circe:
+      case circemalefique:
+      case circemalefiquevertical:
+      case chamcirce:
+      case circediametral:
+      case frischauf:
+      case circerank:
+      case circefile:
+      case circefilemalefique:
+      case circediagramm:
+      case circeassassin:
+      case circeturncoats:
+      case circedoubleagents:
         anycirce= true;
         break;
+      case supercirce:
+      case circecage:
+      case circeequipollents:
+      case circesymmetry:
+      case circeantipoden:
+      case circetakeandmake:
+      case pwc:
       case couscous:
         anycirprom= true;
         anycirce= true;
+        break;
+      case circeclone:
+      case circeclonemalefique:
+        anycirce= true;
+        anyclone= true;
         break;
       case parrain:
       case contraparrain:
@@ -882,109 +905,17 @@ char *ParseCond(void)
         anycirce= true;
         anyparrain= true;
         break;
-      case circediametral:
-        anycirce= true;
-        break;
-      case frischauf:
-        anycirce= true;
-        break;
-      case circe:
-        anycirce= true;
-        break;
-      case chamcirce:
-        anycirce= true;
-        break;
-      case circemalefiquevertical:
-        anycirce= true;
-        break;
-      case supercirce:
-      case circecage:
-        anycirprom= true;
-        anycirce= true;
-        break;
-      case circeequipollents:
-        anycirce= true;
-        anycirprom= true;
-        break;
-      case circemalefique:
-        anycirce= true;
-        break;
-      case circerank:
-        anycirce= true;
-        break;
-      case circefile:
-        anycirce= true;
-        break;
-      case circefilemalefique:
-        anycirce= true;
-        break;
-      case circediagramm:
-        anycirce= true;
-        break;
-      case circesymmetry:
-        anycirce= true;
-        anycirprom= true;
-        break;
-      case circeantipoden:
-        anycirce= true;
-        anycirprom= true;
-        break;
-      case circeclonemalefique:
-        anycirce= true;
-        anyclone= true;
-        break;
-      case circeclone:
-        anycirce= true;
-        anyclone= true;
-        break;
-      case circeassassin:
-        anycirce = true;
-        break;
-      case circetakeandmake:
-        anycirce= true;
-        anycirprom= true;
-        break;
 
-        /* different types of anticirce */
-      case circeturncoats:
-        anycirce= true;
-        break;
-      case circedoubleagents:
-        anycirce= true;
-        break;
       case anti:
-        anyanticirce= true;
-        break;
       case antispiegel:
-        anticirce_determine_rebirth_square= renspiegel_polymorphic;
-        anyanticirce= true;
-        break;
       case antidiagramm:
-        anticirce_determine_rebirth_square= rendiagramm_polymorphic;
-        anyanticirce= true;
-        break;
       case antifile:
-        anticirce_determine_rebirth_square= renfile_polymorphic;
-        anyanticirce= true;
-        break;
       case antisymmetrie:
-        anticirce_determine_rebirth_square= rensymmetrie_polymorphic;
-        anyanticirce= true;
-        break;
       case antispiegelfile:
-        anticirce_determine_rebirth_square= renspiegelfile_polymorphic;
         anyanticirce= true;
         break;
       case antiantipoden:
-        anticirce_determine_rebirth_square= renantipoden_polymorphic;
-        anyanticirce= true;
-        anyanticirprom = true;
-        break;
       case antiequipollents:
-        anticirce_determine_rebirth_square= renantiequipollents_polymorphic;
-        anyanticirce= true;
-        anyanticirprom = true;
-        break;
       case antisuper:
         anyanticirce= true;
         anyanticirprom = true;
@@ -1390,7 +1321,6 @@ void InitCond(void)
   anygeneva = false;
   anyparrain= false;
 
-  anticirce_determine_rebirth_square = rennormal_polymorphic;
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;
 

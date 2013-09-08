@@ -18,4 +18,68 @@ stip x1
 option nowk nobk
 twin condition MirrorFileCirce
 
+next
+
+title only example of Diagram Anticirce
+pieces white sc3 black rd5
+stip x1
+condition diagramanticirce
+option nowk nobk
+
+next
+
+title only example of Mirror Anticirce
+pieces white sc3 black rd5
+stip x1
+condition mirroranticirce
+option nowk nobk
+
+next
+
+title only example of File Anticirce
+pieces white sc3 black rd5
+stip x1
+condition fileanticirce
+option nowk nobk
+
+next
+
+title only example of Symmetry Anticirce
+pieces white sc3 black rd5
+stip x1
+condition symmetryanticirce
+option nowk nobk
+
+next
+
+title only example of Mirror File Anticirce
+pieces white sc3 black rd5
+stip x1
+condition mirrorfileanticirce
+option nowk nobk
+
+next
+
+title only example of Antipodean Anticirce
+pieces white sc3 black rd5
+stip x1
+condition antipodeananticirce
+option nowk nobk
+
+next
+
+title only example of Antipodean Anticirce
+pieces white sc3 black rd5
+stip x1
+condition equipollentsanticirce
+option nowk nobk
+
+next
+
+title only example of Anticirce with Locust
+pieces white lc2 black pe4
+stip ~1
+condition anticirce
+option nowk nobk
+
 end

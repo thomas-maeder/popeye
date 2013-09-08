@@ -3,6 +3,8 @@
 #include "conditions/circe/circe.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -11,8 +13,6 @@
 #include "pieces/pieces.h"
 
 #include <assert.h>
-
-square (*anticirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
@@ -64,6 +64,7 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
 
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
@@ -74,6 +75,9 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
 
     context->reborn_walk = get_walk_of_piece_on_square(pos);
     context->reborn_spec = spec[pos];
+
+    /* TODO WinChloe uses the arrival square, which seems to make more sense */
+    context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
   }
 
   result = solve(slices[si].next1,n);
@@ -137,32 +141,17 @@ stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-    square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                              moving_id,
-                                                                              sq_arrival);
-    circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-
-    context->rebirth_square = (*anticirce_determine_rebirth_square)(context->relevant_walk,
-                                                           context->relevant_spec,
-                                                           sq_capture,
-                                                           sq_departure,
-                                                           pos,
-                                                           context->relevant_side);
-  }
+  context->rebirth_square = rennormal(context->relevant_walk,
+                                      context->relevant_spec,
+                                      context->relevant_square,
+                                      context->relevant_side);
 
   result = solve(slices[si].next1,n);
 
@@ -228,6 +217,84 @@ void anticirce_initialise_solving(slice_index si)
   stip_instrument_check_validation(si,
                                    nr_sides,
                                    STValidateCheckMoveByPlayingCapture);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_type const * const type = st->param;
+    slice_index const prototype = alloc_pipe(*type);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the Anticirce solving machinery with some slice
+ * @param si identifies root slice of stipulation
+ * @param type slice type of which to add instances
+ */
+void anticirce_instrument_solving(slice_index si, slice_type type)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&type);
+  stip_structure_traversal_override_single(&st,STAnticirceDetermineRebornPiece,&instrument);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void substitute(slice_index si, stip_structure_traversal *st)
+{
+  slice_index const * const pipe_type = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+  pipe_substitute(si,alloc_pipe(*pipe_type));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Replace a pipe slice type by another in the Anticirce solving machinery
+ * @param si identifies root slice of stipulation
+ * @param pipe_from slice type to be replace
+ * @param pipe_to substitute slice type
+ */
+void anticirce_solving_substitute(slice_index si,
+                                  slice_type pipe_from, slice_type pipe_to)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,pipe_from,"");
+  TraceEnumerator(slice_type,pipe_to,"");
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&pipe_to);
+  stip_structure_traversal_override_single(&st,pipe_from,&substitute);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

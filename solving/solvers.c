@@ -377,7 +377,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   else if (CondFlag[circefilemalefique])
   {
     file_circe_initialise_solving(result);
-    mirror_circe_initialise_solving(result);
+    circe_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
   }
   else if (CondFlag[circediagramm])
     diagram_circe_initialise_solving(result);
@@ -398,7 +398,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         || CondFlag[circemalefique]
         || CondFlag[circeclonemalefique]
         || CondFlag[circedoubleagents])
-      mirror_circe_initialise_solving(result);
+      circe_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
     if (CondFlag[circerank])
       rank_circe_initialise_solving(result);
     if (TSTFLAG(some_pieces_flags,Kamikaze))
@@ -445,6 +445,35 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       stip_insert_anticirce_promotion(result);
     if (CondFlag[couscous])
       anticirce_couscous_initialise_solving(result);
+    if (CondFlag[antispiegel])
+      anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
+    if (CondFlag[antidiagramm])
+      anticirce_solving_substitute(result,
+                                   STAnticirceDetermineRebirthSquare,
+                                   STDiagramCirceDetermineRebirthSquare);
+    if (CondFlag[antifile])
+      anticirce_solving_substitute(result,
+                                   STAnticirceDetermineRebirthSquare,
+                                   STFileCirceDetermineRebirthSquare);
+    if (CondFlag[antisymmetrie])
+      anticirce_solving_substitute(result,
+                                   STAnticirceDetermineRebirthSquare,
+                                   STSymmetryCirceDetermineRebirthSquare);
+    if (CondFlag[antispiegelfile])
+    {
+      anticirce_solving_substitute(result,
+                                   STAnticirceDetermineRebirthSquare,
+                                   STFileCirceDetermineRebirthSquare);
+      anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
+    }
+    if (CondFlag[antiantipoden])
+      anticirce_solving_substitute(result,
+                                   STAnticirceDetermineRebirthSquare,
+                                   STAntipodesCirceDetermineRebirthSquare);
+    if (CondFlag[antiequipollents])
+      anticirce_solving_substitute(result,
+                                   STAnticirceDetermineRebirthSquare,
+                                   STCirceEquipollentsDetermineRebirthSquare);
   }
 
   if (CondFlag[duellist])

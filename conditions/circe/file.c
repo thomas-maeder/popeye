@@ -68,7 +68,7 @@ void file_circe_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  stip_instrument_moves(si,STFileCirceDetermineRebirthSquare);
+  circe_instrument_solving(si,STFileCirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_circe_capture_forks(si);
 

@@ -28,7 +28,7 @@ stip_length_type mirror_circe_determine_relevant_side_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side = advers(slices[si].starter);
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side = advers(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side);
 
   result = solve(slices[si].next1,n);
 
@@ -36,20 +36,4 @@ stip_length_type mirror_circe_determine_relevant_side_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Override the Circe instrumentation of the solving machinery with
- * Mirror Circe
- * @param si identifies root slice of stipulation
- */
-void mirror_circe_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STSpiegelCirceDetermineRelevantSide);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

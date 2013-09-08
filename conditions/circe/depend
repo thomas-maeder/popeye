@@ -5,10 +5,11 @@ conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/move_effect_journal.h solving/castling_rights.h \
  solving/ply.h position/pieceid.h conditions/circe/capture_fork.h \
- pieces/walks/walks.h pieces/walks/classification.h \
- stipulation/has_solution_type.h stipulation/move.h \
+ pieces/walks/walks.h pieces/walks/classification.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h conditions/conditions.h
+ stipulation/traversal.h stipulation/branch.h \
+ stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
+ conditions/conditions.h
 
 conditions/circe/circe.h:
 
@@ -50,15 +51,19 @@ pieces/walks/walks.h:
 
 pieces/walks/classification.h:
 
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
+stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
 stipulation/traversal.h:
+
+stipulation/branch.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/move.h:
 
 debugging/trace.h:
 
@@ -441,10 +446,10 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/anticirce/anticirce.h solving/ply.h \
- conditions/anticirce/capture_fork.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h conditions/anticirce/capture_fork.h \
+ conditions/circe/circe.h stipulation/has_solution_type.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
 conditions/circe/kamikaze.h:
@@ -477,15 +482,15 @@ conditions/anticirce/anticirce.h:
 
 solving/ply.h:
 
-conditions/anticirce/capture_fork.h:
-
-conditions/circe/circe.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/anticirce/capture_fork.h:
+
+conditions/circe/circe.h:
 
 stipulation/has_solution_type.h:
 

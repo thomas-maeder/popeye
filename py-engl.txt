@@ -167,6 +167,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	MirrorAntiCirce
 	AntipodeanAntiCirce
 	EquipollentsAntiCirce
+	MirrorFileAnticirce
 	FileImmunChess
 	DiagramImmunChess
 	MirrorFileImmunChess
