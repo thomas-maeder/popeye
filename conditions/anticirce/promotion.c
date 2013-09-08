@@ -88,7 +88,7 @@ void anticirce_promotion_initialise_solving(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAnticirceRebornPromoter);
+  anticirce_instrument_solving(si,STAnticirceRebornPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

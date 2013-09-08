@@ -37,9 +37,11 @@ stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = get_walk_of_piece_on_square(pos);
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_spec = spec[pos];
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side = advers(slices[si].starter);
+    circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+    context->relevant_walk = get_walk_of_piece_on_square(pos);
+    context->relevant_spec = spec[pos];
+    context->relevant_side = advers(context->relevant_side);
   }
 
   result = solve(slices[si].next1,n);
@@ -60,7 +62,7 @@ void couscous_circe_initialise_solving(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STCirceCouscousDetermineRelevantPiece);
+  circe_instrument_solving(si,STCirceCouscousDetermineRelevantPiece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

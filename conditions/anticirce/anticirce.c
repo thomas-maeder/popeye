@@ -80,6 +80,10 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
 
     /* TODO WinChloe uses the arrival square, which seems to make more sense */
     context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
+
+    context->relevant_walk = context->reborn_walk;
+    context->relevant_spec = context->reborn_spec;
+    context->relevant_side = advers(slices[si].starter);
   }
 
   result = solve(slices[si].next1,n);
@@ -107,16 +111,11 @@ stip_length_type anticirce_determine_relevant_piece_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  context->relevant_walk = context->reborn_walk;
-  context->relevant_spec = context->reborn_spec;
-  context->relevant_side = advers(slices[si].starter);
 
   result = solve(slices[si].next1,n);
 
@@ -163,57 +162,18 @@ stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
   return result;
 }
 
-static void replace(slice_index si, stip_structure_traversal *st)
-{
-  slice_type const * const substitute = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  slices[si].type = *substitute;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Use an alternative type of slices for determining the piece relevant for
- * determining the rebirth square
- * @param si identifies root slice of stipulation
- * @param substitute substitute slice type
- */
-void stip_replace_anticirce_determine_relevant_piece(slice_index si,
-                                                     slice_type substitute)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,substitute,"");
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&substitute);
-  stip_structure_traversal_override_single(&st,STAnticirceDetermineRevelantPiece,&replace);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Initialise solving in Anticirce
  * @param si identifies root slice of stipulation
  */
-void anticirce_initialise_solving(slice_index si)
+void anticirce_initialise_solving(slice_index si,
+                                  slice_type type_determine_rebirth_square)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
-  stip_instrument_moves(si,STAnticirceDetermineRevelantPiece);
-  stip_instrument_moves(si,STAnticirceDetermineRebirthSquare);
+  stip_instrument_moves(si,type_determine_rebirth_square);
   stip_insert_anticirce_capture_forks(si);
 
   stip_instrument_check_validation(si,
@@ -257,45 +217,6 @@ void anticirce_instrument_solving(slice_index si, slice_type type)
 
   stip_structure_traversal_init(&st,&type);
   stip_structure_traversal_override_single(&st,STAnticirceDetermineRebornPiece,&instrument);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void substitute(slice_index si, stip_structure_traversal *st)
-{
-  slice_index const * const pipe_type = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-  pipe_substitute(si,alloc_pipe(*pipe_type));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Replace a pipe slice type by another in the Anticirce solving machinery
- * @param si identifies root slice of stipulation
- * @param pipe_from slice type to be replace
- * @param pipe_to substitute slice type
- */
-void anticirce_solving_substitute(slice_index si,
-                                  slice_type pipe_from, slice_type pipe_to)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,pipe_from,"");
-  TraceEnumerator(slice_type,pipe_to,"");
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&pipe_to);
-  stip_structure_traversal_override_single(&st,pipe_from,&substitute);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

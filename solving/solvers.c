@@ -405,10 +405,10 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     {
       anticirce_relaxed_initialise_solving(result);
       circe_kamikaze_initialise_solving(result);
-      if (CondFlag[couscous])
+      if (CondFlag[couscous] || CondFlag[couscousmirror])
         anticirce_couscous_initialise_solving(result);
     }
-    if (CondFlag[couscous])
+    if (CondFlag[couscous] || CondFlag[couscousmirror])
       couscous_circe_initialise_solving(result);
   }
 
@@ -434,40 +434,37 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   else if (anyanticirce)
   {
     stip_insert_anticirce_strict(result);
+
     if (CondFlag[magicsquare] && magic_square_type==magic_square_type2)
       stip_insert_magic_square_type2(result);
-    anticirce_initialise_solving(result);
-    if (anyanticirprom)
-      anticirce_promotion_initialise_solving(result);
-    if (CondFlag[couscous])
-      anticirce_couscous_initialise_solving(result);
+
     if (CondFlag[antidiagramm])
-      anticirce_solving_substitute(result,
-                                   STAnticirceDetermineRebirthSquare,
+      anticirce_initialise_solving(result,
                                    STDiagramCirceDetermineRebirthSquare);
-    if (CondFlag[antifile])
-      anticirce_solving_substitute(result,
-                                   STAnticirceDetermineRebirthSquare,
+    else if (CondFlag[antifile])
+      anticirce_initialise_solving(result,
                                    STFileCirceDetermineRebirthSquare);
-    if (CondFlag[antisymmetrie])
-      anticirce_solving_substitute(result,
-                                   STAnticirceDetermineRebirthSquare,
+    else if (CondFlag[antisymmetrie])
+      anticirce_initialise_solving(result,
                                    STSymmetryCirceDetermineRebirthSquare);
-    if (CondFlag[antispiegelfile])
-      anticirce_solving_substitute(result,
-                                   STAnticirceDetermineRebirthSquare,
+    else if (CondFlag[antispiegelfile])
+      anticirce_initialise_solving(result,
                                    STFileCirceDetermineRebirthSquare);
-    if (CondFlag[antiantipoden])
-      anticirce_solving_substitute(result,
-                                   STAnticirceDetermineRebirthSquare,
+    else if (CondFlag[antiantipoden])
+      anticirce_initialise_solving(result,
                                    STAntipodesCirceDetermineRebirthSquare);
-    if (CondFlag[antiequipollents])
-      anticirce_solving_substitute(result,
-                                   STAnticirceDetermineRebirthSquare,
+    else if (CondFlag[antiequipollents])
+      anticirce_initialise_solving(result,
                                    STCirceEquipollentsDetermineRebirthSquare);
+    else
+      anticirce_initialise_solving(result,STCirceDetermineRebirthSquare);
+
     if (CondFlag[antispiegel]
         || CondFlag[antispiegelfile])
       anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
+
+    if (anyanticirprom)
+      anticirce_promotion_initialise_solving(result);
   }
   if (AntiCirceType==AntiCirceTypeCheylan)
     anticirce_cheylan_initialise_solving(result);

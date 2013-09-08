@@ -106,7 +106,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     if (cond==holes)
       continue;
 
-    if (cond==couscous && CondFlag[couscousmirror])
+    if (CondFlag[couscousmirror])
       continue;
 
     /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */

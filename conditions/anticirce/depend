@@ -4,7 +4,7 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/ply.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
+ solving/castling_rights.h position/pieceid.h conditions/conditions.h \
  conditions/anticirce/capture_fork.h conditions/circe/circe.h \
  solving/observation.h solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -45,6 +45,8 @@ solving/move_effect_journal.h:
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/conditions.h:
 
 conditions/anticirce/capture_fork.h:
 
@@ -143,8 +145,8 @@ conditions/anticirce/target_square_filter$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
  solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
 conditions/anticirce/target_square_filter.h:
@@ -182,6 +184,8 @@ solving/move_effect_journal.h:
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/conditions.h:
 
 conditions/circe/circe.h:
 
@@ -256,8 +260,8 @@ conditions/anticirce/exchange_special$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
  solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
 conditions/anticirce/exchange_special.h:
@@ -296,6 +300,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 stipulation/pipe.h:
@@ -315,8 +321,8 @@ conditions/anticirce/exchange_filter$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
  solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
 conditions/anticirce/exchange_filter.h:
@@ -355,6 +361,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 stipulation/pipe.h:
@@ -378,7 +386,8 @@ conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
  solving/post_move_iteration.h solving/observation.h \
  solving/move_generator.h conditions/anticirce/anticirce.h \
- conditions/anticirce/capture_fork.h debugging/trace.h
+ conditions/conditions.h conditions/anticirce/capture_fork.h \
+ debugging/trace.h
 
 conditions/anticirce/super.h:
 
@@ -438,6 +447,8 @@ solving/move_generator.h:
 
 conditions/anticirce/anticirce.h:
 
+conditions/conditions.h:
+
 conditions/anticirce/capture_fork.h:
 
 debugging/trace.h:
@@ -449,9 +460,9 @@ conditions/anticirce/promotion$(OBJ_SUFFIX): conditions/anticirce/promotion.c \
  pieces/walks/vectors.h output/mode.h solving/moving_pawn_promotion.h \
  solving/ply.h pieces/walks/pawns/promotion.h \
  conditions/anticirce/anticirce.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h conditions/circe/circe.h \
- stipulation/has_solution_type.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/castling_rights.h position/pieceid.h conditions/conditions.h \
+ conditions/circe/circe.h stipulation/has_solution_type.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h
 
 conditions/anticirce/promotion.h:
@@ -494,6 +505,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 stipulation/has_solution_type.h:
@@ -516,7 +529,7 @@ conditions/anticirce/capture_fork$(OBJ_SUFFIX): conditions/anticirce/capture_for
  utilities/boolean.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
  solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
+ position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
  stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/fork.h \
@@ -559,6 +572,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 stipulation/has_solution_type.h:
@@ -582,57 +597,6 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-conditions/anticirce/couscous$(OBJ_SUFFIX): conditions/anticirce/couscous.c \
- conditions/anticirce/couscous.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
- solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
- stipulation/has_solution_type.h debugging/trace.h
-
-conditions/anticirce/couscous.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-conditions/anticirce/anticirce.h:
-
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-conditions/circe/circe.h:
-
-stipulation/has_solution_type.h:
-
-debugging/trace.h:
 conditions/anticirce/cheylan$(OBJ_SUFFIX): conditions/anticirce/cheylan.c \
  conditions/anticirce/cheylan.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -640,7 +604,7 @@ conditions/anticirce/cheylan$(OBJ_SUFFIX): conditions/anticirce/cheylan.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/anticirce/anticirce.h solving/ply.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
+ position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
@@ -681,6 +645,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 stipulation/has_solution_type.h:
@@ -701,8 +667,9 @@ conditions/anticirce/strict$(OBJ_SUFFIX): conditions/anticirce/strict.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/anticirce/anticirce.h \
- conditions/circe/circe.h stipulation/has_solution_type.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/conditions.h conditions/circe/circe.h \
+ stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
 conditions/anticirce/strict.h:
@@ -741,6 +708,8 @@ position/pieceid.h:
 
 conditions/anticirce/anticirce.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 stipulation/has_solution_type.h:
@@ -761,7 +730,7 @@ conditions/anticirce/relaxed$(OBJ_SUFFIX): conditions/anticirce/relaxed.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/anticirce/anticirce.h solving/ply.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
+ position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
@@ -802,6 +771,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 stipulation/has_solution_type.h:
@@ -822,7 +793,7 @@ conditions/anticirce/magic_square$(OBJ_SUFFIX): conditions/anticirce/magic_squar
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
  solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
+ position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
@@ -862,6 +833,8 @@ solving/move_effect_journal.h:
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/conditions.h:
 
 conditions/circe/circe.h:
 

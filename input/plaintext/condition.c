@@ -860,12 +860,7 @@ char *ParseCond(void)
         ReadSquares(BlForcedSq);
         break;
 
-        /* different types of circe */
-      case couscousmirror:
-        anycirprom= true;
-        anycirce= true;
-        CondFlag[couscous]= true;
-        break;
+      /* different types of circe */
       case circe:
       case circemalefique:
       case circemalefiquevertical:
@@ -889,19 +884,20 @@ char *ParseCond(void)
       case circetakeandmake:
       case pwc:
       case couscous:
+      case couscousmirror:
         anycirprom= true;
         anycirce= true;
-        break;
-      case circeclone:
-      case circeclonemalefique:
-        anycirce= true;
-        anyclone= true;
         break;
       case parrain:
       case contraparrain:
         anycirprom= true;
         anycirce= true;
         anyparrain= true;
+        break;
+      case circeclone:
+      case circeclonemalefique:
+        anycirce= true;
+        anyclone= true;
         break;
 
       case anti:

@@ -1253,15 +1253,16 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/circe/cage.h conditions/circe/double_agents.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
  conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/anticirce/anticirce.h conditions/anticirce/super.h \
- conditions/sentinelles.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
- conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/einstein/einstein.h conditions/einstein/reverse.h \
- conditions/einstein/anti.h conditions/einstein/en_passant.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
+ conditions/anticirce/anticirce.h conditions/conditions.h \
+ conditions/anticirce/super.h conditions/sentinelles.h \
+ conditions/duellists.h conditions/haunted_chess.h \
+ conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
+ conditions/antiandernach.h conditions/chameleon_pursuit.h \
+ conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
+ conditions/einstein/reverse.h conditions/einstein/anti.h \
+ conditions/einstein/en_passant.h conditions/traitor.h \
+ conditions/volage.h conditions/magic_square.h conditions/tibet.h \
+ conditions/degradierung.h conditions/phantom.h \
  conditions/marscirce/anti.h conditions/line_chameleon.h \
  conditions/haan.h conditions/castling_chess.h \
  conditions/exchange_castling.h conditions/transmuting_kings/super.h \
@@ -1572,6 +1573,8 @@ conditions/circe/volage.h:
 conditions/circe/promotion.h:
 
 conditions/anticirce/anticirce.h:
+
+conditions/conditions.h:
 
 conditions/anticirce/super.h:
 

@@ -2155,6 +2155,7 @@ static boolean verify_position(slice_index si)
     if (CondFlag[circeequipollents]
         || CondFlag[circeclone]
         || CondFlag[couscous]
+        || CondFlag[couscousmirror]
         || CondFlag[circeclonemalefique])
     {
       /* disallowed because of the call to (*circerenai) in echecc would require
@@ -2337,6 +2338,7 @@ static boolean verify_position(slice_index si)
 
   if (anyanticirce) {
     if (CondFlag[couscous]
+        || CondFlag[couscousmirror]
         || CondFlag[koeko]
         || CondFlag[newkoeko]
         || CondFlag[antikoeko]

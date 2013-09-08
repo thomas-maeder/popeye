@@ -122,8 +122,8 @@ void assassin_circe_initalise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  stip_instrument_moves(si,STCirceDetermineRebirthSquare);
-  stip_instrument_moves(si,STCirceAssassinPlaceReborn);
+  circe_instrument_solving(si,STCirceDetermineRebirthSquare);
+  circe_instrument_solving(si,STCirceAssassinPlaceReborn);
   stip_insert_circe_capture_forks(si);
 
   solving_instrument_check_testing(si,STAssassinCirceCheckTester);

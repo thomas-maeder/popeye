@@ -66,31 +66,16 @@ stip_length_type anticirce_determine_relevant_piece_solve(slice_index si,
 stip_length_type anticirce_determine_rebirth_square_solve(slice_index si,
                                                           stip_length_type n);
 
-/* Use an alternative type of slices for determining the piece relevant for
- * determining the rebirth square
- * @param si identifies root slice of stipulation
- * @param substitute substitute slice type
- */
-void stip_replace_anticirce_determine_relevant_piece(slice_index si,
-                                                     slice_type substitute);
-
 /* Initialise solving in Anticirce
  * @param si identifies root slice of stipulation
  */
-void anticirce_initialise_solving(slice_index si);
+void anticirce_initialise_solving(slice_index si,
+                                  slice_type type_determine_rebirth_square);
 
 /* Instrument the Anticirce solving machinery with some slice
  * @param si identifies root slice of stipulation
  * @param type slice type of which to add instances
  */
 void anticirce_instrument_solving(slice_index si, slice_type type);
-
-/* Replace a pipe slice type by another in the Anticirce solving machinery
- * @param si identifies root slice of stipulation
- * @param pipe_from slice type to be replace
- * @param pipe_to substitute slice type
- */
-void anticirce_solving_substitute(slice_index si,
-                                  slice_type pipe_from, slice_type pipe_to);
 
 #endif

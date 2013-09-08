@@ -76,8 +76,7 @@ void circe_kamikaze_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
-  stip_instrument_moves(si,STAnticirceDetermineRevelantPiece);
-  stip_instrument_moves(si,STAnticirceDetermineRebirthSquare);
+  anticirce_instrument_solving(si,STCirceDetermineRebirthSquare);
   stip_insert_anticirce_capture_forks(si);
 
   {

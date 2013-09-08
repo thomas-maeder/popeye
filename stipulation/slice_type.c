@@ -357,9 +357,6 @@
     ENUMERATOR(STAnticirceCaptureFork),                                 \
     ENUMERATOR(STCirceKamikazeCaptureFork),                             \
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
-    ENUMERATOR(STAnticirceDetermineRevelantPiece),                      \
-    ENUMERATOR(STAnticirceCouscousDetermineRevelantPiece),              \
-    ENUMERATOR(STAnticirceDetermineRebirthSquare),                      \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticircePlaceRebornRelaxed),                          \
     ENUMERATOR(STAnticircePlaceRebornStrict),                           \
