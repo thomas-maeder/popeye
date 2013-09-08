@@ -14,6 +14,8 @@
 
 #include <assert.h>
 
+VariantType AntiCirceType;
+
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
  *         move_effect_journal_base[nbply+1] if there is none

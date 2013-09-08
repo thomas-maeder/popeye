@@ -46,8 +46,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-int AntiCirType;
-
 static long int ReadBGLNumber(char* inptr, char** endptr)
 {
   /* input must be of form - | {d}d(.|,(d(d))) where d=digit ()=0 or 1 {}=0 or more
@@ -323,9 +321,9 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
       flagparasent= true;
     else if (type==SentBerolina && group==gpSentinelles)
       sentinelle = BerolinaPawn;
-    else if (type==AntiCirTypeCheylan && group==gpAntiCirce)
+    else if (type==AntiCirceTypeCheylan && group==gpAntiCirce)
       *is_variant_set= true;
-    else if (type==AntiCirTypeCalvet && group==gpAntiCirce)
+    else if (type==AntiCirceTypeCalvet && group==gpAntiCirce)
       *is_variant_set= false;
     else if (type==Neighbour && group==gpKoeko)
     {
@@ -1137,50 +1135,20 @@ char *ParseCond(void)
 
         /*****  anticirce type    *****/
       case anti:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antispiegel:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antidiagramm:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antifile:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antisymmetrie:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antispiegelfile:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antiantipoden:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antiequipollents:
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
-        break;
       case antisuper:
+      {
+        boolean AntiCirCheylan;
         tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirType= AntiCirCheylan
-            ? AntiCirTypeCheylan : AntiCirTypeCalvet;
+        AntiCirceType = AntiCirCheylan ? AntiCirceTypeCheylan : AntiCirceTypeCalvet;
         break;
+      }
       case singlebox:
         tok = ParseVariant(NULL, gpType);
         break;
@@ -1320,6 +1288,8 @@ void InitCond(void)
   anyantimars = false;
   anygeneva = false;
   anyparrain= false;
+
+  AntiCirceType = VariantTypeCount;
 
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;

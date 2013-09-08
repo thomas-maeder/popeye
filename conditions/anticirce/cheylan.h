@@ -7,8 +7,6 @@
 
 #include "solving/solve.h"
 
-extern boolean AntiCirCheylan;
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -28,6 +26,6 @@ stip_length_type anticirce_cheylan_filter_solve(slice_index si,
 /* Instrument a stipulation for Circe Cheylan
  * @param si identifies root slice of stipulation
  */
-void stip_insert_anticirce_cheylan(slice_index si);
+void anticirce_cheylan_initialise_solving(slice_index si);
 
 #endif

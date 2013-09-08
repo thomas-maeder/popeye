@@ -428,25 +428,19 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[antisuper])
   {
     stip_insert_anticirce_strict(result);
-    if (AntiCirCheylan)
-      stip_insert_anticirce_cheylan(result);
     antisupercirce_initialise_solving(result);
-    stip_insert_anticirce_promotion(result);
+    anticirce_promotion_initialise_solving(result);
   }
   else if (anyanticirce)
   {
-    if (AntiCirCheylan)
-      stip_insert_anticirce_cheylan(result);
     stip_insert_anticirce_strict(result);
     if (CondFlag[magicsquare] && magic_square_type==magic_square_type2)
       stip_insert_magic_square_type2(result);
     anticirce_initialise_solving(result);
     if (anyanticirprom)
-      stip_insert_anticirce_promotion(result);
+      anticirce_promotion_initialise_solving(result);
     if (CondFlag[couscous])
       anticirce_couscous_initialise_solving(result);
-    if (CondFlag[antispiegel])
-      anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
     if (CondFlag[antidiagramm])
       anticirce_solving_substitute(result,
                                    STAnticirceDetermineRebirthSquare,
@@ -460,12 +454,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                    STAnticirceDetermineRebirthSquare,
                                    STSymmetryCirceDetermineRebirthSquare);
     if (CondFlag[antispiegelfile])
-    {
       anticirce_solving_substitute(result,
                                    STAnticirceDetermineRebirthSquare,
                                    STFileCirceDetermineRebirthSquare);
-      anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
-    }
     if (CondFlag[antiantipoden])
       anticirce_solving_substitute(result,
                                    STAnticirceDetermineRebirthSquare,
@@ -474,7 +465,12 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       anticirce_solving_substitute(result,
                                    STAnticirceDetermineRebirthSquare,
                                    STCirceEquipollentsDetermineRebirthSquare);
+    if (CondFlag[antispiegel]
+        || CondFlag[antispiegelfile])
+      anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
   }
+  if (AntiCirceType==AntiCirceTypeCheylan)
+    anticirce_cheylan_initialise_solving(result);
 
   if (CondFlag[duellist])
     stip_insert_duellists(result);

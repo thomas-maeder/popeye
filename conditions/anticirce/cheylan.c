@@ -9,8 +9,6 @@
 
 #include <assert.h>
 
-boolean AntiCirCheylan;
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -57,13 +55,13 @@ stip_length_type anticirce_cheylan_filter_solve(slice_index si,
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_anticirce_cheylan(slice_index si)
+void anticirce_cheylan_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAnticirceCheylanFilter);
+  anticirce_instrument_solving(si,STAnticirceCheylanFilter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

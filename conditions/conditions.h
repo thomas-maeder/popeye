@@ -225,8 +225,8 @@ typedef enum
 {
   TypeB,                   /* 0 */
   PionAdverse,             /* 1 */
-  AntiCirTypeCheylan,      /* 2 */
-  AntiCirTypeCalvet,       /* 3 */
+  AntiCirceTypeCheylan,    /* 2 */
+  AntiCirceTypeCalvet,     /* 3 */
   PionNeutral,             /* 4 */
   PionNoirMaximum,         /* 5 */
   PionBlancMaximum,        /* 6 */

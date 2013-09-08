@@ -10,6 +10,7 @@
 #include "conditions/bgl.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/rex_inclusive.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/football.h"
 #include "conditions/geneva.h"
 #include "conditions/grid.h"
@@ -486,9 +487,9 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       case antiantipoden:
       case antiequipollents:
       case antisuper:
-        /* AntiCirTypeCalvet is default in AntiCirce */
-        if (AntiCirType!=AntiCirTypeCalvet)
-          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][AntiCirType]);
+        /* AntiCirceTypeCalvet is default in AntiCirce */
+        if (AntiCirceType!=AntiCirceTypeCalvet)
+          written += snprintf(CondLine+written, (sizeof CondLine)-written, "  %s",VariantTypeString[UserLanguage][AntiCirceType]);
         break;
 
       case blmax:

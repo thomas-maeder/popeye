@@ -82,7 +82,7 @@ stip_length_type anticirce_reborn_promoter_solve(slice_index si,
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_anticirce_promotion(slice_index si)
+void anticirce_promotion_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

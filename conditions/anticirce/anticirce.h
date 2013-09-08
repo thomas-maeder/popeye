@@ -7,6 +7,9 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/slice_type.h"
 #include "position/position.h"
+#include "conditions/conditions.h"
+
+extern VariantType AntiCirceType;
 
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
