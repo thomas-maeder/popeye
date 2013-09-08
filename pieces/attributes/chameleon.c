@@ -5,7 +5,6 @@
 #include "conditions/circe/circe.h"
 #include "conditions/circe/promotion.h"
 #include "solving/post_move_iteration.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -27,6 +26,24 @@ static boolean promotion_of_anticirce_reborn_into_chameleon[maxply+1];
 static post_move_iteration_id_type prev_post_move_iteration_id_moving[maxply+1];
 static post_move_iteration_id_type prev_post_move_iteration_id_circe_reborn[maxply+1];
 static post_move_iteration_id_type prev_post_move_iteration_id_anticirce_reborn[maxply+1];
+
+static boolean find_promotion(square sq_arrival)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
+  boolean result = false;
+
+  for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_change
+        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -76,7 +93,7 @@ stip_length_type chameleon_promote_moving_into_solve(slice_index si,
       result = solve(slices[si].next1,n);
 
       if (!TSTFLAG(spec[pos],Chameleon)
-          && moving_pawn_promotion_state[nbply].promotee!=Empty
+          && find_promotion(pos)
           && !post_move_iteration_locked[nbply])
       {
         promotion_of_moving_into_chameleon[nbply] = true;

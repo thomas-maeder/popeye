@@ -152,11 +152,12 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  solving/ply.h pieces/walks/walks.h conditions/anticirce/promotion.h \
  solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
  conditions/anticirce/anticirce.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h conditions/circe/circe.h \
- conditions/circe/promotion.h solving/post_move_iteration.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/castling_rights.h position/pieceid.h conditions/conditions.h \
+ conditions/circe/circe.h conditions/circe/promotion.h \
+ solving/post_move_iteration.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
- debugging/trace.h conditions/conditions.h
+ debugging/trace.h
 
 pieces/attributes/chameleon.h:
 
@@ -202,6 +203,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+conditions/conditions.h:
+
 conditions/circe/circe.h:
 
 conditions/circe/promotion.h:
@@ -221,8 +224,6 @@ stipulation/branch.h:
 stipulation/move.h:
 
 debugging/trace.h:
-
-conditions/conditions.h:
 pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  pieces/attributes/jigger.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

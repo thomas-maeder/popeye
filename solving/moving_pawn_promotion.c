@@ -11,7 +11,7 @@
 
 #include <assert.h>
 
-pieces_pawns_promotion_sequence_type moving_pawn_promotion_state[maxply+1];
+static pieces_pawns_promotion_sequence_type moving_pawn_promotion_state[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 

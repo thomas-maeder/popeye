@@ -10,8 +10,7 @@ platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_imp
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h solving/ply.h solving/moving_pawn_promotion.h \
- pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
+ output/mode.h solving/ply.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/move_generator.h \
  output/plaintext/plaintext.h output/plaintext/position.h \
  output/plaintext/pieces.h
@@ -55,10 +54,6 @@ pieces/walks/vectors.h:
 output/mode.h:
 
 solving/ply.h:
-
-solving/moving_pawn_promotion.h:
-
-pieces/walks/pawns/promotion.h:
 
 solving/move_effect_journal.h:
 

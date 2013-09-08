@@ -1,6 +1,5 @@
 #include "conditions/wormhole.h"
 #include "pieces/pieces.h"
-#include "pieces/walks/pawns/promotion.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -91,6 +90,24 @@ static void skip_wormhole(void)
   TraceFunctionResultEnd();
 }
 
+static boolean find_promotion_in_wormhole(square sq_arrival)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
+  boolean result = false;
+
+  for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_change
+        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
+
 static void advance_wormhole(square sq_departure, square sq_arrival)
 {
   TraceFunctionEntry(__func__);
@@ -110,12 +127,13 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
       skip_wormhole();
     else
     {
-      move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
       if (move_effect_journal[capture].type==move_effect_no_piece_removal
-          && moving_pawn_promotion_state[nbply].promotee==Empty
+          && !find_promotion_in_wormhole(sq_arrival)
           && wormhole_positions[wormhole_next_transfer[nbply]-1]==sq_departure)
-        /* illegal null move */
+        /* no capture and no promotion and transfer back to departure square
+         * -> this is an illegal null move */
         skip_wormhole();
       else
         /* next wormhole found! */

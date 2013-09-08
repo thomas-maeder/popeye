@@ -9,7 +9,6 @@
 
 #include <unistd.h>
 #include "optimisations/hash.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "output/plaintext/plaintext.h"
@@ -65,6 +64,24 @@ enum
   nrSignals = sizeof SignalToCatch / sizeof SignalToCatch[0]
 };
 
+static PieNam find_promotion(ply ply, square sq_arrival)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const top = move_effect_journal_base[ply+1];
+  move_effect_journal_index_type curr;
+  PieNam result = Empty;
+
+  for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_change
+        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+    {
+      result = move_effect_journal[curr].u.piece_change.to;
+      break;
+    }
+
+  return result;
+}
+
 static void ReDrawBoard(int sig)
 {
   /* I did this, to see more accurately what position popeye is
@@ -74,25 +91,27 @@ static void ReDrawBoard(int sig)
      position is of almost no value. The history is more important.
      TLi
   */
-  ply pl;
+  ply ply;
 
   WritePosition();
 
   /* and write (some information about) the sequences of moves that
      lead to this position.
   */
-  for (pl= 3; pl < nbply; pl++)
+  for (ply = 2; ply < nbply-1; ++ply)
   {
-    move_effect_journal_index_type const top = move_effect_journal_base[pl-1];
+    move_effect_journal_index_type const top = move_effect_journal_base[ply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+    PieNam const promotee = find_promotion(ply,move_effect_journal[movement].u.piece_movement.to);
     WritePiece(pi_moving);
-    WriteSquare(move_generation_stack[current_move[pl]-1].departure);
+    WriteSquare(move_generation_stack[current_move[ply]-1].departure);
     StdChar('-');
-    WriteSquare(move_generation_stack[current_move[pl]-1].arrival);
-    if (moving_pawn_promotion_state[pl-1].promotee) {
+    WriteSquare(move_generation_stack[current_move[ply]-1].arrival);
+    if (promotee!=Empty)
+    {
       StdChar('=');
-      WritePiece(moving_pawn_promotion_state[pl-1].promotee);
+      WritePiece(promotee);
     }
     StdString("   ");
   }

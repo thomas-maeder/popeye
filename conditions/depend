@@ -1595,9 +1595,8 @@ conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h solving/sol
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h pieces/walks/walks.h \
- solving/moving_pawn_promotion.h solving/ply.h \
- pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h solving/move_generator.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/move_generator.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
@@ -1631,15 +1630,11 @@ output/mode.h:
 
 pieces/walks/walks.h:
 
-solving/moving_pawn_promotion.h:
-
-solving/ply.h:
-
-pieces/walks/pawns/promotion.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
+
+solving/ply.h:
 
 position/pieceid.h:
 
@@ -3675,13 +3670,13 @@ conditions/wormhole$(OBJ_SUFFIX): conditions/wormhole.c conditions/wormhole.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- pieces/walks/pawns/promotion.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/has_solution_type.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
  solving/post_move_iteration.h solving/moving_pawn_promotion.h \
- solving/observation.h debugging/trace.h
+ pieces/walks/pawns/promotion.h solving/observation.h debugging/trace.h
 
 conditions/wormhole.h:
 
@@ -3711,8 +3706,6 @@ output/mode.h:
 
 solving/ply.h:
 
-pieces/walks/pawns/promotion.h:
-
 stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
@@ -3738,6 +3731,8 @@ solving/move_generator.h:
 solving/post_move_iteration.h:
 
 solving/moving_pawn_promotion.h:
+
+pieces/walks/pawns/promotion.h:
 
 solving/observation.h:
 

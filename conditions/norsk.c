@@ -1,6 +1,5 @@
 #include "conditions/norsk.h"
 #include "pieces/walks/walks.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "stipulation/has_solution_type.h"
@@ -27,6 +26,24 @@ static PieNam norsk_walk(PieNam p)
     return p;
 }
 
+static boolean find_promotion(square sq_arrival)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr;
+  boolean result = false;
+
+  for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_piece_change
+        && move_effect_journal[curr].u.piece_change.on==sq_arrival)
+    {
+      result = true;
+      break;
+    }
+
+  return result;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -44,23 +61,28 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
                                                stip_length_type n)
 {
   stip_length_type result;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  PieNam const moving_walk = move_effect_journal[movement].u.piece_movement.moving;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (moving_pawn_promotion_state[nbply].promotee==Empty)
+  if (!find_promotion(sq_arrival))
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
     PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
     PieNam const norsked = get_walk_of_piece_on_square(pos);
     PieNam const norsked_to_walk = norsk_walk(norsked);
+
+    assert(moving_walk==norsked);
+
     if (norsked!=norsked_to_walk)
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
                                           pos,

@@ -8,8 +8,6 @@
 /* This module provides implements the promotion of the moving pawn
  */
 
-extern pieces_pawns_promotion_sequence_type moving_pawn_promotion_state[maxply+1];
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

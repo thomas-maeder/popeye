@@ -1215,7 +1215,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/amu/mate_filter.h conditions/amu/attack_counter.h \
  solving/ply.h conditions/anticirce/cheylan.h \
  conditions/anticirce/capture_fork.h \
- conditions/anticirce/circuit_special.h conditions/anticirce/couscous.h \
+ conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_filter.h \
  conditions/anticirce/exchange_special.h \
  conditions/anticirce/target_square_filter.h \
@@ -1419,8 +1419,6 @@ conditions/anticirce/cheylan.h:
 conditions/anticirce/capture_fork.h:
 
 conditions/anticirce/circuit_special.h:
-
-conditions/anticirce/couscous.h:
 
 conditions/anticirce/exchange_filter.h:
 
@@ -2498,19 +2496,18 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/circe/symmetry.h conditions/circe/april.h \
  conditions/circe/turncoats.h conditions/circe/takemake.h \
  conditions/circe/rex_inclusive.h conditions/circe/rank.h \
- conditions/anticirce/cheylan.h conditions/anticirce/couscous.h \
- conditions/anticirce/anticirce.h conditions/anticirce/promotion.h \
- solving/moving_pawn_promotion.h conditions/anticirce/strict.h \
- conditions/anticirce/relaxed.h conditions/anticirce/super.h \
- conditions/anticirce/magic_square.h conditions/sentinelles.h \
- conditions/duellists.h conditions/haunted_chess.h \
- conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
- conditions/antiandernach.h conditions/chameleon_pursuit.h \
- conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
- conditions/einstein/reverse.h conditions/einstein/anti.h \
- conditions/einstein/en_passant.h conditions/traitor.h \
- conditions/volage.h conditions/magic_square.h conditions/tibet.h \
- conditions/degradierung.h conditions/phantom.h \
+ conditions/anticirce/cheylan.h conditions/anticirce/anticirce.h \
+ conditions/anticirce/promotion.h solving/moving_pawn_promotion.h \
+ conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
+ conditions/anticirce/super.h conditions/anticirce/magic_square.h \
+ conditions/sentinelles.h conditions/duellists.h \
+ conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
+ conditions/andernach.h conditions/antiandernach.h \
+ conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
+ conditions/einstein/einstein.h conditions/einstein/reverse.h \
+ conditions/einstein/anti.h conditions/einstein/en_passant.h \
+ conditions/traitor.h conditions/volage.h conditions/magic_square.h \
+ conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/line_chameleon.h \
  conditions/haan.h conditions/castling_chess.h \
@@ -2742,8 +2739,6 @@ conditions/circe/rex_inclusive.h:
 conditions/circe/rank.h:
 
 conditions/anticirce/cheylan.h:
-
-conditions/anticirce/couscous.h:
 
 conditions/anticirce/anticirce.h:
 

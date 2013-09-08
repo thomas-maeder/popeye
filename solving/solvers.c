@@ -64,7 +64,6 @@
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/rank.h"
 #include "conditions/anticirce/cheylan.h"
-#include "conditions/anticirce/couscous.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/strict.h"
@@ -405,8 +404,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     {
       anticirce_relaxed_initialise_solving(result);
       circe_kamikaze_initialise_solving(result);
-      if (CondFlag[couscous] || CondFlag[couscousmirror])
-        anticirce_couscous_initialise_solving(result);
     }
     if (CondFlag[couscous] || CondFlag[couscousmirror])
       couscous_circe_initialise_solving(result);
