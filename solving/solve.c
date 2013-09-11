@@ -1462,10 +1462,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = nopromotion_avoid_promotion_moving_solve(si,n);
       break;
 
-    case STNoPromotionsRemovePromotionReborn:
-      result = nopromotion_avoid_promotion_reborn_solve(si,n);
-      break;
-
     case STBackhomeExistanceTester:
       result = backhome_existance_tester_solve(si,n);
       break;
