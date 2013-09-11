@@ -39,7 +39,7 @@
     ENUMERATOR(STMovePlayer),                                          \
     ENUMERATOR(STCastlingPlayer),                                      \
     ENUMERATOR(STEnPassantAdjuster),                                   \
-    ENUMERATOR(STMovingPawnPromoter),                                  \
+    ENUMERATOR(STPawnPromoter),                                  \
     ENUMERATOR(STFootballChessSubsitutor),                             \
     ENUMERATOR(STLandingAfterMovingPawnPromoter),                      \
     ENUMERATOR(STNullMovePlayer),                                      \
@@ -205,7 +205,6 @@
     ENUMERATOR(STTakeAndMakeAvoidPawnMakeToBaseLine),                   \
     ENUMERATOR(STWormholeRemoveIllegalCaptures),                        \
     ENUMERATOR(STWormholeTransferer),                                   \
-    ENUMERATOR(STWormholeTransferedPromoter),                           \
     ENUMERATOR(STHashOpener),                                           \
     ENUMERATOR(STAttackHashed),    /* hash table support for attack */  \
     ENUMERATOR(STAttackHashedTester),  /* attack play with hash table */      \
@@ -353,14 +352,12 @@
     ENUMERATOR(STCirceParrainDetermineRebirth),                         \
     ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
     ENUMERATOR(STCirceVolageRecolorer),                                 \
-    ENUMERATOR(STCirceRebirthPromoter),                                 \
     ENUMERATOR(STAnticirceCaptureFork),                                 \
     ENUMERATOR(STCirceKamikazeCaptureFork),                             \
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticircePlaceRebornRelaxed),                          \
     ENUMERATOR(STAnticircePlaceRebornStrict),                           \
-    ENUMERATOR(STAnticirceRebornPromoter),                              \
     ENUMERATOR(STAntisupercirceDetermineRebirthSquare),                 \
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \
@@ -392,9 +389,7 @@
     ENUMERATOR(STTibetSideChanger),                                     \
     ENUMERATOR(STDoubleTibetSideChanger),                               \
     ENUMERATOR(STDegradierungDegrader),                                 \
-    ENUMERATOR(STPromoteMovingIntoChameleon),                           \
-    ENUMERATOR(STPromoteCirceRebornIntoChameleon),                      \
-    ENUMERATOR(STPromoteAnticirceRebornIntoChameleon),                  \
+    ENUMERATOR(STChameleonChangePromoteeInto),                          \
     ENUMERATOR(STChameleonArrivingAdjuster),                            \
     ENUMERATOR(STChameleonChessArrivingAdjuster),                       \
     ENUMERATOR(STLineChameleonArrivingAdjuster),                        \

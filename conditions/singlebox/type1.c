@@ -1,7 +1,7 @@
 #include "conditions/singlebox/type1.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/walks.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"

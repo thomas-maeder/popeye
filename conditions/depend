@@ -369,7 +369,7 @@ conditions/extinction$(OBJ_SUFFIX): conditions/extinction.c conditions/extinctio
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/check.h \
  solving/observation.h solving/ply.h solving/move_generator.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
@@ -400,6 +400,8 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
+
+solving/check.h:
 
 solving/observation.h:
 
@@ -2201,13 +2203,13 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h stipulation/has_solution_type.h stipulation/move.h \
+ output/mode.h pieces/walks/pawns/promotion.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/castling.h solving/castling_rights.h \
  solving/move_effect_journal.h solving/ply.h position/pieceid.h \
- solving/move_generator.h solving/moving_pawn_promotion.h \
- pieces/walks/pawns/promotion.h solving/post_move_iteration.h \
- solving/check.h debugging/trace.h
+ solving/move_generator.h solving/post_move_iteration.h solving/check.h \
+ debugging/trace.h
 
 conditions/castling_chess.h:
 
@@ -2235,6 +2237,8 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
+pieces/walks/pawns/promotion.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
@@ -2257,10 +2261,6 @@ position/pieceid.h:
 
 solving/move_generator.h:
 
-solving/moving_pawn_promotion.h:
-
-pieces/walks/pawns/promotion.h:
-
 solving/post_move_iteration.h:
 
 solving/check.h:
@@ -2273,7 +2273,7 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/conditions.h pymsg.h pylang.h \
- utilities/boolean.h pieces/walks/pawns/promotion.h \
+ utilities/boolean.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/hoppers.h solving/observation.h solving/move_generator.h \
  pieces/walks/angle/angles.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -2325,7 +2325,7 @@ pylang.h:
 
 utilities/boolean.h:
 
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 pieces/walks/hoppers.h:
 
@@ -2369,13 +2369,13 @@ conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- conditions/singlebox/type1.h pieces/walks/classification.h \
- solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
+ conditions/singlebox/type1.h conditions/conditions.h \
+ pieces/walks/classification.h pieces/walks/pawns/promotion.h \
  solving/post_move_iteration.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h debugging/trace.h conditions/conditions.h
+ stipulation/move.h debugging/trace.h
 
 conditions/football.h:
 
@@ -2407,9 +2407,9 @@ solving/ply.h:
 
 conditions/singlebox/type1.h:
 
-pieces/walks/classification.h:
+conditions/conditions.h:
 
-solving/moving_pawn_promotion.h:
+pieces/walks/classification.h:
 
 pieces/walks/pawns/promotion.h:
 
@@ -2434,8 +2434,6 @@ stipulation/has_solution_type.h:
 stipulation/move.h:
 
 debugging/trace.h:
-
-conditions/conditions.h:
 conditions/exchange_castling$(OBJ_SUFFIX): conditions/exchange_castling.c \
  conditions/exchange_castling.h pieces/pieces.h utilities/boolean.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
@@ -3195,10 +3193,10 @@ conditions/nopromotion$(OBJ_SUFFIX): conditions/nopromotion.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/solve.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- pieces/walks/pawns/promotion.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h debugging/trace.h \
- conditions/conditions.h
+ conditions/conditions.h pieces/walks/pawns/promotee_sequence.h \
+ stipulation/has_solution_type.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h debugging/trace.h
 
 conditions/nopromotion.h:
 
@@ -3236,7 +3234,9 @@ solving/ply.h:
 
 position/pieceid.h:
 
-pieces/walks/pawns/promotion.h:
+conditions/conditions.h:
+
+pieces/walks/pawns/promotee_sequence.h:
 
 stipulation/has_solution_type.h:
 
@@ -3251,8 +3251,6 @@ stipulation/traversal.h:
 stipulation/branch.h:
 
 debugging/trace.h:
-
-conditions/conditions.h:
 conditions/geneva$(OBJ_SUFFIX): conditions/geneva.c conditions/geneva.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -3675,8 +3673,7 @@ conditions/wormhole$(OBJ_SUFFIX): conditions/wormhole.c conditions/wormhole.h \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
- solving/post_move_iteration.h solving/moving_pawn_promotion.h \
- pieces/walks/pawns/promotion.h solving/observation.h debugging/trace.h
+ solving/post_move_iteration.h solving/observation.h debugging/trace.h
 
 conditions/wormhole.h:
 
@@ -3729,10 +3726,6 @@ position/pieceid.h:
 solving/move_generator.h:
 
 solving/post_move_iteration.h:
-
-solving/moving_pawn_promotion.h:
-
-pieces/walks/pawns/promotion.h:
 
 solving/observation.h:
 

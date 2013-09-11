@@ -2,7 +2,7 @@
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "pymsg.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/walks/hoppers.h"
 #include "pieces/walks/angle/angles.h"
 #include "stipulation/pipe.h"

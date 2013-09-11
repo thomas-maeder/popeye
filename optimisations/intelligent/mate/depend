@@ -137,8 +137,7 @@ optimisations/intelligent/mate/generate_checking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/orthodox_check_directions.h \
- solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
- debugging/trace.h
+ pieces/walks/pawns/promotee_sequence.h debugging/trace.h
 
 optimisations/intelligent/mate/generate_checking_moves.h:
 
@@ -178,9 +177,7 @@ optimisations/intelligent/guard_flights.h:
 
 optimisations/orthodox_check_directions.h:
 
-solving/moving_pawn_promotion.h:
-
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 debugging/trace.h:
 optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
@@ -196,8 +193,7 @@ optimisations/intelligent/mate/generate_doublechecking_moves$(OBJ_SUFFIX): \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/orthodox_check_directions.h \
- solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
- debugging/trace.h
+ pieces/walks/pawns/promotee_sequence.h debugging/trace.h
 
 optimisations/intelligent/mate/generate_doublechecking_moves.h:
 
@@ -239,9 +235,7 @@ optimisations/intelligent/mate/generate_checking_moves.h:
 
 optimisations/orthodox_check_directions.h:
 
-solving/moving_pawn_promotion.h:
-
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 debugging/trace.h:
 optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \

@@ -109,16 +109,17 @@ solving/observation.h:
 solving/move_generator.h:
 
 debugging/trace.h:
-pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
- pieces/walks/pawns/promotion.h pieces/pieces.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- pieces/walks/vectors.h utilities/enumeration.h pieces/walks/walks.h \
- pieces/walks/classification.h conditions/singlebox/type1.h \
- solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h debugging/trace.h \
- conditions/conditions.h
+pieces/walks/pawns/promotee_sequence$(OBJ_SUFFIX): \
+ pieces/walks/pawns/promotee_sequence.c \
+ pieces/walks/pawns/promotee_sequence.h pieces/pieces.h \
+ utilities/boolean.h position/position.h position/board.h \
+ utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
+ pieces/walks/walks.h pieces/walks/classification.h \
+ conditions/singlebox/type1.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ debugging/trace.h conditions/conditions.h
 
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 pieces/pieces.h:
 
@@ -153,6 +154,66 @@ output/mode.h:
 debugging/trace.h:
 
 conditions/conditions.h:
+pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
+ pieces/walks/pawns/promotion.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ pieces/walks/pawns/promotee_sequence.h stipulation/has_solution_type.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/post_move_iteration.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h debugging/trace.h
+
+pieces/walks/pawns/promotion.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+pieces/walks/pawns/promotee_sequence.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+solving/post_move_iteration.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+debugging/trace.h:
 pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  pieces/walks/pawns/en_passant.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \

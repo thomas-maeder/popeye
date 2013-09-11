@@ -1,8 +1,8 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "solving/proofgames.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "solving/castling.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/move_diff_code.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -459,7 +459,7 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
     if (reserve[curr_reserve].nr_remaining_moves[Black]>=moves)
     {
       PieNam pp;
-      for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+      for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       {
         unsigned int const time = black_pawn_promotion(pawn_comes_from,
                                                        pp,

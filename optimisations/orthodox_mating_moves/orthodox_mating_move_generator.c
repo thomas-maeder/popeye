@@ -1,7 +1,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "conditions/grid.h"
 #include "pieces/walks/generate_moves.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/move_generator.h"

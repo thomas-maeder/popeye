@@ -207,7 +207,7 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/count_nr_opponent_moves/move_generator.h \
  options/quodlibet.h options/goal_is_end.h pieces/walks/walks.h \
- pieces/walks/pawns/promotion.h pieces/walks/orphan.h \
+ pieces/walks/pawns/promotee_sequence.h pieces/walks/orphan.h \
  solving/observation.h pieces/walks/classification.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/magic.h \
  conditions/alphabetic.h conditions/blackchecks.h \
@@ -329,7 +329,7 @@ options/goal_is_end.h:
 
 pieces/walks/walks.h:
 
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 pieces/walks/orphan.h:
 
@@ -774,7 +774,7 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  output/plaintext/language_dependant.h pylang.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/line.h conditions/mummer.h solving/solve.h \
- pieces/walks/pawns/promotion.h pieces/attributes/chameleon.h \
+ pieces/walks/pawns/promotee_sequence.h pieces/attributes/chameleon.h \
  solving/ply.h conditions/annan.h conditions/anticirce/anticirce.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/anticirce/cheylan.h conditions/bgl.h \
@@ -838,7 +838,7 @@ conditions/mummer.h:
 
 solving/solve.h:
 
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 pieces/attributes/chameleon.h:
 

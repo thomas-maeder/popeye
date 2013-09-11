@@ -1,58 +1,28 @@
 #if !defined(PIECES_PAWNS_PROMOTION_H)
 #define PIECES_PAWNS_PROMOTION_H
 
-#include "pieces/pieces.h"
-#include "position/position.h"
-#include "utilities/boolean.h"
+#include "solving/solve.h"
 
-typedef enum
-{
-  pieces_pawns_promotee_chain_orthodox,
-  pieces_pawns_promotee_chain_marine,
-
-  pieces_pawns_nr_promotee_chains
-} pieces_pawns_promotee_chain_selector_type;
-
-extern PieNam pieces_pawns_promotee_chain[pieces_pawns_nr_promotee_chains][PieceCount];
-
-typedef struct
-{
-    pieces_pawns_promotee_chain_selector_type selector;
-    PieNam promotee;
-} pieces_pawns_promotion_sequence_type;
-
-#define ForwardPromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
-#define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
-
-extern boolean promonly[PieceCount];
-
-/* Initialise a sequence of promotions
- * @param sq_arrival arrival square of the move
- * @param sequence address of structure to represent the sequence
- * @note If sq_arrival is a promotion square of a side
- *          and sq_arrival is still occupied by a pawn of that side
- *       then *state is initialised with a promotion sequence.
- *       Otherwise, state->promotee will be ==Empty.
+/* This module provides implements the promotion of the moving pawn
  */
-void pieces_pawns_initialise_promotion_sequence(square sq_arrival,
-                                                pieces_pawns_promotion_sequence_type *sequence);
 
-/* Continue an iteration over a sequence of promotions of a pawn started with an
- * invokation of pieces_pawns_initialise_promotion_sequence().
- * @param sequence address of structure representing the sequence
- * @note assigns state->promotee the value Empty if iteration has ended
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
-void pieces_pawns_continue_promotion_sequence(pieces_pawns_promotion_sequence_type *sequence);
+stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n);
 
-/* Has a pawn reached a promotion square
- * @param square_reached square reached by the pawn
- * @return side for which the pawn has reached the promotion square
- *         no_side if the pawn hasn't
+/* Instrument slices with promotee markers
  */
-Side is_square_occupied_by_promotable_pawn(square square_reached);
-
-/* Initialise the set of promotion pieces for the current twin
- */
-void pieces_pawns_init_promotion_pieces(void);
+void pieces_pawns_promotion_initialise_solving(slice_index si);
 
 #endif

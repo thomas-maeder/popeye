@@ -1,7 +1,9 @@
 #include "conditions/football.h"
 #include "conditions/singlebox/type1.h"
+#include "conditions/conditions.h"
+#include "pieces/pieces.h"
 #include "pieces/walks/classification.h"
-#include "solving/moving_pawn_promotion.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
@@ -9,8 +11,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
-#include "pieces/pieces.h"
-#include "conditions/conditions.h"
 
 #include <assert.h>
 

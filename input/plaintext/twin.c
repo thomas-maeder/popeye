@@ -24,7 +24,7 @@
 #include "options/quodlibet.h"
 #include "options/goal_is_end.h"
 #include "pieces/walks/walks.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/walks/orphan.h"
 #include "pieces/walks/classification.h"
 #include "pieces/attributes/neutral/neutral.h"
@@ -2508,7 +2508,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[superguards])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  pieces_pawns_init_promotion_pieces();
+  pieces_pawns_init_promotees();
 
   if (CondFlag[football])
     init_football_substitutes();

@@ -7,7 +7,7 @@
 #include "optimisations/intelligent/intercept_check_from_guard.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "optimisations/orthodox_check_directions.h"
-#include "solving/moving_pawn_promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "solving/move_diff_code.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
@@ -614,7 +614,7 @@ static void promoted_pawn(square guard_from)
                                                                 guard_from))
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

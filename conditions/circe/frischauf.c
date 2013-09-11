@@ -1,11 +1,7 @@
 #include "conditions/circe/frischauf.h"
-#include "pieces/pieces.h"
-#include "conditions/andernach.h"
-#include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 

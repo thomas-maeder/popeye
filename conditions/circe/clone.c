@@ -1,7 +1,7 @@
 #include "conditions/circe/clone.h"
-#include "pieces/pieces.h"
-#include "stipulation/stipulation.h"
 #include "conditions/circe/circe.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 

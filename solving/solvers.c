@@ -5,6 +5,7 @@
 #include "pymsg.h"
 #include "solving/selfcheck_guard.h"
 #include "solving/check.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "stipulation/proxy.h"
 #include "solving/observation.h"
 #include "output/output.h"
@@ -52,7 +53,6 @@
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/volage.h"
-#include "conditions/circe/promotion.h"
 #include "conditions/circe/frischauf.h"
 #include "conditions/circe/mirror.h"
 #include "conditions/circe/pwc.h"
@@ -65,7 +65,6 @@
 #include "conditions/circe/rank.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/anticirce.h"
-#include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/super.h"
@@ -413,8 +412,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   {
     if  (TSTFLAG(some_pieces_flags,Volage))
       circe_volage_initialise_solving(result);
-    if  (anycirprom)
-      stip_insert_circe_promoters(result);
+    if (anycirprom)
+      circe_instrument_solving(result,STPawnPromoter);
     if (CondFlag[circeturncoats])
       circe_turncoats_initialise_solving(result);
   }
@@ -426,7 +425,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   {
     stip_insert_anticirce_strict(result);
     antisupercirce_initialise_solving(result);
-    anticirce_promotion_initialise_solving(result);
+    anticirce_instrument_solving(result,STPawnPromoter);
   }
   else if (anyanticirce)
   {
@@ -461,7 +460,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
 
     if (anyanticirprom)
-      anticirce_promotion_initialise_solving(result);
+      anticirce_instrument_solving(result,STPawnPromoter);
   }
   if (AntiCirceType==AntiCirceTypeCheylan)
     anticirce_cheylan_initialise_solving(result);
@@ -530,12 +529,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[degradierung])
     stip_insert_degradierung(result);
 
-  if (CondFlag[chamchess])
-    chameleon_chess_initialse_solving(result);
-
-  if (TSTFLAG(some_pieces_flags,Chameleon))
-    chameleon_initialse_solving(result);
-
   if (CondFlag[frischauf])
     stip_insert_frischauf_promotee_markers(result);
 
@@ -556,7 +549,16 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[linechamchess])
     stip_insert_line_chameleon_chess(result);
 
-  stip_insert_moving_pawn_promoters(result);
+  if (CondFlag[chamchess])
+    chameleon_chess_initialise_solving(result);
+
+  pieces_pawns_promotion_initialise_solving(result);
+
+  /* this has to come after pieces_pawns_promotion_initialise_solving()
+   * to support for promotion into Chameleon
+   */
+  if (TSTFLAG(some_pieces_flags,Chameleon))
+    chameleon_initialise_solving(result);
 
   if (CondFlag[haanerchess])
     stip_insert_haan_chess(result);

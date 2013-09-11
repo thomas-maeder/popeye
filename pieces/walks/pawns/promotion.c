@@ -1,167 +1,129 @@
 #include "pieces/walks/pawns/promotion.h"
-#include "pieces/walks/walks.h"
-#include "pieces/walks/classification.h"
-#include "conditions/singlebox/type1.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
+#include "stipulation/has_solution_type.h"
+#include "stipulation/stipulation.h"
+#include "stipulation/move.h"
+#include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
-#include "pieces/pieces.h"
-#include "conditions/conditions.h"
 
 #include <assert.h>
 
-boolean promonly[PieceCount];
-
-PieNam pieces_pawns_promotee_chain[pieces_pawns_nr_promotee_chains][PieceCount];
-
-static void build_promotee_chain(pieces_pawns_promotee_chain_selector_type selector,
-                                 boolean (* const is_promotee)[PieceCount])
+enum
 {
-  PieNam p;
-  PieNam prev_prom_piece = Empty;
+  max_nr_promotions_per_ply = 4,
+  stack_size = max_nr_promotions_per_ply*maxply+1
+};
 
-  for (p = King; p<PieceCount; ++p)
-    pieces_pawns_promotee_chain[selector][p] = Empty;
+static pieces_pawns_promotion_sequence_type promotion_stack[stack_size];
+static unsigned int stack_pointer;
 
-  for (p = King; p<PieceCount; ++p)
-    if ((*is_promotee)[p])
-    {
-      pieces_pawns_promotee_chain[selector][prev_prom_piece] = p;
-      prev_prom_piece = p;
-    }
-}
+static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
 
-static void init_promotion_pieces_chain(pieces_pawns_promotee_chain_selector_type selector,
-                                        standard_walks_type * const standard_walks)
+static move_effect_journal_index_type horizon;
+
+static square find_potential_promotion_square(move_effect_journal_index_type base)
 {
+  move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
 
-  if (CondFlag[promotiononly])
-    build_promotee_chain(selector,&promonly);
-  else
+  while (curr>base)
   {
-    boolean is_promotee[PieceCount] = { false };
-    PieNam p;
+    --curr;
 
-    for (p = Queen; p<=Bishop; ++p)
-      is_promotee[(*standard_walks)[p]] = true;
-
-    for (p = King+1; p<PieceCount; ++p)
-      if (exist[p] && !is_pawn(p) && !is_king(p))
-        is_promotee[p] = true;
-
-    is_promotee[Dummy] = false;
-
-    if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
+    switch (move_effect_journal[curr].type)
     {
-      is_promotee[(*standard_walks)[King]] = true;
+      case move_effect_piece_movement:
+        return move_effect_journal[curr].u.piece_movement.to;
 
-      for (p = Bishop+1; p<PieceCount; ++p)
-        if (exist[p] && is_king(p))
-          is_promotee[p] = true;
+      case move_effect_piece_readdition:
+        return move_effect_journal[curr].u.piece_addition.on;
+
+      default:
+        break;
     }
-
-    if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
-    {
-      is_promotee[(*standard_walks)[Pawn]] = true;
-
-      for (p = Bishop+1; p<PieceCount; ++p)
-        if (exist[p] && is_pawn(p))
-          is_promotee[p] = true;
-    }
-
-    build_promotee_chain(selector,&is_promotee);
   }
+
+  return initsquare;
 }
 
-/* Initialise a sequence of promotions
- * @param sq_arrival arrival square of the move
- * @param sequence address of structure to represent the sequence
- * @note If sq_arrival is a promotion square of a side
- *          and sq_arrival is still occupied by a pawn of that side
- *       then *state is initialised with a promotion sequence.
- *       Otherwise, state->promotee will be ==Empty.
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
  */
-void pieces_pawns_initialise_promotion_sequence(square sq_arrival,
-                                                pieces_pawns_promotion_sequence_type *sequence)
+stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n)
 {
-  /* Some fairy chess (e.g. Protean,Kamikaze) prevents promotion by
-   * modifying or removing the pawn before we reach here.
-   * Only promote the piece if it is still a pawn belonging to the
-   * moving side.
-   */
-  if (is_square_occupied_by_promotable_pawn(sq_arrival)!=no_side)
-  {
-    PieNam const walk_moving = get_walk_of_piece_on_square(sq_arrival);
-    sequence->selector = (walk_moving==MarinePawn
-                          ? pieces_pawns_promotee_chain_marine
-                          : pieces_pawns_promotee_chain_orthodox);
-    sequence->promotee = pieces_pawns_promotee_chain[sequence->selector][Empty];
-    TracePiece(sequence->promotee);
-  }
-  else
-    sequence->promotee = Empty;
-}
-
-/* Continue an iteration over the promotions of a pawn started with an
- * invokation of initialise_pawn_promotion().
- * @param sequence address of structure representing the sequence
- * @note state->promotee==Empty if iteration has ended
- */
-void pieces_pawns_continue_promotion_sequence(pieces_pawns_promotion_sequence_type *sequence)
-{
-  sequence->promotee = pieces_pawns_promotee_chain[sequence->selector][sequence->promotee];
-}
-
-/* Is a square occupied by a pawn that is to be promoted?
- * @param square_reached square reached by the pawn
- * @return side for which the pawn has reached the promotion square
- *         no_side if the pawn hasn't
- */
-Side is_square_occupied_by_promotable_pawn(square square_reached)
-{
-  Side result = no_side;
-  PieNam const walk_moving = get_walk_of_piece_on_square(square_reached);
+  stip_length_type result;
+  move_effect_journal_index_type const save_horizon = horizon;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(square_reached);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_pawn(walk_moving))
   {
-    boolean const forward = is_forwardpawn(walk_moving);
-    if ((forward ? ForwardPromSq(White,square_reached) : ReversePromSq(White,square_reached))
-        && TSTFLAG(spec[square_reached],White))
-      result = White;
-    else if ((forward ? ForwardPromSq(Black,square_reached) : ReversePromSq(Black,square_reached))
-             && TSTFLAG(spec[square_reached],Black))
-      result = Black;
+    square const sq_potential_promotion = find_potential_promotion_square(horizon);
+
+    assert(stack_pointer<stack_size);
+
+    horizon = move_effect_journal_base[nbply+1];
+
+    if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
+      pieces_pawns_start_promotee_sequence(sq_potential_promotion,
+                                                 &promotion_stack[stack_pointer]);
+
+    if (promotion_stack[stack_pointer].promotee==Empty)
+    {
+      ++stack_pointer;
+      result = solve(slices[si].next1,n);
+      --stack_pointer;
+    }
+    else
+    {
+      move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+                                          sq_potential_promotion,
+                                          promotion_stack[stack_pointer].promotee);
+
+      ++stack_pointer;
+      result = solve(slices[si].next1,n);
+      --stack_pointer;
+
+      if (!post_move_iteration_locked[nbply])
+      {
+        pieces_pawns_continue_promotee_sequence(&promotion_stack[stack_pointer]);
+        if (promotion_stack[stack_pointer].promotee!=Empty)
+          lock_post_move_iterations();
+      }
+
+      prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
+    }
+
+    horizon = save_horizon;
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(Side,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-/* Initialise the set of promotion pieces for the current twin
+/* Instrument the solving machinery with the promotion of the moving pawn
+ * @param si identifies the root slice of the solving machinery
  */
-void pieces_pawns_init_promotion_pieces(void)
+void pieces_pawns_promotion_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  init_promotion_pieces_chain(pieces_pawns_promotee_chain_orthodox,&standard_walks);
-
-  if (may_exist[MarinePawn])
-  {
-    standard_walks_type marine_walks;
-    marine_walks[King] = Poseidon;
-    marine_walks[Queen] = Sirene;
-    marine_walks[Rook] = Triton;
-    marine_walks[Bishop] = Nereide;
-    marine_walks[Knight] = MarineKnight;
-    marine_walks[Pawn] = MarinePawn;
-
-    init_promotion_pieces_chain(pieces_pawns_promotee_chain_marine,&marine_walks);
-  }
+  stip_instrument_moves(si,STPawnPromoter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

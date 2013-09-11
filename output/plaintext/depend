@@ -392,7 +392,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  conditions/conditions.h options/options.h input/plaintext/twin.h \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
  solving/solve.h output/plaintext/pieces.h input/plaintext/condition.h \
- pieces/walks/pawns/promotion.h pieces/attributes/chameleon.h \
+ pieces/walks/pawns/promotee_sequence.h pieces/attributes/chameleon.h \
  solving/ply.h conditions/annan.h conditions/bgl.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/circe/april.h \
@@ -454,7 +454,7 @@ output/plaintext/pieces.h:
 
 input/plaintext/condition.h:
 
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 pieces/attributes/chameleon.h:
 

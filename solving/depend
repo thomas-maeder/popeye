@@ -969,70 +969,6 @@ stipulation/battle_play/branch.h:
 solving/ply.h:
 
 debugging/trace.h:
-solving/moving_pawn_promotion$(OBJ_SUFFIX): solving/moving_pawn_promotion.c \
- solving/moving_pawn_promotion.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h solving/ply.h \
- pieces/walks/pawns/promotion.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h solving/post_move_iteration.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h debugging/trace.h
-
-solving/moving_pawn_promotion.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-solving/ply.h:
-
-pieces/walks/pawns/promotion.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
-
-solving/post_move_iteration.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-debugging/trace.h:
 solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  solving/avoid_unsolvable.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1221,9 +1157,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/relaxed.h conditions/anticirce/strict.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/anticirce/promotion.h \
- solving/moving_pawn_promotion.h pieces/walks/pawns/promotion.h \
- conditions/anticirce/magic_square.h conditions/bgl.h \
+ position/pieceid.h conditions/anticirce/magic_square.h conditions/bgl.h \
  conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
  conditions/koeko/new.h conditions/circe/antipodes.h \
@@ -1244,25 +1178,25 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/patrol.h conditions/monochrome.h solving/move_generator.h \
  conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
- conditions/singlebox/type3.h solving/observation.h conditions/patience.h \
- conditions/isardam.h conditions/sat.h conditions/dynasty.h \
- conditions/masand.h conditions/messigny.h conditions/oscillating_kings.h \
+ pieces/walks/pawns/promotee_sequence.h conditions/singlebox/type3.h \
+ solving/observation.h conditions/patience.h conditions/isardam.h \
+ conditions/sat.h conditions/dynasty.h conditions/masand.h \
+ conditions/messigny.h conditions/oscillating_kings.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/circe.h \
  conditions/circe/cage.h conditions/circe/double_agents.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/anticirce/anticirce.h conditions/conditions.h \
- conditions/anticirce/super.h conditions/sentinelles.h \
- conditions/duellists.h conditions/haunted_chess.h \
- conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
- conditions/antiandernach.h conditions/chameleon_pursuit.h \
- conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
- conditions/einstein/reverse.h conditions/einstein/anti.h \
- conditions/einstein/en_passant.h conditions/traitor.h \
- conditions/volage.h conditions/magic_square.h conditions/tibet.h \
- conditions/degradierung.h conditions/phantom.h \
+ conditions/circe/volage.h conditions/anticirce/anticirce.h \
+ conditions/conditions.h conditions/anticirce/super.h \
+ conditions/sentinelles.h conditions/duellists.h \
+ conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
+ conditions/andernach.h conditions/antiandernach.h \
+ conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
+ conditions/einstein/einstein.h conditions/einstein/reverse.h \
+ conditions/einstein/anti.h conditions/einstein/en_passant.h \
+ conditions/traitor.h conditions/volage.h conditions/magic_square.h \
+ conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
  conditions/marscirce/anti.h conditions/line_chameleon.h \
  conditions/haan.h conditions/castling_chess.h \
  conditions/exchange_castling.h conditions/transmuting_kings/super.h \
@@ -1337,10 +1271,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  solving/legal_move_counter.h solving/non_king_move_generator.h \
  solving/play_suppressor.h solving/single_piece_move_generator.h \
  solving/trivial_end_filter.h pieces/walks/pawns/en_passant.h \
- solving/selfcheck_guard.h solving/post_move_iteration.h \
- solving/king_capture_avoider.h stipulation/has_solution_type.h \
- solving/recursion_stopper.h stipulation/move_inverter.h \
- stipulation/battle_play/attack_adapter.h \
+ pieces/walks/pawns/promotion.h solving/selfcheck_guard.h \
+ solving/post_move_iteration.h solving/king_capture_avoider.h \
+ stipulation/has_solution_type.h solving/recursion_stopper.h \
+ stipulation/move_inverter.h stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/boolean/and.h \
  stipulation/boolean/false.h stipulation/boolean/not.h \
@@ -1436,12 +1370,6 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
-conditions/anticirce/promotion.h:
-
-solving/moving_pawn_promotion.h:
-
-pieces/walks/pawns/promotion.h:
-
 conditions/anticirce/magic_square.h:
 
 conditions/bgl.h:
@@ -1530,6 +1458,8 @@ conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
 
+pieces/walks/pawns/promotee_sequence.h:
+
 conditions/singlebox/type3.h:
 
 solving/observation.h:
@@ -1567,8 +1497,6 @@ conditions/circe/kamikaze.h:
 conditions/circe/parrain.h:
 
 conditions/circe/volage.h:
-
-conditions/circe/promotion.h:
 
 conditions/anticirce/anticirce.h:
 
@@ -1837,6 +1765,8 @@ solving/single_piece_move_generator.h:
 solving/trivial_end_filter.h:
 
 pieces/walks/pawns/en_passant.h:
+
+pieces/walks/pawns/promotion.h:
 
 solving/selfcheck_guard.h:
 
@@ -2466,20 +2396,22 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  pieces/walks/vectors.h output/mode.h options/options.h \
  conditions/conditions.h pymsg.h pylang.h utilities/boolean.h \
  solving/selfcheck_guard.h solving/solve.h solving/check.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h solving/observation.h \
- solving/ply.h output/output.h conditions/annan.h conditions/bgl.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/koeko/contact_grid.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
- conditions/exclusive.h utilities/table.h conditions/republican.h \
- conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
+ pieces/walks/pawns/promotion.h solving/ply.h \
+ pieces/walks/pawns/promotee_sequence.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/observation.h output/output.h \
+ conditions/annan.h conditions/bgl.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h \
+ conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
+ conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
+ utilities/table.h conditions/republican.h conditions/blackchecks.h \
+ conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h pieces/walks/pawns/promotion.h \
- conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
- conditions/masand.h conditions/disparate.h conditions/dynasty.h \
- conditions/eiffel.h conditions/circe/assassin.h \
+ conditions/singlebox/type2.h conditions/singlebox/type3.h \
+ conditions/patience.h conditions/isardam.h conditions/masand.h \
+ conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
+ conditions/circe/assassin.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
@@ -2490,24 +2422,23 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/circe/diametral.h conditions/circe/double_agents.h \
  conditions/circe/equipollents.h conditions/circe/file.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/circe/promotion.h \
- conditions/circe/frischauf.h conditions/circe/mirror.h \
- conditions/circe/pwc.h conditions/circe/super.h \
- conditions/circe/symmetry.h conditions/circe/april.h \
- conditions/circe/turncoats.h conditions/circe/takemake.h \
- conditions/circe/rex_inclusive.h conditions/circe/rank.h \
- conditions/anticirce/cheylan.h conditions/anticirce/anticirce.h \
- conditions/anticirce/promotion.h solving/moving_pawn_promotion.h \
- conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
- conditions/anticirce/super.h conditions/anticirce/magic_square.h \
- conditions/sentinelles.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
- conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/einstein/einstein.h conditions/einstein/reverse.h \
- conditions/einstein/anti.h conditions/einstein/en_passant.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
+ conditions/circe/volage.h conditions/circe/frischauf.h \
+ conditions/circe/mirror.h conditions/circe/pwc.h \
+ conditions/circe/super.h conditions/circe/symmetry.h \
+ conditions/circe/april.h conditions/circe/turncoats.h \
+ conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
+ conditions/circe/rank.h conditions/anticirce/cheylan.h \
+ conditions/anticirce/anticirce.h conditions/anticirce/strict.h \
+ conditions/anticirce/relaxed.h conditions/anticirce/super.h \
+ conditions/anticirce/magic_square.h conditions/sentinelles.h \
+ conditions/duellists.h conditions/haunted_chess.h \
+ conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
+ conditions/antiandernach.h conditions/chameleon_pursuit.h \
+ conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
+ conditions/einstein/reverse.h conditions/einstein/anti.h \
+ conditions/einstein/en_passant.h conditions/traitor.h \
+ conditions/volage.h conditions/magic_square.h conditions/tibet.h \
+ conditions/degradierung.h conditions/phantom.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/line_chameleon.h \
  conditions/haan.h conditions/castling_chess.h \
@@ -2602,6 +2533,12 @@ solving/solve.h:
 
 solving/check.h:
 
+pieces/walks/pawns/promotion.h:
+
+solving/ply.h:
+
+pieces/walks/pawns/promotee_sequence.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -2613,8 +2550,6 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 solving/observation.h:
-
-solving/ply.h:
 
 output/output.h:
 
@@ -2657,8 +2592,6 @@ conditions/ohneschach.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
-
-pieces/walks/pawns/promotion.h:
 
 conditions/singlebox/type3.h:
 
@@ -2716,8 +2649,6 @@ conditions/circe/parrain.h:
 
 conditions/circe/volage.h:
 
-conditions/circe/promotion.h:
-
 conditions/circe/frischauf.h:
 
 conditions/circe/mirror.h:
@@ -2741,10 +2672,6 @@ conditions/circe/rank.h:
 conditions/anticirce/cheylan.h:
 
 conditions/anticirce/anticirce.h:
-
-conditions/anticirce/promotion.h:
-
-solving/moving_pawn_promotion.h:
 
 conditions/anticirce/strict.h:
 

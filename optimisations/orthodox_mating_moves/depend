@@ -66,7 +66,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  position/board.h utilities/bitmask.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h conditions/grid.h \
- pieces/walks/generate_moves.h pieces/walks/pawns/promotion.h \
+ pieces/walks/generate_moves.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/observation.h solving/castling.h solving/move_generator.h \
@@ -106,7 +106,7 @@ conditions/grid.h:
 
 pieces/walks/generate_moves.h:
 
-pieces/walks/pawns/promotion.h:
+pieces/walks/pawns/promotee_sequence.h:
 
 pieces/walks/pawns/en_passant.h:
 

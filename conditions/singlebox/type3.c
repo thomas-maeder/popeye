@@ -1,7 +1,7 @@
 #include "conditions/singlebox/type3.h"
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/walks/classification.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
@@ -150,9 +150,9 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  for (pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][p];
+  for (pprom = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][p];
        pprom!=Empty;
-       pprom = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pprom])
+       pprom = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pprom])
     if (pprom!=Pawn && number_of_pieces[side][pprom]<game_array.number_of_pieces[side][pprom])
     {
       result = pprom;

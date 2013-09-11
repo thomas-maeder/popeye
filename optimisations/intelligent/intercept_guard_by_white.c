@@ -5,7 +5,7 @@
 #include "optimisations/intelligent/place_black_piece.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_white_king.h"
-#include "solving/moving_pawn_promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -88,7 +88,7 @@ static void promoted_white_pawn(unsigned int intercepter_index,
                                                                 where_to_intercept))
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

@@ -1,12 +1,12 @@
 #include "conditions/nopromotion.h"
 #include "conditions/circe/circe.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "conditions/conditions.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
-#include "conditions/conditions.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -108,24 +108,6 @@ static void substitute_avoid_promotion_moving(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void substitute_avoid_promotion_reborn(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  boolean const (* const enabled)[nr_sides] = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  if ((*enabled)[slices[si].starter])
-    pipe_substitute(si,alloc_pipe(STNoPromotionsRemovePromotionMoving));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument the solvers with Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
@@ -147,8 +129,7 @@ void stip_insert_nopromotions(slice_index si)
   stip_impose_starter(si,slices[si].starter);
 
   stip_structure_traversal_init(&st,&enabled);
-  stip_structure_traversal_override_single(&st,STMovingPawnPromoter,&substitute_avoid_promotion_moving);
-  stip_structure_traversal_override_single(&st,STCirceRebirthPromoter,&substitute_avoid_promotion_reborn);
+  stip_structure_traversal_override_single(&st,STPawnPromoter,&substitute_avoid_promotion_moving);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

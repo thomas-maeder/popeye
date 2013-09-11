@@ -6,7 +6,7 @@
 
 #include "solving/solve.h"
 #include "solving/ply.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 
 /* TODO this assumes that <=1 latent pawn promotion is possible per ply */
 typedef struct

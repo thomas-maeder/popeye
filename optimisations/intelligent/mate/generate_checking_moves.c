@@ -4,7 +4,7 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/orthodox_check_directions.h"
-#include "solving/moving_pawn_promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -235,7 +235,7 @@ static void by_promoted_pawn(unsigned int index_of_checker, square const check_f
                                                                 check_from))
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

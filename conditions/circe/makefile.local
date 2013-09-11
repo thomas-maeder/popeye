@@ -3,7 +3,7 @@
 SRC_CFILES =   circe.c goal_filters.c assassin.c \
            steingewinn_filter.c \
            circuit_by_rebirth_special.c exchange_by_rebirth_special.c \
-           cage.c kamikaze.c parrain.c volage.c promotion.c \
+           cage.c kamikaze.c parrain.c volage.c \
            frischauf.c super.c capture_fork.c april.c \
            turncoats.c clone.c chameleon.c double_agents.c couscous.c \
            takemake.c rex_inclusive.c diametral.c mirror.c rank.c \
@@ -12,7 +12,7 @@ SRC_CFILES =   circe.c goal_filters.c assassin.c \
 INCLUDES = circe.h goal_filters.h assassin.h \
            steingewinn_filter.h \
            circuit_by_rebirth_special.h exchange_by_rebirth_special.h \
-           cage.h kamikaze.h parrain.h volage.h promotion.h \
+           cage.h kamikaze.h parrain.h volage.h \
            frischauf.h super.h capture_fork.h april.h \
            turncoats.h clone.h chameleon.h double_agents.h couscous.h \
            takemake.h rex_inclusive.h diametral.h mirror.h rank.h \

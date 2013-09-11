@@ -1,5 +1,4 @@
 #include "conditions/wormhole.h"
-#include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -8,7 +7,6 @@
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/post_move_iteration.h"
-#include "solving/moving_pawn_promotion.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
@@ -19,62 +17,7 @@ static unsigned int nr_wormholes;
 
 unsigned int wormhole_next_transfer[maxply+1];
 
-static post_move_iteration_id_type prev_post_move_iteration_id_transfer[maxply+1];
-static post_move_iteration_id_type prev_post_move_iteration_id_promotion[maxply+1];
-
-static pieces_pawns_promotion_sequence_type promotion_of_transfered[maxply+1];
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played (or being played)
- *                                     is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type wormhole_transfered_promoter_solve(slice_index si, stip_length_type n)
-{
-  square const sq_transfer = wormhole_positions[wormhole_next_transfer[nbply]-1];
-  stip_length_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_promotion[nbply])
-    pieces_pawns_initialise_promotion_sequence(sq_transfer,&promotion_of_transfered[nbply]);
-
-  if (promotion_of_transfered[nbply].promotee==Empty)
-    result = solve(slices[si].next1,n);
-  else
-  {
-    move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
-                                        sq_transfer,
-                                        promotion_of_transfered[nbply].promotee);
-
-    result = solve(slices[si].next1,n);
-
-    if (!post_move_iteration_locked[nbply])
-    {
-      pieces_pawns_continue_promotion_sequence(&promotion_of_transfered[nbply]);
-      if (promotion_of_transfered[nbply].promotee!=Empty)
-        lock_post_move_iterations();
-    }
-  }
-
-  prev_post_move_iteration_id_promotion[nbply] = post_move_iteration_id[nbply];
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
+static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
 static void skip_wormhole(void)
 {
@@ -174,7 +117,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
   TraceSquare(sq_arrival);
   TraceValue("%u\n",TSTFLAG(sq_spec[sq_arrival],Wormhole));
 
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_transfer[nbply])
+  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
   {
     if (TSTFLAG(sq_spec[sq_arrival],Wormhole))
     {
@@ -209,7 +152,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
     }
   }
 
-  prev_post_move_iteration_id_transfer[nbply] = post_move_iteration_id[nbply];
+  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -326,6 +269,28 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void instrument_move(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STWormholeTransferer),
+        alloc_pipe(STPawnPromoter)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Initialise solving in Wormholes
  * @param si root slice of stipulation
  */
@@ -356,8 +321,12 @@ void wormhole_initialse_solving(slice_index si)
     stip_traverse_structure(si,&st);
   }
 
-  stip_instrument_moves(si,STWormholeTransferer);
-  stip_instrument_moves(si,STWormholeTransferedPromoter);
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+    stip_traverse_structure(si,&st);
+  }
 
   stip_instrument_observation_validation(si,nr_sides,STWormholeRemoveIllegalCaptures);
   stip_instrument_check_validation(si,nr_sides,STWormholeRemoveIllegalCaptures);

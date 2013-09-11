@@ -442,4 +442,12 @@ stip x1
 condition mirrorfileanticirce
 option nowk nobk
 
+next
+
+title 4.63 diddn't promote pawns transfered to a wormhole into Chameleons
+pieces white pb3 black cham ph5
+condition wormhole b4f8
+stip ~1
+option nowk nobk
+
 end

@@ -7,7 +7,7 @@
 #include "optimisations/intelligent/intercept_black_move.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/orthodox_check_directions.h"
-#include "solving/moving_pawn_promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -379,7 +379,7 @@ void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
                                                                 placed_on))
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:
@@ -418,7 +418,7 @@ void intelligent_place_promoted_black_pawn(unsigned int placed_index,
                                                                 placed_on))
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
         case Queen:

@@ -511,11 +511,12 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/conditions.h stipulation/has_solution_type.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/circe.h debugging/trace.h
+ conditions/conditions.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/pipe.h stipulation/branch.h \
+ debugging/trace.h
 
 conditions/circe/parrain.h:
 
@@ -545,6 +546,16 @@ output/mode.h:
 
 conditions/conditions.h:
 
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
@@ -555,15 +566,9 @@ stipulation/slice.h:
 
 stipulation/traversal.h:
 
-solving/move_effect_journal.h:
+stipulation/pipe.h:
 
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
-conditions/circe/circe.h:
+stipulation/branch.h:
 
 debugging/trace.h:
 conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
@@ -636,88 +641,16 @@ solving/move_generator.h:
 conditions/circe/circe.h:
 
 debugging/trace.h:
-conditions/circe/promotion$(OBJ_SUFFIX): conditions/circe/promotion.c \
- conditions/circe/promotion.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h pieces/walks/pawns/promotion.h \
- stipulation/has_solution_type.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/post_move_iteration.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h conditions/circe/circe.h \
- debugging/trace.h
-
-conditions/circe/promotion.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-solving/ply.h:
-
-pieces/walks/pawns/promotion.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
-
-solving/post_move_iteration.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-conditions/circe/circe.h:
-
-debugging/trace.h:
 conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  conditions/circe/frischauf.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/andernach.h stipulation/pipe.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h solving/moving_pawn_promotion.h solving/ply.h \
- pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h debugging/trace.h
+ stipulation/traversal.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/trace.h
 
 conditions/circe/frischauf.h:
 
@@ -745,9 +678,9 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
-conditions/andernach.h:
+stipulation/has_solution_type.h:
 
-stipulation/pipe.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
@@ -755,19 +688,11 @@ stipulation/slice.h:
 
 stipulation/traversal.h:
 
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
-
-solving/moving_pawn_promotion.h:
-
-solving/ply.h:
-
-pieces/walks/pawns/promotion.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
+
+solving/ply.h:
 
 position/pieceid.h:
 
@@ -1005,7 +930,8 @@ conditions/circe/clone$(OBJ_SUFFIX): conditions/circe/clone.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
 
 conditions/circe/clone.h:
 
@@ -1042,6 +968,14 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+stipulation/move.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 debugging/trace.h:
 conditions/circe/chameleon$(OBJ_SUFFIX): conditions/circe/chameleon.c \

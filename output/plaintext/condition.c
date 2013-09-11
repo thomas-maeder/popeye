@@ -4,7 +4,7 @@
 #include "output/plaintext/pieces.h"
 #include "input/plaintext/condition.h"
 #include "pieces/pieces.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
@@ -223,7 +223,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       PieNam pp = Empty;
       while (true)
       {
-        pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp];
+        pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp];
         if (pp==Empty)
           break;
 
@@ -233,7 +233,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           written += snprintf(CondLine+written, (sizeof CondLine)-written, " %c%c",toupper(PieceTab[pp][0]),toupper(PieceTab[pp][1]));
       }
       if (strlen(CondLine) <= strlen(CondTab[promotiononly])) {
-        /* due to zeroposition, where pieces_pawns_promotee_chain is not */
+        /* due to zeroposition, where pieces_pawns_promotee_sequence is not */
         /* set (it's set in verifieposition), I suppress  */
         /* output of promotiononly for now.  */
         continue;
@@ -255,7 +255,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           written += snprintf(CondLine+written, (sizeof CondLine)-written, " %c%c",toupper(PieceTab[pp][0]),toupper(PieceTab[pp][1]));
       }
       if (strlen(CondLine) <= strlen(CondTab[football])) {
-        /* due to zeroposition, where pieces_pawns_promotee_chain is not */
+        /* due to zeroposition, where pieces_pawns_promotee_sequence is not */
         /* set (it's set in verifieposition), I suppress  */
         /* output of promotiononly for now.  */
         continue;

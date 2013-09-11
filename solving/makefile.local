@@ -7,8 +7,7 @@ SRC_CFILES =   testers.c move_effect_journal.c \
            single_piece_move_generator.c \
            for_each_move.c find_move.c \
            legal_move_counter.c capture_counter.c \
-           castling.c \
-           trivial_end_filter.c moving_pawn_promotion.c \
+           castling.c trivial_end_filter.c \
            avoid_unsolvable.c selfcheck_guard.c \
            post_move_iteration.c solve.c king_capture_avoider.c \
            recursion_stopper.c observation.c check.c \
@@ -21,8 +20,7 @@ INCLUDES = testers.h move_effect_journal.h \
            single_piece_move_generator.h \
            for_each_move.h find_move.h \
            legal_move_counter.h capture_counter.h \
-           castling.h \
-           trivial_end_filter.h moving_pawn_promotion.h \
+           castling.h trivial_end_filter.h \
            avoid_unsolvable.h selfcheck_guard.h \
            post_move_iteration.h solve.h king_capture_avoider.h \
            recursion_stopper.h observation.h check.h castling_rights.h \

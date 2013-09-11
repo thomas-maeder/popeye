@@ -3,7 +3,7 @@
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "pieces/pieces.h"
-#include "pieces/walks/pawns/promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/annan.h"
 #include "conditions/anticirce/anticirce.h"
@@ -890,7 +890,6 @@ char *ParseCond(void)
         break;
       case parrain:
       case contraparrain:
-        anycirprom= true;
         anycirce= true;
         anyparrain= true;
         break;

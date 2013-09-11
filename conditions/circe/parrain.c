@@ -1,10 +1,12 @@
 #include "conditions/circe/parrain.h"
 #include "conditions/conditions.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "solving/move_effect_journal.h"
-#include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -85,17 +87,43 @@ stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
   return result;
 }
 
-/* Instrument the solving machinery with Circe Parrain
- * @param si identifies root slice of stipulation
- */
-void circe_parrain_initialise_solving(slice_index si)
+static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STCirceParrainDetermineRebirth);
-  stip_instrument_moves(si,STCircePlaceReborn);
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STCirceParrainDetermineRebirth),
+        alloc_pipe(STCircePlaceReborn),
+        alloc_pipe(STPawnPromoter)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with Circe Parrain
+ * @param si identifies root slice of stipulation
+ */
+void circe_parrain_initialise_solving(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

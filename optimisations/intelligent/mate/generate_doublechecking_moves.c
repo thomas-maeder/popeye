@@ -5,7 +5,7 @@
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/orthodox_check_directions.h"
-#include "solving/moving_pawn_promotion.h"
+#include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -196,7 +196,7 @@ static void front_check_by_promotee(unsigned int index_of_checker, square via)
 
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       if (pp!=Queen
           && intelligent_reserve_front_check_by_promotee(white[index_of_checker].diagram_square,
                                                          pp,
@@ -273,7 +273,7 @@ static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_
                                                                  via))
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       /* geometry doesn't allow for an interceptable check by a pawn that
        * doesn't capture */
       if (GuardDir[pp-Pawn][check_from].dir==guard_dir_check_uninterceptable)
@@ -308,7 +308,7 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
                                                               check_from))
   {
     PieNam pp;
-    for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+    for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
     {
       int const dir = CheckDir[pp][king_square[Black]-check_from];
       if (dir!=0)
@@ -491,7 +491,7 @@ static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
   TraceFunctionParam("%u",index_of_checker);
   TraceFunctionParamListEnd();
 
-  for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+  for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
     switch (pp)
     {
       case Queen:
@@ -638,7 +638,7 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
   TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
-  for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+  for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
     if ((pp==Queen || pp==Rook)
         && intelligent_reserve_promoting_white_pawn_moves_from_to(white[checker_index].diagram_square,
                                                                   pp,
@@ -749,7 +749,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  for (pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_chain[pieces_pawns_promotee_chain_orthodox][pp])
+  for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
     if ((pp==Queen || pp==Bishop)
         && intelligent_reserve_promoting_white_pawn_moves_from_to(pawn_origin,
                                                                   pp,

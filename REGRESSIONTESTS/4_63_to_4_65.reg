@@ -2201,3 +2201,53 @@ Until 4.63, there was no way to indicate Mirror File Anticirce with
 solution finished. 
 
 
+
+4.63 diddn't promote pawns transfered to a wormhole into Chameleons
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .  -P   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+             Chameleon h5
+           Wormholes b4 f8
+
+   1.b3-b4[wPb4->f8=Q] !
+
+   1.b3-b4[wPb4->f8=Q=c] !
+
+   1.b3-b4[wPb4->f8=S] !
+
+   1.b3-b4[wPb4->f8=S=c] !
+
+   1.b3-b4[wPb4->f8=R] !
+
+   1.b3-b4[wPb4->f8=R=c] !
+
+   1.b3-b4[wPb4->f8=B] !
+
+   1.b3-b4[wPb4->f8=B=c] !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

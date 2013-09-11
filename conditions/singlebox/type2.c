@@ -1,5 +1,4 @@
 #include "conditions/singlebox/type2.h"
-#include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/classification.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
@@ -226,13 +225,13 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
                                                              pieces_pawns_promotion_sequence_type *sequence)
 {
   *side = (is_forwardpawn(get_walk_of_piece_on_square(sq_prom)) ? ForwardPromSq(White,sq_prom) : ReversePromSq(White,sq_prom)) ? White : Black;
-  pieces_pawns_initialise_promotion_sequence(sq_prom,sequence);
+  pieces_pawns_start_promotee_sequence(sq_prom,sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn
         && number_of_pieces[*side][sequence->promotee]<game_array.number_of_pieces[*side][sequence->promotee])
       break;
     else
-      pieces_pawns_continue_promotion_sequence(sequence);
+      pieces_pawns_continue_promotee_sequence(sequence);
 }
 
 /* Continue a promotion sequence intialised by
@@ -243,13 +242,13 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
 void singlebox_type2_continue_singlebox_promotion_sequence(Side side,
                                                            pieces_pawns_promotion_sequence_type *sequence)
 {
-  pieces_pawns_continue_promotion_sequence(sequence);
+  pieces_pawns_continue_promotee_sequence(sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn
         && number_of_pieces[side][sequence->promotee]<game_array.number_of_pieces[side][sequence->promotee])
       break;
     else
-      pieces_pawns_continue_promotion_sequence(sequence);
+      pieces_pawns_continue_promotee_sequence(sequence);
 }
 
 static void init_latent_pawn_promotion(void)

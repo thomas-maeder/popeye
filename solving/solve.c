@@ -11,7 +11,6 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/strict.h"
-#include "conditions/anticirce/promotion.h"
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
@@ -72,7 +71,6 @@
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/volage.h"
-#include "conditions/circe/promotion.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/sentinelles.h"
@@ -207,7 +205,7 @@
 #include "solving/single_piece_move_generator.h"
 #include "solving/trivial_end_filter.h"
 #include "pieces/walks/pawns/en_passant.h"
-#include "solving/moving_pawn_promotion.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "solving/selfcheck_guard.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
@@ -417,8 +415,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = einstein_en_passant_adjuster_solve(si,n);
       break;
 
-    case STMovingPawnPromoter:
-      result = moving_pawn_promoter_solve(si,n);
+    case STPawnPromoter:
+      result = pawn_promoter_solve(si,n);
       break;
 
     case STPhantomChessEnPassantAdjuster:
@@ -769,10 +767,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = supercirce_capture_fork_solve(si,n);
       break;
 
-    case STCirceRebirthPromoter:
-      result = circe_promoter_solve(si,n);
-      break;
-
     case STCirceVolageRecolorer:
       result = circe_volage_recolorer_solve(si,n);
       break;
@@ -886,16 +880,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = degradierung_degrader_solve(si,n);
       break;
 
-    case STPromoteMovingIntoChameleon:
-      result = chameleon_promote_moving_into_solve(si,n);
-      break;
-
-    case STPromoteCirceRebornIntoChameleon:
-      result = chameleon_promote_circe_reborn_into_solve(si,n);
-      break;
-
-    case STPromoteAnticirceRebornIntoChameleon:
-      result = chameleon_promote_anticirce_reborn_into_solve(si,n);
+    case STChameleonChangePromoteeInto:
+      result = chameleon_change_promotee_into_solve(si,n);
       break;
 
     case STChameleonArrivingAdjuster:
@@ -952,10 +938,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STAnticircePlaceRebornStrict:
       result = anticirce_place_reborn_strict_solve(si,n);
-      break;
-
-    case STAnticirceRebornPromoter:
-      result = anticirce_reborn_promoter_solve(si,n);
       break;
 
     case STAntisupercirceDetermineRebirthSquare:
@@ -1598,10 +1580,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STWormholeTransferer:
       result = wormhole_transferer_solve(si,n);
-      break;
-
-    case STWormholeTransferedPromoter:
-      result = wormhole_transfered_promoter_solve(si,n);
       break;
 
     case STExtinctionExtinctedTester:
