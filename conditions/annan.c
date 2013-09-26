@@ -102,6 +102,7 @@ static void substitute_enforce_annanised_walk(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  stip_traverse_structure_children(si,st);
   pipe_substitute(si,alloc_pipe(STAnnanEnforceObserverWalk));
 
   TraceFunctionExit(__func__);

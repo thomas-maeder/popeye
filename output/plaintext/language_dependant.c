@@ -789,7 +789,9 @@ char const *CondString[LanguageCount][CondCount] =
     /*185*/ "TrousDeVer",
     /*186*/ "EchecsMarins",
     /*187*/ "EchecsUltramarins",
-    /*188*/ "Retour"
+    /*188*/ "Retour",
+    /*189*/ "FaceAFace",
+    /*190*/ "DosADos"
   },{
     /* German Condition Names */
     /* 0*/  "RexInklusive",
@@ -980,7 +982,9 @@ char const *CondString[LanguageCount][CondCount] =
     /*185*/ "Wurmloecher",
     /*186*/ "MarinesSchach",
     /*187*/ "UltramarinesSchach",
-    /*188*/ "NachHause"
+    /*188*/ "NachHause",
+    /*189*/ "AngesichtZuAngesicht",
+    /*190*/ "RueckenAnRuecken"
   },{
     /* English Condition Names */
     /* 0*/  "RexInclusive",
@@ -1171,7 +1175,9 @@ char const *CondString[LanguageCount][CondCount] =
     /*185*/ "Wormholes",
     /*186*/ "MarineChess",
     /*187*/ "UltramarineChess",
-    /*188*/ "BackHome"
+    /*188*/ "BackHome",
+    /*189*/ "FaceToFace",
+    /*190*/ "BackToBack"
   }
 };
 

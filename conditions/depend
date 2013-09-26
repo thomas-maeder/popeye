@@ -4185,6 +4185,69 @@ output/mode.h:
 solving/ply.h:
 
 debugging/trace.h:
+conditions/facetoface$(OBJ_SUFFIX): conditions/facetoface.c conditions/facetoface.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h solving/observation.h solving/ply.h \
+ solving/move_generator.h solving/solve.h solving/castling.h \
+ solving/castling_rights.h solving/move_effect_journal.h \
+ position/pieceid.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
+
+conditions/facetoface.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+solving/observation.h:
+
+solving/ply.h:
+
+solving/move_generator.h:
+
+solving/solve.h:
+
+solving/castling.h:
+
+solving/castling_rights.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
+
+stipulation/pipe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:
 conditions/conditions$(OBJ_SUFFIX): conditions/conditions.c conditions/conditions.h \
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h

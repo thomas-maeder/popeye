@@ -446,7 +446,7 @@ input/plaintext/stipulation$(OBJ_SUFFIX): input/plaintext/stipulation.c \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/not.h stipulation/proxy.h \
  stipulation/pipe.h pymsg.h pylang.h utilities/boolean.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 input/plaintext/stipulation.h:
 
@@ -523,6 +523,8 @@ pylang.h:
 utilities/boolean.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
  input/plaintext/sstipulation.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -539,8 +541,8 @@ input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/or.h \
  stipulation/boolean/not.h stipulation/proxy.h stipulation/pipe.h \
- solving/play_suppressor.h debugging/trace.h pymsg.h pylang.h \
- utilities/boolean.h
+ solving/play_suppressor.h debugging/trace.h solving/ply.h pymsg.h \
+ pylang.h utilities/boolean.h
 
 input/plaintext/sstipulation.h:
 
@@ -625,6 +627,8 @@ stipulation/pipe.h:
 solving/play_suppressor.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 pymsg.h:
 
@@ -775,7 +779,7 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/line.h conditions/mummer.h solving/solve.h \
  pieces/walks/pawns/promotee_sequence.h pieces/attributes/chameleon.h \
- solving/ply.h conditions/annan.h conditions/anticirce/anticirce.h \
+ conditions/annan.h conditions/anticirce/anticirce.h solving/ply.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/anticirce/cheylan.h conditions/bgl.h \
  conditions/circe/april.h conditions/circe/chameleon.h \
@@ -842,11 +846,11 @@ pieces/walks/pawns/promotee_sequence.h:
 
 pieces/attributes/chameleon.h:
 
-solving/ply.h:
-
 conditions/annan.h:
 
 conditions/anticirce/anticirce.h:
+
+solving/ply.h:
 
 solving/move_effect_journal.h:
 

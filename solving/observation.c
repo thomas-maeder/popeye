@@ -6,6 +6,7 @@
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
+#include "conditions/facetoface.h"
 #include "conditions/geneva.h"
 #include "conditions/imitator.h"
 #include "conditions/immune.h"
@@ -25,6 +26,7 @@
 #include "conditions/grid.h"
 #include "conditions/edgemover.h"
 #include "conditions/annan.h"
+#include "conditions/facetoface.h"
 #include "conditions/phantom.h"
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
@@ -88,6 +90,14 @@ boolean validate_observation_recursive(slice_index si)
 
     case STAnnanEnforceObserverWalk:
       result = annan_enforce_observer_walk(si);
+      break;
+
+    case STFaceToFaceEnforceObserverWalk:
+      result = facetoface_enforce_observer_walk(si);
+      break;
+
+    case STBackToBackEnforceObserverWalk:
+      result = backtoback_enforce_observer_walk(si);
       break;
 
     case STMarsCirceMovesForPieceGenerator:
@@ -328,6 +338,8 @@ static slice_index const observation_validation_slice_rank_order[] =
     STEnforceObserverWalk,
     STEnforceObserverSide,
     STAnnanEnforceObserverWalk,
+    STFaceToFaceEnforceObserverWalk,
+    STBackToBackEnforceObserverWalk,
     STBackhomeExistanceTester,
     STBackhomeRemoveIllegalMoves,
     STBeamtenMovesForPieceGenerator,
@@ -623,6 +635,9 @@ static slice_type const slice_order_is_square_observed_with_proxies[] = {
   STFindSquareObserverTrackingBackKing,
   STLandingAfterFindSquareObserverTrackingBackKing,
   STFindSquareObserverTrackingBack,
+  STFindSquareObserverTrackingBackFairy,
+  STFaceToFaceMovesForPieceGenerator,
+  STBackToBackMovesForPieceGenerator,
   STFalse
 };
 
@@ -860,6 +875,11 @@ boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
       result = find_square_observer_tracking_back_from_target_fairy(si,evaluate);
       break;
 
+    case STFaceToFaceMovesForPieceGenerator:
+    case STBackToBackMovesForPieceGenerator:
+      result = find_square_observer_tracking_back_from_target_unoptimised(si,evaluate);
+      break;
+
     case STTrue:
       result = true;
       break;
@@ -900,6 +920,8 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STFindSquareObserverTrackingBackKing,
     STFindSquareObserverTrackingBack,
     STFindSquareObserverTrackingBackFairy,
+    STFaceToFaceMovesForPieceGenerator,
+    STBackToBackMovesForPieceGenerator,
     STFalse
 };
 

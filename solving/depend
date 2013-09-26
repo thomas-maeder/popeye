@@ -346,8 +346,8 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/ply.h conditions/annan.h conditions/beamten.h \
  conditions/central.h conditions/disparate.h conditions/eiffel.h \
- conditions/madrasi.h conditions/marscirce/marscirce.h \
- solving/observation.h conditions/marscirce/anti.h \
+ conditions/facetoface.h solving/observation.h conditions/madrasi.h \
+ conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
  conditions/phantom.h conditions/singlebox/type3.h conditions/sting.h \
  conditions/castling_chess.h conditions/exchange_castling.h \
@@ -401,11 +401,13 @@ conditions/disparate.h:
 
 conditions/eiffel.h:
 
+conditions/facetoface.h:
+
+solving/observation.h:
+
 conditions/madrasi.h:
 
 conditions/marscirce/marscirce.h:
-
-solving/observation.h:
 
 conditions/marscirce/anti.h:
 
@@ -1983,17 +1985,17 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/amu/attack_counter.h solving/solve.h conditions/backhome.h \
  conditions/beamten.h conditions/bgl.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h conditions/brunner.h \
- conditions/central.h conditions/disparate.h conditions/geneva.h \
- conditions/imitator.h conditions/immune.h conditions/lortap.h \
- conditions/mummer.h conditions/patrol.h conditions/provocateurs.h \
- conditions/shielded_kings.h conditions/superguards.h \
- conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
- conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
- solving/move_generator.h conditions/bichrome.h conditions/grid.h \
- conditions/edgemover.h conditions/annan.h conditions/phantom.h \
- conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
- conditions/singlebox/type3.h conditions/sting.h \
- conditions/transmuting_kings/transmuting_kings.h \
+ conditions/central.h conditions/disparate.h conditions/facetoface.h \
+ conditions/geneva.h conditions/imitator.h conditions/immune.h \
+ conditions/lortap.h conditions/mummer.h conditions/patrol.h \
+ conditions/provocateurs.h conditions/shielded_kings.h \
+ conditions/superguards.h conditions/woozles.h conditions/wormhole.h \
+ conditions/madrasi.h conditions/masand.h conditions/eiffel.h \
+ conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
+ conditions/grid.h conditions/edgemover.h conditions/annan.h \
+ conditions/phantom.h conditions/marscirce/plus.h \
+ conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
+ conditions/sting.h conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/magic.h \
@@ -2051,6 +2053,8 @@ conditions/brunner.h:
 conditions/central.h:
 
 conditions/disparate.h:
+
+conditions/facetoface.h:
 
 conditions/geneva.h:
 
@@ -2396,22 +2400,21 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  pieces/walks/vectors.h output/mode.h options/options.h \
  conditions/conditions.h pymsg.h pylang.h utilities/boolean.h \
  solving/selfcheck_guard.h solving/solve.h solving/check.h \
- pieces/walks/pawns/promotion.h solving/ply.h \
- pieces/walks/pawns/promotee_sequence.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/observation.h output/output.h \
- conditions/annan.h conditions/bgl.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
- conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
- utilities/table.h conditions/republican.h conditions/blackchecks.h \
- conditions/extinction.h conditions/madrasi.h \
+ pieces/walks/pawns/promotion.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/observation.h solving/ply.h \
+ output/output.h conditions/annan.h conditions/bgl.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/koeko/contact_grid.h \
+ conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
+ conditions/exclusive.h utilities/table.h conditions/republican.h \
+ conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h conditions/singlebox/type3.h \
- conditions/patience.h conditions/isardam.h conditions/masand.h \
- conditions/disparate.h conditions/dynasty.h conditions/eiffel.h \
- conditions/circe/assassin.h \
+ conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
+ conditions/singlebox/type3.h conditions/patience.h conditions/isardam.h \
+ conditions/masand.h conditions/disparate.h conditions/dynasty.h \
+ conditions/eiffel.h conditions/circe/assassin.h \
  conditions/ultraschachzwang/legality_tester.h conditions/sat.h \
  conditions/oscillating_kings.h conditions/messigny.h \
  conditions/actuated_revolving_centre.h \
@@ -2535,10 +2538,6 @@ solving/check.h:
 
 pieces/walks/pawns/promotion.h:
 
-solving/ply.h:
-
-pieces/walks/pawns/promotee_sequence.h:
-
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -2550,6 +2549,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 solving/observation.h:
+
+solving/ply.h:
 
 output/output.h:
 
@@ -2592,6 +2593,8 @@ conditions/ohneschach.h:
 conditions/singlebox/type1.h:
 
 conditions/singlebox/type2.h:
+
+pieces/walks/pawns/promotee_sequence.h:
 
 conditions/singlebox/type3.h:
 

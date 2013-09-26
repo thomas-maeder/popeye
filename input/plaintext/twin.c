@@ -2743,6 +2743,9 @@ static boolean verify_position(slice_index si)
   if (CondFlag[castlingchess] || CondFlag[platzwechselrochade])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
+  if (CondFlag[facetoface] || CondFlag[backtoback])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[messigny]
       || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)

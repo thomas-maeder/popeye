@@ -4,6 +4,7 @@
 #include "conditions/central.h"
 #include "conditions/disparate.h"
 #include "conditions/eiffel.h"
+#include "conditions/facetoface.h"
 #include "conditions/madrasi.h"
 #include "conditions/disparate.h"
 #include "conditions/marscirce/marscirce.h"
@@ -67,6 +68,8 @@ static slice_index const slice_rank_order[] =
     STCastlingGenerator,
     STMessignyMovesForPieceGenerator,
     STAnnanMovesForPieceGenerator,
+    STFaceToFaceMovesForPieceGenerator,
+    STBackToBackMovesForPieceGenerator,
     STMovesForPieceBasedOnWalkGenerator,
     STTrue
 };
@@ -254,6 +257,14 @@ void generate_moves_for_piece(slice_index si, PieNam p)
 
     case STAnnanMovesForPieceGenerator:
       annan_generate_moves_for_piece(si,p);
+      break;
+
+    case STFaceToFaceMovesForPieceGenerator:
+      facetoface_generate_moves_for_piece(si,p);
+      break;
+
+    case STBackToBackMovesForPieceGenerator:
+      backtoback_generate_moves_for_piece(si,p);
       break;
 
     case STMovesForPieceBasedOnWalkGenerator:

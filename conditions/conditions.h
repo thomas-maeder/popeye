@@ -207,8 +207,10 @@ typedef enum
   marine,                 /* 186 */
   ultramarine,            /* 187 */
   backhome,               /* 188 */
+  facetoface,             /* 189 */
+  backtoback,             /* 190 */
 
-  CondCount               /* 189 */
+  CondCount               /* 191 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */
