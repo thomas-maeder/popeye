@@ -19,7 +19,7 @@ boolean exctinction_all_square_observation_tester_is_in_check(slice_index si,
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean extinction_extincted_tester_solve(slice_index si, Side side_in_check);
+stip_length_type extinction_extincted_tester_solve(slice_index si, Side side_in_check);
 
 /* Initialise the solving machinery with Extinction Chess
  * @param si identifies root slice of stipulation
