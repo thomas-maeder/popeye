@@ -1,0 +1,250 @@
+
+          Tadashi Wakashima
+Face to face Batumi Ty announcement 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .  -S   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -K  -P   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   Q   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         2 + 3
+              FaceToFace
+
+a) 
+
+  1.Sd7-e5 + Ke4-g3   2.Ke6-f5 Qb4-g4 #
+
+  add_to_move_generation_stack:       52075
+                     play_move:       32717
+ is_white_king_square_attacked:        5514
+ is_black_king_square_attacked:       32534
+b) bPf6-->d6
+
+  1.Sd7-c5 + Ke4-e3   2.Ke6-d5 Qb4-e4 #
+  1.Sd7-e5 + Ke4-c3   2.Ke6-d5 Qb4-c4 #
+
+  add_to_move_generation_stack:       62445
+                     play_move:       41204
+ is_white_king_square_attacked:        6181
+ is_black_king_square_attacked:       40957
+solution finished. 
+
+
+
+          Tadashi Wakashima
+Face to face Batumi Ty announcement 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K   .  -S   .   .   5
+|                                   |
+4   .   .   .   .  -B   .   .   .   4
+|                                   |
+3  -R   .   .   .   P   .   .   K   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         3 + 4
+              FaceToFace
+
+  1.Sf5*e3 d2-d4 #
+  1.Sf5-g3 e3-d4 #
+
+  add_to_move_generation_stack:         790
+                     play_move:         679
+ is_white_king_square_attacked:          53
+ is_black_king_square_attacked:         679
+solution finished. 
+
+
+
+          Tadashi Wakashima
+Face to face Batumi Ty announcement 2013
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .  -K   .  -S   .   .   5
+|                                   |
+4   .   .   .   .  -B   .   .   .   4
+|                                   |
+3  -R   .   .   .   P   .   .   K   3
+|                                   |
+2   .   .   .   P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        3 + 4
+              FaceToFace
+              HalfDuplex
+
+  1.d2-d4 + Be4*d3 ep.
+
+  add_to_move_generation_stack:          36
+                     play_move:          17
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:           3
+solution finished. 
+
+
+
+pawns don't move from their base line unless confronted
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   P   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 0
+              FaceToFace
+
+a) 
+
+
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) +bSd2 
+
+   1.d1-f2 !
+
+   1.d1-e3 !
+
+   1.d1-c3 !
+
+   1.d1-b2 !
+
+
+  add_to_move_generation_stack:           4
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   B   .   .   .   .   5
+|                                   |
+4   .   .   .  -R   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+              BackToBack
+                Duplex
+
+   1.Bd5*d4 !
+
+   1.Bd5-a5 !
+
+   1.Bd5-b5 !
+
+   1.Bd5-c5 !
+
+   1.Bd5-d8 !
+
+   1.Bd5-d7 !
+
+   1.Bd5-d6 !
+
+   1.Bd5-h5 !
+
+   1.Bd5-g5 !
+
+   1.Bd5-f5 !
+
+   1.Bd5-e5 !
+
+
+   1.Rd4-a1 !
+
+   1.Rd4-b2 !
+
+   1.Rd4-c3 !
+
+   1.Rd4-g1 !
+
+   1.Rd4-f2 !
+
+   1.Rd4-e3 !
+
+   1.Rd4-h8 !
+
+   1.Rd4-g7 !
+
+   1.Rd4-f6 !
+
+   1.Rd4-e5 !
+
+   1.Rd4-a7 !
+
+   1.Rd4-b6 !
+
+   1.Rd4-c5 !
+
+
+  add_to_move_generation_stack:          24
+                     play_move:          24
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

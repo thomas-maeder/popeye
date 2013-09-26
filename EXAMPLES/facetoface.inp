@@ -1,0 +1,45 @@
+begin
+
+prot facetoface.ref
+
+author Tadashi Wakashima
+origin Face to face Batumi Ty announcement 2013
+pieces white ke4 qb4 black ke6 sd7 pf6
+stipulation h#2
+condition FaceToFace
+twin move f6 d6
+
+next
+
+author Tadashi Wakashima
+origin Face to face Batumi Ty announcement 2013
+pieces white kh3 pd2e3 black kd5 ra3 be4 sf5
+stip h#1
+condition FaceToFace
+
+next
+
+author Tadashi Wakashima
+origin Face to face Batumi Ty announcement 2013
+pieces white kh3 pd2e3 black kd5 ra3 be4 sf5
+stip hep1
+condition FaceToFace
+option halfduplex
+
+next
+
+title pawns don't move from their base line unless confronted
+pieces white pd1
+condition facetoface
+stip ~1
+option nowk nobk
+twin add black sd2
+
+next
+
+pieces white bd5 black rd4
+stip ~1
+condition BackToBack
+option nowk nobk duplex
+
+end
