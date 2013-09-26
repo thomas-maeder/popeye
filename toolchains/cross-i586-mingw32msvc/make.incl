@@ -1,0 +1,75 @@
+# -*- Makefile -*-
+#
+
+# Include file for makefile.unx for compiling on a Unix-ish i586
+# platform (host) for i586-mingmsvc (target)
+
+# Requirements:
+#
+# The following tools can be used to produce executables for the
+# target plarform and can be found in the $PATH:
+# - i586-mingw32msvc-gcc
+# - i586-mingw32msvc-ranlib
+# - i586-mingw32msvc-strip
+
+# The following tools can be used to produce executables for the host
+# platform and can be found in the $PATH:
+# - gcc
+
+
+# Include "regular" gcc settings
+include toolchains/gcc/make.incl
+
+
+# Now override where necessary
+
+# Compiler selection
+# ==================
+
+# Compiler for creating executables on target
+CCTARGET=i586-mingw32msvc-gcc
+
+# Linker for creating executables on target
+LDTARGET=i586-mingw32msvc-gcc
+
+# Strip utility to remove unnecessary symbols from executable
+STRIPTARGET=i586-mingw32msvc-strip
+
+
+# Archive index generator
+# -----------------------
+ARCHIVE_INDEXER = i586-mingw32msvc-ranlib
+
+
+# Linker options
+# --------------
+
+# enumerate libraries to link
+TARGETLIBS=-lwinmm
+# winmm = Windows Multimedia Library (we use Multimedia Timers to
+# implement option maxtime)
+
+
+# Platform spedific file name suffixes
+# ====================================
+
+# suffix for objects
+OBJ_SUFFIX=.obj
+
+# Popeye executable file name stem
+EXE_PLATFORM_MARK=win32
+
+# suffix for executables
+EXE_SUFFIX=.exe
+
+
+# Meta information
+# ----------------
+OSTYPE=Windows
+
+
+# Selector for platform-specific files
+# ====================================
+
+PLATFORM=windows32
+
