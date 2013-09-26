@@ -287,3 +287,61 @@ void backtoback_initialise_solving(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ * @param p walk to be used for generating
+ */
+void cheektocheek_generate_moves_for_piece(slice_index si, PieNam p)
+{
+  numecoup const save_current_move = current_move[nbply]-1;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TracePiece(p);
+  TraceFunctionParamListEnd();
+
+  generate_moves_for_possibly_confronted_piece(si,p,dir_left);
+  generate_moves_for_possibly_confronted_piece(si,p,dir_right);
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Make sure that the observer has the expected walk - confronted or originally
+ * @return true iff the observation is valid
+ */
+boolean cheektocheek_enforce_observer_walk(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = (enforce_possibly_confronted_observer_walk(si,dir_left)
+            || enforce_possibly_confronted_observer_walk(si,dir_right));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Inialise the solving machinery with Cheek-to-cheek Chess
+ * @param si identifies root slice of solving machinery
+ */
+void cheektocheek_initialise_solving(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  initialise_solving(si,
+                     STCheekToCheekMovesForPieceGenerator,
+                     STCheekToCheekEnforceObserverWalk);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

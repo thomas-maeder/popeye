@@ -70,6 +70,7 @@ static slice_index const slice_rank_order[] =
     STAnnanMovesForPieceGenerator,
     STFaceToFaceMovesForPieceGenerator,
     STBackToBackMovesForPieceGenerator,
+    STCheekToCheekMovesForPieceGenerator,
     STMovesForPieceBasedOnWalkGenerator,
     STTrue
 };
@@ -265,6 +266,10 @@ void generate_moves_for_piece(slice_index si, PieNam p)
 
     case STBackToBackMovesForPieceGenerator:
       backtoback_generate_moves_for_piece(si,p);
+      break;
+
+    case STCheekToCheekMovesForPieceGenerator:
+      cheektocheek_generate_moves_for_piece(si,p);
       break;
 
     case STMovesForPieceBasedOnWalkGenerator:

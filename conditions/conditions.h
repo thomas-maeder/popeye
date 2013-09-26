@@ -209,8 +209,9 @@ typedef enum
   backhome,               /* 188 */
   facetoface,             /* 189 */
   backtoback,             /* 190 */
+  cheektocheek,           /* 191 */
 
-  CondCount               /* 191 */
+  CondCount               /* 192 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

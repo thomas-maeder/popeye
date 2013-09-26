@@ -100,6 +100,10 @@ boolean validate_observation_recursive(slice_index si)
       result = backtoback_enforce_observer_walk(si);
       break;
 
+    case STCheekToCheekEnforceObserverWalk:
+      result = cheektocheek_enforce_observer_walk(si);
+      break;
+
     case STMarsCirceMovesForPieceGenerator:
       result = mars_enforce_observer(si);
       break;
@@ -340,6 +344,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAnnanEnforceObserverWalk,
     STFaceToFaceEnforceObserverWalk,
     STBackToBackEnforceObserverWalk,
+    STCheekToCheekEnforceObserverWalk,
     STBackhomeExistanceTester,
     STBackhomeRemoveIllegalMoves,
     STBeamtenMovesForPieceGenerator,
@@ -638,6 +643,7 @@ static slice_type const slice_order_is_square_observed_with_proxies[] = {
   STFindSquareObserverTrackingBackFairy,
   STFaceToFaceMovesForPieceGenerator,
   STBackToBackMovesForPieceGenerator,
+  STCheekToCheekMovesForPieceGenerator,
   STFalse
 };
 
@@ -877,6 +883,7 @@ boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
 
     case STFaceToFaceMovesForPieceGenerator:
     case STBackToBackMovesForPieceGenerator:
+    case STCheekToCheekMovesForPieceGenerator:
       result = find_square_observer_tracking_back_from_target_unoptimised(si,evaluate);
       break;
 
@@ -922,6 +929,7 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STFindSquareObserverTrackingBackFairy,
     STFaceToFaceMovesForPieceGenerator,
     STBackToBackMovesForPieceGenerator,
+    STCheekToCheekMovesForPieceGenerator,
     STFalse
 };
 

@@ -288,6 +288,7 @@ simples:
 	Retour
 	FaceAFace
 	DosADos
+	JoueAJoue
 	Disparate
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,

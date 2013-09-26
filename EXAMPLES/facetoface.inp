@@ -42,4 +42,12 @@ stip ~1
 condition BackToBack
 option nowk nobk duplex
 
+next
+
+pieces white sd5 black pe7
+stip hep1
+condition cheektocheek
+option nowk nobk
+
 end
+

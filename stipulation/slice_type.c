@@ -416,6 +416,7 @@
     ENUMERATOR(STAnnanMovesForPieceGenerator),                          \
     ENUMERATOR(STFaceToFaceMovesForPieceGenerator),                     \
     ENUMERATOR(STBackToBackMovesForPieceGenerator),                     \
+    ENUMERATOR(STCheekToCheekMovesForPieceGenerator),                   \
     ENUMERATOR(STAMUAttackCounter),                                     \
     ENUMERATOR(STAMUObservationCounter),                                \
     ENUMERATOR(STMutualCastlingRightsAdjuster),                         \
@@ -454,6 +455,7 @@
     ENUMERATOR(STAnnanEnforceObserverWalk),                             \
     ENUMERATOR(STFaceToFaceEnforceObserverWalk),                        \
     ENUMERATOR(STBackToBackEnforceObserverWalk),                        \
+    ENUMERATOR(STCheekToCheekEnforceObserverWalk),                      \
     ENUMERATOR(STPhantomIsSquareObserved),                              \
     ENUMERATOR(STPlusIsSquareObserved),                                 \
     ENUMERATOR(STMarsIsSquareObserved),                                 \

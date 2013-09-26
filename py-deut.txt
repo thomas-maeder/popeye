@@ -294,6 +294,7 @@ Kommandos:
 	NachHause
 	AngesichtZuAngesicht
 	RueckenAnRuecken
+	WangeAnWange
 	Disparate
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,

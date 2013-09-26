@@ -826,6 +826,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     facetoface_initialise_solving(result);
   if (CondFlag[backtoback])
     backtoback_initialise_solving(result);
+  if (CondFlag[cheektocheek])
+    cheektocheek_initialise_solving(result);
 
   stip_impose_starter(result,slices[result].starter);
 

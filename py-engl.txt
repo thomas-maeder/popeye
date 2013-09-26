@@ -291,6 +291,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	BackHome
 	FaceToFace
 	BackToBack
+	CheekToCheek
 	Disparate
 
 	After the conditions Imitator, MagicSquare, Hole,
