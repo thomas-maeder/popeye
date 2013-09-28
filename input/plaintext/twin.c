@@ -1419,7 +1419,10 @@ static boolean initialise_piece_flags(void)
         SavePositionInDiagram(spec[*bnp],*bnp);
 
         if (TSTFLAG(spec[*bnp],ColourChange)
-            && !is_simplehopper(p))
+            && !(is_simplehopper(p)
+                 || is_chineserider(p)
+                 || is_lion(p)
+                 || p==ContraGras))
         {
           /* relies on imitators already having been implemented */
           CLRFLAG(spec[*bnp],ColourChange);

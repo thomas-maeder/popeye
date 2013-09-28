@@ -11,6 +11,8 @@ boolean is_forwardpawn(PieNam p);
 boolean is_locust(PieNam p);
 boolean is_leaper(PieNam p);
 boolean is_rider(PieNam p);
+boolean is_chineserider(PieNam p);
+boolean is_lion(PieNam p);
 boolean is_simpledecomposedleaper(PieNam p);
 boolean is_symmetricfairy(PieNam p);
 boolean is_simplehopper(PieNam p);

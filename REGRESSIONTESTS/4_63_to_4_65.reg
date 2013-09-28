@@ -2251,3 +2251,84 @@ solution finished.
 solution finished. 
 
 
+
+added support for more hurdle colour changing piece walks
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  VA   .   .   .  LI   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  EA   6
+|                                   |
+5   .   .   .   .   .   .   .  EQ   5
+|                                   |
+4   G   .   .   .   .  -P  CG   .   4
+|                                   |
+3   .   .   .   .   .   .  -P  KP   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .  G2   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          8 + 2
+HurdleColourChanging b8 f8 h6 h5 a4 g4 h3 f1
+
+   1.hG2f1-f6[f4=w] !
+
+   1.hKPh3-d5[f4=w] !
+
+   1.hCGg4-g1[g3=w] !
+
+   1.hCGg4-g2[g3=w] !
+
+   1.hCGg4-b4[f4=w] !
+
+   1.hCGg4-c4[f4=w] !
+
+   1.hCGg4-d4[f4=w] !
+
+   1.hCGg4-e4[f4=w] !
+
+   1.hEQh5-d3[f4=w] !
+
+   1.hEQh5-h7[h6=b] !
+
+   1.hEQh5-h1[h3=b] !
+
+   1.hEQh5-f3[g4=b] !
+
+   1.hEAh6-g5[h5=b] !
+
+   1.hEAh6-e7[f8=b] !
+
+   1.hEAh6-e5[f4=w] !
+
+   1.hEAh6*g3[f4=w] !
+
+   1.hVAb8-a7 !
+
+   1.hVAb8*g3[f4=w] !
+
+   1.hVAb8-e5 !
+
+   1.hVAb8-d6 !
+
+   1.hVAb8-c7 !
+
+   1.hLIf8-f2[f4=w] !
+
+   1.hLIf8-f3[f4=w] !
+
+   1.hLIf8-a8[b8=b] !
+
+
+  add_to_move_generation_stack:          24
+                     play_move:          24
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

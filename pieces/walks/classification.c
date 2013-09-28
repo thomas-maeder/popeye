@@ -164,6 +164,36 @@ boolean is_simplehopper(PieNam p)
   }
 }
 
+boolean is_chineserider(PieNam p)
+{
+  switch (p)
+  {
+    case Leo:
+    case Pao:
+    case Vao:
+    case Nao:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
+boolean is_lion(PieNam p)
+{
+  switch (p)
+  {
+    case Lion:
+    case RookLion:
+    case BishopLion:
+    case NightRiderLion:
+      return true;
+
+    default:
+      return false;
+  }
+}
+
 boolean is_simpledecomposedleaper(PieNam p)
 {
   switch (p)

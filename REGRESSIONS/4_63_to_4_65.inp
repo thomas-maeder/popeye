@@ -450,4 +450,12 @@ condition wormhole b4f8
 stip ~1
 option nowk nobk
 
+next
+
+title added support for more hurdle colour changing piece walks
+pieces white HurdleColourChanging ga4 vab8 lif8 eah6 eqh5 kph3 cgg4 g2f1
+black pf4g3
+stip ~1
+option nowk nobk
+
 end
