@@ -79,7 +79,7 @@ void facetoface_generate_moves_for_piece(slice_index si, PieNam p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_possibly_confronted_piece(si,p,dir_confronter)
+  generate_moves_for_possibly_confronted_piece(si,p,dir_confronter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -246,7 +246,7 @@ void backtoback_generate_moves_for_piece(slice_index si, PieNam p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_possibly_confronted_piece(si,p,dir_confronter)
+  generate_moves_for_possibly_confronted_piece(si,p,dir_confronter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
