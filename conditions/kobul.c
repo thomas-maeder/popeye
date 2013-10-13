@@ -24,7 +24,8 @@ static void substitute(Side trait_ply)
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
       && kobulking[advers(trait_ply)]
-      && king_pos!=initsquare)
+      && king_pos!=initsquare
+      && king_pos!=nullsquare)
   {
     PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
     PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;

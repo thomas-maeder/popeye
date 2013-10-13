@@ -55,7 +55,7 @@ stip_length_type goal_king_capture_reached_tester_solve(slice_index si, stip_len
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,slices[si].starter,"\n");
-  if (king_square[slices[si].starter]==initsquare)
+  if (king_square[slices[si].starter]==nullsquare)
     result = solve(slices[si].next1,n);
   else
     result = n+2;

@@ -60,7 +60,8 @@ void optimise_is_in_check(slice_index si)
 static boolean no_king_check_tester_is_in_check(slice_index si,
                                                 Side side_in_check)
 {
-  if (king_square[side_in_check]==initsquare)
+  if (king_square[side_in_check]==initsquare
+      || king_square[side_in_check]==nullsquare)
     return false;
   else
     return is_in_check_recursive(slices[si].next1,side_in_check);

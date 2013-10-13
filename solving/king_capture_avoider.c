@@ -132,7 +132,7 @@ static boolean is_king_captured(Side side)
   for (curr = base; curr<top; ++curr)
     if (move_effect_journal[curr].type==move_effect_king_square_movement
         && move_effect_journal[curr].u.king_square_movement.side==side)
-      result = move_effect_journal[curr].u.king_square_movement.to==initsquare;
+      result = move_effect_journal[curr].u.king_square_movement.to==nullsquare;
 
   return result;
 }

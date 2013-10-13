@@ -277,9 +277,9 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TraceValue("%u\n",TSTFLAG(addedspec,Black));
   if (TSTFLAG(addedspec,Royal))
   {
-    if (king_square[White]==initsquare && TSTFLAG(addedspec,White))
+    if (king_square[White]==nullsquare && TSTFLAG(addedspec,White))
       move_effect_journal_do_king_square_movement(reason,White,on);
-    if (king_square[Black]==initsquare && TSTFLAG(addedspec,Black))
+    if (king_square[Black]==nullsquare && TSTFLAG(addedspec,Black))
       move_effect_journal_do_king_square_movement(reason,Black,on);
   }
 
@@ -531,9 +531,9 @@ static void do_king_square_removal(move_effect_reason_type reason,
   if (TSTFLAG(spec_captured,Royal))
   {
     if (TSTFLAG(spec_captured,White))
-      move_effect_journal_do_king_square_movement(reason,White,initsquare);
+      move_effect_journal_do_king_square_movement(reason,White,nullsquare);
     if (TSTFLAG(spec_captured,Black))
-      move_effect_journal_do_king_square_movement(reason,Black,initsquare);
+      move_effect_journal_do_king_square_movement(reason,Black,nullsquare);
   }
 }
 
