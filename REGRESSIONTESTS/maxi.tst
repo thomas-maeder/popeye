@@ -106,7 +106,7 @@ So the only cage is a1, but that is self-check.
 
 
   add_to_move_generation_stack:         476
-                     play_move:          72
+                     play_move:          64
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          63
 solution finished. 

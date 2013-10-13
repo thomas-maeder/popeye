@@ -182,7 +182,7 @@
     ENUMERATOR(STDetectMoveRetracted),                                  \
     ENUMERATOR(STRetractionPrioriser),                                  \
     ENUMERATOR(STUncapturableRemoveCaptures),                           \
-    ENUMERATOR(STNocatpureRemoveCaptures),                              \
+    ENUMERATOR(STNocaptureRemoveCaptures),                              \
     ENUMERATOR(STWoozlesRemoveIllegalCaptures),                         \
     ENUMERATOR(STBiWoozlesRemoveIllegalCaptures),                       \
     ENUMERATOR(STHeffalumpsRemoveIllegalCaptures),                      \
@@ -293,6 +293,7 @@
     ENUMERATOR(STKingCaptureLegalityTester),                            \
     ENUMERATOR(STMoveLegalityTester),                                   \
     ENUMERATOR(STCageCirceNonCapturingMoveFinder),                      \
+    ENUMERATOR(STCageCirceFutileCapturesRemover),                       \
     ENUMERATOR(STSinglePieceMoveGenerator),                             \
     ENUMERATOR(STMummerOrchestrator),                                   \
     ENUMERATOR(STMummerBookkeeper),                                     \

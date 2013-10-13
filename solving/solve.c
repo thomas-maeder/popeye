@@ -787,6 +787,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_cage_cage_tester_solve(si,n);
       break;
 
+    case STCageCirceFutileCapturesRemover:
+      result = circe_cage_futile_captures_remover_solve(si,n);
+      break;
+
     case STSentinellesInserter:
       result = sentinelles_inserter_solve(si,n);
       break;
@@ -1474,7 +1478,7 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = geneva_remove_illegal_captures_solve(si,n);
       break;
 
-    case STNocatpureRemoveCaptures:
+    case STNocaptureRemoveCaptures:
       result = nocapture_remove_captures_solve(si,n);
       break;
 

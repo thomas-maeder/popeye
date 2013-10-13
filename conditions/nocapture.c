@@ -55,7 +55,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 
   if ((*enabled)[slices[si].starter])
   {
-    slice_index const prototype = alloc_pipe(STNocatpureRemoveCaptures);
+    slice_index const prototype = alloc_pipe(STNocaptureRemoveCaptures);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 

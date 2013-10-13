@@ -1251,7 +1251,7 @@ solution finished.
 
 
   add_to_move_generation_stack:        2194
-                     play_move:         460
+                     play_move:         449
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

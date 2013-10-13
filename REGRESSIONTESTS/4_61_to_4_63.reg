@@ -202,7 +202,7 @@ strange "cages" were selected for neutral pieces
   1.Ke7-d6 Kf3-e2
 
   add_to_move_generation_stack:         749
-                     play_move:         144
+                     play_move:         141
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:         126
 solving interrupted. 
@@ -939,7 +939,7 @@ Until 4.61, Popeye would produce spurious en passant captures
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hep1                        8 + 5
-            AnnanChess    
+              AnnanChess
 
   1.BPb7-d5 b5*c6 ep.
 
@@ -973,7 +973,7 @@ Until 4.61, Popeye would generate the castling move twice
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   001                         3 + 0
-            AnnanChess    
+              AnnanChess
 
    1.0-0-0 !
 

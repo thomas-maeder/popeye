@@ -1473,7 +1473,7 @@ solution finished.
 
 
   add_to_move_generation_stack:        1390
-                     play_move:          68
+                     play_move:          66
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -1510,7 +1510,7 @@ solution finished.
 
 
   add_to_move_generation_stack:         539
-                     play_move:          67
+                     play_move:          64
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -1549,7 +1549,7 @@ solution finished.
 
 
   add_to_move_generation_stack:         414
-                     play_move:          90
+                     play_move:          87
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -1594,7 +1594,7 @@ solution finished.
 
 
   add_to_move_generation_stack:         394
-                     play_move:          94
+                     play_move:          89
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -1645,7 +1645,7 @@ cage for promoted pawn, capturer part of cage
 
 
   add_to_move_generation_stack:         374
-                     play_move:         100
+                     play_move:          90
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -1680,7 +1680,7 @@ solution finished.
   1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] #
 
   add_to_move_generation_stack:     1917494
-                     play_move:      545851
+                     play_move:      492093
  is_white_king_square_attacked:      266347
  is_black_king_square_attacked:      278579
 solution finished. 
@@ -1745,7 +1745,7 @@ never generates the same solution twice (but some solutions
   1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b
 
   add_to_move_generation_stack:       28339
-                     play_move:       17067
+                     play_move:       13256
  is_white_king_square_attacked:        2894
  is_black_king_square_attacked:        5970
 solution finished. 
@@ -1807,7 +1807,7 @@ promote to bishop (no cage for queen) even if there was a cage
   1.e2*d1=B a=>b
 
   add_to_move_generation_stack:        1829
-                     play_move:        1076
+                     play_move:         910
  is_white_king_square_attacked:         824
  is_black_king_square_attacked:           1
 solution finished. 
@@ -1950,7 +1950,7 @@ consider previous cage after advancing type of promotee
 
 
   add_to_move_generation_stack:        1700
-                     play_move:        1048
+                     play_move:         855
  is_white_king_square_attacked:         786
  is_black_king_square_attacked:          34
 solving interrupted. 

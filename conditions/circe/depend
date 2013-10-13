@@ -78,7 +78,7 @@ conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
  stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/circe/circuit_by_rebirth_special.h \
  conditions/circe/exchange_by_rebirth_special.h \
- conditions/circe/steingewinn_filter.h debugging/trace.h
+ conditions/circe/steingewinn_filter.h debugging/trace.h solving/ply.h
 
 conditions/circe/goal_filters.h:
 
@@ -129,6 +129,8 @@ conditions/circe/exchange_by_rebirth_special.h:
 conditions/circe/steingewinn_filter.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  conditions/circe/assassin.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -379,7 +381,7 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/temporary_hacks.h solving/single_piece_move_generator.h \
- solving/post_move_iteration.h debugging/trace.h
+ solving/post_move_iteration.h solving/move_generator.h debugging/trace.h
 
 conditions/circe/cage.h:
 
@@ -438,6 +440,8 @@ stipulation/temporary_hacks.h:
 solving/single_piece_move_generator.h:
 
 solving/post_move_iteration.h:
+
+solving/move_generator.h:
 
 debugging/trace.h:
 conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
@@ -1782,7 +1786,7 @@ conditions/circe/rebirth_avoider$(OBJ_SUFFIX): conditions/circe/rebirth_avoider.
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/branch.h stipulation/fork.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h
 
 conditions/circe/rebirth_avoider.h:
 
@@ -1829,3 +1833,5 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
