@@ -94,6 +94,9 @@ void stip_insert_rebirth_avoider(slice_index si, slice_type type)
   stip_structure_traversal_override_single(&st,
                                            STLandingAfterCirceRebirthHandler,
                                            &remember_landing);
+  stip_structure_traversal_override_single(&st,
+                                           STCageCirceFutileCapturesRemover,
+                                           &stip_structure_visitor_noop);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
