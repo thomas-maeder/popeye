@@ -11,12 +11,14 @@
 #include "pieces/pieces.h"
 
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct
 {
     unsigned int nr_remaining_moves[nr_sides];
     unsigned int nr_unused_masses[nr_sides];
+    piece_usage usage;
 } reserve_elmt_type;
 
 static reserve_elmt_type reserve[nr_squares_on_board];
@@ -592,6 +594,10 @@ unsigned int intelligent_count_nr_of_moves_from_to_checking(Side side,
   return result;
 }
 
+/* Count the number of moves required for promotiong a white pawn
+ * @param from_square start square of the pawn
+ * @return number of moves required
+ */
 unsigned int intelligent_count_moves_to_white_promotion(square from_square)
 {
   unsigned int result;
@@ -727,6 +733,7 @@ void intelligent_init_reservations(unsigned int nr_remaining_white_moves,
   reserve[0].nr_remaining_moves[Black] = nr_remaining_black_moves;
   reserve[0].nr_unused_masses[White] = nr_unused_white_masses;
   reserve[0].nr_unused_masses[Black] = nr_unused_black_masses;
+  reserve[0].usage = piece_is_king;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -788,6 +795,7 @@ boolean intelligent_reserve_black_masses_for_blocks(square const flights[],
     {
       push_reserve();
       reserve[curr_reserve].nr_unused_masses[Black] -= nr_flights;
+      reserve[curr_reserve].usage = piece_blocks;
       TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
       result = true;
     }
@@ -843,9 +851,12 @@ unsigned int intelligent_get_nr_remaining_moves(Side side)
 /* Test whether there are available masses for a side
  * @param side whose masses to reserve
  * @param nr_of_masses number of masses
+ * @param usage of the reserved masses
  * @return true iff nr_of_masses are available
  */
-boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses)
+boolean intelligent_reserve_masses(Side side,
+                                   unsigned int nr_of_masses,
+                                   piece_usage usage)
 {
   boolean result;
 
@@ -858,6 +869,7 @@ boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses)
   {
     push_reserve();
     reserve[curr_reserve].nr_unused_masses[side] -= nr_of_masses;
+    reserve[curr_reserve].usage = usage;
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[side]);
     result = true;
   }
@@ -888,6 +900,7 @@ boolean intelligent_reserve_pinner(void)
   {
     push_reserve();
     --reserve[curr_reserve].nr_unused_masses[White];
+    reserve[curr_reserve].usage = piece_pins;
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
     result = true;
   }
@@ -930,6 +943,7 @@ boolean intelligent_reserve_black_pawn_moves_from_to_no_promotion(square from_sq
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[Black] -= nr_of_moves;
     reserve[curr_reserve].nr_unused_masses[White] -= diffcol;
+    reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
     result = true;
@@ -969,6 +983,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_sq
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
     reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
+    reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
     result = true;
@@ -1012,6 +1027,7 @@ boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_squ
   {
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
+    reserve[curr_reserve].usage = piece_gives_check;
     TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
     result = true;
   }
@@ -1052,6 +1068,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_checking(square from_square
         push_reserve();
         reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
         reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves;
+        reserve[curr_reserve].usage = piece_is_captured;
         TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
         TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
         result = true;
@@ -1085,6 +1102,7 @@ static boolean reserve_promoting_black_pawn_moves_from_to(unsigned int min_nr_of
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[Black] -= min_nr_of_moves;
     reserve[curr_reserve].nr_unused_masses[White] -= min_diffcol;
+    reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[White]);
     result = true;
@@ -1114,6 +1132,7 @@ static boolean reserve_promoting_white_pawn_moves_from_to(unsigned int min_nr_of
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[White] -= min_nr_of_moves;
     reserve[curr_reserve].nr_unused_masses[Black] -= min_diffcol;
+    reserve[curr_reserve].usage = piece_is_captured;
     TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
     TraceValue("%u\n",reserve[curr_reserve].nr_unused_masses[Black]);
     result = true;
@@ -1232,6 +1251,7 @@ static boolean reserve_king_moves_from_to(Side side, unsigned int nr_of_moves)
   {
     push_reserve();
     reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
+    reserve[curr_reserve].usage = piece_is_king;
     TraceEnumerator(Side,side,"");
     TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[side]);
     result = true;
@@ -1323,6 +1343,7 @@ boolean intelligent_reserve_front_check_by_officer(square from_square,
     {
       push_reserve();
       reserve[curr_reserve].nr_remaining_moves[White] -= nr_of_moves+1;
+      reserve[curr_reserve].usage = piece_gives_check;
       TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
       result = true;
     }
@@ -1362,6 +1383,7 @@ boolean intelligent_reserve_officer_moves_from_to(Side side,
     {
       push_reserve();
       reserve[curr_reserve].nr_remaining_moves[side] -= nr_of_moves;
+      reserve[curr_reserve].usage = reserve[curr_reserve-1].usage;
       TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[side]);
       result = true;
     }
@@ -1409,6 +1431,7 @@ boolean intelligent_reserve_front_check_by_pawn_with_capture(square from_square,
         reserve[curr_reserve].nr_remaining_moves[White] -= to_via+1;
         reserve[curr_reserve].nr_unused_masses[Black] -= diffcol+1;
         reserve[curr_reserve].nr_remaining_moves[Black] -= time_capturee;
+        reserve[curr_reserve].usage = piece_is_captured;
         TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
         TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[Black]);
         TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
@@ -1450,6 +1473,7 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
       push_reserve();
       reserve[curr_reserve].nr_remaining_moves[White] -= to_via+1;
       reserve[curr_reserve].nr_unused_masses[Black] -= diffcol;
+      reserve[curr_reserve].usage = piece_is_captured;
       TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
       TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[White]);
       result = true;
@@ -1539,6 +1563,7 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
         reserve[curr_reserve].nr_remaining_moves[Black] -= 1;
         reserve[curr_reserve].nr_unused_masses[Black] -= diffcol+1;
         reserve[curr_reserve].nr_remaining_moves[White] -= to_via+1;
+        reserve[curr_reserve].usage = piece_is_captured;
         TraceValue("%u",reserve[curr_reserve].nr_unused_masses[Black]);
         TraceValue("%u",reserve[curr_reserve].nr_remaining_moves[White]);
         TraceValue("%u\n",reserve[curr_reserve].nr_remaining_moves[Black]);
@@ -1551,4 +1576,22 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Dump the move and mass allocations for debugging
+ */
+void intelligent_dump_reservations(void)
+{
+  unsigned int i = 0;
+  printf("reservations:\n");
+  for (i = 0; i<=curr_reserve; ++i)
+  {
+    printf("%u  remaining moves:w:%u/b:%u  unused masses:w:%u/b:%u  mass usage:%s\n",
+           i,
+           reserve[i].nr_remaining_moves[White],
+           reserve[i].nr_remaining_moves[Black],
+           reserve[i].nr_unused_masses[White],
+           reserve[i].nr_unused_masses[Black],
+           piece_usage_names[reserve[i].usage]);
+  }
 }

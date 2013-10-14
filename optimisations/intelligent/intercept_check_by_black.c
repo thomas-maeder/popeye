@@ -216,13 +216,13 @@ void intelligent_intercept_check_by_black(int dir_from_rider, void (*go_on)(void
   TraceFunctionParam("%d",dir_from_rider);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(Black,1))
+  if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
     black_piece(dir_from_rider,go_on);
     intelligent_unreserve();
   }
 
-  if (intelligent_reserve_masses(White,1))
+  if (intelligent_reserve_masses(White,1,piece_intercepts))
   {
     white_piece(dir_from_rider,go_on);
     intelligent_unreserve();

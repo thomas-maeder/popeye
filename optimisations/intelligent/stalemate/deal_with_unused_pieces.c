@@ -21,7 +21,7 @@ static void place_some_piece_on(square where_to_place)
   TraceSquare(where_to_place);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(Black,1))
+  if (intelligent_reserve_masses(Black,1,piece_blocks))
   {
     unsigned int i;
     for (i = 1; i<MaxPiece[Black]; ++i)

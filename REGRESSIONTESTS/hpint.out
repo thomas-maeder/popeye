@@ -319,12 +319,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 8 moegliche Stellungen in 2+2
   1.Td7-e7 Td4-d8 +   2.Lg6-e8 De4-b4   3.Tg3-g7 Le3-h6 =
-1446 moegliche Stellungen in 3+3
+1445 moegliche Stellungen in 3+3
 
-  add_to_move_generation_stack:     5829651
-                     play_move:     5820330
+  add_to_move_generation_stack:     5828800
+                     play_move:     5819479
  is_white_king_square_attacked:        8637
- is_black_king_square_attacked:     4665940
+ is_black_king_square_attacked:     4665157
 Loesung beendet. 
 
 
@@ -1162,12 +1162,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 17 moegliche Stellungen in 2+2
   1.h2-h1=S Te1-b1   2.c2-c1=L g7-g8=D   3.a2*b1=T Dg8-b3 =
-4586 moegliche Stellungen in 3+3
+4576 moegliche Stellungen in 3+3
 
-  add_to_move_generation_stack:     2759601
-                     play_move:     2369808
+  add_to_move_generation_stack:     2759453
+                     play_move:     2369540
  is_white_king_square_attacked:       15703
- is_black_king_square_attacked:     1936409
+ is_black_king_square_attacked:     1936371
 Loesung beendet. 
 
 
@@ -1236,12 +1236,12 @@ Loesung beendet.
 0 moegliche Stellungen in 1+1
 4 moegliche Stellungen in 2+2
   1.h2-h1=S Dc1-b1   2.a2*b1=T e7-e8=D   3.c2-c1=L De8*a4 =
-9408 moegliche Stellungen in 3+3
+9394 moegliche Stellungen in 3+3
 
-  add_to_move_generation_stack:    38535660
-                     play_move:    28956571
+  add_to_move_generation_stack:    38535376
+                     play_move:    28956077
  is_white_king_square_attacked:        2759
- is_black_king_square_attacked:    28558824
+ is_black_king_square_attacked:    28558708
 Loesung beendet. 
 
 
@@ -1312,10 +1312,10 @@ Loesung beendet.
   1.e2-e1=L b7-b8=D   2.h2-h1=S Db8*f4   3.b2*a1=T Df4-d2 =
 10834 moegliche Stellungen in 3+3
 
-  add_to_move_generation_stack:     5962086
-                     play_move:     4571320
+  add_to_move_generation_stack:     5962064
+                     play_move:     4571298
  is_white_king_square_attacked:       14512
- is_black_king_square_attacked:     3807819
+ is_black_king_square_attacked:     3807797
 Loesung beendet. 
 
 
@@ -4694,10 +4694,10 @@ Loesung beendet.
   1.Tg6-h6 Sc4*e3   2.Th6-h2 Se3-c4   3.Th2*g2 Kf1*g2 =
 6608 moegliche Stellungen in 3+3
 
-  add_to_move_generation_stack:    30542571
-                     play_move:    27720199
+  add_to_move_generation_stack:    30539028
+                     play_move:    27717317
  is_white_king_square_attacked:       63960
- is_black_king_square_attacked:    24439754
+ is_black_king_square_attacked:    24436872
 Loesung beendet. 
 
 

@@ -193,7 +193,7 @@ void intercept_check_on_guarded_square(square to_be_intercepted)
   TraceSquare(to_be_intercepted);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(White,1))
+  if (intelligent_reserve_masses(White,1,piece_intercepts_check_from_guard))
   {
     for (intercepter_index = 1;
          intercepter_index<MaxPiece[White];
@@ -299,7 +299,7 @@ void intelligent_intercept_orthogonal_check_by_pin(square placed_on)
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(Black,1))
+  if (intelligent_reserve_masses(Black,1,piece_intercepts_check_from_guard))
   {
     unsigned int placed_index;
     for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)

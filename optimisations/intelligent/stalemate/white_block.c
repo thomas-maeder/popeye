@@ -17,7 +17,7 @@ void intelligent_stalemate_white_block(square to_be_blocked)
   TraceSquare(to_be_blocked);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(White,1))
+  if (intelligent_reserve_masses(White,1,piece_blocks))
   {
     unsigned int blocker_index;
     for (blocker_index = 0; blocker_index<MaxPiece[White]; ++blocker_index)

@@ -3,10 +3,16 @@
 
 #include "pieces/pieces.h"
 #include "position/position.h"
+#include "optimisations/intelligent/intelligent.h"
 #include "utilities/boolean.h"
 
 extern int const minimum_number_knight_moves[];
 
+/* Count the number of moves required for promotiong a white pawn
+ * @param from_square start square of the pawn
+ * @return number of moves required if promotion is possible
+ *         an absurdly high number otherwise
+ */
 unsigned int intelligent_count_moves_to_white_promotion(square from_square);
 
 /* Tests if a specific checking white sequence of moves by the same black pawn
@@ -81,9 +87,12 @@ unsigned int intelligent_get_nr_remaining_moves(Side side);
 /* Test whether there are available masses for a side
  * @param side whose masses to reserve
  * @param nr_of_masses number of masses
+ * @param usage of the reserved masses
  * @return true iff nr_of_masses are available
  */
-boolean intelligent_reserve_masses(Side side, unsigned int nr_of_masses);
+boolean intelligent_reserve_masses(Side side,
+                                   unsigned int nr_of_masses,
+                                   piece_usage usage);
 
 /* Test whether a white pinner is available
  * @return true iff a white pinner is available
@@ -225,5 +234,9 @@ boolean intelligent_reserve_double_check_by_enpassant_capture(square from_square
 /* Undo a reservation
  */
 void intelligent_unreserve(void);
+
+/* Dump the move and mass allocations for debugging
+ */
+void intelligent_dump_reservations(void);
 
 #endif

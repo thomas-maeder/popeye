@@ -346,7 +346,7 @@ void intelligent_mate_generate_checking_moves(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(White,1))
+  if (intelligent_reserve_masses(White,1,piece_gives_check))
   {
     for (index = 1; index<MaxPiece[White]; ++index)
     {

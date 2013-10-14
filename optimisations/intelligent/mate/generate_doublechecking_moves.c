@@ -909,17 +909,12 @@ void intelligent_mate_generate_doublechecking_moves(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(White,2))
+  if (intelligent_reserve_masses(White,2,piece_gives_check))
   {
     battery();
+    en_passant(square_a4,square_h4,dir_up);
+    en_passant(square_a6,square_h6,dir_down);
     intelligent_unreserve();
-
-    if (intelligent_reserve_masses(White,3))
-    {
-      en_passant(square_a4,square_h4,dir_up);
-      en_passant(square_a6,square_h6,dir_down);
-      intelligent_unreserve();
-    }
   }
 
   TraceFunctionExit(__func__);

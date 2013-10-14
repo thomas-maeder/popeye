@@ -77,7 +77,7 @@ void intelligent_stalemate_black_block(square const to_be_blocked[8],
 
   assert(nr_to_be_blocked>0);
 
-  if (intelligent_reserve_masses(Black,nr_to_be_blocked))
+  if (intelligent_reserve_masses(Black,nr_to_be_blocked,piece_blocks))
   {
     square const *save_being_blocked = being_blocked;
     unsigned int const save_nr_being_blocked = nr_being_blocked;

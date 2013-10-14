@@ -853,7 +853,7 @@ void intelligent_continue_guarding_flights(void)
 
   if (!max_nr_solutions_found_in_phase() && !hasMaxtimeElapsed())
   {
-    if (intelligent_reserve_masses(White,1))
+    if (intelligent_reserve_masses(White,1,piece_guards))
     {
       unsigned int const save_index_guarder = index_of_guarding_piece;
 
@@ -885,7 +885,7 @@ static void king()
 
   if (white[index_of_king].usage==piece_is_unused)
   {
-    if (intelligent_reserve_masses(White,1))
+    if (intelligent_reserve_masses(White,1,piece_guards))
     {
       square const comes_from = white[index_of_king].diagram_square;
       square const *bnp;

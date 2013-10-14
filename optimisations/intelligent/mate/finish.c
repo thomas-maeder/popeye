@@ -25,7 +25,7 @@ static void place_any_black_piece_on(square placed_on)
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(Black,1))
+  if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
     for (placed_index = 1; placed_index<MaxPiece[Black]; ++placed_index)
       if (black[placed_index].usage==piece_is_unused)
@@ -148,15 +148,10 @@ static void fix_white_king_on_diagram_square(void)
   TraceFunctionParamListEnd();
 
   if (is_square_empty(king_diagram_square)
-      && nr_reasons_for_staying_empty[king_diagram_square]==0)
+      && nr_reasons_for_staying_empty[king_diagram_square]==0
+      && intelligent_reserve_masses(White,1,piece_is_king))
   {
-#if !defined(NDEBUG)
-    boolean const king_mass_available =
-#endif
-    intelligent_reserve_masses(White,1);
-
-    assert(king_mass_available);
-    white[index_of_king].usage = piece_is_fixed_to_diagram_square;
+    white[index_of_king].usage = piece_is_king;
     intelligent_place_white_king(king_diagram_square,
                                  &intelligent_mate_test_target_position);
     white[index_of_king].usage = piece_is_unused;

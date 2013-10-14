@@ -136,13 +136,13 @@ void intelligent_intercept_black_move(square from, square to,
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(Black,1))
+  if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
     black_piece(from,to,go_on);
     intelligent_unreserve();
   }
 
-  if (intelligent_reserve_masses(White,1))
+  if (intelligent_reserve_masses(White,1,piece_intercepts))
   {
     white_piece(from,to,go_on);
     intelligent_unreserve();

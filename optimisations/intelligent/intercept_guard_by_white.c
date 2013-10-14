@@ -172,13 +172,18 @@ static void white_piece_on(square where_to_intercept,
   TraceFunctionParam("%u",is_diagonal);
   TraceFunctionParamListEnd();
 
-  for (intercepter_index = 1; intercepter_index<MaxPiece[White]; ++intercepter_index)
+  for (intercepter_index = 0; intercepter_index<MaxPiece[White]; ++intercepter_index)
     if (white[intercepter_index].usage==piece_is_unused)
     {
       white[intercepter_index].usage = piece_intercepts;
 
       switch (white[intercepter_index].type)
       {
+        case King:
+          intelligent_place_white_king(where_to_intercept,
+                                       go_on);
+          break;
+
         case Queen:
           break;
 
@@ -262,16 +267,13 @@ void intelligent_intercept_guard_by_white(square target,
   TraceFunctionParam("%d",dir_from_rider);
   TraceFunctionParamListEnd();
 
-  if (intelligent_reserve_masses(Black,1))
+  if (intelligent_reserve_masses(Black,1,piece_intercepts))
   {
     black_piece(target,dir_from_rider,go_on);
     intelligent_unreserve();
   }
 
-  if (white[index_of_king].usage==piece_is_unused)
-    white_king(target,dir_from_rider,go_on);
-
-  if (intelligent_reserve_masses(White,1))
+  if (intelligent_reserve_masses(White,1,piece_intercepts))
   {
     white_piece(target,dir_from_rider,go_on);
     intelligent_unreserve();
