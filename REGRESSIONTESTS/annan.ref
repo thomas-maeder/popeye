@@ -23,7 +23,7 @@ cooked, even with suggestion +WPb6 in Chessics #8
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 3
-            AnnanChess    
+              AnnanChess
 
    1.Rc3-b2 ! zugzwang.
       1...Kb5-a4
@@ -98,7 +98,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         2 + 2
-            AnnanChess    
+              AnnanChess
 
   1.Ke3-e2 Sf2-e4   2.Sf5-e3 Ke5-f3 +   3.Ke2-g1 Se4-g5   4.Se3-g2 + Kf3-f2 #
 
@@ -133,7 +133,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                         2 + 3
-            AnnanChess    
+              AnnanChess
 
    1.Rg4-g2 ! zugzwang.
       1...h3*g2 +
@@ -172,7 +172,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                         7 + 6
-            AnnanChess    
+              AnnanChess
 
    1.c4-c5 ! zugzwang.
       1...Sb6*c5
@@ -216,7 +216,7 @@ ddlkl
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 3
-            AnnanChess    
+              AnnanChess
 
   1.Kd3-c4 Kb2-c1   2.Kc4-d4 Re6-e3   3.Kd4-a1 Re3-a3 #
   1.Kd3-c4 Kb2-c1   2.Kc4-d4 Re6-e4 +   3.Kd4-a1 Re4-a4 #
@@ -254,7 +254,7 @@ solving interrupted.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
-            AnnanChess    
+              AnnanChess
 
    1.Ba1-f6 ! zugzwang.
       1...Kh7-h8
@@ -292,7 +292,7 @@ Chessics #4 1977 / The Problemist, may 2007
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 2
-            AnnanChess    
+              AnnanChess
 
 a) 
 
@@ -337,7 +337,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 2
-            AnnanChess    
+              AnnanChess
 
   1.Kh8-g7 Bb8-a7   2.Kg7-a1 Ka8-e4   3.Bg8-a2 Ba7-d4 #
 
@@ -373,7 +373,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#13                    4 + 2
-            AnnanChess    
+              AnnanChess
 
   1.Ka8-b7   2.Kb7-d5   3.Bb8-e5   4.Be5-d4   5.Bd4-e4   6.Kd5-e5   7.Ke5-f4   8.Be4*f3   9.Bf3-g3  10.Kf4-e4  11.Bg3-e5  12.Ke4-a8  13.Be5-b8 Bg4-f3 #
 
