@@ -71,6 +71,7 @@ boolean validate_observation_recursive(slice_index si)
     case STEnforceObserverWalk:
     {
       square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+      TracePiece(observing_walk[nbply]);TraceText("\n");
       if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
         result = validate_observation_recursive(slices[si].next1);
       else
@@ -81,6 +82,7 @@ boolean validate_observation_recursive(slice_index si)
     case STEnforceObserverSide:
     {
       square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+      TraceEnumerator(Side,trait[nbply],"");TraceText("\n");
       if (TSTFLAG(spec[sq_departure],trait[nbply]))
         result = validate_observation_recursive(slices[si].next1);
       else

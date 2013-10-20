@@ -16,6 +16,7 @@ static boolean is_mover_supported(numecoup n)
   siblingply(trait[nbply]);
   current_move[nbply] = current_move[nbply-1]+1;
   move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
+  TraceSquare(move_generation_stack[current_move[nbply]-1].capture);TraceText("\n");
   result = is_square_observed(&validate_observer);
   finply();
 

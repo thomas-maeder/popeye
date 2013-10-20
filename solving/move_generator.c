@@ -324,8 +324,11 @@ static void genmove(void)
     for (j = nr_files_on_board; j>0; j--)
     {
       if (TSTFLAG(spec[curr_generation->departure],side))
+      {
+        TraceSquare(curr_generation->departure);TraceText("\n");
         generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2,
                                  get_walk_of_piece_on_square(curr_generation->departure));
+      }
       curr_generation->departure += dir_left;
     }
   }
