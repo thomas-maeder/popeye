@@ -10,13 +10,11 @@
 PieNam orphanpieces[PieceCount];
 
 static boolean orphan_find_observation_chain(square sq_target,
-                                             PieNam orphan_observer,
-                                             evalfunction_t *evaluate);
+                                             PieNam orphan_observer);
 
 static boolean find_next_orphan_in_chain(square sq_target,
                                          square const pos_orphans[],
-                                         PieNam orphan_observer,
-                                         evalfunction_t *evaluate)
+                                         PieNam orphan_observer)
 {
   boolean result = false;
   unsigned int orphan_id;
@@ -33,13 +31,11 @@ static boolean find_next_orphan_in_chain(square sq_target,
     isolate_observee(Orphan,pos_orphans,orphan_id);
     move_generation_stack[current_move[nbply]-1].capture = sq_target;
     observing_walk[nbply] = Orphan;
-    does_orphan_observe = (*checkfunctions[orphan_observer])(evaluate);
+    does_orphan_observe = (*checkfunctions[orphan_observer])(&validate_observer);
     restore_observees(Orphan,pos_orphans);
 
     if (does_orphan_observe
-        && orphan_find_observation_chain(pos_orphans[orphan_id],
-                                         orphan_observer,
-                                         evaluate))
+        && orphan_find_observation_chain(pos_orphans[orphan_id],orphan_observer))
     {
       result = true;
       break;
@@ -53,8 +49,7 @@ static boolean find_next_orphan_in_chain(square sq_target,
 }
 
 static boolean orphan_find_observation_chain(square sq_target,
-                                             PieNam orphan_observer,
-                                             evalfunction_t *evaluate)
+                                             PieNam orphan_observer)
 {
   boolean result;
 
@@ -79,10 +74,7 @@ static boolean orphan_find_observation_chain(square sq_target,
     {
       square pos_orphans[63];
       locate_observees(Orphan,pos_orphans);
-      result = find_next_orphan_in_chain(sq_target,
-                                         pos_orphans,
-                                         orphan_observer,
-                                         evaluate);
+      result = find_next_orphan_in_chain(sq_target,pos_orphans,orphan_observer);
     }
 
     occupy_square(sq_target,Orphan,spec[sq_target]);
@@ -111,9 +103,8 @@ void orphan_generate_moves(void)
 
       siblingply(trait[nbply]);
       current_move[nbply] = current_move[nbply-1]+1;
-            found_chain = orphan_find_observation_chain(curr_generation->departure,
-                                                        *orphan_observer,
-                                                        &validate_observation);
+      found_chain = orphan_find_observation_chain(curr_generation->departure,
+                                                  *orphan_observer);
       finply();
 
       if (found_chain)
@@ -144,10 +135,7 @@ boolean orphan_check(evalfunction_t *evaluate)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
     {
       TracePiece(*orphan_observer);TraceText("\n");
-      if (find_next_orphan_in_chain(sq_target,
-                                    pos_orphans,
-                                    *orphan_observer,
-                                    evaluate))
+      if (find_next_orphan_in_chain(sq_target,pos_orphans,*orphan_observer))
       {
         result = true;
         break;

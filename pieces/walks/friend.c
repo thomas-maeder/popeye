@@ -37,15 +37,14 @@ void restore_observees(PieNam walk, square const pos_observees[])
     occupy_square(pos_observees[orphan_id],walk,spec[pos_observees[orphan_id]]);
 }
 
-boolean find_next_friend_in_chain(square sq_target,
-                                  PieNam friend_observer,
-                                  evalfunction_t *evaluate)
+static boolean find_next_friend_in_chain(square sq_target,
+                                         PieNam friend_observer)
 {
   boolean result = false;
 
   move_generation_stack[current_move[nbply]-1].capture = sq_target;
   observing_walk[nbply] = friend_observer;
-  if ((*checkfunctions[friend_observer])(evaluate))
+  if ((*checkfunctions[friend_observer])(&validate_observer))
     result = true;
   else
   {
@@ -66,11 +65,11 @@ boolean find_next_friend_in_chain(square sq_target,
         isolate_observee(Friend,pos_remaining_friends,k);
         move_generation_stack[current_move[nbply]-1].capture = sq_target;
         observing_walk[nbply] = Friend;
-        is_friend_observed = (*checkfunctions[friend_observer])(evaluate);
+        is_friend_observed = (*checkfunctions[friend_observer])(&validate_observer);
         restore_observees(Friend,pos_remaining_friends);
 
         if (is_friend_observed
-            && find_next_friend_in_chain(pos_remaining_friends[k],friend_observer,evaluate))
+            && find_next_friend_in_chain(pos_remaining_friends[k],friend_observer))
         {
           result = true;
           break;
@@ -101,9 +100,8 @@ void friend_generate_moves(void)
 
       siblingply(trait[nbply]);
       current_move[nbply] = current_move[nbply-1]+1;
-            found_chain = find_next_friend_in_chain(curr_generation->departure,
-                                                    *friend_observer,
-                                                    &validate_observation);
+      found_chain = find_next_friend_in_chain(curr_generation->departure,
+                                              *friend_observer);
       finply();
 
       if (found_chain)
@@ -144,7 +142,7 @@ boolean friend_check(evalfunction_t *evaluate)
         restore_observees(Friend,pos_friends);
 
         if (does_friend_observe
-            && find_next_friend_in_chain(pos_friends[k],*pfr,evaluate))
+            && find_next_friend_in_chain(pos_friends[k],*pfr))
         {
           result = true;
           break;
