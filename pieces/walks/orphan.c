@@ -67,7 +67,7 @@ static boolean orphan_find_observation_chain(square sq_target,
 
   move_generation_stack[current_move[nbply]-1].capture = sq_target;
   observing_walk[nbply] = orphan_observer;
-  if ((*checkfunctions[orphan_observer])(evaluate))
+  if ((*checkfunctions[orphan_observer])(&validate_observer))
     result = true;
   else if (number_of_pieces[trait[nbply]][Orphan]==0)
     result = false;
@@ -141,14 +141,17 @@ boolean orphan_check(evalfunction_t *evaluate)
   move_generation_stack[current_move[nbply]-1].capture = sq_target;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
-    if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0
-        && find_next_orphan_in_chain(sq_target,
-                                     pos_orphans,
-                                     *orphan_observer,
-                                     evaluate))
+    if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
     {
-      result = true;
-      break;
+      TracePiece(*orphan_observer);TraceText("\n");
+      if (find_next_orphan_in_chain(sq_target,
+                                    pos_orphans,
+                                    *orphan_observer,
+                                    evaluate))
+      {
+        result = true;
+        break;
+      }
     }
 
   finply();

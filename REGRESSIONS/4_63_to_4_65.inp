@@ -458,4 +458,15 @@ black pf4g3
 stip ~1
 option nowk nobk
 
+next
+
+title Until 4.63, Popeye gave a solution starting with 1.Rh8-h2=w, ignoring
+title the self-check
+Author P. Harris
+Origin JuliasFairies 2013
+Pieces white Oa2 black Ka1 Ra8h8
+Stipulation h#5          
+Condition AntiAndernachChess UltraPatrol
+Option NoWk           
+
 end
