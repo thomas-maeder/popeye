@@ -906,12 +906,9 @@ char *ParseCond(void)
       case antisymmetrie:
       case antispiegelfile:
       case antisuper:
-        anyanticirce= true;
-        break;
       case antiantipoden:
       case antiequipollents:
         anyanticirce= true;
-        anyanticirprom = true;
         break;
 
         /* different types of immunchess */
@@ -1278,7 +1275,6 @@ void InitCond(void)
   anycirce = false;
   anyimmun = false;
   anyanticirce = false;
-  anyanticirprom = false;
   anymars = false;
   anyantimars = false;
   anygeneva = false;

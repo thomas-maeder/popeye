@@ -3,7 +3,7 @@
 boolean CondFlag[CondCount];
 boolean ExtraCondFlag[ExtraCondCount];
 
-boolean anycirce, anycirprom, anyanticirce, anyanticirprom, anyimmun, anyclone, anygeneva;
+boolean anycirce, anycirprom, anyanticirce, anyimmun, anyclone, anygeneva;
 
 square royal_square[nr_sides];
 

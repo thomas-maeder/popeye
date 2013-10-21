@@ -447,20 +447,23 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       anticirce_initialise_solving(result,
                                    STFileCirceDetermineRebirthSquare);
     else if (CondFlag[antiantipoden])
+    {
       anticirce_initialise_solving(result,
                                    STAntipodesCirceDetermineRebirthSquare);
+      anticirce_instrument_solving(result,STPawnPromoter);
+    }
     else if (CondFlag[antiequipollents])
+    {
       anticirce_initialise_solving(result,
                                    STCirceEquipollentsDetermineRebirthSquare);
+      anticirce_instrument_solving(result,STPawnPromoter);
+    }
     else
       anticirce_initialise_solving(result,STCirceDetermineRebirthSquare);
 
     if (CondFlag[antispiegel]
         || CondFlag[antispiegelfile])
       anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
-
-    if (anyanticirprom)
-      anticirce_instrument_solving(result,STPawnPromoter);
   }
   if (AntiCirceType==AntiCirceTypeCheylan)
     anticirce_cheylan_initialise_solving(result);
