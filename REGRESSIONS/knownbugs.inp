@@ -9,11 +9,4 @@ stip ~1
 condition anticirce circe immun
 option nowk nobk
 
-next
-
-title since 4.51, the 2nd line wasn't written any more
-piece white ph3 pa3f5c3 ba1 black kh5 pa4c2c4f6h4
-stip ser-=4
-option nowk
-
 end
