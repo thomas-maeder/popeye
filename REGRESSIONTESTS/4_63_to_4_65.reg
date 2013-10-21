@@ -2369,3 +2369,38 @@ Until 4.63, Popeye gave a solution starting with 1.Rh8-h2=w, ignoring
 solution finished. 
 
 
+
+     4.63 also gives 1.d2*c3 # !
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   . -KL   .  KL   .   .   8
+|                                   |
+7   B   .   . -AL   .   .   . -KL   7
+|                                   |
+6   P   .   .   .   .  -P   .   .   6
+|                                   |
+5  -R  -P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .  -P   .  -S   .   4
+|                                   |
+3  KL   .  -P   . -BM   P  -S   .   3
+|                                   |
+2   .   .   Q   P  -K   .   .   .   2
+|                                   |
+1  RN   .   .  KL   .  -B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                        10 + 14
+              ImmunChess
+
+   1.d2*e3 # !
+
+
+  add_to_move_generation_stack:          81
+                     play_move:          76
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          77
+solution finished. 
+
+
