@@ -905,11 +905,11 @@ char *ParseCond(void)
       case antifile:
       case antisymmetrie:
       case antispiegelfile:
+      case antisuper:
         anyanticirce= true;
         break;
       case antiantipoden:
       case antiequipollents:
-      case antisuper:
         anyanticirce= true;
         anyanticirprom = true;
         break;
