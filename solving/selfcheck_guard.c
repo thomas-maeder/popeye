@@ -526,6 +526,7 @@ void stip_insert_selfcheck_guards(slice_index si)
 
   stip_impose_starter(si,slices[si].starter);
   insert_in_branch_guards(si);
+  stip_impose_starter(si,slices[si].starter);
   insert_guards_in_immobility_testers(si);
   stip_impose_starter(si,slices[si].starter);
   instrument_move_inverters(si);
