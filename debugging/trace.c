@@ -173,7 +173,10 @@ void TracePointerValueImpl(char const *format, void const *value)
 void TraceText(char const *text)
 {
   if (level<=max_level)
+  {
     fprintf(stdout,"  #%lu %s",level,text);
+    fflush(stdout);
+  }
 
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
@@ -189,7 +192,10 @@ void TraceEnumeratorImpl(char const *format,
                          unsigned int value)
 {
   if (level<=max_level)
+  {
     fprintf(stdout,format,enumerator_name,value);
+    fflush(stdout);
+  }
 
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
