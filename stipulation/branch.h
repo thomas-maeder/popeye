@@ -16,7 +16,7 @@ slice_index alloc_branch(slice_type type,
                          stip_length_type length,
                          stip_length_type min_length);
 
-/* Find the next1 slice with a specific type in a branch
+/* Find the next slice with a specific type in a branch
  * @param type type of slice to be found
  * @param si identifies the slice where to start searching
  * @param context context at start of traversal
