@@ -32,6 +32,13 @@ static unsigned int get_slice_rank_recursive(slice_type type,
   unsigned int result = no_slice_rank;
   unsigned int i;
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",state->base_rank);
+  TraceValue("%u\n",state->nr_slice_rank_order_elmts);
+
   for (i = 0; i!=state->nr_slice_rank_order_elmts; ++i)
     if (state->slice_rank_order[(i+state->base_rank)%state->nr_slice_rank_order_elmts]==type)
     {
@@ -39,6 +46,9 @@ static unsigned int get_slice_rank_recursive(slice_type type,
       break;
     }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -48,6 +58,13 @@ static unsigned int get_slice_rank_nonrecursive(slice_type type,
   unsigned int result = no_slice_rank;
   unsigned int i;
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  TraceValue("%u",state->base_rank);
+  TraceValue("%u\n",state->nr_slice_rank_order_elmts);
+
   for (i = state->base_rank; i!=state->nr_slice_rank_order_elmts; ++i)
     if (state->slice_rank_order[i]==type)
     {
@@ -55,6 +72,9 @@ static unsigned int get_slice_rank_nonrecursive(slice_type type,
       break;
     }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
