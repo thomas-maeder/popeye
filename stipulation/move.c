@@ -48,13 +48,14 @@ static slice_index const move_slice_rank_order[] =
     STPawnPromoter,
     STChameleonChangePromoteeInto,
     STHauntedChessGhostSummoner,
-    STLandingAfterMovingPawnPromoter,
+    STLandingAfterPawnPromotion,
     STFootballChessSubsitutor,
     STLineChameleonArrivingAdjuster,
     STNorskArrivingAdjuster,
     STWormholeTransferer,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
+    STLandingAfterPawnPromotion,
     STEnPassantAdjuster,
     STEinsteinEnPassantAdjuster,
     STPhantomChessEnPassantAdjuster,
@@ -88,6 +89,7 @@ static slice_index const move_slice_rank_order[] =
     STAnticircePlaceRebornRelaxed,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
+    STLandingAfterPawnPromotion,
     STLandingAfterAnticirceRebirth,
     STTibetSideChanger,
     STDoubleTibetSideChanger,
@@ -131,6 +133,7 @@ static slice_index const move_slice_rank_order[] =
     STCircePlaceReborn,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
+    STLandingAfterPawnPromotion,
     STCirceDoubleAgentsAdaptRebornPiece,
     STCirceTraitorSideChanger,
     STCirceVolageRecolorer,
@@ -174,8 +177,23 @@ static slice_index const move_slice_rank_order[] =
 
 enum
 {
-  nr_move_slice_rank_order_elmts = sizeof move_slice_rank_order / sizeof move_slice_rank_order[0]
+  nr_move_slice_rank_order_elmts = sizeof move_slice_rank_order / sizeof move_slice_rank_order[0],
+  nr_exit_slice_types = 3
 };
+
+/* Determine whether a slice type contributes to the execution of moves
+ * @param type slice type
+ * @return true iff type is a slice type that contributes to the execution of moves
+ */
+boolean is_move_slice_type(slice_type type)
+{
+  unsigned int i;
+  for (i = 0; i!=nr_move_slice_rank_order_elmts-nr_exit_slice_types; ++i)
+    if (type==move_slice_rank_order[i])
+      return true;
+
+  return false;
+}
 
 /* Start inserting according to the slice type order for move execution
  * @param si identifies starting point of insertion

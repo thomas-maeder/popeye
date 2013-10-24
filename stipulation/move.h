@@ -7,6 +7,12 @@
 /* This module plays deals with moves
  */
 
+/* Determine whether a slice type contributes to the execution of moves
+ * @param type slice type
+ * @return true iff type is a slice type that contributes to the execution of moves
+ */
+boolean is_move_slice_type(slice_type type);
+
 /* Start inserting according to the slice type order for move execution
  * @param si identifies starting point of insertion
  * @param st insertion traversal where we come from and will return to
