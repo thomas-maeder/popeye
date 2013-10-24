@@ -569,7 +569,7 @@ void stip_structure_traversal_init(stip_structure_traversal *st, void *param)
  * @param param parameter to be passed t operations
  */
 void stip_structure_traversal_init_nested(stip_structure_traversal *st,
-                                          stip_structure_traversal *parent,
+                                          stip_structure_traversal const *parent,
                                           void *param)
 {
   {
