@@ -39,9 +39,10 @@
     ENUMERATOR(STMovePlayer),                                          \
     ENUMERATOR(STCastlingPlayer),                                      \
     ENUMERATOR(STEnPassantAdjuster),                                   \
-    ENUMERATOR(STPawnPromoter),                                  \
+    ENUMERATOR(STPawnPromoter),                                        \
     ENUMERATOR(STFootballChessSubsitutor),                             \
-    ENUMERATOR(STLandingAfterMovingPawnPromoter),                      \
+    ENUMERATOR(STBeforePawnPromotion),                                 \
+    ENUMERATOR(STLandingAfterPawnPromotion),                           \
     ENUMERATOR(STNullMovePlayer),                                      \
     ENUMERATOR(STLandingAfterMovingPieceMovement),                     \
     ENUMERATOR(STLandingAfterMovePlay),                                \
@@ -269,7 +270,7 @@
     ENUMERATOR(STOscillatingKingsTypeA), \
     ENUMERATOR(STOscillatingKingsTypeB), \
     ENUMERATOR(STOscillatingKingsTypeC), \
-    ENUMERATOR(STMovingPawnToImitatorPromoter),                        \
+    ENUMERATOR(STPawnToImitatorPromoter),                             \
     /* other slices related to fairy chess */                         \
     ENUMERATOR(STExclusiveChessExclusivityDetector),                  \
     ENUMERATOR(STExclusiveChessNestedExclusivityDetector),            \
