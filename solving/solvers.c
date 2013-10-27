@@ -11,6 +11,7 @@
 #include "output/output.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/facetoface.h"
 #include "conditions/koeko/contact_grid.h"
 #include "conditions/koeko/koeko.h"
 #include "conditions/koeko/anti.h"
@@ -413,7 +414,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     if  (TSTFLAG(some_pieces_flags,Volage))
       circe_volage_initialise_solving(result);
     if (anycirprom)
+    {
+      circe_instrument_solving(result,STBeforePawnPromotion);
       circe_instrument_solving(result,STPawnPromoter);
+      circe_instrument_solving(result,STLandingAfterPawnPromotion);
+    }
     if (CondFlag[circeturncoats])
       circe_turncoats_initialise_solving(result);
   }
@@ -425,7 +430,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   {
     stip_insert_anticirce_strict(result);
     antisupercirce_initialise_solving(result);
+    anticirce_instrument_solving(result,STBeforePawnPromotion);
     anticirce_instrument_solving(result,STPawnPromoter);
+    anticirce_instrument_solving(result,STLandingAfterPawnPromotion);
   }
   else if (anyanticirce)
   {
@@ -450,13 +457,17 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     {
       anticirce_initialise_solving(result,
                                    STAntipodesCirceDetermineRebirthSquare);
+      anticirce_instrument_solving(result,STBeforePawnPromotion);
       anticirce_instrument_solving(result,STPawnPromoter);
+      anticirce_instrument_solving(result,STLandingAfterPawnPromotion);
     }
     else if (CondFlag[antiequipollents])
     {
       anticirce_initialise_solving(result,
                                    STCirceEquipollentsDetermineRebirthSquare);
+      anticirce_instrument_solving(result,STBeforePawnPromotion);
       anticirce_instrument_solving(result,STPawnPromoter);
+      anticirce_instrument_solving(result,STLandingAfterPawnPromotion);
     }
     else
       anticirce_initialise_solving(result,STCirceDetermineRebirthSquare);

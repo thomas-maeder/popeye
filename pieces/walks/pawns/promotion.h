@@ -2,9 +2,26 @@
 #define PIECES_PAWNS_PROMOTION_H
 
 #include "solving/solve.h"
+#include "solving/move_effect_journal.h"
+#include "position/board.h"
 
 /* This module provides implements the promotion of the moving pawn
  */
+
+enum
+{
+  /* we calculate with:*/
+  max_nr_promotions_per_ply = 4
+};
+
+/* effects up to this index have been consumed for pawn promotions */
+extern move_effect_journal_index_type promotion_horizon;
+
+/* Find the last square occupied by a piece since we last checked.
+ * @param base index of move effects that have already been dealt with
+ * @return the square; initsquare if there isn't any
+ */
+square find_potential_promotion_square(move_effect_journal_index_type base);
 
 /* Try to solve in n half-moves.
  * @param si slice index

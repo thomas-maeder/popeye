@@ -219,7 +219,7 @@ moves in Maximummer+Imitator problems
               2...0-0-0[Ie4]
                   3.e6-e7[Ie5]
                       3...Rd8-d4[Ie1]
-                          4.e7-e8=S[Ie2]
+                          4.e7-e8[Ie2]=S
                               4...Rd4-d8[Ie6]
                                   5.Se8-f6[If4]
                                       5...Rd8-d5[If1] #
@@ -230,7 +230,7 @@ moves in Maximummer+Imitator problems
               2...Rd8-a8[Id5]
                   3.d6-d7[Id6]
                       3...e7-e5[Id4]
-                          4.d7-d8=S[Id5]
+                          4.d7-d8[Id5]=S
                               4...Ke8-d7[Ic4]
                                   5.Kb4-a5[Ib5]
                                       5...Ra8-c8[Id5]

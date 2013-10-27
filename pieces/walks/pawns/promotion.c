@@ -4,14 +4,12 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
 enum
 {
-  max_nr_promotions_per_ply = 4,
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 
@@ -20,9 +18,13 @@ static unsigned int stack_pointer;
 
 static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
 
-static move_effect_journal_index_type horizon;
+move_effect_journal_index_type promotion_horizon;
 
-static square find_potential_promotion_square(move_effect_journal_index_type base)
+/* Find the last square occupied by a piece since we last checked.
+ * @param base index of move effects that have already been dealt with
+ * @return the square; initsquare if there isn't any
+ */
+square find_potential_promotion_square(move_effect_journal_index_type base)
 {
   move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
 
@@ -62,7 +64,7 @@ static square find_potential_promotion_square(move_effect_journal_index_type bas
 stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const save_horizon = horizon;
+  move_effect_journal_index_type const save_horizon = promotion_horizon;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -70,15 +72,15 @@ stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   {
-    square const sq_potential_promotion = find_potential_promotion_square(horizon);
+    square const sq_potential_promotion = find_potential_promotion_square(promotion_horizon);
 
     assert(stack_pointer<stack_size);
 
-    horizon = move_effect_journal_base[nbply+1];
+    promotion_horizon = move_effect_journal_base[nbply+1];
 
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
-                                                 &promotion_stack[stack_pointer]);
+                                           &promotion_stack[stack_pointer]);
 
     if (promotion_stack[stack_pointer].promotee==Empty)
     {
@@ -106,7 +108,7 @@ stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n)
       prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
     }
 
-    horizon = save_horizon;
+    promotion_horizon = save_horizon;
   }
 
   TraceFunctionExit(__func__);
@@ -123,7 +125,9 @@ void pieces_pawns_promotion_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  stip_instrument_moves(si,STBeforePawnPromotion);
   stip_instrument_moves(si,STPawnPromoter);
+  stip_instrument_moves(si,STLandingAfterPawnPromotion);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -2414,12 +2414,12 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  pieces/walks/vectors.h output/mode.h options/options.h \
  conditions/conditions.h pymsg.h pylang.h utilities/boolean.h \
  solving/selfcheck_guard.h solving/solve.h solving/check.h \
- pieces/walks/pawns/promotion.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/observation.h solving/ply.h \
+ pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h solving/observation.h \
  output/output.h conditions/annan.h conditions/bgl.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/koeko/contact_grid.h \
+ conditions/facetoface.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
  conditions/exclusive.h utilities/table.h conditions/republican.h \
  conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
@@ -2552,6 +2552,14 @@ solving/check.h:
 
 pieces/walks/pawns/promotion.h:
 
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -2564,19 +2572,13 @@ stipulation/traversal.h:
 
 solving/observation.h:
 
-solving/ply.h:
-
 output/output.h:
 
 conditions/annan.h:
 
 conditions/bgl.h:
 
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
+conditions/facetoface.h:
 
 conditions/koeko/contact_grid.h:
 

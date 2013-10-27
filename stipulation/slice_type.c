@@ -424,6 +424,7 @@
     ENUMERATOR(STMutualCastlingRightsAdjuster),                         \
     ENUMERATOR(STImitatorMover),                                        \
     ENUMERATOR(STImitatorRemoveIllegalMoves),                           \
+    ENUMERATOR(STImitatorDetectIllegalMoves),                           \
     ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \

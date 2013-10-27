@@ -2,6 +2,7 @@
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 #include "pymsg.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/walks/hoppers.h"
 #include "pieces/walks/angle/angles.h"
@@ -25,12 +26,19 @@
 #include <assert.h>
 #include <stdlib.h>
 
-boolean promotion_of_moving_into_imitator[maxply+1];
 square im0;                    /* position of the 1st imitator */
 imarr isquare;                 /* Imitatorstandfelder */
 unsigned int number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
-static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
+enum
+{
+  stack_size = max_nr_promotions_per_ply*maxply+1
+};
+
+static boolean promotion_into_imitator[stack_size];
+static unsigned int stack_pointer;
+
+static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
 
 static numecoup skip_over_remainder_of_line(numecoup i,
                                             square sq_departure,
@@ -917,20 +925,72 @@ stip_length_type imitator_remove_illegal_moves_solve(slice_index si,
   return result;
 }
 
+static boolean is_imitator_pos_occupied(void)
+{
+  boolean result = false;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  for (i=0; i!=number_of_imitators; ++i)
+    if (!is_square_empty(isquare[i]))
+    {
+      TraceSquare(isquare[i]);TraceText("\n");
+      result = true;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played (or being played)
+ *                                     is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type imitator_detect_illegal_moves_solve(slice_index si,
+                                                     stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (is_imitator_pos_occupied())
+    result = previous_move_is_illegal;
+  else
+    result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void move_imitators(int delta)
 {
   unsigned int i;
-  unsigned int number_of_imitators_to_be_moved = number_of_imitators;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  if (promotion_of_moving_into_imitator[nbply])
-    --number_of_imitators_to_be_moved;
-
-  TraceValue("%u",number_of_imitators_to_be_moved);
-  for (i=0; i!=number_of_imitators_to_be_moved; ++i)
+  TraceValue("%u",number_of_imitators);
+  for (i=0; i!=number_of_imitators; ++i)
   {
     isquare[i] += delta;
     TraceSquare(isquare[i]);
@@ -960,6 +1020,7 @@ static void move_effect_journal_do_imitator_movement(move_effect_reason_type rea
   top_elmt->type = move_effect_imitator_movement;
   top_elmt->reason = reason;
   top_elmt->u.imitator_movement.delta = delta;
+  top_elmt->u.imitator_movement.nr_moved = number_of_imitators;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -1156,10 +1217,9 @@ stip_length_type imitator_mover_solve(slice_index si, stip_length_type n)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
-                                                        stip_length_type n)
+stip_length_type imitator_pawn_promoter_solve(slice_index si,
+                                              stip_length_type n)
 {
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);
@@ -1167,48 +1227,56 @@ stip_length_type moving_pawn_to_imitator_promoter_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
-    promotion_of_moving_into_imitator[nbply] = is_square_occupied_by_promotable_pawn(sq_arrival)!=no_side;
-
-  if (promotion_of_moving_into_imitator[nbply])
   {
-    move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
-                                         sq_arrival);
-    move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
-                                             sq_arrival);
+    square const sq_arrival = find_potential_promotion_square(promotion_horizon);
 
-    result = solve(slices[si].next2,n);
+    assert(stack_pointer<stack_size);
 
-    if (!post_move_iteration_locked[nbply])
+    if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
+      promotion_into_imitator[stack_pointer] = is_square_occupied_by_promotable_pawn(sq_arrival)!=no_side;
+
+    TraceValue("%u",post_move_iteration_id[nbply]);
+    TraceValue("%u",prev_post_move_iteration_id[stack_pointer]);
+    TraceValue("%u\n",promotion_into_imitator[stack_pointer]);
+
+    if (promotion_into_imitator[stack_pointer])
     {
-      promotion_of_moving_into_imitator[nbply] = false;
-      lock_post_move_iterations();
-    }
-  }
-  else
-    result = solve(slices[si].next1,n);
+      move_effect_journal_index_type const save_horizon = promotion_horizon;
 
-  prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
+      promotion_horizon = move_effect_journal_base[nbply+1];
+
+      move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
+                                           sq_arrival);
+      move_effect_journal_do_imitator_addition(move_effect_reason_pawn_promotion,
+                                               sq_arrival);
+
+      ++stack_pointer;
+      result = solve(slices[si].next2,n);
+      --stack_pointer;
+
+      promotion_horizon = save_horizon;
+
+      TraceValue("%u\n",post_move_iteration_locked[nbply]);
+      if (!post_move_iteration_locked[nbply])
+      {
+        promotion_into_imitator[stack_pointer] = false;
+        lock_post_move_iterations();
+      }
+    }
+    else
+    {
+      ++stack_pointer;
+      result = solve(slices[si].next1,n);
+      --stack_pointer;
+    }
+
+    prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void insert_landing(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_pipe(STLandingAfterMovingPawnPromoter);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 static void insert_promoter(slice_index si, stip_structure_traversal *st)
@@ -1221,7 +1289,7 @@ static void insert_promoter(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const proxy = alloc_proxy_slice();
-    slice_index const prototype = alloc_fork_slice(STMovingPawnToImitatorPromoter,proxy);
+    slice_index const prototype = alloc_fork_slice(STPawnToImitatorPromoter,proxy);
     assert(*landing!=no_slice);
     link_to_branch(proxy,*landing);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -1231,7 +1299,7 @@ static void insert_promoter(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
+static void instrument_promotion(slice_index si, stip_structure_traversal *st)
 {
   slice_index * const landing = st->param;
   slice_index const save_landing = *landing;
@@ -1241,7 +1309,6 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   *landing = no_slice;
-  insert_landing(si,st);
   stip_traverse_structure_children_pipe(si,st);
   insert_promoter(si,st);
   *landing = save_landing;
@@ -1274,8 +1341,8 @@ static void insert_promoters(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&landing);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
-  stip_structure_traversal_override_single(&st,STLandingAfterMovingPawnPromoter,&remember_landing);
+  stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&instrument_promotion);
+  stip_structure_traversal_override_single(&st,STLandingAfterPawnPromotion,&remember_landing);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
@@ -1303,21 +1370,23 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
  */
 void stip_insert_imitator(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STDoneGeneratingMoves,
-                                           &insert_remover);
-  stip_traverse_structure(si,&st);
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STDoneGeneratingMoves,
+                                             &insert_remover);
+    stip_traverse_structure(si,&st);
+  }
 
   if (!CondFlag[noiprom])
     insert_promoters(si);
 
   stip_instrument_moves(si,STImitatorMover);
+  stip_instrument_moves(si,STImitatorDetectIllegalMoves);
 
   stip_instrument_observation_geometry_validation(si,
                                                   nr_sides,

@@ -1914,10 +1914,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[chinoises]
         || anyimmun
         || CondFlag[haanerchess]
-        || CondFlag[sting]
-        || anycirce           /* rebirth square may coincide with I */
-        || anyanticirce       /* rebirth square may coincide with I */
-        || anyparrain) /* verkraftet nicht 2 IUW in einem Zug !!! */
+        || CondFlag[sting])
     {
       VerifieMsg(ImitWFairy);
       return false;

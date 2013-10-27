@@ -463,8 +463,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = imitator_remove_illegal_moves_solve(si,n);
       break;
 
-    case STMovingPawnToImitatorPromoter:
-      result = moving_pawn_to_imitator_promoter_solve(si,n);
+    case STImitatorDetectIllegalMoves:
+      result = imitator_detect_illegal_moves_solve(si,n);
+      break;
+
+    case STPawnToImitatorPromoter:
+      result = imitator_pawn_promoter_solve(si,n);
       break;
 
     case STAttackPlayed:

@@ -7,7 +7,7 @@ optimisations/ohneschach/non_checking_first$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h stipulation/proxy.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/boolean/and.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 optimisations/ohneschach/non_checking_first.h:
 
@@ -50,6 +50,8 @@ stipulation/branch.h:
 stipulation/boolean/and.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 optimisations/ohneschach/redundant_immobility_tests$(OBJ_SUFFIX): \
  optimisations/ohneschach/redundant_immobility_tests.c \
  optimisations/ohneschach/redundant_immobility_tests.h \
@@ -60,7 +62,7 @@ optimisations/ohneschach/redundant_immobility_tests$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/solve.h stipulation/branch.h \
  stipulation/has_solution_type.h optimisations/ohneschach/stop_if_check.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 optimisations/ohneschach/redundant_immobility_tests.h:
 
@@ -103,6 +105,8 @@ stipulation/has_solution_type.h:
 optimisations/ohneschach/stop_if_check.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 optimisations/ohneschach/immobility_tests_help$(OBJ_SUFFIX): \
  optimisations/ohneschach/immobility_tests_help.c \
  optimisations/ohneschach/immobility_tests_help.h solving/solve.h \
@@ -112,7 +116,7 @@ optimisations/ohneschach/immobility_tests_help$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h optimisations/ohneschach/stop_if_check.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 optimisations/ohneschach/immobility_tests_help.h:
 
@@ -153,6 +157,8 @@ stipulation/traversal.h:
 optimisations/ohneschach/stop_if_check.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 optimisations/ohneschach/stop_if_check$(OBJ_SUFFIX): \
  optimisations/ohneschach/stop_if_check.c \
  optimisations/ohneschach/stop_if_check.h solving/solve.h \
@@ -161,7 +167,8 @@ optimisations/ohneschach/stop_if_check$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
  solving/check.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h debugging/trace.h
+ stipulation/slice.h stipulation/traversal.h debugging/trace.h \
+ solving/ply.h
 
 optimisations/ohneschach/stop_if_check.h:
 
@@ -202,3 +209,5 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:

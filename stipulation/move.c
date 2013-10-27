@@ -34,6 +34,7 @@ static slice_index const move_slice_rank_order[] =
     STExchangeCastlingMovePlayer,
     STMovePlayer,
     STLandingAfterMovingPieceMovement,
+    STImitatorMover,
     STMutualCastlingRightsAdjuster,
     STSuperTransmutingKingTransmuter,
     STGhostChessGhostRememberer,
@@ -43,8 +44,9 @@ static slice_index const move_slice_rank_order[] =
     STChameleonArrivingAdjuster,
     STChameleonChessArrivingAdjuster,
     STProteanPawnAdjuster,
+    STBeforePawnPromotion,
     STNoPromotionsRemovePromotionMoving,
-    STMovingPawnToImitatorPromoter,
+    STPawnToImitatorPromoter,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
     STHauntedChessGhostSummoner,
@@ -53,6 +55,7 @@ static slice_index const move_slice_rank_order[] =
     STLineChameleonArrivingAdjuster,
     STNorskArrivingAdjuster,
     STWormholeTransferer,
+    STBeforePawnPromotion,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
@@ -66,7 +69,6 @@ static slice_index const move_slice_rank_order[] =
     STReverseEinsteinArrivingAdjuster,
     STAntiEinsteinArrivingAdjuster,
     STPiecesHalfNeutralRecolorer,
-    STImitatorMover,
     STKobulKingSubstitutor,
     STDuellistsRememberDuellist,
     STSingleboxType2LatentPawnSelector,
@@ -87,6 +89,7 @@ static slice_index const move_slice_rank_order[] =
     STAnticirceCheylanFilter,
     STAnticircePlaceRebornStrict,
     STAnticircePlaceRebornRelaxed,
+    STBeforePawnPromotion,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
@@ -131,6 +134,7 @@ static slice_index const move_slice_rank_order[] =
     STContactGridAvoidCirceRebirth,
     STCirceAssassinPlaceReborn,
     STCircePlaceReborn,
+    STBeforePawnPromotion,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
@@ -160,6 +164,7 @@ static slice_index const move_slice_rank_order[] =
     STOpponentKingCaptureAvoider,
     STCastlingRightsAdjuster,
     STBlackChecks,
+    STImitatorDetectIllegalMoves,
     STSingleBoxType1LegalityTester,
     STSingleBoxType2LegalityTester,
     STSingleBoxType3LegalityTester,
@@ -203,7 +208,7 @@ boolean is_move_slice_type(slice_type type)
  */
 void start_insertion_according_to_move_order(slice_index si,
                                              stip_structure_traversal *st,
-                                             slice_type end_of_temporary)
+                                             slice_type end_of_factored_order)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -213,7 +218,7 @@ void start_insertion_according_to_move_order(slice_index si,
                                       st,
                                       move_slice_rank_order,
                                       nr_move_slice_rank_order_elmts,
-                                      end_of_temporary);
+                                      end_of_factored_order);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

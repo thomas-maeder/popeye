@@ -240,8 +240,7 @@ static void write_flags_change(move_context *context,
       WriteSpec(move_effect_journal[curr].u.flags_change.to,
                 context->moving,
                 false);
-      context_set_flags(context,
-                                 move_effect_journal[curr].u.flags_change.to);
+      context_set_flags(context,move_effect_journal[curr].u.flags_change.to);
       break;
 
     case move_effect_reason_kobul_king:
@@ -525,18 +524,19 @@ static void write_imitator_addition(void)
 static void write_imitator_movement(move_context *context,
                                     move_effect_journal_index_type curr)
 {
-  next_context(context,"[","]");
+  unsigned int const nr_moved = move_effect_journal[curr].u.imitator_movement.nr_moved;
+  unsigned int icount;
 
-  StdChar('I');
+  StdString("[I");
+
+  for (icount = 0; icount<nr_moved; ++icount)
   {
-    unsigned int icount;
-    for (icount = 0; icount<number_of_imitators; ++icount)
-    {
-      WriteSquare(isquare[icount]);
-      if (icount+1<number_of_imitators)
-        StdChar(',');
-    }
+    WriteSquare(isquare[icount]);
+    if (icount+1<nr_moved)
+      StdChar(',');
   }
+
+  StdChar(']');
 }
 
 static void write_bgl_status(move_context *context,

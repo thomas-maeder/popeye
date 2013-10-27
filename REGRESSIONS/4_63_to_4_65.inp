@@ -476,4 +476,52 @@ stip #1
 cond immun
 forsyth K2.kl1.Kl2/B2.al3.kl/P4p2/rp6/p3p1s1/.Kl1p1.bmPs1/2QPk3/.RN2.Kl1b2/
 
+next
+
+title Until 4.63, Popeye didn't allow Imitators in Circe
+pieces white sd5 black pe3
+stip x1
+condition EquipollentsCirce imitator b7
+option nowk nobk
+
+next
+
+title Until 4.63, Popeye didn't allow Imitators in Circe
+pieces white pb7g7 black ba8h8
+stip hx1
+condition parraincirce imitator d5
+option nowk nobk
+
+next
+
+title no rebirth on a square occupied by an Imitator
+pieces white pd4 black pe5  
+stip x1
+condition circe imitator d6
+option nowk nobk
+
+next
+
+title No rebirth on a square occupied by an Imitator just promoted into
+pieces white pf7 black sg8
+stip x1
+condition circe imitator d6
+option nowk nobk
+
+next
+
+title Until 4.63, Popeye didn't allow Imitators in Anticirce
+pieces white sb5 black pd4
+condition anticirce imitator e2
+stip x1
+option nowk nobk
+
+next
+
+title No check if capturer would be reborn on a square occupied by an Imitator
+pieces white sa7 black ke5
+condition anticirce imitator c3
+stip +1
+option nowk nobk
+
 end

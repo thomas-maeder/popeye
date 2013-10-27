@@ -6,7 +6,7 @@ options/maxtime$(OBJ_SUFFIX): options/maxtime.c options/maxtime.h solving/solve.
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h platform/maxtime.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 options/maxtime.h:
 
@@ -49,6 +49,8 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -57,7 +59,7 @@ options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/boolean/not.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h
 
 options/goal_is_end.h:
 
@@ -104,6 +106,8 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
  options/degenerate_tree.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -111,7 +115,7 @@ options/degenerate_tree$(OBJ_SUFFIX): options/degenerate_tree.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/branch.h debugging/trace.h
+ stipulation/branch.h debugging/trace.h solving/ply.h
 
 options/degenerate_tree.h:
 
@@ -152,6 +156,8 @@ stipulation/has_solution_type.h:
 stipulation/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/nontrivial$(OBJ_SUFFIX): options/nontrivial.c options/nontrivial.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -221,7 +227,8 @@ options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
  stipulation/slice.h stipulation/traversal.h \
  stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/branch.h stipulation/dummy_move.h stipulation/move_played.h \
- stipulation/battle_play/branch.h solving/check.h debugging/trace.h
+ stipulation/battle_play/branch.h solving/check.h debugging/trace.h \
+ solving/ply.h
 
 options/maxthreatlength.h:
 
@@ -274,6 +281,8 @@ stipulation/battle_play/branch.h:
 solving/check.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -285,7 +294,7 @@ options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  stipulation/help_play/branch.h solving/check.h \
  options/movenumbers/restart_guard_intelligent.h output/output.h \
  output/plaintext/plaintext.h pymsg.h pylang.h utilities/boolean.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 options/movenumbers.h:
 
@@ -344,6 +353,8 @@ pylang.h:
 utilities/boolean.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \
  options/maxflightsquares.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -352,7 +363,7 @@ options/maxflightsquares$(OBJ_SUFFIX): options/maxflightsquares.c \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/conditional_pipe.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h
 
 options/maxflightsquares.h:
 
@@ -397,6 +408,8 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/quodlibet$(OBJ_SUFFIX): options/quodlibet.c options/quodlibet.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -404,7 +417,7 @@ options/quodlibet$(OBJ_SUFFIX): options/quodlibet.c options/quodlibet.h \
  pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
  stipulation/battle_play/branch.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 options/quodlibet.h:
 
@@ -441,6 +454,8 @@ stipulation/structure_traversal.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/options$(OBJ_SUFFIX): options/options.c options/options.h \
  utilities/boolean.h
 

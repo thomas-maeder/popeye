@@ -281,7 +281,9 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
     slice_index const prototypes[] =
     {
         alloc_pipe(STWormholeTransferer),
-        alloc_pipe(STPawnPromoter)
+        alloc_pipe(STBeforePawnPromotion),
+        alloc_pipe(STPawnPromoter),
+        alloc_pipe(STLandingAfterPawnPromotion)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);

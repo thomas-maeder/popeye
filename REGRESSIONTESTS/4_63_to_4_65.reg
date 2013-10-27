@@ -2404,3 +2404,275 @@ solution finished.
 solution finished. 
 
 
+
+Until 4.63, Popeye didn't allow Imitators in Circe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   I   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   S   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+             Imitator b7
+          EquipollentsCirce
+
+   1.Sd5*e3[Ic5][+bPf1=I] x !
+
+   1.Sd5*e3[Ic5][+bPf1=Q] x !
+
+   1.Sd5*e3[Ic5][+bPf1=S] x !
+
+   1.Sd5*e3[Ic5][+bPf1=R] x !
+
+   1.Sd5*e3[Ic5][+bPf1=B] x !
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+Until 4.63, Popeye didn't allow Imitators in Circe
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   .   .   .   .  -B   8
+|                                   |
+7   .   P   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   I   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hx1                         2 + 2
+             Imitator d5
+             ParrainCirce
+
+  1.Ba8*b7[Ie4] g7*h8[If5]=I[+wPc8=I] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=I[+wPc8=Q] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=I[+wPc8=S] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=I[+wPc8=R] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=I[+wPc8=B] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=Q[+wPc8=I] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=Q[+wPc8=Q] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=Q[+wPc8=S] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=Q[+wPc8=R] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=Q[+wPc8=B] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=S[+wPc8=I] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=S[+wPc8=Q] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=S[+wPc8=S] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=S[+wPc8=R] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=S[+wPc8=B] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=R[+wPc8=I] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=R[+wPc8=Q] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=R[+wPc8=S] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=R[+wPc8=R] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=R[+wPc8=B] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=B[+wPc8=I] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=B[+wPc8=Q] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=B[+wPc8=S] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=B[+wPc8=R] x
+  1.Ba8*b7[Ie4] g7*h8[If5]=B[+wPc8=B] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=I[+wPf8=I] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=I[+wPf8=Q] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=I[+wPf8=S] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=I[+wPf8=R] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=I[+wPf8=B] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=Q[+wPf8=I] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=Q[+wPf8=Q] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=Q[+wPf8=S] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=Q[+wPf8=R] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=Q[+wPf8=B] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=S[+wPf8=I] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=S[+wPf8=Q] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=S[+wPf8=S] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=S[+wPf8=R] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=S[+wPf8=B] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=R[+wPf8=I] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=R[+wPf8=Q] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=R[+wPf8=S] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=R[+wPf8=R] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=R[+wPf8=B] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=I] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=Q] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=S] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=R] x
+  1.Bh8*g7[Ic4] b7*a8[Ib5]=B[+wPf8=B] x
+
+  add_to_move_generation_stack:           6
+                     play_move:          52
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+no rebirth on a square occupied by an Imitator
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   I   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -P   .   .   .   5
+|                                   |
+4   .   .   .   P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+                Circe
+             Imitator d6
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+No rebirth on a square occupied by an Imitator just promoted into
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .  -S   .   8
+|                                   |
+7   .   .   .   .   .   P   .   .   7
+|                                   |
+6   .   .   .   I   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+                Circe
+             Imitator d6
+
+   1.f7*g8[Ie7]=Q x !
+
+   1.f7*g8[Ie7]=S x !
+
+   1.f7*g8[Ie7]=R x !
+
+   1.f7*g8[Ie7]=B x !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+Until 4.63, Popeye didn't allow Imitators in Anticirce
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   S   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   I   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+             Imitator e2
+              AntiCirce
+
+
+  add_to_move_generation_stack:           6
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+No check if capturer would be reborn on a square occupied by an Imitator
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   S   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  -K   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   I   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          1 + 1
+             Imitator c3
+              AntiCirce
+
+
+  add_to_move_generation_stack:           3
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           4
+solution finished. 
+
+

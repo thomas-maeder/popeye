@@ -84,7 +84,7 @@ conditions/anticirce/goal_filters$(OBJ_SUFFIX): conditions/anticirce/goal_filter
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/circuit_special.h \
  conditions/anticirce/exchange_special.h \
- conditions/anticirce/exchange_filter.h debugging/trace.h
+ conditions/anticirce/exchange_filter.h debugging/trace.h solving/ply.h
 
 conditions/anticirce/goal_filters.h:
 
@@ -137,6 +137,8 @@ conditions/anticirce/exchange_special.h:
 conditions/anticirce/exchange_filter.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 conditions/anticirce/target_square_filter$(OBJ_SUFFIX): \
  conditions/anticirce/target_square_filter.c \
  conditions/anticirce/target_square_filter.h solving/solve.h \

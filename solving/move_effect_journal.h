@@ -175,6 +175,7 @@ typedef struct
         struct
         {
             int delta;
+            unsigned int nr_moved;
         } imitator_movement;
         struct
         {
