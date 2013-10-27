@@ -7,7 +7,6 @@
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/circuit_special.h"
 #include "conditions/anticirce/exchange_special.h"
-#include "conditions/anticirce/exchange_filter.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
@@ -76,18 +75,14 @@ static void instrument_goal_exchange_filter(slice_index si,
     slice_index const special = alloc_anticirce_exchange_special_slice();
     slice_index const leaf_special = alloc_true_slice();
 
-    slice_index const proxy_filter = alloc_proxy_slice();
-    /* reusing the special exchange filter created for Anticirce */
-    slice_index const filter = alloc_anticirce_exchange_filter_slice();
+    slice_index const proxy_regular = alloc_proxy_slice();
 
-    pipe_link(slices[si].prev,
-              alloc_or_slice(proxy_filter,proxy_special));
+    pipe_link(slices[si].prev,alloc_or_slice(proxy_regular,proxy_special));
 
     pipe_link(proxy_special,special);
     pipe_link(special,leaf_special);
 
-    pipe_link(proxy_filter,filter);
-    pipe_link(filter,si);
+    pipe_link(proxy_regular,si);
   }
 
   TraceFunctionExit(__func__);

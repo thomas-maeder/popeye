@@ -16,31 +16,6 @@
 
 VariantType AntiCirceType;
 
-/* Find the Circe rebirth effect in the current move
- * @return the index of the rebirth effect
- *         move_effect_journal_base[nbply+1] if there is none
- */
-move_effect_journal_index_type anticirce_find_current_rebirth(void)
-{
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_index_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (result = base+move_effect_journal_index_offset_other_effects; result<top; ++result)
-    if (move_effect_journal[result].type==move_effect_piece_readdition
-        && (move_effect_journal[result].reason==move_effect_reason_anticirce_rebirth
-            || move_effect_journal[result].reason==move_effect_reason_antisupercirce_rebirth))
-      break;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

@@ -11,12 +11,6 @@
 
 extern VariantType AntiCirceType;
 
-/* Find the Circe rebirth effect in the current move
- * @return the index of the rebirth effect
- *         move_effect_journal_base[nbply+1] if there is none
- */
-move_effect_journal_index_type anticirce_find_current_rebirth(void);
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

@@ -83,8 +83,7 @@ conditions/anticirce/goal_filters$(OBJ_SUFFIX): conditions/anticirce/goal_filter
  stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/circuit_special.h \
- conditions/anticirce/exchange_special.h \
- conditions/anticirce/exchange_filter.h debugging/trace.h solving/ply.h
+ conditions/anticirce/exchange_special.h debugging/trace.h
 
 conditions/anticirce/goal_filters.h:
 
@@ -134,11 +133,7 @@ conditions/anticirce/circuit_special.h:
 
 conditions/anticirce/exchange_special.h:
 
-conditions/anticirce/exchange_filter.h:
-
 debugging/trace.h:
-
-solving/ply.h:
 conditions/anticirce/target_square_filter$(OBJ_SUFFIX): \
  conditions/anticirce/target_square_filter.c \
  conditions/anticirce/target_square_filter.h solving/solve.h \
@@ -267,67 +262,6 @@ conditions/anticirce/exchange_special$(OBJ_SUFFIX): \
  stipulation/traversal.h debugging/trace.h
 
 conditions/anticirce/exchange_special.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-conditions/anticirce/anticirce.h:
-
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-conditions/conditions.h:
-
-conditions/circe/circe.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-debugging/trace.h:
-conditions/anticirce/exchange_filter$(OBJ_SUFFIX): \
- conditions/anticirce/exchange_filter.c \
- conditions/anticirce/exchange_filter.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
- solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/conditions.h conditions/circe/circe.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
-
-conditions/anticirce/exchange_filter.h:
 
 solving/solve.h:
 

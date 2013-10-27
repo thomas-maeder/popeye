@@ -1,11 +1,11 @@
 # -*- Makefile -*-
 #
 SRC_CFILES = anticirce.c goal_filters.c target_square_filter.c circuit_special.c \
-           exchange_special.c exchange_filter.c super.c \
+           exchange_special.c super.c \
            capture_fork.c cheylan.c strict.c relaxed.c \
            magic_square.c
 INCLUDES = anticirce.h goal_filters.h target_square_filter.h circuit_special.h \
-           exchange_special.h exchange_filter.h super.h \
+           exchange_special.h super.h \
            capture_fork.h cheylan.h strict.h relaxed.h \
            magic_square.h
 

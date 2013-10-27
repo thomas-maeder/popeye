@@ -79,7 +79,6 @@ static slice_index const goal_slice_rank_order[] =
   STGoalCastlingReachedTester,
   STGoalAutoStalemateReachedTester,
   STGoalCircuitReachedTester,
-  STAnticirceExchangeFilter,
   STGoalExchangeReachedTester,
   STAnticirceCircuitSpecial,
   STCirceCircuitSpecial,
