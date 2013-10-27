@@ -309,7 +309,7 @@ solution finished.
 
 
 
- only example of Antipodean Anticirce
+only example of Equipollents Anticirce
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |

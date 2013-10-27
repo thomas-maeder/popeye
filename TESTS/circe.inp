@@ -68,7 +68,7 @@ option nowk nobk
 
 next
 
-title only example of Antipodean Anticirce
+title only example of Equipollents Anticirce
 pieces white sc3 black rd5
 stip x1
 condition equipollentsanticirce
