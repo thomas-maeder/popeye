@@ -230,7 +230,7 @@ void chameleon_initialise_solving(slice_index si)
   {
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override_single(&st,STPawnPromoter,&instrument_promoter);
+    stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&instrument_promoter);
     stip_traverse_structure(si,&st);
   }
 
