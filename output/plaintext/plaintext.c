@@ -417,9 +417,8 @@ static void write_piece_addition(move_context *context,
                            move_effect_journal[curr].u.piece_addition.on);
       break;
 
-    case move_effect_reason_anticirce_rebirth:
-    case move_effect_reason_antisupercirce_rebirth:
-    case move_effect_reason_wormhole_transfer:
+    case move_effect_reason_transfer_no_choice:
+    case move_effect_reason_transfer_choice:
       StdString("->");
       WriteSquare(move_effect_journal[curr].u.piece_addition.on);
       break;
@@ -448,9 +447,8 @@ static void write_piece_removal(move_context *context,
       assert(0);
       break;
 
-    case move_effect_reason_anticirce_rebirth:
-    case move_effect_reason_antisupercirce_rebirth:
-    case move_effect_reason_wormhole_transfer:
+    case move_effect_reason_transfer_no_choice:
+    case move_effect_reason_transfer_choice:
       next_context(context,"[","]");
       write_complete_piece(move_effect_journal[curr].u.piece_removal.removedspec,
                            move_effect_journal[curr].u.piece_removal.removed,

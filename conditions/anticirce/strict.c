@@ -41,7 +41,7 @@ stip_length_type anticirce_place_reborn_strict_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    move_effect_journal_do_piece_removal(move_effect_reason_anticirce_rebirth,
+    move_effect_journal_do_piece_removal(move_effect_reason_transfer_no_choice,
                                          pos);
   }
 

@@ -97,7 +97,7 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
   }
   else
   {
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_antisupercirce_rebirth;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_transfer_choice;
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])

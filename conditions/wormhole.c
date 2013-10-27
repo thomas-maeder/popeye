@@ -136,9 +136,9 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
   {
     PieNam const added = get_walk_of_piece_on_square(sq_arrival);
     Flags const addedspec = spec[sq_arrival];
-    move_effect_journal_do_piece_removal(move_effect_reason_wormhole_transfer,
+    move_effect_journal_do_piece_removal(move_effect_reason_transfer_choice,
                                          sq_arrival);
-    move_effect_journal_do_piece_readdition(move_effect_reason_wormhole_transfer,
+    move_effect_journal_do_piece_readdition(move_effect_reason_transfer_choice,
                                             wormhole_positions[wormhole_next_transfer[nbply]-1],
                                             added,addedspec);
 

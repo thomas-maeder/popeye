@@ -44,7 +44,7 @@ stip_length_type anticirce_capture_fork_solve(slice_index si,
     result = solve(slices[si].next2,n);
   else
   {
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_anticirce_rebirth;
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_transfer_no_choice;
     result = solve(slices[si].next1,n);
   }
 

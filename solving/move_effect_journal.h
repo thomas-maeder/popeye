@@ -88,8 +88,8 @@ typedef enum
   move_effect_reason_rebirth_no_choice,
   move_effect_reason_rebirth_choice,
   move_effect_reason_assassin_circe_rebirth,
-  move_effect_reason_anticirce_rebirth,
-  move_effect_reason_antisupercirce_rebirth,
+  move_effect_reason_transfer_no_choice,
+  move_effect_reason_transfer_choice,
   move_effect_reason_promotion_of_reborn,
   move_effect_reason_sentinelles,
   move_effect_reason_oscillating_kings,
@@ -98,7 +98,6 @@ typedef enum
   move_effect_reason_actuate_revolving_board,
   move_effect_reason_actuate_revolving_centre,
   move_effect_reason_singlebox_promotion,
-  move_effect_reason_wormhole_transfer,
   move_effect_reason_sat_adjustment
 
 } move_effect_reason_type;
