@@ -1154,7 +1154,6 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  solving/ply.h conditions/anticirce/cheylan.h \
  conditions/anticirce/capture_fork.h \
  conditions/anticirce/circuit_special.h \
- conditions/anticirce/exchange_special.h \
  conditions/anticirce/target_square_filter.h \
  conditions/anticirce/relaxed.h conditions/anticirce/strict.h \
  solving/move_effect_journal.h solving/castling_rights.h \
@@ -1354,8 +1353,6 @@ conditions/anticirce/cheylan.h:
 conditions/anticirce/capture_fork.h:
 
 conditions/anticirce/circuit_special.h:
-
-conditions/anticirce/exchange_special.h:
 
 conditions/anticirce/target_square_filter.h:
 

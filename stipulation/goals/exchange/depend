@@ -5,7 +5,8 @@ stipulation/goals/exchange/reached_tester$(OBJ_SUFFIX): \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h position/pieceid.h \
- solving/move_generator.h solving/ply.h stipulation/pipe.h \
+ solving/move_generator.h solving/ply.h solving/move_effect_journal.h \
+ solving/castling_rights.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/reached_tester.h \
  stipulation/boolean/true.h debugging/trace.h
@@ -41,6 +42,10 @@ position/pieceid.h:
 solving/move_generator.h:
 
 solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
 
 stipulation/pipe.h:
 

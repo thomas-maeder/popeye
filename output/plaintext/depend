@@ -79,8 +79,7 @@ output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
  utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h debugging/trace.h \
- solving/ply.h
+ stipulation/slice.h stipulation/traversal.h debugging/trace.h
 
 output/plaintext/end_of_phase_writer.h:
 
@@ -123,8 +122,6 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
  output/plaintext/illegal_selfcheck_writer.h solving/solve.h \
@@ -134,7 +131,7 @@ output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
  utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
- stipulation/has_solution_type.h debugging/trace.h solving/ply.h
+ stipulation/has_solution_type.h debugging/trace.h
 
 output/plaintext/illegal_selfcheck_writer.h:
 
@@ -179,8 +176,6 @@ stipulation/traversal.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  output/plaintext/move_inversion_counter.c \
  output/plaintext/move_inversion_counter.h solving/solve.h \
@@ -189,7 +184,7 @@ output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h solving/ply.h
+ stipulation/traversal.h debugging/trace.h
 
 output/plaintext/move_inversion_counter.h:
 
@@ -226,8 +221,6 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  output/plaintext/ohneschach_detect_undecidable_goal.c \
  output/plaintext/ohneschach_detect_undecidable_goal.h solving/solve.h \
@@ -295,7 +288,7 @@ output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
  utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h output/plaintext/tree/tree.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 output/plaintext/goal_writer.h:
 
@@ -340,8 +333,6 @@ stipulation/traversal.h:
 output/plaintext/tree/tree.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 output/plaintext/language_dependant$(OBJ_SUFFIX): \
  output/plaintext/language_dependant.c \
  output/plaintext/language_dependant.h pieces/pieces.h \

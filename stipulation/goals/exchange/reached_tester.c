@@ -1,6 +1,7 @@
 #include "stipulation/goals/exchange/reached_tester.h"
 #include "position/pieceid.h"
 #include "solving/move_generator.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/goals/reached_tester.h"
@@ -51,23 +52,30 @@ slice_index alloc_goal_exchange_reached_tester_system(void)
 stip_length_type goal_exchange_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
-  square const sq_diagram = GetPositionInDiagram(spec[sq_arrival]);
-  Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(current_move[nbply]-1!=nil_coup);
-
-  if (GetPositionInDiagram(spec[sq_diagram])==sq_arrival
-      && TSTFLAG(spec[sq_diagram],just_moved)
-      && sq_diagram!=sq_arrival)
-    result = solve(slices[si].next1,n);
-  else
-    result = n+2;
+  {
+    Side const just_moved = advers(slices[si].starter);
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;
+    PieceIdType const moving_id = GetPieceId(movingspec);
+    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                              moving_id,
+                                                                              sq_arrival);
+    square const sq_diagram = GetPositionInDiagram(movingspec);
+    if (GetPositionInDiagram(spec[sq_diagram])==pos
+        && TSTFLAG(spec[sq_diagram],just_moved)
+        && sq_diagram!=pos)
+      result = solve(slices[si].next1,n);
+    else
+      result = n+2;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

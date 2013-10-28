@@ -6,7 +6,6 @@
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/capture_fork.h"
 #include "conditions/anticirce/circuit_special.h"
-#include "conditions/anticirce/exchange_special.h"
 #include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/strict.h"
@@ -1218,10 +1217,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STAnticirceCircuitSpecial:
       result = anticirce_circuit_special_solve(si,n);
-      break;
-
-    case STAnticirceExchangeSpecial:
-      result = anticirce_exchange_special_solve(si,n);
       break;
 
     case STTemporaryHackFork:
