@@ -1,4 +1,5 @@
 #include "optimisations/goals/remove_non_reachers.h"
+#include "conditions/conditions.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -43,7 +44,10 @@ static slice_index make_remover(Goal goal)
       return alloc_capture_remove_non_reachers_slice();
 
     case goal_target:
-      return alloc_target_remove_non_reachers_slice(goal.target);
+      if (CondFlag[actrevolving] || CondFlag[wormholes])
+        return no_slice;
+      else
+        return alloc_target_remove_non_reachers_slice(goal.target);
 
     default:
       return no_slice;

@@ -69,8 +69,8 @@ optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ pieces/walks/vectors.h output/mode.h conditions/conditions.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/branch.h stipulation/moves_traversal.h \
  solving/fork_on_remaining.h \
@@ -78,7 +78,8 @@ optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/castling/remove_non_reachers.h \
  optimisations/goals/chess81/remove_non_reachers.h \
  optimisations/goals/capture/remove_non_reachers.h \
- optimisations/goals/target/remove_non_reachers.h debugging/trace.h
+ optimisations/goals/target/remove_non_reachers.h debugging/trace.h \
+ solving/ply.h
 
 optimisations/goals/remove_non_reachers.h:
 
@@ -105,6 +106,8 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
+
+conditions/conditions.h:
 
 stipulation/pipe.h:
 
@@ -135,3 +138,5 @@ optimisations/goals/capture/remove_non_reachers.h:
 optimisations/goals/target/remove_non_reachers.h:
 
 debugging/trace.h:
+
+solving/ply.h:

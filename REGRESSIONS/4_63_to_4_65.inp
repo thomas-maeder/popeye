@@ -524,4 +524,12 @@ condition anticirce imitator c3
 stip +1
 option nowk nobk
 
+next
+
+title 4.63 didn't consider the wormhole transfer when testing for a target square
+pieces white qa1
+stip ze81
+option nowk nobk
+cond wormholes a5e8
+
 end

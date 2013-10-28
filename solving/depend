@@ -1152,11 +1152,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  stipulation/traversal.h solving/proofgames.h \
  conditions/amu/mate_filter.h conditions/amu/attack_counter.h \
  solving/ply.h conditions/anticirce/cheylan.h \
- conditions/anticirce/capture_fork.h \
- conditions/anticirce/target_square_filter.h \
- conditions/anticirce/relaxed.h conditions/anticirce/strict.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/anticirce/magic_square.h conditions/bgl.h \
+ conditions/anticirce/capture_fork.h conditions/anticirce/relaxed.h \
+ conditions/anticirce/strict.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h \
+ conditions/anticirce/magic_square.h conditions/bgl.h \
  conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
  conditions/koeko/new.h conditions/circe/antipodes.h \
@@ -1350,8 +1349,6 @@ solving/ply.h:
 conditions/anticirce/cheylan.h:
 
 conditions/anticirce/capture_fork.h:
-
-conditions/anticirce/target_square_filter.h:
 
 conditions/anticirce/relaxed.h:
 
@@ -2469,7 +2466,6 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
  pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
  conditions/amu/mate_filter.h conditions/circe/goal_filters.h \
- conditions/anticirce/goal_filters.h \
  conditions/ultraschachzwang/goal_filter.h \
  options/no_short_variations/no_short_variations.h optimisations/hash.h \
  DHT/dhtbcmem.h optimisations/intelligent/intelligent.h \
@@ -2874,8 +2870,6 @@ pieces/attributes/uncapturable.h:
 conditions/amu/mate_filter.h:
 
 conditions/circe/goal_filters.h:
-
-conditions/anticirce/goal_filters.h:
 
 conditions/ultraschachzwang/goal_filter.h:
 

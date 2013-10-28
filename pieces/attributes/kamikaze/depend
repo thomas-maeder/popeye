@@ -5,12 +5,10 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/conditions.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h stipulation/proxy.h \
- stipulation/boolean/or.h stipulation/boolean/true.h stipulation/move.h \
- conditions/anticirce/target_square_filter.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/trace.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
@@ -40,25 +38,13 @@ output/mode.h:
 
 conditions/conditions.h:
 
-stipulation/pipe.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
 stipulation/traversal.h:
-
-stipulation/branch.h:
-
-stipulation/proxy.h:
-
-stipulation/boolean/or.h:
-
-stipulation/boolean/true.h:
-
-stipulation/move.h:
-
-conditions/anticirce/target_square_filter.h:
 
 solving/move_effect_journal.h:
 

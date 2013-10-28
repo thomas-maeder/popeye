@@ -1078,14 +1078,14 @@ Until 4.61, pieces' neutrality wasn't preserved in
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  hza51                  0 + 0 + 1n
+  hze81                  0 + 0 + 1n
         ActuatedRevolvingBoard
 
   1.nPh2-h1=nQ nQa1-a5 z
   1.nPh2-h1=nR nRa1-a5 z
 
   add_to_move_generation_stack:          45
-                     play_move:           6
+                     play_move:          48
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

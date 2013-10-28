@@ -247,7 +247,7 @@ next
 title Until 4.61, pieces' neutrality wasn't preserved in
 title ActuatedRevolvingBoard
 pieces neutral ph2
-stip hza51
+stip hze81
 option nowk nobk
 cond actuatedrevolvingboard
 

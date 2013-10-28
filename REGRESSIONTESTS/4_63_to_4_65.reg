@@ -2676,3 +2676,38 @@ No check if capturer would be reborn on a square occupied by an Imitator
 solution finished. 
 
 
+
+4.63 didn't consider the wormhole transfer when testing for a target square
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   Q   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ze81                        1 + 0
+           Wormholes a5 e8
+
+   1.Qa1-a5[wQa5->e8] z !
+
+
+  add_to_move_generation_stack:          21
+                     play_move:          21
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

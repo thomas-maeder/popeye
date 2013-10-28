@@ -1,5 +1,6 @@
 #include "stipulation/goals/target/reached_tester.h"
 #include "solving/move_generator.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/goals/reached_tester.h"
@@ -55,7 +56,6 @@ slice_index alloc_goal_target_reached_tester_system(square target)
 stip_length_type goal_target_reached_tester_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const target = slices[si].u.goal_handler.goal.target;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -64,10 +64,17 @@ stip_length_type goal_target_reached_tester_solve(slice_index si, stip_length_ty
 
   assert(current_move[nbply]-1!=nil_coup);
 
-  if (move_generation_stack[current_move[nbply]-1].arrival==target)
-    result = solve(slices[si].next1,n);
-  else
-    result = n+2;
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    square const sq_eventual_arrival = move_effect_journal_follow_piece_through_other_effects(nbply,moving_id,sq_arrival);
+    if (sq_eventual_arrival==slices[si].u.goal_handler.goal.target)
+      result = solve(slices[si].next1,n);
+    else
+      result = n+2;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

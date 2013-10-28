@@ -5,7 +5,6 @@
 #include "conditions/amu/attack_counter.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/capture_fork.h"
-#include "conditions/anticirce/target_square_filter.h"
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/magic_square.h"
@@ -1208,10 +1207,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceExchangeSpecial:
       result = circe_exchange_special_solve(si,n);
-      break;
-
-    case STAnticirceTargetSquareFilter:
-      result = anticirce_target_square_filter_solve(si,n);
       break;
 
     case STTemporaryHackFork:

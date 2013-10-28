@@ -171,7 +171,6 @@
 #include "pieces/attributes/uncapturable.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
-#include "conditions/anticirce/goal_filters.h"
 #include "pieces/attributes/chameleon.h"
 #include "conditions/ultraschachzwang/goal_filter.h"
 #include "options/no_short_variations/no_short_variations.h"
@@ -227,8 +226,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
    * which both branches need selfcheck guards */
   if (anycirce)
     stip_insert_circe_goal_filters(result);
-  if (anyanticirce)
-    stip_insert_anticirce_goal_filters(result);
   if (TSTFLAG(some_pieces_flags,Kamikaze))
     stip_insert_kamikaze(result);
 
