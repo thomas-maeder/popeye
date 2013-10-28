@@ -246,7 +246,6 @@
     ENUMERATOR(STCirceCircuitSpecial), /* has reborn capturee made a circuit? */ \
     ENUMERATOR(STCirceExchangeSpecial), /* has reborn capturee made an exchange? */ \
     ENUMERATOR(STAnticirceTargetSquareFilter), /* target square is not reached by capture */ \
-    ENUMERATOR(STAnticirceCircuitSpecial), /* special circuit by rebirth */ \
     ENUMERATOR(STPiecesParalysingMateFilter), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingMateFilterTester), /* goal not reached because of special rule? */ \
     ENUMERATOR(STPiecesParalysingStalemateSpecial), /* stalemate by special rule? */ \
