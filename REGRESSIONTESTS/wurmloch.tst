@@ -165,7 +165,7 @@ pawns in wormholes on 1st rank can do single step
   1.f8*e7 d1-d2 z
 
   add_to_move_generation_stack:           5
-                     play_move:           4
+                     play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -529,6 +529,41 @@ promotions are not illegal null moves
 
   add_to_move_generation_stack:           1
                      play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+  4.63 optimised this solution away
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ze71                        1 + 0
+           Wormholes a5 e7
+
+   1.a4-a5[wPa5->e7] z !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

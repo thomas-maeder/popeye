@@ -44,7 +44,9 @@ static slice_index make_remover(Goal goal)
       return alloc_capture_remove_non_reachers_slice();
 
     case goal_target:
-      if (CondFlag[actrevolving] || CondFlag[wormholes])
+      if (CondFlag[actrevolving]
+          || CondFlag[arc]
+          || CondFlag[wormholes])
         return no_slice;
       else
         return alloc_target_remove_non_reachers_slice(goal.target);

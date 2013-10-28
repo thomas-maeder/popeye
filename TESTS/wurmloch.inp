@@ -111,4 +111,12 @@ condition wormholes e7e8
 stipulation ~1
 option nowk nobk
 
+next
+
+title 4.63 optimised this solution away
+pieces white pa4
+stip ze71
+condition wormholes a5e7
+option nowk nobk
+
 end
