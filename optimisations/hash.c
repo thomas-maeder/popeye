@@ -2215,36 +2215,34 @@ static boolean inhash_help(slice_index si, stip_length_type n)
   boolean result;
   HashBuffer *hb = &hashBuffers[nbply];
   dhtElement const *he;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const validity_value = (min_length+2-slack_length)/2+1;
+  stip_length_type const validity_value = (n-1)/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  (*encode)(min_length,validity_value);
+  /* In help play, we encode all positions as if the stipulation were exact.
+   * This is necessary to avoid ruling out some solutions with intermediate
+   * positions that are solvable in, say, m moves but not in m+1. This only
+   * makes a difference in problems with short cooks, but not printing all
+   * solutions is confusing and if we measure, the price that we are paying
+   * is smaller than one might think. TM
+   */
+  (*encode)(n,validity_value);
 
   ifHASHRATE(use_all++);
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
     result = false;
-  else
+  else if (get_value_help((hashElement_union_t const *)he,si)==1)
   {
-    hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    hash_value_type const val = (n-(min_length+2-slack_length))/2+1;
-    hash_value_type const nosuccess = get_value_help(hue,si);
-    TraceValue("%u",min_length);
-    TraceValue("%u\n",val);
-    if (nosuccess>=val)
-    {
-      ifHASHRATE(use_pos++);
-      result = true;
-    }
-    else
-      result = false;
+    ifHASHRATE(use_pos++);
+    result = true;
   }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2260,9 +2258,8 @@ static boolean inhash_help(slice_index si, stip_length_type n)
 static void addtohash_help(slice_index si, stip_length_type n)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
-  stip_length_type const min_length = slices[si].u.branch.min_length;
-  hash_value_type const val = (n-(min_length+2-slack_length))/2+1;
   dhtElement *he;
+  hashElement_union_t * hue;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2271,16 +2268,11 @@ static void addtohash_help(slice_index si, stip_length_type n)
 
   he = dhtLookupElement(pyhash,hb);
   if (he==dhtNilElement)
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)allocDHTelement(hb);
-    set_value_help(hue,si,val);
-  }
+    hue = (hashElement_union_t *)allocDHTelement(hb);
   else
-  {
-    hashElement_union_t * const hue = (hashElement_union_t *)he;
-    if (get_value_help(hue,si)<val)
-      set_value_help(hue,si,val);
-  }
+    hue = (hashElement_union_t *)he;
+
+  set_value_help(hue,si,1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

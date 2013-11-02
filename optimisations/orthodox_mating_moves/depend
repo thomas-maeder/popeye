@@ -10,7 +10,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  stipulation/moves_traversal.h solving/fork_on_remaining.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
@@ -59,6 +59,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 optimisations/orthodox_mating_moves/king_contact_move_generator.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \

@@ -124,7 +124,7 @@ optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/moves_traversal.h debugging/trace.h
+ stipulation/moves_traversal.h debugging/trace.h solving/ply.h
 
 optimisations/intelligent/moves_left.h:
 
@@ -165,6 +165,8 @@ stipulation/has_solution_type.h:
 stipulation/moves_traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c \
  optimisations/intelligent/proof.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -172,7 +174,7 @@ optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c 
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/proofgames.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h
 
 optimisations/intelligent/proof.h:
 
@@ -211,6 +213,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \
  optimisations/intelligent/duplicate_avoider.c \
  optimisations/intelligent/duplicate_avoider.h solving/solve.h \
@@ -277,7 +281,7 @@ optimisations/intelligent/limit_nr_solutions_per_target$(OBJ_SUFFIX): \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
@@ -316,6 +320,8 @@ stipulation/traversal.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 optimisations/intelligent/place_white_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_piece.c \
  optimisations/intelligent/place_white_piece.h pieces/pieces.h \

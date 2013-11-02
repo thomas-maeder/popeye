@@ -12,7 +12,7 @@ output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  stipulation/traversal.h solving/solve.h stipulation/branch.h \
  output/plaintext/end_of_phase_writer.h \
  output/plaintext/illegal_selfcheck_writer.h output/plaintext/tree/tree.h \
- output/plaintext/line/line.h debugging/trace.h
+ output/plaintext/line/line.h debugging/trace.h solving/ply.h
 
 output/output.h:
 
@@ -59,3 +59,5 @@ output/plaintext/tree/tree.h:
 output/plaintext/line/line.h:
 
 debugging/trace.h:
+
+solving/ply.h:

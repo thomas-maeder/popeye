@@ -76,7 +76,8 @@ pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  solving/solve.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
  stipulation/has_solution_type.h \
- pieces/attributes/paralysing/paralysing.h debugging/trace.h
+ pieces/attributes/paralysing/paralysing.h debugging/trace.h \
+ solving/ply.h
 
 pieces/attributes/paralysing/mate_filter.h:
 
@@ -117,6 +118,8 @@ stipulation/has_solution_type.h:
 pieces/attributes/paralysing/paralysing.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/stalemate_special.c \
  pieces/attributes/paralysing/stalemate_special.h \
@@ -127,7 +130,7 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  pieces/attributes/paralysing/paralysing.h solving/check.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 pieces/attributes/paralysing/stalemate_special.h:
 
@@ -170,6 +173,8 @@ pieces/attributes/paralysing/paralysing.h:
 solving/check.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/remove_captures.c \
  pieces/attributes/paralysing/remove_captures.h stipulation/stipulation.h \

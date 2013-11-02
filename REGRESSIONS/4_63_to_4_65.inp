@@ -532,4 +532,14 @@ stip ze81
 option nowk nobk
 cond wormholes a5e8
 
+next
+
+title from ~4.51 to 4.63, Popeye wouldn't print the long solutions because of a
+title tricky hashing issue
+stip ser-=5
+pie wh bwb1d2 rmc3
+blac ka1
+opt nowk noboard
+cond alpha
+
 end

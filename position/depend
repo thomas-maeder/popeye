@@ -1,7 +1,9 @@
 position/position$(OBJ_SUFFIX): position/position.c position/position.h \
  position/board.h utilities/bitmask.h pieces/pieces.h utilities/boolean.h \
  pieces/walks/vectors.h utilities/enumeration.h \
- pieces/attributes/neutral/neutral.h debugging/trace.h
+ pieces/attributes/neutral/neutral.h debugging/trace.h solving/ply.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h output/mode.h
 
 position/position.h:
 
@@ -20,6 +22,16 @@ utilities/enumeration.h:
 pieces/attributes/neutral/neutral.h:
 
 debugging/trace.h:
+
+solving/ply.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+output/mode.h:
 position/board$(OBJ_SUFFIX): position/board.c position/board.h utilities/bitmask.h
 
 position/board.h:
