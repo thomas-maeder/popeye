@@ -209,9 +209,8 @@ static void write_regular_move(move_context *context)
     }
     else
     {
-      move_effect_reason_type const exchange_reason = move_effect_journal[movement].reason;
-      assert(exchange_reason==move_effect_reason_exchange_castling_exchange
-             || exchange_reason==move_effect_reason_messigny_exchange);
+      assert(move_effect_journal[movement].reason==move_effect_reason_exchange_castling_exchange
+             || move_effect_journal[movement].reason==move_effect_reason_messigny_exchange);
       write_exchange(movement);
     }
   }
