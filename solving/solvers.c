@@ -830,15 +830,15 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[backhome])
     backhome_initialise_solving(result);
 
-  optimise_is_square_observed(result);
-  optimise_is_in_check(result);
-
   if (CondFlag[facetoface])
     facetoface_initialise_solving(result);
   if (CondFlag[backtoback])
     backtoback_initialise_solving(result);
   if (CondFlag[cheektocheek])
     cheektocheek_initialise_solving(result);
+
+  optimise_is_square_observed(result);
+  optimise_is_in_check(result);
 
   stip_impose_starter(result,slices[result].starter);
 

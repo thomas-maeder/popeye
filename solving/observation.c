@@ -642,10 +642,6 @@ static slice_type const slice_order_is_square_observed_with_proxies[] = {
   STFindSquareObserverTrackingBackKing,
   STLandingAfterFindSquareObserverTrackingBackKing,
   STFindSquareObserverTrackingBack,
-  STFindSquareObserverTrackingBackFairy,
-  STFaceToFaceMovesForPieceGenerator,
-  STBackToBackMovesForPieceGenerator,
-  STCheekToCheekMovesForPieceGenerator,
   STFalse
 };
 
@@ -819,6 +815,26 @@ boolean is_observation_trivially_validated(Side side)
   return result;
 }
 
+static boolean try_is_square_observed_ortho(slice_index si, evalfunction_t *evaluate)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (evaluate==&validate_observation || evaluate==&validate_check)
+    result = is_square_observed_ortho(trait[nbply],
+                                      move_generation_stack[current_move[nbply]-1].capture);
+  else
+    result = is_square_observed_recursive(slices[si].next1,evaluate);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
 {
   boolean result;
@@ -832,11 +848,7 @@ boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
   switch (slices[si].type)
   {
     case STIsSquareObservedOrtho:
-      if (evaluate==&validate_observation || evaluate==&validate_check)
-        result = is_square_observed_ortho(trait[nbply],
-                                          move_generation_stack[current_move[nbply]-1].capture);
-      else
-        result = is_square_observed_recursive(slices[si].next1,evaluate);
+      result = try_is_square_observed_ortho(si,evaluate);
       break;
 
     case STSingleBoxType3IsSquareObserved:
@@ -899,6 +911,7 @@ boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
 
     default:
       assert(0);
+      result = true;
       break;
   }
 
