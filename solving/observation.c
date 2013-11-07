@@ -248,12 +248,6 @@ boolean validate_observation_recursive(slice_index si)
 
     case STValidatingObservationGeometryByPlayingMove:
     {
-      square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-      square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-      TraceValue("%u",nbply);
-      TraceValue("%u\n",current_move[nbply]);
-      move_generation_stack[current_move[nbply]-1].departure = sq_observer;
-      move_generation_stack[current_move[nbply]-1].arrival = sq_landing;
       result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
@@ -263,12 +257,6 @@ boolean validate_observation_recursive(slice_index si)
 
     case STValidateCheckMoveByPlayingCapture:
     {
-      square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-      square const sq_landing = move_generation_stack[current_move[nbply]-1].arrival;
-      TraceValue("%u",nbply);
-      TraceValue("%u\n",current_move[nbply]);
-      move_generation_stack[current_move[nbply]-1].departure = sq_observer;
-      move_generation_stack[current_move[nbply]-1].arrival = sq_landing;
       result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
