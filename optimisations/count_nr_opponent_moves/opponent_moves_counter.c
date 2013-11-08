@@ -58,7 +58,7 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
 
   result = solve(slices[si].next1,n);
 
-  if (result==previous_move_is_illegal)
+  if (result==previous_move_is_illegal+1)
     /* Defenses leading to self check get a big count.
      * But still make sure that we can correctly compute the difference of two
      * counts.
