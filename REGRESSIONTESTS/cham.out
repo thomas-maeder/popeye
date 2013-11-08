@@ -80,9 +80,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:      590814
-                     play_move:      247566
- is_white_king_square_attacked:      246301
- is_black_king_square_attacked:      157667
+                     play_move:      246711
+ is_white_king_square_attacked:      245446
+ is_black_king_square_attacked:      156812
 Loesung beendet. 
 
 

@@ -184,9 +184,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:     7092420
-                     play_move:     5687018
+                     play_move:     5579496
  is_white_king_square_attacked:     2505689
- is_black_king_square_attacked:     3581916
+ is_black_king_square_attacked:     3474394
 Loesung beendet. 
 
 
@@ -737,9 +737,9 @@ N.Y. State Chess Association, 16.8.1894
  30  (Th8*g8 )
 
   add_to_move_generation_stack:      210748
-                     play_move:      148928
+                     play_move:      147615
  is_white_king_square_attacked:      112348
- is_black_king_square_attacked:       45856
+ is_black_king_square_attacked:       44543
 Loesung beendet. 
 
 
@@ -834,9 +834,9 @@ Loesung beendet.
  48  (Se8-f6 )
 
   add_to_move_generation_stack:    54691965
-                     play_move:    29897422
- is_white_king_square_attacked:    29449534
- is_black_king_square_attacked:     6868875
+                     play_move:    29802865
+ is_white_king_square_attacked:    29354977
+ is_black_king_square_attacked:     6774318
 Loesung beendet. 
 
 

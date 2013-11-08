@@ -403,9 +403,9 @@ Preis (#n), David L. Brown 50-JT 1998
 
 
   add_to_move_generation_stack:      211833
-                     play_move:      143135
+                     play_move:      142632
  is_white_king_square_attacked:       45801
- is_black_king_square_attacked:      108076
+ is_black_king_square_attacked:      107573
 Loesung beendet. 
 
 

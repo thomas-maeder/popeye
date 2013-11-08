@@ -296,9 +296,9 @@ b7 ist bereits besetzt - alter Stein wird geloescht.
 
 
   add_to_move_generation_stack:      406357
-                     play_move:      296689
+                     play_move:      295020
  is_white_king_square_attacked:       89322
- is_black_king_square_attacked:      223916
+ is_black_king_square_attacked:      222247
 Loesung beendet. 
 
 

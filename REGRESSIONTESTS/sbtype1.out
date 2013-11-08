@@ -221,9 +221,9 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
 
 
   add_to_move_generation_stack:     1719649
-                     play_move:     1353004
+                     play_move:     1336484
  is_white_king_square_attacked:      536205
- is_black_king_square_attacked:      619599
+ is_black_king_square_attacked:      611339
 Loesung beendet. 
 
 
@@ -328,10 +328,10 @@ Beispiel 1
                                           6.De5-g5 #
 
 
-  add_to_move_generation_stack:     7704423
-                     play_move:     8234495
- is_white_king_square_attacked:     4946477
- is_black_king_square_attacked:     1774849
+  add_to_move_generation_stack:    11580898
+                     play_move:    11939753
+ is_white_king_square_attacked:     6836330
+ is_black_king_square_attacked:     2827360
 Loesung beendet. 
 
 
@@ -389,9 +389,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:      685907
-                     play_move:      715229
+                     play_move:      714579
  is_white_king_square_attacked:       74990
- is_black_king_square_attacked:      396298
+ is_black_king_square_attacked:      395973
 Loesung beendet. 
 
 

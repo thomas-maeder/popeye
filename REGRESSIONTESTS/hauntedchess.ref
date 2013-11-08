@@ -53,9 +53,9 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
 
 
   add_to_move_generation_stack:      181828
-                     play_move:      116825
+                     play_move:      116468
  is_white_king_square_attacked:       53777
- is_black_king_square_attacked:       68713
+ is_black_king_square_attacked:       68356
 solution finished. 
 
 
@@ -189,9 +189,9 @@ solution finished.
 
 
   add_to_move_generation_stack:      113479
-                     play_move:       77578
+                     play_move:       77401
  is_white_king_square_attacked:       30345
- is_black_king_square_attacked:       51863
+ is_black_king_square_attacked:       51686
 solution finished. 
 
 
@@ -244,9 +244,9 @@ solution finished.
 
 
   add_to_move_generation_stack:      250649
-                     play_move:      147271
+                     play_move:      146511
  is_white_king_square_attacked:       58585
- is_black_king_square_attacked:      100388
+ is_black_king_square_attacked:       99628
 solution finished. 
 
 

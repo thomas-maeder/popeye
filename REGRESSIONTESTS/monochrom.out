@@ -34,9 +34,9 @@
 
 
   add_to_move_generation_stack:      120398
-                     play_move:       50195
+                     play_move:       49845
  is_white_king_square_attacked:       16758
- is_black_king_square_attacked:       36349
+ is_black_king_square_attacked:       35999
 Loesung beendet. 
 
 

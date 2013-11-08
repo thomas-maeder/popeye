@@ -55,9 +55,9 @@
 
 
   add_to_move_generation_stack:       13699
-                     play_move:        8136
+                     play_move:        7993
  is_white_king_square_attacked:        5180
- is_black_king_square_attacked:        3575
+ is_black_king_square_attacked:        3432
 Loesung beendet. 
 
 
@@ -232,9 +232,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:     1510334
-                     play_move:      730319
+                     play_move:      723185
  is_white_king_square_attacked:      586749
- is_black_king_square_attacked:      170050
+ is_black_king_square_attacked:      162916
 Loesung beendet. 
 
 
@@ -302,9 +302,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:     1485658
-                     play_move:      717766
+                     play_move:      711213
  is_white_king_square_attacked:      581650
- is_black_king_square_attacked:      158518
+ is_black_king_square_attacked:      151965
 Loesung beendet. 
 
 
@@ -543,9 +543,9 @@ Michael Barth und Sven Trommler gewidmet
 
 
   add_to_move_generation_stack:     2252809
-                     play_move:     1424867
- is_white_king_square_attacked:      457155
- is_black_king_square_attacked:      249182
+                     play_move:     1429155
+ is_white_king_square_attacked:      455077
+ is_black_king_square_attacked:      247104
 Loesung beendet. 
 
 

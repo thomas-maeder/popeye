@@ -32,9 +32,9 @@ a)
 
 
   add_to_move_generation_stack:        2698
-                     play_move:        1632
+                     play_move:        1611
  is_white_king_square_attacked:         813
- is_black_king_square_attacked:        1006
+ is_black_king_square_attacked:         985
 b) StingSchach
 
    1.Kc7-b6 ! Drohung:
@@ -48,9 +48,9 @@ b) StingSchach
 
 
   add_to_move_generation_stack:        7278
-                     play_move:        5416
+                     play_move:        5391
  is_white_king_square_attacked:        1292
- is_black_king_square_attacked:        4637
+ is_black_king_square_attacked:        4612
 Loesung beendet. 
 
 
