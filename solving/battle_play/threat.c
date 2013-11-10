@@ -48,6 +48,7 @@ stip_length_type threat_defeated_tester_solve(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
+  ply const threats_ply = parent_ply[parent_ply[nbply]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -56,9 +57,9 @@ stip_length_type threat_defeated_tester_solve(slice_index si,
 
   result = solve(next,n);
 
-  if (n>=threat_lengths[nbply]-2)
+  if (n>=threat_lengths[threats_ply]-2)
   {
-    if (is_current_move_in_table(threats[nbply]))
+    if (is_current_move_in_table(threats[threats_ply]))
     {
       if (slack_length<=result && result<=n)
       {
@@ -71,7 +72,7 @@ stip_length_type threat_defeated_tester_solve(slice_index si,
            */
           result = n+2;
       }
-      else if (n==threat_lengths[nbply]-1)
+      else if (n==threat_lengths[threats_ply]-1)
         /* we have found a defeated threat -> stop the iteration */
         result = n;
     }
@@ -112,7 +113,7 @@ stip_length_type threat_collector_solve(slice_index si, stip_length_type n)
   result = solve(next,n);
 
   if (slack_length<=result && result<=n)
-    append_to_table(threats[nbply]);
+    append_to_table(threats[parent_ply[parent_ply[nbply]]]);
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -137,24 +138,22 @@ stip_length_type threat_solver_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
-  ply const threats_ply = nbply+2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",threats_ply);
-  threats[threats_ply] = allocate_table();
+  threats[nbply] = allocate_table();
 
   if (!is_in_check(slices[si].starter))
-    threat_lengths[threats_ply] = solve(slices[si].next2,n)-1;
+    threat_lengths[nbply] = solve(slices[si].next2,n)-1;
 
   result = solve(next,n);
 
-  free_table(threats[threats_ply]);
-  threat_lengths[threats_ply] = no_threats_found;
-  threats[threats_ply] = table_nil;
+  free_table(threats[nbply]);
+  threat_lengths[nbply] = no_threats_found;
+  threats[nbply] = table_nil;
 
   TraceFunctionExit(__func__);
   TraceValue("%u",result);
@@ -180,7 +179,7 @@ stip_length_type threat_enforcer_solve(slice_index si, stip_length_type n)
   stip_length_type result;
   slice_index const next = slices[si].next1;
   slice_index const threat_start = slices[si].next2;
-  ply const threats_ply = nbply+1;
+  ply const threats_ply = parent_ply[nbply];
   stip_length_type const len_threat = threat_lengths[threats_ply];
 
   TraceFunctionEntry(__func__);

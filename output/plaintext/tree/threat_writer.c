@@ -47,7 +47,7 @@ stip_length_type threat_writer_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (table_length(threats[nbply])==0)
+  if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
   {
     StdChar(' ');
     Message(Threat);
