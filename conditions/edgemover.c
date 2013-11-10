@@ -18,7 +18,7 @@ static boolean goes_to_the_edge(numecoup n)
  */
 boolean edgemover_validate_observation_geometry(slice_index si)
 {
-  return (goes_to_the_edge(current_move[nbply]-1)
+  return (goes_to_the_edge(CURRMOVE_OF_PLY(nbply))
           && validate_observation_recursive(slices[si].next1));
 }
 
@@ -45,7 +45,7 @@ stip_length_type edgemover_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&goes_to_the_edge);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&goes_to_the_edge);
 
   result = solve(slices[si].next1,n);
 

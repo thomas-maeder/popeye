@@ -68,7 +68,7 @@ void annan_generate_moves_for_piece(slice_index si, PieNam p)
  */
 boolean annan_enforce_observer_walk(slice_index si)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   Side const side_attacking = trait[nbply];
   numvec const dir_annaniser = side_attacking==White ? dir_down : dir_up;
   square const pos_annaniser = sq_departure+dir_annaniser;

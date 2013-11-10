@@ -14,8 +14,7 @@ static boolean is_target_unguarded(numecoup n)
   TraceFunctionParamListEnd();
 
   siblingply(advers(trait[nbply]));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].capture;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].capture;
   result = !is_square_observed(&validate_observer);
   finply();
 
@@ -36,7 +35,7 @@ boolean superguards_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (is_target_unguarded(current_move[nbply]-1)
+  result = (is_target_unguarded(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -68,7 +67,7 @@ stip_length_type superguards_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_target_unguarded);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_target_unguarded);
 
   result = solve(slices[si].next1,n);
 

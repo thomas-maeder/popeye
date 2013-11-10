@@ -52,8 +52,8 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
                                                           stip_length_type n)
 {
   stip_length_type result;
-  numecoup const base = current_move[nbply-1];
-  numecoup const top = current_move[nbply];
+  numecoup const base = CURRMOVE_OF_PLY(nbply-1)+1;
+  numecoup const top = CURRMOVE_OF_PLY(nbply)+1;
   unsigned int const nr_moves = top-base;
 
   TraceFunctionEntry(__func__);

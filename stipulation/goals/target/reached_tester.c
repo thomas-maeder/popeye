@@ -62,7 +62,7 @@ stip_length_type goal_target_reached_tester_solve(slice_index si, stip_length_ty
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(current_move[nbply]-1!=nil_coup);
+  assert(CURRMOVE_OF_PLY(nbply)!=nil_coup);
 
   {
     move_effect_journal_index_type const top = move_effect_journal_base[nbply];

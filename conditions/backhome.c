@@ -53,7 +53,7 @@ stip_length_type back_home_moves_only_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (goes_back_home(current_move[nbply]-1))
+  if (goes_back_home(CURRMOVE_OF_PLY(nbply)))
     result = solve(slices[si].next1,n);
   else
     result = previous_move_is_illegal;
@@ -129,7 +129,7 @@ boolean back_home_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (goes_back_home_or_neednt(current_move[nbply]-1)
+  result = (goes_back_home_or_neednt(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -193,7 +193,7 @@ stip_length_type backhome_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&goes_back_home_or_neednt);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&goes_back_home_or_neednt);
 
   result = solve(slices[si].next1,n);
 

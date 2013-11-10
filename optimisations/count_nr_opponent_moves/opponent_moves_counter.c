@@ -46,7 +46,7 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
                                               stip_length_type n)
 {
   stip_length_type result;
-  numecoup const move_id = move_generation_stack[current_move[nbply]-1].id;
+  numecoup const move_id = move_generation_stack[CURRMOVE_OF_PLY(nbply)].id;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -25,7 +25,7 @@ boolean amu_count_observation(slice_index si)
 
   if (are_we_counting)
   {
-    square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+    square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
     if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
         && TSTFLAG(spec[sq_departure],trait[nbply]))
@@ -62,8 +62,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   single_attacker_departure = initsquare;
 
   siblingply(advers(trait_ply));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
   is_square_observed(&validate_observation);
   finply();
 
@@ -88,7 +87,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 stip_length_type amu_attack_counter_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);

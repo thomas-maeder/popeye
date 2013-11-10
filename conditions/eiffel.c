@@ -65,8 +65,7 @@ static boolean is_paralysed(numecoup n)
     if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       siblingply(eiffel_side);
-      current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
       observing_walk[nbply] = eiffel_piece;
       result = (*checkfunctions[eiffel_piece])(&validate_observation_geometry);
       finply();
@@ -108,7 +107,7 @@ boolean eiffel_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!is_paralysed(current_move[nbply]-1)
+  result = (!is_paralysed(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

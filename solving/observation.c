@@ -70,7 +70,7 @@ boolean validate_observation_recursive(slice_index si)
   {
     case STEnforceObserverWalk:
     {
-      square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+      square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
       TracePiece(observing_walk[nbply]);TraceText("\n");
       if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
         result = validate_observation_recursive(slices[si].next1);
@@ -81,7 +81,7 @@ boolean validate_observation_recursive(slice_index si)
 
     case STEnforceObserverSide:
     {
-      square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+      square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
       TraceEnumerator(Side,trait[nbply],"");TraceText("\n");
       if (TSTFLAG(spec[sq_departure],trait[nbply]))
         result = validate_observation_recursive(slices[si].next1);
@@ -251,7 +251,7 @@ boolean validate_observation_recursive(slice_index si)
       result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
-      current_move[nbply] = current_move[nbply-1]+1;
+      INIT_CURRMOVE(nbply);
       break;
     }
 
@@ -260,7 +260,7 @@ boolean validate_observation_recursive(slice_index si)
       result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
-      current_move[nbply] = current_move[nbply-1]+1;
+      INIT_CURRMOVE(nbply);
       break;
     }
 
@@ -522,9 +522,9 @@ boolean validate_check(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(move_generation_stack[current_move[nbply]-1].departure);
-  TraceSquare(move_generation_stack[current_move[nbply]-1].arrival);
-  TraceSquare(move_generation_stack[current_move[nbply]-1].capture);
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival);
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
   TraceText("\n");
 
   result = validate_observation_recursive(slices[temporary_hack_check_validator[trait[nbply]]].next2);
@@ -813,7 +813,7 @@ static boolean try_is_square_observed_ortho(slice_index si, evalfunction_t *eval
 
   if (evaluate==&validate_observation || evaluate==&validate_check)
     result = is_square_observed_ortho(trait[nbply],
-                                      move_generation_stack[current_move[nbply]-1].capture);
+                                      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
   else
     result = is_square_observed_recursive(slices[si].next1,evaluate);
 

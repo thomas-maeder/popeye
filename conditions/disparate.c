@@ -65,7 +65,7 @@ boolean disparate_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (can_piece_move(current_move[nbply]-1))
+  if (can_piece_move(CURRMOVE_OF_PLY(nbply)))
     result = validate_observation_recursive(slices[si].next1);
   else
     result = false;

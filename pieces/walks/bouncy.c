@@ -28,7 +28,7 @@ static void bouncy_knight_generate_moves_recursive(square step_departure, int x)
  */
 void bouncy_knight_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   bouncy_knight_generate_moves_recursive(curr_generation->departure,2);
   remove_duplicate_moves_of_single_piece(save_current_move);
   return;
@@ -137,7 +137,7 @@ static void bouncy_nightrider_generate_moves_recursive(square step_departure)
  */
 void bouncy_nightrider_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   clearedgestraversed();
   bouncy_nightrider_generate_moves_recursive(curr_generation->departure);
   remove_duplicate_moves_of_single_piece(save_current_move);
@@ -145,7 +145,7 @@ void bouncy_nightrider_generate_moves(void)
 
 static boolean rrefcech(square i1, int x, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
 
   /* ATTENTION:   first call of rrefech: x must be 2 !!   */
@@ -176,13 +176,13 @@ static boolean rrefcech(square i1, int x, evalfunction_t *evaluate)
 
 boolean bouncy_knight_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   return rrefcech(sq_target, 2, evaluate);
 }
 
 static boolean rrefnech(square i1, evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
 
   if (!NoEdge(i1))
@@ -210,7 +210,7 @@ static boolean rrefnech(square i1, evalfunction_t *evaluate)
 
 boolean bouncy_nightrider_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   clearedgestraversed();
   return rrefnech(sq_target, evaluate);
 }

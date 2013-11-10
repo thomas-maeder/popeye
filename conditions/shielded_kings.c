@@ -8,8 +8,8 @@
 
 static boolean is_not_king_captures_guarded_king(numecoup n)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -20,8 +20,7 @@ static boolean is_not_king_captures_guarded_king(numecoup n)
       || (sq_observer==king_square[White] && sq_observee==king_square[Black]))
   {
     siblingply(advers(trait[nbply]));
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].capture;
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].capture;
     result = !is_square_observed(&validate_observer);
     finply();
   }
@@ -45,7 +44,7 @@ boolean shielded_kings_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (is_not_king_captures_guarded_king(current_move[nbply]-1)
+  result = (is_not_king_captures_guarded_king(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -77,7 +76,7 @@ stip_length_type shielded_kings_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_not_king_captures_guarded_king);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_not_king_captures_guarded_king);
 
   result = solve(slices[si].next1,n);
 

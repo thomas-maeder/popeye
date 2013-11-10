@@ -15,7 +15,7 @@ square duellists[nr_sides];
  */
 int duellists_measure_length(void)
 {
-  return move_generation_stack[current_move[nbply]-1].departure==duellists[trait[nbply]];
+  return move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==duellists[trait[nbply]];
 }
 
 /* Remember a duellist

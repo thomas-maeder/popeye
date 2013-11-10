@@ -42,7 +42,7 @@ stip_length_type uncapturable_remove_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_not_capture_of_uncapturable);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_not_capture_of_uncapturable);
 
   result = solve(slices[si].next1,n);
 

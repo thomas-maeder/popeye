@@ -32,7 +32,7 @@ boolean paralysing_validate_observation_geometry(slice_index si)
   result = validate_observation_recursive(slices[si].next1);
 
   if (result && validating_paralysis_observation_geometry)
-    result = TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],Paralysing);
+    result = TSTFLAG(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Paralysing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -53,8 +53,7 @@ static boolean is_paralysed(numecoup n)
   {
     assert(!validating_paralysis_observation_geometry);
     siblingply(advers(trait[nbply]));
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].departure;
     validating_paralysis_observation_geometry = true;
     result = is_square_observed(&validate_observation_geometry);
     validating_paralysis_observation_geometry = false;
@@ -84,7 +83,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
-  numecoup curr = current_move[nbply-1]-1;
+  numecoup curr = CURRMOVE_OF_PLY(nbply-1);
   square sq_departure = initsquare;
   boolean found_move_from_unparalysed = false;
   boolean found_move_from_paralysed = false;
@@ -96,7 +95,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
 
   paralysis_suspended = false;
 
-  for (curr = current_move[nbply-1]; curr<current_move[nbply]; ++curr)
+  for (curr = CURRMOVE_OF_PLY(nbply-1)+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
     if (move_generation_stack[curr].departure!=sq_departure)
     {
       sq_departure = move_generation_stack[curr].departure;
@@ -165,9 +164,9 @@ boolean paralysing_validate_observer(slice_index si)
 
   /* we are not validating a paralysis, but an observation (e.g. check or
    * Patrol Chess) in the presence of paralysing pieces */
-  result = (!TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],
+  result = (!TSTFLAG(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],
                      Paralysing)
-            && !is_paralysed(current_move[nbply]-1)
+            && !is_paralysed(CURRMOVE_OF_PLY(nbply))
             &&  validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

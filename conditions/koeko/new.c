@@ -28,7 +28,7 @@ stip_length_type newkoeko_remember_contact_solve(slice_index si,
                                                  stip_length_type n)
 {
   stip_length_type result;
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

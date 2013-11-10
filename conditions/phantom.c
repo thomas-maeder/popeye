@@ -32,7 +32,7 @@ static boolean is_regular_arrival(square sq_arrival,
   TraceFunctionParamListEnd();
 
   for (curr_regular_move = start_regular_moves+1;
-       curr_regular_move<start_moves_from_rebirth_square;
+       curr_regular_move<=start_moves_from_rebirth_square;
        ++curr_regular_move)
     if (move_generation_stack[curr_regular_move].arrival==sq_arrival)
     {
@@ -54,7 +54,7 @@ static boolean is_regular_arrival(square sq_arrival,
 void phantom_generate_moves_for_piece(slice_index si, PieNam p)
 {
   square const sq_departure = curr_generation->departure;
-  numecoup const start_regular_moves = current_move[nbply]-1;
+  numecoup const start_regular_moves = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -72,7 +72,7 @@ void phantom_generate_moves_for_piece(slice_index si, PieNam p)
 
     if (sq_rebirth!=sq_departure && is_square_empty(sq_rebirth))
     {
-      numecoup const start_moves_from_rebirth_square = current_move[nbply];
+      numecoup const start_moves_from_rebirth_square = CURRMOVE_OF_PLY(nbply);
 
       occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
       empty_square(sq_departure);
@@ -87,8 +87,8 @@ void phantom_generate_moves_for_piece(slice_index si, PieNam p)
       {
         numecoup top_filtered = start_moves_from_rebirth_square;
         numecoup curr_from_sq_rebirth;
-        for (curr_from_sq_rebirth = start_moves_from_rebirth_square;
-             curr_from_sq_rebirth<current_move[nbply];
+        for (curr_from_sq_rebirth = start_moves_from_rebirth_square+1;
+             curr_from_sq_rebirth<=CURRMOVE_OF_PLY(nbply);
              ++curr_from_sq_rebirth)
         {
           square const sq_arrival = move_generation_stack[curr_from_sq_rebirth].arrival;
@@ -97,13 +97,13 @@ void phantom_generate_moves_for_piece(slice_index si, PieNam p)
                                      start_regular_moves,
                                      start_moves_from_rebirth_square))
           {
+            ++top_filtered;
             move_generation_stack[top_filtered] = move_generation_stack[curr_from_sq_rebirth];
             move_generation_stack[top_filtered].departure = sq_departure ;
-            ++top_filtered;
           }
         }
 
-        current_move[nbply] = top_filtered;
+        SET_CURRMOVE(nbply,top_filtered);
       }
     }
   }

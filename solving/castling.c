@@ -76,7 +76,7 @@ stip_length_type castling_intermediate_move_generator_solve(slice_index si,
 {
   stip_length_type result;
   slice_index const next = slices[si].next1;
-  numecoup const save_repere = current_move[parent_ply[nbply]-1];
+  numecoup const save_repere = CURRMOVE_OF_PLY(parent_ply[nbply]-1)+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -88,7 +88,7 @@ stip_length_type castling_intermediate_move_generator_solve(slice_index si,
    * slices into believing that this intermediate move is the only one in the
    * ply.
    */
-  current_move[parent_ply[nbply]-1] = current_move[nbply]-1;
+  current_move[parent_ply[nbply]-1] = CURRMOVE_OF_PLY(nbply);
   curr_generation->arrival = intermediate_move_square_arrival;
   push_move();
   result = solve(next,n);
@@ -138,7 +138,7 @@ static void castle(square sq_departure, square sq_arrival,
 stip_length_type castling_player_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = current_move[nbply]-1;
+  numecoup const coup_id = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
   square const sq_departure = move_gen_top->departure;
   square const sq_arrival = move_gen_top->arrival;
@@ -730,7 +730,7 @@ stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  switch (move_generation_stack[current_move[nbply]-1].capture)
+  switch (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture)
   {
     case kingside_castling:
     {

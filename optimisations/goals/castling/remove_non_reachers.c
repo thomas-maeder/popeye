@@ -63,7 +63,7 @@ stip_length_type castling_remove_non_reachers_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_castling);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_castling);
 
   result = solve(next,n);
 

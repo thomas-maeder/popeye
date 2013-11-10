@@ -53,7 +53,7 @@ static void reflecting_bishop_generate_moves_recursive(square in, numvec dir, un
  */
 void reflecting_bishop_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   vec_index_type k;
   for (k= vec_bishop_start; k <= vec_bishop_end; k++)
     reflecting_bishop_generate_moves_recursive(curr_generation->departure,vec[k],4);
@@ -65,7 +65,7 @@ static boolean reflecting_bishop_check_recursive(square intermediate_square,
                                                  int x,
                                                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   if (is_square_blocked(intermediate_square+k))
     return false;
   else
@@ -106,7 +106,7 @@ static boolean reflecting_bishop_check_recursive(square intermediate_square,
 
 boolean reflecting_bishop_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {
@@ -121,7 +121,7 @@ boolean reflecting_bishop_check(evalfunction_t *evaluate)
  */
 void archbishop_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   vec_index_type k;
   for (k = vec_bishop_start; k<=vec_bishop_end; ++k)
     reflecting_bishop_generate_moves_recursive(curr_generation->departure,vec[k],1);
@@ -131,7 +131,7 @@ void archbishop_generate_moves(void)
 
 boolean archbishop_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {

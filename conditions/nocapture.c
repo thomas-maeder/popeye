@@ -33,7 +33,7 @@ stip_length_type nocapture_remove_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_false);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_false);
 
   result = solve(slices[si].next1,n);
 

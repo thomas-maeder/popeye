@@ -29,7 +29,7 @@ static boolean find_next_orphan_in_chain(square sq_target,
     boolean does_orphan_observe;
 
     isolate_observee(Orphan,pos_orphans,orphan_id);
-    move_generation_stack[current_move[nbply]-1].capture = sq_target;
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
     observing_walk[nbply] = Orphan;
     does_orphan_observe = (*checkfunctions[orphan_observer])(&validate_observer);
     restore_observees(Orphan,pos_orphans);
@@ -60,7 +60,7 @@ static boolean orphan_find_observation_chain(square sq_target,
 
   trait[nbply] = advers(trait[nbply]);
 
-  move_generation_stack[current_move[nbply]-1].capture = sq_target;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
   observing_walk[nbply] = orphan_observer;
   if ((*checkfunctions[orphan_observer])(&validate_observer))
     result = true;
@@ -93,7 +93,7 @@ static boolean orphan_find_observation_chain(square sq_target,
  */
 void orphan_generate_moves(void)
 {
-  numecoup const save_nbcou = current_move[nbply]-1;
+  numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
   PieNam const *orphan_observer;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
@@ -102,7 +102,6 @@ void orphan_generate_moves(void)
       boolean found_chain;
 
       siblingply(trait[nbply]);
-      current_move[nbply] = current_move[nbply-1]+1;
       found_chain = orphan_find_observation_chain(curr_generation->departure,
                                                   *orphan_observer);
       finply();
@@ -116,7 +115,7 @@ void orphan_generate_moves(void)
 
 boolean orphan_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
   PieNam const *orphan_observer;
   square pos_orphans[63];
@@ -128,8 +127,7 @@ boolean orphan_check(evalfunction_t *evaluate)
   locate_observees(Orphan,pos_orphans);
 
   siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = sq_target;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)

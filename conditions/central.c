@@ -24,7 +24,7 @@ boolean central_validate_observer(slice_index si)
   result = validate_observation_recursive(slices[si].next1);
 
   if (are_we_validating_observer && result)
-    result = is_mover_supported_recursive(move_generation_stack[current_move[nbply]-1].departure);
+    result = is_mover_supported_recursive(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -44,7 +44,7 @@ static boolean is_mover_supported_recursive(square sq_departure)
     result = true;
   else
   {
-    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
     result = is_square_observed(&validate_observer);
   }
 
@@ -64,7 +64,6 @@ static boolean is_mover_supported(numecoup n)
   assert(!are_we_validating_observer);
 
   siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
   are_we_validating_observer = true;
   result = is_mover_supported_recursive(move_generation_stack[n].departure);
   are_we_validating_observer = false;
@@ -87,7 +86,7 @@ boolean central_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (is_mover_supported(current_move[nbply]-1)
+  result = (is_mover_supported(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

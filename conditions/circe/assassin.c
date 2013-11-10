@@ -31,7 +31,6 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
     square const *bnp;
 
     siblingply(side_checking);
-    current_move[nbply] = current_move[nbply-1]+1;
 
     for (bnp = boardnum; *bnp; bnp++)
     {
@@ -41,7 +40,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
           && p!=King && TSTFLAG(spec[*bnp],side_in_check)
           && rennormal(p,spec[*bnp],*bnp,side_checking)==king_square[side_in_check])
       {
-        move_generation_stack[current_move[nbply]-1].capture = *bnp;
+        move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = *bnp;
         if (is_square_observed(&validate_check))
         {
           assassinable = true;

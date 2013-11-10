@@ -479,15 +479,21 @@ void stip_insert_move_generators(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void move_generator_filter_moves(move_filter_criterion_type criterion)
+/* Only keep generated moves that fulfill some criterion
+ * @param start identifies last move on stack that the criterion will not be applied to
+ * @param criterion to be fulfilled by moves kept
+ */
+void move_generator_filter_moves(numecoup start,
+                                 move_filter_criterion_type criterion)
 {
   numecoup i;
-  numecoup new_top = current_move[nbply-1]-1;
+  numecoup new_top = start;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply-1]; i<current_move[nbply]; ++i)
+  for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
     if ((*criterion)(i))
     {
       ++new_top;
@@ -500,17 +506,22 @@ void move_generator_filter_moves(move_filter_criterion_type criterion)
   TraceFunctionResultEnd();
 }
 
-void move_generator_filter_captures(move_filter_criterion_type criterion)
+/* Only keep generated captures that fulfill some criterion; non-captures are all kept
+ * @param start identifies last move on stack that the criterion will not be applied to
+ * @param criterion to be fulfilled by moves kept
+ */
+void move_generator_filter_captures(numecoup start,
+                                    move_filter_criterion_type criterion)
 {
   numecoup i;
-  numecoup new_top = current_move[nbply-1]-1;
+  numecoup new_top = start;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply-1]; i<current_move[nbply]; ++i)
-    if (is_square_empty(move_generation_stack[i].capture)
-        || (*criterion)(i))
+  for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
+    if (is_square_empty(move_generation_stack[i].capture) || (*criterion)(i))
     {
       ++new_top;
       move_generation_stack[new_top] = move_generation_stack[i];
@@ -520,6 +531,58 @@ void move_generator_filter_captures(move_filter_criterion_type criterion)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Only keep generated non-captures that fulfill some criterion; captures are all kept
+ * @param start identifies last move on stack that the criterion will not be applied to
+ * @param criterion to be fulfilled by moves kept
+ */
+void move_generator_filter_noncaptures(numecoup start,
+                                       move_filter_criterion_type criterion)
+{
+  numecoup i;
+  numecoup new_top = start;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  for (i = start+1; i<=CURRMOVE_OF_PLY(nbply); ++i)
+    if (!is_square_empty(move_generation_stack[i].capture) || (*criterion)(i))
+    {
+      ++new_top;
+      move_generation_stack[new_top] = move_generation_stack[i];
+    }
+
+  current_move[nbply] = new_top+1;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Invert the order of the moves generated for a ply
+ * @param ply the ply
+ */
+void move_generator_invert_move_order(ply ply)
+{
+  unsigned int const nr_moves = current_move[ply]-current_move[ply-1];
+  numecoup hi = current_move[ply]-1;
+  numecoup low = hi-nr_moves+1;
+
+  while (low<hi)
+  {
+    move_generation_elmt const temp = move_generation_stack[low];
+    move_generation_stack[low] = move_generation_stack[hi];
+    move_generation_stack[hi] = temp;
+
+    ++low;
+    --hi;
+  }
+}
+
+void pop_move(void)
+{
+  --current_move[nbply];
 }
 
 DEFINE_COUNTER(add_to_move_generation_stack)
@@ -623,7 +686,7 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
     numecoup curr_move;
     numecoup last_unique_move = last_move_of_prev_piece;
     for (curr_move = last_move_of_prev_piece+1;
-         curr_move<current_move[nbply];
+         curr_move<=CURRMOVE_OF_PLY(nbply);
          ++curr_move)
     {
       square const sq_arrival = move_generation_stack[curr_move].arrival;

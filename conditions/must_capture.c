@@ -11,7 +11,7 @@
  */
 int must_capture_measure_length(void)
 {
-  square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   return !is_square_empty(sq_capture);
 }

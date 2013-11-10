@@ -49,7 +49,7 @@ boolean immune_validate_observation(slice_index si)
 {
   boolean result;
   Side const side_observing = trait[nbply];
-  square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -57,7 +57,7 @@ boolean immune_validate_observation(slice_index si)
 
   if (immune_is_rex_inclusive
       || sq_capture!=king_square[advers(side_observing)])
-    result = is_capturee_not_immune(current_move[nbply]-1);
+    result = is_capturee_not_immune(CURRMOVE_OF_PLY(nbply));
   else
     result = true;
 
@@ -93,7 +93,7 @@ stip_length_type immune_remove_captures_of_immune_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_capturee_not_immune);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_capturee_not_immune);
 
   result = solve(slices[si].next1,n);
 

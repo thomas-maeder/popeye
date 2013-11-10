@@ -110,8 +110,8 @@ boolean is_observation_trivially_validated(Side side);
 typedef boolean (evalfunction_t)(void);
 
 #define INVOKE_EVAL(evaluate,sq_departure,sq_arrival) \
-  ( move_generation_stack[current_move[nbply]-1].departure = (sq_departure), \
-    move_generation_stack[current_move[nbply]-1].arrival = (sq_arrival), \
+  ( move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = (sq_departure), \
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival = (sq_arrival), \
     (*evaluate)() \
   )
 

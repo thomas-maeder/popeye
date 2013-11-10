@@ -29,7 +29,7 @@ stip_length_type chameleon_pursuit_side_changer_solve(slice_index si,
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  square const sq_last_departure = move_generation_stack[current_move[parent_ply[nbply]]-1].departure;
+  square const sq_last_departure = move_generation_stack[CURRMOVE_OF_PLY(parent_ply[nbply])].departure;
   stip_length_type result;
 
   TraceFunctionEntry(__func__);

@@ -44,8 +44,7 @@ boolean is_king_transmuting_as(PieNam p, evalfunction_t *evaluate)
   TraceFunctionParamListEnd();
 
   siblingply(advers(side_attacking));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = king_square[side_attacking];;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = king_square[side_attacking];;
   observing_walk[nbply] = p;
   result = (*checkfunctions[p])(evaluate);
   finply();
@@ -61,8 +60,7 @@ static boolean is_square_observed_by_opponent(PieNam p)
   boolean result;
 
   siblingply(advers(trait[nbply]));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = curr_generation->departure;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = curr_generation->departure;
   observing_walk[nbply] = p;
   result = (*checkfunctions[p])(&validate_observation);
   finply();

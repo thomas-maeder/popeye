@@ -57,7 +57,7 @@ static boolean cardinal_check_recursive(square intermediate_square,
                                         int    x,
                                         evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_departure = find_end_of_line(intermediate_square,k);
 
   if (x && is_square_blocked(sq_departure))
@@ -96,7 +96,7 @@ static boolean cardinal_check_recursive(square intermediate_square,
 
 boolean cardinal_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  k;
 
   for (k= vec_bishop_start; k <= vec_bishop_end; k++) {

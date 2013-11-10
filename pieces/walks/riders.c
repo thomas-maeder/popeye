@@ -55,7 +55,7 @@ void rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
 boolean riders_check(vec_index_type kanf, vec_index_type kend,
                      evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   TraceFunctionEntry(__func__);

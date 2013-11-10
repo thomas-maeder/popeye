@@ -14,7 +14,7 @@
 
 static void update_hurdle_colour(void)
 {
-  square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[current_move[nbply]-1].id].sq_hurdle;
+  square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle;
   PieNam const pi_hurdle = get_walk_of_piece_on_square(sq_hurdle);
 
   if (pi_hurdle>King && !is_piece_neutral(spec[sq_hurdle]))

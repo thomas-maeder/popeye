@@ -42,7 +42,7 @@ static boolean find_next_friend_in_chain(square sq_target,
 {
   boolean result = false;
 
-  move_generation_stack[current_move[nbply]-1].capture = sq_target;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
   observing_walk[nbply] = friend_observer;
   if ((*checkfunctions[friend_observer])(&validate_observer))
     result = true;
@@ -63,7 +63,7 @@ static boolean find_next_friend_in_chain(square sq_target,
         boolean is_friend_observed;
 
         isolate_observee(Friend,pos_remaining_friends,k);
-        move_generation_stack[current_move[nbply]-1].capture = sq_target;
+        move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
         observing_walk[nbply] = Friend;
         is_friend_observed = (*checkfunctions[friend_observer])(&validate_observer);
         restore_observees(Friend,pos_remaining_friends);
@@ -89,7 +89,7 @@ static boolean find_next_friend_in_chain(square sq_target,
  */
 void friend_generate_moves(void)
 {
-  numecoup const save_nbcou = current_move[nbply]-1;
+  numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
   Side const camp = trait[nbply];
 
   PieNam const *friend_observer;
@@ -99,7 +99,6 @@ void friend_generate_moves(void)
       boolean found_chain;
 
       siblingply(trait[nbply]);
-      current_move[nbply] = current_move[nbply-1]+1;
       found_chain = find_next_friend_in_chain(curr_generation->departure,
                                               *friend_observer);
       finply();
@@ -113,7 +112,7 @@ void friend_generate_moves(void)
 
 boolean friend_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   PieNam const *pfr;
   boolean result = false;
   square pos_friends[63];
@@ -125,7 +124,6 @@ boolean friend_check(evalfunction_t *evaluate)
   locate_observees(Friend,pos_friends);
 
   siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
 
   for (pfr = orphanpieces; *pfr!=Empty; pfr++)
     if (number_of_pieces[trait[nbply]][*pfr]>0)
@@ -136,7 +134,7 @@ boolean friend_check(evalfunction_t *evaluate)
         boolean does_friend_observe;
 
         isolate_observee(Friend,pos_friends,k);
-        move_generation_stack[current_move[nbply]-1].capture = sq_target;
+        move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
         observing_walk[nbply] = Friend;
         does_friend_observe = (*checkfunctions[*pfr])(evaluate);
         restore_observees(Friend,pos_friends);

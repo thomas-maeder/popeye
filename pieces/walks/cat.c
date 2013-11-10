@@ -31,7 +31,7 @@ void cat_generate_moves(void)
 
 boolean cat_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   if (leapers_check(vec_knight_start,vec_knight_end,evaluate))
     return true;
   else

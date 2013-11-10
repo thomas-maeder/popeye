@@ -57,7 +57,7 @@ goal_exchange_by_rebirth_reached_tester_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(current_move[nbply]-1!=nil_coup);
+  assert(CURRMOVE_OF_PLY(nbply)!=nil_coup);
 
   /* goal is only reachable in some fairy conditions */
   result = n+2;

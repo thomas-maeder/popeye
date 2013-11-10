@@ -53,12 +53,16 @@ enum
 extern numecoup current_move[maxply+1];
 extern numecoup current_move_id[maxply+1];
 
+#define CURRMOVE_OF_PLY(ply) (current_move[(ply)]-1)
+#define INIT_CURRMOVE(ply) (current_move[(ply)] = current_move[(ply)-1]+1)
+#define SET_CURRMOVE(ply,cm) (current_move[(ply)] = (cm)+1)
+
 enum
 {
   nil_coup = 1
 };
 
-#define encore() (current_move[nbply]-1>current_move[nbply-1]-1)
+#define encore() (CURRMOVE_OF_PLY(nbply)>CURRMOVE_OF_PLY(nbply-1))
 
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation
@@ -100,16 +104,39 @@ stip_length_type move_generator_solve(slice_index si, stip_length_type n);
  */
 void stip_insert_move_generators(slice_index si);
 
-/* From the moves just generated, remove all those that don't meet a certain
- * criterion
- * @param criterion criterion to be met by moves not to be removed
- */
 typedef boolean (*move_filter_criterion_type)(numecoup n);
-void move_generator_filter_moves(move_filter_criterion_type criterion);
-void move_generator_filter_captures(move_filter_criterion_type criterion);
+
+/* Only keep generated moves that fulfill some criterion
+ * @param start identifies last move on stack that the criterion will not be applied to
+ * @param criterion to be fulfilled by moves kept
+ */
+void move_generator_filter_moves(numecoup start,
+                                 move_filter_criterion_type criterion);
+
+/* Only keep generated captures that fulfill some criterion; non-captures are all kept
+ * @param start identifies last move on stack that the criterion will not be applied to
+ * @param criterion to be fulfilled by moves kept
+ */
+void move_generator_filter_captures(numecoup start,
+                                    move_filter_criterion_type criterion);
+
+/* Only keep generated non-captures that fulfill some criterion; captures are all kept
+ * @param start identifies last move on stack that the criterion will not be applied to
+ * @param criterion to be fulfilled by moves kept
+ */
+void move_generator_filter_noncaptures(numecoup start,
+                                       move_filter_criterion_type criterion);
+
+/* Invert the order of the moves generated for a ply
+ * @param ply the ply
+ */
+void move_generator_invert_move_order(ply ply);
 
 /* address of an element used for holding the move currently being generated */
 extern move_generation_elmt *curr_generation;
+
+/* Pop the topmost move */
+void pop_move(void);
 
 /* Push the move described in *curr_generation onto the stack */
 void push_move(void);

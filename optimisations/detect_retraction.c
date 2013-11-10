@@ -273,7 +273,7 @@ stip_length_type priorise_retraction_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   ply const parent = parent_ply[nbply];
-  square const sq_arrival = move_generation_stack[current_move[parent]-1].arrival;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(parent)].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -284,9 +284,9 @@ stip_length_type priorise_retraction_solve(slice_index si, stip_length_type n)
       && move_effect_journal_index_offset_capture==0
       && is_previous_move_retractable())
   {
-    square const sq_departure = move_generation_stack[current_move[parent]-1].departure;
+    square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(parent)].departure;
     numecoup i;
-    for (i = current_move[nbply]-1; i>current_move[nbply-1]-1; --i)
+    for (i = CURRMOVE_OF_PLY(nbply); i>CURRMOVE_OF_PLY(nbply-1); --i)
       if (move_generation_stack[i].departure==sq_arrival
           && move_generation_stack[i].arrival==sq_departure)
       {

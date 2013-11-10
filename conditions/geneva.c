@@ -40,7 +40,7 @@ static boolean is_capture_legal(numecoup n)
  */
 boolean geneva_validate_observation(slice_index si)
 {
-  return (is_capture_legal(current_move[nbply]-1)
+  return (is_capture_legal(CURRMOVE_OF_PLY(nbply))
           && validate_observation_recursive(slices[si].next1));
 }
 
@@ -67,7 +67,7 @@ stip_length_type geneva_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_capture_legal);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_capture_legal);
 
   result = solve(slices[si].next1,n);
 

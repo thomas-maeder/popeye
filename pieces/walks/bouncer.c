@@ -32,7 +32,7 @@ static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
                                   evalfunction_t *evaluate)
 {
   boolean result = false;
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   ++observation_context;
 

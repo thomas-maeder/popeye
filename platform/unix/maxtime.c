@@ -105,9 +105,9 @@ static void ReDrawBoard(int sig)
     PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
     PieNam const promotee = find_promotion(ply,move_effect_journal[movement].u.piece_movement.to);
     WritePiece(pi_moving);
-    WriteSquare(move_generation_stack[current_move[ply]-1].departure);
+    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
     StdChar('-');
-    WriteSquare(move_generation_stack[current_move[ply]-1].arrival);
+    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
     if (promotee!=Empty)
     {
       StdChar('=');

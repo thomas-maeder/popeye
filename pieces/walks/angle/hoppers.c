@@ -56,7 +56,7 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
                                                         angle_t angle,
                                                         evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec const vec_departure_hurdle = angle_vectors[angle][vec_index_departure_hurdle];
   square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
 
@@ -72,7 +72,7 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
                                                 angle_t angle,
                                                 evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -122,7 +122,7 @@ static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_t
  */
 void elk_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_45);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -137,7 +137,7 @@ boolean moose_check(evalfunction_t *evaluate)
  */
 void rook_moose_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_45);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -153,7 +153,7 @@ boolean rookmoose_check(evalfunction_t *evaluate)
  */
 void bishop_moose_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_45);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -169,7 +169,7 @@ boolean bishopmoose_check(evalfunction_t *evaluate)
  */
 void eagle_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_90);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -208,7 +208,7 @@ boolean bishopeagle_check(evalfunction_t *evaluate)
  */
 void sparrow_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_135);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -223,7 +223,7 @@ boolean sparrow_check(evalfunction_t *evaluate)
  */
 void rook_sparrow_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_135);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -239,7 +239,7 @@ boolean rooksparrow_check(evalfunction_t *evaluate)
  */
 void bishop_sparrow_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_135);
   if (!TSTFLAG(spec[curr_generation->departure],ColourChange))
     remove_duplicate_moves_of_single_piece(save_current_move);
@@ -255,7 +255,7 @@ boolean bishopsparrow_check(evalfunction_t *evaluate)
  */
 void marguerite_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_45);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_90);
   angle_hoppers_generate_moves(vec_queen_start,vec_queen_end, angle_135);

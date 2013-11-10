@@ -23,7 +23,7 @@ static PieNam supertransmutation[toppile+1];
 /* the mummer logic is (ab)used to priorise transmuting king moves */
 int len_supertransmuting_kings(void)
 {
-  return MAX_OTHER_LEN * (supertransmutation[move_generation_stack[current_move[nbply]-1].id]!=Empty ? 1 : 0);
+  return MAX_OTHER_LEN * (supertransmutation[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id]!=Empty ? 1 : 0);
 }
 
 /* Try to solve in n half-moves.
@@ -43,7 +43,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
                                                          stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = current_move[nbply]-1;
+  numecoup const coup_id = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -83,8 +83,7 @@ static boolean is_square_observed_by_opponent(PieNam p)
   boolean result;
 
   siblingply(advers(trait[nbply]));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = curr_generation->departure;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = curr_generation->departure;
   observing_walk[nbply] = p;
   result = (*checkfunctions[p])(&validate_observation);
   finply();
@@ -103,10 +102,10 @@ static boolean generate_moves_of_supertransmuting_king(slice_index si)
     if (number_of_pieces[side_transmuting][*ptrans]>0
         && is_square_observed_by_opponent(*ptrans))
     {
-      numecoup curr = current_move[nbply];
+      numecoup curr_id = current_move_id[nbply];
       generate_moves_for_piece(slices[si].next1,*ptrans);
-      for (; curr!=current_move[nbply]; ++curr)
-        supertransmutation[move_generation_stack[curr].id] = *ptrans;
+      for (; curr_id<current_move_id[nbply]; ++curr_id)
+        supertransmutation[curr_id] = *ptrans;
       result = true;
     }
 
@@ -126,10 +125,10 @@ void supertransmuting_kings_generate_moves_for_piece(slice_index si, PieNam p)
 
   if (!(p==King && generate_moves_of_supertransmuting_king(si)))
   {
-    numecoup curr = current_move[nbply];
+    numecoup curr_id = current_move_id[nbply];
     generate_moves_for_piece(slices[si].next1,p);
-    for (; curr!=current_move[nbply]; ++curr)
-      supertransmutation[move_generation_stack[curr].id] = Empty;
+    for (; curr_id<current_move_id[nbply]; ++curr_id)
+      supertransmutation[curr_id] = Empty;
   }
 
   TraceFunctionExit(__func__);

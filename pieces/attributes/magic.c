@@ -95,8 +95,8 @@ static unsigned int prev_observation_context[maxply+1];
 
 static void identify_straight_line(void)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   vec_index_type const idx = interceptable_observation[observation_context].vector_index1;
   numvec const dir = vec[idx];
@@ -124,8 +124,8 @@ static void identify_straight_line(void)
 
 static void identify_circular_line(void)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   rose_rotation_sense const sense = interceptable_observation[observation_context].auxiliary;
   vec_index_type idx = interceptable_observation[observation_context].vector_index1;
   square sq_curr = sq_observee;
@@ -160,8 +160,8 @@ static void identify_circular_line(void)
 
 static void identify_zigzag_line(void)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type const idx_zig = interceptable_observation[observation_context].vector_index1;
   vec_index_type const idx_zag = interceptable_observation[observation_context].auxiliary;
   square sq_curr = sq_observee+vec[idx_zig];
@@ -199,8 +199,8 @@ static void identify_zigzag_line(void)
 
 static void identify_doublehopper_line(void)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type const idx_firstleg = interceptable_observation[observation_context].vector_index1;
   numvec const dir_firstleg = vec[idx_firstleg];
   vec_index_type const sq_intermediate = interceptable_observation[observation_context].auxiliary;
@@ -224,8 +224,8 @@ static void identify_doublehopper_line(void)
 
 static void identify_leaper_pseudoline(void)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_observee = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_observee = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   PushMagicView(sq_observee,sq_observer,sq_observer,sq_observee);
 }
 
@@ -239,7 +239,7 @@ static void identify_combined_rider_leaper_line(void)
 
 static void identify_line(void)
 {
-  square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -433,7 +433,7 @@ boolean magic_enforce_observer(slice_index si)
     result = validate_observation_recursive(slices[si].next1);
   else
   {
-    square const sq_observer = move_generation_stack[current_move[nbply]-1].departure;
+    square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
     if (sq_magician==sq_observer
         && validate_observation_recursive(slices[si].next1))
@@ -464,7 +464,7 @@ static void PushMagicViewsByOnePiece(square pos_magic)
     {
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
-      move_generation_stack[current_move[nbply]-1].capture = *pos_viewed;
+      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = *pos_viewed;
       if (pi_magic<Queen || pi_magic>Bishop
           || CheckDir[pi_magic][*pos_viewed-pos_magic]!=0)
       {
@@ -490,7 +490,6 @@ static void PushMagicViews(void)
   magic_views_top[nbply] = magic_views_top[nbply-1];
 
   siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
   prev_observation_context[nbply] = observation_context;
 
   for (pos_magic = boardnum; *pos_magic; pos_magic++)

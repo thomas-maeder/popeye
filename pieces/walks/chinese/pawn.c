@@ -38,7 +38,7 @@ void chinese_pawn_generate_moves(void)
 
 boolean chinese_pawn_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_departure;
   numvec const dir_backward = trait[nbply]==White ? dir_down : dir_up;
 

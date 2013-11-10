@@ -24,7 +24,7 @@ static numecoup take_make_circe_current_rebirth_square_index[maxply+1];
 static boolean init_rebirth_squares(Side side_reborn)
 {
   boolean result = false;
-  square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   PieNam const pi_capturing = get_walk_of_piece_on_square(sq_capture);
   Flags const flags_capturing = spec[sq_capture];
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
@@ -80,7 +80,7 @@ stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (i = current_move[nbply]-1; i>current_move[nbply-1]-1; --i)
+  for (i = CURRMOVE_OF_PLY(nbply); i>CURRMOVE_OF_PLY(nbply-1); --i)
     if (is_square_empty(move_generation_stack[i].capture))
     {
       ++take_make_circe_current_rebirth_square_index[nbply-1];

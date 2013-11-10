@@ -111,7 +111,7 @@ static square find_king_flight(void)
   TraceFunctionParamListEnd();
 
   nextply(White);
-  current_move[nbply] = current_move[nbply-1]+1;
+  INIT_CURRMOVE(nbply);
 
   empty_square(king_square[Black]);
 

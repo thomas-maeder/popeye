@@ -77,7 +77,7 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = current_move[nbply]-1;
+  numecoup const coup_id = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -260,17 +260,17 @@ void singleboxtype3_generate_moves_for_piece(slice_index si, PieNam p)
     assert(promoting_side==side);
     while (sequence.promotee!=Empty)
     {
-      numecoup curr = current_move[nbply];
+      numecoup curr_id = current_move_id[nbply];
       PieNam const pi_departing = get_walk_of_piece_on_square(where);
       ++nr_latent_promotions;
       replace_piece(where,sequence.promotee);
       generate_moves_for_piece(slices[si].next1,
                                where==curr_generation->departure ? sequence.promotee : p);
 
-      for (; curr!=current_move[nbply]; ++curr)
+      for (; curr_id<current_move_id[nbply]; ++curr_id)
       {
-        promotion[move_generation_stack[curr].id].where = where;
-        promotion[move_generation_stack[curr].id].what = sequence.promotee;
+        promotion[curr_id].where = where;
+        promotion[curr_id].what = sequence.promotee;
       }
       replace_piece(where,pi_departing);
       singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
@@ -279,15 +279,14 @@ void singleboxtype3_generate_moves_for_piece(slice_index si, PieNam p)
 
   if (nr_latent_promotions==0)
   {
-    numecoup const base = current_move[nbply];
+    numecoup curr_id = current_move_id[nbply];
+
     generate_moves_for_piece(slices[si].next1,p);
+
+    for (; curr_id<current_move_id[nbply]; ++curr_id)
     {
-      numecoup curr;
-      for (curr = base; curr!=current_move[nbply]; ++curr)
-      {
-        promotion[move_generation_stack[curr].id].where = initsquare;
-        promotion[move_generation_stack[curr].id].what = Empty;
-      }
+      promotion[curr_id].where = initsquare;
+      promotion[curr_id].what = Empty;
     }
   }
 

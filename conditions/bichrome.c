@@ -16,7 +16,7 @@ static boolean is_move_bichrome(numecoup n)
  */
 boolean bichrome_validate_observation_geometry(slice_index si)
 {
-  return (is_move_bichrome(current_move[nbply]-1)
+  return (is_move_bichrome(CURRMOVE_OF_PLY(nbply))
           && validate_observation_recursive(slices[si].next1));
 }
 
@@ -43,7 +43,7 @@ stip_length_type bichrome_remove_monochrome_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_move_bichrome);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_move_bichrome);
 
   result = solve(slices[si].next1,n);
 

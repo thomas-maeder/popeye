@@ -145,7 +145,7 @@ void marine_ship_generate_moves(vec_index_type kbeg, vec_index_type kend)
 static boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
                                    evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
   for (k = kanf; k<=kend; ++k)
   {
@@ -192,7 +192,7 @@ static boolean marine_pawn_test_check(square sq_departure,
 
 boolean marine_pawn_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
   numvec const dir_forward_right = dir_forward+dir_right;
   numvec const dir_forward_left = dir_forward+dir_left;

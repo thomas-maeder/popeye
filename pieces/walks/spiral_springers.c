@@ -27,7 +27,7 @@ static boolean zigzag_check(vec_index_type idx_zig, vec_index_type idx_zag,
                             evalfunction_t *evaluate)
 {
   boolean result;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_departure = sq_arrival+vec[idx_zig];
 
   ++observation_context;
@@ -68,7 +68,7 @@ static vec_index_type vec_index_mirror(vec_index_type start,
 
 void spiralspringer_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   vec_index_type const top = vec_knight_start+vec_knight_end;
   vec_index_type k;
 
@@ -96,7 +96,7 @@ boolean spiralspringer_check(evalfunction_t *evaluate)
 
 void diagonalspiralspringer_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -126,7 +126,7 @@ boolean diagonalspiralspringer_check(evalfunction_t *evaluate)
 
 void boyscout_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type const top = vec_bishop_start+vec_bishop_end;
   vec_index_type k;
@@ -154,7 +154,7 @@ boolean boyscout_check(evalfunction_t *evaluate)
 
 void girlscout_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type const top = vec_rook_start+vec_rook_end;
   vec_index_type k;
@@ -182,7 +182,7 @@ boolean girlscout_check(evalfunction_t *evaluate)
 
 void spiralspringer40_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -211,7 +211,7 @@ boolean spiralspringer40_check(evalfunction_t *evaluate)
 
 void spiralspringer20_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -240,7 +240,7 @@ boolean spiralspringer20_check(evalfunction_t *evaluate)
 
 void spiralspringer33_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -269,7 +269,7 @@ boolean spiralspringer33_check(evalfunction_t *evaluate)
 
 void spiralspringer11_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type k;
   for (k = vec_knight_start; k<=vec_knight_end; k += 2)
@@ -298,7 +298,7 @@ boolean spiralspringer11_check(evalfunction_t *evaluate)
 
 void quintessence_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   vec_index_type k;
 
   for (k = vec_knight_start; k<=vec_knight_end; ++k)

@@ -20,7 +20,7 @@
  */
 int blackchecks_measure_length(void)
 {
-   return move_generation_stack[current_move[nbply]-1].arrival!=nullsquare;
+   return move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival!=nullsquare;
 }
 
 /* Allocate a STNullMovePlayer slice.
@@ -174,7 +174,7 @@ stip_length_type blackchecks_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[current_move[nbply]-1].arrival==nullsquare
+  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==nullsquare
       || is_in_check(White))
     result = solve(slices[si].next1,n);
   else
@@ -208,7 +208,7 @@ stip_length_type null_move_player_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[current_move[nbply]-1].arrival==nullsquare)
+  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==nullsquare)
   {
     move_effect_journal_do_null_move();
     result = solve(slices[si].next2,n);

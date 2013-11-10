@@ -10,8 +10,8 @@ hoppper_moves_auxiliary_type hoppper_moves_auxiliary[toppile+1];
 void push_hopper_move(vec_index_type idx_dir, square sq_hurdle)
 {
   push_move();
-  hoppper_moves_auxiliary[move_generation_stack[current_move[nbply]-1].id].idx_dir = idx_dir;
-  hoppper_moves_auxiliary[move_generation_stack[current_move[nbply]-1].id].sq_hurdle = sq_hurdle;
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].idx_dir = idx_dir;
+  hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
 }
 
 /* Generate moves for a hopper piece
@@ -38,7 +38,7 @@ void rider_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
 boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
                             evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;
@@ -125,7 +125,7 @@ void leaper_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
 static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
                                     evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;
@@ -170,7 +170,7 @@ boolean knighthopper_check(evalfunction_t *evaluate)
 void doublehopper_generate_moves(vec_index_type vec_start,
                                  vec_index_type vec_end)
 {
-  numecoup const save_nbcou = current_move[nbply]-1;
+  numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type k;
   for (k = vec_end; k>=vec_start; k--)
@@ -204,7 +204,7 @@ static boolean doublehopper_check(vec_index_type vec_start, vec_index_type vec_e
                                  evalfunction_t *evaluate)
 {
   boolean result = false;
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   ++observation_context;
 
@@ -291,7 +291,7 @@ void contra_grasshopper_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
 boolean contragrasshopper_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;
@@ -382,7 +382,7 @@ static boolean grasshoppers_n_check(vec_index_type kanf, vec_index_type kend,
                                     unsigned int dist_hurdle_target,
                                     evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;
@@ -462,7 +462,7 @@ void equihopper_generate_moves(void)
 
 boolean equihopper_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   if (orix_check(evaluate))
     return true;
 
@@ -531,7 +531,7 @@ void nonstop_equihopper_generate_moves(void)
 
 boolean nonstop_equihopper_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec delta_horiz, delta_vert;
   numvec vector;
   square sq_hurdle;
@@ -601,7 +601,7 @@ void equistopper_generate_moves(void)
 
 boolean equistopper_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   for (interceptable_observation[observation_context].vector_index1 = vec_queen_end;
@@ -673,7 +673,7 @@ void nonstop_equistopper_generate_moves(void)
 
 boolean nonstop_equistopper_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   /* check by non-stop equistopper? */
   square sq_hurdle;
   square const *bnp;
@@ -723,7 +723,7 @@ void orix_generate_moves(void)
 
 boolean orix_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;
@@ -791,7 +791,7 @@ void nonstop_orix_generate_moves(void)
 
 boolean nonstop_orix_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec delta_horiz, delta_vert;
 
   square const coin = coinequis(sq_target);

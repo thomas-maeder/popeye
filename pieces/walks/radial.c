@@ -103,7 +103,7 @@ static void radialknight_generate(vec_index_type kanf, vec_index_type kend)
  */
 void radialknight_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_radial_ranges; ++i)
@@ -115,7 +115,7 @@ void radialknight_generate_moves(void)
 static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
                                        evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type idx_to_hurdle;
 
   for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
@@ -152,7 +152,7 @@ boolean radialknight_check(evalfunction_t *evaluate)
 static boolean test_treehopper_check(vec_index_type kanf, vec_index_type kend,
                                      evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type idx_to_hurdle;
 
   for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
@@ -194,7 +194,7 @@ static void treehopper_generate(vec_index_type kanf, vec_index_type kend)
  */
 void treehopper_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_queen_radial_ranges; ++i)
@@ -207,7 +207,7 @@ void treehopper_generate_moves(void)
  */
 void greater_treehopper_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_radial_ranges; ++i)
@@ -259,7 +259,7 @@ static void leafhopper_generate(vec_index_type kanf, vec_index_type kend)
  */
 void leafhopper_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_queen_radial_ranges; ++i)
@@ -272,7 +272,7 @@ void leafhopper_generate_moves(void)
  */
 void greater_leafhopper_generate_moves(void)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
   unsigned int i;
 
   for (i = 0; i!=nr_radial_ranges; ++i)
@@ -284,7 +284,7 @@ void greater_leafhopper_generate_moves(void)
 static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
                                      evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  idx_to_observer;
 
   TraceSquare(sq_target);TraceText("\n");

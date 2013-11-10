@@ -71,7 +71,7 @@ stip_length_type target_remove_non_reachers_solve(slice_index si,
   assert(target_square==initsquare);
 
   target_square = slices[si].u.goal_handler.goal.target;
-  move_generator_filter_moves(&reaches_targetsquare);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&reaches_targetsquare);
 
   target_square = initsquare;
 

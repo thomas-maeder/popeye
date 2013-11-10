@@ -11,8 +11,8 @@
  */
 int synchronous_measure_length(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
 
   ply const parent = parent_ply[nbply];
   move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
@@ -36,8 +36,8 @@ int synchronous_measure_length(void)
  */
 int antisynchronous_measure_length(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
 
   ply const parent = parent_ply[nbply];
   move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];

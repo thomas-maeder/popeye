@@ -53,7 +53,7 @@ stip_length_type post_move_iteration_initialiser_solve(slice_index si,
     post_move_iteration_locked[nbply] = false;
   else
   {
-    --current_move[nbply];
+    pop_move();
     ++post_move_iteration_id[nbply];
     TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
   }

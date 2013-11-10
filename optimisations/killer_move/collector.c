@@ -13,7 +13,7 @@ static void remember_killer_move()
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  killer_moves[nbply] = move_generation_stack[current_move[nbply]-1];
+  killer_moves[nbply] = move_generation_stack[CURRMOVE_OF_PLY(nbply)];
 
   TraceValue("%u",nbply);
   TraceSquare(killer_moves[nbply].departure);

@@ -64,7 +64,7 @@ static boolean maooacheck_onedir(square sq_pass,
                                  vec_index_type vec_index_angle_departure_pass,
                                  evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec const vec_departure_pass = angle_vectors[angle_45][vec_index_angle_departure_pass];
   square const sq_departure = sq_pass+vec_departure_pass;
 
@@ -75,7 +75,7 @@ static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
                           vec_index_type vec_index_pass_target_end,
                           evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;
@@ -160,7 +160,7 @@ static boolean maooarider_check(numvec to_passed,
                                 numvec to_departure,
                                 evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_passed = sq_target+to_passed;
   square sq_departure= sq_target+to_departure;
 
@@ -290,7 +290,7 @@ static boolean maooariderlion_check(numvec to_passed,
                                     numvec to_departure,
                                     evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_passed = sq_target+to_passed;
   square sq_departure = sq_target+to_departure;
 

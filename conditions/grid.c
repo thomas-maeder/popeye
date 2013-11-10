@@ -53,7 +53,7 @@ static boolean is_not_in_same_cell(numecoup n)
  */
 boolean grid_validate_observation_geometry(slice_index si)
 {
-  return (is_not_in_same_cell(current_move[nbply]-1)
+  return (is_not_in_same_cell(CURRMOVE_OF_PLY(nbply))
           && validate_observation_recursive(slices[si].next1));
 }
 
@@ -80,7 +80,7 @@ stip_length_type grid_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_not_in_same_cell);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_not_in_same_cell);
 
   result = solve(slices[si].next1,n);
 

@@ -33,7 +33,7 @@ void querquisite_generate_moves(void)
 
 boolean querquisite_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
 
   for (k = vec_rook_start; k<=vec_rook_end; k++)

@@ -34,7 +34,7 @@ void super_pawn_generate_moves(void)
 
 boolean superpawn_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
   if (!TSTFLAG(sq_spec[sq_target],base))
@@ -69,7 +69,7 @@ void super_berolina_pawn_generate_moves(void)
 
 boolean superberolinapawn_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const base = trait[nbply]==White ? WhBaseSq : BlBaseSq;
 
   if (!TSTFLAG(sq_spec[sq_target],base))

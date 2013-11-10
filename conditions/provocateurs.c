@@ -19,8 +19,7 @@ static boolean is_piece_provoked_on(numecoup n)
   TraceFunctionParamListEnd();
 
   siblingply(advers(trait[nbply]));
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].departure;
   result = is_square_observed(&validate_observer);
   finply();
 
@@ -41,7 +40,7 @@ boolean provocateurs_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_piece_provoked_on(current_move[nbply]-1))
+  if (is_piece_provoked_on(CURRMOVE_OF_PLY(nbply)))
     result = validate_observation_recursive(slices[si].next1);
   else
     result = false;
@@ -75,7 +74,7 @@ stip_length_type provocateurs_remove_unobserved_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_piece_provoked_on);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_piece_provoked_on);
 
   result = solve(slices[si].next1,n);
 

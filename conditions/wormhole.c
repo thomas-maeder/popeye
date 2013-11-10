@@ -211,7 +211,7 @@ boolean wormhole_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (is_move_allowed(current_move[nbply]-1)
+  result = (is_move_allowed(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -242,7 +242,7 @@ stip_length_type wormhole_remove_illegal_captures_solve(slice_index si, stip_len
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_move_allowed);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_move_allowed);
 
   result = solve(slices[si].next1,n);
 

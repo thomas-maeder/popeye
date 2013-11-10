@@ -82,7 +82,7 @@ boolean plus_is_square_observed(slice_index si, evalfunction_t *evaluate)
     square pos_observing = square_h;
     for (j= nr_files_on_board; j>0 && !result; j--, pos_observing += dir_left)
       if (TSTFLAG(spec[pos_observing],side_observing)
-          && pos_observing!=move_generation_stack[current_move[nbply]-1].capture) /* exclude nK */
+          && pos_observing!=move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture) /* exclude nK */
       {
         if (pos_observing==square_d4 || pos_observing==square_d5 || pos_observing==square_e4 || pos_observing==square_e5)
           result = (mars_is_square_observed_by(pos_observing,square_d4,evaluate)

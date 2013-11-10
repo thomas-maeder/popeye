@@ -182,7 +182,7 @@ boolean en_passant_test_check(numvec dir_capture,
                               en_passant_check_tester_type tester,
                               evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -258,7 +258,7 @@ square en_passant_find_potential(square sq_multistep_departure)
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   PieNam pi_moving = move_effect_journal[movement].u.piece_movement.moving;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_multistep_departure);
@@ -358,7 +358,7 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (move_generation_stack[current_move[nbply]-1].capture==pawn_multistep)
+  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==pawn_multistep)
   {
     move_effect_journal_index_type const top = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;

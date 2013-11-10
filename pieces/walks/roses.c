@@ -80,7 +80,7 @@ static void rose_generate_circle(vec_index_type idx_curr_dir,
  */
 void rose_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
@@ -113,7 +113,7 @@ static boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
   interceptable_observation[observation_context].auxiliary = sense;
 
   {
-    square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
     square const sq_departure = find_end_of_circle_line(sq_target,&idx_curr_dir,sense);
 
     result = (sq_departure!=sq_target /* pieces don't observe themselves */
@@ -175,7 +175,7 @@ static void rao_generate_circle(vec_index_type idx_curr_dir,
  */
 void rao_generate_moves(vec_index_type vec_range_start, vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
@@ -235,7 +235,7 @@ static void roselion_generate_circle(vec_index_type idx_curr_dir,
 void roselion_generate_moves(vec_index_type vec_range_start,
                              vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type vec_index_start;
   for (vec_index_start= vec_range_start; vec_index_start<=vec_range_end; ++vec_index_start)
@@ -261,7 +261,7 @@ static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
   interceptable_observation[observation_context].auxiliary = sense;
 
   {
-    square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
     square const sq_hurdle = find_end_of_circle_line(sq_target,
                                                      &idx_curr_dir,
                                                      sense);
@@ -340,7 +340,7 @@ static void rosehopper_genrerate_circle(vec_index_type rotation,
 void rosehopper_generate_moves(vec_index_type vec_range_start,
                                vec_index_type vec_range_end)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   vec_index_type vec_index_start;
   for (vec_index_start = vec_range_start; vec_index_start<=vec_range_end; vec_index_start++)
@@ -369,7 +369,7 @@ static boolean detect_rosehopper_check_on_line(square sq_hurdle,
   interceptable_observation[observation_context].auxiliary = sense;
 
   {
-    square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
     square const sq_departure = find_end_of_circle_line(sq_hurdle,
                                                         &idx_curr_dir,
                                                         sense);
@@ -381,7 +381,7 @@ static boolean detect_rosehopper_check_on_line(square sq_hurdle,
 boolean rosehopper_check(evalfunction_t *evaluate)
 {
   boolean result = false;
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type idx_curr_dir;
 
   ++observation_context;
@@ -458,7 +458,7 @@ static boolean detect_roselocust_check_on_line(square sq_arrival,
   interceptable_observation[observation_context].auxiliary = sense;
 
   {
-    square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
     square const sq_departure = find_end_of_circle_line(sq_target,
                                                         &idx_curr_dir,
                                                         sense);
@@ -470,7 +470,7 @@ static boolean detect_roselocust_check_on_line(square sq_arrival,
 boolean roselocust_check(evalfunction_t *evaluate)
 {
   boolean result = false;
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type idx_curr_dir;
 
   ++observation_context;

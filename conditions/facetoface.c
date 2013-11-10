@@ -36,7 +36,7 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
 static boolean enforce_possibly_confronted_observer_walk(slice_index si,
                                                          numvec dir_confronter)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   Side const side_attacking = trait[nbply];
   square const pos_confronter = sq_departure+dir_confronter;
   PieNam walk;
@@ -294,7 +294,7 @@ void backtoback_initialise_solving(slice_index si)
  */
 void cheektocheek_generate_moves_for_piece(slice_index si, PieNam p)
 {
-  numecoup const save_current_move = current_move[nbply]-1;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

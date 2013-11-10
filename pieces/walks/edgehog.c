@@ -28,7 +28,7 @@ void edgehog_generate_moves(void)
 
 boolean edgehog_check(evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;

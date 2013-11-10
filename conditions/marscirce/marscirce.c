@@ -10,16 +10,23 @@
 
 square (*marscirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
 
+static boolean always_reject(numecoup n)
+{
+  return false;
+}
+
 /* Generate non-capturing moves
  * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
+ * @note the function is implemented in a way too generic for Mars Circe to
+ *       allow it to be reused in Anti-Mars Circe.
  */
 void marscirce_generate_non_captures(slice_index si,
                                      PieNam p,
                                      square sq_generate_from)
 {
   square const sq_real_departure = curr_generation->departure;
-  numecoup const base = current_move[nbply];
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
   numecoup top_filtered = base;
   numecoup curr;
 
@@ -32,18 +39,10 @@ void marscirce_generate_non_captures(slice_index si,
   generate_moves_for_piece(slices[si].next1,p);
   curr_generation->departure = sq_real_departure;
 
-  for (curr = base; curr<current_move[nbply]; ++curr)
-  {
-    square const sq_capture = move_generation_stack[curr].capture;
-    if (is_square_empty(sq_capture))
-    {
-      move_generation_stack[top_filtered] = move_generation_stack[curr];
-      move_generation_stack[top_filtered].departure = sq_real_departure;
-      ++top_filtered;
-    }
-  }
+  move_generator_filter_captures(base,&always_reject);
 
-  current_move[nbply] = top_filtered;
+  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
+    move_generation_stack[curr].departure = sq_real_departure;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -58,7 +57,7 @@ void marscirce_generate_captures(slice_index si,
                                  square sq_generate_from)
 {
   square const sq_real_departure = curr_generation->departure;
-  numecoup const base = current_move[nbply];
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
   numecoup top_filtered = base;
   numecoup curr;
 
@@ -72,18 +71,10 @@ void marscirce_generate_captures(slice_index si,
   generate_moves_for_piece(slices[si].next1,p);
   curr_generation->departure = sq_real_departure;
 
-  for (curr = base; curr<current_move[nbply]; ++curr)
-  {
-    square const sq_capture = move_generation_stack[curr].capture;
-    if (!is_square_empty(sq_capture))
-    {
-      move_generation_stack[top_filtered] = move_generation_stack[curr];
-      move_generation_stack[top_filtered].departure = sq_real_departure;
-      ++top_filtered;
-    }
-  }
+  move_generator_filter_noncaptures(base,&always_reject);
 
-  current_move[nbply] = top_filtered;
+  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
+    move_generation_stack[curr].departure = sq_real_departure;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -136,7 +127,7 @@ static square current_rebirth_square[maxply+1];
 
 boolean mars_enforce_observer(slice_index si)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_observer = current_rebirth_square[nbply];
   boolean result;
 
@@ -166,7 +157,7 @@ boolean mars_is_square_observed_by(square pos_observer,
 
   if (is_square_empty(sq_rebirth) || sq_rebirth==pos_observer)
   {
-    square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
     PieNam const pi_checking = get_walk_of_piece_on_square(pos_observer);
     if (pi_checking<Queen || pi_checking>Bishop
         || CheckDir[pi_checking][sq_target-sq_rebirth]!=0)

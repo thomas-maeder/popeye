@@ -12,13 +12,6 @@
 HunterType huntertypes[maxnrhuntertypes];
 unsigned int nrhuntertypes;
 
-typedef enum
-{
-  UP,
-  DOWN
-} UPDOWN;
-
-
 PieNam hunter_make_type(PieNam away, PieNam home)
 {
   unsigned int i;
@@ -39,51 +32,45 @@ PieNam hunter_make_type(PieNam away, PieNam home)
     return Invalid;
 }
 
-static void filter(numecoup prevnbcou, UPDOWN u)
+static boolean goes_up(numecoup n)
 {
-  square const sq_departure = curr_generation->departure;
-  numecoup s = prevnbcou;
+  square const sq_departure = move_generation_stack[n].departure;
+  square const sq_arrival = move_generation_stack[n].arrival;
+  numvec const diff = sq_arrival-sq_departure;
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  while (s<current_move[nbply])
-    if ((u==DOWN && move_generation_stack[s].arrival-sq_departure>-nr_files_on_board)
-        || (u==UP && move_generation_stack[s].arrival-sq_departure<nr_files_on_board))
-    {
-      memmove(move_generation_stack+s,
-              move_generation_stack+s+1,
-              (current_move[nbply]-1-s) * sizeof move_generation_stack[s]);
-      --current_move[nbply];
-    }
-    else
-      ++s;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
+  return diff>nr_files_on_board;
 }
 
-static void generate_one_dir(PieNam part, UPDOWN updown)
+static boolean goes_down(numecoup n)
 {
-  numecoup const savenbcou = current_move[nbply];
+  square const sq_departure = move_generation_stack[n].departure;
+  square const sq_arrival = move_generation_stack[n].arrival;
+  numvec const diff = sq_arrival-sq_departure;
+
+  return diff<-nr_files_on_board;
+}
+
+static void generate_one_dir(PieNam part, move_filter_criterion_type criterion)
+{
+  numecoup const savenbcou = CURRMOVE_OF_PLY(nbply);
   generate_moves_for_piece_based_on_walk(part);
-  filter(savenbcou,updown);
+  move_generator_filter_moves(savenbcou,criterion);
 }
 
 static evalfunction_t *next_evaluate;
 
 static boolean eval_up(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   return (sq_arrival-sq_departure>8
           && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival));
 }
 
 static boolean eval_down(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   return (sq_arrival-sq_departure<-8
           && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival));
 }
@@ -126,13 +113,13 @@ void hunter_generate_moves(PieNam walk)
 
     if (trait[nbply]==White)
     {
-      generate_one_dir(huntertype->home,DOWN);
-      generate_one_dir(huntertype->away,UP);
+      generate_one_dir(huntertype->home,&goes_down);
+      generate_one_dir(huntertype->away,&goes_up);
     }
     else
     {
-      generate_one_dir(huntertype->away,DOWN);
-      generate_one_dir(huntertype->home,UP);
+      generate_one_dir(huntertype->away,&goes_down);
+      generate_one_dir(huntertype->home,&goes_up);
     }
   }
 
@@ -142,14 +129,14 @@ void hunter_generate_moves(PieNam walk)
 
 void rook_hunter_generate_moves(void)
 {
-  generate_one_dir(Bishop,DOWN);
-  generate_one_dir(Rook,UP);
+  generate_one_dir(Bishop,&goes_down);
+  generate_one_dir(Rook,&goes_up);
 }
 
 void bishop_hunter_generate_moves(void)
 {
-  generate_one_dir(Rook,DOWN);
-  generate_one_dir(Bishop,UP);
+  generate_one_dir(Rook,&goes_down);
+  generate_one_dir(Bishop,&goes_up);
 }
 
 boolean rookhunter_check(evalfunction_t *evaluate)

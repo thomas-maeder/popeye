@@ -53,7 +53,7 @@ stip_length_type take_and_make_avoid_pawn_make_to_base_line_solve(slice_index si
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_not_pawn_make_to_base_line);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_not_pawn_make_to_base_line);
 
   result = solve(slices[si].next1,n);
 
@@ -61,6 +61,11 @@ stip_length_type take_and_make_avoid_pawn_make_to_base_line_solve(slice_index si
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static boolean always_reject(numecoup n)
+{
+  return false;
 }
 
 /* Try to solve in n half-moves.
@@ -80,8 +85,8 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
                                                    stip_length_type n)
 {
   stip_length_type result;
-  numecoup const take_top = current_move[nbply]-1;
-  numecoup take_current = current_move[nbply-1];
+  numecoup const take_top = CURRMOVE_OF_PLY(nbply);
+  numecoup take_current = CURRMOVE_OF_PLY(nbply-1)+1;
   Side const moving = trait[nbply];
 
   TraceFunctionEntry(__func__);
@@ -96,21 +101,20 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       take_capture -= offset_en_passant_capture;
 
     if (get_walk_of_piece_on_square(take_capture)==Empty)
-    {
-      ++current_move[nbply];
-      move_generation_stack[current_move[nbply]-1] = move_generation_stack[take_current];
-    }
+      move_generation_stack[current_move[nbply]++] = move_generation_stack[take_current];
     else
     {
       PieNam const taken = get_walk_of_piece_on_square(take_capture);
       Flags const taken_spec = spec[take_capture];
       square const take_departure = move_generation_stack[take_current].departure;
       square const take_arrival = move_generation_stack[take_current].arrival;
-      numecoup make_current = current_move[nbply];
-      numecoup make_filtered_top = make_current;
+      numecoup const make_filtered_base = CURRMOVE_OF_PLY(nbply);
+      numecoup make_current;
 
       empty_square(take_capture);
-      occupy_square(take_arrival,get_walk_of_piece_on_square(take_departure),spec[take_departure]);
+      occupy_square(take_arrival,
+                    get_walk_of_piece_on_square(take_departure),
+                    spec[take_departure]);
       empty_square(take_departure);
 
       trait[nbply] = advers(moving);
@@ -119,30 +123,29 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       generate_moves_for_piece_based_on_walk(taken);
       curr_generation->departure = take_departure;
 
-      for (; make_current<current_move[nbply]; ++make_current)
-        if (is_square_empty(move_generation_stack[make_current].capture))
-        {
-          /* save the arrival square before possibly overwriting it */
-          square const make_arrival = move_generation_stack[make_current].arrival;
-          move_generation_stack[make_filtered_top] = move_generation_stack[take_current];
-          move_generation_stack[make_filtered_top].arrival = make_arrival;
-          ++make_filtered_top;
-        }
+      move_generator_filter_captures(make_filtered_base,&always_reject);
 
-      current_move[nbply] = make_filtered_top;
+      for (make_current = make_filtered_base+1; make_current<=CURRMOVE_OF_PLY(nbply); ++make_current)
+      {
+        square const make_arrival = move_generation_stack[make_current].arrival;
+        move_generation_stack[make_current] = move_generation_stack[take_current];
+        move_generation_stack[make_current].arrival = make_arrival;
+      }
 
       trait[nbply] = moving;
 
-      occupy_square(take_departure,get_walk_of_piece_on_square(take_arrival),spec[take_arrival]);
+      occupy_square(take_departure,
+                    get_walk_of_piece_on_square(take_arrival),
+                    spec[take_arrival]);
       empty_square(take_arrival);
       occupy_square(take_capture,taken,taken_spec);
     }
   }
 
-  memmove(&move_generation_stack[current_move[nbply-1]],
+  memmove(&move_generation_stack[CURRMOVE_OF_PLY(nbply-1)+1],
           &move_generation_stack[take_top+1],
-          (current_move[nbply]-1-take_top) * sizeof move_generation_stack[0]);
-  current_move[nbply] -= take_top-current_move[nbply-1]+1;
+          (CURRMOVE_OF_PLY(nbply)-take_top) * sizeof move_generation_stack[0]);
+  current_move[nbply] -= take_top-CURRMOVE_OF_PLY(nbply-1);
 
   result = solve(slices[si].next1,n);
 

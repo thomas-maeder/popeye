@@ -34,8 +34,8 @@ boolean madrasi_is_moving_piece_observed(square sq)
     else
     {
       nextply(observing_side); /* not siblingply() or ep paralysis causes problems! */
-      current_move[nbply] = current_move[nbply-1]+1;
-      move_generation_stack[current_move[nbply]-1].capture = sq;
+      INIT_CURRMOVE(nbply);
+      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq;
       observing_walk[nbply] = p;
       result = (*checkfunctions[p])(&validate_observation_geometry);
       finply();
@@ -66,8 +66,7 @@ static boolean is_paralysed(numecoup n)
     Side const observing_side = advers(observed_side);
 
     siblingply(observing_side);
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
     observing_walk[nbply] = candidate;
     result = (number_of_pieces[trait[nbply]][candidate]>0
               && (*checkfunctions[candidate])(&validate_observation_geometry));
@@ -91,7 +90,7 @@ boolean madrasi_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!is_paralysed(current_move[nbply]-1)
+  result = (!is_paralysed(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

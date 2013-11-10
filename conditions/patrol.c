@@ -14,9 +14,8 @@ static boolean is_mover_supported(numecoup n)
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
-  TraceSquare(move_generation_stack[current_move[nbply]-1].capture);TraceText("\n");
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].departure;
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);TraceText("\n");
   result = is_square_observed(&validate_observer);
   finply();
 
@@ -37,8 +36,8 @@ boolean patrol_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[move_generation_stack[current_move[nbply]-1].departure],Patrol))
-    result = (is_mover_supported(current_move[nbply]-1)
+  if (TSTFLAG(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Patrol))
+    result = (is_mover_supported(CURRMOVE_OF_PLY(nbply))
               && validate_observation_recursive(slices[si].next1));
   else
     result = validate_observation_recursive(slices[si].next1);
@@ -90,7 +89,7 @@ stip_length_type patrol_remove_unsupported_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_not_unsupported_patrol_capture);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_not_unsupported_patrol_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -154,7 +153,7 @@ boolean ultrapatrol_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (is_mover_supported(current_move[nbply]-1)
+  result = (is_mover_supported(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

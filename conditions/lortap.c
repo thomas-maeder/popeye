@@ -13,8 +13,7 @@ static boolean is_mover_unsupported(numecoup n)
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);
-  current_move[nbply] = current_move[nbply-1]+1;
-  move_generation_stack[current_move[nbply]-1].capture = move_generation_stack[n].departure;
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].departure;
   result = !is_square_observed(&validate_observer);
   finply();
 
@@ -29,7 +28,7 @@ static boolean is_mover_unsupported(numecoup n)
  */
 boolean lortap_validate_observation(slice_index si)
 {
-  return (is_mover_unsupported(current_move[nbply]-1)
+  return (is_mover_unsupported(CURRMOVE_OF_PLY(nbply))
           && validate_observation_recursive(slices[si].next1));
 }
 
@@ -56,7 +55,7 @@ stip_length_type lortap_remove_supported_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(&is_mover_unsupported);
+  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_mover_unsupported);
 
   result = solve(slices[si].next1,n);
 

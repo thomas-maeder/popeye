@@ -152,8 +152,8 @@ void redo_centre_revolution(move_effect_journal_index_type curr)
 static boolean does_move_trigger_revolution(void)
 {
   boolean result;
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

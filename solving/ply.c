@@ -22,7 +22,7 @@ static ply ply_stack_pointer;
 void ply_reset(void)
 {
   nbply = nil_ply;
-  current_move[nbply] = nil_coup+1;
+  SET_CURRMOVE(nbply,nil_coup);
   ply_watermark = nil_ply;
 }
 
@@ -93,6 +93,8 @@ void siblingply(Side side)
 
   ++post_move_iteration_id[nbply];
 
+  INIT_CURRMOVE(nbply);
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -122,8 +124,8 @@ void copyply(void)
 
   {
     unsigned int const nr_moves = current_move[original]-current_move[original-1];
-    memcpy(&move_generation_stack[current_move[nbply]],
-           &move_generation_stack[current_move[original-1]],
+    memcpy(&move_generation_stack[CURRMOVE_OF_PLY(nbply)+1],
+           &move_generation_stack[CURRMOVE_OF_PLY(original-1)+1],
            nr_moves*sizeof move_generation_stack[0]);
     current_move[nbply] += nr_moves;
   }

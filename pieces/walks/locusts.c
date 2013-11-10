@@ -17,8 +17,8 @@ void generate_locust_capture(square sq_capture,
     if (is_square_empty(curr_generation->arrival))
     {
       push_move_capture_extra(sq_capture);
-      hoppper_moves_auxiliary[move_generation_stack[current_move[nbply]-1].id].idx_dir = 0;
-      hoppper_moves_auxiliary[move_generation_stack[current_move[nbply]-1].id].sq_hurdle = sq_capture;
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].idx_dir = 0;
+      hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_capture;
     }
   }
 }
@@ -41,7 +41,7 @@ void locust_generate_moves(vec_index_type kbeg, vec_index_type kend)
 static boolean locusts_check(vec_index_type kanf, vec_index_type kend,
                              evalfunction_t *evaluate)
 {
-  square const sq_target = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
   ++observation_context;

@@ -16,8 +16,7 @@ static boolean is_unobserved_beamter(numecoup n)
   if (TSTFLAG(spec[sq_departure],Beamtet))
   {
     siblingply(advers(trait[nbply]));
-    current_move[nbply] = current_move[nbply-1]+1;
-    move_generation_stack[current_move[nbply]-1].capture = sq_departure;
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
     result = !is_square_observed(&validate_observer);
     finply();
   }
@@ -41,7 +40,7 @@ boolean beamten_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!is_unobserved_beamter(current_move[nbply]-1)
+  result = (!is_unobserved_beamter(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);

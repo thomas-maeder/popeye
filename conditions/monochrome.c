@@ -28,7 +28,7 @@ boolean monochrome_is_move_monochrome(numecoup n)
  */
 boolean monochrome_validate_observation_geometry(slice_index si)
 {
-  return (monochrome_is_move_monochrome(current_move[nbply]-1)
+  return (monochrome_is_move_monochrome(CURRMOVE_OF_PLY(nbply))
           && validate_observation_recursive(slices[si].next1));
 }
 
@@ -55,7 +55,7 @@ stip_length_type monochrome_remove_bichrome_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&monochrome_is_move_monochrome);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&monochrome_is_move_monochrome);
 
   result = solve(slices[si].next1,n);
 

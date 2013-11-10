@@ -37,9 +37,9 @@ mummer_strictness_type mummer_strictness_default_side;
  */
 int maximummer_measure_length(void)
 {
-  square const sq_departure = move_generation_stack[current_move[nbply]-1].departure;
-  square const sq_arrival = move_generation_stack[current_move[nbply]-1].arrival;
-  square const sq_capture = move_generation_stack[current_move[nbply]-1].capture;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
+  square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   switch (sq_capture)
   {
@@ -124,25 +124,6 @@ boolean mummer_set_length_measurer(Side side,
   return result;
 }
 
-/* Invert the order of the measured moves; this optimises for maximummer, by far
- * the most frequent mummer type
- */
-static void invert_move_order(void)
-{
-  unsigned int const nr_moves = current_move[nbply]-current_move[nbply-1];
-  unsigned int hi = current_move[nbply]-1;
-  unsigned int low = hi-nr_moves+1;
-  while (low<hi)
-  {
-    move_generation_elmt const temp = move_generation_stack[low];
-    move_generation_stack[low] = move_generation_stack[hi];
-    move_generation_stack[hi] = temp;
-
-    ++low;
-    --hi;
-  }
-}
-
 /* Reset the list of accepted moves
  */
 static void reset_accepted_moves(ply ply)
@@ -151,7 +132,7 @@ static void reset_accepted_moves(ply ply)
   TraceFunctionParam("%u",ply);
   TraceFunctionParamListEnd();
 
-  last_candidate[ply] = current_move[ply-1]-1;
+  last_candidate[ply] = CURRMOVE_OF_PLY(ply-1);
   TraceValue("%u\n",last_candidate[ply]);
 
   TraceFunctionExit(__func__);
@@ -202,12 +183,12 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
   reset_accepted_moves(nbply);
 
   copyply();
-  invert_move_order();
+  move_generator_invert_move_order(nbply);
   solve(slices[si].next2,n);
   finply();
 
   nbply = save_nbply;
-  current_move[nbply] = last_candidate[nbply]+1;
+  SET_CURRMOVE(nbply,last_candidate[nbply]);
 
   result = solve(slices[si].next1,n);
 
@@ -250,7 +231,7 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
   }
   else if (current_length==mum_length[nbply-1])
     /* this move may be legal, but can't increase the maximum length */
-    accept_move(nbply-1,current_move[nbply]-1);
+    accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
   else if (solve(slices[si].next1,n)>=slack_length)
   {
     /* we have a new mum */
@@ -258,7 +239,7 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
     TraceValue("%u\n",mum_length[nbply-1]);
 
     reset_accepted_moves(nbply-1);
-    accept_move(nbply-1,current_move[nbply]-1);
+    accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
 
     /* no need to try other flavours of the same move */
     post_move_iteration_locked[nbply] = false;

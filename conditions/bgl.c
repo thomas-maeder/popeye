@@ -153,7 +153,7 @@ stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(&is_move_within_bounds);
+  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_move_within_bounds);
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
@@ -178,7 +178,7 @@ stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
 stip_length_type bgl_adjuster_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  long int const diff = calculate_diff(current_move[nbply]-1);
+  long int const diff = calculate_diff(CURRMOVE_OF_PLY(nbply));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -214,7 +214,7 @@ boolean bgl_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (is_move_within_bounds(current_move[nbply]-1)
+  result = (is_move_within_bounds(CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
