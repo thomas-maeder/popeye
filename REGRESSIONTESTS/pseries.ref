@@ -240,9 +240,9 @@ solution finished.
   1.Qe1-g3 + Ke5-f5   2.Ba6-f1   3.Bf1-h3 #
 
   add_to_move_generation_stack:       12657
-                     play_move:        5877
+                     play_move:        5855
  is_white_king_square_attacked:        2626
- is_black_king_square_attacked:        5538
+ is_black_king_square_attacked:        5516
 solution finished. 
 
 
@@ -275,9 +275,9 @@ solution finished.
   1.Bh5-f7   2.Rh4-h7   3.Bf7-d5 + Kb7-c8   4.Rh7-d7   5.Bd5-e6   6.Rd7-c7 #
 
   add_to_move_generation_stack:     4610449
-                     play_move:     2718657
+                     play_move:     2486109
  is_white_king_square_attacked:     1562078
- is_black_king_square_attacked:     1739116
+ is_black_king_square_attacked:     1506568
 solution finished. 
 
 
@@ -310,9 +310,9 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
   1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 #
 
   add_to_move_generation_stack:  1772061195
-                     play_move:   802251152
+                     play_move:   782935303
  is_white_king_square_attacked:   735770621
- is_black_king_square_attacked:   480083054
+ is_black_king_square_attacked:   460767205
 solution finished. 
 
 
@@ -390,9 +390,9 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
  12  (h7-h8=B )
 
   add_to_move_generation_stack:    14054677
-                     play_move:     5427649
+                     play_move:     5354827
  is_white_king_square_attacked:     4737335
- is_black_king_square_attacked:     3095520
+ is_black_king_square_attacked:     3022698
 solution finished. 
 
 
@@ -443,9 +443,9 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
   1.f6-f7   2.f7-f8=Q + Kb8-a7   3.Kd6-c7   4.Qf8-c5 + Ka7-a6   5.Kc7-b8   6.Kb8-a8   7.b7-b8=B   8.Bd5-b7 + Bh1*b7 #
 
   add_to_move_generation_stack:   434860778
-                     play_move:   173784326
+                     play_move:   172863871
  is_white_king_square_attacked:   167271236
- is_black_king_square_attacked:   106593343
+ is_black_king_square_attacked:   105672888
 solution finished. 
 
 
