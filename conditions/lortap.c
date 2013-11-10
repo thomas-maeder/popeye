@@ -13,6 +13,7 @@ static boolean is_mover_unsupported(numecoup n)
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);
+  ++current_move[nbply];
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].departure;
   result = !is_square_observed(&validate_observer);
   finply();

@@ -93,8 +93,6 @@ void siblingply(Side side)
 
   ++post_move_iteration_id[nbply];
 
-  INIT_CURRMOVE(nbply);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

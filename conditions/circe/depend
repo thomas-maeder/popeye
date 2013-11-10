@@ -1154,13 +1154,11 @@ conditions/circe/takemake$(OBJ_SUFFIX): conditions/circe/takemake.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/rebirth_avoider.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h stipulation/has_solution_type.h stipulation/pipe.h \
+ position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h stipulation/move.h \
- stipulation/temporary_hacks.h solving/post_move_iteration.h \
- solving/single_piece_move_generator.h solving/move_generator.h \
- debugging/trace.h
+ stipulation/traversal.h stipulation/temporary_hacks.h \
+ solving/post_move_iteration.h solving/single_piece_move_generator.h \
+ solving/move_generator.h debugging/trace.h
 
 conditions/circe/takemake.h:
 
@@ -1202,19 +1200,13 @@ position/pieceid.h:
 
 stipulation/has_solution_type.h:
 
-stipulation/pipe.h:
+stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
 stipulation/traversal.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
-
-stipulation/move.h:
 
 stipulation/temporary_hacks.h:
 

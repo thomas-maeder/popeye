@@ -62,6 +62,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
   single_attacker_departure = initsquare;
 
   siblingply(advers(trait_ply));
+  ++current_move[nbply];
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
   is_square_observed(&validate_observation);
   finply();

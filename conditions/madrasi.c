@@ -66,6 +66,7 @@ static boolean is_paralysed(numecoup n)
     Side const observing_side = advers(observed_side);
 
     siblingply(observing_side);
+    ++current_move[nbply];
     move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
     observing_walk[nbply] = candidate;
     result = (number_of_pieces[trait[nbply]][candidate]>0

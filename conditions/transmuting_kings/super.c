@@ -83,6 +83,7 @@ static boolean is_square_observed_by_opponent(PieNam p)
   boolean result;
 
   siblingply(advers(trait[nbply]));
+  ++current_move[nbply];
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = curr_generation->departure;
   observing_walk[nbply] = p;
   result = (*checkfunctions[p])(&validate_observation);

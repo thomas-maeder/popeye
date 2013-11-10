@@ -68,6 +68,50 @@ static boolean always_reject(numecoup n)
   return false;
 }
 
+static void generate_make_for_one_take(numecoup take_current,
+                                       square take_capture)
+{
+  PieNam const taken = get_walk_of_piece_on_square(take_capture);
+  Flags const taken_spec = spec[take_capture];
+  square const take_departure = move_generation_stack[take_current].departure;
+  square const take_arrival = move_generation_stack[take_current].arrival;
+  numecoup const make_filtered_base = CURRMOVE_OF_PLY(nbply);
+  numecoup make_current;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",take_current);
+  TraceSquare(take_capture);
+  TraceFunctionParamListEnd();
+
+  empty_square(take_capture);
+  occupy_square(take_arrival,
+                get_walk_of_piece_on_square(take_departure),
+                spec[take_departure]);
+  empty_square(take_departure);
+
+  curr_generation->departure = take_arrival;
+  generate_moves_for_piece_based_on_walk(taken);
+  curr_generation->departure = take_departure;
+
+  move_generator_filter_captures(make_filtered_base,&always_reject);
+
+  for (make_current = make_filtered_base+1; make_current<=CURRMOVE_OF_PLY(nbply); ++make_current)
+  {
+    square const make_arrival = move_generation_stack[make_current].arrival;
+    move_generation_stack[make_current] = move_generation_stack[take_current];
+    move_generation_stack[make_current].arrival = make_arrival;
+  }
+
+  occupy_square(take_departure,
+                get_walk_of_piece_on_square(take_arrival),
+                spec[take_arrival]);
+  empty_square(take_arrival);
+  occupy_square(take_capture,taken,taken_spec);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -94,60 +138,26 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  siblingply(advers(moving)); /* generate according to the taken piece's side */
+
   for (; take_current<=take_top; ++take_current)
   {
-    square take_capture = move_generation_stack[take_current].capture;
+    square const take_capture = move_generation_stack[take_current].capture;
     if (en_passant_is_ep_capture(take_capture))
-      take_capture -= offset_en_passant_capture;
-
-    if (get_walk_of_piece_on_square(take_capture)==Empty)
+      generate_make_for_one_take(take_current,
+                                 take_capture-offset_en_passant_capture);
+    else if (get_walk_of_piece_on_square(take_capture)==Empty)
       move_generation_stack[current_move[nbply]++] = move_generation_stack[take_current];
     else
-    {
-      PieNam const taken = get_walk_of_piece_on_square(take_capture);
-      Flags const taken_spec = spec[take_capture];
-      square const take_departure = move_generation_stack[take_current].departure;
-      square const take_arrival = move_generation_stack[take_current].arrival;
-      numecoup const make_filtered_base = CURRMOVE_OF_PLY(nbply);
-      numecoup make_current;
-
-      empty_square(take_capture);
-      occupy_square(take_arrival,
-                    get_walk_of_piece_on_square(take_departure),
-                    spec[take_departure]);
-      empty_square(take_departure);
-
-      trait[nbply] = advers(moving);
-
-      curr_generation->departure = take_arrival;
-      generate_moves_for_piece_based_on_walk(taken);
-      curr_generation->departure = take_departure;
-
-      move_generator_filter_captures(make_filtered_base,&always_reject);
-
-      for (make_current = make_filtered_base+1; make_current<=CURRMOVE_OF_PLY(nbply); ++make_current)
-      {
-        square const make_arrival = move_generation_stack[make_current].arrival;
-        move_generation_stack[make_current] = move_generation_stack[take_current];
-        move_generation_stack[make_current].arrival = make_arrival;
-      }
-
-      trait[nbply] = moving;
-
-      occupy_square(take_departure,
-                    get_walk_of_piece_on_square(take_arrival),
-                    spec[take_arrival]);
-      empty_square(take_arrival);
-      occupy_square(take_capture,taken,taken_spec);
-    }
+      generate_make_for_one_take(take_current,take_capture);
   }
 
-  memmove(&move_generation_stack[CURRMOVE_OF_PLY(nbply-1)+1],
-          &move_generation_stack[take_top+1],
-          (CURRMOVE_OF_PLY(nbply)-take_top) * sizeof move_generation_stack[0]);
-  current_move[nbply] -= take_top-CURRMOVE_OF_PLY(nbply-1);
+  trait[nbply] = moving; /* move on behalf of to the taking piece's side */
 
   result = solve(slices[si].next1,n);
+
+  finply();
+  current_move[nbply] = current_move[nbply-1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

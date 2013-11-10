@@ -338,7 +338,6 @@
     ENUMERATOR(STRankCirceDetermineRelevantSide),                       \
     ENUMERATOR(STRankCirceAdjustRebirthSquare),                         \
     ENUMERATOR(STTakeMakeCirceDetermineRebirthSquares),                 \
-    ENUMERATOR(STTakeMakeCirceNoRebirth),                               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquaresFork),               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquares),                   \
     ENUMERATOR(STAntipodesCirceDetermineRebirthSquare),                 \

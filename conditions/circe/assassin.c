@@ -31,6 +31,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
     square const *bnp;
 
     siblingply(side_checking);
+    ++current_move[nbply];
 
     for (bnp = boardnum; *bnp; bnp++)
     {

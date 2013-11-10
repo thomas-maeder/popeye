@@ -64,6 +64,7 @@ static boolean is_mover_supported(numecoup n)
   assert(!are_we_validating_observer);
 
   siblingply(trait[nbply]);
+  ++current_move[nbply];
   are_we_validating_observer = true;
   result = is_mover_supported_recursive(move_generation_stack[n].departure);
   are_we_validating_observer = false;

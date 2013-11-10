@@ -99,6 +99,7 @@ void friend_generate_moves(void)
       boolean found_chain;
 
       siblingply(trait[nbply]);
+      ++current_move[nbply];
       found_chain = find_next_friend_in_chain(curr_generation->departure,
                                               *friend_observer);
       finply();
@@ -124,6 +125,7 @@ boolean friend_check(evalfunction_t *evaluate)
   locate_observees(Friend,pos_friends);
 
   siblingply(trait[nbply]);
+  ++current_move[nbply];
 
   for (pfr = orphanpieces; *pfr!=Empty; pfr++)
     if (number_of_pieces[trait[nbply]][*pfr]>0)

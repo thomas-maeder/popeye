@@ -102,6 +102,7 @@ void orphan_generate_moves(void)
       boolean found_chain;
 
       siblingply(trait[nbply]);
+      ++current_move[nbply];
       found_chain = orphan_find_observation_chain(curr_generation->departure,
                                                   *orphan_observer);
       finply();
@@ -127,6 +128,7 @@ boolean orphan_check(evalfunction_t *evaluate)
   locate_observees(Orphan,pos_orphans);
 
   siblingply(trait[nbply]);
+  ++current_move[nbply];
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)

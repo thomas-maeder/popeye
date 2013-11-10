@@ -90,6 +90,7 @@ static boolean woozles_aux_wh(void)
     if (number_of_pieces[side_woozled][p]>0)
     {
       siblingply(side_woozled);
+      ++current_move[nbply];
       move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure;
       observing_walk[nbply] = p;
       result = (*checkfunctions[p])(&woozles_aux_whx);
@@ -114,6 +115,7 @@ static boolean heffalumps_aux_wh(void)
     if (number_of_pieces[side_woozled][p]>0)
     {
       siblingply(side_woozled);
+      ++current_move[nbply];
       move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure;
       observing_walk[nbply] = p;
       result = (*checkfunctions[p])(&heffalumps_aux_whx);
@@ -144,6 +146,7 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
       ++pcheck;
 
     siblingply(side_woozle);
+    ++current_move[nbply];
     SET_CURRMOVE(nbply-1,n); /* allow validation to refer to move n */
     move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_observer;
 
@@ -188,6 +191,7 @@ static boolean heffalumps_is_paralysed(Side side_woozle, numecoup n)
       ++pcheck;
 
     siblingply(side_woozle);
+    ++current_move[nbply];
     SET_CURRMOVE(nbply-1,n); /* allow validation to refer to move n */
     move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_observer;
 

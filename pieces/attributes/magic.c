@@ -490,6 +490,7 @@ static void PushMagicViews(void)
   magic_views_top[nbply] = magic_views_top[nbply-1];
 
   siblingply(trait[nbply]);
+  ++current_move[nbply];
   prev_observation_context[nbply] = observation_context;
 
   for (pos_magic = boardnum; *pos_magic; pos_magic++)
