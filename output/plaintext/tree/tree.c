@@ -619,18 +619,28 @@ void stip_insert_output_plaintext_tree_slices(slice_index si, boolean is_setplay
   TraceFunctionResultEnd();
 }
 
+static unsigned int measure_move_depth(ply curr_ply)
+{
+  ply const parent = parent_ply[curr_ply];
+
+  if (parent==nil_ply)
+    return output_plaintext_nr_move_inversions;
+  else
+    return measure_move_depth(parent)+1;
+}
+
 /* Write a move
  */
 void output_plaintext_tree_write_move(void)
 {
-  unsigned int const move_depth = nbply+output_plaintext_nr_move_inversions;
+  unsigned int const move_depth = measure_move_depth(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   Message(NewLine);
 
-  sprintf(GlobalStr,"%*c%3u.",4*move_depth-8,' ',move_depth/2);
+  sprintf(GlobalStr,"%*c%3u.",4*move_depth,' ',move_depth/2+1);
   StdString(GlobalStr);
   if (move_depth%2==1)
     StdString("..");

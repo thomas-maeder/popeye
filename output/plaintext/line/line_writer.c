@@ -107,12 +107,10 @@ static void write_potential_check(void)
 static void write_ply_history(unsigned int *next_move_number,
                               Side *numbered_side)
 {
-  ply const start_ply = 2;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (nbply==start_ply)
+  if (parent_ply[nbply]==nil_ply)
     write_line_intro(next_move_number,numbered_side);
   else
   {
@@ -120,8 +118,6 @@ static void write_ply_history(unsigned int *next_move_number,
 
     undo_move_effects();
 
-    TraceValue("%u",nbply);
-    TraceValue("%u\n",parent_ply[nbply]);
     nbply = parent_ply[nbply];
 
     write_ply_history(next_move_number,numbered_side);
