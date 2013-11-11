@@ -84,7 +84,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
                                                      stip_length_type n)
 {
   stip_length_type result;
-  numecoup curr = CURRMOVE_OF_PLY(nbply-1);
+  numecoup curr;
   square sq_departure = initsquare;
   boolean found_move_from_unparalysed = false;
   boolean found_move_from_paralysed = false;
