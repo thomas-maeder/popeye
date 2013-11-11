@@ -63,7 +63,7 @@ stip_length_type chess81_remove_non_reachers_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&reaches_81);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&reaches_81);
 
   result = solve(next,n);
 

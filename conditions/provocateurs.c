@@ -75,7 +75,7 @@ stip_length_type provocateurs_remove_unobserved_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_piece_provoked_on);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_piece_provoked_on);
 
   result = solve(slices[si].next1,n);
 

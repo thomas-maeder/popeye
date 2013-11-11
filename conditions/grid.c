@@ -80,7 +80,7 @@ stip_length_type grid_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_not_in_same_cell);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&is_not_in_same_cell);
 
   result = solve(slices[si].next1,n);
 

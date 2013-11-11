@@ -193,7 +193,7 @@ stip_length_type backhome_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&goes_back_home_or_neednt);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&goes_back_home_or_neednt);
 
   result = solve(slices[si].next1,n);
 

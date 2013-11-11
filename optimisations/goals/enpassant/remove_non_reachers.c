@@ -65,7 +65,7 @@ stip_length_type enpassant_remove_non_reachers_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_enpassant_capture);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&is_enpassant_capture);
 
   result = solve(next,n);
 

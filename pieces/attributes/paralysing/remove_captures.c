@@ -40,7 +40,7 @@ stip_length_type paralysing_remove_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&mover_is_not_paralysing);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&mover_is_not_paralysing);
 
   result = solve(slices[si].next1,n);
 

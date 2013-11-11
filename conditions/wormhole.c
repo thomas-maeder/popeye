@@ -242,7 +242,7 @@ stip_length_type wormhole_remove_illegal_captures_solve(slice_index si, stip_len
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_move_allowed);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&is_move_allowed);
 
   result = solve(slices[si].next1,n);
 

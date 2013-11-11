@@ -96,7 +96,7 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
 
   paralysis_suspended = false;
 
-  for (curr = CURRMOVE_OF_PLY(nbply-1)+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
+  for (curr = MOVEBASE_OF_PLY(nbply)+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
     if (move_generation_stack[curr].departure!=sq_departure)
     {
       sq_departure = move_generation_stack[curr].departure;

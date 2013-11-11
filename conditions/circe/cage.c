@@ -170,7 +170,7 @@ stip_length_type circe_cage_futile_captures_remover_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_false);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_false);
 
   result = solve(slices[si].next1,n);
 

@@ -86,12 +86,12 @@ static boolean woozles_aux_wh(void)
   if (validate_observation_geometry())
   {
     Side const side_woozled = trait[nbply-1];
-    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure);
+    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
     if (number_of_pieces[side_woozled][p]>0)
     {
       siblingply(side_woozled);
       ++current_move[nbply];
-      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure;
+      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure;
       observing_walk[nbply] = p;
       result = (*checkfunctions[p])(&woozles_aux_whx);
       finply();
@@ -111,12 +111,12 @@ static boolean heffalumps_aux_wh(void)
   if (validate_observation_geometry())
   {
     Side const side_woozled = trait[nbply-1];
-    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure);
+    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
     if (number_of_pieces[side_woozled][p]>0)
     {
       siblingply(side_woozled);
       ++current_move[nbply];
-      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[CURRMOVE_OF_PLY(nbply-1)].departure;
+      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure;
       observing_walk[nbply] = p;
       result = (*checkfunctions[p])(&heffalumps_aux_whx);
       finply();
@@ -339,7 +339,7 @@ stip_length_type woozles_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&woozles_is_not_illegal_capture);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&woozles_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -433,7 +433,7 @@ stip_length_type biwoozles_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&biwoozles_is_not_illegal_capture);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&biwoozles_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -527,7 +527,7 @@ stip_length_type heffalumps_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&heffalumps_is_not_illegal_capture);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&heffalumps_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 
@@ -621,7 +621,7 @@ stip_length_type biheffalumps_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&biheffalumps_is_not_illegal_capture);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&biheffalumps_is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 

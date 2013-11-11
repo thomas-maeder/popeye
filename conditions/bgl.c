@@ -153,7 +153,7 @@ stip_length_type bgl_enforcer_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&is_move_within_bounds);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&is_move_within_bounds);
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

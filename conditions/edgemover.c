@@ -45,7 +45,7 @@ stip_length_type edgemover_remove_illegal_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&goes_to_the_edge);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&goes_to_the_edge);
 
   result = solve(slices[si].next1,n);
 

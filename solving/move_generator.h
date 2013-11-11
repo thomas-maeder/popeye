@@ -53,6 +53,7 @@ enum
 extern numecoup current_move[maxply+1];
 extern numecoup current_move_id[maxply+1];
 
+#define MOVEBASE_OF_PLY(ply) (current_move[(ply)-1]-1)
 #define CURRMOVE_OF_PLY(ply) (current_move[(ply)]-1)
 #define INIT_CURRMOVE(ply) (current_move[(ply)] = current_move[(ply)-1]+1)
 #define SET_CURRMOVE(ply,cm) (current_move[(ply)] = (cm)+1)
@@ -62,7 +63,7 @@ enum
   nil_coup = 1
 };
 
-#define encore() (CURRMOVE_OF_PLY(nbply)>CURRMOVE_OF_PLY(nbply-1))
+#define encore() (CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply))
 
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation

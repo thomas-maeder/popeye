@@ -53,7 +53,7 @@ stip_length_type take_and_make_avoid_pawn_make_to_base_line_solve(slice_index si
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_not_pawn_make_to_base_line);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_not_pawn_make_to_base_line);
 
   result = solve(slices[si].next1,n);
 
@@ -130,7 +130,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 {
   stip_length_type result;
   numecoup const take_top = CURRMOVE_OF_PLY(nbply);
-  numecoup take_current = CURRMOVE_OF_PLY(nbply-1)+1;
+  numecoup take_current = MOVEBASE_OF_PLY(nbply)+1;
   Side const moving = trait[nbply];
 
   TraceFunctionEntry(__func__);

@@ -93,7 +93,7 @@ stip_length_type immune_remove_captures_of_immune_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_capturee_not_immune);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_capturee_not_immune);
 
   result = solve(slices[si].next1,n);
 

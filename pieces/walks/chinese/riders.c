@@ -1,6 +1,7 @@
 #include "pieces/walks/chinese/riders.h"
 #include "pieces/walks/riders.h"
 #include "pieces/walks/lions.h"
+#include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 

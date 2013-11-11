@@ -560,8 +560,8 @@ static numecoup remove_illegal_moves_by_same_piece(numecoup curr, numecoup *new_
 
 static void remove_illegal_moves(void)
 {
-  numecoup curr = CURRMOVE_OF_PLY(nbply-1)+1;
-  numecoup new_top = CURRMOVE_OF_PLY(nbply-1);
+  numecoup curr = MOVEBASE_OF_PLY(nbply)+1;
+  numecoup new_top = MOVEBASE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

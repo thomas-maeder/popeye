@@ -27,7 +27,6 @@ void marscirce_generate_non_captures(slice_index si,
 {
   square const sq_real_departure = curr_generation->departure;
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  numecoup top_filtered = base;
   numecoup curr;
 
   TraceFunctionEntry(__func__);
@@ -58,7 +57,6 @@ void marscirce_generate_captures(slice_index si,
 {
   square const sq_real_departure = curr_generation->departure;
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  numecoup top_filtered = base;
   numecoup curr;
 
   TraceFunctionEntry(__func__);

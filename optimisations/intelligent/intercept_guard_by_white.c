@@ -126,36 +126,6 @@ static void promoted_white_pawn(unsigned int intercepter_index,
   TraceFunctionResultEnd();
 }
 
-/* Intercept with the white king on a square
- * @param guard of what square
- * @param dir_from_rider direction from rider giving check to black king
- * @param go_on what to do after each successful interception?
- */
-static void white_king(square target,
-                       int dir_from_rider,
-                       void (*go_on)(void))
-{
-  square where_to_intercept;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(target);
-  TraceFunctionParam("%u",dir_from_rider);
-  TraceFunctionParamListEnd();
-
-  white[index_of_king].usage = piece_intercepts;
-
-  for (where_to_intercept = target-dir_from_rider;
-       is_square_empty(where_to_intercept);
-       where_to_intercept -= dir_from_rider)
-    if (nr_reasons_for_staying_empty[where_to_intercept]==0)
-      intelligent_place_white_king(where_to_intercept,go_on);
-
-  white[index_of_king].usage = piece_is_unused;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Intercept with a white piece on a square
  * @param where_to_intercept what square
  * @param is_diagonal true iff we are intercepting a check on a diagonal line

@@ -55,7 +55,7 @@ stip_length_type monochrome_remove_bichrome_moves_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_moves(CURRMOVE_OF_PLY(nbply-1),&monochrome_is_move_monochrome);
+  move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&monochrome_is_move_monochrome);
 
   result = solve(slices[si].next1,n);
 

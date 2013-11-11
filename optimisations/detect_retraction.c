@@ -286,7 +286,7 @@ stip_length_type priorise_retraction_solve(slice_index si, stip_length_type n)
   {
     square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(parent)].departure;
     numecoup i;
-    for (i = CURRMOVE_OF_PLY(nbply); i>CURRMOVE_OF_PLY(nbply-1); --i)
+    for (i = CURRMOVE_OF_PLY(nbply); i>MOVEBASE_OF_PLY(nbply); --i)
       if (move_generation_stack[i].departure==sq_arrival
           && move_generation_stack[i].arrival==sq_departure)
       {

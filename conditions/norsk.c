@@ -138,7 +138,7 @@ stip_length_type norsk_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_not_illegal_capture);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_not_illegal_capture);
 
   result = solve(slices[si].next1,n);
 

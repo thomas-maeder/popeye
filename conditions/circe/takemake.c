@@ -75,7 +75,7 @@ stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  for (i = CURRMOVE_OF_PLY(nbply); i>CURRMOVE_OF_PLY(nbply-1); --i)
+  for (i = CURRMOVE_OF_PLY(nbply); i>MOVEBASE_OF_PLY(nbply); --i)
     if (is_square_empty(move_generation_stack[i].capture))
     {
       ++take_make_circe_current_rebirth_square_index[stack_pointer];

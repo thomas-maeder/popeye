@@ -4,8 +4,8 @@ pieces/walks/chinese/riders$(OBJ_SUFFIX): pieces/walks/chinese/riders.c \
  pieces/walks/vectors.h utilities/enumeration.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/ply.h \
- pieces/walks/riders.h pieces/walks/lions.h solving/move_generator.h \
- solving/solve.h debugging/trace.h
+ pieces/walks/riders.h pieces/walks/lions.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/chinese/riders.h:
 
@@ -38,6 +38,8 @@ solving/ply.h:
 pieces/walks/riders.h:
 
 pieces/walks/lions.h:
+
+pieces/walks/hoppers.h:
 
 solving/move_generator.h:
 

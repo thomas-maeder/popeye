@@ -77,7 +77,7 @@ stip_length_type shielded_kings_remove_illegal_captures_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(CURRMOVE_OF_PLY(nbply-1),&is_not_king_captures_guarded_king);
+  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_not_king_captures_guarded_king);
 
   result = solve(slices[si].next1,n);
 
