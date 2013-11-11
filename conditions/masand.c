@@ -61,8 +61,7 @@ static boolean observed(square on_this, square by_that)
   TraceFunctionParamListEnd();
 
   siblingply(trait[nbply]);
-  ++current_move[nbply];
-  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = on_this;
+  push_observation_target(on_this);
   current_observer_pos[nbply] = by_that;
   result = is_square_observed(&validate_observation);
   finply();

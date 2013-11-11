@@ -53,8 +53,7 @@ static boolean is_paralysed(numecoup n)
   {
     assert(!validating_paralysis_observation_geometry);
     siblingply(advers(trait[nbply]));
-    ++current_move[nbply];
-    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].departure;
+    push_observation_target(move_generation_stack[n].departure);
     validating_paralysis_observation_geometry = true;
     result = is_square_observed(&validate_observation_geometry);
     validating_paralysis_observation_geometry = false;

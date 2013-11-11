@@ -661,6 +661,19 @@ void push_special_move(square sq_special)
   TraceFunctionResultEnd();
 }
 
+void push_observation_target(square sq_target)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",sq_target);
+  TraceFunctionParamListEnd();
+
+  move_generation_stack[current_move[nbply]].capture = sq_target;
+  ++current_move[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 typedef unsigned int mark_type;
 
 static mark_type square_marks[square_h8+1] = { 0 };

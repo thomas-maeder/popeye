@@ -153,6 +153,11 @@ void push_move_capture_extra(square sq_capture);
  */
 void push_special_move(square sq_special);
 
+/* Push a square observation target
+ * @param sq_target the target
+ */
+void push_observation_target(square sq_target);
+
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates
  */

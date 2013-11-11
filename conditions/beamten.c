@@ -16,8 +16,7 @@ static boolean is_unobserved_beamter(numecoup n)
   if (TSTFLAG(spec[sq_departure],Beamtet))
   {
     siblingply(advers(trait[nbply]));
-    ++current_move[nbply];
-    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
+    push_observation_target(sq_departure);
     result = !is_square_observed(&validate_observer);
     finply();
   }

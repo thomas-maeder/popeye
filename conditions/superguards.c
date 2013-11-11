@@ -14,8 +14,7 @@ static boolean is_target_unguarded(numecoup n)
   TraceFunctionParamListEnd();
 
   siblingply(advers(trait[nbply]));
-  ++current_move[nbply];
-  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = move_generation_stack[n].capture;
+  push_observation_target(move_generation_stack[n].capture);
   result = !is_square_observed(&validate_observer);
   finply();
 

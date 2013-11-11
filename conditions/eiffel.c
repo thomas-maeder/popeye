@@ -65,8 +65,7 @@ static boolean is_paralysed(numecoup n)
     if (number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       siblingply(eiffel_side);
-      ++current_move[nbply];
-      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
+      push_observation_target(sq_departure);
       observing_walk[nbply] = eiffel_piece;
       result = (*checkfunctions[eiffel_piece])(&validate_observation_geometry);
       finply();
