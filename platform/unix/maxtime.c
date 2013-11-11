@@ -82,6 +82,31 @@ static PieNam find_promotion(ply ply, square sq_arrival)
   return result;
 }
 
+static void ReDrawPly(ply curr_ply)
+{
+  ply const parent = parent_ply[curr_ply];
+
+  if (parent!=nil_ply)
+    ReDrawPly(parent);
+
+  {
+    move_effect_journal_index_type const top = move_effect_journal_base[curr_ply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+    PieNam const promotee = find_promotion(curr_ply,move_effect_journal[movement].u.piece_movement.to);
+    WritePiece(pi_moving);
+    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].departure);
+    StdChar('-');
+    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].arrival);
+    if (promotee!=Empty)
+    {
+      StdChar('=');
+      WritePiece(promotee);
+    }
+    StdString("   ");
+  }
+}
+
 static void ReDrawBoard(int sig)
 {
   /* I did this, to see more accurately what position popeye is
@@ -91,30 +116,13 @@ static void ReDrawBoard(int sig)
      position is of almost no value. The history is more important.
      TLi
   */
-  ply ply;
 
   WritePosition();
 
   /* and write (some information about) the sequences of moves that
      lead to this position.
   */
-  for (ply = 2; ply < nbply-1; ++ply)
-  {
-    move_effect_journal_index_type const top = move_effect_journal_base[ply];
-    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
-    PieNam const promotee = find_promotion(ply,move_effect_journal[movement].u.piece_movement.to);
-    WritePiece(pi_moving);
-    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
-    StdChar('-');
-    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
-    if (promotee!=Empty)
-    {
-      StdChar('=');
-      WritePiece(promotee);
-    }
-    StdString("   ");
-  }
+  ReDrawPly(nbply);
   StdChar('\n');
 
   signal(sig,&ReDrawBoard);

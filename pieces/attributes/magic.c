@@ -36,9 +36,11 @@ static magicview_type magicviews[magicviews_size];
 
 static unsigned int magic_views_top[maxply + 1];
 
+static ply stack_pointer;
+
 static void PushMagicView(square pos_viewed, square pos_magic, square start, square end)
 {
-  unsigned int const top = magic_views_top[nbply-1];
+  unsigned int const top = magic_views_top[stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceSquare(pos_viewed);
@@ -47,17 +49,17 @@ static void PushMagicView(square pos_viewed, square pos_magic, square start, squ
   TraceSquare(end);
   TraceFunctionParamListEnd();
 
-  assert(magic_views_top[nbply-1]<magicviews_size);
+  assert(magic_views_top[stack_pointer]<magicviews_size);
 
   magicviews[top].pos_viewed = pos_viewed;
   magicviews[top].viewedid = GetPieceId(spec[pos_viewed]);
   magicviews[top].magicpieceid = GetPieceId(spec[pos_magic]);
   magicviews[top].line_start = start;
   magicviews[top].line_end = end;
-  ++magic_views_top[nbply-1];
+  ++magic_views_top[stack_pointer];
 
-  TraceValue("%u",nbply);
-  TraceValue("%u\n",magic_views_top[nbply-1]);
+  TraceValue("%u",stack_pointer);
+  TraceValue("%u\n",magic_views_top[stack_pointer]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -487,7 +489,7 @@ static void PushMagicViews(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  magic_views_top[nbply] = magic_views_top[nbply-1];
+  magic_views_top[stack_pointer] = magic_views_top[stack_pointer-1];
 
   siblingply(trait[nbply]);
   ++current_move[nbply];
@@ -533,7 +535,7 @@ static boolean find_view(ply ply_id, int j)
   TraceFunctionParam("%d",j);
   TraceFunctionParamListEnd();
 
-  for (k = magic_views_top[ply_id-1]; k<magic_views_top[ply_id]; ++k)
+  for (k = magic_views_top[stack_pointer-2]; k<magic_views_top[stack_pointer-1]; ++k)
     if (magicviews[k].viewedid==currid
         && magicviews[k].magicpieceid==magicpieceid
         && magicviews[k].line_start==start
@@ -558,9 +560,9 @@ static unsigned int count_changed_views(square sq_viewed)
   TraceSquare(sq_viewed);
   TraceFunctionParamListEnd();
 
-  for (i = magic_views_top[nbply-1]; i<magic_views_top[nbply]; ++i)
+  for (i = magic_views_top[stack_pointer-1]; i<magic_views_top[stack_pointer]; ++i)
     if (magicviews[i].pos_viewed==sq_viewed
-        && !find_view(parent_ply[nbply],i))
+        && !find_view(stack_pointer-1,i))
       ++result;
 
   TraceFunctionExit(__func__);
@@ -611,9 +613,11 @@ stip_length_type magic_views_initialiser_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  ++stack_pointer;
   assert(nbply==1);
   PushMagicViews();
   result = solve(slices[si].next1,n);
+  --stack_pointer;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -644,9 +648,11 @@ stip_length_type magic_pieces_recolorer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  ++stack_pointer;
   PushMagicViews();
   ChangeMagic();
   result = solve(slices[si].next1,n);
+  --stack_pointer;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -179,7 +179,7 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  mum_length[nbply] = INT_MIN;
+  mum_length[parent_ply[nbply]] = INT_MIN;
   reset_accepted_moves(nbply);
 
   copyply();
@@ -223,20 +223,20 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
 
   current_length = (*mummer_measure_length[slices[si].starter])();
   TraceValue("%d",current_length);
-  TraceValue("%d\n",mum_length[nbply-1]);
+  TraceValue("%d\n",mum_length[parent_ply[nbply]]);
 
-  if (current_length<mum_length[nbply-1])
+  if (current_length<mum_length[parent_ply[nbply]])
   {
     /* this move will not be played */
   }
-  else if (current_length==mum_length[nbply-1])
+  else if (current_length==mum_length[parent_ply[nbply]])
     /* this move may be legal, but can't increase the maximum length */
     accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
   else if (solve(slices[si].next1,n)>=slack_length)
   {
     /* we have a new mum */
-    mum_length[nbply-1] = current_length;
-    TraceValue("%u\n",mum_length[nbply-1]);
+    mum_length[parent_ply[nbply]] = current_length;
+    TraceValue("%u\n",mum_length[parent_ply[nbply]]);
 
     reset_accepted_moves(nbply-1);
     accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
@@ -543,7 +543,7 @@ boolean ultra_mummer_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   solve(slices[temporary_hack_ultra_mummer_length_measurer[side_observing]].next2,length_unspecified);
-  result = (*mummer_measure_length[side_observing])()==mum_length[nbply+1];
+  result = (*mummer_measure_length[side_observing])()==mum_length[nbply];
 
   if (result)
     result = validate_observation_recursive(slices[si].next1);
