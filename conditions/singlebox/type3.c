@@ -77,19 +77,19 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
                                                       stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = CURRMOVE_OF_PLY(nbply);
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (promotion[move_generation_stack[coup_id].id].what==Empty)
+  if (promotion[move_generation_stack[curr].id].what==Empty)
     move_effect_journal_do_null_effect();
   else
     move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
-                                        promotion[move_generation_stack[coup_id].id].where,
-                                        promotion[move_generation_stack[coup_id].id].what);
+                                        promotion[move_generation_stack[curr].id].where,
+                                        promotion[move_generation_stack[curr].id].what);
 
   result = solve(slices[si].next1,n);
 

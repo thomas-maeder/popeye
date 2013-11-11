@@ -43,14 +43,14 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
                                                          stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = CURRMOVE_OF_PLY(nbply);
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (supertransmutation[move_generation_stack[coup_id].id]!=Empty)
+  if (supertransmutation[move_generation_stack[curr].id]!=Empty)
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -67,7 +67,7 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
 
     move_effect_journal_do_piece_change(move_effect_reason_king_transmutation,
                                         pos,
-                                        supertransmutation[move_generation_stack[coup_id].id]);
+                                        supertransmutation[move_generation_stack[curr].id]);
   }
 
   result = solve(slices[si].next1,n);

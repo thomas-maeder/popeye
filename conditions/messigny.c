@@ -111,8 +111,8 @@ void messigny_generate_moves_for_piece(slice_index si, PieNam p)
 stip_length_type messigny_move_player_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  numecoup const coup_id = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
 
   TraceFunctionEntry(__func__);

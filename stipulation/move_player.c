@@ -29,8 +29,8 @@ slice_index alloc_move_player_slice(void)
 
 static void play_move(Side side)
 {
-  numecoup const coup_id = CURRMOVE_OF_PLY(nbply);
-  move_generation_elmt const * const move_gen_top = move_generation_stack+coup_id;
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
   square const sq_departure = move_gen_top->departure;
   square const sq_arrival = move_gen_top->arrival;

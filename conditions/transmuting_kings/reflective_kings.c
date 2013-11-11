@@ -24,10 +24,10 @@ void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p)
 
   if (p==King)
   {
-    numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
+    numecoup const base = CURRMOVE_OF_PLY(nbply);
     generate_moves_for_piece(slices[si].next1,King);
     if (generate_moves_of_transmuting_king(si))
-      remove_duplicate_moves_of_single_piece(save_nbcou);
+      remove_duplicate_moves_of_single_piece(base);
   }
   else
     generate_moves_for_piece(slices[si].next1,p);
