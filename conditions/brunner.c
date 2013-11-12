@@ -21,7 +21,7 @@ boolean brunner_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = solve(slices[temporary_hack_brunner_check_defense_finder[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
-  INIT_CURRMOVE(nbply);
+  ++current_move[nbply];
 
   if (result)
     result = validate_observation_recursive(slices[si].next1);

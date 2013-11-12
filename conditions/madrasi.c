@@ -33,9 +33,9 @@ boolean madrasi_is_moving_piece_observed(square sq)
       result = false;
     else
     {
-      nextply(observing_side); /* not siblingply() or ep paralysis causes problems! */
-      INIT_CURRMOVE(nbply);
-      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq;
+      /* not siblingply() or ep paralysis causes problems in Isardam! */
+      nextply(observing_side);
+      push_observation_target(sq);
       observing_walk[nbply] = p;
       result = (*checkfunctions[p])(&validate_observation_geometry);
       finply();

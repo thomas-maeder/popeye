@@ -8,7 +8,6 @@
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "options/maxsolutions/maxsolutions.h"
-#include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -103,9 +102,6 @@ static void plan_blocks_of_flights(void)
 
   nr_available_blockers = intelligent_get_nr_reservable_masses(Black);
 
-  nextply(White);
-  INIT_CURRMOVE(nbply);
-
   assert(get_walk_of_piece_on_square(king_square[Black])==King);
   empty_square(king_square[Black]);
 
@@ -133,8 +129,6 @@ static void plan_blocks_of_flights(void)
   }
 
   occupy_square(king_square[Black],King,king_square_flags);
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

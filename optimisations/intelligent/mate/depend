@@ -6,8 +6,7 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h solving/solve.h solving/castling.h \
  solving/castling_rights.h solving/move_effect_journal.h solving/ply.h \
- position/pieceid.h solving/move_generator.h \
- optimisations/intelligent/intelligent.h \
+ position/pieceid.h optimisations/intelligent/intelligent.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
@@ -50,8 +49,6 @@ solving/move_effect_journal.h:
 solving/ply.h:
 
 position/pieceid.h:
-
-solving/move_generator.h:
 
 optimisations/intelligent/intelligent.h:
 

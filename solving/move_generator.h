@@ -55,7 +55,6 @@ extern numecoup current_move_id[maxply+1];
 
 #define MOVEBASE_OF_PLY(ply) (current_move[(ply)-1]-1)
 #define CURRMOVE_OF_PLY(ply) (current_move[(ply)]-1)
-#define INIT_CURRMOVE(ply) (current_move[(ply)] = current_move[(ply)-1]+1)
 #define SET_CURRMOVE(ply,cm) (current_move[(ply)] = (cm)+1)
 
 enum
@@ -152,6 +151,11 @@ void push_move_capture_extra(square sq_capture);
  * @param sq_special special square value describing the speciality of the move
  */
 void push_special_move(square sq_special);
+
+/* Push the copy of a move from a different move generation
+ * @param original identifies the original of which to push a copy
+ */
+void push_move_copy(numecoup original);
 
 /* Push a square observation target
  * @param sq_target the target

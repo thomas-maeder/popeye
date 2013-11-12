@@ -3,7 +3,6 @@
 #include "stipulation/has_solution_type.h"
 #include "solving/solve.h"
 #include "solving/castling.h"
-#include "solving/move_generator.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -110,9 +109,6 @@ static square find_king_flight(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  nextply(White);
-  INIT_CURRMOVE(nbply);
-
   empty_square(king_square[Black]);
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
@@ -129,8 +125,6 @@ static square find_king_flight(void)
   }
 
   occupy_square(king_square[Black],King,king_spec);
-
-  finply();
 
   TraceFunctionExit(__func__);
   TraceSquare(result);

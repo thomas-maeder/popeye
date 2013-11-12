@@ -661,6 +661,11 @@ void push_special_move(square sq_special)
   TraceFunctionResultEnd();
 }
 
+void push_move_copy(numecoup original)
+{
+  move_generation_stack[current_move[nbply]++] = move_generation_stack[original];
+}
+
 void push_observation_target(square sq_target)
 {
   TraceFunctionEntry(__func__);

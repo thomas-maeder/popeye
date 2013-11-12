@@ -147,7 +147,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
       generate_make_for_one_take(take_current,
                                  take_capture-offset_en_passant_capture);
     else if (get_walk_of_piece_on_square(take_capture)==Empty)
-      move_generation_stack[current_move[nbply]++] = move_generation_stack[take_current];
+      push_move_copy(take_current);
     else
       generate_make_for_one_take(take_current,take_capture);
   }

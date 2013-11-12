@@ -78,7 +78,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
   TraceFunctionParamListEnd();
 
   nextply(advers(side_in_check));
-  INIT_CURRMOVE(nbply);
+  ++current_move[nbply];
   result = is_in_check_recursive(slices[si].next1,side_in_check);
   finply();
 

@@ -505,8 +505,7 @@ optimisations/intelligent/block_flights$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/finish.h \
  optimisations/orthodox_square_observation.h \
- options/maxsolutions/maxsolutions.h solving/move_generator.h \
- debugging/trace.h
+ options/maxsolutions/maxsolutions.h debugging/trace.h
 
 optimisations/intelligent/block_flights.h:
 
@@ -555,8 +554,6 @@ optimisations/intelligent/stalemate/finish.h:
 optimisations/orthodox_square_observation.h:
 
 options/maxsolutions/maxsolutions.h:
-
-solving/move_generator.h:
 
 debugging/trace.h:
 optimisations/intelligent/guard_flights$(OBJ_SUFFIX): \
