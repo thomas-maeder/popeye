@@ -8,7 +8,23 @@
 
 static boolean are_we_validating_observer = false;
 
-static boolean is_mover_supported_recursive(square sq_departure);
+static boolean is_mover_supported_recursive(void)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==king_square[trait[nbply]])
+    result = true;
+  else
+    result = is_square_observed(&validate_observer);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Validate an observer according to Central Chess
  * @return true iff the observation is valid
@@ -24,28 +40,9 @@ boolean central_validate_observer(slice_index si)
   result = validate_observation_recursive(slices[si].next1);
 
   if (are_we_validating_observer && result)
-    result = is_mover_supported_recursive(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean is_mover_supported_recursive(square sq_departure)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
-  TraceFunctionParamListEnd();
-
-  if (sq_departure==king_square[trait[nbply]])
-    result = true;
-  else
   {
-    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_departure;
-    result = is_square_observed(&validate_observer);
+    replace_observation_target(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
+    result = is_mover_supported_recursive();
   }
 
   TraceFunctionExit(__func__);
@@ -64,9 +61,9 @@ static boolean is_mover_supported(numecoup n)
   assert(!are_we_validating_observer);
 
   siblingply(trait[nbply]);
-  ++current_move[nbply];
+  push_observation_target(move_generation_stack[n].departure);
   are_we_validating_observer = true;
-  result = is_mover_supported_recursive(move_generation_stack[n].departure);
+  result = is_mover_supported_recursive();
   are_we_validating_observer = false;
   finply();
 

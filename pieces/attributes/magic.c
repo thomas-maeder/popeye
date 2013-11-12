@@ -466,7 +466,7 @@ static void PushMagicViewsByOnePiece(square pos_magic)
     {
       /* for each non-magic piece
          (n.b. check *pos_magic != *pos_viewed redundant above) */
-      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = *pos_viewed;
+      replace_observation_target(*pos_viewed);
       if (pi_magic<Queen || pi_magic>Bishop
           || CheckDir[pi_magic][*pos_viewed-pos_magic]!=0)
       {
@@ -492,7 +492,7 @@ static void PushMagicViews(void)
   magic_views_top[stack_pointer] = magic_views_top[stack_pointer-1];
 
   siblingply(trait[nbply]);
-  ++current_move[nbply];
+  push_observation_target(initsquare);
   prev_observation_context[nbply] = observation_context;
 
   for (pos_magic = boardnum; *pos_magic; pos_magic++)

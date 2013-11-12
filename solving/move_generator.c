@@ -672,8 +672,20 @@ void push_observation_target(square sq_target)
   TraceValue("%u",sq_target);
   TraceFunctionParamListEnd();
 
-  move_generation_stack[current_move[nbply]].capture = sq_target;
   ++current_move[nbply];
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void replace_observation_target(square sq_target)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",sq_target);
+  TraceFunctionParamListEnd();
+
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

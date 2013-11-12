@@ -42,7 +42,7 @@ static boolean find_next_friend_in_chain(square sq_target,
 {
   boolean result = false;
 
-  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
+  replace_observation_target(sq_target);
   observing_walk[nbply] = friend_observer;
   if ((*checkfunctions[friend_observer])(&validate_observer))
     result = true;
@@ -99,7 +99,7 @@ void friend_generate_moves(void)
       boolean found_chain;
 
       siblingply(trait[nbply]);
-      ++current_move[nbply];
+      push_observation_target(initsquare);
       found_chain = find_next_friend_in_chain(curr_generation->departure,
                                               *friend_observer);
       finply();
@@ -125,7 +125,7 @@ boolean friend_check(evalfunction_t *evaluate)
   locate_observees(Friend,pos_friends);
 
   siblingply(trait[nbply]);
-  ++current_move[nbply];
+  push_observation_target(sq_target);
 
   for (pfr = orphanpieces; *pfr!=Empty; pfr++)
     if (number_of_pieces[trait[nbply]][*pfr]>0)
@@ -136,7 +136,6 @@ boolean friend_check(evalfunction_t *evaluate)
         boolean does_friend_observe;
 
         isolate_observee(Friend,pos_friends,k);
-        move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
         observing_walk[nbply] = Friend;
         does_friend_observe = (*checkfunctions[*pfr])(evaluate);
         restore_observees(Friend,pos_friends);

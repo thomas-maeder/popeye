@@ -157,10 +157,15 @@ void push_special_move(square sq_special);
  */
 void push_move_copy(numecoup original);
 
-/* Push a square observation target
+/* Push an observation target
  * @param sq_target the target
  */
 void push_observation_target(square sq_target);
+
+/* Replace an observation target
+ * @param sq_target the target
+ */
+void replace_observation_target(square sq_target);
 
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates

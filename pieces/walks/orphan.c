@@ -60,7 +60,7 @@ static boolean orphan_find_observation_chain(square sq_target,
 
   trait[nbply] = advers(trait[nbply]);
 
-  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
+  replace_observation_target(sq_target);
   observing_walk[nbply] = orphan_observer;
   if ((*checkfunctions[orphan_observer])(&validate_observer))
     result = true;
@@ -102,7 +102,7 @@ void orphan_generate_moves(void)
       boolean found_chain;
 
       siblingply(trait[nbply]);
-      ++current_move[nbply];
+      push_observation_target(initsquare);
       found_chain = orphan_find_observation_chain(curr_generation->departure,
                                                   *orphan_observer);
       finply();
@@ -128,8 +128,7 @@ boolean orphan_check(evalfunction_t *evaluate)
   locate_observees(Orphan,pos_orphans);
 
   siblingply(trait[nbply]);
-  ++current_move[nbply];
-  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
+  push_observation_target(sq_target);
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
