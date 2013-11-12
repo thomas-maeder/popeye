@@ -78,7 +78,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
   TraceFunctionParamListEnd();
 
   nextply(advers(side_in_check));
-  ++current_move[nbply];
+  push_observation_target(king_square[side_in_check]);
   result = is_in_check_recursive(slices[si].next1,side_in_check);
   finply();
 
@@ -113,7 +113,6 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
   TraceSquare(king_square[side_king_attacked]);TraceText("\n");
   assert(king_square[side_king_attacked]!=initsquare);
 
-  move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = king_square[side_king_attacked];
   result = is_square_observed(&validate_check);
 
   TraceFunctionExit(__func__);

@@ -74,7 +74,7 @@ boolean exctinction_all_square_observation_tester_is_in_check(slice_index si,
   for (bnp = boardnum; *bnp; ++bnp)
     if (TSTFLAG(spec[*bnp],side_attacked))
     {
-      move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = *bnp;
+      replace_observation_target(*bnp);
       if (is_square_observed(&validate_check))
       {
         result = true;
