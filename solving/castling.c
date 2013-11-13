@@ -573,6 +573,8 @@ void solving_initialise_castling(slice_index si)
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,nr_sides,STCastlingGenerator);
+
+  /* TODO both not necessary behind STCastlingIntermediateMoveLegalityTester */
   insert_alternative_move_players(si,STCastlingPlayer);
   stip_instrument_moves(si,STCastlingRightsAdjuster);
 
