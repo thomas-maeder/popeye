@@ -482,7 +482,7 @@ void move_generator_filter_moves(numecoup start,
       move_generation_stack[new_top] = move_generation_stack[i];
     }
 
-  current_move[nbply] = new_top+1;
+  SET_CURRMOVE(nbply,new_top);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -509,7 +509,7 @@ void move_generator_filter_captures(numecoup start,
       move_generation_stack[new_top] = move_generation_stack[i];
     }
 
-  current_move[nbply] = new_top+1;
+  SET_CURRMOVE(nbply,new_top);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -536,7 +536,7 @@ void move_generator_filter_noncaptures(numecoup start,
       move_generation_stack[new_top] = move_generation_stack[i];
     }
 
-  current_move[nbply] = new_top+1;
+  SET_CURRMOVE(nbply,new_top);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -548,7 +548,7 @@ void move_generator_filter_noncaptures(numecoup start,
 void move_generator_invert_move_order(ply ply)
 {
   unsigned int const nr_moves = current_move[ply]-current_move[ply-1];
-  numecoup hi = current_move[ply]-1;
+  numecoup hi = CURRMOVE_OF_PLY(ply);
   numecoup low = hi-nr_moves+1;
 
   while (low<hi)
@@ -719,7 +719,7 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
       }
     }
 
-    current_move[nbply] = last_unique_move+1;
+    SET_CURRMOVE(nbply,last_unique_move);
   }
 }
 
