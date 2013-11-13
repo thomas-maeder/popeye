@@ -157,7 +157,11 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
   result = solve(slices[si].next1,n);
 
   finply();
-  current_move[nbply] = current_move[nbply-1];
+
+  /* prevent the current take generation from disturbing if we generate more
+   * moves in the current ply, e.g. while testing for immobility of a side
+   */
+  pop_all();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

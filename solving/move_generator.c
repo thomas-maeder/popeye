@@ -405,24 +405,6 @@ static void insert_single_piece_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_castling_intermediate_move_generator(slice_index si,
-                                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const proto = alloc_castling_intermediate_move_generator_slice();
-    branch_insert_slices(slices[si].next2,&proto,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void remove_move_generator(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -445,14 +427,14 @@ static void remove_move_generator(slice_index si, stip_structure_traversal *st)
 
 static structure_traversers_visitor const solver_inserters[] =
 {
-  { STGeneratingMoves,                        &insert_move_generator                       },
-  { STBrunnerDefenderFinder,                  &stip_traverse_structure_children_pipe       },
-  { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe       },
-  { STMoveLegalityTester,                     &stip_traverse_structure_children_pipe       },
-  { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator          },
-  { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator          },
-  { STCastlingIntermediateMoveLegalityTester, &insert_castling_intermediate_move_generator },
-  { STOpponentMovesCounterFork,               &remove_move_generator                       }
+  { STGeneratingMoves,                        &insert_move_generator                 },
+  { STBrunnerDefenderFinder,                  &stip_traverse_structure_children_pipe },
+  { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe },
+  { STMoveLegalityTester,                     &stip_traverse_structure_children_pipe },
+  { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator    },
+  { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator    },
+  { STCastlingIntermediateMoveLegalityTester, &stip_traverse_structure_children_pipe },
+  { STOpponentMovesCounterFork,               &remove_move_generator                 }
 };
 
 enum
@@ -689,6 +671,11 @@ void replace_observation_target(square sq_target)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+void pop_all(void)
+{
+  current_move[nbply] = current_move[nbply-1];
 }
 
 typedef unsigned int mark_type;

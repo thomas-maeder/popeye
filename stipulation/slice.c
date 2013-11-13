@@ -225,7 +225,6 @@ static slice_type const move_generator_slice_types[] =
     STMoveGenerator,
     STKingMoveGenerator,
     STNonKingMoveGenerator,
-    STCastlingIntermediateMoveGenerator,
     STOrthodoxMatingMoveGenerator,
     STOrthodoxMatingKingContactGenerator,
     STSinglePieceMoveGenerator,

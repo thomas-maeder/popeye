@@ -1093,10 +1093,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = single_piece_move_generator_solve(si,n);
       break;
 
-    case STCastlingIntermediateMoveGenerator:
-      result = castling_intermediate_move_generator_solve(si,n);
-      break;
-
     case STCastlingRightsAdjuster:
       result = castling_rights_adjuster_solve(si,n);
       break;

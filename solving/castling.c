@@ -23,83 +23,6 @@ castling_flag_type castling_flag;
 castling_flag_type castling_mutual_exclusive[nr_sides][2];
 castling_flag_type castling_flags_no_castling;
 
-static square intermediate_move_square_arrival;
-
-/* Allocate a STCastlingIntermediateMoveGenerator slice.
- * @return index of allocated slice
- */
-slice_index alloc_castling_intermediate_move_generator_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STCastlingIntermediateMoveGenerator);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Initialise the next1 move generation
- * @param sq_arrival arrival square of move to be generated
- */
-void castling_intermediate_move_generator_init_next(square sq_arrival)
-{
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_arrival);
-  TraceFunctionParamListEnd();
-
-  intermediate_move_square_arrival = sq_arrival;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played (or being played)
- *                                     is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type castling_intermediate_move_generator_solve(slice_index si,
-                                                            stip_length_type n)
-{
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-  numecoup const save_repere = CURRMOVE_OF_PLY(parent_ply[nbply]-1)+1;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  /* We work within a ply for which moves are being generated right now.
-   * That's why we don't do nextply()/finply() - we just trick our successor
-   * slices into believing that this intermediate move is the only one in the
-   * ply.
-   */
-  current_move[parent_ply[nbply]-1] = CURRMOVE_OF_PLY(nbply);
-  curr_generation->arrival = intermediate_move_square_arrival;
-  push_move();
-  result = solve(next,n);
-  current_move[parent_ply[nbply]-1] = save_repere;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void castle(square sq_departure, square sq_arrival,
                    square sq_partner_departure, square sq_partner_arrival)
 {
@@ -802,8 +725,14 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
 
   if (CondFlag[imitators])
   {
-    castling_intermediate_move_generator_init_next(to);
+    siblingply(trait[nbply]);
+
+    curr_generation->arrival = to;
+    push_move();
+
     result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==next_move_has_solution;
+
+    finply();
   }
   else
   {

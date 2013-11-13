@@ -167,6 +167,15 @@ void push_observation_target(square sq_target);
  */
 void replace_observation_target(square sq_target);
 
+/* Push the previous observation target again after having played it in order
+ * to validate it
+ */
+#define PUSH_OBSERVATION_TARGET_AGAIN(ply) ++current_move[(ply)]
+
+/* Pop all remaining moves
+ */
+void pop_all(void);
+
 /* Remove duplicate moves at the top of the move_generation_stack.
  * @param start start position of range where to look for duplicates
  */

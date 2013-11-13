@@ -251,7 +251,7 @@ boolean validate_observation_recursive(slice_index si)
       result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
-      ++current_move[nbply];
+      PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
     }
 
@@ -260,7 +260,7 @@ boolean validate_observation_recursive(slice_index si)
       result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
                       length_unspecified)
                 ==next_move_has_solution);
-      ++current_move[nbply];
+      PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
     }
 

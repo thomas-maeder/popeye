@@ -60,7 +60,6 @@ static slice_index const slice_rank_order[] =
   STOrthodoxMatingKingContactGenerator,
   STKingMoveGenerator,
   STSinglePieceMoveGenerator,
-  STCastlingIntermediateMoveGenerator,
   STDoneGeneratingMoves,
   STUncapturableRemoveCaptures,
   STBackhomeExistanceTester,

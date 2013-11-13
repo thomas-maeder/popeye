@@ -116,7 +116,6 @@
     ENUMERATOR(STMoveGenerator), /* unoptimised move generator */       \
     ENUMERATOR(STKingMoveGenerator), /* move generator for king moves */ \
     ENUMERATOR(STNonKingMoveGenerator), /* move generator for other moves */ \
-    ENUMERATOR(STCastlingIntermediateMoveGenerator), /* generates intermediate castling moves */ \
     ENUMERATOR(STCastlingIntermediateMoveLegalityTester), /* tests the legality of intermediate castling moves */ \
     ENUMERATOR(STCastlingRightsAdjuster),                                \
     ENUMERATOR(STMoveGeneratorFork),                                     \
