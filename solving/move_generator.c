@@ -645,7 +645,8 @@ void push_special_move(square sq_special)
 
 void push_move_copy(numecoup original)
 {
-  move_generation_stack[current_move[nbply]++] = move_generation_stack[original];
+  ++current_move[nbply];
+  move_generation_stack[CURRMOVE_OF_PLY(nbply)] = move_generation_stack[original];
 }
 
 void push_observation_target(square sq_target)
