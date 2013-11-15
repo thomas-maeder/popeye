@@ -684,6 +684,18 @@ typedef unsigned int mark_type;
 static mark_type square_marks[square_h8+1] = { 0 };
 static mark_type current_mark = 0;
 
+static boolean is_not_duplicate(numecoup n)
+{
+  square const sq_arrival = move_generation_stack[n].arrival;
+  if (square_marks[sq_arrival]==current_mark)
+    return false;
+  else
+  {
+    square_marks[sq_arrival] = current_mark;
+    return true;
+  }
+}
+
 /* Remove duplicate moves generated for a single piece.
  * @param last_move_of_prev_piece index of last move of previous piece
  */
@@ -700,28 +712,7 @@ void remove_duplicate_moves_of_single_piece(numecoup last_move_of_prev_piece)
   else
     ++current_mark;
 
-  {
-    numecoup curr_move;
-    numecoup last_unique_move = last_move_of_prev_piece;
-    for (curr_move = last_move_of_prev_piece+1;
-         curr_move<=CURRMOVE_OF_PLY(nbply);
-         ++curr_move)
-    {
-      square const sq_arrival = move_generation_stack[curr_move].arrival;
-      if (square_marks[sq_arrival]==current_mark)
-      {
-        // skip over duplicate move
-      }
-      else
-      {
-        ++last_unique_move;
-        move_generation_stack[last_unique_move] = move_generation_stack[curr_move];
-        square_marks[sq_arrival] = current_mark;
-      }
-    }
-
-    SET_CURRMOVE(nbply,last_unique_move);
-  }
+  move_generator_filter_moves(last_move_of_prev_piece,&is_not_duplicate);
 }
 
 /* Priorise a move in the move generation stack
