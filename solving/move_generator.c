@@ -732,9 +732,9 @@ void move_generator_priorise(numecoup priorised)
 {
   /* we move the priorised move one position too far and then shift back one
    * move too many */
-  move_generation_stack[current_move[nbply]] = move_generation_stack[priorised];
+  numecoup const one_too_far = CURRMOVE_OF_PLY(nbply)+1;
+  move_generation_stack[one_too_far] = move_generation_stack[priorised];
   memmove(&move_generation_stack[priorised],
           &move_generation_stack[priorised+1],
-          (current_move[nbply]-priorised)
-          * sizeof move_generation_stack[priorised]);
+          (one_too_far-priorised)*sizeof move_generation_stack[0]);
 }
