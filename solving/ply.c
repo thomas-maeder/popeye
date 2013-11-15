@@ -121,9 +121,9 @@ void copyply(void)
   ++post_move_iteration_id[nbply];
 
   {
-    unsigned int const nr_moves = current_move[original]-current_move[original-1];
-    memcpy(&move_generation_stack[CURRMOVE_OF_PLY(nbply)+1],
-           &move_generation_stack[CURRMOVE_OF_PLY(original-1)+1],
+    unsigned int const nr_moves = CURRMOVE_OF_PLY(original)-MOVEBASE_OF_PLY(original);
+    memcpy(&move_generation_stack[MOVEBASE_OF_PLY(nbply)+1],
+           &move_generation_stack[MOVEBASE_OF_PLY(original)+1],
            nr_moves*sizeof move_generation_stack[0]);
     current_move[nbply] += nr_moves;
   }
