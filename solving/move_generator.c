@@ -564,6 +564,7 @@ void move_generator_invert_move_order(ply ply)
 
 void pop_move(void)
 {
+  assert(current_move[nbply]>0);
   --current_move[nbply];
 }
 

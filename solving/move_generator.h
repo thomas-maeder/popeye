@@ -53,9 +53,9 @@ enum
 extern numecoup current_move[maxply+1];
 extern numecoup current_move_id[maxply+1];
 
-#define MOVEBASE_OF_PLY(ply) (current_move[(ply)-1]-1)
-#define CURRMOVE_OF_PLY(ply) (current_move[(ply)]-1)
-#define SET_CURRMOVE(ply,cm) (current_move[(ply)] = (cm)+1)
+#define MOVEBASE_OF_PLY(ply) (current_move[(ply)-1])
+#define CURRMOVE_OF_PLY(ply) (current_move[(ply)])
+#define SET_CURRMOVE(ply,cm) (current_move[(ply)] = (cm))
 
 enum
 {
@@ -170,7 +170,7 @@ void replace_observation_target(square sq_target);
 /* Push the previous observation target again after having played it in order
  * to validate it
  */
-#define PUSH_OBSERVATION_TARGET_AGAIN(ply) ++current_move[(ply)]
+#define PUSH_OBSERVATION_TARGET_AGAIN(ply) (++current_move[(ply)])
 
 /* Pop all remaining moves
  */
