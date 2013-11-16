@@ -210,7 +210,7 @@ boolean hunter_enforce_observer_direction(slice_index si)
 void solving_initialise_hunters(slice_index root)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
   if (nrhuntertypes>0 || exist[RookHunter] || exist[BishopHunter])
