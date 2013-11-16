@@ -90,6 +90,10 @@ boolean validate_observation_recursive(slice_index si)
       break;
     }
 
+    case STEnforceHunterDirection:
+      result = hunter_enforce_observer_direction(si);
+      break;
+
     case STAnnanEnforceObserverWalk:
       result = annan_enforce_observer_walk(si);
       break;
@@ -331,6 +335,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STMasandEnforceObserver,
     STEnforceObserverWalk,
     STEnforceObserverSide,
+    STEnforceHunterDirection,
     STAnnanEnforceObserverWalk,
     STFaceToFaceEnforceObserverWalk,
     STBackToBackEnforceObserverWalk,
@@ -362,6 +367,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STMarsCirceMovesForPieceGenerator,
     STEnforceObserverWalk,
     STEnforceObserverSide,
+    STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
     STEiffelMovesForPieceGenerator,
     STParalysingObserverValidator,
@@ -370,6 +376,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STParalysingObservationGeometryValidator,
     STEnforceObserverWalk,
     STEnforceObserverSide,
+    STEnforceHunterDirection,
     STMonochromeRemoveBichromeMoves,
     STBichromeRemoveMonochromeMoves,
     STGridRemoveIllegalMoves,

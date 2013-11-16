@@ -26,4 +26,14 @@ boolean rookhunter_check(evalfunction_t *evaluate);
 void bishop_hunter_generate_moves(void);
 boolean bishophunter_check(evalfunction_t *evaluate);
 
+/* Make sure that the observer has the expected direction
+ * @return true iff the observation is valid
+ */
+boolean hunter_enforce_observer_direction(slice_index si);
+
+/* Initialise the solving machinery with hunter direction enforcement
+ * @param root identifies the root slice of the solving machinery
+ */
+void solving_initialise_hunters(slice_index root);
+
 #endif

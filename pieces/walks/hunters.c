@@ -12,6 +12,10 @@
 HunterType huntertypes[maxnrhuntertypes];
 unsigned int nrhuntertypes;
 
+typedef boolean (*direction_validator_type)(numecoup n);
+
+static direction_validator_type direction_validator;
+
 PieNam hunter_make_type(PieNam away, PieNam home)
 {
   unsigned int i;
@@ -57,30 +61,12 @@ static void generate_one_dir(PieNam part, move_filter_criterion_type criterion)
   move_generator_filter_moves(savenbcou,criterion);
 }
 
-static evalfunction_t *next_evaluate;
-
-static boolean eval_up(void)
-{
-  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  return (sq_arrival-sq_departure>8
-          && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival));
-}
-
-static boolean eval_down(void)
-{
-  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  return (sq_arrival-sq_departure<-8
-          && INVOKE_EVAL(next_evaluate,sq_departure,sq_arrival));
-}
-
 boolean hunter_check(evalfunction_t *evaluate)
 {
   /* detect check by a hunter */
   boolean result;
-  evalfunction_t * const eval_away = trait[nbply]==Black ? &eval_down : &eval_up;
-  evalfunction_t * const eval_home = trait[nbply]==Black ? &eval_up : &eval_down;
+  direction_validator_type const goes_away = trait[nbply]==Black ? &goes_down : &goes_up;
+  direction_validator_type const goes_home = trait[nbply]==Black ? &goes_up : &goes_down;
   unsigned int const typeofhunter = observing_walk[nbply]-Hunter0;
   HunterType const * const huntertype = huntertypes+typeofhunter;
 
@@ -88,9 +74,17 @@ boolean hunter_check(evalfunction_t *evaluate)
   TraceFunctionParamListEnd();
 
   assert(typeofhunter<maxnrhuntertypes);
-  next_evaluate = evaluate;
-  result = ((*checkfunctions[huntertype->home])(eval_home)
-            || (*checkfunctions[huntertype->away])(eval_away));
+
+  direction_validator = goes_home;
+  if ((*checkfunctions[huntertype->home])(evaluate))
+    result = true;
+  else
+  {
+    direction_validator = goes_away;
+    result = (*checkfunctions[huntertype->away])(evaluate);
+  }
+
+  direction_validator = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -141,17 +135,90 @@ void bishop_hunter_generate_moves(void)
 
 boolean rookhunter_check(evalfunction_t *evaluate)
 {
-  /* detect check of a rook/bishop-hunter */
-  /* it's not dependent of the piece-color !! */
-  /* always moves up (rook), down (bishop) !! */
-  return riders_check(4, 4, evaluate) || riders_check(5, 6, evaluate);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* always moves up as rook and down as bishop!! */
+  direction_validator = &goes_up;
+  if ((*checkfunctions[Rook])(evaluate))
+    result = true;
+  else
+  {
+    direction_validator = &goes_down;
+    result = (*checkfunctions[Bishop])(evaluate);
+  }
+
+  direction_validator = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean bishophunter_check(evalfunction_t *evaluate)
 {
-  /* detect check of a bishop/rook-hunter */
-  /* it's not dependent of the piece-color !! */
-  /* always moves up (bishop), down (rook) !! */
-  return riders_check(2, 2, evaluate)
-      || riders_check(7, 8, evaluate);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* always moves up as bishop and down as rook!! */
+  direction_validator = &goes_down;
+  if ((*checkfunctions[Rook])(evaluate))
+    result = true;
+  else
+  {
+    direction_validator = &goes_up;
+    result = (*checkfunctions[Bishop])(evaluate);
+  }
+
+  direction_validator = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Make sure that the observer has the expected direction
+ * @return true iff the observation is valid
+ */
+boolean hunter_enforce_observer_direction(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = ((direction_validator==0 || (*direction_validator)(CURRMOVE_OF_PLY(nbply)))
+            && validate_observation_recursive(slices[si].next1));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Initialise the solving machinery with hunter direction enforcement
+ * @param root identifies the root slice of the solving machinery
+ */
+void solving_initialise_hunters(slice_index root)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (nrhuntertypes>0 || exist[RookHunter] || exist[BishopHunter])
+  {
+    stip_instrument_observation_validation(root,nr_sides,STEnforceHunterDirection);
+    stip_instrument_observer_validation(root,nr_sides,STEnforceHunterDirection);
+    stip_instrument_observation_geometry_validation(root,nr_sides,STEnforceHunterDirection);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

@@ -169,6 +169,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
+#include "pieces/walks/hunters.h"
 #include "conditions/amu/mate_filter.h"
 #include "conditions/circe/goal_filters.h"
 #include "pieces/attributes/chameleon.h"
@@ -766,6 +767,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[madras])
     madrasi_initialise_solving(result);
+
+  solving_initialise_hunters(result);
 
   if (CondFlag[eiffel])
     eiffel_initialise_solving(result);
