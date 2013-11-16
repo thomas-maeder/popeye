@@ -65,12 +65,16 @@ static boolean is_paralysed(numecoup n)
     PieNam const candidate = get_walk_of_piece_on_square(sq_departure);
     Side const observing_side = advers(observed_side);
 
-    siblingply(observing_side);
-    push_observation_target(sq_departure);
-    observing_walk[nbply] = candidate;
-    result = (number_of_pieces[trait[nbply]][candidate]>0
-              && (*checkfunctions[candidate])(&validate_observation_geometry));
-    finply();
+    if (number_of_pieces[observing_side][candidate]>0)
+    {
+      siblingply(observing_side);
+      push_observation_target(sq_departure);
+      observing_walk[nbply] = candidate;
+      result = (*checkfunctions[candidate])(&validate_observation_geometry);
+      finply();
+    }
+    else
+      result = false;
   }
 
   TraceFunctionExit(__func__);
