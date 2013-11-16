@@ -14,7 +14,7 @@ unsigned int nrhuntertypes;
 
 typedef boolean (*direction_validator_type)(numecoup n);
 
-static direction_validator_type direction_validator;
+static direction_validator_type direction_validator[maxply+1];
 
 PieNam hunter_make_type(PieNam away, PieNam home)
 {
@@ -75,16 +75,16 @@ boolean hunter_check(evalfunction_t *evaluate)
 
   assert(typeofhunter<maxnrhuntertypes);
 
-  direction_validator = goes_home;
+  direction_validator[nbply] = goes_home;
   if ((*checkfunctions[huntertype->home])(evaluate))
     result = true;
   else
   {
-    direction_validator = goes_away;
+    direction_validator[nbply] = goes_away;
     result = (*checkfunctions[huntertype->away])(evaluate);
   }
 
-  direction_validator = 0;
+  direction_validator[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -141,16 +141,16 @@ boolean rookhunter_check(evalfunction_t *evaluate)
   TraceFunctionParamListEnd();
 
   /* always moves up as rook and down as bishop!! */
-  direction_validator = &goes_up;
+  direction_validator[nbply] = &goes_up;
   if ((*checkfunctions[Rook])(evaluate))
     result = true;
   else
   {
-    direction_validator = &goes_down;
+    direction_validator[nbply] = &goes_down;
     result = (*checkfunctions[Bishop])(evaluate);
   }
 
-  direction_validator = 0;
+  direction_validator[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -166,16 +166,16 @@ boolean bishophunter_check(evalfunction_t *evaluate)
   TraceFunctionParamListEnd();
 
   /* always moves up as bishop and down as rook!! */
-  direction_validator = &goes_down;
+  direction_validator[nbply] = &goes_down;
   if ((*checkfunctions[Rook])(evaluate))
     result = true;
   else
   {
-    direction_validator = &goes_up;
+    direction_validator[nbply] = &goes_up;
     result = (*checkfunctions[Bishop])(evaluate);
   }
 
-  direction_validator = 0;
+  direction_validator[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -194,7 +194,8 @@ boolean hunter_enforce_observer_direction(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = ((direction_validator==0 || (*direction_validator)(CURRMOVE_OF_PLY(nbply)))
+  result = ((direction_validator[nbply]==0
+             || (*direction_validator[nbply])(CURRMOVE_OF_PLY(nbply)))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
