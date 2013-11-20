@@ -92,7 +92,7 @@ stip_length_type circe_assassin_place_reborn_solve(slice_index si,
     --circe_rebirth_context_stack_pointer;
   }
   else if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==king_square[slices[si].starter])
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   else
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,

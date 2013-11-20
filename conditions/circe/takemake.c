@@ -67,7 +67,7 @@ static boolean init_rebirth_squares(Side side_reborn)
 stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
                                                                stip_length_type n)
 {
-  stip_length_type result = previous_move_is_illegal;
+  stip_length_type result = this_move_is_illegal;
   numecoup i;
 
   TraceFunctionEntry(__func__);
@@ -114,7 +114,7 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply]
       && !init_rebirth_squares(advers(slices[si].starter)))
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   else
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];

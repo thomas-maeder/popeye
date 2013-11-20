@@ -79,7 +79,7 @@ stip_length_type newkoeko_legality_tester_solve(slice_index si,
     if (nokingcontact(pos)==contact_before_move[nbply])
       result = solve(slices[si].next1,n);
     else
-      result = previous_move_is_illegal;
+      result = this_move_is_illegal;
   }
 
   TraceFunctionExit(__func__);

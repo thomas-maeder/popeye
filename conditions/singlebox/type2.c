@@ -359,7 +359,7 @@ stip_length_type singlebox_type2_legality_tester_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (is_last_move_illegal())
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   else
     result = solve(next,n);
 

@@ -22,7 +22,8 @@ enum
     ENUMERATOR(next_move_has_solution),                          \
     ENUMERATOR(previous_move_has_not_solved),                    \
     ENUMERATOR(next_move_has_no_solution),                       \
-    ASSIGNED_ENUMERATOR(length_unspecified=next_move_has_solution)
+    ASSIGNED_ENUMERATOR(length_unspecified=next_move_has_solution), \
+    ASSIGNED_ENUMERATOR(this_move_is_illegal=previous_move_is_illegal+1)
 
 #define ENUMERATION_DECLARE
 

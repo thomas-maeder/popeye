@@ -284,10 +284,10 @@ Loesung beendet.
                   3.Sf8-d7 #
 
 
-  add_to_move_generation_stack:      215236
-                     play_move:      130512
- is_white_king_square_attacked:       31182
- is_black_king_square_attacked:      105220
+  add_to_move_generation_stack:      210094
+                     play_move:      151118
+ is_white_king_square_attacked:       31933
+ is_black_king_square_attacked:      120446
 Loesung beendet. 
 
 

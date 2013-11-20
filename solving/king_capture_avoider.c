@@ -162,7 +162,7 @@ stip_length_type own_king_capture_avoider_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (is_king_captured(starter))
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   else
     result = solve(slices[si].next1,n);
 
@@ -196,7 +196,7 @@ stip_length_type opponent_king_capture_avoider_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (is_king_captured(advers(slices[si].starter)))
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   else
     result = solve(slices[si].next1,n);
 

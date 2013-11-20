@@ -50,6 +50,7 @@ stip_length_type find_attack_solve(slice_index si, stip_length_type n)
   while (encore() && result>n)
   {
     stip_length_type const length_sol = solve(slices[si].next1,n);
+    assert(slack_length<=length_sol || length_sol==this_move_is_illegal);
     if (slack_length<length_sol && length_sol<result)
       result = length_sol;
   }
@@ -103,6 +104,7 @@ stip_length_type find_defense_solve(slice_index si, stip_length_type n)
   while (result<=n && encore())
   {
     stip_length_type const length_sol = solve(slices[si].next1,n);
+    assert(slack_length<=length_sol || length_sol==this_move_is_illegal);
     if (result<length_sol)
       result = length_sol;
   }

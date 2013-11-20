@@ -328,10 +328,10 @@ Example 1
                                           6.Qe5-g5 #
 
 
-  add_to_move_generation_stack:    11580898
-                     play_move:    11939753
- is_white_king_square_attacked:     6836330
- is_black_king_square_attacked:     2827360
+  add_to_move_generation_stack:     7704423
+                     play_move:     8152509
+ is_white_king_square_attacked:     4946477
+ is_black_king_square_attacked:     1733856
 solution finished. 
 
 

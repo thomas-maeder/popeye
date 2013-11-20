@@ -213,7 +213,7 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
  */
 stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
 {
-  stip_length_type const result = previous_move_is_illegal;
+  stip_length_type const result = this_move_is_illegal;
   int current_length;
 
   TraceFunctionEntry(__func__);

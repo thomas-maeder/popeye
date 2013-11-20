@@ -105,7 +105,7 @@ stip_length_type isardam_legality_tester_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (find_illegal_observation())
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   else
     result = solve(next,n);
 

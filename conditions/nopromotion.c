@@ -42,7 +42,7 @@ stip_length_type nopromotion_avoid_promotion_moving_solve(slice_index si,
     if (is_square_occupied_by_promotable_pawn(pos)==no_side)
       result = solve(slices[si].next1,n);
     else
-      result = previous_move_is_illegal;
+      result = this_move_is_illegal;
   }
 
   TraceFunctionExit(__func__);

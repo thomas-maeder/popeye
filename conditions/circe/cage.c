@@ -127,7 +127,7 @@ stip_length_type circe_cage_cage_tester_solve(slice_index si,
       TraceSquare(sq_rebirth);TraceText("\n");
 
       if (find_non_capturing_move(sq_rebirth,advers(slices[si].starter)))
-        result = previous_move_is_illegal;
+        result = this_move_is_illegal;
       else
       {
         cage_found_for_current_capture[nbply] = true;

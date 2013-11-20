@@ -41,7 +41,7 @@ stip_length_type anticirce_cheylan_filter_solve(slice_index si,
                                                                               moving_id,
                                                                               sq_arrival);
     if (pos==circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square)
-      result = previous_move_is_illegal;
+      result = this_move_is_illegal;
     else
       result = solve(slices[si].next1,n);
   }

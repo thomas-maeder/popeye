@@ -93,7 +93,7 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = initsquare;
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   }
   else
   {

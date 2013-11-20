@@ -57,8 +57,9 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
   legal_move_counter_interesting[nbply] = UINT_MAX;
 
   result = solve(slices[si].next1,n);
+  assert(slack_length<=result || result==this_move_is_illegal);
 
-  if (result==previous_move_is_illegal+1)
+  if (result==this_move_is_illegal)
     /* Defenses leading to self check get a big count.
      * But still make sure that we can correctly compute the difference of two
      * counts.

@@ -86,7 +86,7 @@ stip_length_type oscillating_kings_type_b_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (is_in_check(starter))
-    result = previous_move_is_illegal;
+    result = this_move_is_illegal;
   else
   {
     perform_oscillation();

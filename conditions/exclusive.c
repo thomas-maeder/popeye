@@ -300,12 +300,12 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
       >1)
   {
     if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
-      result = previous_move_is_illegal;
+      result = this_move_is_illegal;
     else
     {
       stip_length_type const test_result = solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length);
       if (test_result==previous_move_is_illegal)
-        result = test_result;
+        result = this_move_is_illegal;
       else if (test_result!=slack_length+2)
         result = previous_move_has_solved;
       else

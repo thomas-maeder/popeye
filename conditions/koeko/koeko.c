@@ -41,7 +41,7 @@ stip_length_type koeko_legality_tester_solve(slice_index si,
                                                                               moving_id,
                                                                               sq_arrival);
     if ((*koeko_nocontact)(pos))
-      result = previous_move_is_illegal;
+      result = this_move_is_illegal;
     else
       result = solve(slices[si].next1,n);
   }
