@@ -132,7 +132,7 @@ boolean mars_enforce_observer(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = ((sq_observer== initsquare || sq_observer==sq_departure)
+  result = (sq_observer==sq_departure
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
