@@ -653,7 +653,7 @@ void push_move_copy(numecoup original)
 void push_observation_target(square sq_target)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",sq_target);
+  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
   ++current_move[nbply];
