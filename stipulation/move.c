@@ -152,6 +152,7 @@ static slice_index const move_slice_rank_order[] =
     STMasandRecolorer,
     STLandingAfterMovePlay,
     STMoveCounter,
+    STMoveTracer,
     STBGLAdjuster,
     STDetectMoveRetracted,
     STKoekoLegalityTester,
@@ -173,7 +174,6 @@ static slice_index const move_slice_rank_order[] =
     STUltraschachzwangLegalityTester,
     STIsardamLegalityTester,
     STPatienceChessLegalityTester,
-    STMoveTracer,
     STAttackPlayed,
     STDefensePlayed,
     STHelpMovePlayed
