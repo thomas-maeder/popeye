@@ -1745,7 +1745,6 @@ static boolean verify_position(slice_index si)
 {
   boolean flagveryfairy = false;
   boolean flagsymmetricfairy = false;
-  boolean flagsimplehoppers = false;
 
   reset_killer_move_optimisation();
   reset_orthodox_mating_move_optimisation();
@@ -1872,8 +1871,7 @@ static boolean verify_position(slice_index si)
         flagfee = true;
         if (is_rider(p)) {}
         else if (is_leaper(p)) {}
-        else if (is_simplehopper(p))
-          flagsimplehoppers = true;
+        else if (is_simplehopper(p)) {}
         else if (is_simpledecomposedleaper(p)) {}
         else if (is_symmetricfairy(p))
           flagsymmetricfairy = true;
@@ -1898,7 +1896,6 @@ static boolean verify_position(slice_index si)
   {
     disable_orthodox_mating_move_optimisation(nr_sides);
     flagfee = true;
-    flagsimplehoppers = true;
   }
 
   if (CondFlag[imitators])
@@ -2296,8 +2293,7 @@ static boolean verify_position(slice_index si)
              || calc_reflective_king[White]
              || calc_reflective_king[Black]
              || CondFlag[bicolores]
-             || CondFlag[sting]
-             || flagsimplehoppers)
+             || CondFlag[sting])
     {
       VerifieMsg(MarsCirceAndOthers);
       return false;

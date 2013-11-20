@@ -542,4 +542,12 @@ blac ka1
 opt nowk noboard
 cond alpha
 
+next
+
+title Until 4.63, we weren't able to solve Mars Circe combined with hoppers
+pieces white ge2 black ke6 pd4e7
+stip +1
+condition marsc
+option nowk
+twin move e2 a4
 end
