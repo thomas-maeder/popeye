@@ -8,7 +8,7 @@ options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  stipulation/battle_play/branch.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/pipe.h solving/solve.h debugging/trace.h
+ stipulation/pipe.h solving/solve.h debugging/trace.h solving/ply.h
 
 options/no_short_variations/no_short_variations.h:
 
@@ -49,6 +49,8 @@ stipulation/pipe.h:
 solving/solve.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \

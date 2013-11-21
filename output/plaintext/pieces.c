@@ -40,7 +40,7 @@ boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
     if ((spname!=Volage || !CondFlag[volage])
         && (spname!=Patrol || !CondFlag[patrouille])
         && (spname!=Beamtet || !CondFlag[beamten])
-        && (spname!=Royal || (p!=King && p!=Poseidon))
+        && (spname!=Royal || (p!=King && p!=Poseidon && p!=Sting))
         && TSTFLAG(sp, spname))
     {
       StdChar(tolower(PieSpString[UserLanguage][spname-nr_sides][0]));

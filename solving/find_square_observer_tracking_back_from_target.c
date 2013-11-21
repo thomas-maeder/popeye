@@ -31,6 +31,7 @@
 #include "pieces/walks/orphan.h"
 #include "pieces/walks/friend.h"
 #include "pieces/walks/hunters.h"
+#include "conditions/sting.h"
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
@@ -202,7 +203,7 @@ checkfunction_t *checkfunctions[PieceCount] =
 /*150 */  poseidon_check,
 /*151 */  marine_pawn_check,
 /*152 */  marine_ship_check,
-/*153 */  hunter_check,
+/*153 */  sting_check,
 /*154 */  hunter_check,
 /*155 */  hunter_check,
 /*156 */  hunter_check,
@@ -211,7 +212,8 @@ checkfunction_t *checkfunctions[PieceCount] =
 /*159 */  hunter_check,
 /*160 */  hunter_check,
 /*161 */  hunter_check,
-/*162 */  hunter_check
+/*162 */  hunter_check,
+/*163 */  hunter_check
 };
 
 boolean find_square_observer_tracking_back_from_target_king(slice_index si,

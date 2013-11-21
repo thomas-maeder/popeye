@@ -234,7 +234,6 @@ Kommandos:
 	WeisserUltraSchachZwang
 	SchwarzerUltraSchachZwang
 	Schutzkoenige
-	StingSchach
 	WeisserOhneschlag
 	SchwarzerOhneschlag
 	AprilSchach
@@ -969,6 +968,7 @@ aufwendiger ist das Kommando
 	so      Skorpion			Erlkoenig + Grashuepfer
 	sp      Spatz                           0,1+1,1 135 Grad Huepfer
 	ss      Spiralspringer   
+	st      Stachel (Koenig + koeniglicher Grashuepfer)
 	t       Turm                            0,1 Reiter
 	ta      Turmadler                       0,1 90 Grad Huepfer
 	tc      Turmelch                        0,1 45 Grad Huepfer

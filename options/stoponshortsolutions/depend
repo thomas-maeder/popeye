@@ -8,7 +8,8 @@ options/stoponshortsolutions/stoponshortsolutions$(OBJ_SUFFIX): \
  options/stoponshortsolutions/initialiser.h solving/solve.h \
  options/stoponshortsolutions/filter.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/help_play/branch.h debugging/trace.h
+ stipulation/traversal.h stipulation/help_play/branch.h debugging/trace.h \
+ solving/ply.h
 
 options/stoponshortsolutions/stoponshortsolutions.h:
 
@@ -51,6 +52,8 @@ stipulation/traversal.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
  options/stoponshortsolutions/initialiser.c \
  options/stoponshortsolutions/initialiser.h solving/solve.h \
@@ -60,7 +63,7 @@ options/stoponshortsolutions/initialiser$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h \
  options/stoponshortsolutions/stoponshortsolutions.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h
 
 options/stoponshortsolutions/initialiser.h:
 
@@ -99,6 +102,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
  options/stoponshortsolutions/filter.c \
  options/stoponshortsolutions/filter.h solving/solve.h \
@@ -108,7 +113,7 @@ options/stoponshortsolutions/filter$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h \
  options/stoponshortsolutions/stoponshortsolutions.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h
 
 options/stoponshortsolutions/filter.h:
 
@@ -147,3 +152,5 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+solving/ply.h:

@@ -650,7 +650,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[PieSpCount-nr_sides],
         PieSpec sp;
         for (sp= nr_sides; sp<PieSpCount; ++sp)
           if (TSTFLAG(spec[*bnp], sp)
-              && !(sp==Royal && (p==King || p==Poseidon)))
+              && !(sp==Royal && (p==King || p==Poseidon || p==Sting)))
           {
             AppendSquare(ListSpec[sp-nr_sides],*bnp);
             ++SpecCount[sp-nr_sides];

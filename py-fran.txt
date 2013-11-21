@@ -228,7 +228,6 @@ simples:
 	BlancUltraSchachZwang
 	NoirUltraSchachZwang
 	ShieldedKings
-	EchecsSting
 	BlancSansPrises
 	NoirSansPrises
 	EchecsAvril
@@ -466,7 +465,7 @@ simples:
 			position de mat.
 	MaxTemps        Cette option dois etre suivie par un chiffre.
 			La verification d'un probleme est terminee
-			apres le nombre de secondes indiqué.
+			apres le nombre de secondes indique.
 	SansRoquer	Il faut entrer les cases ou se trouvent les pieces 
 			qui ne peuvent plus roquer dans la position de
 			diagramme.
@@ -862,6 +861,7 @@ suivante est un peu plus compliquee:
 	ef      elan fou
 	eq      equisauteur (non-stop)
 	el      elephant			0,1+1,1+1,2
+	ep      epine (roi+sauterelle royal)
 	et      elan tour
 	f       fou
 	fc      fou/tour chasseur
@@ -915,7 +915,7 @@ suivante est un peu plus compliquee:
 	pi      piece impuissant
 	pm      pion marin
 	po      pos\'eidon
-	pv      pion renverse     joue en directions opposées du pion normal; se promeut sur la rangée opposée
+	pv      pion renverse     joue en directions opposees du pion normal; se promeut sur la rangee opposee
 	pr      princesse   
 	qa      equi anglais
 	qf      equi francais

@@ -231,7 +231,6 @@ commands expect further parameters. Lets start with the simpler commands:
 	WhiteUltraSchachZwang
 	BlackUltraSchachZwang
 	ShieldedKings
-	StingChess
 	NoWhiteCapture
 	NoBlackCapture
 	AprilChess
@@ -940,6 +939,7 @@ sstipulation). A little bit more elaborate is the command
 	sp      superpawn
 	sq      squirrel   
 	ss      ("Spiralspringer")
+	st      sting (king + royal grasshopper)
 	sw      sparrow
 	th      tree hopper
 	tr      triton

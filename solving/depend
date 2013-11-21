@@ -349,7 +349,7 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/facetoface.h solving/observation.h conditions/madrasi.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
- conditions/phantom.h conditions/singlebox/type3.h conditions/sting.h \
+ conditions/phantom.h conditions/singlebox/type3.h \
  conditions/castling_chess.h conditions/exchange_castling.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/super.h \
@@ -420,8 +420,6 @@ conditions/patrol.h:
 conditions/phantom.h:
 
 conditions/singlebox/type3.h:
-
-conditions/sting.h:
 
 conditions/castling_chess.h:
 
@@ -1983,7 +1981,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/grid.h conditions/edgemover.h conditions/annan.h \
  conditions/phantom.h conditions/marscirce/plus.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
- conditions/sting.h conditions/transmuting_kings/transmuting_kings.h \
+ conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/magic.h \
@@ -2091,8 +2089,6 @@ conditions/marscirce/plus.h:
 conditions/marscirce/marscirce.h:
 
 conditions/singlebox/type3.h:
-
-conditions/sting.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -2222,7 +2218,7 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  pieces/walks/skylla_charybdis.h pieces/walks/edgehog.h \
  pieces/walks/kangaroo.h pieces/walks/querquisite.h pieces/walks/ubiubi.h \
  pieces/walks/radial.h pieces/walks/orphan.h pieces/walks/friend.h \
- pieces/walks/hunters.h debugging/trace.h
+ pieces/walks/hunters.h conditions/sting.h debugging/trace.h
 
 solving/find_square_observer_tracking_back_from_target.h:
 
@@ -2321,6 +2317,8 @@ pieces/walks/orphan.h:
 pieces/walks/friend.h:
 
 pieces/walks/hunters.h:
+
+conditions/sting.h:
 
 debugging/trace.h:
 solving/ply$(OBJ_SUFFIX): solving/ply.c solving/ply.h position/position.h \
@@ -2446,7 +2444,7 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/vaulting_kings.h conditions/backhome.h \
  conditions/vogtlaender.h conditions/bicolores.h conditions/antikings.h \
- conditions/sting.h conditions/follow_my_leader.h conditions/alphabetic.h \
+ conditions/follow_my_leader.h conditions/alphabetic.h \
  conditions/forced_squares.h conditions/synchronous.h \
  conditions/must_capture.h platform/maxtime.h conditions/shielded_kings.h \
  stipulation/end_of_branch_tester.h stipulation/dead_end.h \
@@ -2465,7 +2463,8 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
  pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
- conditions/amu/mate_filter.h conditions/circe/goal_filters.h \
+ pieces/walks/hunters.h conditions/amu/mate_filter.h \
+ conditions/circe/goal_filters.h \
  conditions/ultraschachzwang/goal_filter.h \
  options/no_short_variations/no_short_variations.h optimisations/hash.h \
  DHT/dhtbcmem.h optimisations/intelligent/intelligent.h \
@@ -2789,8 +2788,6 @@ conditions/bicolores.h:
 
 conditions/antikings.h:
 
-conditions/sting.h:
-
 conditions/follow_my_leader.h:
 
 conditions/alphabetic.h:
@@ -2866,6 +2863,8 @@ pieces/attributes/chameleon.h:
 pieces/attributes/jigger.h:
 
 pieces/attributes/uncapturable.h:
+
+pieces/walks/hunters.h:
 
 conditions/amu/mate_filter.h:
 

@@ -7,7 +7,7 @@ options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- debugging/trace.h options/movenumbers.h \
+ debugging/trace.h solving/ply.h options/movenumbers.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h \
  options/options.h output/output.h output/plaintext/plaintext.h pymsg.h \
  pylang.h utilities/boolean.h
@@ -49,6 +49,8 @@ stipulation/traversal.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 options/movenumbers.h:
 

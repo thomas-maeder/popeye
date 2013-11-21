@@ -31,7 +31,6 @@
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/singlebox/type3.h"
-#include "conditions/sting.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/vaulting_kings.h"
@@ -862,10 +861,6 @@ boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
       result = marscirce_is_square_observed(si,evaluate);
       break;
 
-    case STStingIsSquareObserved:
-      result = sting_is_square_observed(si,evaluate);
-      break;
-
     case STVaultingKingIsSquareObserved:
       result = vaulting_king_is_square_observed(si,evaluate);
       break;
@@ -930,7 +925,6 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
     STMarsIsSquareObserved,
-    STStingIsSquareObserved,
     STVaultingKingIsSquareObserved,
     STTransmutingKingIsSquareObserved,
     STReflectiveKingIsSquareObserved,

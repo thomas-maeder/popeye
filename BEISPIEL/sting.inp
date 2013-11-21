@@ -1,28 +1,27 @@
-anfa
-prot sting.out
-auto Ronald Turnbull
-quel 1, Variant Chess 31, Spring/1999
-ford #3
-opti vari
-stei
-weis kc7 lc4 be6
-schw ka8
-zwil bedi sting
-weit
-auto Ian Richardson
-quel 2, Variant Chess 31, Spring/1999
-ford h#5
-bedi sting
-opti weiss zugn
-stei
-weis kg7 lg4
-schw ke8
-weit
-auto Ian Richardson
-quel 3, Variant Chess 31, Spring/1999
-ford h#3
-bedi sting 
-stei
-weis ke1 ba3c3
-schw ka1 lb1c1 ba2b3b4b5c4
+anfang
+
+protokoll sting.out
+
+autor Ronald Turnbull
+quelle 1, Variant Chess 31, Spring/1999
+forderung #3
+option vari
+steine weiss kc7 lc4 be6 schwarz ka8
+zwilling hinzufueg weiss stc7 schwarz sta8
+
+weiter
+
+autor Ian Richardson
+quelle 2, Variant Chess 31, Spring/1999
+forderung h#5
+option weiss zugn
+steine weiss stg7 lg4 schwarz ste8
+
+weiter
+
+autor Ian Richardson
+quelle 3, Variant Chess 31, Spring/1999
+forderung h#3
+steine weiss ste1 ba3c3 schwarz sta1 lb1c1 ba2b3b4b5c4
+
 ende

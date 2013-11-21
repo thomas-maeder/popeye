@@ -470,7 +470,7 @@ void castling_generator_generate_castling(slice_index si, PieNam p)
 
   generate_moves_for_piece(slices[si].next1,p);
 
-  if (p==King || p==Poseidon)
+  if (p==King || p==Poseidon || p==Sting)
     generate_castling();
 
   TraceFunctionExit(__func__);

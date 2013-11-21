@@ -1194,7 +1194,7 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  pieces/walks/cardinal.h pieces/walks/reflecting_bishop.h \
  pieces/walks/bob.h pieces/walks/rabbit.h pieces/walks/kangaroo.h \
  pieces/walks/locusts.h pieces/walks/hamster.h pieces/walks/bouncer.h \
- pieces/walks/querquisite.h debugging/trace.h
+ pieces/walks/querquisite.h conditions/sting.h debugging/trace.h
 
 pieces/walks/generate_moves.h:
 
@@ -1309,6 +1309,8 @@ pieces/walks/hamster.h:
 pieces/walks/bouncer.h:
 
 pieces/walks/querquisite.h:
+
+conditions/sting.h:
 
 debugging/trace.h:
 pieces/walks/classification$(OBJ_SUFFIX): pieces/walks/classification.c \

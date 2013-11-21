@@ -37,6 +37,7 @@
 #include "pieces/walks/hamster.h"
 #include "pieces/walks/bouncer.h"
 #include "pieces/walks/querquisite.h"
+#include "conditions/sting.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -660,6 +661,10 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
 
     case MarineShip:
       marine_ship_generate_moves(vec_rook_start,vec_rook_end);
+      break;
+
+    case Sting:
+      sting_generate_moves();
       break;
 
     default:

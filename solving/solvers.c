@@ -130,7 +130,6 @@
 #include "conditions/vogtlaender.h"
 #include "conditions/bicolores.h"
 #include "conditions/antikings.h"
-#include "conditions/sting.h"
 #include "conditions/follow_my_leader.h"
 #include "conditions/alphabetic.h"
 #include "conditions/forced_squares.h"
@@ -801,9 +800,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     reflective_kings_initialise_solving(result,White);
   if (CondFlag[blrefl_king])
     reflective_kings_initialise_solving(result,Black);
-
-  if (CondFlag[sting])
-    sting_initalise_solving(result);
 
   if (CondFlag[annan])
     annan_initialise_solving(result);

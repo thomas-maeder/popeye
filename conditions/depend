@@ -3940,29 +3940,16 @@ pieces/walks/vectors.h:
 output/mode.h:
 
 solving/check.h:
-conditions/sting$(OBJ_SUFFIX): conditions/sting.c conditions/sting.h pieces/pieces.h \
- utilities/boolean.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
+conditions/sting$(OBJ_SUFFIX): conditions/sting.c conditions/sting.h \
  solving/observation.h stipulation/stipulation.h \
- stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
- solving/solve.h solving/find_square_observer_tracking_back_from_target.h
+ solving/solve.h pieces/walks/leapers.h \
+ solving/find_square_observer_tracking_back_from_target.h
 
 conditions/sting.h:
-
-pieces/pieces.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-pieces/walks/vectors.h:
-
-utilities/enumeration.h:
 
 solving/observation.h:
 
@@ -3970,7 +3957,21 @@ stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
 stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -3981,6 +3982,8 @@ pieces/walks/hoppers.h:
 solving/move_generator.h:
 
 solving/solve.h:
+
+pieces/walks/leapers.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 conditions/follow_my_leader$(OBJ_SUFFIX): conditions/follow_my_leader.c \

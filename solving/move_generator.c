@@ -14,7 +14,6 @@
 #include "conditions/patrol.h"
 #include "conditions/phantom.h"
 #include "conditions/singlebox/type3.h"
-#include "conditions/sting.h"
 #include "conditions/castling_chess.h"
 #include "conditions/exchange_castling.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
@@ -62,7 +61,6 @@ static slice_index const slice_rank_order[] =
     STTransmutingKingsMovesForPieceGenerator,
     STSuperTransmutingKingsMovesForPieceGenerator,
     STReflectiveKingsMovesForPieceGenerator,
-    STStingMovesForPieceGenerator,
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STCastlingGenerator,
@@ -234,10 +232,6 @@ void generate_moves_for_piece(slice_index si, PieNam p)
 
     case STReflectiveKingsMovesForPieceGenerator:
       reflective_kings_generate_moves_for_piece(si,p);
-      break;
-
-    case STStingMovesForPieceGenerator:
-      sting_generate_moves_for_piece(si,p);
       break;
 
     case STCastlingChessMovesForPieceGenerator:

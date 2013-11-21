@@ -131,7 +131,7 @@ typedef enum
   Rabbit,                /* 118 */
   Bob,                   /* 119 */
   EquiStopper,           /* 120 */
-  NonstopEquiStopper,            /* 121 */
+  NonstopEquiStopper,    /* 121 */
   Querquisite,           /* 122 */
   Bouncer,               /* 123 */
   RookBouncer,           /* 124 */
@@ -163,7 +163,8 @@ typedef enum
   Poseidon,              /* 150 */
   MarinePawn,            /* 151 */
   MarineShip,            /* 152 */
-  Hunter0,               /* 153 */
+  Sting,                 /* 153 */
+  Hunter0,               /* 154 */
 
   PieceCount             = Hunter0+maxnrhuntertypes
 } PieNam;

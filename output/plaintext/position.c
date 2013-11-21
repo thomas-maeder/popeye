@@ -227,7 +227,7 @@ void WritePosition()
         PieNam const pp = get_walk_of_piece_on_square(square);
         for (sp= nr_sides; sp<PieSpCount; ++sp)
           if (TSTFLAG(spec[square],sp)
-              && !(sp==Royal && (pp==King || pp==Poseidon)))
+              && !(sp==Royal && (pp==King || pp==Poseidon || pp==Sting)))
           {
             AppendSquare(ListSpec[sp-nr_sides], square);
             ++SpecCount[sp-nr_sides];

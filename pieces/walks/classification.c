@@ -6,6 +6,7 @@ boolean is_king(PieNam p)
   {
     case King:
     case Poseidon:
+    case Sting:
       return  true;
 
     default:

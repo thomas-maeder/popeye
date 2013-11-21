@@ -159,7 +159,8 @@ PieTable PieNamString[LanguageCount] =
     /*149*/ {'c','m'},   /* cavalier marin */
     /*150*/ {'p','o'},   /* pos\'eidon */
     /*151*/ {'p','m'},   /* pion marin */
-    /*152*/ {'b','m'}    /* bateau marin */
+    /*152*/ {'b','m'},   /* bateau marin */
+    /*153*/ {'e','p'}    /* epine */
   },{ /* German PieNamString */
   /*  0*/ {'.',' '},  /* leer */
   /*  1*/ {' ',' '},  /* ausserhalb des Brettes */
@@ -313,7 +314,8 @@ PieTable PieNamString[LanguageCount] =
     /*149*/ {'m','s'},   /* mariner Springer */
     /*150*/ {'p','o'},   /* Poseidon */
     /*151*/ {'m','b'},   /* mariner Bauer */
-    /*152*/ {'m','c'}    /* marines Schiff */
+    /*152*/ {'m','c'},   /* marines Schiff */
+    /*153*/ {'s','t'}    /* Stachel */
   },{/* English PieNamString */
   /*  0*/ {'.',' '},  /* empty */
   /*  1*/ {' ',' '},  /* outside board */
@@ -467,7 +469,8 @@ PieTable PieNamString[LanguageCount] =
     /*149*/ {'m','s'},   /* marine knight */
     /*150*/ {'p','o'},   /* poseidon */
     /*151*/ {'m','p'},   /* marine pawn */
-    /*152*/ {'m','h'}    /* marine ship */
+    /*152*/ {'m','h'},   /* marine ship */
+    /*153*/ {'s','t'}    /* sting */
   }
 };
 
@@ -726,7 +729,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*122*/ "BlancUltraSchachZwang",
     /*123*/ "ActuatedRevolvingCentre",
     /*124*/ "ShieldedKings",
-    /*125*/ "EchecsSting",
+    /*125*/ "NONUTILISEACTUELLEMENT",
     /*126*/ "EchecsChameleonLigne",
     /*127*/ "BlancSansPrises",
     /*128*/ "NoirSansPrises",
@@ -920,7 +923,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*122*/ "WeisserUltraSchachZwang",
     /*123*/ "ActuatedRevolvingCentre",
     /*124*/ "SchutzKoenige",
-    /*125*/ "StingSchach",
+    /*125*/ "ZURZEITUNVERWENDET",
     /*126*/ "LinienChamaeleonSchach",
     /*127*/ "WeisserOhneSchlag",
     /*128*/ "SchwarzerOhneSchlag",
@@ -1114,7 +1117,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*122*/ "WhiteUltraSchachZwang",
     /*123*/ "ActuatedRevolvingCentre",
     /*124*/ "ShieldedKings",
-    /*125*/ "StingChess",
+    /*125*/ "CURRENTLYUNUSED",
     /*126*/ "LineChameleonChess",
     /*127*/ "NoWhiteCapture",
     /*128*/ "NoBlackCapture",
