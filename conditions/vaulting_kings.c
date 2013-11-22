@@ -74,7 +74,8 @@ void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p)
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean vaulting_king_is_square_observed(slice_index si, evalfunction_t *evaluate){
+boolean vaulting_king_is_square_observed(slice_index si, evalfunction_t *evaluate)
+{
   if (king_square[trait[nbply]]==initsquare)
     return is_square_observed_recursive(slices[si].next1,evaluate);
   else
