@@ -12,6 +12,7 @@
 #include "conditions/grid.h"
 #include "conditions/imitator.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
 #include "position/position.h"
 #include "solving/castling.h"
@@ -226,8 +227,7 @@ void WritePosition()
       {
         PieNam const pp = get_walk_of_piece_on_square(square);
         for (sp= nr_sides; sp<PieSpCount; ++sp)
-          if (TSTFLAG(spec[square],sp)
-              && !(sp==Royal && (pp==King || pp==Poseidon || pp==Sting)))
+          if (TSTFLAG(spec[square],sp) && !(sp==Royal && is_king(pp)))
           {
             AppendSquare(ListSpec[sp-nr_sides], square);
             ++SpecCount[sp-nr_sides];

@@ -15,6 +15,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "pieces/walks/classification.h"
 #include "conditions/conditions.h"
 
 #include <assert.h>
@@ -470,7 +471,7 @@ void castling_generator_generate_castling(slice_index si, PieNam p)
 
   generate_moves_for_piece(slices[si].next1,p);
 
-  if (p==King || p==Poseidon || p==Sting)
+  if (is_king(p))
     generate_castling();
 
   TraceFunctionExit(__func__);

@@ -1,6 +1,7 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/language_dependant.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
 #include "pymsg.h"
 
@@ -40,7 +41,7 @@ boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
     if ((spname!=Volage || !CondFlag[volage])
         && (spname!=Patrol || !CondFlag[patrouille])
         && (spname!=Beamtet || !CondFlag[beamten])
-        && (spname!=Royal || (p!=King && p!=Poseidon && p!=Sting))
+        && (spname!=Royal || !is_king(p))
         && TSTFLAG(sp, spname))
     {
       StdChar(tolower(PieSpString[UserLanguage][spname-nr_sides][0]));

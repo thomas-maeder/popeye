@@ -11,6 +11,7 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
+#include "pieces/walks/classification.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "conditions/grid.h"
 #include "platform/maxtime.h"
@@ -649,8 +650,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[PieSpCount-nr_sides],
 
         PieSpec sp;
         for (sp= nr_sides; sp<PieSpCount; ++sp)
-          if (TSTFLAG(spec[*bnp], sp)
-              && !(sp==Royal && (p==King || p==Poseidon || p==Sting)))
+          if (TSTFLAG(spec[*bnp], sp) && !(sp==Royal && is_king(p)))
           {
             AppendSquare(ListSpec[sp-nr_sides],*bnp);
             ++SpecCount[sp-nr_sides];
