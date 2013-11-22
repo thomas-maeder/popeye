@@ -550,4 +550,14 @@ stip +1
 condition marsc
 option nowk
 twin move e2 a4
+
+next
+
+title Until 4.63, Popeye didn't support Mars Circe combined with Stings
+pieces white ste2 black ke6 pd4e7
+stip +1                    
+condition marsc
+option nowk
+twin move e2 a4
+
 end
