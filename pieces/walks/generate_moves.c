@@ -37,7 +37,7 @@
 #include "pieces/walks/hamster.h"
 #include "pieces/walks/bouncer.h"
 #include "pieces/walks/querquisite.h"
-#include "conditions/sting.h"
+#include "pieces/walks/sting.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 

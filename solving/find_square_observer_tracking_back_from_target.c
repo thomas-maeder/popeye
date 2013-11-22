@@ -31,7 +31,7 @@
 #include "pieces/walks/orphan.h"
 #include "pieces/walks/friend.h"
 #include "pieces/walks/hunters.h"
-#include "conditions/sting.h"
+#include "pieces/walks/sting.h"
 #include "solving/observation.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"

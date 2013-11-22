@@ -3940,52 +3940,6 @@ pieces/walks/vectors.h:
 output/mode.h:
 
 solving/check.h:
-conditions/sting$(OBJ_SUFFIX): conditions/sting.c conditions/sting.h \
- solving/observation.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
- solving/solve.h pieces/walks/leapers.h \
- solving/find_square_observer_tracking_back_from_target.h
-
-conditions/sting.h:
-
-solving/observation.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-solving/ply.h:
-
-pieces/walks/hoppers.h:
-
-solving/move_generator.h:
-
-solving/solve.h:
-
-pieces/walks/leapers.h:
-
-solving/find_square_observer_tracking_back_from_target.h:
 conditions/follow_my_leader$(OBJ_SUFFIX): conditions/follow_my_leader.c \
  conditions/follow_my_leader.h position/board.h utilities/bitmask.h \
  solving/move_effect_journal.h solving/solve.h stipulation/stipulation.h \
