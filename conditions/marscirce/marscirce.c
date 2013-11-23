@@ -237,7 +237,6 @@ void solving_initialise_marscirce(slice_index si)
 
   stip_instrument_check_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
   stip_instrument_observation_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
-  stip_instrument_observer_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

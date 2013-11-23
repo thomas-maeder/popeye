@@ -363,7 +363,6 @@ static slice_index const observation_validation_slice_rank_order[] =
 
     STValidatingObserver,
     STCentralObserverValidator,
-    STMarsCirceMovesForPieceGenerator,
     STEnforceObserverWalk,
     STEnforceObserverSide,
     STEnforceHunterDirection,
