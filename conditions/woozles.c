@@ -107,10 +107,10 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
   return result;
 }
 
-/* Validate an observation according to Woozles
- * @return true iff the observation is valid
+/* Validate an observer according to Woozles
+ * @return true iff the observer can observe
  */
-boolean woozles_validate_observation(slice_index si)
+boolean woozles_validate_observer(slice_index si)
 {
   boolean result;
   Side const side_woozle = trait[nbply];
@@ -128,10 +128,10 @@ boolean woozles_validate_observation(slice_index si)
   return result;
 }
 
-/* Validate an observation according to BiWoozles
- * @return true iff the observation is valid
+/* Validate an observer according to BiWoozles
+ * @return true iff the observer can observe
  */
-boolean biwoozles_validate_observation(slice_index si)
+boolean biwoozles_validate_observer(slice_index si)
 {
   boolean result;
   Side const side_woozle = advers(trait[nbply]);
@@ -441,10 +441,10 @@ static boolean heffalumps_is_paralysed(Side side_woozle, numecoup n)
   return result;
 }
 
-/* Validate an observation according to Heffalumps
- * @return true iff the observation is valid
+/* Validate an observer according to Heffalumps
+ * @return true iff the observer can observe
  */
-boolean heffalumps_validate_observation(slice_index si)
+boolean heffalumps_validate_observer(slice_index si)
 {
   boolean result;
   Side const side_woozle = trait[nbply];
@@ -462,10 +462,10 @@ boolean heffalumps_validate_observation(slice_index si)
   return result;
 }
 
-/* Validate an observation according to BiHeffalumps
- * @return true iff the observation is valid
+/* Validate an observer according to BiHeffalumps
+ * @return true iff the observer can observe
  */
-boolean biheffalumps_validate_observation(slice_index si)
+boolean biheffalumps_validate_observer(slice_index si)
 {
   boolean result;
   Side const side_woozle = advers(trait[nbply]);
