@@ -24,25 +24,25 @@ extern boolean woozles_rex_exclusive;
 stip_length_type woozles_remove_illegal_captures_solve(slice_index si,
                                                        stip_length_type n);
 
-/* Validate an observation according to Woozles
- * @return true iff the observation is valid
+/* Validate an observer according to Woozles
+ * @return true iff the observer can observe
  */
-boolean woozles_validate_observation(slice_index si);
+boolean woozles_validate_observer(slice_index si);
 
-/* Validate an observation according to BiWoozles
- * @return true iff the observation is valid
+/* Validate an observer according to BiWoozles
+ * @return true iff the observer can observe
  */
-boolean biwoozles_validate_observation(slice_index si);
+boolean biwoozles_validate_observer(slice_index si);
 
-/* Validate an observation according to Heffalumps
- * @return true iff the observation is valid
+/* Validate an observer according to Heffalumps
+ * @return true iff the observer can observe
  */
-boolean heffalumps_validate_observation(slice_index si);
+boolean heffalumps_validate_observer(slice_index si);
 
-/* Validate an observation according to BiHeffalumps
- * @return true iff the observation is valid
+/* Validate an observer according to BiHeffalumps
+ * @return true iff the observer can observe
  */
-boolean biheffalumps_validate_observation(slice_index si);
+boolean biheffalumps_validate_observer(slice_index si);
 
 /* Instrument solving in Woozles
  * @param si identifies the root slice of the stipulation

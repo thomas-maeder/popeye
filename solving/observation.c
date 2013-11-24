@@ -184,19 +184,19 @@ boolean validate_observation_recursive(slice_index si)
       break;
 
     case STWoozlesRemoveIllegalCaptures:
-      result = woozles_validate_observation(si);
+      result = woozles_validate_observer(si);
       break;
 
     case STBiWoozlesRemoveIllegalCaptures:
-      result = biwoozles_validate_observation(si);
+      result = biwoozles_validate_observer(si);
       break;
 
     case STHeffalumpsRemoveIllegalCaptures:
-      result = heffalumps_validate_observation(si);
+      result = heffalumps_validate_observer(si);
       break;
 
     case STBiHeffalumpsRemoveIllegalCaptures:
-      result = biheffalumps_validate_observation(si);
+      result = biheffalumps_validate_observer(si);
       break;
 
     case STWormholeRemoveIllegalCaptures:
