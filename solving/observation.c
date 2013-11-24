@@ -34,6 +34,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/vaulting_kings.h"
+#include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/magic.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
@@ -72,17 +73,6 @@ boolean validate_observation_recursive(slice_index si)
       square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
       TracePiece(observing_walk[nbply]);TraceText("\n");
       if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
-        result = validate_observation_recursive(slices[si].next1);
-      else
-        result = false;
-      break;
-    }
-
-    case STEnforceObserverSide:
-    {
-      square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-      TraceEnumerator(Side,trait[nbply],"");TraceText("\n");
-      if (TSTFLAG(spec[sq_departure],trait[nbply]))
         result = validate_observation_recursive(slices[si].next1);
       else
         result = false;
@@ -333,12 +323,11 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STEnforceObserverWalk,
-    STEnforceObserverSide,
-    STEnforceHunterDirection,
     STAnnanEnforceObserverWalk,
     STFaceToFaceEnforceObserverWalk,
     STBackToBackEnforceObserverWalk,
     STCheekToCheekEnforceObserverWalk,
+    STEnforceHunterDirection,
     STBackhomeExistanceTester,
     STBackhomeRemoveIllegalMoves,
     STBeamtenMovesForPieceGenerator,
@@ -364,7 +353,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STValidatingObserver,
     STCentralObserverValidator,
     STEnforceObserverWalk,
-    STEnforceObserverSide,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,
     STEiffelMovesForPieceGenerator,
@@ -373,7 +361,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STValidatingObservationGeometry,
     STParalysingObservationGeometryValidator,
     STEnforceObserverWalk,
-    STEnforceObserverSide,
     STEnforceHunterDirection,
     STMonochromeRemoveBichromeMoves,
     STBichromeRemoveMonochromeMoves,
@@ -642,7 +629,6 @@ static slice_type const slice_order_check_with_proxies[] = {
   STProxy,
   STValidatingCheck,
   STEnforceObserverWalk,
-  STEnforceObserverSide,
   STValidatingObserver,
   STValidatingObservationGeometry,
   STTrue
@@ -652,7 +638,6 @@ static slice_type const slice_order_observation_with_proxies[] = {
   STProxy,
   STValidatingObservation,
   STEnforceObserverWalk,
-  STEnforceObserverSide,
   STValidatingObserver,
   STValidatingObservationGeometry,
   STTrue
@@ -662,7 +647,6 @@ static slice_type const slice_order_observation_geometry_with_proxies[] = {
   STProxy,
   STValidatingObservationGeometry,
   STEnforceObserverWalk,
-  STEnforceObserverSide,
   STTrue
 };
 
@@ -670,14 +654,12 @@ static slice_type const slice_order_observer_with_proxies[] = {
   STProxy,
   STValidatingObserver,
   STEnforceObserverWalk,
-  STEnforceObserverSide,
   STValidatingObservationGeometry,
   STTrue
 };
 
 static slice_type const slice_order_observation_without_proxies[] = {
   STEnforceObserverWalk,
-  STEnforceObserverSide,
   STTrue
 };
 

@@ -843,7 +843,8 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/fork.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h conditions/conditions.h
+ stipulation/temporary_hacks.h debugging/trace.h \
+ pieces/walks/classification.h conditions/conditions.h
 
 solving/castling.h:
 
@@ -910,6 +911,8 @@ stipulation/move.h:
 stipulation/temporary_hacks.h:
 
 debugging/trace.h:
+
+pieces/walks/classification.h:
 
 conditions/conditions.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
@@ -1983,14 +1986,15 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
- conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
- pieces/attributes/magic.h \
+ conditions/vaulting_kings.h pieces/walks/hunters.h \
+ pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/temporary_hacks.h \
- optimisations/orthodox_square_observation.h debugging/trace.h
+ optimisations/orthodox_square_observation.h debugging/trace.h \
+ debugging/measure.h
 
 solving/observation.h:
 
@@ -2096,6 +2100,8 @@ conditions/transmuting_kings/reflective_kings.h:
 
 conditions/vaulting_kings.h:
 
+pieces/walks/hunters.h:
+
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/magic.h:
@@ -2119,6 +2125,8 @@ stipulation/temporary_hacks.h:
 optimisations/orthodox_square_observation.h:
 
 debugging/trace.h:
+
+debugging/measure.h:
 solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h stipulation/stipulation.h \

@@ -593,8 +593,9 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  options/nontrivial.h conditions/grid.h conditions/imitator.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h pieces/attributes/neutral/neutral.h \
- pieces/walks/hunters.h solving/observation.h solving/castling.h \
- solving/move_generator.h pymsg.h pylang.h utilities/boolean.h
+ pieces/walks/classification.h pieces/walks/hunters.h \
+ solving/observation.h solving/castling.h solving/move_generator.h \
+ pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/position.h:
 
@@ -670,6 +671,8 @@ position/pieceid.h:
 
 pieces/attributes/neutral/neutral.h:
 
+pieces/walks/classification.h:
+
 pieces/walks/hunters.h:
 
 solving/observation.h:
@@ -692,8 +695,8 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
  solving/solve.h pieces/attributes/neutral/neutral.h \
- pieces/walks/hunters.h solving/observation.h solving/ply.h pymsg.h \
- pylang.h utilities/boolean.h
+ pieces/walks/classification.h pieces/walks/hunters.h \
+ solving/observation.h solving/ply.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/pieces.h:
 
@@ -738,6 +741,8 @@ conditions/mummer.h:
 solving/solve.h:
 
 pieces/attributes/neutral/neutral.h:
+
+pieces/walks/classification.h:
 
 pieces/walks/hunters.h:
 
