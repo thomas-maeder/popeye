@@ -344,10 +344,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STProvocateursRemoveUnobservedCaptures,
     STShieldedKingsRemoveIllegalCaptures,
     STSuperguardsRemoveIllegalCaptures,
-    STWoozlesRemoveIllegalCaptures,
-    STBiWoozlesRemoveIllegalCaptures,
-    STHeffalumpsRemoveIllegalCaptures,
-    STBiHeffalumpsRemoveIllegalCaptures,
     STWormholeRemoveIllegalCaptures,
 
     STValidatingObserver,
@@ -357,6 +353,10 @@ static slice_index const observation_validation_slice_rank_order[] =
     STMadrasiMovesForPieceGenerator,
     STEiffelMovesForPieceGenerator,
     STParalysingObserverValidator,
+    STWoozlesRemoveIllegalCaptures,
+    STBiWoozlesRemoveIllegalCaptures,
+    STHeffalumpsRemoveIllegalCaptures,
+    STBiHeffalumpsRemoveIllegalCaptures,
 
     STValidatingObservationGeometry,
     STParalysingObservationGeometryValidator,
