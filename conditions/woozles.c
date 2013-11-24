@@ -29,14 +29,14 @@ static void init_woozlers(void)
   woozlers[i] = Empty;
 }
 
-static boolean woozles_aux_whx(void)
+static boolean woozles_is_observation_from_woozled(void)
 {
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   return (sq_departure==move_generation_stack[CURRMOVE_OF_PLY(nbply-2)].departure
           && validate_observation_geometry());
 }
 
-static boolean woozles_aux_wh(void)
+static boolean woozles_is_reciprocally_observed(void)
 {
   boolean result = false;
 
@@ -52,7 +52,7 @@ static boolean woozles_aux_wh(void)
       siblingply(side_woozled);
       push_observation_target(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
       observing_walk[nbply] = p;
-      result = (*checkfunctions[p])(&woozles_aux_whx);
+      result = (*checkfunctions[p])(&woozles_is_observation_from_woozled);
       finply();
     }
   }
@@ -84,20 +84,20 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
 
     siblingply(side_woozle);
     push_observation_target(sq_observer);
-    SET_CURRMOVE(nbply-1,n); /* allow validation to refer to move n */
+    SET_MOVEBASE_OF_PLY(nbply,n); /* allow validation to refer to move n */
 
     for (; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(&woozles_aux_wh))
+          && (*checkfunctions[*pcheck])(&woozles_is_reciprocally_observed))
       {
         result = true;
         break;
       }
     }
 
-    SET_CURRMOVE(nbply-1,save_current_move);
+    SET_MOVEBASE_OF_PLY(nbply,save_current_move);
     finply();
   }
 
@@ -337,7 +337,7 @@ void biwoozles_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean heffalumps_aux_whx(void)
+static boolean heffalumps_is_observation_from_heffalumped_on_line(void)
 {
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
@@ -378,7 +378,7 @@ static boolean heffalumps_aux_whx(void)
   return false;
 }
 
-static boolean heffalumps_aux_wh(void)
+static boolean heffalumps_is_reciprocally_observed(void)
 {
   boolean result = false;
 
@@ -391,7 +391,7 @@ static boolean heffalumps_aux_wh(void)
       siblingply(side_woozled);
       push_observation_target(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
       observing_walk[nbply] = p;
-      result = (*checkfunctions[p])(&heffalumps_aux_whx);
+      result = (*checkfunctions[p])(&heffalumps_is_observation_from_heffalumped_on_line);
       finply();
     }
   }
@@ -420,20 +420,20 @@ static boolean heffalumps_is_paralysed(Side side_woozle, numecoup n)
 
     siblingply(side_woozle);
     push_observation_target(sq_observer);
-    SET_CURRMOVE(nbply-1,n); /* allow validation to refer to move n */
+    SET_MOVEBASE_OF_PLY(nbply,n); /* allow validation to refer to move n */
 
     for (; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(&heffalumps_aux_wh))
+          && (*checkfunctions[*pcheck])(&heffalumps_is_reciprocally_observed))
       {
         result = true;
         break;
       }
     }
 
-    SET_CURRMOVE(nbply-1,save_current_move);
+    SET_MOVEBASE_OF_PLY(nbply,save_current_move);
     finply();
   }
 
