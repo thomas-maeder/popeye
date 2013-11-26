@@ -7,11 +7,21 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
+#include <assert.h>
 #include <stdlib.h>
 
 boolean woozles_rex_exclusive;
 
 static PieNam woozlers[PieceCount];
+
+typedef enum
+{
+  is_observed,
+  is_mutually_observed,
+  is_observation_mutual
+} validation_phase;
+
+static validation_phase phase[maxply+1];
 
 static void init_woozlers(void)
 {
@@ -29,14 +39,7 @@ static void init_woozlers(void)
   woozlers[i] = Empty;
 }
 
-static boolean woozles_is_observation_from_woozled(void)
-{
-  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  return (sq_departure==move_generation_stack[CURRMOVE_OF_PLY(nbply-2)].departure
-          && validate_observation_geometry());
-}
-
-static boolean woozles_is_reciprocally_observed(void)
+static boolean find_mutual_observer(void)
 {
   boolean result = false;
 
@@ -47,14 +50,14 @@ static boolean woozles_is_reciprocally_observed(void)
   {
     Side const side_woozled = trait[nbply-1];
     PieNam const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
-    if (number_of_pieces[side_woozled][p]>0)
-    {
-      siblingply(side_woozled);
-      push_observation_target(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
-      observing_walk[nbply] = p;
-      result = (*checkfunctions[p])(&woozles_is_observation_from_woozled);
-      finply();
-    }
+
+    siblingply(side_woozled);
+    push_observation_target(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
+    observing_walk[nbply] = p;
+    ++phase[parent_ply[nbply]];
+    result = (*checkfunctions[p])(&validate_observer);
+    --phase[parent_ply[nbply]];
+    finply();
   }
 
   TraceFunctionExit(__func__);
@@ -63,16 +66,11 @@ static boolean woozles_is_reciprocally_observed(void)
   return result;
 }
 
-static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
+static boolean find_observer_of_observer(Side side_woozle, numecoup n)
 {
   square const sq_observer = move_generation_stack[n].departure;
   Side const side_woozled = trait[nbply];
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(Side,side_woozle,"");
-  TraceValue("%u",n);
-  TraceFunctionParamListEnd();
+  boolean result = true;
 
   if (!woozles_rex_exclusive || sq_observer!=king_square[side_woozled])
   {
@@ -86,19 +84,63 @@ static boolean woozles_is_paralysed(Side side_woozle, numecoup n)
     push_observation_target(sq_observer);
     SET_MOVEBASE_OF_PLY(nbply,n); /* allow validation to refer to move n */
 
+    ++phase[parent_ply[nbply]];
+
     for (; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(&woozles_is_reciprocally_observed))
+          && (*checkfunctions[*pcheck])(&validate_observer))
       {
-        result = true;
+        result = false;
         break;
       }
     }
 
+    --phase[parent_ply[nbply]];
+
     SET_MOVEBASE_OF_PLY(nbply,save_current_move);
     finply();
+  }
+
+  return result;
+}
+
+static boolean woozles_is_observation_mutual(void)
+{
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+
+  return (sq_departure==move_generation_stack[CURRMOVE_OF_PLY(nbply-2)].departure
+          && validate_observation_geometry());
+}
+
+static boolean woozles_can_observe(Side side_woozle, numecoup n)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side_woozle,"");
+  TraceValue("%u",n);
+  TraceFunctionParamListEnd();
+
+  switch (phase[parent_ply[nbply]])
+  {
+    case is_observed:
+      result = find_observer_of_observer(side_woozle,n);
+      break;
+
+    case is_mutually_observed:
+      result = find_mutual_observer();
+      break;
+
+    case is_observation_mutual:
+      result = woozles_is_observation_mutual();
+      break;
+
+    default:
+      assert(0);
+      result = false;
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -119,7 +161,7 @@ boolean woozles_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!woozles_is_paralysed(side_woozle,CURRMOVE_OF_PLY(nbply))
+  result = (woozles_can_observe(side_woozle,CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -140,7 +182,7 @@ boolean biwoozles_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!woozles_is_paralysed(side_woozle,CURRMOVE_OF_PLY(nbply))
+  result = (woozles_can_observe(side_woozle,CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -157,7 +199,7 @@ static boolean woozles_is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !woozles_is_paralysed(side_woozle,n);
+  result = woozles_can_observe(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -250,7 +292,7 @@ static boolean biwoozles_is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !woozles_is_paralysed(side_woozle,n);
+  result = woozles_can_observe(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -384,69 +426,32 @@ static boolean heffalumps_is_observation_from_heffalumped_on_line(void)
   return result;
 }
 
-static boolean heffalumps_is_reciprocally_observed_on_line(void)
+static boolean heffalumps_can_observe_on_line(Side side_woozle, numecoup n)
 {
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (validate_observation_geometry())
-  {
-    Side const side_woozled = trait[nbply-1];
-    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
-    if (number_of_pieces[side_woozled][p]>0)
-    {
-      siblingply(side_woozled);
-      push_observation_target(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
-      observing_walk[nbply] = p;
-      result = (*checkfunctions[p])(&heffalumps_is_observation_from_heffalumped_on_line);
-      finply();
-    }
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static boolean heffalumps_is_paralysed_on_line(Side side_woozle, numecoup n)
-{
-  square const sq_observer = move_generation_stack[n].departure;
-  Side const side_woozled = trait[nbply];
-  boolean result = false;
+  boolean result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side_woozle,"");
   TraceValue("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!woozles_rex_exclusive || sq_observer!=king_square[side_woozled])
+  switch (phase[parent_ply[nbply]])
   {
-    PieNam const *pcheck = woozlers;
-    numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
+    case is_observed:
+      result = find_observer_of_observer(side_woozle,n);
+      break;
 
-    if (woozles_rex_exclusive)
-      ++pcheck;
+    case is_mutually_observed:
+      result = find_mutual_observer();
+      break;
 
-    siblingply(side_woozle);
-    push_observation_target(sq_observer);
-    SET_MOVEBASE_OF_PLY(nbply,n); /* allow validation to refer to move n */
+    case is_observation_mutual:
+      result = heffalumps_is_observation_from_heffalumped_on_line();
+      break;
 
-    for (; *pcheck; ++pcheck)
-    {
-      observing_walk[nbply] = *pcheck;
-      if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(&heffalumps_is_reciprocally_observed_on_line))
-      {
-        result = true;
-        break;
-      }
-    }
-
-    SET_MOVEBASE_OF_PLY(nbply,save_current_move);
-    finply();
+    default:
+      assert(0);
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -467,7 +472,7 @@ boolean heffalumps_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!heffalumps_is_paralysed_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
+  result = (heffalumps_can_observe_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -488,7 +493,7 @@ boolean biheffalumps_validate_observer(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (!heffalumps_is_paralysed_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
+  result = (heffalumps_can_observe_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
             && validate_observation_recursive(slices[si].next1));
 
   TraceFunctionExit(__func__);
@@ -505,7 +510,7 @@ static boolean heffalumps_is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !heffalumps_is_paralysed_on_line(side_woozle,n);
+  result = heffalumps_can_observe_on_line(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -598,7 +603,7 @@ static boolean biheffalumps_is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !heffalumps_is_paralysed_on_line(side_woozle,n);
+  result = heffalumps_can_observe_on_line(side_woozle,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
