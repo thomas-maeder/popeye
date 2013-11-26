@@ -24,17 +24,25 @@ boolean leapers_check(vec_index_type kanf, vec_index_type kend,
                       evalfunction_t *evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  boolean result = false;
 
-  /* detect "check" of leaper p */
-  vec_index_type k;
-  for (k= kanf; k<=kend; k++)
+  ++observation_context;
+
+  for (interceptable_observation[observation_context].vector_index1 = kanf;
+       interceptable_observation[observation_context].vector_index1<=kend;
+       interceptable_observation[observation_context].vector_index1++)
   {
-    square const sq_departure= sq_target+vec[k];
+    square const sq_departure= sq_target+vec[interceptable_observation[observation_context].vector_index1];
     if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
-      return true;
+    {
+      result = true;
+      break;
+    }
   }
 
-  return false;
+  --observation_context;
+
+  return result;
 }
 
 boolean king_check(evalfunction_t *evaluate)
