@@ -14,32 +14,32 @@
  */
 void leaper_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean leapers_check(vec_index_type b, vec_index_type c, evalfunction_t *evaluate);
+boolean leapers_check(vec_index_type b, vec_index_type c, validator_id evaluate);
 
-boolean king_check(evalfunction_t *evaluate);
-boolean knight_check(evalfunction_t *evaluate);
-boolean alfil_check(evalfunction_t *evaluate);
-boolean antilope_check(evalfunction_t *evaluate);
-boolean bison_check(evalfunction_t *evaluate);
-boolean bucephale_check(evalfunction_t *evaluate);
-boolean okapi_check(evalfunction_t *evaluate);
-boolean camel_check(evalfunction_t *evaluate);
-boolean dabbaba_check(evalfunction_t *evaluate);
-boolean fers_check(evalfunction_t *evaluate);
-boolean girafe_check(evalfunction_t *evaluate);
-boolean gnu_check(evalfunction_t *evaluate);
-boolean leap15_check(evalfunction_t *evaluate);
-boolean leap16_check(evalfunction_t *evaluate);
-boolean leap24_check(evalfunction_t *evaluate);
-boolean leap25_check(evalfunction_t *evaluate);
-boolean leap35_check(evalfunction_t *evaluate);
-boolean leap36_check(evalfunction_t *evaluate);
-boolean leap36_check(evalfunction_t *evaluate);
-boolean leap37_check(evalfunction_t *evaluate);
-boolean rccinq_check(evalfunction_t *evaluate);
-boolean squirrel_check(evalfunction_t *evaluate);
-boolean vizir_check(evalfunction_t *evaluate);
-boolean zebra_check(evalfunction_t *evaluate);
-boolean zebu_check(evalfunction_t *evaluate);
+boolean king_check(validator_id evaluate);
+boolean knight_check(validator_id evaluate);
+boolean alfil_check(validator_id evaluate);
+boolean antilope_check(validator_id evaluate);
+boolean bison_check(validator_id evaluate);
+boolean bucephale_check(validator_id evaluate);
+boolean okapi_check(validator_id evaluate);
+boolean camel_check(validator_id evaluate);
+boolean dabbaba_check(validator_id evaluate);
+boolean fers_check(validator_id evaluate);
+boolean girafe_check(validator_id evaluate);
+boolean gnu_check(validator_id evaluate);
+boolean leap15_check(validator_id evaluate);
+boolean leap16_check(validator_id evaluate);
+boolean leap24_check(validator_id evaluate);
+boolean leap25_check(validator_id evaluate);
+boolean leap35_check(validator_id evaluate);
+boolean leap36_check(validator_id evaluate);
+boolean leap36_check(validator_id evaluate);
+boolean leap37_check(validator_id evaluate);
+boolean rccinq_check(validator_id evaluate);
+boolean squirrel_check(validator_id evaluate);
+boolean vizir_check(validator_id evaluate);
+boolean zebra_check(validator_id evaluate);
+boolean zebu_check(validator_id evaluate);
 
 #endif

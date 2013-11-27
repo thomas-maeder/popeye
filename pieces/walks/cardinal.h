@@ -10,6 +10,6 @@
  */
 void cardinal_generate_moves(void);
 
-boolean cardinal_check(evalfunction_t *evaluate);
+boolean cardinal_check(validator_id evaluate);
 
 #endif

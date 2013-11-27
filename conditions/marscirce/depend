@@ -4,8 +4,9 @@ conditions/marscirce/marscirce$(OBJ_SUFFIX): conditions/marscirce/marscirce.c \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/observation.h solving/ply.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h solving/move_generator.h \
+ stipulation/temporary_hacks.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
  optimisations/orthodox_check_directions.h debugging/trace.h
 
@@ -39,6 +40,8 @@ solving/observation.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/pawns/en_passant.h:
 
 solving/move_effect_journal.h:
@@ -61,9 +64,10 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h pieces/walks/pawns/en_passant.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/observation.h pieces/walks/classification.h \
- conditions/marscirce/marscirce.h solving/move_generator.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h solving/observation.h stipulation/temporary_hacks.h \
+ pieces/walks/classification.h conditions/marscirce/marscirce.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/move.h debugging/trace.h
 
@@ -105,6 +109,8 @@ position/pieceid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/classification.h:
 
 conditions/marscirce/marscirce.h:
@@ -130,8 +136,8 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/observation.h solving/ply.h \
- conditions/marscirce/marscirce.h solving/move_generator.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h conditions/marscirce/marscirce.h \
+ solving/move_generator.h debugging/trace.h
 
 conditions/marscirce/plus.h:
 
@@ -162,6 +168,8 @@ output/mode.h:
 solving/observation.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 conditions/marscirce/marscirce.h:
 

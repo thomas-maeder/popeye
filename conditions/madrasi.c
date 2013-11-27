@@ -37,7 +37,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
       nextply(observing_side);
       push_observation_target(sq);
       observing_walk[nbply] = p;
-      result = (*checkfunctions[p])(&validate_observation_geometry);
+      result = (*checkfunctions[p])(EVALUATE(observation_geometry));
       finply();
     }
   }
@@ -70,7 +70,7 @@ static boolean is_paralysed(numecoup n)
       siblingply(observing_side);
       push_observation_target(sq_departure);
       observing_walk[nbply] = candidate;
-      result = (*checkfunctions[candidate])(&validate_observation_geometry);
+      result = (*checkfunctions[candidate])(EVALUATE(observation_geometry));
       finply();
     }
     else

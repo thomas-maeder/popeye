@@ -15,6 +15,6 @@ extern PieNam orphanpieces[PieceCount];
  */
 void orphan_generate_moves(void);
 
-boolean orphan_check(evalfunction_t *evaluate);
+boolean orphan_check(validator_id evaluate);
 
 #endif

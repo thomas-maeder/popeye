@@ -143,7 +143,7 @@ void bouncy_nightrider_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-static boolean rrefcech(square i1, int x, evalfunction_t *evaluate)
+static boolean rrefcech(square i1, int x, validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
@@ -161,26 +161,26 @@ static boolean rrefcech(square i1, int x, evalfunction_t *evaluate)
             return true;
         }
       }
-      else if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      else if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
     else
       for (k= vec_knight_start; k <= vec_knight_end; k++) {
         sq_departure= i1+vec[k];
-        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
           return true;
       }
 
   return false;
 }
 
-boolean bouncy_knight_check(evalfunction_t *evaluate)
+boolean bouncy_knight_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   return rrefcech(sq_target, 2, evaluate);
 }
 
-static boolean rrefnech(square i1, evalfunction_t *evaluate)
+static boolean rrefnech(square i1, validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
@@ -202,13 +202,13 @@ static boolean rrefnech(square i1, evalfunction_t *evaluate)
       sq_departure += vec[k];
     }
 
-    if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+    if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       return true;
   }
   return false;
 }
 
-boolean bouncy_nightrider_check(evalfunction_t *evaluate)
+boolean bouncy_nightrider_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   clearedgestraversed();

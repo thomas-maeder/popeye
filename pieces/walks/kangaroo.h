@@ -10,12 +10,12 @@
  */
 void kangaroo_generate_moves(void);
 
-boolean kangaroo_check(evalfunction_t *evaluate);
+boolean kangaroo_check(validator_id evaluate);
 
 /* Generate moves for an Kangaroo Lion
  */
 void kangaroo_lion_generate_moves(void);
 
-boolean kangaroolion_check(evalfunction_t *evaluate);
+boolean kangaroolion_check(validator_id evaluate);
 
 #endif

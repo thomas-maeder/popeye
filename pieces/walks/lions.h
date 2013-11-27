@@ -15,11 +15,11 @@
 void lions_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
 boolean lions_check(vec_index_type kanf, vec_index_type kend,
-                    evalfunction_t *evaluate);
+                    validator_id evaluate);
 
-boolean lion_check(evalfunction_t *evaluate);
-boolean rooklion_check(evalfunction_t *evaluate);
-boolean bishoplion_check(evalfunction_t *evaluate);
-boolean nightriderlion_check(evalfunction_t *evaluate);
+boolean lion_check(validator_id evaluate);
+boolean rooklion_check(validator_id evaluate);
+boolean bishoplion_check(validator_id evaluate);
+boolean nightriderlion_check(validator_id evaluate);
 
 #endif

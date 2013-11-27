@@ -17,7 +17,7 @@ static boolean is_unobserved_beamter(numecoup n)
   {
     siblingply(advers(trait[nbply]));
     push_observation_target(sq_departure);
-    result = !is_square_observed(&validate_observer);
+    result = !is_square_observed(EVALUATE(observer));
     finply();
   }
   else

@@ -54,13 +54,13 @@ static void angle_hoppers_generate_moves(vec_index_type kanf, vec_index_type ken
 static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
                                                         vec_index_type vec_index_departure_hurdle,
                                                         angle_t angle,
-                                                        evalfunction_t *evaluate)
+                                                        validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec const vec_departure_hurdle = angle_vectors[angle][vec_index_departure_hurdle];
   square const sq_departure = find_end_of_line(sq_hurdle,vec_departure_hurdle);
 
-  return INVOKE_EVAL(evaluate,sq_departure,sq_target);
+  return EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target);
 }
 
 /* Is a particular square observed by a particular type of angle hopper?
@@ -70,7 +70,7 @@ static boolean angle_hoppers_is_square_observed_one_dir(square sq_hurdle,
  */
 static boolean angle_hoppers_is_square_observed(vec_index_type kanf, vec_index_type kend,
                                                 angle_t angle,
-                                                evalfunction_t *evaluate)
+                                                validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -128,7 +128,7 @@ void elk_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean moose_check(evalfunction_t *evaluate)
+boolean moose_check(validator_id evaluate)
 {
   return angle_hoppers_is_square_observed(vec_queen_start,vec_queen_end, angle_45, evaluate);
 }
@@ -143,7 +143,7 @@ void rook_moose_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean rookmoose_check(evalfunction_t *evaluate)
+boolean rookmoose_check(validator_id evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
   return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_45, evaluate);
@@ -159,7 +159,7 @@ void bishop_moose_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean bishopmoose_check(evalfunction_t *evaluate)
+boolean bishopmoose_check(validator_id evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
   return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_45, evaluate);
@@ -175,7 +175,7 @@ void eagle_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean eagle_check(evalfunction_t *evaluate)
+boolean eagle_check(validator_id evaluate)
 {
   return angle_hoppers_is_square_observed(vec_queen_start,vec_queen_end, angle_90, evaluate);
 }
@@ -187,7 +187,7 @@ void rook_eagle_generate_moves(void)
   angle_hoppers_generate_moves(vec_rook_start,vec_rook_end, angle_90);
 }
 
-boolean rookeagle_check(evalfunction_t *evaluate)
+boolean rookeagle_check(validator_id evaluate)
 {
   return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_90, evaluate);
 }
@@ -199,7 +199,7 @@ void bishop_eagle_generate_moves(void)
   angle_hoppers_generate_moves(vec_bishop_start,vec_bishop_end, angle_90);
 }
 
-boolean bishopeagle_check(evalfunction_t *evaluate)
+boolean bishopeagle_check(validator_id evaluate)
 {
   return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_90, evaluate);
 }
@@ -214,7 +214,7 @@ void sparrow_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean sparrow_check(evalfunction_t *evaluate)
+boolean sparrow_check(validator_id evaluate)
 {
   return angle_hoppers_is_square_observed(vec_queen_start,vec_queen_end, angle_135, evaluate);
 }
@@ -229,7 +229,7 @@ void rook_sparrow_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean rooksparrow_check(evalfunction_t *evaluate)
+boolean rooksparrow_check(validator_id evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
   return angle_hoppers_is_square_observed(vec_bishop_start,vec_bishop_end, angle_135, evaluate);
@@ -245,7 +245,7 @@ void bishop_sparrow_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean bishopsparrow_check(evalfunction_t *evaluate)
+boolean bishopsparrow_check(validator_id evaluate)
 {
   /* these vector indices are correct - we are retracting along these vectors! */
   return angle_hoppers_is_square_observed(vec_rook_start,vec_rook_end, angle_135, evaluate);
@@ -265,7 +265,7 @@ void marguerite_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean marguerite_check(evalfunction_t *evaluate)
+boolean marguerite_check(validator_id evaluate)
 {
   return (sparrow_check(evaluate)
           || eagle_check(evaluate)

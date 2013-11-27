@@ -15,8 +15,8 @@ pieces/walks/angle/hoppers$(OBJ_SUFFIX): pieces/walks/angle/hoppers.c \
  position/position.h pieces/pieces.h utilities/boolean.h \
  utilities/enumeration.h solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
- solving/solve.h pieces/walks/hamster.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h pieces/walks/hamster.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h
 
@@ -49,6 +49,8 @@ stipulation/slice_type.h:
 output/mode.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/walks/hoppers.h:
 

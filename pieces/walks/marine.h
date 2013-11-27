@@ -15,25 +15,25 @@ void marine_rider_generate_moves(vec_index_type kbeg, vec_index_type kend);
  */
 void marine_knight_generate_moves(void);
 
-boolean marine_knight_check(evalfunction_t *evaluate);
+boolean marine_knight_check(validator_id evaluate);
 
 /* Generate moves for a poseidon
  */
 void poseidon_generate_moves(void);
 
-boolean poseidon_check(evalfunction_t *evaluate);
+boolean poseidon_check(validator_id evaluate);
 
 /* Generate moves for a marine pawn
  */
 void marine_pawn_generate_moves(void);
 
-boolean marine_pawn_check(evalfunction_t *evaluate);
+boolean marine_pawn_check(validator_id evaluate);
 
 /* Generate moves for a marine ship (Triton + marine pawn)
  * @param kbeg,kend delimiters of interval in vector table
  */
 void marine_ship_generate_moves(vec_index_type kbeg, vec_index_type  kend);
 
-boolean marine_ship_check(evalfunction_t *evaluate);
+boolean marine_ship_check(validator_id evaluate);
 
 #endif

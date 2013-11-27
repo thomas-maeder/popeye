@@ -113,7 +113,7 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
   TraceSquare(king_square[side_king_attacked]);TraceText("\n");
   assert(king_square[side_king_attacked]!=initsquare);
 
-  result = is_square_observed(&validate_check);
+  result = is_square_observed(EVALUATE(check));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

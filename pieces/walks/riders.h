@@ -20,16 +20,16 @@ square generate_moves_on_line_segment(square sq_base, vec_index_type k);
  */
 void rider_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean riders_check(vec_index_type b, vec_index_type c, evalfunction_t *evaluate);
+boolean riders_check(vec_index_type b, vec_index_type c, validator_id evaluate);
 
-boolean rook_check(evalfunction_t *evaluate);
-boolean queen_check(evalfunction_t *evaluate);
-boolean bishop_check(evalfunction_t *evaluate);
-boolean nightrider_check(evalfunction_t *evaluate);
-boolean elephant_check(evalfunction_t *evaluate);
-boolean waran_check(evalfunction_t *evaluate);
-boolean camel_rider_check(evalfunction_t *evaluate);
-boolean zebra_rider_check(evalfunction_t *evaluate);
-boolean gnu_rider_check(evalfunction_t *evaluate);
+boolean rook_check(validator_id evaluate);
+boolean queen_check(validator_id evaluate);
+boolean bishop_check(validator_id evaluate);
+boolean nightrider_check(validator_id evaluate);
+boolean elephant_check(validator_id evaluate);
+boolean waran_check(validator_id evaluate);
+boolean camel_rider_check(validator_id evaluate);
+boolean zebra_rider_check(validator_id evaluate);
+boolean gnu_rider_check(validator_id evaluate);
 
 #endif

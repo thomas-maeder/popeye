@@ -24,7 +24,7 @@ static void generate_zigzag(vec_index_type idx_zig, vec_index_type idx_zag)
 }
 
 static boolean zigzag_check(vec_index_type idx_zig, vec_index_type idx_zag,
-                            evalfunction_t *evaluate)
+                            validator_id evaluate)
 {
   boolean result;
   square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
@@ -44,7 +44,7 @@ static boolean zigzag_check(vec_index_type idx_zig, vec_index_type idx_zag,
       break;
   }
 
-  result = INVOKE_EVAL(evaluate,sq_departure,sq_arrival);
+  result = EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival);
 
   --observation_context;
 
@@ -81,7 +81,7 @@ void spiralspringer_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean spiralspringer_check(evalfunction_t *evaluate)
+boolean spiralspringer_check(validator_id evaluate)
 {
   vec_index_type const top = vec_knight_start+vec_knight_end;
   vec_index_type k;
@@ -110,7 +110,7 @@ void diagonalspiralspringer_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean diagonalspiralspringer_check(evalfunction_t *evaluate)
+boolean diagonalspiralspringer_check(validator_id evaluate)
 {
   vec_index_type k;
 
@@ -139,7 +139,7 @@ void boyscout_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean boyscout_check(evalfunction_t *evaluate)
+boolean boyscout_check(validator_id evaluate)
 {
   vec_index_type const top = vec_bishop_start+vec_bishop_end;
   vec_index_type k;
@@ -167,7 +167,7 @@ void girlscout_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean girlscout_check(evalfunction_t *evaluate)
+boolean girlscout_check(validator_id evaluate)
 {
   vec_index_type const top = vec_rook_start+vec_rook_end;
   vec_index_type k;
@@ -194,7 +194,7 @@ void spiralspringer40_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean spiralspringer40_check(evalfunction_t *evaluate)
+boolean spiralspringer40_check(validator_id evaluate)
 {
   boolean result = false;
   vec_index_type k;
@@ -223,7 +223,7 @@ void spiralspringer20_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean spiralspringer20_check(evalfunction_t *evaluate)
+boolean spiralspringer20_check(validator_id evaluate)
 {
   boolean result = false;
   vec_index_type k;
@@ -252,7 +252,7 @@ void spiralspringer33_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean spiralspringer33_check(evalfunction_t *evaluate)
+boolean spiralspringer33_check(validator_id evaluate)
 {
   boolean result = false;
   vec_index_type k;
@@ -281,7 +281,7 @@ void spiralspringer11_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean spiralspringer11_check(evalfunction_t *evaluate)
+boolean spiralspringer11_check(validator_id evaluate)
 {
   boolean result = false;
   vec_index_type k;
@@ -310,7 +310,7 @@ void quintessence_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean quintessence_check(evalfunction_t *evaluate)
+boolean quintessence_check(validator_id evaluate)
 {
   boolean result = false;
   vec_index_type k;

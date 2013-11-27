@@ -22,7 +22,7 @@ boolean facetoface_enforce_observer_walk(slice_index si);
 void facetoface_generate_moves_for_piece(slice_index si, PieNam p);
 
 boolean find_square_observer_tracking_back_from_target_unoptimised(slice_index si,
-                                                                  evalfunction_t *evaluate);
+                                                                  validator_id evaluate);
 
 /* Inialise the solving machinery with Face-to-face Chess
  * @param si identifies root slice of solving machinery

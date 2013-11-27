@@ -34,7 +34,7 @@ void init_transmuters_sequence(Side side)
 /* Determine whether the moving side's king is transmuting as a specific piece
  * @param p the piece
  */
-boolean is_king_transmuting_as(PieNam p, evalfunction_t *evaluate)
+boolean is_king_transmuting_as(PieNam p, validator_id evaluate)
 {
   boolean result;
   Side const side_attacking = trait[nbply];
@@ -62,7 +62,7 @@ static boolean is_square_observed_by_opponent(PieNam p)
   siblingply(advers(trait[nbply]));
   push_observation_target(curr_generation->departure);
   observing_walk[nbply] = p;
-  result = (*checkfunctions[p])(&validate_observation);
+  result = (*checkfunctions[p])(EVALUATE(observation));
   finply();
 
   return result;
@@ -132,7 +132,7 @@ void transmuting_kings_initialise_solving(slice_index si, Side side)
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean transmuting_king_is_square_observed(slice_index si, evalfunction_t *evaluate)
+boolean transmuting_king_is_square_observed(slice_index si, validator_id evaluate)
 {
   if (number_of_pieces[trait[nbply]][King]>0)
   {

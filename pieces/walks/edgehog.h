@@ -10,6 +10,6 @@
  */
 void edgehog_generate_moves(void);
 
-boolean edgehog_check(evalfunction_t *evaluate);
+boolean edgehog_check(validator_id evaluate);
 
 #endif

@@ -15,12 +15,12 @@ void settraversed(square edgesq);
  */
 void bouncy_knight_generate_moves(void);
 
-boolean bouncy_knight_check(evalfunction_t *evaluate);
+boolean bouncy_knight_check(validator_id evaluate);
 
 /* Generate moves for a bouncy nightrider
  */
 void bouncy_nightrider_generate_moves(void);
 
-boolean bouncy_nightrider_check(evalfunction_t *evaluate);
+boolean bouncy_nightrider_check(validator_id evaluate);
 
 #endif

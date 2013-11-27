@@ -169,7 +169,7 @@ static PieNam next_singlebox_prom(PieNam p, Side side)
 * @param si identifies tester slice
 * @return true iff sq_target is observed
 */
-boolean singleboxtype3_is_square_observed(slice_index si, evalfunction_t *evaluate)
+boolean singleboxtype3_is_square_observed(slice_index si, validator_id evaluate)
 {
   unsigned int promotionstried = 0;
   Side const side_attacking = trait[nbply];

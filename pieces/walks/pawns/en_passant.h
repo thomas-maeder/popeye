@@ -67,7 +67,7 @@ square en_passant_find_capturee(void);
  */
 typedef boolean (*en_passant_check_tester_type)(square sq_departure,
                                                 square sq_crossed,
-                                                evalfunction_t *evaluate);
+                                                validator_id evaluate);
 
 /* Determine whether side trait[nbply] gives check by p. capture
  * @param dir_capture direction of ep capture
@@ -77,7 +77,7 @@ typedef boolean (*en_passant_check_tester_type)(square sq_departure,
  */
 boolean en_passant_test_check(numvec dir_capture,
                               en_passant_check_tester_type tester,
-                              evalfunction_t *evaluate);
+                              validator_id evaluate);
 
 /* Adjust en passant possibilities of the following move after a non-capturing
  * move

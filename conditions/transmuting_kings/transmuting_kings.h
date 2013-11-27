@@ -26,7 +26,7 @@ boolean generate_moves_of_transmuting_king(slice_index si);
 /* Determine whether the moving side's king is transmuting as a specific piece
  * @param p the piece
  */
-boolean is_king_transmuting_as(PieNam p, evalfunction_t *evaluate);
+boolean is_king_transmuting_as(PieNam p, validator_id evaluate);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
@@ -45,7 +45,7 @@ void transmuting_kings_initialise_solving(slice_index si, Side side);
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean transmuting_king_is_square_observed(slice_index si, evalfunction_t *evaluate);
+boolean transmuting_king_is_square_observed(slice_index si, validator_id evaluate);
 
 /* Instrument the square observation machinery for a side with an alternative
  * slice dealting with observations by kings.

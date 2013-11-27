@@ -12,12 +12,12 @@
  */
 void skylla_generate_moves(void);
 
-boolean skylla_check(evalfunction_t *evaluate);
+boolean skylla_check(validator_id evaluate);
 
 /* Generate moves for a Charybdis
  */
 void charybdis_generate_moves(void);
 
-boolean charybdis_check(evalfunction_t *evaluate);
+boolean charybdis_check(validator_id evaluate);
 
 #endif

@@ -7,6 +7,6 @@
 
 void ubiubi_generate_moves(void);
 
-boolean ubiubi_check(evalfunction_t *evaluate);
+boolean ubiubi_check(validator_id evaluate);
 
 #endif

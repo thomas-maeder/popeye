@@ -29,7 +29,7 @@ void cat_generate_moves(void)
   }
 }
 
-boolean cat_check(evalfunction_t *evaluate)
+boolean cat_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   if (leapers_check(vec_knight_start,vec_knight_end,evaluate))
@@ -44,13 +44,13 @@ boolean cat_check(evalfunction_t *evaluate)
       {
         {
           square const sq_departure= middle_square+cat_vectors[k-60];
-          if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
             return true;
         }
 
         {
           square const sq_departure= middle_square+cat_vectors[k-56];
-          if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
             return true;
         }
 

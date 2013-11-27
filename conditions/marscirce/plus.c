@@ -66,7 +66,7 @@ void plus_generate_moves_for_piece(slice_index si, PieNam p)
  * @param identifies tester slice
  * @return true iff side is in check
  */
-boolean plus_is_square_observed(slice_index si, evalfunction_t *evaluate)
+boolean plus_is_square_observed(slice_index si, validator_id evaluate)
 {
   int i,j;
   Side const side_observing = trait[nbply];

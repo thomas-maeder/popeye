@@ -50,7 +50,7 @@ stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
 * @return true iff sq_target is observed
 */
 boolean singleboxtype3_is_square_observed(slice_index si,
-                                          evalfunction_t *evaluate);
+                                          validator_id evaluate);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

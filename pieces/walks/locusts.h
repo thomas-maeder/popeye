@@ -21,9 +21,9 @@ void generate_locust_capture(square sq_capture,
  */
 void locust_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean locust_check(evalfunction_t *evaluate);
-boolean nightlocust_check(evalfunction_t *evaluate);
-boolean rooklocust_check(evalfunction_t *evaluate);
-boolean bishoplocust_check(evalfunction_t *evaluate);
+boolean locust_check(validator_id evaluate);
+boolean nightlocust_check(validator_id evaluate);
+boolean rooklocust_check(validator_id evaluate);
+boolean bishoplocust_check(validator_id evaluate);
 
 #endif

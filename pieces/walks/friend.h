@@ -17,6 +17,6 @@ void restore_observees(PieNam walk, square const pos_observees[]);
  */
 void friend_generate_moves(void);
 
-boolean friend_check(evalfunction_t *evaluate);
+boolean friend_check(validator_id evaluate);
 
 #endif

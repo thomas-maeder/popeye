@@ -36,7 +36,7 @@ static boolean is_kingsquare_observed(slice_index si)
 
   siblingply(advers(side));
   push_observation_target(king_square[side]);
-  result = is_square_observed_recursive(slices[si].next2,&validate_observation);
+  result = is_square_observed_recursive(slices[si].next2,EVALUATE(observation));
   finply();
 
   return result;
@@ -74,7 +74,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p)
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean vaulting_king_is_square_observed(slice_index si, evalfunction_t *evaluate)
+boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate)
 {
   if (king_square[trait[nbply]]==initsquare)
     return is_square_observed_recursive(slices[si].next1,evaluate);

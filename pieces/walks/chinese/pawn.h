@@ -10,6 +10,6 @@
  */
 void chinese_pawn_generate_moves(void);
 
-boolean chinese_pawn_check(evalfunction_t *evaluate);
+boolean chinese_pawn_check(validator_id evaluate);
 
 #endif

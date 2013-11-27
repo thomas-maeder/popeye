@@ -7,6 +7,6 @@
  */
 void berolina_pawn_generate_moves(void);
 
-boolean berolina_pawn_check(evalfunction_t *evaluate);
+boolean berolina_pawn_check(validator_id evaluate);
 
 #endif

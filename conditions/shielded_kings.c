@@ -21,7 +21,7 @@ static boolean is_not_king_captures_guarded_king(numecoup n)
   {
     siblingply(advers(trait[nbply]));
     push_observation_target(move_generation_stack[n].capture);
-    result = !is_square_observed(&validate_observer);
+    result = !is_square_observed(EVALUATE(observer));
     finply();
   }
   else

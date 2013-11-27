@@ -100,7 +100,7 @@ void rose_generate_moves(vec_index_type vec_range_start, vec_index_type vec_rang
  */
 static boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
                                          rose_rotation_sense sense,
-                                         evalfunction_t *evaluate)
+                                         validator_id evaluate)
 {
   boolean result;
 
@@ -117,7 +117,7 @@ static boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
     square const sq_departure = find_end_of_circle_line(sq_target,&idx_curr_dir,sense);
 
     result = (sq_departure!=sq_target /* pieces don't observe themselves */
-              && INVOKE_EVAL(evaluate,sq_departure,sq_target));
+              && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target));
   }
 
   TraceFunctionExit(__func__);
@@ -126,7 +126,7 @@ static boolean detect_rose_check_on_line(vec_index_type idx_curr_dir,
   return result;
 }
 
-boolean rose_check(evalfunction_t *evaluate)
+boolean rose_check(validator_id evaluate)
 {
   boolean result = false;
   vec_index_type idx_curr_dir;
@@ -255,7 +255,7 @@ void roselion_generate_moves(vec_index_type vec_range_start,
  */
 static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
                                              rose_rotation_sense sense,
-                                             evalfunction_t *evaluate)
+                                             validator_id evaluate)
 {
   interceptable_observation[observation_context].vector_index1 = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
@@ -277,13 +277,13 @@ static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
         /* special case: king and rose lion are the only pieces on the
          * line -> king is hurdle, and what we thought to be the hurdle
          * is in fact the rose lion! */
-        if (INVOKE_EVAL(evaluate,sq_hurdle,sq_target,sq_target))
+        if (EVALUATE_OBSERVATION(evaluate,sq_hurdle,sq_target,sq_target))
           return true;
       }
 #endif
 
       if (sq_departure!=sq_target /* pieces don't give check to themselves */
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
   }
@@ -291,7 +291,7 @@ static boolean detect_roselion_check_on_line(vec_index_type idx_curr_dir,
   return false;
 }
 
-boolean roselion_check(evalfunction_t *evaluate)
+boolean roselion_check(validator_id evaluate)
 {
   boolean result = false;
   vec_index_type idx_curr_dir;
@@ -363,7 +363,7 @@ void rosehopper_generate_moves(vec_index_type vec_range_start,
 static boolean detect_rosehopper_check_on_line(square sq_hurdle,
                                                vec_index_type idx_curr_dir,
                                                rose_rotation_sense sense,
-                                               evalfunction_t *evaluate)
+                                               validator_id evaluate)
 {
   interceptable_observation[observation_context].vector_index1 = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
@@ -374,11 +374,11 @@ static boolean detect_rosehopper_check_on_line(square sq_hurdle,
                                                         &idx_curr_dir,
                                                         sense);
     return (sq_departure!=sq_target
-            && INVOKE_EVAL(evaluate,sq_departure,sq_target));
+            && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target));
   }
 }
 
-boolean rosehopper_check(evalfunction_t *evaluate)
+boolean rosehopper_check(validator_id evaluate)
 {
   boolean result = false;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
@@ -452,7 +452,7 @@ void roselocust_generate_moves(vec_index_type vec_range_start, vec_index_type ve
 static boolean detect_roselocust_check_on_line(square sq_arrival,
                                                vec_index_type idx_curr_dir,
                                                rose_rotation_sense sense,
-                                               evalfunction_t *evaluate)
+                                               validator_id evaluate)
 {
   interceptable_observation[observation_context].vector_index1 = idx_curr_dir;
   interceptable_observation[observation_context].auxiliary = sense;
@@ -463,11 +463,11 @@ static boolean detect_roselocust_check_on_line(square sq_arrival,
                                                         &idx_curr_dir,
                                                         sense);
     return (sq_departure!=sq_target
-            && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
+            && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival));
   }
 }
 
-boolean roselocust_check(evalfunction_t *evaluate)
+boolean roselocust_check(validator_id evaluate)
 {
   boolean result = false;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;

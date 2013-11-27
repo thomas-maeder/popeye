@@ -40,7 +40,7 @@ void rose_generate_moves(vec_index_type vec_range_start,
 /* Detect observation by a Rose
  * @return true iff there is an observation
  */
-boolean rose_check(evalfunction_t *evaluate);
+boolean rose_check(validator_id evaluate);
 
 /* Generate moves for a Rao
  * @param vec_range_start start and ...
@@ -59,7 +59,7 @@ void roselion_generate_moves(vec_index_type vec_range_start,
 /* Detect observation by a Rose Lion or Rao
  * @return true iff there is an observation
  */
-boolean roselion_check(evalfunction_t *evaluate);
+boolean roselion_check(validator_id evaluate);
 
 /* Generate moves for a Rose Hopper
  * @param vec_range_start start and ...
@@ -71,7 +71,7 @@ void rosehopper_generate_moves(vec_index_type vec_range_start,
 /* Detect observation by a Rose Hopper
  * @return true iff there is an observation
  */
-boolean rosehopper_check(evalfunction_t *evaluate);
+boolean rosehopper_check(validator_id evaluate);
 
 /* Generate moves for a Rose Locust
  * @param vec_range_start start and ...
@@ -83,6 +83,6 @@ void roselocust_generate_moves(vec_index_type vec_range_start,
 /* Detect observation by a Rose Locust
  * @return true iff there is an observation
  */
-boolean roselocust_check(evalfunction_t *evaluate);
+boolean roselocust_check(validator_id evaluate);
 
 #endif

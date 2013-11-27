@@ -113,7 +113,7 @@ void radialknight_generate_moves(void)
 }
 
 static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
-                                       evalfunction_t *evaluate)
+                                       validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type idx_to_hurdle;
@@ -129,7 +129,7 @@ static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
       {
         square const sq_observer = sq_hurdle+vec[idx_to_observer];
         if (sq_observer!=sq_target
-            && INVOKE_EVAL(evaluate,sq_observer,sq_target))
+            && EVALUATE_OBSERVATION(evaluate,sq_observer,sq_target))
           return true;
       }
     }
@@ -138,7 +138,7 @@ static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
   return false;
 }
 
-boolean radialknight_check(evalfunction_t *evaluate)
+boolean radialknight_check(validator_id evaluate)
 {
   unsigned int i;
 
@@ -150,7 +150,7 @@ boolean radialknight_check(evalfunction_t *evaluate)
 }
 
 static boolean test_treehopper_check(vec_index_type kanf, vec_index_type kend,
-                                     evalfunction_t *evaluate)
+                                     validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type idx_to_hurdle;
@@ -165,7 +165,7 @@ static boolean test_treehopper_check(vec_index_type kanf, vec_index_type kend,
       {
         square const sq_observer = sq_hurdle+vec[idx_hurdle_to_observer];
         if (sq_observer!=sq_target
-            && INVOKE_EVAL(evaluate,sq_observer,sq_target))
+            && EVALUATE_OBSERVATION(evaluate,sq_observer,sq_target))
           return true;
       }
     }
@@ -216,7 +216,7 @@ void greater_treehopper_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean treehopper_check(evalfunction_t *evaluate)
+boolean treehopper_check(validator_id evaluate)
 {
   unsigned int i;
 
@@ -227,7 +227,7 @@ boolean treehopper_check(evalfunction_t *evaluate)
   return false;
 }
 
-boolean greatertreehopper_check(evalfunction_t *evaluate)
+boolean greatertreehopper_check(validator_id evaluate)
 {
   unsigned int i;
 
@@ -282,7 +282,7 @@ void greater_leafhopper_generate_moves(void)
 }
 
 static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
-                                     evalfunction_t *evaluate)
+                                     validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  idx_to_observer;
@@ -305,7 +305,7 @@ static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
         if (sq_hurdle!=sq_target
             && !is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
         {
-          if (INVOKE_EVAL(evaluate,sq_observer,sq_target))
+          if (EVALUATE_OBSERVATION(evaluate,sq_observer,sq_target))
             return true;
           else
             /* there won't be any more observation using a different hurdle */
@@ -318,7 +318,7 @@ static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
   return false;
 }
 
-boolean leafhopper_check(evalfunction_t *evaluate)
+boolean leafhopper_check(validator_id evaluate)
 {
   unsigned int i;
 
@@ -329,7 +329,7 @@ boolean leafhopper_check(evalfunction_t *evaluate)
   return false;
 }
 
-boolean greaterleafhopper_check(evalfunction_t *evaluate)
+boolean greaterleafhopper_check(validator_id evaluate)
 {
   unsigned int i;
 

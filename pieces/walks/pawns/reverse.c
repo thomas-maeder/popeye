@@ -26,7 +26,7 @@ void reverse_pawn_generate_moves(void)
   }
 }
 
-boolean reversepawn_check(evalfunction_t *evaluate)
+boolean reversepawn_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByBlPawnSq : CapturableByWhPawnSq;

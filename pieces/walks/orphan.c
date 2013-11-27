@@ -31,7 +31,7 @@ static boolean find_next_orphan_in_chain(square sq_target,
     isolate_observee(Orphan,pos_orphans,orphan_id);
     move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
     observing_walk[nbply] = Orphan;
-    does_orphan_observe = (*checkfunctions[orphan_observer])(&validate_observer);
+    does_orphan_observe = (*checkfunctions[orphan_observer])(EVALUATE(observer));
     restore_observees(Orphan,pos_orphans);
 
     if (does_orphan_observe
@@ -62,7 +62,7 @@ static boolean orphan_find_observation_chain(square sq_target,
 
   replace_observation_target(sq_target);
   observing_walk[nbply] = orphan_observer;
-  if ((*checkfunctions[orphan_observer])(&validate_observer))
+  if ((*checkfunctions[orphan_observer])(EVALUATE(observer)))
     result = true;
   else if (number_of_pieces[trait[nbply]][Orphan]==0)
     result = false;
@@ -114,7 +114,7 @@ void orphan_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
-boolean orphan_check(evalfunction_t *evaluate)
+boolean orphan_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;

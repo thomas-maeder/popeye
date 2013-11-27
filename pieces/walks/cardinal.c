@@ -55,7 +55,7 @@ void cardinal_generate_moves(void)
 static boolean cardinal_check_recursive(square intermediate_square,
                                         numvec k,
                                         int    x,
-                                        evalfunction_t *evaluate)
+                                        validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_departure = find_end_of_line(intermediate_square,k);
@@ -84,17 +84,17 @@ static boolean cardinal_check_recursive(square intermediate_square,
                      evaluate))
           return true;
       }
-      else if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      else if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
   }
-  else if (INVOKE_EVAL(evaluate,sq_departure,sq_target ))
+  else if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target ))
     return true;
 
   return false;
 }
 
-boolean cardinal_check(evalfunction_t *evaluate)
+boolean cardinal_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  k;

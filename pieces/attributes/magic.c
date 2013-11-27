@@ -473,7 +473,7 @@ static void PushMagicViewsByOnePiece(square pos_magic)
         observing_walk[nbply] = pi_magic;
         current_magic_pos[nbply] = pos_magic;
         /* ignore return value - it's ==false */
-        (*checkfunctions[pi_magic])(&validate_observation);
+        (*checkfunctions[pi_magic])(EVALUATE(observation));
         current_magic_pos[nbply] = initsquare;
       }
     }

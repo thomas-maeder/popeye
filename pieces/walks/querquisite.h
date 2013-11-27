@@ -10,6 +10,6 @@
  */
 void querquisite_generate_moves(void);
 
-boolean querquisite_check(evalfunction_t *evaluate);
+boolean querquisite_check(validator_id evaluate);
 
 #endif

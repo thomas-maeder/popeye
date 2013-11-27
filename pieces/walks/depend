@@ -33,8 +33,8 @@ pieces/walks/hunters$(OBJ_SUFFIX): pieces/walks/hunters.c pieces/walks/hunters.h
  position/position.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/riders.h pieces/walks/generate_moves.h \
- solving/move_generator.h solving/solve.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/riders.h \
+ pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h
 
@@ -66,6 +66,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/riders.h:
 
 pieces/walks/generate_moves.h:
@@ -82,8 +84,8 @@ pieces/walks/roses$(OBJ_SUFFIX): pieces/walks/roses.c pieces/walks/roses.h \
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/locusts.h solving/move_generator.h \
- solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/locusts.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/roses.h:
 
@@ -113,6 +115,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/locusts.h:
 
 solving/move_generator.h:
@@ -125,9 +129,10 @@ pieces/walks/marine$(OBJ_SUFFIX): pieces/walks/marine.c pieces/walks/marine.h \
  position/position.h pieces/pieces.h utilities/boolean.h \
  utilities/enumeration.h solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/riders.h pieces/walks/pawns/pawns.h \
- pieces/walks/pawns/pawn.h pieces/walks/pawns/en_passant.h \
- solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/riders.h \
+ pieces/walks/pawns/pawns.h pieces/walks/pawns/pawn.h \
+ pieces/walks/pawns/en_passant.h solving/solve.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h pieces/walks/locusts.h solving/move_generator.h \
  debugging/trace.h
 
@@ -159,6 +164,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/riders.h:
 
 pieces/walks/pawns/pawns.h:
@@ -186,7 +193,8 @@ pieces/walks/spiral_springers$(OBJ_SUFFIX): pieces/walks/spiral_springers.c \
  pieces/walks/vectors.h utilities/enumeration.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/ply.h \
- solving/move_generator.h solving/solve.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h
 
 pieces/walks/spiral_springers.h:
 
@@ -216,6 +224,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -226,8 +236,8 @@ pieces/walks/ubiubi$(OBJ_SUFFIX): pieces/walks/ubiubi.c pieces/walks/ubiubi.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h solving/move_generator.h solving/solve.h \
- solving/find_square_observer_tracking_back_from_target.h
+ solving/ply.h stipulation/temporary_hacks.h solving/move_generator.h \
+ solving/solve.h solving/find_square_observer_tracking_back_from_target.h
 
 pieces/walks/ubiubi.h:
 
@@ -257,6 +267,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -267,7 +279,8 @@ pieces/walks/hoppers$(OBJ_SUFFIX): pieces/walks/hoppers.c pieces/walks/hoppers.h
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h solving/move_generator.h solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h
 
 pieces/walks/hoppers.h:
 
@@ -297,6 +310,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -307,7 +322,8 @@ pieces/walks/leapers$(OBJ_SUFFIX): pieces/walks/leapers.c pieces/walks/leapers.h
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h solving/move_generator.h solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h
 
 pieces/walks/leapers.h:
 
@@ -337,6 +353,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -347,7 +365,8 @@ pieces/walks/riders$(OBJ_SUFFIX): pieces/walks/riders.c pieces/walks/riders.h \
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h solving/move_generator.h solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h
 
 pieces/walks/riders.h:
 
@@ -377,6 +396,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -387,8 +408,8 @@ pieces/walks/lions$(OBJ_SUFFIX): pieces/walks/lions.c pieces/walks/lions.h \
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
- solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/lions.h:
 
@@ -418,6 +439,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/hoppers.h:
 
 solving/move_generator.h:
@@ -431,8 +454,8 @@ pieces/walks/skylla_charybdis$(OBJ_SUFFIX): pieces/walks/skylla_charybdis.c \
  pieces/walks/vectors.h utilities/enumeration.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/ply.h \
- pieces/walks/locusts.h solving/move_generator.h solving/solve.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h pieces/walks/locusts.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/skylla_charybdis.h:
 
@@ -462,6 +485,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/locusts.h:
 
 solving/move_generator.h:
@@ -474,7 +499,8 @@ pieces/walks/radial$(OBJ_SUFFIX): pieces/walks/radial.c pieces/walks/radial.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h solving/move_generator.h solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h
 
 pieces/walks/radial.h:
 
@@ -504,6 +530,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -514,7 +542,8 @@ pieces/walks/edgehog$(OBJ_SUFFIX): pieces/walks/edgehog.c pieces/walks/edgehog.h
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- solving/move_generator.h solving/solve.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h
 
 pieces/walks/edgehog.h:
 
@@ -544,6 +573,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -554,8 +585,8 @@ pieces/walks/friend$(OBJ_SUFFIX): pieces/walks/friend.c pieces/walks/friend.h \
  position/position.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/orphan.h pieces/walks/generate_moves.h \
- solving/move_generator.h solving/solve.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/orphan.h \
+ pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h
 
@@ -586,6 +617,8 @@ stipulation/slice_type.h:
 output/mode.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/walks/orphan.h:
 
@@ -603,8 +636,8 @@ pieces/walks/orphan$(OBJ_SUFFIX): pieces/walks/orphan.c pieces/walks/orphan.h \
  position/position.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/friend.h pieces/walks/generate_moves.h \
- solving/move_generator.h solving/solve.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/friend.h \
+ pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  debugging/trace.h
 
@@ -636,6 +669,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/friend.h:
 
 pieces/walks/generate_moves.h:
@@ -652,8 +687,8 @@ pieces/walks/cat$(OBJ_SUFFIX): pieces/walks/cat.c pieces/walks/cat.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- pieces/walks/leapers.h solving/move_generator.h solving/solve.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h pieces/walks/leapers.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/cat.h:
 
@@ -683,6 +718,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/leapers.h:
 
 solving/move_generator.h:
@@ -696,7 +733,8 @@ pieces/walks/bouncy$(OBJ_SUFFIX): pieces/walks/bouncy.c pieces/walks/bouncy.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/ply.h \
- solving/move_generator.h solving/solve.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h
 
 pieces/walks/bouncy.h:
 
@@ -726,6 +764,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -736,8 +776,8 @@ pieces/walks/cardinal$(OBJ_SUFFIX): pieces/walks/cardinal.c pieces/walks/cardina
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- pieces/walks/angle/angles.h solving/move_generator.h solving/solve.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h pieces/walks/angle/angles.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/cardinal.h:
 
@@ -767,6 +807,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/angle/angles.h:
 
 solving/move_generator.h:
@@ -780,8 +822,8 @@ pieces/walks/reflecting_bishop$(OBJ_SUFFIX): pieces/walks/reflecting_bishop.c \
  stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/ply.h \
- pieces/walks/angle/angles.h solving/move_generator.h solving/solve.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h pieces/walks/angle/angles.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/reflecting_bishop.h:
 
@@ -811,6 +853,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/angle/angles.h:
 
 solving/move_generator.h:
@@ -823,8 +867,8 @@ pieces/walks/bob$(OBJ_SUFFIX): pieces/walks/bob.c pieces/walks/bob.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- pieces/walks/riders.h solving/move_generator.h solving/solve.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h pieces/walks/riders.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/bob.h:
 
@@ -854,6 +898,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/riders.h:
 
 solving/move_generator.h:
@@ -867,7 +913,8 @@ pieces/walks/rabbit$(OBJ_SUFFIX): pieces/walks/rabbit.c pieces/walks/rabbit.h \
  pieces/walks/vectors.h utilities/enumeration.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/ply.h \
- solving/move_generator.h solving/solve.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h
 
 pieces/walks/rabbit.h:
 
@@ -899,6 +946,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -909,7 +958,8 @@ pieces/walks/kangaroo$(OBJ_SUFFIX): pieces/walks/kangaroo.c pieces/walks/kangaro
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h solving/ply.h \
- solving/move_generator.h solving/solve.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h
 
 pieces/walks/kangaroo.h:
 
@@ -939,6 +989,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -949,8 +1001,8 @@ pieces/walks/locusts$(OBJ_SUFFIX): pieces/walks/locusts.c pieces/walks/locusts.h
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
- solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h debugging/trace.h
 
 pieces/walks/locusts.h:
 
@@ -979,6 +1031,8 @@ stipulation/slice_type.h:
 output/mode.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/walks/hoppers.h:
 
@@ -1030,7 +1084,8 @@ pieces/walks/bouncer$(OBJ_SUFFIX): pieces/walks/bouncer.c pieces/walks/bouncer.h
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- solving/ply.h solving/move_generator.h solving/solve.h debugging/trace.h
+ solving/ply.h stipulation/temporary_hacks.h solving/move_generator.h \
+ solving/solve.h debugging/trace.h
 
 pieces/walks/bouncer.h:
 
@@ -1060,6 +1115,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/solve.h:
@@ -1071,8 +1128,9 @@ pieces/walks/querquisite$(OBJ_SUFFIX): pieces/walks/querquisite.c \
  stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/ply.h \
- pieces/walks/leapers.h pieces/walks/riders.h solving/move_generator.h \
- solving/solve.h debugging/trace.h
+ stipulation/temporary_hacks.h pieces/walks/leapers.h \
+ pieces/walks/riders.h solving/move_generator.h solving/solve.h \
+ debugging/trace.h
 
 pieces/walks/querquisite.h:
 
@@ -1102,6 +1160,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/leapers.h:
 
 pieces/walks/riders.h:
@@ -1116,8 +1176,8 @@ pieces/walks/sting$(OBJ_SUFFIX): pieces/walks/sting.c pieces/walks/sting.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h pieces/walks/hoppers.h solving/move_generator.h \
- solving/solve.h pieces/walks/leapers.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/solve.h pieces/walks/leapers.h \
  solving/find_square_observer_tracking_back_from_target.h
 
 pieces/walks/sting.h:
@@ -1148,6 +1208,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/hoppers.h:
 
 solving/move_generator.h:
@@ -1162,8 +1224,9 @@ pieces/walks/combined$(OBJ_SUFFIX): pieces/walks/combined.c pieces/walks/combine
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h pieces/walks/pawns/pawn.h pieces/walks/pawns/en_passant.h \
- solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/pawns/pawn.h \
+ pieces/walks/pawns/en_passant.h solving/solve.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h pieces/walks/leapers.h pieces/walks/riders.h \
  pieces/walks/hoppers.h solving/move_generator.h pieces/walks/kangaroo.h
 
@@ -1195,6 +1258,8 @@ output/mode.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 pieces/walks/pawns/pawn.h:
 
 pieces/walks/pawns/en_passant.h:
@@ -1224,8 +1289,9 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h pieces/walks/hoppers.h solving/move_generator.h \
- pieces/walks/leapers.h pieces/walks/riders.h pieces/walks/pawns/pawns.h \
+ solving/observation.h stipulation/temporary_hacks.h \
+ pieces/walks/hoppers.h solving/move_generator.h pieces/walks/leapers.h \
+ pieces/walks/riders.h pieces/walks/pawns/pawns.h \
  pieces/walks/pawns/pawn.h pieces/walks/pawns/reverse.h \
  pieces/walks/pawns/berolina.h pieces/walks/lions.h \
  pieces/walks/hunters.h pieces/walks/roses.h \
@@ -1279,6 +1345,8 @@ solving/ply.h:
 position/pieceid.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/walks/hoppers.h:
 

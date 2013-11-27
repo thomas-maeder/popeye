@@ -42,7 +42,7 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
           && rennormal(p,spec[*bnp],*bnp,side_checking)==king_square[side_in_check])
       {
         replace_observation_target(*bnp);
-        if (is_square_observed(&validate_check))
+        if (is_square_observed(EVALUATE(check)))
         {
           assassinable = true;
           break;

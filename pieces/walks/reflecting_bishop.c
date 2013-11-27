@@ -63,7 +63,7 @@ void reflecting_bishop_generate_moves(void)
 static boolean reflecting_bishop_check_recursive(square intermediate_square,
                                                  numvec k,
                                                  int x,
-                                                 evalfunction_t *evaluate)
+                                                 validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   if (is_square_blocked(intermediate_square+k))
@@ -97,14 +97,14 @@ static boolean reflecting_bishop_check_recursive(square intermediate_square,
                    evaluate))
         return true;
     }
-    else if (INVOKE_EVAL(evaluate,sq_reflection,sq_target))
+    else if (EVALUATE_OBSERVATION(evaluate,sq_reflection,sq_target))
       return true;
 
     return false;
   }
 }
 
-boolean reflecting_bishop_check(evalfunction_t *evaluate)
+boolean reflecting_bishop_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  k;
@@ -129,7 +129,7 @@ void archbishop_generate_moves(void)
     remove_duplicate_moves_of_single_piece(save_current_move);
 }
 
-boolean archbishop_check(evalfunction_t *evaluate)
+boolean archbishop_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  k;

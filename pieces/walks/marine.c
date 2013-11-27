@@ -143,7 +143,7 @@ void marine_ship_generate_moves(vec_index_type kbeg, vec_index_type kend)
 }
 
 static boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
-                                   evalfunction_t *evaluate)
+                                   validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
@@ -152,26 +152,26 @@ static boolean marine_leaper_check(vec_index_type kanf, vec_index_type kend,
     square const sq_arrival = sq_target-vec[k];
     square const sq_departure = sq_target+vec[k];
     if (is_square_empty(sq_arrival)
-        && INVOKE_EVAL(evaluate,sq_departure,sq_arrival))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival))
       return true;
   }
 
   return false;
 }
 
-boolean marine_knight_check(evalfunction_t *evaluate)
+boolean marine_knight_check(validator_id evaluate)
 {
   return marine_leaper_check(vec_knight_start,vec_knight_end,evaluate);
 }
 
-boolean poseidon_check(evalfunction_t *evaluate)
+boolean poseidon_check(validator_id evaluate)
 {
   return marine_leaper_check(vec_queen_start,vec_queen_end,evaluate);
 }
 
 static boolean marine_pawn_test_check(square sq_departure,
                                       square sq_hurdle,
-                                      evalfunction_t *evaluate)
+                                      validator_id evaluate)
 {
   boolean result;
   numvec const dir_check = sq_hurdle-sq_departure;
@@ -182,7 +182,7 @@ static boolean marine_pawn_test_check(square sq_departure,
   TraceFunctionParamListEnd();
 
   result = (is_square_empty(sq_arrival)
-            && INVOKE_EVAL(evaluate,sq_departure,sq_arrival));
+            && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -190,7 +190,7 @@ static boolean marine_pawn_test_check(square sq_departure,
   return result;
 }
 
-boolean marine_pawn_check(evalfunction_t *evaluate)
+boolean marine_pawn_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec const dir_forward = trait[nbply]==White ? dir_up : dir_down;
@@ -209,7 +209,7 @@ boolean marine_pawn_check(evalfunction_t *evaluate)
   return false;
 }
 
-boolean marine_ship_check(evalfunction_t *evaluate)
+boolean marine_ship_check(validator_id evaluate)
 {
   return marine_pawn_check(evaluate) || rooklocust_check(evaluate);
 }

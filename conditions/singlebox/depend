@@ -132,13 +132,14 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/observation.h solving/ply.h \
- conditions/singlebox/type1.h conditions/singlebox/type2.h \
- pieces/walks/pawns/promotee_sequence.h pieces/walks/classification.h \
- solving/move_generator.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- stipulation/has_solution_type.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
- stipulation/move.h debugging/trace.h
+ stipulation/temporary_hacks.h conditions/singlebox/type1.h \
+ conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
+ pieces/walks/classification.h solving/move_generator.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h stipulation/has_solution_type.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/pipe.h stipulation/move.h \
+ debugging/trace.h
 
 conditions/singlebox/type3.h:
 
@@ -169,6 +170,8 @@ output/mode.h:
 solving/observation.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 conditions/singlebox/type1.h:
 

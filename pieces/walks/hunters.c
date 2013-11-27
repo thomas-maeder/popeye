@@ -61,7 +61,7 @@ static void generate_one_dir(PieNam part, move_filter_criterion_type criterion)
   move_generator_filter_moves(savenbcou,criterion);
 }
 
-boolean hunter_check(evalfunction_t *evaluate)
+boolean hunter_check(validator_id evaluate)
 {
   /* detect check by a hunter */
   boolean result;
@@ -133,7 +133,7 @@ void bishop_hunter_generate_moves(void)
   generate_one_dir(Bishop,&goes_up);
 }
 
-boolean rookhunter_check(evalfunction_t *evaluate)
+boolean rookhunter_check(validator_id evaluate)
 {
   boolean result;
 
@@ -158,7 +158,7 @@ boolean rookhunter_check(evalfunction_t *evaluate)
   return result;
 }
 
-boolean bishophunter_check(evalfunction_t *evaluate)
+boolean bishophunter_check(validator_id evaluate)
 {
   boolean result;
 

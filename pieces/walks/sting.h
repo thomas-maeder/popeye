@@ -9,6 +9,6 @@
  */
 void sting_generate_moves(void);
 
-boolean sting_check(evalfunction_t *evaluate);
+boolean sting_check(validator_id evaluate);
 
 #endif

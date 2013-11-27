@@ -41,24 +41,25 @@ static void init_woozlers(void)
 
 static boolean find_mutual_observer(void)
 {
+  Side const side_woozled = trait[nbply-1];
+  PieNam const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (validate_observation_geometry())
-  {
-    Side const side_woozled = trait[nbply-1];
-    PieNam const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
+  siblingply(side_woozled);
 
-    siblingply(side_woozled);
-    push_observation_target(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
-    observing_walk[nbply] = p;
-    ++phase[parent_ply[nbply]];
-    result = (*checkfunctions[p])(&validate_observer);
-    --phase[parent_ply[nbply]];
-    finply();
-  }
+  push_observation_target(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
+  observing_walk[nbply] = p;
+
+  ++phase[parent_ply[nbply]];
+
+  result = (*checkfunctions[p])(EVALUATE(observer));
+
+  --phase[parent_ply[nbply]];
+
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -90,7 +91,7 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
     {
       observing_walk[nbply] = *pcheck;
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(&validate_observer))
+          && (*checkfunctions[*pcheck])(EVALUATE(observer)))
       {
         result = false;
         break;
@@ -110,8 +111,7 @@ static boolean woozles_is_observation_mutual(void)
 {
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
-  return (sq_departure==move_generation_stack[CURRMOVE_OF_PLY(nbply-2)].departure
-          && validate_observation_geometry());
+  return sq_departure==move_generation_stack[CURRMOVE_OF_PLY(nbply-2)].departure;
 }
 
 static boolean woozles_can_observe(Side side_woozle, numecoup n)
@@ -417,7 +417,7 @@ static boolean heffalumps_is_observation_from_heffalumped_on_line(void)
     rd2= rd2/t;
 
     if ((cd1==cd2 && rd1==rd2) || (cd1==-cd2 && rd1==-rd2))
-      result = validate_observation_geometry();
+      result = true;
   }
 
   TraceFunctionExit(__func__);

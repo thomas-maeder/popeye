@@ -63,7 +63,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 
   siblingply(advers(trait_ply));
   push_observation_target(sq_departure);
-  is_square_observed(&validate_observation);
+  is_square_observed(EVALUATE(observation));
   finply();
 
   are_we_counting = false;

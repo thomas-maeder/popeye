@@ -75,8 +75,8 @@ boolean validate_observation(void);
  * @param type type of slice with which to instrument moves
  */
 void stip_instrument_observation_validation(slice_index si,
-                                         Side side,
-                                         slice_type type);
+                                            Side side,
+                                            slice_type type);
 
 /* Validate a check
  * @param sq_observer position of the observer
@@ -107,13 +107,23 @@ void observation_play_move_to_validate(slice_index si, Side side);
  */
 boolean is_observation_trivially_validated(Side side);
 
-typedef boolean (evalfunction_t)(void);
+/* version with function pointers
+typedef boolean (*validator_id)(void);
+#define EVALUATE(key) (&validate_##key)
+#define INVOKE_EVALUATE(validator) ((*validator)())
+*/
 
-#define INVOKE_EVAL(evaluate,sq_departure,sq_arrival) \
+/* version with slice indices */
+#include "stipulation/temporary_hacks.h"
+typedef slice_index validator_id;
+#define EVALUATE(key) (temporary_hack_##key##_validator[trait[nbply]])
+#define INVOKE_EVALUATE(validator) (validate_observation_recursive(slices[validator].next2))
+
+#define EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival) \
   ( TSTFLAG(spec[sq_departure],trait[nbply]) \
     && (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = (sq_departure), \
         move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival = (sq_arrival), \
-        (*evaluate)()) \
+        INVOKE_EVALUATE(evaluate)) \
   )
 
 /* Determine whether a square is observed be the side at the move; recursive
@@ -122,12 +132,12 @@ typedef boolean (evalfunction_t)(void);
  * @return true iff sq_target is observed by the side at the move
  */
 boolean is_square_observed_recursive(slice_index si,
-                                     evalfunction_t *evaluate);
+                                     validator_id evaluate);
 
 /* Determine whether a square is observed be the side at the move
  * @return true iff sq_target is observed by the side at the move
  */
-boolean is_square_observed(evalfunction_t *evaluate);
+boolean is_square_observed(validator_id evaluate);
 
 /* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch

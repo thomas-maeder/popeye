@@ -43,7 +43,7 @@ PieNam observing_walk[maxply+1];
 
 PieNam checkpieces[PieceCount-Leo+1]; /* only fairies ! */
 
-static boolean never_check(evalfunction_t *evaluate)
+static boolean never_check(validator_id evaluate)
 {
   return false;
 }
@@ -217,7 +217,7 @@ checkfunction_t *checkfunctions[PieceCount] =
 };
 
 boolean find_square_observer_tracking_back_from_target_king(slice_index si,
-                                                            evalfunction_t *evaluate)
+                                                            validator_id evaluate)
 {
   observing_walk[nbply] = King;
   if (number_of_pieces[trait[nbply]][King]>0
@@ -228,7 +228,7 @@ boolean find_square_observer_tracking_back_from_target_king(slice_index si,
 }
 
 boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
-                                                                evalfunction_t *evaluate)
+                                                                validator_id evaluate)
 {
   Side const side_observing = trait[nbply];
 
@@ -261,7 +261,7 @@ boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
 }
 
 boolean find_square_observer_tracking_back_from_target_fairy(slice_index si,
-                                                             evalfunction_t *evaluate)
+                                                             validator_id evaluate)
 {
   Side const side_observing = trait[nbply];
   PieNam const *pcheck;

@@ -60,7 +60,7 @@ void ubiubi_generate_moves(void)
 
 static boolean ubiubi_check_recursive(square intermediate_square,
                                       ubiubi_traversal_state_type traversal_state,
-                                      evalfunction_t *evaluate)
+                                      validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
@@ -77,7 +77,7 @@ static boolean ubiubi_check_recursive(square intermediate_square,
         if (ubiubi_check_recursive(sq_departure,traversal_state,evaluate))
           return true;
       }
-      else if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      else if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
   }
@@ -85,7 +85,7 @@ static boolean ubiubi_check_recursive(square intermediate_square,
   return false;
 }
 
-boolean ubiubi_check(evalfunction_t *evaluate)
+boolean ubiubi_check(validator_id evaluate)
 {
   ubiubi_traversal_state_type board_state;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;

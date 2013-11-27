@@ -26,7 +26,7 @@ void berolina_pawn_generate_moves(void)
   }
 }
 
-boolean berolina_pawn_check(evalfunction_t *evaluate)
+boolean berolina_pawn_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;

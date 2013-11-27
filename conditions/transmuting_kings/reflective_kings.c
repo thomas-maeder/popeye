@@ -41,7 +41,7 @@ void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p)
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean reflective_king_is_square_observed(slice_index si, evalfunction_t *evaluate)
+boolean reflective_king_is_square_observed(slice_index si, validator_id evaluate)
 {
   if (number_of_pieces[trait[nbply]][King]>0)
   {

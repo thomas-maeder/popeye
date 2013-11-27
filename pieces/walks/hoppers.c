@@ -36,7 +36,7 @@ void rider_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
 }
 
 boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
-                            evalfunction_t *evaluate)
+                            validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -53,7 +53,7 @@ boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
 
-      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -66,38 +66,38 @@ boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
   return result;
 }
 
-boolean grasshopper_check(evalfunction_t *evaluate)
+boolean grasshopper_check(validator_id evaluate)
 {
   return rider_hoppers_check(vec_queen_start, vec_queen_end, evaluate);
 }
 
-boolean nightrider_hopper_check(evalfunction_t *evaluate)
+boolean nightrider_hopper_check(validator_id evaluate)
 {
   return rider_hoppers_check(vec_knight_start,vec_knight_end, evaluate);
 }
 
-boolean camelrider_hopper_check(evalfunction_t *evaluate)
+boolean camelrider_hopper_check(validator_id evaluate)
 {
   return rider_hoppers_check(vec_chameau_start, vec_chameau_end, evaluate);
 }
 
-boolean zebrarider_hopper_check(evalfunction_t *evaluate)
+boolean zebrarider_hopper_check(validator_id evaluate)
 {
   return rider_hoppers_check(vec_zebre_start, vec_zebre_end, evaluate);
 }
 
-boolean gnurider_hopper_check(evalfunction_t *evaluate)
+boolean gnurider_hopper_check(validator_id evaluate)
 {
   return  (rider_hoppers_check(vec_knight_start,vec_knight_end, evaluate)
            || rider_hoppers_check(vec_chameau_start, vec_chameau_end, evaluate));
 }
 
-boolean rookhopper_check(evalfunction_t *evaluate)
+boolean rookhopper_check(validator_id evaluate)
 {
   return rider_hoppers_check(vec_rook_start,vec_rook_end, evaluate);
 }
 
-boolean bishopper_check(evalfunction_t *evaluate)
+boolean bishopper_check(validator_id evaluate)
 {
   return rider_hoppers_check(vec_bishop_start,vec_bishop_end, evaluate);
 }
@@ -123,7 +123,7 @@ void leaper_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
 }
 
 static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
-                                    evalfunction_t *evaluate)
+                                    validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -140,7 +140,7 @@ static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
 
-      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -153,12 +153,12 @@ static boolean leaper_hoppers_check(vec_index_type kanf, vec_index_type kend,
   return result;
 }
 
-boolean kinghopper_check(evalfunction_t *evaluate)
+boolean kinghopper_check(validator_id evaluate)
 {
   return leaper_hoppers_check(vec_queen_start, vec_queen_end, evaluate);
 }
 
-boolean knighthopper_check(evalfunction_t *evaluate)
+boolean knighthopper_check(validator_id evaluate)
 {
   return leaper_hoppers_check(vec_knight_start, vec_knight_end, evaluate);
 }
@@ -201,7 +201,7 @@ void doublehopper_generate_moves(vec_index_type vec_start,
 }
 
 static boolean doublehopper_check(vec_index_type vec_start, vec_index_type vec_end,
-                                 evalfunction_t *evaluate)
+                                 validator_id evaluate)
 {
   boolean result = false;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
@@ -227,7 +227,7 @@ static boolean doublehopper_check(vec_index_type vec_start, vec_index_type vec_e
           if (!is_square_empty(sq_hurdle1) && !is_square_blocked(sq_hurdle1))
           {
             square const sq_departure = find_end_of_line(sq_hurdle1,dir1);
-            if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+            if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
             {
               result = true;
               break;
@@ -241,19 +241,19 @@ static boolean doublehopper_check(vec_index_type vec_start, vec_index_type vec_e
   return result;
 }
 
-boolean doublegrasshopper_check(evalfunction_t *evaluate)
+boolean doublegrasshopper_check(validator_id evaluate)
 {
   /* W.B.Trumper feenschach 1968 - but null moves will not be allowed by Popeye
    */
   return doublehopper_check(vec_queen_start,vec_queen_end,evaluate);
 }
 
-boolean doublerookhopper_check(evalfunction_t *evaluate)
+boolean doublerookhopper_check(validator_id evaluate)
 {
   return doublehopper_check(vec_rook_start,vec_rook_end,evaluate);
 }
 
-boolean doublebishopper_check(evalfunction_t *evaluate)
+boolean doublebishopper_check(validator_id evaluate)
 {
   return doublehopper_check(vec_bishop_start,vec_bishop_end,evaluate);
 }
@@ -289,7 +289,7 @@ void contra_grasshopper_generate_moves(vec_index_type kbeg, vec_index_type kend)
   }
 }
 
-boolean contragrasshopper_check(evalfunction_t *evaluate)
+boolean contragrasshopper_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -306,7 +306,7 @@ boolean contragrasshopper_check(evalfunction_t *evaluate)
     {
       square const sq_departure = sq_hurdle+vec[interceptable_observation[observation_context].vector_index1];
 
-      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -380,7 +380,7 @@ static square grasshoppers_n_find_hurdle(square sq_target,
 
 static boolean grasshoppers_n_check(vec_index_type kanf, vec_index_type kend,
                                     unsigned int dist_hurdle_target,
-                                    evalfunction_t *evaluate)
+                                    validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -397,7 +397,7 @@ static boolean grasshoppers_n_check(vec_index_type kanf, vec_index_type kend,
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
 
-      if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -410,12 +410,12 @@ static boolean grasshoppers_n_check(vec_index_type kanf, vec_index_type kend,
   return result;
 }
 
-boolean grasshopper_2_check(evalfunction_t *evaluate)
+boolean grasshopper_2_check(validator_id evaluate)
 {
   return grasshoppers_n_check(vec_queen_start, vec_queen_end, 2, evaluate);
 }
 
-boolean grasshopper_3_check(evalfunction_t *evaluate)
+boolean grasshopper_3_check(validator_id evaluate)
 {
   return grasshoppers_n_check(vec_queen_start, vec_queen_end, 3, evaluate);
 }
@@ -460,7 +460,7 @@ void equihopper_generate_moves(void)
   }
 }
 
-boolean equihopper_check(evalfunction_t *evaluate)
+boolean equihopper_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   if (orix_check(evaluate))
@@ -476,7 +476,7 @@ boolean equihopper_check(evalfunction_t *evaluate)
       square const sq_departure = sq_hurdle+vec[k];
       if (!is_square_empty(sq_hurdle)
           && !is_square_blocked(sq_hurdle)
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
   }
@@ -529,7 +529,7 @@ void nonstop_equihopper_generate_moves(void)
   TraceFunctionResultEnd();
 }
 
-boolean nonstop_equihopper_check(evalfunction_t *evaluate)
+boolean nonstop_equihopper_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec delta_horiz, delta_vert;
@@ -552,7 +552,7 @@ boolean nonstop_equihopper_check(evalfunction_t *evaluate)
 
       if (!is_square_empty(sq_hurdle)
           && sq_target!=sq_departure
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
 
@@ -599,7 +599,7 @@ void equistopper_generate_moves(void)
   }
 }
 
-boolean equistopper_check(evalfunction_t *evaluate)
+boolean equistopper_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -613,7 +613,7 @@ boolean equistopper_check(evalfunction_t *evaluate)
     {
       square const sq_departure = find_end_of_line(sq_target,-vec[interceptable_observation[observation_context].vector_index1]);
       if (sq_departure-sq_target==sq_target-sq_hurdle
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -629,7 +629,7 @@ boolean equistopper_check(evalfunction_t *evaluate)
       square const sq_departure = sq_target-vec[interceptable_observation[observation_context].vector_index1];
       square const sq_hurdle = sq_target+vec[interceptable_observation[observation_context].vector_index1];
       if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle)
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -671,7 +671,7 @@ void nonstop_equistopper_generate_moves(void)
     }
 }
 
-boolean nonstop_equistopper_check(evalfunction_t *evaluate)
+boolean nonstop_equistopper_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   /* check by non-stop equistopper? */
@@ -688,7 +688,7 @@ boolean nonstop_equistopper_check(evalfunction_t *evaluate)
     if (!is_square_empty(sq_hurdle)
         && !is_square_blocked(sq_hurdle)
         && sq_target!=sq_departure
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       return true;
   }
 
@@ -721,7 +721,7 @@ void orix_generate_moves(void)
   }
 }
 
-boolean orix_check(evalfunction_t *evaluate)
+boolean orix_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -737,7 +737,7 @@ boolean orix_check(evalfunction_t *evaluate)
     {
       square const sq_departure = find_end_of_line(sq_hurdle,vec[interceptable_observation[observation_context].vector_index1]);
       if (sq_departure-sq_hurdle==sq_hurdle-sq_target
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       {
         result = true;
         break;
@@ -789,7 +789,7 @@ void nonstop_orix_generate_moves(void)
     }
 }
 
-boolean nonstop_orix_check(evalfunction_t *evaluate)
+boolean nonstop_orix_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec delta_horiz, delta_vert;
@@ -816,7 +816,7 @@ boolean nonstop_orix_check(evalfunction_t *evaluate)
       if (queenlike
           && !is_square_empty(sq_hurdle)
           && sq_target!=sq_departure
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         return true;
     }
 

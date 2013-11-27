@@ -31,7 +31,7 @@ void querquisite_generate_moves(void)
   }
 }
 
-boolean querquisite_check(evalfunction_t *evaluate)
+boolean querquisite_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type k;
@@ -43,7 +43,7 @@ boolean querquisite_check(evalfunction_t *evaluate)
     if ((file_departure==file_rook_queenside
          || file_departure==file_queen
          || file_departure==file_rook_kingside)
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       return true;
   }
 
@@ -54,7 +54,7 @@ boolean querquisite_check(evalfunction_t *evaluate)
     if ((file_departure==file_bishop_queenside
          || file_departure==file_queen
          || file_departure==file_bishop_kingside)
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       return true;
   }
 
@@ -64,7 +64,7 @@ boolean querquisite_check(evalfunction_t *evaluate)
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
     if ((file_departure==file_knight_queenside
          || file_departure==file_knight_kingside)
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       return true;
   }
 
@@ -73,7 +73,7 @@ boolean querquisite_check(evalfunction_t *evaluate)
     square const sq_departure= sq_target+vec[k];
     int const file_departure= sq_departure%onerow - nr_of_slack_files_left_of_board;
     if (file_departure==file_king
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       return true;
   }
 

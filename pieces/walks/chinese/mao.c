@@ -62,18 +62,18 @@ void moa_generate_moves(void)
 
 static boolean maooacheck_onedir(square sq_pass,
                                  vec_index_type vec_index_angle_departure_pass,
-                                 evalfunction_t *evaluate)
+                                 validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   numvec const vec_departure_pass = angle_vectors[angle_45][vec_index_angle_departure_pass];
   square const sq_departure = sq_pass+vec_departure_pass;
 
-  return (INVOKE_EVAL(evaluate,sq_departure,sq_target));
+  return (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target));
 }
 
 static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
                           vec_index_type vec_index_pass_target_end,
-                          evalfunction_t *evaluate)
+                          validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -101,12 +101,12 @@ static boolean maooacheck(vec_index_type vec_index_pass_target_begin,
   return result;
 }
 
-boolean mao_check(evalfunction_t *evaluate)
+boolean mao_check(validator_id evaluate)
 {
   return maooacheck(vec_bishop_start,vec_bishop_end,evaluate);
 }
 
-boolean moa_check(evalfunction_t *evaluate)
+boolean moa_check(validator_id evaluate)
 {
   return maooacheck(vec_rook_start,vec_rook_end,evaluate);
 }
@@ -158,7 +158,7 @@ void moarider_generate_moves(void)
 
 static boolean maooarider_check(numvec to_passed,
                                 numvec to_departure,
-                                evalfunction_t *evaluate)
+                                validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_passed = sq_target+to_passed;
@@ -171,10 +171,10 @@ static boolean maooarider_check(numvec to_passed,
   }
 
   return (is_square_empty(sq_passed)
-          && INVOKE_EVAL(evaluate,sq_departure,sq_target));
+          && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target));
 }
 
-boolean maorider_check(evalfunction_t *evaluate)
+boolean maorider_check(validator_id evaluate)
 {
   boolean result = false;
 
@@ -199,7 +199,7 @@ boolean maorider_check(evalfunction_t *evaluate)
   return result;
 }
 
-boolean moarider_check(evalfunction_t *evaluate)
+boolean moarider_check(validator_id evaluate)
 {
   boolean result = false;
 
@@ -288,7 +288,7 @@ void moariderlion_generate_moves(void)
 
 static boolean maooariderlion_check(numvec to_passed,
                                     numvec to_departure,
-                                    evalfunction_t *evaluate)
+                                    validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   square sq_passed = sq_target+to_passed;
@@ -301,7 +301,7 @@ static boolean maooariderlion_check(numvec to_passed,
   }
 
   if (!is_square_empty(sq_passed)
-      && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+      && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
     return true;
 
   if (!is_square_blocked(sq_passed) && !is_square_blocked(sq_departure)
@@ -317,14 +317,14 @@ static boolean maooariderlion_check(numvec to_passed,
     }
 
     if (is_square_empty(sq_passed)
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
       return true;
   }
 
   return false;
 }
 
-boolean maoriderlion_check(evalfunction_t *evaluate)
+boolean maoriderlion_check(validator_id evaluate)
 {
   boolean result = false;
 
@@ -349,7 +349,7 @@ boolean maoriderlion_check(evalfunction_t *evaluate)
   return result;
 }
 
-boolean moariderlion_check(evalfunction_t *evaluate)
+boolean moariderlion_check(validator_id evaluate)
 {
   boolean result = false;
 

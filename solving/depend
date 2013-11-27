@@ -75,8 +75,8 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  conditions/imitator.h conditions/actuated_revolving_centre.h \
  conditions/haunted_chess.h conditions/sat.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
- pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h pieces/attributes/neutral/neutral.h \
+ pieces/attributes/neutral/half.h debugging/trace.h
 
 solving/move_effect_journal.h:
 
@@ -127,6 +127,8 @@ conditions/sat.h:
 pieces/walks/pawns/en_passant.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/attributes/neutral/neutral.h:
 
@@ -346,7 +348,8 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/ply.h conditions/annan.h conditions/beamten.h \
  conditions/central.h conditions/disparate.h conditions/eiffel.h \
- conditions/facetoface.h solving/observation.h conditions/madrasi.h \
+ conditions/facetoface.h solving/observation.h \
+ stipulation/temporary_hacks.h conditions/madrasi.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
  conditions/phantom.h conditions/singlebox/type3.h \
@@ -360,8 +363,8 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/move_effect_journal.h position/pieceid.h \
  solving/king_move_generator.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/pipe.h stipulation/temporary_hacks.h \
- debugging/measure.h debugging/trace.h
+ stipulation/traversal.h stipulation/pipe.h debugging/measure.h \
+ debugging/trace.h
 
 solving/move_generator.h:
 
@@ -404,6 +407,8 @@ conditions/eiffel.h:
 conditions/facetoface.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 conditions/madrasi.h:
 
@@ -458,8 +463,6 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 stipulation/pipe.h:
-
-stipulation/temporary_hacks.h:
 
 debugging/measure.h:
 
@@ -1178,10 +1181,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/singlebox/type2.h \
  pieces/walks/pawns/promotee_sequence.h conditions/singlebox/type3.h \
- solving/observation.h conditions/patience.h conditions/isardam.h \
- conditions/sat.h conditions/dynasty.h conditions/masand.h \
- conditions/messigny.h conditions/oscillating_kings.h \
- conditions/actuated_revolving_centre.h \
+ solving/observation.h stipulation/temporary_hacks.h \
+ conditions/patience.h conditions/isardam.h conditions/sat.h \
+ conditions/dynasty.h conditions/masand.h conditions/messigny.h \
+ conditions/oscillating_kings.h conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/circe.h \
  conditions/circe/cage.h conditions/circe/double_agents.h \
@@ -1454,6 +1457,8 @@ pieces/walks/pawns/promotee_sequence.h:
 conditions/singlebox/type3.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 conditions/patience.h:
 
@@ -1971,19 +1976,20 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/ply.h \
- conditions/amu/attack_counter.h solving/solve.h conditions/backhome.h \
- conditions/beamten.h conditions/bgl.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h conditions/brunner.h \
- conditions/central.h conditions/disparate.h conditions/facetoface.h \
- conditions/geneva.h conditions/imitator.h conditions/immune.h \
- conditions/lortap.h conditions/mummer.h conditions/patrol.h \
- conditions/provocateurs.h conditions/shielded_kings.h \
- conditions/superguards.h conditions/woozles.h conditions/wormhole.h \
- conditions/madrasi.h conditions/masand.h conditions/eiffel.h \
- conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
- conditions/grid.h conditions/edgemover.h conditions/annan.h \
- conditions/phantom.h conditions/marscirce/plus.h \
- conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
+ stipulation/temporary_hacks.h conditions/amu/attack_counter.h \
+ solving/solve.h conditions/backhome.h conditions/beamten.h \
+ conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/brunner.h conditions/central.h \
+ conditions/disparate.h conditions/facetoface.h conditions/geneva.h \
+ conditions/imitator.h conditions/immune.h conditions/lortap.h \
+ conditions/mummer.h conditions/patrol.h conditions/provocateurs.h \
+ conditions/shielded_kings.h conditions/superguards.h \
+ conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
+ conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
+ solving/move_generator.h conditions/bichrome.h conditions/grid.h \
+ conditions/edgemover.h conditions/annan.h conditions/phantom.h \
+ conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
+ conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/vaulting_kings.h pieces/walks/hunters.h \
@@ -1992,9 +1998,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
- stipulation/temporary_hacks.h \
- optimisations/orthodox_square_observation.h debugging/trace.h \
- debugging/measure.h
+ optimisations/orthodox_square_observation.h debugging/trace.h
 
 solving/observation.h:
 
@@ -2021,6 +2025,8 @@ pieces/walks/vectors.h:
 output/mode.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 conditions/amu/attack_counter.h:
 
@@ -2120,13 +2126,9 @@ stipulation/traversal.h:
 
 stipulation/branch.h:
 
-stipulation/temporary_hacks.h:
-
 optimisations/orthodox_square_observation.h:
 
 debugging/trace.h:
-
-debugging/measure.h:
 solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h stipulation/stipulation.h \
@@ -2135,10 +2137,10 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/vogtlaender.h conditions/circe/assassin.h \
  conditions/bicolores.h conditions/antikings.h solving/observation.h \
- solving/move_generator.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h \
- stipulation/temporary_hacks.h debugging/trace.h debugging/measure.h
+ stipulation/temporary_hacks.h solving/move_generator.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/branch.h debugging/trace.h \
+ debugging/measure.h
 
 solving/check.h:
 
@@ -2188,6 +2190,8 @@ conditions/antikings.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 stipulation/pipe.h:
@@ -2200,8 +2204,6 @@ stipulation/traversal.h:
 
 stipulation/branch.h:
 
-stipulation/temporary_hacks.h:
-
 debugging/trace.h:
 
 debugging/measure.h:
@@ -2212,14 +2214,14 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h pieces/walks/leapers.h pieces/walks/riders.h \
- pieces/walks/lions.h pieces/walks/roses.h pieces/walks/bouncer.h \
- pieces/walks/pawns/pawn.h pieces/walks/pawns/berolina.h \
- pieces/walks/pawns/reverse.h pieces/walks/chinese/riders.h \
- pieces/walks/chinese/mao.h pieces/walks/chinese/pawn.h \
- pieces/walks/locusts.h pieces/walks/marine.h pieces/walks/hoppers.h \
- solving/move_generator.h solving/solve.h pieces/walks/bouncy.h \
- pieces/walks/pawns/super.h pieces/walks/cardinal.h \
+ solving/ply.h stipulation/temporary_hacks.h pieces/walks/leapers.h \
+ pieces/walks/riders.h pieces/walks/lions.h pieces/walks/roses.h \
+ pieces/walks/bouncer.h pieces/walks/pawns/pawn.h \
+ pieces/walks/pawns/berolina.h pieces/walks/pawns/reverse.h \
+ pieces/walks/chinese/riders.h pieces/walks/chinese/mao.h \
+ pieces/walks/chinese/pawn.h pieces/walks/locusts.h pieces/walks/marine.h \
+ pieces/walks/hoppers.h solving/move_generator.h solving/solve.h \
+ pieces/walks/bouncy.h pieces/walks/pawns/super.h pieces/walks/cardinal.h \
  pieces/walks/reflecting_bishop.h pieces/walks/combined.h \
  pieces/walks/angle/hoppers.h pieces/walks/angle/angles.h \
  pieces/walks/spiral_springers.h pieces/walks/bob.h pieces/walks/cat.h \
@@ -2255,6 +2257,8 @@ pieces/walks/vectors.h:
 output/mode.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/walks/leapers.h:
 
@@ -2336,7 +2340,8 @@ solving/ply$(OBJ_SUFFIX): solving/ply.c solving/ply.h position/position.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/observation.h \
- solving/post_move_iteration.h solving/move_generator.h debugging/trace.h
+ stipulation/temporary_hacks.h solving/post_move_iteration.h \
+ solving/move_generator.h debugging/trace.h
 
 solving/ply.h:
 
@@ -2374,6 +2379,8 @@ position/pieceid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 solving/post_move_iteration.h:
 
 solving/move_generator.h:
@@ -2398,8 +2405,8 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/observation.h \
- output/output.h conditions/annan.h conditions/bgl.h \
- conditions/facetoface.h conditions/koeko/contact_grid.h \
+ stipulation/temporary_hacks.h output/output.h conditions/annan.h \
+ conditions/bgl.h conditions/facetoface.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
  conditions/exclusive.h utilities/table.h conditions/republican.h \
  conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
@@ -2457,7 +2464,7 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/must_capture.h platform/maxtime.h conditions/shielded_kings.h \
  stipulation/end_of_branch_tester.h stipulation/dead_end.h \
  stipulation/boolean/and.h stipulation/constraint.h \
- stipulation/moves_traversal.h stipulation/temporary_hacks.h \
+ stipulation/moves_traversal.h \
  stipulation/goals/immobile/reached_tester.h \
  solving/king_capture_avoider.h solving/testers.h solving/find_shortest.h \
  solving/for_each_move.h solving/battle_play/try.h \
@@ -2551,6 +2558,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 output/output.h:
 
@@ -2820,8 +2829,6 @@ stipulation/constraint.h:
 
 stipulation/moves_traversal.h:
 
-stipulation/temporary_hacks.h:
-
 stipulation/goals/immobile/reached_tester.h:
 
 solving/king_capture_avoider.h:
@@ -2936,7 +2943,8 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  solving/solve.h solving/castling.h solving/castling_rights.h \
  solving/move_effect_journal.h solving/ply.h position/pieceid.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
- optimisations/hash.h optimisations/intelligent/moves_left.h \
+ stipulation/temporary_hacks.h optimisations/hash.h \
+ optimisations/intelligent/moves_left.h \
  optimisations/orthodox_check_directions.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intelligent.h platform/maxtime.h \
@@ -2998,6 +3006,8 @@ position/pieceid.h:
 pieces/walks/pawns/en_passant.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 optimisations/hash.h:
 

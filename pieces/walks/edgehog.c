@@ -26,7 +26,7 @@ void edgehog_generate_moves(void)
   }
 }
 
-boolean edgehog_check(evalfunction_t *evaluate)
+boolean edgehog_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -39,7 +39,7 @@ boolean edgehog_check(evalfunction_t *evaluate)
   {
     square const sq_departure = find_end_of_line(sq_target,vec[interceptable_observation[observation_context].vector_index1]);
     if (NoEdge(sq_target)!=NoEdge(sq_departure)
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
     {
       result = true;
       break;

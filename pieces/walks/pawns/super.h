@@ -7,12 +7,12 @@
  */
 void super_pawn_generate_moves(void);
 
-boolean superpawn_check(evalfunction_t *evaluate);
+boolean superpawn_check(validator_id evaluate);
 
 /* Generate moves for a Super-Berolina Pawn
  */
 void super_berolina_pawn_generate_moves(void);
 
-boolean superberolinapawn_check(evalfunction_t *evaluate);
+boolean superberolinapawn_check(validator_id evaluate);
 
 #endif

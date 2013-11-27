@@ -16,8 +16,8 @@ void  pawn_generate_moves(void);
  */
 boolean pawn_test_check(square sq_departure,
                         square sq_arrival,
-                        evalfunction_t *evaluate);
+                        validator_id evaluate);
 
-boolean pawn_check(evalfunction_t *evaluate);
+boolean pawn_check(validator_id evaluate);
 
 #endif

@@ -27,15 +27,15 @@ void push_hopper_move(vec_index_type idx_dir, square sq_hurdle);
 void rider_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
 boolean rider_hoppers_check(vec_index_type kanf, vec_index_type kend,
-                            evalfunction_t *evaluate);
+                            validator_id evaluate);
 
-boolean grasshopper_check(evalfunction_t *evaluate);
-boolean rookhopper_check(evalfunction_t *evaluate);
-boolean bishopper_check(evalfunction_t *evaluate);
-boolean nightrider_hopper_check(evalfunction_t *evaluate);
-boolean camelrider_hopper_check(evalfunction_t *evaluate);
-boolean gnurider_hopper_check(evalfunction_t *evaluate);
-boolean zebrarider_hopper_check(evalfunction_t *evaluate);
+boolean grasshopper_check(validator_id evaluate);
+boolean rookhopper_check(validator_id evaluate);
+boolean bishopper_check(validator_id evaluate);
+boolean nightrider_hopper_check(validator_id evaluate);
+boolean camelrider_hopper_check(validator_id evaluate);
+boolean gnurider_hopper_check(validator_id evaluate);
+boolean zebrarider_hopper_check(validator_id evaluate);
 
 /* Generate moves for a leaper hopper piece
  * @param kbeg start of range of vector indices to be used
@@ -43,8 +43,8 @@ boolean zebrarider_hopper_check(evalfunction_t *evaluate);
  */
 void leaper_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean kinghopper_check(evalfunction_t *evaluate);
-boolean knighthopper_check(evalfunction_t *evaluate);
+boolean kinghopper_check(validator_id evaluate);
+boolean knighthopper_check(validator_id evaluate);
 
 /* Generate moves for a double hopper piece
  * @param kbeg start of range of vector indices to be used
@@ -53,9 +53,9 @@ boolean knighthopper_check(evalfunction_t *evaluate);
 void doublehopper_generate_moves(vec_index_type vec_start,
                                  vec_index_type vec_end);
 
-boolean doublegrasshopper_check(evalfunction_t *evaluate);
-boolean doublerookhopper_check(evalfunction_t *evaluate);
-boolean doublebishopper_check(evalfunction_t *evaluate);
+boolean doublegrasshopper_check(validator_id evaluate);
+boolean doublerookhopper_check(validator_id evaluate);
+boolean doublebishopper_check(validator_id evaluate);
 
 /* Generate moves for a contra-grasshopper piece
  * @param kbeg start of range of vector indices to be used
@@ -63,7 +63,7 @@ boolean doublebishopper_check(evalfunction_t *evaluate);
  */
 void contra_grasshopper_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean contragrasshopper_check(evalfunction_t *evaluate);
+boolean contragrasshopper_check(validator_id evaluate);
 
 /* Generate moves for a grasshopper-n piece
  * @param kbeg start of range of vector indices to be used
@@ -72,44 +72,44 @@ boolean contragrasshopper_check(evalfunction_t *evaluate);
 void grasshoppers_n_generate_moves(vec_index_type kbeg, vec_index_type kend,
                                    unsigned int dist_hurdle_target);
 
-boolean grasshopper_2_check(evalfunction_t *evaluate);
-boolean grasshopper_3_check(evalfunction_t *evaluate);
+boolean grasshopper_2_check(validator_id evaluate);
+boolean grasshopper_3_check(validator_id evaluate);
 
 /* Generate moves for an equihopper
  */
 
 void equihopper_generate_moves(void);
 
-boolean equihopper_check(evalfunction_t *evaluate);
+boolean equihopper_check(validator_id evaluate);
 
 /* Generate moves for an nonstop-equihopper
  */
 void nonstop_equihopper_generate_moves(void);
 
-boolean nonstop_equihopper_check(evalfunction_t *evaluate);
+boolean nonstop_equihopper_check(validator_id evaluate);
 
 /* Generate moves for an equistopper
  */
 void equistopper_generate_moves(void);
 
-boolean equistopper_check(evalfunction_t *evaluate);
+boolean equistopper_check(validator_id evaluate);
 
 /* Generate moves for an nonstop-equistopper
  */
 void nonstop_equistopper_generate_moves(void);
 
-boolean nonstop_equistopper_check(evalfunction_t *evaluate);
+boolean nonstop_equistopper_check(validator_id evaluate);
 
 /* Generate moves for an Orix
  */
 void orix_generate_moves(void);
 
-boolean orix_check(evalfunction_t *evaluate);
+boolean orix_check(validator_id evaluate);
 
 /* Generate moves for an nonstop-Orix
  */
 void nonstop_orix_generate_moves(void);
 
-boolean nonstop_orix_check(evalfunction_t *evaluate);
+boolean nonstop_orix_check(validator_id evaluate);
 
 #endif

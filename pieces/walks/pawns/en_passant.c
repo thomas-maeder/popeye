@@ -165,7 +165,7 @@ square en_passant_find_capturee(void)
 static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
                                                         numvec dir_capture,
                                                         en_passant_check_tester_type tester,
-                                                        evalfunction_t *evaluate)
+                                                        validator_id evaluate)
 {
   square const sq_departure = sq_crossed-dir_capture;
   return ((get_walk_of_piece_on_square(sq_departure)!=Orphan
@@ -180,7 +180,7 @@ static boolean en_passant_test_check_one_square_crossed(square sq_crossed,
  */
 boolean en_passant_test_check(numvec dir_capture,
                               en_passant_check_tester_type tester,
-                              evalfunction_t *evaluate)
+                              validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;

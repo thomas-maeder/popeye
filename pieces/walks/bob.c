@@ -34,7 +34,7 @@ void bob_generate_moves(void)
   }
 }
 
-boolean bob_check(evalfunction_t *evaluate)
+boolean bob_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   /* 4 hurdle lion */
@@ -59,7 +59,7 @@ boolean bob_check(evalfunction_t *evaluate)
           if (!is_square_blocked(sq_hurdle4))
           {
             square const sq_departure = find_end_of_line(sq_hurdle4,vec[interceptable_observation[observation_context].vector_index1]);
-            if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+            if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
             {
               result = true;
               break;

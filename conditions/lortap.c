@@ -14,7 +14,7 @@ static boolean is_mover_unsupported(numecoup n)
 
   siblingply(trait[nbply]);
   push_observation_target(move_generation_stack[n].departure);
-  result = !is_square_observed(&validate_observer);
+  result = !is_square_observed(EVALUATE(observer));
   finply();
 
   TraceFunctionExit(__func__);

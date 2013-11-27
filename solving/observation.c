@@ -267,6 +267,7 @@ boolean validate_observation_recursive(slice_index si)
 
     default:
       assert(0);
+      result = false;
       break;
   }
 
@@ -514,11 +515,6 @@ boolean validate_check(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival);
-  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
-  TraceText("\n");
-
   result = validate_observation_recursive(slices[temporary_hack_check_validator[trait[nbply]]].next2);
 
   TraceFunctionExit(__func__);
@@ -616,7 +612,7 @@ void observation_play_move_to_validate(slice_index si, Side side)
                                    STValidateCheckMoveByPlayingCapture);
 }
 
-static slice_type const slice_order_is_square_observed_with_proxies[] = {
+static slice_type const slice_order_is_square_observed_ortho_with_proxies[] = {
   STProxy,
   STTestingIfSquareIsObserved,
   STFindSquareObserverTrackingBackKing,
@@ -625,7 +621,7 @@ static slice_type const slice_order_is_square_observed_with_proxies[] = {
   STFalse
 };
 
-static slice_type const slice_order_check_with_proxies[] = {
+static slice_type const slice_order_check_ortho_with_proxies[] = {
   STProxy,
   STValidatingCheck,
   STEnforceObserverWalk,
@@ -634,7 +630,7 @@ static slice_type const slice_order_check_with_proxies[] = {
   STTrue
 };
 
-static slice_type const slice_order_observation_with_proxies[] = {
+static slice_type const slice_order_observation_ortho_with_proxies[] = {
   STProxy,
   STValidatingObservation,
   STEnforceObserverWalk,
@@ -643,14 +639,14 @@ static slice_type const slice_order_observation_with_proxies[] = {
   STTrue
 };
 
-static slice_type const slice_order_observation_geometry_with_proxies[] = {
+static slice_type const slice_order_observation_geometry_ortho_with_proxies[] = {
   STProxy,
   STValidatingObservationGeometry,
   STEnforceObserverWalk,
   STTrue
 };
 
-static slice_type const slice_order_observer_with_proxies[] = {
+static slice_type const slice_order_observer_ortho_with_proxies[] = {
   STProxy,
   STValidatingObserver,
   STEnforceObserverWalk,
@@ -658,19 +654,19 @@ static slice_type const slice_order_observer_with_proxies[] = {
   STTrue
 };
 
-static slice_type const slice_order_observation_without_proxies[] = {
+static slice_type const slice_order_observation_ortho_without_proxies[] = {
   STEnforceObserverWalk,
   STTrue
 };
 
 enum
 {
-  nr_slice_order_is_square_observed_with_proxies = sizeof slice_order_is_square_observed_with_proxies / sizeof slice_order_is_square_observed_with_proxies[0],
-  nr_slice_order_check_with_proxies = sizeof slice_order_check_with_proxies / sizeof slice_order_check_with_proxies[0],
-  nr_slice_order_observation_with_proxies = sizeof slice_order_observation_with_proxies / sizeof slice_order_observation_with_proxies[0],
-  nr_slice_order_observation_geometry_with_proxies = sizeof slice_order_observation_geometry_with_proxies / sizeof slice_order_observation_geometry_with_proxies[0],
-  nr_slice_order_observer_with_proxies = sizeof slice_order_observer_with_proxies / sizeof slice_order_observer_with_proxies[0],
-  nr_slice_order_observation_without_proxies = sizeof slice_order_observation_without_proxies / sizeof slice_order_observation_without_proxies[0]
+  nr_slice_order_is_square_observed_with_proxies = sizeof slice_order_is_square_observed_ortho_with_proxies / sizeof slice_order_is_square_observed_ortho_with_proxies[0],
+  nr_slice_order_check_with_proxies = sizeof slice_order_check_ortho_with_proxies / sizeof slice_order_check_ortho_with_proxies[0],
+  nr_slice_order_observation_with_proxies = sizeof slice_order_observation_ortho_with_proxies / sizeof slice_order_observation_ortho_with_proxies[0],
+  nr_slice_order_observation_geometry_with_proxies = sizeof slice_order_observation_geometry_ortho_with_proxies / sizeof slice_order_observation_geometry_ortho_with_proxies[0],
+  nr_slice_order_observer_with_proxies = sizeof slice_order_observer_ortho_with_proxies / sizeof slice_order_observer_ortho_with_proxies[0],
+  nr_slice_order_observation_without_proxies = sizeof slice_order_observation_ortho_without_proxies / sizeof slice_order_observation_ortho_without_proxies[0]
 };
 
 static boolean has_slice_order(slice_index si, slice_type const order[], unsigned int number)
@@ -706,7 +702,7 @@ static void optimise_side(slice_index si, Side side)
   TraceFunctionParamListEnd();
 
   if (has_slice_order(slices[temporary_hack_is_square_observed[side]].next2,
-                      slice_order_is_square_observed_with_proxies,
+                      slice_order_is_square_observed_ortho_with_proxies,
                       nr_slice_order_is_square_observed_with_proxies))
     stip_instrument_is_square_observed_testing(si,side,STIsSquareObservedOrtho);
 
@@ -727,30 +723,30 @@ void optimise_is_square_observed(slice_index si)
 
   /* this is invoked when the proxy slices are still there ... */
   if (has_slice_order(slices[temporary_hack_check_validator[White]].next2,
-                      slice_order_check_with_proxies,
+                      slice_order_check_ortho_with_proxies,
                        nr_slice_order_check_with_proxies)
       && has_slice_order(slices[temporary_hack_observation_validator[White]].next2,
-                         slice_order_observation_with_proxies,
+                         slice_order_observation_ortho_with_proxies,
                       nr_slice_order_observation_with_proxies)
       && has_slice_order(slices[temporary_hack_observation_geometry_validator[White]].next2,
-                         slice_order_observation_geometry_with_proxies,
+                         slice_order_observation_geometry_ortho_with_proxies,
                          nr_slice_order_observation_geometry_with_proxies)
       && has_slice_order(slices[temporary_hack_observer_validator[White]].next2,
-                         slice_order_observer_with_proxies,
+                         slice_order_observer_ortho_with_proxies,
                          nr_slice_order_observer_with_proxies))
     optimise_side(si,White);
 
   if (has_slice_order(slices[temporary_hack_check_validator[Black]].next2,
-                      slice_order_check_with_proxies,
+                      slice_order_check_ortho_with_proxies,
                        nr_slice_order_check_with_proxies)
       && has_slice_order(slices[temporary_hack_observation_validator[Black]].next2,
-                         slice_order_observation_with_proxies,
+                         slice_order_observation_ortho_with_proxies,
                       nr_slice_order_observation_with_proxies)
       && has_slice_order(slices[temporary_hack_observation_geometry_validator[Black]].next2,
-                         slice_order_observation_geometry_with_proxies,
+                         slice_order_observation_geometry_ortho_with_proxies,
                          nr_slice_order_observation_geometry_with_proxies)
       && has_slice_order(slices[temporary_hack_observer_validator[Black]].next2,
-                         slice_order_observer_with_proxies,
+                         slice_order_observer_ortho_with_proxies,
                          nr_slice_order_observer_with_proxies))
     optimise_side(si,Black);
 
@@ -772,16 +768,16 @@ boolean is_observation_trivially_validated(Side side)
 
   /* ... and this when the proxy slices are removed */
   result = (has_slice_order(slices[temporary_hack_check_validator[side]].next2,
-                            slice_order_observation_without_proxies,
+                            slice_order_observation_ortho_without_proxies,
                              nr_slice_order_observation_without_proxies)
             && has_slice_order(slices[temporary_hack_observation_validator[side]].next2,
-                               slice_order_observation_without_proxies,
+                               slice_order_observation_ortho_without_proxies,
                                nr_slice_order_observation_without_proxies)
             && has_slice_order(slices[temporary_hack_observation_geometry_validator[side]].next2,
-                               slice_order_observation_without_proxies,
+                               slice_order_observation_ortho_without_proxies,
                                nr_slice_order_observation_without_proxies)
             && has_slice_order(slices[temporary_hack_observer_validator[side]].next2,
-                               slice_order_observation_without_proxies,
+                               slice_order_observation_ortho_without_proxies,
                                nr_slice_order_observation_without_proxies));
 
   TraceFunctionExit(__func__);
@@ -790,7 +786,7 @@ boolean is_observation_trivially_validated(Side side)
   return result;
 }
 
-boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
+boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
 {
   boolean result;
 
@@ -873,7 +869,7 @@ boolean is_square_observed_recursive(slice_index si, evalfunction_t *evaluate)
   return result;
 }
 
-boolean is_square_observed(evalfunction_t *evaluate)
+boolean is_square_observed(validator_id evaluate)
 {
   return is_square_observed_recursive(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
                                       evaluate);

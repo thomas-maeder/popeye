@@ -18,13 +18,13 @@ extern unsigned int nrhuntertypes;
 PieNam hunter_make_type(PieNam away, PieNam home);
 
 void hunter_generate_moves(PieNam walk);
-boolean hunter_check(evalfunction_t *evaluate);
+boolean hunter_check(validator_id evaluate);
 
 void rook_hunter_generate_moves(void);
-boolean rookhunter_check(evalfunction_t *evaluate);
+boolean rookhunter_check(validator_id evaluate);
 
 void bishop_hunter_generate_moves(void);
-boolean bishophunter_check(evalfunction_t *evaluate);
+boolean bishophunter_check(validator_id evaluate);
 
 /* Make sure that the observer has the expected direction
  * @return true iff the observation is valid

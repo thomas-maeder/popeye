@@ -18,7 +18,7 @@ static boolean is_mover_supported_recursive(void)
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==king_square[trait[nbply]])
     result = true;
   else
-    result = is_square_observed(&validate_observer);
+    result = is_square_observed(EVALUATE(observer));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

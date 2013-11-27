@@ -106,7 +106,7 @@ boolean facetoface_enforce_observer_walk(slice_index si)
 }
 
 boolean find_square_observer_tracking_back_from_target_unoptimised(slice_index si,
-                                                                   evalfunction_t *evaluate)
+                                                                   validator_id evaluate)
 {
   {
     PieNam pcheck;

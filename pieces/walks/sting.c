@@ -11,7 +11,7 @@ void sting_generate_moves(void)
   leaper_generate_moves(vec_queen_start,vec_queen_end);
 }
 
-boolean sting_check(evalfunction_t *evaluate)
+boolean sting_check(validator_id evaluate)
 {
   return ((*checkfunctions[King])(evaluate)
           || (*checkfunctions[Grasshopper])(evaluate));

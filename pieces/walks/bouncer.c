@@ -29,7 +29,7 @@ void bouncer_generate_moves(vec_index_type kbeg, vec_index_type kend)
 }
 
 static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
-                                  evalfunction_t *evaluate)
+                                  validator_id evaluate)
 {
   boolean result = false;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
@@ -44,7 +44,7 @@ static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
     square const sq_departure = find_end_of_line(sq_target,dir);
     square const sq_hurdle = find_end_of_line(sq_departure,dir);
     if (sq_departure-sq_target==sq_hurdle-sq_departure
-        && INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        && EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
     {
       result = true;
       break;
@@ -56,17 +56,17 @@ static boolean bouncerfamilycheck(vec_index_type kbeg, vec_index_type kend,
   return result;
 }
 
-boolean bouncer_check(evalfunction_t *evaluate)
+boolean bouncer_check(validator_id evaluate)
 {
   return bouncerfamilycheck(vec_queen_start,vec_queen_end, evaluate);
 }
 
-boolean rookbouncer_check(evalfunction_t *evaluate)
+boolean rookbouncer_check(validator_id evaluate)
 {
   return bouncerfamilycheck(vec_rook_start,vec_rook_end, evaluate);
 }
 
-boolean bishopbouncer_check(evalfunction_t *evaluate)
+boolean bishopbouncer_check(validator_id evaluate)
 {
   return bouncerfamilycheck(vec_bishop_start,vec_bishop_end, evaluate);
 }

@@ -10,12 +10,12 @@
  */
 void reflecting_bishop_generate_moves(void);
 
-boolean reflecting_bishop_check(evalfunction_t *evaluate);
+boolean reflecting_bishop_check(validator_id evaluate);
 
 /* Generate moves for an reflecting bishop
  */
 void archbishop_generate_moves(void);
 
-boolean archbishop_check(evalfunction_t *evaluate);
+boolean archbishop_check(validator_id evaluate);
 
 #endif

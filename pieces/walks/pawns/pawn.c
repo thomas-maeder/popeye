@@ -74,7 +74,7 @@ void pawn_generate_moves(void)
  */
 boolean pawn_test_check(square sq_departure,
                         square sq_arrival,
-                        evalfunction_t *evaluate)
+                        validator_id evaluate)
 {
   boolean result;
 
@@ -83,7 +83,7 @@ boolean pawn_test_check(square sq_departure,
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  result = INVOKE_EVAL(evaluate,sq_departure,sq_arrival);
+  result = EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -91,7 +91,7 @@ boolean pawn_test_check(square sq_departure,
   return result;
 }
 
-boolean pawn_check(evalfunction_t *evaluate)
+boolean pawn_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   SquareFlags const capturable = trait[nbply]==White ? CapturableByWhPawnSq : CapturableByBlPawnSq;

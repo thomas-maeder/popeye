@@ -10,6 +10,6 @@
  */
 void bob_generate_moves(void);
 
-boolean bob_check(evalfunction_t *evaluate);
+boolean bob_check(validator_id evaluate);
 
 #endif

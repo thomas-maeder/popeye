@@ -149,7 +149,7 @@ boolean mars_enforce_observer(slice_index si)
  */
 boolean mars_is_square_observed_by(square pos_observer,
                                    square sq_rebirth,
-                                   evalfunction_t *evaluate)
+                                   validator_id evaluate)
 {
   boolean result = false;
 
@@ -184,7 +184,7 @@ boolean mars_is_square_observed_by(square pos_observer,
  * @param si identifies the tester slice
  * @return true iff side is in check
  */
-boolean marscirce_is_square_observed(slice_index si, evalfunction_t *evaluate)
+boolean marscirce_is_square_observed(slice_index si, validator_id evaluate)
 {
   int i,j;
   square square_h = square_h8;

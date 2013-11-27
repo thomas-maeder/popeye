@@ -67,7 +67,7 @@ static boolean is_paralysed(numecoup n)
       siblingply(eiffel_side);
       push_observation_target(sq_departure);
       observing_walk[nbply] = eiffel_piece;
-      result = (*checkfunctions[eiffel_piece])(&validate_observation_geometry);
+      result = (*checkfunctions[eiffel_piece])(EVALUATE(observation_geometry));
       finply();
     }
   }

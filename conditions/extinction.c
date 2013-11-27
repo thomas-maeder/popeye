@@ -75,7 +75,7 @@ boolean exctinction_all_square_observation_tester_is_in_check(slice_index si,
     if (TSTFLAG(spec[*bnp],side_attacked))
     {
       replace_observation_target(*bnp);
-      if (is_square_observed(&validate_check))
+      if (is_square_observed(EVALUATE(check)))
       {
         result = true;
         break;

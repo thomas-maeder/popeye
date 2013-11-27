@@ -48,14 +48,14 @@ boolean mars_enforce_observer(slice_index si);
  */
 boolean mars_is_square_observed_by(square pos_checking,
                                    square sq_rebirth,
-                                   evalfunction_t *evaluate);
+                                   validator_id evaluate);
 
 /* Determine whether a side observes a specific square
  * @param side_observing the side
  * @return true iff side is in check
  */
 boolean marscirce_is_square_observed(slice_index si,
-                                     evalfunction_t *evaluate);
+                                     validator_id evaluate);
 
 /* Inialise thet solving machinery with Mars Circe
  * @param si identifies the root slice of the solving machinery

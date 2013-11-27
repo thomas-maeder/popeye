@@ -10,6 +10,6 @@
  */
 void cat_generate_moves(void);
 
-boolean cat_check(evalfunction_t *evaluate);
+boolean cat_check(validator_id evaluate);
 
 #endif

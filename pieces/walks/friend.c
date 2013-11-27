@@ -44,7 +44,7 @@ static boolean find_next_friend_in_chain(square sq_target,
 
   replace_observation_target(sq_target);
   observing_walk[nbply] = friend_observer;
-  if ((*checkfunctions[friend_observer])(&validate_observer))
+  if ((*checkfunctions[friend_observer])(EVALUATE(observer)))
     result = true;
   else
   {
@@ -65,7 +65,7 @@ static boolean find_next_friend_in_chain(square sq_target,
         isolate_observee(Friend,pos_remaining_friends,k);
         move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
         observing_walk[nbply] = Friend;
-        is_friend_observed = (*checkfunctions[friend_observer])(&validate_observer);
+        is_friend_observed = (*checkfunctions[friend_observer])(EVALUATE(observer));
         restore_observees(Friend,pos_remaining_friends);
 
         if (is_friend_observed
@@ -111,7 +111,7 @@ void friend_generate_moves(void)
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
 
-boolean friend_check(evalfunction_t *evaluate)
+boolean friend_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   PieNam const *pfr;

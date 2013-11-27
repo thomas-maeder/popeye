@@ -14,9 +14,9 @@
  */
 void chinese_rider_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean leo_check(evalfunction_t *evaluate);
-boolean pao_check(evalfunction_t *evaluate);
-boolean vao_check(evalfunction_t *evaluate);
-boolean nao_check(evalfunction_t *evaluate);
+boolean leo_check(validator_id evaluate);
+boolean pao_check(validator_id evaluate);
+boolean vao_check(validator_id evaluate);
+boolean nao_check(validator_id evaluate);
 
 #endif

@@ -8,18 +8,18 @@
 
 extern PieNam observing_walk[maxply+1];
 
-typedef boolean (checkfunction_t)(evalfunction_t *);
+typedef boolean (checkfunction_t)(validator_id );
 extern  checkfunction_t *checkfunctions[PieceCount];
 
 extern PieNam checkpieces[PieceCount-Leo+1]; /* only fairies ! */
 
 boolean find_square_observer_tracking_back_from_target_king(slice_index si,
-                                                            evalfunction_t *evaluate);
+                                                            validator_id evaluate);
 
 boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
-                                                                evalfunction_t *evaluate);
+                                                                validator_id evaluate);
 
 boolean find_square_observer_tracking_back_from_target_fairy(slice_index si,
-                                                             evalfunction_t *evaluate);
+                                                             validator_id evaluate);
 
 #endif

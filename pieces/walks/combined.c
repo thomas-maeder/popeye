@@ -7,7 +7,7 @@
 #include "pieces/walks/kangaroo.h"
 #include "pieces/pieces.h"
 
-static boolean pawnedpiececheck(evalfunction_t *evaluate)
+static boolean pawnedpiececheck(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -32,25 +32,25 @@ static boolean pawnedpiececheck(evalfunction_t *evaluate)
   return result;
 }
 
-boolean amazone_check(evalfunction_t *evaluate)
+boolean amazone_check(validator_id evaluate)
 {
   return  leapers_check(vec_knight_start,vec_knight_end, evaluate)
       || riders_check(vec_queen_start,vec_queen_end, evaluate);
 }
 
-boolean empress_check(evalfunction_t *evaluate)
+boolean empress_check(validator_id evaluate)
 {
   return  leapers_check(vec_knight_start,vec_knight_end, evaluate)
       || riders_check(vec_rook_start,vec_rook_end, evaluate);
 }
 
-boolean princess_check(evalfunction_t *evaluate)
+boolean princess_check(validator_id evaluate)
 {
   return  leapers_check(vec_knight_start,vec_knight_end, evaluate)
       || riders_check(vec_bishop_start,vec_bishop_end, evaluate);
 }
 
-boolean dragon_check(evalfunction_t *evaluate)
+boolean dragon_check(validator_id evaluate)
 {
   if (leapers_check(vec_knight_start,vec_knight_end,evaluate))
     return true;
@@ -58,12 +58,12 @@ boolean dragon_check(evalfunction_t *evaluate)
   return pawnedpiececheck(evaluate);
 }
 
-boolean gryphon_check(evalfunction_t *evaluate)
+boolean gryphon_check(validator_id evaluate)
 {
   return riders_check(vec_bishop_start,vec_bishop_end,evaluate);
 }
 
-boolean ship_check(evalfunction_t *evaluate)
+boolean ship_check(validator_id evaluate)
 {
   if (riders_check(vec_rook_start,vec_rook_end,evaluate))
     return true;
@@ -71,20 +71,20 @@ boolean ship_check(evalfunction_t *evaluate)
   return pawnedpiececheck(evaluate);
 }
 
-boolean gral_check(evalfunction_t *evaluate)
+boolean gral_check(validator_id evaluate)
 {
   return leapers_check(vec_alfil_start, vec_alfil_end, evaluate)
       || rider_hoppers_check(vec_rook_start,vec_rook_end, evaluate);
 }
 
 
-boolean scorpion_check(evalfunction_t *evaluate)
+boolean scorpion_check(validator_id evaluate)
 {
   return  leapers_check(vec_queen_start,vec_queen_end, evaluate)
       || rider_hoppers_check(vec_queen_start,vec_queen_end, evaluate);
 }
 
-boolean dolphin_check(evalfunction_t *evaluate)
+boolean dolphin_check(validator_id evaluate)
 {
   return  rider_hoppers_check(vec_queen_start,vec_queen_end, evaluate)
       || kangaroo_check(evaluate);

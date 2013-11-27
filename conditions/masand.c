@@ -63,7 +63,7 @@ static boolean observed(square on_this, square by_that)
   siblingply(trait[nbply]);
   push_observation_target(on_this);
   current_observer_pos[nbply] = by_that;
-  result = is_square_observed(&validate_observation);
+  result = is_square_observed(EVALUATE(observation));
   finply();
 
   TraceFunctionExit(__func__);

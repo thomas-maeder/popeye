@@ -10,36 +10,36 @@
  */
 void mao_generate_moves(void);
 
-boolean mao_check(evalfunction_t *evaluate);
+boolean mao_check(validator_id evaluate);
 
 /* Generate moves for a Moa
  */
 void moa_generate_moves(void);
 
-boolean moa_check(evalfunction_t *evaluate);
+boolean moa_check(validator_id evaluate);
 
 /* Generate moves for a Mao Rider
  */
 void maorider_generate_moves(void);
 
-boolean maorider_check(evalfunction_t *evaluate);
+boolean maorider_check(validator_id evaluate);
 
 /* Generate moves for a Moa Rider
  */
 void moarider_generate_moves(void);
 
-boolean moarider_check(evalfunction_t *evaluate);
+boolean moarider_check(validator_id evaluate);
 
 /* Generate moves for a Mao Rider Lion
  */
 void maoriderlion_generate_moves(void);
 
-boolean maoriderlion_check(evalfunction_t *evaluate);
+boolean maoriderlion_check(validator_id evaluate);
 
 /* Generate moves for a Moa Rider Lion
  */
 void moariderlion_generate_moves(void);
 
-boolean moariderlion_check(evalfunction_t *evaluate);
+boolean moariderlion_check(validator_id evaluate);
 
 #endif

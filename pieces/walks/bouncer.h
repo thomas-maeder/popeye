@@ -14,10 +14,10 @@
  */
 void bouncer_generate_moves(vec_index_type kbeg, vec_index_type kend);
 
-boolean bouncer_check(evalfunction_t *evaluate);
+boolean bouncer_check(validator_id evaluate);
 
-boolean rookbouncer_check(evalfunction_t *evaluate);
+boolean rookbouncer_check(validator_id evaluate);
 
-boolean bishopbouncer_check(evalfunction_t *evaluate);
+boolean bishopbouncer_check(validator_id evaluate);
 
 #endif

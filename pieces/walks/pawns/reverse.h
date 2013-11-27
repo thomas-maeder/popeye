@@ -7,6 +7,6 @@
  */
 void reverse_pawn_generate_moves(void);
 
-boolean reversepawn_check(evalfunction_t *evaluate);
+boolean reversepawn_check(validator_id evaluate);
 
 #endif

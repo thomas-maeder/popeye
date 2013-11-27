@@ -26,7 +26,7 @@ void kangaroo_generate_moves(void)
   }
 }
 
-boolean kangaroo_check(evalfunction_t *evaluate)
+boolean kangaroo_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -44,7 +44,7 @@ boolean kangaroo_check(evalfunction_t *evaluate)
       if (!is_square_blocked(sq_hurdle2))
       {
         square const sq_departure = find_end_of_line(sq_hurdle2,vec[interceptable_observation[observation_context].vector_index1]);
-        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         {
           result = true;
           break;
@@ -85,7 +85,7 @@ void kangaroo_lion_generate_moves(void)
   }
 }
 
-boolean kangaroolion_check(evalfunction_t *evaluate)
+boolean kangaroolion_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
@@ -103,7 +103,7 @@ boolean kangaroolion_check(evalfunction_t *evaluate)
       if (!is_square_blocked(sq_hurdle2))
       {
         square const sq_departure = find_end_of_line(sq_hurdle2,vec[interceptable_observation[observation_context].vector_index1]);
-        if (INVOKE_EVAL(evaluate,sq_departure,sq_target))
+        if (EVALUATE_OBSERVATION(evaluate,sq_departure,sq_target))
         {
           result = true;
           break;
