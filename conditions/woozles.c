@@ -451,6 +451,7 @@ static boolean heffalumps_can_observe_on_line(Side side_woozle, numecoup n)
 
     default:
       assert(0);
+      result = false;
       break;
   }
 

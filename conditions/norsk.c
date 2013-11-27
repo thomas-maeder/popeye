@@ -63,7 +63,6 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  PieNam const moving_walk = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
 

@@ -161,6 +161,7 @@ stip_length_type ohneschach_stop_if_check_and_not_mate_solve(slice_index si,
 
       default:
         assert(0);
+        result = false;
         break;
     }
   }

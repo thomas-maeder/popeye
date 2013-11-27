@@ -119,6 +119,7 @@ static stip_traversal_context_type context_after_move(stip_traversal_context_typ
 
     default:
       assert(0);
+      result = stip_traversal_context_none;
       break;
   }
 
@@ -529,6 +530,7 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
 
         default:
           assert(0);
+          result = 0;
           break;
       }
       break;

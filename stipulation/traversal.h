@@ -11,7 +11,8 @@ typedef enum
   stip_traversal_context_intro,   /* entering a branch */
   stip_traversal_context_attack,  /* approaching attack move in battle branch */
   stip_traversal_context_defense, /* approaching defense move in battle branch */
-  stip_traversal_context_help     /* in help branch */
+  stip_traversal_context_help,    /* in help branch */
+  stip_traversal_context_none
 } stip_traversal_context_type;
 
 /* Solving activity of the slice currently visited

@@ -200,6 +200,7 @@ static stip_traversal_context_type next_context(stip_traversal_context_type cont
 
     default:
       assert(0);
+      result = stip_traversal_context_none;
       break;
   }
 
@@ -682,6 +683,7 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
 
     default:
       assert(0);
+      result = 0;
       break;
   }
 

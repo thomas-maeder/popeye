@@ -67,6 +67,7 @@ stip_length_type move_inverter_solve(slice_index si, stip_length_type n)
 
     default:
       assert(0);
+      result = immobility_on_next_move;
       break;
   }
 

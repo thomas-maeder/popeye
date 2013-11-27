@@ -575,7 +575,10 @@ void help_branch_set_end_goal(slice_index si,
     branch = alloc_end_of_branch_goal(to_goal);
 
   {
-    boolean const inserted = help_branch_insert_end_of_branch(si,branch,parity);
+#if !defined(NDEBUG)
+    boolean const inserted =
+#endif
+    help_branch_insert_end_of_branch(si,branch,parity);
     assert(inserted);
   }
 
@@ -605,7 +608,10 @@ void help_branch_set_end_forced(slice_index si,
   {
     slice_index const proxy = alloc_proxy_slice();
     slice_index const fork = alloc_end_of_branch_forced(proxy);
-    boolean const inserted = help_branch_insert_end_of_branch(si,fork,parity);
+#if !defined(NDEBUG)
+    boolean const inserted =
+#endif
+    help_branch_insert_end_of_branch(si,fork,parity);
     assert(inserted);
     pipe_link(proxy,forced);
   }
