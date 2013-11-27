@@ -80,8 +80,6 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
     PieNam const norsked = get_walk_of_piece_on_square(pos);
     PieNam const norsked_to_walk = norsk_walk(norsked);
 
-    assert(moving_walk==norsked);
-
     if (norsked!=norsked_to_walk)
       move_effect_journal_do_piece_change(move_effect_reason_norsk_chess,
                                           pos,
