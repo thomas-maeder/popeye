@@ -61,6 +61,12 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  /* Until 4.63, moves with the same number of opponent moves were tried in
+   * the inverse order than what we do since. If Popeye's behaviour pre and post
+   * 4.63 is compared, consider activating the following statement.
+   */
+  /* move_generator_invert_move_order(nbply); */
+
   copyply();
 
   solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,
