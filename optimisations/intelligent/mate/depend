@@ -244,8 +244,8 @@ optimisations/intelligent/mate/goalreachable_guard$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h pieces/walks/pawns/en_passant.h \
  solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
  solving/ply.h position/pieceid.h solving/observation.h \
- solving/castling.h stipulation/has_solution_type.h \
- optimisations/intelligent/intelligent.h \
+ stipulation/temporary_hacks.h solving/castling.h \
+ stipulation/has_solution_type.h optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h \
  optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
 
@@ -286,6 +286,8 @@ solving/ply.h:
 position/pieceid.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 solving/castling.h:
 

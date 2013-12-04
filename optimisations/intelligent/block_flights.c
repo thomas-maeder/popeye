@@ -52,7 +52,7 @@ static void block_next_flight(void)
 
   --nr_king_flights_to_be_blocked;
 
-  TraceSquare(to_be_blocked);TraceText("\n");
+  TraceSquare(to_be_blocked);TraceEOL();
   if (nr_reasons_for_staying_empty[to_be_blocked]==0)
   {
     for (i = 1; i<MaxPiece[Black]; i++)
@@ -154,7 +154,7 @@ void intelligent_find_and_block_flights(void)
       for (i = 0; i!=nr_king_flights_to_be_blocked; ++i)
       {
         TraceSquare(king_flights_to_be_blocked[i]);
-        TraceText("\n");
+        TraceEOL();
         block_square(king_flights_to_be_blocked[i]);
       }
 

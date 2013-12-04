@@ -102,7 +102,7 @@ void pieces_pawns_start_promotee_sequence(square sq_arrival,
     sequence->promotee = pieces_pawns_promotee_sequence[sequence->selector][Empty];
   }
 
-  TracePiece(sequence->promotee);TraceText("\n");
+  TracePiece(sequence->promotee);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -120,7 +120,7 @@ void pieces_pawns_continue_promotee_sequence(pieces_pawns_promotion_sequence_typ
 
   sequence->promotee = pieces_pawns_promotee_sequence[sequence->selector][sequence->promotee];
 
-  TracePiece(sequence->promotee);TraceText("\n");
+  TracePiece(sequence->promotee);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -49,7 +49,7 @@ static boolean is_mate_square(Side other_side)
     TraceEnumerator(Side,other_side,"");
     TraceFunctionParamListEnd();
 
-    TraceSquare(king_square[other_side]);TraceText("\n");
+    TraceSquare(king_square[other_side]);TraceEOL();
 
     occupy_square(king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
@@ -91,7 +91,7 @@ static void advance_mate_square(Side side)
   king_placement[nbply] = king_square[other_side];
   king_square[other_side] = initsquare;
 
-  TraceSquare(king_placement[nbply]);TraceText("\n");
+  TraceSquare(king_placement[nbply]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

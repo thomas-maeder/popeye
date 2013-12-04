@@ -67,7 +67,7 @@ static void front_check_by_rider_via(unsigned int index_of_checker,
                                                         checker_type,
                                                         *bnp))
       {
-        TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
+        TraceSquare(*bnp);TracePiece(e[*bnp]);TraceEOL();
         occupy_square(*bnp,checker_type,checker_flags);
         remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
         remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
@@ -103,7 +103,7 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
                                                       Knight,
                                                       *bnp))
     {
-      TraceSquare(*bnp);TracePiece(e[*bnp]);TraceText("\n");
+      TraceSquare(*bnp);TracePiece(e[*bnp]);TraceEOL();
       occupy_square(*bnp,Knight,checker_flags);
       intelligent_guard_flights();
       empty_square(*bnp);
@@ -141,7 +141,7 @@ static void front_check_by_promotee_rider(unsigned int index_of_checker,
       {
         if (is_line_empty(to_square,king_square[Black],check_dir))
         {
-          TraceSquare(to_square);TracePiece(e[to_square]);TraceText("\n");
+          TraceSquare(to_square);TracePiece(e[to_square]);TraceEOL();
           occupy_square(to_square,promotee_type,checker_flags);
           remember_to_keep_checking_line_open(to_square,king_square[Black],promotee_type,+1);
           remember_to_keep_checking_line_open(via,to_square,promotee_type,+1);
@@ -176,7 +176,7 @@ static void front_check_by_promotee_knight(unsigned int index_of_checker,
     if (is_square_empty(to_square)
         && CheckDir[Knight][king_square[Black]-to_square]!=0)
     {
-      TraceSquare(to_square);TracePiece(e[to_square]);TraceText("\n");
+      TraceSquare(to_square);TracePiece(e[to_square]);TraceEOL();
       occupy_square(to_square,Knight,checker_flags);
       intelligent_guard_flights();
       empty_square(to_square);
@@ -386,7 +386,7 @@ static void generate_front_check_via(square via, boolean diagonal)
       TraceValue("%u",index);
       TraceSquare(white[index].diagram_square);
       TracePiece(checker_type);
-      TraceText("\n");
+      TraceEOL();
 
       white[index].usage = piece_gives_check;
 
@@ -469,7 +469,7 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
                                                                       rear_pos))
         {
           occupy_square(rear_pos,checker_type,checker_flags);
-          TraceSquare(rear_pos);TracePiece(checker_type);TraceText("\n");
+          TraceSquare(rear_pos);TracePiece(checker_type);TraceEOL();
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,+1);
           generate_front_check(rear_pos);
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,-1);
@@ -540,7 +540,7 @@ static void rear_check_by_rider(unsigned int index_of_checker,
                                                       checker_type,
                                                       rear_pos))
         {
-          TraceSquare(rear_pos);TracePiece(e[rear_pos]);TraceText("\n");
+          TraceSquare(rear_pos);TracePiece(e[rear_pos]);TraceEOL();
           occupy_square(rear_pos,checker_type,checker_flags);
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,+1);
           generate_front_check(rear_pos);
@@ -569,7 +569,7 @@ static void battery(void)
     TraceValue("%u",index);
     TraceSquare(white[index].diagram_square);
     TracePiece(checker_type);
-    TraceText("\n");
+    TraceEOL();
 
     white[index].usage = piece_gives_check;
 
@@ -618,7 +618,7 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
                                                 check_from))
   {
     occupy_square(check_from,rider_type,white[checker_index].flags);
-    TraceSquare(check_from);TracePiece(rider_type);TraceText("\n");
+    TraceSquare(check_from);TracePiece(rider_type);TraceEOL();
     intelligent_guard_flights();
     empty_square(check_from);
     intelligent_unreserve();
@@ -645,7 +645,7 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
                                                                   check_from))
     {
       occupy_square(check_from,pp,white[checker_index].flags);
-      TraceSquare(check_from);TracePiece(pp);TraceText("\n");
+      TraceSquare(check_from);TracePiece(pp);TraceEOL();
       intelligent_guard_flights();
       empty_square(check_from);
       intelligent_unreserve();
@@ -675,7 +675,7 @@ static void en_passant_orthogonal_check(int dir_vertical)
         TraceValue("%u",checker_index);
         TraceSquare(white[checker_index].diagram_square);
         TracePiece(checker_type);
-        TraceText("\n");
+        TraceEOL();
 
         white[checker_index].usage = piece_gives_check;
 
@@ -725,7 +725,7 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
                                                 check_from))
   {
     occupy_square(check_from,rider_type,white[checker_index].flags);
-    TraceSquare(check_from);TracePiece(rider_type);TraceText("\n");
+    TraceSquare(check_from);TracePiece(rider_type);TraceEOL();
     en_passant_orthogonal_check(dir_vertical);
     empty_square(check_from);
     intelligent_unreserve();
@@ -756,7 +756,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
                                                                   check_from))
     {
       occupy_square(check_from,pp,pawn_spec);
-      TraceSquare(check_from);TracePiece(pp);TraceText("\n");
+      TraceSquare(check_from);TracePiece(pp);TraceEOL();
       en_passant_orthogonal_check(dir_vertical);
       empty_square(check_from);
       intelligent_unreserve();
@@ -787,7 +787,7 @@ static void en_passant_diagonal_check(square via_capturee, int dir_vertical)
         TraceValue("%u",checker_index);
         TraceSquare(white[checker_index].diagram_square);
         TracePiece(checker_type);
-        TraceText("\n");
+        TraceEOL();
 
         white[checker_index].usage = piece_gives_check;
 
@@ -844,7 +844,7 @@ static void en_passant_select_capturee(square via_capturee, int dir_vertical)
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  TracePiece(e[via_capturee]);TraceText("\n");
+  TracePiece(e[via_capturee]);TraceEOL();
   if (is_square_empty(via_capturee))
   {
     square const capturee_origin = via_capturee+2*dir_up;

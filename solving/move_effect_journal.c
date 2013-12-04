@@ -191,7 +191,7 @@ static void undo_piece_movement(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  TraceSquare(from);TraceSquare(to);TracePiece(e[to]);TraceText("\n");
+  TraceSquare(from);TraceSquare(to);TracePiece(e[to]);TraceEOL();
 
   if (to!=from)
   {
@@ -218,7 +218,7 @@ static void redo_piece_movement(move_effect_journal_index_type curr)
 #endif
   TraceSquare(from);
   TraceSquare(to);
-  TraceText("\n");
+  TraceEOL();
 
   if (to!=from)
   {
@@ -491,7 +491,7 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
 
   assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
 
-  TraceValue("%u",top);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(e[from]);TraceText("\n");
+  TraceValue("%u",top);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(e[from]);TraceEOL();
 
   top_elmt->type = move_effect_piece_removal;
   top_elmt->reason = reason;
@@ -597,7 +597,7 @@ static void redo_piece_removal(move_effect_journal_index_type curr)
 #if defined(DOTRACE)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
-  TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(curr_elmt->u.piece_removal.removed);TraceText("\n");
+  TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(curr_elmt->u.piece_removal.removed);TraceEOL();
 
   do_removal(from);
 
@@ -813,7 +813,7 @@ static void redo_piece_exchange(move_effect_journal_index_type curr)
 #endif
   TraceSquare(from);
   TraceSquare(to);
-  TraceText("\n");
+  TraceEOL();
 
   occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
   occupy_square(from,pi_to,spec_pi_to);
@@ -1026,7 +1026,7 @@ static void undo_king_square_movement(move_effect_journal_index_type curr)
   TraceEnumerator(Side,side,"");
   TraceSquare(from);
   TraceSquare(move_effect_journal[curr].u.king_square_movement.to);
-  TraceText("\n");
+  TraceEOL();
 
   assert(king_square[side]==move_effect_journal[curr].u.king_square_movement.to);
 
@@ -1052,7 +1052,7 @@ static void redo_king_square_movement(move_effect_journal_index_type curr)
   TraceEnumerator(Side,side,"");
   TraceSquare(move_effect_journal[curr].u.king_square_movement.from);
   TraceSquare(to);
-  TraceText("\n");
+  TraceEOL();
 
   assert(king_square[side]==move_effect_journal[curr].u.king_square_movement.from);
 
@@ -1137,7 +1137,7 @@ static void undo_flags_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  TraceSquare(on);TraceText("\n");
+  TraceSquare(on);TraceEOL();
 
   assert(spec[on]==move_effect_journal[curr].u.flags_change.to);
   assert(GetPieceId(spec[on])==GetPieceId(from));

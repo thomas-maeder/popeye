@@ -48,7 +48,7 @@ static boolean enforce_possibly_confronted_observer_walk(slice_index si,
 
   TraceSquare(sq_departure);
   TraceSquare(pos_confronter);
-  TraceText("\n");
+  TraceEOL();
 
   if (TSTFLAG(spec[pos_confronter],advers(side_attacking)))
     walk = get_walk_of_piece_on_square(pos_confronter);

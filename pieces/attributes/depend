@@ -6,8 +6,9 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h pieces/attributes/neutral/neutral.h \
  pieces/walks/hoppers.h solving/observation.h solving/ply.h \
- solving/move_generator.h stipulation/has_solution_type.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/temporary_hacks.h solving/move_generator.h \
+ stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h debugging/trace.h
 
@@ -45,6 +46,8 @@ solving/observation.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 stipulation/has_solution_type.h:
@@ -70,10 +73,11 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h pieces/walks/roses.h solving/observation.h solving/ply.h \
- pieces/attributes/neutral/neutral.h position/pieceid.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h stipulation/move.h \
- solving/move_effect_journal.h solving/castling_rights.h \
+ stipulation/temporary_hacks.h pieces/attributes/neutral/neutral.h \
+ position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
+ stipulation/move.h solving/move_effect_journal.h \
+ solving/castling_rights.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h debugging/trace.h \
  optimisations/orthodox_check_directions.h pymsg.h pylang.h \
@@ -110,6 +114,8 @@ pieces/walks/roses.h:
 solving/observation.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/attributes/neutral/neutral.h:
 
@@ -213,9 +219,10 @@ pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/koeko/koeko.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h stipulation/has_solution_type.h stipulation/move.h \
+ solving/observation.h stipulation/temporary_hacks.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h
 
 pieces/attributes/jigger.h:
 
@@ -255,6 +262,8 @@ position/pieceid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
@@ -264,8 +273,6 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
-
-stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 pieces/attributes/uncapturable$(OBJ_SUFFIX): pieces/attributes/uncapturable.c \

@@ -36,6 +36,9 @@ typedef unsigned long trace_level;
 */
 void TraceSetMaxLevel(trace_level max_level);
 
+/* End the current line */
+void TraceEOL(void);
+
 /* Trace function entry
  * e.g. > #17 func
  * (where 17 is the current trace recursion level)
@@ -161,6 +164,7 @@ void stip_insert_move_tracers(slice_index si);
 #else
 
 #define TraceDeactivate()
+#define TraceEOL()
 #define TraceFunctionEntry(name)
 #define TraceFunctionParam(format,name)
 #define TraceFunctionParamListEnd()

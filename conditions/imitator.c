@@ -151,7 +151,7 @@ static boolean is_imitator_line_clear(unsigned int i,
 
   for (sq_curr = isquare[i]+diff_first_necessarily_empty; sq_curr!=sq_first_not_necessarily_empty; sq_curr += step)
   {
-    TraceSquare(sq_curr);TraceText("\n");
+    TraceSquare(sq_curr);TraceEOL();
     if (!is_square_empty(sq_curr))
     {
       result = false;
@@ -392,7 +392,7 @@ static numecoup remove_illegal_moves_by_same_king(numecoup curr, numecoup *new_t
     square const sq_arrival = move_generation_stack[curr].arrival;
     square const sq_capture = move_generation_stack[curr].capture;
 
-    TraceSquare(sq_arrival);TraceText("\n");
+    TraceSquare(sq_arrival);TraceEOL();
 
     if (sq_capture==kingside_castling || sq_capture==queenside_castling)
     {
@@ -454,7 +454,7 @@ static numecoup remove_illegal_moves_by_same_piece(numecoup curr, numecoup *new_
   TraceValue("%u",curr);
   TraceFunctionParamListEnd();
 
-  TraceSquare(sq_departure);TraceText("\n");
+  TraceSquare(sq_departure);TraceEOL();
 
   switch (get_walk_of_piece_on_square(sq_departure))
   {
@@ -759,7 +759,7 @@ boolean imitator_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TracePiece(e[sq_observer]);TraceText("\n");
+  TracePiece(e[sq_observer]);TraceEOL();
   switch (e[sq_observer])
   {
     case King:
@@ -936,7 +936,7 @@ static boolean is_imitator_pos_occupied(void)
   for (i=0; i!=number_of_imitators; ++i)
     if (!is_square_empty(isquare[i]))
     {
-      TraceSquare(isquare[i]);TraceText("\n");
+      TraceSquare(isquare[i]);TraceEOL();
       result = true;
       break;
     }
@@ -995,7 +995,7 @@ static void move_imitators(int delta)
     isquare[i] += delta;
     TraceSquare(isquare[i]);
   }
-  TraceText("\n");
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

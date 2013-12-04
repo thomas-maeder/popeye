@@ -19,7 +19,7 @@ static void remember_killer_move()
   TraceSquare(killer_moves[nbply].departure);
   TraceSquare(killer_moves[nbply].arrival);
   TraceSquare(killer_moves[nbply].capture);
-  TraceText("\n");
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

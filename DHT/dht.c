@@ -399,7 +399,7 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
   dht *result = Nil(dht);
 
   TraceFunctionEntry(__func__);
-  TraceText("\n");
+  TraceEOL();
 
   if (KeyType>=dhtValueTypeCnt)
     sprintf(dhtError,

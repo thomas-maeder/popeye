@@ -18,7 +18,7 @@ static boolean is_mover_supported_recursive(void)
 
   TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
   TraceSquare(king_square[trait[nbply]]);
-  TraceText("\n");
+  TraceEOL();
 
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==king_square[trait[nbply]])
     result = true;

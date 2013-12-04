@@ -319,7 +319,7 @@ static void genmove(void)
     {
       if (TSTFLAG(spec[curr_generation->departure],side))
       {
-        TraceSquare(curr_generation->departure);TraceText("\n");
+        TraceSquare(curr_generation->departure);TraceEOL();
         generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2,
                                  get_walk_of_piece_on_square(curr_generation->departure));
       }
@@ -575,7 +575,7 @@ void push_move(void)
 
   TraceSquare(curr_generation->departure);
   TraceSquare(curr_generation->arrival);
-  TraceText("\n");
+  TraceEOL();
 
   curr_generation->capture = curr_generation->arrival;
   ++current_move[nbply];
@@ -600,7 +600,7 @@ void push_move_capture_extra(square sq_capture)
 
   TraceSquare(curr_generation->departure);
   TraceSquare(curr_generation->arrival);
-  TraceText("\n");
+  TraceEOL();
 
   curr_generation->capture = sq_capture;
   ++current_move[nbply];
@@ -625,7 +625,7 @@ void push_special_move(square sq_special)
 
   TraceSquare(curr_generation->departure);
   TraceSquare(curr_generation->arrival);
-  TraceText("\n");
+  TraceEOL();
 
   curr_generation->capture = sq_special;
   ++current_move[nbply];

@@ -124,7 +124,7 @@ stip_length_type circe_cage_cage_tester_solve(slice_index si,
       square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
       assert(move_effect_journal[rebirth].type==move_effect_piece_readdition);
 
-      TraceSquare(sq_rebirth);TraceText("\n");
+      TraceSquare(sq_rebirth);TraceEOL();
 
       if (find_non_capturing_move(sq_rebirth,advers(slices[si].starter)))
         result = this_move_is_illegal;

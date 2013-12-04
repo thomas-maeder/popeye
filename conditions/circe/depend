@@ -136,9 +136,10 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/capture_fork.h solving/observation.h solving/check.h \
- solving/move_generator.h stipulation/has_solution_type.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/capture_fork.h solving/observation.h \
+ stipulation/temporary_hacks.h solving/check.h solving/move_generator.h \
+ stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h
 
 conditions/circe/assassin.h:
@@ -180,6 +181,8 @@ position/pieceid.h:
 conditions/circe/capture_fork.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 solving/check.h:
 
@@ -1222,7 +1225,8 @@ conditions/circe/rex_inclusive$(OBJ_SUFFIX): conditions/circe/rex_inclusive.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/observation.h solving/ply.h debugging/trace.h
+ solving/observation.h solving/ply.h stipulation/temporary_hacks.h \
+ debugging/trace.h
 
 conditions/circe/rex_inclusive.h:
 
@@ -1251,6 +1255,8 @@ output/mode.h:
 solving/observation.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 conditions/circe/diametral$(OBJ_SUFFIX): conditions/circe/diametral.c \

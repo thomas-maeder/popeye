@@ -27,7 +27,7 @@ static void skip_wormhole(void)
   ++wormhole_next_transfer[nbply];
   TraceValue("%u",wormhole_next_transfer[nbply]);
   TraceSquare(wormhole_positions[wormhole_next_transfer[nbply]-1]);
-  TraceText("\n");
+  TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

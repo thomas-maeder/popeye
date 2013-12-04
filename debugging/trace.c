@@ -52,6 +52,12 @@ void TraceSetMaxLevel(trace_level tl)
   max_level = tl;
 }
 
+void TraceEOL(void)
+{
+  if (level<=max_level)
+    fprintf(stdout,"\n");
+}
+
 void TraceFunctionEntry(char const *name)
 {
   ++level;

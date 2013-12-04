@@ -133,7 +133,7 @@ boolean orphan_check(validator_id evaluate)
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
     {
-      TracePiece(*orphan_observer);TraceText("\n");
+      TracePiece(*orphan_observer);TraceEOL();
       if (find_next_orphan_in_chain(sq_target,pos_orphans,*orphan_observer))
       {
         result = true;

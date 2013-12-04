@@ -30,7 +30,7 @@ boolean leapers_check(vec_index_type kanf, vec_index_type kend,
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_target);
-  TraceText("\n");
+  TraceEOL();
 
   ++observation_context;
 

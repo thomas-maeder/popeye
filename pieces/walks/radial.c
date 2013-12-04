@@ -287,21 +287,21 @@ static boolean test_leafhopper_check(vec_index_type kanf, vec_index_type kend,
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   vec_index_type  idx_to_observer;
 
-  TraceSquare(sq_target);TraceText("\n");
+  TraceSquare(sq_target);TraceEOL();
   for (idx_to_observer = kanf; idx_to_observer<=kend; idx_to_observer++)
   {
     square const sq_observer = sq_target+vec[idx_to_observer];
     TraceSquare(sq_observer);
     TraceValue("%u",is_square_blocked(sq_observer));
     TraceValue("%u",is_square_empty(sq_observer));
-    TraceText("\n");
+    TraceEOL();
     if (!is_square_blocked(sq_observer) && !is_square_empty(sq_observer))
     {
       vec_index_type idx_to_hurdle;
       for (idx_to_hurdle = kanf; idx_to_hurdle<=kend; idx_to_hurdle++)
       {
         square const sq_hurdle = sq_observer+vec[idx_to_hurdle];
-        TraceSquare(sq_hurdle);TraceText("\n");
+        TraceSquare(sq_hurdle);TraceEOL();
         if (sq_hurdle!=sq_target
             && !is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle))
         {

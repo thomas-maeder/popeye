@@ -248,7 +248,7 @@ static void identify_line(void)
 
   TraceSquare(sq_observer);
   TracePiece(e[sq_observer]);
-  TraceText("\n");
+  TraceEOL();
   switch (e[sq_observer])
   {
     /* TODO simplify using classes? */

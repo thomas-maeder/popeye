@@ -143,7 +143,7 @@ static void init_latent_pawn_selection(Side trait_ply)
   TraceFunctionParamListEnd();
 
   singlebox_type2_latent_pawn_promotions[nbply].where = next_latent_pawn(initsquare,adv);
-  TraceSquare(singlebox_type2_latent_pawn_promotions[nbply].where);TraceText("\n");
+  TraceSquare(singlebox_type2_latent_pawn_promotions[nbply].where);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -158,7 +158,7 @@ static void advance_latent_pawn_selection(Side trait_ply)
   TraceFunctionParamListEnd();
 
   singlebox_type2_latent_pawn_promotions[nbply].where = next_latent_pawn(singlebox_type2_latent_pawn_promotions[nbply].where,adv);
-  TraceSquare(singlebox_type2_latent_pawn_promotions[nbply].where);TraceText("\n");
+  TraceSquare(singlebox_type2_latent_pawn_promotions[nbply].where);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -276,7 +276,7 @@ static void advance_latent_pawn_promotion(void)
 
   singlebox_type2_continue_singlebox_promotion_sequence(singlebox_type2_latent_pawn_promotions[nbply].side,
                                                         &singlebox_type2_latent_pawn_promotions[nbply].promotion);
-  TracePiece(singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);TraceText("\n");
+  TracePiece(singlebox_type2_latent_pawn_promotions[nbply].promotion.promotee);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

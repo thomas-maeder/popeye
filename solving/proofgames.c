@@ -591,7 +591,7 @@ static boolean compareProofPieces(void)
     TracePiece(ProofPieces[i]);
     TraceSquare(ProofSquares[i]);
     TracePiece(e[ProofSquares[i]]);
-    TraceText("\n");
+    TraceEOL();
     if (ProofPieces[i] != get_walk_of_piece_on_square(ProofSquares[i]) && ProofSpecs[i]!=spec[i])
     {
       result = false;
@@ -680,7 +680,7 @@ static int ProofKingMovesNeeded(Side side)
   TraceFunctionParamListEnd();
 
   TraceSquare(king_square[side]);
-  TraceText("\n");
+  TraceEOL();
 
   if (king_square[side]==initsquare)
     /* no king in play, or king can be created by promotion

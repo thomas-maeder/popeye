@@ -61,7 +61,7 @@ static boolean enforce_observer_walk(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TracePiece(observing_walk[nbply]);TraceText("\n");
+  TracePiece(observing_walk[nbply]);TraceEOL();
   if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
     result = validate_observation_recursive(slices[si].next1);
   else
