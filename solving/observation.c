@@ -52,6 +52,27 @@
 interceptable_observation_type interceptable_observation[maxply+1];
 unsigned int observation_context = 0;
 
+static boolean enforce_observer_walk(slice_index si)
+{
+  boolean result;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TracePiece(observing_walk[nbply]);TraceText("\n");
+  if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
+    result = validate_observation_recursive(slices[si].next1);
+  else
+    result = false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Continue validating an observation (or observer or observation geometry)
  * @param si identifies the slice with which to continue
  * @return rue iff the observation is valid
@@ -69,15 +90,8 @@ boolean validate_observation_recursive(slice_index si)
   switch (slices[si].type)
   {
     case STEnforceObserverWalk:
-    {
-      square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-      TracePiece(observing_walk[nbply]);TraceText("\n");
-      if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
-        result = validate_observation_recursive(slices[si].next1);
-      else
-        result = false;
+      result = enforce_observer_walk(si);
       break;
-    }
 
     case STEnforceHunterDirection:
       result = hunter_enforce_observer_direction(si);
