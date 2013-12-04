@@ -92,7 +92,7 @@ boolean magic_is_piece_supported(PieNam p)
     }
 }
 
-static square current_magic_pos[maxply+1];
+static boolean are_we_finding_magic_views[maxply+1];
 static unsigned int prev_observation_context[maxply+1];
 
 static void identify_straight_line(void)
@@ -424,25 +424,27 @@ static void identify_line(void)
 
 boolean magic_enforce_observer(slice_index si)
 {
-  square const sq_magician = current_magic_pos[nbply];
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (sq_magician==initsquare)
-    /* we are not detecting magic views */
-    result = validate_observation_recursive(slices[si].next1);
-  else
+  if (are_we_finding_magic_views[nbply])
   {
     square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
-    if (sq_magician==sq_observer
-        && validate_observation_recursive(slices[si].next1))
-      identify_line();
+    if (TSTFLAG(spec[sq_observer],Magic))
+    {
+       if (validate_observation_recursive(slices[si].next1))
+        identify_line();
 
-    result = false; /* we need all views */
+      result = false; /* we need all views */
+    }
+    else
+      result = false;
   }
+  else
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -450,13 +452,12 @@ boolean magic_enforce_observer(slice_index si)
   return result;
 }
 
-static void PushMagicViewsByOnePiece(square pos_magic)
+static void PushMagicViewsByOnePiece(PieNam pi_magic)
 {
-  PieNam const pi_magic = get_walk_of_piece_on_square(pos_magic);
   square const *pos_viewed;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(pos_magic);
+  TracePiece(pi_magic);
   TraceFunctionParamListEnd();
 
   for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
@@ -464,19 +465,56 @@ static void PushMagicViewsByOnePiece(square pos_magic)
         && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal))
         && !is_piece_neutral(spec[*pos_viewed]))
     {
-      /* for each non-magic piece
-         (n.b. check *pos_magic != *pos_viewed redundant above) */
       replace_observation_target(*pos_viewed);
-      if (pi_magic<Queen || pi_magic>Bishop
-          || CheckDir[pi_magic][*pos_viewed-pos_magic]!=0)
-      {
-        observing_walk[nbply] = pi_magic;
-        current_magic_pos[nbply] = pos_magic;
-        /* ignore return value - it's ==false */
-        (*checkfunctions[pi_magic])(EVALUATE(observation));
-        current_magic_pos[nbply] = initsquare;
-      }
+      observing_walk[nbply] = pi_magic;
+      /* ignore return value - it's ==false */
+      (*checkfunctions[pi_magic])(EVALUATE(observation));
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef unsigned int mark_type;
+
+static mark_type current_mark = 0;
+static mark_type walk_tried[PieceCount] = { 0 };
+
+static void PushMagicViewsByOneSide(Side side)
+{
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceFunctionParamListEnd();
+
+  trait[nbply] = side;
+
+  if (current_mark==UINT_MAX)
+  {
+    PieNam p;
+    for (p = King; p<PieceCount; ++p)
+      walk_tried[p] = 0;
+
+    current_mark = 1;
+  }
+  else
+    ++current_mark;
+
+  {
+    square const *pos_magic;
+    for (pos_magic = boardnum; *pos_magic; pos_magic++)
+      /* insisting on TSTFLAG(spec[*pos_magic],Magic) would prevent magic pieces
+       * from working properly in conditions such as Annan Chess
+       */
+      if (TSTFLAG(spec[*pos_magic],side))
+      {
+        PieNam const pi_magic = get_walk_of_piece_on_square(*pos_magic);
+        if (walk_tried[pi_magic]!=current_mark)
+        {
+          walk_tried[pi_magic] = current_mark;
+          PushMagicViewsByOnePiece(pi_magic);
+        }
+      }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -484,33 +522,24 @@ static void PushMagicViewsByOnePiece(square pos_magic)
 
 static void PushMagicViews(void)
 {
-  square const *pos_magic;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   magic_views_top[stack_pointer] = magic_views_top[stack_pointer-1];
 
-  siblingply(trait[nbply]);
+  siblingply(no_side);
   push_observation_target(initsquare);
   prev_observation_context[nbply] = observation_context;
 
-  for (pos_magic = boardnum; *pos_magic; pos_magic++)
-    if (TSTFLAG(spec[*pos_magic], Magic))
-    {
-      if (TSTFLAG(spec[*pos_magic],White))
-      {
-        trait[nbply] = White;
-        PushMagicViewsByOnePiece(*pos_magic);
-      }
-      if (TSTFLAG(spec[*pos_magic],Black))
-      {
-        trait[nbply] = Black;
-        PushMagicViewsByOnePiece(*pos_magic);
-      }
-      /* TODO: remove double views my neutral magic pieces
-       * apply same logic as for cross-eyed pieces? */
-    }
+  are_we_finding_magic_views[nbply] = true;
+
+  PushMagicViewsByOneSide(White);
+  PushMagicViewsByOneSide(Black);
+
+  are_we_finding_magic_views[nbply] = false;
+
+  /* TODO: remove double views by neutral magic pieces
+   * apply same logic as for cross-eyed pieces? */
 
   finply();
 
