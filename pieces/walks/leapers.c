@@ -26,6 +26,12 @@ boolean leapers_check(vec_index_type kanf, vec_index_type kend,
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceSquare(sq_target);
+  TraceText("\n");
+
   ++observation_context;
 
   for (interceptable_observation[observation_context].vector_index1 = kanf;
@@ -42,6 +48,9 @@ boolean leapers_check(vec_index_type kanf, vec_index_type kend,
 
   --observation_context;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

@@ -98,8 +98,10 @@ boolean pawn_check(validator_id evaluate)
   boolean result = false;
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
+
+  TraceSquare(sq_target);
+  TraceText("\n");
 
   if (TSTFLAG(sq_spec[sq_target],capturable) || observing_walk[nbply]==Orphan || observing_walk[nbply]>=Hunter0)
   {
