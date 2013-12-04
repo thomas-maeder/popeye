@@ -8,8 +8,7 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/battle_play/branch.h solving/fork_on_remaining.h \
- optimisations/count_nr_opponent_moves/prioriser.h debugging/trace.h \
- solving/ply.h
+ optimisations/count_nr_opponent_moves/prioriser.h debugging/trace.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
@@ -56,8 +55,6 @@ solving/fork_on_remaining.h:
 optimisations/count_nr_opponent_moves/prioriser.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.c \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \

@@ -153,10 +153,6 @@ boolean validate_observation_recursive(slice_index si)
       result = central_validate_observation(si);
       break;
 
-    case STCentralObserverValidator:
-      result = central_validate_observer(si);
-      break;
-
     case STDisparateMovesForPieceGenerator:
       result = disparate_validate_observation(si);
       break;
@@ -362,7 +358,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STWormholeRemoveIllegalCaptures,
 
     STValidatingObserver,
-    STCentralObserverValidator,
     STEnforceObserverWalk,
     STEnforceHunterDirection,
     STMadrasiMovesForPieceGenerator,

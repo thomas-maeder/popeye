@@ -6,7 +6,8 @@
 
 #include <assert.h>
 
-static boolean are_we_validating_observer = false;
+/* avoid stack overflow in case of cycles */
+static boolean is_in_chain[maxsquare];
 
 static boolean is_mover_supported_recursive(void)
 {
@@ -15,35 +16,14 @@ static boolean is_mover_supported_recursive(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
+  TraceSquare(king_square[trait[nbply]]);
+  TraceText("\n");
+
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==king_square[trait[nbply]])
     result = true;
   else
-    result = is_square_observed(EVALUATE(observer));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Validate an observer according to Central Chess
- * @return true iff the observation is valid
- */
-boolean central_validate_observer(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  result = validate_observation_recursive(slices[si].next1);
-
-  if (are_we_validating_observer && result)
-  {
-    replace_observation_target(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-    result = is_mover_supported_recursive();
-  }
+    result = is_square_observed(EVALUATE(observation));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -53,19 +33,27 @@ boolean central_validate_observer(slice_index si)
 
 static boolean is_mover_supported(numecoup n)
 {
+  square const sq_departure = move_generation_stack[n].departure;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(!are_we_validating_observer);
+  if (is_in_chain[sq_departure])
+    result = false;
+  else
+  {
+    is_in_chain[sq_departure] = true;
 
-  siblingply(trait[nbply]);
-  push_observation_target(move_generation_stack[n].departure);
-  are_we_validating_observer = true;
-  result = is_mover_supported_recursive();
-  are_we_validating_observer = false;
-  finply();
+    siblingply(trait[nbply]);
+    push_observation_target(sq_departure);
+
+    result = is_mover_supported_recursive();
+
+    finply();
+
+    is_in_chain[sq_departure] = false;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

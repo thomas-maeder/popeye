@@ -252,7 +252,6 @@
     ENUMERATOR(STParalysingObservationGeometryValidator),             \
     ENUMERATOR(STCentralMovesForPieceGenerator),                      \
     ENUMERATOR(STCentralObservationValidator),                        \
-    ENUMERATOR(STCentralObserverValidator),                           \
     ENUMERATOR(STBeamtenMovesForPieceGenerator),                      \
     ENUMERATOR(STImmobilityTester),                                   \
     ENUMERATOR(STOpponentMovesCounterFork),                           \

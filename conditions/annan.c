@@ -14,27 +14,42 @@ annan_type_type annan_type;
 
 static boolean annanises(Side side, square rear, square front)
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(rear);
+  TraceSquare(front);
+  TraceFunctionParamListEnd();
+
   if (TSTFLAG(spec[rear],side))
     switch(annan_type)
     {
       case annan_type_A:
-        return true;
+        result = true;
+        break;
 
       case annan_type_B:
-        return rear!=king_square[side];
+        result = rear!=king_square[side];
+        break;
 
       case annan_type_C:
-        return front!=king_square[side];
+        result = front!=king_square[side];
+        break;
 
       case annan_type_D:
-        return rear!=king_square[side] && front!=king_square[side];
+        result = rear!=king_square[side] && front!=king_square[side];
+        break;
 
       default:
         assert(0);
-        return true;
+        break;
     }
-  else
-    return false;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Generate moves for a single piece

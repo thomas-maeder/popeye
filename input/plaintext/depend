@@ -53,8 +53,8 @@ input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
  solving/solve.h output/plaintext/pieces.h output/output.h \
  output/latex/latex.h pieces/attributes/neutral/neutral.h \
- pieces/walks/hunters.h solving/observation.h solving/ply.h pymsg.h \
- pylang.h utilities/boolean.h
+ pieces/walks/hunters.h solving/observation.h solving/ply.h \
+ stipulation/temporary_hacks.h pymsg.h pylang.h utilities/boolean.h
 
 input/plaintext/pieces.h:
 
@@ -111,6 +111,8 @@ pieces/walks/hunters.h:
 solving/observation.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 pymsg.h:
 
@@ -208,14 +210,15 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  optimisations/count_nr_opponent_moves/move_generator.h \
  options/quodlibet.h options/goal_is_end.h pieces/walks/walks.h \
  pieces/walks/pawns/promotee_sequence.h pieces/walks/orphan.h \
- solving/observation.h pieces/walks/classification.h \
- pieces/attributes/neutral/neutral.h pieces/attributes/magic.h \
- conditions/alphabetic.h conditions/blackchecks.h \
- conditions/circe/circe.h conditions/circe/chameleon.h \
- conditions/circe/rex_inclusive.h conditions/duellists.h \
- conditions/exclusive.h utilities/table.h conditions/immune.h \
- conditions/sentinelles.h conditions/follow_my_leader.h \
- conditions/football.h conditions/forced_squares.h conditions/isardam.h \
+ solving/observation.h stipulation/temporary_hacks.h \
+ pieces/walks/classification.h pieces/attributes/neutral/neutral.h \
+ pieces/attributes/magic.h conditions/alphabetic.h \
+ conditions/blackchecks.h conditions/circe/circe.h \
+ conditions/circe/chameleon.h conditions/circe/rex_inclusive.h \
+ conditions/duellists.h conditions/exclusive.h utilities/table.h \
+ conditions/immune.h conditions/sentinelles.h \
+ conditions/follow_my_leader.h conditions/football.h \
+ conditions/forced_squares.h conditions/isardam.h \
  conditions/must_capture.h conditions/oscillating_kings.h \
  conditions/republican.h conditions/singlebox/type1.h \
  conditions/synchronous.h \
@@ -334,6 +337,8 @@ pieces/walks/pawns/promotee_sequence.h:
 pieces/walks/orphan.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 pieces/walks/classification.h:
 
@@ -785,12 +790,12 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/kobul.h conditions/koeko/anti.h conditions/koeko/koeko.h \
  conditions/madrasi.h conditions/magic_square.h \
  conditions/marscirce/marscirce.h solving/observation.h \
- conditions/messigny.h conditions/oscillating_kings.h \
- conditions/protean.h conditions/phantom.h conditions/republican.h \
- conditions/sat.h conditions/sentinelles.h conditions/singlebox/type1.h \
- conditions/vaulting_kings.h conditions/woozles.h \
- pieces/walks/pawns/en_passant.h solving/castling.h debugging/trace.h \
- pymsg.h pylang.h utilities/boolean.h
+ stipulation/temporary_hacks.h conditions/messigny.h \
+ conditions/oscillating_kings.h conditions/protean.h conditions/phantom.h \
+ conditions/republican.h conditions/sat.h conditions/sentinelles.h \
+ conditions/singlebox/type1.h conditions/vaulting_kings.h \
+ conditions/woozles.h pieces/walks/pawns/en_passant.h solving/castling.h \
+ debugging/trace.h pymsg.h pylang.h utilities/boolean.h
 
 input/plaintext/condition.h:
 
@@ -892,6 +897,8 @@ conditions/marscirce/marscirce.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 conditions/messigny.h:
 
 conditions/oscillating_kings.h:
@@ -939,9 +946,10 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  input/plaintext/twin.h conditions/mummer.h \
  pieces/attributes/neutral/neutral.h pieces/walks/pawns/en_passant.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/observation.h solving/move_generator.h \
- solving/castling.h solving/battle_play/try.h utilities/table.h \
- platform/beep.h platform/maxtime.h pymsg.h pylang.h utilities/boolean.h
+ position/pieceid.h solving/observation.h stipulation/temporary_hacks.h \
+ solving/move_generator.h solving/castling.h solving/battle_play/try.h \
+ utilities/table.h platform/beep.h platform/maxtime.h pymsg.h pylang.h \
+ utilities/boolean.h
 
 input/plaintext/option.h:
 
@@ -1019,6 +1027,8 @@ position/pieceid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 solving/castling.h:
@@ -1047,8 +1057,8 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  solving/solve.h options/stoponshortsolutions/stoponshortsolutions.h \
  pieces/walks/hunters.h solving/observation.h solving/ply.h \
- solving/move_generator.h platform/maxtime.h pymsg.h pylang.h \
- utilities/boolean.h
+ stipulation/temporary_hacks.h solving/move_generator.h \
+ platform/maxtime.h pymsg.h pylang.h utilities/boolean.h
 
 input/plaintext/problem.h:
 
@@ -1101,6 +1111,8 @@ pieces/walks/hunters.h:
 solving/observation.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 solving/move_generator.h:
 

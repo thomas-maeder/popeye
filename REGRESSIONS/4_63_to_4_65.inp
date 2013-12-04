@@ -560,4 +560,63 @@ condition marsc
 option nowk
 twin move e2 a4
 
+next
+
+title Until 4.63, we didn't respect Annan in Isardam
+pieces white sa2 pc2 black sd4
+stip zc11
+condition annan isardam
+option nowk nobk
+
+next
+
+title Until 4.63, we didn't respect Annan in Madrasi
+pieces black sc8 pc7 white sd5
+stip ze31
+condition annan madrasi
+option nowk nobk
+
+next
+
+title Just to make sure - Popeye has always respected Annan in Functionary
+pieces black sc8 pe3c7 white sd5
+stip ze31
+condition annan funct
+option nowk nobk
+
+next
+
+title Just to make sure - Popeye has always respected Annan in Patrouille
+pieces white sc6d5 pc7 black pe3
+stip ze31
+condition annan patrouille
+option nowk nobk
+
+next
+
+title Only example with a real chain from king to moving piece
+pieces white kb1 bc1 pd2 pe3
+stip ze41
+condition central
+option nowk nobk
+twin remove b1
+twin remove c1
+
+next
+
+title Don't crash on cycles
+pieces white rd4 pd2e3
+stip ze41
+condition central
+option nowk nobk
+
+next
+
+title Make sure that Annan and Central go together
+condition annan central
+pieces white kb8 sc6d5 pc7 black pe3
+stip ze31
+option nowk nobk
+twin move b8 b5
+
 end
