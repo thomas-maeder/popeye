@@ -660,7 +660,7 @@ void push_observation_target(square sq_target)
 void replace_observation_target(square sq_target)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",sq_target);
+  TraceSquare(sq_target);
   TraceFunctionParamListEnd();
 
   move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture = sq_target;
