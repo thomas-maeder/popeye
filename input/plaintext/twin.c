@@ -2610,7 +2610,8 @@ static boolean verify_position(slice_index si)
   if (CondFlag[sentinelles])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[annan])
+  if (CondFlag[annan]
+      || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek])
   {
     if (CondFlag[masand] || TSTFLAG(some_pieces_flags, Magic))
     {
@@ -2745,9 +2746,6 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[castlingchess] || CondFlag[platzwechselrochade])
-    disable_orthodox_mating_move_optimisation(nr_sides);
-
-  if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (mummer_strictness[Black]!=mummer_strictness_none
