@@ -34,7 +34,7 @@
  33= input-error:
  34= wrong or missing PieceName - ignored
  35= PieceSpecification not uniq
- 36= 
+ 36= Annan Chess and conditions that recolour pieces not allowed
  37= could not recognize condition
  38= option not uniq - ignored
  39= wrong integer

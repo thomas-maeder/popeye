@@ -34,7 +34,7 @@
  33= erreur d'entree:
  34= piece inconnue ou il manque une piece - ignoree
  35= specification de piece pas unique
- 36= 
+ 36= Echecs Annan et conditions qui changent la coleur de pieces interdit
  37= condition inconnue
  38= option pas unique - ignoree
  39= numero incorrecte

@@ -2611,7 +2611,15 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[annan])
-    disable_orthodox_mating_move_optimisation(nr_sides);
+  {
+    if (CondFlag[masand] || TSTFLAG(some_pieces_flags, Magic))
+    {
+      VerifieMsg(AnnanChessAndConditionRecoloringPieces);
+      return false;
+    }
+    else
+      disable_orthodox_mating_move_optimisation(nr_sides);
+  }
 
   if (CondFlag[losingchess])
   {
