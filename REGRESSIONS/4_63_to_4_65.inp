@@ -619,4 +619,52 @@ stip ze31
 option nowk nobk
 twin move b8 b5
 
+next
+
+title Just to make sure - Popeye has always respected Annan in Provocation Chess
+pieces white sd5 black se8 pe7
+stip x1
+condition provoc annan
+option nowk nobk
+twin remove e8
+
+next
+
+title Just to make sure - Popeye has always respected Annan in Shielded Kings
+pieces white kd4 sa6 pb5 black ke5 pf6
+stip zb41
+condition annan shield
+
+next
+
+title Just to make sure - Popeye has "always" respected Annan in SuperGuards
+pieces white kd4 sa6 pb5 black pe5
+stip zb41
+condition annan superguard
+option nobk
+
+next
+
+title Until 4.63, Popeye didn't respect Annan in Eiffel
+pieces white sb1 pc4 kb8 black bd6
+stip zc31
+condition annan eiffel
+option nobk
+
+next
+
+title Just to make sure - Popeye has always respected Annan with paralysing pieces
+pieces white kb8 sb1 white paralysing pc4 black bd6
+stip zc31
+condition annan
+option nobk
+
+next
+
+title Until 4.63, Popeye didn't respect Annan in Woozles
+pieces white kb8 bd1 pb4 black bd6
+stip zb31
+condition annan biwoozles
+option nobk
+
 end

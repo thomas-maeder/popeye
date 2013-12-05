@@ -451,7 +451,7 @@ input/plaintext/stipulation$(OBJ_SUFFIX): input/plaintext/stipulation.c \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/not.h stipulation/proxy.h \
  stipulation/pipe.h pymsg.h pylang.h utilities/boolean.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 input/plaintext/stipulation.h:
 
@@ -528,6 +528,8 @@ pylang.h:
 utilities/boolean.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
  input/plaintext/sstipulation.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -544,8 +546,8 @@ input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/or.h \
  stipulation/boolean/not.h stipulation/proxy.h stipulation/pipe.h \
- solving/play_suppressor.h debugging/trace.h pymsg.h pylang.h \
- utilities/boolean.h
+ solving/play_suppressor.h debugging/trace.h solving/ply.h pymsg.h \
+ pylang.h utilities/boolean.h
 
 input/plaintext/sstipulation.h:
 
@@ -630,6 +632,8 @@ stipulation/pipe.h:
 solving/play_suppressor.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 pymsg.h:
 
