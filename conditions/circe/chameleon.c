@@ -9,9 +9,9 @@
 
 #include <assert.h>
 
-static PieNam reborn_walks[PieceCount];
+PieNam chameleon_circe_reborn_walks[PieceCount];
 
-static boolean are_reborn_walks_implicit;
+boolean chameleon_circe_are_reborn_walks_implicit;
 
 /* Reset the mapping from captured to reborn walks
  */
@@ -19,9 +19,9 @@ void chameleon_circe_reset_reborn_walks(void)
 {
   PieNam p;
   for (p = Empty; p!=PieceCount; ++p)
-    reborn_walks[p] = p;
+    chameleon_circe_reborn_walks[p] = p;
 
-  are_reborn_walks_implicit = true;
+  chameleon_circe_are_reborn_walks_implicit = true;
 }
 
 /* Initialise one mapping captured->reborn from an explicit indication
@@ -30,8 +30,8 @@ void chameleon_circe_reset_reborn_walks(void)
  */
 void chameleon_circe_set_reborn_walk_explicit(PieNam from, PieNam to)
 {
-  reborn_walks[from] = to;
-  are_reborn_walks_implicit = false;
+  chameleon_circe_reborn_walks[from] = to;
+  chameleon_circe_are_reborn_walks_implicit = false;
 }
 
 /* Initialise the reborn pieces if they haven't been already initialised
@@ -39,12 +39,12 @@ void chameleon_circe_set_reborn_walk_explicit(PieNam from, PieNam to)
  */
 void chameleon_circe_init_implicit(void)
 {
-  if (are_reborn_walks_implicit)
+  if (chameleon_circe_are_reborn_walks_implicit)
   {
-    reborn_walks[standard_walks[Knight]] = standard_walks[Bishop];
-    reborn_walks[standard_walks[Bishop]] = standard_walks[Rook];
-    reborn_walks[standard_walks[Rook]] = standard_walks[Queen];
-    reborn_walks[standard_walks[Queen]] = standard_walks[Knight];
+    chameleon_circe_reborn_walks[standard_walks[Knight]] = standard_walks[Bishop];
+    chameleon_circe_reborn_walks[standard_walks[Bishop]] = standard_walks[Rook];
+    chameleon_circe_reborn_walks[standard_walks[Rook]] = standard_walks[Queen];
+    chameleon_circe_reborn_walks[standard_walks[Queen]] = standard_walks[Knight];
   }
 }
 
@@ -54,7 +54,7 @@ void chameleon_circe_init_implicit(void)
  */
 PieNam chameleon_circe_get_reborn_walk(PieNam captured)
 {
-  return reborn_walks[captured];
+  return chameleon_circe_reborn_walks[captured];
 }
 
 /* Try to solve in n half-moves.

@@ -6,6 +6,10 @@
 #include "pieces/pieces.h"
 #include "solving/solve.h"
 
+PieNam chameleon_circe_reborn_walks[PieceCount];
+
+boolean chameleon_circe_are_reborn_walks_implicit;
+
 /* Reset the mapping from captured to reborn walks
  */
 void chameleon_circe_reset_reborn_walks(void);

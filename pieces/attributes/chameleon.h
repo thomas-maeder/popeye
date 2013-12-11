@@ -5,8 +5,6 @@
 
 #include "solving/solve.h"
 
-extern char ChameleonSequence[256];
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

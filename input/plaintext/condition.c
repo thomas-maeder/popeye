@@ -594,7 +594,6 @@ static boolean handle_chameleon_circe_reborn_piece(PieNam from, PieNam to,
                                                    char const *tok)
 {
   boolean result;
-  char to_str[3];
 
   if (to==Empty)
   {
@@ -604,15 +603,7 @@ static boolean handle_chameleon_circe_reborn_piece(PieNam from, PieNam to,
   else
   {
     if (from!=Empty)
-    {
       chameleon_circe_set_reborn_walk_explicit(from,to);
-      strcat(ChameleonSequence, "->");
-    }
-    sprintf(to_str,
-            "%c%c",
-            toupper(tok[0]),
-            tok[1]==' ' ? '\0' : toupper(tok[1]));
-    strcat(ChameleonSequence,to_str);
     result = true;
   }
 
@@ -624,8 +615,6 @@ static char *ReadChameleonCirceSequence(void)
   PieNam from = Empty;
 
   chameleon_circe_reset_reborn_walks();
-
-  ChameleonSequence[0]= '\0';
 
   while (true)
   {

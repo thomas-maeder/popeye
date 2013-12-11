@@ -23,8 +23,6 @@ static unsigned int stack_pointer;
 
 static move_effect_journal_index_type horizon;
 
-char ChameleonSequence[256];
-
 static square find_promotion(move_effect_journal_index_type base)
 {
   move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
