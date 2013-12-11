@@ -10,9 +10,9 @@
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/bgl.h"
 #include "conditions/circe/april.h"
-#include "conditions/circe/chameleon.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/rex_inclusive.h"
+#include "conditions/circe/chameleon.h"
 #include "conditions/football.h"
 #include "conditions/geneva.h"
 #include "conditions/grid.h"
@@ -590,8 +590,10 @@ static char *ParseVaultingPieces(Side side)
   return tok;
 }
 
-static boolean handle_chameleon_circe_reborn_piece(PieNam from, PieNam to,
-                                                   char const *tok)
+static boolean handle_chameleon_reborn_piece(boolean *is_implicit,
+                                             chameleon_sequence_type* sequence,
+                                             PieNam from, PieNam to,
+                                             char const *tok)
 {
   boolean result;
 
@@ -603,18 +605,17 @@ static boolean handle_chameleon_circe_reborn_piece(PieNam from, PieNam to,
   else
   {
     if (from!=Empty)
-      chameleon_circe_set_reborn_walk_explicit(from,to);
+      chameleon_set_successor_walk_explicit(is_implicit,sequence,from,to);
     result = true;
   }
 
   return result;
 }
 
-static char *ReadChameleonCirceSequence(void)
+static char *ReadChameleonSequence(boolean *is_implicit,
+                                   chameleon_sequence_type* sequence)
 {
   PieNam from = Empty;
-
-  chameleon_circe_reset_reborn_walks();
 
   while (true)
   {
@@ -624,7 +625,7 @@ static char *ReadChameleonCirceSequence(void)
       case 1:
       {
         PieNam const to = GetPieNamIndex(tok[0],' ');
-        if (handle_chameleon_circe_reborn_piece(from,to,tok))
+        if (handle_chameleon_reborn_piece(is_implicit,sequence,from,to,tok))
           from = to;
         else
           return tok;
@@ -634,7 +635,7 @@ static char *ReadChameleonCirceSequence(void)
       case 2:
       {
         PieNam const to = GetPieNamIndex(tok[0],tok[1]);
-        if (handle_chameleon_circe_reborn_piece(from,to,tok))
+        if (handle_chameleon_reborn_piece(is_implicit,sequence,from,to,tok))
           from = to;
         else
           return tok;
@@ -992,7 +993,15 @@ char *ParseCond(void)
         tok = ParseRex(&immune_is_rex_inclusive, rexincl);
         break;
       case chamcirce:
-        ReadChameleonCirceSequence();
+        chameleon_reset_sequence(&chameleon_circe_is_squence_implicit,
+                                 &chameleon_circe_walk_sequence);
+        ReadChameleonSequence(&chameleon_circe_is_squence_implicit,
+                              &chameleon_circe_walk_sequence);
+        break;
+      case chameleonsequence:
+      case chamchess:
+        ReadChameleonSequence(&chameleon_is_squence_implicit,
+                              &chameleon_walk_sequence);
         break;
       case circe:
       case circemalefique:

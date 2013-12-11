@@ -9,8 +9,8 @@
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
 #include "conditions/circe/april.h"
-#include "conditions/circe/chameleon.h"
 #include "conditions/circe/rex_inclusive.h"
+#include "conditions/circe/chameleon.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/football.h"
 #include "conditions/geneva.h"
@@ -85,6 +85,35 @@ static int append_to_CondLine_square(char (*line)[256], int pos, square s)
                   " %c%c",
                   'a' - nr_files_on_board + s%onerow,
                   '1' - nr_rows_on_board + s/onerow);
+}
+
+static int append_to_CondLine_chameleon_sequence(char (*line)[256],
+                                                 int pos,
+                                                 chameleon_sequence_type sequence)
+{
+  boolean already_written[PieceCount] = { false };
+  PieNam p;
+  int result = 0;
+
+  result += append_to_CondLine(line,pos+result,"%s","    ");
+
+  for (p = King; p<PieceCount; ++p)
+    if (!already_written[p] && sequence[p]!=p)
+    {
+      PieNam q = p;
+
+      result += append_to_CondLine_walk(line,pos+result,p);
+
+      do
+      {
+        q = sequence[q];
+        result += append_to_CondLine(line,pos+result,"%s","->");
+        result += append_to_CondLine_walk(line,pos+result,q);
+        already_written[q] = true;
+      } while (q!=p);
+    }
+
+  return result;
 }
 
 boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first))
@@ -379,29 +408,14 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     if (protean_is_rex_exclusive && cond==protean)
       written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
 
-    if (cond==chamcirce && !chameleon_circe_are_reborn_walks_implicit)
-    {
-      boolean already_written[PieceCount] = { false };
-      PieNam p;
+    if (cond==chamcirce && !chameleon_circe_is_squence_implicit)
+      written += append_to_CondLine_chameleon_sequence(&CondLine,written,
+                                                       chameleon_circe_walk_sequence);
 
-      written += append_to_CondLine(&CondLine,written,"%s","    ");
-
-      for (p = King; p<PieceCount; ++p)
-        if (!already_written[p] && chameleon_circe_reborn_walks[p]!=p)
-        {
-          PieNam q = p;
-
-          written += append_to_CondLine_walk(&CondLine,written,p);
-
-          do
-          {
-            q = chameleon_circe_reborn_walks[q];
-            written += append_to_CondLine(&CondLine,written,"%s","->");
-            written += append_to_CondLine_walk(&CondLine,written,q);
-            already_written[q] = true;
-          } while (q!=p);
-        }
-    }
+    if ((cond==chameleonsequence || cond==chamchess)
+        && !chameleon_is_squence_implicit)
+      written += append_to_CondLine_chameleon_sequence(&CondLine,written,
+                                                       chameleon_walk_sequence);
 
     if (cond==isardam && IsardamB)
       written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][TypeB]);

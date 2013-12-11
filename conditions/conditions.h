@@ -210,8 +210,9 @@ typedef enum
   facetoface,             /* 189 */
   backtoback,             /* 190 */
   cheektocheek,           /* 191 */
+  chameleonsequence,      /* 192 */
 
-  CondCount               /* 192 */
+  CondCount               /* 193 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

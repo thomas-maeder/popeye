@@ -5,31 +5,11 @@
 
 #include "pieces/pieces.h"
 #include "solving/solve.h"
+#include "pieces/attributes/chameleon.h"
 
-PieNam chameleon_circe_reborn_walks[PieceCount];
+chameleon_sequence_type chameleon_circe_walk_sequence;
 
-boolean chameleon_circe_are_reborn_walks_implicit;
-
-/* Reset the mapping from captured to reborn walks
- */
-void chameleon_circe_reset_reborn_walks(void);
-
-/* Initialise one mapping captured->reborn from an explicit indication
- * @param captured captured walk
- * @param reborn type of reborn walk if a piece with walk captured is captured
- */
-void chameleon_circe_set_reborn_walk_explicit(PieNam from, PieNam to);
-
-/* Initialise the reborn pieces if they haven't been already initialised
- * from explicit indications
- */
-void chameleon_circe_init_implicit(void);
-
-/* What kind of piece is to be reborn if a certain piece is captured?
- * @param captured kind of captured piece
- * @return kind of piece to be reborn
- */
-PieNam chameleon_circe_get_reborn_walk(PieNam captured);
+boolean chameleon_circe_is_squence_implicit;
 
 /* Try to solve in n half-moves.
  * @param si slice index

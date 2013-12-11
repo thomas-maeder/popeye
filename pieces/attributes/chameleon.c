@@ -23,6 +23,56 @@ static unsigned int stack_pointer;
 
 static move_effect_journal_index_type horizon;
 
+PieNam chameleon_walk_sequence[PieceCount];
+
+boolean chameleon_is_squence_implicit;
+
+/* Reset the mapping from captured to reborn walks
+ */
+void chameleon_reset_sequence(boolean *is_implicit,
+                              chameleon_sequence_type* sequence)
+{
+  PieNam p;
+  for (p = Empty; p!=PieceCount; ++p)
+    (*sequence)[p] = p;
+
+  *is_implicit = true;
+}
+
+/* Initialise one mapping captured->reborn from an explicit indication
+ * @param captured captured walk
+ * @param reborn type of reborn walk if a piece with walk captured is captured
+ */
+void chameleon_set_successor_walk_explicit(boolean *is_implicit,
+                                                 chameleon_sequence_type* sequence,
+                                                 PieNam from, PieNam to)
+{
+  (*sequence)[from] = to;
+  *is_implicit = false;
+}
+
+/* Initialise the reborn pieces if they haven't been already initialised
+ * from the explicit indication
+ */
+void chameleon_init_sequence_implicit(boolean is_implicit,
+                                      chameleon_sequence_type* sequence)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",is_implicit);
+  TraceFunctionParamListEnd();
+
+  if (is_implicit)
+  {
+    (*sequence)[standard_walks[Knight]] = standard_walks[Bishop];
+    (*sequence)[standard_walks[Bishop]] = standard_walks[Rook];
+    (*sequence)[standard_walks[Rook]] = standard_walks[Queen];
+    (*sequence)[standard_walks[Queen]] = standard_walks[Knight];
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static square find_promotion(move_effect_journal_index_type base)
 {
   move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
@@ -136,18 +186,8 @@ stip_length_type chameleon_change_promotee_into_solve(slice_index si,
 
 static PieNam champiece(PieNam walk_arriving)
 {
-  PieNam walk_chameleonised = walk_arriving;
-
-  if (walk_arriving==standard_walks[Queen])
-    walk_chameleonised = standard_walks[Knight];
-  else if (walk_arriving==standard_walks[Knight])
-    walk_chameleonised = standard_walks[Bishop];
-  else if (walk_arriving==standard_walks[Bishop])
-    walk_chameleonised = standard_walks[Rook];
-  else if (walk_arriving==standard_walks[Rook])
-    walk_chameleonised = standard_walks[Queen];
-
-  return walk_chameleonised;
+  assert(chameleon_walk_sequence[walk_arriving]!=Empty);
+  return chameleon_walk_sequence[walk_arriving];
 }
 
 /* Try to solve in n half-moves.

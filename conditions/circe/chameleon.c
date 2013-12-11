@@ -1,61 +1,18 @@
 #include "conditions/circe/chameleon.h"
 #include "pieces/pieces.h"
+#include "pieces/attributes/chameleon.h"
+#include "pieces/walks/walks.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "conditions/circe/circe.h"
-#include "pieces/walks/walks.h"
 #include "debugging/trace.h"
 
 #include <assert.h>
 
-PieNam chameleon_circe_reborn_walks[PieceCount];
+PieNam chameleon_circe_walk_sequence[PieceCount];
 
-boolean chameleon_circe_are_reborn_walks_implicit;
-
-/* Reset the mapping from captured to reborn walks
- */
-void chameleon_circe_reset_reborn_walks(void)
-{
-  PieNam p;
-  for (p = Empty; p!=PieceCount; ++p)
-    chameleon_circe_reborn_walks[p] = p;
-
-  chameleon_circe_are_reborn_walks_implicit = true;
-}
-
-/* Initialise one mapping captured->reborn from an explicit indication
- * @param captured captured walk
- * @param reborn type of reborn walk if a piece with walk captured is captured
- */
-void chameleon_circe_set_reborn_walk_explicit(PieNam from, PieNam to)
-{
-  chameleon_circe_reborn_walks[from] = to;
-  chameleon_circe_are_reborn_walks_implicit = false;
-}
-
-/* Initialise the reborn pieces if they haven't been already initialised
- * from the explicit indication
- */
-void chameleon_circe_init_implicit(void)
-{
-  if (chameleon_circe_are_reborn_walks_implicit)
-  {
-    chameleon_circe_reborn_walks[standard_walks[Knight]] = standard_walks[Bishop];
-    chameleon_circe_reborn_walks[standard_walks[Bishop]] = standard_walks[Rook];
-    chameleon_circe_reborn_walks[standard_walks[Rook]] = standard_walks[Queen];
-    chameleon_circe_reborn_walks[standard_walks[Queen]] = standard_walks[Knight];
-  }
-}
-
-/* What kind of piece is to be reborn if a certain piece is captured?
- * @param captured kind of captured piece
- * @return kind of piece to be reborn
- */
-PieNam chameleon_circe_get_reborn_walk(PieNam captured)
-{
-  return chameleon_circe_reborn_walks[captured];
-}
+boolean chameleon_circe_is_squence_implicit;
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -80,7 +37,7 @@ stip_length_type chameleon_circe_adapt_reborn_walk_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = chameleon_circe_get_reborn_walk(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk);
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = chameleon_circe_walk_sequence[circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk];
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk;
 
   result = solve(slices[si].next1,n);

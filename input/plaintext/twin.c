@@ -29,11 +29,12 @@
 #include "pieces/walks/classification.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/magic.h"
+#include "pieces/attributes/chameleon.h"
 #include "conditions/alphabetic.h"
 #include "conditions/blackchecks.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/chameleon.h"
 #include "conditions/circe/rex_inclusive.h"
+#include "conditions/circe/chameleon.h"
 #include "conditions/duellists.h"
 #include "conditions/exclusive.h"
 #include "conditions/immune.h"
@@ -1165,6 +1166,9 @@ static void InitAlways(void)
   king_capture_avoiders_reset();
 
   check_reset_no_king_knowledge();
+
+  chameleon_reset_sequence(&chameleon_is_squence_implicit,
+                           &chameleon_walk_sequence);
 }
 
 typedef enum
@@ -2684,7 +2688,12 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[chamcirce])
-    chameleon_circe_init_implicit();
+    chameleon_init_sequence_implicit(chameleon_circe_is_squence_implicit,
+                                     &chameleon_circe_walk_sequence);
+
+  if (CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
+    chameleon_init_sequence_implicit(chameleon_is_squence_implicit,
+                                     &chameleon_walk_sequence);
 
   if (CondFlag[SAT] || CondFlag[strictSAT])
     disable_orthodox_mating_move_optimisation(nr_sides);

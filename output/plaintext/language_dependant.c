@@ -683,7 +683,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*76*/  "BlancCaseForceConsequent",
     /*77*/  "NoirCaseForce",
     /*78*/  "NoirCaseForceConsequent",
-    /*79*/  "EchecsChameleon",
+    /*79*/  "EchecsCameleon",
     /*80*/  "EchecsFonctionnaire",
     /*81*/  "EchecsGlasgow",
     /*82*/  "EchecsAntiAndernach",
@@ -730,7 +730,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*123*/ "ActuatedRevolvingCentre",
     /*124*/ "ShieldedKings",
     /*125*/ "NONUTILISEACTUELLEMENT",
-    /*126*/ "EchecsChameleonLigne",
+    /*126*/ "EchecsCameleonLigne",
     /*127*/ "BlancSansPrises",
     /*128*/ "NoirSansPrises",
     /*129*/ "EchecsAvril",
@@ -771,7 +771,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*164*/ "NoirVaultingKing",
     /*165*/ "EchecsProtee",
     /*166*/ "EchecsGeneve",
-    /*167*/ "ChameleonPoursuite",
+    /*167*/ "CameleonPoursuite",
     /*168*/ "AntiKoeko",
     /*169*/ "EchecsRoque",
     /*170*/ "QuiPerdGagne",
@@ -795,7 +795,8 @@ char const *CondString[LanguageCount][CondCount] =
     /*188*/ "Retour",
     /*189*/ "FaceAFace",
     /*190*/ "DosADos",
-    /*191*/ "JoueAJoue"
+    /*191*/ "JoueAJoue",
+    /*192*/ "CameleonSequence"
   },{
     /* German Condition Names */
     /* 0*/  "RexInklusive",
@@ -989,7 +990,8 @@ char const *CondString[LanguageCount][CondCount] =
     /*188*/ "NachHause",
     /*189*/ "AngesichtZuAngesicht",
     /*190*/ "RueckenAnRuecken",
-    /*191*/ "WangeAnWange"
+    /*191*/ "WangeAnWange",
+    /*192*/ "Chamaeleonsequenz"
   },{
     /* English Condition Names */
     /* 0*/  "RexInclusive",
@@ -1015,7 +1017,7 @@ char const *CondString[LanguageCount][CondCount] =
     /*20*/  "Imitator",
     /*21*/  "CavalierMajeur",
     /*22*/  "HaanerChess",
-    /*23*/  "ChameleonCirce",
+    /*23*/  "ChamaeleonCirce",
     /*24*/  "CouscousCirce",
     /*25*/  "EquipollentsCirce",
     /*26*/  "FileCirce",
@@ -1183,7 +1185,8 @@ char const *CondString[LanguageCount][CondCount] =
     /*188*/ "BackHome",
     /*189*/ "FaceToFace",
     /*190*/ "BackToBack",
-    /*191*/ "CheekToCheek"
+    /*191*/ "CheekToCheek",
+    /*192*/ "ChameleonSequence"
   }
 };
 
@@ -1221,7 +1224,7 @@ char const *PieSpString[LanguageCount][PieSpCount-nr_sides] =
     "Royale",
     "Kamikaze",
     "Paralysante",
-    "Chameleon",
+    "Cameleon",
     "Jigger",
     "Volage",
     "Fonctionnaire",
