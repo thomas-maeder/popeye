@@ -8,7 +8,8 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  output/mode.h conditions/bgl.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/kobul.h conditions/imitator.h conditions/singlebox/type1.h \
- pieces/walks/pawns/en_passant.h solving/observation.h debugging/trace.h
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ stipulation/temporary_hacks.h debugging/trace.h
 
 output/plaintext/plaintext.h:
 
@@ -69,6 +70,8 @@ conditions/singlebox/type1.h:
 pieces/walks/pawns/en_passant.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
@@ -396,15 +399,16 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  conditions/annan.h conditions/bgl.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/circe/april.h conditions/circe/rex_inclusive.h \
- conditions/anticirce/anticirce.h conditions/football.h \
- conditions/geneva.h conditions/grid.h conditions/imitator.h \
- conditions/immune.h conditions/isardam.h conditions/kobul.h \
- conditions/koeko/anti.h conditions/koeko/koeko.h conditions/madrasi.h \
- conditions/magic_square.h conditions/messigny.h \
+ conditions/circe/chameleon.h conditions/anticirce/anticirce.h \
+ conditions/football.h conditions/geneva.h conditions/grid.h \
+ conditions/imitator.h conditions/immune.h conditions/isardam.h \
+ conditions/kobul.h conditions/koeko/anti.h conditions/koeko/koeko.h \
+ conditions/madrasi.h conditions/magic_square.h conditions/messigny.h \
  conditions/oscillating_kings.h conditions/phantom.h \
- solving/observation.h conditions/protean.h conditions/republican.h \
- conditions/sat.h conditions/sentinelles.h conditions/singlebox/type1.h \
- conditions/vaulting_kings.h conditions/woozles.h
+ solving/observation.h stipulation/temporary_hacks.h conditions/protean.h \
+ conditions/republican.h conditions/sat.h conditions/sentinelles.h \
+ conditions/singlebox/type1.h conditions/vaulting_kings.h \
+ conditions/woozles.h
 
 output/plaintext/condition.h:
 
@@ -474,6 +478,8 @@ conditions/circe/april.h:
 
 conditions/circe/rex_inclusive.h:
 
+conditions/circe/chameleon.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/football.h:
@@ -505,6 +511,8 @@ conditions/oscillating_kings.h:
 conditions/phantom.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 conditions/protean.h:
 
@@ -594,8 +602,8 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h pieces/attributes/neutral/neutral.h \
  pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/castling.h solving/move_generator.h \
- pymsg.h pylang.h utilities/boolean.h
+ solving/observation.h stipulation/temporary_hacks.h solving/castling.h \
+ solving/move_generator.h pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/position.h:
 
@@ -677,6 +685,8 @@ pieces/walks/hunters.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 solving/castling.h:
 
 solving/move_generator.h:
@@ -696,7 +706,8 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
  solving/solve.h pieces/attributes/neutral/neutral.h \
  pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/ply.h pymsg.h pylang.h utilities/boolean.h
+ solving/observation.h solving/ply.h stipulation/temporary_hacks.h \
+ pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/pieces.h:
 
@@ -749,6 +760,8 @@ pieces/walks/hunters.h:
 solving/observation.h:
 
 solving/ply.h:
+
+stipulation/temporary_hacks.h:
 
 pymsg.h:
 

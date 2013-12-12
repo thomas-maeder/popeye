@@ -44,7 +44,7 @@ a)
                      play_move:        9329
  is_white_king_square_attacked:         491
  is_black_king_square_attacked:        9332
-b) ChamaeleonCirce    S->L->T->D->S
+b) ChamaeleonCirce    D->S->L->T->D
 
    1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
@@ -84,7 +84,7 @@ c) CirceClone
                      play_move:        9190
  is_white_king_square_attacked:         484
  is_black_king_square_attacked:        9193
-d) ChamaeleonCirce    S->D->T->L->S
+d) ChamaeleonCirce    D->T->L->S->D
 
    1.Da7-d7 ! Drohung:
           2.Lg8-d5 #

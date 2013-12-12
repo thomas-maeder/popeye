@@ -212,13 +212,13 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  pieces/walks/pawns/promotee_sequence.h pieces/walks/orphan.h \
  solving/observation.h stipulation/temporary_hacks.h \
  pieces/walks/classification.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/magic.h conditions/alphabetic.h \
- conditions/blackchecks.h conditions/circe/circe.h \
- conditions/circe/chameleon.h conditions/circe/rex_inclusive.h \
- conditions/duellists.h conditions/exclusive.h utilities/table.h \
- conditions/immune.h conditions/sentinelles.h \
- conditions/follow_my_leader.h conditions/football.h \
- conditions/forced_squares.h conditions/isardam.h \
+ pieces/attributes/magic.h pieces/attributes/chameleon.h \
+ conditions/alphabetic.h conditions/blackchecks.h \
+ conditions/circe/circe.h conditions/circe/rex_inclusive.h \
+ conditions/circe/chameleon.h conditions/duellists.h \
+ conditions/exclusive.h utilities/table.h conditions/immune.h \
+ conditions/sentinelles.h conditions/follow_my_leader.h \
+ conditions/football.h conditions/forced_squares.h conditions/isardam.h \
  conditions/must_capture.h conditions/oscillating_kings.h \
  conditions/republican.h conditions/singlebox/type1.h \
  conditions/synchronous.h \
@@ -346,15 +346,17 @@ pieces/attributes/neutral/neutral.h:
 
 pieces/attributes/magic.h:
 
+pieces/attributes/chameleon.h:
+
 conditions/alphabetic.h:
 
 conditions/blackchecks.h:
 
 conditions/circe/circe.h:
 
-conditions/circe/chameleon.h:
-
 conditions/circe/rex_inclusive.h:
+
+conditions/circe/chameleon.h:
 
 conditions/duellists.h:
 
@@ -787,8 +789,8 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/annan.h conditions/anticirce/anticirce.h solving/ply.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/anticirce/cheylan.h conditions/bgl.h \
- conditions/circe/april.h conditions/circe/chameleon.h \
- conditions/circe/circe.h conditions/circe/rex_inclusive.h \
+ conditions/circe/april.h conditions/circe/circe.h \
+ conditions/circe/rex_inclusive.h conditions/circe/chameleon.h \
  conditions/football.h conditions/geneva.h conditions/grid.h \
  conditions/imitator.h conditions/immune.h conditions/isardam.h \
  conditions/kobul.h conditions/koeko/anti.h conditions/koeko/koeko.h \
@@ -869,11 +871,11 @@ conditions/bgl.h:
 
 conditions/circe/april.h:
 
-conditions/circe/chameleon.h:
-
 conditions/circe/circe.h:
 
 conditions/circe/rex_inclusive.h:
+
+conditions/circe/chameleon.h:
 
 conditions/football.h:
 

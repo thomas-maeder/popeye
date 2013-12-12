@@ -315,6 +315,11 @@ Kommandos:
 		ChamaeleonCirce
 		"ChamaeleonCirce S D T L S" ist reverses ChamaeleonCirce.)
 
+	Auf dieselbe Weise kann bei der Bedingung ChamaeleonSchach fuer alle
+	Offiziere und mit der Hilfsbedingung ChamaeleonSequenz fuer die
+	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
+	festgelegt werden.
+
 	Nach einigen Circe- bzw. Immunschachbedingungen, Madrasi,
 	Phantomschach sowie Genferschach kann wahlweise noch
 	"RexInklusive" angegeben werden.

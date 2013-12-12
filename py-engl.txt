@@ -311,6 +311,11 @@ commands expect further parameters. Lets start with the simpler commands:
 			and equivalent to "ChameleonCirce"
 		"ChameleonCirce S Q R B S" gives reverse ChameleonCirce.)
 
+	In the condition ChameleonChess, the same notation can be used
+	to define the piece type sequence of all officers. And the 
+	auxiliary condition ChameleonSequence can be used to define that
+	sequence of the explicitly indicated chameleons.
+
 	After some of the Circe, Immun, Madrasi, Phantomchess or Genevachess
 	conditions you can enter "RexInclusiv".
 

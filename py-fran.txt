@@ -183,7 +183,7 @@ simples:
 	NoirCaseForceConsequent
 	BlancCaseForceConsequent
 	RoisReflecteurs
-	EchecsChameleon
+	EchecsCameleon
 	EchecsFonctionnaire
 	EchecsGlasgow
 	EchecsAntiAndernach
@@ -232,7 +232,7 @@ simples:
 	NoirSansPrises
 	EchecsAvril
 	EchecsAlphabetique
-	EchecsChameleonLigne
+	EchecsCameleonLigne
 	CirceTurncoats
 	CirceDoubleAgents
 	AMU
@@ -269,7 +269,7 @@ simples:
 	NoirVaultingKing
 	EchecsProtee
 	Elliuortap
-	ChameleonPoursuite
+	CameleonPoursuite
 	AntiKoeko
 	EchecsRoque
 	QuiPerdGagne
@@ -305,6 +305,11 @@ simples:
 	renaissance. (Par exemple:
 		"CirceCameleon C F T D C" c'est le CirceCameleon normal, 
 		"CirceCameleon C D T F C" c'est CirceCameleon reverse).
+
+	La meme notation peut etre utilisee en EchecsCameleon pour
+	definir l'ordre des types de pieces. Et la condition auxiliaire
+	CameleonSequence peut etre utilisee pour definir cet ordre pour
+	les cameleons indiques de facon explicite.
 
 	Apres quelques conditions Circe, Immun, Madrasi, EchecsPhantom
 	ou EchecsGeneve, on peut entrer le mot-cle "RexInclusif".
@@ -789,7 +794,7 @@ suivante est un peu plus compliquee:
 
 	On peut alors ajouter 
 
-	Chameleon
+	Cameleon
 	Jigger
 	Kamikaze
 	Paralysantes

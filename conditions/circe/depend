@@ -988,11 +988,12 @@ conditions/circe/chameleon$(OBJ_SUFFIX): conditions/circe/chameleon.c \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h stipulation/has_solution_type.h stipulation/move.h \
+ output/mode.h pieces/attributes/chameleon.h pieces/walks/walks.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h pieces/walks/walks.h debugging/trace.h
+ position/pieceid.h debugging/trace.h
 
 conditions/circe/chameleon.h:
 
@@ -1020,6 +1021,10 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
+pieces/attributes/chameleon.h:
+
+pieces/walks/walks.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
@@ -1039,8 +1044,6 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
-
-pieces/walks/walks.h:
 
 debugging/trace.h:
 conditions/circe/double_agents$(OBJ_SUFFIX): conditions/circe/double_agents.c \
