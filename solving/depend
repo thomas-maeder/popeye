@@ -8,7 +8,7 @@ solving/testers$(OBJ_SUFFIX): solving/testers.c solving/testers.h \
  stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h
+ stipulation/help_play/branch.h debugging/trace.h
 
 solving/testers.h:
 
@@ -65,8 +65,6 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  solving/move_effect_journal.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -147,7 +145,7 @@ solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortes
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 solving/find_shortest.h:
 
@@ -200,8 +198,6 @@ solving/find_by_increasing_length.h:
 solving/fork_on_remaining.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \
  solving/find_by_increasing_length.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -210,7 +206,7 @@ solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_lengt
  pieces/walks/vectors.h output/mode.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/proxy.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h
+ stipulation/help_play/branch.h debugging/trace.h
 
 solving/find_by_increasing_length.h:
 
@@ -253,8 +249,6 @@ stipulation/proxy.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  solving/fork_on_remaining.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -262,7 +256,7 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h solving/ply.h
+ stipulation/traversal.h debugging/trace.h
 
 solving/fork_on_remaining.h:
 
@@ -301,8 +295,6 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  solving/play_suppressor.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -310,7 +302,7 @@ solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 solving/play_suppressor.h:
 
@@ -349,8 +341,6 @@ stipulation/traversal.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/move_generator.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -994,7 +984,7 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/branch.h stipulation/binary.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 solving/avoid_unsolvable.h:
 
@@ -1043,8 +1033,6 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  solving/selfcheck_guard.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1056,7 +1044,7 @@ solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  stipulation/boolean/true.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/check.h debugging/trace.h solving/ply.h
+ solving/check.h debugging/trace.h
 
 solving/selfcheck_guard.h:
 
@@ -1111,8 +1099,6 @@ stipulation/help_play/branch.h:
 solving/check.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  solving/post_move_iteration.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1173,11 +1159,12 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/anticirce/capture_fork.h conditions/anticirce/relaxed.h \
  conditions/anticirce/strict.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h \
- conditions/anticirce/magic_square.h conditions/bgl.h \
- conditions/blackchecks.h conditions/koeko/koeko.h \
+ conditions/anticirce/magic_square.h conditions/anticirce/clone.h \
+ conditions/bgl.h conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
  conditions/koeko/new.h conditions/circe/antipodes.h \
- conditions/circe/chameleon.h conditions/circe/diametral.h \
+ conditions/circe/chameleon.h pieces/attributes/chameleon.h \
+ conditions/circe/diametral.h \
  conditions/circe/circuit_by_rebirth_special.h conditions/circe/clone.h \
  conditions/circe/couscous.h conditions/circe/diagram.h \
  conditions/circe/equipollents.h \
@@ -1275,9 +1262,9 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  pieces/attributes/paralysing/remove_captures.h \
  pieces/attributes/neutral/half.h \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/magic.h \
- pieces/attributes/chameleon.h pieces/attributes/jigger.h \
- pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
- solving/avoid_unsolvable.h solving/battle_play/continuation.h \
+ pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
+ pieces/attributes/kamikaze/kamikaze.h solving/avoid_unsolvable.h \
+ solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
  solving/battle_play/try.h solving/castling.h solving/capture_counter.h \
@@ -1380,6 +1367,8 @@ position/pieceid.h:
 
 conditions/anticirce/magic_square.h:
 
+conditions/anticirce/clone.h:
+
 conditions/bgl.h:
 
 conditions/blackchecks.h:
@@ -1395,6 +1384,8 @@ conditions/koeko/new.h:
 conditions/circe/antipodes.h:
 
 conditions/circe/chameleon.h:
+
+pieces/attributes/chameleon.h:
 
 conditions/circe/diametral.h:
 
@@ -1727,8 +1718,6 @@ pieces/attributes/neutral/half.h:
 pieces/attributes/hurdle_colour_changing.h:
 
 pieces/attributes/magic.h:
-
-pieces/attributes/chameleon.h:
 
 pieces/attributes/jigger.h:
 
@@ -2435,20 +2424,21 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/circe/circe.h \
  conditions/circe/antipodes.h conditions/circe/cage.h \
- conditions/circe/chameleon.h conditions/circe/clone.h \
- conditions/circe/couscous.h conditions/circe/diagram.h \
- conditions/circe/diametral.h conditions/circe/double_agents.h \
- conditions/circe/equipollents.h conditions/circe/file.h \
- conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/circe/frischauf.h \
- conditions/circe/mirror.h conditions/circe/pwc.h \
- conditions/circe/super.h conditions/circe/symmetry.h \
- conditions/circe/april.h conditions/circe/turncoats.h \
- conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
- conditions/circe/rank.h conditions/anticirce/cheylan.h \
- conditions/anticirce/anticirce.h conditions/anticirce/strict.h \
- conditions/anticirce/relaxed.h conditions/anticirce/super.h \
- conditions/anticirce/magic_square.h conditions/sentinelles.h \
+ conditions/circe/chameleon.h pieces/attributes/chameleon.h \
+ conditions/circe/clone.h conditions/circe/couscous.h \
+ conditions/circe/diagram.h conditions/circe/diametral.h \
+ conditions/circe/double_agents.h conditions/circe/equipollents.h \
+ conditions/circe/file.h conditions/circe/kamikaze.h \
+ conditions/circe/parrain.h conditions/circe/volage.h \
+ conditions/circe/frischauf.h conditions/circe/mirror.h \
+ conditions/circe/pwc.h conditions/circe/super.h \
+ conditions/circe/symmetry.h conditions/circe/april.h \
+ conditions/circe/turncoats.h conditions/circe/takemake.h \
+ conditions/circe/rex_inclusive.h conditions/circe/rank.h \
+ conditions/anticirce/cheylan.h conditions/anticirce/anticirce.h \
+ conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
+ conditions/anticirce/super.h conditions/anticirce/magic_square.h \
+ conditions/anticirce/clone.h conditions/sentinelles.h \
  conditions/duellists.h conditions/haunted_chess.h \
  conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
  conditions/antiandernach.h conditions/chameleon_pursuit.h \
@@ -2490,10 +2480,9 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
- pieces/attributes/hurdle_colour_changing.h pieces/attributes/chameleon.h \
- pieces/attributes/jigger.h pieces/attributes/uncapturable.h \
- pieces/walks/hunters.h conditions/amu/mate_filter.h \
- conditions/circe/goal_filters.h \
+ pieces/attributes/hurdle_colour_changing.h pieces/attributes/jigger.h \
+ pieces/attributes/uncapturable.h pieces/walks/hunters.h \
+ conditions/amu/mate_filter.h conditions/circe/goal_filters.h \
  conditions/ultraschachzwang/goal_filter.h \
  options/no_short_variations/no_short_variations.h optimisations/hash.h \
  DHT/dhtbcmem.h optimisations/intelligent/intelligent.h \
@@ -2651,6 +2640,8 @@ conditions/circe/cage.h:
 
 conditions/circe/chameleon.h:
 
+pieces/attributes/chameleon.h:
+
 conditions/circe/clone.h:
 
 conditions/circe/couscous.h:
@@ -2702,6 +2693,8 @@ conditions/anticirce/relaxed.h:
 conditions/anticirce/super.h:
 
 conditions/anticirce/magic_square.h:
+
+conditions/anticirce/clone.h:
 
 conditions/sentinelles.h:
 
@@ -2886,8 +2879,6 @@ pieces/attributes/neutral/neutral.h:
 pieces/attributes/neutral/half.h:
 
 pieces/attributes/hurdle_colour_changing.h:
-
-pieces/attributes/chameleon.h:
 
 pieces/attributes/jigger.h:
 

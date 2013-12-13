@@ -796,7 +796,8 @@ char const *CondString[LanguageCount][CondCount] =
     /*189*/ "FaceAFace",
     /*190*/ "DosADos",
     /*191*/ "JoueAJoue",
-    /*192*/ "CameleonSequence"
+    /*192*/ "CameleonSequence",
+    /*193*/ "AntiCloneCirce"
   },{
     /* German Condition Names */
     /* 0*/  "RexInklusive",
@@ -991,7 +992,8 @@ char const *CondString[LanguageCount][CondCount] =
     /*189*/ "AngesichtZuAngesicht",
     /*190*/ "RueckenAnRuecken",
     /*191*/ "WangeAnWange",
-    /*192*/ "Chamaeleonsequenz"
+    /*192*/ "Chamaeleonsequenz",
+    /*193*/ "AntiCloneCirce"
   },{
     /* English Condition Names */
     /* 0*/  "RexInclusive",
@@ -1186,7 +1188,8 @@ char const *CondString[LanguageCount][CondCount] =
     /*189*/ "FaceToFace",
     /*190*/ "BackToBack",
     /*191*/ "CheekToCheek",
-    /*192*/ "ChameleonSequence"
+    /*192*/ "ChameleonSequence",
+    /*193*/ "AntiCloneCirce"
   }
 };
 

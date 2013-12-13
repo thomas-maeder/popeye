@@ -8,6 +8,7 @@
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/magic_square.h"
+#include "conditions/anticirce/clone.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
 #include "conditions/koeko/koeko.h"
@@ -669,6 +670,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceCloneDetermineRebornPiece:
       result = circe_clone_determine_reborn_piece_solve(si,n);
+      break;
+
+    case STAntiCloneCirceDetermineRebornPiece:
+      result = anti_clone_circe_determine_reborn_piece_solve(si,n);
       break;
 
     case STCirceDoubleAgentsAdaptRebornPiece:

@@ -9,6 +9,7 @@
 #include "conditions/imitator.h"
 #include "conditions/singlebox/type1.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/classification.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -419,6 +420,18 @@ static void write_piece_addition(move_context *context,
     case move_effect_reason_transfer_no_choice:
     case move_effect_reason_transfer_choice:
       StdString("->");
+      if (context->flags!=move_effect_journal[curr].u.piece_addition.addedspec
+          || (TSTFLAG(move_effect_journal[curr].u.piece_addition.addedspec,Royal)
+              && is_king(context->moving)
+              && !is_king(move_effect_journal[curr].u.piece_addition.added)))
+      {
+        WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
+                  move_effect_journal[curr].u.piece_addition.added,
+                  false);
+        WritePiece(move_effect_journal[curr].u.piece_addition.added);
+      }
+      else if (context->moving!=move_effect_journal[curr].u.piece_addition.added)
+        WritePiece(move_effect_journal[curr].u.piece_addition.added);
       WriteSquare(move_effect_journal[curr].u.piece_addition.on);
       break;
 
@@ -431,7 +444,7 @@ static void write_piece_addition(move_context *context,
   context_set_moving_piece(context,
                            move_effect_journal[curr].u.piece_addition.added);
   context_set_flags(context,
-                             move_effect_journal[curr].u.piece_addition.addedspec);
+                    move_effect_journal[curr].u.piece_addition.addedspec);
 }
 
 static void write_piece_removal(move_context *context,
@@ -452,6 +465,10 @@ static void write_piece_removal(move_context *context,
       write_complete_piece(move_effect_journal[curr].u.piece_removal.removedspec,
                            move_effect_journal[curr].u.piece_removal.removed,
                            move_effect_journal[curr].u.piece_removal.from);
+      context_set_moving_piece(context,
+                               move_effect_journal[curr].u.piece_removal.removed);
+      context_set_flags(context,
+                        move_effect_journal[curr].u.piece_removal.removedspec);
       break;
 
     case move_effect_reason_kamikaze_capturer:

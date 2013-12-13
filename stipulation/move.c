@@ -79,6 +79,7 @@ static slice_index const move_slice_rank_order[] =
     STAnticirceDetermineRebornPiece,
     STSpiegelCirceDetermineRelevantSide,
     STMagicSquareType2AnticirceRelevantSideAdapter,
+    STAntiCloneCirceDetermineRebornPiece,
     STDiagramCirceDetermineRebirthSquare,
     STFileCirceDetermineRebirthSquare,
     STSymmetryCirceDetermineRebirthSquare,

@@ -70,6 +70,7 @@
 #include "conditions/anticirce/relaxed.h"
 #include "conditions/anticirce/super.h"
 #include "conditions/anticirce/magic_square.h"
+#include "conditions/anticirce/clone.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
@@ -472,6 +473,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     if (CondFlag[antispiegel]
         || CondFlag[antispiegelfile])
       anticirce_instrument_solving(result,STSpiegelCirceDetermineRelevantSide);
+    else if (CondFlag[anticlonecirce])
+      anticirce_instrument_solving(result,STAntiCloneCirceDetermineRebornPiece);
   }
   if (AntiCirceType==AntiCirceTypeCheylan)
     anticirce_cheylan_initialise_solving(result);

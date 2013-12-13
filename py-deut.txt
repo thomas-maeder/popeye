@@ -185,6 +185,7 @@ Kommandos:
 	WeissesKonsequentesZwangsfeld
 	Bicolores
 	CirceClone
+	AntiCloneCirce
 	EinsteinSchach
 	NeuKoeko
 	ReflektierendeKoenige

@@ -324,6 +324,7 @@
     ENUMERATOR(STCirceCaptureFork),                                     \
     ENUMERATOR(STAprilCaptureFork),                                     \
     ENUMERATOR(STCirceDetermineRebornPiece),                            \
+    ENUMERATOR(STAntiCloneCirceDetermineRebornPiece),                   \
     ENUMERATOR(STCirceCloneDetermineRebornPiece),                       \
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornPiece),                    \
     ENUMERATOR(STChameleonCirceAdaptRebornWalk),                        \

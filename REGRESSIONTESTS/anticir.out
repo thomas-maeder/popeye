@@ -3273,3 +3273,56 @@ spezifisches Pattbild fuer magisches Feld Typ 2
 Loesung beendet. 
 
 
+
+            Pierre Tritten
+   Chameleon-50J Tourney 2012, Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -L   .   .   8
+|                                   |
+7   .   .  -B   .   S   .   .   .   7
+|                                   |
+6   .   .   T   .  -B   .   .   .   6
+|                                   |
+5  -B   .   .   .   .   .   L   .   5
+|                                   |
+4   K   .   .  -K   .   .  -B   .   4
+|                                   |
+3   .   .  -B   .   .   .   .   B   3
+|                                   |
+2   .   .   .  -B   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 8
+            AntiCloneCirce
+
+a) 
+
+  1.Lf8-g7 Lg5-e3 +   2.Kd4*e3[sKe3->kLf8] Se7-g6 #
+
+  add_to_move_generation_stack:      149778
+                     play_move:      124947
+ is_white_king_square_attacked:       11362
+ is_black_king_square_attacked:      102756
+b) sTf8 
+
+  1.e6-e5 Se7-d5   2.Kd4*d5[sKd5->kSg8] Tc6-g6 #
+
+  add_to_move_generation_stack:      334722
+                     play_move:      277799
+ is_white_king_square_attacked:       25951
+ is_black_king_square_attacked:      226601
+c) sSf8 
+
+  1.g4*h3[sBh3->h7] Tc6-c5   2.Kd4*c5[sKc5->kTh8] Lg5-f6 #
+
+  add_to_move_generation_stack:      145341
+                     play_move:      121517
+ is_white_king_square_attacked:       11278
+ is_black_king_square_attacked:       99369
+Loesung beendet. 
+
+

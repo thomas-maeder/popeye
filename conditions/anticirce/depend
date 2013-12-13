@@ -6,11 +6,11 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  output/mode.h solving/ply.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h conditions/conditions.h \
  conditions/anticirce/capture_fork.h conditions/circe/circe.h \
- solving/observation.h solving/move_generator.h stipulation/pipe.h \
+ solving/observation.h stipulation/temporary_hacks.h \
+ solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
- stipulation/has_solution_type.h stipulation/move.h \
- stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/has_solution_type.h stipulation/move.h debugging/trace.h
 
 conditions/anticirce/anticirce.h:
 
@@ -54,6 +54,8 @@ conditions/circe/circe.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_generator.h:
 
 stipulation/pipe.h:
@@ -70,8 +72,6 @@ stipulation/has_solution_type.h:
 
 stipulation/move.h:
 
-stipulation/temporary_hacks.h:
-
 debugging/trace.h:
 conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
  conditions/anticirce/super.h solving/solve.h stipulation/stipulation.h \
@@ -84,9 +84,9 @@ conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
  solving/post_move_iteration.h solving/observation.h \
- solving/move_generator.h conditions/anticirce/anticirce.h \
- conditions/conditions.h conditions/anticirce/capture_fork.h \
- debugging/trace.h
+ stipulation/temporary_hacks.h solving/move_generator.h \
+ conditions/anticirce/anticirce.h conditions/conditions.h \
+ conditions/anticirce/capture_fork.h debugging/trace.h
 
 conditions/anticirce/super.h:
 
@@ -141,6 +141,8 @@ stipulation/move.h:
 solving/post_move_iteration.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 solving/move_generator.h:
 
@@ -476,5 +478,51 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
+
+debugging/trace.h:
+conditions/anticirce/clone$(OBJ_SUFFIX): conditions/anticirce/clone.c \
+ conditions/anticirce/clone.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/trace.h
+
+conditions/anticirce/clone.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/circe/circe.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
 
 debugging/trace.h:

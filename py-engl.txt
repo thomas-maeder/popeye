@@ -156,6 +156,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	Bicolores
 	NewKoeko
 	CirceClone
+	AntiCloneCirce
 	AntiCirce
 	MirrorFileCirce
 	AntipodeanCirce

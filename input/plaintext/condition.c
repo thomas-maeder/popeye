@@ -898,6 +898,7 @@ char *ParseCond(void)
       case antisuper:
       case antiantipoden:
       case antiequipollents:
+      case anticlonecirce:
         anyanticirce= true;
         break;
 

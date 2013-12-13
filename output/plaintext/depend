@@ -9,7 +9,8 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/kobul.h conditions/imitator.h conditions/singlebox/type1.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
- stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/temporary_hacks.h pieces/walks/classification.h \
+ debugging/trace.h
 
 output/plaintext/plaintext.h:
 
@@ -72,6 +73,8 @@ pieces/walks/pawns/en_passant.h:
 solving/observation.h:
 
 stipulation/temporary_hacks.h:
+
+pieces/walks/classification.h:
 
 debugging/trace.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
