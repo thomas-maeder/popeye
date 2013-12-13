@@ -3326,3 +3326,48 @@ c) sSf8
 Loesung beendet. 
 
 
+
+S. K. Balasubramanian & Pierre Tritten
+        kobulchess.com, No 278
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -B   .   .   7
+|                                   |
+6   .   .   .   .   .   K   .   .   6
+|                                   |
+5   .   .  -K   .   .   .   .   .   5
+|                                   |
+4   .   T   .   .   .   S   .   .   4
+|                                   |
+3   .   .   .   .   .   B   .  -B   3
+|                                   |
+2   .   .   .   .   .   .   .   L   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         5 + 3
+            AntiCloneCirce
+
+a) 
+
+  1.Kc5*b4[sKb4->kTh8] Kf6-g7 +   2.kTh8-h4 Lh2-g3 #
+
+  add_to_move_generation_stack:       15241
+                     play_move:       11937
+ is_white_king_square_attacked:        1127
+ is_black_king_square_attacked:        9462
+b) sKc5-->h1
+
+  1.Kh1*h2[sKh2->kLf8] Tb4-b8 +   2.kLf8-h6 Tb8-h8 #
+
+  add_to_move_generation_stack:        5184
+                     play_move:        4205
+ is_white_king_square_attacked:         431
+ is_black_king_square_attacked:        3471
+Loesung beendet. 
+
+
