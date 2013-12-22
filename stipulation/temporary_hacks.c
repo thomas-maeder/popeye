@@ -10,6 +10,7 @@
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/false.h"
 #include "stipulation/boolean/not.h"
+#include "stipulation/boolean/or.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
@@ -40,6 +41,7 @@ slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_move_generator[nr_sides];
 slice_index temporary_hack_is_square_observed[nr_sides];
+slice_index temporary_hack_is_square_observed_by_non_king[nr_sides];
 slice_index temporary_hack_check_validator[nr_sides];
 slice_index temporary_hack_observation_validator[nr_sides];
 slice_index temporary_hack_observer_validator[nr_sides];
@@ -297,15 +299,98 @@ static slice_index make_is_square_observed(Side side)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
   slice_index const testing = alloc_pipe(STTestingIfSquareIsObserved);
-  slice_index const king = alloc_pipe(STFindSquareObserverTrackingBackKing);
-  slice_index const after_king = alloc_pipe(STLandingAfterFindSquareObserverTrackingBackKing);
-  slice_index const tester = alloc_pipe(STFindSquareObserverTrackingBack);
+  slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
+
+  slice_index const proxy_king = alloc_proxy_slice();
+  slice_index const proxy_non_king = alloc_proxy_slice();
+  slice_index const or = alloc_or_slice(proxy_king,proxy_non_king);
+
+  slice_index const finding_king = alloc_pipe(STFindingSquareObserverTrackingBackKing);
+  slice_index const finding_non_king = alloc_pipe(STFindingSquareObserverTrackingBackNonKing);
+  slice_index const king = alloc_pipe(STObserveWithKing);
+
+  slice_index const after_all = alloc_pipe(STDeterminedObserverWalk);
+  slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
+
   pipe_link(proxy,testing);
-  pipe_link(testing,king);
-  pipe_link(king,after_king);
-  pipe_link(after_king,tester);
-  pipe_link(tester,alloc_false_slice());
+  pipe_link(testing,determining_walk);
+  pipe_link(determining_walk,or);
+
+  pipe_link(proxy_king,finding_king);
+  pipe_link(finding_king,king);
+  pipe_link(king,after_all);
+
+  pipe_link(proxy_non_king,finding_non_king);
+
+  if (flagfee)
+  {
+    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
+    slice_index const tester_fairy = alloc_pipe(STObserveWithFairy);
+    slice_index const proxy_ortho = alloc_proxy_slice();
+    slice_index const proxy_fairy = alloc_proxy_slice();
+    slice_index const or = alloc_or_slice(proxy_ortho,proxy_fairy);
+
+    pipe_link(finding_non_king,or);
+    pipe_link(proxy_ortho,tester_ortho);
+    pipe_link(proxy_fairy,tester_fairy);
+    pipe_link(tester_ortho,after_all);
+    pipe_link(tester_fairy,after_all);
+  }
+  else
+  {
+    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
+
+    pipe_link(finding_non_king,tester_ortho);
+    pipe_link(tester_ortho,after_all);
+  }
+
+  pipe_link(after_all,track_back);
+  pipe_link(track_back,alloc_false_slice());
+
   stip_impose_starter(result,side);
+
+  return result;
+}
+
+static slice_index make_is_square_observed_by_non_king(Side side)
+{
+  slice_index const proxy = alloc_proxy_slice();
+  slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
+  slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
+  slice_index const finding_non_king = alloc_pipe(STFindingSquareObserverTrackingBackNonKing);
+  slice_index const after_all = alloc_pipe(STDeterminedObserverWalk);
+  slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
+
+  pipe_link(proxy,determining_walk);
+  pipe_link(determining_walk,finding_non_king);
+
+  if (flagfee)
+  {
+    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
+    slice_index const tester_fairy = alloc_pipe(STObserveWithFairy);
+    slice_index const proxy_ortho = alloc_proxy_slice();
+    slice_index const proxy_fairy = alloc_proxy_slice();
+    slice_index const or = alloc_or_slice(proxy_ortho,proxy_fairy);
+
+    pipe_link(finding_non_king,or);
+    pipe_link(proxy_ortho,tester_ortho);
+    pipe_link(proxy_fairy,tester_fairy);
+    pipe_link(tester_ortho,after_all);
+    pipe_link(tester_fairy,after_all);
+  }
+  else
+  {
+    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
+
+    pipe_link(finding_non_king,tester_ortho);
+    pipe_link(tester_ortho,after_all);
+  }
+
+  pipe_link(after_all,track_back);
+  pipe_link(track_back,alloc_false_slice());
+
+  stip_impose_starter(result,side);
+
   return result;
 }
 
@@ -427,6 +512,9 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_is_square_observed[Black] = make_is_square_observed(Black);
     temporary_hack_is_square_observed[White] = make_is_square_observed(White);
 
+    temporary_hack_is_square_observed_by_non_king[Black] = make_is_square_observed_by_non_king(Black);
+    temporary_hack_is_square_observed_by_non_king[White] = make_is_square_observed_by_non_king(White);
+
     temporary_hack_check_validator[Black] = make_check_validator(Black);
     temporary_hack_check_validator[White] = make_check_validator(White);
 
@@ -471,6 +559,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_move_generator[White],
                 temporary_hack_is_square_observed[White]);
     pipe_append(temporary_hack_is_square_observed[White],
+                temporary_hack_is_square_observed_by_non_king[White]);
+    pipe_append(temporary_hack_is_square_observed_by_non_king[White],
                 temporary_hack_check_validator[White]);
     pipe_append(temporary_hack_check_validator[White],
                 temporary_hack_observation_validator[White]);
@@ -509,6 +599,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_move_generator[Black],
                 temporary_hack_is_square_observed[Black]);
     pipe_append(temporary_hack_is_square_observed[Black],
+                temporary_hack_is_square_observed_by_non_king[Black]);
+    pipe_append(temporary_hack_is_square_observed_by_non_king[Black],
                 temporary_hack_check_validator[Black]);
     pipe_append(temporary_hack_check_validator[Black],
                 temporary_hack_observation_validator[Black]);

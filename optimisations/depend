@@ -8,7 +8,7 @@ optimisations/immobility_tester_king_first$(OBJ_SUFFIX): \
  stipulation/traversal.h solving/solve.h conditions/mummer.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
  stipulation/boolean/and.h solving/king_move_generator.h \
- solving/non_king_move_generator.h debugging/trace.h solving/ply.h
+ solving/non_king_move_generator.h debugging/trace.h
 
 stipulation/goals/immobile/reached_tester.h:
 
@@ -57,8 +57,6 @@ solving/king_move_generator.h:
 solving/non_king_move_generator.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  optimisations/keepmating.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -66,7 +64,7 @@ optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h
+ stipulation/help_play/branch.h debugging/trace.h
 
 optimisations/keepmating.h:
 
@@ -107,8 +105,6 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  DHT/dhtbcmem.h pieces/pieces.h utilities/boolean.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -117,11 +113,11 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  pymsg.h pylang.h utilities/boolean.h solving/proofgames.h DHT/dhtvalue.h \
  DHT/fxf.h DHT/dht.h pieces/walks/pawns/en_passant.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/observation.h conditions/bgl.h \
- conditions/duellists.h conditions/haunted_chess.h conditions/imitator.h \
- options/nontrivial.h solving/avoid_unsolvable.h solving/castling.h \
- stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h solving/observation.h stipulation/temporary_hacks.h \
+ conditions/bgl.h conditions/duellists.h conditions/haunted_chess.h \
+ conditions/imitator.h options/nontrivial.h solving/avoid_unsolvable.h \
+ solving/castling.h stipulation/has_solution_type.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/branch.h platform/maxtime.h \
  platform/maxmem.h debugging/trace.h options/options.h \
@@ -181,6 +177,8 @@ position/pieceid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 conditions/bgl.h:
 
 conditions/duellists.h:
@@ -231,7 +229,7 @@ optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h debugging/trace.h
+ solving/observation.h stipulation/temporary_hacks.h debugging/trace.h
 
 optimisations/orthodox_square_observation.h:
 
@@ -270,6 +268,8 @@ solving/ply.h:
 position/pieceid.h:
 
 solving/observation.h:
+
+stipulation/temporary_hacks.h:
 
 debugging/trace.h:
 optimisations/orthodox_check_directions$(OBJ_SUFFIX): \
@@ -354,5 +354,59 @@ stipulation/has_solution_type.h:
 stipulation/proxy.h:
 
 stipulation/branch.h:
+
+debugging/trace.h:
+optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \
+ optimisations/observation.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ solving/observation.h solving/ply.h stipulation/temporary_hacks.h \
+ conditions/conditions.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/branch.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h debugging/trace.h
+
+optimisations/observation.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+solving/observation.h:
+
+solving/ply.h:
+
+stipulation/temporary_hacks.h:
+
+conditions/conditions.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
+
+stipulation/branch.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
 
 debugging/trace.h:

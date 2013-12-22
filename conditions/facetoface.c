@@ -105,79 +105,17 @@ boolean facetoface_enforce_observer_walk(slice_index si)
   return result;
 }
 
-boolean find_square_observer_tracking_back_from_target_unoptimised(slice_index si,
-                                                                   validator_id evaluate)
-{
-  {
-    PieNam pcheck;
-    for (pcheck = King; pcheck<=Bishop; ++pcheck)
-    {
-      observing_walk[nbply] = pcheck;
-      if ((*checkfunctions[pcheck])(evaluate))
-        return true;
-    }
-  }
-
-  {
-    PieNam const *pcheck;
-    for (pcheck = checkpieces; *pcheck; ++pcheck)
-    {
-      observing_walk[nbply] = *pcheck;
-      if ((*checkfunctions[*pcheck])(evaluate))
-        return true;
-    }
-  }
-
-  return is_square_observed_recursive(slices[si].next1,evaluate);
-}
-
-typedef struct
-{
-    slice_type generator;
-    slice_type enforcer;
-} initialisation_type;
-
 static void substitute_enforce_confronted_walk(slice_index si,
-                                                     stip_structure_traversal *st)
+                                               stip_structure_traversal *st)
 {
-  initialisation_type const * const init = st->param;
+  slice_type const * const enforcer = st->param;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
-  pipe_substitute(si,alloc_pipe(init->enforcer));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void substitute_find_square_observed(slice_index si,
-                                            stip_structure_traversal *st)
-{
-  initialisation_type const * const init = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_substitute(si,alloc_pipe(init->generator));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void remove_find_square_observed(slice_index si,
-                                        stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-  pipe_remove(si);
+  pipe_substitute(si,alloc_pipe(*enforcer));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -186,10 +124,10 @@ static void remove_find_square_observed(slice_index si,
 /* Inialise the solving machinery with Face-to-face Chess
  * @param si identifies root slice of solving machinery
  */
-static void initialise_solving(slice_index si, slice_type generator, slice_type enforcer)
+static void initialise_solving(slice_index si,
+                               slice_type generator,
+                               slice_type enforcer)
 {
-  initialisation_type init = { generator, enforcer };
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -197,19 +135,10 @@ static void initialise_solving(slice_index si, slice_type generator, slice_type 
 
   {
     stip_structure_traversal st;
-    stip_structure_traversal_init(&st,&init);
+    stip_structure_traversal_init(&st,&enforcer);
     stip_structure_traversal_override_single(&st,
                                              STEnforceObserverWalk,
                                              &substitute_enforce_confronted_walk);
-    stip_structure_traversal_override_single(&st,
-                                             STFindSquareObserverTrackingBackKing,
-                                             &remove_find_square_observed);
-    stip_structure_traversal_override_single(&st,
-                                             STFindSquareObserverTrackingBackFairy,
-                                             &remove_find_square_observed);
-    stip_structure_traversal_override_single(&st,
-                                             STFindSquareObserverTrackingBack,
-                                             &substitute_find_square_observed);
     stip_traverse_structure(si,&st);
   }
 

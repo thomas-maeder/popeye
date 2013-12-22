@@ -153,7 +153,7 @@ boolean transmuting_king_is_square_observed(slice_index si, validator_id evaluat
       }
 
     if (transmuter!=Empty)
-      return is_square_observed_recursive(slices[si].next2,evaluate);
+      return false;
   }
 
   return is_square_observed_recursive(slices[si].next1,evaluate);
@@ -163,8 +163,7 @@ typedef struct
 {
     Side side;
     slice_type type;
-    slice_index after_king;
-    slice_index inserted;
+    slice_index determined;
 } instrumentation_type;
 
 static void instrument_testing(slice_index si, stip_structure_traversal *st)
@@ -175,20 +174,18 @@ static void instrument_testing(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(it->after_king==no_slice);
-
   if (it->side==nr_sides || it->side==slices[si].starter)
     is_square_observed_insert_slice(si,it->type);
 
   stip_traverse_structure_children_pipe(si,st);
 
-  it->after_king = no_slice;
+  it->determined = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void remember_after_king(slice_index si, stip_structure_traversal *st)
+static void remember_determined(slice_index si, stip_structure_traversal *st)
 {
   instrumentation_type * const it = st->param;
 
@@ -198,13 +195,13 @@ static void remember_after_king(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  it->after_king = si;
+  it->determined = si;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void connect_to_after_king(slice_index si, stip_structure_traversal *st)
+static void connect_to_determined(slice_index si, stip_structure_traversal *st)
 {
   instrumentation_type * const it = st->param;
 
@@ -217,8 +214,7 @@ static void connect_to_after_king(slice_index si, stip_structure_traversal *st)
   if (slices[si].next2==no_slice)
   {
     slices[si].next2 = alloc_proxy_slice();
-    link_to_branch(slices[si].next2,it->after_king);
-    it->inserted = si;
+    link_to_branch(slices[si].next2,it->determined);
   }
 
   TraceFunctionExit(__func__);
@@ -226,19 +222,16 @@ static void connect_to_after_king(slice_index si, stip_structure_traversal *st)
 }
 
 /* Instrument the square observation machinery for a side with an alternative
- * slice dealting with observations by kings.
+ * slice dealing with observations by kings.
  * @param si identifies the root slice of the solving machinery
  * @param side side for which to instrument the square observation machinery
  * @param type type of slice to insert
- * @return the inserted slice's identifier
- * @note next2 of inserted slices will be set to the position behind the
- *       regular square observation by king handler
  */
-slice_index instrument_alternative_is_square_observed_king_testing(slice_index si,
-                                                                   Side side,
-                                                                   slice_type type)
+void instrument_alternative_is_square_observed_king_testing(slice_index si,
+                                                            Side side,
+                                                            slice_type type)
 {
-  instrumentation_type it = { side, type, no_slice, no_slice };
+  instrumentation_type it = { side, type, no_slice };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -249,16 +242,14 @@ slice_index instrument_alternative_is_square_observed_king_testing(slice_index s
 
   stip_structure_traversal_init(&st,&it);
   stip_structure_traversal_override_single(&st,
-                                           STLandingAfterFindSquareObserverTrackingBackKing,
-                                           &remember_after_king);
-  stip_structure_traversal_override_single(&st,type,&connect_to_after_king);
+                                           STDeterminedObserverWalk,
+                                           &remember_determined);
+  stip_structure_traversal_override_single(&st,type,&connect_to_determined);
   stip_structure_traversal_override_single(&st,
-                                           STTestingIfSquareIsObserved,
+                                           STFindingSquareObserverTrackingBackKing,
                                            &instrument_testing);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",it.inserted);
   TraceFunctionResultEnd();
-  return it.inserted;
 }

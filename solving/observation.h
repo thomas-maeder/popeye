@@ -101,12 +101,6 @@ void stip_instrument_check_validation(slice_index si,
  */
 void observation_play_move_to_validate(slice_index si, Side side);
 
-/* Determine whether observations are trivially validated (allowing for some
- * optimisations)
- * @param side for which side?
- */
-boolean is_observation_trivially_validated(Side side);
-
 /* version with function pointers
 typedef boolean (*validator_id)(void);
 #define EVALUATE(key) (&validate_##key)
@@ -154,10 +148,5 @@ void is_square_observed_insert_slice(slice_index testing,
 void stip_instrument_is_square_observed_testing(slice_index si,
                                                 Side side,
                                                 slice_type type);
-
-/* Optimise the square observation machinery if possible
- * @param si identifies the root slice of the solving machinery
- */
-void optimise_is_square_observed(slice_index si);
 
 #endif

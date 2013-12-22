@@ -36,6 +36,7 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
+#include "optimisations/observation.h"
 #include "platform/maxtime.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"

@@ -48,15 +48,12 @@ void transmuting_kings_initialise_solving(slice_index si, Side side);
 boolean transmuting_king_is_square_observed(slice_index si, validator_id evaluate);
 
 /* Instrument the square observation machinery for a side with an alternative
- * slice dealting with observations by kings.
+ * slice dealing with observations by kings.
  * @param si identifies the root slice of the solving machinery
  * @param side side for which to instrument the square observation machinery
  * @param type type of slice to insert
- * @return the inserted slice's identifier
- * @note next2 of inserted slices will be set to the position behind the
- *       regular square observation by king handler
  */
-slice_index instrument_alternative_is_square_observed_king_testing(slice_index si,
+void instrument_alternative_is_square_observed_king_testing(slice_index si,
                                                             Side side,
                                                             slice_type type);
 

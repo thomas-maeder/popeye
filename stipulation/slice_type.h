@@ -448,10 +448,16 @@
     /* square observation tester slices */                              \
     ENUMERATOR(STIsSquareObservedFork),                                 \
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
-    ENUMERATOR(STFindSquareObserverTrackingBack),                       \
-    ENUMERATOR(STFindSquareObserverTrackingBackKing),                   \
-    ENUMERATOR(STFindSquareObserverTrackingBackFairy),                  \
-    ENUMERATOR(STLandingAfterFindSquareObserverTrackingBackKing),       \
+    ENUMERATOR(STDeterminingObserverWalk),                              \
+    ENUMERATOR(STFindingSquareObserverTrackingBackKing),                \
+    ENUMERATOR(STFindingSquareObserverTrackingBackNonKing),             \
+    ENUMERATOR(STObserveWithOrthoNonKing),                              \
+    ENUMERATOR(STObserveWithKing),                                      \
+    ENUMERATOR(STObserveWithFairy),                                     \
+    ENUMERATOR(STDeterminedObserverWalk),                               \
+    ENUMERATOR(STDontTryObservingWithNonExistingWalk),                  \
+    ENUMERATOR(STDontTryObservingWithNonExistingWalkBothSides),         \
+    ENUMERATOR(STTrackBackFromTargetAccordingToObserverWalk),           \
     ENUMERATOR(STVaultingKingIsSquareObserved),                         \
     ENUMERATOR(STTransmutingKingIsSquareObserved),                      \
     ENUMERATOR(STReflectiveKingIsSquareObserved),                       \

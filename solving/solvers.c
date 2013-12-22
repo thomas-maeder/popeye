@@ -195,6 +195,7 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "optimisations/goals/remove_non_reachers.h"
 #include "optimisations/detect_retraction.h"
+#include "optimisations/observation.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -806,11 +807,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[annan])
     annan_initialise_solving(result);
-
-  if (flagfee)
-    stip_instrument_is_square_observed_testing(result,
-                                               nr_sides,
-                                               STFindSquareObserverTrackingBackFairy);
 
 #if defined(DOTRACE)
   stip_insert_move_tracers(result);

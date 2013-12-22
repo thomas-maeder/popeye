@@ -9,17 +9,17 @@
 extern PieNam observing_walk[maxply+1];
 
 typedef boolean (checkfunction_t)(validator_id );
-extern  checkfunction_t *checkfunctions[PieceCount];
+extern checkfunction_t *checkfunctions[PieceCount];
 
 extern PieNam checkpieces[PieceCount-Leo+1]; /* only fairies ! */
 
-boolean find_square_observer_tracking_back_from_target_king(slice_index si,
-                                                            validator_id evaluate);
+boolean track_back_from_target_according_to_observer_walk(slice_index si,
+                                                          validator_id evaluate);
 
-boolean find_square_observer_tracking_back_from_target_non_king(slice_index si,
-                                                                validator_id evaluate);
+boolean observe_with_king(slice_index si, validator_id evaluate);
 
-boolean find_square_observer_tracking_back_from_target_fairy(slice_index si,
-                                                             validator_id evaluate);
+boolean observe_with_ortho_non_king(slice_index si, validator_id evaluate);
+
+boolean observe_with_fairy(slice_index si, validator_id evaluate);
 
 #endif
