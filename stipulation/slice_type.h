@@ -309,7 +309,6 @@
     ENUMERATOR(STStrictSATCheckTester),                                 \
     ENUMERATOR(STAssassinCirceCheckTester),                             \
     ENUMERATOR(STKingSquareObservationTesterPlyInitialiser),            \
-    ENUMERATOR(STBicoloresCheckTester),                                 \
     ENUMERATOR(STAntikingsCheckTester),                                 \
     ENUMERATOR(STKingSquareObservationTester),                          \
     ENUMERATOR(STBGLEnforcer),                                          \
@@ -473,6 +472,7 @@
     ENUMERATOR(STValidatingCheck),                                      \
     ENUMERATOR(STValidatingObservationFork),                            \
     ENUMERATOR(STValidatingObservation),                                \
+    ENUMERATOR(STEnforceObserverSide),                                  \
     ENUMERATOR(STEnforceObserverWalk),                                  \
     ENUMERATOR(STEnforceHunterDirection),                               \
     ENUMERATOR(STBrunnerValidateCheck),                                 \

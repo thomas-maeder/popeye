@@ -30,10 +30,10 @@ piece is of the same colour as the king to be mated
   1.Bh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 #
   1.Bh8-d4 Se6-g7   2.Rg8-d8 Sg7*f5 #
 
-  add_to_move_generation_stack:       76524
-                     play_move:       65793
- is_white_king_square_attacked:        5285
- is_black_king_square_attacked:      126964
+  add_to_move_generation_stack:       76487
+                     play_move:       65352
+ is_white_king_square_attacked:        2789
+ is_black_king_square_attacked:       64995
 solution finished. 
 
 

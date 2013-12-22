@@ -18,20 +18,116 @@ boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si,
           && is_square_observed_recursive(slices[si].next1,evaluate));
 }
 
-static slice_type const ortho_check_slice_types_non_proxy[] =
+static slice_type const ortho_validation_slice_types_non_proxy[] =
+{
+    STEnforceObserverSide,
+    STEnforceObserverWalk
+};
+
+enum {
+  nr_ortho_validation_slice_types_non_proxy = sizeof ortho_validation_slice_types_non_proxy / sizeof ortho_validation_slice_types_non_proxy[0]
+};
+
+typedef struct
+{
+    boolean non_ortho_seen;
+    unsigned int ortho_seen[nr_ortho_validation_slice_types_non_proxy];
+} ortho_validation_trival_state_type;
+
+static unsigned int is_ortho_validation_slice_type(slice_type type)
+{
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_ortho_validation_slice_types_non_proxy; ++i)
+    if (type==ortho_validation_slice_types_non_proxy[i])
+      break;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",i);
+  TraceFunctionResultEnd();
+  return i;
+}
+
+static void is_validation_branch_remainder_ortho(slice_index si,
+                                                 stip_structure_traversal *st)
+{
+  ortho_validation_trival_state_type * const state = st->param;
+  slice_type const type = slices[si].type;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slice_type_get_functional_type(type)==slice_function_proxy)
+    stip_traverse_structure_children(si,st);
+  else
+  {
+    unsigned int const pos = is_ortho_validation_slice_type(type);
+    if (pos==nr_ortho_validation_slice_types_non_proxy)
+      state->non_ortho_seen = true;
+    else
+    {
+      ++state->ortho_seen[pos];
+      stip_traverse_structure_children(si,st);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static boolean is_validation_branch_ortho(slice_index entry)
+{
+  ortho_validation_trival_state_type state = { false };
+  boolean all_ortho_seen = true;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",entry);
+  TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,&state);
+    stip_structure_traversal_override_by_structure(&st,
+                                                   slice_structure_pipe,
+                                                   &is_validation_branch_remainder_ortho);
+    stip_traverse_structure(entry,&st);
+  }
+
+  {
+    unsigned int i;
+    for (i = 0; i!=nr_ortho_validation_slice_types_non_proxy; ++i)
+      if (state.ortho_seen[i]==0)
+        all_ortho_seen = false;
+  }
+
+  TraceValue("%u",state.non_ortho_seen);
+  TraceValue("%u",all_ortho_seen);
+  TraceEOL();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",!state.non_ortho_seen && all_ortho_seen);
+  TraceFunctionResultEnd();
+  return !state.non_ortho_seen && all_ortho_seen;
+}
+
+static slice_type const ortho_observation_slice_types_non_proxy[] =
 {
     STOr,
     STObserveWithKing,
     STObserveWithOrthoNonKing,
-    STEnforceObserverWalk,
     STTrackBackFromTargetAccordingToObserverWalk
 };
 
 enum {
-  nr_ortho_check_slice_types_non_proxy = sizeof ortho_check_slice_types_non_proxy / sizeof ortho_check_slice_types_non_proxy[0]
+  nr_ortho_observation_slice_types_non_proxy = sizeof ortho_observation_slice_types_non_proxy / sizeof ortho_observation_slice_types_non_proxy[0]
 };
 
-static boolean is_ortho_check_slice_type(slice_type type)
+static boolean is_ortho_observation_slice_type(slice_type type)
 {
   boolean result = false;
   unsigned int i;
@@ -40,8 +136,8 @@ static boolean is_ortho_check_slice_type(slice_type type)
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  for (i = 0; i!=nr_ortho_check_slice_types_non_proxy; ++i)
-    if (type==ortho_check_slice_types_non_proxy[i])
+  for (i = 0; i!=nr_ortho_observation_slice_types_non_proxy; ++i)
+    if (type==ortho_observation_slice_types_non_proxy[i])
     {
       result = true;
       break;
@@ -53,8 +149,8 @@ static boolean is_ortho_check_slice_type(slice_type type)
   return result;
 }
 
-static void is_branch_remainder_ortho(slice_index si,
-                                      stip_structure_traversal *st)
+static void is_observation_branch_remainder_ortho(slice_index si,
+                                                  stip_structure_traversal *st)
 {
   slice_type const type = slices[si].type;
 
@@ -63,7 +159,7 @@ static void is_branch_remainder_ortho(slice_index si,
   TraceFunctionParamListEnd();
 
   if (slice_type_get_functional_type(type)==slice_function_proxy
-      || is_ortho_check_slice_type(type))
+      || is_ortho_observation_slice_type(type))
     stip_traverse_structure_children(si,st);
   else
   {
@@ -75,7 +171,7 @@ static void is_branch_remainder_ortho(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean is_branch_ortho(slice_index entry)
+static boolean is_observation_branch_ortho(slice_index entry)
 {
   boolean result = true;
   stip_structure_traversal st;
@@ -87,10 +183,10 @@ static boolean is_branch_ortho(slice_index entry)
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
-                                                 &is_branch_remainder_ortho);
+                                                 &is_observation_branch_remainder_ortho);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
-                                                 &is_branch_remainder_ortho);
+                                                 &is_observation_branch_remainder_ortho);
   stip_traverse_structure(entry,&st);
 
   TraceFunctionExit(__func__);
@@ -111,7 +207,8 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==*side)
   {
-    if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek])
+    if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
+        || CondFlag[bicolores])
       is_square_observed_insert_slice(si,STDontTryObservingWithNonExistingWalkBothSides);
     else
       is_square_observed_insert_slice(si,STDontTryObservingWithNonExistingWalk);
@@ -129,7 +226,7 @@ static void optimise_side(slice_index si, Side side)
   TraceFunctionParamListEnd();
 
   if (is_observation_trivially_validated(side)
-      && is_branch_ortho(slices[temporary_hack_is_square_observed[side]].next2))
+      && is_observation_branch_ortho(slices[temporary_hack_is_square_observed[side]].next2))
     stip_instrument_is_square_observed_testing(si,side,STIsSquareObservedOrtho);
   else
   {
@@ -176,10 +273,10 @@ boolean is_observation_trivially_validated(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  result = (is_branch_ortho(slices[temporary_hack_check_validator[side]].next2)
-            && is_branch_ortho(slices[temporary_hack_observation_validator[side]].next2)
-            && is_branch_ortho(slices[temporary_hack_observation_geometry_validator[side]].next2)
-            && is_branch_ortho(slices[temporary_hack_observer_validator[side]].next2));
+  result = (is_validation_branch_ortho(slices[temporary_hack_check_validator[side]].next2)
+            && is_validation_branch_ortho(slices[temporary_hack_observation_validator[side]].next2)
+            && is_validation_branch_ortho(slices[temporary_hack_observation_geometry_validator[side]].next2)
+            && is_validation_branch_ortho(slices[temporary_hack_observer_validator[side]].next2));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

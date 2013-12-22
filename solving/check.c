@@ -3,7 +3,6 @@
 #include "conditions/sat.h"
 #include "conditions/vogtlaender.h"
 #include "conditions/circe/assassin.h"
-#include "conditions/bicolores.h"
 #include "conditions/antikings.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
@@ -170,10 +169,6 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = king_square_observation_tester_ply_initialiser_is_in_check(si,side_in_check);
       break;
 
-    case STBicoloresCheckTester:
-      result = bicolores_check_tester_is_in_check(si,side_in_check);
-      break;
-
     case STAntikingsCheckTester:
       result = antikings_check_tester_is_in_check(si,side_in_check);
       break;
@@ -219,7 +214,6 @@ static slice_index const slice_rank_order[] =
     STStrictSATCheckTester,
     STAssassinCirceCheckTester,
     STKingSquareObservationTesterPlyInitialiser,
-    STBicoloresCheckTester,
     STAntikingsCheckTester,
     STKingSquareObservationTester,
     STExtinctionAllSquareObservationTester,
