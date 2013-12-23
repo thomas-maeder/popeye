@@ -38,18 +38,18 @@
 #include <stdio.h>
 #include <string.h>
 
-static unsigned int WritePieces(char *pos, PieNam const *p)
+static unsigned int WriteWalks(char *pos, PieNam const walks[], unsigned int nr_walks)
 {
+  unsigned int i;
   unsigned int result = 0;
 
-  while (*p)
+  for (i = 0; i!=nr_walks; ++i)
   {
-    if (PieceTab[*p][1]==' ')
-      result += sprintf(pos+result, " %c",toupper(PieceTab[*p][0]));
+    PieNam const walk = walks[i];
+    if (PieceTab[walk][1]==' ')
+      result += sprintf(pos+result, " %c",toupper(PieceTab[walk][0]));
     else
-      result += sprintf(pos+result," %c%c",toupper(PieceTab[*p][0]),toupper(PieceTab[*p][1]));
-
-    p++;
+      result += sprintf(pos+result," %c%c",toupper(PieceTab[walk][0]),toupper(PieceTab[walk][1]));
   }
 
   return result;
@@ -230,7 +230,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       }
     }
 
-    if ( cond == kobulkings )
+    if (cond==kobulkings)
     {
       if (!kobulking[White])
         written += append_to_CondLine(&CondLine,written," %s","Black");
@@ -238,10 +238,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         written += append_to_CondLine(&CondLine,written," %s","White");
     }
 
-    if ( cond == whvault_king || cond == vault_king)
+    if (cond==whvault_king || cond==vault_king)
     {
-      if (king_vaulters[White][0] != EquiHopper || king_vaulters[White][1] != Empty)
-        written += WritePieces(CondLine+written,king_vaulters[White]);
+      if (nr_king_vaulters[White]!=1 || king_vaulters[White][0]!=EquiHopper)
+        written += WriteWalks(CondLine+written,king_vaulters[White],nr_king_vaulters[White]);
       if (vaulting_kings_transmuting[White])
       {
         written += append_to_CondLine(&CondLine,written,"%c",'-');
@@ -249,10 +249,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       }
     }
 
-    if ( cond == blvault_king )
+    if (cond==blvault_king)
     {
-      if (king_vaulters[Black][0] != EquiHopper || king_vaulters[Black][1] != Empty)
-        written += WritePieces(CondLine+written,king_vaulters[Black]);
+      if (nr_king_vaulters[Black]!=1 || king_vaulters[Black][0]!=EquiHopper)
+        written += WriteWalks(CondLine+written,king_vaulters[Black],nr_king_vaulters[Black]);
       if (vaulting_kings_transmuting[Black])
       {
         written += append_to_CondLine(&CondLine,written,"%c",'-');
@@ -260,7 +260,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       }
     }
 
-    if (cond == promotiononly)
+    if (cond==promotiononly)
     {
       PieNam pp = Empty;
       while (true)

@@ -234,7 +234,7 @@ static void optimise_side(slice_index si, Side side)
 
     stip_structure_traversal_init(&st,&side);
     stip_structure_traversal_override_single(&st,
-                                             STDeterminedObserverWalk,
+                                             STOptimisingObserverWalk,
                                              &insert_filter);
     stip_traverse_structure(si,&st);
   }

@@ -309,6 +309,7 @@ static slice_index make_is_square_observed(Side side)
   slice_index const finding_non_king = alloc_pipe(STFindingSquareObserverTrackingBackNonKing);
   slice_index const king = alloc_pipe(STObserveWithKing);
 
+  slice_index const optimising = alloc_pipe(STOptimisingObserverWalk);
   slice_index const after_all = alloc_pipe(STDeterminedObserverWalk);
   slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
 
@@ -318,7 +319,7 @@ static slice_index make_is_square_observed(Side side)
 
   pipe_link(proxy_king,finding_king);
   pipe_link(finding_king,king);
-  pipe_link(king,after_all);
+  pipe_link(king,optimising);
 
   pipe_link(proxy_non_king,finding_non_king);
 
@@ -333,17 +334,18 @@ static slice_index make_is_square_observed(Side side)
     pipe_link(finding_non_king,or);
     pipe_link(proxy_ortho,tester_ortho);
     pipe_link(proxy_fairy,tester_fairy);
-    pipe_link(tester_ortho,after_all);
-    pipe_link(tester_fairy,after_all);
+    pipe_link(tester_ortho,optimising);
+    pipe_link(tester_fairy,optimising);
   }
   else
   {
     slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
 
     pipe_link(finding_non_king,tester_ortho);
-    pipe_link(tester_ortho,after_all);
+    pipe_link(tester_ortho,optimising);
   }
 
+  pipe_link(optimising,after_all);
   pipe_link(after_all,track_back);
   pipe_link(track_back,alloc_false_slice());
 
@@ -358,6 +360,7 @@ static slice_index make_is_square_observed_by_non_king(Side side)
   slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
   slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
   slice_index const finding_non_king = alloc_pipe(STFindingSquareObserverTrackingBackNonKing);
+  slice_index const optimising = alloc_pipe(STOptimisingObserverWalk);
   slice_index const after_all = alloc_pipe(STDeterminedObserverWalk);
   slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
 
@@ -375,17 +378,18 @@ static slice_index make_is_square_observed_by_non_king(Side side)
     pipe_link(finding_non_king,or);
     pipe_link(proxy_ortho,tester_ortho);
     pipe_link(proxy_fairy,tester_fairy);
-    pipe_link(tester_ortho,after_all);
-    pipe_link(tester_fairy,after_all);
+    pipe_link(tester_ortho,optimising);
+    pipe_link(tester_fairy,optimising);
   }
   else
   {
     slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
 
     pipe_link(finding_non_king,tester_ortho);
-    pipe_link(tester_ortho,after_all);
+    pipe_link(tester_ortho,optimising);
   }
 
+  pipe_link(optimising,after_all);
   pipe_link(after_all,track_back);
   pipe_link(track_back,alloc_false_slice());
 

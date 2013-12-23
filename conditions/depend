@@ -3944,7 +3944,9 @@ conditions/bicolores$(OBJ_SUFFIX): conditions/bicolores.c conditions/bicolores.h
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h solving/check.h solving/ply.h
+ pieces/walks/vectors.h output/mode.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
+ solving/solve.h stipulation/temporary_hacks.h
 
 conditions/bicolores.h:
 
@@ -3970,9 +3972,17 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
-solving/check.h:
+stipulation/structure_traversal.h:
 
-solving/ply.h:
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+solving/solve.h:
+
+stipulation/temporary_hacks.h:
 conditions/antikings$(OBJ_SUFFIX): conditions/antikings.c conditions/antikings.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \

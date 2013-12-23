@@ -453,11 +453,13 @@
     ENUMERATOR(STObserveWithOrthoNonKing),                              \
     ENUMERATOR(STObserveWithKing),                                      \
     ENUMERATOR(STObserveWithFairy),                                     \
+    ENUMERATOR(STOptimisingObserverWalk),                               \
     ENUMERATOR(STDeterminedObserverWalk),                               \
     ENUMERATOR(STDontTryObservingWithNonExistingWalk),                  \
     ENUMERATOR(STDontTryObservingWithNonExistingWalkBothSides),         \
     ENUMERATOR(STTrackBackFromTargetAccordingToObserverWalk),           \
     ENUMERATOR(STVaultingKingIsSquareObserved),                         \
+    ENUMERATOR(STVaultingKingsEnforceObserverWalk),                     \
     ENUMERATOR(STTransmutingKingIsSquareObserved),                      \
     ENUMERATOR(STReflectiveKingIsSquareObserved),                       \
     ENUMERATOR(STAnnanEnforceObserverWalk),                             \

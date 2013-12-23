@@ -10,6 +10,7 @@
 
 extern boolean vaulting_kings_transmuting[nr_sides];
 extern PieNam king_vaulters[nr_sides][PieceCount];
+extern unsigned int nr_king_vaulters[nr_sides];
 
 /* Reset the king vaulters
  */
@@ -26,6 +27,10 @@ void append_king_vaulter(Side side, PieNam p);
  * @param p walk to be used for generating
  */
 void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p);
+
+/* Make sure to behave correctly while detecting observations by vaulting kings
+ */
+boolean vaulting_kings_enforce_observer_walk(slice_index si);
 
 /* Determine whether a square is observed be the side at the move according to
  * Vaulting Kings

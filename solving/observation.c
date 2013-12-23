@@ -81,7 +81,6 @@ static boolean enforce_observer_walk(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TracePiece(observing_walk[nbply]);TraceEOL();
   if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
     result = validate_observation_recursive(slices[si].next1);
   else
@@ -111,6 +110,10 @@ boolean validate_observation_recursive(slice_index si)
   {
     case STEnforceObserverSide:
       result = enforce_observer_side(si);
+      break;
+
+    case STVaultingKingsEnforceObserverWalk:
+      result = vaulting_kings_enforce_observer_walk(si);
       break;
 
     case STEnforceObserverWalk:
@@ -357,6 +360,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STEnforceObserverSide,
+    STVaultingKingsEnforceObserverWalk,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STMagicPiecesObserverEnforcer,
@@ -767,9 +771,10 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STFindingSquareObserverTrackingBackNonKing,
     STObserveWithOrthoNonKing,
     STObserveWithFairy,
-    STDeterminedObserverWalk,
+    STOptimisingObserverWalk,
     STDontTryObservingWithNonExistingWalk,
     STDontTryObservingWithNonExistingWalkBothSides,
+    STDeterminedObserverWalk,
     STTrackBackFromTargetAccordingToObserverWalk,
     STFalse
 };

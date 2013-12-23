@@ -1983,16 +1983,16 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  solving/solve.h conditions/backhome.h conditions/beamten.h \
  conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/brunner.h conditions/central.h \
- conditions/disparate.h conditions/facetoface.h conditions/geneva.h \
- conditions/imitator.h conditions/immune.h conditions/lortap.h \
- conditions/mummer.h conditions/patrol.h conditions/provocateurs.h \
+ conditions/disparate.h conditions/geneva.h conditions/imitator.h \
+ conditions/immune.h conditions/lortap.h conditions/mummer.h \
+ conditions/patrol.h conditions/provocateurs.h \
  conditions/shielded_kings.h conditions/superguards.h \
  conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
  conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
  solving/move_generator.h conditions/bichrome.h conditions/grid.h \
- conditions/edgemover.h conditions/annan.h conditions/phantom.h \
- conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
- conditions/singlebox/type3.h \
+ conditions/edgemover.h conditions/annan.h conditions/facetoface.h \
+ conditions/phantom.h conditions/marscirce/plus.h \
+ conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/vaulting_kings.h pieces/walks/hunters.h \
@@ -2001,7 +2001,8 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
- optimisations/orthodox_square_observation.h debugging/trace.h
+ optimisations/orthodox_square_observation.h optimisations/observation.h \
+ debugging/trace.h
 
 solving/observation.h:
 
@@ -2053,8 +2054,6 @@ conditions/central.h:
 
 conditions/disparate.h:
 
-conditions/facetoface.h:
-
 conditions/geneva.h:
 
 conditions/imitator.h:
@@ -2095,6 +2094,8 @@ conditions/edgemover.h:
 
 conditions/annan.h:
 
+conditions/facetoface.h:
+
 conditions/phantom.h:
 
 conditions/marscirce/plus.h:
@@ -2131,6 +2132,8 @@ stipulation/branch.h:
 
 optimisations/orthodox_square_observation.h:
 
+optimisations/observation.h:
+
 debugging/trace.h:
 solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
@@ -2139,7 +2142,7 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  conditions/extinction.h solving/solve.h conditions/sat.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/vogtlaender.h conditions/circe/assassin.h \
- conditions/bicolores.h conditions/antikings.h solving/observation.h \
+ conditions/antikings.h solving/observation.h \
  stipulation/temporary_hacks.h solving/move_generator.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h \
@@ -2186,8 +2189,6 @@ position/pieceid.h:
 conditions/vogtlaender.h:
 
 conditions/circe/assassin.h:
-
-conditions/bicolores.h:
 
 conditions/antikings.h:
 
@@ -2498,7 +2499,8 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/goals/remove_non_reachers.h \
- optimisations/detect_retraction.h debugging/trace.h debugging/measure.h
+ optimisations/detect_retraction.h optimisations/observation.h \
+ debugging/trace.h debugging/measure.h
 
 solving/solvers.h:
 
@@ -2936,6 +2938,8 @@ optimisations/goals/remove_non_reachers.h:
 
 optimisations/detect_retraction.h:
 
+optimisations/observation.h:
+
 debugging/trace.h:
 
 debugging/measure.h:
@@ -2952,8 +2956,8 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  optimisations/intelligent/moves_left.h \
  optimisations/orthodox_check_directions.h \
  optimisations/intelligent/count_nr_of_moves.h \
- optimisations/intelligent/intelligent.h platform/maxtime.h \
- conditions/duellists.h conditions/haunted_chess.h \
+ optimisations/intelligent/intelligent.h optimisations/observation.h \
+ platform/maxtime.h conditions/duellists.h conditions/haunted_chess.h \
  conditions/vaulting_kings.h conditions/imitator.h \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h pylang.h options/options.h \
@@ -3023,6 +3027,8 @@ optimisations/orthodox_check_directions.h:
 optimisations/intelligent/count_nr_of_moves.h:
 
 optimisations/intelligent/intelligent.h:
+
+optimisations/observation.h:
 
 platform/maxtime.h:
 

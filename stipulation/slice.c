@@ -216,6 +216,7 @@ static slice_type const proxy_slice_types[] =
     STDeterminingObserverWalk,
     STFindingSquareObserverTrackingBackKing,
     STFindingSquareObserverTrackingBackNonKing,
+    STOptimisingObserverWalk,
     STDeterminedObserverWalk,
     STValidatingCheck,
     STValidatingObservation,
