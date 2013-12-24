@@ -451,7 +451,7 @@
     ENUMERATOR(STDontTryObservingWithNonExistingWalkBothSides),         \
     ENUMERATOR(STTrackBackFromTargetAccordingToObserverWalk),           \
     ENUMERATOR(STVaultingKingIsSquareObserved),                         \
-    ENUMERATOR(STVaultingKingsEnforceObserverWalk),                     \
+    ENUMERATOR(STTransmutingKingsEnforceObserverWalk),                  \
     ENUMERATOR(STTransmutingKingIsSquareObserved),                      \
     ENUMERATOR(STReflectiveKingIsSquareObserved),                       \
     ENUMERATOR(STAnnanEnforceObserverWalk),                             \

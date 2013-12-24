@@ -68,8 +68,6 @@ void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p)
   generate_moves_for_piece(slices[si].next1,p);
 }
 
-static boolean testing_observation_by_vaulting_king[maxply+1];
-
 static boolean does_vaulting_king_observe(slice_index si, validator_id evaluate)
 {
   boolean result = false;
@@ -80,7 +78,7 @@ static boolean does_vaulting_king_observe(slice_index si, validator_id evaluate)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  testing_observation_by_vaulting_king[nbply] = true;
+  testing_observation_by_transmuting_king[nbply] = true;
 
   for (i = 0; i!=nr_king_vaulters[side_observing]; ++i)
   {
@@ -93,7 +91,7 @@ static boolean does_vaulting_king_observe(slice_index si, validator_id evaluate)
     }
   }
 
-  testing_observation_by_vaulting_king[nbply] = false;
+  testing_observation_by_transmuting_king[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -138,38 +136,6 @@ boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate)
   return result;
 }
 
-/* Make sure to behave correctly while detecting observations by vaulting kings
- */
-boolean vaulting_kings_enforce_observer_walk(slice_index si)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (testing_observation_by_vaulting_king[nbply])
-  {
-    square const sq_king = king_square[trait[nbply]];
-    if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==sq_king)
-    {
-      PieNam const save_walk = observing_walk[nbply];
-      observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
-      result = validate_observation_recursive(slices[si].next1);
-      observing_walk[nbply] = save_walk;
-    }
-    else
-      return false;
-  }
-  else
-    result = validate_observation_recursive(slices[si].next1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Initialise the solving machinery with Vaulting Kings
  * @param si root slice of the solving machinery
  * @param side for whom
@@ -191,8 +157,8 @@ void vaulting_kings_initalise_solving(slice_index si, Side side)
 
   instrument_alternative_is_square_observed_king_testing(si,side,STVaultingKingIsSquareObserved);
 
-  stip_instrument_observation_validation(si,nr_sides,STVaultingKingsEnforceObserverWalk);
-  stip_instrument_check_validation(si,nr_sides,STVaultingKingsEnforceObserverWalk);
+  stip_instrument_observation_validation(si,side,STTransmutingKingsEnforceObserverWalk);
+  stip_instrument_check_validation(si,side,STTransmutingKingsEnforceObserverWalk);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

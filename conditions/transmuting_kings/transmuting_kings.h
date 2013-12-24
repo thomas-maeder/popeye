@@ -11,6 +11,8 @@
 extern PieNam transmpieces[nr_sides][PieceCount];
 extern boolean transmuting_kings_lock_recursion;
 
+extern boolean testing_observation_by_transmuting_king[maxply+1];
+
 /* Initialise the sequence of king transmuters
  * @param side for which side to initialise?
  */
@@ -46,6 +48,10 @@ void transmuting_kings_initialise_solving(slice_index si, Side side);
  * @return true iff sq_target is observed by the side at the move
  */
 boolean transmuting_king_is_square_observed(slice_index si, validator_id evaluate);
+
+/* Make sure to behave correctly while detecting observations by vaulting kings
+ */
+boolean transmuting_kings_enforce_observer_walk(slice_index si);
 
 /* Instrument the square observation machinery for a side with an alternative
  * slice dealing with observations by kings.

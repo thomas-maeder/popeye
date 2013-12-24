@@ -112,8 +112,8 @@ boolean validate_observation_recursive(slice_index si)
       result = enforce_observer_side(si);
       break;
 
-    case STVaultingKingsEnforceObserverWalk:
-      result = vaulting_kings_enforce_observer_walk(si);
+    case STTransmutingKingsEnforceObserverWalk:
+      result = transmuting_kings_enforce_observer_walk(si);
       break;
 
     case STEnforceObserverWalk:
@@ -360,7 +360,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STEnforceObserverSide,
-    STVaultingKingsEnforceObserverWalk,
+    STTransmutingKingsEnforceObserverWalk,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STMagicPiecesObserverEnforcer,
