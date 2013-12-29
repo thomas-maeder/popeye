@@ -219,7 +219,19 @@ checkfunction_t *checkfunctions[PieceCount] =
 boolean track_back_from_target_according_to_observer_walk(slice_index si,
                                                           validator_id evaluate)
 {
-  return (*checkfunctions[observing_walk[nbply]])(evaluate);
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TracePiece(observing_walk[nbply]);TraceEOL();
+  result = (*checkfunctions[observing_walk[nbply]])(evaluate);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 boolean observe_with_king(slice_index si, validator_id evaluate)
