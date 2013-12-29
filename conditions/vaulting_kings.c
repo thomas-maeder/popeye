@@ -13,6 +13,8 @@ boolean vaulting_kings_transmuting[nr_sides];
 PieNam king_vaulters[nr_sides][PieceCount];
 unsigned int nr_king_vaulters[nr_sides];
 
+static boolean is_king_vaulting[maxply+1];
+
 void reset_king_vaulters(void)
 {
   nr_king_vaulters[White] = 0;
@@ -68,37 +70,6 @@ void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p)
   generate_moves_for_piece(slices[si].next1,p);
 }
 
-static boolean does_vaulting_king_observe(slice_index si, validator_id evaluate)
-{
-  boolean result = false;
-  unsigned int i;
-  Side const side_observing = trait[nbply];
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  testing_observation_by_transmuting_king[nbply] = true;
-
-  for (i = 0; i!=nr_king_vaulters[side_observing]; ++i)
-  {
-    observing_walk[nbply] = king_vaulters[side_observing][i];
-    TraceValue("%u",i);TracePiece(king_vaulters[side_observing][i]);TraceEOL();
-    if (is_square_observed_recursive(slices[si].next2,evaluate))
-    {
-      result = true;
-      break;
-    }
-  }
-
-  testing_observation_by_transmuting_king[nbply] = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Determine whether a square is observed be the side at the move according to
  * Vaulting Kings
  * @param si identifies next slice
@@ -107,28 +78,84 @@ static boolean does_vaulting_king_observe(slice_index si, validator_id evaluate)
 boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate)
 {
   boolean result;
+  Side const side_observing = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (king_square[trait[nbply]]==initsquare)
+  if (king_square[side_observing]==initsquare)
     result = is_square_observed_recursive(slices[si].next1,evaluate);
   else
   {
-    Side const side_observing = trait[nbply];
-    if (is_kingsquare_observed(temporary_hack_is_square_observed_by_non_king[side_observing]))
+    is_king_vaulting[nbply] = is_kingsquare_observed(temporary_hack_is_square_observed_by_non_king[side_observing]);
+    result = is_square_observed_recursive(slices[si].next1,evaluate);
+    is_king_vaulting[nbply] = false;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static boolean is_king_vaulter(Side side, PieNam walk)
+{
+  unsigned int i;
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TracePiece(walk);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_king_vaulters[side]; ++i)
+    if (walk==king_vaulters[side][i])
     {
-      if (does_vaulting_king_observe(si,evaluate))
-        result = true;
-      else if (vaulting_kings_transmuting[side_observing])
-        result = false;
+      result = true;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Make sure to behave correctly while detecting observations by vaulting kings
+ */
+boolean vaulting_kings_enforce_observer_walk(slice_index si)
+{
+  boolean result;
+  Side const side_observing = trait[nbply];
+  square const sq_king = king_square[side_observing];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==sq_king)
+  {
+    if (is_king_vaulting[nbply])
+    {
+      if (is_king_vaulter(side_observing,observing_walk[nbply]))
+      {
+        PieNam const save_walk = observing_walk[nbply];
+        observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
+        result = validate_observation_recursive(slices[si].next1);
+        observing_walk[nbply] = save_walk;
+
+        if (!result && !vaulting_kings_transmuting[side_observing])
+          result = validate_observation_recursive(slices[si].next1);
+      }
       else
-        result = is_square_observed_recursive(slices[si].next1,evaluate);
+        result = validate_observation_recursive(slices[si].next1);
     }
     else
-      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      result = validate_observation_recursive(slices[si].next1);
   }
+  else
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -155,10 +182,10 @@ void vaulting_kings_initalise_solving(slice_index si, Side side)
 
   solving_instrument_move_generation(si,side,STVaultingKingsMovesForPieceGenerator);
 
-  instrument_alternative_is_square_observed_king_testing(si,side,STVaultingKingIsSquareObserved);
+  stip_instrument_is_square_observed_testing(si,side,STVaultingKingIsSquareObserved);
 
-  stip_instrument_observation_validation(si,side,STTransmutingKingsEnforceObserverWalk);
-  stip_instrument_check_validation(si,side,STTransmutingKingsEnforceObserverWalk);
+  stip_instrument_observation_validation(si,side,STVaultingKingsEnforceObserverWalk);
+  stip_instrument_check_validation(si,side,STVaultingKingsEnforceObserverWalk);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

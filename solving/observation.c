@@ -116,6 +116,14 @@ boolean validate_observation_recursive(slice_index si)
       result = transmuting_kings_enforce_observer_walk(si);
       break;
 
+    case STVaultingKingsEnforceObserverWalk:
+      result = vaulting_kings_enforce_observer_walk(si);
+      break;
+
+    case STReflectiveKingsEnforceObserverWalk:
+      result = reflective_kings_enforce_observer_walk(si);
+      break;
+
     case STEnforceObserverWalk:
       result = enforce_observer_walk(si);
       break;
@@ -321,11 +329,10 @@ typedef struct
 } instrumentation_type;
 
 static void insert_slice(slice_index testing,
-                         slice_type type,
+                         slice_index prototype,
                          slice_index const rank_order[],
                          unsigned int nr_rank_order)
 {
-  slice_index const prototype = alloc_pipe(type);
   stip_structure_traversal st;
   branch_slice_insertion_state_type state =
   {
@@ -339,7 +346,7 @@ static void insert_slice(slice_index testing,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing);
-  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParam("%u",prototype);
   TraceFunctionParamListEnd();
 
   state.base_rank = get_slice_rank(slices[testing].type,&state);
@@ -361,6 +368,8 @@ static slice_index const observation_validation_slice_rank_order[] =
     STMasandEnforceObserver,
     STEnforceObserverSide,
     STTransmutingKingsEnforceObserverWalk,
+    STVaultingKingsEnforceObserverWalk,
+    STReflectiveKingsEnforceObserverWalk,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STMagicPiecesObserverEnforcer,
@@ -429,7 +438,7 @@ static void observation_validation_insert_slice(slice_index validating,
   TraceFunctionParamListEnd();
 
   insert_slice(validating,
-               type,
+               alloc_pipe(type),
                observation_validation_slice_rank_order,
                nr_observation_validation_slice_rank_order);
 
@@ -695,16 +704,12 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
       result = transmuting_king_is_square_observed(si,evaluate);
       break;
 
-    case STReflectiveKingIsSquareObserved:
-      result = reflective_king_is_square_observed(si,evaluate);
+    case STTransmutingKingDetectNonTransmutation:
+      result = transmuting_king_detect_non_transmutation(si,evaluate);
       break;
 
-    case STObserveWithKing:
-      result = observe_with_king(si,evaluate);
-      break;
-
-    case STObserveWithOrthoNonKing:
-      result = observe_with_ortho_non_king(si,evaluate);
+    case STObserveWithOrtho:
+      result = observe_with_ortho(si,evaluate);
       break;
 
     case STObserveWithFairy:
@@ -762,19 +767,15 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
     STMarsIsSquareObserved,
-    STDeterminingObserverWalk,
-    STFindingSquareObserverTrackingBackKing,
-    STVaultingKingIsSquareObserved,
     STTransmutingKingIsSquareObserved,
-    STReflectiveKingIsSquareObserved,
-    STObserveWithKing,
-    STFindingSquareObserverTrackingBackNonKing,
-    STObserveWithOrthoNonKing,
+    STVaultingKingIsSquareObserved,
+    STDeterminingObserverWalk,
+    STObserveWithOrtho,
     STObserveWithFairy,
     STOptimisingObserverWalk,
     STDontTryObservingWithNonExistingWalk,
     STDontTryObservingWithNonExistingWalkBothSides,
-    STDeterminedObserverWalk,
+    STTransmutingKingDetectNonTransmutation,
     STTrackBackFromTargetAccordingToObserverWalk,
     STFalse
 };
@@ -788,15 +789,16 @@ enum
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
  * @param type type of slice to insert
  */
-void is_square_observed_insert_slice(slice_index testing, slice_type type)
+void is_square_observed_insert_slice(slice_index testing,
+                                     slice_index prototype)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",testing);
-  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParam("%u",prototype);
   TraceFunctionParamListEnd();
 
   insert_slice(testing,
-               type,
+               prototype,
                is_square_observed_slice_rank_order,
                nr_is_square_observed_slice_rank_order_elmts);
 
@@ -816,7 +818,7 @@ static void instrument_square_observed_testing(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (it->side==nr_sides || it->side==slices[si].starter)
-    is_square_observed_insert_slice(si,it->type);
+    is_square_observed_insert_slice(si,alloc_pipe(it->type));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -17,12 +17,14 @@
  */
 void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p)
 {
+  square const sq_departure = move_generation_stack[current_generation].departure;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (p==King)
+  if (sq_departure==king_square[trait[nbply]])
   {
     numecoup const base = CURRMOVE_OF_PLY(nbply);
     generate_moves_for_piece(slices[si].next1,King);
@@ -36,31 +38,42 @@ void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p)
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a square is observed be the side at the move according to
- * Reflective Kings
+/* Validate an observation according to Reflective Kings
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @return true iff observation is valid
  */
-boolean reflective_king_is_square_observed(slice_index si, validator_id evaluate)
+boolean reflective_kings_enforce_observer_walk(slice_index si)
 {
-  if (number_of_pieces[trait[nbply]][King]>0)
+  boolean result;
+  square const sq_king = king_square[trait[nbply]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (transmuting_kings_testing_transmutation[advers(trait[nbply])])
+    result = validate_observation_recursive(slices[si].next1);
+  else if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==sq_king)
   {
-    Side const side_attacking = trait[nbply];
-    Side const side_attacked = advers(side_attacking);
-
-    PieNam *ptrans;
-
-    for (ptrans = transmpieces[side_attacking]; *ptrans; ptrans++)
-      if (number_of_pieces[side_attacked][*ptrans]>0
-          && is_king_transmuting_as(*ptrans,evaluate))
-      {
-        observing_walk[nbply] = King;
-        if ((*checkfunctions[*ptrans])(evaluate))
-          return true;
-      }
+    if (validate_observation_recursive(slices[si].next1))
+      result = true;
+    else if (transmuting_kings_is_king_transmuting_as(observing_walk[nbply]))
+    {
+      PieNam const save_walk = observing_walk[nbply];
+      observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
+      result = validate_observation_recursive(slices[si].next1);
+      observing_walk[nbply] = save_walk;
+    }
+    else
+      result = false;
   }
+  else
+    result = validate_observation_recursive(slices[si].next1);
 
-  return is_square_observed_recursive(slices[si].next1,evaluate);
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Inialise the solving machinery with reflective kings
@@ -75,7 +88,9 @@ void reflective_kings_initialise_solving(slice_index si, Side side)
   TraceFunctionParamListEnd();
 
   solving_instrument_move_generation(si,side,STReflectiveKingsMovesForPieceGenerator);
-  instrument_alternative_is_square_observed_king_testing(si,side,STReflectiveKingIsSquareObserved);
+
+  stip_instrument_observation_validation(si,side,STReflectiveKingsEnforceObserverWalk);
+  stip_instrument_check_validation(si,side,STReflectiveKingsEnforceObserverWalk);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

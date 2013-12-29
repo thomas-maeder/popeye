@@ -300,53 +300,31 @@ static slice_index make_is_square_observed(Side side)
   slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
   slice_index const testing = alloc_pipe(STTestingIfSquareIsObserved);
   slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
-
-  slice_index const proxy_king = alloc_proxy_slice();
-  slice_index const proxy_non_king = alloc_proxy_slice();
-  slice_index const or = alloc_or_slice(proxy_king,proxy_non_king);
-
-  slice_index const finding_king = alloc_pipe(STFindingSquareObserverTrackingBackKing);
-  slice_index const finding_non_king = alloc_pipe(STFindingSquareObserverTrackingBackNonKing);
-  slice_index const king = alloc_pipe(STObserveWithKing);
+  slice_index const tester_ortho = alloc_pipe(STObserveWithOrtho);
 
   slice_index const optimising = alloc_pipe(STOptimisingObserverWalk);
-  slice_index const after_all = alloc_pipe(STDeterminedObserverWalk);
   slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
 
   pipe_link(proxy,testing);
   pipe_link(testing,determining_walk);
-  pipe_link(determining_walk,or);
-
-  pipe_link(proxy_king,finding_king);
-  pipe_link(finding_king,king);
-  pipe_link(king,optimising);
-
-  pipe_link(proxy_non_king,finding_non_king);
 
   if (flagfee)
   {
-    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
     slice_index const tester_fairy = alloc_pipe(STObserveWithFairy);
     slice_index const proxy_ortho = alloc_proxy_slice();
     slice_index const proxy_fairy = alloc_proxy_slice();
     slice_index const or = alloc_or_slice(proxy_ortho,proxy_fairy);
 
-    pipe_link(finding_non_king,or);
+    pipe_link(determining_walk,or);
     pipe_link(proxy_ortho,tester_ortho);
     pipe_link(proxy_fairy,tester_fairy);
-    pipe_link(tester_ortho,optimising);
     pipe_link(tester_fairy,optimising);
   }
   else
-  {
-    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
+    pipe_link(determining_walk,tester_ortho);
 
-    pipe_link(finding_non_king,tester_ortho);
-    pipe_link(tester_ortho,optimising);
-  }
-
-  pipe_link(optimising,after_all);
-  pipe_link(after_all,track_back);
+  pipe_link(tester_ortho,optimising);
+  pipe_link(optimising,track_back);
   pipe_link(track_back,alloc_false_slice());
 
   stip_impose_starter(result,side);
@@ -359,38 +337,29 @@ static slice_index make_is_square_observed_by_non_king(Side side)
   slice_index const proxy = alloc_proxy_slice();
   slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
   slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
-  slice_index const finding_non_king = alloc_pipe(STFindingSquareObserverTrackingBackNonKing);
+  slice_index const tester_ortho = alloc_pipe(STObserveWithOrtho);
   slice_index const optimising = alloc_pipe(STOptimisingObserverWalk);
-  slice_index const after_all = alloc_pipe(STDeterminedObserverWalk);
   slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
 
   pipe_link(proxy,determining_walk);
-  pipe_link(determining_walk,finding_non_king);
 
   if (flagfee)
   {
-    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
     slice_index const tester_fairy = alloc_pipe(STObserveWithFairy);
     slice_index const proxy_ortho = alloc_proxy_slice();
     slice_index const proxy_fairy = alloc_proxy_slice();
     slice_index const or = alloc_or_slice(proxy_ortho,proxy_fairy);
 
-    pipe_link(finding_non_king,or);
+    pipe_link(determining_walk,or);
     pipe_link(proxy_ortho,tester_ortho);
     pipe_link(proxy_fairy,tester_fairy);
-    pipe_link(tester_ortho,optimising);
     pipe_link(tester_fairy,optimising);
   }
   else
-  {
-    slice_index const tester_ortho = alloc_pipe(STObserveWithOrthoNonKing);
+    pipe_link(determining_walk,tester_ortho);
 
-    pipe_link(finding_non_king,tester_ortho);
-    pipe_link(tester_ortho,optimising);
-  }
-
-  pipe_link(optimising,after_all);
-  pipe_link(after_all,track_back);
+  pipe_link(tester_ortho,optimising);
+  pipe_link(optimising,track_back);
   pipe_link(track_back,alloc_false_slice());
 
   stip_impose_starter(result,side);

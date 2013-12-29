@@ -107,7 +107,6 @@ static slice_type const fork_slice_types[] =
     STIsSquareObservedFork,
     STTransmutingKingIsSquareObserved,
     STVaultingKingIsSquareObserved,
-    STReflectiveKingIsSquareObserved,
     STValidatingCheckFork,
     STValidatingObservationFork,
     STValidatingObserverFork,
@@ -214,10 +213,7 @@ static slice_type const proxy_slice_types[] =
     STTestingCheck,
     STTestingIfSquareIsObserved,
     STDeterminingObserverWalk,
-    STFindingSquareObserverTrackingBackKing,
-    STFindingSquareObserverTrackingBackNonKing,
     STOptimisingObserverWalk,
-    STDeterminedObserverWalk,
     STValidatingCheck,
     STValidatingObservation,
     STValidatingObserver,
@@ -277,8 +273,7 @@ static slice_type const binary_slice_types[] =
     STPawnToImitatorPromoter,
     STKillerMoveFinalDefenseMove,
     STTransmutingKingIsSquareObserved,
-    STVaultingKingIsSquareObserved,
-    STReflectiveKingIsSquareObserved
+    STVaultingKingIsSquareObserved
 };
 
 static slice_type const testing_pipe_slice_types[] =

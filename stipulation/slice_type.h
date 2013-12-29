@@ -448,20 +448,18 @@
     ENUMERATOR(STIsSquareObservedFork),                                 \
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
     ENUMERATOR(STDeterminingObserverWalk),                              \
-    ENUMERATOR(STFindingSquareObserverTrackingBackKing),                \
-    ENUMERATOR(STFindingSquareObserverTrackingBackNonKing),             \
-    ENUMERATOR(STObserveWithOrthoNonKing),                              \
-    ENUMERATOR(STObserveWithKing),                                      \
+    ENUMERATOR(STObserveWithOrtho),                                     \
     ENUMERATOR(STObserveWithFairy),                                     \
     ENUMERATOR(STOptimisingObserverWalk),                               \
-    ENUMERATOR(STDeterminedObserverWalk),                               \
     ENUMERATOR(STDontTryObservingWithNonExistingWalk),                  \
     ENUMERATOR(STDontTryObservingWithNonExistingWalkBothSides),         \
     ENUMERATOR(STTrackBackFromTargetAccordingToObserverWalk),           \
+    ENUMERATOR(STVaultingKingsEnforceObserverWalk),                     \
     ENUMERATOR(STVaultingKingIsSquareObserved),                         \
     ENUMERATOR(STTransmutingKingsEnforceObserverWalk),                  \
     ENUMERATOR(STTransmutingKingIsSquareObserved),                      \
-    ENUMERATOR(STReflectiveKingIsSquareObserved),                       \
+    ENUMERATOR(STTransmutingKingDetectNonTransmutation),                \
+    ENUMERATOR(STReflectiveKingsEnforceObserverWalk),                   \
     ENUMERATOR(STAnnanEnforceObserverWalk),                             \
     ENUMERATOR(STFaceToFaceEnforceObserverWalk),                        \
     ENUMERATOR(STBackToBackEnforceObserverWalk),                        \

@@ -6,7 +6,6 @@
 #include "pieces/pieces.h"
 #include "position/position.h"
 #include "stipulation/stipulation.h"
-#include "solving/observation.h"
 
 /* Generate moves for a single piece
  * @param identifies generator slice
@@ -20,11 +19,10 @@ void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p);
  */
 void reflective_kings_initialise_solving(slice_index si, Side side);
 
-/* Determine whether a square is observed be the side at the move according to
- * Reflective Kings
+/* Validate an observation according to Reflective Kings
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @return true iff observation is valid
  */
-boolean reflective_king_is_square_observed(slice_index si, validator_id evaluate);
+boolean reflective_kings_enforce_observer_walk(slice_index si);
 
 #endif

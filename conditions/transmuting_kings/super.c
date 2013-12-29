@@ -98,7 +98,7 @@ static boolean generate_moves_of_supertransmuting_king(slice_index si)
   Side const side_transmuting = advers(side_moving);
 
   PieNam const *ptrans;
-  for (ptrans = transmpieces[side_moving]; *ptrans!=Empty; ++ptrans)
+  for (ptrans = transmuting_kings_potential_transmutations[side_moving]; *ptrans!=Empty; ++ptrans)
     if (number_of_pieces[side_transmuting][*ptrans]>0
         && is_square_observed_by_opponent(*ptrans))
     {
@@ -175,10 +175,8 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   stip_traverse_structure(si,&st);
 
   solving_instrument_move_generation(si,side,STSuperTransmutingKingsMovesForPieceGenerator);
-  instrument_alternative_is_square_observed_king_testing(si,side,STTransmutingKingIsSquareObserved);
 
-  stip_instrument_observation_validation(si,side,STTransmutingKingsEnforceObserverWalk);
-  stip_instrument_check_validation(si,side,STTransmutingKingsEnforceObserverWalk);
+  transmuting_kings_initialise_observing(si,side);
 
   check_no_king_is_possible();
 

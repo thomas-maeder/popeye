@@ -234,14 +234,12 @@ boolean track_back_from_target_according_to_observer_walk(slice_index si,
   return result;
 }
 
-boolean observe_with_king(slice_index si, validator_id evaluate)
+boolean observe_with_ortho(slice_index si, validator_id evaluate)
 {
   observing_walk[nbply] = King;
-  return is_square_observed_recursive(slices[si].next1,evaluate);
-}
+  if (is_square_observed_recursive(slices[si].next1,evaluate))
+    return true;
 
-boolean observe_with_ortho_non_king(slice_index si, validator_id evaluate)
-{
   observing_walk[nbply] = Pawn;
   if (is_square_observed_recursive(slices[si].next1,evaluate))
     return true;

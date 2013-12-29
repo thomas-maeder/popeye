@@ -2215,24 +2215,10 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (TSTFLAG(some_pieces_flags, Kamikaze))
+  if (CondFlag[protean])
   {
+    flagfee = true;
     disable_orthodox_mating_move_optimisation(nr_sides);
-    if (CondFlag[haanerchess])
-    {
-      VerifieMsg(KamikazeAndHaaner);
-      return false;
-    }
-    if (anycirce) {
-      /* No Kamikaze and Circe with fairy pieces; taking and
-         taken piece could be reborn on the same square! */
-      if (flagfee || CondFlag[volage])
-      {
-        VerifieMsg(KamikazeAndSomeCond);
-        return false;
-      }
-    }
-    king_capture_avoiders_avoid_own();
   }
 
   if ((CondFlag[supercirce] || CondFlag[april] || CondFlag[circecage])
@@ -2347,15 +2333,6 @@ static boolean verify_position(slice_index si)
         || TSTFLAG(some_pieces_flags, Kamikaze))
     {
       VerifieMsg(SomeCondAndAntiCirce);
-      return false;
-    }
-  }
-
-  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1))
-  {
-    if (flagfee)
-    {
-      VerifieMsg(SingleBoxAndFairyPieces);
       return false;
     }
   }
@@ -2540,7 +2517,30 @@ static boolean verify_position(slice_index si)
         }
       }
 
-    checkpieces[check_piece_index] = Empty;
+    if (CondFlag[whvault_king])
+    {
+      unsigned int i;
+      for (i = 0; i!=nr_king_vaulters[White]; ++i)
+        if (king_vaulters[White][i]>Bishop && !may_exist[king_vaulters[White][i]])
+        {
+          flagfee = true;
+          checkpieces[check_piece_index] = king_vaulters[White][i];
+          check_piece_index++;
+          break;
+        }
+    }
+    if (CondFlag[blvault_king])
+    {
+      unsigned int i;
+      for (i = 0; i!=nr_king_vaulters[Black]; ++i)
+        if (king_vaulters[Black][i]>Bishop && !may_exist[king_vaulters[Black][i]])
+        {
+          flagfee = true;
+          checkpieces[check_piece_index] = king_vaulters[Black][i];
+          check_piece_index++;
+          break;
+        }
+    }
   }
 
   {
@@ -2557,10 +2557,39 @@ static boolean verify_position(slice_index si)
     orphanpieces[op] = Empty;
   }
 
+  if (TSTFLAG(some_pieces_flags, Kamikaze))
+  {
+    disable_orthodox_mating_move_optimisation(nr_sides);
+    if (CondFlag[haanerchess])
+    {
+      VerifieMsg(KamikazeAndHaaner);
+      return false;
+    }
+    if (anycirce) {
+      /* No Kamikaze and Circe with fairy pieces; taking and
+         taken piece could be reborn on the same square! */
+      if (flagfee || CondFlag[volage])
+      {
+        VerifieMsg(KamikazeAndSomeCond);
+        return false;
+      }
+    }
+    king_capture_avoiders_avoid_own();
+  }
+
+  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1))
+  {
+    if (flagfee)
+    {
+      VerifieMsg(SingleBoxAndFairyPieces);
+      return false;
+    }
+  }
+
   if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king] || CondFlag[whrefl_king])
-    init_transmuters_sequence(White);
+    transmuting_kings_init_transmuters_sequence(White);
   if (CondFlag[bltrans_king] || CondFlag[blsupertrans_king] || CondFlag[blrefl_king])
-    init_transmuters_sequence(Black);
+    transmuting_kings_init_transmuters_sequence(Black);
 
   if (calc_reflective_king[White] || calc_reflective_king[Black])
     disable_orthodox_mating_move_optimisation(nr_sides);
@@ -2578,10 +2607,7 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if ((may_exist[Orphan]
-       || may_exist[Friend]
-       || calc_reflective_king[White]
-       || calc_reflective_king[Black])
+  if ((may_exist[Orphan] || may_exist[Friend])
       && is_piece_neutral(some_pieces_flags))
   {
     VerifieMsg(TooFairyForNeutral);
@@ -2747,12 +2773,6 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[takemake])
     disable_orthodox_mating_move_optimisation(nr_sides);
-
-  if (CondFlag[protean])
-  {
-    flagfee = true;
-    disable_orthodox_mating_move_optimisation(nr_sides);
-  }
 
   if (CondFlag[castlingchess] || CondFlag[platzwechselrochade])
     disable_orthodox_mating_move_optimisation(nr_sides);

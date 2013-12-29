@@ -35,6 +35,10 @@ void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p);
  */
 boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate);
 
+/* Make sure to behave correctly while detecting observations by vaulting kings
+ */
+boolean vaulting_kings_enforce_observer_walk(slice_index si);
+
 /* Initialise the solving machinery with Vaulting Kings
  * @param si root slice of the solving machinery
  * @param side for whom

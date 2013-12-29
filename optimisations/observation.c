@@ -2,6 +2,7 @@
 #include "conditions/conditions.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/branch.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
 boolean dont_try_observing_with_non_existing_walk(slice_index si,
@@ -118,8 +119,7 @@ static boolean is_validation_branch_ortho(slice_index entry)
 static slice_type const ortho_observation_slice_types_non_proxy[] =
 {
     STOr,
-    STObserveWithKing,
-    STObserveWithOrthoNonKing,
+    STObserveWithOrtho,
     STTrackBackFromTargetAccordingToObserverWalk
 };
 
@@ -207,11 +207,15 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==*side)
   {
-    if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
-        || CondFlag[bicolores])
-      is_square_observed_insert_slice(si,STDontTryObservingWithNonExistingWalkBothSides);
+    if (CondFlag[whvault_king] || CondFlag[blvault_king])
+      /* no optimisation */ ;
+    else if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
+        || CondFlag[bicolores]
+        || CondFlag[whtrans_king] || CondFlag[bltrans_king]
+        || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king])
+      is_square_observed_insert_slice(si,alloc_pipe(STDontTryObservingWithNonExistingWalkBothSides));
     else
-      is_square_observed_insert_slice(si,STDontTryObservingWithNonExistingWalk);
+      is_square_observed_insert_slice(si,alloc_pipe(STDontTryObservingWithNonExistingWalk));
   }
 
   TraceFunctionExit(__func__);
