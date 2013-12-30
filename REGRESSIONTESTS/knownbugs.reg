@@ -50,3 +50,45 @@ if combined with Anticirce - 1.Ra8*a7[wRa7->a1] is illegal!
 solution finished. 
 
 
+
+            Maryan Kerhuel
+      Ph\'enix 32 1995, p. 2838
+  Unsolvable! The author's solution
+1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQc8 5.rBf3
+leaves the rB in check from the bK reflecting the nQ!
+But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
+    from the bK reflecting the rB!
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   B   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   . =SP   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#5                 1 + 2 + 1n
+               Royal c8
+              AntiCirce
+         BlackReflectiveKing
+
+  1.rBc8-g4   2.rBg4-d1   3.nSPb6-b8=nQ   4.nQb8-e5   5.rBd1-f3 #
+
+  add_to_move_generation_stack:       19236
+                     play_move:       19480
+ is_white_king_square_attacked:        5339
+ is_black_king_square_attacked:       16944
+solution finished. 
+
+

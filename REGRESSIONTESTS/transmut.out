@@ -368,7 +368,7 @@ R045, Problem Paradise 22, 04-06/2002
 
   add_to_move_generation_stack:      569638
                      play_move:      569638
- is_white_king_square_attacked:       29170
+ is_white_king_square_attacked:       29226
  is_black_king_square_attacked:       19552
 Loesung beendet. 
 

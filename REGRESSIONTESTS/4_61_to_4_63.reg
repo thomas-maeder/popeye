@@ -1121,7 +1121,7 @@ Until 4.61, Circe rebirths weren't considered in Koeko
 
 
   add_to_move_generation_stack:           3
-                     play_move:           4
+                     play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
 solution finished. 

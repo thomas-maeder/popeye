@@ -9,4 +9,17 @@ stip ~1
 condition anticirce circe immun
 option nowk nobk
 
+next
+
+author Maryan Kerhuel
+origin Ph\'enix 32 1995, p. 2838
+title Unsolvable! The author's solution
+title 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQc8 5.rBf3
+title leaves the rB in check from the bK reflecting the nQ!
+title But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
+title from the bK reflecting the rB!
+pieces white royal bc8 black ka8 pa7 neutral spb6
+stipulation ser-#5
+condition anticirce BlackReflectiveKing
+
 end
