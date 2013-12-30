@@ -33,7 +33,7 @@
 #include "conditions/sat.h"
 #include "conditions/sentinelles.h"
 #include "conditions/singlebox/type1.h"
-#include "conditions/vaulting_kings.h"
+#include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"

@@ -13,7 +13,7 @@ SRC_CFILES = exclusive.c republican.c bgl.c check_zigzag.c blackchecks.c \
              patrol.c lortap.c beamten.c provocateurs.c central.c immune.c  \
              woozles.c nocapture.c nopromotion.c geneva.c take_and_make.c \
              ohneschach.c annan.c shielded_kings.c superguards.c brunner.c \
-             wormhole.c vaulting_kings.c backhome.c vogtlaender.c bicolores.c \
+             wormhole.c backhome.c vogtlaender.c bicolores.c \
              antikings.c follow_my_leader.c alphabetic.c forced_squares.c \
              synchronous.c must_capture.c facetoface.c conditions.c
 INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
@@ -29,7 +29,7 @@ INCLUDES = exclusive.h republican.h bgl.h check_zigzag.h blackchecks.h \
            patrol.h lortap.h beamten.h provocateurs.h central.h immune.h \
            woozles.h nocapture.h nopromotion.h geneva.h take_and_make.h \
            ohneschach.h annan.h shielded_kings.h superguards.h brunner.h \
-           wormhole.h vaulting_kings.h backhome.h vogtlaender.h bicolores.h \
+           wormhole.h backhome.h vogtlaender.h bicolores.h \
            antikings.h follow_my_leader.h alphabetic.h forced_squares.h \
            synchronous.h must_capture.h facetoface.h conditions.h
 

@@ -40,7 +40,7 @@
 #include "platform/maxtime.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
-#include "conditions/vaulting_kings.h"
+#include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/imitator.h"
 #include "position/position.h"
 #include "pieces/attributes/neutral/neutral.h"

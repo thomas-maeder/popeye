@@ -365,7 +365,8 @@ optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \
  conditions/conditions.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/branch.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h debugging/trace.h
+ stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
+ solving/solve.h debugging/trace.h
 
 optimisations/observation.h:
 
@@ -408,5 +409,9 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+solving/solve.h:
 
 debugging/trace.h:

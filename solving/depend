@@ -357,11 +357,11 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/super.h \
  conditions/transmuting_kings/reflective_kings.h \
- conditions/vaulting_kings.h pieces/attributes/paralysing/paralysing.h \
- pieces/walks/generate_moves.h solving/single_piece_move_generator.h \
- solving/castling.h solving/castling_rights.h \
- solving/move_effect_journal.h position/pieceid.h \
- solving/king_move_generator.h stipulation/branch.h \
+ conditions/transmuting_kings/vaulting_kings.h \
+ pieces/attributes/paralysing/paralysing.h pieces/walks/generate_moves.h \
+ solving/single_piece_move_generator.h solving/castling.h \
+ solving/castling_rights.h solving/move_effect_journal.h \
+ position/pieceid.h solving/king_move_generator.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h debugging/measure.h \
  debugging/trace.h
@@ -436,7 +436,7 @@ conditions/transmuting_kings/super.h:
 
 conditions/transmuting_kings/reflective_kings.h:
 
-conditions/vaulting_kings.h:
+conditions/transmuting_kings/vaulting_kings.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -1995,7 +1995,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
- conditions/vaulting_kings.h pieces/walks/hunters.h \
+ conditions/transmuting_kings/vaulting_kings.h pieces/walks/hunters.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
@@ -2108,7 +2108,7 @@ conditions/transmuting_kings/transmuting_kings.h:
 
 conditions/transmuting_kings/reflective_kings.h:
 
-conditions/vaulting_kings.h:
+conditions/transmuting_kings/vaulting_kings.h:
 
 pieces/walks/hunters.h:
 
@@ -2462,7 +2462,7 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/take_and_make.h conditions/superguards.h conditions/central.h \
  conditions/beamten.h conditions/brunner.h conditions/wormhole.h \
  conditions/transmuting_kings/transmuting_kings.h \
- conditions/vaulting_kings.h conditions/backhome.h \
+ conditions/transmuting_kings/vaulting_kings.h conditions/backhome.h \
  conditions/vogtlaender.h conditions/bicolores.h conditions/antikings.h \
  conditions/follow_my_leader.h conditions/alphabetic.h \
  conditions/forced_squares.h conditions/synchronous.h \
@@ -2804,7 +2804,7 @@ conditions/wormhole.h:
 
 conditions/transmuting_kings/transmuting_kings.h:
 
-conditions/vaulting_kings.h:
+conditions/transmuting_kings/vaulting_kings.h:
 
 conditions/backhome.h:
 
@@ -2958,7 +2958,7 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intelligent.h optimisations/observation.h \
  platform/maxtime.h conditions/duellists.h conditions/haunted_chess.h \
- conditions/vaulting_kings.h conditions/imitator.h \
+ conditions/transmuting_kings/vaulting_kings.h conditions/imitator.h \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h pylang.h options/options.h \
  input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
@@ -3036,7 +3036,7 @@ conditions/duellists.h:
 
 conditions/haunted_chess.h:
 
-conditions/vaulting_kings.h:
+conditions/transmuting_kings/vaulting_kings.h:
 
 conditions/imitator.h:
 

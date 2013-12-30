@@ -3793,57 +3793,6 @@ solving/observation.h:
 stipulation/temporary_hacks.h:
 
 debugging/trace.h:
-conditions/vaulting_kings$(OBJ_SUFFIX): conditions/vaulting_kings.c \
- conditions/vaulting_kings.h pieces/pieces.h utilities/boolean.h \
- position/position.h position/board.h utilities/bitmask.h \
- pieces/walks/vectors.h utilities/enumeration.h solving/observation.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h solving/ply.h \
- stipulation/temporary_hacks.h \
- conditions/transmuting_kings/transmuting_kings.h \
- solving/move_generator.h solving/solve.h \
- solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h
-
-conditions/vaulting_kings.h:
-
-pieces/pieces.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-pieces/walks/vectors.h:
-
-utilities/enumeration.h:
-
-solving/observation.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
-
-output/mode.h:
-
-solving/ply.h:
-
-stipulation/temporary_hacks.h:
-
-conditions/transmuting_kings/transmuting_kings.h:
-
-solving/move_generator.h:
-
-solving/solve.h:
-
-solving/find_square_observer_tracking_back_from_target.h:
-
-debugging/trace.h:
 conditions/backhome$(OBJ_SUFFIX): conditions/backhome.c conditions/backhome.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \

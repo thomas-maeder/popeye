@@ -1,4 +1,4 @@
-#include "conditions/vaulting_kings.h"
+#include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"

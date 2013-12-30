@@ -410,8 +410,8 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  conditions/oscillating_kings.h conditions/phantom.h \
  solving/observation.h stipulation/temporary_hacks.h conditions/protean.h \
  conditions/republican.h conditions/sat.h conditions/sentinelles.h \
- conditions/singlebox/type1.h conditions/vaulting_kings.h \
- conditions/woozles.h
+ conditions/singlebox/type1.h \
+ conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h
 
 output/plaintext/condition.h:
 
@@ -527,7 +527,7 @@ conditions/sentinelles.h:
 
 conditions/singlebox/type1.h:
 
-conditions/vaulting_kings.h:
+conditions/transmuting_kings/vaulting_kings.h:
 
 conditions/woozles.h:
 output/plaintext/proofgame$(OBJ_SUFFIX): output/plaintext/proofgame.c \

@@ -19,7 +19,7 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/super.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
-#include "conditions/vaulting_kings.h"
+#include "conditions/transmuting_kings/vaulting_kings.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/walks/generate_moves.h"
 #include "solving/single_piece_move_generator.h"

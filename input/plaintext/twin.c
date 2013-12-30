@@ -51,7 +51,7 @@
 #include "conditions/synchronous.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/super.h"
-#include "conditions/vaulting_kings.h"
+#include "conditions/transmuting_kings/vaulting_kings.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/king_capture_avoider.h"
 #include "solving/castling.h"

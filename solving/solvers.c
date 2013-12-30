@@ -126,7 +126,7 @@
 #include "conditions/brunner.h"
 #include "conditions/wormhole.h"
 #include "conditions/transmuting_kings/transmuting_kings.h"
-#include "conditions/vaulting_kings.h"
+#include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/backhome.h"
 #include "conditions/vogtlaender.h"
 #include "conditions/bicolores.h"
