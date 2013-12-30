@@ -13,20 +13,18 @@
 
 PieNam transmuting_kings_potential_transmutations[nr_sides][PieceCount];
 
-boolean testing_observation_by_transmuting_king[maxply+1];
-
 boolean transmuting_kings_testing_transmutation[nr_sides];
 
-typedef enum
+static boolean testing_with_non_transmuting_king[maxply+1];
+
+static enum
 {
   dont_know,
   does_transmute,
   does_not_transmute
-} knowledge;
+} is_king_transmuting_as_observing_walk[maxply+1];
 
-static knowledge is_king_transmuting_as_observing_walk[maxply+1];
 static boolean is_king_transmuting_as_any_walk[maxply+1];
-static boolean testing_with_non_transmuting_king[maxply+1];
 
 /* Initialise the sequence of king transmuters
  * @param side for which side to initialise?

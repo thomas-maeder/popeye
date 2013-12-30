@@ -9,7 +9,6 @@
 #include "solving/observation.h"
 
 extern PieNam transmuting_kings_potential_transmutations[nr_sides][PieceCount];
-extern boolean testing_observation_by_transmuting_king[maxply+1];
 extern boolean transmuting_kings_testing_transmutation[nr_sides];
 
 /* Initialise the sequence of king transmuters
