@@ -186,36 +186,46 @@ boolean mars_is_square_observed_by(square pos_observer,
  */
 boolean marscirce_is_square_observed(slice_index si, validator_id evaluate)
 {
-  int i,j;
-  square square_h = square_h8;
   boolean result = false;
   Side const side_observing = trait[nbply];
   Side const side_observed = advers(side_observing);
+  square const *observer_origin;
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
-  {
-    square pos_observing = square_h;
-    for (j= nr_files_on_board; j>0 && !result; j--, pos_observing += dir_left)
-      if (TSTFLAG(spec[pos_observing],side_observing)
-          && pos_observing!=king_square[side_observed]   /* exclude nK */)
+  for (observer_origin = boardnum; !result && *observer_origin; ++observer_origin)
+    if (TSTFLAG(spec[*observer_origin],side_observing)
+        && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
+    {
+      Flags const spec_checking = spec[*observer_origin];
+      current_rebirth_square[nbply] = (*marscirce_determine_rebirth_square)(observing_walk[nbply],
+                                                                            spec_checking,
+                                                                            *observer_origin,
+                                                                            initsquare,
+                                                                            initsquare,
+                                                                            side_observed);
+
+      if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
+          || CheckDir[observing_walk[nbply]][sq_target-current_rebirth_square[nbply]]!=0)
       {
-        PieNam const pi_checking = get_walk_of_piece_on_square(pos_observing);
-        Flags const spec_checking = spec[pos_observing];
-        square const sq_rebirth = (*marscirce_determine_rebirth_square)(pi_checking,
-                                               spec_checking,
-                                               pos_observing,
-                                               initsquare,
-                                               initsquare,
-                                               side_observed);
-        result = mars_is_square_observed_by(pos_observing,
-                                            sq_rebirth,
-                                            evaluate);
+        empty_square(*observer_origin);
+
+        /* test only now - we may have just emptied the rebirth square! */
+        if (is_square_empty(current_rebirth_square[nbply]))
+        {
+          occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_checking);
+          result = is_square_observed_recursive(slices[si].next1,evaluate);
+          empty_square(current_rebirth_square[nbply]);
+        }
+
+        occupy_square(*observer_origin,observing_walk[nbply],spec_checking);
       }
-  }
+    }
+
+  current_rebirth_square[nbply] = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
