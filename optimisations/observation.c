@@ -1,5 +1,6 @@
 #include "optimisations/observation.h"
 #include "conditions/conditions.h"
+#include "conditions/singlebox/type1.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
@@ -207,7 +208,8 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].starter==*side)
   {
-    if (CondFlag[whvault_king] || CondFlag[blvault_king])
+    if (CondFlag[whvault_king] || CondFlag[blvault_king]
+        || (CondFlag[singlebox] && SingleBoxType==singlebox_type3))
       /* no optimisation */ ;
     else if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
         || CondFlag[bicolores]

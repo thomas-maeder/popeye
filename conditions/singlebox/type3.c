@@ -6,6 +6,7 @@
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
@@ -54,7 +55,8 @@ void stip_insert_singlebox_type3(slice_index si)
 
   move_effect_journal_register_pre_capture_effect();
 
-  stip_instrument_is_square_observed_testing(si,nr_sides,STSingleBoxType3IsSquareObserved);
+  stip_instrument_observation_validation(si,nr_sides,STSingleBoxType3EnforceObserverWalk);
+  stip_instrument_check_validation(si,nr_sides,STSingleBoxType3EnforceObserverWalk);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -134,70 +136,49 @@ stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
   return result;
 }
 
-/* Determine the next legal single box promotee type
- * @param p type of previous promotee (vide if the first promotee type is to be
- *          found)
- * @param c side of promotee type to be found
- * @return next promotee type; vide if there is none
- */
-static PieNam next_singlebox_prom(PieNam p, Side side)
+/* Make sure to behave correctly while detecting observations by latent pawns
+* @param si identifies tester slice
+* @return true iff observation is valid
+*/
+boolean singleboxtype3_enforce_observer_walk(slice_index si)
 {
-  PieNam pprom;
-  PieNam result = Empty;
+  boolean result;
+  Side const side_attacking = trait[nbply];
+  square const sq_dep = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  SquareFlags const flag = side_attacking==White ? WhPromSq : BlPromSq;
+  PieNam const pprom = observing_walk[nbply];
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
-  TraceEnumerator(Side,side,"");
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (pprom = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][p];
-       pprom!=Empty;
-       pprom = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pprom])
-    if (pprom!=Pawn && number_of_pieces[side][pprom]<game_array.number_of_pieces[side][pprom])
+  if (is_pawn(get_walk_of_piece_on_square(sq_dep))
+      && TSTFLAG(sq_spec[sq_dep],flag))
+  {
+    if (number_of_pieces[side_attacking][pprom]<game_array.number_of_pieces[side_attacking][pprom])
     {
-      result = pprom;
-      break;
+      PieNam const promotee = get_walk_of_piece_on_square(sq_dep);
+
+      --number_of_pieces[side_attacking][promotee];
+      replace_piece(sq_dep,pprom);
+      ++number_of_pieces[side_attacking][pprom];
+
+      result = validate_observation_recursive(slices[si].next1);
+
+      --number_of_pieces[side_attacking][pprom];
+      replace_piece(sq_dep,promotee);
+      ++number_of_pieces[side_attacking][promotee];
     }
+    else
+      result = false;
+  }
+  else
+    result = validate_observation_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
-  TracePiece(result);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine whether a square is observed in Singlebox Type 3
-* @param si identifies tester slice
-* @return true iff sq_target is observed
-*/
-boolean singleboxtype3_is_square_observed(slice_index si, validator_id evaluate)
-{
-  unsigned int promotionstried = 0;
-  Side const side_attacking = trait[nbply];
-  square sq;
-
-  for (sq = next_latent_pawn(initsquare,side_attacking);
-       sq!=initsquare;
-       sq = next_latent_pawn(sq,side_attacking))
-  {
-    PieNam pprom;
-    for (pprom = next_singlebox_prom(Empty,side_attacking);
-         pprom!=Empty;
-         pprom = next_singlebox_prom(pprom,side_attacking))
-    {
-      boolean result;
-      ++promotionstried;
-      replace_piece(sq,pprom);
-      ++number_of_pieces[side_attacking][pprom];
-      result = is_square_observed_recursive(slices[si].next1,evaluate);
-      --number_of_pieces[side_attacking][pprom];
-      replace_piece(sq,Pawn);
-      if (result)
-        return true;
-    }
-  }
-
-  return (promotionstried==0
-          && is_square_observed_recursive(slices[si].next1,evaluate));
 }
 
 static square find_next_latent_pawn(square sq, Side side)

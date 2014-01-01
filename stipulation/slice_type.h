@@ -67,7 +67,7 @@
     ENUMERATOR(STSingleBoxType3PawnPromoter),                          \
     ENUMERATOR(STSingleBoxType3TMovesForPieceGenerator),               \
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
-    ENUMERATOR(STSingleBoxType3IsSquareObserved),                      \
+    ENUMERATOR(STSingleBoxType3EnforceObserverWalk),                   \
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinPlaceReborn),                            \
     ENUMERATOR(STOwnKingCaptureAvoider),                               \

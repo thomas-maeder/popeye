@@ -112,6 +112,10 @@ boolean validate_observation_recursive(slice_index si)
       result = enforce_observer_side(si);
       break;
 
+    case STSingleBoxType3EnforceObserverWalk:
+      result = singleboxtype3_enforce_observer_walk(si);
+      break;
+
     case STTransmutingKingsEnforceObserverWalk:
       result = transmuting_kings_enforce_observer_walk(si);
       break;
@@ -367,6 +371,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STEnforceObserverSide,
+    STSingleBoxType3EnforceObserverWalk,
     STTransmutingKingsEnforceObserverWalk,
     STVaultingKingsEnforceObserverWalk,
     STReflectiveKingsEnforceObserverWalk,
@@ -680,10 +685,6 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
                                         move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
       break;
 
-    case STSingleBoxType3IsSquareObserved:
-      result = singleboxtype3_is_square_observed(si,evaluate);
-      break;
-
     case STPhantomIsSquareObserved:
       result = phantom_is_square_observed(si,evaluate);
       break;
@@ -763,7 +764,6 @@ static slice_index const is_square_observed_slice_rank_order[] =
 {
     STTestingIfSquareIsObserved,
     STIsSquareObservedOrtho,
-    STSingleBoxType3IsSquareObserved,
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
     STMarsIsSquareObserved,

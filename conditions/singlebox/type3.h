@@ -45,12 +45,11 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
 stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
                                                        stip_length_type n);
 
-/* Determine whether a square is observed in Singlebox Type 3
+/* Make sure to behave correctly while detecting observations by latent pawns
 * @param si identifies tester slice
-* @return true iff sq_target is observed
+* @return true iff observation is valid
 */
-boolean singleboxtype3_is_square_observed(slice_index si,
-                                          validator_id evaluate);
+boolean singleboxtype3_enforce_observer_walk(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
