@@ -2,9 +2,13 @@
 #include "conditions/marscirce/marscirce.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+
+static square const center_squares[] = { square_d4, square_d5, square_e4, square_e5 };
+enum { nr_center_squares = sizeof center_squares / sizeof center_squares[0] };
 
 static void generate_additional_captures_from(slice_index si,
                                               PieNam p,
@@ -40,6 +44,7 @@ static void generate_additional_captures_from(slice_index si,
 void plus_generate_moves_for_piece(slice_index si, PieNam p)
 {
   square const sq_departure = curr_generation->departure;
+  unsigned int i;
 
   TraceFunctionEntry(__func__);
   TracePiece(p);
@@ -47,19 +52,43 @@ void plus_generate_moves_for_piece(slice_index si, PieNam p)
 
   generate_moves_for_piece(slices[si].next1,p);
 
-  if (sq_departure==square_d4
-      || sq_departure==square_e4
-      || sq_departure==square_d5
-      || sq_departure==square_e5)
-  {
-    generate_additional_captures_from(si,p,square_d4);
-    generate_additional_captures_from(si,p,square_e4);
-    generate_additional_captures_from(si,p,square_d5);
-    generate_additional_captures_from(si,p,square_e5);
-  }
+  for (i = 0; i!=nr_center_squares; ++i)
+    if (sq_departure==center_squares[i])
+    {
+      unsigned int j;
+      for (j = 0; j!=nr_center_squares; ++j)
+        generate_additional_captures_from(si,p,center_squares[j]);
+      break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static boolean is_square_observed_from_center(slice_index si,
+                                              validator_id evaluate,
+                                              square observer_origin)
+{
+  boolean result = false;
+  unsigned int i;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceSquare(observer_origin);
+  TraceFunctionParamListEnd();
+
+  for (i = 0; i!=nr_center_squares; ++i)
+    if (observer_origin!=center_squares[i] /* already tested without rebirth */
+        && mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,center_squares[i]))
+    {
+      result = true;
+      break;
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Determine whether a side observes a specific square
@@ -68,30 +97,32 @@ void plus_generate_moves_for_piece(slice_index si, PieNam p)
  */
 boolean plus_is_square_observed(slice_index si, validator_id evaluate)
 {
-  int i,j;
-  Side const side_observing = trait[nbply];
-  square square_h = square_h8;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
+  if (is_square_observed_recursive(slices[si].next1,evaluate))
+    result = true;
+  else
   {
-    square pos_observing = square_h;
-    for (j= nr_files_on_board; j>0 && !result; j--, pos_observing += dir_left)
-      if (TSTFLAG(spec[pos_observing],side_observing)
-          && pos_observing!=move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture) /* exclude nK */
+    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+    Side const side_observing = trait[nbply];
+    unsigned int i;
+
+    for (i = 0; i!=nr_center_squares; ++i)
+    {
+      square const observer_origin = center_squares[i];
+      if (TSTFLAG(spec[observer_origin],side_observing)
+          && get_walk_of_piece_on_square(observer_origin)==observing_walk[nbply]
+          && observer_origin!=sq_target /* no auto-observation */
+          && is_square_observed_from_center(si,evaluate,observer_origin))
       {
-        if (pos_observing==square_d4 || pos_observing==square_d5 || pos_observing==square_e4 || pos_observing==square_e5)
-          result = (mars_is_square_observed_by(pos_observing,square_d4,evaluate)
-                    || mars_is_square_observed_by(pos_observing,square_d5,evaluate)
-                    || mars_is_square_observed_by(pos_observing,square_e4,evaluate)
-                    || mars_is_square_observed_by(pos_observing,square_e5,evaluate));
-        else
-          result = mars_is_square_observed_by(pos_observing,pos_observing,evaluate);
+        result = true;
+        break;
       }
+    }
   }
 
   TraceFunctionExit(__func__);

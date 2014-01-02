@@ -2035,8 +2035,9 @@ conditions/phantom$(OBJ_SUFFIX): conditions/phantom.c conditions/phantom.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h \
  pieces/walks/classification.h conditions/marscirce/marscirce.h \
- conditions/circe/circe.h solving/move_generator.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/circe.h solving/move_generator.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/move.h debugging/trace.h
 
@@ -2087,6 +2088,8 @@ conditions/marscirce/marscirce.h:
 conditions/circe/circe.h:
 
 solving/move_generator.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/pipe.h:
 
@@ -3893,9 +3896,8 @@ conditions/bicolores$(OBJ_SUFFIX): conditions/bicolores.c conditions/bicolores.h
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
- solving/solve.h stipulation/temporary_hacks.h
+ pieces/walks/vectors.h output/mode.h solving/observation.h solving/ply.h \
+ stipulation/temporary_hacks.h
 
 conditions/bicolores.h:
 
@@ -3921,15 +3923,9 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
-stipulation/structure_traversal.h:
+solving/observation.h:
 
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-stipulation/pipe.h:
-
-solving/solve.h:
+solving/ply.h:
 
 stipulation/temporary_hacks.h:
 conditions/antikings$(OBJ_SUFFIX): conditions/antikings.c conditions/antikings.h \

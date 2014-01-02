@@ -6,6 +6,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/has_solution_type.h"
@@ -200,37 +201,31 @@ void solving_initialise_phantom(slice_index si)
  */
 boolean phantom_is_square_observed(slice_index si, validator_id evaluate)
 {
-  int i,j;
-  Side const side_observing = trait[nbply];
-  Side const side_observed = advers(side_observing);
-  square square_h = square_h8;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  for (i= nr_rows_on_board; i>0 && !result; i--, square_h += dir_down)
+  if (is_square_observed_recursive(slices[si].next1,evaluate))
+    result = true;
+  else
   {
-    square pos_observing = square_h;
-    for (j= nr_files_on_board; j>0 && !result; j--, pos_observing += dir_left)
-      if ((!TSTFLAG(spec[pos_observing],Royal) || phantom_chess_rex_inclusive)
-          && TSTFLAG(spec[pos_observing],side_observing)
-          && pos_observing!=king_square[side_observed]   /* exclude nK */)
+    Side const side_observing = trait[nbply];
+    square const *observer_origin;
+    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+
+    for (observer_origin = boardnum; *observer_origin; ++observer_origin)
+      if (*observer_origin!=sq_target /* no auto-observation */
+          && (!TSTFLAG(spec[*observer_origin],Royal) || phantom_chess_rex_inclusive)
+          && TSTFLAG(spec[*observer_origin],side_observing)
+          && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply]
+          && mars_is_square_observed_by(si,evaluate,*observer_origin))
       {
-        PieNam const pi_checking = get_walk_of_piece_on_square(pos_observing);
-        Flags const spec_checking = spec[pos_observing];
-        square const sq_rebirth = (*marscirce_determine_rebirth_square)(pi_checking,
-                                               spec_checking,
-                                               pos_observing,
-                                               initsquare,
-                                               initsquare,
-                                               side_observed);
-        result = mars_is_square_observed_by(pos_observing,sq_rebirth,evaluate);
+        result = true;
+        break;
       }
   }
-
-  result = result || is_square_observed_recursive(slices[si].next1,evaluate);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

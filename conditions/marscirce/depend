@@ -137,7 +137,9 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/observation.h solving/ply.h \
  stipulation/temporary_hacks.h conditions/marscirce/marscirce.h \
- solving/move_generator.h debugging/trace.h
+ solving/move_generator.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ debugging/trace.h
 
 conditions/marscirce/plus.h:
 
@@ -174,5 +176,7 @@ stipulation/temporary_hacks.h:
 conditions/marscirce/marscirce.h:
 
 solving/move_generator.h:
+
+solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:

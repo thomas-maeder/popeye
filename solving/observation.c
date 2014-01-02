@@ -769,8 +769,6 @@ static slice_index const is_square_observed_slice_rank_order[] =
 {
     STTestingIfSquareIsObserved,
     STIsSquareObservedOrtho,
-    STPhantomIsSquareObserved,
-    STPlusIsSquareObserved,
     STTransmutingKingIsSquareObserved,
     STVaultingKingIsSquareObserved,
     STDeterminingObserverWalk,
@@ -781,6 +779,8 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STDontTryObservingWithNonExistingWalk,
     STDontTryObservingWithNonExistingWalkBothSides,
     STMarsIsSquareObserved,
+    STPhantomIsSquareObserved,
+    STPlusIsSquareObserved,
     STTransmutingKingDetectNonTransmutation,
     STTrackBackFromTargetAccordingToObserverWalk,
     STFalse
