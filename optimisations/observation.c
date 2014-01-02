@@ -22,7 +22,6 @@ boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si,
 
 static slice_type const ortho_validation_slice_types_non_proxy[] =
 {
-    STEnforceObserverSide,
     STEnforceObserverWalk
 };
 

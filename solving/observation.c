@@ -52,27 +52,6 @@
 interceptable_observation_type interceptable_observation[maxply+1];
 unsigned int observation_context = 0;
 
-static boolean enforce_observer_side(slice_index si)
-{
-  boolean result;
-  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(Side,trait[nbply],"");TraceEOL();
-  if (TSTFLAG(spec[sq_departure],trait[nbply]))
-    result = validate_observation_recursive(slices[si].next1);
-  else
-    result = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static boolean enforce_observer_walk(slice_index si)
 {
   boolean result;
@@ -109,10 +88,6 @@ boolean validate_observation_recursive(slice_index si)
 
   switch (slices[si].type)
   {
-    case STEnforceObserverSide:
-      result = enforce_observer_side(si);
-      break;
-
     case STSingleBoxType3EnforceObserverWalk:
       result = singleboxtype3_enforce_observer_walk(si);
       break;
@@ -371,7 +346,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STMarsCirceMovesForPieceGenerator,
     STAMUObservationCounter,
     STMasandEnforceObserver,
-    STEnforceObserverSide,
     STSingleBoxType3EnforceObserverWalk,
     STTransmutingKingsEnforceObserverWalk,
     STVaultingKingsEnforceObserverWalk,
@@ -402,7 +376,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STWormholeRemoveIllegalCaptures,
 
     STValidatingObserver,
-    STEnforceObserverSide,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STEnforceHunterDirection,
@@ -416,7 +389,6 @@ static slice_index const observation_validation_slice_rank_order[] =
 
     STValidatingObservationGeometry,
     STParalysingObservationGeometryValidator,
-    STEnforceObserverSide,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STEnforceHunterDirection,

@@ -362,11 +362,11 @@ optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/observation.h solving/ply.h stipulation/temporary_hacks.h \
- conditions/conditions.h \
+ conditions/conditions.h conditions/singlebox/type1.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/branch.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
- solving/solve.h debugging/trace.h
+ debugging/trace.h
 
 optimisations/observation.h:
 
@@ -400,6 +400,10 @@ stipulation/temporary_hacks.h:
 
 conditions/conditions.h:
 
+conditions/singlebox/type1.h:
+
+solving/solve.h:
+
 solving/find_square_observer_tracking_back_from_target.h:
 
 stipulation/branch.h:
@@ -411,7 +415,5 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 stipulation/pipe.h:
-
-solving/solve.h:
 
 debugging/trace.h:
