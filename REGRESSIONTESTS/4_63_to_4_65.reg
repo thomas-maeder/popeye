@@ -3305,3 +3305,54 @@ Until 4.63, Popeye didn't respect Annan in Woozles
 solution finished. 
 
 
+
+            Vlaicu Crisan
+         MatPlus.Net 5.9.2010
+http://www.matplus.net/start.php?px=1330188567&app=forum&act=posts&fid=gen&tid=802
+Until 4.63, Madrasi (etc.) and Mars Circe (etc.) weren't combined
+             consistently
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -B   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   R   .   K   .   .   .   6
+|                                   |
+5   .   .   B   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .  -K   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          3 + 2
+               Madrasi
+
+a) 
+
+   1.Rc6-b6 + !
+
+
+  add_to_move_generation_stack:          13
+                     play_move:          13
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:          14
+b) Madrasi
+   MarsCirce
+
+   1.Rc6-d6 + !
+
+
+  add_to_move_generation_stack:          32
+                     play_move:          13
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          14
+solution finished. 
+
+

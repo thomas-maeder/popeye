@@ -122,6 +122,7 @@ void marscirce_generate_moves_for_piece(slice_index si, PieNam p)
 }
 
 static square current_rebirth_square[maxply+1];
+static square current_observer_origin[maxply+1];
 
 boolean mars_enforce_observer(slice_index si)
 {
@@ -130,10 +131,27 @@ boolean mars_enforce_observer(slice_index si)
   boolean result;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (sq_observer==sq_departure
-            && validate_observation_recursive(slices[si].next1));
+  if (sq_observer==sq_departure)
+  {
+    /* restore as if the capture had occcured directly, to allow other
+     * conditions (e.g. Madrasi) to correctly work. */
+    Flags const spec_observing = spec[sq_observer];
+
+    empty_square(sq_observer);
+    occupy_square(current_observer_origin[nbply],observing_walk[nbply],spec_observing);
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = current_observer_origin[nbply];
+
+    result = validate_observation_recursive(slices[si].next1);
+
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = sq_observer;
+    empty_square(current_observer_origin[nbply]);
+    occupy_square(sq_observer,observing_walk[nbply],spec_observing);
+  }
+  else
+    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -157,12 +175,13 @@ boolean mars_is_square_observed_from_rebirth_square(slice_index si,
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
+  TraceFunctionParam("%u",si);
   TraceSquare(observer_origin);
   TraceSquare(sq_rebirth);
   TraceFunctionParamListEnd();
 
   current_rebirth_square[nbply] = sq_rebirth;
+  current_observer_origin[nbply] = observer_origin;
 
   if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
       || CheckDir[observing_walk[nbply]][sq_target-current_rebirth_square[nbply]]!=0)

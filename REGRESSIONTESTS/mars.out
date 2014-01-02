@@ -859,3 +859,44 @@ eigentlich:  ser-h=8/3
 Loesung beendet. 
 
 
+
+            Joost de Heer
+         feenschach 185 2011
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -B   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         2 + 1
+               Madrasi
+              Ohneschlag
+              MarsCirce
+
+  1...b6-b7   2.e2-e1=D + b7-b8=D =
+  1...b6-b7   2.e2-e1=T + b7-b8=T =
+
+  1.e2-e1=S b6-b7   2.Se1-f3 b7-b8=S =
+  1.e2-e1=L b6-b7   2.Le1-d2 b7-b8=L =
+
+  add_to_move_generation_stack:       19692
+                     play_move:        2339
+ is_white_king_square_attacked:        1351
+ is_black_king_square_attacked:           0
+Loesung beendet. 
+
+

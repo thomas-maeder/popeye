@@ -204,52 +204,60 @@ steine  weiss   kf3 be7f7
 
 zwilling        bedingung       marsspiegelcirce
 
-weiter
-auto Michel Caillaud
-quel 3358, Problemkiste 91, 2/1994
-tite Norbert Geissler gewidmet
-ford ser-#4
-bedi marscirce
-stei
-weis ke8
-schw kb2
-neut ba7d7f7g7
-weiter
-auto Zdenek Oliva
-quel C26, Problemkiste 108, 12/1996
-ford h#5
-bedi marscirce
-opti zugn
-stei
-weis kb5 ba5b4g2
-schw ka4 bc7
-weiter
-auto Michel Caillaud
-quel 3898, Problemkiste 102, 12/1995
-ford h#4
-bedi marscirce 
-opti weiss
-stei
-weis ka8 be7f7
-schw ke6
-zwill versetze e6 d5
-weiter
-auto Michel Caillaud
-quel 3916, Problemkiste 102, 12/1995
-ford h#3
-bedi marscirce 
-stei
-weis kh6 bd7g6
-schw ka2 bd2f2
-weiter
-auto Waleri Nebotow
-quel K157A, Problemkiste 94, 8/1994
-ford 8->ser-=3
+weiteresproblem
+
+autor Michel Caillaud
+quelle 3358, Problemkiste 91, 2/1994
+titel Norbert Geissler gewidmet
+forderung ser-#4
+bedingung marscirce
+steine weiss ke8 schwarz kb2 neutral ba7d7f7g7
+
+weiteresproblem
+
+autor Zdenek Oliva
+quelle C26, Problemkiste 108, 12/1996
+forderung h#5
+bedingung marscirce
+option zugn
+steine weiss kb5 ba5b4g2 schwarz ka4 bc7
+
+weiteresproblem
+
+autor Michel Caillaud
+quelle 3898, Problemkiste 102, 12/1995
+forderung h#4
+bedingung marscirce 
+option weiss
+steine weiss ka8 be7f7 schwarz ke6
+zwilling versetze e6 d5
+
+weiteresproblem
+
+autor Michel Caillaud
+quelle 3916, Problemkiste 102, 12/1995
+forderung h#3
+bedingung marscirce 
+steine weiss kh6 bd7g6 schwarz ka2 bd2f2
+
+weiteresproblem
+
+autor Waleri Nebotow
+quelle K157A, Problemkiste 94, 8/1994
+steine weiss kc8 bb6 schwarz ka8 ba7
+forderung 8->ser-=3
 beme eigentlich:  ser-h=8/3
-bedi marscirce
-opti zugn
-opti maxzeit 10
-stei
-weis kc8 bb6
-schw ka8 ba7
+bedingung marscirce
+option zugn
+option maxzeit 10
+
+weiteresproblem
+
+autor Joost de Heer
+quelle feenschach 185 2011
+steine weiss ke8 bb6 schwarz be2
+forderung h=2
+option satz ohnesk
+bedingung marscirce madrasi ohneschlag
+
 ende

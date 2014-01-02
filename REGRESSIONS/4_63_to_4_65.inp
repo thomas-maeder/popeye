@@ -667,4 +667,16 @@ stip zb31
 condition annan biwoozles
 option nobk
 
+next
+
+title Until 4.63, Madrasi (etc.) and Mars Circe (etc.) weren't combined
+title consistently
+author Vlaicu Crisan
+origin MatPlus.Net 5.9.2010
+origin http://www.matplus.net/start.php?px=1330188567&app=forum&act=posts&fid=gen&tid=802
+pieces white ke6 rc6 bc5 black ke3 ba7
+stip +1
+condition madrasi  
+twin condition madrasi marscirce
+
 end
