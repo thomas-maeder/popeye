@@ -27,7 +27,7 @@
 #include "conditions/edgemover.h"
 #include "conditions/annan.h"
 #include "conditions/facetoface.h"
-#include "conditions/phantom.h"
+#include "conditions/marscirce/phantom.h"
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/singlebox/type3.h"

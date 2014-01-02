@@ -25,7 +25,7 @@
 #include "conditions/magic_square.h"
 #include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
-#include "conditions/phantom.h"
+#include "conditions/marscirce/phantom.h"
 #include "conditions/protean.h"
 #include "conditions/republican.h"
 #include "conditions/sat.h"

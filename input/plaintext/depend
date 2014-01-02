@@ -794,9 +794,9 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/madrasi.h conditions/magic_square.h \
  conditions/marscirce/marscirce.h solving/observation.h \
  stipulation/temporary_hacks.h conditions/messigny.h \
- conditions/oscillating_kings.h conditions/protean.h conditions/phantom.h \
- conditions/republican.h conditions/sat.h conditions/sentinelles.h \
- conditions/singlebox/type1.h \
+ conditions/oscillating_kings.h conditions/protean.h \
+ conditions/marscirce/phantom.h conditions/republican.h conditions/sat.h \
+ conditions/sentinelles.h conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
  pieces/walks/pawns/en_passant.h solving/castling.h debugging/trace.h \
  pymsg.h pylang.h utilities/boolean.h
@@ -909,7 +909,7 @@ conditions/oscillating_kings.h:
 
 conditions/protean.h:
 
-conditions/phantom.h:
+conditions/marscirce/phantom.h:
 
 conditions/republican.h:
 

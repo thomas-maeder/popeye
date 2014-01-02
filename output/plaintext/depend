@@ -407,7 +407,7 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  conditions/imitator.h conditions/immune.h conditions/isardam.h \
  conditions/kobul.h conditions/koeko/anti.h conditions/koeko/koeko.h \
  conditions/madrasi.h conditions/magic_square.h conditions/messigny.h \
- conditions/oscillating_kings.h conditions/phantom.h \
+ conditions/oscillating_kings.h conditions/marscirce/phantom.h \
  solving/observation.h stipulation/temporary_hacks.h conditions/protean.h \
  conditions/republican.h conditions/sat.h conditions/sentinelles.h \
  conditions/singlebox/type1.h \
@@ -511,7 +511,7 @@ conditions/messigny.h:
 
 conditions/oscillating_kings.h:
 
-conditions/phantom.h:
+conditions/marscirce/phantom.h:
 
 solving/observation.h:
 

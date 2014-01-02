@@ -1,5 +1,5 @@
-#if !defined(CONDITIONS_PHANTOM_H)
-#define CONDITIONS_PHANTOM_H
+#if !defined(CONDITIONS_MARSCIRCE_PHANTOM_H)
+#define CONDITIONS_MARSCIRCE_PHANTOM_H
 
 #include "pieces/pieces.h"
 #include "solving/solve.h"

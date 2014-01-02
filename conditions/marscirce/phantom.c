@@ -1,4 +1,4 @@
-#include "conditions/phantom.h"
+#include "conditions/marscirce/phantom.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/classification.h"
 #include "conditions/marscirce/marscirce.h"

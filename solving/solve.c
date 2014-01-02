@@ -89,7 +89,7 @@
 #include "conditions/magic_square.h"
 #include "conditions/tibet.h"
 #include "conditions/degradierung.h"
-#include "conditions/phantom.h"
+#include "conditions/marscirce/phantom.h"
 #include "conditions/marscirce/anti.h"
 #include "conditions/line_chameleon.h"
 #include "conditions/haan.h"

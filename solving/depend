@@ -352,7 +352,7 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  stipulation/temporary_hacks.h conditions/madrasi.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
- conditions/phantom.h conditions/singlebox/type3.h \
+ conditions/marscirce/phantom.h conditions/singlebox/type3.h \
  conditions/castling_chess.h conditions/exchange_castling.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/super.h \
@@ -422,7 +422,7 @@ conditions/messigny.h:
 
 conditions/patrol.h:
 
-conditions/phantom.h:
+conditions/marscirce/phantom.h:
 
 conditions/singlebox/type3.h:
 
@@ -1199,16 +1199,17 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/einstein/einstein.h conditions/einstein/reverse.h \
  conditions/einstein/anti.h conditions/einstein/en_passant.h \
  conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h conditions/phantom.h \
- conditions/marscirce/anti.h conditions/line_chameleon.h \
- conditions/haan.h conditions/castling_chess.h \
- conditions/exchange_castling.h conditions/transmuting_kings/super.h \
- conditions/imitator.h conditions/football.h conditions/mummer.h \
- conditions/woozles.h conditions/nocapture.h conditions/nopromotion.h \
- conditions/geneva.h conditions/edgemover.h conditions/grid.h \
- conditions/take_and_make.h conditions/superguards.h \
- conditions/wormhole.h conditions/backhome.h conditions/shielded_kings.h \
- optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
+ conditions/tibet.h conditions/degradierung.h \
+ conditions/marscirce/phantom.h conditions/marscirce/anti.h \
+ conditions/line_chameleon.h conditions/haan.h \
+ conditions/castling_chess.h conditions/exchange_castling.h \
+ conditions/transmuting_kings/super.h conditions/imitator.h \
+ conditions/football.h conditions/mummer.h conditions/woozles.h \
+ conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
+ conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
+ conditions/superguards.h conditions/wormhole.h conditions/backhome.h \
+ conditions/shielded_kings.h optimisations/hash.h DHT/dhtbcmem.h \
+ optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -1543,7 +1544,7 @@ conditions/tibet.h:
 
 conditions/degradierung.h:
 
-conditions/phantom.h:
+conditions/marscirce/phantom.h:
 
 conditions/marscirce/anti.h:
 
@@ -1991,7 +1992,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
  solving/move_generator.h conditions/bichrome.h conditions/grid.h \
  conditions/edgemover.h conditions/annan.h conditions/facetoface.h \
- conditions/phantom.h conditions/marscirce/plus.h \
+ conditions/marscirce/phantom.h conditions/marscirce/plus.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
@@ -2098,7 +2099,7 @@ conditions/annan.h:
 
 conditions/facetoface.h:
 
-conditions/phantom.h:
+conditions/marscirce/phantom.h:
 
 conditions/marscirce/plus.h:
 
@@ -2449,7 +2450,7 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/einstein/reverse.h conditions/einstein/anti.h \
  conditions/einstein/en_passant.h conditions/traitor.h \
  conditions/volage.h conditions/magic_square.h conditions/tibet.h \
- conditions/degradierung.h conditions/phantom.h \
+ conditions/degradierung.h conditions/marscirce/phantom.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/line_chameleon.h \
  conditions/haan.h conditions/castling_chess.h \
@@ -2738,7 +2739,7 @@ conditions/tibet.h:
 
 conditions/degradierung.h:
 
-conditions/phantom.h:
+conditions/marscirce/phantom.h:
 
 conditions/marscirce/marscirce.h:
 

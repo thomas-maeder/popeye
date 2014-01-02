@@ -12,7 +12,7 @@
 #include "conditions/marscirce/plus.h"
 #include "conditions/messigny.h"
 #include "conditions/patrol.h"
-#include "conditions/phantom.h"
+#include "conditions/marscirce/phantom.h"
 #include "conditions/singlebox/type3.h"
 #include "conditions/castling_chess.h"
 #include "conditions/exchange_castling.h"
