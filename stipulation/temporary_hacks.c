@@ -336,41 +336,6 @@ static void make_is_square_observed(Side side)
   stip_impose_starter(temporary_hack_is_square_observed_specific[side],side);
 }
 
-static slice_index make_is_square_observed_by_non_king(Side side)
-{
-  slice_index const proxy = alloc_proxy_slice();
-  slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
-  slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
-  slice_index const tester_ortho = alloc_pipe(STObserveWithOrtho);
-  slice_index const optimising = alloc_pipe(STOptimisingObserverWalk);
-  slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
-
-  pipe_link(proxy,determining_walk);
-
-  if (flagfee)
-  {
-    slice_index const tester_fairy = alloc_pipe(STObserveWithFairy);
-    slice_index const proxy_ortho = alloc_proxy_slice();
-    slice_index const proxy_fairy = alloc_proxy_slice();
-    slice_index const or = alloc_or_slice(proxy_ortho,proxy_fairy);
-
-    pipe_link(determining_walk,or);
-    pipe_link(proxy_ortho,tester_ortho);
-    pipe_link(proxy_fairy,tester_fairy);
-    pipe_link(tester_fairy,optimising);
-  }
-  else
-    pipe_link(determining_walk,tester_ortho);
-
-  pipe_link(tester_ortho,optimising);
-  pipe_link(optimising,track_back);
-  pipe_link(track_back,alloc_false_slice());
-
-  stip_impose_starter(result,side);
-
-  return result;
-}
-
 static slice_index make_check_validator(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
@@ -505,9 +470,6 @@ void insert_temporary_hacks(slice_index root_slice)
     make_is_square_observed(Black);
     make_is_square_observed(White);
 
-    temporary_hack_is_square_observed_by_non_king[Black] = make_is_square_observed_by_non_king(Black);
-    temporary_hack_is_square_observed_by_non_king[White] = make_is_square_observed_by_non_king(White);
-
     temporary_hack_check_validator[Black] = make_check_validator(Black);
     temporary_hack_check_validator[White] = make_check_validator(White);
 
@@ -554,8 +516,6 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_is_square_observed_specific[White],
                 temporary_hack_is_square_observed[White]);
     pipe_append(temporary_hack_is_square_observed[White],
-                temporary_hack_is_square_observed_by_non_king[White]);
-    pipe_append(temporary_hack_is_square_observed_by_non_king[White],
                 temporary_hack_check_validator[White]);
     pipe_append(temporary_hack_check_validator[White],
                 temporary_hack_observation_validator[White]);
@@ -596,8 +556,6 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_is_square_observed_specific[Black],
                 temporary_hack_is_square_observed[Black]);
     pipe_append(temporary_hack_is_square_observed[Black],
-                temporary_hack_is_square_observed_by_non_king[Black]);
-    pipe_append(temporary_hack_is_square_observed_by_non_king[Black],
                 temporary_hack_check_validator[Black]);
     pipe_append(temporary_hack_check_validator[Black],
                 temporary_hack_observation_validator[Black]);

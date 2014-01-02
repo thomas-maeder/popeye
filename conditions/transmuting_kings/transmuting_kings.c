@@ -119,7 +119,8 @@ void transmuting_kings_generate_moves_for_piece(slice_index si, PieNam p)
   TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (!(p==King && generate_moves_of_transmuting_king(si)))
+  if (!(curr_generation->departure==king_square[trait[nbply]]
+        && generate_moves_of_transmuting_king(si)))
     generate_moves_for_piece(slices[si].next1,p);
 
   TraceFunctionExit(__func__);
