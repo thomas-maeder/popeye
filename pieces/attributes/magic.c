@@ -468,7 +468,7 @@ static void PushMagicViewsByOnePiece(PieNam pi_magic)
       replace_observation_target(*pos_viewed);
       observing_walk[nbply] = pi_magic;
       /* ignore return value - it's ==false */
-      (*checkfunctions[pi_magic])(EVALUATE(observation));
+      is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observation));
     }
 
   TraceFunctionExit(__func__);

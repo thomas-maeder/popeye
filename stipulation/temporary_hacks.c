@@ -41,6 +41,7 @@ slice_index temporary_hack_back_home_finder[nr_sides];
 slice_index temporary_hack_suffocation_by_paralysis_finder[nr_sides];
 slice_index temporary_hack_move_generator[nr_sides];
 slice_index temporary_hack_is_square_observed[nr_sides];
+slice_index temporary_hack_is_square_observed_specific[nr_sides];
 slice_index temporary_hack_is_square_observed_by_non_king[nr_sides];
 slice_index temporary_hack_check_validator[nr_sides];
 slice_index temporary_hack_observation_validator[nr_sides];
@@ -294,16 +295,19 @@ static slice_index make_check_tester(void)
   return result;
 }
 
-static slice_index make_is_square_observed(Side side)
+static void make_is_square_observed(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
-  slice_index const result = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
   slice_index const testing = alloc_pipe(STTestingIfSquareIsObserved);
   slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
   slice_index const tester_ortho = alloc_pipe(STObserveWithOrtho);
+  slice_index const testing_specific = alloc_pipe(STTestingIfSquareIsObservedWithSpecificWalk);
 
   slice_index const optimising = alloc_pipe(STOptimisingObserverWalk);
   slice_index const track_back = alloc_pipe(STTrackBackFromTargetAccordingToObserverWalk);
+
+  temporary_hack_is_square_observed[side] = alloc_conditional_pipe(STIsSquareObservedFork,proxy);
+  temporary_hack_is_square_observed_specific[side] = alloc_conditional_pipe(STIsSquareObservedFork,testing_specific);
 
   pipe_link(proxy,testing);
   pipe_link(testing,determining_walk);
@@ -318,18 +322,18 @@ static slice_index make_is_square_observed(Side side)
     pipe_link(determining_walk,or);
     pipe_link(proxy_ortho,tester_ortho);
     pipe_link(proxy_fairy,tester_fairy);
-    pipe_link(tester_fairy,optimising);
+    pipe_link(tester_fairy,testing_specific);
   }
   else
     pipe_link(determining_walk,tester_ortho);
 
-  pipe_link(tester_ortho,optimising);
+  pipe_link(tester_ortho,testing_specific);
+  pipe_link(testing_specific,optimising);
   pipe_link(optimising,track_back);
   pipe_link(track_back,alloc_false_slice());
 
-  stip_impose_starter(result,side);
-
-  return result;
+  stip_impose_starter(temporary_hack_is_square_observed[side],side);
+  stip_impose_starter(temporary_hack_is_square_observed_specific[side],side);
 }
 
 static slice_index make_is_square_observed_by_non_king(Side side)
@@ -498,8 +502,8 @@ void insert_temporary_hacks(slice_index root_slice)
     temporary_hack_move_generator[Black] = make_move_generator(Black);
     temporary_hack_move_generator[White] = make_move_generator(White);
 
-    temporary_hack_is_square_observed[Black] = make_is_square_observed(Black);
-    temporary_hack_is_square_observed[White] = make_is_square_observed(White);
+    make_is_square_observed(Black);
+    make_is_square_observed(White);
 
     temporary_hack_is_square_observed_by_non_king[Black] = make_is_square_observed_by_non_king(Black);
     temporary_hack_is_square_observed_by_non_king[White] = make_is_square_observed_by_non_king(White);
@@ -546,6 +550,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[White],
                 temporary_hack_move_generator[White]);
     pipe_append(temporary_hack_move_generator[White],
+                temporary_hack_is_square_observed_specific[White]);
+    pipe_append(temporary_hack_is_square_observed_specific[White],
                 temporary_hack_is_square_observed[White]);
     pipe_append(temporary_hack_is_square_observed[White],
                 temporary_hack_is_square_observed_by_non_king[White]);
@@ -586,6 +592,8 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_suffocation_by_paralysis_finder[Black],
                 temporary_hack_move_generator[Black]);
     pipe_append(temporary_hack_move_generator[Black],
+                temporary_hack_is_square_observed_specific[Black]);
+    pipe_append(temporary_hack_is_square_observed_specific[Black],
                 temporary_hack_is_square_observed[Black]);
     pipe_append(temporary_hack_is_square_observed[Black],
                 temporary_hack_is_square_observed_by_non_king[Black]);

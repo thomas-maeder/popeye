@@ -212,6 +212,7 @@ static slice_type const proxy_slice_types[] =
     STGeneratingMovesForPiece,
     STTestingCheck,
     STTestingIfSquareIsObserved,
+    STTestingIfSquareIsObservedWithSpecificWalk,
     STDeterminingObserverWalk,
     STOptimisingObserverWalk,
     STValidatingCheck,

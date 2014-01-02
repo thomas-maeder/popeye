@@ -447,6 +447,7 @@
     /* square observation tester slices */                              \
     ENUMERATOR(STIsSquareObservedFork),                                 \
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
+    ENUMERATOR(STTestingIfSquareIsObservedWithSpecificWalk),            \
     ENUMERATOR(STDeterminingObserverWalk),                              \
     ENUMERATOR(STObserveWithOrtho),                                     \
     ENUMERATOR(STObserveWithFairy),                                     \

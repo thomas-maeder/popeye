@@ -55,7 +55,7 @@ static boolean find_mutual_observer(void)
 
   ++phase[parent_ply[nbply]];
 
-  result = (*checkfunctions[p])(EVALUATE(observer));
+  result = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observer));
 
   --phase[parent_ply[nbply]];
 
@@ -91,7 +91,7 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
     {
       observing_walk[nbply] = *pcheck;
       if (number_of_pieces[side_woozle][*pcheck]>0
-          && (*checkfunctions[*pcheck])(EVALUATE(observer)))
+          && is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observer)))
       {
         result = false;
         break;
