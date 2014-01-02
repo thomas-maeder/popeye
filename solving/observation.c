@@ -3,6 +3,7 @@
 #include "conditions/backhome.h"
 #include "conditions/beamten.h"
 #include "conditions/bgl.h"
+#include "conditions/bicolores.h"
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
@@ -717,6 +718,10 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
       result = observe_with_fairy(si,evaluate);
       break;
 
+    case STBicoloresTryBothSides:
+      result = bicolores_try_both_sides(si,evaluate);
+      break;
+
     case STDontTryObservingWithNonExistingWalk:
       result = dont_try_observing_with_non_existing_walk(si,evaluate);
       break;
@@ -771,6 +776,7 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STDeterminingObserverWalk,
     STObserveWithOrtho,
     STObserveWithFairy,
+    STBicoloresTryBothSides,
     STOptimisingObserverWalk,
     STDontTryObservingWithNonExistingWalk,
     STDontTryObservingWithNonExistingWalkBothSides,

@@ -1,11 +1,23 @@
 #include "conditions/bicolores.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/pipe.h"
-#include "stipulation/temporary_hacks.h"
 
-static void remove_enforce_side(slice_index si, stip_structure_traversal *st)
+/* Try observing with both sides
+ * @param si identifies next slice
+ * @return true iff sq_target is observed by the side at the move
+ */
+boolean bicolores_try_both_sides(slice_index si, validator_id evaluate)
 {
-  pipe_remove(si);
+  boolean result;
+
+  if (is_square_observed_recursive(slices[si].next1,evaluate))
+    result = true;
+  else
+  {
+    trait[nbply] = advers(trait[nbply]);
+    result = is_square_observed_recursive(slices[si].next1,evaluate);
+    trait[nbply] = advers(trait[nbply]);
+  }
+
+  return result;
 }
 
 /* Instrument the solving machinery with Bicolores
@@ -13,17 +25,5 @@ static void remove_enforce_side(slice_index si, stip_structure_traversal *st)
  */
 void bicolores_initalise_solving(slice_index si)
 {
-  stip_structure_traversal st;
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STEnforceObserverSide,
-                                           &remove_enforce_side);
-  stip_traverse_structure(slices[temporary_hack_check_validator[White]].next2,&st);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STEnforceObserverSide,
-                                           &remove_enforce_side);
-  stip_traverse_structure(slices[temporary_hack_check_validator[Black]].next2,&st);
+  stip_instrument_is_square_observed_testing(si,nr_sides,STBicoloresTryBothSides);
 }

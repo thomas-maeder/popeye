@@ -450,6 +450,7 @@
     ENUMERATOR(STDeterminingObserverWalk),                              \
     ENUMERATOR(STObserveWithOrtho),                                     \
     ENUMERATOR(STObserveWithFairy),                                     \
+    ENUMERATOR(STBicoloresTryBothSides),                                \
     ENUMERATOR(STOptimisingObserverWalk),                               \
     ENUMERATOR(STDontTryObservingWithNonExistingWalk),                  \
     ENUMERATOR(STDontTryObservingWithNonExistingWalkBothSides),         \
