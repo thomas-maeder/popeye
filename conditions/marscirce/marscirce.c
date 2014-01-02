@@ -197,7 +197,8 @@ boolean marscirce_is_square_observed(slice_index si, validator_id evaluate)
   TraceFunctionParamListEnd();
 
   for (observer_origin = boardnum; !result && *observer_origin; ++observer_origin)
-    if (TSTFLAG(spec[*observer_origin],side_observing)
+    if (*observer_origin!=sq_target /* no auto-observation */
+        && TSTFLAG(spec[*observer_origin],side_observing)
         && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
     {
       Flags const spec_checking = spec[*observer_origin];
