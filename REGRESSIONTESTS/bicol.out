@@ -178,10 +178,10 @@ Loesung beendet.
 
   1.h7-h8=T c2-c1=D   2.Th8-h7 Dc1-h6 #
 
-  add_to_move_generation_stack:       20040
-                     play_move:       18595
- is_white_king_square_attacked:       10669
- is_black_king_square_attacked:       10067
+  add_to_move_generation_stack:       21728
+                     play_move:       20369
+ is_white_king_square_attacked:       11806
+ is_black_king_square_attacked:       10826
 Loesung beendet. 
 
 
@@ -214,10 +214,10 @@ Loesung beendet.
 
   1.f2-f1=L a7-a8=S   2.d2-d1=T c7-c8=D #
 
-  add_to_move_generation_stack:       26061
-                     play_move:       18921
+  add_to_move_generation_stack:       25963
+                     play_move:       18869
  is_white_king_square_attacked:        2769
- is_black_king_square_attacked:       18750
+ is_black_king_square_attacked:       18698
 Loesung beendet. 
 
 
@@ -251,10 +251,10 @@ Loesung beendet.
   1.Lh8-a1 Se6-d4   2.Ke7-f6 Sd4-c6 #
   1.Lh8-d4 Se6-g7   2.Tg8-d8 Sg7*f5 #
 
-  add_to_move_generation_stack:       76487
-                     play_move:       65352
+  add_to_move_generation_stack:       76524
+                     play_move:       65793
  is_white_king_square_attacked:        2789
- is_black_king_square_attacked:       64995
+ is_black_king_square_attacked:       65436
 Loesung beendet. 
 
 
