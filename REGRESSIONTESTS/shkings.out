@@ -76,10 +76,10 @@
       1...Ke4-c3 !
 
 
-  add_to_move_generation_stack:       22490
-                     play_move:       13750
- is_white_king_square_attacked:        1269
- is_black_king_square_attacked:       13593
+  add_to_move_generation_stack:       22480
+                     play_move:       13739
+ is_white_king_square_attacked:        1268
+ is_black_king_square_attacked:       13582
 Loesung beendet. 
 
 
