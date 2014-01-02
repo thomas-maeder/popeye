@@ -13,7 +13,14 @@ boolean vaulting_kings_transmuting[nr_sides];
 PieNam king_vaulters[nr_sides][PieceCount];
 unsigned int nr_king_vaulters[nr_sides];
 
-static boolean is_king_vaulting[maxply+1];
+typedef enum
+{
+  dont_know,
+  does_vault,
+  does_not_vault
+} knowledge;
+
+static knowledge is_king_vaulting[maxply+1];
 
 void reset_king_vaulters(void)
 {
@@ -33,7 +40,6 @@ static boolean is_kingsquare_observed(void)
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (transmuting_kings_testing_transmutation[side])
@@ -97,9 +103,8 @@ boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate)
     result = is_square_observed_recursive(slices[si].next1,evaluate);
   else
   {
-    is_king_vaulting[nbply] = is_kingsquare_observed();
+    is_king_vaulting[nbply] = dont_know;
     result = is_square_observed_recursive(slices[si].next1,evaluate);
-    is_king_vaulting[nbply] = false;
   }
 
   TraceFunctionExit(__func__);
@@ -147,7 +152,10 @@ boolean vaulting_kings_enforce_observer_walk(slice_index si)
     result = validate_observation_recursive(slices[si].next1);
   else if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==sq_king)
   {
-    if (is_king_vaulting[nbply])
+    if (is_king_vaulting[nbply]==dont_know)
+      is_king_vaulting[nbply] = is_kingsquare_observed() ? does_vault : does_not_vault;
+
+    if (is_king_vaulting[nbply]==does_vault)
     {
       if (is_king_vaulter(side_observing,observing_walk[nbply]))
       {
