@@ -12,7 +12,7 @@ bedingung       bicolores
 option          duplex
 
 steine  weiss           kf1 lh8
-	schwarz         kd3 lf3
+        schwarz         kd3 lf3
 
 weiteresproblem
 
@@ -24,7 +24,7 @@ forderung       h#2
 bedingung       bicolores
 
 steine  weiss           le4 kg3
-	schwarz         ke2 th1
+        schwarz         ke2 th1
 
 weiteresproblem
 
@@ -38,7 +38,7 @@ bedingung       bicolores
 option          duplex
 
 steine  weiss           kg4 sh3
-	schwarz         kg2 le5
+        schwarz         kg2 le5
 
 weiteresproblem
 
@@ -52,7 +52,7 @@ bedingung       bicolores
 option          duplex
 
 steine  weiss           kf1 sg2
-	schwarz         kd1 sf5
+        schwarz         kd1 sf5
 
 weiteresproblem
 
@@ -66,7 +66,7 @@ bedingung       bicolores
 option          duplex
 
 steine  weiss           kd6 bh7
-	schwarz         kd4 bc2
+        schwarz         kd4 bc2
 
 weiteresproblem
 
@@ -76,10 +76,10 @@ quelle          47), Problemkiste-79, 2/1992, S. 120
 forderung       h#2
 
 bedingung       madrasi
-		bicolores
+                bicolores
 
 steine          weiss   ba7c7 kh1
-		schwarz kc6 bd2f2
+                schwarz kc6 bd2f2
 
 weiteresproblem
 
