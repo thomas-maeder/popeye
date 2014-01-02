@@ -466,7 +466,7 @@ boolean equihopper_check(validator_id evaluate)
   if (orix_check(evaluate))
     return true;
 
-  interceptable_observation[observation_context].vector_index1 = 0;
+  interceptable_observation[observation_context+1].vector_index1 = 0;
 
   {
     vec_index_type  k;
