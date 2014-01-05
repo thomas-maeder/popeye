@@ -8,7 +8,7 @@ optimisations/immobility_tester_king_first$(OBJ_SUFFIX): \
  stipulation/traversal.h solving/solve.h conditions/mummer.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
  stipulation/boolean/and.h solving/king_move_generator.h \
- solving/non_king_move_generator.h debugging/trace.h solving/ply.h
+ solving/non_king_move_generator.h debugging/trace.h
 
 stipulation/goals/immobile/reached_tester.h:
 
@@ -57,8 +57,6 @@ solving/king_move_generator.h:
 solving/non_king_move_generator.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  optimisations/keepmating.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -66,7 +64,7 @@ optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h
+ stipulation/help_play/branch.h debugging/trace.h
 
 optimisations/keepmating.h:
 
@@ -107,8 +105,6 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c optimisations/hash.h \
  DHT/dhtbcmem.h pieces/pieces.h utilities/boolean.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \

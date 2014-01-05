@@ -49,5 +49,13 @@ stip hep1
 condition cheektocheek
 option nowk nobk
 
+next
+
+title demonstration of combination of Face to Face and Transmuting Kings
+pieces white ke3 sc3 black pc4
+condition facetoface transmut
+stipulation ~1
+option duplex nobk
+
 end
 

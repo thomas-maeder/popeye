@@ -2586,10 +2586,9 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king] || CondFlag[whrefl_king])
-    transmuting_kings_init_transmuters_sequence(White);
-  if (CondFlag[bltrans_king] || CondFlag[blsupertrans_king] || CondFlag[blrefl_king])
-    transmuting_kings_init_transmuters_sequence(Black);
+  if (CondFlag[whtrans_king] || CondFlag[whsupertrans_king] || CondFlag[whrefl_king]
+      || CondFlag[bltrans_king] || CondFlag[blsupertrans_king] || CondFlag[blrefl_king])
+    transmuting_kings_init_transmuters_sequence();
 
   if (calc_reflective_king[White] || calc_reflective_king[Black])
     disable_orthodox_mating_move_optimisation(nr_sides);

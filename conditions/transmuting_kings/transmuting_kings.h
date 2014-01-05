@@ -8,13 +8,12 @@
 #include "stipulation/stipulation.h"
 #include "solving/observation.h"
 
-extern PieNam transmuting_kings_potential_transmutations[nr_sides][PieceCount];
+extern PieNam transmuting_kings_potential_transmutations[PieceCount];
 extern boolean transmuting_kings_testing_transmutation[nr_sides];
 
 /* Initialise the sequence of king transmuters
- * @param side for which side to initialise?
  */
-void transmuting_kings_init_transmuters_sequence(Side side);
+void transmuting_kings_init_transmuters_sequence(void);
 
 /* Generate moves of a potentially transmuting king
  * @param si identifies move generator slice

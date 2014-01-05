@@ -78,29 +78,13 @@ stip_length_type supertransmuting_kings_transmuter_solve(slice_index si,
   return result;
 }
 
-static boolean is_square_observed_by_opponent(PieNam p)
-{
-  boolean result;
-
-  siblingply(advers(trait[nbply]));
-  push_observation_target(curr_generation->departure);
-  observing_walk[nbply] = p;
-  result = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observation));
-  finply();
-
-  return result;
-}
-
 static boolean generate_moves_of_supertransmuting_king(slice_index si)
 {
   boolean result = false;
-  Side const side_moving = trait[nbply];
-  Side const side_transmuting = advers(side_moving);
 
   PieNam const *ptrans;
-  for (ptrans = transmuting_kings_potential_transmutations[side_moving]; *ptrans!=Empty; ++ptrans)
-    if (number_of_pieces[side_transmuting][*ptrans]>0
-        && is_square_observed_by_opponent(*ptrans))
+  for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
+    if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       numecoup curr_id = current_move_id[nbply];
       generate_moves_for_piece(slices[si].next1,*ptrans);

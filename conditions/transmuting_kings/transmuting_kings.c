@@ -11,7 +11,7 @@
 
 #include <assert.h>
 
-PieNam transmuting_kings_potential_transmutations[nr_sides][PieceCount];
+PieNam transmuting_kings_potential_transmutations[PieceCount];
 
 boolean transmuting_kings_testing_transmutation[nr_sides];
 
@@ -27,9 +27,8 @@ static enum
 static boolean is_king_transmuting_as_any_walk[maxply+1];
 
 /* Initialise the sequence of king transmuters
- * @param side for which side to initialise?
  */
-void transmuting_kings_init_transmuters_sequence(Side side)
+void transmuting_kings_init_transmuters_sequence(void)
 {
   unsigned int tp = 0;
   PieNam p;
@@ -37,12 +36,12 @@ void transmuting_kings_init_transmuters_sequence(Side side)
   for (p = King; p<PieceCount; ++p) {
     if (may_exist[p] && p!=Dummy && p!=Hamster)
     {
-      transmuting_kings_potential_transmutations[side][tp] = p;
+      transmuting_kings_potential_transmutations[tp] = p;
       tp++;
     }
   }
 
-  transmuting_kings_potential_transmutations[side][tp] = Empty;
+  transmuting_kings_potential_transmutations[tp] = Empty;
 }
 
 /* Determine whether the moving side's king is transmuting as a specific walk
@@ -86,17 +85,14 @@ boolean transmuting_kings_is_king_transmuting_as(PieNam walk)
 boolean generate_moves_of_transmuting_king(slice_index si)
 {
   boolean result = false;
-  Side const side_moving = trait[nbply];
-  Side const side_transmuting = advers(side_moving);
   PieNam const *ptrans;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (ptrans = transmuting_kings_potential_transmutations[side_moving]; *ptrans!=Empty; ++ptrans)
-    if (number_of_pieces[side_transmuting][*ptrans]>0
-        && transmuting_kings_is_king_transmuting_as(*ptrans))
+  for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
+    if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       generate_moves_for_piece(slices[si].next1,*ptrans);
       result = true;

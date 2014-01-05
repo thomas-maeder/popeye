@@ -1177,8 +1177,7 @@ pieces/walks/sting$(OBJ_SUFFIX): pieces/walks/sting.c pieces/walks/sting.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/ply.h stipulation/temporary_hacks.h pieces/walks/hoppers.h \
- solving/move_generator.h solving/solve.h pieces/walks/leapers.h \
- solving/find_square_observer_tracking_back_from_target.h
+ solving/move_generator.h solving/solve.h pieces/walks/leapers.h
 
 pieces/walks/sting.h:
 
@@ -1217,8 +1216,6 @@ solving/move_generator.h:
 solving/solve.h:
 
 pieces/walks/leapers.h:
-
-solving/find_square_observer_tracking_back_from_target.h:
 pieces/walks/combined$(OBJ_SUFFIX): pieces/walks/combined.c pieces/walks/combined.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
