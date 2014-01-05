@@ -176,7 +176,7 @@ a)
 
   1.Qh2*c7[+bPg1=R][+bPh2] Rg1-g8   2.Qc7*h2[+bPg3][+bPc7] Qc4-h4[+wPc4] #
 
-  add_to_move_generation_stack:      396893
+  add_to_move_generation_stack:      397434
                      play_move:       13974
  is_white_king_square_attacked:       13889
  is_black_king_square_attacked:           0
@@ -184,7 +184,7 @@ b) bQc4-->g5
 
   1.Qh2*c7[+bPe1=S][+bPh2] Qg5-a5[+wPg5]   2.Qc7*h2[+bPe5][+bPc7] Qa5-d2[+wPa5] #
 
-  add_to_move_generation_stack:      538495
+  add_to_move_generation_stack:      538228
                      play_move:       15213
  is_white_king_square_attacked:       15007
  is_black_king_square_attacked:           0

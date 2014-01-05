@@ -54,17 +54,16 @@ unsigned int observation_context = 0;
 
 static boolean enforce_observer_walk(slice_index si)
 {
-  boolean result;
+  boolean result = false;
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  PieNam const walk = get_walk_of_piece_on_square(sq_departure);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply])
+  if (walk==observing_walk[nbply])
     result = validate_observation_recursive(slices[si].next1);
-  else
-    result = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -102,6 +101,10 @@ boolean validate_observation_recursive(slice_index si)
 
     case STReflectiveKingsEnforceObserverWalk:
       result = reflective_kings_enforce_observer_walk(si);
+      break;
+
+    case STUndoOptimiseObservationsByQueen:
+      result = undo_optimise_observation_by_queen(si);
       break;
 
     case STEnforceObserverWalk:
@@ -346,6 +349,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STMarsCirceMovesForPieceGenerator,
     STAMUObservationCounter,
     STMasandEnforceObserver,
+    STUndoOptimiseObservationsByQueen,
     STSingleBoxType3EnforceObserverWalk,
     STTransmutingKingsEnforceObserverWalk,
     STVaultingKingsEnforceObserverWalk,
@@ -376,6 +380,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STWormholeRemoveIllegalCaptures,
 
     STValidatingObserver,
+    STUndoOptimiseObservationsByQueen,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
     STEnforceHunterDirection,
@@ -388,6 +393,7 @@ static slice_index const observation_validation_slice_rank_order[] =
     STBiHeffalumpsRemoveIllegalCaptures,
 
     STValidatingObservationGeometry,
+    STUndoOptimiseObservationsByQueen,
     STParalysingObservationGeometryValidator,
     STEnforceObserverWalk,
     STAnnanEnforceObserverWalk,
@@ -702,6 +708,14 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
       result = dont_try_observing_with_non_existing_walk_both_sides(si,evaluate);
       break;
 
+    case STOptimiseObservationsByQueenInitialiser:
+      result = optimise_away_observations_by_queen_initialise(si,evaluate);
+      break;
+
+    case STOptimiseObservationsByQueen:
+      result = optimise_away_observations_by_queen(si,evaluate);
+      break;
+
     case STTrackBackFromTargetAccordingToObserverWalk:
       result = track_back_from_target_according_to_observer_walk(si,evaluate);
       break;
@@ -743,6 +757,7 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STIsSquareObservedOrtho,
     STTransmutingKingIsSquareObserved,
     STVaultingKingIsSquareObserved,
+    STOptimiseObservationsByQueenInitialiser,
     STDeterminingObserverWalk,
     STObserveWithOrtho,
     STObserveWithFairy,
@@ -751,10 +766,11 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STOptimisingObserverWalk,
     STDontTryObservingWithNonExistingWalk,
     STDontTryObservingWithNonExistingWalkBothSides,
+    STOptimiseObservationsByQueen,
+    STTransmutingKingDetectNonTransmutation,
     STMarsIsSquareObserved,
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
-    STTransmutingKingDetectNonTransmutation,
     STTrackBackFromTargetAccordingToObserverWalk,
     STFalse
 };

@@ -547,7 +547,7 @@ eigentlich semi-r#2
 
 
   add_to_move_generation_stack:      110886
-                     play_move:      235746
+                     play_move:      235843
  is_white_king_square_attacked:       73426
  is_black_king_square_attacked:        8413
 Loesung beendet. 

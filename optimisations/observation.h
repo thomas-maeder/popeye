@@ -15,6 +15,11 @@ boolean dont_try_observing_with_non_existing_walk(slice_index si,
 boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si,
                                                              validator_id evaluate);
 
+boolean optimise_away_observations_by_queen_initialise(slice_index si,
+                                                       validator_id evaluate);
+boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluate);
+boolean undo_optimise_observation_by_queen(slice_index si);
+
 /* Determine whether observations are trivially validated (allowing for some
  * optimisations)
  * @param side for which side?

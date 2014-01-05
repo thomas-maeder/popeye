@@ -656,10 +656,10 @@ b) MarsSpiegelCirce
 
   1.Kd7-e6   2.Ke6-f5   3.Kf5-g4   1.f7-f8=T   2.e7-e8=L #
 
-  add_to_move_generation_stack:       49832
-                     play_move:       25650
- is_white_king_square_attacked:        3647
- is_black_king_square_attacked:       25257
+  add_to_move_generation_stack:       47496
+                     play_move:       25193
+ is_white_king_square_attacked:        3456
+ is_black_king_square_attacked:       24800
 Loesung beendet. 
 
 

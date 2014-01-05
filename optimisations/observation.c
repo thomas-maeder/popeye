@@ -2,6 +2,7 @@
 #include "conditions/conditions.h"
 #include "conditions/singlebox/type1.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/move_generator.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
@@ -20,8 +21,97 @@ boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si,
           && is_square_observed_recursive(slices[si].next1,evaluate));
 }
 
+static boolean observation_by_rook_tested[maxply+1];
+static boolean observation_by_bishop_tested[maxply+1];
+
+boolean optimise_away_observations_by_queen_initialise(slice_index si,
+                                                       validator_id evaluate)
+{
+  boolean result = is_square_observed_recursive(slices[si].next1,evaluate);
+  observation_by_rook_tested[nbply] = false;
+  observation_by_bishop_tested[nbply] = false;
+  return result;
+}
+
+boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluate)
+{
+  boolean result;
+
+  switch (observing_walk[nbply])
+  {
+    case Rook:
+      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      observation_by_rook_tested[nbply] = true;
+      break;
+
+    case Bishop:
+      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      observation_by_bishop_tested[nbply] = true;
+      break;
+
+    case Queen:
+      if (observation_by_rook_tested[nbply])
+      {
+        if (observation_by_bishop_tested[nbply])
+          result = false;
+        else
+        {
+          observing_walk[nbply] = Bishop;
+          result = is_square_observed_recursive(slices[si].next1,evaluate);
+          observing_walk[nbply] = Queen;
+        }
+      }
+      else
+      {
+        if (observation_by_bishop_tested[nbply])
+        {
+          observing_walk[nbply] = Rook;
+          result = is_square_observed_recursive(slices[si].next1,evaluate);
+          observing_walk[nbply] = Queen;
+        }
+        else
+          result = is_square_observed_recursive(slices[si].next1,evaluate);
+      }
+      break;
+
+    default:
+      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      break;
+  }
+
+    return result;
+}
+
+boolean undo_optimise_observation_by_queen(slice_index si)
+{
+  boolean result = false;
+  square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
+  PieNam const walk = get_walk_of_piece_on_square(sq_departure);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if ((observing_walk[nbply]==Rook || observing_walk[nbply]==Bishop)
+       && walk==Queen)
+  {
+    PieNam const save_observing_walk = observing_walk[nbply];
+    observing_walk[nbply] = walk;
+    result = validate_observation_recursive(slices[si].next1);
+    observing_walk[nbply] = save_observing_walk;
+  }
+  else
+    result = validate_observation_recursive(slices[si].next1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static slice_type const ortho_validation_slice_types_non_proxy[] =
 {
+    STUndoOptimiseObservationsByQueen,
     STEnforceObserverWalk
 };
 
@@ -242,6 +332,27 @@ static void optimise_side(slice_index si, Side side)
                                              STOptimisingObserverWalk,
                                              &insert_filter);
     stip_traverse_structure(si,&st);
+  }
+
+  if (!(CondFlag[madras] || CondFlag[isardam]
+        || CondFlag[side==White ? whtrans_king : bltrans_king]
+        || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]
+        || CondFlag[whrefl_king] || CondFlag[blrefl_king]
+        || CondFlag[eiffel]
+        || CondFlag[annan]
+        || CondFlag[amu]
+        || CondFlag[woozles] || CondFlag[biwoozles]
+        || CondFlag[heffalumps] || CondFlag[biheffalumps]
+        || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+        || CondFlag[mars] || CondFlag[phantom] || CondFlag[plus]
+        || TSTFLAG(some_pieces_flags,Magic)))
+  {
+    stip_instrument_is_square_observed_testing(si,side,STOptimiseObservationsByQueenInitialiser);
+    stip_instrument_is_square_observed_testing(si,side,STOptimiseObservationsByQueen);
+    stip_instrument_observation_validation(si,side,STUndoOptimiseObservationsByQueen);
+    stip_instrument_check_validation(si,side,STUndoOptimiseObservationsByQueen);
+    stip_instrument_observer_validation(si,side,STUndoOptimiseObservationsByQueen);
+    stip_instrument_observation_geometry_validation(si,side,STUndoOptimiseObservationsByQueen);
   }
 
   TraceFunctionExit(__func__);

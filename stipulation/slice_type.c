@@ -447,6 +447,9 @@
     ENUMERATOR(STOptimisingObserverWalk),                               \
     ENUMERATOR(STDontTryObservingWithNonExistingWalk),                  \
     ENUMERATOR(STDontTryObservingWithNonExistingWalkBothSides),         \
+    ENUMERATOR(STOptimiseObservationsByQueenInitialiser),               \
+    ENUMERATOR(STOptimiseObservationsByQueen),                          \
+    ENUMERATOR(STUndoOptimiseObservationsByQueen),                      \
     ENUMERATOR(STTrackBackFromTargetAccordingToObserverWalk),           \
     ENUMERATOR(STVaultingKingsEnforceObserverWalk),                     \
     ENUMERATOR(STVaultingKingIsSquareObserved),                         \
