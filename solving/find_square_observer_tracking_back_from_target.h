@@ -16,8 +16,6 @@ extern PieNam checkpieces[PieceCount-Leo+1]; /* only fairies ! */
 boolean track_back_from_target_according_to_observer_walk(slice_index si,
                                                           validator_id evaluate);
 
-boolean observe_with_ortho(slice_index si, validator_id evaluate);
-
-boolean observe_with_fairy(slice_index si, validator_id evaluate);
+boolean determine_observer_walk(slice_index si, validator_id evaluate);
 
 #endif

@@ -215,8 +215,7 @@ static boolean is_validation_branch_ortho(slice_index entry)
 
 static slice_type const ortho_observation_slice_types_non_proxy[] =
 {
-    STOr,
-    STObserveWithOrtho,
+    STDetermineObserverWalk,
     STTrackBackFromTargetAccordingToObserverWalk
 };
 

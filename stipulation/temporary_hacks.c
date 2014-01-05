@@ -299,8 +299,7 @@ static void make_is_square_observed(Side side)
 {
   slice_index const proxy = alloc_proxy_slice();
   slice_index const testing = alloc_pipe(STTestingIfSquareIsObserved);
-  slice_index const determining_walk = alloc_pipe(STDeterminingObserverWalk);
-  slice_index const tester_ortho = alloc_pipe(STObserveWithOrtho);
+  slice_index const determine_walk = alloc_pipe(STDetermineObserverWalk);
   slice_index const testing_specific = alloc_pipe(STTestingIfSquareIsObservedWithSpecificWalk);
 
   slice_index const optimising = alloc_pipe(STOptimisingObserverWalk);
@@ -310,24 +309,8 @@ static void make_is_square_observed(Side side)
   temporary_hack_is_square_observed_specific[side] = alloc_conditional_pipe(STIsSquareObservedFork,testing_specific);
 
   pipe_link(proxy,testing);
-  pipe_link(testing,determining_walk);
-
-  if (flagfee)
-  {
-    slice_index const tester_fairy = alloc_pipe(STObserveWithFairy);
-    slice_index const proxy_ortho = alloc_proxy_slice();
-    slice_index const proxy_fairy = alloc_proxy_slice();
-    slice_index const or = alloc_or_slice(proxy_ortho,proxy_fairy);
-
-    pipe_link(determining_walk,or);
-    pipe_link(proxy_ortho,tester_ortho);
-    pipe_link(proxy_fairy,tester_fairy);
-    pipe_link(tester_fairy,testing_specific);
-  }
-  else
-    pipe_link(determining_walk,tester_ortho);
-
-  pipe_link(tester_ortho,testing_specific);
+  pipe_link(testing,determine_walk);
+  pipe_link(determine_walk,testing_specific);
   pipe_link(testing_specific,optimising);
   pipe_link(optimising,track_back);
   pipe_link(track_back,alloc_false_slice());

@@ -237,33 +237,28 @@ boolean track_back_from_target_according_to_observer_walk(slice_index si,
 static PieNam const ortho_walks[] = { King, Pawn, Knight, Rook, Bishop, Queen };
 enum { nr_ortho_walks = sizeof ortho_walks / sizeof ortho_walks[0] };
 
-boolean observe_with_ortho(slice_index si, validator_id evaluate)
+boolean determine_observer_walk(slice_index si, validator_id evaluate)
 {
-  boolean result = false;
-  unsigned int i;
-
-  for (i = 0; i!=nr_ortho_walks; ++i)
   {
-    observing_walk[nbply] = ortho_walks[i];
-    if (is_square_observed_recursive(slices[si].next1,evaluate))
+    unsigned int i;
+
+    for (i = 0; i!=nr_ortho_walks; ++i)
     {
-      result = true;
-      break;
+      observing_walk[nbply] = ortho_walks[i];
+      if (is_square_observed_recursive(slices[si].next1,evaluate))
+        return true;
     }
   }
 
-  return result;
-}
-
-boolean observe_with_fairy(slice_index si, validator_id evaluate)
-{
-  PieNam const *pcheck;
-
-  for (pcheck = checkpieces; *pcheck; ++pcheck)
   {
-    observing_walk[nbply] = *pcheck;
-    if (is_square_observed_recursive(slices[si].next1,evaluate))
-      return true;
+    PieNam const *pcheck;
+
+    for (pcheck = checkpieces; *pcheck; ++pcheck)
+    {
+      observing_walk[nbply] = *pcheck;
+      if (is_square_observed_recursive(slices[si].next1,evaluate))
+        return true;
+    }
   }
 
   return false;

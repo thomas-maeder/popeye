@@ -688,12 +688,8 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
       result = transmuting_king_detect_non_transmutation(si,evaluate);
       break;
 
-    case STObserveWithOrtho:
-      result = observe_with_ortho(si,evaluate);
-      break;
-
-    case STObserveWithFairy:
-      result = observe_with_fairy(si,evaluate);
+    case STDetermineObserverWalk:
+      result = determine_observer_walk(si,evaluate);
       break;
 
     case STBicoloresTryBothSides:
@@ -718,11 +714,6 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
 
     case STTrackBackFromTargetAccordingToObserverWalk:
       result = track_back_from_target_according_to_observer_walk(si,evaluate);
-      break;
-
-    case STOr:
-      result = (is_square_observed_recursive(slices[si].next1,evaluate)
-                || is_square_observed_recursive(slices[si].next2,evaluate));
       break;
 
     case STTrue:
@@ -758,9 +749,7 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STTransmutingKingIsSquareObserved,
     STVaultingKingIsSquareObserved,
     STOptimiseObservationsByQueenInitialiser,
-    STDeterminingObserverWalk,
-    STObserveWithOrtho,
-    STObserveWithFairy,
+    STDetermineObserverWalk,
     STBicoloresTryBothSides,
     STTestingIfSquareIsObservedWithSpecificWalk,
     STOptimisingObserverWalk,

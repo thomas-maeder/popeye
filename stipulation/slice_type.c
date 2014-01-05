@@ -440,9 +440,7 @@
     ENUMERATOR(STIsSquareObservedFork),                                 \
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
     ENUMERATOR(STTestingIfSquareIsObservedWithSpecificWalk),            \
-    ENUMERATOR(STDeterminingObserverWalk),                              \
-    ENUMERATOR(STObserveWithOrtho),                                     \
-    ENUMERATOR(STObserveWithFairy),                                     \
+    ENUMERATOR(STDetermineObserverWalk),                                \
     ENUMERATOR(STBicoloresTryBothSides),                                \
     ENUMERATOR(STOptimisingObserverWalk),                               \
     ENUMERATOR(STDontTryObservingWithNonExistingWalk),                  \
