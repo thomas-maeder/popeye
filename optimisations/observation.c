@@ -24,6 +24,9 @@ boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si,
 static boolean observation_by_rook_tested[maxply+1];
 static boolean observation_by_bishop_tested[maxply+1];
 
+/* Initialise counters used for determining whether observations by queen
+ * can be optimised away because of observations by rook+bishop
+ */
 boolean optimise_away_observations_by_queen_initialise(slice_index si,
                                                        validator_id evaluate)
 {
@@ -33,6 +36,8 @@ boolean optimise_away_observations_by_queen_initialise(slice_index si,
   return result;
 }
 
+/* Try to optimise away observations by queen
+ */
 boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluate)
 {
   boolean result;
@@ -82,6 +87,8 @@ boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluat
     return result;
 }
 
+/* Restore matters after optimisation observations by queen
+ */
 boolean undo_optimise_observation_by_queen(slice_index si)
 {
   boolean result = false;

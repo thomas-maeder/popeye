@@ -15,9 +15,18 @@ boolean dont_try_observing_with_non_existing_walk(slice_index si,
 boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si,
                                                              validator_id evaluate);
 
+/* Initialise counters used for determining whether observations by queen
+ * can be optimised away because of observations by rook+bishop
+ */
 boolean optimise_away_observations_by_queen_initialise(slice_index si,
                                                        validator_id evaluate);
+
+/* Try to optimise away observations by queen
+ */
 boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluate);
+
+/* Restore matters after optimisation observations by queen
+ */
 boolean undo_optimise_observation_by_queen(slice_index si);
 
 /* Determine whether observations are trivially validated (allowing for some
