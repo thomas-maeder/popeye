@@ -1,7 +1,6 @@
 #include "pieces/walks/sting.h"
 #include "pieces/walks/hoppers.h"
 #include "pieces/walks/leapers.h"
-#include "solving/find_square_observer_tracking_back_from_target.h"
 
 /* Generate moves for a Sting
  */
@@ -13,6 +12,5 @@ void sting_generate_moves(void)
 
 boolean sting_check(validator_id evaluate)
 {
-  return ((*checkfunctions[King])(evaluate)
-          || (*checkfunctions[Grasshopper])(evaluate));
+  return king_check(evaluate) || grasshopper_check(evaluate);
 }

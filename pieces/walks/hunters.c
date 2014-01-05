@@ -142,12 +142,12 @@ boolean rookhunter_check(validator_id evaluate)
 
   /* always moves up as rook and down as bishop!! */
   direction_validator[nbply] = &goes_up;
-  if ((*checkfunctions[Rook])(evaluate))
+  if (rook_check(evaluate))
     result = true;
   else
   {
     direction_validator[nbply] = &goes_down;
-    result = (*checkfunctions[Bishop])(evaluate);
+    result = bishop_check(evaluate);
   }
 
   direction_validator[nbply] = 0;
@@ -167,12 +167,12 @@ boolean bishophunter_check(validator_id evaluate)
 
   /* always moves up as bishop and down as rook!! */
   direction_validator[nbply] = &goes_down;
-  if ((*checkfunctions[Rook])(evaluate))
+  if (rook_check(evaluate))
     result = true;
   else
   {
     direction_validator[nbply] = &goes_up;
-    result = (*checkfunctions[Bishop])(evaluate);
+    result = bishop_check(evaluate);
   }
 
   direction_validator[nbply] = 0;
