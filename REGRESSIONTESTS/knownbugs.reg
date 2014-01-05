@@ -92,3 +92,69 @@ But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
 solution finished. 
 
 
+
+the wP should capture like a wS (i.e. on a3 rather than e3)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   S   .   .   .   .   4
+|                                   |
+3  -P   .   .   .  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 2
+              MarsCirce
+              AnnanChess
+
+   1.Sd4-b3 !
+
+   1.Sd4-c2 !
+
+   1.Sd4-e2 !
+
+   1.Sd4-f3 !
+
+   1.Sd4-f5 !
+
+   1.Sd4-e6 !
+
+   1.Sd4-c6 !
+
+   1.Sd4-b5 !
+
+   1.d5*e3 !
+
+   1.d5-b4 !
+
+   1.d5-c3 !
+
+   1.d5-f4 !
+
+   1.d5-f6 !
+
+   1.d5-e7 !
+
+   1.d5-c7 !
+
+   1.d5-b6 !
+
+
+  add_to_move_generation_stack:          21
+                     play_move:          16
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
