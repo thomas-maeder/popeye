@@ -679,4 +679,12 @@ stip +1
 condition madrasi  
 twin condition madrasi marscirce
 
+next
+
+title Until 4.63, Popeye didn't respect Annan in Transmuting Kings
+pieces black sc7 pc6 white kd4
+stip ~1
+condition annan transmut
+option nobk
+
 end

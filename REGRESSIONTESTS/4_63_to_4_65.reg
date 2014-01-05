@@ -3356,3 +3356,49 @@ b) Madrasi
 solution finished. 
 
 
+
+Until 4.63, Popeye didn't respect Annan in Transmuting Kings
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .  -S   .   .   .   .   .   7
+|                                   |
+6   .   .  -P   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+           TransmutedKings
+              AnnanChess
+
+   1.Kd4-b3 !
+
+   1.Kd4-c2 !
+
+   1.Kd4-e2 !
+
+   1.Kd4-f3 !
+
+   1.Kd4-f5 !
+
+   1.Kd4*c6 !
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
