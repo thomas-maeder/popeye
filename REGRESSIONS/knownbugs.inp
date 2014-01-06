@@ -24,10 +24,12 @@ condition anticirce BlackReflectiveKing
 
 next
 
-title Behavior of wP (annanised by wR on d2) seems inconsistent
-pieces white rd1 sd4 pd5 black pa3e3h2
+title Behaviour of wP (capture: annanised by wR on d2; check: not annanised) is inconsistent
+pieces white rd1 sd4 pd5 black pa3e3g2
 stip ~1
 condition marscirce annan
 option nowk nobk
+twin add black kg2
+twin add black ke3
 
 end

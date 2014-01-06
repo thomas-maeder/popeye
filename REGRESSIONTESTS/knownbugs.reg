@@ -93,7 +93,7 @@ solution finished.
 
 
 
-Behavior of wP (annanised by wR on d2) seems inconsistent
+Behaviour of wP (capture: annanised by wR on d2; check: not annanised) is inconsistent
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -109,7 +109,7 @@ Behavior of wP (annanised by wR on d2) seems inconsistent
 |                                   |
 3  -P   .   .   .  -P   .   .   .   3
 |                                   |
-2   .   .   .   .   .   .   .  -P   2
+2   .   .   .   .   .   .  -P   .   2
 |                                   |
 1   .   .   .   R   .   .   .   .   1
 |                                   |
@@ -118,7 +118,7 @@ Behavior of wP (annanised by wR on d2) seems inconsistent
               MarsCirce
               AnnanChess
 
-   1.Rd1*h2 !
+a) 
 
    1.Rd1-a1 !
 
@@ -154,7 +154,7 @@ Behavior of wP (annanised by wR on d2) seems inconsistent
 
    1.Sd4-b5 !
 
-   1.d5*h2 !
+   1.d5*g2 !
 
    1.d5-b4 !
 
@@ -171,10 +171,74 @@ Behavior of wP (annanised by wR on d2) seems inconsistent
    1.d5-b6 !
 
 
-  add_to_move_generation_stack:          44
-                     play_move:          26
+  add_to_move_generation_stack:          49
+                     play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
+b) bKg2 
+
+   1.Rd1-a1 !
+
+   1.Rd1-b1 !
+
+   1.Rd1-c1 !
+
+   1.Rd1-d3 !
+
+   1.Rd1-d2 !
+
+   1.Rd1-h1 !
+
+   1.Rd1-g1 !
+
+   1.Rd1-f1 !
+
+   1.Rd1-e1 !
+
+   1.Sd4-b3 !
+
+   1.Sd4-c2 !
+
+   1.Sd4-e2 !
+
+   1.Sd4-f3 !
+
+   1.Sd4-f5 !
+
+   1.Sd4-e6 !
+
+   1.Sd4-c6 !
+
+   1.Sd4-b5 !
+
+   1.d5*g2 !
+
+   1.d5-b4 !
+
+   1.d5-c3 !
+
+   1.d5-f4 !
+
+   1.d5-f6 !
+
+   1.d5-e7 !
+
+   1.d5-c7 !
+
+   1.d5-b6 !
+
+
+  add_to_move_generation_stack:          49
+                     play_move:          25
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          25
+c) bKe3 
+
+the side to play can capture the king
+  add_to_move_generation_stack:           0
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
 solution finished. 
 
 
