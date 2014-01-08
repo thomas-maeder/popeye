@@ -93,7 +93,7 @@ solution finished.
 
 
 
-Behaviour of wP (capture: annanised by wR on d2; check: not annanised) is inconsistent
+Behaviour of wP (capture: annanised by wS; check: not annanised) is inconsistent
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -154,7 +154,7 @@ a)
 
    1.Sd4-b5 !
 
-   1.d5*g2 !
+   1.d5*a3 !
 
    1.d5-b4 !
 
@@ -171,7 +171,7 @@ a)
    1.d5-b6 !
 
 
-  add_to_move_generation_stack:          49
+  add_to_move_generation_stack:          45
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
@@ -185,11 +185,11 @@ b) bKg2
 
    1.Rd1-d3 !
 
-   1.Rd1-d2 !
+   1.Rd1-d2 + !
 
    1.Rd1-h1 !
 
-   1.Rd1-g1 !
+   1.Rd1-g1 + !
 
    1.Rd1-f1 !
 
@@ -211,7 +211,7 @@ b) bKg2
 
    1.Sd4-b5 !
 
-   1.d5*g2 !
+   1.d5*a3 !
 
    1.d5-b4 !
 
@@ -228,10 +228,10 @@ b) bKg2
    1.d5-b6 !
 
 
-  add_to_move_generation_stack:          49
-                     play_move:          25
+  add_to_move_generation_stack:          45
+                     play_move:          27
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          25
+ is_black_king_square_attacked:          26
 c) bKe3 
 
 the side to play can capture the king

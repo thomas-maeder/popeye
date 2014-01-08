@@ -24,7 +24,7 @@ condition anticirce BlackReflectiveKing
 
 next
 
-title Behaviour of wP (capture: annanised by wR on d2; check: not annanised) is inconsistent
+title Behaviour of wP (capture: annanised by wS; check: not annanised) is inconsistent
 pieces white rd1 sd4 pd5 black pa3e3g2
 stip ~1
 condition marscirce annan
