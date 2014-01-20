@@ -268,10 +268,6 @@ void generate_moves_for_piece(slice_index si, PieNam p)
 
     case STMovesForPieceBasedOnWalkGenerator:
       generate_moves_for_piece_based_on_walk(p);
-      generate_moves_for_piece(slices[si].next1,p);
-      break;
-
-    case STTrue:
       break;
 
     default:
