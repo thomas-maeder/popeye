@@ -185,11 +185,11 @@ b) bKg2
 
    1.Rd1-d3 !
 
-   1.Rd1-d2 + !
+   1.Rd1-d2 !
 
    1.Rd1-h1 !
 
-   1.Rd1-g1 + !
+   1.Rd1-g1 !
 
    1.Rd1-f1 !
 
@@ -229,16 +229,66 @@ b) bKg2
 
 
   add_to_move_generation_stack:          45
-                     play_move:          27
+                     play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          26
 c) bKe3 
 
-the side to play can capture the king
-  add_to_move_generation_stack:           0
-                     play_move:           1
+   1.Rd1-a1 !
+
+   1.Rd1-b1 !
+
+   1.Rd1-c1 !
+
+   1.Rd1-d3 !
+
+   1.Rd1-d2 !
+
+   1.Rd1-h1 !
+
+   1.Rd1-g1 !
+
+   1.Rd1-f1 !
+
+   1.Rd1-e1 !
+
+   1.Sd4-b3 + !
+
+   1.Sd4-c2 + !
+
+   1.Sd4-e2 + !
+
+   1.Sd4-f3 + !
+
+   1.Sd4-f5 + !
+
+   1.Sd4-e6 + !
+
+   1.Sd4-c6 + !
+
+   1.Sd4-b5 + !
+
+   1.d5*a3 !
+
+   1.d5-b4 !
+
+   1.d5-c3 !
+
+   1.d5-f4 + !
+
+   1.d5-f6 + !
+
+   1.d5-e7 !
+
+   1.d5-c7 !
+
+   1.d5-b6 !
+
+
+  add_to_move_generation_stack:          45
+                     play_move:          25
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           1
+ is_black_king_square_attacked:          26
 solution finished. 
 
 
