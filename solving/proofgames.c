@@ -1620,7 +1620,7 @@ static void saveTargetPiecesAndSquares(void)
   {
     square const square_i = boardnum[i];
     PieNam const p = target.board[square_i];
-    if (p!=Empty)
+    if (p!=Empty && p!=Invalid)
     {
       ProofPieces[ProofNbrAllPieces] = p;
       ProofSpecs[ProofNbrAllPieces] = target.spec[square_i];

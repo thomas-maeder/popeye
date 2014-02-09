@@ -1,0 +1,18 @@
+begin
+
+prot 4_65_to_4_67.reg
+
+title Until 4.65, holes were counted as pieces. Since Popeye can only deal with
+title <=32 pieces in a=>b, the solution wasn't found
+option nowk nobk
+pieces white ra3 bb3 Sc3 black ra2 Sc2 bb1
+condition hole a4a5a6b4b5b6c4c5c6d1d2d3d4d5d6e1e2e3e4e5e6f1f2f3f4f5f6
+
+stipulation a=>b1.0
+Option White
+condition pwc
+
+pieces white ra3 bb3 sc3 black ra2 sc2 bb1 
+condition hole a4a5a6b4b5b6c4c5c6d1d2d3d4d5d6e1e2e3e4e5e6f1f2f3f4f5f6
+
+end
