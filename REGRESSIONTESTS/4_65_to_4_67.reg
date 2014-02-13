@@ -60,3 +60,51 @@ Until 4.65, holes were counted as pieces. Since Popeye can only deal with
 solution finished. 
 
 
+
+4.65 generated capturing moves of contra-grasshoppers twice
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .   .   .   K  CG   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+
+   1.Kf8-e7 !
+
+   1.Kf8-g7 !
+
+   1.Kf8-f7 !
+
+   1.Kf8-e8 !
+
+   1.CGg8*b8 !
+
+   1.CGg8-c8 !
+
+   1.CGg8-d8 !
+
+   1.CGg8-e8 !
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

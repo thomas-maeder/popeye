@@ -15,4 +15,11 @@ condition pwc
 pieces white ra3 bb3 sc3 black ra2 sc2 bb1 
 condition hole a4a5a6b4b5b6c4c5c6d1d2d3d4d5d6e1e2e3e4e5e6f1f2f3f4f5f6
 
+next
+
+title 4.65 generated capturing moves of contra-grasshoppers twice
+Pieces black Sb8 white Kf8 CGg8
+Stipulation ~1
+option nobk
+
 end

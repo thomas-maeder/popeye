@@ -265,28 +265,31 @@ boolean doublebishopper_check(validator_id evaluate)
 void contra_grasshopper_generate_moves(vec_index_type kbeg, vec_index_type kend)
 {
   vec_index_type k;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",kbeg);
+  TraceFunctionParam("%u",kend);
+  TraceFunctionParamListEnd();
+
   for (k = kbeg; k<=kend; ++k)
   {
     square const sq_hurdle = curr_generation->departure+vec[k];
-    if (!is_square_empty(sq_hurdle))
+    if (!is_square_empty(sq_hurdle) && !is_square_blocked(sq_hurdle))
     {
-      if (!is_square_blocked(sq_hurdle))
+      curr_generation->arrival = sq_hurdle+vec[k];
+      while (is_square_empty(curr_generation->arrival))
       {
-        curr_generation->arrival = sq_hurdle+vec[k];
-        while (is_square_empty(curr_generation->arrival))
-        {
-          push_hopper_move(k,sq_hurdle);
-          curr_generation->arrival += vec[k];
-        }
-
-        if (piece_belongs_to_opponent(curr_generation->arrival))
-        {
-          push_hopper_move(k,sq_hurdle);
-          push_move();
-        }
+        push_hopper_move(k,sq_hurdle);
+        curr_generation->arrival += vec[k];
       }
+
+      if (piece_belongs_to_opponent(curr_generation->arrival))
+        push_hopper_move(k,sq_hurdle);
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 boolean contragrasshopper_check(validator_id evaluate)
