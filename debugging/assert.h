@@ -15,6 +15,12 @@
 
 #include <assert.h>
 
+#elif defined(__APPLE__)
+
+/* the cross compiler that we are using seems not to support __assert */
+
+#include <assert.h>
+
 #else
 
 void assert_impl(char const *assertion, char const *file, int line);
