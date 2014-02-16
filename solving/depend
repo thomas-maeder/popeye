@@ -8,7 +8,7 @@ solving/testers$(OBJ_SUFFIX): solving/testers.c solving/testers.h \
  stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 solving/testers.h:
 
@@ -66,7 +66,7 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
+debugging/assert.h:
 solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  solving/move_effect_journal.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -78,7 +78,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  conditions/haunted_chess.h conditions/sat.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  stipulation/temporary_hacks.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/neutral/half.h debugging/trace.h
+ pieces/attributes/neutral/half.h debugging/trace.h debugging/assert.h
 
 solving/move_effect_journal.h:
 
@@ -137,6 +137,8 @@ pieces/attributes/neutral/neutral.h:
 pieces/attributes/neutral/half.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -147,7 +149,7 @@ solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortes
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h debugging/assert.h
 
 solving/find_shortest.h:
 
@@ -201,7 +203,7 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 
-solving/ply.h:
+debugging/assert.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \
  solving/find_by_increasing_length.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -210,7 +212,7 @@ solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_lengt
  pieces/walks/vectors.h output/mode.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/proxy.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 solving/find_by_increasing_length.h:
 
@@ -254,7 +256,7 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
+debugging/assert.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  solving/fork_on_remaining.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -262,7 +264,7 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h solving/ply.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 solving/fork_on_remaining.h:
 
@@ -302,7 +304,7 @@ stipulation/traversal.h:
 
 debugging/trace.h:
 
-solving/ply.h:
+debugging/assert.h:
 solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  solving/play_suppressor.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -310,7 +312,7 @@ solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 solving/play_suppressor.h:
 
@@ -349,8 +351,6 @@ stipulation/traversal.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/move_generator.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -374,7 +374,7 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  position/pieceid.h solving/king_move_generator.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h debugging/measure.h \
- debugging/trace.h
+ debugging/trace.h output/plaintext/pieces.h debugging/assert.h
 
 solving/move_generator.h:
 
@@ -477,6 +477,10 @@ stipulation/pipe.h:
 debugging/measure.h:
 
 debugging/trace.h:
+
+output/plaintext/pieces.h:
+
+debugging/assert.h:
 solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
  solving/king_move_generator.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -484,7 +488,8 @@ solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/move_generator.h solving/ply.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h \
+ debugging/assert.h
 
 solving/king_move_generator.h:
 
@@ -527,6 +532,8 @@ stipulation/traversal.h:
 stipulation/temporary_hacks.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c \
  solving/non_king_move_generator.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -535,7 +542,8 @@ solving/non_king_move_generator$(OBJ_SUFFIX): solving/non_king_move_generator.c 
  pieces/walks/vectors.h output/mode.h solving/move_generator.h \
  solving/ply.h stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h \
+ debugging/assert.h
 
 solving/non_king_move_generator.h:
 
@@ -580,6 +588,8 @@ stipulation/traversal.h:
 stipulation/temporary_hacks.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/single_piece_move_generator$(OBJ_SUFFIX): \
  solving/single_piece_move_generator.c \
  solving/single_piece_move_generator.h solving/solve.h \
@@ -589,7 +599,7 @@ solving/single_piece_move_generator$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h solving/move_generator.h \
  solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
- stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/temporary_hacks.h debugging/trace.h debugging/assert.h
 
 solving/single_piece_move_generator.h:
 
@@ -632,6 +642,8 @@ stipulation/traversal.h:
 stipulation/temporary_hacks.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_move.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -642,7 +654,7 @@ solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_mov
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move_player.h \
  solving/find_move.h solving/move_generator.h solving/ply.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 solving/for_each_move.h:
 
@@ -695,6 +707,8 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -703,7 +717,7 @@ solving/find_move$(OBJ_SUFFIX): solving/find_move.c solving/find_move.h \
  solving/move_generator.h solving/ply.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 solving/find_move.h:
 
@@ -746,13 +760,16 @@ stipulation/traversal.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/legal_move_counter$(OBJ_SUFFIX): solving/legal_move_counter.c \
  solving/legal_move_counter.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h debugging/trace.h
+ stipulation/slice.h stipulation/traversal.h debugging/trace.h \
+ debugging/assert.h
 
 solving/legal_move_counter.h:
 
@@ -791,6 +808,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \
  solving/capture_counter.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -799,7 +818,7 @@ solving/capture_counter$(OBJ_SUFFIX): solving/capture_counter.c \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 solving/capture_counter.h:
 
@@ -844,6 +863,8 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/slice_type.h utilities/enumeration.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -857,7 +878,7 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
  stipulation/temporary_hacks.h debugging/trace.h \
- pieces/walks/classification.h conditions/conditions.h
+ pieces/walks/classification.h conditions/conditions.h debugging/assert.h
 
 solving/castling.h:
 
@@ -928,6 +949,8 @@ debugging/trace.h:
 pieces/walks/classification.h:
 
 conditions/conditions.h:
+
+debugging/assert.h:
 solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
  solving/trivial_end_filter.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -936,7 +959,8 @@ solving/trivial_end_filter$(OBJ_SUFFIX): solving/trivial_end_filter.c \
  stipulation/has_solution_type.h stipulation/testing_pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/proxy.h stipulation/branch.h \
- stipulation/battle_play/branch.h solving/ply.h debugging/trace.h
+ stipulation/battle_play/branch.h solving/ply.h debugging/trace.h \
+ debugging/assert.h
 
 solving/trivial_end_filter.h:
 
@@ -985,6 +1009,8 @@ stipulation/battle_play/branch.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  solving/avoid_unsolvable.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -994,7 +1020,7 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/branch.h stipulation/binary.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h debugging/assert.h
 
 solving/avoid_unsolvable.h:
 
@@ -1044,7 +1070,7 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
+debugging/assert.h:
 solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  solving/selfcheck_guard.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1056,7 +1082,7 @@ solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  stipulation/boolean/true.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/check.h debugging/trace.h solving/ply.h
+ solving/check.h debugging/trace.h debugging/assert.h
 
 solving/selfcheck_guard.h:
 
@@ -1112,7 +1138,7 @@ solving/check.h:
 
 debugging/trace.h:
 
-solving/ply.h:
+debugging/assert.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  solving/post_move_iteration.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1120,7 +1146,7 @@ solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/ply.h solving/move_generator.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 solving/post_move_iteration.h:
 
@@ -1161,6 +1187,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -1324,7 +1352,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  stipulation/goals/king_capture/reached_tester.h \
  stipulation/help_play/adapter.h stipulation/move_player.h \
  stipulation/move_played.h stipulation/setplay_fork.h debugging/trace.h \
- debugging/measure.h
+ debugging/measure.h debugging/assert.h
 
 solving/solve.h:
 
@@ -1879,6 +1907,8 @@ stipulation/setplay_fork.h:
 debugging/trace.h:
 
 debugging/measure.h:
+
+debugging/assert.h:
 solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  solving/king_capture_avoider.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1888,7 +1918,7 @@ solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  position/pieceid.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/proxy.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 solving/king_capture_avoider.h:
 
@@ -1941,6 +1971,8 @@ stipulation/proxy.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
  solving/recursion_stopper.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1948,7 +1980,8 @@ solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/ply.h debugging/trace.h
+ stipulation/traversal.h solving/ply.h debugging/trace.h \
+ debugging/assert.h
 
 solving/recursion_stopper.h:
 
@@ -1989,6 +2022,8 @@ stipulation/traversal.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -2017,7 +2052,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  optimisations/orthodox_square_observation.h optimisations/observation.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 solving/observation.h:
 
@@ -2152,6 +2187,8 @@ optimisations/orthodox_square_observation.h:
 optimisations/observation.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h stipulation/stipulation.h \
@@ -2163,7 +2200,7 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/temporary_hacks.h solving/move_generator.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h \
- debugging/measure.h
+ debugging/measure.h debugging/assert.h
 
 solving/check.h:
 
@@ -2228,6 +2265,8 @@ stipulation/branch.h:
 debugging/trace.h:
 
 debugging/measure.h:
+
+debugging/assert.h:
 solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  solving/find_square_observer_tracking_back_from_target.c \
  solving/find_square_observer_tracking_back_from_target.h \
@@ -2249,7 +2288,8 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  pieces/walks/skylla_charybdis.h pieces/walks/edgehog.h \
  pieces/walks/kangaroo.h pieces/walks/querquisite.h pieces/walks/ubiubi.h \
  pieces/walks/radial.h pieces/walks/orphan.h pieces/walks/friend.h \
- pieces/walks/hunters.h pieces/walks/sting.h debugging/trace.h
+ pieces/walks/hunters.h pieces/walks/sting.h debugging/trace.h \
+ debugging/assert.h
 
 solving/find_square_observer_tracking_back_from_target.h:
 
@@ -2354,6 +2394,8 @@ pieces/walks/hunters.h:
 pieces/walks/sting.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/ply$(OBJ_SUFFIX): solving/ply.c solving/ply.h position/position.h \
  position/board.h utilities/bitmask.h pieces/pieces.h utilities/boolean.h \
  pieces/walks/vectors.h utilities/enumeration.h \
@@ -2362,7 +2404,7 @@ solving/ply$(OBJ_SUFFIX): solving/ply.c solving/ply.h position/position.h \
  stipulation/slice_type.h output/mode.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/observation.h \
  stipulation/temporary_hacks.h solving/post_move_iteration.h \
- solving/move_generator.h debugging/trace.h
+ solving/move_generator.h debugging/trace.h debugging/assert.h
 
 solving/ply.h:
 
@@ -2407,6 +2449,8 @@ solving/post_move_iteration.h:
 solving/move_generator.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 solving/move_diff_code$(OBJ_SUFFIX): solving/move_diff_code.c \
  solving/move_diff_code.h position/board.h utilities/bitmask.h
 
@@ -2960,15 +3004,15 @@ optimisations/observation.h:
 debugging/trace.h:
 
 debugging/measure.h:
-solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/conditions.h DHT/dhtbcmem.h solving/proofgames.h pymsg.h \
- pylang.h utilities/boolean.h stipulation/has_solution_type.h \
- solving/solve.h solving/castling.h solving/castling_rights.h \
- solving/move_effect_journal.h solving/ply.h position/pieceid.h \
- pieces/walks/pawns/en_passant.h solving/observation.h \
+solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h conditions/conditions.h \
+ DHT/dhtbcmem.h solving/proofgames.h pymsg.h pylang.h utilities/boolean.h \
+ stipulation/has_solution_type.h solving/solve.h solving/castling.h \
+ solving/castling_rights.h solving/move_effect_journal.h solving/ply.h \
+ position/pieceid.h pieces/walks/pawns/en_passant.h solving/observation.h \
  stipulation/temporary_hacks.h optimisations/hash.h \
  optimisations/intelligent/moves_left.h \
  optimisations/orthodox_check_directions.h \
@@ -2980,6 +3024,8 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  output/plaintext/language_dependant.h pylang.h options/options.h \
  input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
  conditions/mummer.h output/plaintext/pieces.h debugging/trace.h
+
+debugging/assert.h:
 
 stipulation/stipulation.h:
 

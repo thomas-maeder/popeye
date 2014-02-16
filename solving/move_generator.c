@@ -31,8 +31,9 @@
 #include "debugging/measure.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "output/plaintext/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <string.h>
 
 move_generation_elmt *curr_generation = &move_generation_stack[toppile];
@@ -41,6 +42,24 @@ move_generation_elmt move_generation_stack[toppile + 1];
 
 numecoup current_move[maxply+1];
 numecoup current_move_id[maxply+1];
+
+static void write_history_recursive(ply ply)
+{
+  if (ply>nil_ply+1)
+    write_history_recursive(parent_ply[ply]);
+
+  printf(" %u:",ply);
+  WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
+  printf("-");
+  WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
+}
+
+void move_generator_write_history(void)
+{
+  printf("\n");
+  write_history_recursive(nbply-1);
+  printf("\n");
+}
 
 static slice_index const slice_rank_order[] =
 {

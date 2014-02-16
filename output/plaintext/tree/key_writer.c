@@ -6,7 +6,7 @@
 #include "pymsg.h"
 #include "options/options.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STKeyWriter defender slice.
  * @return index of allocated slice

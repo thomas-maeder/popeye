@@ -3,7 +3,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Determine the length of a move in the presence of forced squares; the higher
  * the value the more likely the move is going to be played.

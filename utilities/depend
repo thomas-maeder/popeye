@@ -5,7 +5,7 @@ utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  utilities/boolean.h solving/move_effect_journal.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h output/mode.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h debugging/trace.h
+ solving/ply.h position/pieceid.h debugging/trace.h debugging/assert.h
 
 utilities/table.h:
 
@@ -50,3 +50,5 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

@@ -1,7 +1,7 @@
 #include "stipulation/slice.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 
 #define ENUMERATION_TYPENAME slice_structural_type

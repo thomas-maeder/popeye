@@ -10,7 +10,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 square wormhole_positions[wormholes_capacity];
 static unsigned int nr_wormholes;

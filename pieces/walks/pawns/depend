@@ -9,7 +9,7 @@ pieces/walks/pawns/pawn$(OBJ_SUFFIX): pieces/walks/pawns/pawn.c \
  solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/pawn.h:
 
@@ -60,6 +60,8 @@ solving/move_generator.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \
  pieces/walks/pawns/pawns.h pieces/walks/vectors.h position/board.h \
  utilities/bitmask.h position/position.h pieces/pieces.h \
@@ -69,7 +71,7 @@ pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \
  stipulation/slice_type.h output/mode.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/observation.h stipulation/temporary_hacks.h \
- solving/move_generator.h debugging/trace.h
+ solving/move_generator.h debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/pawns.h:
 
@@ -114,6 +116,8 @@ stipulation/temporary_hacks.h:
 solving/move_generator.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/pawns/promotee_sequence$(OBJ_SUFFIX): \
  pieces/walks/pawns/promotee_sequence.c \
  pieces/walks/pawns/promotee_sequence.h pieces/pieces.h \
@@ -122,7 +126,8 @@ pieces/walks/pawns/promotee_sequence$(OBJ_SUFFIX): \
  pieces/walks/walks.h pieces/walks/classification.h \
  conditions/singlebox/type1.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- debugging/trace.h conditions/conditions.h
+ debugging/trace.h solving/ply.h conditions/conditions.h \
+ debugging/assert.h
 
 pieces/walks/pawns/promotee_sequence.h:
 
@@ -158,7 +163,11 @@ output/mode.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 conditions/conditions.h:
+
+debugging/assert.h:
 pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
  pieces/walks/pawns/promotion.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -168,7 +177,8 @@ pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
  position/pieceid.h pieces/walks/pawns/promotee_sequence.h \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h
+ stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h \
+ debugging/assert.h
 
 pieces/walks/pawns/promotion.h:
 
@@ -219,6 +229,8 @@ stipulation/traversal.h:
 solving/post_move_iteration.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  pieces/walks/pawns/en_passant.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -231,7 +243,7 @@ pieces/walks/pawns/en_passant$(OBJ_SUFFIX): pieces/walks/pawns/en_passant.c \
  solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h debugging/trace.h
+ stipulation/move.h debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/en_passant.h:
 
@@ -290,6 +302,8 @@ stipulation/has_solution_type.h:
 stipulation/move.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/pawns/reverse$(OBJ_SUFFIX): pieces/walks/pawns/reverse.c \
  pieces/walks/pawns/reverse.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -301,7 +315,7 @@ pieces/walks/pawns/reverse$(OBJ_SUFFIX): pieces/walks/pawns/reverse.c \
  solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/reverse.h:
 
@@ -352,6 +366,8 @@ solving/move_generator.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/pawns/berolina$(OBJ_SUFFIX): pieces/walks/pawns/berolina.c \
  pieces/walks/pawns/berolina.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -363,7 +379,7 @@ pieces/walks/pawns/berolina$(OBJ_SUFFIX): pieces/walks/pawns/berolina.c \
  solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/berolina.h:
 
@@ -414,6 +430,8 @@ solving/move_generator.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/pawns/super$(OBJ_SUFFIX): pieces/walks/pawns/super.c \
  pieces/walks/pawns/super.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -421,7 +439,7 @@ pieces/walks/pawns/super$(OBJ_SUFFIX): pieces/walks/pawns/super.c \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/ply.h \
  stipulation/temporary_hacks.h solving/move_generator.h solving/solve.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/super.h:
 
@@ -458,6 +476,8 @@ solving/move_generator.h:
 solving/solve.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/pawns/combined$(OBJ_SUFFIX): pieces/walks/pawns/combined.c \
  pieces/walks/pawns/combined.h position/board.h utilities/bitmask.h \
  pieces/walks/pawns/pawn.h position/position.h pieces/pieces.h \
@@ -466,7 +486,7 @@ pieces/walks/pawns/combined$(OBJ_SUFFIX): pieces/walks/pawns/combined.c \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  solving/ply.h stipulation/temporary_hacks.h pieces/walks/pawns/pawns.h \
  pieces/walks/leapers.h pieces/walks/riders.h solving/move_generator.h \
- solving/solve.h debugging/trace.h
+ solving/solve.h debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/combined.h:
 
@@ -511,3 +531,5 @@ solving/move_generator.h:
 solving/solve.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

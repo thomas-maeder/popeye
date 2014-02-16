@@ -9,7 +9,7 @@
 #include "solving/ply.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 static stip_length_type min_length_nontrivial;

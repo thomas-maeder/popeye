@@ -1,6 +1,6 @@
 #if defined (FXF)
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>

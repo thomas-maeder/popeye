@@ -5,7 +5,7 @@
 
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STSetplayFork slice
  * @param set entry branch of set play

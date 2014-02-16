@@ -4,7 +4,7 @@
 #include "output/plaintext/plaintext.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <ctype.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -554,7 +554,7 @@ void TraceStipulation(slice_index si)
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index

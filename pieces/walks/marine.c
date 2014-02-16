@@ -8,7 +8,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Generate moves for a marine rider
  * @param kbeg,kend delimiters of interval in vector table

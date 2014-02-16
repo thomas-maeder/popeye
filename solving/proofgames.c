@@ -13,7 +13,7 @@
  **
  **************************** End of List ******************************/
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

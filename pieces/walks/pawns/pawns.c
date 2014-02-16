@@ -4,7 +4,7 @@
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 void pawns_generate_ep_capture_move(square sq_arrival_singlestep)
 {

@@ -36,7 +36,7 @@ pieces/walks/hunters$(OBJ_SUFFIX): pieces/walks/hunters.c pieces/walks/hunters.h
  solving/ply.h stipulation/temporary_hacks.h pieces/walks/riders.h \
  pieces/walks/generate_moves.h solving/move_generator.h solving/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/walks/hunters.h:
 
@@ -79,6 +79,8 @@ solving/solve.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/roses$(OBJ_SUFFIX): pieces/walks/roses.c pieces/walks/roses.h \
  position/board.h utilities/bitmask.h position/position.h pieces/pieces.h \
  utilities/boolean.h pieces/walks/vectors.h utilities/enumeration.h \
@@ -134,7 +136,7 @@ pieces/walks/marine$(OBJ_SUFFIX): pieces/walks/marine.c pieces/walks/marine.h \
  pieces/walks/pawns/en_passant.h solving/solve.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h pieces/walks/locusts.h solving/move_generator.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/walks/marine.h:
 
@@ -187,6 +189,8 @@ pieces/walks/locusts.h:
 solving/move_generator.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/spiral_springers$(OBJ_SUFFIX): pieces/walks/spiral_springers.c \
  pieces/walks/spiral_springers.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h utilities/boolean.h \
@@ -734,7 +738,7 @@ pieces/walks/bouncy$(OBJ_SUFFIX): pieces/walks/bouncy.c pieces/walks/bouncy.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/ply.h \
  stipulation/temporary_hacks.h solving/move_generator.h solving/solve.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/walks/bouncy.h:
 
@@ -771,6 +775,8 @@ solving/move_generator.h:
 solving/solve.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/cardinal$(OBJ_SUFFIX): pieces/walks/cardinal.c pieces/walks/cardinal.h \
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
@@ -823,7 +829,8 @@ pieces/walks/reflecting_bishop$(OBJ_SUFFIX): pieces/walks/reflecting_bishop.c \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/ply.h \
  stipulation/temporary_hacks.h pieces/walks/angle/angles.h \
- solving/move_generator.h solving/solve.h debugging/trace.h
+ solving/move_generator.h solving/solve.h debugging/trace.h \
+ debugging/assert.h
 
 pieces/walks/reflecting_bishop.h:
 
@@ -862,6 +869,8 @@ solving/move_generator.h:
 solving/solve.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/bob$(OBJ_SUFFIX): pieces/walks/bob.c pieces/walks/bob.h \
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
@@ -1303,7 +1312,8 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  pieces/walks/cardinal.h pieces/walks/reflecting_bishop.h \
  pieces/walks/bob.h pieces/walks/rabbit.h pieces/walks/kangaroo.h \
  pieces/walks/locusts.h pieces/walks/hamster.h pieces/walks/bouncer.h \
- pieces/walks/querquisite.h pieces/walks/sting.h debugging/trace.h
+ pieces/walks/querquisite.h pieces/walks/sting.h debugging/trace.h \
+ debugging/assert.h
 
 pieces/walks/generate_moves.h:
 
@@ -1424,6 +1434,8 @@ pieces/walks/querquisite.h:
 pieces/walks/sting.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/walks/classification$(OBJ_SUFFIX): pieces/walks/classification.c \
  pieces/walks/classification.h pieces/pieces.h utilities/boolean.h \
  position/position.h position/board.h utilities/bitmask.h \

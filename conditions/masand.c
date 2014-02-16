@@ -10,7 +10,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

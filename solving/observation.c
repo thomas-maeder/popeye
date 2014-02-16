@@ -47,7 +47,7 @@
 #include "optimisations/observation.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 interceptable_observation_type interceptable_observation[maxply+1];
 unsigned int observation_context = 0;

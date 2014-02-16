@@ -12,7 +12,7 @@
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;

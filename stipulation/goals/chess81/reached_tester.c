@@ -7,7 +7,7 @@
 #include "stipulation/boolean/true.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether an chess81 goal has just been reached

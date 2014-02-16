@@ -11,7 +11,7 @@
 #include "solving/check.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index

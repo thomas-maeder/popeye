@@ -8,7 +8,8 @@ options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  stipulation/battle_play/branch.h stipulation/slice.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/pipe.h solving/solve.h debugging/trace.h solving/ply.h
+ stipulation/pipe.h solving/solve.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 options/no_short_variations/no_short_variations.h:
 
@@ -51,6 +52,8 @@ solving/solve.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.c \
  options/no_short_variations/no_short_variations_attacker_filter.h \
@@ -61,7 +64,8 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/solve.h stipulation/battle_play/branch.h \
- solving/move_generator.h solving/ply.h debugging/trace.h
+ solving/move_generator.h solving/ply.h debugging/trace.h \
+ debugging/assert.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -108,3 +112,5 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

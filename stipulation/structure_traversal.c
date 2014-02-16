@@ -2,7 +2,7 @@
 #include "stipulation/testing_pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Slice operation doing nothing. Makes it easier to intialise
  * operations table

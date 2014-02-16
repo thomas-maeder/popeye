@@ -4,9 +4,10 @@ conditions/koeko/koeko$(OBJ_SUFFIX): conditions/koeko/koeko.c \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/observation.h stipulation/has_solution_type.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h
+ position/pieceid.h solving/observation.h stipulation/temporary_hacks.h \
+ stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h debugging/trace.h
 
 conditions/koeko/koeko.h:
 
@@ -44,6 +45,8 @@ position/pieceid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
@@ -54,8 +57,6 @@ stipulation/slice.h:
 
 stipulation/traversal.h:
 
-stipulation/temporary_hacks.h:
-
 debugging/trace.h:
 conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  conditions/koeko/contact_grid.h solving/solve.h \
@@ -65,11 +66,11 @@ conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  pieces/walks/vectors.h output/mode.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/grid.h solving/observation.h \
- stipulation/has_solution_type.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/temporary_hacks.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/move.h stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/move.h debugging/trace.h debugging/assert.h
 
 conditions/koeko/contact_grid.h:
 
@@ -111,6 +112,8 @@ conditions/grid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 stipulation/has_solution_type.h:
 
 stipulation/pipe.h:
@@ -129,19 +132,20 @@ stipulation/help_play/branch.h:
 
 stipulation/move.h:
 
-stipulation/temporary_hacks.h:
-
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/anti.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/koeko/koeko.h solving/observation.h solving/ply.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/temporary_hacks.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h
 
 conditions/koeko/anti.h:
 
@@ -175,6 +179,8 @@ solving/observation.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
@@ -191,8 +197,6 @@ stipulation/slice.h:
 
 stipulation/traversal.h:
 
-stipulation/temporary_hacks.h:
-
 debugging/trace.h:
 conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
@@ -200,11 +204,11 @@ conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h
  stipulation/slice_type.h utilities/enumeration.h position/position.h \
  pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/koeko/koeko.h solving/observation.h solving/ply.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/move_generator.h \
+ stipulation/temporary_hacks.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/move_generator.h \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/temporary_hacks.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h
 
 conditions/koeko/new.h:
 
@@ -238,6 +242,8 @@ solving/observation.h:
 
 solving/ply.h:
 
+stipulation/temporary_hacks.h:
+
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
@@ -255,7 +261,5 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
-
-stipulation/temporary_hacks.h:
 
 debugging/trace.h:

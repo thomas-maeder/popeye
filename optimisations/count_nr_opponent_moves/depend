@@ -8,7 +8,8 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/battle_play/branch.h solving/fork_on_remaining.h \
- optimisations/count_nr_opponent_moves/prioriser.h debugging/trace.h
+ optimisations/count_nr_opponent_moves/prioriser.h debugging/trace.h \
+ solving/ply.h debugging/assert.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
@@ -55,6 +56,10 @@ solving/fork_on_remaining.h:
 optimisations/count_nr_opponent_moves/prioriser.h:
 
 debugging/trace.h:
+
+solving/ply.h:
+
+debugging/assert.h:
 optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.c \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
@@ -66,7 +71,7 @@ optimisations/count_nr_opponent_moves/opponent_moves_counter$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/legal_move_counter.h \
  solving/post_move_iteration.h stipulation/has_solution_type.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 
@@ -113,6 +118,8 @@ solving/post_move_iteration.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  optimisations/count_nr_opponent_moves/prioriser.c \
  optimisations/count_nr_opponent_moves/prioriser.h solving/solve.h \
@@ -123,7 +130,8 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/temporary_hacks.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
- solving/move_generator.h solving/ply.h debugging/trace.h
+ solving/move_generator.h solving/ply.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/count_nr_opponent_moves/prioriser.h:
 
@@ -170,3 +178,5 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

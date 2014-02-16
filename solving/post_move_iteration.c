@@ -4,7 +4,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean post_move_iteration_locked[maxply+1];
 unsigned int post_move_iteration_id[maxply+1];

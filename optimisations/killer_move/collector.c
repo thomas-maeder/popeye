@@ -6,7 +6,7 @@
 #include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void remember_killer_move()
 {

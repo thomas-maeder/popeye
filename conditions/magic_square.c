@@ -8,7 +8,7 @@
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 magic_square_type_type magic_square_type;
 

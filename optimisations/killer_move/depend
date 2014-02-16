@@ -10,7 +10,8 @@ optimisations/killer_move/killer_move$(OBJ_SUFFIX): \
  stipulation/battle_play/branch.h solving/fork_on_remaining.h \
  optimisations/killer_move/prioriser.h \
  optimisations/killer_move/collector.h \
- optimisations/killer_move/final_defense_move.h debugging/trace.h
+ optimisations/killer_move/final_defense_move.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/killer_move/killer_move.h:
 
@@ -63,6 +64,8 @@ optimisations/killer_move/collector.h:
 optimisations/killer_move/final_defense_move.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/killer_move/collector$(OBJ_SUFFIX): \
  optimisations/killer_move/collector.c \
  optimisations/killer_move/collector.h solving/solve.h \
@@ -74,7 +77,7 @@ optimisations/killer_move/collector$(OBJ_SUFFIX): \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
  optimisations/killer_move/killer_move.h solving/move_generator.h \
- solving/ply.h debugging/trace.h
+ solving/ply.h debugging/trace.h debugging/assert.h
 
 optimisations/killer_move/collector.h:
 
@@ -123,6 +126,8 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  optimisations/killer_move/final_defense_move.c \
  optimisations/killer_move/final_defense_move.h solving/solve.h \
@@ -136,7 +141,7 @@ optimisations/killer_move/final_defense_move$(OBJ_SUFFIX): \
  solving/single_piece_move_generator.h \
  optimisations/killer_move/prioriser.h \
  optimisations/killer_move/killer_move.h solving/move_generator.h \
- solving/ply.h debugging/trace.h
+ solving/ply.h debugging/trace.h debugging/assert.h
 
 optimisations/killer_move/final_defense_move.h:
 
@@ -193,6 +198,8 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  optimisations/killer_move/prioriser.c \
  optimisations/killer_move/prioriser.h solving/solve.h \
@@ -203,7 +210,7 @@ optimisations/killer_move/prioriser$(OBJ_SUFFIX): \
  solving/ply.h stipulation/has_solution_type.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h optimisations/killer_move/killer_move.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 optimisations/killer_move/prioriser.h:
 
@@ -248,3 +255,5 @@ stipulation/traversal.h:
 optimisations/killer_move/killer_move.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

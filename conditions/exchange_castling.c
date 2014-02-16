@@ -8,7 +8,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static boolean castling_right_used_up[nr_sides];
 

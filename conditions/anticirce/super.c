@@ -13,7 +13,7 @@
 #include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 

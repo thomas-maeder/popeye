@@ -7,7 +7,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Validate an observation according to Brunner Chess
  * @return true iff the observation is valid

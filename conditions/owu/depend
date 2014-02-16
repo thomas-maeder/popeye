@@ -8,7 +8,8 @@ conditions/owu/immobility_tester$(OBJ_SUFFIX): conditions/owu/immobility_tester.
  stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
  stipulation/boolean/and.h solving/king_move_generator.h \
  solving/non_king_move_generator.h solving/legal_move_counter.h \
- solving/ply.h solving/capture_counter.h debugging/trace.h
+ solving/ply.h solving/capture_counter.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/owu/immobility_tester.h:
 
@@ -63,3 +64,5 @@ solving/ply.h:
 solving/capture_counter.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

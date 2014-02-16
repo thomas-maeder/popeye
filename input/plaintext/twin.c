@@ -76,7 +76,7 @@
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <ctype.h>
 #include <string.h>
 

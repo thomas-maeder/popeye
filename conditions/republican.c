@@ -19,7 +19,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <string.h>
 
 republican_type_type RepublicanType;

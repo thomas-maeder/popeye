@@ -6,7 +6,7 @@
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 /* Allocate a STOpponentMovesFewMovesPrioriser slice.

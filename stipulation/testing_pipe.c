@@ -4,7 +4,7 @@
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a new testing pipe and make an existing pipe its successor
  * @param type which slice type

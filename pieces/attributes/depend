@@ -10,7 +10,8 @@ pieces/attributes/hurdle_colour_changing$(OBJ_SUFFIX): \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h debugging/trace.h
+ solving/castling_rights.h position/pieceid.h debugging/trace.h \
+ debugging/assert.h
 
 pieces/attributes/hurdle_colour_changing.h:
 
@@ -67,6 +68,8 @@ solving/castling_rights.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  pieces/attributes/magic.h pieces/pieces.h utilities/boolean.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
@@ -81,7 +84,7 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h debugging/trace.h \
  optimisations/orthodox_check_directions.h pymsg.h pylang.h \
- utilities/boolean.h
+ utilities/boolean.h debugging/assert.h
 
 pieces/attributes/magic.h:
 
@@ -150,6 +153,8 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
+
+debugging/assert.h:
 pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  pieces/attributes/chameleon.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -159,7 +164,7 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h stipulation/branch.h \
- stipulation/move.h debugging/trace.h
+ stipulation/move.h debugging/trace.h debugging/assert.h
 
 pieces/attributes/chameleon.h:
 
@@ -212,6 +217,8 @@ stipulation/branch.h:
 stipulation/move.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 pieces/attributes/jigger$(OBJ_SUFFIX): pieces/attributes/jigger.c \
  pieces/attributes/jigger.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

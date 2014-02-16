@@ -3,7 +3,7 @@
 #include "optimisations/hash.h"
 #include "output/plaintext/plaintext.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <ctype.h>
 #include <limits.h>
 #include <string.h>

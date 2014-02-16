@@ -10,7 +10,7 @@
 #include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void stop_copying(slice_index si, stip_structure_traversal *st)
 {

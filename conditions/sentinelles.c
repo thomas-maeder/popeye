@@ -8,7 +8,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 unsigned int sentinelles_max_nr_pawns[nr_sides];
 unsigned int sentinelles_max_nr_pawns_total;

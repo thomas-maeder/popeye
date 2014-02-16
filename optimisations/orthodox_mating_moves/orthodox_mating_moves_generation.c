@@ -8,7 +8,7 @@
 #include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* for which Side(s) is the optimisation currently enabled? */
 static boolean enabled[nr_sides] = { false };

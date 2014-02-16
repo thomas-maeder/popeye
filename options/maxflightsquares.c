@@ -6,7 +6,7 @@
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 static unsigned int max_nr_flights;

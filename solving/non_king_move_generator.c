@@ -6,7 +6,7 @@
 #include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STNonKingMoveGenerator slice.
  * @return index of allocated slice

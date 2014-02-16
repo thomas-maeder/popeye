@@ -7,7 +7,7 @@
 #include "conditions/haunted_chess.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <string.h>
 
 /* Try to solve in n half-moves.

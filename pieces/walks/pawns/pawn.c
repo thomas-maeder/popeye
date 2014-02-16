@@ -7,7 +7,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
 {

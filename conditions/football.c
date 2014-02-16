@@ -12,7 +12,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 PieNam current_football_substitution[maxply+1];
 boolean is_football_substitute[PieceCount];

@@ -8,7 +8,7 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
                                            unsigned int nr_prototypes)

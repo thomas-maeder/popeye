@@ -7,7 +7,7 @@
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean is_april_kind[PieceCount];
 

@@ -6,7 +6,7 @@
 #include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 enum
 {

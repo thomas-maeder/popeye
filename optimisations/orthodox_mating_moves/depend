@@ -10,7 +10,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  stipulation/moves_traversal.h solving/fork_on_remaining.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
@@ -61,6 +61,8 @@ optimisations/orthodox_mating_moves/king_contact_move_generator.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.c \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
@@ -71,12 +73,12 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  pieces/walks/generate_moves.h pieces/walks/pawns/promotee_sequence.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h solving/castling.h solving/move_generator.h \
- stipulation/has_solution_type.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/observation.h stipulation/temporary_hacks.h solving/castling.h \
+ solving/move_generator.h stipulation/has_solution_type.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_diff_code.h \
  optimisations/orthodox_check_directions.h debugging/trace.h \
- conditions/conditions.h
+ conditions/conditions.h debugging/assert.h
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
@@ -122,6 +124,8 @@ position/pieceid.h:
 
 solving/observation.h:
 
+stipulation/temporary_hacks.h:
+
 solving/castling.h:
 
 solving/move_generator.h:
@@ -143,6 +147,8 @@ optimisations/orthodox_check_directions.h:
 debugging/trace.h:
 
 conditions/conditions.h:
+
+debugging/assert.h:
 optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  optimisations/orthodox_mating_moves/king_contact_move_generator.c \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
@@ -154,7 +160,7 @@ optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_diff_code.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 optimisations/orthodox_mating_moves/king_contact_move_generator.h:
 
@@ -201,3 +207,5 @@ solving/move_diff_code.h:
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

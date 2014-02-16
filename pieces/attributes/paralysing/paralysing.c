@@ -11,7 +11,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allow paralysis by paralysing pieces to be temporarily suspended
  */

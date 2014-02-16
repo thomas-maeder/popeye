@@ -8,7 +8,7 @@
 #include "optimisations/killer_move/final_defense_move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 move_generation_elmt killer_moves[maxply+1];
 

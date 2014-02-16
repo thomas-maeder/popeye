@@ -66,6 +66,8 @@ enum
 
 #define encore() (CURRMOVE_OF_PLY(nbply)>MOVEBASE_OF_PLY(nbply))
 
+void move_generator_write_history(void);
+
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation
  * @param side which side (pass nr_sides for both sides)

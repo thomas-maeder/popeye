@@ -6,7 +6,7 @@
 #include "stipulation/binary.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a proxy pipe
  * @return newly allocated slice

@@ -5,7 +5,7 @@
 #include "stipulation/boolean/false.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Determine whether two goals are equal
  * @param goal1 first goal

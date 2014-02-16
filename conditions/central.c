@@ -4,7 +4,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* avoid stack overflow in case of cycles */
 static boolean is_in_chain[maxsquare];

@@ -1,6 +1,6 @@
 #include "position/board.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* 0 terminated sequence of the effective squares of the board
  */

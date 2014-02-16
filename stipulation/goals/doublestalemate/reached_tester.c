@@ -9,7 +9,7 @@
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides functionality that detects whether double stalemate goal
  * has been reached

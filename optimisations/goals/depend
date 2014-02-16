@@ -10,7 +10,8 @@ optimisations/goals/optimisation_guards$(OBJ_SUFFIX): \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  stipulation/goals/prerequisite_guards.h solving/ply.h \
  optimisations/goals/enpassant/filter.h \
- optimisations/goals/castling/filter.h debugging/trace.h
+ optimisations/goals/castling/filter.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/goals/optimisation_guards.h:
 
@@ -63,6 +64,8 @@ optimisations/goals/enpassant/filter.h:
 optimisations/goals/castling/filter.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/remove_non_reachers.c \
  optimisations/goals/remove_non_reachers.h solving/solve.h \
@@ -79,7 +82,7 @@ optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/chess81/remove_non_reachers.h \
  optimisations/goals/capture/remove_non_reachers.h \
  optimisations/goals/target/remove_non_reachers.h debugging/trace.h \
- solving/ply.h
+ solving/ply.h debugging/assert.h
 
 optimisations/goals/remove_non_reachers.h:
 
@@ -140,3 +143,5 @@ optimisations/goals/target/remove_non_reachers.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:

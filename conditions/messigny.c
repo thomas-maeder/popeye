@@ -8,7 +8,7 @@
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean messigny_rex_exclusive;
 

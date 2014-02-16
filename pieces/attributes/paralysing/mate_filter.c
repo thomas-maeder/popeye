@@ -4,7 +4,7 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides slice type STPiecesParalysingMateFilter
  */

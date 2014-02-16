@@ -6,7 +6,7 @@
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean promonly[PieceCount];
 

@@ -10,6 +10,8 @@
 
 #include "solving/solve.h"
 
+void move_numbers_write_history(void);
+
 /* Reset the restart number setting.
  */
 void reset_restart_number(void);
@@ -43,5 +45,6 @@ void stip_insert_restart_guards(slice_index si);
  *            n+3 no solution found in next branch
  */
 stip_length_type restart_guard_solve(slice_index si, stip_length_type n);
+stip_length_type restart_guard_nested_solve(slice_index si, stip_length_type n);
 
 #endif

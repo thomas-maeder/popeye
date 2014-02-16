@@ -6,7 +6,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Generated moves for an angle hopper
  * @param kanf first vectors index

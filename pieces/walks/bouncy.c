@@ -2,7 +2,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void bouncy_knight_generate_moves_recursive(square step_departure, int x)
 {

@@ -9,7 +9,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Generate moves for a single piece
  * @param identifies generator slice

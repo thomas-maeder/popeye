@@ -13,7 +13,7 @@
 #include "solving/solve.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 #include <stdlib.h>
 

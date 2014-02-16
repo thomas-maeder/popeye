@@ -8,7 +8,7 @@
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void change_side(void)
 {

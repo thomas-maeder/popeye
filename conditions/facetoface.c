@@ -8,7 +8,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void generate_moves_for_possibly_confronted_piece(slice_index si,
                                                          PieNam p,

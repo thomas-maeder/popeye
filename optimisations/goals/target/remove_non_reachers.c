@@ -5,7 +5,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STTargetRemoveNonReachers slice.
  * @param target target square to be reached

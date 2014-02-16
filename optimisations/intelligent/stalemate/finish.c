@@ -7,7 +7,7 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Test the position created by the taken operations; if the position is a
  * solvable target position: solve it; otherwise: improve it

@@ -5,7 +5,7 @@
 #include "solving/battle_play/try.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void filter_output_mode(slice_index si, stip_structure_traversal *st)
 {

@@ -12,7 +12,7 @@
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Determine the length of a move for the Black Checks condition; the higher the
  * value the more likely the move is going to be played.

@@ -7,7 +7,7 @@
 #include "debugging/trace.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STTryWriter defender slice.
  * @return index of allocated slice

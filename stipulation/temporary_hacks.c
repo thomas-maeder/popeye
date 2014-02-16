@@ -25,7 +25,7 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 slice_index temporary_hack_mate_tester[nr_sides];
 slice_index temporary_hack_exclusive_mating_move_counter[nr_sides];

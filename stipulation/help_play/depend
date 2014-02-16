@@ -6,7 +6,8 @@ stipulation/help_play/adapter$(OBJ_SUFFIX): stipulation/help_play/adapter.c \
  utilities/bitmask.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/solve.h \
  stipulation/has_solution_type.h stipulation/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/help_play/adapter.h:
 
@@ -47,6 +48,10 @@ stipulation/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
+
+debugging/assert.h:
 stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
  stipulation/help_play/branch.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -59,7 +64,8 @@ stipulation/help_play/branch$(OBJ_SUFFIX): stipulation/help_play/branch.c \
  stipulation/moves_traversal.h stipulation/branch.h \
  stipulation/end_of_branch.h stipulation/end_of_branch_goal.h \
  stipulation/dead_end.h stipulation/move.h stipulation/move_played.h \
- stipulation/binary.h stipulation/help_play/adapter.h debugging/trace.h
+ stipulation/binary.h stipulation/help_play/adapter.h debugging/trace.h \
+ solving/ply.h debugging/assert.h
 
 stipulation/help_play/branch.h:
 
@@ -122,3 +128,7 @@ stipulation/binary.h:
 stipulation/help_play/adapter.h:
 
 debugging/trace.h:
+
+solving/ply.h:
+
+debugging/assert.h:

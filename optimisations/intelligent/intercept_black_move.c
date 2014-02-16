@@ -6,7 +6,7 @@
 #include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Intercept a move with a white piece on some square
  * @param intercept_on where to intercept

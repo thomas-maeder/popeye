@@ -9,7 +9,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Adjust en passant possibilities of the following move after a non-capturing
  * move

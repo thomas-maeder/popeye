@@ -9,7 +9,7 @@ stipulation/goals/circuit/reached_tester$(OBJ_SUFFIX): \
  solving/castling_rights.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/reached_tester.h \
- stipulation/boolean/true.h debugging/trace.h
+ stipulation/boolean/true.h debugging/trace.h debugging/assert.h
 
 stipulation/goals/circuit/reached_tester.h:
 
@@ -60,3 +60,5 @@ stipulation/goals/reached_tester.h:
 stipulation/boolean/true.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

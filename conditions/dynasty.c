@@ -8,7 +8,7 @@
 #include "solving/check.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void update_king_square(Side side)
 {

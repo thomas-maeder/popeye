@@ -8,7 +8,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean amu_attacked_exactly_once[maxply+1];
 

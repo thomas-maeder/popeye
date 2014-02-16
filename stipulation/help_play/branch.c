@@ -14,7 +14,7 @@
 #include "stipulation/help_play/adapter.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 
 /* Order in which the slice types dealing with help moves appear
@@ -104,6 +104,7 @@ static slice_index const slice_rank_order[] =
   STAnyMoveCounter,
   STMaxTimeGuard,
   STMaxSolutionsGuard,
+  STRestartGuardNested,
   STRestartGuard,
   STKeepMatingFilter,
   STIntelligentLimitNrSolutionsPerTargetPos,

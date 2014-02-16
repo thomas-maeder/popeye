@@ -12,7 +12,7 @@
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static boolean is_no_king_possible = false;
 static boolean is_check_possible_if_no_king = false;

@@ -11,7 +11,7 @@
 #include "solving/check.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean OscillatingKingsTypeB[nr_sides];
 boolean OscillatingKingsTypeC[nr_sides];

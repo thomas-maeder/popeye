@@ -9,7 +9,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STForEachAttack slice.
  * @return index of allocated slice

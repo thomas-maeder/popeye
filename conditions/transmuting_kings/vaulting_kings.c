@@ -7,7 +7,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean vaulting_kings_transmuting[nr_sides];
 PieNam king_vaulters[nr_sides][PieceCount];

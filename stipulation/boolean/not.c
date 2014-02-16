@@ -5,7 +5,7 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a not slice.
  * @return index of allocated slice

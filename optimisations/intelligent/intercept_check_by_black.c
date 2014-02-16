@@ -8,7 +8,7 @@
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Intercept a check to the white king with a white piece on some square
  * @param where_to_intercept where to intercept

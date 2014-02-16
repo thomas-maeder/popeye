@@ -8,7 +8,7 @@
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Place a white officer to intercept a check to the black king
  * @param officer_type type of officer

@@ -15,7 +15,7 @@
 #include "pieces/pieces.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* magic pieces */
 enum

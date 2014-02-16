@@ -7,7 +7,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 /* Allocate a STOrthodoxMatingKingContactGenerator slice.

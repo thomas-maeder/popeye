@@ -10,7 +10,7 @@
 #include "solving/check.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 static stip_length_type max_len_threat;

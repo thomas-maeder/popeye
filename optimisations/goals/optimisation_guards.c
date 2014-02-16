@@ -13,7 +13,7 @@
 
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Insert goal optimisation guards
  * @param si identifies root of subtree

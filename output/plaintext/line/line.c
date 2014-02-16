@@ -17,7 +17,7 @@
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 
 static void instrument_suppressor(slice_index si, stip_structure_traversal *st)

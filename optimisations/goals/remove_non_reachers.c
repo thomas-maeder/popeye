@@ -15,7 +15,7 @@
 #include "optimisations/goals/target/remove_non_reachers.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 typedef struct
 {

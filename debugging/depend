@@ -1,11 +1,49 @@
+debugging/assert$(OBJ_SUFFIX): debugging/assert.c debugging/assert.h \
+ options/movenumbers.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ solving/move_generator.h solving/ply.h
+
+debugging/assert.h:
+
+options/movenumbers.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+solving/move_generator.h:
+
+solving/ply.h:
 debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h optimisations/hash.h DHT/dhtbcmem.h \
  solving/solve.h solving/ply.h output/plaintext/plaintext.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h
+ debugging/assert.h stipulation/move.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/traversal.h
 
 debugging/measure.h:
 
@@ -41,6 +79,8 @@ solving/ply.h:
 
 output/plaintext/plaintext.h:
 
+debugging/assert.h:
+
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
@@ -48,40 +88,35 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
-debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h pieces/pieces.h \
- utilities/boolean.h solving/ply.h position/position.h position/board.h \
- utilities/bitmask.h pieces/walks/vectors.h utilities/enumeration.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h optimisations/hash.h \
- DHT/dhtbcmem.h solving/solve.h output/plaintext/plaintext.h \
- output/plaintext/pieces.h stipulation/battle_play/branch.h \
- stipulation/slice.h stipulation/structure_traversal.h \
- stipulation/traversal.h stipulation/help_play/branch.h \
- stipulation/move.h solving/move_generator.h stipulation/pipe.h
+debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/pieces.h \
+ pieces/walks/vectors.h output/mode.h optimisations/hash.h DHT/dhtbcmem.h \
+ solving/solve.h solving/ply.h output/plaintext/plaintext.h \
+ debugging/assert.h
 
 debugging/trace.h:
-
-pieces/pieces.h:
-
-utilities/boolean.h:
-
-solving/ply.h:
-
-position/position.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-pieces/walks/vectors.h:
-
-utilities/enumeration.h:
 
 stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
 
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
 stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
 
 output/mode.h:
 
@@ -91,22 +126,8 @@ DHT/dhtbcmem.h:
 
 solving/solve.h:
 
+solving/ply.h:
+
 output/plaintext/plaintext.h:
 
-output/plaintext/pieces.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/slice.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/traversal.h:
-
-stipulation/help_play/branch.h:
-
-stipulation/move.h:
-
-solving/move_generator.h:
-
-stipulation/pipe.h:
+debugging/assert.h:

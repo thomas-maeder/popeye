@@ -6,7 +6,7 @@
 #include "stipulation/goals/prerequisite_guards.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STEnPassantFilter slice.
  * @return index of allocated slice

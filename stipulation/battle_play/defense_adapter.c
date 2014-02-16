@@ -6,7 +6,7 @@
 #include "solving/solve.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STDefenseAdapter slice.
  * @param length maximum number of half-moves of slice (+ slack)

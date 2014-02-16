@@ -8,7 +8,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 long int BGL_values[nr_sides];

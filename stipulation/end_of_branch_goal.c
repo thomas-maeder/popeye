@@ -5,7 +5,7 @@
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STEndOfBranchGoal slice
  * @param proxy_to_goal identifies slice that leads towards goal from

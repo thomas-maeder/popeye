@@ -3,7 +3,7 @@ position/position$(OBJ_SUFFIX): position/position.c position/position.h \
  pieces/walks/vectors.h utilities/enumeration.h \
  pieces/attributes/neutral/neutral.h debugging/trace.h solving/ply.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h
+ stipulation/slice_type.h output/mode.h debugging/assert.h
 
 position/position.h:
 
@@ -32,11 +32,16 @@ stipulation/goals/goals.h:
 stipulation/slice_type.h:
 
 output/mode.h:
-position/board$(OBJ_SUFFIX): position/board.c position/board.h utilities/bitmask.h
+
+debugging/assert.h:
+position/board$(OBJ_SUFFIX): position/board.c position/board.h utilities/bitmask.h \
+ debugging/assert.h
 
 position/board.h:
 
 utilities/bitmask.h:
+
+debugging/assert.h:
 position/pieceid$(OBJ_SUFFIX): position/pieceid.c position/pieceid.h \
  position/board.h utilities/bitmask.h
 

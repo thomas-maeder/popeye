@@ -1,8 +1,7 @@
 #include "position/position.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "debugging/trace.h"
-
-#include <assert.h>
+#include "debugging/assert.h"
 
 #define ENUMERATION_TYPENAME Side
 #define ENUMERATORS \

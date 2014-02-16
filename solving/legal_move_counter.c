@@ -2,7 +2,7 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* current value of the count */
 unsigned int legal_move_counter_count[maxply];

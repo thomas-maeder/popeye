@@ -6,7 +6,7 @@
 #include "solving/ply.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STDummyMove slice.
  * @return index of allocated slice

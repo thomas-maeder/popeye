@@ -1,7 +1,7 @@
 #include "optimisations/orthodox_check_directions.h"
 #include "position/position.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static numvec ortho_opt[4][2*(square_h8-square_a1)+1];
 

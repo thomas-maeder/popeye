@@ -11,7 +11,7 @@
 #include "output/plaintext/plaintext.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static unsigned long nr_potential_target_positions;
 

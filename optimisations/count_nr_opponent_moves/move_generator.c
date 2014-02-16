@@ -6,7 +6,7 @@
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* for which Side(s) is the optimisation currently enabled? */
 static boolean enabled[nr_sides] =  { false };

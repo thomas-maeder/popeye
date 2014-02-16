@@ -21,7 +21,8 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/exclusive.h debugging/trace.h options/options.h \
- conditions/conditions.h pymsg.h pylang.h utilities/boolean.h
+ conditions/conditions.h pymsg.h pylang.h utilities/boolean.h \
+ debugging/assert.h
 
 output/plaintext/tree/tree.h:
 
@@ -112,6 +113,8 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
+
+debugging/assert.h:
 output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX): \
  output/plaintext/tree/end_of_solution_writer.c \
  output/plaintext/tree/end_of_solution_writer.h solving/solve.h \
@@ -176,7 +179,8 @@ output/plaintext/tree/key_writer$(OBJ_SUFFIX): output/plaintext/tree/key_writer.
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h platform/beep.h debugging/trace.h solving/ply.h \
- pymsg.h pylang.h utilities/boolean.h options/options.h
+ pymsg.h pylang.h utilities/boolean.h options/options.h \
+ debugging/assert.h
 
 output/plaintext/tree/key_writer.h:
 
@@ -225,6 +229,8 @@ pylang.h:
 utilities/boolean.h:
 
 options/options.h:
+
+debugging/assert.h:
 output/plaintext/tree/try_writer$(OBJ_SUFFIX): output/plaintext/tree/try_writer.c \
  output/plaintext/tree/try_writer.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -234,7 +240,8 @@ output/plaintext/tree/try_writer$(OBJ_SUFFIX): output/plaintext/tree/try_writer.
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/battle_play/try.h utilities/table.h \
  solving/trivial_end_filter.h output/plaintext/tree/key_writer.h \
- debugging/trace.h solving/ply.h pymsg.h pylang.h utilities/boolean.h
+ debugging/trace.h solving/ply.h pymsg.h pylang.h utilities/boolean.h \
+ debugging/assert.h
 
 output/plaintext/tree/try_writer.h:
 
@@ -287,6 +294,8 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
+
+debugging/assert.h:
 output/plaintext/tree/move_writer$(OBJ_SUFFIX): output/plaintext/tree/move_writer.c \
  output/plaintext/tree/move_writer.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -643,7 +652,8 @@ output/plaintext/tree/exclusive$(OBJ_SUFFIX): output/plaintext/tree/exclusive.c 
  stipulation/traversal.h conditions/exclusive.h utilities/table.h \
  solving/ply.h stipulation/has_solution_type.h \
  output/plaintext/tree/move_writer.h output/plaintext/tree/tree.h \
- debugging/trace.h pymsg.h pylang.h utilities/boolean.h
+ debugging/trace.h pymsg.h pylang.h utilities/boolean.h \
+ debugging/assert.h
 
 output/plaintext/tree/exclusive.h:
 
@@ -698,3 +708,5 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
+
+debugging/assert.h:

@@ -10,7 +10,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void update_hurdle_colour(void)
 {

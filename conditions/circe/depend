@@ -9,7 +9,7 @@ conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
- conditions/conditions.h
+ conditions/conditions.h debugging/assert.h
 
 conditions/circe/circe.h:
 
@@ -68,6 +68,8 @@ stipulation/move.h:
 debugging/trace.h:
 
 conditions/conditions.h:
+
+debugging/assert.h:
 conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
  conditions/circe/goal_filters.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -78,7 +80,8 @@ conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
  stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/circe/circuit_by_rebirth_special.h \
  conditions/circe/exchange_by_rebirth_special.h \
- conditions/circe/steingewinn_filter.h debugging/trace.h
+ conditions/circe/steingewinn_filter.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 conditions/circe/goal_filters.h:
 
@@ -129,6 +132,10 @@ conditions/circe/exchange_by_rebirth_special.h:
 conditions/circe/steingewinn_filter.h:
 
 debugging/trace.h:
+
+solving/ply.h:
+
+debugging/assert.h:
 conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  conditions/circe/assassin.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -140,7 +147,7 @@ conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
  stipulation/temporary_hacks.h solving/check.h solving/move_generator.h \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/assassin.h:
 
@@ -199,6 +206,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \
  conditions/circe/steingewinn_filter.c \
  conditions/circe/steingewinn_filter.h solving/solve.h \
@@ -209,7 +218,7 @@ conditions/circe/steingewinn_filter$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h
+ position/pieceid.h debugging/trace.h debugging/assert.h
 
 conditions/circe/steingewinn_filter.h:
 
@@ -256,6 +265,8 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/circuit_by_rebirth_special$(OBJ_SUFFIX): \
  conditions/circe/circuit_by_rebirth_special.c \
  conditions/circe/circuit_by_rebirth_special.h solving/solve.h \
@@ -266,7 +277,7 @@ conditions/circe/circuit_by_rebirth_special$(OBJ_SUFFIX): \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/circuit_by_rebirth_special.h:
 
@@ -313,6 +324,8 @@ solving/castling_rights.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/exchange_by_rebirth_special$(OBJ_SUFFIX): \
  conditions/circe/exchange_by_rebirth_special.c \
  conditions/circe/exchange_by_rebirth_special.h solving/solve.h \
@@ -323,7 +336,7 @@ conditions/circe/exchange_by_rebirth_special$(OBJ_SUFFIX): \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/exchange_by_rebirth_special.h:
 
@@ -370,6 +383,8 @@ solving/castling_rights.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cage.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -382,7 +397,8 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/temporary_hacks.h solving/single_piece_move_generator.h \
- solving/post_move_iteration.h solving/move_generator.h debugging/trace.h
+ solving/post_move_iteration.h solving/move_generator.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/circe/cage.h:
 
@@ -445,6 +461,8 @@ solving/post_move_iteration.h:
 solving/move_generator.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  conditions/circe/kamikaze.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -456,7 +474,7 @@ conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
  conditions/anticirce/capture_fork.h conditions/circe/circe.h \
  stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/kamikaze.h:
 
@@ -511,6 +529,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  conditions/circe/parrain.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -521,7 +541,7 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/branch.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/parrain.h:
 
@@ -576,6 +596,8 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  conditions/circe/volage.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -587,7 +609,7 @@ conditions/circe/volage$(OBJ_SUFFIX): conditions/circe/volage.c \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h solving/move_generator.h conditions/circe/circe.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/volage.h:
 
@@ -646,6 +668,8 @@ solving/move_generator.h:
 conditions/circe/circe.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  conditions/circe/frischauf.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -655,7 +679,7 @@ conditions/circe/frischauf$(OBJ_SUFFIX): conditions/circe/frischauf.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/frischauf.h:
 
@@ -702,6 +726,8 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  conditions/circe/super.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -711,7 +737,8 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h
+ stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/circe/super.h:
 
@@ -764,6 +791,8 @@ stipulation/traversal.h:
 solving/post_move_iteration.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/capture_fork$(OBJ_SUFFIX): conditions/circe/capture_fork.c \
  conditions/circe/capture_fork.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -772,7 +801,8 @@ conditions/circe/capture_fork$(OBJ_SUFFIX): conditions/circe/capture_fork.c \
  pieces/walks/vectors.h output/mode.h conditions/circe/rebirth_avoider.h \
  conditions/circe/rex_inclusive.h stipulation/has_solution_type.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h conditions/circe/circe.h debugging/trace.h
+ position/pieceid.h conditions/circe/circe.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/circe/capture_fork.h:
 
@@ -817,6 +847,8 @@ position/pieceid.h:
 conditions/circe/circe.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/april$(OBJ_SUFFIX): conditions/circe/april.c \
  conditions/circe/april.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -825,7 +857,7 @@ conditions/circe/april$(OBJ_SUFFIX): conditions/circe/april.c \
  conditions/circe/rebirth_avoider.h conditions/circe/super.h \
  stipulation/has_solution_type.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/april.h:
 
@@ -868,6 +900,8 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/turncoats$(OBJ_SUFFIX): conditions/circe/turncoats.c \
  conditions/circe/turncoats.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -877,7 +911,7 @@ conditions/circe/turncoats$(OBJ_SUFFIX): conditions/circe/turncoats.c \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/move.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/circe.h debugging/trace.h
+ conditions/circe/circe.h debugging/trace.h debugging/assert.h
 
 conditions/circe/turncoats.h:
 
@@ -928,6 +962,8 @@ position/pieceid.h:
 conditions/circe/circe.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/clone$(OBJ_SUFFIX): conditions/circe/clone.c \
  conditions/circe/clone.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -936,7 +972,7 @@ conditions/circe/clone$(OBJ_SUFFIX): conditions/circe/clone.c \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/clone.h:
 
@@ -983,6 +1019,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/chameleon$(OBJ_SUFFIX): conditions/circe/chameleon.c \
  conditions/circe/chameleon.h pieces/pieces.h utilities/boolean.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
@@ -993,7 +1031,7 @@ conditions/circe/chameleon$(OBJ_SUFFIX): conditions/circe/chameleon.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h
+ position/pieceid.h debugging/trace.h debugging/assert.h
 
 conditions/circe/chameleon.h:
 
@@ -1046,6 +1084,8 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/double_agents$(OBJ_SUFFIX): conditions/circe/double_agents.c \
  conditions/circe/double_agents.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -1056,7 +1096,7 @@ conditions/circe/double_agents$(OBJ_SUFFIX): conditions/circe/double_agents.c \
  stipulation/traversal.h pieces/attributes/neutral/neutral.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/double_agents.h:
 
@@ -1107,6 +1147,8 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/couscous$(OBJ_SUFFIX): conditions/circe/couscous.c \
  conditions/circe/couscous.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1114,7 +1156,7 @@ conditions/circe/couscous$(OBJ_SUFFIX): conditions/circe/couscous.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/couscous.h:
 
@@ -1153,6 +1195,8 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/takemake$(OBJ_SUFFIX): conditions/circe/takemake.c \
  conditions/circe/takemake.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1164,7 +1208,7 @@ conditions/circe/takemake$(OBJ_SUFFIX): conditions/circe/takemake.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/temporary_hacks.h \
  solving/post_move_iteration.h solving/single_piece_move_generator.h \
- solving/move_generator.h debugging/trace.h
+ solving/move_generator.h debugging/trace.h debugging/assert.h
 
 conditions/circe/takemake.h:
 
@@ -1223,6 +1267,8 @@ solving/single_piece_move_generator.h:
 solving/move_generator.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/rex_inclusive$(OBJ_SUFFIX): conditions/circe/rex_inclusive.c \
  conditions/circe/rex_inclusive.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1270,7 +1316,7 @@ conditions/circe/diametral$(OBJ_SUFFIX): conditions/circe/diametral.c \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/diametral.h:
 
@@ -1317,6 +1363,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/mirror$(OBJ_SUFFIX): conditions/circe/mirror.c \
  conditions/circe/mirror.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1325,7 +1373,7 @@ conditions/circe/mirror$(OBJ_SUFFIX): conditions/circe/mirror.c \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/mirror.h:
 
@@ -1372,6 +1420,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/rank$(OBJ_SUFFIX): conditions/circe/rank.c conditions/circe/rank.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -1380,7 +1430,7 @@ conditions/circe/rank$(OBJ_SUFFIX): conditions/circe/rank.c conditions/circe/ran
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/rank.h:
 
@@ -1427,6 +1477,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/antipodes$(OBJ_SUFFIX): conditions/circe/antipodes.c \
  conditions/circe/antipodes.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1436,7 +1488,7 @@ conditions/circe/antipodes$(OBJ_SUFFIX): conditions/circe/antipodes.c \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/circe/capture_fork.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/antipodes.h:
 
@@ -1485,6 +1537,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/pwc$(OBJ_SUFFIX): conditions/circe/pwc.c conditions/circe/pwc.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -1494,7 +1548,7 @@ conditions/circe/pwc$(OBJ_SUFFIX): conditions/circe/pwc.c conditions/circe/pwc.h
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/circe/capture_fork.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/pwc.h:
 
@@ -1543,6 +1597,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/equipollents$(OBJ_SUFFIX): conditions/circe/equipollents.c \
  conditions/circe/equipollents.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -1552,7 +1608,7 @@ conditions/circe/equipollents$(OBJ_SUFFIX): conditions/circe/equipollents.c \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/circe/capture_fork.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/equipollents.h:
 
@@ -1601,6 +1657,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/file$(OBJ_SUFFIX): conditions/circe/file.c conditions/circe/file.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -1610,7 +1668,7 @@ conditions/circe/file$(OBJ_SUFFIX): conditions/circe/file.c conditions/circe/fil
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/circe/capture_fork.h pieces/walks/classification.h \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/file.h:
 
@@ -1661,6 +1719,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/diagram$(OBJ_SUFFIX): conditions/circe/diagram.c \
  conditions/circe/diagram.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1670,7 +1730,7 @@ conditions/circe/diagram$(OBJ_SUFFIX): conditions/circe/diagram.c \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/circe/capture_fork.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/diagram.h:
 
@@ -1719,6 +1779,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/symmetry$(OBJ_SUFFIX): conditions/circe/symmetry.c \
  conditions/circe/symmetry.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1728,7 +1790,7 @@ conditions/circe/symmetry$(OBJ_SUFFIX): conditions/circe/symmetry.c \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/circe/capture_fork.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/symmetry.h:
 
@@ -1777,6 +1839,8 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/circe/rebirth_avoider$(OBJ_SUFFIX): conditions/circe/rebirth_avoider.c \
  conditions/circe/rebirth_avoider.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1785,7 +1849,8 @@ conditions/circe/rebirth_avoider$(OBJ_SUFFIX): conditions/circe/rebirth_avoider.
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/branch.h stipulation/fork.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 conditions/circe/rebirth_avoider.h:
 
@@ -1832,3 +1897,7 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
+
+debugging/assert.h:

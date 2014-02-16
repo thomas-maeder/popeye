@@ -5,7 +5,7 @@
 #include "solving/check.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a check goal has just been reached

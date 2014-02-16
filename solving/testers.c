@@ -11,7 +11,7 @@
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation

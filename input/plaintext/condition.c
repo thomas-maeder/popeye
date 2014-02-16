@@ -40,7 +40,7 @@
 #include "debugging/trace.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>

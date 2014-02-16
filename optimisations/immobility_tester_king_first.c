@@ -7,7 +7,7 @@
 #include "solving/non_king_move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a side is immobile

@@ -9,7 +9,7 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STIntelligentStalemateFilter slice.
  * @return allocated slice

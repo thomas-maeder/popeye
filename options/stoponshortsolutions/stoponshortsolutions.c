@@ -5,7 +5,7 @@
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static boolean short_solution_found_in_problem;
 static boolean short_solution_found_in_phase;

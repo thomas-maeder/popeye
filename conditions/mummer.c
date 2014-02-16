@@ -16,7 +16,7 @@
 #include "solving/move_diff_code.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 /* mum length found so far */

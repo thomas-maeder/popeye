@@ -77,7 +77,7 @@
  **
  ***********************************************************************/
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -2413,7 +2413,7 @@ stip_length_type hash_opener_solve(slice_index si, stip_length_type n)
 /* assert()s below this line must remain active even in "productive"
  * executables. */
 #undef NDEBUG
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Check assumptions made in the hashing module. Abort if one of them
  * isn't met.

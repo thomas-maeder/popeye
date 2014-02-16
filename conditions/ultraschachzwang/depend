@@ -9,7 +9,7 @@ conditions/ultraschachzwang/goal_filter$(OBJ_SUFFIX): \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  conditions/conditions.h conditions/ultraschachzwang/legality_tester.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 conditions/ultraschachzwang/goal_filter.h:
 
@@ -58,6 +58,8 @@ conditions/ultraschachzwang/legality_tester.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 conditions/ultraschachzwang/legality_tester$(OBJ_SUFFIX): \
  conditions/ultraschachzwang/legality_tester.c \
  conditions/ultraschachzwang/legality_tester.h solving/solve.h \

@@ -9,7 +9,7 @@ stipulation/goals/enpassant/reached_tester$(OBJ_SUFFIX): \
  stipulation/traversal.h stipulation/goals/reached_tester.h \
  stipulation/boolean/true.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 stipulation/goals/enpassant/reached_tester.h:
 
@@ -58,3 +58,5 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

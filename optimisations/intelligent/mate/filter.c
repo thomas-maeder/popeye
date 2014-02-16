@@ -7,7 +7,7 @@
 #include "optimisations/intelligent/duplicate_avoider.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STIntelligentMateFilter slice.
  * @param goal_tester_fork fork into the goal goal_tester_fork branch

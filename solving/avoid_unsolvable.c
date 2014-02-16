@@ -8,7 +8,7 @@
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* maximum number of half-moves that we know have no solution
  */

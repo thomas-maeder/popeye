@@ -7,7 +7,7 @@
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Deneutralise a half-neutral piece
  * @param on position of the piece to be changed

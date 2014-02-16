@@ -5,7 +5,7 @@
 #include "optimisations/ohneschach/stop_if_check.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void remember_goal_immobile(slice_index si, stip_structure_traversal *st)
 {

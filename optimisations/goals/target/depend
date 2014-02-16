@@ -7,7 +7,8 @@ optimisations/goals/target/remove_non_reachers$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- solving/move_generator.h solving/ply.h debugging/trace.h
+ solving/move_generator.h solving/ply.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/goals/target/remove_non_reachers.h:
 
@@ -50,3 +51,5 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

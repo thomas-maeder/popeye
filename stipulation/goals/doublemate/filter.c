@@ -5,7 +5,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STDoubleMateFilter slice.
  * @return index of allocated slice

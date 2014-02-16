@@ -8,7 +8,7 @@
 #include "solving/battle_play/min_length_optimiser.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STMinLengthGuard slice
  * @param length maximum number of half-moves of slice (+ slack)

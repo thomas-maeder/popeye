@@ -9,7 +9,7 @@ optimisations/intelligent/stalemate/finish$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_king.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
- options/maxsolutions/maxsolutions.h debugging/trace.h
+ options/maxsolutions/maxsolutions.h debugging/trace.h debugging/assert.h
 
 optimisations/intelligent/stalemate/finish.h:
 
@@ -52,6 +52,8 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 options/maxsolutions/maxsolutions.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/filter.c \
  optimisations/intelligent/stalemate/filter.h \
@@ -65,7 +67,8 @@ optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  stipulation/help_play/branch.h \
  stipulation/goals/immobile/reached_tester.h \
  optimisations/intelligent/intelligent.h position/pieceid.h solving/ply.h \
- optimisations/intelligent/duplicate_avoider.h debugging/trace.h
+ optimisations/intelligent/duplicate_avoider.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/filter.h:
 
@@ -122,6 +125,8 @@ solving/ply.h:
 optimisations/intelligent/duplicate_avoider.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/immobilise_black.c \
  optimisations/intelligent/stalemate/immobilise_black.h \
@@ -139,7 +144,7 @@ optimisations/intelligent/stalemate/immobilise_black$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/pin_black_piece.h \
  optimisations/orthodox_check_directions.h \
  stipulation/has_solution_type.h stipulation/temporary_hacks.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 optimisations/intelligent/stalemate/immobilise_black.h:
 
@@ -196,6 +201,8 @@ stipulation/has_solution_type.h:
 stipulation/temporary_hacks.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.c \
  optimisations/intelligent/stalemate/deal_with_unused_pieces.h \
@@ -208,7 +215,8 @@ optimisations/intelligent/stalemate/deal_with_unused_pieces$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/intelligent/stalemate/finish.h debugging/trace.h
+ optimisations/intelligent/stalemate/finish.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/deal_with_unused_pieces.h:
 
@@ -255,6 +263,8 @@ optimisations/intelligent/place_white_king.h:
 optimisations/intelligent/stalemate/finish.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/white_block.c \
  optimisations/intelligent/stalemate/white_block.h position/position.h \
@@ -266,7 +276,8 @@ optimisations/intelligent/stalemate/white_block$(OBJ_SUFFIX): \
  optimisations/intelligent/place_white_piece.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_white_king.h \
- optimisations/intelligent/stalemate/finish.h debugging/trace.h
+ optimisations/intelligent/stalemate/finish.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/white_block.h:
 
@@ -309,6 +320,8 @@ optimisations/intelligent/place_white_king.h:
 optimisations/intelligent/stalemate/finish.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/black_block.c \
  optimisations/intelligent/stalemate/black_block.h position/position.h \
@@ -320,7 +333,8 @@ optimisations/intelligent/stalemate/black_block$(OBJ_SUFFIX): \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/place_black_piece.h \
  optimisations/intelligent/stalemate/finish.h \
- optimisations/intelligent/intercept_check_by_black.h debugging/trace.h
+ optimisations/intelligent/intercept_check_by_black.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/black_block.h:
 
@@ -363,6 +377,8 @@ optimisations/intelligent/stalemate/finish.h:
 optimisations/intelligent/intercept_check_by_black.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/pin_black_piece.c \
  optimisations/intelligent/stalemate/pin_black_piece.h position/board.h \
@@ -374,7 +390,8 @@ optimisations/intelligent/stalemate/pin_black_piece$(OBJ_SUFFIX): \
  optimisations/intelligent/pin_black_piece.h \
  optimisations/intelligent/stalemate/immobilise_black.h \
  optimisations/intelligent/stalemate/finish.h \
- optimisations/orthodox_check_directions.h debugging/trace.h
+ optimisations/orthodox_check_directions.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/pin_black_piece.h:
 
@@ -417,6 +434,8 @@ optimisations/intelligent/stalemate/finish.h:
 optimisations/orthodox_check_directions.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 optimisations/intelligent/stalemate/goalreachable_guard$(OBJ_SUFFIX): \
  optimisations/intelligent/stalemate/goalreachable_guard.c \
  optimisations/intelligent/stalemate/goalreachable_guard.h \
@@ -428,7 +447,8 @@ optimisations/intelligent/stalemate/goalreachable_guard$(OBJ_SUFFIX): \
  position/pieceid.h solving/move_generator.h \
  stipulation/has_solution_type.h optimisations/intelligent/intelligent.h \
  optimisations/intelligent/moves_left.h \
- optimisations/intelligent/count_nr_of_moves.h debugging/trace.h
+ optimisations/intelligent/count_nr_of_moves.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/intelligent/stalemate/goalreachable_guard.h:
 
@@ -477,3 +497,5 @@ optimisations/intelligent/moves_left.h:
 optimisations/intelligent/count_nr_of_moves.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

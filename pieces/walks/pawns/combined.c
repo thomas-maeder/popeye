@@ -6,7 +6,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Generate moves for a Dragon
  */

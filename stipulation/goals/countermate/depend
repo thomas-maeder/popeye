@@ -8,7 +8,8 @@ stipulation/goals/countermate/filter$(OBJ_SUFFIX): \
  stipulation/conditional_pipe.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/prerequisite_guards.h \
- solving/ply.h stipulation/goals/mate/reached_tester.h debugging/trace.h
+ solving/ply.h stipulation/goals/mate/reached_tester.h debugging/trace.h \
+ debugging/assert.h
 
 stipulation/goals/countermate/filter.h:
 
@@ -55,6 +56,8 @@ solving/ply.h:
 stipulation/goals/mate/reached_tester.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 stipulation/goals/countermate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/countermate/reached_tester.c \
  stipulation/goals/countermate/reached_tester.h solving/solve.h \

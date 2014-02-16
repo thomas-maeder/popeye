@@ -27,7 +27,7 @@
 #include "conditions/conditions.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
 {

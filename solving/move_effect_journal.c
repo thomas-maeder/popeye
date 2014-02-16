@@ -14,7 +14,7 @@
 #include "position/pieceid.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
 

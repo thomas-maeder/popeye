@@ -8,7 +8,7 @@ pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
@@ -55,3 +55,5 @@ solving/ply.h:
 position/pieceid.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

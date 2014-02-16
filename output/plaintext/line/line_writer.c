@@ -18,7 +18,7 @@
 #include "se.h"
 #endif
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides the STOutputPlaintextLineLineWriter slice type.
  * Slices of this type write lines in line mode.

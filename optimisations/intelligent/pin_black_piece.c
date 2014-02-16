@@ -5,7 +5,7 @@
 #include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Pin the piece on a specific square with an original rider
  * @param sq_to_be_pinned position of piece to be pinned

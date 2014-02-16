@@ -6,7 +6,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static boolean goes_to_the_edge(numecoup n)
 {

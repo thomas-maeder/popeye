@@ -9,7 +9,7 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(void)

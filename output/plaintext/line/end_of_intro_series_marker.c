@@ -3,7 +3,7 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides the STOutputPlaintextLineEndOfIntroSeriesMarker
  * slice type. Slices of this type remember the end of an intro series.

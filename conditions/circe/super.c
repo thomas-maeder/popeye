@@ -7,7 +7,7 @@
 #include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static post_move_iteration_id_type prev_post_move_iteration_id_rebirth[maxply+1];
 static post_move_iteration_id_type prev_post_move_iteration_id_no_rebirth[maxply+1];

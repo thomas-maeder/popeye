@@ -8,7 +8,7 @@
 #include "se.h"
 #endif
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STMoveInverter slice.
  * @return index of allocated slice

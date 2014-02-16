@@ -69,7 +69,7 @@ conditions/marscirce/anti$(OBJ_SUFFIX): conditions/marscirce/anti.c \
  solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h debugging/trace.h
+ stipulation/move.h debugging/trace.h debugging/assert.h
 
 conditions/marscirce/anti.h:
 
@@ -130,6 +130,8 @@ stipulation/has_solution_type.h:
 stipulation/move.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  conditions/marscirce/plus.h pieces/pieces.h utilities/boolean.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
@@ -194,7 +196,7 @@ conditions/marscirce/phantom$(OBJ_SUFFIX): conditions/marscirce/phantom.c \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h debugging/trace.h
+ stipulation/move.h debugging/trace.h debugging/assert.h
 
 conditions/marscirce/phantom.h:
 
@@ -259,3 +261,5 @@ stipulation/has_solution_type.h:
 stipulation/move.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

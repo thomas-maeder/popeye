@@ -37,7 +37,7 @@
 #include "pieces/pieces.h"
 #include "options/options.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdio.h>
 
 typedef unsigned int index_type;

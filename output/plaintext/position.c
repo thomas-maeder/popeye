@@ -19,7 +19,7 @@
 #include "solving/move_generator.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>

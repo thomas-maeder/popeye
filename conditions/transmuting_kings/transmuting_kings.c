@@ -9,7 +9,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 PieNam transmuting_kings_potential_transmutations[PieceCount];
 

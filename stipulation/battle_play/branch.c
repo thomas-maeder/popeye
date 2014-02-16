@@ -17,7 +17,7 @@
 #include "stipulation/battle_play/defense_adapter.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 
 /* Order in which the slice types appear in battle branches

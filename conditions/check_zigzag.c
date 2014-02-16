@@ -11,7 +11,7 @@
 #include "stipulation/goals/check/reached_tester.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Instrument a battle branch with a STIfThenElse slice providing a
  * shortcut for the defense moe

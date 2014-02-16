@@ -8,7 +8,7 @@ stipulation/goals/exchange_by_rebirth/reached_tester$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/boolean/true.h \
  stipulation/goals/reached_tester.h solving/move_generator.h \
- solving/ply.h debugging/trace.h
+ solving/ply.h debugging/trace.h debugging/assert.h
 
 stipulation/goals/exchange_by_rebirth/reached_tester.h:
 
@@ -53,3 +53,5 @@ solving/move_generator.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

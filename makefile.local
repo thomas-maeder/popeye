@@ -61,7 +61,7 @@ pyallmsg.h:	$(MSGFILES) genpystr$(EXE_SUFFIX)
 # position/position.c is compiled both for the host and the target.
 # position/position-host$(OBJ_SUFFIX) is the object file for the host.
 position/position-host$(OBJ_SUFFIX):  position/position.c
-		$(CCHOST) $(CFLAGS) $(COMPILEONLY) position/position.c $(OBJFILE)$@
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) -DAUXILIARY position/position.c $(OBJFILE)$@
 # work around compilers that strictly derive object file name from
 # source file name
 		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
@@ -70,7 +70,7 @@ position/position-host$(OBJ_SUFFIX):  position/position.c
 # position/board.c is compiled both for the host and the target.
 # position/board-host$(OBJ_SUFFIX) is the object file for the host.
 position/board-host$(OBJ_SUFFIX):  position/board.c
-		$(CCHOST) $(CFLAGS) $(COMPILEONLY) position/board.c $(OBJFILE)$@
+		$(CCHOST) $(CFLAGS) $(COMPILEONLY) -DAUXILIARY position/board.c $(OBJFILE)$@
 # work around compilers that strictly derive object file name from
 # source file name
 		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
@@ -79,7 +79,7 @@ position/board-host$(OBJ_SUFFIX):  position/board.c
 
 gengmarr$(OBJ_SUFFIX):	gengmarr.c
 			$(CCHOST) $(CFLAGS) \
-				$(COMPILEONLY) gengmarr.c $(OBJFILE)$@
+				$(COMPILEONLY) -DAUXILIARY gengmarr.c $(OBJFILE)$@
 
 gengmarr$(EXE_SUFFIX):	gengmarr$(OBJ_SUFFIX) position/position-host$(OBJ_SUFFIX) position/board-host$(OBJ_SUFFIX)
 			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^

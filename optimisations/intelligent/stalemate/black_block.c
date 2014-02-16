@@ -6,7 +6,7 @@
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 static square const *being_blocked;

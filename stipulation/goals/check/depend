@@ -7,7 +7,7 @@ stipulation/goals/check/reached_tester$(OBJ_SUFFIX): \
  solving/solve.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- solving/check.h debugging/trace.h solving/ply.h
+ solving/check.h debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/goals/check/reached_tester.h:
 
@@ -52,3 +52,5 @@ solving/check.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:

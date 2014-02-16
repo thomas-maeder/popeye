@@ -11,7 +11,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Place any black piece on some square
  * @param placed_on where to place any black piece

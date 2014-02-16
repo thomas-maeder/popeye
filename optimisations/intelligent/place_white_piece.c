@@ -7,7 +7,7 @@
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
                                              square placed_on,

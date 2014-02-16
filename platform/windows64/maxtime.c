@@ -3,7 +3,7 @@
 #include "utilities/boolean.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 
 /* Implementation of option maxtime using Windows Multimedia timers

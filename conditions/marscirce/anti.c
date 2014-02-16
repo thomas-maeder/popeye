@@ -12,7 +12,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.

@@ -5,7 +5,7 @@ stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/solve.h stipulation/boolean/false.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/goals/goals.h:
 
@@ -44,6 +44,8 @@ stipulation/boolean/false.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.c \
  stipulation/goals/reached_tester.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h solving/solve.h \
@@ -53,7 +55,7 @@ stipulation/goals/reached_tester$(OBJ_SUFFIX): stipulation/goals/reached_tester.
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
  stipulation/conditional_pipe.h stipulation/boolean/true.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/goals/reached_tester.h:
 
@@ -100,6 +102,8 @@ stipulation/boolean/true.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 stipulation/goals/prerequisite_guards$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_guards.c \
  stipulation/goals/prerequisite_guards.h stipulation/stipulation.h \
@@ -115,7 +119,7 @@ stipulation/goals/prerequisite_guards$(OBJ_SUFFIX): \
  stipulation/goals/countermate/filter.h \
  stipulation/goals/doublemate/filter.h solving/fork_on_remaining.h \
  optimisations/goals/optimisation_guards.h stipulation/moves_traversal.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 stipulation/goals/prerequisite_guards.h:
 
@@ -178,6 +182,8 @@ optimisations/goals/optimisation_guards.h:
 stipulation/moves_traversal.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
  stipulation/goals/prerequisite_optimiser.c \
  stipulation/goals/prerequisite_optimiser.h solving/solve.h \
@@ -188,7 +194,8 @@ stipulation/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/goals/prerequisite_guards.h \
- solving/ply.h solving/avoid_unsolvable.h debugging/trace.h
+ solving/ply.h solving/avoid_unsolvable.h debugging/trace.h \
+ debugging/assert.h
 
 stipulation/goals/prerequisite_optimiser.h:
 
@@ -235,3 +242,5 @@ solving/ply.h:
 solving/avoid_unsolvable.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

@@ -6,7 +6,7 @@
 #include "position/position.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 unsigned int MovesLeft[nr_sides];
 

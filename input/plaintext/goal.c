@@ -30,7 +30,7 @@
 #include "pymsg.h"
 #include "solving/proofgames.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <string.h>
 
 /* map input strings to goals */

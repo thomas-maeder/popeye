@@ -5,7 +5,7 @@
 #include "stipulation/conditional_pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static moves_visitor_map_type moves_children_traversers = { { 0 } };
 

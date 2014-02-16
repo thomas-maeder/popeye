@@ -10,7 +10,7 @@
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 
 /* Allocate a STConstraintSolver slice

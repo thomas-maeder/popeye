@@ -7,7 +7,7 @@ stipulation/boolean/and$(OBJ_SUFFIX): stipulation/boolean/and.c \
  pieces/walks/vectors.h output/mode.h solving/solve.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/constraint.h \
  stipulation/moves_traversal.h stipulation/binary.h debugging/trace.h \
- solving/ply.h
+ solving/ply.h debugging/assert.h
 
 stipulation/boolean/and.h:
 
@@ -54,6 +54,8 @@ stipulation/binary.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
  stipulation/boolean/or.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -61,7 +63,8 @@ stipulation/boolean/or$(OBJ_SUFFIX): stipulation/boolean/or.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h solving/ply.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/boolean/or.h:
 
@@ -102,6 +105,8 @@ stipulation/traversal.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
  stipulation/boolean/not.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -109,7 +114,8 @@ stipulation/boolean/not$(OBJ_SUFFIX): stipulation/boolean/not.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h solving/solve.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h solving/ply.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/boolean/not.h:
 
@@ -150,6 +156,8 @@ stipulation/traversal.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 stipulation/boolean/true$(OBJ_SUFFIX): stipulation/boolean/true.c \
  stipulation/boolean/true.h stipulation/structure_traversal.h \
  stipulation/slice.h utilities/boolean.h stipulation/slice_type.h \

@@ -22,7 +22,7 @@
 #include "optimisations/intelligent/stalemate/filter.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 
 Slice slices[max_nr_slices];

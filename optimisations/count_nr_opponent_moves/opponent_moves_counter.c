@@ -6,7 +6,7 @@
 #include "stipulation/has_solution_type.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 
 int opponent_moves_few_moves_prioriser_table[toppile + 1];

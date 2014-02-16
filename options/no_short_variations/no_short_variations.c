@@ -4,7 +4,7 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void append_no_short_variations(slice_index si,
                                        stip_structure_traversal *st)

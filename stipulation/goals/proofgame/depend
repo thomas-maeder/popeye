@@ -8,7 +8,7 @@ stipulation/goals/proofgame/reached_tester$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h solving/proofgames.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/goals/proofgame/reached_tester.h:
 
@@ -53,3 +53,5 @@ stipulation/boolean/true.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:

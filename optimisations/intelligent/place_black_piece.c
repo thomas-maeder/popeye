@@ -10,7 +10,7 @@
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 square const *where_to_start_placing_black_pieces = boardnum;

@@ -14,7 +14,7 @@
 
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* remember if the prerequistes for the relvant goals are met */
 unsigned int goal_preprequisites_met[maxply];

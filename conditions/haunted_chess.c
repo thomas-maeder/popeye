@@ -8,7 +8,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <string.h>
 
 ghosts_type ghosts;

@@ -8,7 +8,7 @@ options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolution
  stipulation/traversal.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/solve.h \
  options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 options/maxsolutions/maxsolutions.h:
 
@@ -57,6 +57,8 @@ options/maxsolutions/guard.h:
 debugging/trace.h:
 
 solving/ply.h:
+
+debugging/assert.h:
 options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.c \
  options/maxsolutions/initialiser.h solving/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \

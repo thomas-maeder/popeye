@@ -8,7 +8,7 @@
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 table exclusive_chess_undecidable_continuations[maxply+1];
 unsigned int exclusive_chess_nr_continuations_reaching_goal[maxply+1];

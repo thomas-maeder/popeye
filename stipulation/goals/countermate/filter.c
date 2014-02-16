@@ -6,7 +6,7 @@
 #include "stipulation/goals/mate/reached_tester.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STCounterMateFilter slice.
  * @return index of allocated slice

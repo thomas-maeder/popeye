@@ -3,7 +3,7 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides the STOutputPlaintextGoalWriter slice type.
  * Slices of this type write the goal at the end of a variation

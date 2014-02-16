@@ -8,7 +8,8 @@ conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_teste
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/branch.h stipulation/boolean/and.h \
  solving/king_move_generator.h solving/non_king_move_generator.h \
- solving/legal_move_counter.h solving/ply.h debugging/trace.h
+ solving/legal_move_counter.h solving/ply.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/maff/immobility_tester.h:
 
@@ -61,3 +62,5 @@ solving/legal_move_counter.h:
 solving/ply.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

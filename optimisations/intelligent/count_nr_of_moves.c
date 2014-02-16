@@ -10,7 +10,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdio.h>
 #include <stdlib.h>
 

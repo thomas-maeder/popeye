@@ -13,7 +13,7 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  pieces/walks/classification.h pieces/attributes/neutral/neutral.h \
  conditions/grid.h platform/maxtime.h pymsg.h pylang.h \
- utilities/boolean.h
+ utilities/boolean.h debugging/assert.h
 
 output/latex/latex.h:
 
@@ -86,3 +86,5 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
+
+debugging/assert.h:

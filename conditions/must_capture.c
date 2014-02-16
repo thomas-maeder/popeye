@@ -3,7 +3,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Determine the length of a move in Black/White must capture; the higher
  * the value the more likely the move is going to be played.

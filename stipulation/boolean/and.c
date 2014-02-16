@@ -6,7 +6,7 @@
 #include "stipulation/binary.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STAnd slice.
  * @param op1 proxy to 1st operand

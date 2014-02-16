@@ -10,7 +10,7 @@
 #include "solving/legal_move_counter.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static square pieceid2pos[MaxPieceId+1];
 

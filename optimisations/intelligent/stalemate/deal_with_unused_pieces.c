@@ -9,7 +9,7 @@
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 /* Place some unused black piece on some square

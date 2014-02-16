@@ -6,7 +6,7 @@
 #include "solving/castling.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* This module provides functionality dealing with slices that detect
  * whether a castling goal has just been reached

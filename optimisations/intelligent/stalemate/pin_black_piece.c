@@ -6,7 +6,7 @@
 #include "optimisations/orthodox_check_directions.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 /* Pin a mobile black piece

@@ -4,7 +4,7 @@
 #include "stipulation/binary.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STForkOnRemaining slice.
  * @param op1 identifies direction taken if threshold is not met

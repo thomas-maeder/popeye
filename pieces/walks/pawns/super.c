@@ -3,7 +3,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static void superpawn_generate_noncaptures(numvec dir)
 {

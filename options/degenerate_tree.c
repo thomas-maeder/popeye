@@ -5,7 +5,7 @@
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static stip_length_type max_length_short_solutions;
 

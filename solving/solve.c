@@ -253,7 +253,7 @@
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -1027,6 +1027,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STRestartGuard:
       result = restart_guard_solve(si,n);
+      break;
+
+    case STRestartGuardNested:
+      result = restart_guard_nested_solve(si,n);
       break;
 
     case STMaxTimeGuard:

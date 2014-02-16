@@ -9,7 +9,7 @@
 #include "solving/avoid_unsolvable.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STDeadEnd defender slice.
  * @return index of allocated slice

@@ -15,7 +15,7 @@
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 /* Allocate a STOrthodoxMatingMoveGenerator slice.

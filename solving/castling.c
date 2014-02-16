@@ -18,7 +18,7 @@
 #include "pieces/walks/classification.h"
 #include "conditions/conditions.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 castling_flag_type castling_flag;
 castling_flag_type castling_mutual_exclusive[nr_sides][2];
@@ -726,6 +726,11 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
 {
   boolean result;
 
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,side,"");
+  TraceSquare(to);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[imitators])
   {
     siblingply(trait[nbply]);
@@ -740,6 +745,8 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
   else
   {
     square const from = curr_generation->departure;
+    TraceSquare(from);TraceEOL();
+
     occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
 
@@ -755,6 +762,9 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
       king_square[side] = from;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -767,6 +777,7 @@ void generate_castling(void)
 
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {
+    square const save_departure = curr_generation->departure;
     castling_flag_type allowed_castlings = 0;
 
     square const square_a = side==White ? square_a1 : square_a8;
@@ -789,6 +800,8 @@ void generate_castling(void)
 
     if (allowed_castlings!=0 && !is_in_check(side))
     {
+      curr_generation->departure = save_departure; /* modified by is_in_check! */
+
       if ((allowed_castlings&rh_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_f))
       {

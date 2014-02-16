@@ -5,35 +5,67 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/check.h"
+#include "solving/ply.h"
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "pymsg.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 #include <stdlib.h>
 
 /* number of current move at root level
  */
-static unsigned int MoveNbr;
+unsigned int MoveNbr[maxply+1];
 
 /* number of first move at root level to be considered
  */
-static unsigned int RestartNbr;
+static unsigned int RestartNbr[maxply+1];
+
+static boolean restart_deep;
+
+static void write_history_recursive(ply ply)
+{
+  if (ply>nil_ply+1)
+  {
+    write_history_recursive(parent_ply[ply]);
+    printf(":");
+  }
+
+  printf("%u",MoveNbr[ply]-1);
+}
+
+void move_numbers_write_history(void)
+{
+  if (restart_deep)
+  {
+    printf("\nuse option start ");
+    write_history_recursive(nbply-1);
+    printf(" to replay\n");
+  }
+  else
+    printf("\nuse option start 1:1 to get replay information\n");
+}
 
 /* Reset the restart number setting.
  */
 void reset_restart_number(void)
 {
-  RestartNbr = 0;
-  MoveNbr = 1;
+  ply ply;
+  for (ply = nil_ply+1; ply<=maxply; ++ply)
+  {
+    RestartNbr[ply] = 0;
+    MoveNbr[ply] = 1;
+  }
+
+  restart_deep = false;
 }
 
 unsigned int get_restart_number(void)
 {
-  return RestartNbr;
+  return RestartNbr[2];
 }
 
 /* Interpret maxmem command line parameter value
@@ -43,27 +75,36 @@ boolean read_restart_number(char const *optionValue)
 {
   boolean result = false;
 
+  ply ply = nil_ply+1;
   char *end;
-  unsigned long const restartNbrRequested = strtoul(optionValue,&end,10);
-  if (optionValue!=end && restartNbrRequested<=UINT_MAX)
+
+  while (1)
   {
-    RestartNbr = (unsigned int)restartNbrRequested;
-    result = true;
+    unsigned long const restartNbrRequested = strtoul(optionValue,&end,10);
+    if (optionValue!=end && restartNbrRequested<=UINT_MAX)
+    {
+      RestartNbr[ply] = (unsigned int)restartNbrRequested;
+      result = true;
+
+      if (*end==':')
+      {
+        optionValue = end+1;
+        ++ply;
+        restart_deep = true;
+      }
+      else
+        break;
+    }
   }
 
   return result;
 }
 
-/* Increase the current move number; write the previous move number
- * provided it is above the number where the user asked us to restart
- * solving.
- * @param si slice index
- */
-static void IncrementMoveNbr(slice_index si)
+static void WriteMoveNbr(slice_index si)
 {
-  if (MoveNbr>=RestartNbr)
+  if (MoveNbr[nbply]>=RestartNbr[nbply])
   {
-    sprintf(GlobalStr,"\n%3u  (", MoveNbr);
+    sprintf(GlobalStr,"\n%3u  (", MoveNbr[nbply]);
     StdString(GlobalStr);
     output_plaintext_write_move();
     if (is_in_check(slices[si].starter))
@@ -78,26 +119,6 @@ static void IncrementMoveNbr(slice_index si)
 
     StdString(")");
   }
-
-  ++MoveNbr;
-}
-
-/* Allocate a STRestartGuard slice
- * @return allocated slice
- */
-static slice_index alloc_restart_guard(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STRestartGuard);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to solve in n half-moves.
@@ -124,14 +145,62 @@ stip_length_type restart_guard_solve(slice_index si, stip_length_type n)
 
   assert(n>=slack_length);
 
-  IncrementMoveNbr(si);
+  WriteMoveNbr(si);
 
-  TraceValue("%u",MoveNbr);
-  TraceValue("%u\n",RestartNbr);
-  if (MoveNbr<=RestartNbr)
+  ++MoveNbr[nbply];
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",MoveNbr[nbply]);
+  TraceValue("%u\n",RestartNbr[nbply]);
+  if (MoveNbr[nbply]<=RestartNbr[nbply])
     result = n+2;
   else
     result = solve(slices[si].next1,n);
+
+  MoveNbr[nbply+1] = 0;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type restart_guard_nested_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(n>=slack_length);
+
+  if (MoveNbr[nbply-1]>0)
+    ++MoveNbr[nbply];
+
+  TraceValue("%u",nbply);
+  TraceValue("%u",MoveNbr[nbply]);
+  TraceValue("%u\n",RestartNbr[nbply]);
+  if (MoveNbr[nbply]<=RestartNbr[nbply])
+    result = n+2;
+  else
+    result = solve(slices[si].next1,n);
+
+  MoveNbr[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -146,7 +215,7 @@ static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_restart_guard();
+    slice_index const prototype = alloc_pipe(STRestartGuard);
     branch_insert_slices(si,&prototype,1);
   }
 
@@ -177,8 +246,20 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
   {
     if (st->level!=structure_traversal_level_nested)
     {
-      slice_index const prototype = alloc_restart_guard();
-      branch_insert_slices(si,&prototype,1);
+      if (restart_deep)
+      {
+        slice_index const prototypes[] = {
+            alloc_pipe(STRestartGuard),
+            alloc_pipe(STRestartGuardNested),
+            alloc_pipe(STRestartGuardNested)
+        };
+        branch_insert_slices(si,prototypes,3);
+      }
+      else
+      {
+        slice_index const prototype = alloc_pipe(STRestartGuard);
+        branch_insert_slices(si,&prototype,1);
+      }
     }
   }
   else

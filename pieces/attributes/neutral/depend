@@ -8,7 +8,7 @@ pieces/attributes/neutral/half$(OBJ_SUFFIX): pieces/attributes/neutral/half.c \
  pieces/attributes/neutral/neutral.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 pieces/attributes/neutral/half.h:
 
@@ -59,3 +59,5 @@ stipulation/branch.h:
 stipulation/move.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

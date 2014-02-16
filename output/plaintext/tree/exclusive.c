@@ -7,7 +7,7 @@
 #include "debugging/trace.h"
 #include "pymsg.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STExclusiveChessUndecidableWriterTree slice
  * @return identifier of the allocated slice

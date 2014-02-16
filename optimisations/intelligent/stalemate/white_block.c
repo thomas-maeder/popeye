@@ -6,7 +6,7 @@
 #include "optimisations/intelligent/stalemate/finish.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Block a black pawn with a white piece
  * @param to_be_blocked where to block the pawn

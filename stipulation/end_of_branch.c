@@ -8,7 +8,7 @@
 #include "solving/fork_on_remaining.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STEndOfBranch slice.
  * @param to_goal identifies slice leading towards goal

@@ -1,6 +1,6 @@
 #include "output/plaintext/language_dependant.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 #include <string.h>
 

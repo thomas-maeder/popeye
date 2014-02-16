@@ -11,7 +11,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static unsigned int nr_king_flights_to_be_blocked;
 static square king_flights_to_be_blocked[8];

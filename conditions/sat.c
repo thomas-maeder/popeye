@@ -11,7 +11,7 @@
 #include "solving/check.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 boolean StrictSAT[nr_sides];
 unsigned int SAT_max_nr_allowed_flights[nr_sides];

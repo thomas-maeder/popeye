@@ -8,7 +8,7 @@
  * and in place.
  */
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>

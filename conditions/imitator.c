@@ -23,7 +23,7 @@
 #include "conditions/castling_chess.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 #include <stdlib.h>
 
 square im0;                    /* position of the 1st imitator */

@@ -6,7 +6,7 @@
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Let the arriving piece of a move assume a side
  * @param side side to assume

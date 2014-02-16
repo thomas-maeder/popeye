@@ -9,7 +9,7 @@ stipulation/goals/doublemate/filter$(OBJ_SUFFIX): \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/goals/prerequisite_guards.h \
  solving/ply.h stipulation/goals/immobile/reached_tester.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 stipulation/goals/doublemate/filter.h:
 
@@ -56,6 +56,8 @@ solving/ply.h:
 stipulation/goals/immobile/reached_tester.h:
 
 debugging/trace.h:
+
+debugging/assert.h:
 stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/doublemate/reached_tester.c \
  stipulation/goals/doublemate/reached_tester.h solving/solve.h \
@@ -70,7 +72,7 @@ stipulation/goals/doublemate/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h stipulation/boolean/true.h \
  stipulation/boolean/and.h solving/king_capture_avoider.h \
- debugging/trace.h
+ debugging/trace.h debugging/assert.h
 
 stipulation/goals/doublemate/reached_tester.h:
 
@@ -125,3 +127,5 @@ stipulation/boolean/and.h:
 solving/king_capture_avoider.h:
 
 debugging/trace.h:
+
+debugging/assert.h:

@@ -1,7 +1,7 @@
 #include "conditions/alphabetic.h"
 #include "solving/move_generator.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Determine the length of a move for the Alphabetic Chess; the higher
  * the value the more likely the move is going to be played.

@@ -8,7 +8,7 @@
 #include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 PieNam chameleon_circe_walk_sequence[PieceCount];
 

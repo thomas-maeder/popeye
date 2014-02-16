@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = measure.c trace.c
+SRC_CFILES = assert.c measure.c trace.c
 
-INCLUDES = measure.h trace.h
+INCLUDES = assert.h measure.h trace.h
 
 include makefile.rules $(CURRPWD)depend

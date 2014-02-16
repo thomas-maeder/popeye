@@ -6,7 +6,7 @@
 #include "stipulation/boolean/true.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STGoalReachedTester slice
  * @param goal goal to be tested

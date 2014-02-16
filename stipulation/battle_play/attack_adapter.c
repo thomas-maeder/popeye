@@ -6,7 +6,7 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STAttackAdapter slice.
  * @param length maximum number of half-moves of slice (+ slack)

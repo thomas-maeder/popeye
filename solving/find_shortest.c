@@ -10,7 +10,7 @@
 #include "solving/fork_on_remaining.h"
 #include "debugging/trace.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 /* Allocate a STFindShortest slice.
  * @param length maximum number of half moves until end of slice

@@ -4,7 +4,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-#include <assert.h>
+#include "debugging/assert.h"
 
 static vec_index_type find_vec_index(numvec dir)
 {
