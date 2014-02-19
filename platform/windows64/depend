@@ -6,7 +6,7 @@ platform/maxmem.h:
 utilities/boolean.h:
 platform/windows64/maxtime.obj: platform/windows64/maxtime.c \
  platform/maxtime_impl.h platform/maxtime.h utilities/boolean.h pymsg.h \
- pylang.h utilities/boolean.h
+ pylang.h utilities/boolean.h debugging/assert.h
 
 platform/maxtime_impl.h:
 
@@ -19,6 +19,8 @@ pymsg.h:
 pylang.h:
 
 utilities/boolean.h:
+
+debugging/assert.h:
 platform/windows64/pytime.obj: platform/windows64/pytime.c \
  platform/pytime.h
 
