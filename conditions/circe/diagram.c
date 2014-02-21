@@ -1,6 +1,7 @@
 #include "conditions/circe/diagram.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/capture_fork.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "stipulation/move.h"
 #include "position/pieceid.h"
 #include "debugging/trace.h"
@@ -50,7 +51,9 @@ void diagram_circe_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
   circe_instrument_solving(si,STDiagramCirceDetermineRebirthSquare);
+  stip_instrument_moves(si,STCircePlacingReborn);
   stip_instrument_moves(si,STCircePlaceReborn);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);

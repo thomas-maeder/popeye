@@ -11,8 +11,11 @@
  * slices that may detour around Circe rebirth under a certain condition;
  * STCaptureFork is an example).
  * @param si identifies root slice of stipulation
- * @param type tye of Circe rebirth avoider
+ * @param type type of Circe rebirth avoider
+ * @param type type of proxy inserted on the "rebirth avoided" path
  */
-void stip_insert_rebirth_avoider(slice_index si, slice_type type);
+void stip_insert_rebirth_avoider(slice_index si,
+                                 slice_type type,
+                                 slice_type avoided_type);
 
 #endif

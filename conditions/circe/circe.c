@@ -1,5 +1,6 @@
 #include "conditions/circe/circe.h"
 #include "conditions/circe/capture_fork.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/classification.h"
 #include "stipulation/pipe.h"
@@ -138,6 +139,76 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
+stip_length_type circe_test_reborn_existance_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  if (context->reborn_walk==Empty)
+    result = solve(slices[si].next2,n);
+  else
+    result = solve(slices[si].next1,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
+stip_length_type circe_test_rebirth_square_empty_solve(slice_index si, stip_length_type n)
+{
+  stip_length_type result;
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",n);
+  TraceFunctionParamListEnd();
+
+  assert(context->reborn_walk!=Empty);
+
+  if (is_square_empty(context->rebirth_square))
+    result = solve(slices[si].next1,n);
+  else
+    result = solve(slices[si].next2,n);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Try to solve in n half-moves.
+ * @param si slice index
+ * @param n maximum number of half moves
+ * @return length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ */
 stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
@@ -148,18 +219,16 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (context->reborn_walk!=Empty && is_square_empty(context->rebirth_square))
-  {
-    move_effect_journal_do_piece_readdition(context->rebirth_reason,
-                                            context->rebirth_square,
-                                            context->reborn_walk,
-                                            context->reborn_spec);
-    ++circe_rebirth_context_stack_pointer;
-    result = solve(slices[si].next1,n);
-    --circe_rebirth_context_stack_pointer;
-  }
-  else
-    result = solve(slices[si].next1,n);
+  assert(context->reborn_walk!=Empty);
+  assert(is_square_empty(context->rebirth_square));
+
+  move_effect_journal_do_piece_readdition(context->rebirth_reason,
+                                          context->rebirth_square,
+                                          context->reborn_walk,
+                                          context->reborn_spec);
+  ++circe_rebirth_context_stack_pointer;
+  result = solve(slices[si].next1,n);
+  --circe_rebirth_context_stack_pointer;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -178,7 +247,9 @@ void circe_initialise_solving(slice_index si)
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
   circe_instrument_solving(si,STCirceDetermineRebirthSquare);
+  stip_instrument_moves(si,STCircePlacingReborn);
   circe_instrument_solving(si,STCircePlaceReborn);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);
@@ -434,6 +505,46 @@ void circe_instrument_solving(slice_index si, slice_type type)
 
   stip_structure_traversal_init(&st,&type);
   stip_structure_traversal_override_single(&st,STCirceDetermineRebornPiece,&instrument);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_placing(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STBeforePawnPromotion),
+        alloc_pipe(STPawnPromoter),
+        alloc_pipe(STLandingAfterPawnPromotion)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument Circe rebirths with pawn promotion
+ * @param si root slice
+ */
+void circe_allow_pawn_promotion(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STCircePlacingReborn,&instrument_placing);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

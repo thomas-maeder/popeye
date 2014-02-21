@@ -1,6 +1,7 @@
 #include "conditions/circe/parrain.h"
 #include "conditions/conditions.h"
 #include "conditions/circe/circe.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
@@ -99,6 +100,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
     slice_index const prototypes[] =
     {
         alloc_pipe(STCirceParrainDetermineRebirth),
+        alloc_pipe(STCircePlacingReborn),
         alloc_pipe(STCircePlaceReborn),
         alloc_pipe(STBeforePawnPromotion),
         alloc_pipe(STPawnPromoter),
@@ -126,6 +128,9 @@ void circe_parrain_initialise_solving(slice_index si)
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
+
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
+  stip_insert_rebirth_avoider(si,STCirceTestRebornExistance,STCirceRebirthAvoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

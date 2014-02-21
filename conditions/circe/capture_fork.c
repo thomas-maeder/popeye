@@ -60,7 +60,7 @@ void stip_insert_circe_capture_forks(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_insert_rebirth_avoider(si,STCirceCaptureFork);
+  stip_insert_rebirth_avoider(si,STCirceCaptureFork,STCirceRebirthAvoided);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

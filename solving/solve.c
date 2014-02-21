@@ -748,6 +748,14 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = contact_grid_avoid_circe_rebirth(si,n);
       break;
 
+    case STCirceTestRebornExistance:
+      result = circe_test_reborn_existance_solve(si,n);
+      break;
+
+    case STCirceTestRebirthSquareEmpty:
+      result = circe_test_rebirth_square_empty_solve(si,n);
+      break;
+
     case STCircePlaceReborn:
       result = circe_place_reborn_solve(si,n);
       break;
@@ -760,8 +768,16 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = supercirce_no_rebirth_fork_solve(si,n);
       break;
 
-    case STSuperCirceRebirthHandler:
-      result = supercirce_rebirth_handler_solve(si,n);
+    case STSuperCirceDetermineRebirthSquare:
+      result = supercirce_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STCirceCageDetermineRebirthSquare:
+      result = circe_cage_determine_rebirth_square_solve(si,n);
+      break;
+
+    case STSupercircePreventRebirthOnNonEmptySquare:
+      result = supercirce_prevent_rebirth_on_non_empty_square_solve(si,n);
       break;
 
     case STSuperCirceCaptureFork:

@@ -337,14 +337,21 @@
     ENUMERATOR(STDiagramCirceDetermineRebirthSquare),                   \
     ENUMERATOR(STCirceEquipollentsDetermineRebirthSquare),              \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
+    ENUMERATOR(STCirceTestRebornExistance),                             \
+    ENUMERATOR(STCirceTestRebirthSquareEmpty),                          \
+    ENUMERATOR(STCircePlacingReborn),                                   \
     ENUMERATOR(STCircePlaceReborn),                                     \
     ENUMERATOR(STSuperCirceCaptureFork),                                \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \
-    ENUMERATOR(STSuperCirceRebirthHandler),                             \
+    ENUMERATOR(STSuperCirceDetermineRebirthSquare),                     \
+    ENUMERATOR(STCirceCageDetermineRebirthSquare),                      \
     ENUMERATOR(STCirceCageNoCageFork)    ,                              \
     ENUMERATOR(STCirceCageCageTester),                                  \
     ENUMERATOR(STLandingAfterAnticirceRebirth),                         \
     ENUMERATOR(STCirceParrainDetermineRebirth),                         \
+    ENUMERATOR(STCirceRebirthAvoided),                                  \
+    ENUMERATOR(STCirceRebirthOnNonEmptySquare),                         \
+    ENUMERATOR(STSupercircePreventRebirthOnNonEmptySquare),             \
     ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
     ENUMERATOR(STCirceVolageRecolorer),                                 \
     ENUMERATOR(STAnticirceCaptureFork),                                 \

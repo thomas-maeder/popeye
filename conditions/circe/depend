@@ -5,7 +5,8 @@ conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/move_effect_journal.h solving/castling_rights.h \
  solving/ply.h position/pieceid.h conditions/circe/capture_fork.h \
- pieces/walks/walks.h pieces/walks/classification.h stipulation/pipe.h \
+ conditions/circe/rebirth_avoider.h pieces/walks/walks.h \
+ pieces/walks/classification.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h \
  stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
@@ -47,6 +48,8 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
+conditions/circe/rebirth_avoider.h:
+
 pieces/walks/walks.h:
 
 pieces/walks/classification.h:
@@ -80,7 +83,7 @@ conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
  stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/circe/circuit_by_rebirth_special.h \
  conditions/circe/exchange_by_rebirth_special.h \
- conditions/circe/steingewinn_filter.h debugging/trace.h solving/ply.h \
+ conditions/circe/steingewinn_filter.h debugging/trace.h \
  debugging/assert.h
 
 conditions/circe/goal_filters.h:
@@ -132,8 +135,6 @@ conditions/circe/exchange_by_rebirth_special.h:
 conditions/circe/steingewinn_filter.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
@@ -538,7 +539,8 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/conditions.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
+ position/pieceid.h conditions/circe/rebirth_avoider.h \
+ stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/branch.h \
  debugging/trace.h debugging/assert.h
@@ -580,6 +582,8 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+conditions/circe/rebirth_avoider.h:
 
 stipulation/has_solution_type.h:
 
@@ -737,8 +741,8 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h \
- debugging/assert.h
+ stipulation/traversal.h stipulation/pipe.h solving/post_move_iteration.h \
+ debugging/trace.h debugging/assert.h
 
 conditions/circe/super.h:
 
@@ -787,6 +791,8 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
+
+stipulation/pipe.h:
 
 solving/post_move_iteration.h:
 
@@ -1486,8 +1492,8 @@ conditions/circe/antipodes$(OBJ_SUFFIX): conditions/circe/antipodes.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/capture_fork.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_avoider.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/antipodes.h:
@@ -1528,6 +1534,8 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
+conditions/circe/rebirth_avoider.h:
+
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
@@ -1546,8 +1554,8 @@ conditions/circe/pwc$(OBJ_SUFFIX): conditions/circe/pwc.c conditions/circe/pwc.h
  pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/capture_fork.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_avoider.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/pwc.h:
@@ -1588,6 +1596,8 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
+conditions/circe/rebirth_avoider.h:
+
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
@@ -1606,7 +1616,8 @@ conditions/circe/equipollents$(OBJ_SUFFIX): conditions/circe/equipollents.c \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h conditions/circe/capture_fork.h stipulation/move.h \
+ position/pieceid.h conditions/circe/capture_fork.h \
+ conditions/circe/rebirth_avoider.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h debugging/assert.h
 
@@ -1648,6 +1659,8 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
+conditions/circe/rebirth_avoider.h:
+
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
@@ -1666,8 +1679,9 @@ conditions/circe/file$(OBJ_SUFFIX): conditions/circe/file.c conditions/circe/fil
  pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/capture_fork.h pieces/walks/classification.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_avoider.h \
+ pieces/walks/classification.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/file.h:
@@ -1708,6 +1722,8 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
+conditions/circe/rebirth_avoider.h:
+
 pieces/walks/classification.h:
 
 stipulation/move.h:
@@ -1728,8 +1744,8 @@ conditions/circe/diagram$(OBJ_SUFFIX): conditions/circe/diagram.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/capture_fork.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_avoider.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/diagram.h:
@@ -1770,6 +1786,8 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
+conditions/circe/rebirth_avoider.h:
+
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
@@ -1788,8 +1806,8 @@ conditions/circe/symmetry$(OBJ_SUFFIX): conditions/circe/symmetry.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/circe.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/circe/capture_fork.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_avoider.h \
+ stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 conditions/circe/symmetry.h:
@@ -1830,6 +1848,8 @@ position/pieceid.h:
 
 conditions/circe/capture_fork.h:
 
+conditions/circe/rebirth_avoider.h:
+
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
@@ -1849,8 +1869,7 @@ conditions/circe/rebirth_avoider$(OBJ_SUFFIX): conditions/circe/rebirth_avoider.
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/branch.h stipulation/fork.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 conditions/circe/rebirth_avoider.h:
 
@@ -1897,7 +1916,5 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:

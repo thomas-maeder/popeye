@@ -413,11 +413,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     if  (TSTFLAG(some_pieces_flags,Volage))
       circe_volage_initialise_solving(result);
     if (anycirprom)
-    {
-      circe_instrument_solving(result,STBeforePawnPromotion);
-      circe_instrument_solving(result,STPawnPromoter);
-      circe_instrument_solving(result,STLandingAfterPawnPromotion);
-    }
+      circe_allow_pawn_promotion(result);
     if (CondFlag[circeturncoats])
       circe_turncoats_initialise_solving(result);
   }

@@ -20,6 +20,7 @@ typedef struct
 {
     slice_index landing;
     slice_type type;
+    slice_type avoided_type;
 } insertion_state_type;
 
 static void insert_fork(slice_index si, stip_structure_traversal *st)
@@ -27,9 +28,12 @@ static void insert_fork(slice_index si, stip_structure_traversal *st)
   insertion_state_type const * const state = st->param;
   slice_index const proxy = alloc_proxy_slice();
   slice_index const prototype = alloc_fork_slice(state->type,proxy);
+  slice_index const avoided = alloc_pipe(state->avoided_type);
+
+  pipe_link(proxy,avoided);
 
   assert(state->landing!=no_slice);
-  link_to_branch(proxy,state->landing);
+  link_to_branch(avoided,state->landing);
 
   branch_insert_slices_contextual(si,st->context,&prototype,1);
 }
@@ -76,12 +80,15 @@ static void remember_landing(slice_index si, stip_structure_traversal *st)
  * slices that may detour around Circe rebirth under a certain condition;
  * STCaptureFork is an example).
  * @param si identifies root slice of stipulation
- * @param type tye of Circe rebirth avoider
+ * @param type type of Circe rebirth avoider
+ * @param type type of proxy inserted on the "rebirth avoided" path
  */
-void stip_insert_rebirth_avoider(slice_index si, slice_type type)
+void stip_insert_rebirth_avoider(slice_index si,
+                                 slice_type type,
+                                 slice_type avoided_type)
 {
   stip_structure_traversal st;
-  insertion_state_type state = { no_slice, type };
+  insertion_state_type state = { no_slice, type, avoided_type };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
