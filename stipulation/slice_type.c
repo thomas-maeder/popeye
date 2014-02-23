@@ -61,7 +61,7 @@
     ENUMERATOR(STSingleBoxType3LegalityTester),                        \
     ENUMERATOR(STSingleBoxType3EnforceObserverWalk),                   \
     ENUMERATOR(STIsardamLegalityTester),                               \
-    ENUMERATOR(STCirceAssassinPlaceReborn),                            \
+    ENUMERATOR(STCirceAssassinAssassinate),                            \
     ENUMERATOR(STOwnKingCaptureAvoider),                               \
     ENUMERATOR(STOpponentKingCaptureAvoider),                          \
     ENUMERATOR(STPatienceChessLegalityTester),                         \

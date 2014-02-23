@@ -1,13 +1,15 @@
 #include "conditions/circe/assassin.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/capture_fork.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/move.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
@@ -69,47 +71,53 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_che
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type circe_assassin_place_reborn_solve(slice_index si,
-                                                   stip_length_type n)
+stip_length_type circe_assassin_assassinate_solve(slice_index si,
+                                                  stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  square const sq_rebirth = context->rebirth_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare)
-    result = solve(slices[si].next1,n);
-  else if (is_square_empty(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square))
-  {
-    move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_no_choice,
-                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square,
-                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk,
-                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec);
-    ++circe_rebirth_context_stack_pointer;
-    result = solve(slices[si].next1,n);
-    --circe_rebirth_context_stack_pointer;
-  }
-  else if (circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==king_square[slices[si].starter])
+  if (sq_rebirth==king_square[slices[si].starter])
     result = this_move_is_illegal;
   else
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
-                                         circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);
-    move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_no_choice,
-                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square,
-                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk,
-                                            circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec);
-    ++circe_rebirth_context_stack_pointer;
+                                         sq_rebirth);
     result = solve(slices[si].next1,n);
-    --circe_rebirth_context_stack_pointer;
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void append_assassin(slice_index si, stip_structure_traversal*st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STCirceAssassinAssassinate),
+        alloc_pipe(STCircePlacingReborn),
+        alloc_pipe(STCircePlaceReborn)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Instrument a stipulation
@@ -123,8 +131,18 @@ void assassin_circe_initalise_solving(slice_index si)
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
   circe_instrument_solving(si,STCirceDetermineRebirthSquare);
-  circe_instrument_solving(si,STCirceAssassinPlaceReborn);
+  circe_instrument_solving(si,STCircePlaceReborn);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
   stip_insert_circe_capture_forks(si);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STCirceRebirthOnNonEmptySquare,
+                                             &append_assassin);
+    stip_traverse_structure(si,&st);
+  }
 
   solving_instrument_check_testing(si,STAssassinCirceCheckTester);
 

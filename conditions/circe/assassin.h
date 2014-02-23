@@ -27,8 +27,8 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si,
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type circe_assassin_place_reborn_solve(slice_index si,
-                                                   stip_length_type n);
+stip_length_type circe_assassin_assassinate_solve(slice_index si,
+                                                  stip_length_type n);
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
