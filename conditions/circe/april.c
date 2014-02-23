@@ -55,7 +55,7 @@ void april_chess_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   supercirce_initialise_solving(si);
-  stip_insert_rebirth_avoider(si,STAprilCaptureFork,STCirceRebirthAvoided);
+  stip_insert_rebirth_avoider(si,STAprilCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

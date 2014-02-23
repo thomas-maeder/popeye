@@ -5,6 +5,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "solving/post_move_iteration.h"
 #include "debugging/trace.h"
 
@@ -236,10 +237,10 @@ void supercirce_initialise_solving(slice_index si)
   stip_instrument_moves(si,STSuperCirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCircePlacingReborn);
   stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
-  stip_insert_rebirth_avoider(si,STCirceTestRebornExistance,STCirceRebirthAvoided);
-  stip_insert_rebirth_avoider(si,STSuperCirceNoRebirthFork,STCirceRebirthAvoided);
-  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
+  stip_insert_rebirth_avoider(si,STCirceTestRebornExistance,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+  stip_insert_rebirth_avoider(si,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
   {
     stip_structure_traversal st;

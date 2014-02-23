@@ -351,10 +351,10 @@ void circe_cage_initialise_solving(slice_index si)
                                            &insert_remover);
   stip_traverse_structure(si,&st);
 
-  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided);
+  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
   if (!CondFlag[immuncage])
-    stip_insert_rebirth_avoider(si,STCirceCageNoCageFork,STCirceRebirthAvoided);
+    stip_insert_rebirth_avoider(si,STCirceCageNoCageFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

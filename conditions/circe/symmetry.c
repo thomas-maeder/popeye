@@ -55,7 +55,7 @@ void symmetry_circe_initialise_solving(slice_index si)
   circe_instrument_solving(si,STSymmetryCirceDetermineRebirthSquare);
   stip_instrument_moves(si,STCircePlacingReborn);
   stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
   stip_insert_circe_capture_forks(si);
 
   TraceFunctionExit(__func__);

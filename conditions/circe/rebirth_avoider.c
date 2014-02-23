@@ -85,7 +85,8 @@ static void remember_landing(slice_index si, stip_structure_traversal *st)
  */
 void stip_insert_rebirth_avoider(slice_index si,
                                  slice_type type,
-                                 slice_type avoided_type)
+                                 slice_type avoided_type,
+                                 slice_type joint_type)
 {
   stip_structure_traversal st;
   insertion_state_type state = { no_slice, type, avoided_type };
@@ -95,12 +96,8 @@ void stip_insert_rebirth_avoider(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
-                                           STLandingAfterCirceRebirthHandler,
-                                           &remember_landing);
+  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_structure_traversal_override_single(&st,joint_type,&remember_landing);
   stip_structure_traversal_override_single(&st,
                                            STCageCirceFutileCapturesRemover,
                                            &stip_structure_visitor_noop);

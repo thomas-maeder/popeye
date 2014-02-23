@@ -153,8 +153,8 @@ void circe_take_make_initialse_solving(slice_index si)
   stip_instrument_moves(si,STTakeMakeCirceDetermineRebirthSquares);
   stip_instrument_moves(si,STCircePlacingReborn);
   stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
-  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
+  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

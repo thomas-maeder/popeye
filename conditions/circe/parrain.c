@@ -129,8 +129,8 @@ void circe_parrain_initialise_solving(slice_index si)
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
 
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
-  stip_insert_rebirth_avoider(si,STCirceTestRebornExistance,STCirceRebirthAvoided);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
+  stip_insert_rebirth_avoider(si,STCirceTestRebornExistance,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -16,6 +16,7 @@
  */
 void stip_insert_rebirth_avoider(slice_index si,
                                  slice_type type,
-                                 slice_type avoided_type);
+                                 slice_type avoided_type,
+                                 slice_type joint_type);
 
 #endif

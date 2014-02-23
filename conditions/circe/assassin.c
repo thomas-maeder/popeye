@@ -107,13 +107,8 @@ static void append_assassin(slice_index si, stip_structure_traversal*st)
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    slice_index const prototypes[] = {
-        alloc_pipe(STCirceAssassinAssassinate),
-        alloc_pipe(STCircePlacingReborn),
-        alloc_pipe(STCircePlaceReborn)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_index const prototype =  alloc_pipe(STCirceAssassinAssassinate);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -131,8 +126,9 @@ void assassin_circe_initalise_solving(slice_index si)
 
   stip_instrument_moves(si,STCirceDetermineRebornPiece);
   circe_instrument_solving(si,STCirceDetermineRebirthSquare);
+  circe_instrument_solving(si,STCircePlacingReborn);
   circe_instrument_solving(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare);
+  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STCircePlacingReborn);
   stip_insert_circe_capture_forks(si);
 
   {
