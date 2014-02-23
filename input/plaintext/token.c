@@ -223,7 +223,7 @@ static boolean sncmp(char const *a, char const *b)
 }
 
 static unsigned int GetIndex(unsigned int index, unsigned int limit,
-                             char const **list, char const *tok)
+                             char const * const *list, char const *tok)
 {
   while (index<limit)
     if (sncmp(list[index],tok))
@@ -234,7 +234,7 @@ static unsigned int GetIndex(unsigned int index, unsigned int limit,
   return limit;
 }
 
-unsigned int GetUniqIndex(unsigned int limit, char const **list, char const *tok)
+unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char const *tok)
 {
   unsigned int const index = GetIndex(0,limit,list,tok);
   if (index==limit)

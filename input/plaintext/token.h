@@ -46,7 +46,7 @@ char *ReadNextCaseSensitiveTokStr(void);
 
 char *ReadNextTokStr(void);
 
-unsigned int GetUniqIndex(unsigned int limit, char const **list, char const *tok);
+unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char const *tok);
 
 Token StringToToken(char const *tok);
 

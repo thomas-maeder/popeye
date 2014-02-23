@@ -13,8 +13,7 @@
 
 #include "debugging/assert.h"
 
-boolean OscillatingKingsTypeB[nr_sides];
-boolean OscillatingKingsTypeC[nr_sides];
+ConditionLetteredVariantType OscillatingKings[nr_sides];
 
 static void perform_oscillation(void)
 {
@@ -148,9 +147,9 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   if (CondFlag[cond])
   {
     slice_type type;
-    if (OscillatingKingsTypeB[starter])
+    if (OscillatingKings[starter]==ConditionTypeB)
       type = STOscillatingKingsTypeB;
-    else if (OscillatingKingsTypeC[starter])
+    else if (OscillatingKings[starter]==ConditionTypeC)
       type = STOscillatingKingsTypeC;
     else
       type = STOscillatingKingsTypeA;

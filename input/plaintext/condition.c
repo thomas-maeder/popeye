@@ -231,7 +231,28 @@ char *ReadSquares(SquareListContext context)
   return tok;
 }
 
-static Side OscillatingKingsSide;  /* TODO this is all a hack */
+static char *ParseKobulSides(boolean (*variant)[nr_sides])
+{
+  char *tok = ReadNextTokStr();
+
+  do
+  {
+    KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
+
+    if (type>KobulVariantCount)
+      IoErrorMsg(CondNotUniq,0);
+    else if (type==KobulWhiteOnly)
+      (*variant)[Black] = false;
+    else if (type==KobulBlackOnly)
+      (*variant)[White] = false;
+    else
+      break;
+
+    tok = ReadNextTokStr();
+  } while (tok);
+
+  return tok;
+}
 
 static char *ParseMaximumPawn(unsigned int *result,
                               unsigned int defaultVal,
@@ -239,146 +260,95 @@ static char *ParseMaximumPawn(unsigned int *result,
 {
   char *tok = ReadNextTokStr();
 
-  char *end;
-  unsigned long tmp = strtoul(tok,&end,10);
-  if (tok==end || tmp>boundary)
-    *result = defaultVal;
-  else
-    *result = tmp;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",defaultVal);
+  TraceFunctionParam("%u",boundary);
+  TraceFunctionParamListEnd();
 
-  return end;
+  {
+    char *end;
+    unsigned long tmp = strtoul(tok,&end,10);
+    if (tok==end || tmp>boundary)
+      *result = defaultVal;
+    else
+    {
+      *result = tmp;
+      tok = ReadNextTokStr();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
 }
 
-static nocontactfunc_t *nocontactfunc_parsed;
-
-typedef enum
+static char *ParseSentinellesVariants(void)
 {
-  gpType,
-  gpSentinelles,
-  gpAntiCirce,
-  gpKoeko,
-  gpOsc,
-  gpAnnan,
-  gpGrid,
-  gpRepublican,
-  gpMagicSquare,
-  gpColour
-} VariantGroup;
+  char *tok;
 
-static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
-{
-  char    *tok=ReadNextTokStr();
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-  if (is_variant_set!=NULL && group != gpColour)
-    *is_variant_set= false;
+  tok = ReadNextTokStr();
+
+  sentinelles_pawn_mode = sentinelles_pawn_propre;
 
   do
   {
-    VariantType type = GetUniqIndex(VariantTypeCount,VariantTypeTab,tok);
+    SentinellesVariantType const type = GetUniqIndex(SentinellesVariantCount,SentinellesVariantTypeTab,tok);
 
-    if (type==VariantTypeCount)
-      break;
-
-    if (type>VariantTypeCount)
+    if (type>SentinellesVariantCount)
       IoErrorMsg(CondNotUniq,0);
-    else if (type==TypeB && group==gpType)
-      *is_variant_set= true;
-    else if (type==TypeB && group==gpOsc)
-      OscillatingKingsTypeB[OscillatingKingsSide]= true;
-    else if (type==TypeC && group==gpOsc)
-      OscillatingKingsTypeC[OscillatingKingsSide]= true;
-    else if (type==TypeB && group==gpAnnan)
-      annan_type= annan_type_B;
-    else if (type==TypeC && group==gpAnnan)
-      annan_type= annan_type_C;
-    else if (type==TypeD && group==gpAnnan)
-      annan_type= annan_type_D;
-    else if (type==Type1 && group==gpType)
-      SingleBoxType = singlebox_type1;
-    else if (type==Type2 && group==gpType)
-      SingleBoxType = singlebox_type2;
-    else if (type==Type3 && group==gpType)
-      SingleBoxType = singlebox_type3;
-    else if (type==Type1 && group==gpRepublican)
-      *is_variant_set = true;
-    else if (type==Type2 && group==gpRepublican)
-      *is_variant_set = false;
-    else if (type==Type1 && group==gpMagicSquare)
-      *is_variant_set = false;
-    else if (type==Type2 && group==gpMagicSquare)
-      *is_variant_set = true;
-    else if (type==PionAdverse && group==gpSentinelles)
-      *is_variant_set= true;
-    else if (type==PionNeutral && group==gpSentinelles)
-      SentPionNeutral= true;
-    else if (type==PionNoirMaximum && group==gpSentinelles)
-      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns[Black],8,64);
-    else if (type==PionBlancMaximum && group==gpSentinelles)
-      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns[White],8,64);
-    else if (type==PionTotalMaximum && group==gpSentinelles)
-      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns_total,16,64);
-    else if (type==ParaSent && group==gpSentinelles)
-      flagparasent= true;
-    else if (type==SentBerolina && group==gpSentinelles)
-      sentinelle = BerolinaPawn;
-    else if (type==AntiCirceTypeCheylan && group==gpAntiCirce)
-      *is_variant_set= true;
-    else if (type==AntiCirceTypeCalvet && group==gpAntiCirce)
-      *is_variant_set= false;
-    else if (type==Neighbour && group==gpKoeko)
+    else if (type==SentinellesVariantPionAdverse)
     {
-      PieNam tmp_piece;
+      sentinelles_pawn_mode = sentinelles_pawn_adverse;
       tok = ReadNextTokStr();
-      switch (strlen(tok))
-      {
-        case 1:
-          tmp_piece= GetPieNamIndex(*tok,' ');
-          break;
-        case 2:
-          tmp_piece= GetPieNamIndex(*tok,tok[1]);
-          break;
-        default:
-          IoErrorMsg(WrongPieceName,0);
-          return tok;
-      }
-
-      switch (tmp_piece)
-      {
-        case King:
-          break;
-        case Knight:
-          *nocontactfunc_parsed= noknightcontact;
-          break;
-        case Wesir:
-          *nocontactfunc_parsed= nowazircontact;
-          break;
-        case Fers:
-          *nocontactfunc_parsed= noferscontact;
-          break;
-        case Camel:
-          *nocontactfunc_parsed= nocamelcontact;
-          break;
-        case Alfil:
-          *nocontactfunc_parsed= noalfilcontact;
-          break;
-        case Zebra:
-          *nocontactfunc_parsed= nozebracontact;
-          break;
-        case Dabbaba:
-          *nocontactfunc_parsed= nodabbabacontact;
-          break;
-        case Giraffe:
-          *nocontactfunc_parsed= nogiraffecontact;
-          break;
-        case Antilope:
-          *nocontactfunc_parsed= noantelopecontact;
-          break;
-        default:
-          IoErrorMsg(WrongPieceName,0);
-          break;
-      }
     }
-    else if (type==ShiftRank && group==gpGrid)
+    else if (type==SentinellesVariantPionNeutral)
+    {
+      sentinelles_pawn_mode = sentinelles_pawn_neutre;
+      tok = ReadNextTokStr();
+    }
+    else if (type==SentinellesVariantPionNoirMaximum)
+      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns[Black],8,64);
+    else if (type==SentinellesVariantPionBlancMaximum)
+      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns[White],8,64);
+    else if (type==SentinellesVariantPionTotalMaximum)
+      tok = ParseMaximumPawn(&sentinelles_max_nr_pawns_total,16,64);
+    else if (type==SentinellesVariantPara)
+    {
+      sentinelles_is_para = true;
+      tok = ReadNextTokStr();
+    }
+    else if (type==SentinellesVariantBerolina)
+    {
+      sentinelle_walk = BerolinaPawn;
+      tok = ReadNextTokStr();
+    }
+    else
+      break;
+  } while (tok);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static char *ParseGridVariant(void)
+{
+  char *tok = ReadNextTokStr();
+
+  do
+  {
+    GridVariantType type = GetUniqIndex(GridVariantCount,GridVariantTypeTab,tok);
+
+    if (type==GridVariantCount)
+      break;
+    else if (type>GridVariantCount)
+      IoErrorMsg(CondNotUniq,0);
+    else if (type==GridVariantShiftRank)
     {
       square const *bnp;
       for (bnp= boardnum; *bnp; bnp++)
@@ -388,7 +358,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
       }
       grid_type = grid_vertical_shift;
     }
-    else if (type==ShiftFile && group==gpGrid)
+    else if (type==GridVariantShiftFile)
     {
       square const *bnp;
       for (bnp= boardnum; *bnp; bnp++)
@@ -398,7 +368,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
       }
       grid_type = grid_horizontal_shift;
     }
-    else if (type==ShiftRankFile && group==gpGrid)
+    else if (type==GridVariantShiftRankFile)
     {
       square const *bnp;
       for (bnp= boardnum; *bnp; bnp++)
@@ -408,7 +378,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
       }
       grid_type = grid_diagonal_shift;
     }
-    else if (type==Orthogonal && group==gpGrid)
+    else if (type==GridVariantOrthogonal)
     {
       square const *bnp;
       int files[8], ranks[8];
@@ -444,7 +414,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
       }
       grid_type = grid_orthogonal_lines;
     }
-    else if (type==Irregular && group==gpGrid)
+    else if (type==GridVariantIrregular)
     {
       square const *bnp;
       for (bnp= boardnum; *bnp; bnp++)
@@ -458,7 +428,7 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
       while (currentgridnum++);
       continue;
     }
-    else if (type==ExtraGridLines && group==gpGrid)
+    else if (type==GridVariantExtraGridLines)
     {
       boolean parsed= true;
       numgridlines= 0;
@@ -508,20 +478,152 @@ static char *ParseVariant(boolean *is_variant_set, VariantGroup group)
       }
       continue;
     }
-    else if (group == gpColour)
-    {
-      if (type == WhiteOnly)
-        is_variant_set[Black] = false;
-      if (type == BlackOnly)
-        is_variant_set[White] = false;
-    }
-    else {
+    else
       return tok;
-    }
+
     tok = ReadNextTokStr();
-  } while (group==gpSentinelles || group==gpGrid || group ==gpColour);
+  } while (tok);
 
   return tok;
+}
+
+static nocontactfunc_t *nocontactfunc_parsed;
+
+static char *ParseKoekoVariant(void)
+{
+  char *tok = ReadNextTokStr();
+
+  unsigned int const type = GetUniqIndex(1,KoekoVariantTypeTab,tok);
+
+  if (type==1)
+  {
+    /* nothing */
+  }
+  else if (type>1)
+    IoErrorMsg(CondNotUniq,0);
+  else
+  {
+    PieNam tmp_piece;
+    tok = ParseSinglePiece(ReadNextTokStr(),&tmp_piece);
+
+    switch (tmp_piece)
+    {
+      case King:
+        break;
+      case Knight:
+        *nocontactfunc_parsed= noknightcontact;
+        break;
+      case Wesir:
+        *nocontactfunc_parsed= nowazircontact;
+        break;
+      case Fers:
+        *nocontactfunc_parsed= noferscontact;
+        break;
+      case Camel:
+        *nocontactfunc_parsed= nocamelcontact;
+        break;
+      case Alfil:
+        *nocontactfunc_parsed= noalfilcontact;
+        break;
+      case Zebra:
+        *nocontactfunc_parsed= nozebracontact;
+        break;
+      case Dabbaba:
+        *nocontactfunc_parsed= nodabbabacontact;
+        break;
+      case Giraffe:
+        *nocontactfunc_parsed= nogiraffecontact;
+        break;
+      case Antilope:
+        *nocontactfunc_parsed= noantelopecontact;
+        break;
+      default:
+        IoErrorMsg(WrongPieceName,0);
+        break;
+    }
+  }
+
+  return tok;
+}
+
+static char *ParseLetteredType(ConditionLetteredVariantType *variant, ConditionLetteredVariantType max_letter)
+{
+  char *tok = ReadNextTokStr();
+  ConditionLetteredVariantType const type_read = GetUniqIndex(ConditionLetteredVariantTypeCount,ConditionLetteredVariantTypeTab,tok);
+
+  *variant = ConditionTypeA;
+
+  if (type_read==ConditionLetteredVariantTypeCount)
+  {
+   /* nothing */
+  }
+  else if (type_read>ConditionLetteredVariantTypeCount)
+    IoErrorMsg(CondNotUniq,0);
+  else
+  {
+    ConditionLetteredVariantType type;
+    for (type = ConditionTypeA; type<=max_letter; ++type)
+      if (type_read==type)
+      {
+        *variant = type;
+        tok = ReadNextTokStr();
+      }
+  }
+
+  return tok;
+}
+
+static char *ParseNumberedType(ConditionNumberedVariantType *variant,
+                               ConditionNumberedVariantType default_number,
+                               ConditionNumberedVariantType max_number)
+{
+  char *tok = ReadNextTokStr();
+  ConditionNumberedVariantType const type_read = GetUniqIndex(ConditionNumberedVariantTypeCount,ConditionNumberedVariantTypeTab,tok);
+
+  *variant = default_number;
+
+  if (type_read==ConditionNumberedVariantTypeCount)
+  {
+    /* nothing */
+  }
+  else if (type_read>ConditionNumberedVariantTypeCount)
+    IoErrorMsg(CondNotUniq,0);
+  else
+  {
+    ConditionNumberedVariantType type;
+    for (type = ConditionType1; type<=max_number; ++type)
+      if (type_read==type)
+      {
+        *variant = type;
+        tok = ReadNextTokStr();
+      }
+  }
+
+  return tok;
+}
+
+static char *ParseAnticirceVariant(AntiCirceVariantType *variant)
+{
+  char *tok = ReadNextTokStr();
+
+  AntiCirceVariantType const type = GetUniqIndex(AntiCirceVariantTypeCount,AntiCirceVariantTypeTab,tok);
+
+  *variant = AntiCirceTypeCalvet;
+
+  if (type==AntiCirceVariantTypeCount)
+    return tok;
+  else if (type>AntiCirceVariantTypeCount)
+  {
+    IoErrorMsg(CondNotUniq,0);
+    return tok;
+  }
+  else if (type==AntiCirceTypeCheylan || type==AntiCirceTypeCalvet)
+  {
+    *variant = type;
+    return ReadNextTokStr();
+  }
+  else
+    return tok;
 }
 
 static char *ParseMummerStrictness(mummer_strictness_type *strictness)
@@ -546,44 +648,31 @@ static char *ParseMummerStrictness(mummer_strictness_type *strictness)
 
 static char *ParseVaultingPieces(Side side)
 {
-  char  *tok;
+  char *tok = ReadNextTokStr();
 
   while (true)
   {
-    tok = ReadNextTokStr();
-    switch (strlen(tok))
+    PieNam p;
+    tok = ParseSinglePiece(tok,&p);
+
+    if (p==PieceCount)
     {
-      case 1:
+      if (GetUniqIndex(1,VaultingVariantTypeTab,tok)==0)
       {
-        PieNam const p = GetPieNamIndex(*tok,' ');
         if (side!=Black)
-          append_king_vaulter(White,p);
+          vaulting_kings_transmuting[White] = true;
         if (side!=White)
-          append_king_vaulter(Black,p);
-        break;
+          vaulting_kings_transmuting[Black] = true;
       }
-
-      case 2:
-      {
-        PieNam const p = GetPieNamIndex(*tok,tok[1]);
-        if (side!=Black)
-          append_king_vaulter(White,p);
-        if (side!=White)
-          append_king_vaulter(Black,p);
+      else
         break;
-      }
-
-      default:
-        if (GetUniqIndex(VariantTypeCount,VariantTypeTab,tok)==Transmuting)
-        {
-          if (side!=Black)
-            vaulting_kings_transmuting[White]= true;
-          if (side!=White)
-            vaulting_kings_transmuting[Black]= true;
-        }
-        else
-          return tok;
-        break;
+    }
+    else
+    {
+      if (side!=Black)
+        append_king_vaulter(White,p);
+      if (side!=White)
+        append_king_vaulter(Black,p);
     }
   }
 
@@ -615,87 +704,71 @@ static boolean handle_chameleon_reborn_piece(boolean *is_implicit,
 static char *ReadChameleonSequence(boolean *is_implicit,
                                    chameleon_sequence_type* sequence)
 {
+  char *tok = ReadNextTokStr();
   PieNam from = Empty;
 
   while (true)
   {
-    char *tok = ReadNextTokStr();
-    switch (strlen(tok))
-    {
-      case 1:
-      {
-        PieNam const to = GetPieNamIndex(tok[0],' ');
-        if (handle_chameleon_reborn_piece(is_implicit,sequence,from,to,tok))
-          from = to;
-        else
-          return tok;
-        break;
-      }
+    PieNam to;
+    tok = ParseSinglePiece(tok,&to);
 
-      case 2:
-      {
-        PieNam const to = GetPieNamIndex(tok[0],tok[1]);
-        if (handle_chameleon_reborn_piece(is_implicit,sequence,from,to,tok))
-          from = to;
-        else
-          return tok;
-        break;
-      }
-
-      default:
-        return tok;
-    }
+    if (to==PieceCount)
+      break;
+    else if (handle_chameleon_reborn_piece(is_implicit,sequence,from,to,tok))
+      from = to;
+    else
+      break;
   }
 
-  return 0; /* avoid compiler warning */
+  return tok;
 }
 
-static char *ReadPieces(int condition)
+static char *ReadPieces(Cond condition)
 {
-  PieNam tmp_piece;
-  char  *tok;
-  boolean   piece_read= false;
+  char *tok = ReadNextTokStr();
+  boolean piece_read = false;
 
   fflush(stdout);
+
   while (true)
   {
-    tok = ReadNextTokStr();
-    switch (strlen(tok)) {
-    case 1:
-      tmp_piece= GetPieNamIndex(*tok,' ');
-      piece_read= true;
+    PieNam tmp_piece;
+    tok = ParseSinglePiece(tok,&tmp_piece);
+
+    TracePiece(tmp_piece);TraceValue("%s",tok);TraceEOL();
+
+    if (tmp_piece==PieceCount)
       break;
-    case 2:
-      tmp_piece= GetPieNamIndex(*tok,tok[1]);
-      piece_read= true;
-      break;
-    default:
-      if (!piece_read && condition != football) {
-        CondFlag[condition]= false;
-        IoErrorMsg(WrongPieceName,0);
+    else
+      piece_read = true;
+
+    switch (condition)
+    {
+      case promotiononly:
+        promonly[tmp_piece] = true;
+        break;
+
+      case football:
+        is_football_substitute[tmp_piece] = true;
+        football_are_substitutes_limited = true;
+        break;
+
+      case april:
+        is_april_kind[tmp_piece] = true;
+        break;
+
+      default:
+        /* Never mind ... */
+        break;
       }
-      return tok;
-    }
-    if (!tmp_piece && condition != football) {
-      IoErrorMsg(WrongPieceName,0);
-      break;
-    }
-    switch (condition) {
-    case promotiononly:
-      promonly[tmp_piece]= true;
-      break;
-    case football:
-      is_football_substitute[tmp_piece]= true;
-      football_are_substitutes_limited = true;
-      break;
-    case april:
-      is_april_kind[tmp_piece]= true;
-      break;
-    default:
-      /* Never mind ... */
-      break;
-    }
   }
+
+  if (!piece_read && condition!=football)
+  {
+    CondFlag[condition] = false;
+    IoErrorMsg(WrongPieceName,0);
+  }
+
   return tok;
 }
 
@@ -779,7 +852,7 @@ char *ParseCond(void)
         ReadSquares(ReadWhRoyalSq);
         break;
       case magicsquare:
-        magic_square_type = magic_square_type1;
+        magic_square_type = ConditionType1;
         ReadSquares(MagicSq);
         break;
       case wormholes:
@@ -1030,21 +1103,18 @@ char *ParseCond(void)
         tok = ParseRex(&madrasi_is_rex_inclusive, rexincl);
         break;
       case isardam:
-        tok = ParseVariant(&IsardamB, gpType);
+        tok = ParseLetteredType(&isardam_variant,ConditionTypeB);
         break;
       case annan:
-        annan_type = annan_type_A;
-        tok = ParseVariant(NULL, gpAnnan);
+        tok = ParseLetteredType(&annan_type,ConditionTypeD);
         break;
       case kobulkings:
-        kobulking[White] = kobulking[Black] = true;
-        tok = ParseVariant(kobulking, gpColour);
-        if (!kobulking[White] && !kobulking[Black])
-          kobulking[White] = kobulking[Black] = true;
+        kobul_who[White] = true;
+        kobul_who[Black] = true;
+        tok = ParseKobulSides(&kobul_who);
         break;
       case sentinelles:
-        SentPionNeutral=false;
-        tok = ParseVariant(&SentPionAdverse, gpSentinelles);
+        tok = ParseSentinellesVariants();
         break;
 
         /*****  exact-maxis  *****/
@@ -1135,26 +1205,20 @@ char *ParseCond(void)
       case antiequipollents:
       case antisuper:
       {
-        boolean AntiCirCheylan;
-        tok = ParseVariant(&AntiCirCheylan, gpAntiCirce);
-        AntiCirceType = AntiCirCheylan ? AntiCirceTypeCheylan : AntiCirceTypeCalvet;
+        tok = ParseAnticirceVariant(&AntiCirceType);
         break;
       }
       case singlebox:
-        tok = ParseVariant(NULL, gpType);
+        tok = ParseNumberedType(&SingleBoxType,ConditionType1,ConditionType3);
         break;
       case republican:
       {
-        boolean RepublicanType1 = false;
-        tok = ParseVariant(&RepublicanType1, gpRepublican);
-        RepublicanType = RepublicanType1 ? republican_type1 : republican_type2;
+        tok = ParseNumberedType(&RepublicanType,ConditionType2,ConditionType2);
         break;
       }
       case magicsquare:
       {
-        boolean MagicSquaresType2 = false;
-        tok = ParseVariant(&MagicSquaresType2, gpMagicSquare);
-        magic_square_type = MagicSquaresType2 ? magic_square_type2 : magic_square_type1;
+        tok = ParseNumberedType(&magic_square_type,ConditionType1,ConditionType2);
         break;
       }
       case promotiononly:
@@ -1175,26 +1239,24 @@ char *ParseCond(void)
       case koeko:
         koeko_nocontact= &nokingcontact;
         nocontactfunc_parsed= &koeko_nocontact;
-        tok = ParseVariant(NULL, gpKoeko);
+        tok = ParseKoekoVariant();
         break;
       case antikoeko:
         antikoeko_nocontact= nokingcontact;
         nocontactfunc_parsed= &antikoeko_nocontact;
-        tok = ParseVariant(NULL, gpKoeko);
+        tok = ParseKoekoVariant();
         break;
       case white_oscillatingKs:
-        OscillatingKingsSide= White;
-        tok = ParseVariant(NULL, gpOsc);
+        tok = ParseLetteredType(&OscillatingKings[White],ConditionTypeC);
         break;
       case black_oscillatingKs:
-        OscillatingKingsSide= Black;
-        tok = ParseVariant(NULL, gpOsc);
+        tok = ParseLetteredType(&OscillatingKings[Black],ConditionTypeC);
         break;
       case swappingkings:
         CondFlag[white_oscillatingKs]= true;
-        OscillatingKingsTypeC[White]= true;
+        OscillatingKings[White]= ConditionTypeC;
         CondFlag[black_oscillatingKs]= true;
-        OscillatingKingsTypeC[Black]= true;
+        OscillatingKings[Black]= ConditionTypeC;
         tok = ReadNextTokStr();
         break;
       case SAT:
@@ -1247,7 +1309,7 @@ char *ParseCond(void)
         tok = ParseVaultingPieces(no_side);
         break;
       case gridchess:
-        tok = ParseVariant(NULL, gpGrid);
+        tok = ParseGridVariant();
         break;
       default:
         tok = ReadNextTokStr();
@@ -1279,7 +1341,7 @@ void InitCond(void)
   anygeneva = false;
   anyparrain= false;
 
-  AntiCirceType = VariantTypeCount;
+  AntiCirceType = AntiCirceVariantTypeCount;
 
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;
@@ -1288,7 +1350,7 @@ void InitCond(void)
   royal_square[Black] = initsquare;
 
   CondFlag[circeassassin]= false;
-  flagparasent= false;
+  sentinelles_is_para= false;
   madrasi_is_rex_inclusive = false;
   circe_is_rex_inclusive = false;
   immune_is_rex_inclusive = false;
@@ -1301,7 +1363,7 @@ void InitCond(void)
   sentinelles_max_nr_pawns[Black] = 8;
   sentinelles_max_nr_pawns[White] = 8;
   sentinelles_max_nr_pawns_total = 16;
-  sentinelle = Pawn;
+  sentinelle_walk = Pawn;
 
   grid_type = grid_normal;
   numgridlines = 0;
@@ -1350,10 +1412,8 @@ void InitCond(void)
   memset((char *) is_april_kind,0,sizeof(is_april_kind));
   koeko_nocontact= nokingcontact;
   antikoeko_nocontact= nokingcontact;
-  OscillatingKingsTypeB[White]= false;
-  OscillatingKingsTypeB[Black]= false;
-  OscillatingKingsTypeC[White]= false;
-  OscillatingKingsTypeC[Black]= false;
+  OscillatingKings[White]= ConditionTypeA;
+  OscillatingKings[Black]= ConditionTypeA;
 
   BGL_values[White] = BGL_infinity;
   BGL_values[Black] = BGL_infinity;
@@ -1364,6 +1424,6 @@ void InitCond(void)
 
   reset_king_vaulters();
 
-  kobulking[White] = false;
-  kobulking[Black] = false;
+  kobul_who[White] = false;
+  kobul_who[Black] = false;
 } /* InitCond */

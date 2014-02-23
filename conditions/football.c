@@ -36,7 +36,7 @@ void init_football_substitutes(void)
 
  if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
     first_candidate = King;
-  else if ((CondFlag[singlebox] && SingleBoxType!=singlebox_type1) || CondFlag[football])
+  else if ((CondFlag[singlebox] && SingleBoxType!=ConditionType1) || CondFlag[football])
     first_candidate = Pawn;
   else
     first_candidate = Queen;

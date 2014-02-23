@@ -225,37 +225,24 @@ typedef enum
   ExtraCondCount    /* 2 */
 } ExtraCond;
 
-/* for multiple variants of conditions */
 typedef enum
 {
-  TypeB,                   /* 0 */
-  PionAdverse,             /* 1 */
-  AntiCirceTypeCheylan,    /* 2 */
-  AntiCirceTypeCalvet,     /* 3 */
-  PionNeutral,             /* 4 */
-  PionNoirMaximum,         /* 5 */
-  PionBlancMaximum,        /* 6 */
-  ParaSent,                /* 7 */
-  PionTotalMaximum,        /* 8 */
-  SentBerolina,            /* 9 */
-  Type1,                  /* 10 */
-  Type2,                  /* 11 */
-  Type3,                  /* 12 */
-  Neighbour,              /* 13 */
-  TypeC,                  /* 14 */
-  TypeD,                  /* 15 */
-  ShiftRank,              /* 16 */
-  ShiftFile,              /* 17 */
-  ShiftRankFile,          /* 18 */
-  Orthogonal,             /* 19 */
-  Irregular,              /* 20 */
-  ExtraGridLines,         /* 21 */
-  Transmuting,            /* 22 */
-  WhiteOnly,            /* 23 */
-  BlackOnly,            /* 24 */
+  ConditionTypeA,
+  ConditionTypeB,
+  ConditionTypeC,
+  ConditionTypeD,
 
-  VariantTypeCount        /* 25 */
-} VariantType;
+  ConditionLetteredVariantTypeCount
+} ConditionLetteredVariantType;
+
+typedef enum
+{
+  ConditionType1,
+  ConditionType2,
+  ConditionType3,
+
+  ConditionNumberedVariantTypeCount
+} ConditionNumberedVariantType;
 
 extern boolean CondFlag[CondCount];
 extern boolean ExtraCondFlag[ExtraCondCount];

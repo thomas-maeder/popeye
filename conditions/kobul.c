@@ -9,7 +9,7 @@
 
 #include "debugging/assert.h"
 
-boolean kobulking[nr_sides];
+boolean kobul_who[nr_sides];
 
 enum
 {
@@ -23,7 +23,7 @@ static void substitute(Side trait_ply)
   square const king_pos = king_square[advers(trait_ply)];
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && kobulking[advers(trait_ply)]
+      && kobul_who[advers(trait_ply)]
       && king_pos!=initsquare
       && king_pos!=nullsquare)
   {

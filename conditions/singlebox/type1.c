@@ -13,7 +13,7 @@
 
 #include "debugging/assert.h"
 
-singlebox_type_type SingleBoxType;
+ConditionNumberedVariantType SingleBoxType;
 
 static boolean singlebox_officer_out_of_box(void)
 {

@@ -13,11 +13,11 @@
 unsigned int sentinelles_max_nr_pawns[nr_sides];
 unsigned int sentinelles_max_nr_pawns_total;
 
-PieNam sentinelle;
+PieNam sentinelle_walk;
 
-boolean SentPionAdverse;
-boolean SentPionNeutral;
-boolean flagparasent;
+sentinelles_pawn_mode_type sentinelles_pawn_mode;
+
+boolean sentinelles_is_para;
 
 static void insert_sentinelle(Side trait_ply)
 {
@@ -33,34 +33,35 @@ static void insert_sentinelle(Side trait_ply)
       && !is_pawn(pi_departing)
       && is_square_empty(sq_departure))
   {
-    if (SentPionNeutral && is_piece_neutral(spec_pi_moving))
+    if (sentinelles_pawn_mode==sentinelles_pawn_neutre
+        && is_piece_neutral(spec_pi_moving))
     {
       Flags const sentinelle_spec = all_pieces_flags|NeutralMask;
       move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,
                                             sq_departure,
-                                            sentinelle,
+                                            sentinelle_walk,
                                             sentinelle_spec);
     }
     else
     {
-      Side sentinelle_side = SentPionAdverse ? advers(trait_ply) : trait_ply;
+      Side sentinelle_side = sentinelles_pawn_mode==sentinelles_pawn_adverse ? advers(trait_ply) : trait_ply;
 
-      if (flagparasent)
+      if (sentinelles_is_para)
       {
-        unsigned int prev_nr_other_sentinelles = number_of_pieces[advers(sentinelle_side)][sentinelle];
+        unsigned int prev_nr_other_sentinelles = number_of_pieces[advers(sentinelle_side)][sentinelle_walk];
         PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
 
-        if (pi_captured==sentinelle)
+        if (pi_captured==sentinelle_walk)
           ++prev_nr_other_sentinelles;
 
-        if (number_of_pieces[sentinelle_side][sentinelle]>prev_nr_other_sentinelles)
+        if (number_of_pieces[sentinelle_side][sentinelle_walk]>prev_nr_other_sentinelles)
           sentinelle_side = no_side;
       }
 
       if (sentinelle_side!=no_side)
       {
-        if (number_of_pieces[sentinelle_side][sentinelle]+1>sentinelles_max_nr_pawns[sentinelle_side]
-            || number_of_pieces[White][sentinelle]+number_of_pieces[Black][sentinelle]+1 > sentinelles_max_nr_pawns_total)
+        if (number_of_pieces[sentinelle_side][sentinelle_walk]+1>sentinelles_max_nr_pawns[sentinelle_side]
+            || number_of_pieces[White][sentinelle_walk]+number_of_pieces[Black][sentinelle_walk]+1 > sentinelles_max_nr_pawns_total)
           sentinelle_side = no_side;
       }
 
@@ -69,7 +70,7 @@ static void insert_sentinelle(Side trait_ply)
         Flags const sentinelle_spec = all_pieces_flags|BIT(sentinelle_side);
         move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,
                                               sq_departure,
-                                              sentinelle,
+                                              sentinelle_walk,
                                               sentinelle_spec);
       }
     }

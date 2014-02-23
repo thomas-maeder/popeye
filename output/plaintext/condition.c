@@ -33,6 +33,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
 #include "conditions/woozles.h"
+#include "debugging/assert.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -151,8 +152,9 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       continue;
 
     /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
-    if (((cond == white_oscillatingKs) && OscillatingKingsTypeC[White]) ||
-        ((cond == black_oscillatingKs) && OscillatingKingsTypeC[Black])) {
+    if ((cond==white_oscillatingKs && OscillatingKings[White]==ConditionTypeC)
+        || (cond==black_oscillatingKs && OscillatingKings[Black]==ConditionTypeC))
+    {
       if (CondFlag[swappingkings])
         continue;
     }
@@ -179,7 +181,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         && ExtraCondFlag[ultraschachzwang])
       written = append_to_CondLine(&CondLine,0, "%s", ExtraCondTab[ultraschachzwang]);
 
-    if (cond == sentinelles && flagparasent)
+    if (cond == sentinelles && sentinelles_is_para)
       written = append_to_CondLine(&CondLine,0,"Para%s",CondTab[cond]);
 
     if (cond == koeko || cond == antikoeko)
@@ -232,9 +234,9 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
     if (cond==kobulkings)
     {
-      if (!kobulking[White])
+      if (!kobul_who[White])
         written += append_to_CondLine(&CondLine,written," %s","Black");
-      if (!kobulking[Black])
+      if (!kobul_who[Black])
         written += append_to_CondLine(&CondLine,written," %s","White");
     }
 
@@ -328,8 +330,8 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
     if (cond == magicsquare) {
       square  i;
-      if (magic_square_type==magic_square_type2)
-        written += append_to_CondLine(&CondLine,written, " %s", VariantTypeString[UserLanguage][Type2]);
+      if (magic_square_type==ConditionType2)
+        written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
 
       for (i= square_a1; i <= square_h8; i++) {
         if (TSTFLAG(sq_spec[i], MagicSq))
@@ -417,23 +419,27 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       written += append_to_CondLine_chameleon_sequence(&CondLine,written,
                                                        chameleon_walk_sequence);
 
-    if (cond==isardam && IsardamB)
-      written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][TypeB]);
+    if (cond==isardam && isardam_variant==ConditionTypeB)
+      written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
 
     if (cond == annan)
     {
       switch (annan_type)
       {
-        case annan_type_A:
+        case ConditionTypeA:
           break;
-        case annan_type_B:
-          written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][TypeB]);
+        case ConditionTypeB:
+          written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
           break;
-        case annan_type_C:
-          written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][TypeC]);
+        case ConditionTypeC:
+          written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
           break;
-        case annan_type_D:
-          written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][TypeD]);
+        case ConditionTypeD:
+          written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeD]);
+          break;
+
+        default:
+          assert(0);
           break;
       }
     }
@@ -446,67 +452,67 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           /* nothing */
           break;
         case grid_vertical_shift:
-          written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][ShiftRank]);
+          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRank]);
           break;
         case grid_horizontal_shift:
-          written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][ShiftFile]);
+          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftFile]);
           break;
         case grid_diagonal_shift:
-          written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][ShiftRankFile]);
+          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRankFile]);
           break;
         case grid_orthogonal_lines:
-          written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][Orthogonal]);
+          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantOrthogonal]);
           /* to do - write lines */
           break;
         case grid_irregular:
-          written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][Irregular]);
+          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantIrregular]);
           /* to do - write squares */
           break;
       }
     }
 
-    if (cond==white_oscillatingKs && OscillatingKingsTypeB[White])
-      written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][TypeB]);
+    if (cond==white_oscillatingKs && OscillatingKings[White]==ConditionTypeB)
+      written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
 
-    if (cond==black_oscillatingKs && OscillatingKingsTypeB[Black])
-      written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][TypeB]);
+    if (cond==black_oscillatingKs && OscillatingKings[Black]==ConditionTypeB)
+      written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
 
     if (cond==white_oscillatingKs
-        && OscillatingKingsTypeC[White]
+        && OscillatingKings[White]==ConditionTypeC
         && ! CondFlag[swappingkings])
-      written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][TypeC]);
+      written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
 
     if (cond==black_oscillatingKs
-        && OscillatingKingsTypeC[Black]
+        && OscillatingKings[Black]==ConditionTypeC
         && !CondFlag[swappingkings])
-      written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][TypeC]);
+      written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
 
     if (cond==singlebox)
     {
-      if (SingleBoxType==singlebox_type1)
-        written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][Type1]);
-      if (SingleBoxType==singlebox_type2)
-        written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][Type2]);
-      if (SingleBoxType==singlebox_type3)
-        written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][Type3]);
+      if (SingleBoxType==ConditionType1)
+        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
+      if (SingleBoxType==ConditionType2)
+        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
+      if (SingleBoxType==ConditionType3)
+        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType3]);
     }
 
     if (cond == republican)
     {
-      if (RepublicanType==republican_type1)
-        written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][Type1]);
-      if (RepublicanType==republican_type2)
-        written += append_to_CondLine(&CondLine,written,"    %s",VariantTypeString[UserLanguage][Type2]);
+      if (RepublicanType==ConditionType1)
+        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
+      if (RepublicanType==ConditionType2)
+        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
     }
 
     if (cond == sentinelles)
     {
-      if (sentinelle == BerolinaPawn)
+      if (sentinelle_walk == BerolinaPawn)
         written += append_to_CondLine(&CondLine,written," %s","Berolina");
-      if (SentPionAdverse)
-        written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][PionAdverse]);
-      if (SentPionNeutral)
-        written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][PionNeutral]);
+      if (sentinelles_pawn_mode==sentinelles_pawn_adverse)
+        written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionAdverse]);
+      if (sentinelles_pawn_mode==sentinelles_pawn_neutre)
+        written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionNeutral]);
       if (sentinelles_max_nr_pawns[Black] !=8 || sentinelles_max_nr_pawns[White] != 8)
       {
         written += append_to_CondLine(&CondLine,written," %u",sentinelles_max_nr_pawns[White]);
@@ -538,7 +544,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       case antisuper:
         /* AntiCirceTypeCalvet is default in AntiCirce */
         if (AntiCirceType!=AntiCirceTypeCalvet)
-          written += append_to_CondLine(&CondLine,written,"  %s",VariantTypeString[UserLanguage][AntiCirceType]);
+          written += append_to_CondLine(&CondLine,written,"  %s",AntiCirceVariantTypeString[UserLanguage][AntiCirceType]);
         break;
 
       case blmax:

@@ -6,6 +6,8 @@
 
 int GetPieNamIndex(char a, char b);
 
+char *ParseSinglePiece(char *tok, PieNam *result);
+
 square SquareNum(char a, char b);
 
 typedef enum

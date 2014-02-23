@@ -648,7 +648,7 @@ void output_plaintext_write_move(void)
   se_move(mov);
 #endif
 
-  if (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+  if (CondFlag[singlebox] && SingleBoxType==ConditionType3)
     write_singlebox_type3_promotion();
 
   context_open(&context,"","");

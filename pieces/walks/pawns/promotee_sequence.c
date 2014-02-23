@@ -58,7 +58,7 @@ static void init_promotee_sequence(pieces_pawns_promotee_sequence_selector_type 
           is_promotee[p] = true;
     }
 
-    if (CondFlag[singlebox] && SingleBoxType!=singlebox_type1)
+    if (CondFlag[singlebox] && SingleBoxType!=ConditionType1)
     {
       is_promotee[(*standard_walks)[Pawn]] = true;
 

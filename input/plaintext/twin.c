@@ -100,7 +100,14 @@ static void ReadBeginSpec(void)
         OptTab= &OptString[UserLanguage][0];
         CondTab= &CondString[UserLanguage][0];
         TwinningTab= &TwinningString[UserLanguage][0];
-        VariantTypeTab= &VariantTypeString[UserLanguage][0];
+        VaultingVariantTypeTab = &VaultingVariantTypeString[UserLanguage][0];
+        ConditionLetteredVariantTypeTab = &ConditionLetteredVariantTypeString[UserLanguage][0];
+        ConditionNumberedVariantTypeTab = &ConditionNumberedVariantTypeString[UserLanguage][0];
+        AntiCirceVariantTypeTab = &AntiCirceVariantTypeString[UserLanguage][0];
+        SentinellesVariantTypeTab = &SentinellesVariantTypeString[UserLanguage][0];
+        GridVariantTypeTab = &GridVariantTypeString[UserLanguage][0];
+        KobulVariantTypeTab = &KobulVariantTypeString[UserLanguage][0];
+        KoekoVariantTypeTab = &KoekoVariantTypeString[UserLanguage][0];
         ExtraCondTab= &ExtraCondString[UserLanguage][0];
         mummer_strictness_tab = &mummer_strictness_string[UserLanguage][0];
         PieceTab= PieNamString[UserLanguage];
@@ -608,52 +615,39 @@ static char *ParseTwinningPolish(void)
 
 static char *ParseTwinningSubstitute(void)
 {
-  PieNam p_old, p_new;
-  char  *tok;
+  char *tok = ReadNextTokStr();
 
-  tok = ReadNextTokStr();
-  switch (strlen(tok))
-  {
-  case 1:
-    p_old= GetPieNamIndex(*tok,' ');
-    break;
-  case 2:
-    p_old= GetPieNamIndex(*tok,tok[1]);
-    break;
-  default:
+  PieNam p_old;
+  tok = ParseSinglePiece(tok,&p_old);
+
+  if (p_old==PieceCount)
     IoErrorMsg(WrongPieceName,0);
-    return tok;
-  }
-
-  tok = ReadNextTokStr();
-  switch (strlen(tok))
+  else
   {
-  case 1:
-    p_new= GetPieNamIndex(*tok,' ');
-    break;
-  case 2:
-    p_new= GetPieNamIndex(*tok,tok[1]);
-    break;
-  default:
-    IoErrorMsg(WrongPieceName,0);
-    return tok;
+    PieNam p_new;
+    tok = ParseSinglePiece(tok,&p_new);
+
+    if (p_new==PieceCount)
+      IoErrorMsg(WrongPieceName,0);
+    else
+    {
+      if (LaTeXout)
+        LaTeXEchoSubstitutedPiece(p_old,p_new);
+
+      WritePiece(p_old);
+      StdString(" ==> ");
+      WritePiece(p_new);
+
+      {
+        square const *bnp;
+        for (bnp = boardnum; *bnp; bnp++)
+          if (get_walk_of_piece_on_square(*bnp)==p_old)
+            replace_piece(*bnp,p_new);
+      }
+    }
   }
 
-  if (LaTeXout)
-    LaTeXEchoSubstitutedPiece(p_old,p_new);
-
-  WritePiece(p_old);
-  StdString(" ==> ");
-  WritePiece(p_new);
-
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
-      if (get_walk_of_piece_on_square(*bnp)==p_old)
-        replace_piece(*bnp,p_new);
-  }
-
-  return ReadNextTokStr();
+  return tok;
 }
 
 static square NextSquare(square sq)
@@ -1316,7 +1310,7 @@ static void initPieces(void)
     may_exist[standard_walks[p]] = true;
 
   if (CondFlag[sentinelles])
-    may_exist[sentinelle] = true;
+    may_exist[sentinelle_walk] = true;
 
   if (CondFlag[chinoises])
     for (p = Leo; p<=Vao; ++p)
@@ -2267,8 +2261,8 @@ static boolean verify_position(slice_index si)
     else
       disable_orthodox_mating_move_optimisation(nr_sides);
   }
-  if (CondFlag[black_oscillatingKs] && OscillatingKingsTypeC[White]
-      && CondFlag[white_oscillatingKs] && OscillatingKingsTypeC[White])
+  if (CondFlag[black_oscillatingKs] && OscillatingKings[White]==ConditionTypeC
+      && CondFlag[white_oscillatingKs] && OscillatingKings[White]==ConditionTypeC)
     CondFlag[swappingkings] = true;
 
   if (anymars || anyantimars || CondFlag[phantom])
@@ -2328,7 +2322,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[koeko]
         || CondFlag[newkoeko]
         || CondFlag[antikoeko]
-        || (CondFlag[singlebox] && SingleBoxType==singlebox_type1)
+        || (CondFlag[singlebox] && SingleBoxType==ConditionType1)
         || CondFlag[geneva]
         || TSTFLAG(some_pieces_flags, Kamikaze))
     {
@@ -2477,7 +2471,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[woozles] || CondFlag[biwoozles]
       || CondFlag[heffalumps] || CondFlag[biheffalumps]
       || (CondFlag[singlebox]
-          && (SingleBoxType==singlebox_type1 || SingleBoxType==singlebox_type3))
+          && (SingleBoxType==ConditionType1 || SingleBoxType==ConditionType3))
       || CondFlag[football]
       || CondFlag[wormholes])
     disable_orthodox_mating_move_optimisation(nr_sides);
@@ -2497,7 +2491,7 @@ static boolean verify_position(slice_index si)
 
     if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
       firstprompiece = King;
-    else if ((CondFlag[singlebox] && SingleBoxType!=singlebox_type1) || CondFlag[football])
+    else if ((CondFlag[singlebox] && SingleBoxType!=ConditionType1) || CondFlag[football])
       firstprompiece = Pawn;
     else
       firstprompiece = Queen;
@@ -2577,7 +2571,7 @@ static boolean verify_position(slice_index si)
     king_capture_avoiders_avoid_own();
   }
 
-  if ((CondFlag[singlebox]  && SingleBoxType==singlebox_type1))
+  if ((CondFlag[singlebox]  && SingleBoxType==ConditionType1))
   {
     if (flagfee)
     {
@@ -2613,7 +2607,7 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (((CondFlag[isardam] && !IsardamB) || CondFlag[brunner])
+  if (((CondFlag[isardam] && isardam_variant==ConditionTypeA) || CondFlag[brunner])
       && CondFlag[vogt])
   {
     VerifieMsg(VogtlanderandIsardam);
@@ -2745,7 +2739,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[kobulkings]
       || may_exist[UbiUbi] /* sorting by nr of opponents moves doesn't work - why?? */
       || may_exist[Hunter0] /* ditto */
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
+      || (CondFlag[singlebox] && SingleBoxType==ConditionType3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(White);
 
   if (mummer_strictness[Black]!=mummer_strictness_none /* counting opponents moves not useful */
@@ -2767,7 +2761,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[kobulkings]
       || may_exist[UbiUbi] /* sorting by nr of opponents moves doesn't work  - why?? */
       || may_exist[Hunter0] /* ditto */
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)) /* ditto */
+      || (CondFlag[singlebox] && SingleBoxType==ConditionType3)) /* ditto */
     disable_countnropponentmoves_defense_move_optimisation(Black);
 
   if (CondFlag[takemake])
@@ -2778,7 +2772,7 @@ static boolean verify_position(slice_index si)
 
   if (mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[messigny]
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+      || (CondFlag[singlebox] && SingleBoxType==ConditionType3)
       || CondFlag[whsupertrans_king]
       || CondFlag[blsupertrans_king]
       || CondFlag[takemake]
@@ -2789,7 +2783,7 @@ static boolean verify_position(slice_index si)
     disable_killer_move_optimisation(Black);
   if (mummer_strictness[White]!=mummer_strictness_none
       || CondFlag[messigny]
-      || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+      || (CondFlag[singlebox] && SingleBoxType==ConditionType3)
       || CondFlag[whsupertrans_king]
       || CondFlag[blsupertrans_king]
       || CondFlag[takemake]

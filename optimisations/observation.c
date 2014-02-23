@@ -304,7 +304,7 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
   if (slices[si].starter==*side)
   {
     if (CondFlag[whvault_king] || CondFlag[blvault_king]
-        || (CondFlag[singlebox] && SingleBoxType==singlebox_type3))
+        || (CondFlag[singlebox] && SingleBoxType==ConditionType3))
       /* no optimisation */ ;
     else if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
         || CondFlag[bicolores]
@@ -349,7 +349,7 @@ static void optimise_side(slice_index si, Side side)
         || CondFlag[amu]
         || CondFlag[woozles] || CondFlag[biwoozles]
         || CondFlag[heffalumps] || CondFlag[biheffalumps]
-        || (CondFlag[singlebox] && SingleBoxType==singlebox_type3)
+        || (CondFlag[singlebox] && SingleBoxType==ConditionType3)
         || CondFlag[mars] || CondFlag[phantom] || CondFlag[plus]
         || TSTFLAG(some_pieces_flags,Magic)))
   {

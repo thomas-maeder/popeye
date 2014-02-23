@@ -14,7 +14,7 @@
 
 #include "debugging/assert.h"
 
-VariantType AntiCirceType;
+AntiCirceVariantType AntiCirceType;
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -10,11 +10,20 @@
 extern unsigned int sentinelles_max_nr_pawns[nr_sides];
 extern unsigned int sentinelles_max_nr_pawns_total;
 
-extern PieNam sentinelle;
+extern PieNam sentinelle_walk;
 
-extern boolean SentPionAdverse;
-extern boolean SentPionNeutral;
-extern boolean flagparasent;
+typedef enum
+{
+  sentinelles_pawn_propre,
+  sentinelles_pawn_adverse,
+  sentinelles_pawn_neutre,
+
+  nr_sentinelles_pawn_modes
+} sentinelles_pawn_mode_type;
+
+extern sentinelles_pawn_mode_type sentinelles_pawn_mode;
+
+extern boolean sentinelles_is_para;
 
 /* Try to solve in n half-moves.
  * @param si slice index

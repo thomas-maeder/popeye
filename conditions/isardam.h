@@ -3,9 +3,10 @@
 
 /* This module implements Isardam */
 
+#include "conditions/conditions.h"
 #include "solving/solve.h"
 
-extern boolean IsardamB;
+extern ConditionLetteredVariantType isardam_variant;
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

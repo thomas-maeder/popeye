@@ -477,9 +477,9 @@ PieTable PieNamString[LanguageCount] =
 /* later set according to language */
 PieceChar *PieceTab = PieNamString[German];
 
-char const * *OptTab;
+char const * const *OptTab;
 
-char const *OptString[LanguageCount][OptCount] =
+char const * const OptString[LanguageCount][OptCount] =
 {
   {
   /* Francais French Franzoesisch */
@@ -598,9 +598,9 @@ char const *OptString[LanguageCount][OptCount] =
   }
 };
 
-char const **CondTab;
+char const * const *CondTab;
 
-char const *CondString[LanguageCount][CondCount] =
+char const * const CondString[LanguageCount][CondCount] =
 {
   {
     /* French Condition Names */
@@ -1193,9 +1193,9 @@ char const *CondString[LanguageCount][CondCount] =
   }
 };
 
-char const **ColorTab;
+char const * const *ColorTab;
 
-char const *ColorString[LanguageCount][nr_colors] =
+char const * const ColorString[LanguageCount][nr_colors] =
 {
   {
      /* French */
@@ -1218,9 +1218,9 @@ char const *ColorString[LanguageCount][nr_colors] =
 };
 
 
-char const **PieSpTab;
+char const * const *PieSpTab;
 
-char const *PieSpString[LanguageCount][PieSpCount-nr_sides] =
+char const * const PieSpString[LanguageCount][PieSpCount-nr_sides] =
 {
   {
     /* French */
@@ -1276,97 +1276,194 @@ char const *PieSpString[LanguageCount][PieSpCount-nr_sides] =
 };
 
 
-char const **VariantTypeTab;
+char const * const *VaultingVariantTypeTab;
 
-char const *VariantTypeString[LanguageCount][VariantTypeCount] =
+char const * const VaultingVariantTypeString[LanguageCount][1] =
 {
   {
-  /* French */
-  /* 0*/  "TypeB",
-  /* 1*/  "PionAdvers",
-  /* 2*/  "Cheylan",
-  /* 3*/  "Calvet",
-  /* 4*/  "PionNeutre",
-  /* 5*/  "MaximumNoir",
-  /* 6*/  "MaximumBlanc",
-    /* 7*/  "ParaSentinelles",
-    /* 8*/  "MaximumTotal",
-  /* 9*/  "Berolina",
-  /*10*/  "Type1",
-  /*11*/  "Type2",
-  /*12*/  "Type3",
-  /*13*/  "Voisin",
-  /*14*/  "TypeC",
-  /*15*/  "TypeD",
-  /*16*/  "VerticalDecalage",
-  /*17*/  "HorizontalDecalage",
-  /*18*/  "DiagonalDecalage",
-  /*19*/  "Orthogonale",
-  /*20*/  "Irreguliere",
-  /*21*/  "LigneGrille",
-  /*22*/  "Transmute",
-  /*23*/  "Blancs",
-  /*24*/ "Noirs"
+    /* French */
+    "Transmute"
   },{
-  /* German */
-  /* 0*/  "TypB",
-  /* 1*/  "PionAdvers",
-  /* 2*/  "Cheylan",
-  /* 3*/  "Calvet",
-  /* 4*/  "PionNeutre",
-  /* 5*/  "MaximumSchwarz",
-  /* 6*/  "MaximumWeiss",
-    /* 7*/  "ParaSentinelles",
-    /* 8*/  "MaximumTotal",
-  /* 9*/  "Berolina",
-  /*10*/  "Typ1",
-  /*11*/  "Typ2",
-  /*12*/  "Typ3",
-  /*13*/  "Nachbar",
-  /*14*/  "TypC",
-  /*15*/  "TypD",
-  /*16*/  "VertikalVerschieben",
-  /*17*/  "HorizontalVerschieben",
-  /*18*/  "DiagonalVerschieben",
-  /*19*/  "Orthogonal",
-  /*20*/  "Unregelmaessig",
-  /*21*/  "GitterLinie",
-  /*22*/  "Transmutierende",
-  /*23*/  "Weiss",
-  /*24*/ "Schwarz"
+    /* German */
+    "Transmutierende"
   },{
-  /* English */
-  /* 0*/  "TypeB",
-  /* 1*/  "PionAdvers",
-  /* 2*/  "Cheylan",
-  /* 3*/  "Calvet",
-  /* 4*/  "PionNeutre",
-  /* 5*/  "MaximumBlack",
-  /* 6*/  "MaximumWhite",
-    /* 7*/  "ParaSentinelles",
-    /* 8*/  "MaximumTotal",
-  /* 9*/  "Berolina",
-  /*10*/  "Type1",
-  /*11*/  "Type2",
-  /*12*/  "Type3",
-  /*13*/  "Neighbour",
-  /*14*/  "TypeC",
-  /*15*/  "TypeD",
-  /*16*/  "VerticalShift",
-  /*17*/  "HorizontalShift",
-  /*18*/  "DiagonalShift",
-  /*19*/  "Orthogonal",
-  /*20*/  "Irregular",
-  /*21*/  "GridLine",
-  /*22*/  "Transmuting",
-  /*23*/  "White",
-  /*24*/ "Black"
+    /* English */
+    "Transmuting"
   }
 };
 
-char const **ExtraCondTab;
+char const * const *ConditionLetteredVariantTypeTab;
 
-char const *ExtraCondString[LanguageCount][ExtraCondCount] =
+char const * const ConditionLetteredVariantTypeString[LanguageCount][ConditionLetteredVariantTypeCount] =
+{
+  {
+    /* French */
+    "TypeA",
+    "TypeB",
+    "TypeC",
+    "TypeD"
+  },{
+    /* German */
+    "TypA",
+    "TypB",
+    "TypC",
+    "TypD"
+  },{
+    /* English */
+    "TypeA",
+    "TypeB",
+    "TypeC",
+    "TypeD"
+  }
+};
+
+char const * const *ConditionNumberedVariantTypeTab;
+
+char const * const ConditionNumberedVariantTypeString[LanguageCount][ConditionNumberedVariantTypeCount] =
+{
+  {
+    /* French */
+    "Type1",
+    "Type2",
+    "Type3"
+  },{
+    /* German */
+    "Typ1",
+    "Typ2",
+    "Typ3"
+  },{
+    /* English */
+    "Type1",
+    "Type2",
+    "Type3"
+  }
+};
+
+char const * const *AntiCirceVariantTypeTab;
+
+char const * const AntiCirceVariantTypeString[LanguageCount][AntiCirceVariantTypeCount] =
+{
+  {
+    /* French */
+     "Cheylan",
+     "Calvet"
+  },{
+    /* German */
+     "Cheylan",
+     "Calvet"
+  },{
+    /* English */
+     "Cheylan",
+     "Calvet"
+  }
+};
+
+char const * const *SentinellesVariantTypeTab;
+
+char const * const SentinellesVariantTypeString[LanguageCount][SentinellesVariantCount] =
+{
+  {
+    /* French */
+     "PionPropre",
+     "PionAdvers",
+     "PionNeutre",
+     "MaximumNoir",
+     "MaximumBlanc",
+     "MaximumTotal",
+     "ParaSentinelles",
+     "Berolina"
+  },{
+    /* German */
+     "PionPropre",
+     "PionAdvers",
+     "PionNeutre",
+     "MaximumSchwarz",
+     "MaximumWeiss",
+     "MaximumTotal",
+     "ParaSentinelles",
+     "Berolina"
+  },{
+    /* English */
+     "PionPropre",
+     "PionAdvers",
+     "PionNeutre",
+     "MaximumBlack",
+     "MaximumWhite",
+     "MaximumTotal",
+     "ParaSentinelles",
+     "Berolina"
+  }
+};
+
+char const * const *GridVariantTypeTab;
+
+char const * const GridVariantTypeString[LanguageCount][GridVariantCount] =
+{
+  {
+    /* French */
+    "VerticalDecalage",
+    "HorizontalDecalage",
+    "DiagonalDecalage",
+    "Orthogonale",
+    "Irreguliere",
+    "LigneGrille"
+  },{
+    /* German */
+    "VertikalVerschieben",
+    "HorizontalVerschieben",
+    "DiagonalVerschieben",
+    "Orthogonal",
+    "Unregelmaessig",
+    "GitterLinie"
+  },{
+    /* English */
+    "VerticalShift",
+    "HorizontalShift",
+    "DiagonalShift",
+    "Orthogonal",
+    "Irregular",
+    "GridLine"
+  }
+};
+
+char const * const *KobulVariantTypeTab;
+
+char const * const KobulVariantTypeString[LanguageCount][KobulVariantCount] =
+{
+  {
+    /* French */
+    "Blancs",
+    "Noirs"
+  },{
+    /* German */
+    "Weiss",
+    "Schwarz"
+  },{
+    /* English */
+    "White",
+    "Black"
+  }
+};
+
+char const * const *KoekoVariantTypeTab;
+
+char const * const KoekoVariantTypeString[LanguageCount][1] =
+{
+  {
+    /* French */
+    "Voisin"
+  },{
+    /* German */
+    "Nachbar"
+  },{
+    /* English */
+    "Neighbour"
+  }
+};
+
+char const * const *ExtraCondTab;
+
+char const * const ExtraCondString[LanguageCount][ExtraCondCount] =
 {
   {
   /* French */
@@ -1383,9 +1480,9 @@ char const *ExtraCondString[LanguageCount][ExtraCondCount] =
   }
 };
 
-char const **TwinningTab;
+char const * const *TwinningTab;
 
-char const *TwinningString[LanguageCount][TwinningCount] =
+char const * const TwinningString[LanguageCount][TwinningCount] =
 {
   { /* francais */
     /* 0*/  "deplacement",
@@ -1449,9 +1546,9 @@ char const *TwinningString[LanguageCount][TwinningCount] =
   }
 };
 
-char const **mummer_strictness_tab;
+char const * const *mummer_strictness_tab;
 
-char const *mummer_strictness_string[LanguageCount][nr_mummer_strictness] =
+char const * const mummer_strictness_string[LanguageCount][nr_mummer_strictness] =
 {
   {
   /* French */

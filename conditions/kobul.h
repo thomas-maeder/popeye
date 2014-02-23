@@ -6,7 +6,7 @@
 /* This module implements Kobul Kings.
  */
 
-extern boolean kobulking[nr_sides];
+extern boolean kobul_who[nr_sides];
 
 /* Try to solve in n half-moves.
  * @param si slice index

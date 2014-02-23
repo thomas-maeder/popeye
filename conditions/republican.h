@@ -2,16 +2,11 @@
 #define CONDITIONS_REPUBLICAN_H
 
 #include "solving/solve.h"
+#include "conditions/conditions.h"
 
 #include <stddef.h>
 
-typedef enum
-{
-  republican_type1,
-  republican_type2
-} republican_type_type;
-
-extern republican_type_type RepublicanType;
+extern ConditionNumberedVariantType RepublicanType;
 
 /* Perform the necessary verification steps for solving a Republican
  * Chess problem

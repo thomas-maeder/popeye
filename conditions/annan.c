@@ -10,7 +10,7 @@
 
 #include "debugging/assert.h"
 
-annan_type_type annan_type;
+ConditionLetteredVariantType annan_type;
 
 static boolean annanises(Side side, square rear, square front)
 {
@@ -25,19 +25,19 @@ static boolean annanises(Side side, square rear, square front)
   if (TSTFLAG(spec[rear],side))
     switch(annan_type)
     {
-      case annan_type_A:
+      case ConditionTypeA:
         result = true;
         break;
 
-      case annan_type_B:
+      case ConditionTypeB:
         result = rear!=king_square[side];
         break;
 
-      case annan_type_C:
+      case ConditionTypeC:
         result = front!=king_square[side];
         break;
 
-      case annan_type_D:
+      case ConditionTypeD:
         result = rear!=king_square[side] && front!=king_square[side];
         break;
 

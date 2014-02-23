@@ -1,18 +1,12 @@
 #if !defined(CONDITIONS_MAGIC_SQUARE_H)
 #define CONDITIONS_MAGIC_SQUARE_H
 
+#include "conditions/conditions.h"
 #include "solving/solve.h"
 
 /* This module implements the condition Magic squares */
 
-
-typedef enum
-{
-  magic_square_type1,
-  magic_square_type2
-} magic_square_type_type;
-
-extern magic_square_type_type magic_square_type;
+extern ConditionNumberedVariantType magic_square_type;
 
 /* Try to solve in n half-moves.
  * @param si slice index

@@ -7,9 +7,16 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/slice_type.h"
 #include "position/position.h"
-#include "conditions/conditions.h"
 
-extern VariantType AntiCirceType;
+typedef enum
+{
+  AntiCirceTypeCheylan,
+  AntiCirceTypeCalvet,
+
+  AntiCirceVariantTypeCount
+} AntiCirceVariantType;
+
+extern AntiCirceVariantType AntiCirceType;
 
 /* Try to solve in n half-moves.
  * @param si slice index

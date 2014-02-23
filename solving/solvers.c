@@ -294,15 +294,15 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[singlebox])
     switch (SingleBoxType)
     {
-      case singlebox_type1:
+      case ConditionType1:
         singlebox_type1_initialise_solving(result);
         break;
 
-      case singlebox_type2:
+      case ConditionType2:
         stip_insert_singlebox_type2(result);
         break;
 
-      case singlebox_type3:
+      case ConditionType3:
         stip_insert_singlebox_type3(result);
         break;
 
@@ -433,7 +433,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   {
     stip_insert_anticirce_strict(result);
 
-    if (CondFlag[magicsquare] && magic_square_type==magic_square_type2)
+    if (CondFlag[magicsquare] && magic_square_type==ConditionType2)
       stip_insert_magic_square_type2(result);
 
     if (CondFlag[antidiagramm])
@@ -485,7 +485,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[ghostchess])
     stip_insert_ghost_chess(result);
 
-  if (kobulking[White] || kobulking[Black])
+  if (kobul_who[White] || kobul_who[Black])
     stip_insert_kobul_king_substitutors(result);
 
   if (TSTFLAG(some_pieces_flags,HalfNeutral))

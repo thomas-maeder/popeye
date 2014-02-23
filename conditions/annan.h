@@ -1,6 +1,7 @@
 #if !defined(CONDITIONS_ANNAN_H)
 #define CONDITIONS_ANNAN_H
 
+#include "conditions/conditions.h"
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 #include "position/board.h"
@@ -8,15 +9,7 @@
 
 /* This module implements the condition Annan Chess */
 
-typedef enum
-{
-  annan_type_A,
-  annan_type_B,
-  annan_type_C,
-  annan_type_D
-} annan_type_type;
-
-extern annan_type_type annan_type;
+extern ConditionLetteredVariantType annan_type;
 
 /* Make sure that the observer has the expected walk - annanised or originally
  * @return true iff the observation is valid

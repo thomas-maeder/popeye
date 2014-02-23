@@ -10,7 +10,7 @@
 
 #include "debugging/assert.h"
 
-magic_square_type_type magic_square_type;
+ConditionNumberedVariantType magic_square_type;
 
 static void side_change_if_magic(square on, Flags changedspec)
 {
@@ -95,7 +95,7 @@ void stip_insert_magic_square(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (magic_square_type==magic_square_type1)
+  if (magic_square_type==ConditionType1)
     stip_instrument_moves(si,STMagicSquareSideChanger);
   else
     stip_instrument_moves(si,STMagicSquareType2SideChanger);

@@ -29,6 +29,26 @@ int GetPieNamIndex(char a, char b)
   return 0;
 }
 
+char *ParseSinglePiece(char *tok, PieNam *result)
+{
+  switch (strlen(tok))
+  {
+    case 1:
+      *result = GetPieNamIndex(tok[0],' ');
+      return ReadNextTokStr();
+      break;
+
+    case 2:
+      *result = GetPieNamIndex(tok[0],tok[1]);
+      return ReadNextTokStr();
+      break;
+
+    default:
+      *result = PieceCount;
+      return tok;
+  }
+}
+
 square SquareNum(char a, char b)
 {
   if ('a'<=a && a<='h' && '1'<=b && b<='8')

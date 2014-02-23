@@ -22,7 +22,7 @@
 #include "debugging/assert.h"
 #include <string.h>
 
-republican_type_type RepublicanType;
+ConditionNumberedVariantType RepublicanType;
 
 static square king_placement[maxply+1];
 
@@ -233,13 +233,13 @@ void stip_insert_republican_king_placers(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STTemporaryHackFork,
                                            &stip_traverse_structure_children_pipe);
-  if (RepublicanType==republican_type1)
+  if (RepublicanType==ConditionType1)
     stip_structure_traversal_override_single(&st,
                                              STGoalReachedTester,
                                              &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
-  if (RepublicanType==republican_type1)
+  if (RepublicanType==ConditionType1)
     insert_type1_dead_end(si);
 
   TraceFunctionExit(__func__);

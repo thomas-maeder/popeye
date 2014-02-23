@@ -3,10 +3,10 @@
 
 /* This module implements the condition Oscillating Kings */
 
+#include "conditions/conditions.h"
 #include "solving/solve.h"
 
-extern boolean OscillatingKingsTypeB[nr_sides];
-extern boolean OscillatingKingsTypeC[nr_sides];
+extern ConditionLetteredVariantType OscillatingKings[nr_sides];
 
 /* Try to solve in n half-moves.
  * @param si slice index
