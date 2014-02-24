@@ -1134,7 +1134,7 @@ intended solutions:
             CirceTake&Make
 
 
-  add_to_move_generation_stack:      168265
+  add_to_move_generation_stack:      124789
                      play_move:      111224
  is_white_king_square_attacked:        9520
  is_black_king_square_attacked:      110941

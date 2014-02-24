@@ -232,6 +232,9 @@ void stip_insert_take_and_make(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STMoveLegalityTester,
                                            &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_single(&st,
+                                           STTakeMakeCirceCollectRebirthSquaresFork,
+                                           &stip_traverse_structure_children_pipe);
 
   if (CondFlag[normalp])
     stip_structure_traversal_override_single(&st,
