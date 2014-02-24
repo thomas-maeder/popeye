@@ -2,6 +2,8 @@
 #include "conditions/circe/rebirth_avoider.h"
 #include "conditions/circe/circe.h"
 #include "stipulation/has_solution_type.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
@@ -76,12 +78,11 @@ stip_length_type take_make_circe_collect_rebirth_squares_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   for (i = CURRMOVE_OF_PLY(nbply); i>MOVEBASE_OF_PLY(nbply); --i)
-    if (is_square_empty(move_generation_stack[i].capture))
-    {
-      ++take_make_circe_current_rebirth_square_index[stack_pointer];
-      rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]] = move_generation_stack[i].arrival;
-      result = n;
-    }
+  {
+    ++take_make_circe_current_rebirth_square_index[stack_pointer];
+    rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]] = move_generation_stack[i].arrival;
+    result = n;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -140,6 +141,23 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   return result;
 }
 
+static void append_stop(slice_index si, stip_structure_traversal*st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STSupercircePreventRebirthOnNonEmptySquare);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument the solving machinery with Circe Take&Make
  * @param si identifies root slice of stipulation
  */
@@ -155,6 +173,15 @@ void circe_take_make_initialse_solving(slice_index si)
   stip_instrument_moves(si,STCircePlaceReborn);
   stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
   stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STCirceRebirthOnNonEmptySquare,
+                                             &append_stop);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
