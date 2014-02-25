@@ -10,6 +10,6 @@ INCLUDES = walks.h vectors.h hunters.h roses.h marine.h spiral_springers.h \
            ubiubi.h hoppers.h leapers.h riders.h lions.h skylla_charybdis.h \
            radial.h edgehog.h friend.h orphan.h cat.h bouncy.h cardinal.h \
            reflecting_bishop.h bob.h rabbit.h kangaroo.h locusts.h hamster.h \
-           bouncer.h querquisite.h sting.h combined.h generate_moves.h
+           bouncer.h querquisite.h sting.h combined.h generate_moves.h classification.h
 
 include makefile.rules $(CURRPWD)depend
