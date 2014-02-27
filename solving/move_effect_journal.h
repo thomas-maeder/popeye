@@ -99,7 +99,6 @@ typedef enum
   move_effect_reason_actuate_revolving_centre,
   move_effect_reason_singlebox_promotion,
   move_effect_reason_sat_adjustment
-
 } move_effect_reason_type;
 
 typedef unsigned int move_effect_journal_index_type;

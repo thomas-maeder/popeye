@@ -21,9 +21,4 @@
 stip_length_type circe_equipollents_determine_rebirth_square_solve(slice_index si,
                                                                    stip_length_type n);
 
-/* Instrument the solving machinery with Circe Equipollents
- * @param si identifies root slice of solving machinery
- */
-void circe_equipollents_initialise_solving(slice_index si);
-
 #endif

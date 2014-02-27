@@ -21,10 +21,4 @@
 stip_length_type circe_diametral_adjust_rebirth_square_solve(slice_index si,
                                                              stip_length_type n);
 
-/* Override the Circe instrumentation of the solving machinery with
- * Couscous Circe
- * @param si identifies root slice of stipulation
- */
-void diametral_circe_initialise_solving(slice_index si);
-
 #endif

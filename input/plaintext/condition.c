@@ -925,14 +925,14 @@ char *ParseCond(void)
 
       /* different types of circe */
       case circe:
-      case circemalefique:
-      case circemalefiquevertical:
+      case circemirror:
+      case circemirrorvertical:
       case chamcirce:
       case circediametral:
       case frischauf:
       case circerank:
       case circefile:
-      case circefilemalefique:
+      case circefilemirror:
       case circediagramm:
       case circeassassin:
       case circeturncoats:
@@ -955,19 +955,20 @@ char *ParseCond(void)
       case contraparrain:
         anycirce= true;
         anyparrain= true;
+        anycirprom= true;
         break;
       case circeclone:
-      case circeclonemalefique:
+      case circeclonemirror:
         anycirce= true;
         anyclone= true;
         break;
 
       case anti:
-      case antispiegel:
+      case antimirror:
       case antidiagramm:
       case antifile:
       case antisymmetrie:
-      case antispiegelfile:
+      case antimirrorfile:
       case antisuper:
       case antiantipoden:
       case antiequipollents:
@@ -979,7 +980,7 @@ char *ParseCond(void)
       case immun:
         anyimmun= true;
         break;
-      case immunmalefique:
+      case immunmirror:
         immunrenai= renspiegel_polymorphic;
         anyimmun= true;
         break;
@@ -991,7 +992,7 @@ char *ParseCond(void)
         immunrenai= rendiagramm_polymorphic;
         anyimmun= true;
         break;
-      case immunspiegelfile:
+      case immunmirrorfile:
         immunrenai= renspiegelfile_polymorphic;
         anyimmun= true;
         break;
@@ -1062,7 +1063,7 @@ char *ParseCond(void)
         tok = ParseRex(&woozles_rex_exclusive, rexexcl);
         break;
       case immun:
-      case immunmalefique:
+      case immunmirror:
       case immundiagramm:
         tok = ParseRex(&immune_is_rex_inclusive, rexincl);
         break;
@@ -1078,16 +1079,16 @@ char *ParseCond(void)
                               &chameleon_walk_sequence);
         break;
       case circe:
-      case circemalefique:
+      case circemirror:
       case circefile:
       case circeequipollents:
       case circediagramm:
       case circesymmetry:
       case circeclone:
-      case circefilemalefique:
-      case circeclonemalefique:
+      case circefilemirror:
+      case circeclonemirror:
       case circeantipoden:
-      case circemalefiquevertical:
+      case circemirrorvertical:
       case circediametral:
       case circerank:
       case frischauf:
@@ -1196,11 +1197,11 @@ char *ParseCond(void)
 
         /*****  anticirce type    *****/
       case anti:
-      case antispiegel:
+      case antimirror:
       case antidiagramm:
       case antifile:
       case antisymmetrie:
-      case antispiegelfile:
+      case antimirrorfile:
       case antiantipoden:
       case antiequipollents:
       case antisuper:

@@ -4,7 +4,6 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -62,20 +61,4 @@ stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Override the Circe instrumentation of the solving machinery with
- * relaxed (i.e. non-strict) Anticirce
- * @param si identifies root slice of stipulation
- */
-void anticirce_relaxed_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STAnticircePlaceRebornRelaxed);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

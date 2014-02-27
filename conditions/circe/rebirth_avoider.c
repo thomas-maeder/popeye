@@ -79,14 +79,17 @@ static void remember_landing(slice_index si, stip_structure_traversal *st)
 /* Instrument a stipulation with a type of "Circe rebirth avoiders" (i.e.
  * slices that may detour around Circe rebirth under a certain condition;
  * STCaptureFork is an example).
- * @param si identifies root slice of stipulation
+ * @param si identifies root slice of the solving machinery
+ * @param hook_type insertion is tried at each slice of this type
  * @param type type of Circe rebirth avoider
- * @param type type of proxy inserted on the "rebirth avoided" path
+ * @param avoided_type type of proxy inserted on the "rebirth avoided" path
+ * @param joint_type type of proxy where the two paths meet again
  */
-void stip_insert_rebirth_avoider(slice_index si,
-                                 slice_type type,
-                                 slice_type avoided_type,
-                                 slice_type joint_type)
+void circe_insert_rebirth_avoider(slice_index si,
+                                  slice_type hook_type,
+                                  slice_type type,
+                                  slice_type avoided_type,
+                                  slice_type joint_type)
 {
   stip_structure_traversal st;
   insertion_state_type state = { no_slice, type, avoided_type };
@@ -96,7 +99,7 @@ void stip_insert_rebirth_avoider(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_structure_traversal_override_single(&st,hook_type,&instrument_move);
   stip_structure_traversal_override_single(&st,joint_type,&remember_landing);
   stip_structure_traversal_override_single(&st,
                                            STCageCirceFutileCapturesRemover,

@@ -2,6 +2,7 @@
 #include "conditions/circe/rebirth_avoider.h"
 #include "conditions/circe/circe.h"
 #include "conditions/conditions.h"
+#include "conditions/circe/rex_inclusive.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -84,6 +85,8 @@ stip_length_type circe_cage_determine_rebirth_square_solve(slice_index si,
     result = this_move_is_illegal;
   else
   {
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_choice;
+
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
@@ -280,34 +283,6 @@ static void remember_finding(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
-{
-  boolean const * const finding = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  if (!*finding)
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_pipe(STCirceDetermineRebornPiece),
-        alloc_pipe(STCirceCageDetermineRebirthSquare),
-        alloc_pipe(STCircePlacingReborn),
-        alloc_pipe(STCircePlaceReborn),
-        alloc_pipe(STCirceCageCageTester)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void insert_remover(slice_index si, stip_structure_traversal *st)
 {
   boolean const * const finding = st->param;
@@ -328,10 +303,10 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Instrument the solving machinery with Circe Cage
+/* Avoid examining captures while looking for a cage
  * @param si identifies root slice of stipulation
  */
-void circe_cage_initialise_solving(slice_index si)
+void circe_cage_optimise_away_futile_captures(slice_index si)
 {
   boolean finding = false;
   stip_structure_traversal st;
@@ -341,20 +316,12 @@ void circe_cage_initialise_solving(slice_index si)
 
   stip_structure_traversal_init(&st,&finding);
   stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
-  stip_structure_traversal_override_single(&st,
                                            STCageCirceNonCapturingMoveFinder,
                                            &remember_finding);
   stip_structure_traversal_override_single(&st,
                                            STDoneGeneratingMoves,
                                            &insert_remover);
   stip_traverse_structure(si,&st);
-
-  stip_insert_rebirth_avoider(si,STSuperCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
-
-  if (!CondFlag[immuncage])
-    stip_insert_rebirth_avoider(si,STCirceCageNoCageFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

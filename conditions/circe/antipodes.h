@@ -21,9 +21,4 @@
 stip_length_type antipodes_circe_determine_rebirth_square_solve(slice_index si,
                                                                 stip_length_type n);
 
-/* Instrument the solving machinery with Antipodes Circe
- * @param si identifies root slice of solving machinery
- */
-void antipodes_circe_initialise_solving(slice_index si);
-
 #endif

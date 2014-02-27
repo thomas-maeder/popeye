@@ -1,8 +1,5 @@
 #include "conditions/circe/antipodes.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/capture_fork.h"
-#include "conditions/circe/rebirth_avoider.h"
-#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -47,30 +44,12 @@ stip_length_type antipodes_circe_determine_rebirth_square_solve(slice_index si,
   else
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square += nr_files_on_board/2*dir_left;
 
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
+
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Instrument the solving machinery with Antipodes Circe
- * @param si identifies root slice of stipulation
- */
-void antipodes_circe_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  circe_instrument_solving(si,STAntipodesCirceDetermineRebirthSquare);
-  stip_instrument_moves(si,STCircePlacingReborn);
-  stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
-  stip_insert_circe_capture_forks(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

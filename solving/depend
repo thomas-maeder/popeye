@@ -356,9 +356,9 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/ply.h conditions/annan.h conditions/beamten.h \
- conditions/central.h conditions/disparate.h conditions/eiffel.h \
- conditions/facetoface.h solving/observation.h \
+ solving/ply.h conditions/annan.h conditions/conditions.h \
+ conditions/beamten.h conditions/central.h conditions/disparate.h \
+ conditions/eiffel.h conditions/facetoface.h solving/observation.h \
  stipulation/temporary_hacks.h conditions/madrasi.h \
  conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
  conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
@@ -405,6 +405,8 @@ output/mode.h:
 solving/ply.h:
 
 conditions/annan.h:
+
+conditions/conditions.h:
 
 conditions/beamten.h:
 
@@ -1213,45 +1215,45 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/circe/exchange_by_rebirth_special.h conditions/circe/file.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
- conditions/circe/april.h conditions/circe/turncoats.h \
- conditions/circe/takemake.h conditions/circe/mirror.h \
- conditions/circe/pwc.h conditions/circe/rank.h \
- conditions/circe/symmetry.h conditions/exclusive.h utilities/table.h \
- conditions/extinction.h conditions/ohneschach.h \
- conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
- conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
- conditions/patrol.h conditions/monochrome.h solving/move_generator.h \
- conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
- conditions/singlebox/type1.h conditions/singlebox/type2.h \
- pieces/walks/pawns/promotee_sequence.h conditions/singlebox/type3.h \
- solving/observation.h stipulation/temporary_hacks.h \
- conditions/patience.h conditions/isardam.h conditions/sat.h \
- conditions/dynasty.h conditions/masand.h conditions/messigny.h \
- conditions/oscillating_kings.h conditions/actuated_revolving_centre.h \
+ conditions/circe/april.h conditions/circe/takemake.h \
+ conditions/circe/mirror.h conditions/circe/pwc.h conditions/circe/rank.h \
+ conditions/circe/symmetry.h conditions/circe/rex_inclusive.h \
+ conditions/exclusive.h utilities/table.h conditions/extinction.h \
+ conditions/ohneschach.h conditions/maff/immobility_tester.h \
+ conditions/owu/immobility_tester.h conditions/immune.h \
+ conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
+ conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
+ conditions/ultraschachzwang/legality_tester.h \
+ conditions/singlebox/type1.h conditions/conditions.h \
+ conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
+ conditions/singlebox/type3.h solving/observation.h \
+ stipulation/temporary_hacks.h conditions/patience.h conditions/isardam.h \
+ conditions/sat.h conditions/dynasty.h conditions/masand.h \
+ conditions/messigny.h conditions/oscillating_kings.h \
+ conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
  conditions/circe/capture_fork.h conditions/circe/circe.h \
  conditions/circe/cage.h conditions/circe/double_agents.h \
  conditions/circe/kamikaze.h conditions/circe/parrain.h \
  conditions/circe/volage.h conditions/anticirce/anticirce.h \
- conditions/conditions.h conditions/anticirce/super.h \
- conditions/sentinelles.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
- conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/einstein/einstein.h conditions/einstein/reverse.h \
- conditions/einstein/anti.h conditions/einstein/en_passant.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h \
- conditions/marscirce/phantom.h conditions/marscirce/anti.h \
- conditions/line_chameleon.h conditions/haan.h \
- conditions/castling_chess.h conditions/exchange_castling.h \
- conditions/transmuting_kings/super.h conditions/imitator.h \
- conditions/football.h conditions/mummer.h conditions/woozles.h \
- conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
- conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
- conditions/superguards.h conditions/wormhole.h conditions/backhome.h \
- conditions/shielded_kings.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/anticirce/super.h conditions/sentinelles.h \
+ conditions/duellists.h conditions/haunted_chess.h \
+ conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
+ conditions/antiandernach.h conditions/chameleon_pursuit.h \
+ conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
+ conditions/einstein/reverse.h conditions/einstein/anti.h \
+ conditions/einstein/en_passant.h conditions/traitor.h \
+ conditions/volage.h conditions/magic_square.h conditions/tibet.h \
+ conditions/degradierung.h conditions/marscirce/phantom.h \
+ conditions/marscirce/anti.h conditions/line_chameleon.h \
+ conditions/haan.h conditions/castling_chess.h \
+ conditions/exchange_castling.h conditions/transmuting_kings/super.h \
+ conditions/imitator.h conditions/football.h conditions/mummer.h \
+ conditions/woozles.h conditions/nocapture.h conditions/nopromotion.h \
+ conditions/geneva.h conditions/edgemover.h conditions/grid.h \
+ conditions/take_and_make.h conditions/superguards.h \
+ conditions/wormhole.h conditions/backhome.h conditions/shielded_kings.h \
+ optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -1456,8 +1458,6 @@ conditions/circe/super.h:
 
 conditions/circe/april.h:
 
-conditions/circe/turncoats.h:
-
 conditions/circe/takemake.h:
 
 conditions/circe/mirror.h:
@@ -1467,6 +1467,8 @@ conditions/circe/pwc.h:
 conditions/circe/rank.h:
 
 conditions/circe/symmetry.h:
+
+conditions/circe/rex_inclusive.h:
 
 conditions/exclusive.h:
 
@@ -1497,6 +1499,8 @@ conditions/bichrome.h:
 conditions/ultraschachzwang/legality_tester.h:
 
 conditions/singlebox/type1.h:
+
+conditions/conditions.h:
 
 conditions/singlebox/type2.h:
 
@@ -1543,8 +1547,6 @@ conditions/circe/parrain.h:
 conditions/circe/volage.h:
 
 conditions/anticirce/anticirce.h:
-
-conditions/conditions.h:
 
 conditions/anticirce/super.h:
 
@@ -2040,9 +2042,10 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
  conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
  solving/move_generator.h conditions/bichrome.h conditions/grid.h \
- conditions/edgemover.h conditions/annan.h conditions/facetoface.h \
- conditions/marscirce/phantom.h conditions/marscirce/plus.h \
- conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
+ conditions/edgemover.h conditions/annan.h conditions/conditions.h \
+ conditions/facetoface.h conditions/marscirce/phantom.h \
+ conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
+ conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h pieces/walks/hunters.h \
@@ -2145,6 +2148,8 @@ conditions/grid.h:
 conditions/edgemover.h:
 
 conditions/annan.h:
+
+conditions/conditions.h:
 
 conditions/facetoface.h:
 
@@ -2495,8 +2500,10 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/circe/frischauf.h conditions/circe/mirror.h \
  conditions/circe/pwc.h conditions/circe/super.h \
  conditions/circe/symmetry.h conditions/circe/april.h \
- conditions/circe/turncoats.h conditions/circe/takemake.h \
- conditions/circe/rex_inclusive.h conditions/circe/rank.h \
+ conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
+ conditions/circe/rank.h conditions/circe/capture_fork.h \
+ conditions/circe/rebirth_avoider.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/anticirce/cheylan.h conditions/anticirce/anticirce.h \
  conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
  conditions/anticirce/super.h conditions/anticirce/magic_square.h \
@@ -2531,13 +2538,13 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  stipulation/end_of_branch_tester.h stipulation/dead_end.h \
  stipulation/boolean/and.h stipulation/constraint.h \
  stipulation/moves_traversal.h \
- stipulation/goals/immobile/reached_tester.h \
- solving/king_capture_avoider.h solving/testers.h solving/find_shortest.h \
- solving/for_each_move.h solving/battle_play/try.h \
- solving/battle_play/threat.h solving/battle_play/continuation.h \
- solving/battle_play/setplay.h solving/battle_play/min_length_guard.h \
- solving/trivial_end_filter.h solving/avoid_unsolvable.h \
- solving/play_suppressor.h solving/castling.h \
+ stipulation/goals/immobile/reached_tester.h stipulation/branch.h \
+ stipulation/move.h solving/king_capture_avoider.h solving/testers.h \
+ solving/find_shortest.h solving/for_each_move.h \
+ solving/battle_play/try.h solving/battle_play/threat.h \
+ solving/battle_play/continuation.h solving/battle_play/setplay.h \
+ solving/battle_play/min_length_guard.h solving/trivial_end_filter.h \
+ solving/avoid_unsolvable.h solving/play_suppressor.h solving/castling.h \
  pieces/walks/pawns/en_passant.h solving/post_move_iteration.h \
  pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h \
@@ -2737,13 +2744,17 @@ conditions/circe/symmetry.h:
 
 conditions/circe/april.h:
 
-conditions/circe/turncoats.h:
-
 conditions/circe/takemake.h:
 
 conditions/circe/rex_inclusive.h:
 
 conditions/circe/rank.h:
+
+conditions/circe/capture_fork.h:
+
+conditions/circe/rebirth_avoider.h:
+
+conditions/circe/rebirth_square_occupied.h:
 
 conditions/anticirce/cheylan.h:
 
@@ -2901,6 +2912,10 @@ stipulation/moves_traversal.h:
 
 stipulation/goals/immobile/reached_tester.h:
 
+stipulation/branch.h:
+
+stipulation/move.h:
+
 solving/king_capture_avoider.h:
 
 solving/testers.h:
@@ -3023,7 +3038,8 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h pylang.h options/options.h \
  input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
- conditions/mummer.h output/plaintext/pieces.h debugging/trace.h
+ conditions/mummer.h conditions/anticirce/anticirce.h \
+ conditions/sentinelles.h output/plaintext/pieces.h debugging/trace.h
 
 debugging/assert.h:
 
@@ -3120,6 +3136,10 @@ input/plaintext/token.h:
 input/plaintext/line.h:
 
 conditions/mummer.h:
+
+conditions/anticirce/anticirce.h:
+
+conditions/sentinelles.h:
 
 output/plaintext/pieces.h:
 

@@ -126,8 +126,7 @@ pieces/walks/pawns/promotee_sequence$(OBJ_SUFFIX): \
  pieces/walks/walks.h pieces/walks/classification.h \
  conditions/singlebox/type1.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- debugging/trace.h solving/ply.h conditions/conditions.h \
- debugging/assert.h
+ conditions/conditions.h debugging/trace.h debugging/assert.h
 
 pieces/walks/pawns/promotee_sequence.h:
 
@@ -161,11 +160,9 @@ stipulation/slice_type.h:
 
 output/mode.h:
 
-debugging/trace.h:
-
-solving/ply.h:
-
 conditions/conditions.h:
+
+debugging/trace.h:
 
 debugging/assert.h:
 pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \

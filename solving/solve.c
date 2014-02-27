@@ -30,12 +30,12 @@
 #include "conditions/circe/frischauf.h"
 #include "conditions/circe/super.h"
 #include "conditions/circe/april.h"
-#include "conditions/circe/turncoats.h"
 #include "conditions/circe/takemake.h"
 #include "conditions/circe/mirror.h"
 #include "conditions/circe/pwc.h"
 #include "conditions/circe/rank.h"
 #include "conditions/circe/symmetry.h"
+#include "conditions/circe/rex_inclusive.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/ohneschach.h"
@@ -664,20 +664,24 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_capture_fork_solve(si,n);
       break;
 
-    case STCirceDetermineRebornPiece:
-      result = circe_determine_reborn_piece_solve(si,n);
+    case STCircePreventKingRebirth:
+      result = circe_prevent_king_rebirth_solve(si,n);
       break;
 
-    case STCirceCloneDetermineRebornPiece:
-      result = circe_clone_determine_reborn_piece_solve(si,n);
+    case STCirceInitialiseFromCurrentCapture:
+      result = circe_initialise_from_current_capture_solve(si,n);
+      break;
+
+    case STCirceCloneDetermineRebornWalk:
+      result = circe_clone_determine_reborn_walk_solve(si,n);
       break;
 
     case STAntiCloneCirceDetermineRebornPiece:
       result = anti_clone_circe_determine_reborn_piece_solve(si,n);
       break;
 
-    case STCirceDoubleAgentsAdaptRebornPiece:
-      result = circe_doubleagents_adapt_reborn_piece_solve(si,n);
+    case STCirceDoubleAgentsAdaptRebornSide:
+      result = circe_doubleagents_adapt_reborn_side_solve(si,n);
       break;
 
     case STChameleonCirceAdaptRebornWalk:
@@ -688,12 +692,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anti_einstein_determine_reborn_piece_solve(si,n);
       break;
 
-    case STCirceCouscousDetermineRelevantPiece:
-      result = circe_couscous_determine_relevant_piece_solve(si,n);
+    case STCirceCouscousMakeCapturerRelevant:
+      result = circe_couscous_make_capturer_relevant_solve(si,n);
       break;
 
-    case STSpiegelCirceDetermineRelevantSide:
-      result = mirror_circe_determine_relevant_side_solve(si,n);
+    case STMirrorCirceOverrideRelevantSide:
+      result = mirror_circe_override_relevant_side_solve(si,n);
       break;
 
     case STCirceDetermineRebirthSquare:
@@ -708,11 +712,11 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_diametral_adjust_rebirth_square_solve(si,n);
       break;
 
-    case STRankCirceDetermineRelevantSide:
-      result = rank_circe_determine_relevant_side_solve(si,n);
+    case STRankCirceOverrideRelevantSide:
+      result = rank_circe_override_relevant_side_solve(si,n);
       break;
 
-    case STRankCirceAdjustRebirthSquare:
+    case STRankCirceProjectRebirthSquare:
       result = rank_circe_adjust_rebirth_square_solve(si,n);
       break;
 
@@ -748,10 +752,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = contact_grid_avoid_circe_rebirth(si,n);
       break;
 
-    case STCirceTestRebornExistance:
-      result = circe_test_reborn_existance_solve(si,n);
-      break;
-
     case STCirceTestRebirthSquareEmpty:
       result = circe_test_rebirth_square_empty_solve(si,n);
       break;
@@ -780,12 +780,16 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = supercirce_prevent_rebirth_on_non_empty_square_solve(si,n);
       break;
 
-    case STSuperCirceCaptureFork:
-      result = supercirce_capture_fork_solve(si,n);
-      break;
-
     case STCirceVolageRecolorer:
       result = circe_volage_recolorer_solve(si,n);
+      break;
+
+    case STCirceParrainCaptureFork:
+      result = circe_parrain_capture_fork_solve(si,n);
+      break;
+
+    case STCirceParrainInitialiseFromCaptureInLastMove:
+      result = circe_parrain_initalise_from_capture_in_last_move_solve(si,n);
       break;
 
     case STCirceParrainDetermineRebirth:
@@ -883,10 +887,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STMagicSquareType2AnticirceRelevantSideAdapter:
       result = magic_square_anticirce_relevant_side_adapter_solve(si,n);
-      break;
-
-    case STCirceTraitorSideChanger:
-      result = circe_turncoats_side_changer_solve(si,n);
       break;
 
     case STTibetSideChanger:

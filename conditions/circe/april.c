@@ -1,6 +1,4 @@
 #include "conditions/circe/april.h"
-#include "conditions/circe/rebirth_avoider.h"
-#include "conditions/circe/super.h"
 #include "pieces/pieces.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -43,20 +41,4 @@ stip_length_type april_chess_fork_solve(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Instrument the solving machinery with April Chess
- * @param si identifies root slice of stipulation
- */
-void april_chess_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  supercirce_initialise_solving(si);
-  stip_insert_rebirth_avoider(si,STAprilCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

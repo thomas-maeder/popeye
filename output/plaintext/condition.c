@@ -388,15 +388,15 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         || (cond == geneva && rex_geneva)
         || (immune_is_rex_inclusive
             && (cond == immun
-                || cond == immunmalefique
+                || cond == immunmirror
                 || cond == immundiagramm))
         || (circe_is_rex_inclusive
             && (cond == circe
-                || cond == circemalefique
+                || cond == circemirror
                 || cond == circediametral
-                || cond == circemalefiquevertical
+                || cond == circemirrorvertical
                 || cond == circeclone
-                || cond == circeclonemalefique
+                || cond == circeclonemirror
                 || cond == circediagramm
                 || cond == circefile)))
       written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
@@ -534,11 +534,11 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     switch (cond)
     {
       case anti:
-      case antispiegel:
+      case antimirror:
       case antidiagramm:
       case antifile:
       case antisymmetrie:
-      case antispiegelfile:
+      case antimirrorfile:
       case antiantipoden:
       case antiequipollents:
       case antisuper:

@@ -19,10 +19,4 @@
 stip_length_type circe_volage_recolorer_solve(slice_index si,
                                                stip_length_type n);
 
-/* Override the Circe instrumentation of the solving machinery with
- * Volage
- * @param si identifies root slice of stipulation
- */
-void circe_volage_initialise_solving(slice_index si);
-
 #endif

@@ -68,9 +68,9 @@ stip_length_type circe_cage_cage_tester_solve(slice_index si,
 stip_length_type circe_cage_futile_captures_remover_solve(slice_index si,
                                                           stip_length_type n);
 
-/* Instrument the solving machinery with Circe Cage
+/* Avoid examining captures while looking for a cage
  * @param si identifies root slice of stipulation
  */
-void circe_cage_initialise_solving(slice_index si);
+void circe_cage_optimise_away_futile_captures(slice_index si);
 
 #endif

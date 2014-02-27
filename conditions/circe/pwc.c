@@ -1,8 +1,5 @@
 #include "conditions/circe/pwc.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/capture_fork.h"
-#include "conditions/circe/rebirth_avoider.h"
-#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -33,30 +30,11 @@ stip_length_type pwc_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = move_effect_journal[movement].u.piece_movement.from;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Instrument the solving machinery with Platzwechsel Circe
- * @param si identifies root slice of solving machinery
- */
-void pwc_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  stip_instrument_moves(si,STPWCDetermineRebirthSquare);
-  stip_instrument_moves(si,STCircePlacingReborn);
-  stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
-  stip_insert_circe_capture_forks(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

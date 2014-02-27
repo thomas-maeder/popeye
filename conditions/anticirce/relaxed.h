@@ -19,10 +19,4 @@
 stip_length_type anticirce_place_reborn_relaxed_solve(slice_index si,
                                                       stip_length_type n);
 
-/* Override the Circe instrumentation of the solving machinery with
- * relaxed (i.e. non-strict) Anticirce
- * @param si identifies root slice of stipulation
- */
-void anticirce_relaxed_initialise_solving(slice_index si);
-
 #endif

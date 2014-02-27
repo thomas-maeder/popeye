@@ -27,10 +27,4 @@ boolean chameleon_circe_is_squence_implicit;
 stip_length_type chameleon_circe_adapt_reborn_walk_solve(slice_index si,
                                                          stip_length_type n);
 
-/* Override the Circe instrumentation of the solving machinery with
- * Chameleon Circe
- * @param si identifies root slice of stipulation
- */
-void chameleon_circe_initialise_solving(slice_index si);
-
 #endif

@@ -1,7 +1,6 @@
 #include "conditions/circe/clone.h"
 #include "conditions/circe/circe.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
@@ -20,8 +19,8 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
-                                                          stip_length_type n)
+stip_length_type circe_clone_determine_reborn_walk_solve(slice_index si,
+                                                         stip_length_type n)
 {
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -43,20 +42,4 @@ stip_length_type circe_clone_determine_reborn_piece_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Override the Circe instrumentation of the solving machinery with
- * Circe Clone
- * @param si identifies root slice of stipulation
- */
-void circe_clone_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  circe_instrument_solving(si,STCirceCloneDetermineRebornPiece);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

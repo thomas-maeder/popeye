@@ -3,11 +3,12 @@ conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- pieces/walks/walks.h pieces/walks/pawns/promotee_sequence.h \
- stipulation/has_solution_type.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
- stipulation/move.h stipulation/temporary_hacks.h solving/observation.h \
- solving/ply.h debugging/trace.h debugging/assert.h
+ conditions/conditions.h pieces/walks/walks.h \
+ pieces/walks/pawns/promotee_sequence.h stipulation/has_solution_type.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/pipe.h stipulation/move.h \
+ stipulation/temporary_hacks.h solving/observation.h solving/ply.h \
+ debugging/trace.h debugging/assert.h
 
 conditions/singlebox/type1.h:
 
@@ -34,6 +35,8 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
+
+conditions/conditions.h:
 
 pieces/walks/walks.h:
 
@@ -71,7 +74,8 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  stipulation/traversal.h stipulation/pipe.h stipulation/move.h \
  solving/post_move_iteration.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h \
- conditions/singlebox/type1.h debugging/trace.h debugging/assert.h
+ conditions/singlebox/type1.h conditions/conditions.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/singlebox/type2.h:
 
@@ -127,6 +131,8 @@ position/pieceid.h:
 
 conditions/singlebox/type1.h:
 
+conditions/conditions.h:
+
 debugging/trace.h:
 
 debugging/assert.h:
@@ -137,10 +143,10 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/observation.h solving/ply.h \
  stipulation/temporary_hacks.h conditions/singlebox/type1.h \
- conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
- pieces/walks/classification.h solving/move_generator.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h \
+ conditions/conditions.h conditions/singlebox/type2.h \
+ pieces/walks/pawns/promotee_sequence.h pieces/walks/classification.h \
+ solving/move_generator.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/has_solution_type.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
@@ -179,6 +185,8 @@ solving/ply.h:
 stipulation/temporary_hacks.h:
 
 conditions/singlebox/type1.h:
+
+conditions/conditions.h:
 
 conditions/singlebox/type2.h:
 

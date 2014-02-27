@@ -22,9 +22,4 @@ extern boolean is_april_kind[PieceCount];
  */
 stip_length_type april_chess_fork_solve(slice_index si, stip_length_type n);
 
-/* Instrument the solving machinery with April Chess
- * @param si identifies root slice of stipulation
- */
-void april_chess_initialise_solving(slice_index si);
-
 #endif

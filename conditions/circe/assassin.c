@@ -1,16 +1,13 @@
 #include "conditions/circe/assassin.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/capture_fork.h"
 #include "conditions/circe/rebirth_avoider.h"
+#include "conditions/circe/rex_inclusive.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/move.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -96,52 +93,4 @@ stip_length_type circe_assassin_assassinate_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void append_assassin(slice_index si, stip_structure_traversal*st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const prototype =  alloc_pipe(STCirceAssassinAssassinate);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void assassin_circe_initalise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  circe_instrument_solving(si,STCirceDetermineRebirthSquare);
-  circe_instrument_solving(si,STCircePlacingReborn);
-  circe_instrument_solving(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STCircePlacingReborn);
-  stip_insert_circe_capture_forks(si);
-
-  {
-    stip_structure_traversal st;
-    stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override_single(&st,
-                                             STCirceRebirthOnNonEmptySquare,
-                                             &append_assassin);
-    stip_traverse_structure(si,&st);
-  }
-
-  solving_instrument_check_testing(si,STAssassinCirceCheckTester);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

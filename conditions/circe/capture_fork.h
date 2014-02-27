@@ -18,12 +18,6 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type circe_capture_fork_solve(slice_index si,
-                                           stip_length_type n);
-
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void stip_insert_circe_capture_forks(slice_index si);
+stip_length_type circe_capture_fork_solve(slice_index si, stip_length_type n);
 
 #endif

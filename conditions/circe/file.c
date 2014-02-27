@@ -1,9 +1,6 @@
 #include "conditions/circe/file.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/capture_fork.h"
-#include "conditions/circe/rebirth_avoider.h"
 #include "pieces/walks/classification.h"
-#include "stipulation/move.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -50,31 +47,12 @@ stip_length_type file_circe_determine_rebirth_square_solve(slice_index si,
       circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
 
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
+
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Override the Circe instrumentation of the solving machinery with
- * File Circe
- * @param si identifies root slice of stipulation
- */
-void file_circe_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  circe_instrument_solving(si,STFileCirceDetermineRebirthSquare);
-  stip_instrument_moves(si,STCircePlacingReborn);
-  stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
-  stip_insert_circe_capture_forks(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

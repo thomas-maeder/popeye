@@ -4,7 +4,6 @@
 #include "pieces/walks/walks.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move.h"
 #include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
@@ -46,20 +45,4 @@ stip_length_type chameleon_circe_adapt_reborn_walk_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Override the Circe instrumentation of the solving machinery with
- * Chameleon Circe
- * @param si identifies root slice of stipulation
- */
-void chameleon_circe_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STChameleonCirceAdaptRebornWalk);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

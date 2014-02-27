@@ -1,8 +1,5 @@
 #include "conditions/circe/diagram.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/capture_fork.h"
-#include "conditions/circe/rebirth_avoider.h"
-#include "stipulation/move.h"
 #include "position/pieceid.h"
 #include "debugging/trace.h"
 
@@ -32,30 +29,11 @@ stip_length_type diagram_circe_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = GetPositionInDiagram(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_spec);
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Instrument the solving machinery with Diagram Circe
- * @param si identifies root slice of solving machinery
- */
-void diagram_circe_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STCirceDetermineRebornPiece);
-  circe_instrument_solving(si,STDiagramCirceDetermineRebirthSquare);
-  stip_instrument_moves(si,STCircePlacingReborn);
-  stip_instrument_moves(si,STCircePlaceReborn);
-  stip_insert_rebirth_avoider(si,STCirceTestRebirthSquareEmpty,STCirceRebirthOnNonEmptySquare,STLandingAfterCirceRebirthHandler);
-  stip_insert_circe_capture_forks(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

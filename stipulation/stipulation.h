@@ -90,7 +90,7 @@ typedef struct
 /* slice identification */
 enum
 {
-  max_nr_slices = 13000,
+  max_nr_slices = 14000,
   no_slice = max_nr_slices
 };
 

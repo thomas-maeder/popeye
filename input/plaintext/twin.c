@@ -1749,7 +1749,7 @@ static boolean verify_position(slice_index si)
 
   reset_countnropponentmoves_defense_move_optimisation();
 
-  if (CondFlag[glasgow] && CondFlag[circemalefique])
+  if (CondFlag[glasgow] && CondFlag[circemirror])
     anycirprom = true;
 
   /* initialize promotion squares */
@@ -2151,7 +2151,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[circeclone]
         || CondFlag[couscous]
         || CondFlag[couscousmirror]
-        || CondFlag[circeclonemalefique])
+        || CondFlag[circeclonemirror])
     {
       /* disallowed because of the call to (*circerenai) in echecc would require
        * knowledge of the departure square. Other forms now allowed

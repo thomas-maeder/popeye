@@ -1,7 +1,6 @@
 #include "conditions/circe/double_agents.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/move.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "position/position.h"
 #include "conditions/circe/circe.h"
@@ -22,8 +21,8 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
-                                                             stip_length_type n)
+stip_length_type circe_doubleagents_adapt_reborn_side_solve(slice_index si,
+                                                            stip_length_type n)
 {
   stip_length_type result;
 
@@ -46,19 +45,4 @@ stip_length_type circe_doubleagents_adapt_reborn_piece_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Override the Circe instrumentation of the solving machinery with Double Agens
- * @param si identifies root slice of stipulation
- */
-void circe_double_agents_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STCirceDoubleAgentsAdaptRebornPiece);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

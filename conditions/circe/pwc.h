@@ -21,9 +21,4 @@
 stip_length_type pwc_determine_rebirth_square_solve(slice_index si,
                                                     stip_length_type n);
 
-/* Instrument the solving machinery with Platzwechsel Circe
- * @param si identifies root slice of solving machinery
- */
-void pwc_initialise_solving(slice_index si);
-
 #endif

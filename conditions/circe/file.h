@@ -21,10 +21,4 @@
 stip_length_type file_circe_determine_rebirth_square_solve(slice_index si,
                                                            stip_length_type n);
 
-/* Override the Circe instrumentation of the solving machinery with
- * File Circe
- * @param si identifies root slice of stipulation
- */
-void file_circe_initialise_solving(slice_index si);
-
 #endif

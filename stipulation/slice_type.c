@@ -314,20 +314,24 @@
     ENUMERATOR(STRepublicanKingPlacer),                                 \
     ENUMERATOR(STRepublicanType1DeadEnd),                               \
     ENUMERATOR(STCirceCaptureFork),                                     \
+    ENUMERATOR(STCirceParrainCaptureFork),                              \
     ENUMERATOR(STAprilCaptureFork),                                     \
-    ENUMERATOR(STCirceDetermineRebornPiece),                            \
+    ENUMERATOR(STCircePreventKingRebirth),                              \
+    ENUMERATOR(STCirceDeterminingRebornPiece),                          \
+    ENUMERATOR(STCirceInitialiseFromCurrentCapture),                    \
+    ENUMERATOR(STCirceParrainInitialiseFromCaptureInLastMove),          \
     ENUMERATOR(STAntiCloneCirceDetermineRebornPiece),                   \
-    ENUMERATOR(STCirceCloneDetermineRebornPiece),                       \
-    ENUMERATOR(STCirceDoubleAgentsAdaptRebornPiece),                    \
+    ENUMERATOR(STCirceCloneDetermineRebornWalk),                        \
+    ENUMERATOR(STCirceDoubleAgentsAdaptRebornSide),                     \
     ENUMERATOR(STChameleonCirceAdaptRebornWalk),                        \
     ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                     \
-    ENUMERATOR(STCirceCouscousDetermineRelevantPiece),                  \
-    ENUMERATOR(STSpiegelCirceDetermineRelevantSide),                    \
+    ENUMERATOR(STCirceCouscousMakeCapturerRelevant),                    \
+    ENUMERATOR(STMirrorCirceOverrideRelevantSide),                      \
     ENUMERATOR(STCirceDetermineRebirthSquare),                          \
     ENUMERATOR(STFileCirceDetermineRebirthSquare),                      \
     ENUMERATOR(STCirceDiametralAdjustRebirthSquare),                    \
-    ENUMERATOR(STRankCirceDetermineRelevantSide),                       \
-    ENUMERATOR(STRankCirceAdjustRebirthSquare),                         \
+    ENUMERATOR(STRankCirceOverrideRelevantSide),                        \
+    ENUMERATOR(STRankCirceProjectRebirthSquare),                        \
     ENUMERATOR(STTakeMakeCirceDetermineRebirthSquares),                 \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquaresFork),               \
     ENUMERATOR(STTakeMakeCirceCollectRebirthSquares),                   \
@@ -337,11 +341,9 @@
     ENUMERATOR(STDiagramCirceDetermineRebirthSquare),                   \
     ENUMERATOR(STCirceEquipollentsDetermineRebirthSquare),              \
     ENUMERATOR(STContactGridAvoidCirceRebirth),                         \
-    ENUMERATOR(STCirceTestRebornExistance),                             \
     ENUMERATOR(STCirceTestRebirthSquareEmpty),                          \
     ENUMERATOR(STCircePlacingReborn),                                   \
     ENUMERATOR(STCircePlaceReborn),                                     \
-    ENUMERATOR(STSuperCirceCaptureFork),                                \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \
     ENUMERATOR(STSuperCirceDetermineRebirthSquare),                     \
     ENUMERATOR(STCirceCageDetermineRebirthSquare),                      \
@@ -387,7 +389,6 @@
     ENUMERATOR(STMagicSquareSideChanger),                               \
     ENUMERATOR(STMagicSquareType2SideChanger),                          \
     ENUMERATOR(STMagicSquareType2AnticirceRelevantSideAdapter),         \
-    ENUMERATOR(STCirceTraitorSideChanger),                              \
     ENUMERATOR(STTibetSideChanger),                                     \
     ENUMERATOR(STDoubleTibetSideChanger),                               \
     ENUMERATOR(STDegradierungDegrader),                                 \

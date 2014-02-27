@@ -18,8 +18,8 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type rank_circe_determine_relevant_side_solve(slice_index si,
-                                                          stip_length_type n);
+stip_length_type rank_circe_override_relevant_side_solve(slice_index si,
+                                                         stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -36,11 +36,5 @@ stip_length_type rank_circe_determine_relevant_side_solve(slice_index si,
  */
 stip_length_type rank_circe_adjust_rebirth_square_solve(slice_index si,
                                                         stip_length_type n);
-
-/* Override the Circe instrumentation of the solving machinery with
- * Mirror Circe
- * @param si identifies root slice of stipulation
- */
-void rank_circe_initialise_solving(slice_index si);
 
 #endif

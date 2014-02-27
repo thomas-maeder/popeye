@@ -19,8 +19,8 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
-                                                               stip_length_type n)
+stip_length_type circe_couscous_make_capturer_relevant_solve(slice_index si,
+                                                             stip_length_type n)
 {
   stip_length_type result;
 
@@ -50,20 +50,4 @@ stip_length_type circe_couscous_determine_relevant_piece_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Override the Circe instrumentation of the solving machinery with
- * Couscous Circe
- * @param si identifies root slice of stipulation
- */
-void couscous_circe_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  circe_instrument_solving(si,STCirceCouscousDetermineRelevantPiece);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }

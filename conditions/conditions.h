@@ -8,7 +8,7 @@
 **      if leofamily is set, also chinoises will be set
 **      if patrouille is set, also patrcalcule and patrsoutien will
 **              be set.
-**      if immunmalefique is set, also immun and malefique will be set
+**      if immunmirror is set, also immun and mirror will be set
 **      if pwc is set, also circe will be set
 **      if iprom is set, also imitators will be set
 **      if equipollents or coucou is set, also pwc will be set
@@ -20,7 +20,7 @@ typedef enum
 {
   rexincl,                  /* 0 */
   circe,                    /* 1 */
-  circemalefique,           /* 2 */
+  circemirror,              /* 2 */
   madras,                   /* 3 */
   volage,                   /* 4 */
   hypervolage,              /* 5 */
@@ -36,7 +36,7 @@ typedef enum
   pwc,                     /* 15 */
   nocapture,               /* 16 */
   immun,                   /* 17 */
-  immunmalefique,          /* 18 */
+  immunmirror,             /* 18 */
   contactgrid,             /* 19 */
   imitators,               /* 20 */
   cavaliermajeur,          /* 21 */
@@ -71,19 +71,19 @@ typedef enum
   newkoeko,                /* 50 */
   circeclone,              /* 51 */
   anti,                    /* 52 */
-  circefilemalefique,      /* 53 */
+  circefilemirror,         /* 53 */
   circeantipoden,          /* 54 */
-  circeclonemalefique,     /* 55 */
-  antispiegel,             /* 56 */
+  circeclonemirror,        /* 55 */
+  antimirror,              /* 56 */
   antidiagramm,            /* 57 */
   antifile,                /* 58 */
   antisymmetrie,           /* 59 */
-  antispiegelfile,         /* 60 */
+  antimirrorfile,          /* 60 */
   antiantipoden,           /* 61 */
   antiequipollents,        /* 62 */
   immunfile,               /* 63 */
   immundiagramm,           /* 64 */
-  immunspiegelfile,        /* 65 */
+  immunmirrorfile,         /* 65 */
   immunsymmetry,           /* 66 */
   immunantipoden,          /* 67 */
   immunequipollents,       /* 68 */
@@ -102,7 +102,7 @@ typedef enum
   glasgow,                 /* 81 */
   antiandernach,           /* 82 */
   frischauf,               /* 83 */
-  circemalefiquevertical,  /* 84 */
+  circemirrorvertical,     /* 84 */
   isardam,                 /* 85 */
   ohneschach,              /* 86 */
   circediametral,          /* 87 */

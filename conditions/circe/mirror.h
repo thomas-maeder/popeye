@@ -18,7 +18,7 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type mirror_circe_determine_relevant_side_solve(slice_index si,
-                                                            stip_length_type n);
+stip_length_type mirror_circe_override_relevant_side_solve(slice_index si,
+                                                           stip_length_type n);
 
 #endif

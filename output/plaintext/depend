@@ -87,8 +87,7 @@ output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
  utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h debugging/trace.h \
- solving/ply.h
+ stipulation/slice.h stipulation/traversal.h debugging/trace.h
 
 output/plaintext/end_of_phase_writer.h:
 
@@ -131,8 +130,6 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
  output/plaintext/illegal_selfcheck_writer.h solving/solve.h \
@@ -142,7 +139,7 @@ output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
  utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h \
- stipulation/has_solution_type.h debugging/trace.h solving/ply.h
+ stipulation/has_solution_type.h debugging/trace.h
 
 output/plaintext/illegal_selfcheck_writer.h:
 
@@ -187,8 +184,6 @@ stipulation/traversal.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  output/plaintext/move_inversion_counter.c \
  output/plaintext/move_inversion_counter.h solving/solve.h \
@@ -197,8 +192,7 @@ output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  utilities/enumeration.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 output/plaintext/move_inversion_counter.h:
 
@@ -235,8 +229,6 @@ stipulation/slice.h:
 stipulation/traversal.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
@@ -306,7 +298,7 @@ output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  pieces/walks/vectors.h output/mode.h pymsg.h pylang.h \
  utilities/boolean.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h output/plaintext/tree/tree.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 output/plaintext/goal_writer.h:
 
@@ -352,8 +344,6 @@ output/plaintext/tree/tree.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 output/plaintext/language_dependant$(OBJ_SUFFIX): \
  output/plaintext/language_dependant.c \
@@ -364,7 +354,9 @@ output/plaintext/language_dependant$(OBJ_SUFFIX): \
  input/plaintext/twin.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
- solving/solve.h debugging/assert.h
+ solving/solve.h conditions/anticirce/anticirce.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/sentinelles.h debugging/assert.h
 
 output/plaintext/language_dependant.h:
 
@@ -406,6 +398,18 @@ conditions/mummer.h:
 
 solving/solve.h:
 
+conditions/anticirce/anticirce.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/sentinelles.h:
+
 debugging/assert.h:
 output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  output/plaintext/condition.h utilities/boolean.h output/output.h \
@@ -415,21 +419,22 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  pieces/walks/vectors.h output/plaintext/language_dependant.h pylang.h \
  conditions/conditions.h options/options.h input/plaintext/twin.h \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
- solving/solve.h output/plaintext/pieces.h input/plaintext/condition.h \
- pieces/walks/pawns/promotee_sequence.h pieces/attributes/chameleon.h \
- conditions/annan.h conditions/bgl.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/solve.h conditions/anticirce/anticirce.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/sentinelles.h output/plaintext/pieces.h \
+ input/plaintext/condition.h pieces/walks/pawns/promotee_sequence.h \
+ pieces/attributes/chameleon.h conditions/annan.h conditions/bgl.h \
  conditions/circe/april.h conditions/circe/rex_inclusive.h \
- conditions/circe/chameleon.h conditions/anticirce/anticirce.h \
- conditions/football.h conditions/geneva.h conditions/grid.h \
- conditions/imitator.h conditions/immune.h conditions/isardam.h \
- conditions/kobul.h conditions/koeko/anti.h conditions/koeko/koeko.h \
- conditions/madrasi.h conditions/magic_square.h conditions/messigny.h \
- conditions/oscillating_kings.h conditions/marscirce/phantom.h \
- solving/observation.h stipulation/temporary_hacks.h conditions/protean.h \
- conditions/republican.h conditions/sat.h conditions/sentinelles.h \
- conditions/singlebox/type1.h \
- conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h
+ conditions/circe/chameleon.h conditions/football.h conditions/geneva.h \
+ conditions/grid.h conditions/imitator.h conditions/immune.h \
+ conditions/isardam.h conditions/kobul.h conditions/koeko/anti.h \
+ conditions/koeko/koeko.h conditions/madrasi.h conditions/magic_square.h \
+ conditions/messigny.h conditions/oscillating_kings.h \
+ conditions/marscirce/phantom.h solving/observation.h \
+ stipulation/temporary_hacks.h conditions/protean.h \
+ conditions/republican.h conditions/sat.h conditions/singlebox/type1.h \
+ conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
+ debugging/assert.h
 
 output/plaintext/condition.h:
 
@@ -475,6 +480,18 @@ conditions/mummer.h:
 
 solving/solve.h:
 
+conditions/anticirce/anticirce.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/sentinelles.h:
+
 output/plaintext/pieces.h:
 
 input/plaintext/condition.h:
@@ -487,21 +504,11 @@ conditions/annan.h:
 
 conditions/bgl.h:
 
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
 conditions/circe/april.h:
 
 conditions/circe/rex_inclusive.h:
 
 conditions/circe/chameleon.h:
-
-conditions/anticirce/anticirce.h:
 
 conditions/football.h:
 
@@ -541,13 +548,13 @@ conditions/republican.h:
 
 conditions/sat.h:
 
-conditions/sentinelles.h:
-
 conditions/singlebox/type1.h:
 
 conditions/transmuting_kings/vaulting_kings.h:
 
 conditions/woozles.h:
+
+debugging/assert.h:
 output/plaintext/proofgame$(OBJ_SUFFIX): output/plaintext/proofgame.c \
  output/plaintext/proofgame.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -556,7 +563,10 @@ output/plaintext/proofgame$(OBJ_SUFFIX): output/plaintext/proofgame.c \
  output/plaintext/language_dependant.h pylang.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/line.h conditions/mummer.h solving/solve.h \
- output/plaintext/position.h pymsg.h pylang.h utilities/boolean.h
+ conditions/anticirce/anticirce.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/sentinelles.h output/plaintext/position.h \
+ pymsg.h pylang.h utilities/boolean.h
 
 output/plaintext/proofgame.h:
 
@@ -600,6 +610,18 @@ conditions/mummer.h:
 
 solving/solve.h:
 
+conditions/anticirce/anticirce.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/sentinelles.h:
+
 output/plaintext/position.h:
 
 pymsg.h:
@@ -616,12 +638,13 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  options/options.h input/plaintext/twin.h stipulation/stipulation.h \
  stipulation/slice_type.h output/mode.h input/plaintext/token.h \
  input/plaintext/line.h conditions/mummer.h solving/solve.h \
- output/plaintext/condition.h output/plaintext/pieces.h output/output.h \
- input/plaintext/problem.h input/plaintext/stipulation.h \
- options/maxthreatlength.h options/maxflightsquares.h \
- options/nontrivial.h conditions/grid.h conditions/imitator.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h pieces/attributes/neutral/neutral.h \
+ conditions/anticirce/anticirce.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/sentinelles.h output/plaintext/condition.h \
+ output/plaintext/pieces.h output/output.h input/plaintext/problem.h \
+ input/plaintext/stipulation.h options/maxthreatlength.h \
+ options/maxflightsquares.h options/nontrivial.h conditions/grid.h \
+ conditions/imitator.h pieces/attributes/neutral/neutral.h \
  pieces/walks/classification.h pieces/walks/hunters.h \
  solving/observation.h stipulation/temporary_hacks.h solving/castling.h \
  solving/move_generator.h pymsg.h pylang.h utilities/boolean.h \
@@ -671,6 +694,18 @@ conditions/mummer.h:
 
 solving/solve.h:
 
+conditions/anticirce/anticirce.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/sentinelles.h:
+
 output/plaintext/condition.h:
 
 output/plaintext/pieces.h:
@@ -690,14 +725,6 @@ options/nontrivial.h:
 conditions/grid.h:
 
 conditions/imitator.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
 
 pieces/attributes/neutral/neutral.h:
 
@@ -728,10 +755,13 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
  options/options.h input/plaintext/twin.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  input/plaintext/token.h input/plaintext/line.h conditions/mummer.h \
- solving/solve.h pieces/attributes/neutral/neutral.h \
- pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/ply.h stipulation/temporary_hacks.h \
- pymsg.h pylang.h utilities/boolean.h debugging/assert.h
+ solving/solve.h conditions/anticirce/anticirce.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/sentinelles.h \
+ pieces/attributes/neutral/neutral.h pieces/walks/classification.h \
+ pieces/walks/hunters.h solving/observation.h \
+ stipulation/temporary_hacks.h pymsg.h pylang.h utilities/boolean.h \
+ debugging/assert.h
 
 output/plaintext/pieces.h:
 
@@ -775,6 +805,18 @@ conditions/mummer.h:
 
 solving/solve.h:
 
+conditions/anticirce/anticirce.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/sentinelles.h:
+
 pieces/attributes/neutral/neutral.h:
 
 pieces/walks/classification.h:
@@ -782,8 +824,6 @@ pieces/walks/classification.h:
 pieces/walks/hunters.h:
 
 solving/observation.h:
-
-solving/ply.h:
 
 stipulation/temporary_hacks.h:
 

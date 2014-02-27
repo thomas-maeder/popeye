@@ -7,16 +7,19 @@
 
 #include "stipulation/stipulation.h"
 
-/* Instrument a stipulation with a type of "Circe rebirth avoiders" (i.e.
- * slices that may detour around Circe rebirth under a certain condition;
- * STCaptureFork is an example).
- * @param si identifies root slice of stipulation
+/* Instrument the move execution machinery with a type of "Circe rebirth
+ * avoiders" (i.e. slices that may detour around Circe rebirth under a certain
+ * condition; STCaptureFork is an example).
+ * @param si identifies root slice of the solving machinery
+ * @param hook_type insertion is tried at each slice of this type
  * @param type type of Circe rebirth avoider
- * @param type type of proxy inserted on the "rebirth avoided" path
+ * @param avoided_type type of proxy inserted on the "rebirth avoided" path
+ * @param joint_type type of proxy where the two paths meet again
  */
-void stip_insert_rebirth_avoider(slice_index si,
-                                 slice_type type,
-                                 slice_type avoided_type,
-                                 slice_type joint_type);
+void circe_insert_rebirth_avoider(slice_index si,
+                                  slice_type hook_type,
+                                  slice_type type,
+                                  slice_type avoided_type,
+                                  slice_type joint_type);
 
 #endif

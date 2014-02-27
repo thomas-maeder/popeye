@@ -30,9 +30,4 @@ boolean assassin_circe_check_tester_is_in_check(slice_index si,
 stip_length_type circe_assassin_assassinate_solve(slice_index si,
                                                   stip_length_type n);
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
- */
-void assassin_circe_initalise_solving(slice_index si);
-
 #endif

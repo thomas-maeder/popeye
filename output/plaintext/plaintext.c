@@ -23,6 +23,7 @@ FILE *TraceFile;
 typedef struct
 {
     char const * closing_sequence;
+    move_effect_reason_type prev_reason;
     PieNam moving;
     Flags flags;
     square target_square;
@@ -51,6 +52,11 @@ static void next_context(move_context *context,
 {
   context_close(context);
   context_open(context,opening_sequence,closing_sequence);
+}
+
+static void context_remember_reason(move_context *context, move_effect_reason_type reason)
+{
+  context->prev_reason = reason;
 }
 
 static void context_set_target_square(move_context *context, square s)
@@ -401,6 +407,36 @@ static void write_piece_movement(move_context *context,
   context_set_from_piece_movement(context,curr);
 }
 
+static void write_transfer_arrival(move_context *context,
+                                   move_effect_journal_index_type curr)
+{
+  StdString("->");
+
+  if (context->flags!=move_effect_journal[curr].u.piece_addition.addedspec
+      || (TSTFLAG(move_effect_journal[curr].u.piece_addition.addedspec,Royal)
+          && is_king(context->moving)
+          && !is_king(move_effect_journal[curr].u.piece_addition.added)))
+  {
+    WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
+              move_effect_journal[curr].u.piece_addition.added,
+              false);
+    WritePiece(move_effect_journal[curr].u.piece_addition.added);
+  }
+  else if (context->moving!=move_effect_journal[curr].u.piece_addition.added)
+    WritePiece(move_effect_journal[curr].u.piece_addition.added);
+
+  WriteSquare(move_effect_journal[curr].u.piece_addition.on);
+}
+
+static void write_real_addition(move_context *context,
+                                move_effect_journal_index_type curr)
+{
+  next_context(context,"[+","]");
+  write_complete_piece(move_effect_journal[curr].u.piece_addition.addedspec,
+                       move_effect_journal[curr].u.piece_addition.added,
+                       move_effect_journal[curr].u.piece_addition.on);
+}
+
 static void write_piece_addition(move_context *context,
                                  move_effect_journal_index_type curr)
 {
@@ -408,31 +444,17 @@ static void write_piece_addition(move_context *context,
   {
     case move_effect_reason_rebirth_no_choice:
     case move_effect_reason_rebirth_choice:
+      if (context->prev_reason==move_effect_reason_transfer_no_choice
+          || context->prev_reason==move_effect_reason_transfer_choice)
+        write_transfer_arrival(context,curr);
+      else
+        write_real_addition(context,curr);
+      break;
+
     case move_effect_reason_republican_king_insertion:
     case move_effect_reason_sentinelles:
     case move_effect_reason_summon_ghost:
-      next_context(context,"[+","]");
-      write_complete_piece(move_effect_journal[curr].u.piece_addition.addedspec,
-                           move_effect_journal[curr].u.piece_addition.added,
-                           move_effect_journal[curr].u.piece_addition.on);
-      break;
-
-    case move_effect_reason_transfer_no_choice:
-    case move_effect_reason_transfer_choice:
-      StdString("->");
-      if (context->flags!=move_effect_journal[curr].u.piece_addition.addedspec
-          || (TSTFLAG(move_effect_journal[curr].u.piece_addition.addedspec,Royal)
-              && is_king(context->moving)
-              && !is_king(move_effect_journal[curr].u.piece_addition.added)))
-      {
-        WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
-                  move_effect_journal[curr].u.piece_addition.added,
-                  false);
-        WritePiece(move_effect_journal[curr].u.piece_addition.added);
-      }
-      else if (context->moving!=move_effect_journal[curr].u.piece_addition.added)
-        WritePiece(move_effect_journal[curr].u.piece_addition.added);
-      WriteSquare(move_effect_journal[curr].u.piece_addition.on);
+      write_real_addition(context,curr);
       break;
 
     default:
@@ -584,6 +606,7 @@ static void write_other_effects(move_context *context)
   move_effect_journal_index_type curr = move_effect_journal_base[nbply];
 
   for (curr += move_effect_journal_index_offset_other_effects; curr!=top; ++curr)
+  {
     switch (move_effect_journal[curr].type)
     {
       case move_effect_flags_change:
@@ -638,6 +661,9 @@ static void write_other_effects(move_context *context)
       default:
         break;
     }
+
+    context_remember_reason(context,move_effect_journal[curr].reason);
+  }
 }
 
 void output_plaintext_write_move(void)
@@ -647,6 +673,8 @@ void output_plaintext_write_move(void)
 #ifdef _SE_DECORATE_SOLUTION_
   se_move(mov);
 #endif
+
+  context.prev_reason = move_effect_no_reason;
 
   if (CondFlag[singlebox] && SingleBoxType==ConditionType3)
     write_singlebox_type3_promotion();

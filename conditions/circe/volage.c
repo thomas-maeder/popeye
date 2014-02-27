@@ -1,16 +1,10 @@
 #include "conditions/circe/volage.h"
-#include "pieces/pieces.h"
+#include "conditions/circe/circe.h"
 #include "conditions/conditions.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
-#include "conditions/circe/circe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -68,46 +62,4 @@ stip_length_type circe_volage_recolorer_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STCirceVolageRecolorer);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Override the Circe instrumentation of the solving machinery with
- * Volage
- * @param si identifies root slice of stipulation
- */
-void circe_volage_initialise_solving(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STCirceDetermineRebornPiece,
-                                           &instrument_rebirth);
-  stip_structure_traversal_override_single(&st,
-                                           STCirceParrainDetermineRebirth,
-                                           &instrument_rebirth);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
