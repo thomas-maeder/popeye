@@ -88,6 +88,7 @@ static slice_index const move_slice_rank_order[] =
     STCirceDetermineRebirthSquare,
     STAntisupercirceDetermineRebirthSquare,
     STAnticirceCheylanFilter,
+    STAnticirceRemoveCapturer,
     STAnticircePlaceRebornStrict,
     STAnticircePlaceRebornRelaxed,
     STBeforePawnPromotion,

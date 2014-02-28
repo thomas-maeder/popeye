@@ -368,6 +368,7 @@
     ENUMERATOR(STCirceKamikazeCaptureFork),                             \
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
+    ENUMERATOR(STAnticirceRemoveCapturer),                              \
     ENUMERATOR(STAnticircePlaceRebornRelaxed),                          \
     ENUMERATOR(STAnticircePlaceRebornStrict),                           \
     ENUMERATOR(STAntisupercirceDetermineRebirthSquare),                 \

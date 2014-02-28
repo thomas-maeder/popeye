@@ -957,6 +957,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anticirce_cheylan_filter_solve(si,n);
       break;
 
+    case STAnticirceRemoveCapturer:
+      result = anticirce_remove_capturer_solve(si,n);
+      break;
+
     case STAnticircePlaceRebornStrict:
       result = anticirce_place_reborn_strict_solve(si,n);
       break;

@@ -33,18 +33,6 @@ stip_length_type anticirce_place_reborn_strict_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                              moving_id,
-                                                                              sq_arrival);
-    move_effect_journal_do_piece_removal(move_effect_reason_transfer_no_choice,
-                                         pos);
-  }
-
   if (is_square_empty(context->rebirth_square))
   {
     move_effect_journal_do_piece_readdition(context->rebirth_reason,

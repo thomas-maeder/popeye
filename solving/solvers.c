@@ -470,6 +470,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   {
     stip_insert_anticirce_strict(result);
     antisupercirce_initialise_solving(result);
+    anticirce_instrument_solving(result,STAnticirceRemoveCapturer);
     anticirce_instrument_solving(result,STBeforePawnPromotion);
     anticirce_instrument_solving(result,STPawnPromoter);
     anticirce_instrument_solving(result,STLandingAfterPawnPromotion);
@@ -511,6 +512,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     }
     else
       anticirce_initialise_solving(result,STCirceDetermineRebirthSquare);
+
+    anticirce_instrument_solving(result,STAnticirceRemoveCapturer);
 
     if (CondFlag[antimirror]
         || CondFlag[antimirrorfile])
