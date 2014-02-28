@@ -427,8 +427,12 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    slice_index const prototype = alloc_pipe(STCirceDeterminingRebornPiece);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_index const prototypes[] = {
+        alloc_pipe(STCirceConsideringRebirth),
+        alloc_pipe(STCirceDeterminingRebornPiece)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

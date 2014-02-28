@@ -52,7 +52,7 @@ void circe_rex_inclusive_initialise_solving(slice_index si)
 
   if (!circe_is_rex_inclusive)
     circe_insert_rebirth_avoider(si,
-                                 STMove,
+                                 STCirceConsideringRebirth,
                                  STCircePreventKingRebirth,
                                  STCirceRebirthAvoided,
                                  STLandingAfterCirceRebirthHandler);

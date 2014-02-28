@@ -313,6 +313,7 @@
     ENUMERATOR(STActuatedRevolvingBoard),                               \
     ENUMERATOR(STRepublicanKingPlacer),                                 \
     ENUMERATOR(STRepublicanType1DeadEnd),                               \
+    ENUMERATOR(STCirceConsideringRebirth),                              \
     ENUMERATOR(STCirceCaptureFork),                                     \
     ENUMERATOR(STCirceParrainCaptureFork),                              \
     ENUMERATOR(STAprilCaptureFork),                                     \

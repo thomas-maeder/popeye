@@ -406,11 +406,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       circe_instrument_solving(result,STRankCirceProjectRebirthSquare);
 
     if (CondFlag[supercirce])
-      circe_insert_rebirth_avoider(result,STMove,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+      circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     else if (CondFlag[april])
     {
-      circe_insert_rebirth_avoider(result,STMove,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
-      circe_insert_rebirth_avoider(result,STMove,STAprilCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+      circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+      circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STAprilCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     }
 
     if (CondFlag[circecage])
@@ -418,15 +418,15 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       circe_instrument_solving(result,STCirceCageCageTester);
       circe_cage_optimise_away_futile_captures(result);
       if (!CondFlag[immuncage])
-        circe_insert_rebirth_avoider(result,STMove,STCirceCageNoCageFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+        circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STCirceCageNoCageFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     }
 
     circe_rex_inclusive_initialise_solving(result);
 
     if (anyparrain)
-      circe_insert_rebirth_avoider(result,STMove,STCirceParrainCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+      circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STCirceParrainCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     else
-      circe_insert_rebirth_avoider(result,STMove,STCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+      circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
     if (CondFlag[couscous] || CondFlag[couscousmirror])
       circe_instrument_solving(result,STCirceCouscousMakeCapturerRelevant);
