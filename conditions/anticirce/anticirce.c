@@ -115,20 +115,13 @@ stip_length_type anticirce_remove_capturer_solve(slice_index si,
 /* Initialise solving in Anticirce
  * @param si identifies root slice of stipulation
  */
-void anticirce_initialise_solving(slice_index si,
-                                  slice_type type_determine_rebirth_square)
+void anticirce_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
-  stip_instrument_moves(si,type_determine_rebirth_square);
-  stip_insert_anticirce_capture_forks(si);
-
-  stip_instrument_check_validation(si,
-                                   nr_sides,
-                                   STValidateCheckMoveByPlayingCapture);
+  stip_instrument_moves(si,STAnticirceConsideringRebirth);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -167,7 +160,7 @@ void anticirce_instrument_solving(slice_index si, slice_type type)
 
   stip_structure_traversal_init(&st,&type);
   stip_structure_traversal_override_single(&st,
-                                           STAnticirceDetermineRebornPiece,
+                                           STAnticirceConsideringRebirth,
                                            &instrument);
   stip_traverse_structure(si,&st);
 

@@ -53,8 +53,7 @@ stip_length_type anticirce_remove_capturer_solve(slice_index si,
 /* Initialise solving in Anticirce
  * @param si identifies root slice of stipulation
  */
-void anticirce_initialise_solving(slice_index si,
-                                  slice_type type_determine_rebirth_square);
+void anticirce_initialise_solving(slice_index si);
 
 /* Instrument the Anticirce solving machinery with some slice
  * @param si identifies root slice of stipulation

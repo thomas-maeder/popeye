@@ -213,6 +213,7 @@ static slice_type const proxy_slice_types[] =
     STCirceRebirthOnNonEmptySquare,
     STCircePlacingReborn,
     STLandingAfterCirceRebirthHandler,
+    STAnticirceConsideringRebirth,
     STBeforePawnPromotion,
     STLandingAfterPawnPromotion,
     STMummerDeadend,

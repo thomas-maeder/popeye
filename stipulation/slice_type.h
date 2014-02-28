@@ -365,6 +365,7 @@
     ENUMERATOR(STSupercircePreventRebirthOnNonEmptySquare),             \
     ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
     ENUMERATOR(STCirceVolageRecolorer),                                 \
+    ENUMERATOR(STAnticirceConsideringRebirth),                          \
     ENUMERATOR(STAnticirceCaptureFork),                                 \
     ENUMERATOR(STCirceKamikazeCaptureFork),                             \
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \

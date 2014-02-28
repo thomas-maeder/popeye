@@ -74,6 +74,7 @@ static slice_index const move_slice_rank_order[] =
     STSingleboxType2LatentPawnSelector,
     STSingleboxType2LatentPawnPromoter,
     STMagicSquareType2SideChanger,
+    STAnticirceConsideringRebirth,
     STAnticirceCaptureFork,
     STCirceKamikazeCaptureFork,
     STAnticirceDetermineRebornPiece,

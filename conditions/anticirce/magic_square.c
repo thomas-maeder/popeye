@@ -61,7 +61,7 @@ void stip_insert_magic_square_type2(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STMagicSquareType2AnticirceRelevantSideAdapter);
+  anticirce_instrument_solving(si,STMagicSquareType2AnticirceRelevantSideAdapter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

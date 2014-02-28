@@ -75,7 +75,7 @@ static void insert_fork(slice_index si, stip_structure_traversal *st)
   branch_insert_slices_contextual(si,st->context,&prototype,1);
 }
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
+static void instrument(slice_index si, stip_structure_traversal *st)
 {
   insertion_state_type * const state = st->param;
   slice_index const save_landing = state->landing;
@@ -124,8 +124,8 @@ static void insert_rebirth_avoider(slice_index si, slice_type type)
 
   stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_single(&st,
-                                           STMove,
-                                           &instrument_move);
+                                           STAnticirceConsideringRebirth,
+                                           &instrument);
   stip_structure_traversal_override_single(&st,
                                            STLandingAfterAnticirceRebirth,
                                            &remember_landing);

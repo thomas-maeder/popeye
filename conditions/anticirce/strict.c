@@ -61,7 +61,7 @@ void stip_insert_anticirce_strict(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAnticircePlaceRebornStrict);
+  anticirce_instrument_solving(si,STAnticircePlaceRebornStrict);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

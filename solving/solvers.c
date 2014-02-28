@@ -73,6 +73,7 @@
 #include "conditions/anticirce/super.h"
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/anticirce/clone.h"
+#include "conditions/anticirce/capture_fork.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
@@ -468,35 +469,43 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[antisuper])
   {
+    anticirce_initialise_solving(result);
+    anticirce_instrument_solving(result,STAnticirceDetermineRebornPiece);
     stip_insert_anticirce_strict(result);
-    antisupercirce_initialise_solving(result);
+    anticirce_instrument_solving(result,STAntisupercirceDetermineRebirthSquare);
     anticirce_instrument_solving(result,STAnticirceRemoveCapturer);
     anticirce_instrument_solving(result,STBeforePawnPromotion);
     anticirce_instrument_solving(result,STPawnPromoter);
     anticirce_instrument_solving(result,STLandingAfterPawnPromotion);
+    if (AntiCirceType==AntiCirceTypeCheylan)
+      anticirce_cheylan_initialise_solving(result);
+    stip_insert_anticirce_capture_forks(result);
   }
   else if (anyanticirce)
   {
+    anticirce_initialise_solving(result);
     stip_insert_anticirce_strict(result);
 
     if (CondFlag[magicsquare] && magic_square_type==ConditionType2)
       stip_insert_magic_square_type2(result);
 
+    anticirce_instrument_solving(result,STAnticirceDetermineRebornPiece);
+
     if (CondFlag[antidiagramm])
-      anticirce_initialise_solving(result,
+      anticirce_instrument_solving(result,
                                    STDiagramCirceDetermineRebirthSquare);
     else if (CondFlag[antifile])
-      anticirce_initialise_solving(result,
+      anticirce_instrument_solving(result,
                                    STFileCirceDetermineRebirthSquare);
     else if (CondFlag[antisymmetrie])
-      anticirce_initialise_solving(result,
+      anticirce_instrument_solving(result,
                                    STSymmetryCirceDetermineRebirthSquare);
     else if (CondFlag[antimirrorfile])
-      anticirce_initialise_solving(result,
+      anticirce_instrument_solving(result,
                                    STFileCirceDetermineRebirthSquare);
     else if (CondFlag[antiantipoden])
     {
-      anticirce_initialise_solving(result,
+      anticirce_instrument_solving(result,
                                    STAntipodesCirceDetermineRebirthSquare);
       anticirce_instrument_solving(result,STBeforePawnPromotion);
       anticirce_instrument_solving(result,STPawnPromoter);
@@ -504,25 +513,32 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     }
     else if (CondFlag[antiequipollents])
     {
-      anticirce_initialise_solving(result,
+      anticirce_instrument_solving(result,
                                    STCirceEquipollentsDetermineRebirthSquare);
       anticirce_instrument_solving(result,STBeforePawnPromotion);
       anticirce_instrument_solving(result,STPawnPromoter);
       anticirce_instrument_solving(result,STLandingAfterPawnPromotion);
     }
     else
-      anticirce_initialise_solving(result,STCirceDetermineRebirthSquare);
+      anticirce_instrument_solving(result,STCirceDetermineRebirthSquare);
 
     anticirce_instrument_solving(result,STAnticirceRemoveCapturer);
+
+    stip_instrument_check_validation(result,
+                                     nr_sides,
+                                     STValidateCheckMoveByPlayingCapture);
 
     if (CondFlag[antimirror]
         || CondFlag[antimirrorfile])
       anticirce_instrument_solving(result,STMirrorCirceOverrideRelevantSide);
     else if (CondFlag[anticlonecirce])
       anticirce_instrument_solving(result,STAntiCloneCirceDetermineRebornPiece);
+
+    if (AntiCirceType==AntiCirceTypeCheylan)
+      anticirce_cheylan_initialise_solving(result);
+
+    stip_insert_anticirce_capture_forks(result);
   }
-  if (AntiCirceType==AntiCirceTypeCheylan)
-    anticirce_cheylan_initialise_solving(result);
 
   if (CondFlag[duellist])
     stip_insert_duellists(result);

@@ -114,20 +114,3 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
   TraceFunctionResultEnd();
   return result;
 }
-
-/* Initialise solving in Antisupercirce
- * @param si identifies root slice of stipulation
- */
-void antisupercirce_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_instrument_moves(si,STAnticirceDetermineRebornPiece);
-  stip_instrument_moves(si,STAntisupercirceDetermineRebirthSquare);
-  stip_insert_anticirce_capture_forks(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
