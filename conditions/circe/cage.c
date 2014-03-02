@@ -85,8 +85,6 @@ stip_length_type circe_cage_determine_rebirth_square_solve(slice_index si,
     result = this_move_is_illegal;
   else
   {
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_choice;
-
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])

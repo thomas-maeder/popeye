@@ -38,7 +38,6 @@ stip_length_type circe_equipollents_determine_rebirth_square_solve(slice_index s
 #endif
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = sq_capture + sq_capture - sq_departure;
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

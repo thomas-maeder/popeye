@@ -120,7 +120,6 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   else
   {
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_choice;
 
     ++stack_pointer;
     result = solve(slices[si].next1,n);

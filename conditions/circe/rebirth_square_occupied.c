@@ -9,13 +9,16 @@
  * rebirth
  * @param si entry slice into the solving machinery
  */
-void circe_no_rebirth_on_occupied_square(slice_index si)
+void circe_no_rebirth_on_occupied_square(slice_index si,
+                                         slice_type hook_type,
+                                         slice_type nonempty_proxy_type,
+                                         slice_type joint_type)
 {
   circe_insert_rebirth_avoider(si,
-                               STCirceDeterminingRebornPiece,
+                               hook_type,
                                STCirceTestRebirthSquareEmpty,
-                               STCirceRebirthOnNonEmptySquare,
-                               STLandingAfterCirceRebirthHandler);
+                               nonempty_proxy_type,
+                               joint_type);
 }
 
 static void append_stop(slice_index si, stip_structure_traversal*st)
@@ -38,19 +41,22 @@ static void append_stop(slice_index si, stip_structure_traversal*st)
 /* Cause moves with Circe rebirth on an occupied square to not be played
  * @param si entry slice into the solving machinery
  */
-void circe_stop_rebirth_on_occupied_square(slice_index si)
+void circe_stop_rebirth_on_occupied_square(slice_index si,
+                                           slice_type hook_type,
+                                           slice_type nonempty_proxy_type,
+                                           slice_type joint_type)
 {
   stip_structure_traversal st;
 
   circe_insert_rebirth_avoider(si,
-                               STCirceDeterminingRebornPiece,
+                               hook_type,
                                STCirceTestRebirthSquareEmpty,
-                               STCirceRebirthOnNonEmptySquare,
-                               STLandingAfterCirceRebirthHandler);
+                               nonempty_proxy_type,
+                               joint_type);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STCirceRebirthOnNonEmptySquare,
+                                           nonempty_proxy_type,
                                            &append_stop);
   stip_traverse_structure(si,&st);
 }
@@ -75,19 +81,22 @@ static void append_assassin(slice_index si, stip_structure_traversal*st)
 /* Cause moves with Circe rebirth on an occupied square to assassinate
  * @param si entry slice into the solving machinery
  */
-void circe_assassinate_on_occupied_square(slice_index si)
+void circe_assassinate_on_occupied_square(slice_index si,
+                                          slice_type hook_type,
+                                          slice_type nonempty_proxy_type,
+                                          slice_type joint_type)
 {
   stip_structure_traversal st;
 
   circe_insert_rebirth_avoider(si,
-                               STCirceDeterminingRebornPiece,
+                               hook_type,
                                STCirceTestRebirthSquareEmpty,
-                               STCirceRebirthOnNonEmptySquare,
-                               STCircePlacingReborn);
+                               nonempty_proxy_type,
+                               joint_type);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STCirceRebirthOnNonEmptySquare,
+                                           nonempty_proxy_type,
                                            &append_assassin);
   stip_traverse_structure(si,&st);
 }

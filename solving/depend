@@ -1200,11 +1200,9 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  stipulation/traversal.h solving/proofgames.h \
  conditions/amu/mate_filter.h conditions/amu/attack_counter.h \
  solving/ply.h conditions/anticirce/cheylan.h \
- conditions/anticirce/capture_fork.h conditions/anticirce/relaxed.h \
- conditions/anticirce/strict.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
  conditions/anticirce/magic_square.h conditions/anticirce/clone.h \
- conditions/bgl.h conditions/blackchecks.h conditions/koeko/koeko.h \
+ conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/blackchecks.h conditions/koeko/koeko.h \
  conditions/koeko/contact_grid.h conditions/koeko/anti.h \
  conditions/koeko/new.h conditions/circe/antipodes.h \
  conditions/circe/chameleon.h pieces/attributes/chameleon.h \
@@ -1398,23 +1396,17 @@ solving/ply.h:
 
 conditions/anticirce/cheylan.h:
 
-conditions/anticirce/capture_fork.h:
+conditions/anticirce/magic_square.h:
 
-conditions/anticirce/relaxed.h:
+conditions/anticirce/clone.h:
 
-conditions/anticirce/strict.h:
+conditions/bgl.h:
 
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
 position/pieceid.h:
-
-conditions/anticirce/magic_square.h:
-
-conditions/anticirce/clone.h:
-
-conditions/bgl.h:
 
 conditions/blackchecks.h:
 
@@ -2505,7 +2497,6 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/circe/rebirth_avoider.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/anticirce/cheylan.h conditions/anticirce/anticirce.h \
- conditions/anticirce/strict.h conditions/anticirce/relaxed.h \
  conditions/anticirce/super.h conditions/anticirce/magic_square.h \
  conditions/anticirce/clone.h conditions/sentinelles.h \
  conditions/duellists.h conditions/haunted_chess.h \
@@ -2759,10 +2750,6 @@ conditions/circe/rebirth_square_occupied.h:
 conditions/anticirce/cheylan.h:
 
 conditions/anticirce/anticirce.h:
-
-conditions/anticirce/strict.h:
-
-conditions/anticirce/relaxed.h:
 
 conditions/anticirce/super.h:
 

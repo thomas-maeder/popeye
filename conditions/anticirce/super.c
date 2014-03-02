@@ -10,7 +10,6 @@
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "conditions/anticirce/anticirce.h"
-#include "conditions/anticirce/capture_fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -97,7 +96,6 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
   }
   else
   {
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_choice;
     result = solve(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])

@@ -10,18 +10,20 @@
 
 #include "debugging/assert.h"
 
-static void insert_landing(slice_index si, stip_structure_traversal *st)
-{
-  slice_index const prototype = alloc_pipe(STLandingAfterCirceRebirthHandler);
-  branch_insert_slices_contextual(si,st->context,&prototype,1);
-}
-
 typedef struct
 {
     slice_index landing;
     slice_type type;
     slice_type avoided_type;
+    slice_type joint_type;
 } insertion_state_type;
+
+static void insert_landing(slice_index si, stip_structure_traversal *st)
+{
+  insertion_state_type const * const state = st->param;
+  slice_index const prototype = alloc_pipe(state->joint_type);
+  branch_insert_slices_contextual(si,st->context,&prototype,1);
+}
 
 static void insert_fork(slice_index si, stip_structure_traversal *st)
 {
@@ -92,7 +94,7 @@ void circe_insert_rebirth_avoider(slice_index si,
                                   slice_type joint_type)
 {
   stip_structure_traversal st;
-  insertion_state_type state = { no_slice, type, avoided_type };
+  insertion_state_type state = { no_slice, type, avoided_type, joint_type };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

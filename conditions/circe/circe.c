@@ -14,6 +14,7 @@
 
 circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;
+move_effect_reason_type circe_rebirth_reason;
 
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
@@ -114,7 +115,6 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
                                       context->relevant_spec,
                                       context->relevant_square,
                                       context->relevant_side);
-  context->rebirth_reason = move_effect_reason_rebirth_no_choice;
 
   result = solve(slices[si].next1,n);
 
@@ -186,7 +186,7 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   assert(context->reborn_walk!=Empty);
   assert(is_square_empty(context->rebirth_square));
 
-  move_effect_journal_do_piece_readdition(context->rebirth_reason,
+  move_effect_journal_do_piece_readdition(circe_rebirth_reason,
                                           context->rebirth_square,
                                           context->reborn_walk,
                                           context->reborn_spec);
@@ -519,7 +519,7 @@ static void instrument_placing(slice_index si, stip_structure_traversal *st)
 /* Instrument Circe rebirths with pawn promotion
  * @param si root slice
  */
-void circe_allow_pawn_promotion(slice_index si)
+void circe_allow_pawn_promotion(slice_index si, slice_type hook_type)
 {
   stip_structure_traversal st;
 
@@ -527,7 +527,7 @@ void circe_allow_pawn_promotion(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STCircePlacingReborn,&instrument_placing);
+  stip_structure_traversal_override_single(&st,hook_type,&instrument_placing);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

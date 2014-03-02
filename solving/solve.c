@@ -4,9 +4,6 @@
 #include "conditions/amu/mate_filter.h"
 #include "conditions/amu/attack_counter.h"
 #include "conditions/anticirce/cheylan.h"
-#include "conditions/anticirce/capture_fork.h"
-#include "conditions/anticirce/relaxed.h"
-#include "conditions/anticirce/strict.h"
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/anticirce/clone.h"
 #include "conditions/bgl.h"
@@ -676,8 +673,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_clone_determine_reborn_walk_solve(si,n);
       break;
 
-    case STAntiCloneCirceDetermineRebornPiece:
-      result = anti_clone_circe_determine_reborn_piece_solve(si,n);
+    case STAntiCloneCirceDetermineRebornWalk:
+      result = anti_clone_circe_determine_reborn_walk_solve(si,n);
       break;
 
     case STCirceDoubleAgentsAdaptRebornSide:
@@ -794,10 +791,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceParrainDetermineRebirth:
       result = circe_parrain_determine_rebirth_solve(si,n);
-      break;
-
-    case STAnticircePlaceRebornRelaxed:
-      result = anticirce_place_reborn_relaxed_solve(si,n);
       break;
 
     case STCirceCageNoCageFork:
@@ -941,10 +934,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = singlebox_type2_latent_pawn_promoter_solve(si,n);
       break;
 
-    case STAnticirceCaptureFork:
-      result = anticirce_capture_fork_solve(si,n);
-      break;
-
     case STCirceKamikazeCaptureFork:
       result = circe_kamikaze_capture_fork_solve(si,n);
       break;
@@ -961,8 +950,8 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = anticirce_remove_capturer_solve(si,n);
       break;
 
-    case STAnticircePlaceRebornStrict:
-      result = anticirce_place_reborn_strict_solve(si,n);
+    case STAnticircePlaceReborn:
+      result = anticirce_place_reborn_solve(si,n);
       break;
 
     case STAntisupercirceDetermineRebirthSquare:

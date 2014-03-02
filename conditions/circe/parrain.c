@@ -105,7 +105,6 @@ stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  context->rebirth_reason = move_effect_reason_rebirth_no_choice;
   context->rebirth_square = context->relevant_square+move_vector();
 
   result = solve(slices[si].next1,n);

@@ -4,8 +4,7 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  position/board.h utilities/bitmask.h stipulation/slice_type.h \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h solving/ply.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- conditions/anticirce/capture_fork.h conditions/circe/circe.h \
+ solving/castling_rights.h position/pieceid.h conditions/circe/circe.h \
  solving/observation.h stipulation/temporary_hacks.h \
  solving/move_generator.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -47,8 +46,6 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
-conditions/anticirce/capture_fork.h:
-
 conditions/circe/circe.h:
 
 solving/observation.h:
@@ -86,8 +83,7 @@ conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
  stipulation/traversal.h stipulation/branch.h stipulation/move.h \
  solving/post_move_iteration.h solving/observation.h \
  stipulation/temporary_hacks.h solving/move_generator.h \
- conditions/anticirce/anticirce.h conditions/anticirce/capture_fork.h \
- debugging/trace.h debugging/assert.h
+ conditions/anticirce/anticirce.h debugging/trace.h debugging/assert.h
 
 conditions/anticirce/super.h:
 
@@ -148,83 +144,6 @@ stipulation/temporary_hacks.h:
 solving/move_generator.h:
 
 conditions/anticirce/anticirce.h:
-
-conditions/anticirce/capture_fork.h:
-
-debugging/trace.h:
-
-debugging/assert.h:
-conditions/anticirce/capture_fork$(OBJ_SUFFIX): conditions/anticirce/capture_fork.c \
- conditions/anticirce/capture_fork.h stipulation/slice_type.h \
- utilities/enumeration.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
- solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
- stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h stipulation/fork.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h debugging/assert.h
-
-conditions/anticirce/capture_fork.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-conditions/anticirce/anticirce.h:
-
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-conditions/circe/circe.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/proxy.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-stipulation/branch.h:
-
-stipulation/fork.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
@@ -288,121 +207,6 @@ stipulation/structure_traversal.h:
 stipulation/slice.h:
 
 stipulation/traversal.h:
-
-debugging/trace.h:
-
-debugging/assert.h:
-conditions/anticirce/strict$(OBJ_SUFFIX): conditions/anticirce/strict.c \
- conditions/anticirce/strict.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h conditions/anticirce/anticirce.h \
- conditions/circe/circe.h stipulation/has_solution_type.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h debugging/assert.h
-
-conditions/anticirce/strict.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
-conditions/anticirce/anticirce.h:
-
-conditions/circe/circe.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-debugging/trace.h:
-
-debugging/assert.h:
-conditions/anticirce/relaxed$(OBJ_SUFFIX): conditions/anticirce/relaxed.c \
- conditions/anticirce/relaxed.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/anticirce/anticirce.h solving/ply.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
- stipulation/has_solution_type.h debugging/trace.h debugging/assert.h
-
-conditions/anticirce/relaxed.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-conditions/anticirce/anticirce.h:
-
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-conditions/circe/circe.h:
-
-stipulation/has_solution_type.h:
 
 debugging/trace.h:
 

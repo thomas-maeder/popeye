@@ -321,7 +321,7 @@
     ENUMERATOR(STCirceDeterminingRebornPiece),                          \
     ENUMERATOR(STCirceInitialiseFromCurrentCapture),                    \
     ENUMERATOR(STCirceParrainInitialiseFromCaptureInLastMove),          \
-    ENUMERATOR(STAntiCloneCirceDetermineRebornPiece),                   \
+    ENUMERATOR(STAntiCloneCirceDetermineRebornWalk),                    \
     ENUMERATOR(STCirceCloneDetermineRebornWalk),                        \
     ENUMERATOR(STCirceDoubleAgentsAdaptRebornSide),                     \
     ENUMERATOR(STChameleonCirceAdaptRebornWalk),                        \
@@ -358,13 +358,13 @@
     ENUMERATOR(STLandingAfterCirceRebirthHandler),                      \
     ENUMERATOR(STCirceVolageRecolorer),                                 \
     ENUMERATOR(STAnticirceConsideringRebirth),                          \
-    ENUMERATOR(STAnticirceCaptureFork),                                 \
     ENUMERATOR(STCirceKamikazeCaptureFork),                             \
+    ENUMERATOR(STAnticirceDeterminingRebornPiece),                      \
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticirceRemoveCapturer),                              \
-    ENUMERATOR(STAnticircePlaceRebornRelaxed),                          \
-    ENUMERATOR(STAnticircePlaceRebornStrict),                           \
+    ENUMERATOR(STAnticircePlaceReborn),                                 \
+    ENUMERATOR(STAnticirceRebirthOnNonEmptySquare),                     \
     ENUMERATOR(STAntisupercirceDetermineRebirthSquare),                 \
     ENUMERATOR(STSentinellesInserter),                                  \
     ENUMERATOR(STMagicViewsInitialiser),                                \

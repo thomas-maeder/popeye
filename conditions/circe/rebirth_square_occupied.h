@@ -11,16 +11,25 @@
  * rebirth
  * @param si entry slice into the solving machinery
  */
-void circe_no_rebirth_on_occupied_square(slice_index si);
+void circe_no_rebirth_on_occupied_square(slice_index si,
+                                         slice_type hook_type,
+                                         slice_type nonempty_proxy_type,
+                                         slice_type joint_type);
 
 /* Cause moves with Circe rebirth on an occupied square to not be played
  * @param si entry slice into the solving machinery
  */
-void circe_stop_rebirth_on_occupied_square(slice_index si);
+void circe_stop_rebirth_on_occupied_square(slice_index si,
+                                           slice_type hook_type,
+                                           slice_type nonempty_proxy_type,
+                                           slice_type joint_type);
 
 /* Cause moves with Circe rebirth on an occupied square to assassinate
  * @param si entry slice into the solving machinery
  */
-void circe_assassinate_on_occupied_square(slice_index si);
+void circe_assassinate_on_occupied_square(slice_index si,
+                                          slice_type hook_type,
+                                          slice_type nonempty_proxy_type,
+                                          slice_type joint_type);
 
 #endif

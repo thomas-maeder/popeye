@@ -56,7 +56,7 @@ stip_length_type magic_square_anticirce_relevant_side_adapter_solve(slice_index 
 
 /* Instrument slices with magic square side changers
  */
-void stip_insert_magic_square_type2(slice_index si)
+void magic_square_type2_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

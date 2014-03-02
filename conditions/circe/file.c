@@ -47,8 +47,6 @@ stip_length_type file_circe_determine_rebirth_square_solve(slice_index si,
       circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
 
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
-
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

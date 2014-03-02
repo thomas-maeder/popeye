@@ -18,7 +18,7 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type anti_clone_circe_determine_reborn_piece_solve(slice_index si,
+stip_length_type anti_clone_circe_determine_reborn_walk_solve(slice_index si,
                                                            	   stip_length_type n);
 
 #endif

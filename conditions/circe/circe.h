@@ -20,7 +20,6 @@ typedef struct
     Flags relevant_spec;
     square relevant_square;
     Side relevant_side;
-    move_effect_reason_type rebirth_reason;
 } circe_rebirth_context_elmt_type;
 
 extern circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
@@ -28,6 +27,8 @@ extern circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 typedef unsigned int circe_rebirth_context_index;
 
 extern circe_rebirth_context_index circe_rebirth_context_stack_pointer;
+
+extern move_effect_reason_type circe_rebirth_reason;
 
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
@@ -108,7 +109,7 @@ void circe_instrument_solving(slice_index si, slice_type type);
 /* Instrument Circe rebirths with pawn promotion
  * @param si root slice
  */
-void circe_allow_pawn_promotion(slice_index si);
+void circe_allow_pawn_promotion(slice_index si, slice_type hook_type);
 
 square rennormal_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegel_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);

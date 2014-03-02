@@ -29,7 +29,6 @@ stip_length_type diagram_circe_determine_rebirth_square_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = GetPositionInDiagram(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_spec);
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_reason = move_effect_reason_rebirth_no_choice;
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);

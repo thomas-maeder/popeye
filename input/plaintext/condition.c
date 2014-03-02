@@ -939,17 +939,21 @@ char *ParseCond(void)
       case circedoubleagents:
         anycirce= true;
         break;
-      case supercirce:
-      case circecage:
       case circeequipollents:
       case circesymmetry:
       case circeantipoden:
-      case circetakeandmake:
       case pwc:
       case couscous:
       case couscousmirror:
         anycirprom= true;
         anycirce= true;
+        break;
+      case supercirce:
+      case circecage:
+      case circetakeandmake:
+        anycirprom= true;
+        anycirce= true;
+        circe_rebirth_reason = move_effect_reason_rebirth_choice;
         break;
       case parrain:
       case contraparrain:
@@ -969,11 +973,14 @@ char *ParseCond(void)
       case antifile:
       case antisymmetrie:
       case antimirrorfile:
-      case antisuper:
       case antiantipoden:
       case antiequipollents:
       case anticlonecirce:
         anyanticirce= true;
+        break;
+      case antisuper:
+        anyanticirce= true;
+        anticirce_rebirth_reason = move_effect_reason_rebirth_choice;
         break;
 
         /* different types of immunchess */
@@ -1235,6 +1242,7 @@ char *ParseCond(void)
         {
           anycirprom= true;
           anycirce= true;
+          circe_rebirth_reason = move_effect_reason_rebirth_choice;
         }
         break;
       case koeko:
@@ -1343,6 +1351,9 @@ void InitCond(void)
   anyparrain= false;
 
   AntiCirceType = AntiCirceVariantTypeCount;
+  anticirce_rebirth_reason = move_effect_reason_rebirth_no_choice;
+
+  circe_rebirth_reason = move_effect_reason_rebirth_no_choice;
 
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;

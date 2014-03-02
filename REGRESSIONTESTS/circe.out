@@ -27,14 +27,14 @@ Kamikaze a8 c8 a7 c6 e6 e5 b4 g4 a3 b3 d3 d2 e2 h1
 
    1.kDh1-c1 ! Drohung:
           2.kSc6-b8 #
-      1...kBd2*c1=kD[-skDc1][+skDd8][+wkDd1]
+      1...kBd2*c1=kD[skDc1->d8][+wkDd1]
           2.kLd3-g6 #
-      1...kBd2*c1=kS[-skSc1][+skSb8][+wkDd1]
+      1...kBd2*c1=kS[skSc1->b8][+wkDd1]
           2.kLd3-a6 #
-      1...kBd2*c1=kT[-skTc1][+skTh8][+wkDd1] +
+      1...kBd2*c1=kT[skTc1->h8][+wkDd1] +
           2.kLd3-h7 #
-      1...kBd2*c1=kL[-skLc1][+skLf8][+wkDd1]
-          2.kLd3*e2[-wkLe2][+wkLf1][+skBe7] #
+      1...kBd2*c1=kL[skLc1->f8][+wkDd1]
+          2.kLd3*e2[wkLe2->f1][+skBe7] #
 
 
   add_to_move_generation_stack:       15074
@@ -72,22 +72,22 @@ Kamikaze e8 b7 c7 f7 g7 c6 e6 c5 e5 a4 h3 b2 c2 h2 b1 c1
                 Circe
 
    1.kTe8-e7 ! Zugzwang.
-      1...kBb2*c1=kD[-skDc1][+skDd8][+wkSg1]
-          2.kBc7*d8=kL[-wkLd8][+wkLc1][+skDd8] #
-      1...kBb2*c1=kS[-skSc1][+skSb8][+wkSg1]
-          2.kBc7*b8=kL[-wkLb8][+wkLc1][+skSb8] #
-      1...kBb2*c1=kT[-skTc1][+skTh8][+wkSg1]
-          2.kBg7*h8=kL[-wkLh8][+wkLc1][+skTh8] #
-      1...kBb2*c1=kL[-skLc1][+skLf8][+wkSg1]
-          2.kBg7*f8=kL[-wkLf8][+wkLc1][+skLf8] #
-      1...kBc2*b1=kD[-skDb1][+skDd8][+wkLf1]
-          2.kBc7*d8=kT[-wkTd8][+wkTa1][+skDd8] #
-      1...kBc2*b1=kS[-skSb1][+skSg8][+wkLf1]
-          2.kBf7*g8=kS[-wkSg8][+wkSb1][+skSg8] #
-      1...kBc2*b1=kT[-skTb1][+skTa8][+wkLf1]
-          2.kBb7*a8=kS[-wkSa8][+wkSb1][+skTa8] #
-      1...kBc2*b1=kL[-skLb1][+skLc8][+wkLf1]
-          2.kBb7*c8=kS[-wkSc8][+wkSb1][+skLc8] #
+      1...kBb2*c1=kD[skDc1->d8][+wkSg1]
+          2.kBc7*d8=kL[wkLd8->c1][+skDd8] #
+      1...kBb2*c1=kS[skSc1->b8][+wkSg1]
+          2.kBc7*b8=kL[wkLb8->c1][+skSb8] #
+      1...kBb2*c1=kT[skTc1->h8][+wkSg1]
+          2.kBg7*h8=kL[wkLh8->c1][+skTh8] #
+      1...kBb2*c1=kL[skLc1->f8][+wkSg1]
+          2.kBg7*f8=kL[wkLf8->c1][+skLf8] #
+      1...kBc2*b1=kD[skDb1->d8][+wkLf1]
+          2.kBc7*d8=kT[wkTd8->a1][+skDd8] #
+      1...kBc2*b1=kS[skSb1->g8][+wkLf1]
+          2.kBf7*g8=kS[wkSg8->b1][+skSg8] #
+      1...kBc2*b1=kT[skTb1->a8][+wkLf1]
+          2.kBb7*a8=kS[wkSa8->b1][+skTa8] #
+      1...kBc2*b1=kL[skLb1->c8][+wkLf1]
+          2.kBb7*c8=kS[wkSc8->b1][+skLc8] #
 
 
   add_to_move_generation_stack:        5342
@@ -124,7 +124,7 @@ Loesung beendet.
 Kamikaze h8 e7 h7 e6 g6 h6 c5 f5 g5 h5 c4 g4 a3 b3 c3 h3 a2 c2
           Circe RexInklusive
 
-  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[-wkTh3][+wkTh1] #
+  1.kSg6-f8 kLh7-g6   2.kSf8-h7 kTc3*h3[wkTh3->h1] #
 
   add_to_move_generation_stack:       70274
                      play_move:       86256
@@ -161,30 +161,30 @@ Kamikaze b7 f7 g7 h7 b6 d6 e6 f5 g5 h5 a4 d4 f3 a2 c2 h2 b1
                 Circe
 
    1.kLh2-e5 ! Drohung:
-          2.kSf3*d4[-wkSd4][+wkSg1][+skBd7] #
-      1...kDh7*f5[-skDf5][+skDd8][+wkDd1]
-          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
-      1...kDh7*h5[-skDh5][+skDd8][+wkTh1]
-          2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
+          2.kSf3*d4[wkSd4->g1][+skBd7] #
+      1...kDh7*f5[skDf5->d8][+wkDd1]
+          2.kDd1*b1[wkDb1->d1][+skLc8] #
+      1...kDh7*h5[skDh5->d8][+wkTh1]
+          2.kTh1*b1[wkTb1->h1][+skLc8] #
 
-   1.kSf3*d4[-wkSd4][+wkSg1][+skBd7] ? Drohung:
+   1.kSf3*d4[wkSd4->g1][+skBd7] ? Drohung:
           2.kLh2-e5 #
           2.kDf5-e5 #
-      1...kLb1*c2[-skLc2][+skLc8][+wkTh1]
+      1...kLb1*c2[skLc2->c8][+wkTh1]
           2.kLh2-e5 #
           2.kDf5-b1 #
-      1...kDh7*f5[-skDf5][+skDd8][+wkDd1]
-          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
+      1...kDh7*f5[skDf5->d8][+wkDd1]
+          2.kDd1*b1[wkDb1->d1][+skLc8] #
     Aber
-      1...kDh7*h5[-skDh5][+skDd8][+wkTh1] !
+      1...kDh7*h5[skDh5->d8][+wkTh1] !
 
-   1.kDf5*h7[-wkDh7][+wkDd1][+skDd8] ? Drohung:
-          2.kDd1*b1[-wkDb1][+wkDd1][+skLc8] #
+   1.kDf5*h7[wkDh7->d1][+skDd8] ? Drohung:
+          2.kDd1*b1[wkDb1->d1][+skLc8] #
     Aber
       1...kDd8-f6 !
 
-   1.kTh5*h7[-wkTh7][+wkTh1][+skDd8] ? Drohung:
-          2.kTh1*b1[-wkTb1][+wkTh1][+skLc8] #
+   1.kTh5*h7[wkTh7->h1][+skDd8] ? Drohung:
+          2.kTh1*b1[wkTb1->h1][+skLc8] #
     Aber
       1...kDd8-h8 !
 
