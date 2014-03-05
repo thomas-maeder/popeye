@@ -1,0 +1,191 @@
+
+             Linden Lyons
+         www.matplus.net 2014
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .  -R  -P   .  -B   .   R   5
+|                                   |
+4   .   .   .   .   .   .  -K   .   4
+|                                   |
+3   .   .   .   .   .  -R   .   .   3
+|                                   |
+2   .   .  -P   .   Q   .   B   .   2
+|                                   |
+1   .   .   .   .   .   .   .  -Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  kc52                        4 + 8
+
+   1.Qe2-d3 ? threat:
+          2.Qd3*d5
+      1...Rf3*d3
+          2.Bg2*d5
+      1...Rc5-c3
+          2.Qd3*c2
+      1...Rc5-c8 +
+          2.Ka8-b7
+      1...Rc5-c7
+          2.Ka8-b8
+      1...d5-d4
+          2.Qd3*d4 +
+      1...Bf5*d3
+          2.Rh5*d5
+    but
+      1...Rc5-b5 !
+
+   1.Qe2-d2 ! threat:
+          2.Qd2*d5
+      1...Rf3-d3
+          2.Bg2*d5
+      1...Rc5-c3
+          2.Qd2*c2
+      1...Rc5-b5
+          2.Qd2*a5
+      1...Rc5-c8 +
+          2.Ka8-b7
+      1...Rc5-c7
+          2.Ka8-b8
+      1...d5-d4
+          2.Qd2*d4 +
+      1...Bf5-d3
+          2.Rh5*d5
+
+   1.Qe2-e4 + ?
+      1...Rf3-f4
+          2.Qe4*d5
+      1...Kg4*h5
+          2.Qe4*d5
+      1...Kg4-g3
+          2.Qe4*d5
+      1...Bf5*e4
+          2.Rh5*d5
+    but
+      1...d5*e4 !
+
+   1.Bg2*f3 + ?
+      1...Kg4-g3
+          2.Bf3*d5
+      1...Kg4-f4
+          2.Bf3*d5
+    but
+      1...Qh1*f3 !
+
+
+  add_to_move_generation_stack:       12959
+                     play_move:        4251
+ is_white_king_square_attacked:         347
+ is_black_king_square_attacked:         710
+solution finished. 
+
+
+
+             Kevin Begley
+         www.matplus.net 2014
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   S   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hkh31                       1 + 1
+
+  1.h3-h2 Sh1-g3
+
+  add_to_move_generation_stack:           3
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+             Kevin Begley
+         www.matplus.net 2014
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   S   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hkb71                       1 + 1
+
+  1.b7-b5 Sa8-b6
+  1.b7-b6 Sa8-c7
+
+  add_to_move_generation_stack:           6
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+             Kevin Begley
+         www.matplus.net 2014
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   S   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hka71                       1 + 1
+
+  1.a7-a5 Sa4-b6
+  1.a7-a6 Sa4-b6
+
+  add_to_move_generation_stack:          10
+                     play_move:          10
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

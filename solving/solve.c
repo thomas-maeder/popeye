@@ -225,6 +225,7 @@
 #include "stipulation/goals/castling/reached_tester.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "stipulation/goals/chess81/reached_tester.h"
+#include "stipulation/goals/kiss/reached_tester.h"
 #include "stipulation/goals/circuit_by_rebirth/reached_tester.h"
 #include "stipulation/goals/circuit/reached_tester.h"
 #include "stipulation/goals/countermate/filter.h"
@@ -1297,6 +1298,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STGoalChess81ReachedTester:
       result = goal_chess81_reached_tester_solve(si,n);
+      break;
+
+    case STGoalKissReachedTester:
+      result = goal_kiss_reached_tester_solve(si,n);
       break;
 
     case STGoalKingCaptureReachedTester:

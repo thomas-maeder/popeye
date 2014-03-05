@@ -25,6 +25,7 @@
 #include "stipulation/goals/proofgame/reached_tester.h"
 #include "stipulation/goals/atob/reached_tester.h"
 #include "stipulation/goals/chess81/reached_tester.h"
+#include "stipulation/goals/kiss/reached_tester.h"
 #include "position/pieceid.h"
 #include "debugging/trace.h"
 #include "pymsg.h"
@@ -65,6 +66,7 @@ typedef struct
    , { "dia",  goal_proofgame           }
    , { "a=>b", goal_atob                }
    , { "c81",  goal_chess81             }
+   , { "k",    goal_kiss                }
  };
 
  static goalInputConfig_t const *detectGoalType(char *tok)
@@ -230,6 +232,24 @@ char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_chess81:
         pipe_link(proxy,alloc_goal_chess81_reached_tester_system());
+        break;
+
+      case goal_kiss:
+        {
+          goal.target = SquareNum(tok[0],tok[1]);
+
+          if (goal.target==initsquare)
+          {
+            IoErrorMsg(MissngSquareList, 0);
+            tok = 0;
+          }
+          else
+          {
+            pipe_link(proxy,alloc_goal_kiss_reached_tester_system(goal.target));
+            tok += 2; /* skip over target square indication */
+          }
+          break;
+        }
         break;
 
       default:

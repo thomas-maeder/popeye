@@ -143,6 +143,7 @@
 #include "stipulation/constraint.h"
 #include "stipulation/temporary_hacks.h"
 #include "stipulation/goals/immobile/reached_tester.h"
+#include "stipulation/goals/kiss/reached_tester.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
@@ -944,6 +945,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     backtoback_initialise_solving(result);
   if (CondFlag[cheektocheek])
     cheektocheek_initialise_solving(result);
+
+  goal_kiss_init_piece_id(result);
 
   optimise_is_square_observed(result);
   optimise_is_in_check(result);

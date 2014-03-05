@@ -1379,7 +1379,7 @@ static void countPieces(void)
   TraceFunctionResultEnd();
 }
 
-static boolean initialise_piece_flags(void)
+static void initialise_piece_flags(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1435,7 +1435,6 @@ static boolean initialise_piece_flags(void)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-  return true;
 }
 
 static boolean locate_unique_royal(Side side)
@@ -2882,7 +2881,8 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
       assert(unique_goal.type==goal_proofgame || unique_goal.type==goal_atob);
 
       countPieces();
-      if (initialise_piece_flags() && locate_royals())
+      initialise_piece_flags();
+      if (locate_royals())
       {
         ProofSaveTargetPosition();
 
@@ -2892,7 +2892,8 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
         ProofRestoreStartPosition();
 
         countPieces();
-        if (initialise_piece_flags() && locate_royals() && verify_position(stipulation_root))
+        initialise_piece_flags();
+        if (locate_royals() && verify_position(stipulation_root))
         {
           ProofSaveStartPosition();
           ProofRestoreTargetPosition();
@@ -2929,8 +2930,8 @@ static void solve_non_proofgame_stipulation(slice_index stipulation_root_hook,
   TraceFunctionParamListEnd();
 
   countPieces();
-  if (initialise_piece_flags()
-      && locate_royals()
+  initialise_piece_flags();
+  if (locate_royals()
       && verify_position(slices[stipulation_root_hook].next1))
   {
     if (!OptFlag[noboard] && twin_index==0)

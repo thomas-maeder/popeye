@@ -703,7 +703,8 @@ input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h
  stipulation/goals/any/reached_tester.h \
  stipulation/goals/proofgame/reached_tester.h \
  stipulation/goals/atob/reached_tester.h \
- stipulation/goals/chess81/reached_tester.h debugging/trace.h pymsg.h \
+ stipulation/goals/chess81/reached_tester.h \
+ stipulation/goals/kiss/reached_tester.h debugging/trace.h pymsg.h \
  pylang.h utilities/boolean.h solving/proofgames.h debugging/assert.h
 
 input/plaintext/goal.h:
@@ -797,6 +798,8 @@ stipulation/goals/proofgame/reached_tester.h:
 stipulation/goals/atob/reached_tester.h:
 
 stipulation/goals/chess81/reached_tester.h:
+
+stipulation/goals/kiss/reached_tester.h:
 
 debugging/trace.h:
 

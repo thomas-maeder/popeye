@@ -56,6 +56,7 @@ char const *goal_end_marker[nr_goals] =
   , " #="
   , " c81"
   , ""
+  , ""
 };
 
 /* Order in which the slice types dealing with goals appear
@@ -88,6 +89,7 @@ static slice_index const goal_slice_rank_order[] =
   STGoalAToBReachedTester,
   STGoalMateOrStalemateReachedTester,
   STGoalChess81ReachedTester,
+  STGoalKissReachedTester,
   STGoalKingCaptureReachedTester,
   STPiecesParalysingMateFilter,
   STPiecesParalysingMateFilterTester,

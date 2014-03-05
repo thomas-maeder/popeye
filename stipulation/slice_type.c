@@ -87,6 +87,7 @@
     ENUMERATOR(STGoalAToBReachedTester), /* tests whether an "A to B" goal has been reached */ \
     ENUMERATOR(STGoalMateOrStalemateReachedTester), /* just a placeholder - we test using the mate and stalemate testers */ \
     ENUMERATOR(STGoalChess81ReachedTester), /* tests whether an Chess81 goal has been reached */ \
+    ENUMERATOR(STGoalKissReachedTester), /* tests whether a kiss goal has been reached */ \
     ENUMERATOR(STGoalImmobileReachedTester), /* auxiliary slice testing whether a side is immobile */ \
     ENUMERATOR(STGoalNotCheckReachedTester), /* auxiliary slice enforcing that a side is not in check */ \
     ENUMERATOR(STGoalKingCaptureReachedTester), /* auxiliary slice enforcing that a side's king has been captured */ \

@@ -1332,6 +1332,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  stipulation/goals/castling/reached_tester.h \
  stipulation/goals/check/reached_tester.h \
  stipulation/goals/chess81/reached_tester.h \
+ stipulation/goals/kiss/reached_tester.h \
  stipulation/goals/circuit_by_rebirth/reached_tester.h \
  stipulation/goals/circuit/reached_tester.h \
  stipulation/goals/countermate/filter.h \
@@ -1852,6 +1853,8 @@ stipulation/goals/castling/reached_tester.h:
 stipulation/goals/check/reached_tester.h:
 
 stipulation/goals/chess81/reached_tester.h:
+
+stipulation/goals/kiss/reached_tester.h:
 
 stipulation/goals/circuit_by_rebirth/reached_tester.h:
 
@@ -2525,7 +2528,8 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  stipulation/end_of_branch_tester.h stipulation/dead_end.h \
  stipulation/boolean/and.h stipulation/constraint.h \
  stipulation/moves_traversal.h \
- stipulation/goals/immobile/reached_tester.h stipulation/branch.h \
+ stipulation/goals/immobile/reached_tester.h \
+ stipulation/goals/kiss/reached_tester.h stipulation/branch.h \
  stipulation/move.h solving/king_capture_avoider.h solving/testers.h \
  solving/find_shortest.h solving/for_each_move.h \
  solving/battle_play/try.h solving/battle_play/threat.h \
@@ -2892,6 +2896,8 @@ stipulation/constraint.h:
 stipulation/moves_traversal.h:
 
 stipulation/goals/immobile/reached_tester.h:
+
+stipulation/goals/kiss/reached_tester.h:
 
 stipulation/branch.h:
 

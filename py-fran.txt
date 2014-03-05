@@ -519,6 +519,7 @@ simples:
 						{ctr}	    {ctr }
 						{<>r}	    {<>r }
 						{c81}	    {c81 }
+							    {Kxy }
       
 							    {dia } + n{.5}
 			   {SER-}			  + {dia } + n
@@ -532,6 +533,7 @@ simples:
 	#3              mat en 3 coups
 	HZg74           les noirs aident les blancs a atteindre la case
 			d'arrivee g7 en 4 coups
+	sKa75           baiser de la piece en a7 inverse en 5 coups
 	S+2             echec inverse en 2 coups
 	R==3            pat double reflex en 3 coups
 	HS#3            mat inverse aide en 3 coups (= mat inverse aide force)

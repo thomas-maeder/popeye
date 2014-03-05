@@ -532,7 +532,8 @@ Kommandos:
 						{ctr}	    {ctr }
 						{<>r}	    {<>r }
 						{c81}	    {c81 }
-      
+							    {Kxy }
+     
 							    {dia } + n{.5}
 			   {SER-}			  + {dia } + n
 							    {a=>b} + n{.5}
@@ -544,6 +545,7 @@ Kommandos:
 
 	#3              Matt in 3 Zuegen
 	HZg74           Hilf-Ziel-g7 in 4 Zuegen
+	sKa75		Selbst-Kuss des Steins auf a7 in 5 Zuegen
 	S+2             Selbstschach in 2 Zuegen
 	R==3            Reflexdoppelpatt in 3 Zuegen
 	HS#3            Hilfsselbstmatt in 3 Zuegen      (= Hilfszwingmatt)

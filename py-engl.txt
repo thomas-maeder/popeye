@@ -515,6 +515,7 @@ commands expect further parameters. Lets start with the simpler commands:
 						{ctr}	    {ctr }
 						{<>r}	    {<>r }
 						{c81}	    {c81 }
+							    {Zxy }
       
 							    {dia } + n{.5}
 			   {SER-}			  + {dia } + n
@@ -527,6 +528,7 @@ commands expect further parameters. Lets start with the simpler commands:
 
 	#3              mate in three moves
 	HZg74           help-targetsquare-g7 in 4 moves
+	sKa74           self-kiss of the piece on a7 in 5 moves
 	S+2             self-check in 2 moves
 	R==3            reflex-doublestalemate in 3 moves
 	HS#3            helpselfmate in 3 moves      (= help forced selfmate)

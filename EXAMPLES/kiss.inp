@@ -1,0 +1,36 @@
+begin
+
+prot kiss.ref
+
+author Linden Lyons
+origin www.matplus.net 2014
+pieces white ka8 qe2 rh5 bg2
+       black kg4 qh1 rc5f3 bf5 pa5c2d5
+stip kc52
+option vari try
+
+next
+
+author Kevin Begley
+origin www.matplus.net 2014
+pieces white sh1 black ph3
+stip hkh31
+option nowk nobk
+
+next
+
+author Kevin Begley
+origin www.matplus.net 2014
+pieces white sa8 black pb7
+stip hkb71
+option nowk nobk
+
+next
+
+author Kevin Begley
+origin www.matplus.net 2014
+pieces white sa4 black pa7
+stip hka71
+option nowk nobk
+
+end
