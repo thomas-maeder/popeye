@@ -875,7 +875,7 @@ nur die letzten 2 Zuege < 1 min mit Athlon 2400
 +---a---b---c---d---e---f---g---h---+
   hs#2                  3 + 11 + 1n
           HalbNeutral c6 e4
-            AntiSuperCirce
+           AntiCirce Super
 
   1.hLe4*h7=nh[nhLh7->b5] Tc3-c1   2.nhTc6*d6=wh[whTd6->f7] + Lf1*b5[sLb5->e7] #
 

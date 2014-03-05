@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 2
-            AntiSuperCirce
+           AntiCirce Super
 
 a) 
 
@@ -75,7 +75,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#4                      2 + 2
-            AntiSuperCirce
+           AntiCirce Super
               HalfDuplex
 
   1.a7*b6[bPb6->e1=Q]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 #
@@ -113,7 +113,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h=1                         2 + 2
                 Circe
-            AntiSuperCirce
+           AntiCirce Super
 
   1...b6*a7[wPa7->a6][+bPa7] =
 
@@ -149,7 +149,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-002                     2 + 2
-            AntiSuperCirce
+           AntiCirce Super
                 Duplex
 
   1.Ra5*a8[wRa8->a1]   2.0-0-0
@@ -187,7 +187,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-            AntiSuperCirce
+           AntiCirce Super
 
 a) 
 
@@ -917,7 +917,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          2 + 4
-            AntiSuperCirce
+           AntiCirce Super
 
 a) 
 
@@ -930,7 +930,7 @@ a)
                      play_move:         198
  is_white_king_square_attacked:          67
  is_black_king_square_attacked:         194
-b) AntiSuperCirce  Cheylan
+b) AntiCirce Super Cheylan
 
    1.Kd6*c6[wKc6->c7] = !
 

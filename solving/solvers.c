@@ -543,30 +543,29 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   {
     anticirce_initialise_solving(result);
 
-    if (CondFlag[antisuper])
+    if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
       anticirce_instrument_solving(result,STAntisupercirceDetermineRebirthSquare);
-    else if (CondFlag[antidiagramm])
+    else if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
       anticirce_instrument_solving(result,STDiagramCirceDetermineRebirthSquare);
-    else if (CondFlag[antifile])
+    else if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_file)
       anticirce_instrument_solving(result,STFileCirceDetermineRebirthSquare);
-    else if (CondFlag[antisymmetrie])
+    else if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_symmetry)
       anticirce_instrument_solving(result,STSymmetryCirceDetermineRebirthSquare);
-    else if (CondFlag[antimirrorfile])
-      anticirce_instrument_solving(result,STFileCirceDetermineRebirthSquare);
-    else if (CondFlag[antiantipoden])
+    else if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_antipodes)
       anticirce_instrument_solving(result,STAntipodesCirceDetermineRebirthSquare);
-    else if (CondFlag[antiequipollents])
+    else if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents)
       anticirce_instrument_solving(result,STCirceParrainDetermineRebirth);
     else
       anticirce_instrument_solving(result,STCirceDetermineRebirthSquare);
 
-    if (CondFlag[antisuper] || CondFlag[antiantipoden] || CondFlag[antiequipollents])
+    if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_super
+        || anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_antipodes
+        || anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents)
       circe_allow_pawn_promotion(result,STAnticircePlaceReborn);
 
-    if (CondFlag[antimirror]
-        || CondFlag[antimirrorfile])
+    if (anticirce_variant.is_mirror)
       anticirce_instrument_solving(result,STMirrorCirceOverrideRelevantSide);
-    if (CondFlag[anticlonecirce])
+    if (anticirce_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
       anticirce_instrument_solving(result,STAntiCloneCirceDetermineRebornWalk);
 
     circe_stop_rebirth_on_occupied_square(result,
@@ -579,17 +578,14 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                  STCirceCaptureFork,
                                  STCirceRebirthAvoided,
                                  STLandingAfterAnticirceRebirth);
-  }
 
-  if (anyanticirce)
-  {
     if (AntiCirceType==AntiCirceTypeCheylan)
       anticirce_cheylan_initialise_solving(result);
 
     if (CondFlag[magicsquare] && magic_square_type==ConditionType2)
       magic_square_type2_initialise_solving(result);
 
-    if (!CondFlag[antisuper])
+    if (anticirce_variant.determine_rebirth_square!=circe_determine_rebirth_square_super)
       stip_instrument_check_validation(result,
                                        nr_sides,
                                        STValidateCheckMoveByPlayingCapture);

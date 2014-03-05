@@ -2229,7 +2229,7 @@ static boolean verify_position(slice_index si)
     if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super) numsuper++;
     if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage) numsuper++;
     if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_april) numsuper++;
-    if (CondFlag[antisuper]) numsuper++;
+    if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_super) numsuper++;
     if (numsuper>1)
     {
       VerifieMsg(SuperCirceAndOthers);
@@ -2297,7 +2297,8 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[circeassassin]) {
+  if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
+  {
     if (is_piece_neutral(some_pieces_flags) /* Neutrals not implemented */
         || CondFlag[bicolores])             /* others? */
     {
@@ -2696,7 +2697,8 @@ static boolean verify_position(slice_index si)
       || CondFlag[ohneschach])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[extinction] || CondFlag[circeassassin])
+  if (CondFlag[extinction]
+      || circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[actrevolving] || CondFlag[arc])

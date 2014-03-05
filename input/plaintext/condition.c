@@ -175,6 +175,10 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         variant->is_diametral = true;
         break;
 
+      case CirceVariantAssassin:
+        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
+        break;
+
       case CirceVariantClone:
         if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_clone))
           IoErrorMsg(NonsenseCombination,0);
@@ -191,6 +195,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
 
       case CirceVariantCouscous:
         variant->relevant_piece = circe_relevant_piece_capturer;
+        variant->is_promotion_possible = true;
         break;
 
       case CirceVariantLastMove:
@@ -198,13 +203,18 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         break;
 
       case CirceVariantEquipollents:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
+          variant->is_promotion_possible = true;
+        else
           IoErrorMsg(NonsenseCombination,0);
         break;
 
       case CirceVariantParrain:
         if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
+        {
           variant->relevant_capture = circe_relevant_capture_lastmove;
+          variant->is_promotion_possible = true;
+        }
         else
           IoErrorMsg(NonsenseCombination,0);
         break;
@@ -213,6 +223,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
         {
           variant->relevant_capture = circe_relevant_capture_lastmove;
+          variant->is_promotion_possible = true;
           variant->is_mirror = true;
         }
         else
@@ -220,7 +231,13 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         break;
 
       case CirceVariantCage:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_cage))
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_cage))
+        {
+          variant->is_promotion_possible = true;
+          variant->rebirth_reason = move_effect_reason_rebirth_choice;
+          variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+        }
+        else
           IoErrorMsg(NonsenseCombination,0);
         break;
 
@@ -235,7 +252,9 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         break;
 
       case CirceVariantSymmetry:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_symmetry))
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_symmetry))
+          variant->is_promotion_possible = true;
+        else
           IoErrorMsg(NonsenseCombination,0);
         break;
 
@@ -245,22 +264,38 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         break;
 
       case CirceVariantPWC:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_pwc))
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_pwc))
+          variant->is_promotion_possible = true;
+        else
           IoErrorMsg(NonsenseCombination,0);
         break;
 
       case CirceVariantAntipodes:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_antipodes))
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_antipodes))
+          variant->is_promotion_possible = true;
+        else
           IoErrorMsg(NonsenseCombination,0);
         break;
 
       case CirceVariantSuper:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_super))
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_super))
+        {
+          variant->is_promotion_possible = true;
+          variant->rebirth_reason = move_effect_reason_rebirth_choice;
+          variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+        }
+        else
           IoErrorMsg(NonsenseCombination,0);
         break;
 
       case CirceVariantTakeAndMake:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_take_and_make))
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_take_and_make))
+        {
+          variant->is_promotion_possible = true;
+          variant->rebirth_reason = move_effect_reason_rebirth_choice;
+          variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+        }
+        else
           IoErrorMsg(NonsenseCombination,0);
         break;
 
@@ -272,9 +307,9 @@ static char *ParseCirceVariants(circe_variant_type *variant)
           tok = ReadPieces(april);
           if (CondFlag[april])
           {
-            circe_variant.is_promotion_possible= true;
-            circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-            circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+            variant->is_promotion_possible= true;
+            variant->rebirth_reason = move_effect_reason_rebirth_choice;
+            variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
           }
         }
         else
@@ -1164,19 +1199,58 @@ char *ParseCond(void)
         break;
 
       case anti:
-      case antimirror:
-      case antidiagramm:
-      case antifile:
-      case antisymmetrie:
-      case antimirrorfile:
-      case antiantipoden:
-      case antiequipollents:
-      case anticlonecirce:
         anyanticirce= true;
         break;
-      case antisuper:
+      case antimirror:
+        CondFlag[anti] = true;
         anyanticirce= true;
-        anticirce_rebirth_reason = move_effect_reason_rebirth_choice;
+        anticirce_variant.is_mirror = true;
+        break;
+      case anticlonecirce:
+        CondFlag[anti] = true;
+        anyanticirce= true;
+        anticirce_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
+        break;
+      case antiequipollents:
+        CondFlag[anti] = true;
+        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+        anticirce_variant.is_promotion_possible = true;
+        anyanticirce= true;
+        break;
+      case antiantipoden:
+        CondFlag[anti] = true;
+        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
+        anticirce_variant.is_promotion_possible = true;
+        anyanticirce= true;
+        break;
+      case antimirrorfile:
+        CondFlag[anti] = true;
+        anyanticirce= true;
+        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+        anticirce_variant.is_mirror = true;
+        break;
+      case antisymmetrie:
+        CondFlag[anti] = true;
+        anyanticirce= true;
+        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
+        anticirce_variant.is_promotion_possible = true;
+        break;
+      case antifile:
+        CondFlag[anti] = true;
+        anyanticirce= true;
+        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+        break;
+      case antidiagramm:
+        CondFlag[anti] = true;
+        anyanticirce= true;
+        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
+        break;
+      case antisuper:
+        CondFlag[anti] = true;
+        anyanticirce= true;
+        anticirce_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
+        anticirce_variant.is_promotion_possible = true;
         break;
 
         /* different types of immunchess */
@@ -1601,9 +1675,9 @@ void InitCond(void)
   anygeneva = false;
 
   AntiCirceType = AntiCirceVariantTypeCount;
-  anticirce_rebirth_reason = move_effect_reason_rebirth_no_choice;
 
   circe_reset_variant(&circe_variant);
+  circe_reset_variant(&anticirce_variant);
 
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;
@@ -1611,7 +1685,6 @@ void InitCond(void)
   royal_square[White] = initsquare;
   royal_square[Black] = initsquare;
 
-  CondFlag[circeassassin]= false;
   sentinelles_is_para= false;
   madrasi_is_rex_inclusive = false;
   circe_variant.is_rex_inclusive = false;

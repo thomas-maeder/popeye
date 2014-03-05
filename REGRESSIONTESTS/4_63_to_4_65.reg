@@ -2189,7 +2189,7 @@ Until 4.63, there was no way to indicate Mirror File Anticirce with
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-         MirrorFileAntiCirce
+        AntiCirce File Mirror
 
    1.Sc3*d5[wSd5->d8] x !
 

@@ -121,7 +121,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-           DiagramAntiCirce
+          AntiCirce Diagram
 
    1.Sc3*d5[wSd5->c3] x !
 
@@ -156,7 +156,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-           MirrorAntiCirce
+           AntiCirce Mirror
 
    1.Sc3*d5[wSd5->g8] x !
 
@@ -191,7 +191,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-            FileAntiCirce
+            AntiCirce File
 
    1.Sc3*d5[wSd5->d1] x !
 
@@ -226,7 +226,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-          SymmetryAntiCirce
+          AntiCirce Symmetry
 
    1.Sc3*d5[wSd5->e4] x !
 
@@ -261,7 +261,7 @@ only example of Mirror File Anticirce
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-         MirrorFileAntiCirce
+        AntiCirce File Mirror
 
    1.Sc3*d5[wSd5->d8] x !
 
@@ -296,7 +296,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-         AntipodeanAntiCirce
+         AntiCirce Antipodes
 
    1.Sc3*d5[wSd5->h1] x !
 
@@ -331,7 +331,7 @@ only example of Equipollents Anticirce
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-        EquipollentsAntiCirce
+        AntiCirce Equipollents
 
    1.Sc3*d5[wSd5->e7] x !
 

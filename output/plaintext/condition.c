@@ -174,7 +174,16 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         || cond==circetakeandmake
         || cond==supercirce
         || cond==april
-        || cond==frischauf)
+        || cond==frischauf
+        || cond==antisuper
+        || cond==antidiagramm
+        || cond==antifile
+        || cond==antisymmetrie
+        || cond==antimirror
+        || cond==antimirrorfile
+        || cond==antiantipoden
+        || cond==antiequipollents
+        || cond==anticlonecirce)
       continue;
 
     /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
@@ -606,17 +615,25 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     switch (cond)
     {
       case anti:
-      case antimirror:
-      case antidiagramm:
-      case antifile:
-      case antisymmetrie:
-      case antimirrorfile:
-      case antiantipoden:
-      case antiequipollents:
-      case antisuper:
-        /* AntiCirceTypeCalvet is default in AntiCirce */
+        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
+        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiagramm]);
+        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_file)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantFile]);
+        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_symmetry)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSymmetry]);
+        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_antipodes)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
+        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantEquipollents]);
+        if (anticirce_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
+        if (anticirce_variant.is_mirror)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
+       /* AntiCirceTypeCalvet is default in AntiCirce */
         if (AntiCirceType!=AntiCirceTypeCalvet)
-          written += append_to_CondLine(&CondLine,written,"  %s",AntiCirceVariantTypeString[UserLanguage][AntiCirceType]);
+          written += append_to_CondLine(&CondLine,written," %s",AntiCirceVariantTypeString[UserLanguage][AntiCirceType]);
         break;
 
       case blmax:

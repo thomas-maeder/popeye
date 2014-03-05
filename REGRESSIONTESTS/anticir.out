@@ -785,7 +785,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                         7 + 5
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
    1.De5-d4 ! Drohung:
           2.Lg3-e1 +
@@ -830,7 +830,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                       12 + 12
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
    1.f7-f8=S ! Drohung:
           2.Db7-g7 +
@@ -1600,7 +1600,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                         9 + 11
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
    1.f7-f8=T ! Drohung:
           2.Lc8-b7 +
@@ -1887,7 +1887,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         4 + 3
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
   1.f2*g1=S[sSg1->b8] a7*b8=D[wDb8->d1] +   2.c2*d1=L[sLd1->c8] d7*c8=T[wTc8->h1] =
 
@@ -2052,7 +2052,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 4
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
 a) 
 
@@ -2135,7 +2135,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 5
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
   1.Th1-h8 Lg1-f2   2.Th8-e8 Kf3-e2 #
   1.Th1-h8 Kf3-e4   2.Ta8-e8 + Ke4*d4[wKd4->e1] #
@@ -2218,7 +2218,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          4 + 2
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
    1.g2*h3[wBh3->h2] ! Zugzwang.
       1...Kh1-g2
@@ -2261,7 +2261,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 3
-          AntiCirce  Cheylan
+          AntiCirce Cheylan
 
 a) 
 
@@ -3297,7 +3297,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 8
-            AntiCloneCirce
+       AntiCirce Clone Cheylan
 
 a) 
 
@@ -3350,7 +3350,7 @@ S. K. Balasubramanian & Pierre Tritten
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 3
-            AntiCloneCirce
+       AntiCirce Clone Cheylan
 
 a) 
 

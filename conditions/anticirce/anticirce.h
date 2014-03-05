@@ -7,6 +7,7 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/slice_type.h"
 #include "position/position.h"
+#include "conditions/circe/circe.h"
 
 typedef enum
 {
@@ -18,7 +19,7 @@ typedef enum
 
 extern AntiCirceVariantType AntiCirceType;
 
-extern move_effect_reason_type anticirce_rebirth_reason;
+extern circe_variant_type anticirce_variant;
 
 /* Try to solve in n half-moves.
  * @param si slice index

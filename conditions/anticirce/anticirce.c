@@ -1,5 +1,4 @@
 #include "conditions/anticirce/anticirce.h"
-#include "conditions/circe/circe.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
@@ -15,7 +14,7 @@
 
 AntiCirceVariantType AntiCirceType;
 
-move_effect_reason_type anticirce_rebirth_reason;
+circe_variant_type anticirce_variant;
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -136,7 +135,7 @@ stip_length_type anticirce_place_reborn_solve(slice_index si, stip_length_type n
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_piece_readdition(anticirce_rebirth_reason,
+  move_effect_journal_do_piece_readdition(anticirce_variant.rebirth_reason,
                                           context->rebirth_square,
                                           context->reborn_walk,
                                           context->reborn_spec);

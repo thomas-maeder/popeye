@@ -21,7 +21,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-002                     2 + 2
-            AntiSuperCirce
+           AntiCirce Super
                 Duplex
 
   1.Ta5*a8[wTa8->a1]   2.0-0-0
@@ -59,7 +59,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-            AntiSuperCirce
+           AntiCirce Super
 
 a) 
 
@@ -789,7 +789,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          2 + 4
-            AntiSuperCirce
+           AntiCirce Super
 
 a) 
 
@@ -802,7 +802,7 @@ a)
                      play_move:         198
  is_white_king_square_attacked:          67
  is_black_king_square_attacked:         194
-b) AntiSuperCirce  Cheylan
+b) AntiCirce Super  Cheylan
 
    1.Kd6*c6[wKc6->c7] = !
 
