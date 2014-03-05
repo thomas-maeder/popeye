@@ -12,9 +12,69 @@
 
 #include "debugging/assert.h"
 
+circe_variant_type circe_variant;
+
 circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
 circe_rebirth_context_index circe_rebirth_context_stack_pointer = 0;
-move_effect_reason_type circe_rebirth_reason;
+
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
+ */
+void circe_reset_variant(circe_variant_type *variant)
+{
+  variant->is_promotion_possible = false;
+  variant->rebirth_reason = move_effect_reason_rebirth_no_choice;
+  variant->is_mirror = false;
+  variant->is_diametral = false;
+  variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_default;
+  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_no_rebirth;
+  variant->reborn_walk_adapter = circe_reborn_walk_adapter_none;
+  variant->is_turncoat = false;
+  variant->relevant_piece = circe_relevant_piece_capturee;
+  variant->relevant_capture = circe_relevant_capture_thismove;
+  variant->determine_rebirth_square = circe_determine_rebirth_square_from_pas;
+  variant->is_frischauf = false;
+}
+
+/* Override the reborn walk adapter of a Circe variant object
+ * @param adapter the overrider
+ * @return true if the adapter hasn't been overridden yet
+ */
+boolean circe_override_reborn_walk_adapter(circe_variant_type *variant,
+                                           circe_reborn_walk_adapter_type adapter)
+{
+  boolean result;
+
+  if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_none)
+  {
+    variant->reborn_walk_adapter = adapter;
+    result = true;
+  }
+  else
+    result = false;
+
+  return result;
+}
+
+/* Override the method for determining the rebirth square of a Circe variant object
+ * @param adapter the overrider
+ * @return true if it hasn't been overridden yet
+ */
+boolean circe_override_determine_rebirth_square(circe_variant_type *variant,
+                                                circe_reborn_walk_adapter_type determine)
+{
+  boolean result;
+
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_from_pas)
+  {
+    variant->determine_rebirth_square = determine;
+    result = true;
+  }
+  else
+    result = false;
+
+  return result;
+}
 
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
@@ -186,7 +246,7 @@ stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n)
   assert(context->reborn_walk!=Empty);
   assert(is_square_empty(context->rebirth_square));
 
-  move_effect_journal_do_piece_readdition(circe_rebirth_reason,
+  move_effect_journal_do_piece_readdition(circe_variant.rebirth_reason,
                                           context->rebirth_square,
                                           context->reborn_walk,
                                           context->reborn_spec);
@@ -352,7 +412,7 @@ square rennormal(PieNam pnam_captured, Flags p_captured_spec,
     {
       if (is_pawn(pnam_captured))
         Result = col + (nr_of_slack_rows_below_board+1)*onerow;
-      else if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf))
+      else if (circe_variant.is_frischauf && TSTFLAG(p_captured_spec,FrischAuf))
         Result = (col
                   + (onerow
                      *(CondFlag[glasgow]
@@ -379,7 +439,7 @@ square rennormal(PieNam pnam_captured, Flags p_captured_spec,
     {
       if (is_pawn(pnam_captured))
         Result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
-      else if (CondFlag[frischauf] && TSTFLAG(p_captured_spec,FrischAuf))
+      else if (circe_variant.is_frischauf && TSTFLAG(p_captured_spec,FrischAuf))
         Result = (col
                   + (onerow
                      *(CondFlag[glasgow]
@@ -429,7 +489,9 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STCirceConsideringRebirth),
-        alloc_pipe(STCirceDeterminingRebornPiece)
+        alloc_pipe(STCirceDeterminingRebornPiece),
+        alloc_pipe(STCircePlacingReborn),
+        alloc_pipe(STCircePlaceReborn)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
@@ -444,6 +506,7 @@ void circe_initialise_solving(slice_index si)
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);

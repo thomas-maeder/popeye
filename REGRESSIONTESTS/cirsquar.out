@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 2
-              SuperCirce
+             Circe Super
 
   1.Te4*h4[+wLe4] Se2-g3   2.Th4*e4[+wLh2] Sg3*e4[+sTd5] #
 
@@ -57,7 +57,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         3 + 3
-             SpiegelCirce
+            Circe Spiegel
 
   1...g7-g8=D   2.h2-h1=L Dg8-g2 =
   1...g7-g8=T   2.h2-h1=S Tg8-g3 =
@@ -93,7 +93,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         3 + 1
-          PlatzwechselCirce
+          Circe Platzwechsel
 
   1.Kg5-f6 Sh4-g6   2.Kf6*g6[+wSf6] La5-b4   3.Kg6-g7 Lb4-f8 +   4.Kg7-h8 Lf8-g7 #
   1.Kg5-g4 La5-c7   2.Kg4-h3 Lc7-h2   3.Kh3*h2[+wLh3] Sh4-f3 +   4.Kh2-h1 Lh3-g2 #
@@ -144,7 +144,7 @@ a)
                      play_move:        6292
  is_white_king_square_attacked:         690
  is_black_king_square_attacked:        6295
-b) FileCirce
+b) Circe File
 
    1.Lf1-g2 ! Drohung:
           2.Tf8-f3 #
@@ -200,7 +200,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         3 + 2
-            DiametralCirce
+           Circe Diametral
 
 a) 
 
@@ -245,7 +245,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-ze320                   1 + 3
-            AntipodenCirce
+           Circe Antipoden
 
   1.Kh1-g2   2.Kg2-f1   3.Kf1-e2   4.Ke2-d3   5.Kd3-e4   6.Ke4-e5   7.Ke5-f6   8.Kf6-g7   9.Kg7*h8[+sSd4]  10.Kh8-g7  11.Kg7-f6  12.Kf6-e5  13.Ke5-e4  14.Ke4-d3  15.Kd3-d2  16.Kd2-e1  17.Ke1-f1  18.Kf1*g1[+sLc5]  19.Kg1-f2  20.Kf2-e3 z
 
@@ -281,7 +281,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   #2                          5 + 7
         Paralysierend a7 f7 a2
-            DiagrammCirce
+            Circe Diagramm
 
    1.pBf7-f8=pD ? Drohung:
           2.Kb5-b6 #
@@ -359,7 +359,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         7 + 8
-            DiagrammCirce
+            Circe Diagramm
 
 a) 
 
@@ -412,7 +412,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                        4 + 10
-            DiagrammCirce
+            Circe Diagramm
 
 a) 
 
@@ -457,7 +457,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 6
-            DiagrammCirce
+            Circe Diagramm
 
 a) 
 
@@ -502,7 +502,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         1 + 5
-            DiagrammCirce
+            Circe Diagramm
 
   1.Se5-d7 e7*d8=T +   2.Kc8*d8[+wTe7] Te7-e8 #
   1.Lb8-a7 e7-e8=D   2.Td8*e8[+wDe7] De7*c7 #
@@ -539,7 +539,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 3
-            DiagrammCirce
+            Circe Diagramm
 
 a) 
 
@@ -584,14 +584,14 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=8                     2 + 2
-          EquipollentsCirce
+          Circe Equipollents
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-a5   7.Da5*b6[+wBc7]   8.Db6-b8 + c7*b8=L =
 
-  add_to_move_generation_stack:       59079
-                     play_move:       32395
- is_white_king_square_attacked:       13783
- is_black_king_square_attacked:       27922
+  add_to_move_generation_stack:       60240
+                     play_move:       33065
+ is_white_king_square_attacked:       14062
+ is_black_king_square_attacked:       28538
 Loesung beendet. 
 
 
@@ -619,7 +619,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
-          EquipollentsCirce
+          Circe Equipollents
 
   1.Se7*c6[+wTa5] Ta5-f5   2.Sc6*d4[+wLe2] Le2-d3 #
 
@@ -654,7 +654,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
-          EquipollentsCirce
+          Circe Equipollents
 
   1.Ke4*d4[+wLc4] Tc6-f6   2.Kd4-e4 Tf6-f4 #
 
@@ -689,7 +689,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                    1 + 1 + 4n
-            CouscousCirce
+            Circe Couscous
 
   1.Ke2*d2[+nBe8=nT] nTe8*e6[+nBh1=nS]   2.nSh1*f2[+nBb8=nL] nLb8*f4[+nBc1=nD] #
 
@@ -724,7 +724,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
-            CouscousCirce
+            Circe Couscous
 
   1.Tc1-c6 Df7*g7[+sBd1=T]   2.Td1-d5 Dg7-e7 #
   1.Tc1-c5 Kg8*g7[+sBe1=T]   2.Te1-e5 Df7-d7 #
@@ -761,7 +761,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         13 + 7
-            SymmetrieCirce
+           Circe Symmetrie
 
    1.LEd4-f2 ! Drohung:
           2.Sc4-e3 #
@@ -819,7 +819,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          5 + 7
-            SymmetrieCirce
+           Circe Symmetrie
 
    1.Df5-f7 ! Drohung:
           2.Df7-h5 #
@@ -866,7 +866,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 9
-            SymmetrieCirce
+           Circe Symmetrie
 
    1.Le4-d5 ! Drohung:
           2.Dc6-c5 #
@@ -915,7 +915,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         8 + 13
-            SymmetrieCirce
+           Circe Symmetrie
 
    1.Dg2-c2 ! Drohung:
           2.Dc2*a4 #
@@ -962,7 +962,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h==3                        9 + 9
-            SymmetrieCirce
+           Circe Symmetrie
          SymmetrieImmunSchach
 
   1  (a4-a3 )

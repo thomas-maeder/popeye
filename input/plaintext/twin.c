@@ -108,6 +108,7 @@ static void ReadBeginSpec(void)
         GridVariantTypeTab = &GridVariantTypeString[UserLanguage][0];
         KobulVariantTypeTab = &KobulVariantTypeString[UserLanguage][0];
         KoekoVariantTypeTab = &KoekoVariantTypeString[UserLanguage][0];
+        CirceVariantTypeTab = &CirceVariantTypeString[UserLanguage][0];
         ExtraCondTab= &ExtraCondString[UserLanguage][0];
         mummer_strictness_tab = &mummer_strictness_string[UserLanguage][0];
         PieceTab= PieNamString[UserLanguage];
@@ -1749,8 +1750,8 @@ static boolean verify_position(slice_index si)
 
   reset_countnropponentmoves_defense_move_optimisation();
 
-  if (CondFlag[glasgow] && CondFlag[circemirror])
-    anycirprom = true;
+  if (CondFlag[glasgow] && CondFlag[circe] && circe_variant.is_mirror)
+    circe_variant.is_promotion_possible = true;
 
   /* initialize promotion squares */
   if (!CondFlag[einstein])
@@ -1790,10 +1791,10 @@ static boolean verify_position(slice_index si)
       SETFLAG(sq_spec[square_a5+i*dir_right],CapturableByBlPawnSq);
       SETFLAG(sq_spec[square_a6+i*dir_right],CapturableByBlPawnSq);
 
-      if (anyparrain
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
           || CondFlag[normalp]
           || CondFlag[einstein]
-          || CondFlag[circecage]
+          || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
           || CondFlag[wormholes])
       {
         SETFLAG(sq_spec[square_a2+i*dir_right],CapturableByWhPawnSq);
@@ -1812,7 +1813,8 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (anyparrain && stip_ends_in(si,goal_steingewinn))
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastmove
+      && stip_ends_in(si,goal_steingewinn))
   {
     VerifieMsg(PercentAndParrain);
     return false;
@@ -1823,7 +1825,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[backhome])
     SETFLAGMASK(some_pieces_flags,PieceIdMask);
-  if (CondFlag[circediagramm])
+  if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
     SETFLAGMASK(some_pieces_flags,PieceIdMask);
 
   if (CondFlag[republican] && !republican_verifie_position(si))
@@ -1831,7 +1833,7 @@ static boolean verify_position(slice_index si)
 
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
-       || circe_is_rex_inclusive
+       || circe_variant.is_rex_inclusive
        || immune_is_rex_inclusive
        || TSTFLAG(some_pieces_flags,Royal))
       && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
@@ -1851,7 +1853,8 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[immuncage] && !CondFlag[circecage])
+  if (CondFlag[immuncage]
+      && circe_variant.determine_rebirth_square!=circe_determine_rebirth_square_cage)
   {
     VerifieMsg(NoCageImmuneWithoutCage);
     CondFlag[immuncage] = false;
@@ -1931,7 +1934,7 @@ static boolean verify_position(slice_index si)
   if (CondFlag[chinoises])
     flagfee = true;
 
-  if (anycirce)
+  if (CondFlag[circe])
   {
     if (may_exist[Dummy])
     {
@@ -2145,13 +2148,11 @@ static boolean verify_position(slice_index si)
   if (king_square[Black]==initsquare && number_of_pieces[Black][King]==0 && !OptFlag[sansrn])
     ErrorMsg(MissingKing);
 
-  if (circe_is_rex_inclusive)
+  if (circe_variant.is_rex_inclusive)
   {
-    if (CondFlag[circeequipollents]
-        || CondFlag[circeclone]
-        || CondFlag[couscous]
-        || CondFlag[couscousmirror]
-        || CondFlag[circeclonemirror])
+    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
+        || circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone
+        || circe_variant.relevant_piece==circe_relevant_piece_capturer)
     {
       /* disallowed because of the call to (*circerenai) in echecc would require
        * knowledge of the departure square. Other forms now allowed
@@ -2185,7 +2186,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (circe_is_rex_inclusive
+  if (circe_variant.is_rex_inclusive
       || CondFlag[bicolores])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
@@ -2202,7 +2203,7 @@ static boolean verify_position(slice_index si)
        || CondFlag[newkoeko]
        || CondFlag[antikoeko]
        || TSTFLAG(some_pieces_flags, Jigger))
-      && anycirce
+      && CondFlag[circe]
       && is_piece_neutral(some_pieces_flags))
   {
     VerifieMsg(TooFairyForNeutral);
@@ -2215,7 +2216,9 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
-  if ((CondFlag[supercirce] || CondFlag[april] || CondFlag[circecage])
+  if ((circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super
+       || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_april
+       || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
       && (CondFlag[koeko] || CondFlag[newkoeko] || CondFlag[antikoeko]))
   {
     VerifieMsg(SuperCirceAndOthers);
@@ -2224,9 +2227,9 @@ static boolean verify_position(slice_index si)
 
   {
     int numsuper=0;
-    if (CondFlag[supercirce]) numsuper++;
-    if (CondFlag[circecage]) numsuper++;
-    if (CondFlag[april]) numsuper++;
+    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super) numsuper++;
+    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage) numsuper++;
+    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_april) numsuper++;
     if (CondFlag[antisuper]) numsuper++;
     if (numsuper>1)
     {
@@ -2304,7 +2307,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (circe_is_rex_inclusive && immune_is_rex_inclusive)
+  if (circe_variant.is_rex_inclusive && immune_is_rex_inclusive)
   {
     VerifieMsg(RexCirceImmun);
     return false;
@@ -2316,9 +2319,9 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (anyanticirce) {
-    if (CondFlag[couscous]
-        || CondFlag[couscousmirror]
+  if (anyanticirce)
+  {
+    if (circe_variant.relevant_piece==circe_relevant_piece_capturer
         || CondFlag[koeko]
         || CondFlag[newkoeko]
         || CondFlag[antikoeko]
@@ -2392,7 +2395,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[ghostchess] || CondFlag[hauntedchess])
   {
-    if (anycirce || anyanticirce
+    if (CondFlag[circe] || anyanticirce
         || CondFlag[haanerchess]
         || TSTFLAG(some_pieces_flags,Kamikaze)
         || (CondFlag[ghostchess] && CondFlag[hauntedchess]))
@@ -2435,7 +2438,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[newkoeko]
       || CondFlag[koeko]
       || CondFlag[antikoeko]
-      || anyparrain
+      || circe_variant.relevant_capture==circe_relevant_capture_lastmove
       || anyanticirce
       || mummer_strictness[White]!=mummer_strictness_none
       || mummer_strictness[Black]!=mummer_strictness_none
@@ -2559,7 +2562,7 @@ static boolean verify_position(slice_index si)
       VerifieMsg(KamikazeAndHaaner);
       return false;
     }
-    if (anycirce) {
+    if (CondFlag[circe]) {
       /* No Kamikaze and Circe with fairy pieces; taking and
          taken piece could be reborn on the same square! */
       if (flagfee || CondFlag[volage])
@@ -2700,13 +2703,13 @@ static boolean verify_position(slice_index si)
   if (CondFlag[actrevolving] || CondFlag[arc])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[circeturncoats] || CondFlag[circedoubleagents])
+  if (circe_variant.is_turncoat)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[kobulkings])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
-  if (CondFlag[chamcirce])
+  if (circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
     chameleon_init_sequence_implicit(chameleon_circe_is_squence_implicit,
                                      &chameleon_circe_walk_sequence);
 
@@ -2731,7 +2734,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
       || CondFlag[takemake]
-      || CondFlag[circecage]
+      || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
       || CondFlag[SAT]
       || CondFlag[strictSAT]
       || CondFlag[schwarzschacher]
@@ -2753,7 +2756,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
       || CondFlag[takemake]
-      || CondFlag[circecage]
+      || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
       || CondFlag[SAT]
       || CondFlag[strictSAT]
       || CondFlag[schwarzschacher]

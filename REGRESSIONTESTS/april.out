@@ -20,7 +20,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 2
-            Aprilschach L
+            Circe April L
 
    1.c6*b7[+sLa7] # !
 
@@ -54,7 +54,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 2
-            Aprilschach L
+            Circe April L
 
 
   add_to_move_generation_stack:           4
@@ -87,7 +87,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 3
-            Aprilschach L
+            Circe April L
 
 
   add_to_move_generation_stack:         409
@@ -119,7 +119,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          3 + 2
-            Aprilschach L
+            Circe April L
 
    1.c7*b8=D[+sLa6] # !
 
@@ -154,7 +154,7 @@ Aprilsteine sind schwierig zu decken!
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          4 + 1
-            Aprilschach L
+            Circe April L
 
 
   add_to_move_generation_stack:          32

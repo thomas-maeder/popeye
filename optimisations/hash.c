@@ -90,6 +90,7 @@
 #include "DHT/dht.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "conditions/bgl.h"
+#include "conditions/circe/circe.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/imitator.h"
@@ -1134,7 +1135,7 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     len+=2;
   }
 
-  if (anyparrain)
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
     /*
     ** only one out of three positions with a capture
     ** assumed.
@@ -1269,7 +1270,7 @@ byte *CommonEncode(byte *bp,
   if (OptFlag[nontrivial])
     *bp++ = (byte)(max_nr_nontrivial);
 
-  if (anyparrain)
+  if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;

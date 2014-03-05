@@ -118,9 +118,9 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  solving/proofgames.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/observation.h \
- stipulation/temporary_hacks.h conditions/bgl.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/imitator.h options/nontrivial.h \
- solving/avoid_unsolvable.h solving/castling.h \
+ stipulation/temporary_hacks.h conditions/bgl.h conditions/circe/circe.h \
+ conditions/duellists.h conditions/haunted_chess.h conditions/imitator.h \
+ options/nontrivial.h solving/avoid_unsolvable.h solving/castling.h \
  stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
@@ -187,6 +187,8 @@ solving/observation.h:
 stipulation/temporary_hacks.h:
 
 conditions/bgl.h:
+
+conditions/circe/circe.h:
 
 conditions/duellists.h:
 

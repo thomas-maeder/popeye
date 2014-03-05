@@ -19,7 +19,6 @@
 #include "conditions/circe/clone.h"
 #include "conditions/circe/couscous.h"
 #include "conditions/circe/diagram.h"
-#include "conditions/circe/equipollents.h"
 #include "conditions/circe/exchange_by_rebirth_special.h"
 #include "conditions/circe/file.h"
 #include "conditions/circe/steingewinn_filter.h"
@@ -741,10 +740,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = diagram_circe_determine_rebirth_square_solve(si,n);
       break;
 
-    case STCirceEquipollentsDetermineRebirthSquare:
-      result = circe_equipollents_determine_rebirth_square_solve(si,n);
-      break;
-
     case STContactGridAvoidCirceRebirth:
       result = contact_grid_avoid_circe_rebirth(si,n);
       break;
@@ -791,6 +786,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceParrainDetermineRebirth:
       result = circe_parrain_determine_rebirth_solve(si,n);
+      break;
+
+    case STCirceContraparrainDetermineRebirth:
+      result = circe_contraparrain_determine_rebirth_solve(si,n);
       break;
 
     case STCirceCageNoCageFork:

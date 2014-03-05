@@ -41,8 +41,8 @@ typedef enum
   imitators,               /* 20 */
   cavaliermajeur,          /* 21 */
   haanerchess,             /* 22 */
-  chamcirce,               /* 23 */
-  couscous,                /* 24 */
+  circechameleon,               /* 23 */
+  circecouscous,                /* 24 */
   circeequipollents,       /* 25 */
   circefile,               /* 26 */
   blmax,                   /* 27 */
@@ -62,7 +62,7 @@ typedef enum
   blfollow,                /* 41 */
   whfollow,                /* 42 */
   duellist,                /* 43 */
-  parrain,                 /* 44 */
+  circeparrain,                 /* 44 */
   noiprom,                 /* 45 */
   circesymmetry,           /* 46 */
   vogt,                    /* 47 */
@@ -117,7 +117,7 @@ typedef enum
   whtrans_king,            /* 96 */
   bltrans_king,            /* 97 */
   antieinstein,            /* 98 */
-  couscousmirror,          /* 99 */
+  circecouscousmirror,          /* 99 */
   blroyalsq,              /* 100 */
   whroyalsq,              /* 101 */
   brunner,                /* 102 */
@@ -196,7 +196,7 @@ typedef enum
   circecage,              /* 175 */
   immuncage,              /* 176 */
   football,               /* 177 */
-  contraparrain,          /* 178 */
+  circecontraparrain,          /* 178 */
   kobulkings,             /* 179 */
   platzwechselrochade,    /* 180 */
   whitealphabetic,        /* 181 */
@@ -247,7 +247,7 @@ typedef enum
 extern boolean CondFlag[CondCount];
 extern boolean ExtraCondFlag[ExtraCondCount];
 
-extern boolean anycirce, anycirprom, anyanticirce, anyimmun, anyclone, anygeneva;
+extern boolean anyanticirce, anyimmun, anyclone, anygeneva;
 
 extern square royal_square[nr_sides];
 

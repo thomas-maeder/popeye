@@ -209,7 +209,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          3 + 2
-          CirceDoubleAgents
+        Circe Mirror Turncoats
           SingleBox    Type1
 
 a) 
@@ -1251,7 +1251,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-             ParrainCirce
+            Circe Parrain
 
    1.Ka1-b2 !
 
@@ -1289,7 +1289,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-             ParrainCirce
+            Circe Parrain
 
    1.Ka1-b2 !
 
@@ -1463,7 +1463,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-              CageCirce
+              Circe Cage
 
    1.h2-h4 !
 
@@ -1502,7 +1502,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-              CageCirce
+              Circe Cage
 
    1.c6-c7 !
 
@@ -1539,7 +1539,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
-              CageCirce
+              Circe Cage
 
    1.c6-c7 !
 
@@ -1578,7 +1578,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          2 + 1
-              CageCirce
+              Circe Cage
 
    1.g2-g4 !
 
@@ -1623,7 +1623,7 @@ cage for promoted pawn, capturer part of cage
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          3 + 1
-              CageCirce
+              Circe Cage
 
    1.e2-e4 !
 
@@ -1674,7 +1674,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 4
-              CageCirce
+              Circe Cage
 
   1.Ke4*f3[+wRh1] g1*h2   2.g5-g4 0-0 #
   1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] #
@@ -1711,7 +1711,7 @@ never generates the same solution twice (but some solutions
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1.5                   16 + 16
-              CageCirce
+              Circe Cage
 
 Initial (White ->):
 
@@ -1739,7 +1739,7 @@ never generates the same solution twice (but some solutions
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1.5                   16 + 16
-              CageCirce
+              Circe Cage
 
   1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b
   1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b
@@ -1775,7 +1775,7 @@ promote to bishop (no cage for queen) even if there was a cage
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                   15 + 16
-              CageCirce
+              Circe Cage
 
 Initial (Black ->):
 
@@ -1802,7 +1802,7 @@ promote to bishop (no cage for queen) even if there was a cage
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                   16 + 16
-              CageCirce
+              Circe Cage
 
   1.e2*d1=B a=>b
 
@@ -1836,7 +1836,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-              CageCirce
+              Circe Cage
 
    1.Ke8-f7 !
 
@@ -1877,7 +1877,7 @@ consider previous cage after advancing type of promotee
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                        16 + 16
-              CageCirce
+              Circe Cage
               HalfDuplex
 
    1.e2*d1=Q[+wQf1] + !

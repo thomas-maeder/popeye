@@ -817,7 +817,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 14
-          PlatzwechselCirce
+          Circe Platzwechsel
 
 a) 
 
@@ -905,7 +905,7 @@ a)
                      play_move:        4740
  is_white_king_square_attacked:         333
  is_black_king_square_attacked:        4743
-b) ChamaeleonCirce
+b) Circe Chamaeleon
 
    1.Ld5-c6 ! Drohung:
           2.Tg5-g4 #
@@ -921,7 +921,7 @@ b) ChamaeleonCirce
                      play_move:        4182
  is_white_king_square_attacked:         318
  is_black_king_square_attacked:        4185
-c) CirceClone
+c) Circe Clone
 
    1.Ld5-a2 ! Drohung:
           2.Tg5-g4 #
@@ -1051,7 +1051,7 @@ a)
                      play_move:        6295
  is_white_king_square_attacked:         566
  is_black_king_square_attacked:        6298
-b) CirceClone
+b) Circe Clone
 
    1.Td3-c3 ! Drohung:
           2.Le6-d5 #
@@ -1116,7 +1116,7 @@ a)
                      play_move:        6334
  is_white_king_square_attacked:         483
  is_black_king_square_attacked:        6337
-b) CirceClone
+b) Circe Clone
 
    1.Se3-f1 ! Drohung:
           2.Lg3-e5 #
@@ -1179,7 +1179,7 @@ a)
                      play_move:        2269
  is_white_king_square_attacked:         246
  is_black_king_square_attacked:        2272
-b) CirceClone
+b) Circe Clone
 
    1.Ld4-c5 ! Drohung:
           2.Sc6-e7 #
@@ -1249,7 +1249,7 @@ a)
                      play_move:        6381
  is_white_king_square_attacked:         356
  is_black_king_square_attacked:        6384
-b) ChamaeleonCirce
+b) Circe Chamaeleon
 
    1.Sd5-b4 ! Drohung:
           2.Lb3-d5 #
@@ -1294,7 +1294,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 5
-            SymmetrieCirce
+           Circe Symmetrie
 
 a) 
 
@@ -1310,7 +1310,7 @@ a)
                      play_move:        1079
  is_white_king_square_attacked:         203
  is_black_king_square_attacked:        1082
-b) EquipollentsCirce
+b) Circe Equipollents
 
    1.Le8*a4 ! Drohung:
           2.Sg7-e8 #
@@ -1370,7 +1370,7 @@ a)
                      play_move:        2770
  is_white_king_square_attacked:         212
  is_black_king_square_attacked:        2773
-b) ChamaeleonCirce
+b) Circe Chamaeleon
 
    1.Sc6*a5[+sTh8] ! Drohung:
           2.Sc8-b6 #
@@ -1393,7 +1393,7 @@ b) ChamaeleonCirce
                      play_move:        3998
  is_white_king_square_attacked:         254
  is_black_king_square_attacked:        4001
-c) CirceClone
+c) Circe Clone
 
    1.Sc6-b8 ! Drohung:
           2.Ld7-c6 #

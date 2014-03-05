@@ -5,8 +5,6 @@
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 
-boolean circe_is_rex_inclusive;
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -50,7 +48,7 @@ void circe_rex_inclusive_initialise_solving(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (!circe_is_rex_inclusive)
+  if (!circe_variant.is_rex_inclusive)
     circe_insert_rebirth_avoider(si,
                                  STCirceConsideringRebirth,
                                  STCircePreventKingRebirth,
@@ -69,7 +67,7 @@ void circe_rex_inclusive_initialise_check_validation(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (circe_is_rex_inclusive)
+  if (circe_variant.is_rex_inclusive)
     stip_instrument_check_validation(si,nr_sides,STValidateCheckMoveByPlayingCapture);
 
   TraceFunctionExit(__func__);

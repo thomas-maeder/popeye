@@ -7,7 +7,7 @@ SRC_CFILES =   circe.c goal_filters.c assassin.c \
            frischauf.c super.c capture_fork.c april.c \
            clone.c chameleon.c double_agents.c couscous.c \
            takemake.c rex_inclusive.c diametral.c mirror.c rank.c \
-           antipodes.c pwc.c equipollents.c file.c diagram.c symmetry.c \
+           antipodes.c pwc.c file.c diagram.c symmetry.c \
            rebirth_avoider.c rebirth_square_occupied.c
 INCLUDES = circe.h goal_filters.h assassin.h \
            steingewinn_filter.h \
@@ -16,7 +16,7 @@ INCLUDES = circe.h goal_filters.h assassin.h \
            frischauf.h super.h capture_fork.h april.h \
            clone.h chameleon.h double_agents.h couscous.h \
            takemake.h rex_inclusive.h diametral.h mirror.h rank.h \
-           antipodes.h pwc.h equipollents.h file.h diagram.h symmetry.h \
+           antipodes.h pwc.h file.h diagram.h symmetry.h \
            rebirth_avoider.h rebirth_square_occupied.h
 
 include makefile.rules $(CURRPWD)depend

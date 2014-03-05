@@ -1461,6 +1461,92 @@ char const * const KoekoVariantTypeString[LanguageCount][1] =
   }
 };
 
+
+char const * const *CirceVariantTypeTab;
+
+char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
+{
+  {
+    /* French */
+    "RexInclusif",
+    "RexExclusif",
+    "Malefique",
+    "Assassin",
+    "Diametral",
+    "Clone",
+    "Chameleon",
+    "Turncoats",
+    "Couscous",
+    "CoupDernier",
+    "Equipollents",
+    "Parrain",
+    "ContraParrain",
+    "Cage",
+    "Rangee",
+    "Colonne",
+    "Symetrie",
+    "Diagramme",
+    "Echange",
+    "Antipodes",
+    "Take&Make",
+    "Super",
+    "April",
+    "Frischauf"
+  },{
+    /* German */
+    "RexInklusive",
+    "RexExklusive",
+    "Spiegel",
+    "Assassin",
+    "Diametral",
+    "Clone",
+    "Chamaeleon",
+    "Turncoat",
+    "Couscous",
+    "LetzterZug",
+    "Equipollents",
+    "Parrain",
+    "ContraParrain",
+    "Kaefig",
+    "Reihe",
+    "File",
+    "Symmetrie",
+    "Diagramm",
+    "Platzwechsel",
+    "Antipoden",
+    "Take&Make",
+    "Super",
+    "April",
+    "Frischauf"
+  },{
+    /* English */
+    "RexInclusive",
+    "RexExclusive",
+    "Mirror",
+    "Assassin",
+    "Diametral",
+    "Clone",
+    "Chameleon",
+    "Turncoats",
+    "Couscous",
+    "LastMove",
+    "Equipollents",
+    "Parrain",
+    "ContraParrain",
+    "Cage",
+    "Rank",
+    "File",
+    "Symmetry",
+    "Diagram",
+    "PWC",
+    "Antipodes",
+    "Take&Make",
+    "Super",
+    "April",
+    "Frischauf"
+  }
+};
+
 char const * const *ExtraCondTab;
 
 char const * const ExtraCondString[LanguageCount][ExtraCondCount] =

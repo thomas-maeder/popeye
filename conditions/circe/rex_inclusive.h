@@ -6,8 +6,6 @@
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 
-extern boolean circe_is_rex_inclusive;
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

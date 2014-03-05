@@ -150,17 +150,44 @@ stip_length_type anticirce_place_reborn_solve(slice_index si, stip_length_type n
   return result;
 }
 
-/* Initialise solving in Anticirce
- * @param si identifies root slice of stipulation
- */
-void anticirce_initialise_solving(slice_index si)
+static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STAnticirceConsideringRebirth);
-  stip_instrument_moves(si,STAnticirceDeterminingRebornPiece);
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STAnticirceConsideringRebirth),
+        alloc_pipe(STAnticirceDeterminingRebornPiece),
+        alloc_pipe(STAnticirceDetermineRebornPiece),
+        alloc_pipe(STAnticirceRemoveCapturer),
+        alloc_pipe(STAnticircePlaceReborn)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Initialise solving in Anticirce
+ * @param si identifies root slice of stipulation
+ */
+void anticirce_initialise_solving(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

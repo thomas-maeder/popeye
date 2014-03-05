@@ -22,7 +22,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#3                        5 + 8
-            CirceTake&Make
+           Circe Take&Make
 
 a) 
 
@@ -170,7 +170,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 6
-            CirceTake&Make
+           Circe Take&Make
 
   1  (Rd1-a1 + )
   2  (Rd1-b1 )
@@ -266,7 +266,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#2                        9 + 8
-            CirceTake&Make
+           Circe Take&Make
 
 a) 
 
@@ -512,7 +512,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#3                       5 + 11
-            CirceTake&Make
+           Circe Take&Make
 
 a) 
 
@@ -634,7 +634,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 5th prize
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 8
-            CirceTake&Make
+           Circe Take&Make
 
 a) 
 
@@ -751,7 +751,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 6th prize
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 5
-            CirceTake&Make
+           Circe Take&Make
 
 a) 
 
@@ -876,7 +876,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#2                       6 + 10
-            CirceTake&Make
+           Circe Take&Make
 
   1  (Sc1-e2 )
   2  (Sc1-d3 )
@@ -1019,7 +1019,7 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, Special prize
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2.5                       3 + 3
-            CirceTake&Make
+           Circe Take&Make
 
   1  (Kg1-h2 )
   2  (Kg1-f2 )
@@ -1087,7 +1087,7 @@ WCCC Kobe 2012, Tzuica Tourney, 3rd HM
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#2                        7 + 6
-            CirceTake&Make
+           Circe Take&Make
 
   1.NAd8-h6 g7*h6[+wNAb3]   2.NAf8-d4 + Qf4*d4[+wNAf8] #
   1.NAe8-b2 a3*b2[+wNAd3]   2.NAd8-b4 + Qf4*b4[+wNAd8] #
@@ -1130,8 +1130,8 @@ intended solutions:
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
              Chameleon b7
+           Circe Take&Make
             Take&MakeChess
-            CirceTake&Make
 
 
   add_to_move_generation_stack:      124789

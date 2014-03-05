@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 1
-            AssassinCirce
+            Circe Assassin
 
   1.Ka2*b3[+wBb2] d7-d8=D   2.Kb3-c2 Dd8-d1 #
 
@@ -57,7 +57,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=10                    3 + 1
-            AssassinCirce
+            Circe Assassin
 
   1.Kg4-f3   2.Kf3-e3   3.Ke3-d3   4.Kd3-c4   5.Kc4-c5   6.Kc5*c6[+wBc2]   7.Kc6-c5   8.Kc5-c4   9.Kc4-c3  10.Kc3*b2[+wTa1] Ke5-d4 =
 
@@ -92,7 +92,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         3 + 2
-            AssassinCirce
+            Circe Assassin
 
   1.Sg3-f1 e7-e8=L +   2.Kd7*e8[+wLf1] Lf1-h3 =
   1.Sg3-h1 e7-e8=T   2.Kd7*e8[+wTh1] Th1-d1 =
@@ -128,7 +128,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         1 + 5
-            AssassinCirce
+            Circe Assassin
 
   1.a7-a5 Ke8-d7   2.Kb7-a7 Kd7-c6   3.Se6-c5 Kc6-b5 #
 
@@ -163,7 +163,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 6
-            AssassinCirce
+            Circe Assassin
 
       1...Sa2-c1
           2.Te7-b7 #

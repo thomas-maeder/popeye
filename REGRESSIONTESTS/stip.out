@@ -2062,7 +2062,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-=7                      1 + 2
-             SpiegelCirce
+            Circe Spiegel
 
   1.Kf8-e7   2.Ke7-d6   3.Kd6-c5   4.Kc5-b4   5.Kb4*a3[+sBa2]   6.Ka3-b3   7.Kb3-c2 =
 
@@ -2107,7 +2107,7 @@ a)
                      play_move:       26098
  is_white_king_square_attacked:       14274
  is_black_king_square_attacked:       25134
-b) SpiegelCirce
+b) Circe Spiegel
 
   1.d2-d4   2.d4-d5   3.d5-d6   4.d6-d7   5.d7-d8=D   6.Dd8*h4[+sBh2]   7.Dh4*h2   8.Dh2-h6 =
 
@@ -2322,7 +2322,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#10                    2 + 2
-          PlatzwechselCirce
+          Circe Platzwechsel
 
   1.h7-h5   2.h5*g4[+wZh5]   3.g4-g3   4.g3-g2   5.g2-g1=S   6.Sg1-e2   7.Se2-g3   8.Sg3*h5[+wZg3]   9.Sh5-f6  10.Sf6-h7 Zg3-e6 #
 
@@ -2955,7 +2955,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-hs#5                    5 + 3
-          PlatzwechselCirce
+          Circe Platzwechsel
                 Duplex
 
 a) 

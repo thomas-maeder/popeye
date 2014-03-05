@@ -208,7 +208,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#4                      2 + 2
-              SuperCirce
+             Circe Super
               MarsCirce
 
   1  (b6-b7 )
@@ -344,7 +344,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#4                     2 + 2
-          EquipollentsCirce
+          Circe Equipollents
           AntiEinsteinSchach
 
   1.a7*b6[+wSc5]   2.b6*c5[+wLd4]   3.c5*d4[+wTe3]   4.d4*e3[+wDf2] Df2-a2=T #

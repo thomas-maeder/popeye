@@ -1209,7 +1209,6 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/circe/diametral.h \
  conditions/circe/circuit_by_rebirth_special.h conditions/circe/clone.h \
  conditions/circe/couscous.h conditions/circe/diagram.h \
- conditions/circe/equipollents.h \
  conditions/circe/exchange_by_rebirth_special.h conditions/circe/file.h \
  conditions/circe/steingewinn_filter.h conditions/circe/assassin.h \
  conditions/circe/frischauf.h conditions/circe/super.h \
@@ -1433,8 +1432,6 @@ conditions/circe/clone.h:
 conditions/circe/couscous.h:
 
 conditions/circe/diagram.h:
-
-conditions/circe/equipollents.h:
 
 conditions/circe/exchange_by_rebirth_special.h:
 
@@ -2486,15 +2483,14 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/circe/chameleon.h pieces/attributes/chameleon.h \
  conditions/circe/clone.h conditions/circe/couscous.h \
  conditions/circe/diagram.h conditions/circe/diametral.h \
- conditions/circe/double_agents.h conditions/circe/equipollents.h \
- conditions/circe/file.h conditions/circe/kamikaze.h \
- conditions/circe/parrain.h conditions/circe/volage.h \
- conditions/circe/frischauf.h conditions/circe/mirror.h \
- conditions/circe/pwc.h conditions/circe/super.h \
- conditions/circe/symmetry.h conditions/circe/april.h \
- conditions/circe/takemake.h conditions/circe/rex_inclusive.h \
- conditions/circe/rank.h conditions/circe/capture_fork.h \
- conditions/circe/rebirth_avoider.h \
+ conditions/circe/double_agents.h conditions/circe/file.h \
+ conditions/circe/kamikaze.h conditions/circe/parrain.h \
+ conditions/circe/volage.h conditions/circe/frischauf.h \
+ conditions/circe/mirror.h conditions/circe/pwc.h \
+ conditions/circe/super.h conditions/circe/symmetry.h \
+ conditions/circe/april.h conditions/circe/takemake.h \
+ conditions/circe/rex_inclusive.h conditions/circe/rank.h \
+ conditions/circe/capture_fork.h conditions/circe/rebirth_avoider.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/anticirce/cheylan.h conditions/anticirce/anticirce.h \
  conditions/anticirce/super.h conditions/anticirce/magic_square.h \
@@ -2559,7 +2555,7 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/goals/remove_non_reachers.h \
  optimisations/detect_retraction.h optimisations/observation.h \
- debugging/trace.h debugging/measure.h
+ debugging/assert.h debugging/trace.h debugging/measure.h
 
 solving/solvers.h:
 
@@ -2712,8 +2708,6 @@ conditions/circe/diagram.h:
 conditions/circe/diametral.h:
 
 conditions/circe/double_agents.h:
-
-conditions/circe/equipollents.h:
 
 conditions/circe/file.h:
 
@@ -3003,6 +2997,8 @@ optimisations/detect_retraction.h:
 
 optimisations/observation.h:
 
+debugging/assert.h:
+
 debugging/trace.h:
 
 debugging/measure.h:
@@ -3020,13 +3016,14 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
  optimisations/orthodox_check_directions.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intelligent.h optimisations/observation.h \
- platform/maxtime.h conditions/duellists.h conditions/haunted_chess.h \
- conditions/transmuting_kings/vaulting_kings.h conditions/imitator.h \
- pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
- output/plaintext/language_dependant.h pylang.h options/options.h \
- input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
- conditions/mummer.h conditions/anticirce/anticirce.h \
- conditions/sentinelles.h output/plaintext/pieces.h debugging/trace.h
+ platform/maxtime.h conditions/circe/circe.h conditions/duellists.h \
+ conditions/haunted_chess.h conditions/transmuting_kings/vaulting_kings.h \
+ conditions/imitator.h pieces/attributes/neutral/neutral.h \
+ pieces/walks/walks.h output/plaintext/language_dependant.h pylang.h \
+ options/options.h input/plaintext/twin.h input/plaintext/token.h \
+ input/plaintext/line.h conditions/mummer.h \
+ conditions/anticirce/anticirce.h conditions/sentinelles.h \
+ output/plaintext/pieces.h debugging/trace.h
 
 debugging/assert.h:
 
@@ -3097,6 +3094,8 @@ optimisations/intelligent/intelligent.h:
 optimisations/observation.h:
 
 platform/maxtime.h:
+
+conditions/circe/circe.h:
 
 conditions/duellists.h:
 

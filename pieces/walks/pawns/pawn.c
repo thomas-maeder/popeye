@@ -1,6 +1,7 @@
 #include "pieces/walks/pawns/pawn.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
+#include "conditions/circe/circe.h"
 #include "pieces/walks/pawns/pawns.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
@@ -24,9 +25,9 @@ unsigned int pawn_get_no_capture_length(Side side, square sq_departure)
   {
     if (CondFlag[einstein])
       result = 3;
-    else if (anyparrain
+    else if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
              || CondFlag[normalp]
-             || CondFlag[circecage]
+             || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
              || get_walk_of_piece_on_square(sq_departure)==Orphan /* we are generating for a pawned Orphan! */
              || TSTFLAG(sq_spec[sq_departure],Wormhole))
       result = 1;

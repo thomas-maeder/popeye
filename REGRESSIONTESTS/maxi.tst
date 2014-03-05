@@ -96,9 +96,9 @@ So the only cage is a1, but that is self-check.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 3
+              Circe Cage
            BlackMaximummer
            WhiteMaximummer
-              CageCirce
 
    1.Ka1-a2 !
 

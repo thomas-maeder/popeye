@@ -174,9 +174,9 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         1 + 4
+           Circe Turncoats
          BlackTransmutedKing
             NoBlackCapture
-            CirceTurncoats
       WhiteSuperTransmutingKing
 
   1.Ka7-b8 Ka5-b5   2.c7-c6 + Kb5*c6=P[+bPc7=w] #
@@ -247,8 +247,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hze41                       3 + 3
+            Circe Parrain
                 KoeKo
-             ParrainCirce
 
   1.d7*e6 Ke5*e4[+wPe5] z
 
@@ -281,8 +281,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#1                        3 + 3
+            Circe Parrain
                 KoeKo
-             ParrainCirce
 
   1.Gh4*d4 Kg3-f3[+bPc4] #
 
@@ -562,7 +562,7 @@ duplex didn't work in a=>b or proof games
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                     1 + 1
-                 PWC
+              Circe PWC
                 Duplex
 
 Initial (Black ->):
@@ -588,7 +588,7 @@ Initial (Black ->):
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                     1 + 1
-                 PWC
+              Circe PWC
                 Duplex
 
   1.Ra8*a7[+wRa8] a=>b

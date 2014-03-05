@@ -49,7 +49,6 @@
 #include "conditions/circe/diagram.h"
 #include "conditions/circe/diametral.h"
 #include "conditions/circe/double_agents.h"
-#include "conditions/circe/equipollents.h"
 #include "conditions/circe/file.h"
 #include "conditions/circe/kamikaze.h"
 #include "conditions/circe/parrain.h"
@@ -199,6 +198,7 @@
 #include "optimisations/goals/remove_non_reachers.h"
 #include "optimisations/detect_retraction.h"
 #include "optimisations/observation.h"
+#include "debugging/assert.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
@@ -229,7 +229,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   /* must come before stip_insert_selfcheck_guards() because the
    * instrumentation of the goal filters inserts or slices of
    * which both branches need selfcheck guards */
-  if (anycirce)
+  if (CondFlag[circe])
     stip_insert_circe_goal_filters(result);
   if (TSTFLAG(some_pieces_flags,Kamikaze))
     stip_insert_kamikaze(result);
@@ -355,72 +355,108 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[actrevolving])
     stip_insert_actuated_revolving_board(result);
 
-  if (anycirce)
+  if (CondFlag[circe])
   {
     circe_initialise_solving(result);
-    circe_instrument_solving(result,STCircePlacingReborn);
-    circe_instrument_solving(result,STCircePlaceReborn);
 
-    if (anyparrain)
+    if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
       circe_instrument_solving(result,STCirceParrainInitialiseFromCaptureInLastMove);
     else
       circe_instrument_solving(result,STCirceInitialiseFromCurrentCapture);
 
-    if (CondFlag[circeassassin])
-         circe_assassinate_on_occupied_square(result,
-                                              STCirceDeterminingRebornPiece,
-                                              STCirceRebirthOnNonEmptySquare,
-                                              STCircePlacingReborn);
-    else if (CondFlag[supercirce] || CondFlag[april] || CondFlag[circetakeandmake])
-      circe_stop_rebirth_on_occupied_square(result,
-                                            STCirceDeterminingRebornPiece,
-                                            STCirceRebirthOnNonEmptySquare,
-                                            STLandingAfterCirceRebirthHandler);
-    else if (CondFlag[circecage])
-    { /* irrelevant */ }
-    else
-      circe_no_rebirth_on_occupied_square(result,
-                                          STCirceDeterminingRebornPiece,
-                                          STCirceRebirthOnNonEmptySquare,
-                                          STLandingAfterCirceRebirthHandler);
+    switch (circe_variant.on_occupied_rebirth_square)
+    {
+      case circe_on_occupied_rebirth_square_assassinate:
+        circe_assassinate_on_occupied_square(result,
+                                             STCirceDeterminingRebornPiece,
+                                             STCirceRebirthOnNonEmptySquare,
+                                             STCircePlacingReborn);
+        break;
 
-    if (CondFlag[supercirce] || CondFlag[april])
-      circe_instrument_solving(result,STSuperCirceDetermineRebirthSquare);
-    else if (CondFlag[circecage])
-      circe_instrument_solving(result,STCirceCageDetermineRebirthSquare);
-    else if (CondFlag[circetakeandmake])
-      circe_instrument_solving(result,STTakeMakeCirceDetermineRebirthSquares);
-    else if (CondFlag[circeantipoden])
-      circe_instrument_solving(result,STAntipodesCirceDetermineRebirthSquare);
-    else if (CondFlag[pwc])
-      circe_instrument_solving(result,STPWCDetermineRebirthSquare);
-    else if (CondFlag[circeequipollents])
-      circe_instrument_solving(result,STCirceEquipollentsDetermineRebirthSquare);
-    else if (CondFlag[circefile] || CondFlag[circefilemirror])
-      circe_instrument_solving(result,STFileCirceDetermineRebirthSquare);
-    else if (CondFlag[circediagramm])
-      circe_instrument_solving(result,STDiagramCirceDetermineRebirthSquare);
-    else if (CondFlag[circesymmetry])
-      circe_instrument_solving(result,STSymmetryCirceDetermineRebirthSquare);
-    else if (anyparrain)
-      circe_instrument_solving(result,STCirceParrainDetermineRebirth);
-    else
-      circe_instrument_solving(result,STCirceDetermineRebirthSquare);
+      case circe_on_occupied_rebirth_square_default:
+        switch (circe_variant.on_occupied_rebirth_square_default)
+        {
+          case circe_on_occupied_rebirth_square_default_illegal:
+            circe_stop_rebirth_on_occupied_square(result,
+                                                  STCirceDeterminingRebornPiece,
+                                                  STCirceRebirthOnNonEmptySquare,
+                                                  STLandingAfterCirceRebirthHandler);
+            break;
 
-    if (CondFlag[circediametral])
+          case circe_on_occupied_rebirth_square_default_no_rebirth:
+            circe_no_rebirth_on_occupied_square(result,
+                                                STCirceDeterminingRebornPiece,
+                                                STCirceRebirthOnNonEmptySquare,
+                                                STLandingAfterCirceRebirthHandler);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
+
+    switch (circe_variant.determine_rebirth_square)
+    {
+      case circe_determine_rebirth_square_from_pas:
+      case circe_determine_rebirth_square_rank:
+        circe_instrument_solving(result,STCirceDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_super:
+      case circe_determine_rebirth_square_april:
+        circe_instrument_solving(result,STSuperCirceDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_cage:
+        circe_instrument_solving(result,STCirceCageDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_take_and_make:
+        circe_instrument_solving(result,STTakeMakeCirceDetermineRebirthSquares);
+        break;
+      case circe_determine_rebirth_square_antipodes:
+        circe_instrument_solving(result,STAntipodesCirceDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_pwc:
+        circe_instrument_solving(result,STPWCDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_file:
+        circe_instrument_solving(result,STFileCirceDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_diagram:
+        circe_instrument_solving(result,STDiagramCirceDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_symmetry:
+        circe_instrument_solving(result,STSymmetryCirceDetermineRebirthSquare);
+        break;
+      case circe_determine_rebirth_square_equipollents:
+        circe_instrument_solving(result,
+                                 circe_variant.is_mirror
+                                 ? STCirceContraparrainDetermineRebirth
+                                 : STCirceParrainDetermineRebirth);
+        break;
+      default:
+        assert(0);
+        break;
+    }
+
+    if (circe_variant.is_diametral)
       circe_instrument_solving(result,STCirceDiametralAdjustRebirthSquare);
-    else if (CondFlag[circerank])
+    else if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_rank)
       circe_instrument_solving(result,STRankCirceProjectRebirthSquare);
 
-    if (CondFlag[supercirce])
+    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
       circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
-    else if (CondFlag[april])
+    else if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_april)
     {
       circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
       circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STAprilCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     }
 
-    if (CondFlag[circecage])
+    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
     {
       circe_instrument_solving(result,STCirceCageCageTester);
       circe_cage_optimise_away_futile_captures(result);
@@ -430,32 +466,41 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
     circe_rex_inclusive_initialise_solving(result);
 
-    if (anyparrain)
+    if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
       circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STCirceParrainCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     else
       circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
-    if (CondFlag[couscous] || CondFlag[couscousmirror])
+    if (circe_variant.relevant_piece==circe_relevant_piece_capturer)
       circe_instrument_solving(result,STCirceCouscousMakeCapturerRelevant);
 
-    if (CondFlag[circerank])
+    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_rank)
       circe_instrument_solving(result,STRankCirceOverrideRelevantSide);
-    else if (CondFlag[couscousmirror]
-             || CondFlag[circemirror]
-             || CondFlag[circeclonemirror]
-             || CondFlag[circefilemirror]
-             || CondFlag[circedoubleagents])
+    else if (circe_variant.is_mirror)
       circe_instrument_solving(result,STMirrorCirceOverrideRelevantSide);
 
-    if (CondFlag[circedoubleagents] || CondFlag[circeturncoats])
+    if (circe_variant.is_turncoat)
       circe_instrument_solving(result,STCirceDoubleAgentsAdaptRebornSide);
     if (TSTFLAG(some_pieces_flags,Volage))
       circe_instrument_solving(result,STCirceVolageRecolorer);
 
-    if (anyclone)
-      circe_instrument_solving(result,STCirceCloneDetermineRebornWalk);
-    if (CondFlag[chamcirce])
-      circe_instrument_solving(result,STChameleonCirceAdaptRebornWalk);
+    switch (circe_variant.reborn_walk_adapter)
+    {
+      case circe_reborn_walk_adapter_none:
+        break;
+
+      case circe_reborn_walk_adapter_clone:
+        circe_instrument_solving(result,STCirceCloneDetermineRebornWalk);
+        break;
+
+      case circe_reborn_walk_adapter_chameleon:
+        circe_instrument_solving(result,STChameleonCirceAdaptRebornWalk);
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
 
     if (TSTFLAG(some_pieces_flags,Kamikaze))
     {
@@ -480,11 +525,14 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                    STLandingAfterAnticirceRebirth);
     }
 
-    if (CondFlag[circeassassin])
+    if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
       solving_instrument_check_testing(result,STAssassinCirceCheckTester);
 
-    if (anycirprom)
+    if (circe_variant.is_promotion_possible)
       circe_allow_pawn_promotion(result,STCircePlacingReborn);
+
+    if (circe_variant.is_frischauf)
+      stip_insert_frischauf_promotee_markers(result);
   }
 
   if (CondFlag[sentinelles])
@@ -493,9 +541,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (anyanticirce)
   {
     anticirce_initialise_solving(result);
-    anticirce_instrument_solving(result,STAnticirceDetermineRebornPiece);
-    anticirce_instrument_solving(result,STAnticirceRemoveCapturer);
-    anticirce_instrument_solving(result,STAnticircePlaceReborn);
 
     if (CondFlag[antisuper])
       anticirce_instrument_solving(result,STAntisupercirceDetermineRebirthSquare);
@@ -510,17 +555,12 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     else if (CondFlag[antiantipoden])
       anticirce_instrument_solving(result,STAntipodesCirceDetermineRebirthSquare);
     else if (CondFlag[antiequipollents])
-      anticirce_instrument_solving(result,STCirceEquipollentsDetermineRebirthSquare);
+      anticirce_instrument_solving(result,STCirceParrainDetermineRebirth);
     else
       anticirce_instrument_solving(result,STCirceDetermineRebirthSquare);
 
     if (CondFlag[antisuper] || CondFlag[antiantipoden] || CondFlag[antiequipollents])
       circe_allow_pawn_promotion(result,STAnticircePlaceReborn);
-
-    if (!CondFlag[antisuper])
-      stip_instrument_check_validation(result,
-                                       nr_sides,
-                                       STValidateCheckMoveByPlayingCapture);
 
     if (CondFlag[antimirror]
         || CondFlag[antimirrorfile])
@@ -529,11 +569,15 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       anticirce_instrument_solving(result,STAntiCloneCirceDetermineRebornWalk);
 
     circe_stop_rebirth_on_occupied_square(result,
-                                          STAnticirceConsideringRebirth,
+                                          STAnticirceRemoveCapturer,
                                           STAnticirceRebirthOnNonEmptySquare,
                                           STLandingAfterAnticirceRebirth);
 
-    circe_insert_rebirth_avoider(result,STAnticirceConsideringRebirth,STCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterAnticirceRebirth);
+    circe_insert_rebirth_avoider(result,
+                                 STAnticirceConsideringRebirth,
+                                 STCirceCaptureFork,
+                                 STCirceRebirthAvoided,
+                                 STLandingAfterAnticirceRebirth);
   }
 
   if (anyanticirce)
@@ -543,6 +587,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
     if (CondFlag[magicsquare] && magic_square_type==ConditionType2)
       magic_square_type2_initialise_solving(result);
+
+    if (!CondFlag[antisuper])
+      stip_instrument_check_validation(result,
+                                       nr_sides,
+                                       STValidateCheckMoveByPlayingCapture);
   }
 
   if (CondFlag[duellist])
@@ -608,9 +657,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[degradierung])
     stip_insert_degradierung(result);
-
-  if (CondFlag[frischauf])
-    stip_insert_frischauf_promotee_markers(result);
 
   if (CondFlag[phantom])
     solving_initialise_phantom(result);

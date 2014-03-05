@@ -58,7 +58,7 @@ void stip_insert_kamikaze(slice_index si)
 
   TraceStipulation(si);
 
-  if (!anycirce)
+  if (!CondFlag[circe])
     stip_instrument_moves(si,STKamikazeCapturingPieceRemover);
 
   TraceStipulation(si);

@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 4
-          DoppelAgentenCirce
+        Circe Spiegel Turncoat
 
    1.Le3-d4 ! Drohung:
           2.Ld4-b2 #
@@ -70,8 +70,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#10                     1 + 2
+        Circe Spiegel Turncoat
               OhneSchach
-          DoppelAgentenCirce
 
   1.Kb1-c2   2.Kc2-d3   3.Kd3*e3[+sBe2=w]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 #
 
@@ -106,7 +106,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 4
-            TurncoatCirce
+            Circe Turncoat
 
    1.Le4-g6 ! Drohung:
           2.Tb5-h5 #

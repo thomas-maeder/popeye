@@ -21,14 +21,14 @@ stip_length_type circe_diametral_adjust_rebirth_square_solve(slice_index si,
                                                                stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = (square_h8+square_a1
-                                         - circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square);
+  context->rebirth_square = square_h8+square_a1 - context->rebirth_square;
 
   result = solve(slices[si].next1,n);
 

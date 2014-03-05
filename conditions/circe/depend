@@ -1403,54 +1403,6 @@ position/pieceid.h:
 debugging/trace.h:
 
 debugging/assert.h:
-conditions/circe/equipollents$(OBJ_SUFFIX): conditions/circe/equipollents.c \
- conditions/circe/equipollents.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/circe/circe.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h debugging/assert.h
-
-conditions/circe/equipollents.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-conditions/circe/circe.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
-debugging/trace.h:
-
-debugging/assert.h:
 conditions/circe/file$(OBJ_SUFFIX): conditions/circe/file.c conditions/circe/file.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \

@@ -38,13 +38,13 @@ extern char const * const VaultingVariantTypeString[LanguageCount][1];
 char const * const *VaultingVariantTypeTab;
 
 extern char const * const ConditionLetteredVariantTypeString[LanguageCount][ConditionLetteredVariantTypeCount];
-char const * const *ConditionLetteredVariantTypeTab;
+extern char const * const *ConditionLetteredVariantTypeTab;
 
 extern char const * const ConditionNumberedVariantTypeString[LanguageCount][ConditionNumberedVariantTypeCount];
-char const * const *ConditionNumberedVariantTypeTab;
+extern char const * const *ConditionNumberedVariantTypeTab;
 
 extern char const * const AntiCirceVariantTypeString[LanguageCount][AntiCirceVariantTypeCount];
-char const * const *AntiCirceVariantTypeTab;
+extern char const * const *AntiCirceVariantTypeTab;
 
 typedef enum
 {
@@ -61,7 +61,7 @@ typedef enum
 } SentinellesVariantType;
 
 extern char const * const SentinellesVariantTypeString[LanguageCount][SentinellesVariantCount];
-char const * const *SentinellesVariantTypeTab;
+extern char const * const *SentinellesVariantTypeTab;
 
 typedef enum
 {
@@ -76,7 +76,7 @@ typedef enum
 } GridVariantType;
 
 extern char const * const GridVariantTypeString[LanguageCount][GridVariantCount];
-char const * const *GridVariantTypeTab;
+extern char const * const *GridVariantTypeTab;
 
 typedef enum
 {
@@ -87,10 +87,43 @@ typedef enum
 } KobulVariantType;
 
 extern char const * const KobulVariantTypeString[LanguageCount][KobulVariantCount];
-char const * const *KobulVariantTypeTab;
+extern char const * const *KobulVariantTypeTab;
 
 extern char const * const KoekoVariantTypeString[LanguageCount][1];
-char const * const *KoekoVariantTypeTab;
+extern char const * const *KoekoVariantTypeTab;
+
+typedef enum
+{
+  CirceVariantRexInclusive,
+  CirceVariantRexExclusive,
+  CirceVariantMirror,
+  CirceVariantAssassin,
+  CirceVariantDiametral,
+  CirceVariantClone,
+  CirceVariantChameleon,
+  CirceVariantTurncoats,
+  CirceVariantCouscous,
+  CirceVariantLastMove,
+  CirceVariantEquipollents,
+  CirceVariantParrain,
+  CirceVariantContraParrain,
+  CirceVariantCage,
+  CirceVariantRank,
+  CirceVariantFile,
+  CirceVariantSymmetry,
+  CirceVariantDiagramm,
+  CirceVariantPWC,
+  CirceVariantAntipodes,
+  CirceVariantTakeAndMake,
+  CirceVariantSuper,
+  CirceVariantApril,
+  CirceVariantFrischauf,
+
+  CirceVariantCount
+} CirceVariantType;
+
+extern char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount];
+extern char const * const *CirceVariantTypeTab;
 
 extern char const * const TwinningString[LanguageCount][TwinningCount];
 extern char const * const *TwinningTab;

@@ -8,6 +8,7 @@
 #include "pieces/attributes/chameleon.h"
 #include "conditions/annan.h"
 #include "conditions/bgl.h"
+#include "conditions/circe/circe.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/chameleon.h"
@@ -96,7 +97,7 @@ static int append_to_CondLine_chameleon_sequence(char (*line)[256],
   PieNam p;
   int result = 0;
 
-  result += append_to_CondLine(line,pos+result,"%s","    ");
+  result += append_to_CondLine(line,pos+result,"%s"," ");
 
   for (p = King; p<PieceCount; ++p)
     if (!already_written[p] && sequence[p]!=p)
@@ -148,7 +149,32 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     if (cond==holes)
       continue;
 
-    if (CondFlag[couscousmirror])
+    /* these cond values have been kept for backward compatibility */
+    if (cond==circemirror
+        || cond==circecouscous
+        || cond==circecouscousmirror
+        || cond==circefilemirror
+        || cond==circeclonemirror
+        || cond==circeassassin
+        || cond==circediametral
+        || cond==circeclone
+        || cond==circechameleon
+        || cond==circeturncoats
+        || cond==circedoubleagents
+        || cond==circeparrain
+        || cond==circecontraparrain
+        || cond==circeequipollents
+        || cond==circecage
+        || cond==circerank
+        || cond==circefile
+        || cond==circesymmetry
+        || cond==circediagramm
+        || cond==pwc
+        || cond==circeantipoden
+        || cond==circetakeandmake
+        || cond==supercirce
+        || cond==april
+        || cond==frischauf)
       continue;
 
     /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
@@ -307,17 +333,6 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       }
     }
 
-    if (cond == april)
-    {
-      PieNam pp;
-      for (pp = Empty; pp!=PieceCount; ++pp)
-        if (is_april_kind[pp])
-        {
-          written += append_to_CondLine(&CondLine,written,"%c",' ');
-          written += append_to_CondLine_walk(&CondLine,written,pp);
-        }
-    }
-
     if (cond == imitators)
     {
       unsigned int imi_idx;
@@ -383,6 +398,72 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           written += append_to_CondLine_square(&CondLine,written,i);
     }
 
+    if (cond==circe)
+    {
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_pwc)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantPWC]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_symmetry)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSymmetry]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiagramm]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCage]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_rank)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRank]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_file)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantFile]);
+      if (circe_variant.relevant_piece==circe_relevant_piece_capturer)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCouscous]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_antipodes)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_april)
+      {
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantApril]);
+
+        {
+          PieNam pp;
+          for (pp = Empty; pp!=PieceCount; ++pp)
+            if (is_april_kind[pp])
+            {
+              written += append_to_CondLine(&CondLine,written,"%c",' ');
+              written += append_to_CondLine_walk(&CondLine,written,pp);
+            }
+        }
+      }
+      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents)
+      {
+        if (circe_variant.relevant_capture==circe_relevant_capture_thismove)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantEquipollents]);
+        else if (circe_variant.is_mirror)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantContraParrain]);
+        else
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantParrain]);
+      }
+      if (circe_variant.is_mirror)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
+      if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
+      if (circe_variant.is_diametral)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiametral]);
+      if (circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
+      if (circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
+      {
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantChameleon]);
+        if (!chameleon_circe_is_squence_implicit)
+          written += append_to_CondLine_chameleon_sequence(&CondLine,written,
+                                                           chameleon_circe_walk_sequence);
+      }
+      if (circe_variant.is_turncoat)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantTurncoats]);
+      if (circe_variant.is_frischauf)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantFrischauf]);
+    }
+
     if ((cond == madras && madrasi_is_rex_inclusive)
         || (cond == phantom && phantom_chess_rex_inclusive)
         || (cond == geneva && rex_geneva)
@@ -390,15 +471,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
             && (cond == immun
                 || cond == immunmirror
                 || cond == immundiagramm))
-        || (circe_is_rex_inclusive
+        || (circe_variant.is_rex_inclusive
             && (cond == circe
-                || cond == circemirror
                 || cond == circediametral
-                || cond == circemirrorvertical
-                || cond == circeclone
-                || cond == circeclonemirror
-                || cond == circediagramm
-                || cond == circefile)))
+                || cond == circemirrorvertical)))
       written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
 
     if ((messigny_rex_exclusive && cond == messigny)
@@ -409,10 +485,6 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
     if (protean_is_rex_exclusive && cond==protean)
       written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
-
-    if (cond==chamcirce && !chameleon_circe_is_squence_implicit)
-      written += append_to_CondLine_chameleon_sequence(&CondLine,written,
-                                                       chameleon_circe_walk_sequence);
 
     if ((cond==chameleonsequence || cond==chamchess)
         && !chameleon_is_squence_implicit)

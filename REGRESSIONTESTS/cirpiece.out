@@ -44,7 +44,7 @@ a)
                      play_move:        9329
  is_white_king_square_attacked:         491
  is_black_king_square_attacked:        9332
-b) ChamaeleonCirce    D->S->L->T->D
+b) Circe Chamaeleon D->S->L->T->D
 
    1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
@@ -64,7 +64,7 @@ b) ChamaeleonCirce    D->S->L->T->D
                      play_move:        9542
  is_white_king_square_attacked:         507
  is_black_king_square_attacked:        9545
-c) CirceClone
+c) Circe Clone
 
    1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
@@ -84,7 +84,7 @@ c) CirceClone
                      play_move:        9190
  is_white_king_square_attacked:         484
  is_black_king_square_attacked:        9193
-d) ChamaeleonCirce    D->T->L->S->D
+d) Circe Chamaeleon D->T->L->S->D
 
    1.Da7-d7 ! Drohung:
           2.Lg8-d5 #
@@ -131,7 +131,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-           ChamaeleonCirce
+           Circe Chamaeleon
 
 a) 
 
@@ -176,7 +176,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#3                     2 + 2
-           ChamaeleonCirce
+           Circe Chamaeleon
 
 a) 
 
@@ -222,7 +222,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#4                     4 + 2
-           ChamaeleonCirce
+           Circe Chamaeleon
 
   1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c8   4.Tc8-h8 Sg1-f3 #
   1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c7   4.Tc7-h7 Sg1-f3 #
@@ -261,7 +261,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 4
-              CirceClone
+             Circe Clone
 
    1.Da8-f3 ! Zugzwang.
       1...g4-g3
@@ -301,7 +301,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                        2 + 11
-              CirceClone
+             Circe Clone
 
   1.Lg1-f2 Tb6*d6[+sTh8]   2.Sb5*d6[+wSg1] Sg1-f3 #
   1.e3-e2 Kf4-f3   2.Lg1*b6[+wLc1] Lc1-g5 #
@@ -339,7 +339,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 5
-              CirceClone
+             Circe Clone
                 Duplex
 
   1.Dd7-e6 f5*e6[+sBe7]   2.Tf6*h6[+wTa1] Ta1-a8 #
@@ -377,7 +377,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 4
-              CirceClone
+             Circe Clone
 
 a) 
 
@@ -422,7 +422,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                         7 + 2
-              CirceClone
+             Circe Clone
 
    1.Df2-a2 ! Zugzwang.
       1...Kd8-e8

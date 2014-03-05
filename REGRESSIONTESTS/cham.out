@@ -652,7 +652,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2.5                      3 + 10
       Chamaeleon a5 c5 e4 b2 g1
-  Chamaeleonsequenz    D->T->L->S->D
+   Chamaeleonsequenz D->T->L->S->D
 
   1...cDb2*f2=cT   2.cLa5-d2=cS cTf2-f6=cL   3.Tg2-e2 cLf6-b2=cS #
   1...cDc5*f2=cT   2.cTe4-c4=cL cTf2-f8=cL   3.cDg1-e3=cT cLf8-c5=cS #
@@ -689,7 +689,7 @@ Beispiel fuer die Umwandlung eines wiedergeborenen geschlagenen
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
             Chamaeleon f1
-          PlatzwechselCirce
+          Circe Platzwechsel
 
    1.cLf1-h3=cT !
 

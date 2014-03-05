@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         1 + 1
-            AnnanChess    
+              AnnanChess
 
 
   add_to_move_generation_stack:          14
@@ -91,8 +91,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ==1                         1 + 1
+            Circe Parrain
                 KoeKo
-             ParrainCirce
 
 
   add_to_move_generation_stack:          18
@@ -126,9 +126,9 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h~1                         2 + 1
+            Circe Parrain
                 KoeKo
            BlackMinimummer
-             ParrainCirce
 
   1.Sb8*a6 Ka7-b6[+wPb5]
   1.Sb8*a6 Ka7*a6[+wPa5]

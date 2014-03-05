@@ -92,12 +92,212 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
   }
 }
 
-static char *ParseRex(boolean *rex, Cond what)
+static char *ParseRex(char *tok, boolean *rex, Cond what)
 {
-  char *tok = ReadNextTokStr();
   *rex = what==GetUniqIndex(CondCount,CondTab,tok);
   if (*rex)
     tok = ReadNextTokStr();
+  return tok;
+}
+
+static char *ReadPieces(Cond condition)
+{
+  char *tok = ReadNextTokStr();
+  boolean piece_read = false;
+
+  fflush(stdout);
+
+  while (true)
+  {
+    PieNam tmp_piece;
+    tok = ParseSinglePiece(tok,&tmp_piece);
+
+    TracePiece(tmp_piece);TraceValue("%s",tok);TraceEOL();
+
+    if (tmp_piece==PieceCount)
+      break;
+    else
+      piece_read = true;
+
+    switch (condition)
+    {
+      case promotiononly:
+        promonly[tmp_piece] = true;
+        break;
+
+      case football:
+        is_football_substitute[tmp_piece] = true;
+        football_are_substitutes_limited = true;
+        break;
+
+      case april:
+        is_april_kind[tmp_piece] = true;
+        break;
+
+      default:
+        /* Never mind ... */
+        break;
+      }
+  }
+
+  if (!piece_read && condition!=football)
+  {
+    CondFlag[condition] = false;
+    IoErrorMsg(WrongPieceName,0);
+  }
+
+  return tok;
+}
+
+static char *ParseCirceVariants(circe_variant_type *variant)
+{
+  char *tok;
+  boolean go_on = true;
+
+  while (go_on)
+  {
+    tok = ReadNextTokStr();
+    switch (GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok))
+    {
+      case CirceVariantRexInclusive:
+        variant->is_rex_inclusive = true;
+        break;
+
+      case CirceVariantRexExclusive:
+        variant->is_rex_inclusive = false;
+        break;
+
+      case CirceVariantMirror:
+        variant->is_mirror = true;
+        break;
+
+      case CirceVariantDiametral:
+        variant->is_diametral = true;
+        break;
+
+      case CirceVariantClone:
+        if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_clone))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantChameleon:
+        if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_chameleon))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantTurncoats:
+        variant->is_turncoat = true;
+        break;
+
+      case CirceVariantCouscous:
+        variant->relevant_piece = circe_relevant_piece_capturer;
+        break;
+
+      case CirceVariantLastMove:
+        variant->relevant_capture = circe_relevant_capture_lastmove;
+        break;
+
+      case CirceVariantEquipollents:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantParrain:
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
+          variant->relevant_capture = circe_relevant_capture_lastmove;
+        else
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantContraParrain:
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
+        {
+          variant->relevant_capture = circe_relevant_capture_lastmove;
+          variant->is_mirror = true;
+        }
+        else
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantCage:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_cage))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantRank:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_rank))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantFile:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_file))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantSymmetry:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_symmetry))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantDiagramm:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_diagram))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantPWC:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_pwc))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantAntipodes:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_antipodes))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantSuper:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_super))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantTakeAndMake:
+        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_take_and_make))
+          IoErrorMsg(NonsenseCombination,0);
+        break;
+
+      case CirceVariantApril:
+      {
+        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_april))
+        {
+          CondFlag[april] = true;
+          tok = ReadPieces(april);
+          if (CondFlag[april])
+          {
+            circe_variant.is_promotion_possible= true;
+            circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+            circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+          }
+        }
+        else
+          IoErrorMsg(NonsenseCombination,0);
+
+        break;
+      }
+
+      case CirceVariantFrischauf:
+        variant->is_frischauf = true;
+        break;
+
+      case CirceVariantCount:
+        go_on = false;
+        break;
+
+      default:
+        IoErrorMsg(CondNotUniq,0);
+        go_on = false;
+        break;
+    }
+  }
+
   return tok;
 }
 
@@ -723,55 +923,6 @@ static char *ReadChameleonSequence(boolean *is_implicit,
   return tok;
 }
 
-static char *ReadPieces(Cond condition)
-{
-  char *tok = ReadNextTokStr();
-  boolean piece_read = false;
-
-  fflush(stdout);
-
-  while (true)
-  {
-    PieNam tmp_piece;
-    tok = ParseSinglePiece(tok,&tmp_piece);
-
-    TracePiece(tmp_piece);TraceValue("%s",tok);TraceEOL();
-
-    if (tmp_piece==PieceCount)
-      break;
-    else
-      piece_read = true;
-
-    switch (condition)
-    {
-      case promotiononly:
-        promonly[tmp_piece] = true;
-        break;
-
-      case football:
-        is_football_substitute[tmp_piece] = true;
-        football_are_substitutes_limited = true;
-        break;
-
-      case april:
-        is_april_kind[tmp_piece] = true;
-        break;
-
-      default:
-        /* Never mind ... */
-        break;
-      }
-  }
-
-  if (!piece_read && condition!=football)
-  {
-    CondFlag[condition] = false;
-    IoErrorMsg(WrongPieceName,0);
-  }
-
-  return tok;
-}
-
 char *ParseCond(void)
 {
   char    *tok, *ptr;
@@ -924,47 +1075,92 @@ char *ParseCond(void)
         break;
 
       /* different types of circe */
-      case circe:
-      case circemirror:
-      case circemirrorvertical:
-      case chamcirce:
       case circediametral:
-      case frischauf:
-      case circerank:
-      case circefile:
-      case circefilemirror:
-      case circediagramm:
-      case circeassassin:
+        CondFlag[circe] = true;
+        circe_variant.is_diametral = true;
+        break;
+      case circechameleon:
+        CondFlag[circe] = true;
+        circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_chameleon;
+        break;
       case circeturncoats:
-      case circedoubleagents:
-        anycirce= true;
+        CondFlag[circe] = true;
+        circe_variant.is_turncoat = true;
+        break;
+      case circerank:
+        CondFlag[circe] = true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_rank;
+        break;
+      case circediagramm:
+        CondFlag[circe] = true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
+        break;
+      case circefile:
+        CondFlag[circe] = true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+        break;
+      case circecouscous:
+      case circecouscousmirror:
+        CondFlag[circe] = true;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.relevant_piece = circe_relevant_piece_capturer;
         break;
       case circeequipollents:
+        CondFlag[circe] = true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+        circe_variant.is_promotion_possible= true;
+        break;
       case circesymmetry:
-      case circeantipoden:
+        CondFlag[circe] = true;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
+        break;
       case pwc:
-      case couscous:
-      case couscousmirror:
-        anycirprom= true;
-        anycirce= true;
+        CondFlag[circe] = true;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_pwc;
+        break;
+      case circeantipoden:
+        CondFlag[circe] = true;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
+        break;
+      case circetakeandmake:
+        CondFlag[circe] = true;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+        circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_take_and_make;
         break;
       case supercirce:
-      case circecage:
-      case circetakeandmake:
-        anycirprom= true;
-        anycirce= true;
-        circe_rebirth_reason = move_effect_reason_rebirth_choice;
+        CondFlag[circe] = true;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+        circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
         break;
-      case parrain:
-      case contraparrain:
-        anycirce= true;
-        anyparrain= true;
-        anycirprom= true;
+      case circecage:
+        CondFlag[circe] = true;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+        circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_cage;
+        break;
+      case circeparrain:
+        CondFlag[circe] = true;
+        circe_variant.relevant_capture = circe_relevant_capture_lastmove;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+        break;
+      case circecontraparrain:
+        CondFlag[circe] = true;
+        circe_variant.relevant_capture = circe_relevant_capture_lastmove;
+        circe_variant.is_promotion_possible= true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+        circe_variant.is_mirror = true;
         break;
       case circeclone:
       case circeclonemirror:
-        anycirce= true;
-        anyclone= true;
         break;
 
       case anti:
@@ -1061,20 +1257,23 @@ char *ParseCond(void)
     switch (indexx)
     {
       case messigny:
-        tok = ParseRex(&messigny_rex_exclusive, rexexcl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&messigny_rex_exclusive, rexexcl);
         break;
       case woozles:
       case biwoozles:
       case heffalumps:
       case biheffalumps:
-        tok = ParseRex(&woozles_rex_exclusive, rexexcl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&woozles_rex_exclusive, rexexcl);
         break;
       case immun:
       case immunmirror:
       case immundiagramm:
-        tok = ParseRex(&immune_is_rex_inclusive, rexincl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&immune_is_rex_inclusive, rexincl);
         break;
-      case chamcirce:
+      case circechameleon:
         chameleon_reset_sequence(&chameleon_circe_is_squence_implicit,
                                  &chameleon_circe_walk_sequence);
         ReadChameleonSequence(&chameleon_circe_is_squence_implicit,
@@ -1085,30 +1284,82 @@ char *ParseCond(void)
         ReadChameleonSequence(&chameleon_is_squence_implicit,
                               &chameleon_walk_sequence);
         break;
-      case circe:
       case circemirror:
+        CondFlag[circe] = true;
+        circe_variant.is_mirror = true;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case circefilemirror:
+        CondFlag[circe] = true;
+        circe_variant.is_mirror = true;
+        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case circeclonemirror:
+        CondFlag[circe] = true;
+        circe_variant.is_mirror = true;
+        circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case circecouscousmirror:
+        CondFlag[circecouscous] = true;
+        circe_variant.is_mirror = true;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case circedoubleagents:
+        CondFlag[circe] = true;
+        circe_variant.is_mirror = true;
+        circe_variant.is_turncoat = true;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case circeassassin:
+        CondFlag[circe] = true;
+        circe_variant.on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case circeclone:
+        CondFlag[circe] = true;
+        circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case frischauf:
+        CondFlag[circe] = true;
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        circe_variant.is_frischauf = true;
+        break;
       case circefile:
       case circeequipollents:
       case circediagramm:
       case circesymmetry:
-      case circeclone:
-      case circefilemirror:
-      case circeclonemirror:
       case circeantipoden:
       case circemirrorvertical:
       case circediametral:
       case circerank:
-      case frischauf:
-        tok = ParseRex(&circe_is_rex_inclusive, rexincl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        break;
+      case circe:
+        tok = ParseCirceVariants(&circe_variant);
         break;
       case protean:
-        tok = ParseRex(&protean_is_rex_exclusive, rexexcl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&protean_is_rex_exclusive, rexexcl);
         break;
       case phantom:
-        tok = ParseRex(&phantom_chess_rex_inclusive,rexincl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&phantom_chess_rex_inclusive,rexincl);
         break;
       case madras:
-        tok = ParseRex(&madrasi_is_rex_inclusive, rexincl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&madrasi_is_rex_inclusive, rexincl);
         break;
       case isardam:
         tok = ParseLetteredType(&isardam_variant,ConditionTypeB);
@@ -1240,9 +1491,11 @@ char *ParseCond(void)
         tok = ReadPieces(april);
         if (CondFlag[april])
         {
-          anycirprom= true;
-          anycirce= true;
-          circe_rebirth_reason = move_effect_reason_rebirth_choice;
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+          circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_april;
         }
         break;
       case koeko:
@@ -1306,7 +1559,8 @@ char *ParseCond(void)
         tok = ReadNextTokStr();
         break;
       case geneva:
-        tok = ParseRex(&rex_geneva, rexincl);
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&rex_geneva, rexincl);
         break;
       case whvault_king:
         tok = ParseVaultingPieces(White);
@@ -1340,20 +1594,16 @@ void InitCond(void)
   mummer_strictness[White] = mummer_strictness_none;
   mummer_strictness[Black] = mummer_strictness_none;
 
-  anyclone = false;
-  anycirprom = false;
-  anycirce = false;
   anyimmun = false;
   anyanticirce = false;
   anymars = false;
   anyantimars = false;
   anygeneva = false;
-  anyparrain= false;
 
   AntiCirceType = AntiCirceVariantTypeCount;
   anticirce_rebirth_reason = move_effect_reason_rebirth_no_choice;
 
-  circe_rebirth_reason = move_effect_reason_rebirth_no_choice;
+  circe_reset_variant(&circe_variant);
 
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;
@@ -1364,7 +1614,7 @@ void InitCond(void)
   CondFlag[circeassassin]= false;
   sentinelles_is_para= false;
   madrasi_is_rex_inclusive = false;
-  circe_is_rex_inclusive = false;
+  circe_variant.is_rex_inclusive = false;
   immune_is_rex_inclusive = false;
   phantom_chess_rex_inclusive = false;
   rex_geneva =false;

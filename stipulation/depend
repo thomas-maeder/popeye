@@ -742,9 +742,9 @@ stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
  stipulation/goals/capture/reached_tester.h \
  stipulation/goals/king_capture/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/legal_move_counter.h solving/ply.h conditions/sat.h \
+ solving/legal_move_counter.h solving/ply.h conditions/circe/circe.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h \
+ position/pieceid.h conditions/sat.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  solving/move_generator.h \
  optimisations/count_nr_opponent_moves/move_generator.h debugging/trace.h \
@@ -826,13 +826,15 @@ solving/legal_move_counter.h:
 
 solving/ply.h:
 
-conditions/sat.h:
+conditions/circe/circe.h:
 
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
 position/pieceid.h:
+
+conditions/sat.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 

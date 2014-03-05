@@ -1204,7 +1204,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zg22                        2 + 2
-              SuperCirce
+             Circe Super
 
    1.Rh3-h2 ? threat:
           2.Rh2-g2 z
@@ -1242,7 +1242,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zg22                        2 + 2
-              CageCirce
+              Circe Cage
 
    1.Rh3-h2 ? threat:
           2.Rh2-g2 z
@@ -1280,7 +1280,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zf22                        2 + 2
-            CirceTake&Make
+           Circe Take&Make
 
    1.Rh3-h2 ? threat:
           2.Rh2-f2 z
@@ -1321,7 +1321,7 @@ both sides need a kingboth sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zg22                        2 + 2
-             AprilChess B
+            Circe April B
 
    1.Rh3-h2 ? threat:
           2.Rh2-g2 z
@@ -1678,7 +1678,7 @@ the capturee's identity, causing the king to be reborn on g2
 +---a---b---c---d---e---f---g---h---+
   +1                          1 + 2
                Royal e4
-      DiagramCirce RexInclusive
+      Circe Diagram RexInclusive
               KobulKings
 
    1.Bh1*g2[e4=K] + !
@@ -1716,7 +1716,7 @@ identities (read: rebirth squares) into account.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         4 + 3
-             DiagramCirce
+            Circe Diagram
 
   1.Qc3-d4 e3*d4[+bQc3]   2.Qc3-e3 d2*e3[+bQc3]   3.Qc3-d3 g2*f3 #
 
@@ -2427,8 +2427,8 @@ Until 4.63, Popeye didn't allow Imitators in Circe
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
+          Circe Equipollents
              Imitator b7
-          EquipollentsCirce
 
    1.Sd5*e3[Ic5][+bPf1=I] x !
 
@@ -2471,8 +2471,8 @@ Until 4.63, Popeye didn't allow Imitators in Circe
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hx1                         2 + 2
+            Circe Parrain
              Imitator d5
-             ParrainCirce
 
   1.Ba8*b7[Ie4] g7*h8[If5]=I[+wPc8=I] x
   1.Ba8*b7[Ie4] g7*h8[If5]=I[+wPc8=Q] x

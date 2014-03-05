@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 2
-             CirceParrain
+            Circe Parrain
 
   1.Da7-e3 Ge8-e2   2.De3*f4 Gf6*f4[+wGf2] #
   1.Da7-g7 Gg2-g8   2.Dg7*f6 Gf4*f6[+wGf8] #
@@ -58,7 +58,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         4 + 2
-             CirceParrain
+            Circe Parrain
 
   1.Kc5-c6 e2-e4   2.d7-d5 e4*d5 +   3.Kc6-b7[+sBc6] d5*c6 +   4.Kb7-a8[+sBb7] c6*b7 #
 
@@ -92,7 +92,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 3
-             CirceParrain
+            Circe Parrain
 
   1.Lh4*e7 b7-b8=D[+wBe8=D] #
   1.Lh4*e7 b7-b8=D[+wBe8=L] #
@@ -131,7 +131,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 12
-             CirceParrain
+            Circe Parrain
 
    1.Df3-c6 ! Drohung:
           2.Te3-e4 #
@@ -199,7 +199,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         16 + 4
-             CirceParrain
+            Circe Parrain
 
    1.Th2-h8 ! Zugzwang.
       1...f5*e4
@@ -249,7 +249,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         7 + 10
-             CirceParrain
+            Circe Parrain
 
    1.Dc2-d3 ! Drohung:
           2.Dd3-d8 #
@@ -292,7 +292,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         14 + 7
-             CirceParrain
+            Circe Parrain
 
    1.Sb2-c4 ? Drohung:
           2.Tb5-b6 #
@@ -379,7 +379,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 10
-             CirceParrain
+            Circe Parrain
 
    1.Th1-e1 ! Drohung:
           2.f2-f3 #
@@ -426,7 +426,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         9 + 11
-             CirceParrain
+            Circe Parrain
 
    1.Sd5*c3 ! Drohung:
           2.Sc3-b5 #

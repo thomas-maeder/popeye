@@ -22,7 +22,7 @@ Until 4.65, holes were counted as pieces. Since Popeye can only deal with
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1.0                     3 + 3
-                 PWC
+              Circe PWC
 
 Initial (White ->):
 
@@ -49,7 +49,7 @@ Until 4.65, holes were counted as pieces. Since Popeye can only deal with
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1.0                     3 + 3
-                 PWC
+              Circe PWC
 
   1.Ra3*a2[+bRa3] Ra3*a2[+wRa3] a=>b
 

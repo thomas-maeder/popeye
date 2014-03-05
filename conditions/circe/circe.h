@@ -11,6 +11,72 @@
 #include "solving/ply.h"
 #include "position/position.h"
 
+typedef enum
+{
+  circe_relevant_capture_thismove,
+  circe_relevant_capture_lastmove
+} circe_relevant_capture;
+
+typedef enum
+{
+  circe_relevant_piece_capturee,
+  circe_relevant_piece_capturer
+} circe_relevant_piece;
+
+typedef enum
+{
+  circe_determine_rebirth_square_from_pas,
+  circe_determine_rebirth_square_symmetry,
+  circe_determine_rebirth_square_diagram,
+  circe_determine_rebirth_square_pwc,
+  circe_determine_rebirth_square_rank,
+  circe_determine_rebirth_square_file,
+  circe_determine_rebirth_square_equipollents,
+  circe_determine_rebirth_square_cage,
+  circe_determine_rebirth_square_antipodes,
+  circe_determine_rebirth_square_super,
+  circe_determine_rebirth_square_take_and_make,
+  circe_determine_rebirth_square_april
+} circe_determine_rebirth_square_type;
+
+typedef enum
+{
+  circe_on_occupied_rebirth_square_default_no_rebirth,
+  circe_on_occupied_rebirth_square_default_illegal
+} circe_default_behaviour_on_occupied_rebirth_square_type;
+
+typedef enum
+{
+  circe_on_occupied_rebirth_square_default,
+  circe_on_occupied_rebirth_square_assassinate
+} circe_behaviour_on_occupied_rebirth_square_type;
+
+typedef enum
+{
+  circe_reborn_walk_adapter_none,
+  circe_reborn_walk_adapter_clone,
+  circe_reborn_walk_adapter_chameleon
+} circe_reborn_walk_adapter_type;
+
+typedef struct
+{
+    boolean is_rex_inclusive;
+    boolean is_mirror;
+    boolean is_diametral;
+    circe_default_behaviour_on_occupied_rebirth_square_type  on_occupied_rebirth_square_default;
+    circe_behaviour_on_occupied_rebirth_square_type on_occupied_rebirth_square;
+    circe_reborn_walk_adapter_type reborn_walk_adapter;
+    boolean is_turncoat;
+    boolean is_promotion_possible;
+    circe_relevant_piece relevant_piece;
+    circe_relevant_capture relevant_capture;
+    circe_determine_rebirth_square_type determine_rebirth_square;
+    boolean is_frischauf;
+    move_effect_reason_type rebirth_reason;
+} circe_variant_type;
+
+extern circe_variant_type circe_variant;
+
 typedef struct
 {
     PieNam reborn_walk;
@@ -28,7 +94,24 @@ typedef unsigned int circe_rebirth_context_index;
 
 extern circe_rebirth_context_index circe_rebirth_context_stack_pointer;
 
-extern move_effect_reason_type circe_rebirth_reason;
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
+ */
+void circe_reset_variant(circe_variant_type *variant);
+
+/* Override the reborn walk adapter of a Circe variant object
+ * @param adapter the overrider
+ * @return true if the adapter hasn't been overridden yet
+ */
+boolean circe_override_reborn_walk_adapter(circe_variant_type *variant,
+                                           circe_reborn_walk_adapter_type adapter);
+
+/* Override the method for determining the rebirth square of a Circe variant object
+ * @param adapter the overrider
+ * @return true if it hasn't been overridden yet
+ */
+boolean circe_override_determine_rebirth_square(circe_variant_type *variant,
+                                                circe_reborn_walk_adapter_type determine);
 
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect

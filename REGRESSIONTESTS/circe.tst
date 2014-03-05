@@ -21,7 +21,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 3
-              RankCirce
+              Circe Rank
 
 a) 
 
@@ -75,7 +75,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-              FileCirce
+              Circe File
 
 a) 
 
@@ -86,7 +86,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) MirrorFileCirce
+b) Circe File Mirror
 
    1.d4*e5[+bSe1] x !
 

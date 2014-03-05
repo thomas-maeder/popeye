@@ -38,6 +38,7 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/observation.h"
 #include "platform/maxtime.h"
+#include "conditions/circe/circe.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
@@ -1212,7 +1213,7 @@ static boolean ProofFairyImpossible(void)
 
 
     if (CondFlag[andernach]
-        && !anycirce && !CondFlag[sentinelles]) {
+        && !CondFlag[circe] && !CondFlag[sentinelles]) {
       unsigned int count= 0;
       /* in AndernachChess we need at least 1 capture if a pawn
          residing at his initial square has moved and has to be
@@ -1258,7 +1259,7 @@ static boolean ProofFairyImpossible(void)
          too many pawns captured or promoted
       */
       boolean parrain_pawn[nr_sides] = { false, false };
-      if (anyparrain)
+      if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
       {
         move_effect_journal_index_type const top = move_effect_journal_base[nbply];
         move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
@@ -1645,7 +1646,7 @@ void ProofInitialise(slice_index si)
                 || CondFlag[black_oscillatingKs]
                 || CondFlag[white_oscillatingKs]
                 || CondFlag[republican]
-                || anycirce
+                || CondFlag[circe]
                 || CondFlag[sentinelles]
                 || anyanticirce
                 || CondFlag[singlebox]
