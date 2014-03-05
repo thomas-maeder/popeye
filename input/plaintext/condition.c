@@ -322,6 +322,14 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         variant->is_frischauf = true;
         break;
 
+      case CirceVariantCalvet:
+        variant->anticirce_type = anticirce_type_calvet;
+        break;
+
+      case CirceVariantCheylan:
+        variant->anticirce_type = anticirce_type_cheylan;
+        break;
+
       case CirceVariantCount:
         go_on = false;
         break;
@@ -837,22 +845,22 @@ static char *ParseNumberedType(ConditionNumberedVariantType *variant,
   return tok;
 }
 
-static char *ParseAnticirceVariant(AntiCirceVariantType *variant)
+static char *ParseAnticirceVariant(anticirce_type_type *variant)
 {
   char *tok = ReadNextTokStr();
 
-  AntiCirceVariantType const type = GetUniqIndex(AntiCirceVariantTypeCount,AntiCirceVariantTypeTab,tok);
+  anticirce_type_type const type = GetUniqIndex(anticirce_type_count,AntiCirceVariantTypeTab,tok);
 
-  *variant = AntiCirceTypeCalvet;
+  *variant = anticirce_type_calvet;
 
-  if (type==AntiCirceVariantTypeCount)
+  if (type==anticirce_type_count)
     return tok;
-  else if (type>AntiCirceVariantTypeCount)
+  else if (type>anticirce_type_count)
   {
     IoErrorMsg(CondNotUniq,0);
     return tok;
   }
-  else if (type==AntiCirceTypeCheylan || type==AntiCirceTypeCalvet)
+  else if (type==anticirce_type_cheylan || type==anticirce_type_calvet)
   {
     *variant = type;
     return ReadNextTokStr();
@@ -1194,60 +1202,47 @@ char *ParseCond(void)
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
         circe_variant.is_mirror = true;
         break;
-      case circeclone:
-      case circeclonemirror:
-        break;
 
-      case anti:
-        anyanticirce= true;
+      case anticirce:
         break;
       case antimirror:
-        CondFlag[anti] = true;
-        anyanticirce= true;
+        CondFlag[anticirce] = true;
         anticirce_variant.is_mirror = true;
         break;
       case anticlonecirce:
-        CondFlag[anti] = true;
-        anyanticirce= true;
+        CondFlag[anticirce] = true;
         anticirce_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
         break;
       case antiequipollents:
-        CondFlag[anti] = true;
+        CondFlag[anticirce] = true;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
         anticirce_variant.is_promotion_possible = true;
-        anyanticirce= true;
         break;
       case antiantipoden:
-        CondFlag[anti] = true;
+        CondFlag[anticirce] = true;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
         anticirce_variant.is_promotion_possible = true;
-        anyanticirce= true;
         break;
       case antimirrorfile:
-        CondFlag[anti] = true;
-        anyanticirce= true;
+        CondFlag[anticirce] = true;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
         anticirce_variant.is_mirror = true;
         break;
       case antisymmetrie:
-        CondFlag[anti] = true;
-        anyanticirce= true;
+        CondFlag[anticirce] = true;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
         anticirce_variant.is_promotion_possible = true;
         break;
       case antifile:
-        CondFlag[anti] = true;
-        anyanticirce= true;
+        CondFlag[anticirce] = true;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
         break;
       case antidiagramm:
-        CondFlag[anti] = true;
-        anyanticirce= true;
+        CondFlag[anticirce] = true;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
         break;
       case antisuper:
-        CondFlag[anti] = true;
-        anyanticirce= true;
+        CondFlag[anticirce] = true;
         anticirce_variant.rebirth_reason = move_effect_reason_rebirth_choice;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
         anticirce_variant.is_promotion_possible = true;
@@ -1528,7 +1523,9 @@ char *ParseCond(void)
         break;
 
         /*****  anticirce type    *****/
-      case anti:
+      case anticirce:
+        tok = ParseCirceVariants(&anticirce_variant);
+        break;
       case antimirror:
       case antidiagramm:
       case antifile:
@@ -1537,23 +1534,17 @@ char *ParseCond(void)
       case antiantipoden:
       case antiequipollents:
       case antisuper:
-      {
-        tok = ParseAnticirceVariant(&AntiCirceType);
+        tok = ParseAnticirceVariant(&anticirce_variant.anticirce_type);
         break;
-      }
       case singlebox:
         tok = ParseNumberedType(&SingleBoxType,ConditionType1,ConditionType3);
         break;
       case republican:
-      {
         tok = ParseNumberedType(&RepublicanType,ConditionType2,ConditionType2);
         break;
-      }
       case magicsquare:
-      {
         tok = ParseNumberedType(&magic_square_type,ConditionType1,ConditionType2);
         break;
-      }
       case promotiononly:
         tok = ReadPieces(promotiononly);
         break;
@@ -1669,12 +1660,9 @@ void InitCond(void)
   mummer_strictness[Black] = mummer_strictness_none;
 
   anyimmun = false;
-  anyanticirce = false;
   anymars = false;
   anyantimars = false;
   anygeneva = false;
-
-  AntiCirceType = AntiCirceVariantTypeCount;
 
   circe_reset_variant(&circe_variant);
   circe_reset_variant(&anticirce_variant);

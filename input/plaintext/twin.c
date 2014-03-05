@@ -1845,7 +1845,7 @@ static boolean verify_position(slice_index si)
   {
     if (CondFlag[sentinelles]
         || CondFlag[nocapture]
-        || anyanticirce)
+        || CondFlag[anticirce])
     {
       VerifieMsg(TakeMakeAndFairy);
       return false;
@@ -2313,13 +2313,13 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
-  if (immune_is_rex_inclusive && anyanticirce)
+  if (immune_is_rex_inclusive && CondFlag[anticirce])
   {
     VerifieMsg(SomeCondAndAntiCirce);
     return false;
   }
 
-  if (anyanticirce)
+  if (CondFlag[anticirce])
   {
     if (circe_variant.relevant_piece==circe_relevant_piece_capturer
         || CondFlag[koeko]
@@ -2395,7 +2395,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[ghostchess] || CondFlag[hauntedchess])
   {
-    if (CondFlag[circe] || anyanticirce
+    if (CondFlag[circe] || CondFlag[anticirce]
         || CondFlag[haanerchess]
         || TSTFLAG(some_pieces_flags,Kamikaze)
         || (CondFlag[ghostchess] && CondFlag[hauntedchess]))
@@ -2439,7 +2439,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[koeko]
       || CondFlag[antikoeko]
       || circe_variant.relevant_capture==circe_relevant_capture_lastmove
-      || anyanticirce
+      || CondFlag[anticirce]
       || mummer_strictness[White]!=mummer_strictness_none
       || mummer_strictness[Black]!=mummer_strictness_none
       || CondFlag[vogt]

@@ -12,8 +12,6 @@
 
 #include "debugging/assert.h"
 
-AntiCirceVariantType AntiCirceType;
-
 circe_variant_type anticirce_variant;
 
 /* Try to solve in n half-moves.

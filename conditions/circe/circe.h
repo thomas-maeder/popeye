@@ -58,6 +58,14 @@ typedef enum
   circe_reborn_walk_adapter_chameleon
 } circe_reborn_walk_adapter_type;
 
+typedef enum
+{
+  anticirce_type_cheylan,
+  anticirce_type_calvet,
+
+  anticirce_type_count
+} anticirce_type_type;
+
 typedef struct
 {
     boolean is_rex_inclusive;
@@ -73,6 +81,7 @@ typedef struct
     circe_determine_rebirth_square_type determine_rebirth_square;
     boolean is_frischauf;
     move_effect_reason_type rebirth_reason;
+    anticirce_type_type anticirce_type;
 } circe_variant_type;
 
 extern circe_variant_type circe_variant;

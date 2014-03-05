@@ -9,16 +9,6 @@
 #include "position/position.h"
 #include "conditions/circe/circe.h"
 
-typedef enum
-{
-  AntiCirceTypeCheylan,
-  AntiCirceTypeCalvet,
-
-  AntiCirceVariantTypeCount
-} AntiCirceVariantType;
-
-extern AntiCirceVariantType AntiCirceType;
-
 extern circe_variant_type anticirce_variant;
 
 /* Try to solve in n half-moves.

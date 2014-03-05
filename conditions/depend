@@ -82,7 +82,8 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  position/pieceid.h output/plaintext/language_dependant.h \
  input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
  conditions/mummer.h conditions/anticirce/anticirce.h \
- conditions/sentinelles.h debugging/trace.h debugging/assert.h
+ conditions/circe/circe.h conditions/sentinelles.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/republican.h:
 
@@ -165,6 +166,8 @@ input/plaintext/line.h:
 conditions/mummer.h:
 
 conditions/anticirce/anticirce.h:
+
+conditions/circe/circe.h:
 
 conditions/sentinelles.h:
 

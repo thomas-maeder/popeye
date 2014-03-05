@@ -43,7 +43,7 @@ extern char const * const *ConditionLetteredVariantTypeTab;
 extern char const * const ConditionNumberedVariantTypeString[LanguageCount][ConditionNumberedVariantTypeCount];
 extern char const * const *ConditionNumberedVariantTypeTab;
 
-extern char const * const AntiCirceVariantTypeString[LanguageCount][AntiCirceVariantTypeCount];
+extern char const * const AntiCirceVariantTypeString[LanguageCount][anticirce_type_count];
 extern char const * const *AntiCirceVariantTypeTab;
 
 typedef enum
@@ -118,6 +118,8 @@ typedef enum
   CirceVariantSuper,
   CirceVariantApril,
   CirceVariantFrischauf,
+  CirceVariantCalvet,
+  CirceVariantCheylan,
 
   CirceVariantCount
 } CirceVariantType;

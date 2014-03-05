@@ -614,7 +614,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
     switch (cond)
     {
-      case anti:
+      case anticirce:
         if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
         if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
@@ -632,8 +632,8 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         if (anticirce_variant.is_mirror)
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
        /* AntiCirceTypeCalvet is default in AntiCirce */
-        if (AntiCirceType!=AntiCirceTypeCalvet)
-          written += append_to_CondLine(&CondLine,written," %s",AntiCirceVariantTypeString[UserLanguage][AntiCirceType]);
+        if (anticirce_variant.anticirce_type==anticirce_type_cheylan)
+          written += append_to_CondLine(&CondLine,written," %s",AntiCirceVariantTypeString[UserLanguage][anticirce_type_cheylan]);
         break;
 
       case blmax:

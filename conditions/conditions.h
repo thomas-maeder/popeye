@@ -70,7 +70,7 @@ typedef enum
   bicolores,               /* 49 */
   newkoeko,                /* 50 */
   circeclone,              /* 51 */
-  anti,                    /* 52 */
+  anticirce,                    /* 52 */
   circefilemirror,         /* 53 */
   circeantipoden,          /* 54 */
   circeclonemirror,        /* 55 */
@@ -247,7 +247,7 @@ typedef enum
 extern boolean CondFlag[CondCount];
 extern boolean ExtraCondFlag[ExtraCondCount];
 
-extern boolean anyanticirce, anyimmun, anyclone, anygeneva;
+extern boolean anyimmun, anyclone, anygeneva;
 
 extern square royal_square[nr_sides];
 

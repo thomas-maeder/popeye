@@ -34,6 +34,7 @@ void circe_reset_variant(circe_variant_type *variant)
   variant->relevant_capture = circe_relevant_capture_thismove;
   variant->determine_rebirth_square = circe_determine_rebirth_square_from_pas;
   variant->is_frischauf = false;
+  variant->anticirce_type = anticirce_type_count;
 }
 
 /* Override the reborn walk adapter of a Circe variant object

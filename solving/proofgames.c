@@ -1278,7 +1278,7 @@ static boolean ProofFairyImpossible(void)
         return true;
     }
 
-    if (CondFlag[anti])
+    if (CondFlag[anticirce])
     {
       /* note, that we are in the !change_moving_piece section */
       unsigned int count= 0;
@@ -1648,7 +1648,7 @@ void ProofInitialise(slice_index si)
                 || CondFlag[republican]
                 || CondFlag[circe]
                 || CondFlag[sentinelles]
-                || anyanticirce
+                || CondFlag[anticirce]
                 || CondFlag[singlebox]
                 || CondFlag[blroyalsq]
                 || CondFlag[whroyalsq]

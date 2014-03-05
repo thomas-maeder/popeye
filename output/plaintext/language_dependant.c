@@ -1341,7 +1341,7 @@ char const * const ConditionNumberedVariantTypeString[LanguageCount][ConditionNu
 
 char const * const *AntiCirceVariantTypeTab;
 
-char const * const AntiCirceVariantTypeString[LanguageCount][AntiCirceVariantTypeCount] =
+char const * const AntiCirceVariantTypeString[LanguageCount][anticirce_type_count] =
 {
   {
     /* French */
@@ -1491,7 +1491,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Take&Make",
     "Super",
     "April",
-    "Frischauf"
+    "Frischauf",
+    "Calvet",
+    "Cheylan"
   },{
     /* German */
     "RexInklusive",
@@ -1517,7 +1519,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Take&Make",
     "Super",
     "April",
-    "Frischauf"
+    "Frischauf",
+    "Calvet",
+    "Cheylan"
   },{
     /* English */
     "RexInclusive",
@@ -1543,7 +1547,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Take&Make",
     "Super",
     "April",
-    "Frischauf"
+    "Frischauf",
+    "Calvet",
+    "Cheylan"
   }
 };
 
