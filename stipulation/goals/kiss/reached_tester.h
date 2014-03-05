@@ -4,7 +4,7 @@
 #include "solving/solve.h"
 
 /* This module provides functionality dealing with slices that detect
- * whether an chess81 goal has just been reached
+ * whether a kiss goal has just been reached
  */
 
 /* Remember the id of the piece to be kissed
