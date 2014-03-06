@@ -70,6 +70,7 @@
     ENUMERATOR(STSingleBoxType3EnforceObserverWalk),                   \
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinAssassinate),                            \
+    ENUMERATOR(STCirceAssassinAllPieceObservationTester),              \
     ENUMERATOR(STOwnKingCaptureAvoider),                               \
     ENUMERATOR(STOpponentKingCaptureAvoider),                          \
     ENUMERATOR(STPatienceChessLegalityTester),                         \
@@ -304,12 +305,11 @@
     ENUMERATOR(STNoCheckConceptCheckTester),                            \
     ENUMERATOR(STVogtlaenderCheckTester),                               \
     ENUMERATOR(STExtinctionExtinctedTester),                            \
-    ENUMERATOR(STExtinctionAllSquareObservationTester),                 \
+    ENUMERATOR(STExtinctionAllPieceObservationTester),                  \
     ENUMERATOR(STNoKingCheckTester),                                    \
     ENUMERATOR(STSATCheckTester),                                       \
     ENUMERATOR(STSATxyCheckTester),                                     \
     ENUMERATOR(STStrictSATCheckTester),                                 \
-    ENUMERATOR(STAssassinCirceCheckTester),                             \
     ENUMERATOR(STKingSquareObservationTesterPlyInitialiser),            \
     ENUMERATOR(STAntikingsCheckTester),                                 \
     ENUMERATOR(STKingSquareObservationTester),                          \
