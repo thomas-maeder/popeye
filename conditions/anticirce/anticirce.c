@@ -14,6 +14,26 @@
 
 circe_variant_type anticirce_variant;
 
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
+ */
+void anticirce_reset_variant(circe_variant_type *variant)
+{
+  variant->is_promotion_possible = false;
+  variant->rebirth_reason = move_effect_reason_rebirth_no_choice;
+  variant->is_mirror = false;
+  variant->is_diametral = false;
+  variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_default;
+  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+  variant->reborn_walk_adapter = circe_reborn_walk_adapter_none;
+  variant->is_turncoat = false;
+  variant->relevant_piece = circe_relevant_piece_capturer;
+  variant->relevant_capture = circe_relevant_capture_thismove;
+  variant->determine_rebirth_square = circe_determine_rebirth_square_from_pas;
+  variant->is_frischauf = false;
+  variant->anticirce_type = anticirce_type_count;
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -161,6 +181,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STAnticirceDeterminingRebornPiece),
         alloc_pipe(STAnticirceDetermineRebornPiece),
         alloc_pipe(STAnticirceRemoveCapturer),
+        alloc_pipe(STAnticircePlacingReborn),
         alloc_pipe(STAnticircePlaceReborn)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

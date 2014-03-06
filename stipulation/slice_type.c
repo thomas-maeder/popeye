@@ -364,6 +364,7 @@
     ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticirceRemoveCapturer),                              \
+    ENUMERATOR(STAnticircePlacingReborn),                               \
     ENUMERATOR(STAnticircePlaceReborn),                                 \
     ENUMERATOR(STAnticirceRebirthOnNonEmptySquare),                     \
     ENUMERATOR(STAntisupercirceDetermineRebirthSquare),                 \

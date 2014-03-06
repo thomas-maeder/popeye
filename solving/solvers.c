@@ -590,10 +590,42 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     if (anticirce_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
       anticirce_instrument_solving(result,STAntiCloneCirceDetermineRebornWalk);
 
-    circe_stop_rebirth_on_occupied_square(result,
-                                          STAnticirceRemoveCapturer,
-                                          STAnticirceRebirthOnNonEmptySquare,
-                                          STLandingAfterAnticirceRebirth);
+    switch (anticirce_variant.on_occupied_rebirth_square)
+    {
+      case circe_on_occupied_rebirth_square_assassinate:
+        circe_assassinate_on_occupied_square(result,
+                                             STAnticirceRemoveCapturer,
+                                             STAnticirceRebirthOnNonEmptySquare,
+                                             STAnticircePlacingReborn);
+        break;
+
+      case circe_on_occupied_rebirth_square_default:
+        switch (anticirce_variant.on_occupied_rebirth_square_default)
+        {
+          case circe_on_occupied_rebirth_square_default_illegal:
+            circe_stop_rebirth_on_occupied_square(result,
+                                                  STAnticirceRemoveCapturer,
+                                                  STAnticirceRebirthOnNonEmptySquare,
+                                                  STLandingAfterAnticirceRebirth);
+            break;
+
+          case circe_on_occupied_rebirth_square_default_no_rebirth:
+            circe_no_rebirth_on_occupied_square(result,
+                                                STAnticirceRemoveCapturer,
+                                                STAnticirceRebirthOnNonEmptySquare,
+                                                STLandingAfterAnticirceRebirth);
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
+        break;
+
+      default:
+        assert(0);
+        break;
+    }
 
     circe_insert_rebirth_avoider(result,
                                  STAnticirceConsideringRebirth,

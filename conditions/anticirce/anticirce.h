@@ -11,6 +11,11 @@
 
 extern circe_variant_type anticirce_variant;
 
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
+ */
+void anticirce_reset_variant(circe_variant_type *variant);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

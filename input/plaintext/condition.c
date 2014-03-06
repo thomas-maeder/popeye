@@ -1665,7 +1665,7 @@ void InitCond(void)
   anygeneva = false;
 
   circe_reset_variant(&circe_variant);
-  circe_reset_variant(&anticirce_variant);
+  anticirce_reset_variant(&anticirce_variant);
 
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;
