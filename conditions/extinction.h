@@ -11,8 +11,8 @@
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean exctinction_all_square_observation_tester_is_in_check(slice_index si,
-                                                              Side side_attacked);
+boolean exctinction_all_piece_observation_tester_is_in_check(slice_index si,
+                                                             Side side_attacked);
 
 /* Determine whether a side is in check
  * @param si identifies the check tester

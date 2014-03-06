@@ -18,7 +18,7 @@ static void substitute_extinction_tester(slice_index si, stip_structure_traversa
 static void substitute_all_pieces_observation_tester(slice_index si, stip_structure_traversal*st)
 {
   stip_traverse_structure_children(si,st);
-  pipe_substitute(si,alloc_pipe(STExtinctionAllSquareObservationTester));
+  pipe_substitute(si,alloc_pipe(STExtinctionAllPieceObservationTester));
 }
 
 /* Initialise the solving machinery with Extinction Chess
@@ -60,8 +60,8 @@ void extinction_initialise_solving(slice_index si)
  * @param side_in_check which side?
  * @return true iff side_in_check is in check according to slice si
  */
-boolean exctinction_all_square_observation_tester_is_in_check(slice_index si,
-                                                              Side side_attacked)
+boolean exctinction_all_piece_observation_tester_is_in_check(slice_index si,
+                                                             Side side_attacked)
 {
   boolean result = false;
   square const *bnp;

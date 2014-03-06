@@ -372,6 +372,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                              STCirceDeterminingRebornPiece,
                                              STCirceRebirthOnNonEmptySquare,
                                              STCircePlacingReborn);
+        circe_assassin_initialise_solving(result);
         break;
 
       case circe_on_occupied_rebirth_square_default:
@@ -525,9 +526,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                    STCirceRebirthAvoided,
                                    STLandingAfterAnticirceRebirth);
     }
-
-    if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
-      solving_instrument_check_testing(result,STAssassinCirceCheckTester);
 
     if (circe_variant.is_promotion_possible)
       circe_allow_pawn_promotion(result,STCircePlacingReborn);

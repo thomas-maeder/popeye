@@ -8,7 +8,8 @@ solving/testers$(OBJ_SUFFIX): solving/testers.c solving/testers.h \
  stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 solving/testers.h:
 
@@ -65,6 +66,8 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
@@ -149,7 +152,7 @@ solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortes
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 solving/find_shortest.h:
 
@@ -203,6 +206,8 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \
  solving/find_by_increasing_length.h solving/solve.h \
@@ -212,7 +217,8 @@ solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_lengt
  pieces/walks/vectors.h output/mode.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/proxy.h \
- stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 solving/find_by_increasing_length.h:
 
@@ -256,6 +262,8 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  solving/fork_on_remaining.h solving/solve.h stipulation/stipulation.h \
@@ -264,7 +272,8 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h debugging/assert.h
+ stipulation/traversal.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 solving/fork_on_remaining.h:
 
@@ -304,6 +313,8 @@ stipulation/traversal.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  solving/play_suppressor.h solving/solve.h stipulation/stipulation.h \
@@ -312,7 +323,7 @@ solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
- debugging/trace.h
+ debugging/trace.h solving/ply.h
 
 solving/play_suppressor.h:
 
@@ -351,6 +362,8 @@ stipulation/traversal.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/move_generator.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1022,7 +1035,7 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/branch.h stipulation/binary.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 solving/avoid_unsolvable.h:
 
@@ -1072,6 +1085,8 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  solving/selfcheck_guard.h solving/solve.h stipulation/stipulation.h \
@@ -1084,7 +1099,7 @@ solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  stipulation/boolean/true.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/check.h debugging/trace.h debugging/assert.h
+ solving/check.h debugging/trace.h solving/ply.h debugging/assert.h
 
 solving/selfcheck_guard.h:
 
@@ -1139,6 +1154,8 @@ stipulation/help_play/branch.h:
 solving/check.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
@@ -2192,10 +2209,10 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
  conditions/extinction.h solving/solve.h conditions/sat.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h conditions/vogtlaender.h conditions/circe/assassin.h \
- conditions/antikings.h solving/observation.h \
- stipulation/temporary_hacks.h solving/move_generator.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h conditions/vogtlaender.h conditions/antikings.h \
+ solving/observation.h stipulation/temporary_hacks.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h \
  debugging/measure.h debugging/assert.h
 
@@ -2238,8 +2255,6 @@ solving/ply.h:
 position/pieceid.h:
 
 conditions/vogtlaender.h:
-
-conditions/circe/assassin.h:
 
 conditions/antikings.h:
 

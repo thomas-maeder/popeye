@@ -255,7 +255,7 @@ conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \
  stipulation/proxy.h stipulation/pipe.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/boolean/true.h \
  stipulation/has_solution_type.h stipulation/goals/check/reached_tester.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 conditions/check_zigzag.h:
 
@@ -312,6 +312,8 @@ stipulation/has_solution_type.h:
 stipulation/goals/check/reached_tester.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \

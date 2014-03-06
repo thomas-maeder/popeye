@@ -1,59 +1,16 @@
 #include "conditions/circe/assassin.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/rebirth_avoider.h"
-#include "conditions/circe/rex_inclusive.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/has_solution_type.h"
+#include "stipulation/structure_traversal.h"
+#include "stipulation/pipe.h"
 #include "debugging/trace.h"
-#include "pieces/pieces.h"
 
 #include "debugging/assert.h"
-
-/* Determine whether a side is in check
- * @param si identifies the check tester
- * @param side_in_check which side?
- * @return true iff side_in_check is in check according to slice si
- */
-boolean assassin_circe_check_tester_is_in_check(slice_index si, Side side_in_check)
-{
-  boolean assassinable = false;
-  Side const side_checking = advers(side_in_check);
-
-  if (is_in_check_recursive(slices[si].next1,side_in_check))
-    assassinable = true;
-  else
-  {
-    square const *bnp;
-
-    siblingply(side_checking);
-    push_observation_target(initsquare);
-
-    for (bnp = boardnum; *bnp; bnp++)
-    {
-      PieNam const p = get_walk_of_piece_on_square(*bnp);
-
-      if (p!=Empty
-          && p!=King && TSTFLAG(spec[*bnp],side_in_check)
-          && rennormal(p,spec[*bnp],*bnp,side_checking)==king_square[side_in_check])
-      {
-        replace_observation_target(*bnp);
-        if (is_square_observed(EVALUATE(check)))
-        {
-          assassinable = true;
-          break;
-        }
-      }
-    }
-
-    finply();
-  }
-
-  return assassinable;
-}
 
 /* Try to solve in n half-moves.
  * @param si slice index
@@ -93,4 +50,72 @@ stip_length_type circe_assassin_assassinate_solve(slice_index si,
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Determine whether a side is in check
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean circe_assassin_all_piece_observation_tester_is_in_check(slice_index si,
+                                                                Side side_attacked)
+{
+  boolean result = false;
+  square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_attacked,"");
+  TraceFunctionParamListEnd();
+
+  for (bnp = boardnum; *bnp; ++bnp)
+    if (TSTFLAG(spec[*bnp],side_attacked))
+    {
+      replace_observation_target(*bnp);
+      if (is_square_observed(EVALUATE(check)))
+      {
+        result = true;
+        break;
+      }
+    }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* test all attacked pieces, not just the king */
+static void substitute_all_pieces_observation_tester(slice_index si, stip_structure_traversal*st)
+{
+  stip_traverse_structure_children(si,st);
+  pipe_substitute(si,alloc_pipe(STCirceAssassinAllPieceObservationTester));
+}
+
+/* Initialise the solving machinery with Assassin Circe
+ * @param si identifies root slice of stipulation
+ */
+void circe_assassin_initialise_solving(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  /* we have to actually play potentially assassinating moves
+   */
+  stip_instrument_check_validation(si,
+                                   nr_sides,
+                                   STValidateCheckMoveByPlayingCapture);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STKingSquareObservationTester,
+                                             &substitute_all_pieces_observation_tester);
+    stip_traverse_structure(si,&st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

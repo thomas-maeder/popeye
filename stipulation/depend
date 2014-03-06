@@ -4,7 +4,10 @@ stipulation/slice_type$(OBJ_SUFFIX): stipulation/slice_type.c \
 utilities/enumeration.h:
 stipulation/slice$(OBJ_SUFFIX): stipulation/slice.c stipulation/slice.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h pieces/pieces.h solving/ply.h position/position.h \
+ position/board.h utilities/bitmask.h pieces/walks/vectors.h \
+ stipulation/stipulation.h stipulation/goals/goals.h output/mode.h \
+ debugging/assert.h
 
 stipulation/slice.h:
 
@@ -16,6 +19,24 @@ utilities/enumeration.h:
 
 debugging/trace.h:
 
+pieces/pieces.h:
+
+solving/ply.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+pieces/walks/vectors.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+output/mode.h:
+
 debugging/assert.h:
 stipulation/structure_traversal$(OBJ_SUFFIX): stipulation/structure_traversal.c \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -24,7 +45,7 @@ stipulation/structure_traversal$(OBJ_SUFFIX): stipulation/structure_traversal.c 
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/testing_pipe.h stipulation/pipe.h solving/solve.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/structure_traversal.h:
 
@@ -62,6 +83,8 @@ solving/solve.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/moves_traversal$(OBJ_SUFFIX): stipulation/moves_traversal.c \
  stipulation/moves_traversal.h stipulation/slice.h utilities/boolean.h \
@@ -71,7 +94,7 @@ stipulation/moves_traversal$(OBJ_SUFFIX): stipulation/moves_traversal.c \
  utilities/bitmask.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/conditional_pipe.h stipulation/pipe.h \
- solving/solve.h debugging/trace.h debugging/assert.h
+ solving/solve.h debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/moves_traversal.h:
 
@@ -115,6 +138,8 @@ solving/solve.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/has_solution_type$(OBJ_SUFFIX): stipulation/has_solution_type.c \
  stipulation/has_solution_type.h utilities/enumeration.h
@@ -131,7 +156,8 @@ stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  stipulation/proxy.h stipulation/pipe.h solving/solve.h \
  stipulation/if_then_else.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
- solving/fork_on_remaining.h debugging/trace.h debugging/assert.h
+ solving/fork_on_remaining.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/branch.h:
 
@@ -181,6 +207,8 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/move_played$(OBJ_SUFFIX): stipulation/move_played.c \
  stipulation/move_played.h stipulation/structure_traversal.h \
@@ -189,7 +217,8 @@ stipulation/move_played$(OBJ_SUFFIX): stipulation/move_played.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/solve.h stipulation/pipe.h \
- stipulation/has_solution_type.h debugging/trace.h debugging/assert.h
+ stipulation/has_solution_type.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/move_played.h:
 
@@ -228,6 +257,8 @@ stipulation/pipe.h:
 stipulation/has_solution_type.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 stipulation/dummy_move$(OBJ_SUFFIX): stipulation/dummy_move.c \
@@ -287,7 +318,7 @@ stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/solve.h stipulation/fork.h stipulation/branch.h \
- stipulation/binary.h debugging/trace.h debugging/assert.h
+ stipulation/binary.h debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/proxy.h:
 
@@ -331,6 +362,8 @@ stipulation/binary.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/setplay_fork$(OBJ_SUFFIX): stipulation/setplay_fork.c \
  stipulation/setplay_fork.h stipulation/pipe.h \
@@ -340,7 +373,7 @@ stipulation/setplay_fork$(OBJ_SUFFIX): stipulation/setplay_fork.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/solve.h stipulation/fork.h stipulation/has_solution_type.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/setplay_fork.h:
 
@@ -382,6 +415,8 @@ stipulation/has_solution_type.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h \
  solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
@@ -392,7 +427,8 @@ stipulation/dead_end$(OBJ_SUFFIX): stipulation/dead_end.c stipulation/dead_end.h
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/moves_traversal.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/avoid_unsolvable.h debugging/trace.h debugging/assert.h
+ solving/avoid_unsolvable.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/dead_end.h:
 
@@ -442,6 +478,8 @@ solving/avoid_unsolvable.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/end_of_branch$(OBJ_SUFFIX): stipulation/end_of_branch.c \
  stipulation/end_of_branch.h solving/solve.h stipulation/stipulation.h \
@@ -451,7 +489,8 @@ stipulation/end_of_branch$(OBJ_SUFFIX): stipulation/end_of_branch.c \
  stipulation/fork.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h \
  stipulation/has_solution_type.h stipulation/proxy.h stipulation/branch.h \
- solving/fork_on_remaining.h debugging/trace.h debugging/assert.h
+ solving/fork_on_remaining.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/end_of_branch.h:
 
@@ -499,6 +538,8 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/end_of_branch_goal$(OBJ_SUFFIX): stipulation/end_of_branch_goal.c \
  stipulation/end_of_branch_goal.h solving/solve.h \
@@ -508,7 +549,8 @@ stipulation/end_of_branch_goal$(OBJ_SUFFIX): stipulation/end_of_branch_goal.c \
  pieces/walks/vectors.h output/mode.h stipulation/fork.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h \
- stipulation/has_solution_type.h debugging/trace.h debugging/assert.h
+ stipulation/has_solution_type.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/end_of_branch_goal.h:
 
@@ -550,6 +592,8 @@ stipulation/has_solution_type.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/end_of_branch_tester$(OBJ_SUFFIX): stipulation/end_of_branch_tester.c \
  stipulation/end_of_branch_tester.h stipulation/stipulation.h \
@@ -559,7 +603,8 @@ stipulation/end_of_branch_tester$(OBJ_SUFFIX): stipulation/end_of_branch_tester.
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/branch.h stipulation/conditional_pipe.h \
- solving/fork_on_remaining.h debugging/trace.h debugging/assert.h
+ solving/fork_on_remaining.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/end_of_branch_tester.h:
 
@@ -605,6 +650,8 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
  stipulation/constraint.h stipulation/structure_traversal.h \
@@ -617,7 +664,8 @@ stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
  stipulation/has_solution_type.h stipulation/proxy.h \
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/dead_end.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/constraint.h:
 
@@ -673,6 +721,8 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/if_then_else$(OBJ_SUFFIX): stipulation/if_then_else.c \
  stipulation/if_then_else.h stipulation/structure_traversal.h \
@@ -682,7 +732,7 @@ stipulation/if_then_else$(OBJ_SUFFIX): stipulation/if_then_else.c \
  utilities/bitmask.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/solve.h \
  stipulation/has_solution_type.h stipulation/binary.h debugging/trace.h \
- debugging/assert.h
+ solving/ply.h debugging/assert.h
 
 stipulation/if_then_else.h:
 
@@ -721,6 +771,8 @@ stipulation/has_solution_type.h:
 stipulation/binary.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 stipulation/temporary_hacks$(OBJ_SUFFIX): stipulation/temporary_hacks.c \
@@ -853,7 +905,7 @@ stipulation/testing_pipe$(OBJ_SUFFIX): stipulation/testing_pipe.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/solve.h stipulation/proxy.h stipulation/branch.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/testing_pipe.h:
 
@@ -895,6 +947,8 @@ stipulation/branch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/conditional_pipe$(OBJ_SUFFIX): stipulation/conditional_pipe.c \
  stipulation/conditional_pipe.h stipulation/pipe.h \
@@ -904,7 +958,7 @@ stipulation/conditional_pipe$(OBJ_SUFFIX): stipulation/conditional_pipe.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/solve.h stipulation/proxy.h stipulation/branch.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/conditional_pipe.h:
 
@@ -946,6 +1000,8 @@ stipulation/branch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/move_inverter$(OBJ_SUFFIX): stipulation/move_inverter.c \
  stipulation/move_inverter.h stipulation/structure_traversal.h \
@@ -955,7 +1011,7 @@ stipulation/move_inverter$(OBJ_SUFFIX): stipulation/move_inverter.c \
  utilities/bitmask.h position/position.h pieces/pieces.h \
  pieces/walks/vectors.h output/mode.h solving/solve.h \
  stipulation/has_solution_type.h stipulation/pipe.h debugging/trace.h \
- debugging/assert.h
+ solving/ply.h debugging/assert.h
 
 stipulation/move_inverter.h:
 
@@ -995,6 +1051,8 @@ stipulation/pipe.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/binary$(OBJ_SUFFIX): stipulation/binary.c stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1003,7 +1061,7 @@ stipulation/binary$(OBJ_SUFFIX): stipulation/binary.c stipulation/binary.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/proxy.h stipulation/pipe.h solving/solve.h debugging/trace.h \
- debugging/assert.h
+ solving/ply.h debugging/assert.h
 
 stipulation/binary.h:
 
@@ -1043,6 +1101,8 @@ solving/solve.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/pipe$(OBJ_SUFFIX): stipulation/pipe.c stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1051,7 +1111,7 @@ stipulation/pipe$(OBJ_SUFFIX): stipulation/pipe.c stipulation/pipe.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/solve.h stipulation/proxy.h stipulation/branch.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/pipe.h:
 
@@ -1091,6 +1151,8 @@ stipulation/branch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/fork$(OBJ_SUFFIX): stipulation/fork.c stipulation/fork.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1099,7 +1161,7 @@ stipulation/fork$(OBJ_SUFFIX): stipulation/fork.c stipulation/fork.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/solve.h stipulation/branch.h stipulation/proxy.h \
- stipulation/pipe.h debugging/trace.h debugging/assert.h
+ stipulation/pipe.h debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/fork.h:
 
@@ -1141,6 +1203,8 @@ stipulation/pipe.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/stipulation$(OBJ_SUFFIX): stipulation/stipulation.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -1160,7 +1224,7 @@ stipulation/stipulation$(OBJ_SUFFIX): stipulation/stipulation.c \
  stipulation/help_play/adapter.h stipulation/proxy.h \
  optimisations/intelligent/mate/filter.h \
  optimisations/intelligent/stalemate/filter.h debugging/trace.h \
- debugging/assert.h
+ solving/ply.h debugging/assert.h
 
 stipulation/stipulation.h:
 
@@ -1234,6 +1298,8 @@ optimisations/intelligent/stalemate/filter.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h \
  stipulation/slice_type.h utilities/enumeration.h \
@@ -1243,7 +1309,7 @@ stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h solving/solve.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h solving/ply.h debugging/assert.h
 
 stipulation/move.h:
 
@@ -1286,6 +1352,8 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 stipulation/move_player$(OBJ_SUFFIX): stipulation/move_player.c \
