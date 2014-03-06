@@ -12,6 +12,8 @@
 
 #include "debugging/assert.h"
 
+circe_assassin_use_whom_type circe_assassin_use_whom;
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -62,14 +64,20 @@ boolean circe_assassin_all_piece_observation_tester_is_in_check(slice_index si,
 {
   boolean result = false;
   square const *bnp;
+  Flags side_mask = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,side_attacked,"");
   TraceFunctionParamListEnd();
 
+  if (circe_assassin_use_whom&circe_assassin_use_attacked)
+    side_mask |= BIT(side_attacked);
+  if (circe_assassin_use_whom&circe_assassin_use_attacking)
+    side_mask |= BIT(advers(side_attacked));
+
   for (bnp = boardnum; *bnp; ++bnp)
-    if (TSTFLAG(spec[*bnp],side_attacked))
+    if (spec[*bnp]&side_mask)
     {
       replace_observation_target(*bnp);
       if (is_square_observed(EVALUATE(check)))
@@ -92,15 +100,8 @@ static void substitute_all_pieces_observation_tester(slice_index si, stip_struct
   pipe_substitute(si,alloc_pipe(STCirceAssassinAllPieceObservationTester));
 }
 
-/* Initialise the solving machinery with Assassin Circe
- * @param si identifies root slice of stipulation
- */
-void circe_assassin_initialise_solving(slice_index si)
+static void instrument(slice_index si)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
   /* we have to actually play potentially assassinating moves
    */
   stip_instrument_check_validation(si,
@@ -115,6 +116,35 @@ void circe_assassin_initialise_solving(slice_index si)
                                              &substitute_all_pieces_observation_tester);
     stip_traverse_structure(si,&st);
   }
+}
+
+/* Initialise the solving machinery with Assassin Circe
+ * @param si identifies root slice of stipulation
+ */
+void circe_assassin_initialise_solving(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  instrument(si);
+  circe_assassin_use_whom |= circe_assassin_use_attacked;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Initialise the solving machinery with Assassin Anticirce
+ * @param si identifies root slice of stipulation
+ */
+void anticirce_assassin_initialise_solving(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  instrument(si);
+  circe_assassin_use_whom |= circe_assassin_use_attacking;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

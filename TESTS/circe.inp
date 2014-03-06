@@ -82,4 +82,26 @@ stip ~1
 condition anticirce
 option nowk nobk
 
+next
+
+title check in Circe Mirror Assassin
+pieces white kc3 black ka2 pa4b5 ra5 sc4
+cond circe assassin mirror
+stip #1
+
+next
+
+title Anticirce Assassin
+pieces white ka1 black pa2 se1
+condition anticirce assassin
+stip ~1
+option nowk nobk
+
+next
+
+title check in Anticirce Assassin
+pieces black ke1 pa7 white ka5
+condition anticirce assassin
+stip +1
+
 end

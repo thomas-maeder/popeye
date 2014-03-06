@@ -378,3 +378,110 @@ only example of Anticirce with Locust
 solution finished. 
 
 
+
+    check in Circe Mirror Assassin
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -R  -P   .   .   .   .   .   .   5
+|                                   |
+4  -P   .  -S   .   .   .   .   .   4
+|                                   |
+3   .   .   K   .   .   .   .   .   3
+|                                   |
+2  -K   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          1 + 5
+        Circe Mirror Assassin
+
+   1.Kc3-b4 # !
+
+
+  add_to_move_generation_stack:          24
+                     play_move:          56
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+          Anticirce Assassin
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2  -P   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .  -S   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+          AntiCirce Assassin
+
+   1.Ka1-b2 !
+
+   1.Ka1*a2[wKa2->e1] !
+
+
+  add_to_move_generation_stack:           3
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+     check in Anticirce Assassin
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .  -K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          1 + 2
+          AntiCirce Assassin
+
+   1.Ka5-a6 + !
+
+
+  add_to_move_generation_stack:           5
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

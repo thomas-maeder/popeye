@@ -595,6 +595,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                              STAnticirceRemoveCapturer,
                                              STAnticirceRebirthOnNonEmptySquare,
                                              STAnticircePlacingReborn);
+        circe_assassin_initialise_solving(result);
         break;
 
       case circe_on_occupied_rebirth_square_default:

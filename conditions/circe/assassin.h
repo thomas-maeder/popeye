@@ -6,6 +6,16 @@
 
 #include "solving/solve.h"
 
+typedef enum
+{
+  circe_assassin_use_none,
+  circe_assassin_use_attacked,
+  circe_assassin_use_attacking,
+  circe_assassin_use_both
+} circe_assassin_use_whom_type;
+
+extern circe_assassin_use_whom_type circe_assassin_use_whom;
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -34,5 +44,10 @@ boolean circe_assassin_all_piece_observation_tester_is_in_check(slice_index si,
  * @param si identifies root slice of stipulation
  */
 void circe_assassin_initialise_solving(slice_index si);
+
+/* Initialise the solving machinery with Assassin Anticirce
+ * @param si identifies root slice of stipulation
+ */
+void anticirce_assassin_initialise_solving(slice_index si);
 
 #endif

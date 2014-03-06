@@ -13,6 +13,7 @@
 #include "conditions/circe/circe.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/chameleon.h"
+#include "conditions/circe/assassin.h"
 #include "conditions/football.h"
 #include "conditions/geneva.h"
 #include "conditions/grid.h"
@@ -1666,6 +1667,8 @@ void InitCond(void)
 
   circe_reset_variant(&circe_variant);
   anticirce_reset_variant(&anticirce_variant);
+
+  circe_assassin_use_whom = circe_assassin_use_none;
 
   immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;
