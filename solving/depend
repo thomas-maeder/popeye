@@ -2207,12 +2207,12 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  position/position.h position/board.h utilities/bitmask.h pieces/pieces.h \
  pieces/walks/vectors.h utilities/enumeration.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h output/mode.h \
- conditions/extinction.h solving/solve.h conditions/sat.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h conditions/vogtlaender.h conditions/antikings.h \
- solving/observation.h stipulation/temporary_hacks.h \
- solving/move_generator.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ conditions/circe/assassin.h solving/solve.h conditions/extinction.h \
+ conditions/sat.h solving/move_effect_journal.h solving/castling_rights.h \
+ solving/ply.h position/pieceid.h conditions/vogtlaender.h \
+ conditions/antikings.h solving/observation.h \
+ stipulation/temporary_hacks.h solving/move_generator.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h debugging/trace.h \
  debugging/measure.h debugging/assert.h
 
@@ -2240,9 +2240,11 @@ stipulation/slice_type.h:
 
 output/mode.h:
 
-conditions/extinction.h:
+conditions/circe/assassin.h:
 
 solving/solve.h:
+
+conditions/extinction.h:
 
 conditions/sat.h:
 

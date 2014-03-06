@@ -7,4 +7,22 @@ pieces white be5 black pf6g2
 cond anticirce cage
 stip ~1
 
+next
+
+title similarities between Take&Make and Anticirce Take&Make
+pieces white pd4 black pe5
+stip ~1
+condition take&make
+option nowk nobk
+twin condition anticirce take&make
+
+next
+
+title difference between Take&Make and Anticirce Take&Make
+pieces white pd3 black pe4 black royal pe5
+stip +1
+condition take&make
+option nowk
+twin condition anticirce take&make
+
 end

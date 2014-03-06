@@ -629,6 +629,8 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantEquipollents]);
         if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCage]);
+        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
         if (anticirce_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
         if (anticirce_variant.is_mirror)

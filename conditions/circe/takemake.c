@@ -108,6 +108,7 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
                                                                  stip_length_type n)
 {
   stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -115,11 +116,11 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply]
-      && !init_rebirth_squares(advers(slices[si].starter)))
+      && !init_rebirth_squares(context->relevant_side))
     result = this_move_is_illegal;
   else
   {
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
+    context->rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
 
     ++stack_pointer;
     result = solve(slices[si].next1,n);

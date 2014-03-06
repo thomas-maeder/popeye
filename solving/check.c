@@ -1,4 +1,5 @@
 #include "solving/check.h"
+#include "conditions/circe/assassin.h"
 #include "conditions/extinction.h"
 #include "conditions/sat.h"
 #include "conditions/vogtlaender.h"
