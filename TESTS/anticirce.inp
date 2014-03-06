@@ -1,0 +1,10 @@
+begin
+
+prot anticirce.tst
+
+title Anticirce Cage
+pieces white be5 black pf6g2
+cond anticirce cage
+stip ~1
+
+end

@@ -204,6 +204,9 @@ void anticirce_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STCageCirceNonCapturingMoveFinder,
+                                           &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
 

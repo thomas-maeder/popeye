@@ -21,6 +21,7 @@
 #include "stipulation/help_play/branch.h"
 #include "solving/legal_move_counter.h"
 #include "conditions/circe/circe.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/sat.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
@@ -151,7 +152,8 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
 {
   slice_index result;
 
-  if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
+  if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage
+      || anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
   {
     slice_index const proxy_branch = alloc_proxy_slice();
     slice_index const help = alloc_help_branch(slack_length+1,slack_length+1);

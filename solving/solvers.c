@@ -580,6 +580,14 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         break;
     }
 
+    if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
+    {
+      anticirce_instrument_solving(result,STCirceCageCageTester);
+      circe_cage_optimise_away_futile_captures(result);
+      if (!CondFlag[immuncage])
+        circe_insert_rebirth_avoider(result,STAnticirceConsideringRebirth,STCirceCageNoCageFork,STCirceRebirthAvoided,STLandingAfterAnticirceRebirth);
+    }
+
     if (anticirce_variant.is_promotion_possible)
       circe_allow_pawn_promotion(result,STAnticircePlaceReborn);
 
