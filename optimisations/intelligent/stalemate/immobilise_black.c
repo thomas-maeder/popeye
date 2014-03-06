@@ -77,6 +77,7 @@ boolean can_we_block_all_necessary_squares(trouble_maker_type const *state)
     case immobilisation_impossible:
     default:
       assert(0);
+      result = false;
       break;
   }
 
