@@ -34,6 +34,33 @@ void anticirce_reset_variant(circe_variant_type *variant)
   variant->anticirce_type = anticirce_type_count;
 }
 
+/* Initialise the Anticirce machinery from the capture in a particular ply
+ * @param ply identifies the ply
+ */
+void anticirce_initialise_from_capture_in_ply(ply ply)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+  Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;
+  PieceIdType const moving_id = GetPieceId(movingspec);
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+  context->rebirth_from = move_effect_journal_follow_piece_through_other_effects(nbply,
+                                                                                 moving_id,
+                                                                                 sq_arrival);
+  context->reborn_walk = get_walk_of_piece_on_square(context->rebirth_from);
+  context->reborn_spec = spec[context->rebirth_from];
+
+  /* TODO WinChloe uses the arrival square, which seems to make more sense */
+  context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
+
+  context->relevant_walk = context->reborn_walk;
+  context->relevant_spec = context->reborn_spec;
+  context->relevant_side = advers(trait[ply]);
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -47,8 +74,8 @@ void anticirce_reset_variant(circe_variant_type *variant)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
-                                                        stip_length_type n)
+stip_length_type anticirce_initialise_from_current_capture_solve(slice_index si,
+                                                                 stip_length_type n)
 {
   stip_length_type result;
 
@@ -57,27 +84,7 @@ stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
-    square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                              moving_id,
-                                                                              sq_arrival);
-    circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-
-    context->reborn_walk = get_walk_of_piece_on_square(pos);
-    context->reborn_spec = spec[pos];
-
-    /* TODO WinChloe uses the arrival square, which seems to make more sense */
-    context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
-
-    context->relevant_walk = context->reborn_walk;
-    context->relevant_spec = context->reborn_spec;
-    context->relevant_side = advers(slices[si].starter);
-  }
+  anticirce_initialise_from_capture_in_ply(nbply);
 
   result = solve(slices[si].next1,n);
 
@@ -111,13 +118,10 @@ stip_length_type anticirce_remove_capturer_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-    PieceIdType const moving_id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
+    circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
-                                                                              moving_id,
-                                                                              sq_arrival);
+                                                                              GetPieceId(context->relevant_spec),
+                                                                              context->rebirth_from);
     move_effect_journal_do_piece_removal(move_effect_reason_transfer_no_choice,
                                          pos);
   }
@@ -179,7 +183,6 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
     slice_index const prototypes[] = {
         alloc_pipe(STAnticirceConsideringRebirth),
         alloc_pipe(STAnticirceDeterminingRebornPiece),
-        alloc_pipe(STAnticirceDetermineRebornPiece),
         alloc_pipe(STAnticirceRemoveCapturer),
         alloc_pipe(STAnticircePlacingReborn),
         alloc_pipe(STAnticircePlaceReborn)

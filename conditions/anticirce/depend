@@ -322,3 +322,54 @@ position/pieceid.h:
 debugging/trace.h:
 
 debugging/assert.h:
+conditions/anticirce/parrain$(OBJ_SUFFIX): conditions/anticirce/parrain.c \
+ conditions/anticirce/parrain.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/anticirce/anticirce.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h conditions/circe/circe.h debugging/trace.h \
+ debugging/assert.h
+
+conditions/anticirce/parrain.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+conditions/anticirce/anticirce.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+conditions/circe/circe.h:
+
+debugging/trace.h:
+
+debugging/assert.h:

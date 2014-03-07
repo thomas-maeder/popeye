@@ -16,6 +16,11 @@ extern circe_variant_type anticirce_variant;
  */
 void anticirce_reset_variant(circe_variant_type *variant);
 
+/* Initialise the Anticirce machinery from the capture in a particular ply
+ * @param ply identifies the ply
+ */
+void anticirce_initialise_from_capture_in_ply(ply ply);
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -29,8 +34,8 @@ void anticirce_reset_variant(circe_variant_type *variant);
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type anticirce_determine_reborn_piece_solve(slice_index si,
-                                                        stip_length_type n);
+stip_length_type anticirce_initialise_from_current_capture_solve(slice_index si,
+                                                                 stip_length_type n);
 
 /* Try to solve in n half-moves.
  * @param si slice index

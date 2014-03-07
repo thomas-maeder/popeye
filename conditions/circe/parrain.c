@@ -1,5 +1,4 @@
 #include "conditions/circe/parrain.h"
-#include "conditions/conditions.h"
 #include "conditions/circe/circe.h"
 #include "stipulation/has_solution_type.h"
 #include "stipulation/stipulation.h"
@@ -25,25 +24,13 @@ stip_length_type circe_parrain_initalise_from_capture_in_last_move_solve(slice_i
                                                                          stip_length_type n)
 {
   stip_length_type result;
-  ply const parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
-  move_effect_journal_index_type const parent_capture = parent_base+move_effect_journal_index_offset_capture;
-  move_effect_journal_entry_type const * const capture = &move_effect_journal[parent_capture];
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  context->reborn_walk = capture->u.piece_removal.removed;
-  context->reborn_spec = capture->u.piece_removal.removedspec;
-
-  context->relevant_square = capture->u.piece_removal.from;
-  context->relevant_walk = context->reborn_walk;
-  context->relevant_spec = context->reborn_spec;
-
-  context->relevant_side = advers(slices[si].starter);
+  circe_initialise_from_capture_in_ply(parent_ply[nbply]);
 
   result = solve(slices[si].next1,n);
 

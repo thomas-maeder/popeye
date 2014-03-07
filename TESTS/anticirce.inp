@@ -25,4 +25,11 @@ condition take&make
 option nowk
 twin condition anticirce take&make
 
+next
+
+pieces white kf7 pb2 black ba1
+condition anticirce parrain
+stip hzg61
+option nobk
+
 end

@@ -116,7 +116,7 @@ stip_length_type take_make_circe_determine_rebirth_squares_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply]
-      && !init_rebirth_squares(context->relevant_side))
+      && !init_rebirth_squares(advers(context->relevant_side)))
     result = this_move_is_illegal;
   else
   {

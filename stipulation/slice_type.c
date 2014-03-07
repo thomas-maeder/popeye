@@ -361,7 +361,8 @@
     ENUMERATOR(STAnticirceConsideringRebirth),                          \
     ENUMERATOR(STCirceKamikazeCaptureFork),                             \
     ENUMERATOR(STAnticirceDeterminingRebornPiece),                      \
-    ENUMERATOR(STAnticirceDetermineRebornPiece),                        \
+    ENUMERATOR(STAnticirceInitialiseFromCurrentCapture),                \
+    ENUMERATOR(STAnticirceParrainInitialiseFromCaptureInLastMove),      \
     ENUMERATOR(STAnticirceCheylanFilter),                               \
     ENUMERATOR(STAnticirceRemoveCapturer),                              \
     ENUMERATOR(STAnticircePlacingReborn),                               \

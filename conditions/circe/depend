@@ -76,7 +76,7 @@ conditions/circe/goal_filters$(OBJ_SUFFIX): conditions/circe/goal_filters.c \
  stipulation/proxy.h stipulation/boolean/or.h stipulation/boolean/true.h \
  conditions/circe/circuit_by_rebirth_special.h \
  conditions/circe/exchange_by_rebirth_special.h \
- conditions/circe/steingewinn_filter.h debugging/trace.h solving/ply.h \
+ conditions/circe/steingewinn_filter.h debugging/trace.h \
  debugging/assert.h
 
 conditions/circe/goal_filters.h:
@@ -128,8 +128,6 @@ conditions/circe/exchange_by_rebirth_special.h:
 conditions/circe/steingewinn_filter.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 conditions/circe/assassin$(OBJ_SUFFIX): conditions/circe/assassin.c \
@@ -509,10 +507,9 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/conditions.h conditions/circe/circe.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h stipulation/has_solution_type.h debugging/trace.h \
- debugging/assert.h
+ conditions/circe/circe.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ stipulation/has_solution_type.h debugging/trace.h debugging/assert.h
 
 conditions/circe/parrain.h:
 
@@ -539,8 +536,6 @@ pieces/pieces.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
-
-conditions/conditions.h:
 
 conditions/circe/circe.h:
 
@@ -1564,8 +1559,7 @@ conditions/circe/rebirth_avoider$(OBJ_SUFFIX): conditions/circe/rebirth_avoider.
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h solving/solve.h \
  stipulation/branch.h stipulation/fork.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 conditions/circe/rebirth_avoider.h:
 
@@ -1613,8 +1607,6 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 conditions/circe/rebirth_square_occupied$(OBJ_SUFFIX): \
  conditions/circe/rebirth_square_occupied.c \
@@ -1624,7 +1616,7 @@ conditions/circe/rebirth_square_occupied$(OBJ_SUFFIX): \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  conditions/circe/rebirth_avoider.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/traversal.h stipulation/pipe.h \
- solving/solve.h stipulation/branch.h debugging/trace.h solving/ply.h
+ solving/solve.h stipulation/branch.h debugging/trace.h
 
 conditions/circe/rebirth_square_occupied.h:
 
@@ -1665,5 +1657,3 @@ solving/solve.h:
 stipulation/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:

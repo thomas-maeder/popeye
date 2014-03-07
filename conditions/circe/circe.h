@@ -95,6 +95,7 @@ typedef struct
     Flags relevant_spec;
     square relevant_square;
     Side relevant_side;
+    square rebirth_from;
 } circe_rebirth_context_elmt_type;
 
 extern circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];
@@ -127,6 +128,11 @@ boolean circe_override_determine_rebirth_square(circe_variant_type *variant,
  *         move_effect_journal_base[nbply+1] if there is none
  */
 move_effect_journal_index_type circe_find_current_rebirth(void);
+
+/* Initialise the Circe machinery from the capture in a particular ply
+ * @param ply identifies the ply
+ */
+void circe_initialise_from_capture_in_ply(ply ply);
 
 /* Try to solve in n half-moves.
  * @param si slice index

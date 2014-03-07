@@ -507,7 +507,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     if (TSTFLAG(some_pieces_flags,Kamikaze))
     {
       anticirce_initialise_solving(result);
-      anticirce_instrument_solving(result,STAnticirceDetermineRebornPiece);
+      anticirce_instrument_solving(result,STAnticirceInitialiseFromCurrentCapture);
       anticirce_instrument_solving(result,STCirceDetermineRebirthSquare);
       anticirce_instrument_solving(result,STAnticirceRemoveCapturer);
       anticirce_instrument_solving(result,STAnticircePlaceReborn);
@@ -540,6 +540,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[anticirce])
   {
     anticirce_initialise_solving(result);
+
+    if (anticirce_variant.relevant_capture==circe_relevant_capture_lastmove)
+      anticirce_instrument_solving(result,STAnticirceParrainInitialiseFromCaptureInLastMove);
+    else
+      anticirce_instrument_solving(result,STAnticirceInitialiseFromCurrentCapture);
 
     switch (anticirce_variant.determine_rebirth_square)
     {
@@ -591,7 +596,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     if (anticirce_variant.is_promotion_possible)
       circe_allow_pawn_promotion(result,STAnticircePlaceReborn);
 
-    if (anticirce_variant.is_mirror)
+    if (anticirce_variant.is_mirror
+        != (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_take_and_make))
       anticirce_instrument_solving(result,STMirrorCirceOverrideRelevantSide);
     if (anticirce_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
       anticirce_instrument_solving(result,STAntiCloneCirceDetermineRebornWalk);
@@ -634,11 +640,10 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         break;
     }
 
-    circe_insert_rebirth_avoider(result,
-                                 STAnticirceConsideringRebirth,
-                                 STCirceCaptureFork,
-                                 STCirceRebirthAvoided,
-                                 STLandingAfterAnticirceRebirth);
+    if (anticirce_variant.relevant_capture==circe_relevant_capture_lastmove)
+      circe_insert_rebirth_avoider(result,STAnticirceConsideringRebirth,STCirceParrainCaptureFork,STCirceRebirthAvoided,STLandingAfterAnticirceRebirth);
+    else
+      circe_insert_rebirth_avoider(result,STAnticirceConsideringRebirth,STCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterAnticirceRebirth);
 
     if (anticirce_variant.anticirce_type==anticirce_type_cheylan)
       anticirce_cheylan_initialise_solving(result);

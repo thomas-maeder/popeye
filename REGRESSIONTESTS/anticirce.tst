@@ -148,3 +148,36 @@ b) AntiCirce Take&Make
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   P   .   .   .   .   .   .   2
+|                                   |
+1  -B   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hzg61                       2 + 1
+          AntiCirce Parrain
+
+  1.Ba1*b2 Kf7-g6[bBb2->c1] z
+
+  add_to_move_generation_stack:           9
+                     play_move:           2
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

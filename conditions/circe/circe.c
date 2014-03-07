@@ -102,6 +102,32 @@ move_effect_journal_index_type circe_find_current_rebirth(void)
   return result;
 }
 
+/* Initialise the Circe machinery from the capture in a particular ply
+ * @param ply identifies the ply
+ */
+void circe_initialise_from_capture_in_ply(ply ply)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",ply);
+  TraceFunctionParamListEnd();
+
+  /* circe capture fork makes sure of that */
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
+
+  context->reborn_walk = move_effect_journal[capture].u.piece_removal.removed;
+  context->reborn_spec = move_effect_journal[capture].u.piece_removal.removedspec;
+  context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
+
+  context->relevant_walk = context->reborn_walk;
+  context->relevant_spec = context->reborn_spec;
+
+  context->relevant_side = trait[ply];
+}
+
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves
@@ -119,26 +145,13 @@ stip_length_type circe_initialise_from_current_capture_solve(slice_index si,
                                                              stip_length_type n)
 {
   stip_length_type result;
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* circe capture fork makes sure of that */
-  assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
-  context->reborn_walk = move_effect_journal[capture].u.piece_removal.removed;
-  context->reborn_spec = move_effect_journal[capture].u.piece_removal.removedspec;
-  context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
-
-  context->relevant_walk = context->reborn_walk;
-  context->relevant_spec = context->reborn_spec;
-
-  context->relevant_side = slices[si].starter;
+  circe_initialise_from_capture_in_ply(nbply);
 
   result = solve(slices[si].next1,n);
 

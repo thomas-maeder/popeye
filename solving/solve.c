@@ -66,6 +66,7 @@
 #include "conditions/circe/volage.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/super.h"
+#include "conditions/anticirce/parrain.h"
 #include "conditions/sentinelles.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
@@ -938,8 +939,12 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = circe_kamikaze_capture_fork_solve(si,n);
       break;
 
-    case STAnticirceDetermineRebornPiece:
-      result = anticirce_determine_reborn_piece_solve(si,n);
+    case STAnticirceInitialiseFromCurrentCapture:
+      result = anticirce_initialise_from_current_capture_solve(si,n);
+      break;
+
+    case STAnticirceParrainInitialiseFromCaptureInLastMove:
+      result = anticirce_parrain_initalise_from_capture_in_last_move_solve(si,n);
       break;
 
     case STAnticirceCheylanFilter:
