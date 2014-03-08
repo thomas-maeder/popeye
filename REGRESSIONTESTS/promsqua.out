@@ -108,10 +108,10 @@ Loesung beendet.
 
   1...a7-a5   2.Kc8-c7 a5-a4=D   3.Kc7-c8 Da4-a7   4.b6-b7 + Da7*b7 #
 
-  add_to_move_generation_stack:        2305
-                     play_move:        1714
+  add_to_move_generation_stack:        2310
+                     play_move:        1719
  is_white_king_square_attacked:        1465
- is_black_king_square_attacked:        1098
+ is_black_king_square_attacked:        1103
 Loesung beendet. 
 
 

@@ -2934,10 +2934,10 @@ Loesung beendet.
 
   1.f2-f4   2.Sg1-f3   3.Lf1-e2   4.0-0   5.Kg1-h2   6.Sf3-d4 + Sh4-f3 #
 
-  add_to_move_generation_stack:     6800381
-                     play_move:     2480928
- is_white_king_square_attacked:     2488743
- is_black_king_square_attacked:     1650590
+  add_to_move_generation_stack:     6801740
+                     play_move:     2481746
+ is_white_king_square_attacked:     2489561
+ is_black_king_square_attacked:     1651348
 Loesung beendet. 
 
 

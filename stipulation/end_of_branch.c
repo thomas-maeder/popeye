@@ -105,11 +105,8 @@ stip_length_type end_of_branch_solve(slice_index si, stip_length_type n)
       break;
 
     case next_move_has_no_solution:
+    case immobility_on_next_move: /* we have to continue in series movers! */
       result = solve(next,n);
-      break;
-
-    case immobility_on_next_move:
-      result = n+2;
       break;
 
     default:

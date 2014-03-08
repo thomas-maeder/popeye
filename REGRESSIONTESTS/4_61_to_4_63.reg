@@ -600,10 +600,10 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
 
   1.Sf8-h7   2.Kh8<->Kf7 Kh8*h7 x
 
-  add_to_move_generation_stack:         448
-                     play_move:         133
- is_white_king_square_attacked:          63
- is_black_king_square_attacked:          79
+  add_to_move_generation_stack:         495
+                     play_move:         157
+ is_white_king_square_attacked:          74
+ is_black_king_square_attacked:          93
 solution finished. 
 
 
@@ -1014,10 +1014,10 @@ Popeye 4.61 didn't support option maxsolutions in helpself stipulations
   1.Ra5-a1 g3*h2   2.Ra1-e1 + Bh4*e1 #
   1.Ra5-a7 g5*f4   2.Ra7-e7 + Bh4*e7 #
 
-  add_to_move_generation_stack:       47723
-                     play_move:       33912
+  add_to_move_generation_stack:       47737
+                     play_move:       33926
  is_white_king_square_attacked:       33564
- is_black_king_square_attacked:       12772
+ is_black_king_square_attacked:       12786
 solving interrupted. 
 
 

@@ -22,4 +22,11 @@ Pieces black Sb8 white Kf8 CGg8
 Stipulation ~1
 option nobk
 
+next
+
+title Popeye 4.61 and 4.63 stopped after 1.Kh4 because of the stalemate
+pieces white kh1 qf4 sg6 black kh3
+stip ser-s#2
+condition kobul
+
 end

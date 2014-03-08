@@ -108,3 +108,37 @@ solution finished.
 solution finished. 
 
 
+
+Popeye 4.61 and 4.63 stopped after 1.Kh4 because of the stalemate
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   S   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   Q   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  -K   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-s#2                     3 + 1
+              KobulKings
+
+  1.Sg6-h4   2.Sh4-g2 Kh3*g2[h1=rS] #
+
+  add_to_move_generation_stack:        4415
+                     play_move:        2380
+ is_white_king_square_attacked:        2380
+ is_black_king_square_attacked:        1594
+solution finished. 
+
+

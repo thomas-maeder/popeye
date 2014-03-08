@@ -1404,9 +1404,9 @@ Loesung beendet.
 
   1.Ke8-d7   2.Kd7-e6   3.Ke6-d5   4.Kd5-e4   5.Ge5-e3   6.Ke4-d3   7.Kd3-e2   8.Ke2-d1 Gh6-d2 #
 
-  add_to_move_generation_stack:       26370
-                     play_move:       18200
- is_white_king_square_attacked:       18200
+  add_to_move_generation_stack:       30782
+                     play_move:       21414
+ is_white_king_square_attacked:       21414
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -1476,10 +1476,10 @@ Loesung beendet.
 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a5   5.Ka5-a6   6.b6-b7 + Ka8-b8 ==
 
-  add_to_move_generation_stack:      171691
-                     play_move:       76365
- is_white_king_square_attacked:       24171
- is_black_king_square_attacked:       80655
+  add_to_move_generation_stack:      171706
+                     play_move:       76373
+ is_white_king_square_attacked:       24175
+ is_black_king_square_attacked:       80694
 Loesung beendet. 
 
 
@@ -2976,8 +2976,8 @@ b) ser-s#6
 
   add_to_move_generation_stack:    14843346
                      play_move:     4120656
- is_white_king_square_attacked:     3584772
- is_black_king_square_attacked:     3178710
+ is_white_king_square_attacked:     3586255
+ is_black_king_square_attacked:     3178947
 Loesung beendet. 
 
 

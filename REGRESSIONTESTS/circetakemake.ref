@@ -85,10 +85,10 @@ a)
  56  (Rh6-h8 )
  57  (Rh6-h7 )
 
-  add_to_move_generation_stack:    97267685
-                     play_move:    47826331
+  add_to_move_generation_stack:    97284892
+                     play_move:    47841825
  is_white_king_square_attacked:    46969431
- is_black_king_square_attacked:    35559213
+ is_black_king_square_attacked:    35574707
 b) bBf6 
 
  58  (Ke3*d2[+bSb3] )
@@ -139,10 +139,10 @@ b) bBf6
 102  (Rh6-h8 )
 103  (Rh6-h7 )
 
-  add_to_move_generation_stack:    38191369
-                     play_move:    19910099
+  add_to_move_generation_stack:    38210356
+                     play_move:    19926821
  is_white_king_square_attacked:    19552386
- is_black_king_square_attacked:    14222333
+ is_black_king_square_attacked:    14239055
 solution finished. 
 
 
@@ -557,10 +557,10 @@ a)
  38  (Bg8*h7[+bSg5] + )
  39  (Bg8*h7[+bSf6] + )
 
-  add_to_move_generation_stack:    88904015
-                     play_move:    32403816
+  add_to_move_generation_stack:    88904235
+                     play_move:    32404008
  is_white_king_square_attacked:    31652102
- is_black_king_square_attacked:    15965223
+ is_black_king_square_attacked:    15965415
 b)  -bSg1
 
  40  (Kf1-g2 )
@@ -603,10 +603,10 @@ b)  -bSg1
  76  (Bg8*h7[+bSg5] + )
  77  (Bg8*h7[+bSf6] + )
 
-  add_to_move_generation_stack:    83491073
-                     play_move:    29984528
+  add_to_move_generation_stack:    83491288
+                     play_move:    29984715
  is_white_king_square_attacked:    29273471
- is_black_king_square_attacked:    14927598
+ is_black_king_square_attacked:    14927785
 solution finished. 
 
 

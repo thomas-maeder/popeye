@@ -186,10 +186,10 @@ solution finished.
           2.Re2-g2
 
 
-  add_to_move_generation_stack:       15361
-                     play_move:        5345
+  add_to_move_generation_stack:       15626
+                     play_move:        5610
  is_white_king_square_attacked:        5213
- is_black_king_square_attacked:        5115
+ is_black_king_square_attacked:        5380
 solution finished. 
 
 
