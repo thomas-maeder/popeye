@@ -126,6 +126,9 @@ void circe_initialise_from_capture_in_ply(ply ply)
   context->relevant_spec = context->reborn_spec;
 
   context->relevant_side = trait[ply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in n half-moves.
