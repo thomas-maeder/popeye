@@ -29,4 +29,11 @@ pieces white kh1 qf4 sg6 black kh3
 stip ser-s#2
 condition kobul
 
+next
+
+title there may be non-orthodox mating moves in Backhome
+pieces white kd6 bh4 pd5 black kd8 qc8 be8 rf6
+cond backhome
+stip exact-ser-#4
+
 end

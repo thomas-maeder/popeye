@@ -2189,6 +2189,9 @@ static boolean verify_position(slice_index si)
       || CondFlag[bicolores])
     disable_orthodox_mating_move_optimisation(nr_sides);
 
+  if (CondFlag[backhome])
+    disable_orthodox_mating_move_optimisation(nr_sides);
+
   if (CondFlag[monochro] && CondFlag[bichro])
   {
     VerifieMsg(MonoAndBiChrom);

@@ -142,3 +142,39 @@ Popeye 4.61 and 4.63 stopped after 1.Kh4 because of the stalemate
 solution finished. 
 
 
+
+there may be non-orthodox mating moves in Backhome
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .  -Q  -K  -B   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   K   .  -R   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   B   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  exact-ser-#4                3 + 4
+               BackHome
+
+  1.Kd6-e5   2.Bh4*f6   3.Ke5-d6   4.Bf6-h4 #
+  1.Kd6-e5   2.Bh4*f6   3.Bf6-h4   4.Ke5-d6 #
+  1.Kd6-e5   2.Ke5*f6   3.Kf6-e5   4.Ke5-d6 #
+
+  add_to_move_generation_stack:        5628
+                     play_move:         422
+ is_white_king_square_attacked:         171
+ is_black_king_square_attacked:         340
+solution finished. 
+
+
