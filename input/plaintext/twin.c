@@ -1898,7 +1898,7 @@ static boolean verify_position(slice_index si)
     flagfee = true;
   }
 
-  if (anyimmun && CondFlag[rexincl])
+  if (anyimmun && immune_is_rex_inclusive)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[imitators])
