@@ -36,4 +36,11 @@ pieces white kd6 bh4 pd5 black kd8 qc8 be8 rf6
 cond backhome
 stip exact-ser-#4
 
+next
+
+title there may be non-orthodox mating moves in Immune Chess
+stip ser-#1
+Cond immunchess rexinclusiv
+pieces white kh7 re1 black kf6
+
 end

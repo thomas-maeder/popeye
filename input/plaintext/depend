@@ -475,7 +475,7 @@ input/plaintext/stipulation$(OBJ_SUFFIX): input/plaintext/stipulation.c \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/not.h stipulation/proxy.h \
  stipulation/pipe.h pymsg.h pylang.h utilities/boolean.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 input/plaintext/stipulation.h:
 
@@ -552,8 +552,6 @@ pylang.h:
 utilities/boolean.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \

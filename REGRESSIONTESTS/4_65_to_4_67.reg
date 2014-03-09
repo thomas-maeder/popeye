@@ -178,3 +178,37 @@ there may be non-orthodox mating moves in Backhome
 solution finished. 
 
 
+
+there may be non-orthodox mating moves in Immune Chess
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .  -K   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   R   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-#1                      2 + 1
+       ImmunChess RexInclusive
+
+  1.Kh7-g6 #
+
+  add_to_move_generation_stack:          51
+                     play_move:          31
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          32
+solution finished. 
+
+
