@@ -491,7 +491,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     else
       circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
 
-    if (circe_variant.relevant_piece==circe_relevant_piece_capturer)
+    if (circe_variant.relevant_piece==circe_relevant_piece_other)
       circe_instrument_solving(result,STCirceCouscousMakeCapturerRelevant);
 
     if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_rank)
@@ -679,6 +679,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       circe_insert_rebirth_avoider(result,STAnticirceConsideringRebirth,STCirceParrainCaptureFork,STCirceRebirthAvoided,STLandingAfterAnticirceRebirth);
     else
       circe_insert_rebirth_avoider(result,STAnticirceConsideringRebirth,STCirceCaptureFork,STCirceRebirthAvoided,STLandingAfterAnticirceRebirth);
+
+    if (anticirce_variant.relevant_piece==circe_relevant_piece_other)
+      anticirce_instrument_solving(result,STAnticirceCouscousMakeCaptureeRelevant);
 
     if (anticirce_variant.anticirce_type==anticirce_type_cheylan)
       anticirce_cheylan_initialise_solving(result);

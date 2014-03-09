@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = anticirce.c super.c cheylan.c magic_square.c clone.c parrain.c
-INCLUDES = anticirce.h super.h cheylan.h magic_square.h clone.h parrain.h
+SRC_CFILES = anticirce.c super.c cheylan.c magic_square.c clone.c parrain.c couscous.c
+INCLUDES = anticirce.h super.h cheylan.h magic_square.h clone.h parrain.h couscous.h
 
 include makefile.rules $(CURRPWD)depend

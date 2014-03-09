@@ -19,8 +19,8 @@ typedef enum
 
 typedef enum
 {
-  circe_relevant_piece_capturee,
-  circe_relevant_piece_capturer
+  circe_relevant_piece_default,
+  circe_relevant_piece_other
 } circe_relevant_piece;
 
 typedef enum

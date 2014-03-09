@@ -331,6 +331,7 @@
     ENUMERATOR(STChameleonCirceAdaptRebornWalk),                        \
     ENUMERATOR(STAntiEinsteinDetermineRebornPiece),                     \
     ENUMERATOR(STCirceCouscousMakeCapturerRelevant),                    \
+    ENUMERATOR(STAnticirceCouscousMakeCaptureeRelevant),                \
     ENUMERATOR(STMirrorCirceOverrideRelevantSide),                      \
     ENUMERATOR(STCirceDetermineRebirthSquare),                          \
     ENUMERATOR(STFileCirceDetermineRebirthSquare),                      \

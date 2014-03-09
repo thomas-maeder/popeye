@@ -6,6 +6,7 @@
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/anticirce/clone.h"
+#include "conditions/anticirce/couscous.h"
 #include "conditions/bgl.h"
 #include "conditions/blackchecks.h"
 #include "conditions/koeko/koeko.h"
@@ -693,6 +694,10 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceCouscousMakeCapturerRelevant:
       result = circe_couscous_make_capturer_relevant_solve(si,n);
+      break;
+
+    case STAnticirceCouscousMakeCaptureeRelevant:
+      result = anticirce_couscous_make_capturee_relevant_solve(si,n);
       break;
 
     case STMirrorCirceOverrideRelevantSide:

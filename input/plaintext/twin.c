@@ -2151,7 +2151,7 @@ static boolean verify_position(slice_index si)
   {
     if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents
         || circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone
-        || circe_variant.relevant_piece==circe_relevant_piece_capturer)
+        || circe_variant.relevant_piece==circe_relevant_piece_other)
     {
       /* disallowed because of the call to (*circerenai) in echecc would require
        * knowledge of the departure square. Other forms now allowed
@@ -2324,7 +2324,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[anticirce])
   {
-    if (circe_variant.relevant_piece==circe_relevant_piece_capturer
+    if (circe_variant.relevant_piece==circe_relevant_piece_other
         || CondFlag[koeko]
         || CondFlag[newkoeko]
         || CondFlag[antikoeko]

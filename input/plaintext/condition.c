@@ -195,7 +195,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         break;
 
       case CirceVariantCouscous:
-        variant->relevant_piece = circe_relevant_piece_capturer;
+        variant->relevant_piece = circe_relevant_piece_other;
         variant->is_promotion_possible = true;
         break;
 
@@ -1155,7 +1155,7 @@ char *ParseCond(void)
       case circecouscousmirror:
         CondFlag[circe] = true;
         circe_variant.is_promotion_possible= true;
-        circe_variant.relevant_piece = circe_relevant_piece_capturer;
+        circe_variant.relevant_piece = circe_relevant_piece_other;
         break;
       case circeequipollents:
         CondFlag[circe] = true;

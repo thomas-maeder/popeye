@@ -421,7 +421,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRank]);
       if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_file)
         written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantFile]);
-      if (circe_variant.relevant_piece==circe_relevant_piece_capturer)
+      if (circe_variant.relevant_piece==circe_relevant_piece_other)
         written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCouscous]);
       if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_antipodes)
         written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
@@ -640,6 +640,8 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCage]);
         if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
+        if (anticirce_variant.relevant_piece==circe_relevant_piece_other)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCouscous]);
         if (anticirce_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
         if (anticirce_variant.is_mirror)
