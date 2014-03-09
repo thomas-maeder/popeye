@@ -78,7 +78,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/castling.h conditions/bgl.h conditions/duellists.h \
  conditions/imitator.h conditions/actuated_revolving_centre.h \
- conditions/haunted_chess.h conditions/sat.h \
+ conditions/haunted_chess.h conditions/sat.h conditions/circe/parachute.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  stipulation/temporary_hacks.h pieces/attributes/neutral/neutral.h \
  pieces/attributes/neutral/half.h debugging/trace.h debugging/assert.h
@@ -128,6 +128,8 @@ conditions/actuated_revolving_centre.h:
 conditions/haunted_chess.h:
 
 conditions/sat.h:
+
+conditions/circe/parachute.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -1232,12 +1234,12 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/circe/april.h conditions/circe/takemake.h \
  conditions/circe/mirror.h conditions/circe/pwc.h conditions/circe/rank.h \
  conditions/circe/symmetry.h conditions/circe/rex_inclusive.h \
- conditions/exclusive.h utilities/table.h conditions/extinction.h \
- conditions/ohneschach.h conditions/maff/immobility_tester.h \
- conditions/owu/immobility_tester.h conditions/immune.h \
- conditions/provocateurs.h conditions/lortap.h conditions/patrol.h \
- conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
- conditions/ultraschachzwang/legality_tester.h \
+ conditions/circe/parachute.h conditions/exclusive.h utilities/table.h \
+ conditions/extinction.h conditions/ohneschach.h \
+ conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
+ conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
+ conditions/patrol.h conditions/monochrome.h solving/move_generator.h \
+ conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/conditions.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  conditions/singlebox/type3.h solving/observation.h \
@@ -1477,6 +1479,8 @@ conditions/circe/rank.h:
 conditions/circe/symmetry.h:
 
 conditions/circe/rex_inclusive.h:
+
+conditions/circe/parachute.h:
 
 conditions/exclusive.h:
 

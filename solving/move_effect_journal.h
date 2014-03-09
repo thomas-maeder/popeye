@@ -45,6 +45,9 @@ typedef enum
   move_effect_enable_castling_right,
   move_effect_remember_ep_capture_potential,
   move_effect_remember_duellist,
+  move_effect_remember_parachuted,
+  move_effect_remember_volcanic,
+  move_effect_uncover_parachuted,
 
   nr_move_effect_types
 } move_effect_type;
@@ -215,6 +218,11 @@ typedef struct
             square from;
             square to;
         } duellist;
+        struct
+        {
+            unsigned int idx_uncovered;
+            move_effect_journal_index_type idx_remember;
+        } uncovered;
     } u;
 #if defined(DOTRACE)
       unsigned long id;

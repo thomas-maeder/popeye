@@ -375,6 +375,22 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         circe_assassin_initialise_solving(result);
         break;
 
+      case circe_on_occupied_rebirth_square_parachute:
+        circe_parachute_onto_occupied_square(result,
+                                             STCirceDeterminingRebornPiece,
+                                             STCirceRebirthOnNonEmptySquare,
+                                             STCircePlacingReborn);
+        circe_instrument_solving(result,STCirceParachuteUnccoverer);
+        break;
+
+      case circe_on_occupied_rebirth_square_volcanic:
+        circe_volcanic_under_occupied_square(result,
+                                             STCirceDeterminingRebornPiece,
+                                             STCirceRebirthOnNonEmptySquare,
+                                             STLandingAfterCirceRebirthHandler);
+        circe_instrument_solving(result,STCirceParachuteUnccoverer);
+        break;
+
       case circe_on_occupied_rebirth_square_default:
         switch (circe_variant.on_occupied_rebirth_square_default)
         {

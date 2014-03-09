@@ -120,6 +120,8 @@ typedef enum
   CirceVariantFrischauf,
   CirceVariantCalvet,
   CirceVariantCheylan,
+  CirceVariantVolcanic,
+  CirceVariantParachute,
 
   CirceVariantCount
 } CirceVariantType;

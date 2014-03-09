@@ -32,6 +32,7 @@
 #include "conditions/circe/rank.h"
 #include "conditions/circe/symmetry.h"
 #include "conditions/circe/rex_inclusive.h"
+#include "conditions/circe/parachute.h"
 #include "conditions/exclusive.h"
 #include "conditions/extinction.h"
 #include "conditions/ohneschach.h"
@@ -1371,6 +1372,18 @@ stip_length_type solve(slice_index si, stip_length_type n)
 
     case STCirceAssassinAssassinate:
       result = circe_assassin_assassinate_solve(si,n);
+      break;
+
+    case STCirceParachuteRemember:
+      result = circe_parachute_remember_solve(si,n);
+      break;
+
+    case STCirceParachuteUnccoverer:
+      result = circe_parachute_uncoverer_solve(si,n);
+      break;
+
+    case STCirceVolcanicRemember:
+      result = circe_volcanic_remember_solve(si,n);
       break;
 
     case STOwnKingCaptureAvoider:

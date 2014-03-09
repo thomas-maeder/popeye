@@ -132,4 +132,40 @@ forderung s<>r2
 bedingung circe
 option ohnesk vari
 
+weiter
+
+autor Rom\'eo B\'edoni
+quelle Ph\'enix 1993, 1. Lob
+forderung h=2
+bedingung circe fallschirm
+steine weiss ka2 bf7 schwarz kh8 bbf2
+zwilling versetze h8 d8
+
+weiter
+
+autor Rom\'eo B\'edoni
+quelle Ph\'enix 1993
+forderung 3->ser-#2
+bedingung circe fallschirm
+steine weiss kh1 tf3g2 schwarz ke4 bh3h4
+
+weiter
+
+autor Vincente Tinebra
+quelle Ph\'enix 1990
+steine weiss ke7 dc6 tb1d2 la6 sg4h6 bc3e5g6
+       schwarz kf3 th5 le8 sg1g2 be2e4e6f4g3
+forderung #2
+bedingung circe vulkan
+option variante
+
+weiter
+
+autor Kjell Widlert
+quelle The Problemist 1976
+steine weiss ka3 tb1 lc4 schwarz kc3 bd4 sf4
+forderung h#2
+bedingung circe vulkan
+zwilling versetze c4 d5
+
 endeproblem

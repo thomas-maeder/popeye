@@ -8,6 +8,7 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/sat.h"
+#include "conditions/circe/parachute.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/neutral/half.h"
@@ -169,6 +170,8 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
   TraceSquare(from);
   TraceSquare(to);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",GetPieceId(spec[from]));
 
   push_movement_elmt(reason,from,to);
   do_movement(from,to);
@@ -552,6 +555,8 @@ void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
   TraceFunctionParam("%u",reason);
   TraceSquare(from);
   TraceFunctionParamListEnd();
+
+  TraceValue("%u\n",GetPieceId(spec[from]));
 
   push_removal_elmt(reason,from);
   do_removal(from);
@@ -1343,6 +1348,8 @@ void move_effect_journal_do_capture_move(square sq_departure,
   TraceFunctionParam("%u",removal_reason);
   TraceFunctionParamListEnd();
 
+  TraceValue("%u\n",GetPieceId(spec[sq_capture]));
+
   /* Be careful when attempting to reordering. This sequence makes sure that
    * the effects are in the order removal - movement - king_square
    */
@@ -1480,6 +1487,9 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_enable_castling_right:
       case move_effect_remember_ep_capture_potential:
       case move_effect_remember_duellist:
+      case move_effect_remember_parachuted:
+      case move_effect_remember_volcanic:
+      case move_effect_uncover_parachuted:
         /* nothing */
         break;
 
@@ -1613,6 +1623,18 @@ void redo_move_effects(void)
         move_effect_journal_redo_remember_duellist(curr);
         break;
 
+      case move_effect_remember_parachuted:
+        move_effect_journal_redo_circe_parachute_remember(curr);
+        break;
+
+      case move_effect_remember_volcanic:
+        move_effect_journal_redo_circe_volcanic_remember(curr);
+        break;
+
+      case move_effect_uncover_parachuted:
+        move_effect_journal_redo_circe_parachute_uncover(curr);
+        break;
+
       default:
         assert(0);
         break;
@@ -1739,6 +1761,18 @@ void undo_move_effects(void)
 
       case move_effect_remember_duellist:
         move_effect_journal_undo_remember_duellist(top-1);
+        break;
+
+      case move_effect_remember_parachuted:
+        move_effect_journal_undo_circe_parachute_remember(top-1);
+        break;
+
+      case move_effect_remember_volcanic:
+        move_effect_journal_undo_circe_volcanic_remember(top-1);
+        break;
+
+      case move_effect_uncover_parachuted:
+        move_effect_journal_undo_circe_parachute_uncover(top-1);
         break;
 
       default:

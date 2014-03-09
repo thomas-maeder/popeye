@@ -331,6 +331,14 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         variant->anticirce_type = anticirce_type_cheylan;
         break;
 
+      case CirceVariantVolcanic:
+        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_volcanic;
+        break;
+
+      case CirceVariantParachute:
+        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
+        break;
+
       case CirceVariantCount:
         go_on = false;
         break;

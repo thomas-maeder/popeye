@@ -508,7 +508,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ctr2                        3 + 1
-             CirceParrain
+            Circe Parrain
 
    1.h5-h6 ! Zugzwang.
       1...g7*h6
@@ -557,6 +557,180 @@ Loesung beendet.
                      play_move:         239
  is_white_king_square_attacked:         195
  is_black_king_square_attacked:           0
+Loesung beendet. 
+
+
+
+           Rom\'eo B\'edoni
+        Ph\'enix 1993, 1. Lob
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   .   .   .   .   .   B   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .   .   .   . -BB   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         2 + 2
+           Circe Fallschirm
+
+a) 
+
+  1.BBf2-g1=T f7-f8=L   2.Tg1-g7 Lf8*g7[+sTh8] =
+
+  add_to_move_generation_stack:       26834
+                     play_move:       13791
+ is_white_king_square_attacked:        6900
+ is_black_king_square_attacked:       12565
+b) sKh8-->d8
+
+  1.BBf2-e1=D Ka2-b3   2.De1-e8 f7*e8=D[+sDd8] =
+  1.BBf2-e1=D Ka2-a3   2.De1-e8 f7*e8=D[+sDd8] =
+  1.BBf2-e1=D Ka2-b2   2.De1-e8 f7*e8=D[+sDd8] =
+  1.BBf2-e1=D f7-f8=D +   2.De1-e8 Df8*e8[+sDd8] =
+  1.BBf2-e1=D f7-f8=S   2.De1-e6 + Sf8*e6[+sDd8] =
+
+  add_to_move_generation_stack:       49718
+                     play_move:       17841
+ is_white_king_square_attacked:        9004
+ is_black_king_square_attacked:       16450
+Loesung beendet. 
+
+
+
+           Rom\'eo B\'edoni
+            Ph\'enix 1993
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .  -K   .   .  -B   4
+|                                   |
+3   .   .   .   .   .   T   .  -B   3
+|                                   |
+2   .   .   .   .   .   .   T   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  3->ser-#2                   3 + 3
+           Circe Fallschirm
+
+  1.Ke4*f3[+wTh1]   2.Kf3*g2[+wTh1]   3.Kg2-g3   1.Th1-f1[+wTh1]   2.Th1-g1[+wKh1] #
+
+  add_to_move_generation_stack:       78607
+                     play_move:       26094
+ is_white_king_square_attacked:       12079
+ is_black_king_square_attacked:       25867
+Loesung beendet. 
+
+
+
+           Vincente Tinebra
+            Ph\'enix 1990
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -L   .   .   .   8
+|                                   |
+7   .   .   .   .   K   .   .   .   7
+|                                   |
+6   L   .   D   .  -B   .   B   S   6
+|                                   |
+5   .   .   .   .   B   .   .  -T   5
+|                                   |
+4   .   .   .   .  -B  -B   S   .   4
+|                                   |
+3   .   .   B   .   .  -K  -B   .   3
+|                                   |
+2   .   .   .   T  -B   .  -S   .   2
+|                                   |
+1   .   T   .   .   .   .  -S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                        10 + 10
+             Circe Vulkan
+
+   1.Td2-d4 ! Drohung:
+          2.Dc6*e4 #
+      1...Th5*e5
+          2.Tb1-f1 #
+      1...Th5*h6
+          2.La6*e2 #
+      1...Le8*c6[+wDd1]
+          2.Dd1-f1 #
+      1...Le8*g6
+          2.Td4-d3 #
+
+
+  add_to_move_generation_stack:        6739
+                     play_move:        4799
+ is_white_king_square_attacked:         521
+ is_black_king_square_attacked:        4802
+Loesung beendet. 
+
+
+
+            Kjell Widlert
+         The Problemist 1976
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   L  -B   .  -S   .   .   4
+|                                   |
+3   K   .  -K   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   T   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 3
+             Circe Vulkan
+
+a) 
+
+  1.Sf4-d5 Tb1-f1   2.Kc3*c4 Tf1-c1[+wLf1] #
+
+  add_to_move_generation_stack:       28792
+                     play_move:       14831
+ is_white_king_square_attacked:        3272
+ is_black_king_square_attacked:       14512
+b) wLc4-->d5
+
+  1.Kc3-c2 Ld5-h1   2.Kc2*b1 Lh1-e4[+wTh1] #
+
+  add_to_move_generation_stack:       40791
+                     play_move:       19244
+ is_white_king_square_attacked:        4725
+ is_black_king_square_attacked:       18873
 Loesung beendet. 
 
 

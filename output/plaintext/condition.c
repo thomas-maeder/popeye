@@ -456,6 +456,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
       if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
         written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
+      if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantParachute]);
+      if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
+        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantVolcanic]);
       if (circe_variant.is_diametral)
         written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiametral]);
       if (circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)

@@ -63,6 +63,9 @@
     ENUMERATOR(STIsardamLegalityTester),                               \
     ENUMERATOR(STCirceAssassinAssassinate),                            \
     ENUMERATOR(STCirceAssassinAllPieceObservationTester),              \
+    ENUMERATOR(STCirceParachuteRemember),                              \
+    ENUMERATOR(STCirceVolcanicRemember),                               \
+    ENUMERATOR(STCirceParachuteUnccoverer),                             \
     ENUMERATOR(STOwnKingCaptureAvoider),                               \
     ENUMERATOR(STOpponentKingCaptureAvoider),                          \
     ENUMERATOR(STPatienceChessLegalityTester),                         \

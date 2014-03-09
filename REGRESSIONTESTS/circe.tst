@@ -485,3 +485,69 @@ solution finished.
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   .   S   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .  -S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hzh31                       1 + 2
+           Circe Parachute
+
+  1.a7*b6[+wSg1] Sg1-h3[+bSg1] z
+
+  add_to_move_generation_stack:          39
+                     play_move:           7
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -B   8
+|                                   |
+7   .   .   .   .   .   .   S   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hzh31                       2 + 1
+            Circe Volcanic
+
+  1.Bh8*g7 Sg1-h3[+wSg1] z
+
+  add_to_move_generation_stack:           4
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

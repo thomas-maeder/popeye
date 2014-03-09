@@ -48,7 +48,9 @@ typedef enum
 typedef enum
 {
   circe_on_occupied_rebirth_square_default,
-  circe_on_occupied_rebirth_square_assassinate
+  circe_on_occupied_rebirth_square_assassinate,
+  circe_on_occupied_rebirth_square_volcanic,
+  circe_on_occupied_rebirth_square_parachute
 } circe_behaviour_on_occupied_rebirth_square_type;
 
 typedef enum

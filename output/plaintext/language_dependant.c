@@ -1493,7 +1493,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "April",
     "Frischauf",
     "Calvet",
-    "Cheylan"
+    "Cheylan",
+    "Volcanique",
+    "Parachute"
   },{
     /* German */
     "RexInklusive",
@@ -1521,7 +1523,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "April",
     "Frischauf",
     "Calvet",
-    "Cheylan"
+    "Cheylan",
+    "Vulkan",
+    "Fallschirm"
   },{
     /* English */
     "RexInclusive",
@@ -1549,7 +1553,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "April",
     "Frischauf",
     "Calvet",
-    "Cheylan"
+    "Cheylan",
+    "Volcanic",
+    "Parachute"
   }
 };
 

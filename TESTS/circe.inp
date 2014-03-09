@@ -104,4 +104,18 @@ pieces black ke1 pa7 white ka5
 condition anticirce assassin
 stip +1
 
+next
+
+pieces black pa7 sg1 white sb6
+stip hzh31
+cond circe parachute
+option nowk nobk
+
+next
+
+pieces black bh8 white sg7g1
+stip hzh31
+cond circe volcanic
+option nowk nobk
+
 end
