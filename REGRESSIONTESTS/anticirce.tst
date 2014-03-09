@@ -181,3 +181,36 @@ solution finished.
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .  -P   .   .   .   .   .   .   7
+|                                   |
+6   P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-zb32                    1 + 2
+         AntiCirce Parachute
+
+  1.a6*b7[wPb7->b2]   2.b2-b3[+bPb2] z
+
+  add_to_move_generation_stack:           7
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

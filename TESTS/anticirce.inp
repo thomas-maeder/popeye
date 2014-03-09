@@ -32,4 +32,11 @@ condition anticirce parrain
 stip hzg61
 option nobk
 
+next
+
+pieces white pa6 black pb2b7
+condition anticirce parachute
+stip ser-zb32
+option nowk nobk
+
 end

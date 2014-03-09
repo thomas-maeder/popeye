@@ -22,40 +22,38 @@ FILE *TraceFile;
 
 typedef struct
 {
+    move_effect_journal_index_type start;
     char const * closing_sequence;
     PieNam moving;
     Flags flags;
-    square target_square;
 } move_context;
 
 static void context_open(move_context *context,
+                         move_effect_journal_index_type start,
                          char const *opening_sequence,
                          char const *closing_sequence)
 {
   StdString(opening_sequence);
 
+  context->start = start;
   context->moving = Empty;
   context->flags = 0;
-  context->target_square = initsquare;
   context->closing_sequence = closing_sequence;
 }
 
 static void context_close(move_context *context)
 {
   StdString(context->closing_sequence);
+  context->start = move_effect_journal_index_null;
 }
 
 static void next_context(move_context *context,
+                         move_effect_journal_index_type start,
                          char const *opening_sequence,
                          char const *closing_sequence)
 {
   context_close(context);
-  context_open(context,opening_sequence,closing_sequence);
-}
-
-static void context_set_target_square(move_context *context, square s)
-{
-  context->target_square = s;
+  context_open(context,start,opening_sequence,closing_sequence);
 }
 
 static void context_set_moving_piece(move_context *context, PieNam p)
@@ -70,7 +68,6 @@ static void context_set_flags(move_context *context, Flags flags)
 
 static void context_set_from_piece_movement(move_context *context, move_effect_journal_index_type movement)
 {
-  context_set_target_square(context,move_effect_journal[movement].u.piece_movement.to);
   context_set_moving_piece(context,move_effect_journal[movement].u.piece_movement.moving);
   context_set_flags(context,move_effect_journal[movement].u.piece_movement.movingspec);
 }
@@ -151,14 +148,14 @@ static void write_exchange(move_effect_journal_index_type movement)
   WriteSquare(move_effect_journal[movement].u.piece_exchange.from);
 }
 
-static void write_singlebox_promotion(move_effect_journal_index_type promotion)
+static void write_singlebox_promotion(move_effect_journal_index_type curr)
 {
-  WriteSquare(move_effect_journal[promotion].u.piece_change.on);
+  WriteSquare(move_effect_journal[curr].u.piece_change.on);
   StdString("=");
-  WritePiece(move_effect_journal[promotion].u.piece_change.to);
+  WritePiece(move_effect_journal[curr].u.piece_change.to);
 }
 
-static void write_singlebox_type3_promotion(void)
+static void write_singlebox_type3_promotion(move_effect_journal_index_type curr)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
@@ -168,7 +165,7 @@ static void write_singlebox_type3_promotion(void)
       && move_effect_journal[sb3_prom].reason==move_effect_reason_singlebox_promotion)
   {
     move_context context;
-    context_open(&context,"[","]");
+    context_open(&context,curr,"[","]");
     write_singlebox_promotion(sb3_prom);
     context_close(&context);
   }
@@ -185,6 +182,8 @@ static void write_regular_move(move_context *context)
   assert(capture_type==move_effect_no_piece_removal
          || capture_type==move_effect_piece_removal
          || capture_type==move_effect_none);
+
+  context_open(context,base+move_effect_journal_index_offset_other_effects,"","");
 
   if (capture_type==move_effect_piece_removal)
   {
@@ -248,13 +247,11 @@ static void write_flags_change(move_context *context,
           || move_effect_journal[curr-1].reason!=move_effect_reason_kobul_king)
         /* otherwise the flags are written with the changed piece */
       {
-        next_context(context,"[","]");
-        context_set_target_square(context,
-                                  move_effect_journal[curr].u.flags_change.on);
+        next_context(context,curr,"[","]");
         WriteSquare(move_effect_journal[curr].u.flags_change.on);
         StdString("=");
         WriteSpec(move_effect_journal[curr].u.flags_change.to,
-                  e[context->target_square],
+                  e[move_effect_journal[curr].u.flags_change.on],
                   false);
       }
       break;
@@ -286,11 +283,10 @@ static void write_side_change(move_context *context,
     case move_effect_reason_magic_piece:
     case move_effect_reason_masand:
     case move_effect_reason_hurdle_colour_changing:
-      next_context(context,"[","]");
+      next_context(context,curr,"[","]");
       WriteSquare(move_effect_journal[curr].u.side_change.on);
       StdChar('=');
       StdChar(side_shortcut(move_effect_journal[curr].u.side_change.to));
-      context_set_target_square(context,move_effect_journal[curr].u.side_change.on);
       break;
 
     default:
@@ -299,7 +295,7 @@ static void write_side_change(move_context *context,
 }
 
 static void write_piece_change(move_context *context,
-                                   move_effect_journal_index_type curr)
+                               move_effect_journal_index_type curr)
 {
   switch (move_effect_journal[curr].reason)
   {
@@ -322,16 +318,14 @@ static void write_piece_change(move_context *context,
 
     case move_effect_reason_singlebox_promotion:
       /* type 3 is already dealt with, so this is type 2 */
-      next_context(context,"[","]");
+      next_context(context,curr,"[","]");
       write_singlebox_promotion(curr);
       break;
 
     case move_effect_reason_kobul_king:
-      next_context(context,"[","]");
+      next_context(context,curr,"[","]");
       context_set_moving_piece(context,
                                move_effect_journal[curr].u.piece_change.to);
-      context_set_target_square(context,
-                                move_effect_journal[curr].u.piece_change.on);
 
       WriteSquare(move_effect_journal[curr].u.piece_change.on);
       StdChar('=');
@@ -401,65 +395,98 @@ static void write_piece_movement(move_context *context,
   context_set_from_piece_movement(context,curr);
 }
 
-static void write_transfer_arrival(move_context *context,
-                                   move_effect_journal_index_type curr)
+static move_effect_journal_index_type find_matching_removal(move_context const *context,
+                                                            move_effect_journal_index_type curr)
 {
+  PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.addedspec);
+  move_effect_journal_index_type m;
+
+  for (m = context->start; m<curr; ++m)
+    if (move_effect_journal[m].type==move_effect_piece_removal
+        && GetPieceId(move_effect_journal[m].u.piece_removal.removedspec)==id_added)
+      return m;
+
+  return move_effect_journal_index_null;
+}
+
+static void write_remember_volcanic(move_context *context,
+                                    move_effect_journal_index_type curr)
+{
+  /* we don't write the remembering, but the related removal (if any) */
+  move_effect_journal_index_type const removal = find_matching_removal(context,curr);
+
+  if (removal!=move_effect_journal_index_null)
+  {
+    next_context(context,removal,"[-","]");
+    write_complete_piece(move_effect_journal[removal].u.piece_removal.removedspec,
+                         move_effect_journal[removal].u.piece_removal.removed,
+                         move_effect_journal[removal].u.piece_removal.from);
+  }
+}
+
+static void write_transfer(move_context *context,
+                           move_effect_journal_index_type removal,
+                           move_effect_journal_index_type addition)
+{
+  next_context(context,removal,"[","]");
+
+  write_complete_piece(move_effect_journal[removal].u.piece_removal.removedspec,
+                       move_effect_journal[removal].u.piece_removal.removed,
+                       move_effect_journal[removal].u.piece_removal.from);
+  context_set_moving_piece(context,
+                           move_effect_journal[removal].u.piece_removal.removed);
+  context_set_flags(context,
+                    move_effect_journal[removal].u.piece_removal.removedspec);
+
   StdString("->");
 
-  if (context->flags!=move_effect_journal[curr].u.piece_addition.addedspec
-      || (TSTFLAG(move_effect_journal[curr].u.piece_addition.addedspec,Royal)
-          && is_king(context->moving)
-          && !is_king(move_effect_journal[curr].u.piece_addition.added)))
+  if (move_effect_journal[removal].u.piece_removal.removedspec
+      !=move_effect_journal[addition].u.piece_addition.addedspec
+      || (TSTFLAG(move_effect_journal[addition].u.piece_addition.addedspec,Royal)
+          && is_king(move_effect_journal[removal].u.piece_removal.removed)
+          && !is_king(move_effect_journal[addition].u.piece_addition.added)))
   {
-    WriteSpec(move_effect_journal[curr].u.piece_addition.addedspec,
-              move_effect_journal[curr].u.piece_addition.added,
+    WriteSpec(move_effect_journal[addition].u.piece_addition.addedspec,
+              move_effect_journal[addition].u.piece_addition.added,
               false);
-    WritePiece(move_effect_journal[curr].u.piece_addition.added);
+    WritePiece(move_effect_journal[addition].u.piece_addition.added);
   }
-  else if (context->moving!=move_effect_journal[curr].u.piece_addition.added)
-    WritePiece(move_effect_journal[curr].u.piece_addition.added);
+  else if (move_effect_journal[removal].u.piece_removal.removed
+           !=move_effect_journal[addition].u.piece_addition.added)
+    WritePiece(move_effect_journal[addition].u.piece_addition.added);
 
-  WriteSquare(move_effect_journal[curr].u.piece_addition.on);
+  WriteSquare(move_effect_journal[addition].u.piece_addition.on);
 }
 
 static void write_real_addition(move_context *context,
                                 move_effect_journal_index_type curr)
 {
-  next_context(context,"[+","]");
+  next_context(context,curr,"[+","]");
   write_complete_piece(move_effect_journal[curr].u.piece_addition.addedspec,
                        move_effect_journal[curr].u.piece_addition.added,
                        move_effect_journal[curr].u.piece_addition.on);
 }
 
-static void write_piece_addition(move_context *context,
+static void write_piece_creation(move_context *context,
                                  move_effect_journal_index_type curr)
 {
-  switch (move_effect_journal[curr].reason)
-  {
-    case move_effect_reason_rebirth_no_choice:
-    case move_effect_reason_rebirth_choice:
-      if (move_effect_journal[curr-1].reason==move_effect_reason_transfer_no_choice
-          || move_effect_journal[curr-1].reason==move_effect_reason_transfer_choice
-          || ((move_effect_journal[curr-2].reason==move_effect_reason_transfer_no_choice
-               || move_effect_journal[curr-2].reason==move_effect_reason_transfer_choice)
-              && move_effect_journal[curr-1].reason==move_effect_reason_assassin_circe_rebirth))
-        write_transfer_arrival(context,curr);
-      else
-        write_real_addition(context,curr);
-      break;
+  write_real_addition(context,curr);
 
-    case move_effect_reason_republican_king_insertion:
-    case move_effect_reason_sentinelles:
-    case move_effect_reason_summon_ghost:
-      write_real_addition(context,curr);
-      break;
+  context_set_moving_piece(context,
+                           move_effect_journal[curr].u.piece_addition.added);
+  context_set_flags(context,
+                    move_effect_journal[curr].u.piece_addition.addedspec);
+}
 
-    default:
-      break;
-  }
+static void write_piece_readdition(move_context *context,
+                                   move_effect_journal_index_type curr)
+{
+  move_effect_journal_index_type const removal = find_matching_removal(context,curr);
+  if (removal==move_effect_journal_index_null)
+    write_real_addition(context,curr);
+  else
+    write_transfer(context,removal,curr);
 
-  context_set_target_square(context,
-                            move_effect_journal[curr].u.piece_addition.on);
   context_set_moving_piece(context,
                            move_effect_journal[curr].u.piece_addition.added);
   context_set_flags(context,
@@ -480,18 +507,11 @@ static void write_piece_removal(move_context *context,
 
     case move_effect_reason_transfer_no_choice:
     case move_effect_reason_transfer_choice:
-      next_context(context,"[","]");
-      write_complete_piece(move_effect_journal[curr].u.piece_removal.removedspec,
-                           move_effect_journal[curr].u.piece_removal.removed,
-                           move_effect_journal[curr].u.piece_removal.from);
-      context_set_moving_piece(context,
-                               move_effect_journal[curr].u.piece_removal.removed);
-      context_set_flags(context,
-                        move_effect_journal[curr].u.piece_removal.removedspec);
+      /* dealt with at the end of the transfer */
       break;
 
     case move_effect_reason_kamikaze_capturer:
-      next_context(context,"[-","]");
+      next_context(context,curr,"[-","]");
       write_complete_piece(move_effect_journal[curr].u.piece_removal.removedspec,
                            move_effect_journal[curr].u.piece_removal.removed,
                            move_effect_journal[curr].u.piece_removal.from);
@@ -521,7 +541,7 @@ static void write_piece_exchange(move_context *context,
       break;
 
     case move_effect_reason_oscillating_kings:
-      next_context(context,"[","]");
+      next_context(context,curr,"[","]");
       WritePiece(get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
       WriteSquare(move_effect_journal[curr].u.piece_exchange.to);
       StdString("<->");
@@ -581,14 +601,14 @@ static void write_bgl_status(move_context *context,
   {
     if (move_effect_journal[curr].u.bgl_adjustment.side==White)
     {
-      next_context(context," (",")");
+      next_context(context,curr," (",")");
       WriteBGLNumber(buf,BGL_values[White]);
       StdString(buf);
     }
   }
   else
   {
-    next_context(context," (",")");
+    next_context(context,curr," (",")");
     WriteBGLNumber(buf,BGL_values[White]);
     StdString(buf);
     StdString("/");
@@ -622,9 +642,12 @@ static void write_other_effects(move_context *context)
         write_piece_movement(context,curr);
         break;
 
-      case move_effect_piece_readdition:
       case move_effect_piece_creation:
-        write_piece_addition(context,curr);
+        write_piece_creation(context,curr);
+        break;
+
+      case move_effect_piece_readdition:
+        write_piece_readdition(context,curr);
         break;
 
       case move_effect_piece_removal:
@@ -655,6 +678,10 @@ static void write_other_effects(move_context *context)
         write_bgl_status(context,curr);
         break;
 
+      case move_effect_remember_volcanic:
+        write_remember_volcanic(context,curr);
+        break;
+
       default:
         break;
     }
@@ -670,9 +697,8 @@ void output_plaintext_write_move(void)
 #endif
 
   if (CondFlag[singlebox] && SingleBoxType==ConditionType3)
-    write_singlebox_type3_promotion();
+    write_singlebox_type3_promotion(move_effect_journal_base[nbply]);
 
-  context_open(&context,"","");
   write_regular_move(&context);
   write_other_effects(&context);
   context_close(&context);

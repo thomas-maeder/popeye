@@ -646,9 +646,13 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
        /* AntiCirceTypeCalvet is default in AntiCirce */
         if (anticirce_variant.anticirce_type==anticirce_type_cheylan)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeString[UserLanguage][CirceVariantCheylan]);
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCheylan]);
         if (anticirce_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeString[UserLanguage][CirceVariantAssassin]);
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
+        if (anticirce_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantParachute]);
+        if (anticirce_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
+          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantVolcanic]);
         break;
 
       case blmax:

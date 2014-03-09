@@ -311,7 +311,7 @@ stip_length_type circe_volcanic_remember_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_circe_volcanic_remember(move_effect_reason_assassin_circe_rebirth);
+  move_effect_journal_do_circe_volcanic_remember(move_effect_reason_volcanic_remember);
   result = solve(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
