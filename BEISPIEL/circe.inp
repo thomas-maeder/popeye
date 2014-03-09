@@ -168,4 +168,24 @@ forderung h#2
 bedingung circe vulkan
 zwilling versetze c4 d5
 
+weiter
+
+autor G\'erard Doukhan
+quelle The Problemist TT 1977, 1. Preis
+forderung #2
+bedingung circe vulkan
+option varianten
+steine weiss kh1 db2 tf1 la8g3 sb4c3 bf3
+       schwarz ke3 dc6 td1f8 lh5 sd4g1 bc4d2
+
+weiter
+
+autor Michel Caillaud
+quelle Problemkiste 1993
+bemerkung letzte 6 Halbz\"uge - Test f\"urs Hashing
+steine weiss kh6 schwarz kh4 neutral da1 sg1 bc2d2
+forderung exact-ser-h=5
+bedingung circe vulkan
+option zugnu start 15
+
 endeproblem

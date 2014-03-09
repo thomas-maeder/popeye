@@ -8,7 +8,8 @@ optimisations/immobility_tester_king_first$(OBJ_SUFFIX): \
  stipulation/traversal.h solving/solve.h conditions/mummer.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
  stipulation/boolean/and.h solving/king_move_generator.h \
- solving/non_king_move_generator.h debugging/trace.h debugging/assert.h
+ solving/non_king_move_generator.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/goals/immobile/reached_tester.h:
 
@@ -58,6 +59,8 @@ solving/non_king_move_generator.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  optimisations/keepmating.h solving/solve.h stipulation/stipulation.h \
@@ -66,7 +69,8 @@ optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
+ debugging/assert.h
 
 optimisations/keepmating.h:
 
@@ -108,6 +112,8 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
 debugging/assert.h:
 optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  optimisations/hash.h DHT/dhtbcmem.h pieces/pieces.h utilities/boolean.h \
@@ -119,8 +125,9 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/observation.h \
  stipulation/temporary_hacks.h conditions/bgl.h conditions/circe/circe.h \
- conditions/duellists.h conditions/haunted_chess.h conditions/imitator.h \
- options/nontrivial.h solving/avoid_unsolvable.h solving/castling.h \
+ conditions/circe/parachute.h conditions/duellists.h \
+ conditions/haunted_chess.h conditions/imitator.h options/nontrivial.h \
+ solving/avoid_unsolvable.h solving/castling.h \
  stipulation/has_solution_type.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
@@ -189,6 +196,8 @@ stipulation/temporary_hacks.h:
 conditions/bgl.h:
 
 conditions/circe/circe.h:
+
+conditions/circe/parachute.h:
 
 conditions/duellists.h:
 

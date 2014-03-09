@@ -91,6 +91,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "conditions/bgl.h"
 #include "conditions/circe/circe.h"
+#include "conditions/circe/parachute.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/imitator.h"
@@ -1142,6 +1143,10 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     */
     len++;
 
+  if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute
+      || circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
+    len += one_byte_hash ? 2*circe_parachute_covered_capacity : 4*circe_parachute_covered_capacity;
+
   if (OptFlag[nontrivial])
     len++;
 
@@ -1301,6 +1306,33 @@ byte *CommonEncode(byte *bp,
         *bp++ = (byte)0;
         *bp++ = (byte)0;
         *bp++ = (byte)0;
+      }
+    }
+  }
+
+  if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute
+      || circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
+  {
+    unsigned int i;
+    for (i = 0; i<circe_parachute_nr_covered_pieces; ++i)
+    {
+      move_effect_journal_index_type const idx_remember = circe_parachute_covered_pieces[i];
+      move_effect_journal_entry_type const * const entry = &move_effect_journal[idx_remember];
+      square const volcano = entry->u.piece_removal.from;
+      PieNam const walk = entry->u.piece_removal.removed;
+      Flags const flags = entry->u.piece_removal.removedspec;
+
+      assert(entry->type==move_effect_remember_parachuted
+             || entry->type==move_effect_remember_volcanic);
+
+      *bp++ = (byte)(volcano-square_a1);
+      if (one_byte_hash)
+        *bp++ = (byte)(flags) + ((byte)(piece_nbr[walk]) << (CHAR_BIT/2));
+      else
+      {
+        *bp++ = walk;
+        *bp++ = (byte)(flags>>CHAR_BIT);
+        *bp++ = (byte)(flags&ByteMask);
       }
     }
   }

@@ -1941,7 +1941,9 @@ static boolean verify_position(slice_index si)
       return false;
     }
     if (is_piece_neutral(some_pieces_flags)
-        || CondFlag[volage] || TSTFLAG(some_pieces_flags,Volage))
+        || CondFlag[volage] || TSTFLAG(some_pieces_flags,Volage)
+        || circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic
+        || circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute)
       disable_orthodox_mating_move_optimisation(nr_sides);
   }
 

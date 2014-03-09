@@ -13,11 +13,9 @@
 
 #include <string.h>
 
-enum { covered_capacity = 32 };
+move_effect_journal_index_type circe_parachute_covered_pieces[circe_parachute_covered_capacity];
 
-static move_effect_journal_index_type covered_pieces[covered_capacity];
-
-static unsigned int nr_covered_pieces = 0;
+unsigned int circe_parachute_nr_covered_pieces = 0;
 
 static void insert_at(unsigned int i,
                       move_effect_journal_index_type idx_removal)
@@ -27,14 +25,14 @@ static void insert_at(unsigned int i,
   TraceFunctionParam("%u",idx_removal);
   TraceFunctionParamListEnd();
 
-  assert(i<=nr_covered_pieces);
-  assert(nr_covered_pieces<covered_capacity);
+  assert(i<=circe_parachute_nr_covered_pieces);
+  assert(circe_parachute_nr_covered_pieces<circe_parachute_covered_capacity);
 
-  memmove(&covered_pieces[i+1],&covered_pieces[i],
-          (nr_covered_pieces-i) * sizeof covered_pieces[0]);
-  ++nr_covered_pieces;
+  memmove(&circe_parachute_covered_pieces[i+1],&circe_parachute_covered_pieces[i],
+          (circe_parachute_nr_covered_pieces-i) * sizeof circe_parachute_covered_pieces[0]);
+  ++circe_parachute_nr_covered_pieces;
 
-  covered_pieces[i] = idx_removal;
+  circe_parachute_covered_pieces[i] = idx_removal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -42,17 +40,17 @@ static void insert_at(unsigned int i,
 
 static move_effect_journal_index_type remove_at(unsigned int i)
 {
-  move_effect_journal_index_type const result = covered_pieces[i];
+  move_effect_journal_index_type const result = circe_parachute_covered_pieces[i];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",i);
   TraceFunctionParamListEnd();
 
-  assert(i<nr_covered_pieces);
+  assert(i<circe_parachute_nr_covered_pieces);
 
-  --nr_covered_pieces;
-  memmove(&covered_pieces[i],&covered_pieces[i+1],
-          (nr_covered_pieces-i) * sizeof covered_pieces[0]);
+  --circe_parachute_nr_covered_pieces;
+  memmove(&circe_parachute_covered_pieces[i],&circe_parachute_covered_pieces[i+1],
+          (circe_parachute_nr_covered_pieces-i) * sizeof circe_parachute_covered_pieces[0]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -124,7 +122,6 @@ void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_index
 static void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reason)
 {
   circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-  square const sq_rebirth = context->rebirth_square;
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
@@ -135,7 +132,7 @@ static void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_ty
 
   top_elmt->type = move_effect_remember_volcanic;
   top_elmt->reason = reason;
-  top_elmt->u.piece_removal.from = sq_rebirth;
+  top_elmt->u.piece_removal.from = context->rebirth_square;
   top_elmt->u.piece_removal.removed = context->reborn_walk;
   top_elmt->u.piece_removal.removedspec = context->reborn_spec;
 #if defined(DOTRACE)
@@ -147,7 +144,7 @@ static void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_ty
   TracePiece(top_elmt->u.piece_removal.removed);
   TraceValue("%u\n",GetPieceId(top_elmt->u.piece_removal.removedspec));
 
-  insert_at(nr_covered_pieces,move_effect_journal_base[nbply+1]);
+  insert_at(circe_parachute_nr_covered_pieces,move_effect_journal_base[nbply+1]);
 
   ++move_effect_journal_base[nbply+1];
 
@@ -164,7 +161,7 @@ void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_index_
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  remove_at(nr_covered_pieces-1);
+  remove_at(circe_parachute_nr_covered_pieces-1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -180,7 +177,7 @@ void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_index_
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  insert_at(nr_covered_pieces,curr);
+  insert_at(circe_parachute_nr_covered_pieces,curr);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -344,16 +341,16 @@ stip_length_type circe_parachute_uncoverer_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",nr_covered_pieces);
+  TraceValue("%u\n",circe_parachute_nr_covered_pieces);
 
-  while (i<nr_covered_pieces)
+  while (i<circe_parachute_nr_covered_pieces)
   {
-    move_effect_journal_index_type const idx_remember = covered_pieces[i];
+    move_effect_journal_index_type const idx_remember = circe_parachute_covered_pieces[i];
     move_effect_journal_entry_type const * const entry = &move_effect_journal[idx_remember];
     square const from = entry->u.piece_removal.from;
 
-    assert(move_effect_journal[idx_remember].type==move_effect_remember_parachuted
-           || move_effect_journal[idx_remember].type==move_effect_remember_volcanic);
+    assert(entry->type==move_effect_remember_parachuted
+           || entry->type==move_effect_remember_volcanic);
 
     if (is_square_empty(from))
     {

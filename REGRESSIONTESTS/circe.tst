@@ -551,3 +551,97 @@ solution finished.
 solution finished. 
 
 
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   S   .   .   .   .   .   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hze71                       2 + 1
+       Circe Couscous Volcanic
+
+a) 
+
+  1.Ba8*b7 Sc8-e7[+wPc8=Q] z
+  1.Ba8*b7 Sc8-e7[+wPc8=S] z
+  1.Ba8*b7 Sc8-e7[+wPc8=R] z
+  1.Ba8*b7 Sc8-e7[+wPc8=B] z
+
+  add_to_move_generation_stack:           5
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) Circe Couscous Parachute
+
+  1.Ba8*b7[+wPc8=S] Sc8-e7[+wSc8] z
+
+  add_to_move_generation_stack:          45
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   B   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -P   .   .   .   .   .   .   2
+|                                   |
+1   .   .   R   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-zf12                    2 + 1
+            Paralysing b2
+       Circe Couscous Volcanic
+
+a) 
+
+  1.Bh8*b2   2.Rc1-f1[+bpPc1=pQ] z
+  1.Bh8*b2   2.Rc1-f1[+bpPc1=pS] z
+  1.Bh8*b2   2.Rc1-f1[+bpPc1=pR] z
+  1.Bh8*b2   2.Rc1-f1[+bpPc1=pB] z
+
+  add_to_move_generation_stack:          86
+                     play_move:          10
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) ser-za12  Circe Couscous Parachute
+
+  1.Bh8*b2[+bpPc1=pS]   2.Bb2-a1 z
+  1.Bh8*b2[+bpPc1=pR]   2.Bb2-a1 z
+
+  add_to_move_generation_stack:          82
+                     play_move:          11
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
