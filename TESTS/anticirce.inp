@@ -39,4 +39,18 @@ condition anticirce parachute
 stip ser-zb32
 option nowk nobk
 
+next
+
+pieces white pa6 black sc8 pb7
+stip ser-ze72
+condition anticirce equipollent parachute
+option nowk nobk
+
+next
+
+pieces white rc8 pa6 black bb7
+stip ser-zf82
+condition eiffel anticirce equipollent volcanic
+option nowk nobk
+
 end

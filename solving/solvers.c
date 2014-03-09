@@ -389,6 +389,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                              STCirceRebirthOnNonEmptySquare,
                                              STLandingAfterCirceRebirthHandler);
         circe_instrument_solving(result,STCirceParachuteUnccoverer);
+        if (circe_variant.is_promotion_possible)
+          circe_allow_pawn_promotion(result,STCirceParachuteUnccoverer);
         break;
 
       case circe_on_occupied_rebirth_square_default:
@@ -642,6 +644,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                              STAnticirceRebirthOnNonEmptySquare,
                                              STLandingAfterAnticirceRebirth);
         anticirce_instrument_solving(result,STCirceParachuteUnccoverer);
+        circe_allow_pawn_promotion(result,STCirceParachuteUnccoverer);
         break;
 
       case circe_on_occupied_rebirth_square_default:

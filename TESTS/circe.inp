@@ -118,4 +118,20 @@ stip hzh31
 cond circe volcanic
 option nowk nobk
 
+next
+
+pieces black ba8 white pb7 sc8
+stip hze71
+condition circe couscous volcanic
+option nowk nobk
+twin condition circe couscous parachute
+
+next
+
+pieces white rc1 bh8 black paralysing pb2
+stip ser-zf12
+condition circe couscous volcanic
+option nowk nobk
+twin stip ser-za12 condition circe couscous parachute
+
 end
