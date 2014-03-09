@@ -95,6 +95,8 @@ static slice_index const move_slice_rank_order[] =
     STTakeMakeCirceDetermineRebirthSquares,
     STCirceDetermineRebirthSquare,
     STAntisupercirceDetermineRebirthSquare,
+    STCirceDiametralAdjustRebirthSquare,
+    STRankCirceProjectRebirthSquare,
     STAnticirceCheylanFilter,
     STAnticirceRemoveCapturer,
     STCirceTestRebirthSquareEmpty,

@@ -60,4 +60,18 @@ stip x1
 condition anticirce couscous
 option nowk nobk
 
+next
+
+pieces white sb1 black pc3
+stip x1
+condition anticirce diametral
+option nowk nobk
+
+next
+
+pieces white sb1 black pc3
+stip x1
+condition anticirce rank
+option nowk nobk
+
 end

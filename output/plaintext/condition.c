@@ -118,6 +118,84 @@ static int append_to_CondLine_chameleon_sequence(char (*line)[256],
   return result;
 }
 
+static unsigned int append_circe_variants(circe_variant_type const *variant,
+                                          char (*CondLine)[256],
+                                          unsigned int written)
+{
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_pwc)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantPWC]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_symmetry)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSymmetry]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_diagram)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiagramm]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_cage)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCage]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_rank)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantRank]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_file)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantFile]);
+  if (variant->relevant_piece==circe_relevant_piece_other)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCouscous]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_antipodes)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_super)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_april)
+  {
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantApril]);
+
+    {
+      PieNam pp;
+      for (pp = Empty; pp!=PieceCount; ++pp)
+        if (is_april_kind[pp])
+        {
+          written += append_to_CondLine(CondLine,written,"%c",' ');
+          written += append_to_CondLine_walk(CondLine,written,pp);
+        }
+    }
+  }
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_equipollents)
+  {
+    if (variant->relevant_capture==circe_relevant_capture_thismove)
+      written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantEquipollents]);
+    else if (variant->is_mirror)
+      written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantContraParrain]);
+    else
+      written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantParrain]);
+  }
+  if (variant->is_mirror)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
+  if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
+  if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantParachute]);
+  if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantVolcanic]);
+  if (variant->is_diametral)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiametral]);
+  if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_clone)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
+  if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
+  {
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantChameleon]);
+    if (!chameleon_circe_is_squence_implicit)
+      written += append_to_CondLine_chameleon_sequence(CondLine,written,
+                                                       chameleon_circe_walk_sequence);
+  }
+  if (variant->is_turncoat)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTurncoats]);
+  if (variant->is_frischauf)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantFrischauf]);
+
+  /* AntiCirceTypeCalvet is default in AntiCirce */
+   if (variant->anticirce_type==anticirce_type_cheylan)
+     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCheylan]);
+
+  return written;
+}
+
 boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first))
 {
   Cond  cond;
@@ -408,74 +486,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     }
 
     if (cond==circe)
-    {
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_pwc)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantPWC]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_symmetry)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSymmetry]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiagramm]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCage]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_rank)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRank]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_file)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantFile]);
-      if (circe_variant.relevant_piece==circe_relevant_piece_other)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCouscous]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_antipodes)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_april)
-      {
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantApril]);
-
-        {
-          PieNam pp;
-          for (pp = Empty; pp!=PieceCount; ++pp)
-            if (is_april_kind[pp])
-            {
-              written += append_to_CondLine(&CondLine,written,"%c",' ');
-              written += append_to_CondLine_walk(&CondLine,written,pp);
-            }
-        }
-      }
-      if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents)
-      {
-        if (circe_variant.relevant_capture==circe_relevant_capture_thismove)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantEquipollents]);
-        else if (circe_variant.is_mirror)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantContraParrain]);
-        else
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantParrain]);
-      }
-      if (circe_variant.is_mirror)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
-      if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
-      if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantParachute]);
-      if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantVolcanic]);
-      if (circe_variant.is_diametral)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiametral]);
-      if (circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
-      if (circe_variant.reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
-      {
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantChameleon]);
-        if (!chameleon_circe_is_squence_implicit)
-          written += append_to_CondLine_chameleon_sequence(&CondLine,written,
-                                                           chameleon_circe_walk_sequence);
-      }
-      if (circe_variant.is_turncoat)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantTurncoats]);
-      if (circe_variant.is_frischauf)
-        written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantFrischauf]);
-    }
+      written = append_circe_variants(&circe_variant,&CondLine,written);
 
     if ((cond == madras && madrasi_is_rex_inclusive)
         || (cond == phantom && phantom_chess_rex_inclusive)
@@ -619,42 +630,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     switch (cond)
     {
       case anticirce:
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiagramm]);
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_file)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantFile]);
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_symmetry)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantSymmetry]);
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_antipodes)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_equipollents)
-        {
-          if (anticirce_variant.relevant_capture==circe_relevant_capture_thismove)
-            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantEquipollents]);
-          else
-            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantParrain]);
-        }
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCage]);
-        if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
-        if (anticirce_variant.relevant_piece==circe_relevant_piece_other)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCouscous]);
-        if (anticirce_variant.reborn_walk_adapter==circe_reborn_walk_adapter_clone)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
-        if (anticirce_variant.is_mirror)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
-       /* AntiCirceTypeCalvet is default in AntiCirce */
-        if (anticirce_variant.anticirce_type==anticirce_type_cheylan)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantCheylan]);
-        if (anticirce_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
-        if (anticirce_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantParachute]);
-        if (anticirce_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
-          written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantVolcanic]);
+        written = append_circe_variants(&anticirce_variant,&CondLine,written);
         break;
 
       case blmax:

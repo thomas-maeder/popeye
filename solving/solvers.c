@@ -603,6 +603,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         break;
     }
 
+    if (anticirce_variant.is_diametral)
+      anticirce_instrument_solving(result,STCirceDiametralAdjustRebirthSquare);
+    else if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_rank)
+      anticirce_instrument_solving(result,STRankCirceProjectRebirthSquare);
+
     if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
     {
       anticirce_instrument_solving(result,STCirceCageCageTester);
