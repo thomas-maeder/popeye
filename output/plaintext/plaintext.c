@@ -441,13 +441,21 @@ static void write_remember_volcanic(move_context *context,
   PieceIdType const id_removed = GetPieceId(move_effect_journal[curr].u.piece_removal.removedspec);
   move_effect_journal_index_type const removal = find_piece_removal(context,curr,id_removed);
 
-  if (removal!=move_effect_journal_index_null)
+  next_context(context,removal,"[[","]]");
+
+  if (removal==move_effect_journal_index_null)
+    StdChar('+');
+  else
   {
-    next_context(context,removal,"[-","]");
     write_complete_piece(move_effect_journal[removal].u.piece_removal.removedspec,
                          move_effect_journal[removal].u.piece_removal.removed,
                          move_effect_journal[removal].u.piece_removal.from);
+    StdString("->");
   }
+
+  write_complete_piece(move_effect_journal[curr].u.piece_removal.removedspec,
+                       move_effect_journal[curr].u.piece_removal.removed,
+                       move_effect_journal[curr].u.piece_removal.from);
 }
 
 static void write_transfer(move_context *context,

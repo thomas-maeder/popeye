@@ -772,10 +772,6 @@ stip_length_type solve(slice_index si, stip_length_type n)
       result = supercirce_determine_rebirth_square_solve(si,n);
       break;
 
-    case STCirceCageDetermineRebirthSquare:
-      result = circe_cage_determine_rebirth_square_solve(si,n);
-      break;
-
     case STSupercircePreventRebirthOnNonEmptySquare:
       result = supercirce_prevent_rebirth_on_non_empty_square_solve(si,n);
       break;

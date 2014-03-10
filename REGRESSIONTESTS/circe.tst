@@ -542,7 +542,7 @@ solution finished.
   hzh31                       2 + 1
             Circe Volcanic
 
-  1.Bh8*g7 Sg1-h3[+wSg1] z
+  1.Bh8*g7[[+wSg1]] Sg1-h3[+wSg1] z
 
   add_to_move_generation_stack:           4
                      play_move:           2
@@ -577,10 +577,10 @@ solution finished.
 
 a) 
 
-  1.Ba8*b7 Sc8-e7[+wPc8=Q] z
-  1.Ba8*b7 Sc8-e7[+wPc8=S] z
-  1.Ba8*b7 Sc8-e7[+wPc8=R] z
-  1.Ba8*b7 Sc8-e7[+wPc8=B] z
+  1.Ba8*b7[[+wPc8]] Sc8-e7[+wPc8=Q] z
+  1.Ba8*b7[[+wPc8]] Sc8-e7[+wPc8=S] z
+  1.Ba8*b7[[+wPc8]] Sc8-e7[+wPc8=R] z
+  1.Ba8*b7[[+wPc8]] Sc8-e7[+wPc8=B] z
 
   add_to_move_generation_stack:           5
                      play_move:           5
@@ -624,10 +624,10 @@ solution finished.
 
 a) 
 
-  1.Bh8*b2   2.Rc1-f1[+bpPc1=pQ] z
-  1.Bh8*b2   2.Rc1-f1[+bpPc1=pS] z
-  1.Bh8*b2   2.Rc1-f1[+bpPc1=pR] z
-  1.Bh8*b2   2.Rc1-f1[+bpPc1=pB] z
+  1.Bh8*b2[[+bpPc1]]   2.Rc1-f1[+bpPc1=pQ] z
+  1.Bh8*b2[[+bpPc1]]   2.Rc1-f1[+bpPc1=pS] z
+  1.Bh8*b2[[+bpPc1]]   2.Rc1-f1[+bpPc1=pR] z
+  1.Bh8*b2[[+bpPc1]]   2.Rc1-f1[+bpPc1=pB] z
 
   add_to_move_generation_stack:          86
                      play_move:          10
@@ -640,6 +640,39 @@ b) ser-za12  Circe Couscous Parachute
 
   add_to_move_generation_stack:          82
                      play_move:          11
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -B   .   .   S   8
+|                                   |
+7   .   .   .   .   .   B  -P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hzf71                       2 + 2
+         Circe Cage Volcanic
+
+  1.Be8*f7[[+wBh8]] Sh8*f7[+wBh8][[+bBh8]] z
+
+  add_to_move_generation_stack:        1122
+                     play_move:         134
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

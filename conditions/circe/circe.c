@@ -90,10 +90,11 @@ move_effect_journal_index_type circe_find_current_rebirth(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (result = base+move_effect_journal_index_offset_other_effects; result<top; ++result)
-    if (move_effect_journal[result].type==move_effect_piece_readdition
-        && (move_effect_journal[result].reason==move_effect_reason_rebirth_no_choice
-            || move_effect_journal[result].reason==move_effect_reason_rebirth_choice))
+  for (result = top-1; result>=base+move_effect_journal_index_offset_other_effects; --result)
+    if ((move_effect_journal[result].type==move_effect_piece_readdition
+         && (move_effect_journal[result].reason==move_effect_reason_rebirth_no_choice
+             || move_effect_journal[result].reason==move_effect_reason_rebirth_choice))
+        || move_effect_journal[result].type==move_effect_remember_volcanic)
       break;
 
   TraceFunctionExit(__func__);

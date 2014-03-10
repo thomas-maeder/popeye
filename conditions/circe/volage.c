@@ -34,7 +34,7 @@ stip_length_type circe_volage_recolorer_solve(slice_index si,
 
   {
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
-    if (rebirth!=move_effect_journal_base[nbply+1])
+    if (rebirth>=move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
     {
       square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
 

@@ -46,8 +46,8 @@ both sides need a kingboth sides need a king
    1.Be5-d6 !
 
 
-  add_to_move_generation_stack:         528
-                     play_move:          72
+  add_to_move_generation_stack:         539
+                     play_move:          73
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -272,10 +272,10 @@ solution finished.
    AntiCirce Equipollents Volcanic
              EiffelChess
 
-  1.a6*b7[-wPb7]   2.Rc8-f8[+wPc8=Q] z
-  1.a6*b7[-wPb7]   2.Rc8-f8[+wPc8=S] z
-  1.a6*b7[-wPb7]   2.Rc8-f8[+wPc8=R] z
-  1.a6*b7[-wPb7]   2.Rc8-f8[+wPc8=B] z
+  1.a6*b7[[wPb7->wPc8]]   2.Rc8-f8[+wPc8=Q] z
+  1.a6*b7[[wPb7->wPc8]]   2.Rc8-f8[+wPc8=S] z
+  1.a6*b7[[wPb7->wPc8]]   2.Rc8-f8[+wPc8=R] z
+  1.a6*b7[[wPb7->wPc8]]   2.Rc8-f8[+wPc8=B] z
 
   add_to_move_generation_stack:          19
                      play_move:           6

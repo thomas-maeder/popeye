@@ -134,4 +134,11 @@ condition circe couscous volcanic
 option nowk nobk
 twin stip ser-za12 condition circe couscous parachute
 
+next
+
+pieces white bf7 sh8 black be8 pg7
+stip hzf71
+condition circe cage volcanic
+option nowk nobk
+
 end

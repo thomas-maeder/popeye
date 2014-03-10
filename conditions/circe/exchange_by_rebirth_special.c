@@ -53,7 +53,7 @@ stip_length_type circe_exchange_special_solve(slice_index si, stip_length_type n
   {
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
 
-    if (rebirth!=move_effect_journal_base[nbply+1])
+    if (rebirth>=move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
     {
       square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
       square const sq_diagram = GetPositionInDiagram(spec[sq_rebirth]);

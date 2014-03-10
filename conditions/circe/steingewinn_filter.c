@@ -49,7 +49,7 @@ stip_length_type circe_steingewinn_filter_solve(slice_index si, stip_length_type
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (circe_find_current_rebirth()==move_effect_journal_base[nbply+1])
+  if (circe_find_current_rebirth()<move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
     result = solve(slices[si].next1,n);
   else
     result = n+2;

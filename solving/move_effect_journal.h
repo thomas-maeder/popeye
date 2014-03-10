@@ -92,6 +92,7 @@ typedef enum
   move_effect_reason_rebirth_choice,
   move_effect_reason_assassin_circe_rebirth,
   move_effect_reason_volcanic_remember,
+  move_effect_reason_volcanic_uncover,
   move_effect_reason_transfer_no_choice,
   move_effect_reason_transfer_choice,
   move_effect_reason_promotion_of_reborn,

@@ -351,7 +351,6 @@
     ENUMERATOR(STCircePlaceReborn),                                     \
     ENUMERATOR(STSuperCirceNoRebirthFork),                              \
     ENUMERATOR(STSuperCirceDetermineRebirthSquare),                     \
-    ENUMERATOR(STCirceCageDetermineRebirthSquare),                      \
     ENUMERATOR(STCirceCageNoCageFork)    ,                              \
     ENUMERATOR(STCirceCageCageTester),                                  \
     ENUMERATOR(STLandingAfterAnticirceRebirth),                         \

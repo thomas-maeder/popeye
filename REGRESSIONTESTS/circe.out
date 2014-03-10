@@ -673,14 +673,14 @@ Loesung beendet.
              Circe Vulkan
 
    1.Td2-d4 ! Drohung:
-          2.Dc6*e4 #
-      1...Th5*e5
+          2.Dc6*e4[[+sBe7]] #
+      1...Th5*e5[[+wBe2]]
           2.Tb1-f1 #
-      1...Th5*h6
-          2.La6*e2 #
+      1...Th5*h6[[+wSg1]]
+          2.La6*e2[[+sBe7]] #
       1...Le8*c6[+wDd1]
           2.Dd1-f1 #
-      1...Le8*g6
+      1...Le8*g6[[+wBg2]]
           2.Td4-d3 #
 
 
@@ -719,7 +719,7 @@ Loesung beendet.
 
 a) 
 
-  1.Sf4-d5 Tb1-f1   2.Kc3*c4 Tf1-c1[+wLf1] #
+  1.Sf4-d5 Tb1-f1   2.Kc3*c4[[+wLf1]] Tf1-c1[+wLf1] #
 
   add_to_move_generation_stack:       63432
                      play_move:       49197
@@ -727,7 +727,7 @@ a)
  is_black_king_square_attacked:       48878
 b) wLc4-->d5
 
-  1.Kc3-c2 Ld5-h1   2.Kc2*b1 Lh1-e4[+wTh1] #
+  1.Kc3-c2 Ld5-h1   2.Kc2*b1[[+wTh1]] Lh1-e4[+wTh1] #
 
   add_to_move_generation_stack:       87517
                      play_move:       65878
@@ -763,7 +763,7 @@ Loesung beendet.
              Circe Vulkan
 
    1.Tf1-f2 ! Drohung:
-          2.Sc3*d1 #
+          2.Sc3*d1[[+sTa8]] #
       1...Td1-a1
           2.Db2*d2[+sBd7] #
       1...Td1-b1
@@ -774,17 +774,17 @@ Loesung beendet.
           2.Db2*d2[+sBd7] #
       1...Td1-e1
           2.Db2*d2[+sBd7] #
-      1...Sg1*f3 +
+      1...Sg1*f3[[+wBf2]] +
           2.Tf2-f1[+wBf2] #
-      1...Sd4*f3
-          2.Tf2*d2[+sBd7][+wBf2] #
-      1...Lh5*f3 +
+      1...Sd4*f3[[+wBf2]]
+          2.Tf2*d2[+wBf2][+sBd7] #
+      1...Lh5*f3[[+wBf2]] +
           2.Tf2-g2[+wBf2] #
       1...Dc6-a4
           2.Sc3-d5 #
-      1...Dc6*f3 +
-          2.Tf2*f3[+sDd8][+wBf2] #
-      1...Tf8*f3
+      1...Dc6*f3[[+wBf2]] +
+          2.Tf2*f3[+wBf2][+sDd8] #
+      1...Tf8*f3[[+wBf2]]
           2.Tf2-e2[+wBf2] #
 
 
@@ -822,8 +822,8 @@ letzte 6 Halbz\"uge - Test f\"urs Hashing
   exact-ser-h=5          1 + 1 + 4n
              Circe Vulkan
 
- 15  (nDa1*g1 )
-  1.nDa1*g1   2.nBd2-d1=nL   3.nBc2*d1=nT[+nLf1]   4.nTd1*f1   5.Kh4-h3 Kh6-h5 =
+ 15  (nDa1*g1[[+nSg1]] )
+  1.nDa1*g1[[+nSg1]]   2.nBd2-d1=nL   3.nBc2*d1=nT[+nLf1]   4.nTd1*f1[[+nLf1]]   5.Kh4-h3 Kh6-h5 =
  16  (nDa1-f1 )
  17  (nDa1-e1 )
  18  (nDa1-d1 )
@@ -846,10 +846,10 @@ letzte 6 Halbz\"uge - Test f\"urs Hashing
  35  (Kh4-g4 )
  36  (Kh4-h5 + )
 
-  add_to_move_generation_stack:    44733464
-                     play_move:    23798068
- is_white_king_square_attacked:     9855162
- is_black_king_square_attacked:    20041895
+  add_to_move_generation_stack:    44733422
+                     play_move:    23798038
+ is_white_king_square_attacked:     9855135
+ is_black_king_square_attacked:    20041889
 Loesung beendet. 
 
 

@@ -380,6 +380,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                              STCirceDeterminingRebornPiece,
                                              STCirceRebirthOnNonEmptySquare,
                                              STCircePlacingReborn);
+        stip_instrument_moves(result,STCirceParachuteUnccoverer);
         circe_instrument_solving(result,STCirceParachuteUnccoverer);
         break;
 
@@ -388,6 +389,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                              STCirceDeterminingRebornPiece,
                                              STCirceRebirthOnNonEmptySquare,
                                              STLandingAfterCirceRebirthHandler);
+        stip_instrument_moves(result,STCirceParachuteUnccoverer);
         circe_instrument_solving(result,STCirceParachuteUnccoverer);
         if (circe_variant.is_promotion_possible)
           circe_allow_pawn_promotion(result,STCirceParachuteUnccoverer);
@@ -429,10 +431,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         break;
       case circe_determine_rebirth_square_super:
       case circe_determine_rebirth_square_april:
-        circe_instrument_solving(result,STSuperCirceDetermineRebirthSquare);
-        break;
       case circe_determine_rebirth_square_cage:
-        circe_instrument_solving(result,STCirceCageDetermineRebirthSquare);
+        circe_instrument_solving(result,STSuperCirceDetermineRebirthSquare);
         break;
       case circe_determine_rebirth_square_take_and_make:
         circe_instrument_solving(result,STTakeMakeCirceDetermineRebirthSquares);
@@ -572,10 +572,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         break;
       case circe_determine_rebirth_square_super:
       case circe_determine_rebirth_square_april:
-        anticirce_instrument_solving(result,STAntisupercirceDetermineRebirthSquare);
-        break;
       case circe_determine_rebirth_square_cage:
-        anticirce_instrument_solving(result,STCirceCageDetermineRebirthSquare);
+        anticirce_instrument_solving(result,STAntisupercirceDetermineRebirthSquare);
         break;
       case circe_determine_rebirth_square_take_and_make:
         anticirce_instrument_solving(result,STTakeMakeCirceDetermineRebirthSquares);

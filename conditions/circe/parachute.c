@@ -309,7 +309,10 @@ stip_length_type circe_volcanic_remember_solve(slice_index si,
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_circe_volcanic_remember(move_effect_reason_volcanic_remember);
+
+  ++circe_rebirth_context_stack_pointer;
   result = solve(slices[si].next1,n);
+  --circe_rebirth_context_stack_pointer;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -354,11 +357,11 @@ stip_length_type circe_parachute_uncoverer_solve(slice_index si,
 
     if (is_square_empty(from))
     {
-      move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_no_choice,
+      move_effect_journal_do_piece_readdition(move_effect_reason_volcanic_uncover,
                                               from,
                                               entry->u.piece_removal.removed,
                                               entry->u.piece_removal.removedspec);
-      move_effect_journal_do_circe_parachute_uncover(move_effect_reason_rebirth_no_choice,i);
+      move_effect_journal_do_circe_parachute_uncover(move_effect_reason_volcanic_uncover,i);
     }
     else
       ++i;
