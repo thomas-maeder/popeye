@@ -72,9 +72,9 @@ static void move_effect_journal_do_circe_parachute_remember(move_effect_reason_t
 
   top_elmt->type = move_effect_remember_parachuted;
   top_elmt->reason = reason;
-  top_elmt->u.piece_removal.from = sq_rebirth;
-  top_elmt->u.piece_removal.removed = get_walk_of_piece_on_square(sq_rebirth);
-  top_elmt->u.piece_removal.removedspec = spec[sq_rebirth];
+  top_elmt->u.piece_addition.on = sq_rebirth;
+  top_elmt->u.piece_addition.added = get_walk_of_piece_on_square(sq_rebirth);
+  top_elmt->u.piece_addition.addedspec = spec[sq_rebirth];
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -132,9 +132,9 @@ static void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_ty
 
   top_elmt->type = move_effect_remember_volcanic;
   top_elmt->reason = reason;
-  top_elmt->u.piece_removal.from = context->rebirth_square;
-  top_elmt->u.piece_removal.removed = context->reborn_walk;
-  top_elmt->u.piece_removal.removedspec = context->reborn_spec;
+  top_elmt->u.piece_addition.on = context->rebirth_square;
+  top_elmt->u.piece_addition.added = context->reborn_walk;
+  top_elmt->u.piece_addition.addedspec = context->reborn_spec;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -350,7 +350,7 @@ stip_length_type circe_parachute_uncoverer_solve(slice_index si,
   {
     move_effect_journal_index_type const idx_remember = circe_parachute_covered_pieces[i];
     move_effect_journal_entry_type const * const entry = &move_effect_journal[idx_remember];
-    square const from = entry->u.piece_removal.from;
+    square const from = entry->u.piece_addition.on;
 
     assert(entry->type==move_effect_remember_parachuted
            || entry->type==move_effect_remember_volcanic);
@@ -359,8 +359,8 @@ stip_length_type circe_parachute_uncoverer_solve(slice_index si,
     {
       move_effect_journal_do_piece_readdition(move_effect_reason_volcanic_uncover,
                                               from,
-                                              entry->u.piece_removal.removed,
-                                              entry->u.piece_removal.removedspec);
+                                              entry->u.piece_addition.added,
+                                              entry->u.piece_addition.addedspec);
       move_effect_journal_do_circe_parachute_uncover(move_effect_reason_volcanic_uncover,i);
     }
     else

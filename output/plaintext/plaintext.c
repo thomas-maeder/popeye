@@ -453,9 +453,9 @@ static void write_remember_volcanic(move_context *context,
     StdString("->");
   }
 
-  write_complete_piece(move_effect_journal[curr].u.piece_removal.removedspec,
-                       move_effect_journal[curr].u.piece_removal.removed,
-                       move_effect_journal[curr].u.piece_removal.from);
+  write_complete_piece(move_effect_journal[curr].u.piece_addition.addedspec,
+                       move_effect_journal[curr].u.piece_addition.added,
+                       move_effect_journal[curr].u.piece_addition.on);
 }
 
 static void write_transfer(move_context *context,

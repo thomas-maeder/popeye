@@ -1318,9 +1318,9 @@ byte *CommonEncode(byte *bp,
     {
       move_effect_journal_index_type const idx_remember = circe_parachute_covered_pieces[i];
       move_effect_journal_entry_type const * const entry = &move_effect_journal[idx_remember];
-      square const volcano = entry->u.piece_removal.from;
-      PieNam const walk = entry->u.piece_removal.removed;
-      Flags const flags = entry->u.piece_removal.removedspec;
+      square const volcano = entry->u.piece_addition.on;
+      PieNam const walk = entry->u.piece_addition.added;
+      Flags const flags = entry->u.piece_addition.addedspec;
 
       assert(entry->type==move_effect_remember_parachuted
              || entry->type==move_effect_remember_volcanic);
