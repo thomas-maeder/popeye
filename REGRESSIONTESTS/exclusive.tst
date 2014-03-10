@@ -27,10 +27,10 @@
    1.Qa1-e1 # !
 
 
-  add_to_move_generation_stack:        3298
-                     play_move:        2788
- is_white_king_square_attacked:        1642
- is_black_king_square_attacked:        1853
+  add_to_move_generation_stack:        5486
+                     play_move:        4938
+ is_white_king_square_attacked:        2552
+ is_black_king_square_attacked:        3141
 solution finished. 
 
 
@@ -63,10 +63,10 @@ solution finished.
   1...Qa1-d4 Can't decide whether this move is refuted
 
 
-  add_to_move_generation_stack:        3052
-                     play_move:        2356
- is_white_king_square_attacked:        1559
- is_black_king_square_attacked:        1349
+  add_to_move_generation_stack:        5070
+                     play_move:        4334
+ is_white_king_square_attacked:        2596
+ is_black_king_square_attacked:        2349
 solution finished. 
 
 
@@ -97,10 +97,10 @@ solution finished.
             ExclusiveChess
 
 
-  add_to_move_generation_stack:        3136
-                     play_move:        2600
- is_white_king_square_attacked:        1228
- is_black_king_square_attacked:        1984
+  add_to_move_generation_stack:        5040
+                     play_move:        4510
+ is_white_king_square_attacked:        1838
+ is_black_king_square_attacked:        3331
 solution finished. 
 
 
@@ -131,10 +131,10 @@ solution finished.
             ExclusiveChess
 
 
-  add_to_move_generation_stack:        2060
-                     play_move:        1544
- is_white_king_square_attacked:         807
- is_black_king_square_attacked:        1130
+  add_to_move_generation_stack:        3432
+                     play_move:        2898
+ is_white_king_square_attacked:        1252
+ is_black_king_square_attacked:        2084
 solution finished. 
 
 
@@ -168,10 +168,10 @@ solution finished.
 
 
 
-  add_to_move_generation_stack:        3104
-                     play_move:        2358
- is_white_king_square_attacked:        1637
- is_black_king_square_attacked:        1271
+  add_to_move_generation_stack:        5158
+                     play_move:        4374
+ is_white_king_square_attacked:        2720
+ is_black_king_square_attacked:        2261
 solution finished. 
 
 
