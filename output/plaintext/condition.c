@@ -190,8 +190,8 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantFrischauf]);
 
   /* AntiCirceTypeCalvet is default in AntiCirce */
-   if (variant->anticirce_type==anticirce_type_cheylan)
-     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCheylan]);
+  if (variant->anticirce_type==anticirce_type_cheylan)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCheylan]);
 
   return written;
 }
