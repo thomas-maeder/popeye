@@ -187,6 +187,11 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
   solve(slices[si].next2,n);
   finply();
 
+  /* in some very obscure situations (cf. bug #142), we would continue with
+   * e.g. knight promotion if queen promotion was played while measuring lengths
+   */
+  ++post_move_iteration_id[nbply];
+
   nbply = save_nbply;
   SET_CURRMOVE(nbply,last_candidate[nbply]);
 
