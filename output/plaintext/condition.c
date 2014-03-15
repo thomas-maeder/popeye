@@ -196,484 +196,547 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
   return written;
 }
 
+static unsigned int append_mummer_strictness(Side side,
+                                             char (*CondLine)[256],
+                                             unsigned int written)
+{
+  switch (mummer_strictness[side])
+  {
+    case mummer_strictness_none:
+    case mummer_strictness_regular:
+      break;
+    case mummer_strictness_exact:
+      written += append_to_CondLine(CondLine,written,"  %s",mummer_strictness_tab[mummer_strictness_exact]);
+      break;
+    case mummer_strictness_ultra:
+      written += append_to_CondLine(CondLine,written,"  %s",mummer_strictness_tab[mummer_strictness_ultra]);
+      break;
+    default:
+      assert(0);
+      break;
+  }
+
+  return written;
+}
+
+static boolean anything_to_write(Cond cond)
+{
+  switch (cond)
+  {
+    case rexexcl:
+      return false;
+
+    case volage:
+      return !CondFlag[hypervolage];
+
+    case chinoises:
+      return !CondFlag[leofamily];
+
+    case gridchess:
+    case koeko:
+      return !CondFlag[contactgrid];
+
+    case tibet:
+      return !CondFlag[dbltibet];
+
+    case holes:
+      /* depicted in diagram */
+      return false;
+
+    /* these values have been kept for backward compatibility */
+    case circemirror:
+    case circecouscous:
+    case circecouscousmirror:
+    case circefilemirror:
+    case circeclonemirror:
+    case circeassassin:
+    case circediametral:
+    case circeclone:
+    case circechameleon:
+    case circeturncoats:
+    case circedoubleagents:
+    case circeparrain:
+    case circecontraparrain:
+    case circeequipollents:
+    case circecage:
+    case circerank:
+    case circefile:
+    case circesymmetry:
+    case circediagramm:
+    case pwc:
+    case circeantipoden:
+    case circetakeandmake:
+    case supercirce:
+    case april:
+    case frischauf:
+    case antisuper:
+    case antidiagramm:
+    case antifile:
+    case antisymmetrie:
+    case antimirror:
+    case antimirrorfile:
+    case antiantipoden:
+    case antiequipollents:
+    case anticlonecirce:
+    case immunmirror:
+    case immunfile:
+    case immundiagramm:
+    case immunmirrorfile:
+    case immunsymmetry:
+    case immunantipoden:
+    case immunequipollents:
+      return false;
+
+    case white_oscillatingKs:
+      return !(CondFlag[swappingkings] && OscillatingKings[White]==ConditionTypeC);
+
+    case black_oscillatingKs:
+      return !(CondFlag[swappingkings] && OscillatingKings[Black]==ConditionTypeC);
+
+    case whitealphabetic:
+    case blackalphabetic:
+      return !CondFlag[alphabetic];
+
+    case whvault_king:
+    case blvault_king:
+      return !CondFlag[vault_king];
+
+    case whtrans_king:
+    case bltrans_king:
+      return !CondFlag[trans_king];
+
+    default:
+      return true;
+  }
+}
+
 boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first))
 {
-  Cond  cond;
-  boolean CondPrinted= false;
-  char CondLine[256] = { '\0' };
+  Cond cond;
+  boolean result = false;
 
   for (cond = 1; cond<CondCount; ++cond)
-  {
-    unsigned int written;
-
-    if (!CondFlag[cond])
-      continue;
-
-    if (cond == rexexcl)
-      continue;
-
-    if (cond == volage && CondFlag[hypervolage])
-      continue;
-
-    if (cond == chinoises && CondFlag[leofamily])
-      continue;
-
-    if ((cond==gridchess || cond==koeko) && CondFlag[contactgrid])
-      continue;
-
-    if (cond==tibet && CondFlag[dbltibet])
-      continue;
-
-    if (cond==holes)
-      continue;
-
-    /* these cond values have been kept for backward compatibility */
-    if (cond==circemirror
-        || cond==circecouscous
-        || cond==circecouscousmirror
-        || cond==circefilemirror
-        || cond==circeclonemirror
-        || cond==circeassassin
-        || cond==circediametral
-        || cond==circeclone
-        || cond==circechameleon
-        || cond==circeturncoats
-        || cond==circedoubleagents
-        || cond==circeparrain
-        || cond==circecontraparrain
-        || cond==circeequipollents
-        || cond==circecage
-        || cond==circerank
-        || cond==circefile
-        || cond==circesymmetry
-        || cond==circediagramm
-        || cond==pwc
-        || cond==circeantipoden
-        || cond==circetakeandmake
-        || cond==supercirce
-        || cond==april
-        || cond==frischauf
-        || cond==antisuper
-        || cond==antidiagramm
-        || cond==antifile
-        || cond==antisymmetrie
-        || cond==antimirror
-        || cond==antimirrorfile
-        || cond==antiantipoden
-        || cond==antiequipollents
-        || cond==anticlonecirce
-        || cond==immunmirror
-        || cond==immunfile
-        || cond==immundiagramm
-        || cond==immunmirrorfile
-        || cond==immunsymmetry
-        || cond==immunantipoden
-        || cond==immunequipollents)
-      continue;
-
-    /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
-    if ((cond==white_oscillatingKs && OscillatingKings[White]==ConditionTypeC)
-        || (cond==black_oscillatingKs && OscillatingKings[Black]==ConditionTypeC))
+    if (CondFlag[cond] && anything_to_write(cond))
     {
-      if (CondFlag[swappingkings])
-        continue;
-    }
+      char CondLine[256] = { '\0' };
+      unsigned int written = append_to_CondLine(&CondLine,0,"%s", CondTab[cond]);
 
-    if ((cond==whitealphabetic || cond==blackalphabetic)
-        && CondFlag[alphabetic])
-      continue;
-
-    if ((cond==whvault_king || cond==blvault_king)
-        && CondFlag[vault_king])
-      continue;
-
-    if ((cond==whtrans_king || cond==bltrans_king)
-        && CondFlag[trans_king])
-      continue;
-
-    /* Write DEFAULT Conditions */
-    written = append_to_CondLine(&CondLine,0,"%s", CondTab[cond]);
-
-    if ((cond == blmax || cond == whmax) && ExtraCondFlag[maxi])
-      written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
-
-    if ((cond==blackultraschachzwang || cond==whiteultraschachzwang)
-        && ExtraCondFlag[ultraschachzwang])
-      written = append_to_CondLine(&CondLine,0, "%s", ExtraCondTab[ultraschachzwang]);
-
-    if (cond == sentinelles && sentinelles_is_para)
-      written = append_to_CondLine(&CondLine,0,"Para%s",CondTab[cond]);
-
-    if (cond == koeko || cond == antikoeko)
-    {
-      PieNam koekop = King;
-      nocontactfunc_t const nocontactfunc = cond==koeko ? koeko_nocontact : antikoeko_nocontact;
-      if (nocontactfunc == noknightcontact)
-        koekop= Knight;
-      if (nocontactfunc == nowazircontact)
-        koekop= Wesir;
-      if (nocontactfunc == noferscontact)
-        koekop= Fers;
-      if (nocontactfunc == nodabbabacontact)
-        koekop= Dabbaba;
-      if (nocontactfunc == noalfilcontact)
-        koekop= Alfil;
-      if (nocontactfunc == nocamelcontact)
-        koekop= Camel;
-      if (nocontactfunc == nozebracontact)
-        koekop= Zebra;
-      if (nocontactfunc == nogiraffecontact)
-        koekop= Giraffe;
-      if (nocontactfunc == noantelopecontact)
-        koekop= Antilope;
-
-      written = 0;
-
-      if (koekop!=King)
+      switch (cond)
       {
-        written += append_to_CondLine_walk(&CondLine,written,koekop);
-        written += append_to_CondLine(&CondLine,written,"%c",'-');
-      }
-
-      written += append_to_CondLine(&CondLine,written,"%s", CondTab[cond]);
-    }
-
-    if (cond == BGL)
-    {
-      char buf[12];
-
-      WriteBGLNumber(buf, BGL_values[White]);
-      written += append_to_CondLine(&CondLine,written," %s", buf);
-
-      if (!BGL_global)
-      {
-        WriteBGLNumber(buf, BGL_values[Black]);
-        written += append_to_CondLine(&CondLine,written,"/%s",buf);
-      }
-    }
-
-    if (cond==kobulkings)
-    {
-      if (!kobul_who[White])
-        written += append_to_CondLine(&CondLine,written," %s","Black");
-      if (!kobul_who[Black])
-        written += append_to_CondLine(&CondLine,written," %s","White");
-    }
-
-    if (cond==whvault_king || cond==vault_king)
-    {
-      if (nr_king_vaulters[White]!=1 || king_vaulters[White][0]!=EquiHopper)
-        written += WriteWalks(CondLine+written,king_vaulters[White],nr_king_vaulters[White]);
-      if (vaulting_kings_transmuting[White])
-      {
-        written += append_to_CondLine(&CondLine,written,"%c",'-');
-        written += append_to_CondLine_walk(&CondLine,written,King);
-      }
-    }
-
-    if (cond==blvault_king)
-    {
-      if (nr_king_vaulters[Black]!=1 || king_vaulters[Black][0]!=EquiHopper)
-        written += WriteWalks(CondLine+written,king_vaulters[Black],nr_king_vaulters[Black]);
-      if (vaulting_kings_transmuting[Black])
-      {
-        written += append_to_CondLine(&CondLine,written,"%c",'-');
-        written += append_to_CondLine_walk(&CondLine,written,King);
-      }
-    }
-
-    if (cond==promotiononly)
-    {
-      PieNam pp = Empty;
-      while (true)
-      {
-        pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp];
-        if (pp==Empty)
+        case blmax:
+          if (ExtraCondFlag[maxi])
+            written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
+          written = append_mummer_strictness(Black,&CondLine,written);
           break;
-        else
+
+        case blmin:
+        case blcapt:
+          written = append_mummer_strictness(Black,&CondLine,written);
+          break;
+
+        case whmax:
+          if (ExtraCondFlag[maxi])
+            written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
+          written = append_mummer_strictness(White,&CondLine,written);
+          break;
+
+        case whmin:
+        case whcapt:
+          written = append_mummer_strictness(White,&CondLine,written);
+          break;
+
+        case blackultraschachzwang:
+        case whiteultraschachzwang:
+          if (ExtraCondFlag[ultraschachzwang])
+            written = append_to_CondLine(&CondLine,0, "%s", ExtraCondTab[ultraschachzwang]);
+          break;
+
+        case sentinelles:
+          if (sentinelles_is_para)
+            written = append_to_CondLine(&CondLine,0,"Para%s",CondTab[cond]);
+          if (sentinelle_walk == BerolinaPawn)
+            written += append_to_CondLine(&CondLine,written," %s","Berolina");
+          if (sentinelles_pawn_mode==sentinelles_pawn_adverse)
+            written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionAdverse]);
+          if (sentinelles_pawn_mode==sentinelles_pawn_neutre)
+            written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionNeutral]);
+          if (sentinelles_max_nr_pawns[Black] !=8 || sentinelles_max_nr_pawns[White] != 8)
+          {
+            written += append_to_CondLine(&CondLine,written," %u",sentinelles_max_nr_pawns[White]);
+            written += append_to_CondLine(&CondLine,written,"/%u",sentinelles_max_nr_pawns[Black]);
+          }
+          if (sentinelles_max_nr_pawns_total != 16)
+            written += append_to_CondLine(&CondLine,written," //%u", sentinelles_max_nr_pawns_total);
+          break;
+
+        case koeko:
+        case antikoeko:
         {
-          written += append_to_CondLine(&CondLine,written,"%c",' ');
-          written += append_to_CondLine_walk(&CondLine,written,pp);
-        }
-      }
+          PieNam koekop = King;
+          nocontactfunc_t const nocontactfunc = cond==koeko ? koeko_nocontact : antikoeko_nocontact;
+          if (nocontactfunc == noknightcontact)
+            koekop= Knight;
+          if (nocontactfunc == nowazircontact)
+            koekop= Wesir;
+          if (nocontactfunc == noferscontact)
+            koekop= Fers;
+          if (nocontactfunc == nodabbabacontact)
+            koekop= Dabbaba;
+          if (nocontactfunc == noalfilcontact)
+            koekop= Alfil;
+          if (nocontactfunc == nocamelcontact)
+            koekop= Camel;
+          if (nocontactfunc == nozebracontact)
+            koekop= Zebra;
+          if (nocontactfunc == nogiraffecontact)
+            koekop= Giraffe;
+          if (nocontactfunc == noantelopecontact)
+            koekop= Antilope;
 
-      if (strlen(CondLine) <= strlen(CondTab[promotiononly])) {
-        /* due to zeroposition, where pieces_pawns_promotee_sequence is not */
-        /* set (it's set in verifieposition), I suppress  */
-        /* output of promotiononly for now.  */
-        continue;
-      }
-    }
+          written = 0;
 
-    if (cond == football)
-    {
-      PieNam pp= Empty;
-      while (true)
-      {
-        pp = next_football_substitute[pp];
-        if (pp==Empty)
+          if (koekop!=King)
+          {
+            written += append_to_CondLine_walk(&CondLine,written,koekop);
+            written += append_to_CondLine(&CondLine,written,"%c",'-');
+          }
+
+          written += append_to_CondLine(&CondLine,written,"%s", CondTab[cond]);
           break;
-        else
+        }
+
+        case BGL:
         {
-          written += append_to_CondLine(&CondLine,written,"%c",' ');
-          written += append_to_CondLine_walk(&CondLine,written,pp);
+          char buf[12];
+
+          WriteBGLNumber(buf, BGL_values[White]);
+          written += append_to_CondLine(&CondLine,written," %s", buf);
+
+          if (!BGL_global)
+          {
+            WriteBGLNumber(buf, BGL_values[Black]);
+            written += append_to_CondLine(&CondLine,written,"/%s",buf);
+          }
+          break;
         }
-      }
-      if (strlen(CondLine) <= strlen(CondTab[football])) {
-        /* due to zeroposition, where pieces_pawns_promotee_sequence is not */
-        /* set (it's set in verifieposition), I suppress  */
-        /* output of promotiononly for now.  */
-        continue;
-      }
-    }
 
-    if (cond == imitators)
-    {
-      unsigned int imi_idx;
-      for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
-        written += append_to_CondLine_square(&CondLine,written,isquare[imi_idx]);
-    }
-
-    if (cond == noiprom && !CondFlag[imitators])
-      continue;
-
-    if (cond == magicsquare) {
-      square  i;
-      if (magic_square_type==ConditionType2)
-        written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
-
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], MagicSq))
-          written += append_to_CondLine_square(&CondLine,written,i);
-      }
-    }
-    if (cond == whforsqu || cond == whconforsqu)
-    {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhForcedSq))
-          written += append_to_CondLine_square(&CondLine,written,i);
-      }
-    }
-    if (cond == blforsqu || cond == blconforsqu) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlForcedSq))
-          written += append_to_CondLine_square(&CondLine,written,i);
-      }
-    }
-
-    if (cond == whprom_sq) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], WhPromSq))
-          written += append_to_CondLine_square(&CondLine,written,i);
-      }
-    }
-    if (cond == blprom_sq) {
-      square  i;
-      for (i= square_a1; i <= square_h8; i++) {
-        if (TSTFLAG(sq_spec[i], BlPromSq))
-          written += append_to_CondLine_square(&CondLine,written,i);
-      }
-    }
-
-    if (cond == blroyalsq)
-      written += append_to_CondLine_square(&CondLine,written,royal_square[Black]);
-
-    if (cond == whroyalsq)
-      written += append_to_CondLine_square(&CondLine,written,royal_square[White]);
-
-    if (cond==wormholes)
-    {
-      square i;
-      for (i = square_a1; i<=square_h8; ++i)
-        if (TSTFLAG(sq_spec[i],Wormhole))
-          written += append_to_CondLine_square(&CondLine,written,i);
-    }
-
-    if (cond==circe)
-      written = append_circe_variants(&circe_variant,&CondLine,written);
-
-    if ((cond == madras && madrasi_is_rex_inclusive)
-        || (cond==phantom && phantom_chess_rex_inclusive)
-        || (cond==geneva && geneva_variant.is_rex_inclusive)
-        || (cond==immun && immune_variant.is_rex_inclusive)
-        || (cond==circe && circe_variant.is_rex_inclusive))
-      written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
-
-    if ((messigny_rex_exclusive && cond == messigny)
-        || (woozles_rex_exclusive
-            && (cond==woozles || cond==biwoozles
-                || cond==heffalumps || cond==biheffalumps)))
-      written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
-
-    if (protean_is_rex_exclusive && cond==protean)
-      written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
-
-    if ((cond==chameleonsequence || cond==chamchess)
-        && !chameleon_is_squence_implicit)
-      written += append_to_CondLine_chameleon_sequence(&CondLine,written,
-                                                       chameleon_walk_sequence);
-
-    if (cond==isardam && isardam_variant==ConditionTypeB)
-      written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
-
-    if (cond == annan)
-    {
-      switch (annan_type)
-      {
-        case ConditionTypeA:
+        case kobulkings:
+        {
+          if (!kobul_who[White])
+            written += append_to_CondLine(&CondLine,written," %s","Black");
+          if (!kobul_who[Black])
+            written += append_to_CondLine(&CondLine,written," %s","White");
           break;
-        case ConditionTypeB:
-          written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+        }
+
+        case whvault_king:
+        case vault_king:
+        {
+          if (nr_king_vaulters[White]!=1 || king_vaulters[White][0]!=EquiHopper)
+            written += WriteWalks(CondLine+written,king_vaulters[White],nr_king_vaulters[White]);
+          if (vaulting_kings_transmuting[White])
+          {
+            written += append_to_CondLine(&CondLine,written,"%c",'-');
+            written += append_to_CondLine_walk(&CondLine,written,King);
+          }
           break;
-        case ConditionTypeC:
-          written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
+        }
+        case blvault_king:
+        {
+          if (nr_king_vaulters[Black]!=1 || king_vaulters[Black][0]!=EquiHopper)
+            written += WriteWalks(CondLine+written,king_vaulters[Black],nr_king_vaulters[Black]);
+          if (vaulting_kings_transmuting[Black])
+          {
+            written += append_to_CondLine(&CondLine,written,"%c",'-');
+            written += append_to_CondLine_walk(&CondLine,written,King);
+          }
           break;
-        case ConditionTypeD:
-          written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeD]);
+        }
+
+        case promotiononly:
+        {
+          PieNam pp = Empty;
+          while (true)
+          {
+            pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp];
+            if (pp==Empty)
+              break;
+            else
+            {
+              written += append_to_CondLine(&CondLine,written,"%c",' ');
+              written += append_to_CondLine_walk(&CondLine,written,pp);
+            }
+          }
+
+          if (strlen(CondLine) <= strlen(CondTab[promotiononly]))
+            /* due to zeroposition, where pieces_pawns_promotee_sequence is not */
+            /* set (it's set in verifieposition), I suppress  */
+            /* output of promotiononly for now.  */
+            continue;
+          else
+            break;
+        }
+
+        case football:
+        {
+          PieNam pp= Empty;
+          while (true)
+          {
+            pp = next_football_substitute[pp];
+            if (pp==Empty)
+              break;
+            else
+            {
+              written += append_to_CondLine(&CondLine,written,"%c",' ');
+              written += append_to_CondLine_walk(&CondLine,written,pp);
+            }
+          }
+          if (strlen(CondLine) <= strlen(CondTab[football]))
+            /* due to zeroposition, where pieces_pawns_promotee_sequence is not */
+            /* set (it's set in verifieposition), I suppress  */
+            /* output of promotiononly for now.  */
+            continue;
+          else
+            break;
+        }
+
+        case imitators:
+        {
+          unsigned int imi_idx;
+          for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
+            written += append_to_CondLine_square(&CondLine,written,isquare[imi_idx]);
+          break;
+        }
+
+        case noiprom:
+          if (!CondFlag[imitators])
+            continue;
+          break;
+
+        case magicsquare:
+        {
+          square i;
+          if (magic_square_type==ConditionType2)
+            written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
+
+          for (i= square_a1; i <= square_h8; i++) {
+            if (TSTFLAG(sq_spec[i], MagicSq))
+              written += append_to_CondLine_square(&CondLine,written,i);
+          }
+          break;
+        }
+
+        case whforsqu:
+        case whconforsqu:
+        {
+          square  i;
+          for (i= square_a1; i <= square_h8; i++) {
+            if (TSTFLAG(sq_spec[i], WhForcedSq))
+              written += append_to_CondLine_square(&CondLine,written,i);
+          }
+          break;
+        }
+        case blforsqu:
+        case blconforsqu:
+        {
+          square  i;
+          for (i= square_a1; i <= square_h8; i++) {
+            if (TSTFLAG(sq_spec[i], BlForcedSq))
+              written += append_to_CondLine_square(&CondLine,written,i);
+          }
+          break;
+        }
+
+        case whprom_sq:
+        {
+          square  i;
+          for (i= square_a1; i <= square_h8; i++) {
+            if (TSTFLAG(sq_spec[i], WhPromSq))
+              written += append_to_CondLine_square(&CondLine,written,i);
+          }
+          break;
+        }
+        case blprom_sq:
+        {
+          square  i;
+          for (i= square_a1; i <= square_h8; i++) {
+            if (TSTFLAG(sq_spec[i], BlPromSq))
+              written += append_to_CondLine_square(&CondLine,written,i);
+          }
+          break;
+        }
+
+        case blroyalsq:
+          written += append_to_CondLine_square(&CondLine,written,royal_square[Black]);
+          break;
+        case whroyalsq:
+          written += append_to_CondLine_square(&CondLine,written,royal_square[White]);
+          break;
+
+        case wormholes:
+        {
+          square i;
+          for (i = square_a1; i<=square_h8; ++i)
+            if (TSTFLAG(sq_spec[i],Wormhole))
+              written += append_to_CondLine_square(&CondLine,written,i);
+          break;
+        }
+
+        case madras:
+          if (madrasi_is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
+          break;
+
+        case geneva:
+          if (geneva_variant.is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
+          written = append_circe_variants(&geneva_variant,&CondLine,written);
+          break;
+
+        case immun:
+          if (immune_variant.is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
+          written = append_circe_variants(&immune_variant,&CondLine,written);
+          break;
+
+        case circe:
+          written = append_circe_variants(&circe_variant,&CondLine,written);
+          if (circe_variant.is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
+          break;
+
+        case messigny:
+          if (messigny_rex_exclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
+          break;
+
+        case woozles:
+        case biwoozles:
+        case heffalumps:
+        case biheffalumps:
+          if (woozles_rex_exclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
+          break;
+
+        case protean:
+          if (protean_is_rex_exclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
+          break;
+
+        case chameleonsequence:
+        case chamchess:
+          if (!chameleon_is_squence_implicit)
+            written += append_to_CondLine_chameleon_sequence(&CondLine,written,
+                                                             chameleon_walk_sequence);
+          break;
+
+        case isardam:
+          if (isardam_variant==ConditionTypeB)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+          break;
+
+        case annan:
+          switch (annan_type)
+          {
+            case ConditionTypeA:
+              break;
+            case ConditionTypeB:
+              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+              break;
+            case ConditionTypeC:
+              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
+              break;
+            case ConditionTypeD:
+              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeD]);
+              break;
+
+            default:
+              assert(0);
+              break;
+          }
+          break;
+
+        case gridchess:
+          if (OptFlag[suppressgrid])
+            switch (grid_type)
+            {
+              case grid_normal:
+                /* nothing */
+                break;
+              case grid_vertical_shift:
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRank]);
+                break;
+              case grid_horizontal_shift:
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftFile]);
+                break;
+              case grid_diagonal_shift:
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRankFile]);
+                break;
+              case grid_orthogonal_lines:
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantOrthogonal]);
+                /* to do - write lines */
+                break;
+              case grid_irregular:
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantIrregular]);
+                /* to do - write squares */
+                break;
+            }
+          break;
+
+        case white_oscillatingKs:
+          if (OscillatingKings[White]==ConditionTypeB)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+          if (OscillatingKings[White]==ConditionTypeC && !CondFlag[swappingkings])
+            written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
+          break;
+
+        case black_oscillatingKs:
+          if (OscillatingKings[Black]==ConditionTypeB)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+          if (OscillatingKings[Black]==ConditionTypeC && !CondFlag[swappingkings])
+            written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
+          break;
+
+        case singlebox:
+          if (SingleBoxType==ConditionType1)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
+          if (SingleBoxType==ConditionType2)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
+          if (SingleBoxType==ConditionType3)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType3]);
+          break;
+
+        case republican:
+          if (RepublicanType==ConditionType1)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
+          if (RepublicanType==ConditionType2)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
+          break;
+
+        case SAT:
+        case strictSAT:
+          if (SAT_max_nr_allowed_flights[White]!=1
+              || SAT_max_nr_allowed_flights[Black]!=1)
+          {
+            char const roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
+            written += append_to_CondLine(&CondLine,written," %s", roman[SAT_max_nr_allowed_flights[White]-1]);
+            if (SAT_max_nr_allowed_flights[White] != SAT_max_nr_allowed_flights[Black])
+              written += append_to_CondLine(&CondLine,written,"/%s",roman[SAT_max_nr_allowed_flights[Black]-1]);
+          }
+          break;
+
+        case anticirce:
+          written = append_circe_variants(&anticirce_variant,&CondLine,written);
           break;
 
         default:
-          assert(0);
           break;
       }
+
+      (*WriteCondition)(CondLine,!result);
+
+      result = true;
     }
 
-    if (cond == gridchess && OptFlag[suppressgrid])
-    {
-      switch (grid_type)
-      {
-        case grid_normal:
-          /* nothing */
-          break;
-        case grid_vertical_shift:
-          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRank]);
-          break;
-        case grid_horizontal_shift:
-          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftFile]);
-          break;
-        case grid_diagonal_shift:
-          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRankFile]);
-          break;
-        case grid_orthogonal_lines:
-          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantOrthogonal]);
-          /* to do - write lines */
-          break;
-        case grid_irregular:
-          written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantIrregular]);
-          /* to do - write squares */
-          break;
-      }
-    }
-
-    if (cond==white_oscillatingKs && OscillatingKings[White]==ConditionTypeB)
-      written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
-
-    if (cond==black_oscillatingKs && OscillatingKings[Black]==ConditionTypeB)
-      written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
-
-    if (cond==white_oscillatingKs
-        && OscillatingKings[White]==ConditionTypeC
-        && ! CondFlag[swappingkings])
-      written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
-
-    if (cond==black_oscillatingKs
-        && OscillatingKings[Black]==ConditionTypeC
-        && !CondFlag[swappingkings])
-      written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
-
-    if (cond==singlebox)
-    {
-      if (SingleBoxType==ConditionType1)
-        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
-      if (SingleBoxType==ConditionType2)
-        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
-      if (SingleBoxType==ConditionType3)
-        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType3]);
-    }
-
-    if (cond == republican)
-    {
-      if (RepublicanType==ConditionType1)
-        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
-      if (RepublicanType==ConditionType2)
-        written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
-    }
-
-    if (cond == sentinelles)
-    {
-      if (sentinelle_walk == BerolinaPawn)
-        written += append_to_CondLine(&CondLine,written," %s","Berolina");
-      if (sentinelles_pawn_mode==sentinelles_pawn_adverse)
-        written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionAdverse]);
-      if (sentinelles_pawn_mode==sentinelles_pawn_neutre)
-        written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionNeutral]);
-      if (sentinelles_max_nr_pawns[Black] !=8 || sentinelles_max_nr_pawns[White] != 8)
-      {
-        written += append_to_CondLine(&CondLine,written," %u",sentinelles_max_nr_pawns[White]);
-        written += append_to_CondLine(&CondLine,written,"/%u",sentinelles_max_nr_pawns[Black]);
-      }
-      if (sentinelles_max_nr_pawns_total != 16)
-        written += append_to_CondLine(&CondLine,written," //%u", sentinelles_max_nr_pawns_total);
-    }
-
-    if ((cond==SAT || cond==strictSAT)
-        && (SAT_max_nr_allowed_flights[White]!=1
-            || SAT_max_nr_allowed_flights[Black]!=1)) {
-      char const roman[][9] = {"","I","II","III","IV","V","VI","VII","VIII"};
-      written += append_to_CondLine(&CondLine,written," %s", roman[SAT_max_nr_allowed_flights[White]-1]);
-      if (SAT_max_nr_allowed_flights[White] != SAT_max_nr_allowed_flights[Black])
-        written += append_to_CondLine(&CondLine,written,"/%s",roman[SAT_max_nr_allowed_flights[Black]-1]);
-    }
-
-    switch (cond)
-    {
-      case anticirce:
-        written = append_circe_variants(&anticirce_variant,&CondLine,written);
-        break;
-
-      case immun:
-        written = append_circe_variants(&immune_variant,&CondLine,written);
-        break;
-
-      case geneva:
-        written = append_circe_variants(&geneva_variant,&CondLine,written);
-        break;
-
-      case blmax:
-      case blmin:
-      case blcapt:
-        if (mummer_strictness[Black]>mummer_strictness_regular)
-        {
-          if (mummer_strictness[Black]==mummer_strictness_ultra)
-            written += append_to_CondLine(&CondLine,written,"  %s",mummer_strictness_tab[mummer_strictness_ultra]);
-          else
-            written += append_to_CondLine(&CondLine,written,"  %s",mummer_strictness_tab[mummer_strictness_exact]);
-        }
-        break;
-
-      case whmax:
-      case whmin:
-      case whcapt:
-        if (mummer_strictness[White]>mummer_strictness_regular)
-        {
-          if (mummer_strictness[White]==mummer_strictness_ultra)
-            written += append_to_CondLine(&CondLine,written,"  %s",mummer_strictness_tab[mummer_strictness_ultra]);
-          else
-            written += append_to_CondLine(&CondLine,written,"  %s",mummer_strictness_tab[mummer_strictness_exact]);
-        }
-        break;
-
-      default:
-        break;
-    }
-
-    (*WriteCondition)(CondLine,!CondPrinted);
-
-    CondPrinted= true;
-  }
-
-  return CondPrinted;
+  return result;
 }
