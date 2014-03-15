@@ -3,8 +3,6 @@
 boolean CondFlag[CondCount];
 boolean ExtraCondFlag[ExtraCondCount];
 
-boolean anygeneva;
-
 square royal_square[nr_sides];
 
 boolean anymars;

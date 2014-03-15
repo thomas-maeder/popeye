@@ -6,7 +6,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
-boolean rex_geneva;
+circe_variant_type geneva_variant;
 
 static boolean is_capture_legal(numecoup n)
 {
@@ -18,7 +18,7 @@ static boolean is_capture_legal(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (rex_geneva || sq_departure!=king_square[side_capturing])
+  if (geneva_variant.is_rex_inclusive || sq_departure!=king_square[side_capturing])
   {
     square const sq_rebirth = rennormal(get_walk_of_piece_on_square(sq_departure),
                                         spec[sq_departure],

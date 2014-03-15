@@ -848,7 +848,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[nowhiteprom] || CondFlag[noblackprom])
     stip_insert_nopromotions(result);
 
-  if (anygeneva)
+  if (CondFlag[geneva])
     geneva_initialise_solving(result);
 
   if (CondFlag[contactgrid])

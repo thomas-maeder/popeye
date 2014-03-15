@@ -497,7 +497,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
     if ((cond == madras && madrasi_is_rex_inclusive)
         || (cond==phantom && phantom_chess_rex_inclusive)
-        || (cond==geneva && rex_geneva)
+        || (cond==geneva && geneva_variant.is_rex_inclusive)
         || (cond==immun && immune_variant.is_rex_inclusive)
         || (cond==circe && circe_variant.is_rex_inclusive))
       written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
@@ -636,6 +636,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
       case immun:
         written = append_circe_variants(&immune_variant,&CondLine,written);
+        break;
+
+      case geneva:
+        written = append_circe_variants(&geneva_variant,&CondLine,written);
         break;
 
       case blmax:

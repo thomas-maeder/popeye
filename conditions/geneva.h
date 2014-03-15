@@ -2,11 +2,12 @@
 #define CONDITIONS_GENEVA_H
 
 #include "stipulation/stipulation.h"
+#include "conditions/circe/circe.h"
 #include "utilities/boolean.h"
 
 /* This module implements the condition Geneva Chess */
 
-extern boolean rex_geneva;
+extern circe_variant_type geneva_variant;
 
 /* Validate an observation according to Geneva Chess
  * @return true iff the observation is valid

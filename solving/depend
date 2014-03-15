@@ -2038,7 +2038,7 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/bicolores.h conditions/brunner.h \
  conditions/central.h conditions/disparate.h conditions/geneva.h \
- conditions/imitator.h conditions/immune.h conditions/circe/circe.h \
+ conditions/circe/circe.h conditions/imitator.h conditions/immune.h \
  conditions/lortap.h conditions/mummer.h conditions/patrol.h \
  conditions/provocateurs.h conditions/shielded_kings.h \
  conditions/superguards.h conditions/woozles.h conditions/wormhole.h \
@@ -2113,11 +2113,11 @@ conditions/disparate.h:
 
 conditions/geneva.h:
 
+conditions/circe/circe.h:
+
 conditions/imitator.h:
 
 conditions/immune.h:
-
-conditions/circe/circe.h:
 
 conditions/lortap.h:
 

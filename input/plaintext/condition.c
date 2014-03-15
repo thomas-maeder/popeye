@@ -1321,11 +1321,6 @@ char *ParseCond(void)
         ReadSquares(BlPromSq);
         break;
 
-        /*****  different types of geneva chess   *****/
-      case geneva:
-        anygeneva= true;
-        break;
-
       default:
         break;
     }
@@ -1634,7 +1629,7 @@ char *ParseCond(void)
         break;
       case geneva:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&rex_geneva, rexincl);
+        tok = ParseRex(tok,&geneva_variant.is_rex_inclusive, rexincl);
         break;
       case whvault_king:
         tok = ParseVaultingPieces(White);
@@ -1670,11 +1665,11 @@ void InitCond(void)
 
   anymars = false;
   anyantimars = false;
-  anygeneva = false;
 
   circe_reset_variant(&circe_variant);
   anticirce_reset_variant(&anticirce_variant);
   circe_reset_variant(&immune_variant);
+  circe_reset_variant(&geneva_variant);
 
   circe_assassin_use_whom = circe_assassin_use_none;
 
@@ -1686,7 +1681,6 @@ void InitCond(void)
   sentinelles_is_para= false;
   madrasi_is_rex_inclusive = false;
   phantom_chess_rex_inclusive = false;
-  rex_geneva =false;
   messigny_rex_exclusive = false;
   woozles_rex_exclusive = false;
   protean_is_rex_exclusive = false;

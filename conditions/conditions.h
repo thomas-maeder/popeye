@@ -247,8 +247,6 @@ typedef enum
 extern boolean CondFlag[CondCount];
 extern boolean ExtraCondFlag[ExtraCondCount];
 
-extern boolean anyclone, anygeneva;
-
 extern square royal_square[nr_sides];
 
 extern boolean anymars;
