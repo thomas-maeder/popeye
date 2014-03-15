@@ -261,7 +261,14 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         || cond==antimirrorfile
         || cond==antiantipoden
         || cond==antiequipollents
-        || cond==anticlonecirce)
+        || cond==anticlonecirce
+        || cond==immunmirror
+        || cond==immunfile
+        || cond==immundiagramm
+        || cond==immunmirrorfile
+        || cond==immunsymmetry
+        || cond==immunantipoden
+        || cond==immunequipollents)
       continue;
 
     /* WhiteOscillatingKings TypeC + BlackOscillatingKings TypeC == SwappingKings */
@@ -489,16 +496,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       written = append_circe_variants(&circe_variant,&CondLine,written);
 
     if ((cond == madras && madrasi_is_rex_inclusive)
-        || (cond == phantom && phantom_chess_rex_inclusive)
-        || (cond == geneva && rex_geneva)
-        || (immune_is_rex_inclusive
-            && (cond == immun
-                || cond == immunmirror
-                || cond == immundiagramm))
-        || (circe_variant.is_rex_inclusive
-            && (cond == circe
-                || cond == circediametral
-                || cond == circemirrorvertical)))
+        || (cond==phantom && phantom_chess_rex_inclusive)
+        || (cond==geneva && rex_geneva)
+        || (cond==immun && immune_variant.is_rex_inclusive)
+        || (cond==circe && circe_variant.is_rex_inclusive))
       written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
 
     if ((messigny_rex_exclusive && cond == messigny)
@@ -631,6 +632,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     {
       case anticirce:
         written = append_circe_variants(&anticirce_variant,&CondLine,written);
+        break;
+
+      case immun:
+        written = append_circe_variants(&immune_variant,&CondLine,written);
         break;
 
       case blmax:

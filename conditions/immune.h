@@ -4,6 +4,7 @@
 /* This module implements the condition Immune Chess */
 
 #include "pieces/pieces.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 #include "position/board.h"
@@ -14,7 +15,7 @@
  */
 extern square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 
-extern boolean immune_is_rex_inclusive;
+extern circe_variant_type immune_variant;
 
 /* Validate an observation according to Immune Chess
  * @return true iff the observation is valid

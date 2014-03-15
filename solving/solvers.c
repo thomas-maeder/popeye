@@ -830,7 +830,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[provocateurs])
     provocateurs_initialise_solving(result);
 
-  if (anyimmun)
+  if (CondFlag[immun])
     immune_initialise_solving(result);
 
   if (CondFlag[woozles])

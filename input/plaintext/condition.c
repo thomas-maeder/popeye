@@ -1258,36 +1258,34 @@ char *ParseCond(void)
         break;
 
         /* different types of immunchess */
-      case immun:
-        anyimmun= true;
-        break;
       case immunmirror:
-        immunrenai= renspiegel_polymorphic;
-        anyimmun= true;
+        CondFlag[immun] = true;
+        immune_variant.is_mirror = true;
         break;
       case immunfile:
-        immunrenai= renfile_polymorphic;
-        anyimmun= true;
+        CondFlag[immun] = true;
+        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
         break;
       case immundiagramm:
-        immunrenai= rendiagramm_polymorphic;
-        anyimmun= true;
+        CondFlag[immun] = true;
+        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
         break;
       case immunmirrorfile:
-        immunrenai= renspiegelfile_polymorphic;
-        anyimmun= true;
+        CondFlag[immun] = true;
+        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+        immune_variant.is_mirror = true;
         break;
       case immunsymmetry:
-        immunrenai= rensymmetrie_polymorphic;
-        anyimmun= true;
+        CondFlag[immun] = true;
+        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
         break;
       case immunantipoden:
-        immunrenai= renantipoden_polymorphic;
-        anyimmun= true;
+        CondFlag[immun] = true;
+        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
         break;
       case immunequipollents:
-        immunrenai= renequipollents_polymorphic;
-        anyimmun= true;
+        CondFlag[immun] = true;
+        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
         break;
 
         /* different types of mars circe */
@@ -1346,10 +1344,12 @@ char *ParseCond(void)
         tok = ParseRex(tok,&woozles_rex_exclusive, rexexcl);
         break;
       case immun:
+        tok = ParseCirceVariants(&immune_variant);
+        break;
       case immunmirror:
       case immundiagramm:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&immune_is_rex_inclusive, rexincl);
+        tok = ParseRex(tok,&immune_variant.is_rex_inclusive, rexincl);
         break;
       case circechameleon:
         chameleon_reset_sequence(&chameleon_circe_is_squence_implicit,
@@ -1668,17 +1668,16 @@ void InitCond(void)
   mummer_strictness[White] = mummer_strictness_none;
   mummer_strictness[Black] = mummer_strictness_none;
 
-  anyimmun = false;
   anymars = false;
   anyantimars = false;
   anygeneva = false;
 
   circe_reset_variant(&circe_variant);
   anticirce_reset_variant(&anticirce_variant);
+  circe_reset_variant(&immune_variant);
 
   circe_assassin_use_whom = circe_assassin_use_none;
 
-  immunrenai = rennormal_polymorphic;
   marscirce_determine_rebirth_square = rennormal_polymorphic;
 
   royal_square[White] = initsquare;
@@ -1686,8 +1685,6 @@ void InitCond(void)
 
   sentinelles_is_para= false;
   madrasi_is_rex_inclusive = false;
-  circe_variant.is_rex_inclusive = false;
-  immune_is_rex_inclusive = false;
   phantom_chess_rex_inclusive = false;
   rex_geneva =false;
   messigny_rex_exclusive = false;

@@ -1833,7 +1833,7 @@ static boolean verify_position(slice_index si)
   if ((royal_square[Black]!=initsquare || royal_square[White]!=initsquare
        || CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs]
        || circe_variant.is_rex_inclusive
-       || immune_is_rex_inclusive
+       || immune_variant.is_rex_inclusive
        || TSTFLAG(some_pieces_flags,Royal))
       && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
   {
@@ -1898,7 +1898,7 @@ static boolean verify_position(slice_index si)
     flagfee = true;
   }
 
-  if (anyimmun && immune_is_rex_inclusive)
+  if (CondFlag[immun] && immune_variant.is_rex_inclusive)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if (CondFlag[imitators])
@@ -1912,7 +1912,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[blackedge] || CondFlag[whiteedge]
         || CondFlag[geneva]
         || CondFlag[chinoises]
-        || anyimmun
+        || CondFlag[immun]
         || CondFlag[haanerchess]
         || CondFlag[sting])
     {
@@ -2315,13 +2315,13 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (circe_variant.is_rex_inclusive && immune_is_rex_inclusive)
+  if (circe_variant.is_rex_inclusive && immune_variant.is_rex_inclusive)
   {
     VerifieMsg(RexCirceImmun);
     return false;
   }
 
-  if (immune_is_rex_inclusive && CondFlag[anticirce])
+  if (immune_variant.is_rex_inclusive && CondFlag[anticirce])
   {
     VerifieMsg(SomeCondAndAntiCirce);
     return false;

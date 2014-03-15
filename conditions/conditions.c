@@ -3,7 +3,7 @@
 boolean CondFlag[CondCount];
 boolean ExtraCondFlag[ExtraCondCount];
 
-boolean anyimmun, anygeneva;
+boolean anygeneva;
 
 square royal_square[nr_sides];
 

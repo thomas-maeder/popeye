@@ -9,7 +9,7 @@
 
 square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 
-boolean immune_is_rex_inclusive;
+circe_variant_type immune_variant;
 
 static boolean is_capturee_not_immune(numecoup n)
 {
@@ -55,7 +55,7 @@ boolean immune_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (immune_is_rex_inclusive
+  if (immune_variant.is_rex_inclusive
       || sq_capture!=king_square[advers(side_observing)])
     result = is_capturee_not_immune(CURRMOVE_OF_PLY(nbply));
   else
@@ -141,6 +141,33 @@ void immune_initialise_solving(slice_index si)
 
   stip_instrument_observation_validation(si,nr_sides,STImmuneRemoveCapturesOfImmune);
   stip_instrument_check_validation(si,nr_sides,STImmuneRemoveCapturesOfImmune);
+
+  if (immune_variant.is_mirror)
+    immunrenai = renspiegel_polymorphic;
+  else
+    switch (immune_variant.determine_rebirth_square)
+    {
+      case circe_determine_rebirth_square_file:
+        immunrenai = (immune_variant.is_mirror
+                      ? renspiegelfile_polymorphic
+                      : renfile_polymorphic);
+        break;
+      case circe_determine_rebirth_square_diagram:
+        immunrenai = rendiagramm_polymorphic;
+        break;
+      case circe_determine_rebirth_square_symmetry:
+        immunrenai = rensymmetrie_polymorphic;
+        break;
+      case circe_determine_rebirth_square_antipodes:
+        immunrenai = renantipoden_polymorphic;
+        break;
+      case circe_determine_rebirth_square_equipollents:
+        immunrenai = renequipollents_polymorphic;
+        break;
+      default:
+        immunrenai = rennormal_polymorphic;
+        break;
+    }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

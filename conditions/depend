@@ -255,7 +255,7 @@ conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \
  stipulation/proxy.h stipulation/pipe.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/boolean/true.h \
  stipulation/has_solution_type.h stipulation/goals/check/reached_tester.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 conditions/check_zigzag.h:
 
@@ -312,8 +312,6 @@ stipulation/has_solution_type.h:
 stipulation/goals/check/reached_tester.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
@@ -3085,13 +3083,13 @@ debugging/trace.h:
 
 debugging/assert.h:
 conditions/immune$(OBJ_SUFFIX): conditions/immune.c conditions/immune.h \
- pieces/pieces.h utilities/boolean.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h utilities/enumeration.h position/position.h \
- pieces/walks/vectors.h output/mode.h pieces/walks/pawns/en_passant.h \
- solving/solve.h solving/move_effect_journal.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h solving/observation.h \
- stipulation/temporary_hacks.h stipulation/pipe.h \
+ pieces/pieces.h utilities/boolean.h conditions/circe/circe.h \
+ solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h stipulation/slice_type.h \
+ utilities/enumeration.h position/position.h pieces/walks/vectors.h \
+ output/mode.h solving/move_effect_journal.h solving/castling_rights.h \
+ solving/ply.h position/pieceid.h pieces/walks/pawns/en_passant.h \
+ solving/observation.h stipulation/temporary_hacks.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/branch.h solving/move_generator.h \
  debugging/trace.h
@@ -3101,6 +3099,10 @@ conditions/immune.h:
 pieces/pieces.h:
 
 utilities/boolean.h:
+
+conditions/circe/circe.h:
+
+solving/solve.h:
 
 stipulation/stipulation.h:
 
@@ -3120,10 +3122,6 @@ pieces/walks/vectors.h:
 
 output/mode.h:
 
-pieces/walks/pawns/en_passant.h:
-
-solving/solve.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
@@ -3131,6 +3129,8 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+pieces/walks/pawns/en_passant.h:
 
 solving/observation.h:
 

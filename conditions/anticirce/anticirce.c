@@ -32,6 +32,7 @@ void anticirce_reset_variant(circe_variant_type *variant)
   variant->determine_rebirth_square = circe_determine_rebirth_square_from_pas;
   variant->is_frischauf = false;
   variant->anticirce_type = anticirce_type_count;
+  variant->is_rex_inclusive = true;
 }
 
 /* Initialise the Anticirce machinery from the capture in a particular ply

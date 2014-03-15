@@ -8,8 +8,7 @@ solving/testers$(OBJ_SUFFIX): solving/testers.c solving/testers.h \
  stipulation/if_then_else.h stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/conditional_pipe.h stipulation/branch.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 solving/testers.h:
 
@@ -66,8 +65,6 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
@@ -154,7 +151,7 @@ solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortes
  stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
  solving/find_by_increasing_length.h solving/fork_on_remaining.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 solving/find_shortest.h:
 
@@ -208,8 +205,6 @@ solving/fork_on_remaining.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_length.c \
  solving/find_by_increasing_length.h solving/solve.h \
@@ -219,8 +214,7 @@ solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_lengt
  pieces/walks/vectors.h output/mode.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/pipe.h stipulation/proxy.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 solving/find_by_increasing_length.h:
 
@@ -264,8 +258,6 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  solving/fork_on_remaining.h solving/solve.h stipulation/stipulation.h \
@@ -274,8 +266,7 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/has_solution_type.h stipulation/binary.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/traversal.h debugging/trace.h debugging/assert.h
 
 solving/fork_on_remaining.h:
 
@@ -315,8 +306,6 @@ stipulation/traversal.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  solving/play_suppressor.h solving/solve.h stipulation/stipulation.h \
@@ -325,7 +314,7 @@ solving/play_suppressor$(OBJ_SUFFIX): solving/play_suppressor.c \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/battle_play/branch.h \
- debugging/trace.h solving/ply.h
+ debugging/trace.h
 
 solving/play_suppressor.h:
 
@@ -364,8 +353,6 @@ stipulation/traversal.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/move_generator.h solving/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1037,7 +1024,7 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/proxy.h stipulation/branch.h stipulation/binary.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 solving/avoid_unsolvable.h:
 
@@ -1087,8 +1074,6 @@ stipulation/help_play/branch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  solving/selfcheck_guard.h solving/solve.h stipulation/stipulation.h \
@@ -1101,7 +1086,7 @@ solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  stipulation/boolean/true.h \
  stipulation/goals/doublestalemate/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/check.h debugging/trace.h solving/ply.h debugging/assert.h
+ solving/check.h debugging/trace.h debugging/assert.h
 
 solving/selfcheck_guard.h:
 
@@ -1156,8 +1141,6 @@ stipulation/help_play/branch.h:
 solving/check.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 solving/post_move_iteration$(OBJ_SUFFIX): solving/post_move_iteration.c \
@@ -1238,9 +1221,10 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/circe/parachute.h conditions/exclusive.h utilities/table.h \
  conditions/extinction.h conditions/ohneschach.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
- conditions/immune.h conditions/provocateurs.h conditions/lortap.h \
- conditions/patrol.h conditions/monochrome.h solving/move_generator.h \
- conditions/bichrome.h conditions/ultraschachzwang/legality_tester.h \
+ conditions/immune.h conditions/circe/circe.h conditions/provocateurs.h \
+ conditions/lortap.h conditions/patrol.h conditions/monochrome.h \
+ solving/move_generator.h conditions/bichrome.h \
+ conditions/ultraschachzwang/legality_tester.h \
  conditions/singlebox/type1.h conditions/conditions.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
  conditions/singlebox/type3.h solving/observation.h \
@@ -1249,29 +1233,28 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/messigny.h conditions/oscillating_kings.h \
  conditions/actuated_revolving_centre.h \
  conditions/actuated_revolving_board.h conditions/republican.h \
- conditions/circe/capture_fork.h conditions/circe/circe.h \
- conditions/circe/cage.h conditions/circe/double_agents.h \
- conditions/circe/kamikaze.h conditions/circe/parrain.h \
- conditions/circe/volage.h conditions/anticirce/anticirce.h \
- conditions/anticirce/super.h conditions/anticirce/parrain.h \
- conditions/sentinelles.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/ghost_chess.h conditions/kobul.h \
- conditions/andernach.h conditions/antiandernach.h \
- conditions/chameleon_pursuit.h conditions/norsk.h conditions/protean.h \
- conditions/einstein/einstein.h conditions/einstein/reverse.h \
- conditions/einstein/anti.h conditions/einstein/en_passant.h \
- conditions/traitor.h conditions/volage.h conditions/magic_square.h \
- conditions/tibet.h conditions/degradierung.h \
- conditions/marscirce/phantom.h conditions/marscirce/anti.h \
- conditions/line_chameleon.h conditions/haan.h \
- conditions/castling_chess.h conditions/exchange_castling.h \
- conditions/transmuting_kings/super.h conditions/imitator.h \
- conditions/football.h conditions/mummer.h conditions/woozles.h \
- conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
- conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
- conditions/superguards.h conditions/wormhole.h conditions/backhome.h \
- conditions/shielded_kings.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/circe/capture_fork.h conditions/circe/cage.h \
+ conditions/circe/double_agents.h conditions/circe/kamikaze.h \
+ conditions/circe/parrain.h conditions/circe/volage.h \
+ conditions/anticirce/anticirce.h conditions/anticirce/super.h \
+ conditions/anticirce/parrain.h conditions/sentinelles.h \
+ conditions/duellists.h conditions/haunted_chess.h \
+ conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
+ conditions/antiandernach.h conditions/chameleon_pursuit.h \
+ conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
+ conditions/einstein/reverse.h conditions/einstein/anti.h \
+ conditions/einstein/en_passant.h conditions/traitor.h \
+ conditions/volage.h conditions/magic_square.h conditions/tibet.h \
+ conditions/degradierung.h conditions/marscirce/phantom.h \
+ conditions/marscirce/anti.h conditions/line_chameleon.h \
+ conditions/haan.h conditions/castling_chess.h \
+ conditions/exchange_castling.h conditions/transmuting_kings/super.h \
+ conditions/imitator.h conditions/football.h conditions/mummer.h \
+ conditions/woozles.h conditions/nocapture.h conditions/nopromotion.h \
+ conditions/geneva.h conditions/edgemover.h conditions/grid.h \
+ conditions/take_and_make.h conditions/superguards.h \
+ conditions/wormhole.h conditions/backhome.h conditions/shielded_kings.h \
+ optimisations/hash.h DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -1499,6 +1482,8 @@ conditions/owu/immobility_tester.h:
 
 conditions/immune.h:
 
+conditions/circe/circe.h:
+
 conditions/provocateurs.h:
 
 conditions/lortap.h:
@@ -1548,8 +1533,6 @@ conditions/actuated_revolving_board.h:
 conditions/republican.h:
 
 conditions/circe/capture_fork.h:
-
-conditions/circe/circe.h:
 
 conditions/circe/cage.h:
 
@@ -2055,16 +2038,16 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h conditions/bicolores.h conditions/brunner.h \
  conditions/central.h conditions/disparate.h conditions/geneva.h \
- conditions/imitator.h conditions/immune.h conditions/lortap.h \
- conditions/mummer.h conditions/patrol.h conditions/provocateurs.h \
- conditions/shielded_kings.h conditions/superguards.h \
- conditions/woozles.h conditions/wormhole.h conditions/madrasi.h \
- conditions/masand.h conditions/eiffel.h conditions/monochrome.h \
- solving/move_generator.h conditions/bichrome.h conditions/grid.h \
- conditions/edgemover.h conditions/annan.h conditions/conditions.h \
- conditions/facetoface.h conditions/marscirce/phantom.h \
- conditions/marscirce/plus.h conditions/marscirce/marscirce.h \
- conditions/singlebox/type3.h \
+ conditions/imitator.h conditions/immune.h conditions/circe/circe.h \
+ conditions/lortap.h conditions/mummer.h conditions/patrol.h \
+ conditions/provocateurs.h conditions/shielded_kings.h \
+ conditions/superguards.h conditions/woozles.h conditions/wormhole.h \
+ conditions/madrasi.h conditions/masand.h conditions/eiffel.h \
+ conditions/monochrome.h solving/move_generator.h conditions/bichrome.h \
+ conditions/grid.h conditions/edgemover.h conditions/annan.h \
+ conditions/conditions.h conditions/facetoface.h \
+ conditions/marscirce/phantom.h conditions/marscirce/plus.h \
+ conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
  conditions/transmuting_kings/vaulting_kings.h pieces/walks/hunters.h \
@@ -2133,6 +2116,8 @@ conditions/geneva.h:
 conditions/imitator.h:
 
 conditions/immune.h:
+
+conditions/circe/circe.h:
 
 conditions/lortap.h:
 
