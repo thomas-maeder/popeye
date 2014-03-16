@@ -3,6 +3,7 @@
 
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
+#include "stipulation/structure_traversal.h"
 #include "position/board.h"
 
 /* This module provides implements the promotion of the moving pawn
@@ -38,8 +39,28 @@ square find_potential_promotion_square(move_effect_journal_index_type base);
  */
 stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n);
 
-/* Instrument slices with promotee markers
+/* Start inserting according to the slice type order for promotion execution
+ * @param si identifies starting point of insertion
+ * @param st insertion traversal where we come from and will return to
+ * @param end_of_factored_order slice type where to return to insertion defined
+ *                              by st
  */
-void pieces_pawns_promotion_initialise_solving(slice_index si);
+void start_insertion_according_to_promotion_order(slice_index si,
+                                                  stip_structure_traversal *st,
+                                                  slice_type end_of_factored_order);
+
+/* Determine whether a slice type contributes to the execution of moves
+ * @param type slice type
+ * @return true iff type is a slice type that contributes to the execution of moves
+ */
+boolean is_promotion_slice_type(slice_type type);
+
+/* Instrument the solving machinery with the promotion of something other than
+ * the moving piece
+ * @param si identifies the root slice of the solving machinery
+ * @param hook_type type of slice marking a position where pawn promotion is
+ *                  required
+ */
+void pieces_pawns_promotion_insert_solvers(slice_index si, slice_type hook_type);
 
 #endif

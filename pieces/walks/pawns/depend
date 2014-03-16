@@ -173,10 +173,10 @@ pieces/walks/pawns/promotion$(OBJ_SUFFIX): pieces/walks/pawns/promotion.c \
  utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h pieces/walks/pawns/promotee_sequence.h \
- stipulation/has_solution_type.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/post_move_iteration.h debugging/trace.h \
+ position/pieceid.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h pieces/walks/pawns/promotee_sequence.h \
+ stipulation/has_solution_type.h stipulation/move.h stipulation/pipe.h \
+ stipulation/branch.h solving/post_move_iteration.h debugging/trace.h \
  debugging/assert.h
 
 pieces/walks/pawns/promotion.h:
@@ -213,17 +213,21 @@ solving/ply.h:
 
 position/pieceid.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
 pieces/walks/pawns/promotee_sequence.h:
 
 stipulation/has_solution_type.h:
 
 stipulation/move.h:
 
-stipulation/structure_traversal.h:
+stipulation/pipe.h:
 
-stipulation/slice.h:
-
-stipulation/traversal.h:
+stipulation/branch.h:
 
 solving/post_move_iteration.h:
 

@@ -205,11 +205,6 @@ void circe_initialise_solving(slice_index si);
  */
 void circe_instrument_solving(slice_index si, slice_type type);
 
-/* Instrument Circe rebirths with pawn promotion
- * @param si root slice
- */
-void circe_allow_pawn_promotion(slice_index si, slice_type hook_type);
-
 square rennormal_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square renspiegel_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
 square rendiagramm_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);

@@ -12,6 +12,7 @@
 #include "stipulation/move_played.h"
 #include "stipulation/binary.h"
 #include "stipulation/help_play/adapter.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -170,7 +171,9 @@ static void help_branch_insert_slices_impl(slice_index si,
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_help);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-  if (is_move_slice_type(slices[base].type))
+  if (is_promotion_slice_type(slices[base].type))
+    start_insertion_according_to_promotion_order(si,&st,STLandingAfterPawnPromotion);
+  else if (is_move_slice_type(slices[base].type))
     start_insertion_according_to_move_order(si,&st,STHelpMovePlayed);
   else
   {

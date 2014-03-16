@@ -6,6 +6,7 @@
 #include "stipulation/move.h"
 #include "solving/fork_on_remaining.h"
 #include "stipulation/pipe.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -403,6 +404,23 @@ static void insert_visit_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_visit_promotion(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    branch_slice_insertion_state_type const * const state = st->param;
+    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    if (!insert_before(si,rank,st))
+      start_insertion_according_to_promotion_order(si,st,STLandingAfterPawnPromotion);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_return_from_factored_order(slice_index si, stip_structure_traversal *st)
 {
   branch_slice_insertion_state_type * const state = st->param;
@@ -504,6 +522,7 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
   stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
   stip_structure_traversal_override_single(st,STMove,&insert_visit_move);
   stip_structure_traversal_override_single(st,STDummyMove,&insert_visit_move);
+  stip_structure_traversal_override_single(st,STBeforePawnPromotion,&insert_visit_promotion);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

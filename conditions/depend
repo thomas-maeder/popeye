@@ -255,7 +255,7 @@ conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \
  stipulation/proxy.h stipulation/pipe.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/boolean/true.h \
  stipulation/has_solution_type.h stipulation/goals/check/reached_tester.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 conditions/check_zigzag.h:
 
@@ -312,8 +312,6 @@ stipulation/has_solution_type.h:
 stipulation/goals/check/reached_tester.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
@@ -2232,9 +2230,9 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  utilities/enumeration.h position/position.h pieces/walks/vectors.h \
  output/mode.h pieces/walks/pawns/promotion.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h stipulation/has_solution_type.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/castling.h solving/move_generator.h \
+ position/pieceid.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/has_solution_type.h \
+ stipulation/move.h solving/castling.h solving/move_generator.h \
  solving/post_move_iteration.h solving/check.h debugging/trace.h \
  debugging/assert.h
 
@@ -2274,15 +2272,15 @@ solving/ply.h:
 
 position/pieceid.h:
 
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
-
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
 stipulation/traversal.h:
+
+stipulation/has_solution_type.h:
+
+stipulation/move.h:
 
 solving/castling.h:
 
@@ -2303,15 +2301,15 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h conditions/conditions.h pymsg.h pylang.h \
  utilities/boolean.h pieces/walks/pawns/promotion.h \
- pieces/walks/pawns/promotee_sequence.h pieces/walks/hoppers.h \
- solving/observation.h stipulation/temporary_hacks.h \
- solving/move_generator.h pieces/walks/angle/angles.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/proxy.h stipulation/fork.h \
- stipulation/branch.h stipulation/has_solution_type.h stipulation/move.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/post_move_iteration.h conditions/castling_chess.h \
- debugging/trace.h debugging/assert.h
+ stipulation/traversal.h pieces/walks/pawns/promotee_sequence.h \
+ pieces/walks/hoppers.h solving/observation.h \
+ stipulation/temporary_hacks.h solving/move_generator.h \
+ pieces/walks/angle/angles.h stipulation/pipe.h stipulation/proxy.h \
+ stipulation/fork.h stipulation/branch.h stipulation/has_solution_type.h \
+ stipulation/move.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/post_move_iteration.h \
+ conditions/castling_chess.h debugging/trace.h debugging/assert.h
 
 conditions/imitator.h:
 
@@ -2357,6 +2355,12 @@ utilities/boolean.h:
 
 pieces/walks/pawns/promotion.h:
 
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/traversal.h:
+
 pieces/walks/pawns/promotee_sequence.h:
 
 pieces/walks/hoppers.h:
@@ -2370,12 +2374,6 @@ solving/move_generator.h:
 pieces/walks/angle/angles.h:
 
 stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
 
 stipulation/proxy.h:
 
@@ -2406,10 +2404,10 @@ conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
  conditions/singlebox/type1.h conditions/conditions.h \
  pieces/walks/classification.h pieces/walks/pawns/promotion.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/post_move_iteration.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/move.h debugging/trace.h debugging/assert.h
+ position/pieceid.h stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h solving/post_move_iteration.h stipulation/pipe.h \
+ stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/football.h:
 
@@ -2453,15 +2451,15 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
-solving/post_move_iteration.h:
-
-stipulation/pipe.h:
-
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
 stipulation/traversal.h:
+
+solving/post_move_iteration.h:
+
+stipulation/pipe.h:
 
 stipulation/has_solution_type.h:
 

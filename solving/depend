@@ -2477,13 +2477,14 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  solving/selfcheck_guard.h solving/solve.h solving/check.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h solving/observation.h \
- stipulation/temporary_hacks.h output/output.h conditions/annan.h \
- conditions/bgl.h conditions/facetoface.h conditions/koeko/contact_grid.h \
- conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
- conditions/exclusive.h utilities/table.h conditions/republican.h \
- conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/traversal.h stipulation/proxy.h stipulation/pipe.h \
+ solving/observation.h stipulation/temporary_hacks.h output/output.h \
+ conditions/annan.h conditions/bgl.h conditions/facetoface.h \
+ conditions/koeko/contact_grid.h conditions/koeko/koeko.h \
+ conditions/koeko/anti.h conditions/koeko/new.h conditions/exclusive.h \
+ utilities/table.h conditions/republican.h conditions/blackchecks.h \
+ conditions/extinction.h conditions/madrasi.h \
  conditions/maff/immobility_tester.h conditions/owu/immobility_tester.h \
  conditions/ohneschach.h conditions/singlebox/type1.h \
  conditions/singlebox/type2.h pieces/walks/pawns/promotee_sequence.h \
@@ -2623,15 +2624,15 @@ solving/ply.h:
 
 position/pieceid.h:
 
-stipulation/proxy.h:
-
-stipulation/pipe.h:
-
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
 stipulation/traversal.h:
+
+stipulation/proxy.h:
+
+stipulation/pipe.h:
 
 solving/observation.h:
 

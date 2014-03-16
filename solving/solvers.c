@@ -161,6 +161,7 @@
 #include "solving/play_suppressor.h"
 #include "solving/castling.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "solving/post_move_iteration.h"
 #include "pieces/attributes/magic.h"
 #include "pieces/attributes/paralysing/paralysing.h"
@@ -392,7 +393,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
         stip_instrument_moves(result,STCirceParachuteUnccoverer);
         circe_instrument_solving(result,STCirceParachuteUnccoverer);
         if (circe_variant.is_promotion_possible)
-          circe_allow_pawn_promotion(result,STCirceParachuteUnccoverer);
+          pieces_pawns_promotion_insert_solvers(result,STCirceParachuteUnccoverer);
         break;
 
       case circe_on_occupied_rebirth_square_strict:
@@ -549,7 +550,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     }
 
     if (circe_variant.is_promotion_possible)
-      circe_allow_pawn_promotion(result,STCircePlacingReborn);
+      pieces_pawns_promotion_insert_solvers(result,STCircePlacingReborn);
 
     if (circe_variant.is_frischauf)
       stip_insert_frischauf_promotee_markers(result);
@@ -619,7 +620,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     }
 
     if (anticirce_variant.is_promotion_possible)
-      circe_allow_pawn_promotion(result,STAnticircePlaceReborn);
+      pieces_pawns_promotion_insert_solvers(result,STAnticircePlaceReborn);
 
     if (anticirce_variant.is_mirror
         != (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_take_and_make))
@@ -651,7 +652,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                              STAnticirceRebirthOnNonEmptySquare,
                                              STLandingAfterAnticirceRebirth);
         anticirce_instrument_solving(result,STCirceParachuteUnccoverer);
-        circe_allow_pawn_promotion(result,STCirceParachuteUnccoverer);
+        pieces_pawns_promotion_insert_solvers(result,STCirceParachuteUnccoverer);
         break;
 
       case circe_on_occupied_rebirth_square_default:
@@ -786,7 +787,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[chamchess])
     chameleon_chess_initialise_solving(result);
 
-  pieces_pawns_promotion_initialise_solving(result);
+  pieces_pawns_promotion_insert_solvers(result,STMove);
 
   /* this has to come after pieces_pawns_promotion_initialise_solving()
    * to support for promotion into Chameleon

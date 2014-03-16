@@ -45,15 +45,9 @@ static slice_index const move_slice_rank_order[] =
     STChameleonChessArrivingAdjuster,
     STProteanPawnAdjuster,
     STBeforePawnPromotion, /* moving pawn */
-    STPawnToImitatorPromoter,
-    STPawnPromoter,
-    STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
     STCirceParachuteUnccoverer,
     STBeforePawnPromotion, /* uncovered pawn */
-    STPawnToImitatorPromoter,
-    STPawnPromoter,
-    STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
     STHauntedChessGhostSummoner,
     STFootballChessSubsitutor,
@@ -61,9 +55,6 @@ static slice_index const move_slice_rank_order[] =
     STNorskArrivingAdjuster,
     STWormholeTransferer,
     STBeforePawnPromotion, /* transfered pawn */
-    STPawnToImitatorPromoter,
-    STPawnPromoter,
-    STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
     STEnPassantAdjuster,
     STEinsteinEnPassantAdjuster,
@@ -113,9 +104,6 @@ static slice_index const move_slice_rank_order[] =
     STAnticircePlacingReborn,
     STAnticircePlaceReborn,
     STBeforePawnPromotion, /* reborn pawn */
-    STPawnToImitatorPromoter,
-    STPawnPromoter,
-    STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
     STCirceCageCageTester,
     STCirceRebirthAvoided,
@@ -170,9 +158,6 @@ static slice_index const move_slice_rank_order[] =
     STCircePlacingReborn,
     STCircePlaceReborn,
     STBeforePawnPromotion, /* reborn pawn */
-    STPawnToImitatorPromoter,
-    STPawnPromoter,
-    STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
     STCirceDoubleAgentsAdaptRebornSide,
     STCirceVolageRecolorer,
@@ -183,9 +168,6 @@ static slice_index const move_slice_rank_order[] =
     STSentinellesInserter,
     STCirceParachuteUnccoverer,
     STBeforePawnPromotion, /* uncovered pawn */
-    STPawnToImitatorPromoter,
-    STPawnPromoter,
-    STChameleonChangePromoteeInto,
     STLandingAfterPawnPromotion,
     STRepublicanKingPlacer,
     STActuatedRevolvingBoard,
@@ -225,7 +207,7 @@ static slice_index const move_slice_rank_order[] =
 enum
 {
   nr_move_slice_rank_order_elmts = sizeof move_slice_rank_order / sizeof move_slice_rank_order[0],
-  nr_exit_slice_types = 3
+  nr_move_exit_slice_types = 3
 };
 
 /* Determine whether a slice type contributes to the execution of moves
@@ -235,7 +217,7 @@ enum
 boolean is_move_slice_type(slice_type type)
 {
   unsigned int i;
-  for (i = 0; i!=nr_move_slice_rank_order_elmts-nr_exit_slice_types; ++i)
+  for (i = 0; i!=nr_move_slice_rank_order_elmts-nr_move_exit_slice_types; ++i)
     if (type==move_slice_rank_order[i])
       return true;
 
