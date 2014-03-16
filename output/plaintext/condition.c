@@ -120,7 +120,8 @@ static int append_to_CondLine_chameleon_sequence(char (*line)[256],
 
 static unsigned int append_circe_variants(circe_variant_type const *variant,
                                           char (*CondLine)[256],
-                                          unsigned int written)
+                                          unsigned int written,
+                                          CirceVariantType rex_default)
 {
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_pwc)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantPWC]);
@@ -192,6 +193,14 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
   /* AntiCirceTypeCalvet is default in AntiCirce */
   if (variant->anticirce_type==anticirce_type_cheylan)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCheylan]);
+
+  {
+    CirceVariantType const rex_type = (variant->is_rex_inclusive
+                                       ? CirceVariantRexInclusive
+                                       : CirceVariantRexExclusive);
+    if (rex_type!=rex_default)
+      written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[rex_type]);
+  }
 
   return written;
 }
@@ -588,21 +597,15 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           break;
 
         case geneva:
-          if (geneva_variant.is_rex_inclusive)
-            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
-          written = append_circe_variants(&geneva_variant,&CondLine,written);
+          written = append_circe_variants(&geneva_variant,&CondLine,written,CirceVariantRexExclusive);
           break;
 
         case immun:
-          if (immune_variant.is_rex_inclusive)
-            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
-          written = append_circe_variants(&immune_variant,&CondLine,written);
+          written = append_circe_variants(&immune_variant,&CondLine,written,CirceVariantRexExclusive);
           break;
 
         case circe:
-          written = append_circe_variants(&circe_variant,&CondLine,written);
-          if (circe_variant.is_rex_inclusive)
-            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
+          written = append_circe_variants(&circe_variant,&CondLine,written,CirceVariantRexExclusive);
           break;
 
         case messigny:
@@ -726,7 +729,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           break;
 
         case anticirce:
-          written = append_circe_variants(&anticirce_variant,&CondLine,written);
+          written = append_circe_variants(&anticirce_variant,&CondLine,written,CirceVariantRexInclusive);
           break;
 
         default:
