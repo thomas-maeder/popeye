@@ -1334,8 +1334,8 @@ both sides need a kingboth sides need a king
       1...g5*h4[+wBg2] !
 
 
-  add_to_move_generation_stack:        5555
-                     play_move:         683
+  add_to_move_generation_stack:        5549
+                     play_move:         673
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
