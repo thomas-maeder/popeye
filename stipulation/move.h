@@ -7,11 +7,19 @@
 /* This module plays deals with moves
  */
 
-/* Determine whether a slice type contributes to the execution of moves
- * @param type slice type
- * @return true iff type is a slice type that contributes to the execution of moves
+/* Try to start slice insertion within the sequence of slices that deal with
+ * move execution.
+ * @param base_type type relevant for determining the position of the slices to
+ *                  be inserted
+ * @param si identifies the slice where to actually start the insertion traversal
+ * @param st address of the structure representing the insertion traversal
+ * @param end_of_move_slice_sequence type of slice which ends the move sequence
+ * @return true iff base_type effectively is a type from the move slices sequence
  */
-boolean is_move_slice_type(slice_type type);
+boolean move_start_insertion(slice_type base_type,
+                             slice_index si,
+                             stip_structure_traversal *st,
+                             slice_type end_of_move_slice_sequence);
 
 /* Start inserting according to the slice type order for move execution
  * @param si identifies starting point of insertion
@@ -22,6 +30,12 @@ boolean is_move_slice_type(slice_type type);
 void start_insertion_according_to_move_order(slice_index si,
                                              stip_structure_traversal *st,
                                              slice_type end_of_temporary);
+
+/* Initialise a structure traversal for inserting slices
+ * into the move execution sequence
+ * @param st address of structure representing the traversal
+ */
+void move_init_slice_insertion_traversal(stip_structure_traversal *st);
 
 /* Instrument moves with a slice type
  * @param identifies where to start instrumentation

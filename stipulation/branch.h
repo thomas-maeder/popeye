@@ -6,6 +6,16 @@
 
 #include "stipulation/structure_traversal.h"
 
+/* Try to insert the next slice before slice si
+ * @param si where to try to insert
+ * @param rank rank of si in current slice order
+ * @param st address of structure representing the traversal that has reached si
+ * @return true iff the insertion could be done
+ */
+boolean branch_insert_before(slice_index si,
+                             unsigned int rank,
+                             stip_structure_traversal *st);
+
 /* Allocate a new branch slice
  * @param type which slice type
  * @param length maximum number of half moves until end of slice

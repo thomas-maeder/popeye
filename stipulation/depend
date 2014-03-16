@@ -131,9 +131,7 @@ stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  stipulation/proxy.h stipulation/pipe.h solving/solve.h \
  stipulation/if_then_else.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h stipulation/move.h \
- solving/fork_on_remaining.h pieces/walks/pawns/promotion.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h debugging/assert.h
+ solving/fork_on_remaining.h debugging/trace.h debugging/assert.h
 
 stipulation/branch.h:
 
@@ -180,16 +178,6 @@ stipulation/help_play/branch.h:
 stipulation/move.h:
 
 solving/fork_on_remaining.h:
-
-pieces/walks/pawns/promotion.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
 
 debugging/trace.h:
 
@@ -1257,6 +1245,8 @@ stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h solving/solve.h stipulation/branch.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
  debugging/trace.h debugging/assert.h
 
 stipulation/move.h:
@@ -1298,6 +1288,16 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
+
+pieces/walks/pawns/promotion.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
 
 debugging/trace.h:
 

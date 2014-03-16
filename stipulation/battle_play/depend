@@ -12,9 +12,8 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/end_of_branch_goal.h stipulation/move.h \
  stipulation/move_played.h stipulation/binary.h \
  stipulation/boolean/true.h stipulation/battle_play/attack_adapter.h \
- stipulation/battle_play/defense_adapter.h pieces/walks/pawns/promotion.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h debugging/assert.h
+ stipulation/battle_play/defense_adapter.h debugging/trace.h \
+ debugging/assert.h
 
 stipulation/battle_play/branch.h:
 
@@ -82,16 +81,6 @@ stipulation/battle_play/attack_adapter.h:
 
 stipulation/battle_play/defense_adapter.h:
 
-pieces/walks/pawns/promotion.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
 debugging/trace.h:
 
 debugging/assert.h:
@@ -106,7 +95,7 @@ stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  solving/solve.h stipulation/has_solution_type.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/pipe.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -152,8 +141,6 @@ stipulation/pipe.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
@@ -165,7 +152,7 @@ stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
  stipulation/pipe.h solving/solve.h stipulation/has_solution_type.h \
  stipulation/branch.h stipulation/battle_play/branch.h debugging/trace.h \
- solving/ply.h debugging/assert.h
+ debugging/assert.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -208,7 +195,5 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:

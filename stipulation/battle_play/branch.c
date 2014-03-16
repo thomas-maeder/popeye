@@ -15,7 +15,6 @@
 #include "stipulation/boolean/true.h"
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
-#include "pieces/walks/pawns/promotion.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -343,11 +342,8 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-  if (is_promotion_slice_type(slices[base].type))
-    start_insertion_according_to_promotion_order(proxy,&st,STLandingAfterPawnPromotion);
-  else if (is_move_slice_type(slices[base].type))
-    start_insertion_according_to_move_order(proxy,&st,STAttackPlayed);
-  else
+
+  if (!move_start_insertion(slices[base].type,proxy,&st,STAttackPlayed))
   {
     ++state.base_rank;
     stip_traverse_structure_children_pipe(proxy,&st);
@@ -415,11 +411,8 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-  if (is_promotion_slice_type(slices[base].type))
-    start_insertion_according_to_promotion_order(proxy,&st,STLandingAfterPawnPromotion);
-  else if (is_move_slice_type(slices[base].type))
-    start_insertion_according_to_move_order(proxy,&st,STDefensePlayed);
-  else
+
+  if (!move_start_insertion(slices[base].type,proxy,&st,STDefensePlayed))
   {
     ++state.base_rank;
     stip_traverse_structure_children_pipe(proxy,&st);

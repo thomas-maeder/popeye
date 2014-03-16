@@ -6,7 +6,6 @@
 #include "stipulation/move.h"
 #include "solving/fork_on_remaining.h"
 #include "stipulation/pipe.h"
-#include "pieces/walks/pawns/promotion.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -149,7 +148,13 @@ static void next_insertion(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean insert_before(slice_index si,
+/* Try to insert the next slice before slice si
+ * @param si where to try to insert
+ * @param rank rank of si in current slice order
+ * @param st address of structure representing the traversal that has reached si
+ * @return true iff the insertion could be done
+ */
+boolean branch_insert_before(slice_index si,
                              unsigned int rank,
                              stip_structure_traversal *st)
 {
@@ -197,7 +202,7 @@ static void insert_visit_leaf(slice_index si, stip_structure_traversal *st)
     branch_slice_insertion_state_type * const state = st->param;
     unsigned int const rank = get_slice_rank(slices[si].type,state);
     if (rank!=no_slice_rank)
-      insert_before(si,rank,st);
+      branch_insert_before(si,rank,st);
   }
 
   TraceFunctionExit(__func__);
@@ -230,7 +235,7 @@ static void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
     unsigned int const rank = get_slice_rank(slices[si].type,state);
     if (rank==no_slice_rank)
       insert_beyond(si,st);
-    else if (insert_before(si,rank,st))
+    else if (branch_insert_before(si,rank,st))
       ; /* nothing - work is done*/
     else
     {
@@ -280,7 +285,7 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
     unsigned int const rank = get_slice_rank(slices[si].type,state);
     if (rank==no_slice_rank)
       insert_visit_binary_operands(si,st);
-    else if (insert_before(si,rank,st))
+    else if (branch_insert_before(si,rank,st))
       ; /* nothing - work is done*/
     else
     {
@@ -303,7 +308,7 @@ static void insert_visit_setplay_fork(slice_index si,
   {
     branch_slice_insertion_state_type * const state = st->param;
     unsigned int const rank = get_slice_rank(slices[si].type,state);
-    if (insert_before(si,rank,st))
+    if (branch_insert_before(si,rank,st))
       ; /* nothing - work is done*/
     else
     {
@@ -330,7 +335,7 @@ static void insert_visit_battle_adapter(slice_index si,
   {
     branch_slice_insertion_state_type * const state = st->param;
     unsigned int const rank = get_slice_rank(slices[si].type,state);
-    if (rank==no_slice_rank || !insert_before(si,rank,st))
+    if (rank==no_slice_rank || !branch_insert_before(si,rank,st))
       battle_branch_insert_slices_nested(si,
                                          state->prototypes,
                                          state->nr_prototypes);
@@ -350,71 +355,10 @@ static void insert_visit_help_adapter(slice_index si,
   {
     branch_slice_insertion_state_type * const state = st->param;
     unsigned int const rank = get_slice_rank(slices[si].type,state);
-    if (rank==no_slice_rank || !insert_before(si,rank,st))
+    if (rank==no_slice_rank || !branch_insert_before(si,rank,st))
       help_branch_insert_slices_nested(si,
                                        state->prototypes,
                                        state->nr_prototypes);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_visit_move(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  switch (st->context)
-  {
-    case stip_traversal_context_attack:
-    {
-      branch_slice_insertion_state_type const * const state = st->param;
-      unsigned int const rank = get_slice_rank(slices[si].type,state);
-      if (!insert_before(si,rank,st))
-        start_insertion_according_to_move_order(si,st,STAttackPlayed);
-      break;
-    }
-
-    case stip_traversal_context_defense:
-    {
-      branch_slice_insertion_state_type const * const state = st->param;
-      unsigned int const rank = get_slice_rank(slices[si].type,state);
-      if (!insert_before(si,rank,st))
-        start_insertion_according_to_move_order(si,st,STDefensePlayed);
-      break;
-    }
-
-    case stip_traversal_context_help:
-    {
-      branch_slice_insertion_state_type const * const state = st->param;
-      unsigned int const rank = get_slice_rank(slices[si].type,state);
-      if (!insert_before(si,rank,st))
-        start_insertion_according_to_move_order(si,st,STHelpMovePlayed);
-      break;
-    }
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_visit_promotion(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    branch_slice_insertion_state_type const * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
-    if (!insert_before(si,rank,st))
-      start_insertion_according_to_promotion_order(si,st,STLandingAfterPawnPromotion);
   }
 
   TraceFunctionExit(__func__);
@@ -520,9 +464,8 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
                                                 slice_function_binary,
                                                 &insert_visit_binary);
   stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
-  stip_structure_traversal_override_single(st,STMove,&insert_visit_move);
-  stip_structure_traversal_override_single(st,STDummyMove,&insert_visit_move);
-  stip_structure_traversal_override_single(st,STBeforePawnPromotion,&insert_visit_promotion);
+
+  move_init_slice_insertion_traversal(st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

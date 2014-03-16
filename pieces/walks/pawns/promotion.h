@@ -63,4 +63,22 @@ boolean is_promotion_slice_type(slice_type type);
  */
 void pieces_pawns_promotion_insert_solvers(slice_index si, slice_type hook_type);
 
+/* Try to start slice insertion within the sequence of slices that deal with
+ * pawn promotion.
+ * @param base_type type relevant for determining the position of the slices to
+ *                  be inserted
+ * @param si identifies the slice where to actually start the insertion traversal
+ * @param st address of the structure representing the insertion traversal
+ * @return true iff base_type effectively is a type from the move slices sequence
+ */
+boolean promotion_start_insertion(slice_type base_type,
+                                  slice_index si,
+                                  stip_structure_traversal *st);
+
+/* Initialise a structure traversal for inserting slices
+ * into the promotion execution sequence
+ * @param st address of structure representing the traversal
+ */
+void promotion_init_slice_insertion_traversal(stip_structure_traversal *st);
+
 #endif
