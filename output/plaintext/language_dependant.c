@@ -780,7 +780,7 @@ char const * const CondString[LanguageCount][CondCount] =
     /*173*/ "EchecsHantes",
     /*174*/ "EchecsProvacateurs",
     /*175*/ "CirceCage",
-    /*176*/ "ImmunCage",
+    /*176*/ "Dummy",
     /*177*/ "Football",
     /*178*/ "ContraParrain",
     /*179*/ "RoisKobul",
@@ -976,7 +976,7 @@ char const * const CondString[LanguageCount][CondCount] =
     /*173*/ "Spukschach",
     /*174*/ "ProvokationSchach",
     /*175*/ "KaefigCirce",
-    /*176*/ "KaefigImmunSchach",
+    /*176*/ "Dummy",
     /*177*/ "Fussball",
     /*178*/ "KontraParrain",
     /*179*/ "KobulKoenige",
@@ -1172,7 +1172,7 @@ char const * const CondString[LanguageCount][CondCount] =
     /*173*/ "HauntedChess",
     /*174*/ "ProvocationChess",
     /*175*/ "CageCirce",
-    /*176*/ "CageImmunChess",
+    /*176*/ "Dummy",
     /*177*/ "Football",
     /*178*/ "ContraParrain",
     /*179*/ "KobulKings",
@@ -1494,6 +1494,8 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Frischauf",
     "Calvet",
     "Cheylan",
+    "Stricte",
+    "Relache",
     "Volcanique",
     "Parachute"
   },{
@@ -1524,6 +1526,8 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Frischauf",
     "Calvet",
     "Cheylan",
+    "Strikt",
+    "Locker",
     "Vulkan",
     "Fallschirm"
   },{
@@ -1554,6 +1558,8 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Frischauf",
     "Calvet",
     "Cheylan",
+    "Strict",
+    "Relaxed",
     "Volcanic",
     "Parachute"
   }

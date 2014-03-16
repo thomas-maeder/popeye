@@ -24,7 +24,7 @@ void anticirce_reset_variant(circe_variant_type *variant)
   variant->is_mirror = false;
   variant->is_diametral = false;
   variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_default;
-  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
   variant->reborn_walk_adapter = circe_reborn_walk_adapter_none;
   variant->is_turncoat = false;
   variant->relevant_piece = circe_relevant_piece_default;

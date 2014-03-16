@@ -294,8 +294,7 @@ autor           Antoine Tricon
 quelle          feenschach, 3/1979
 
 forderung       h==3
-bedingung       symmetrieimmunschach
-                symmetriecirce
+bedingung       circe symmetrie strikt
 
 option          zugnummer
 

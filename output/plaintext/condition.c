@@ -170,6 +170,10 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
   if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
+  if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_strict)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantStrict]);
+  if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_relaxed)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantRelaxed]);
   if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantParachute]);
   if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)

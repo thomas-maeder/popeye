@@ -41,13 +41,9 @@ typedef enum
 
 typedef enum
 {
-  circe_on_occupied_rebirth_square_default_no_rebirth,
-  circe_on_occupied_rebirth_square_default_illegal
-} circe_default_behaviour_on_occupied_rebirth_square_type;
-
-typedef enum
-{
   circe_on_occupied_rebirth_square_default,
+  circe_on_occupied_rebirth_square_relaxed,
+  circe_on_occupied_rebirth_square_strict,
   circe_on_occupied_rebirth_square_assassinate,
   circe_on_occupied_rebirth_square_volcanic,
   circe_on_occupied_rebirth_square_parachute
@@ -73,7 +69,7 @@ typedef struct
     boolean is_rex_inclusive;
     boolean is_mirror;
     boolean is_diametral;
-    circe_default_behaviour_on_occupied_rebirth_square_type on_occupied_rebirth_square_default;
+    circe_behaviour_on_occupied_rebirth_square_type on_occupied_rebirth_square_default;
     circe_behaviour_on_occupied_rebirth_square_type on_occupied_rebirth_square;
     circe_reborn_walk_adapter_type reborn_walk_adapter;
     boolean is_turncoat;
@@ -124,6 +120,9 @@ boolean circe_override_reborn_walk_adapter(circe_variant_type *variant,
  */
 boolean circe_override_determine_rebirth_square(circe_variant_type *variant,
                                                 circe_reborn_walk_adapter_type determine);
+
+circe_behaviour_on_occupied_rebirth_square_type
+circe_get_on_occupied_rebirth_square(circe_variant_type const *variant);
 
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect

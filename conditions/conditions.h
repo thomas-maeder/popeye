@@ -194,9 +194,9 @@ typedef enum
   hauntedchess,           /* 173 */
   provocateurs,           /* 174 */
   circecage,              /* 175 */
-  immuncage,              /* 176 */
+  dummy,                  /* 176 */
   football,               /* 177 */
-  circecontraparrain,          /* 178 */
+  circecontraparrain,     /* 178 */
   kobulkings,             /* 179 */
   platzwechselrochade,    /* 180 */
   whitealphabetic,        /* 181 */

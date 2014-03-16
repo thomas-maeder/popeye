@@ -1852,13 +1852,6 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  if (CondFlag[immuncage]
-      && circe_variant.determine_rebirth_square!=circe_determine_rebirth_square_cage)
-  {
-    VerifieMsg(NoCageImmuneWithoutCage);
-    CondFlag[immuncage] = false;
-  }
-
 #ifdef _SE_DECORATE_SOLUTION_
   se_init();
 #endif

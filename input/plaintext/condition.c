@@ -236,7 +236,6 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         {
           variant->is_promotion_possible = true;
           variant->rebirth_reason = move_effect_reason_rebirth_choice;
-          variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
         }
         else
           IoErrorMsg(NonsenseCombination,0);
@@ -283,7 +282,6 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         {
           variant->is_promotion_possible = true;
           variant->rebirth_reason = move_effect_reason_rebirth_choice;
-          variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
         }
         else
           IoErrorMsg(NonsenseCombination,0);
@@ -294,7 +292,6 @@ static char *ParseCirceVariants(circe_variant_type *variant)
         {
           variant->is_promotion_possible = true;
           variant->rebirth_reason = move_effect_reason_rebirth_choice;
-          variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
         }
         else
           IoErrorMsg(NonsenseCombination,0);
@@ -310,7 +307,6 @@ static char *ParseCirceVariants(circe_variant_type *variant)
           {
             variant->is_promotion_possible= true;
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
-            variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
           }
         }
         else
@@ -329,6 +325,14 @@ static char *ParseCirceVariants(circe_variant_type *variant)
 
       case CirceVariantCheylan:
         variant->anticirce_type = anticirce_type_cheylan;
+        break;
+
+      case CirceVariantStrict:
+        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_strict;
+        break;
+
+      case CirceVariantRelaxed:
+        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_relaxed;
         break;
 
       case CirceVariantVolcanic:
@@ -1181,21 +1185,18 @@ char *ParseCond(void)
         CondFlag[circe] = true;
         circe_variant.is_promotion_possible= true;
         circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-        circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_take_and_make;
         break;
       case supercirce:
         CondFlag[circe] = true;
         circe_variant.is_promotion_possible= true;
         circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-        circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
         break;
       case circecage:
         CondFlag[circe] = true;
         circe_variant.is_promotion_possible= true;
         circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-        circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_cage;
         break;
       case circeparrain:
@@ -1563,7 +1564,7 @@ char *ParseCond(void)
           CondFlag[circe] = true;
           circe_variant.is_promotion_possible= true;
           circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-          circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_illegal;
+          circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
           circe_variant.determine_rebirth_square = circe_determine_rebirth_square_april;
         }
         break;

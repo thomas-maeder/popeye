@@ -678,3 +678,149 @@ solution finished.
 solution finished. 
 
 
+
+Circe Strict is tested at the time of rebirth -  1.Ra8*a7[wRa7->a1] is illegal
+Immune Chess is tested before move execution is started
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R   .   .   .   .   .   .   .   8
+|                                   |
+7  -G   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+             Circe Strict
+              AntiCirce
+
+a) 
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) Circe
+   ImmunChess
+   AntiCirce
+
+   1.Ra8*a7[wRa7->a1] x !
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+ Circe Super Strict requires rebirth
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   Q   .   6
+|                                   |
+5   Q   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   Q   .   .   4
+|                                   |
+3   .  -Q   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   Q   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          6 + 1
+             Circe Super
+               Isardam
+
+a) 
+
+   1.a2*b3 x !
+
+   1.a2*b3[+bQe7] x !
+
+   1.a2*b3[+bQc8] x !
+
+
+  add_to_move_generation_stack:         105
+                     play_move:          59
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) Circe Super Strict
+   Isardam
+
+   1.a2*b3[+bQe7] x !
+
+   1.a2*b3[+bQc8] x !
+
+
+  add_to_move_generation_stack:         105
+                     play_move:          58
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+  Circe Cage Strict requires rebirth
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -S   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+              Circe Cage
+
+a) 
+
+   1.a2*b3 x !
+
+
+  add_to_move_generation_stack:         333
+                     play_move:          64
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) Circe Cage Strict
+
+
+  add_to_move_generation_stack:         333
+                     play_move:          63
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

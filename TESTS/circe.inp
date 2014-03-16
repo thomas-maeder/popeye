@@ -141,4 +141,32 @@ stip hzf71
 condition circe cage volcanic
 option nowk nobk
 
+next
+
+title Circe Strict is tested at the time of rebirth -  1.Ra8*a7[wRa7->a1] is illegal
+title Immune Chess is tested before move execution is started
+pieces black ga7 white ra8
+stip x1
+option nowk nobk
+condition anticirce circe strict
+twin condition anticirce circe immun
+
+next
+
+title Circe Super Strict requires rebirth
+pieces white pa2 qa5d2f4h1g6 black qb3
+stip x1
+option nowk nobk
+cond isardam circe super
+twin cond isardam circe super strict
+
+next
+
+title Circe Cage Strict requires rebirth
+pieces white pa2 black sb3
+stip x1
+option nowk nobk
+cond circe cage
+twin cond circe cage strict
+
 end

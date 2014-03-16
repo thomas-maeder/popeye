@@ -27,7 +27,7 @@ void circe_reset_variant(circe_variant_type *variant)
   variant->is_mirror = false;
   variant->is_diametral = false;
   variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_default;
-  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_default_no_rebirth;
+  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed;
   variant->reborn_walk_adapter = circe_reborn_walk_adapter_none;
   variant->is_turncoat = false;
   variant->relevant_piece = circe_relevant_piece_default;
@@ -76,6 +76,15 @@ boolean circe_override_determine_rebirth_square(circe_variant_type *variant,
     result = false;
 
   return result;
+}
+
+circe_behaviour_on_occupied_rebirth_square_type
+circe_get_on_occupied_rebirth_square(circe_variant_type const *variant)
+{
+  if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_default)
+    return variant->on_occupied_rebirth_square_default;
+  else
+    return variant->on_occupied_rebirth_square;
 }
 
 /* Find the Circe rebirth effect in the current move

@@ -962,8 +962,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h==3                        9 + 9
-           Circe Symmetrie
-        Immunschach Symmetrie
+        Circe Symmetrie Strikt
 
   1  (a4-a3 )
   1.a4-a3 Kg4*h5[+sTa4]   2.h7-h6 Kh5*h4[+sLa5]   3.h6-h5 c5*b6[+sBg3] ==

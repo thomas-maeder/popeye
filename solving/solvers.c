@@ -365,7 +365,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     else
       circe_instrument_solving(result,STCirceInitialiseFromCurrentCapture);
 
-    switch (circe_variant.on_occupied_rebirth_square)
+    switch (circe_get_on_occupied_rebirth_square(&circe_variant))
     {
       case circe_on_occupied_rebirth_square_assassinate:
         circe_assassinate_on_occupied_square(result,
@@ -395,27 +395,24 @@ slice_index build_solvers(slice_index stipulation_root_hook)
           circe_allow_pawn_promotion(result,STCirceParachuteUnccoverer);
         break;
 
-      case circe_on_occupied_rebirth_square_default:
-        switch (circe_variant.on_occupied_rebirth_square_default)
-        {
-          case circe_on_occupied_rebirth_square_default_illegal:
-            circe_stop_rebirth_on_occupied_square(result,
-                                                  STCirceDeterminingRebornPiece,
-                                                  STCirceRebirthOnNonEmptySquare,
-                                                  STLandingAfterCirceRebirthHandler);
-            break;
+      case circe_on_occupied_rebirth_square_strict:
+        circe_stop_rebirth_on_occupied_square(result,
+                                              STCirceDeterminingRebornPiece,
+                                              STCirceRebirthOnNonEmptySquare,
+                                              STLandingAfterCirceRebirthHandler);
+        break;
 
-          case circe_on_occupied_rebirth_square_default_no_rebirth:
-            circe_no_rebirth_on_occupied_square(result,
+      case circe_on_occupied_rebirth_square_relaxed:
+        if (circe_variant.rebirth_reason==move_effect_reason_rebirth_choice)
+          circe_stop_rebirth_on_occupied_square(result,
                                                 STCirceDeterminingRebornPiece,
                                                 STCirceRebirthOnNonEmptySquare,
                                                 STLandingAfterCirceRebirthHandler);
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
+        else
+          circe_no_rebirth_on_occupied_square(result,
+                                              STCirceDeterminingRebornPiece,
+                                              STCirceRebirthOnNonEmptySquare,
+                                              STLandingAfterCirceRebirthHandler);
         break;
 
       default:
@@ -469,18 +466,24 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       circe_instrument_solving(result,STRankCirceProjectRebirthSquare);
 
     if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_super)
-      circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+    {
+      if (circe_get_on_occupied_rebirth_square(&circe_variant)
+          !=circe_on_occupied_rebirth_square_strict)
+        circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+    }
     else if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_april)
     {
-      circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
+      if (circe_get_on_occupied_rebirth_square(&circe_variant)
+          !=circe_on_occupied_rebirth_square_strict)
+        circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STSuperCirceNoRebirthFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
       circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STAprilCaptureFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     }
-
-    if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
+    else if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
     {
       circe_instrument_solving(result,STCirceCageCageTester);
       circe_cage_optimise_away_futile_captures(result);
-      if (!CondFlag[immuncage])
+      if (circe_get_on_occupied_rebirth_square(&circe_variant)
+          !=circe_on_occupied_rebirth_square_strict)
         circe_insert_rebirth_avoider(result,STCirceConsideringRebirth,STCirceCageNoCageFork,STCirceRebirthAvoided,STLandingAfterCirceRebirthHandler);
     }
 
@@ -610,7 +613,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     {
       anticirce_instrument_solving(result,STCirceCageCageTester);
       circe_cage_optimise_away_futile_captures(result);
-      if (!CondFlag[immuncage])
+      if (circe_get_on_occupied_rebirth_square(&anticirce_variant)
+          !=circe_on_occupied_rebirth_square_strict)
         circe_insert_rebirth_avoider(result,STAnticirceConsideringRebirth,STCirceCageNoCageFork,STCirceRebirthAvoided,STLandingAfterAnticirceRebirth);
     }
 
@@ -653,14 +657,14 @@ slice_index build_solvers(slice_index stipulation_root_hook)
       case circe_on_occupied_rebirth_square_default:
         switch (anticirce_variant.on_occupied_rebirth_square_default)
         {
-          case circe_on_occupied_rebirth_square_default_illegal:
+          case circe_on_occupied_rebirth_square_strict:
             circe_stop_rebirth_on_occupied_square(result,
                                                   STAnticirceRemoveCapturer,
                                                   STAnticirceRebirthOnNonEmptySquare,
                                                   STLandingAfterAnticirceRebirth);
             break;
 
-          case circe_on_occupied_rebirth_square_default_no_rebirth:
+          case circe_on_occupied_rebirth_square_relaxed:
             circe_no_rebirth_on_occupied_square(result,
                                                 STAnticirceRemoveCapturer,
                                                 STAnticirceRebirthOnNonEmptySquare,

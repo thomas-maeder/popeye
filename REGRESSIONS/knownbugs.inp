@@ -2,15 +2,6 @@ begin
 
 prot knownbugs.reg
 
-title Strict Circe (==Circe+Immun according to the docs) is not enforced
-title if combined with Anticirce - 1.Ra8*a7[wRa7->a1] is illegal!
-pieces black ga7 white ra8
-stip ~1
-condition anticirce circe immun
-option nowk nobk
-
-next
-
 author Maryan Kerhuel
 origin Ph\'enix 32 1995, p. 2838
 title Unsolvable! The author's solution
