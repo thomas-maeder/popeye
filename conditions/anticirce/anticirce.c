@@ -55,7 +55,7 @@ void anticirce_initialise_from_capture_in_ply(ply ply)
   context->reborn_spec = spec[context->rebirth_from];
 
   /* TODO WinChloe uses the arrival square, which seems to make more sense */
-  context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
+  context->relevant_square = move_effect_journal[capture].u.piece_removal.on;
 
   context->relevant_walk = context->reborn_walk;
   context->relevant_spec = context->reborn_spec;

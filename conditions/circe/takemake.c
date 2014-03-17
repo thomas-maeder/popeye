@@ -34,8 +34,8 @@ static boolean init_rebirth_squares(Side side_reborn)
   take_make_circe_current_rebirth_square_index[stack_pointer] = take_make_circe_current_rebirth_square_index[stack_pointer-1];
 
   occupy_square(sq_capture,
-                move_effect_journal[capture].u.piece_removal.removed,
-                move_effect_journal[capture].u.piece_removal.removedspec);
+                move_effect_journal[capture].u.piece_removal.walk,
+                move_effect_journal[capture].u.piece_removal.flags);
 
   init_single_piece_move_generator(sq_capture);
 

@@ -1,9 +1,7 @@
 position/position$(OBJ_SUFFIX): position/position.c position/position.h \
  position/board.h utilities/bitmask.h pieces/pieces.h utilities/boolean.h \
  pieces/walks/vectors.h utilities/enumeration.h \
- pieces/attributes/neutral/neutral.h debugging/trace.h solving/ply.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h debugging/assert.h
+ pieces/attributes/neutral/neutral.h debugging/trace.h debugging/assert.h
 
 position/position.h:
 
@@ -23,16 +21,6 @@ pieces/attributes/neutral/neutral.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-stipulation/slice_type.h:
-
-output/mode.h:
-
 debugging/assert.h:
 position/board$(OBJ_SUFFIX): position/board.c position/board.h utilities/bitmask.h \
  debugging/assert.h
@@ -50,3 +38,46 @@ position/pieceid.h:
 position/board.h:
 
 utilities/bitmask.h:
+position/underworld$(OBJ_SUFFIX): position/underworld.c position/underworld.h \
+ solving/move_effect_journal.h solving/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/trace.h
+
+position/underworld.h:
+
+solving/move_effect_journal.h:
+
+solving/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+utilities/enumeration.h:
+
+position/position.h:
+
+pieces/pieces.h:
+
+pieces/walks/vectors.h:
+
+output/mode.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+debugging/trace.h:

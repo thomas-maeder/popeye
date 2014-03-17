@@ -94,7 +94,7 @@ static PieNam find_capturee(void)
   move_effect_journal_index_type const capture = base + move_effect_journal_index_offset_capture;
 
   if (move_effect_journal[capture].type==move_effect_piece_removal)
-    return move_effect_journal[capture].u.piece_removal.removed;
+    return move_effect_journal[capture].u.piece_removal.walk;
   else
     return Empty;
 }

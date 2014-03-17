@@ -22,7 +22,7 @@ static boolean stalemate_are_there_sufficient_moves_left_for_required_captures(v
   TraceFunctionParamListEnd();
 
   CapturesLeft[nbply] = CapturesLeft[parent_ply[nbply]];
-  if (TSTFLAG(move_effect_journal[capture].u.piece_removal.removedspec,Black))
+  if (TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,Black))
     --CapturesLeft[nbply];
 
   TraceValue("%u\n",CapturesLeft[nbply]);
@@ -44,7 +44,7 @@ static boolean stalemate_isGoalReachable(void)
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && target_position[GetPieceId(move_effect_journal[capture].u.piece_removal.removedspec)].diagram_square!=initsquare)
+      && target_position[GetPieceId(move_effect_journal[capture].u.piece_removal.flags)].diagram_square!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 

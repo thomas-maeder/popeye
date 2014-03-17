@@ -38,7 +38,7 @@ stip_length_type ghost_chess_ghost_rememberer_solve(slice_index si,
   if (move_effect_journal[capture].type==move_effect_piece_removal)
   {
     move_effect_journal_do_remember_ghost();
-    SETFLAG(ghosts[nr_ghosts-1].flags,Uncapturable);
+    SETFLAG(underworld[nr_ghosts-1].flags,Uncapturable);
   }
 
   result = solve(slices[si].next1,n);

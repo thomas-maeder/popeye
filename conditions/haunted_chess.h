@@ -2,32 +2,12 @@
 #define CONDITION_HAUNTED_CHESS_H
 
 #include "pieces/pieces.h"
+#include "position/underworld.h"
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
 
 /* This module implements Haunted Chess.
  */
-
-typedef struct
-{
-    square on;
-    PieNam ghost;
-    Flags flags;
-} ghost_record_type;
-
-enum
-{
-  ghost_capacity = 32,
-  ghost_not_found = ghost_capacity
-};
-
-typedef ghost_record_type ghosts_type[ghost_capacity];
-
-extern ghosts_type ghosts;
-
-typedef unsigned int ghost_index_type;
-
-extern ghost_index_type nr_ghosts;
 
 /* Remember the ghost from the current capture
  */
@@ -37,6 +17,7 @@ void move_effect_journal_redo_remember_ghost(move_effect_journal_index_type curr
 
 /* Forget a ghost "below" a square (typically because it is on the board now)
  */
+void move_effect_journal_do_forget_ghost(underworld_index_type const summoned);
 void move_effect_journal_undo_forget_ghost(move_effect_journal_index_type curr);
 void move_effect_journal_redo_forget_ghost(move_effect_journal_index_type curr);
 

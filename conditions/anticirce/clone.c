@@ -30,8 +30,8 @@ stip_length_type anti_clone_circe_determine_reborn_walk_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(move_effect_journal[capture].u.piece_removal.removedspec,Royal))
-    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = move_effect_journal[capture].u.piece_removal.removed;
+  if (!TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,Royal))
+    circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = move_effect_journal[capture].u.piece_removal.walk;
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk;
 

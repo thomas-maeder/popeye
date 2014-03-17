@@ -34,8 +34,8 @@ stip_length_type anticirce_couscous_make_capturee_relevant_solve(slice_index si,
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
     circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
-    context->relevant_walk = move_effect_journal[capture].u.piece_removal.removed;
-    context->relevant_spec = move_effect_journal[capture].u.piece_removal.removedspec;
+    context->relevant_walk = move_effect_journal[capture].u.piece_removal.walk;
+    context->relevant_spec = move_effect_journal[capture].u.piece_removal.flags;
     context->relevant_side = advers(context->relevant_side);
   }
 

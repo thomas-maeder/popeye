@@ -129,9 +129,9 @@ void circe_initialise_from_capture_in_ply(ply ply)
   /* circe capture fork makes sure of that */
   assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
-  context->reborn_walk = move_effect_journal[capture].u.piece_removal.removed;
-  context->reborn_spec = move_effect_journal[capture].u.piece_removal.removedspec;
-  context->relevant_square = move_effect_journal[capture].u.piece_removal.from;
+  context->reborn_walk = move_effect_journal[capture].u.piece_removal.walk;
+  context->reborn_spec = move_effect_journal[capture].u.piece_removal.flags;
+  context->relevant_square = move_effect_journal[capture].u.piece_removal.on;
 
   context->relevant_walk = context->reborn_walk;
   context->relevant_spec = context->reborn_spec;

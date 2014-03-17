@@ -54,7 +54,7 @@ stip_length_type capture_counter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(move_effect_journal[capture].u.piece_removal.removedspec,
+  if (TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,
               slices[si].starter))
     ++capture_counter_count;
 

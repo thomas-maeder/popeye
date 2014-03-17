@@ -62,7 +62,7 @@ stip_length_type magic_square_side_changer_solve(slice_index si,
       case move_effect_piece_creation:
       {
         square const on = move_effect_journal[curr].u.piece_addition.on;
-        Flags const addedspec = move_effect_journal[curr].u.piece_addition.addedspec;
+        Flags const addedspec = move_effect_journal[curr].u.piece_addition.flags;
         side_change_if_magic(on,addedspec);
         break;
       }

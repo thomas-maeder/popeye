@@ -1298,12 +1298,12 @@ debugging/trace.h:
 debugging/assert.h:
 conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
  conditions/haunted_chess.h pieces/pieces.h utilities/boolean.h \
- solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h solving/move_effect_journal.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ position/underworld.h solving/move_effect_journal.h solving/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h stipulation/slice_type.h utilities/enumeration.h \
+ position/position.h pieces/walks/vectors.h output/mode.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/move.h solving/move_generator.h debugging/trace.h \
  debugging/assert.h
@@ -1313,6 +1313,10 @@ conditions/haunted_chess.h:
 pieces/pieces.h:
 
 utilities/boolean.h:
+
+position/underworld.h:
+
+solving/move_effect_journal.h:
 
 solving/solve.h:
 
@@ -1333,8 +1337,6 @@ position/position.h:
 pieces/walks/vectors.h:
 
 output/mode.h:
-
-solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
@@ -1368,7 +1370,8 @@ conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  stipulation/traversal.h stipulation/has_solution_type.h \
  stipulation/move.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/haunted_chess.h debugging/trace.h debugging/assert.h
+ conditions/haunted_chess.h position/underworld.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/ghost_chess.h:
 
@@ -1417,6 +1420,8 @@ solving/ply.h:
 position/pieceid.h:
 
 conditions/haunted_chess.h:
+
+position/underworld.h:
 
 debugging/trace.h:
 

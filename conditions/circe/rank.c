@@ -30,7 +30,7 @@ stip_length_type rank_circe_override_relevant_side_solve(slice_index si,
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-    square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
+    square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
     /* make sure that RBS are reborn on a square of the same colour as the
      * capture square */
@@ -73,7 +73,7 @@ stip_length_type rank_circe_adjust_rebirth_square_solve(slice_index si,
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-    square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
+    square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
     unsigned const row_capture = sq_capture/onerow;
     unsigned int const file_rebirth = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square%onerow;
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = onerow*row_capture + file_rebirth;

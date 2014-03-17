@@ -75,10 +75,11 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/castling.h conditions/bgl.h conditions/duellists.h \
  conditions/imitator.h conditions/actuated_revolving_centre.h \
- conditions/haunted_chess.h conditions/sat.h conditions/circe/parachute.h \
- pieces/walks/pawns/en_passant.h solving/observation.h \
- stipulation/temporary_hacks.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/neutral/half.h debugging/trace.h debugging/assert.h
+ conditions/haunted_chess.h position/underworld.h conditions/sat.h \
+ conditions/circe/parachute.h pieces/walks/pawns/en_passant.h \
+ solving/observation.h stipulation/temporary_hacks.h \
+ pieces/attributes/neutral/neutral.h pieces/attributes/neutral/half.h \
+ debugging/trace.h debugging/assert.h
 
 solving/move_effect_journal.h:
 
@@ -123,6 +124,8 @@ conditions/imitator.h:
 conditions/actuated_revolving_centre.h:
 
 conditions/haunted_chess.h:
+
+position/underworld.h:
 
 conditions/sat.h:
 
@@ -1238,7 +1241,7 @@ solving/solve$(OBJ_SUFFIX): solving/solve.c solving/solve.h \
  conditions/circe/parrain.h conditions/circe/volage.h \
  conditions/anticirce/anticirce.h conditions/anticirce/super.h \
  conditions/anticirce/parrain.h conditions/sentinelles.h \
- conditions/duellists.h conditions/haunted_chess.h \
+ conditions/duellists.h conditions/haunted_chess.h position/underworld.h \
  conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
  conditions/antiandernach.h conditions/chameleon_pursuit.h \
  conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
@@ -1555,6 +1558,8 @@ conditions/sentinelles.h:
 conditions/duellists.h:
 
 conditions/haunted_chess.h:
+
+position/underworld.h:
 
 conditions/ghost_chess.h:
 
@@ -2511,7 +2516,7 @@ solving/solvers$(OBJ_SUFFIX): solving/solvers.c solving/solvers.h \
  conditions/anticirce/cheylan.h conditions/anticirce/anticirce.h \
  conditions/anticirce/super.h conditions/anticirce/magic_square.h \
  conditions/anticirce/clone.h conditions/sentinelles.h \
- conditions/duellists.h conditions/haunted_chess.h \
+ conditions/duellists.h conditions/haunted_chess.h position/underworld.h \
  conditions/ghost_chess.h conditions/kobul.h conditions/andernach.h \
  conditions/antiandernach.h conditions/chameleon_pursuit.h \
  conditions/norsk.h conditions/protean.h conditions/einstein/einstein.h \
@@ -2773,6 +2778,8 @@ conditions/sentinelles.h:
 conditions/duellists.h:
 
 conditions/haunted_chess.h:
+
+position/underworld.h:
 
 conditions/ghost_chess.h:
 
@@ -3036,13 +3043,13 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intelligent.h optimisations/observation.h \
  platform/maxtime.h conditions/circe/circe.h conditions/duellists.h \
- conditions/haunted_chess.h conditions/transmuting_kings/vaulting_kings.h \
- conditions/imitator.h pieces/attributes/neutral/neutral.h \
- pieces/walks/walks.h output/plaintext/language_dependant.h pylang.h \
- options/options.h input/plaintext/twin.h input/plaintext/token.h \
- input/plaintext/line.h conditions/mummer.h \
- conditions/anticirce/anticirce.h conditions/sentinelles.h \
- output/plaintext/pieces.h debugging/trace.h
+ conditions/haunted_chess.h position/underworld.h \
+ conditions/transmuting_kings/vaulting_kings.h conditions/imitator.h \
+ pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
+ output/plaintext/language_dependant.h pylang.h options/options.h \
+ input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
+ conditions/mummer.h conditions/anticirce/anticirce.h \
+ conditions/sentinelles.h output/plaintext/pieces.h debugging/trace.h
 
 debugging/assert.h:
 
@@ -3119,6 +3126,8 @@ conditions/circe/circe.h:
 conditions/duellists.h:
 
 conditions/haunted_chess.h:
+
+position/underworld.h:
 
 conditions/transmuting_kings/vaulting_kings.h:
 

@@ -23,7 +23,7 @@ static boolean mate_isGoalReachable(void)
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && target_position[GetPieceId(move_effect_journal[capture].u.piece_removal.removedspec)].diagram_square!=initsquare)
+      && target_position[GetPieceId(move_effect_journal[capture].u.piece_removal.flags)].diagram_square!=initsquare)
     /* a piece has been captured that participates in the mate */
     result = false;
 
@@ -82,7 +82,7 @@ static boolean mate_isGoalReachable(void)
       move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
       square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
       square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-      square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
+      square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
       PieceIdType const id = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
       MovesRequired[White][nbply] = MovesRequired[White][parent_ply[nbply]];
       MovesRequired[Black][nbply] = MovesRequired[Black][parent_ply[nbply]];

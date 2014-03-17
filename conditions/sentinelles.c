@@ -49,7 +49,7 @@ static void insert_sentinelle(Side trait_ply)
       if (sentinelles_is_para)
       {
         unsigned int prev_nr_other_sentinelles = number_of_pieces[advers(sentinelle_side)][sentinelle_walk];
-        PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
+        PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
 
         if (pi_captured==sentinelle_walk)
           ++prev_nr_other_sentinelles;

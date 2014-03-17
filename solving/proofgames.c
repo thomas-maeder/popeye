@@ -166,17 +166,17 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
   }
 
   {
-    ghost_index_type gi;
+    underworld_index_type gi;
     for (gi = 0; gi<nr_ghosts; ++gi)
     {
-      square s = (ghosts[gi].on
+      square s = (underworld[gi].on
                   - nr_of_slack_rows_below_board*onerow
                   - nr_of_slack_files_left_of_board);
       unsigned int const row = s/onerow;
       unsigned int const col = s%onerow;
       bp = SmallEncodePiece(bp,
                             row,col,
-                            ghosts[gi].ghost,ghosts[gi].flags);
+                            underworld[gi].walk,underworld[gi].flags);
     }
   }
 
@@ -1263,9 +1263,9 @@ static boolean ProofFairyImpossible(void)
       {
         move_effect_journal_index_type const top = move_effect_journal_base[nbply];
         move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-        if (move_effect_journal[capture].u.piece_removal.removed==Pawn)
+        if (move_effect_journal[capture].u.piece_removal.walk==Pawn)
         {
-          Flags const removed_spec = move_effect_journal[capture].u.piece_removal.removedspec;
+          Flags const removed_spec = move_effect_journal[capture].u.piece_removal.flags;
           if (TSTFLAG(removed_spec,White))
             parrain_pawn[White] = true;
           if (TSTFLAG(removed_spec,Black))

@@ -12,6 +12,7 @@
 #include "solving/castling_rights.h"
 #include "solving/ply.h"
 #include "position/pieceid.h"
+#include "position/board.h"
 #include "pieces/pieces.h"
 
 #include <limits.h>
@@ -47,7 +48,6 @@ typedef enum
   move_effect_remember_duellist,
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
-  move_effect_uncover_parachuted,
 
   nr_move_effect_types
 } move_effect_type;
@@ -113,6 +113,13 @@ enum
   move_effect_journal_index_null = INT_MAX
 };
 
+typedef struct
+{
+    square on;
+    PieNam walk;
+    Flags flags;
+} piece_type;
+
 /* type of structure holding one effect */
 typedef struct
 {
@@ -133,18 +140,8 @@ typedef struct
             square from;
             square to;
         } piece_movement;
-        struct
-        {
-            square on;
-            PieNam added;
-            Flags addedspec;
-        } piece_addition;
-        struct
-        {
-            square from;
-            PieNam removed;
-            Flags removedspec;
-        } piece_removal;
+        piece_type piece_addition;
+        piece_type piece_removal;
         struct
         {
             square from;
@@ -191,10 +188,8 @@ typedef struct
         } square_block;
         struct
         {
-            unsigned int ghost_pos;
-            square on;
-            PieNam ghost;
-            Flags flags;
+            unsigned int pos;
+            piece_type ghost;
         } handle_ghost;
         struct
         {
@@ -220,11 +215,6 @@ typedef struct
             square from;
             square to;
         } duellist;
-        struct
-        {
-            unsigned int idx_uncovered;
-            move_effect_journal_index_type idx_remember;
-        } uncovered;
     } u;
 #if defined(DOTRACE)
       unsigned long id;
@@ -420,7 +410,7 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
  *            n+3 no solution found in next branch
  */
 stip_length_type move_effect_journal_undoer_solve(slice_index si,
-                                                   stip_length_type n);
+                                                  stip_length_type n);
 
 /* Undo the effects of the current move in ply nbply
  */

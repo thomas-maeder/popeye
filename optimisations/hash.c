@@ -1143,10 +1143,6 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
     */
     len++;
 
-  if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute
-      || circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
-    len += one_byte_hash ? 2*circe_parachute_covered_capacity : 4*circe_parachute_covered_capacity;
-
   if (OptFlag[nontrivial])
     len++;
 
@@ -1282,9 +1278,9 @@ byte *CommonEncode(byte *bp,
     if (move_effect_journal[capture].type==move_effect_piece_removal)
     {
       /* a piece has been captured and can be reborn */
-      square const from = move_effect_journal[capture].u.piece_removal.from;
-      PieNam const removed = move_effect_journal[capture].u.piece_removal.removed;
-      Flags const removedspec = move_effect_journal[capture].u.piece_removal.removedspec;
+      square const from = move_effect_journal[capture].u.piece_removal.on;
+      PieNam const removed = move_effect_journal[capture].u.piece_removal.walk;
+      Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
 
       *bp++ = (byte)(from-square_a1);
       if (one_byte_hash)
@@ -1306,33 +1302,6 @@ byte *CommonEncode(byte *bp,
         *bp++ = (byte)0;
         *bp++ = (byte)0;
         *bp++ = (byte)0;
-      }
-    }
-  }
-
-  if (circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_parachute
-      || circe_variant.on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
-  {
-    unsigned int i;
-    for (i = 0; i<circe_parachute_nr_covered_pieces; ++i)
-    {
-      move_effect_journal_index_type const idx_remember = circe_parachute_covered_pieces[i];
-      move_effect_journal_entry_type const * const entry = &move_effect_journal[idx_remember];
-      square const volcano = entry->u.piece_addition.on;
-      PieNam const walk = entry->u.piece_addition.added;
-      Flags const flags = entry->u.piece_addition.addedspec;
-
-      assert(entry->type==move_effect_remember_parachuted
-             || entry->type==move_effect_remember_volcanic);
-
-      *bp++ = (byte)(volcano-square_a1);
-      if (one_byte_hash)
-        *bp++ = (byte)(flags) + ((byte)(piece_nbr[walk]) << (CHAR_BIT/2));
-      else
-      {
-        *bp++ = walk;
-        *bp++ = (byte)(flags>>CHAR_BIT);
-        *bp++ = (byte)(flags&ByteMask);
       }
     }
   }
@@ -1395,7 +1364,7 @@ static void LargeEncode(stip_length_type min_length,
   byte *bp = position+nr_rows_on_board;
   int row, col;
   square a_square = square_a1;
-  ghost_index_type gi;
+  underworld_index_type gi;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1416,14 +1385,14 @@ static void LargeEncode(stip_length_type min_length,
 
   for (gi = 0; gi<nr_ghosts; ++gi)
   {
-    square s = (ghosts[gi].on
+    square s = (underworld[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
     row = s/onerow;
     col = s%onerow;
     bp = LargeEncodePiece(bp,position,
                           row,col,
-                          ghosts[gi].ghost,ghosts[gi].flags);
+                          underworld[gi].walk,underworld[gi].flags);
   }
 
   /* Now the rest of the party */
@@ -1462,7 +1431,7 @@ static void SmallEncode(stip_length_type min_length,
   square a_square = square_a1;
   int row;
   int col;
-  ghost_index_type gi;
+  underworld_index_type gi;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1480,14 +1449,14 @@ static void SmallEncode(stip_length_type min_length,
 
   for (gi = 0; gi<nr_ghosts; ++gi)
   {
-    square s = (ghosts[gi].on
+    square s = (underworld[gi].on
                 - nr_of_slack_rows_below_board*onerow
                 - nr_of_slack_files_left_of_board);
     row = s/onerow;
     col = s%onerow;
     bp = SmallEncodePiece(bp,
                           row,col,
-                          ghosts[gi].ghost,ghosts[gi].flags);
+                          underworld[gi].walk,underworld[gi].flags);
   }
 
   /* Now the rest of the party */

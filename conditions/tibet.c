@@ -35,7 +35,7 @@ stip_length_type double_tibet_solve(slice_index si, stip_length_type n)
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.removed)
+      && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.walk)
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);
@@ -89,7 +89,7 @@ stip_length_type tibet_solve(slice_index si, stip_length_type n)
 
   if (slices[si].starter==Black
       && move_effect_journal[capture].type==move_effect_piece_removal
-      && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.removed)
+      && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.walk)
     andernach_assume_side(advers(slices[si].starter));
 
   result = solve(slices[si].next1,n);

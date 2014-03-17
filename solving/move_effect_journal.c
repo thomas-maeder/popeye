@@ -63,8 +63,8 @@ void move_effect_journal_reset(void)
   move_effect_journal_index_offset_other_effects = 2;
 
   move_effect_journal[2].type = move_effect_no_piece_removal;
-  move_effect_journal[2].u.piece_removal.removed = Empty;
-  CLEARFL(move_effect_journal[2].u.piece_removal.removedspec);
+  move_effect_journal[2].u.piece_removal.walk = Empty;
+  CLEARFL(move_effect_journal[2].u.piece_removal.flags);
   move_effect_journal_base[1] = 3;
   move_effect_journal_base[2] = 4;
 
@@ -83,9 +83,9 @@ void move_effect_journal_store_retro_capture(square from,
 {
   move_effect_journal[3].type = move_effect_piece_removal;
   move_effect_journal[3].reason = move_effect_reason_regular_capture;
-  move_effect_journal[3].u.piece_removal.from = from;
-  move_effect_journal[3].u.piece_removal.removed = removed;
-  move_effect_journal[3].u.piece_removal.removedspec = removedspec;
+  move_effect_journal[3].u.piece_removal.on = from;
+  move_effect_journal[3].u.piece_removal.walk = removed;
+  move_effect_journal[3].u.piece_removal.flags = removedspec;
 }
 
 /* Reset the stored retro capture
@@ -258,8 +258,8 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   top_elmt->type = move_effect_piece_readdition;
   top_elmt->reason = reason;
   top_elmt->u.piece_addition.on = on;
-  top_elmt->u.piece_addition.added = added;
-  top_elmt->u.piece_addition.addedspec = addedspec;
+  top_elmt->u.piece_addition.walk = added;
+  top_elmt->u.piece_addition.flags = addedspec;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -294,8 +294,8 @@ static void undo_piece_readdition(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  PieNam const added = curr_elmt->u.piece_addition.added;
-  Flags const addedspec = curr_elmt->u.piece_addition.addedspec;
+  PieNam const added = curr_elmt->u.piece_addition.walk;
+  Flags const addedspec = curr_elmt->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -319,8 +319,8 @@ static void redo_piece_readdition(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  PieNam const added = curr_elmt->u.piece_addition.added;
-  Flags const addedspec = curr_elmt->u.piece_addition.addedspec;
+  PieNam const added = curr_elmt->u.piece_addition.walk;
+  Flags const addedspec = curr_elmt->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -367,8 +367,8 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   top_elmt->type = move_effect_piece_creation;
   top_elmt->reason = reason;
   top_elmt->u.piece_addition.on = on;
-  top_elmt->u.piece_addition.added = created;
-  top_elmt->u.piece_addition.addedspec = createdspec;
+  top_elmt->u.piece_addition.walk = created;
+  top_elmt->u.piece_addition.flags = createdspec;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -403,8 +403,8 @@ static void undo_piece_creation(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  PieNam const created = curr_elmt->u.piece_addition.added;
-  Flags const createdspec = curr_elmt->u.piece_addition.addedspec;
+  PieNam const created = curr_elmt->u.piece_addition.walk;
+  Flags const createdspec = curr_elmt->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -431,8 +431,8 @@ static void redo_piece_creation(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
   square const on = curr_elmt->u.piece_addition.on;
-  PieNam const created = curr_elmt->u.piece_addition.added;
-  Flags const createdspec = curr_elmt->u.piece_addition.addedspec;
+  PieNam const created = curr_elmt->u.piece_addition.walk;
+  Flags const createdspec = curr_elmt->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -469,8 +469,8 @@ void move_effect_journal_do_no_piece_removal(void)
 
   top_elmt->type = move_effect_no_piece_removal;
   top_elmt->reason = move_effect_no_reason;
-  top_elmt->u.piece_removal.removed = Empty;
-  CLEARFL(top_elmt->u.piece_removal.removedspec);
+  top_elmt->u.piece_removal.walk = Empty;
+  CLEARFL(top_elmt->u.piece_removal.flags);
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -498,9 +498,9 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
 
   top_elmt->type = move_effect_piece_removal;
   top_elmt->reason = reason;
-  top_elmt->u.piece_removal.from = from;
-  top_elmt->u.piece_removal.removed = get_walk_of_piece_on_square(from);
-  top_elmt->u.piece_removal.removedspec = spec[from];
+  top_elmt->u.piece_removal.on = from;
+  top_elmt->u.piece_removal.walk = get_walk_of_piece_on_square(from);
+  top_elmt->u.piece_removal.flags = spec[from];
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -568,9 +568,9 @@ void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
 
 static void undo_piece_removal(move_effect_journal_index_type curr)
 {
-  square const from = move_effect_journal[curr].u.piece_removal.from;
-  PieNam const removed = move_effect_journal[curr].u.piece_removal.removed;
-  Flags const removedspec = move_effect_journal[curr].u.piece_removal.removedspec;
+  square const from = move_effect_journal[curr].u.piece_removal.on;
+  PieNam const removed = move_effect_journal[curr].u.piece_removal.walk;
+  Flags const removedspec = move_effect_journal[curr].u.piece_removal.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -593,7 +593,7 @@ static void undo_piece_removal(move_effect_journal_index_type curr)
 static void redo_piece_removal(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const from = curr_elmt->u.piece_removal.from;
+  square const from = curr_elmt->u.piece_removal.on;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);
@@ -602,7 +602,7 @@ static void redo_piece_removal(move_effect_journal_index_type curr)
 #if defined(DOTRACE)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
-  TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(curr_elmt->u.piece_removal.removed);TraceEOL();
+  TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TracePiece(curr_elmt->u.piece_removal.walk);TraceEOL();
 
   do_removal(from);
 
@@ -1429,16 +1429,16 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
     switch (move_effect_journal[other].type)
     {
       case move_effect_piece_removal:
-        if (move_effect_journal[other].u.piece_removal.from==pos)
+        if (move_effect_journal[other].u.piece_removal.on==pos)
         {
-          assert(GetPieceId(move_effect_journal[other].u.piece_removal.removedspec)==followed_id);
+          assert(GetPieceId(move_effect_journal[other].u.piece_removal.flags)==followed_id);
           pos = initsquare;
         }
         break;
 
       case move_effect_piece_readdition:
       case move_effect_piece_creation:
-        if (GetPieceId(move_effect_journal[other].u.piece_addition.addedspec)==followed_id)
+        if (GetPieceId(move_effect_journal[other].u.piece_addition.flags)==followed_id)
         {
           assert(pos==initsquare);
           pos = move_effect_journal[other].u.piece_addition.on;
@@ -1489,7 +1489,6 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
       case move_effect_remember_duellist:
       case move_effect_remember_parachuted:
       case move_effect_remember_volcanic:
-      case move_effect_uncover_parachuted:
         /* nothing */
         break;
 
@@ -1631,10 +1630,6 @@ void redo_move_effects(void)
         move_effect_journal_redo_circe_volcanic_remember(curr);
         break;
 
-      case move_effect_uncover_parachuted:
-        move_effect_journal_redo_circe_parachute_uncover(curr);
-        break;
-
       default:
         assert(0);
         break;
@@ -1769,10 +1764,6 @@ void undo_move_effects(void)
 
       case move_effect_remember_volcanic:
         move_effect_journal_undo_circe_volcanic_remember(top-1);
-        break;
-
-      case move_effect_uncover_parachuted:
-        move_effect_journal_undo_circe_parachute_uncover(top-1);
         break;
 
       default:

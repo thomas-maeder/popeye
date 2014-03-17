@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = position.c board.c pieceid.c
+SRC_CFILES = position.c board.c pieceid.c underworld.c
          
-INCLUDES = position.h board.h pieceid.h
+INCLUDES = position.h board.h pieceid.h underworld.h
 
 include makefile.rules $(CURRPWD)depend

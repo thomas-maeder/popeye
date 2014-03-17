@@ -41,7 +41,7 @@ stip_length_type protean_pawn_adjuster_solve(slice_index si,
   if (move_effect_journal[capture].type==move_effect_piece_removal
       && (!protean_is_rex_exclusive || !TSTFLAG(spec[sq_arrival],Royal)))
   {
-    PieNam substitute = move_effect_journal[capture].u.piece_removal.removed;
+    PieNam substitute = move_effect_journal[capture].u.piece_removal.walk;
     if (substitute==Pawn)
       substitute = ReversePawn;
     else if (substitute==ReversePawn)

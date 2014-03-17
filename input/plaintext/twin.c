@@ -1430,7 +1430,7 @@ static void initialise_piece_flags(void)
       }
 
     if (OptFlag[lastcapture] && move_effect_journal[3].type==move_effect_piece_removal)
-      SetPieceId(move_effect_journal[3].u.piece_removal.removedspec,currPieceId++);
+      SetPieceId(move_effect_journal[3].u.piece_removal.flags,currPieceId++);
   }
 
   TraceFunctionExit(__func__);

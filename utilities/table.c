@@ -190,13 +190,13 @@ static boolean moves_equal(table_elmt_type const *snapshot)
           case move_effect_piece_readdition:
           case move_effect_piece_creation:
             if (move_effect_journal[curr].u.piece_addition.on!=snapshot->relevant_effects[id_relevant].u.piece_addition.on
-                || move_effect_journal[curr].u.piece_addition.added!=snapshot->relevant_effects[id_relevant].u.piece_addition.added
-                || move_effect_journal[curr].u.piece_addition.addedspec!=snapshot->relevant_effects[id_relevant].u.piece_addition.addedspec)
+                || move_effect_journal[curr].u.piece_addition.walk!=snapshot->relevant_effects[id_relevant].u.piece_addition.walk
+                || move_effect_journal[curr].u.piece_addition.flags!=snapshot->relevant_effects[id_relevant].u.piece_addition.flags)
               return false;
             break;
 
           case move_effect_piece_removal:
-            if (move_effect_journal[curr].u.piece_removal.from!=snapshot->relevant_effects[id_relevant].u.piece_removal.from)
+            if (move_effect_journal[curr].u.piece_removal.on!=snapshot->relevant_effects[id_relevant].u.piece_removal.on)
               return false;
             break;
 

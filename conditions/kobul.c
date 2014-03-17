@@ -27,10 +27,10 @@ static void substitute(Side trait_ply)
       && king_pos!=initsquare
       && king_pos!=nullsquare)
   {
-    PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.removed;
+    PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
     PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
 
-    Flags const capturee_flags = move_effect_journal[capture].u.piece_removal.removedspec;
+    Flags const capturee_flags = move_effect_journal[capture].u.piece_removal.flags;
     Flags spec_kobul = spec[king_pos];
     CLRFLAGMASK(spec_kobul,transferred_flags_mask);
     SETFLAGMASK(spec_kobul,capturee_flags&transferred_flags_mask);

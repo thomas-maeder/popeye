@@ -101,8 +101,8 @@ stip_length_type anti_einstein_determine_reborn_piece_solve(slice_index si,
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.removed);
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec = move_effect_journal[capture].u.piece_removal.removedspec;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.walk);
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec = move_effect_journal[capture].u.piece_removal.flags;
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk;
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_spec = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec;
 

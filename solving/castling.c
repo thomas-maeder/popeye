@@ -401,7 +401,7 @@ static void adjust_castling_rights(Side trait_ply)
 
       case move_effect_piece_removal:
         disable_castling_rights(move_effect_journal[curr].reason,
-                                move_effect_journal[curr].u.piece_removal.from);
+                                move_effect_journal[curr].u.piece_removal.on);
         break;
 
       case move_effect_side_change:

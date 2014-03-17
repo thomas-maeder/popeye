@@ -23,7 +23,7 @@ stip_length_type antipodes_circe_determine_rebirth_square_solve(slice_index si,
   stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.from;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
   unsigned int const row = sq_capture/onerow - nr_of_slack_rows_below_board;
   unsigned int const file = sq_capture%onerow - nr_of_slack_files_left_of_board;
 

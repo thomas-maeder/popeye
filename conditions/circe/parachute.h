@@ -7,12 +7,6 @@
 #include "solving/solve.h"
 #include "solving/move_effect_journal.h"
 
-enum { circe_parachute_covered_capacity = 32 };
-
-extern move_effect_journal_index_type circe_parachute_covered_pieces[circe_parachute_covered_capacity];
-
-extern unsigned int circe_parachute_nr_covered_pieces;
-
 /* Try to solve in n half-moves.
  * @param si slice index
  * @param n maximum number of half moves

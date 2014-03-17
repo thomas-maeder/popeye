@@ -79,34 +79,46 @@ static boolean find_non_capturing_move(move_effect_journal_index_type rebirth,
                                        Side moving_side)
 {
   boolean result;
-  square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",rebirth);
   TraceEnumerator(Side,moving_side,"");
   TraceFunctionParamListEnd();
 
-  if (move_effect_journal[rebirth].type==move_effect_piece_readdition)
+  switch (move_effect_journal[rebirth].type)
   {
-    init_single_piece_move_generator(sq_rebirth);
-    result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==next_move_has_solution;
-  }
-  else
-  {
-    PieNam const walk = get_walk_of_piece_on_square(sq_rebirth);
-    Flags const flags = spec[sq_rebirth];
+    case move_effect_piece_readdition:
+    {
+      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
+      init_single_piece_move_generator(sq_rebirth);
+      result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==next_move_has_solution;
+      break;
+    }
 
-    occupy_square(sq_rebirth,
-                  move_effect_journal[rebirth].u.piece_addition.added,
-                  move_effect_journal[rebirth].u.piece_addition.addedspec);
+    case move_effect_remember_volcanic:
+    {
+      square const sq_rebirth = move_effect_journal[rebirth].u.handle_ghost.ghost.on;
+      PieNam const walk = get_walk_of_piece_on_square(sq_rebirth);
+      Flags const flags = spec[sq_rebirth];
 
-    init_single_piece_move_generator(sq_rebirth);
-    result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==next_move_has_solution;
+      occupy_square(sq_rebirth,
+                    move_effect_journal[rebirth].u.handle_ghost.ghost.walk,
+                    move_effect_journal[rebirth].u.handle_ghost.ghost.flags);
 
-    if (walk==Empty)
-      empty_square(sq_rebirth);
-    else
-      occupy_square(sq_rebirth,walk,flags);
+      init_single_piece_move_generator(sq_rebirth);
+      result = solve(slices[temporary_hack_cagecirce_noncapture_finder[moving_side]].next2,length_unspecified)==next_move_has_solution;
+
+      if (walk==Empty)
+        empty_square(sq_rebirth);
+      else
+        occupy_square(sq_rebirth,walk,flags);
+      break;
+    }
+
+    default:
+      assert(0);
+      result = this_move_is_illegal;
+      break;
   }
 
   TraceFunctionExit(__func__);
@@ -142,18 +154,12 @@ stip_length_type circe_cage_cage_tester_solve(slice_index si,
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
     if (rebirth<move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
       result = solve(slices[si].next1,n);
+    else if (find_non_capturing_move(rebirth,advers(slices[si].starter)))
+      result = this_move_is_illegal;
     else
     {
-      assert(move_effect_journal[rebirth].type==move_effect_piece_readdition
-             || move_effect_journal[rebirth].type==move_effect_remember_volcanic);
-
-      if (find_non_capturing_move(rebirth,advers(slices[si].starter)))
-        result = this_move_is_illegal;
-      else
-      {
-        cage_found_for_current_capture[nbply] = true;
-        result = solve(slices[si].next1,n);
-      }
+      cage_found_for_current_capture[nbply] = true;
+      result = solve(slices[si].next1,n);
     }
   }
 
