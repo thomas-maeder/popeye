@@ -21,15 +21,7 @@ enum
 #elif defined(_OS2)
   maxply = 302
 #else
-#if defined(SIXTEEN) /* DOS 16 Bit, ... */
-#if defined(MSG_IN_MEM)
-  maxply = 26
-#else
-  maxply = 48
-#endif /* MSG_IN_MEM */
-#else
   maxply = 702
-#endif/* SIXTEEN */
 #endif /* _WIN32 */
 #endif /* __unix */
 };

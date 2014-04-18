@@ -7,20 +7,19 @@ INCLUDES = pylang.h
 SRC_CFILES =	pygmarr.c gengmarr.c
 GENERATED_CFILES = pygmarr.c
 ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c
-MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
 DOCFILES=       py-fran.txt py-deut.txt py-engl.txt \
 		readme.txt COPIER COPYING KOPIEREN
 DEVELOP =       coding.txt
 SCRIPTS =       $(wildcard scripts/*.sh)
 SPECIALCFILES = pymain.c
-HOSTFILES     = genpystr$(OBJ_SUFFIX) \
+HOSTFILES     = \
 		pylang$(OBJ_SUFFIX) position/position-host$(OBJ_SUFFIX) \
 		position/board-host$(OBJ_SUFFIX) \
-		gengmarr$(EXE_SUFFIX) genpystr$(EXE_SUFFIX)
+		gengmarr$(EXE_SUFFIX)
 
 include makefile.rules $(CURRPWD)/depend
 
-DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES) $(MSGFILES)
+DISTRIBUTEDFILES += $(SPECIALCFILES) $(DEVELOP) $(DOCFILES)
 
 
 
@@ -33,20 +32,6 @@ pyio:           pyio.c pymac.h
 
 pylang$(OBJ_SUFFIX):  pylang.c
 			$(CCHOST) $(CFLAGS) $(COMPILEONLY) pylang.c $(OBJFILE)$@
-
-genpystr$(OBJ_SUFFIX):	genpystr.c
-			$(CCHOST) $(CFLAGS) \
-				$(COMPILEONLY) genpystr.c $(OBJFILE)$@
-
-
-# ===========================================================
-# Target for generating utilities for string handling
-
-genpystr$(EXE_SUFFIX):	genpystr$(OBJ_SUFFIX) pylang$(OBJ_SUFFIX)
-			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
-
-pyallmsg.h:	$(MSGFILES) genpystr$(EXE_SUFFIX)
-		./genpystr$(EXE_SUFFIX)
 
 # ===========================================================
 # Target for generating the module that contains the game array

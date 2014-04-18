@@ -16,6 +16,7 @@
 #include "input/plaintext/line.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
+#include "output/plaintext/language_dependant.h"
 #include "output/latex/latex.h"
 #include "platform/pytime.h"
 
@@ -27,6 +28,8 @@ typedef unsigned long UnLong;
 #if !defined(SEEK_SET)
 #	define SEEK_SET 0
 #endif	/* not SEEK_SET */
+
+static char const * const *ActualMsgTab;
 
 static message_id_t StringCnt;
 
@@ -65,10 +68,6 @@ void logChrArg(char arg)
   AdditionalArg= CharBuffer;
 }
 
-#if defined(MSG_IN_MEM)
-#include "pyallmsg.h"
-static char **ActualMsgTab;
-
 boolean InitMsgTab(Language l)
 {
   StringCnt= MsgCount;
@@ -80,134 +79,6 @@ char const *GetMsgString(message_id_t id)
 {
   return ActualMsgTab[id];
 }
-#else /* not MSG_IN_MEM */
-
-static FILE* fstring;
-static char *StringBuf=NULL;
-static UnInt *MsgOffset= (UnInt *)0;
-static int MaxLeng;
-
-UnInt GetUnInt(char **s)
-{
-  UnInt c;
-
-#define GetByte(s) ((*(*(UnChar **)(s))++) & 0xff)
-
-  c= GetByte(s);
-  switch (c & 0xc0)
-  {
-  case 0x00:
-	return c;
-
-  case 0x40:
-	return c;
-
-  case 0x80:
-	c= (c<<8);
-	c+= GetByte(s);
-	return c ^ 0x8000;
-
-  case 0xC0:
-	c= (c<<8) + GetByte(s);
-	c= (c<<8) + GetByte(s);
-	c= (c<<8) + GetByte(s);
-	return c ^ 0xC0000000;
-  }
-}
-
-char const *GetMsgString(message_id_t id)
-{
-  int l;
-  char *spt;
-  boolean OutOfRange= false;
-
-  if (StringCnt<=id)
-  {
-	OutOfRange= true;
-	fseek(fstring, (UnLong)MsgOffset[InternalError], SEEK_SET);
-  }
-  else
-	fseek(fstring, (UnLong)MsgOffset[id], SEEK_SET);
-
-#if defined(DOS)
-#if defined(_MSC_VER)
-#if defined(SHARING)		 /* Lock the file region, which should be read */
-  locking(fstring,LK_RLCK,MaxLeng);
-#endif	/* SHARING */
-#endif	/* _MSC_VER */
-#endif	/* DOS */
-
-  fread(StringBuf, MaxLeng, 1, fstring);
-
-#if defined(DOS)
-#if defined(_MSC_VER)
-#if defined(SHARING)		 /* Unlock the file region */
-  locking(fstring,LK_UNLCK,MaxLeng);
-#endif
-#endif	/* _MSC_VER */
-#endif	/* DOS */
-
-  spt= StringBuf;
-  l= GetUnInt(&spt);
-  spt[l]='\0';
-  if (OutOfRange) {
-	static char ErrStr[64];
-	sprintf(ErrStr,spt,nr);
-	return ErrStr;
-  }
-  return spt;
-}
-
-boolean InitMsgTab(Language l)
-{
-  char Head[64], *hpt, *path, *OurFile;
-  UnInt StrStart, StrSize, OfsStart, OfsSize;
-  char    *OfsBuf,*opt;
-  int     s;
-
-  OurFile= MkStrFileName(l);
-
-  fstring = fopen(OurFile,"r");
-  if (fstring==NULL)
-  {
-    fprintf(stderr,"No %s - sorry\n",OurFile);
-    exit(-2);
-  }
-  else
-  {
-    fread(Head, sizeof(Head), 1, fstring);
-
-    hpt= Head;
-    StringCnt= GetUnInt(&hpt);
-    MaxLeng  = GetUnInt(&hpt);
-    StrStart = GetUnInt(&hpt);
-    StrSize  = GetUnInt(&hpt);
-    OfsStart = GetUnInt(&hpt);
-    OfsSize  = GetUnInt(&hpt);
-
-    MaxLeng+=20;
-
-    if (MsgOffset)
-      free(MsgOffset);
-    MsgOffset= (UnInt *)malloc(sizeof(UnInt *)*StringCnt);
-    if (StringBuf)
-      free(StringBuf);
-    StringBuf= (char *)malloc(MaxLeng);
-    OfsBuf= (char *)malloc(OfsSize+2);
-    opt= OfsBuf;
-
-    fseek(fstring, (UnLong)OfsStart, SEEK_SET);
-    fread(OfsBuf, OfsSize, 1, fstring);
-
-    for (s=0; s<StringCnt; s++)
-      MsgOffset[s]= GetUnInt(&opt) + sizeof(Head);
-
-    free(OfsBuf);
-    return true;
-  }
-}
-#endif	/* MSG_IN_MEM */
-
 
 #if defined(DEBUG)
 #       define  DBG(x) fprintf x

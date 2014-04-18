@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.197 2014/04/18 09:59:10 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.198 2014/04/18 12:22:52 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -340,9 +340,6 @@ endif
 %$(OBJ_SUFFIX) %$(LIB_SUFFIX) %.enum.h %/clean: FORCE
 	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 
-pyallmsg.h: FORCE
-	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
-
 # ===========================================================
 # create hard links to files to be distributed
 
@@ -360,7 +357,7 @@ clean:	$(NESTEDLIBDIRS:%=%/clean)
 	rm -f pymain$(OBJ_SUFFIX)
 
 clobber:	clean
-		rm -f py$(EXE_SUFFIX) genpystr$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES)
+		rm -f py$(EXE_SUFFIX) gengmarr$(EXE_SUFFIX) $(STRFILES)
 
 FORCE:
 

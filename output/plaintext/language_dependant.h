@@ -140,6 +140,8 @@ extern char const * const *TwinningTab;
 extern char const * const mummer_strictness_string[LanguageCount][nr_mummer_strictness];
 extern char const * const *mummer_strictness_tab;
 
+extern char const * const *MessageTabs[];
+
 /* Make sure that we don't define ambiguous piece name shortcuts */
 void enforce_piecename_uniqueness(void);
 

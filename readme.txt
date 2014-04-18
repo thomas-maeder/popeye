@@ -161,7 +161,7 @@ On all these machines this sources compile without any problems.
 					ElB 3.May 1994
 
 -----  PY.COM  ---- simple command procedure for compiling and linking
-$ compile == "cc/define=(VMS,MSG_IN_MEM,HASH)"
+$ compile == "cc/define=(VMS,HASH)"
 $ delete py*.obj;*
 $ delete py.exe;*
 $ write sys$output "Compiling pyhash.c..."
