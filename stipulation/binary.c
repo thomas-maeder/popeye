@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* Allocate a binary slice.

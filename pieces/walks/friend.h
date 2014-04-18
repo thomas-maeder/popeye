@@ -9,9 +9,9 @@
 #include "utilities/boolean.h"
 #include "solving/observation.h"
 
-void locate_observees(PieNam walk, square pos_observees[]);
-void isolate_observee(PieNam walk, square const pos_observees[], unsigned int isolated_observee);
-void restore_observees(PieNam walk, square const pos_observees[]);
+void locate_observees(piece_walk_type walk, square pos_observees[]);
+void isolate_observee(piece_walk_type walk, square const pos_observees[], unsigned int isolated_observee);
+void restore_observees(piece_walk_type walk, square const pos_observees[]);
 
 /* Generate moves for a Friend
  */

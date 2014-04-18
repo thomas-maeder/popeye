@@ -1,8 +1,9 @@
 #include "options/degenerate_tree.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -27,7 +28,7 @@ void init_degenerate_tree(stip_length_type max_length_short)
   TraceFunctionParam("%u",max_length_short);
   TraceFunctionParamListEnd();
 
-  max_length_short_solutions = 2*max_length_short+slack_length;
+  max_length_short_solutions = 2*max_length_short;
   TraceValue("%u\n",max_length_short_solutions);
 
   TraceFunctionExit(__func__);
@@ -73,20 +74,23 @@ static stip_length_type delegate_solve(slice_index si,
                                         stip_length_type n_min)
 {
   stip_length_type result = n+2;
-  stip_length_type n_current;
+  stip_length_type const save_solve_nr_remaining = MOVE_HAS_SOLVED_LENGTH();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",n_min);
   TraceFunctionParamListEnd();
 
-  for (n_current = n_min+(n-n_min)%2; n_current<=n; n_current += 2)
+  for (solve_nr_remaining = n_min+(n-n_min)%2; solve_nr_remaining<=n; solve_nr_remaining += 2)
   {
-    result = solve(slices[si].next1,n_current);
-    if (result<=n_current)
+    pipe_solve_delegate(si);
+
+  result = solve_result;
+    if (result<=MOVE_HAS_SOLVED_LENGTH())
       break;
   }
+
+  solve_nr_remaining = save_solve_nr_remaining;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -94,10 +98,9 @@ static stip_length_type delegate_solve(slice_index si,
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -106,41 +109,37 @@ static stip_length_type delegate_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type degenerate_tree_solve(slice_index si, stip_length_type n)
+void degenerate_tree_solve(slice_index si)
 {
-  stip_length_type result;
   stip_length_type const length = slices[si].u.branch.length;
   stip_length_type const min_length = slices[si].u.branch.min_length;
-  stip_length_type const n_min = (min_length>=(length-n)+slack_length
-                                  ? min_length-(length-n)
+  stip_length_type const n_min = (min_length>=(length-solve_nr_remaining)+slack_length
+                                  ? min_length-(length-solve_nr_remaining)
                                   : min_length);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n>max_length_short_solutions)
+  if (solve_nr_remaining>max_length_short_solutions+slack_length)
   {
-    if (max_length_short_solutions>=slack_length+2)
+    if (max_length_short_solutions>=2)
     {
-      stip_length_type const parity = (n-slack_length)%2;
-      stip_length_type const n_interm = max_length_short_solutions-parity;
-      result = delegate_solve(si,n_interm,n_min);
-      if (result>n_interm)
-        result = delegate_solve(si,n,n);
+      stip_length_type const parity = (solve_nr_remaining-slack_length)%2;
+      stip_length_type const n_interm = max_length_short_solutions+slack_length-parity;
+      if (delegate_solve(si,n_interm,n_min)>n_interm)
+        delegate_solve(si,solve_nr_remaining,solve_nr_remaining);
     }
     else
-      result = delegate_solve(si,n,n);
+      delegate_solve(si,solve_nr_remaining,solve_nr_remaining);
   }
   else
-    result = delegate_solve(si,n,n_min);
+    delegate_solve(si,solve_nr_remaining,n_min);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void degenerate_tree_inserter_attack(slice_index si,

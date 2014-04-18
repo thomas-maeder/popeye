@@ -2,6 +2,8 @@
 #define POSITION_POSITION_H
 
 #include "position/board.h"
+#include "position/side.h"
+#include "position/color.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/vectors.h"
 #include "utilities/boolean.h"
@@ -12,49 +14,17 @@
 /* Array containing an element for each square plus many slack square
  * for making move generation easier
  */
-typedef PieNam echiquier[maxsquare+4];
+typedef piece_walk_type echiquier[maxsquare+4];
 
 /* Some useful symbols for dealing with these flags
  */
-
-/* Enumeration type for the two sides which move, deliver mate etc.
- */
-
-#include "position/board.h"
-
-#define ENUMERATION_TYPENAME Side
-#define ENUMERATORS \
-  ENUMERATOR(White), \
-    ENUMERATOR(Black), \
-                       \
-    ENUMERATOR(nr_sides), \
-    ASSIGNED_ENUMERATOR(no_side = nr_sides)
-
-#define ENUMERATION_DECLARE
-
-#include "utilities/enumeration.h"
-
-#define advers(side)    ((side)==Black ? White : Black)
-
-
-typedef enum
-{
-  color_white,
-  color_black,
-  color_neutral,
-
-  nr_colors
-} Colors;
-
-#define COLORFLAGS      (BIT(color_black)+BIT(color_white)+BIT(color_neutral))
-#define SETCOLOR(a,b)   (a)=((a)&~COLORFLAGS)+((b)&COLORFLAGS)
 
 extern echiquier e;
 extern Flags spec[maxsquare+4];
 extern square king_square[nr_sides];
 extern boolean areColorsSwapped;
 extern boolean isBoardReflected;
-extern unsigned int number_of_pieces[nr_sides][PieceCount];
+extern unsigned int number_of_pieces[nr_sides][nr_piece_walks];
 
 enum
 {
@@ -79,14 +49,14 @@ typedef struct
     square king_square[nr_sides];        /* placement of the kings */
     unsigned int inum;                   /* number of iterators */
     imarr isquare;                       /* placement of iterators */
-    unsigned number_of_pieces[nr_sides][PieceCount]; /* number of piece kind */
+    unsigned number_of_pieces[nr_sides][nr_piece_walks]; /* number of piece kind */
 } position;
 
 
 /* Sequence of pieces corresponding to the game array (a1..h1, a2..h2
  * ... a8..h8)
  */
-extern PieNam const PAS[nr_squares_on_board];
+extern piece_walk_type const PAS[nr_squares_on_board];
 extern Side const PAS_sides[nr_squares_on_board];
 
 /* Initial game position.
@@ -107,8 +77,8 @@ void reflect_position(void);
 
 void empty_square(square s);
 void block_square(square s);
-void occupy_square(square s, PieNam piece, Flags flags);
-void replace_piece(square s, PieNam piece);
+void occupy_square(square s, piece_walk_type walk, Flags flags);
+void replace_walk(square s, piece_walk_type walk);
 #define is_square_empty(s) (e[(s)]==Empty)
 #define is_square_blocked(s) (e[(s)]==Invalid)
 #define get_walk_of_piece_on_square(s) (e[(s)])

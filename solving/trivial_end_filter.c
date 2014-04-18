@@ -1,12 +1,12 @@
 #include "solving/trivial_end_filter.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/binary.h"
 #include "solving/ply.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* Allocate a STTrivialEndFilter slice.
@@ -27,10 +27,9 @@ static slice_index alloc_trivial_end_filter_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -39,26 +38,19 @@ static slice_index alloc_trivial_end_filter_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type trivial_end_filter_solve(slice_index si, stip_length_type n)
+void trivial_end_filter_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nbply==nil_ply || n==slack_length)
-    result = solve(slices[si].next1,n);
-  else
-    /* variation is trivial - just determine the result */
-    result = solve(slices[si].next2,n);
+  assert(nbply>ply_retro_move);
+  binary_solve_if_then_else(si,solve_nr_remaining!=previous_move_has_solved);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void remember_output_mode(slice_index si, stip_structure_traversal *st)
@@ -131,10 +123,10 @@ enum
      / sizeof trivial_varation_filter_inserters[0])
 };
 
-/* Instrument a stipulation with trivial variation filters
- * @param si identifies the entry slice of the stipulation to be instrumented
+/* Instrument the solving machinery with trivial variation filters
+ * @param si identifies the root of the solving machinery
  */
-void stip_insert_trivial_variation_filters(slice_index si)
+void solving_insert_trivial_variation_filters(slice_index si)
 {
   stip_structure_traversal st;
   output_mode mode = output_mode_none;

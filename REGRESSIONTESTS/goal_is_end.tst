@@ -79,7 +79,7 @@ solution finished.
 
 
 not 1.g1~
-both sides need a kingboth sides need a king
+
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -101,6 +101,7 @@ both sides need a kingboth sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-hc812                   1 + 2
+both sides need a king
 
   1.Sh5-f6   2.Sf6-g8 h7*g8=Q c81
   1.Sh5-f6   2.Sf6-g8 h7*g8=S c81

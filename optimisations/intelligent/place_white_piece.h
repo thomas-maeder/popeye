@@ -14,7 +14,7 @@ void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
                                              square placed_on,
                                              void (*go_on)(void));
 
-void intelligent_place_promoted_white_rider(PieNam promotee_type,
+void intelligent_place_promoted_white_rider(piece_walk_type promotee_type,
                                             unsigned int placed_index,
                                             square placed_on,
                                             void (*go_on)(void));

@@ -255,7 +255,7 @@ void TraceSquareImpl(char const *prefix, square s)
 }
 
 #if defined(DOTRACECALLSTACK)
-static void remember_regular_piece(PieNam pnam)
+static void remember_regular_piece(piece_walk_type pnam)
 {
   char const p1 = PieceTab[pnam][1];
 
@@ -271,7 +271,7 @@ static void remember_regular_piece(PieNam pnam)
 }
 #endif
 
-void TracePieceImpl(char const *prefix, PieNam p)
+void TraceWalkImpl(char const *prefix, piece_walk_type p)
 {
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
@@ -556,10 +556,9 @@ void TraceStipulation(slice_index si)
 
 #include "debugging/assert.h"
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -568,11 +567,12 @@ void TraceStipulation(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type move_tracer_solve(slice_index si, stip_length_type n)
+void move_tracer_solve(slice_index si)
 {
   TraceCurrentMove();
-  return solve(slices[si].next1,n);
+  solve(slices[si].next1);
 }
 
 /* Instrument slices with move tracers

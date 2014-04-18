@@ -1,7 +1,7 @@
 #if !defined(STIPULATION_ULTRASCHACHZWANG_GOAL_FILTER_H)
 #define STIPULATION_ULTRASCHACHZWANG_GOAL_FILTER_H
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* This module provides slice type STUltraschachzwangGoalFilter. This slice
  * suspends Ultraschachzwang when testing for mate.

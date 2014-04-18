@@ -55,6 +55,7 @@ static void init_disturb_mate_dir_rider(square const check_from, int dir)
 {
   vec_index_type i;
   unsigned int disturb_index = 0;
+  Flags const mask = BIT(Black)|BIT(Royal);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
@@ -66,7 +67,7 @@ static void init_disturb_mate_dir_rider(square const check_from, int dir)
     if (vec[i]>0)
     {
       square s;
-      for (s = check_from; s!=king_square[Black]; s += dir)
+      for (s = check_from; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
         init_disturb_mate_rider_onedir(s,vec[i],disturb_index);
       ++disturb_index;
     }
@@ -77,7 +78,7 @@ static void init_disturb_mate_dir_rider(square const check_from, int dir)
     if (vec[i]>0)
     {
       square s;
-      for (s = check_from; s!=king_square[Black]; s += dir)
+      for (s = check_from; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
         init_disturb_mate_rider_onedir(s,vec[i],disturb_index);
       ++disturb_index;
     }
@@ -91,12 +92,13 @@ static void init_disturb_mate_dir_rider(square const check_from, int dir)
 static void init_disturb_mate_dir_knight(square const check_from, int dir)
 {
   square s;
+  Flags const mask = BIT(Black)|BIT(Royal);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  for (s = check_from; s!=king_square[Black]; s += dir)
+  for (s = check_from; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
   {
     vec_index_type i;
     for (i = vec_knight_start; i<=vec_knight_end; ++i)
@@ -110,12 +112,13 @@ static void init_disturb_mate_dir_knight(square const check_from, int dir)
 static void init_disturb_mate_dir_pawn(square const check_from, int dir)
 {
   square s;
+  Flags const mask = BIT(Black)|BIT(Royal);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  for (s = check_from+dir; s!=king_square[Black]; s += dir)
+  for (s = check_from+dir; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
   {
     DisturbMateDirPawn[s+dir_up] = disturbance_by_pawn_interception_single;
     if (square_a5<=s && s<=square_h5)
@@ -144,13 +147,13 @@ static void fini_disturb_mate_dir(void)
   memset(DisturbMateDirPawn, 0, sizeof DisturbMateDirPawn);
 }
 
-static void remember_mating_line(PieNam checker_type, square const check_from, int delta)
+static void remember_mating_line(piece_walk_type checker_type, square const check_from, int delta)
 {
   int const diff = king_square[Black]-check_from;
   int const dir = CheckDir[checker_type][diff];
 
   TraceFunctionEntry(__func__);
-  TracePiece(checker_type);
+  TraceWalk(checker_type);
   TraceSquare(check_from);
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
@@ -170,7 +173,7 @@ static void remember_mating_line(PieNam checker_type, square const check_from, i
 }
 
 static void by_promoted_rider(unsigned int index_of_checker,
-                              PieNam promotee_type,
+                              piece_walk_type promotee_type,
                               square const check_from)
 {
   int const diff = king_square[Black]-check_from;
@@ -178,7 +181,7 @@ static void by_promoted_rider(unsigned int index_of_checker,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
-  TracePiece(promotee_type);
+  TraceWalk(promotee_type);
   TraceSquare(check_from);
   TraceFunctionParamListEnd();
 
@@ -234,7 +237,7 @@ static void by_promoted_pawn(unsigned int index_of_checker, square const check_f
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_checker,
                                                                 check_from))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
@@ -287,7 +290,7 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
 
 static void by_rider(unsigned int index_of_checker, square const check_from)
 {
-  PieNam const checker_type = white[index_of_checker].type;
+  piece_walk_type const checker_type = white[index_of_checker].type;
   Flags const checker_flags = white[index_of_checker].flags;
   int const diff = king_square[Black]-check_from;
   int const dir = CheckDir[checker_type][diff];

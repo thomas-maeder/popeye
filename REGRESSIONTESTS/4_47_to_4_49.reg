@@ -190,7 +190,6 @@ solution finished.
 solution finished. 
 
 
-WhiteToPlay not applicable - ignored
 
 option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 
@@ -214,6 +213,7 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h+1.5                       2 + 1
+WhiteToPlay not applicable - ignored
 
   1...b4-b5 +
 

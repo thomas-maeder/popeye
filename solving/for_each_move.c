@@ -1,10 +1,11 @@
 #include "solving/for_each_move.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/move_player.h"
+
 #include "solving/find_move.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
@@ -64,7 +65,7 @@ static void insert_move_iterator_move(slice_index si,
     slice_index const prototypes[] = {
         prototype,
         alloc_pipe(STMoveEffectJournalUndoer),
-        alloc_move_player_slice(),
+        alloc_pipe(STMovePlayer),
         alloc_pipe(STLandingAfterMovePlay)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -78,7 +79,7 @@ static void insert_move_iterator_move(slice_index si,
     slice_index const prototypes[] = {
         prototype,
         alloc_pipe(STMoveEffectJournalUndoer),
-        alloc_move_player_slice(),
+        alloc_pipe(STMovePlayer),
         alloc_pipe(STLandingAfterMovePlay)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -100,10 +101,10 @@ enum
                                 / sizeof move_iterator_inserters[0])
 };
 
-/* Instrument the stipulation with move iterator slices
- * @param root_slice identifies root slice of stipulation
+/* Instrument the solving machinery with move iterator slices
+ * @param root_slice identifies root slice of the solving machinery
  */
-void stip_insert_move_iterators(slice_index root_slice)
+void solving_insert_move_iterators(slice_index root_slice)
 {
   stip_structure_traversal st;
 
@@ -121,10 +122,9 @@ void stip_insert_move_iterators(slice_index root_slice)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -133,27 +133,27 @@ void stip_insert_move_iterators(slice_index root_slice)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type for_each_attack_solve(slice_index si, stip_length_type n)
+void for_each_attack_solve(slice_index si)
 {
-  stip_length_type result = n+2;
+  stip_length_type result_intermediate = MOVE_HAS_NOT_SOLVED_LENGTH();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   while (encore())
   {
-    stip_length_type const length_sol = solve(slices[si].next1,n);
-    if (slack_length<length_sol && length_sol<result)
-      result = length_sol;
+    pipe_solve_delegate(si);
+    if (slack_length<solve_result && solve_result<result_intermediate)
+      result_intermediate = solve_result;
   }
 
+  solve_result = result_intermediate;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Try to defend after an attacking move
@@ -166,24 +166,23 @@ stip_length_type for_each_attack_solve(slice_index si, stip_length_type n)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-stip_length_type for_each_defense_solve(slice_index si, stip_length_type n)
+void for_each_defense_solve(slice_index si)
 {
-  stip_length_type result = immobility_on_next_move;
+  stip_length_type result_intermediate = immobility_on_next_move;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   while(encore())
   {
-    stip_length_type const length_sol = solve(slices[si].next1,n);
-    if (result<length_sol)
-      result = length_sol;
+    pipe_solve_delegate(si);
+    if (result_intermediate<solve_result)
+      result_intermediate = solve_result;
   }
 
+  solve_result = result_intermediate;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

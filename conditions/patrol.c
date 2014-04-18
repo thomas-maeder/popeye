@@ -3,8 +3,10 @@
 #include "solving/observation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 static boolean is_mover_supported(numecoup n)
 {
@@ -65,10 +67,9 @@ static boolean is_not_unsupported_patrol_capture(numecoup n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -77,25 +78,20 @@ static boolean is_not_unsupported_patrol_capture(numecoup n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type patrol_remove_unsupported_captures_solve(slice_index si,
-                                                          stip_length_type n)
+void patrol_remove_unsupported_captures_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_not_unsupported_patrol_capture);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_remover(slice_index si, stip_structure_traversal *st)
@@ -163,17 +159,15 @@ boolean ultrapatrol_validate_observation(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void ultrapatrol_generate_moves_for_piece(slice_index si, PieNam p)
+void ultrapatrol_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (is_mover_supported(current_generation))
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

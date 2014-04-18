@@ -1,11 +1,13 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/walks/walks.h"
+#include "position/position.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -23,46 +25,49 @@ static unsigned int stack_pointer;
 
 static move_effect_journal_index_type horizon;
 
-PieNam chameleon_walk_sequence[PieceCount];
+piece_walk_type chameleon_walk_sequence[nr_piece_walks];
 
-boolean chameleon_is_squence_implicit;
+twin_number_type chameleon_is_squence_explicit;
 
-/* Reset the mapping from captured to reborn walks
- */
-void chameleon_reset_sequence(boolean *is_implicit,
-                              chameleon_sequence_type* sequence)
+static void reset_sequence(chameleon_sequence_type* sequence)
 {
-  PieNam p;
-  for (p = Empty; p!=PieceCount; ++p)
+  piece_walk_type p;
+  for (p = Empty; p!=nr_piece_walks; ++p)
     (*sequence)[p] = p;
-
-  *is_implicit = true;
 }
 
 /* Initialise one mapping captured->reborn from an explicit indication
  * @param captured captured walk
  * @param reborn type of reborn walk if a piece with walk captured is captured
  */
-void chameleon_set_successor_walk_explicit(boolean *is_implicit,
-                                                 chameleon_sequence_type* sequence,
-                                                 PieNam from, PieNam to)
+void chameleon_set_successor_walk_explicit(twin_number_type *is_explicit,
+                                           chameleon_sequence_type* sequence,
+                                           piece_walk_type from, piece_walk_type to)
 {
+  if (*is_explicit != twin_number)
+  {
+    reset_sequence(sequence);
+    *is_explicit = twin_number;
+  }
+
   (*sequence)[from] = to;
-  *is_implicit = false;
 }
 
 /* Initialise the reborn pieces if they haven't been already initialised
  * from the explicit indication
+ * @note chameleon_init_sequence_implicit() resets *is_explicit to false
  */
-void chameleon_init_sequence_implicit(boolean is_implicit,
+void chameleon_init_sequence_implicit(twin_number_type *is_explicit,
                                       chameleon_sequence_type* sequence)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",is_implicit);
+  TraceFunctionParam("%u",*is_explicit==twin_number);
   TraceFunctionParamListEnd();
 
-  if (is_implicit)
+  if (*is_explicit!=twin_number)
   {
+    reset_sequence(sequence);
+
     (*sequence)[standard_walks[Knight]] = standard_walks[Bishop];
     (*sequence)[standard_walks[Bishop]] = standard_walks[Rook];
     (*sequence)[standard_walks[Rook]] = standard_walks[Queen];
@@ -100,18 +105,16 @@ static square find_promotion(move_effect_journal_index_type base)
   return result;
 }
 
-static stip_length_type solve_nested(slice_index si, stip_length_type n)
+static void solve_nested(slice_index si)
 {
-  stip_length_type result;
   move_effect_journal_index_type const save_horizon = horizon;
 
   horizon = move_effect_journal_base[nbply+1];
   ++stack_pointer;
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
+
   --stack_pointer;
   horizon = save_horizon;
-
-  return result;
 }
 
 static square decide_about_change(void)
@@ -139,10 +142,9 @@ static void do_change(void)
                                       changed);
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -151,15 +153,12 @@ static void do_change(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type chameleon_change_promotee_into_solve(slice_index si,
-                                                      stip_length_type n)
+void chameleon_change_promotee_into_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
@@ -167,33 +166,40 @@ stip_length_type chameleon_change_promotee_into_solve(slice_index si,
 
   if (change_into_chameleon[stack_pointer]==initsquare)
   {
-    result = solve_nested(si,n);
+    solve_nested(si);
     change_into_chameleon[stack_pointer] = decide_about_change();
   }
   else
   {
     do_change();
-    result = solve_nested(si,n);
+    solve_nested(si);
   }
 
   prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+}
+
+static piece_walk_type champiece(piece_walk_type walk_arriving)
+{
+  piece_walk_type const result = chameleon_walk_sequence[walk_arriving];
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_arriving);
+  TraceFunctionParamListEnd();
+
+  assert(chameleon_walk_sequence[walk_arriving]!=Empty);
+
+  TraceFunctionExit(__func__);
+  TraceWalk(result);
   TraceFunctionResultEnd();
   return result;
 }
 
-static PieNam champiece(PieNam walk_arriving)
-{
-  assert(chameleon_walk_sequence[walk_arriving]!=Empty);
-  return chameleon_walk_sequence[walk_arriving];
-}
-
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -202,15 +208,12 @@ static PieNam champiece(PieNam walk_arriving)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type chameleon_arriving_adjuster_solve(slice_index si,
-                                                    stip_length_type n)
+void chameleon_arriving_adjuster_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
@@ -223,17 +226,15 @@ stip_length_type chameleon_arriving_adjuster_solve(slice_index si,
                                                                               moving_id,
                                                                               sq_arrival);
     if (TSTFLAG(movingspec,Chameleon))
-      move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
+      move_effect_journal_do_walk_change(move_effect_reason_chameleon_movement,
                                           pos,
                                           champiece(get_walk_of_piece_on_square(pos)));
   }
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void instrument_promoter(slice_index si, stip_structure_traversal *st)
@@ -276,10 +277,9 @@ void chameleon_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -288,15 +288,12 @@ void chameleon_initialise_solving(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type chameleon_chess_arriving_adjuster_solve(slice_index si,
-                                                         stip_length_type n)
+void chameleon_chess_arriving_adjuster_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
@@ -307,17 +304,15 @@ stip_length_type chameleon_chess_arriving_adjuster_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    move_effect_journal_do_piece_change(move_effect_reason_chameleon_movement,
+    move_effect_journal_do_walk_change(move_effect_reason_chameleon_movement,
                                         pos,
                                         champiece(get_walk_of_piece_on_square(pos)));
   }
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Instrument the solving machinery for solving problems with the condition

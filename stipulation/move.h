@@ -21,16 +21,6 @@ boolean move_start_insertion(slice_type base_type,
                              stip_structure_traversal *st,
                              slice_type end_of_move_slice_sequence);
 
-/* Start inserting according to the slice type order for move execution
- * @param si identifies starting point of insertion
- * @param st insertion traversal where we come from and will return to
- * @param end_of_factored_order slice type where to return to insertion defined
- *                              by st
- */
-void start_insertion_according_to_move_order(slice_index si,
-                                             stip_structure_traversal *st,
-                                             slice_type end_of_temporary);
-
 /* Initialise a structure traversal for inserting slices
  * into the move execution sequence
  * @param st address of structure representing the traversal

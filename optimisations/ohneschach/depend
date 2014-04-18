@@ -1,17 +1,20 @@
 optimisations/ohneschach/non_checking_first$(OBJ_SUFFIX): \
  optimisations/ohneschach/non_checking_first.c \
- optimisations/ohneschach/non_checking_first.h solving/solve.h \
+ optimisations/ohneschach/non_checking_first.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h stipulation/proxy.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h stipulation/proxy.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h stipulation/boolean/and.h \
- debugging/trace.h solving/ply.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/branch.h stipulation/boolean/and.h debugging/trace.h
 
 optimisations/ohneschach/non_checking_first.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -25,15 +28,17 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 stipulation/proxy.h:
 
@@ -43,6 +48,14 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/branch.h:
@@ -50,19 +63,22 @@ stipulation/branch.h:
 stipulation/boolean/and.h:
 
 debugging/trace.h:
-
-solving/ply.h:
 optimisations/ohneschach/redundant_immobility_tests$(OBJ_SUFFIX): \
  optimisations/ohneschach/redundant_immobility_tests.c \
  optimisations/ohneschach/redundant_immobility_tests.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h stipulation/pipe.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/solve.h stipulation/branch.h \
- stipulation/has_solution_type.h optimisations/ohneschach/stop_if_check.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/branch.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h \
+ optimisations/ohneschach/stop_if_check.h solving/machinery/solve.h \
+ debugging/trace.h debugging/assert.h
 
 optimisations/ohneschach/redundant_immobility_tests.h:
 
@@ -78,15 +94,17 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 stipulation/pipe.h:
 
@@ -94,35 +112,49 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/traversal.h:
+stipulation/slice_structural_type.h:
 
-solving/solve.h:
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
 
 stipulation/branch.h:
 
-stipulation/has_solution_type.h:
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
 
 optimisations/ohneschach/stop_if_check.h:
 
-debugging/trace.h:
+solving/machinery/solve.h:
 
-solving/ply.h:
+debugging/trace.h:
 
 debugging/assert.h:
 optimisations/ohneschach/immobility_tests_help$(OBJ_SUFFIX): \
  optimisations/ohneschach/immobility_tests_help.c \
- optimisations/ohneschach/immobility_tests_help.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
+ optimisations/ohneschach/immobility_tests_help.h \
+ solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h optimisations/ohneschach/stop_if_check.h \
- debugging/trace.h solving/ply.h debugging/assert.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ optimisations/ohneschach/stop_if_check.h debugging/trace.h \
+ debugging/assert.h
 
 optimisations/ohneschach/immobility_tests_help.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -136,17 +168,21 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
-stipulation/has_solution_type.h:
+output/mode.enum.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
 
 stipulation/pipe.h:
 
@@ -154,29 +190,39 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
 optimisations/ohneschach/stop_if_check.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 debugging/assert.h:
 optimisations/ohneschach/stop_if_check$(OBJ_SUFFIX): \
  optimisations/ohneschach/stop_if_check.c \
- optimisations/ohneschach/stop_if_check.h solving/solve.h \
+ optimisations/ohneschach/stop_if_check.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/check.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/traversal.h debugging/trace.h \
- solving/ply.h debugging/assert.h
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/pipe.h debugging/trace.h debugging/assert.h
 
 optimisations/ohneschach/stop_if_check.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -190,17 +236,21 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
-stipulation/has_solution_type.h:
+output/mode.enum.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
 
 solving/check.h:
 
@@ -210,10 +260,18 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
-debugging/trace.h:
+solving/pipe.h:
 
-solving/ply.h:
+debugging/trace.h:
 
 debugging/assert.h:

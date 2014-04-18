@@ -1,8 +1,9 @@
 #include "pieces/attributes/paralysing/stalemate_special.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "solving/check.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -32,10 +33,9 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -44,11 +44,10 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type paralysing_stalemate_special_solve(slice_index si, stip_length_type n)
+void paralysing_stalemate_special_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
   goal_applies_to_starter_or_adversary const
     applies_to_who = slices[si].u.goal_filter.applies_to_who;
   Side const starter = slices[si].starter;
@@ -58,20 +57,15 @@ stip_length_type paralysing_stalemate_special_solve(slice_index si, stip_length_
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   /* only flag selfcheck if the side that has just moved is not the one to be
    * stalemated (i.e. if the stipulation is not auto-stalemate) */
   if (applies_to_who==goal_applies_to_starter && is_in_check(advers(starter)))
-    result = previous_move_is_illegal;
-  else if (suffocated_by_paralysis(stalemated))
-    result = n;
+    solve_result = previous_move_is_illegal;
   else
-    result = solve(next,n);
+    pipe_this_move_solves_if(si,suffocated_by_paralysis(stalemated));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -8,11 +8,8 @@
 **************************** End of List ******************************/ 
 
 #include <stdio.h>
+#include "input/plaintext/language.h"
 #include "pylang.h"
-
-/* Language (hopefully) used by user
- */
-Language UserLanguage;
 
 static char const * const LanguageName[LanguageCount] =
 {

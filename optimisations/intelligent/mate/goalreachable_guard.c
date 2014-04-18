@@ -2,7 +2,8 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
@@ -33,7 +34,7 @@ static boolean mate_isGoalReachable(void)
     TraceValue("%u",MovesLeft[White]);
     TraceValue("%u\n",MovesLeft[Black]);
 
-    if (nbply==2
+    if (parent_ply[nbply]==ply_retro_move
         || move_effect_journal[top-1].type==move_effect_disable_castling_right)
     {
       square const *bnp;
@@ -43,7 +44,7 @@ static boolean mate_isGoalReachable(void)
       for (bnp = boardnum; *bnp!=initsquare; bnp++)
       {
         square const from_square = *bnp;
-        PieNam const from_piece = get_walk_of_piece_on_square(from_square);
+        piece_walk_type const from_piece = get_walk_of_piece_on_square(from_square);
         if (from_piece!=Empty && from_piece!=Invalid)
         {
           PieceIdType const id = GetPieceId(spec[from_square]);
@@ -106,8 +107,8 @@ static boolean mate_isGoalReachable(void)
       {
         unsigned int time_before;
         unsigned int time_now;
-        PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
-        PieNam const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
+        piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+        piece_walk_type const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
         Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check)
@@ -166,10 +167,9 @@ static boolean mate_isGoalReachable(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -178,19 +178,15 @@ static boolean mate_isGoalReachable(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type goalreachable_guard_mate_solve(slice_index si,
-                                                 stip_length_type n)
+void goalreachable_guard_mate_solve(slice_index si)
 {
-  stip_length_type result;
   Side const just_moved = advers(slices[si].starter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(n>=slack_length);
 
   --MovesLeft[just_moved];
   TraceEnumerator(Side,slices[si].starter,"");
@@ -198,17 +194,12 @@ stip_length_type goalreachable_guard_mate_solve(slice_index si,
   TraceValue("%u",MovesLeft[slices[si].starter]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
-  if (mate_isGoalReachable())
-    result = solve(slices[si].next1,n);
-  else
-    result = n+2;
+  pipe_this_move_doesnt_solve_if(si,!mate_isGoalReachable());
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[slices[si].starter]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

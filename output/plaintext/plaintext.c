@@ -1,7 +1,7 @@
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/condition.h"
 #include "output/plaintext/pieces.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 #include "conditions/conditions.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
@@ -52,12 +52,23 @@ static void next_context(move_context *context,
   context_open(context,start,opening_sequence,closing_sequence);
 }
 
-static void write_capture(move_context *context,
-                          move_effect_journal_index_type capture,
-                          move_effect_journal_index_type movement)
+static move_effect_journal_index_type find_pre_move_effect(move_effect_type type,
+                                                           move_effect_reason_type reason)
 {
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type i;
 
+  for (i = base; i!=capture; ++i)
+    if (move_effect_journal[i].type==type
+        && move_effect_journal[i].reason==reason)
+      return i;
+
+  return move_effect_journal_index_null;
+}
+
+static void write_departing_piece(move_effect_journal_index_type movement)
+{
   if (WriteSpec(move_effect_journal[movement].u.piece_movement.movingspec,
                 move_effect_journal[movement].u.piece_movement.moving,
                 false)
@@ -65,7 +76,31 @@ static void write_capture(move_context *context,
     WritePiece(move_effect_journal[movement].u.piece_movement.moving);
 
   WriteSquare(move_effect_journal[movement].u.piece_movement.from);
+}
 
+
+static void write_departure(move_effect_journal_index_type movement)
+{
+  move_effect_journal_index_type const phantom_movement = find_pre_move_effect(move_effect_piece_movement,
+                                                                               move_effect_reason_phantom_movement);
+
+  if (phantom_movement==move_effect_journal_index_null)
+    write_departing_piece(movement);
+  else
+  {
+    write_departing_piece(phantom_movement);
+    StdChar('-');
+    WriteSquare(move_effect_journal[movement].u.piece_movement.from);
+  }
+}
+
+static void write_capture(move_context *context,
+                          move_effect_journal_index_type capture,
+                          move_effect_journal_index_type movement)
+{
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+  write_departure(movement);
   StdChar('*');
   if (sq_capture==move_effect_journal[movement].u.piece_movement.to)
     WriteSquare(move_effect_journal[movement].u.piece_movement.to);
@@ -85,13 +120,7 @@ static void write_capture(move_context *context,
 static void write_no_capture(move_context *context,
                              move_effect_journal_index_type movement)
 {
-  if (WriteSpec(move_effect_journal[movement].u.piece_movement.movingspec,
-                move_effect_journal[movement].u.piece_movement.moving,
-                false)
-      || move_effect_journal[movement].u.piece_movement.moving!=Pawn)
-    WritePiece(move_effect_journal[movement].u.piece_movement.moving);
-
-  WriteSquare(move_effect_journal[movement].u.piece_movement.from);
+  write_departure(movement);
   StdChar('-');
   WriteSquare(move_effect_journal[movement].u.piece_movement.to);
 }
@@ -134,11 +163,10 @@ static void write_singlebox_promotion(move_effect_journal_index_type curr)
 static void write_singlebox_type3_promotion(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  move_effect_journal_index_type const sb3_prom = capture-1;
+  move_effect_journal_index_type const sb3_prom = find_pre_move_effect(move_effect_piece_change,
+                                                                       move_effect_reason_singlebox_promotion);
 
-  if (move_effect_journal[sb3_prom].type==move_effect_piece_change
-      && move_effect_journal[sb3_prom].reason==move_effect_reason_singlebox_promotion)
+  if (sb3_prom!=move_effect_journal_index_null)
   {
     move_context context;
     context_open(&context,base,"[","]");
@@ -192,7 +220,7 @@ static void write_regular_move(move_context *context)
   }
 }
 
-static void write_complete_piece(Flags spec, PieNam piece, square on)
+static void write_complete_piece(Flags spec, piece_walk_type piece, square on)
 {
   WriteSpec(spec,piece,true);
   WritePiece(piece);
@@ -434,30 +462,6 @@ static move_effect_journal_index_type find_piece_removal(move_context const *con
   return move_effect_journal_index_null;
 }
 
-static void write_remember_volcanic(move_context *context,
-                                    move_effect_journal_index_type curr)
-{
-  /* we don't write the remembering, but the related removal (if any) */
-  PieceIdType const id_removed = GetPieceId(move_effect_journal[curr].u.handle_ghost.ghost.flags);
-  move_effect_journal_index_type const removal = find_piece_removal(context,curr,id_removed);
-
-  next_context(context,removal,"[[","]]");
-
-  if (removal==move_effect_journal_index_null)
-    StdChar('+');
-  else
-  {
-    write_complete_piece(move_effect_journal[removal].u.piece_removal.flags,
-                         move_effect_journal[removal].u.piece_removal.walk,
-                         move_effect_journal[removal].u.piece_removal.on);
-    StdString("->");
-  }
-
-  write_complete_piece(move_effect_journal[curr].u.handle_ghost.ghost.flags,
-                       move_effect_journal[curr].u.handle_ghost.ghost.walk,
-                       move_effect_journal[curr].u.handle_ghost.ghost.on);
-}
-
 static void write_transfer(move_context *context,
                            move_effect_journal_index_type removal,
                            move_effect_journal_index_type addition)
@@ -500,14 +504,19 @@ static void write_piece_creation(move_context *context,
 static void write_piece_readdition(move_context *context,
                                    move_effect_journal_index_type curr)
 {
-  PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
-  move_effect_journal_index_type const removal = find_piece_removal(context,
-                                                                    curr,
-                                                                    id_added);
-  if (removal==move_effect_journal_index_null)
-    write_piece_creation(context,curr);
+  if (move_effect_journal[curr].reason==move_effect_reason_volcanic_remember)
+    StdString("->v");
   else
-    write_transfer(context,removal,curr);
+  {
+    PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
+    move_effect_journal_index_type const removal = find_piece_removal(context,
+                                                                      curr,
+                                                                      id_added);
+    if (removal==move_effect_journal_index_null)
+      write_piece_creation(context,curr);
+    else
+      write_transfer(context,removal,curr);
+  }
 }
 
 static void write_piece_removal(move_context *context,
@@ -537,7 +546,8 @@ static void write_piece_removal(move_context *context,
     case move_effect_reason_assassin_circe_rebirth:
       /* no output for the removal of an assassinated piece ... */
     case move_effect_reason_pawn_promotion:
-      /* ... nor for the removal of a pawn promoted to imitator */
+      /* ... nor for the removal of a pawn promoted to imitator ... */
+    case move_effect_reason_volcanic_remember:
       break;
 
     default:
@@ -693,10 +703,6 @@ static void write_other_effects(move_context *context)
 
       case move_effect_bgl_adjustment:
         write_bgl_status(context,curr);
-        break;
-
-      case move_effect_remember_volcanic:
-        write_remember_volcanic(context,curr);
         break;
 
       default:

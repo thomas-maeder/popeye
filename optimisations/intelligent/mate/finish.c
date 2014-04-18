@@ -1,8 +1,9 @@
 #include "optimisations/intelligent/mate/finish.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
-#include "solving/solve.h"
+#include "solving/has_solution_type.h"
+#include "solving/machinery/solve.h"
 #include "solving/castling.h"
+#include "solving/fork.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -69,7 +70,7 @@ static boolean exists_redundant_white_piece(void)
   for (bnp = boardnum; !result && *bnp!=initsquare; bnp++)
   {
     square const sq = *bnp;
-    if (sq!=king_square[White] && TSTFLAG(spec[sq],White))
+    if (TSTFLAG(spec[sq],White) && !TSTFLAG(spec[sq],Royal))
     {
       PieceIdType const id = GetPieceId(spec[sq]);
       piece_usage const usage = white[PieceId2index[id]].usage;
@@ -78,11 +79,10 @@ static boolean exists_redundant_white_piece(void)
       TraceEnumerator(piece_usage,usage,"\n");
       if (usage!=piece_intercepts_check_from_guard && usage!=piece_gives_check)
       {
-        PieNam const p = get_walk_of_piece_on_square(sq);
+        piece_walk_type const p = get_walk_of_piece_on_square(sq);
         Flags const sp = spec[sq];
-
         empty_square(sq);
-        result = solve(slices[current_start_slice].next2,slack_length)==slack_length;
+        result = fork_solve(current_start_slice,slack_length)==slack_length;
         occupy_square(sq,p,sp);
       }
     }

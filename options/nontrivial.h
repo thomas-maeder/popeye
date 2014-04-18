@@ -4,7 +4,7 @@
 /* Implementation of the "nontrivial" optimisation
  */
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* NOTE: exposed for performance reasons only - DON'T WRITE TO THIS
  * VARIABLE!!
@@ -48,13 +48,11 @@ void stip_insert_max_nr_nontrivial_guards(slice_index si);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-stip_length_type
-max_nr_nontrivial_guard_solve(slice_index si, stip_length_type n);
+void max_nr_nontrivial_guard_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -63,8 +61,8 @@ max_nr_nontrivial_guard_solve(slice_index si, stip_length_type n);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type max_nr_nontrivial_counter_solve(slice_index si,
-                                                  stip_length_type n);
+void max_nr_nontrivial_counter_solve(slice_index si);
 
 #endif

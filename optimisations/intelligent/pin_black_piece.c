@@ -14,14 +14,14 @@
  * @param is_pin_on_diagonal is the piece to be pinned on a diagonal
  */
 static void pin_by_rider(unsigned int pinner_index,
-                         PieNam pinner_type,
+                         piece_walk_type pinner_type,
                          square pin_from,
                          void (*go_on)(void))
 {
   square const pinner_comes_from = white[pinner_index].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TracePiece(pinner_type);
+  TraceWalk(pinner_type);
   TraceSquare(pinner_comes_from);
   TraceSquare(pin_from);
   TraceFunctionParamListEnd();
@@ -51,7 +51,7 @@ static void pin_by_promoted_pawn(unsigned int pinner_index,
                                  boolean is_pin_on_diagonal,
                                  void (*go_on)(void))
 {
-  PieNam const minor_pinner_type = is_pin_on_diagonal ? Bishop : Rook;
+  piece_walk_type const minor_pinner_type = is_pin_on_diagonal ? Bishop : Rook;
   square const pinner_comes_from = white[pinner_index].diagram_square;
 
   TraceFunctionEntry(__func__);

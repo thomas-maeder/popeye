@@ -1,11 +1,13 @@
 #include "conditions/actuated_revolving_centre.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/move.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
+#include "solving/pipe.h"
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 /* Instrument a stipulation
@@ -23,7 +25,7 @@ void stip_insert_actuated_revolving_centre(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void occupy(square dest, PieNam pi_src, Flags spec_src)
+static void occupy(square dest, piece_walk_type pi_src, Flags spec_src)
 {
   assert(pi_src!=Invalid);
 
@@ -35,7 +37,7 @@ static void occupy(square dest, PieNam pi_src, Flags spec_src)
 
 static void revolve(void)
 {
-  PieNam const piece_temp = get_walk_of_piece_on_square(square_d4);
+  piece_walk_type const piece_temp = get_walk_of_piece_on_square(square_d4);
   Flags const spec_temp = spec[square_d4];
 
   occupy(square_d4,get_walk_of_piece_on_square(square_e4),spec[square_e4]);
@@ -46,7 +48,7 @@ static void revolve(void)
 
 static void unrevolve(void)
 {
-  PieNam const piece_temp = get_walk_of_piece_on_square(square_d5);
+  piece_walk_type const piece_temp = get_walk_of_piece_on_square(square_d5);
   Flags const spec_temp = spec[square_d5];
 
   occupy(square_d5,get_walk_of_piece_on_square(square_e5),spec[square_e5]);
@@ -100,18 +102,6 @@ static void move_effect_journal_do_centre_revolution(move_effect_reason_type rea
   ++move_effect_journal_base[nbply+1];
 
   revolve();
-
-  {
-    square revolved = actuated_revolving_centre_revolve_square(king_square[White]);
-    if (revolved!=initsquare)
-      move_effect_journal_do_king_square_movement(reason,White,revolved);
-  }
-
-  {
-    square revolved = actuated_revolving_centre_revolve_square(king_square[Black]);
-    if (revolved!=initsquare)
-      move_effect_journal_do_king_square_movement(reason,Black,revolved);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -170,10 +160,9 @@ static boolean does_move_trigger_revolution(void)
 }
 
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -182,28 +171,19 @@ static boolean does_move_trigger_revolution(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type actuated_revolving_centre_solve(slice_index si,
-                                                  stip_length_type n)
+void actuated_revolving_centre_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (does_move_trigger_revolution())
-  {
     move_effect_journal_do_centre_revolution(move_effect_reason_actuate_revolving_centre);
-    result = solve(next,n);
-  }
-  else
-    result = solve(next,n);
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

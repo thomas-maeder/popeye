@@ -2,7 +2,7 @@
 #define PIECES_PAWNS_PAWN_H
 
 #include "position/board.h"
-#include "position/position.h"
+#include "position/side.h"
 #include "solving/observation.h"
 
 unsigned int pawn_get_no_capture_length(Side side, square sq_departure);

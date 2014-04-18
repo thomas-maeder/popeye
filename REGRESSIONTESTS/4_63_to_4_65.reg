@@ -1172,9 +1172,9 @@ solution finished.
             ChameleonChess
               MarsCirce
 
-  1...Kd8*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8*b2=R =
+  1...Kd8-e1*e2   2.d2-d1=S b7-b8=B   3.Sd1-b2=B Bb8-c1*b2=R =
 
-  add_to_move_generation_stack:      203834
+  add_to_move_generation_stack:      204149
                      play_move:       52843
  is_white_king_square_attacked:       29119
  is_black_king_square_attacked:       43596
@@ -1298,7 +1298,7 @@ solution finished.
 solution finished. 
 
 
-both sides need a kingboth sides need a king
+
 4.63 gave all captures g5*h4 as refutations
 
 +---a---b---c---d---e---f---g---h---+
@@ -1321,7 +1321,8 @@ both sides need a kingboth sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   zg22                        2 + 2
-            Circe April B
+         Circe Super April B
+both sides need a king
 
    1.Rh3-h2 ? threat:
           2.Rh2-g2 z
@@ -1416,7 +1417,7 @@ solution finished.
 
 a) 
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
 
   add_to_move_generation_stack:          20
@@ -1425,7 +1426,7 @@ a)
  is_black_king_square_attacked:           0
 b)  -wBa4  +wSa3 
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
 
   add_to_move_generation_stack:          12
@@ -1463,7 +1464,7 @@ solution finished.
 
 a) 
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
 
   add_to_move_generation_stack:          20
@@ -1472,7 +1473,7 @@ a)
  is_black_king_square_attacked:           0
 b)  -wBa4  +wSa3 
 
-   1.Sh3*c3 x !
+   1.Sh3-b1*c3 x !
 
 
   add_to_move_generation_stack:          12
@@ -1557,7 +1558,7 @@ solution finished.
 
 a) 
 
-   1.Sh6*h3 x !
+   1.Sh6-g1*h3 x !
 
 
   add_to_move_generation_stack:           7
@@ -1566,7 +1567,7 @@ a)
  is_black_king_square_attacked:           0
 b)  -bBa3  +bSa2 
 
-   1.Sh6*h3 x !
+   1.Sh6-g1*h3 x !
 
 
   add_to_move_generation_stack:           7
@@ -1653,7 +1654,7 @@ solution finished.
 solution finished. 
 
 
-both sides need a king
+
 no check in 4.63 because the Kobul transformation would transfer
 the capturee's identity, causing the king to be reborn on g2
 
@@ -1680,6 +1681,7 @@ the capturee's identity, causing the king to be reborn on g2
                Royal e4
       Circe Diagram RexInclusive
               KobulKings
+both sides need a king
 
    1.Bh1*g2[e4=K] + !
 
@@ -1763,7 +1765,7 @@ the Patrouille supporter doesn't need a Patrouille supporter
 solution finished. 
 
 
-both sides need a king
+
 king transmutes even if rebirth square is empty
 
 +---a---b---c---d---e---f---g---h---+
@@ -1788,6 +1790,7 @@ king transmutes even if rebirth square is empty
   ~1                          1 + 1
           Circe RexInclusive
            TransmutedKings
+both sides need a king
 
    1.Ke4-c3 !
 
@@ -1915,7 +1918,7 @@ leaf hopper checks have never been detected correctly
 solution finished. 
 
 
-both sides need a kingboth sides need a king
+
 up to 4.63, Popeye wouldn't recolor Qd1
 
 +---a---b---c---d---e---f---g---h---+
@@ -1941,6 +1944,7 @@ up to 4.63, Popeye wouldn't recolor Qd1
                Magic b4
                 Circe
               AntiCirce
+both sides need a king
 
    1.Qb3*b4[wQb4->d1][+bmQd8][d1=b] x !
 
@@ -2398,7 +2402,7 @@ solution finished.
 
 
   add_to_move_generation_stack:          81
-                     play_move:          76
+                     play_move:         129
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          77
 solution finished. 
@@ -2987,6 +2991,7 @@ a)
  is_black_king_square_attacked:           0
 b)  -wKb1
 both sides need a king
+
 
   add_to_move_generation_stack:           0
                      play_move:           0

@@ -811,10 +811,17 @@ suivante est un peu plus compliquee:
 	Imprenable
 	FrischAuf
 
-	Suit la liste des pieces comme d'habitude: type de la piece suivi par
-	une liste de cases ou se trouve une telle piece. On peut toujours
+	Suit la liste des pieces comme d'habitude: marche de la piece suivi par
+	une liste de cases ou une telle piece est placee. On peut toujours
 	changer la couleur des pieces a entrer en entrant le mot-cle convenant.
-	Popeye connait les types de piece suivantes:
+
+	Si une piece est placee sur une case occupee, la piece precedente est
+	transferee sour la case dans l'au-dela. Dans les conditions Circe
+	Volcanique, Circe Parachute, EchecGhost et EchecHantees, les coups depuis
+	cette case transferent une piece de l'au-dela dans le monde reel. Sinon,
+	les pieces dans l'au-dela permette la promotion de pions dans leur marche.
+
+	Popeye supporte les marches de piece suivantes:
 
 	15      1,5-cavalier
 	16      1,6-cavalier

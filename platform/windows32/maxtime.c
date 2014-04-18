@@ -1,7 +1,7 @@
 #include "platform/maxtime_impl.h"
 #include "windows.h"
 #include "utilities/boolean.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 
 #include "debugging/assert.h"
 #include <limits.h>

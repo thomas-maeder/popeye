@@ -1,12 +1,13 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
-#include "solving/solve.h"
+#include "solving/has_solution_type.h"
+#include "solving/machinery/solve.h"
 #include "solving/ply.h"
 #include "output/plaintext/tree/check_writer.h"
+#include "output/plaintext/message.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-#include "pymsg.h"
 
 /* Allocate a STZugzwangWriter slice.
  * @return index of allocated slice
@@ -26,10 +27,9 @@ slice_index alloc_zugzwang_writer_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -38,35 +38,30 @@ slice_index alloc_zugzwang_writer_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type zugzwang_writer_solve(slice_index si, stip_length_type n)
+void zugzwang_writer_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (nbply==2)
-    /* option postkey is set - write "threat:" or "zugzwang" on a new
-     * line
+  if (parent_ply[nbply]==ply_retro_move)
+    /* option postkey is set - write "threat:" or "zugzwang" on a new line
      */
     Message(NewLine);
 
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
   /* We don't signal "Zugzwang" after the last attacking move of a
    * self play variation */
-  if (n>slack_length && result==n+2)
+  if (solve_nr_remaining>=next_move_has_solution
+      && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
   {
     StdChar(' ');
     Message(Zugzwang);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

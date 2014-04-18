@@ -1,13 +1,12 @@
 #include "conditions/check_zigzag.h"
 #include "stipulation/if_then_else.h"
 #include "stipulation/branch.h"
-#include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/boolean/true.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "debugging/trace.h"
 
@@ -32,7 +31,7 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
                                                   stip_traversal_context_defense);
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
-    slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const dummy = alloc_pipe(STDummyMove);
     slice_index const played = alloc_defense_played_slice();
     slice_index const condition = alloc_goal_check_reached_tester_slice(goal_applies_to_starter);
     slice_index const jump = alloc_if_then_else_slice(proxy1,proxy2,condition);

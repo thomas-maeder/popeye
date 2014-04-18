@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_OHNESCHACH_NON_CHECKING_FIRST_H)
 #define OPTIMISATIONS_OHNESCHACH_NON_CHECKING_FIRST_H
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* This module provides an optimisation for the condition Ohneschach:
  * when testing the (im)mobility of a side, it is more efficient to first

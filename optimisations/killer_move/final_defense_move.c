@@ -1,11 +1,13 @@
 #include "optimisations/killer_move/final_defense_move.h"
+#include "position/position.h"
 #include "stipulation/pipe.h"
 #include "stipulation/binary.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/single_piece_move_generator.h"
+#include "solving/pipe.h"
 #include "optimisations/killer_move/prioriser.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
@@ -103,11 +105,10 @@ static stip_length_type defend_with_non_killer_pieces(slice_index si)
   for (bnp = boardnum; result<=next_move_has_solution && *bnp!=initsquare; ++bnp)
     if (*bnp!=killer_pos && TSTFLAG(spec[*bnp],defender))
     {
-      stip_length_type result_next_non_killer;
       init_single_piece_move_generator(*bnp);
-      result_next_non_killer = solve(slices[si].next1,slack_length+1);
-      if (result_next_non_killer>result)
-        result = result_next_non_killer;
+      pipe_solve_delegate(si);
+      if (solve_result>result)
+        result = solve_result;
     }
 
   TraceFunctionExit(__func__);
@@ -123,11 +124,10 @@ static stip_length_type defend_with_non_killer_pieces(slice_index si)
  *            <=n length of shortest solution found
  *            n+2 no solution found
  */
-static stip_length_type defend_with_killer_piece(slice_index si)
+static void defend_with_killer_piece(slice_index si)
 {
   Side const defender = slices[si].starter;
   square const killer_pos = killer_moves[nbply+1].departure;
-  stip_length_type result = immobility_on_next_move;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -137,19 +137,18 @@ static stip_length_type defend_with_killer_piece(slice_index si)
   if (TSTFLAG(spec[killer_pos],defender))
   {
     init_single_piece_move_generator(killer_pos);
-    result = solve(slices[si].next2,slack_length+1);
+    solve(slices[si].next2);
   }
+  else
+    solve_result = immobility_on_next_move;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -158,30 +157,30 @@ static stip_length_type defend_with_killer_piece(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type killer_move_final_defense_move_solve(slice_index si,
-                                                       stip_length_type n)
+void killer_move_final_defense_move_solve(slice_index si)
 {
-  stip_length_type result = immobility_on_next_move;
+  stip_length_type result_intermediate;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n==slack_length+1);
+  assert(solve_nr_remaining==next_move_has_solution);
 
-  result = defend_with_killer_piece(si);
+  defend_with_killer_piece(si);
+  result_intermediate = solve_result;
 
-  if (result<=next_move_has_solution)
+  if (result_intermediate<=next_move_has_solution)
   {
     stip_length_type const result_non_killers = defend_with_non_killer_pieces(si);
-    if (result_non_killers>result)
-      result = result_non_killers;
+    if (result_non_killers>result_intermediate)
+      result_intermediate = result_non_killers;
   }
 
+  solve_result = result_intermediate;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

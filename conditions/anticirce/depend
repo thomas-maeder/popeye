@@ -1,93 +1,28 @@
 conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
- conditions/anticirce/anticirce.h pieces/pieces.h utilities/boolean.h \
- solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h solving/ply.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h conditions/circe/circe.h \
- solving/observation.h stipulation/temporary_hacks.h \
- solving/move_generator.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h \
- stipulation/has_solution_type.h stipulation/move.h debugging/trace.h \
- debugging/assert.h
+ conditions/anticirce/anticirce.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/circe/circe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h conditions/anticirce/cheylan.h \
+ solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
+ solving/move_generator.h stipulation/pipe.h stipulation/branch.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ stipulation/move.h solving/pipe.h debugging/trace.h debugging/assert.h
 
 conditions/anticirce/anticirce.h:
 
-pieces/pieces.h:
-
-utilities/boolean.h:
-
-solving/solve.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-conditions/circe/circe.h:
-
-solving/observation.h:
-
-stipulation/temporary_hacks.h:
-
-solving/move_generator.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-stipulation/branch.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
-
-debugging/trace.h:
-
-debugging/assert.h:
-conditions/anticirce/super$(OBJ_SUFFIX): conditions/anticirce/super.c \
- conditions/anticirce/super.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/circe/circe.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- stipulation/has_solution_type.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h stipulation/move.h \
- solving/post_move_iteration.h solving/observation.h \
- stipulation/temporary_hacks.h solving/move_generator.h \
- conditions/anticirce/anticirce.h debugging/trace.h debugging/assert.h
-
-conditions/anticirce/super.h:
-
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -101,17 +36,33 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
+output/mode.enum.h:
+
 conditions/circe/circe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
 
 solving/move_effect_journal.h:
 
@@ -121,48 +72,68 @@ solving/ply.h:
 
 position/pieceid.h:
 
-stipulation/has_solution_type.h:
+solving/machinery/twin.h:
 
-stipulation/pipe.h:
+conditions/circe/rebirth_square_occupied.h:
 
-stipulation/structure_traversal.h:
+conditions/circe/reborn_piece.h:
 
-stipulation/slice.h:
+conditions/circe/rebirth_square.h:
 
-stipulation/traversal.h:
+conditions/circe/relevant_capture.h:
 
-stipulation/branch.h:
+conditions/circe/relevant_piece.h:
 
-stipulation/move.h:
+conditions/circe/relevant_side.h:
 
-solving/post_move_iteration.h:
+conditions/anticirce/cheylan.h:
 
 solving/observation.h:
 
-stipulation/temporary_hacks.h:
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
 
 solving/move_generator.h:
 
-conditions/anticirce/anticirce.h:
+stipulation/pipe.h:
+
+stipulation/branch.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+stipulation/move.h:
+
+solving/pipe.h:
 
 debugging/trace.h:
 
 debugging/assert.h:
 conditions/anticirce/cheylan$(OBJ_SUFFIX): conditions/anticirce/cheylan.c \
- conditions/anticirce/cheylan.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/anticirce/anticirce.h solving/ply.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
- stipulation/has_solution_type.h stipulation/move.h \
+ conditions/anticirce/cheylan.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h debugging/assert.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h solving/pipe.h stipulation/pipe.h \
+ stipulation/move.h debugging/trace.h debugging/assert.h
 
 conditions/anticirce/cheylan.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -176,56 +147,91 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 conditions/anticirce/anticirce.h:
 
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
 conditions/circe/circe.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+solving/machinery/twin.h:
+
+conditions/circe/rebirth_square_occupied.h:
+
+conditions/circe/reborn_piece.h:
+
+conditions/circe/rebirth_square.h:
+
+conditions/circe/relevant_capture.h:
+
+conditions/circe/relevant_piece.h:
+
+conditions/circe/relevant_side.h:
+
+solving/pipe.h:
+
+stipulation/pipe.h:
+
+stipulation/move.h:
 
 debugging/trace.h:
 
 debugging/assert.h:
 conditions/anticirce/magic_square$(OBJ_SUFFIX): conditions/anticirce/magic_square.c \
- conditions/anticirce/magic_square.h solving/solve.h \
+ conditions/anticirce/magic_square.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/anticirce/anticirce.h \
- solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h \
- stipulation/has_solution_type.h stipulation/move.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h debugging/assert.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h stipulation/pipe.h stipulation/move.h \
+ solving/pipe.h debugging/trace.h debugging/assert.h
 
 conditions/anticirce/magic_square.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -239,53 +245,93 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 conditions/anticirce/anticirce.h:
 
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
 conditions/circe/circe.h:
-
-stipulation/has_solution_type.h:
-
-stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+solving/machinery/twin.h:
+
+conditions/circe/rebirth_square_occupied.h:
+
+conditions/circe/reborn_piece.h:
+
+conditions/circe/rebirth_square.h:
+
+conditions/circe/relevant_capture.h:
+
+conditions/circe/relevant_piece.h:
+
+conditions/circe/relevant_side.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+stipulation/pipe.h:
+
+stipulation/move.h:
+
+solving/pipe.h:
 
 debugging/trace.h:
 
 debugging/assert.h:
 conditions/anticirce/clone$(OBJ_SUFFIX): conditions/anticirce/clone.c \
- conditions/anticirce/clone.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/circe/circe.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h debugging/assert.h
+ conditions/anticirce/clone.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/circe/circe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h solving/pipe.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/anticirce/clone.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -299,17 +345,33 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
+output/mode.enum.h:
+
 conditions/circe/circe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
 
 solving/move_effect_journal.h:
 
@@ -319,72 +381,47 @@ solving/ply.h:
 
 position/pieceid.h:
 
-debugging/trace.h:
+solving/machinery/twin.h:
 
-debugging/assert.h:
-conditions/anticirce/parrain$(OBJ_SUFFIX): conditions/anticirce/parrain.c \
- conditions/anticirce/parrain.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/anticirce/anticirce.h solving/ply.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/circe/circe.h debugging/trace.h \
- debugging/assert.h
+conditions/circe/rebirth_square_occupied.h:
 
-conditions/anticirce/parrain.h:
+conditions/circe/reborn_piece.h:
 
-solving/solve.h:
+conditions/circe/rebirth_square.h:
 
-stipulation/stipulation.h:
+conditions/circe/relevant_capture.h:
 
-stipulation/goals/goals.h:
+conditions/circe/relevant_piece.h:
 
-position/board.h:
+conditions/circe/relevant_side.h:
 
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-utilities/enumeration.h:
-
-position/position.h:
-
-pieces/pieces.h:
-
-pieces/walks/vectors.h:
-
-output/mode.h:
-
-conditions/anticirce/anticirce.h:
-
-solving/ply.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
-conditions/circe/circe.h:
+solving/pipe.h:
 
 debugging/trace.h:
 
 debugging/assert.h:
 conditions/anticirce/couscous$(OBJ_SUFFIX): conditions/anticirce/couscous.c \
- conditions/anticirce/couscous.h solving/solve.h \
+ conditions/anticirce/couscous.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/circe/circe.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/circe/circe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h debugging/trace.h debugging/assert.h
+ position/pieceid.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h solving/pipe.h debugging/trace.h \
+ debugging/assert.h
 
 conditions/anticirce/couscous.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -398,17 +435,33 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
+output/mode.enum.h:
+
 conditions/circe/circe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
 
 solving/move_effect_journal.h:
 
@@ -417,6 +470,22 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+solving/machinery/twin.h:
+
+conditions/circe/rebirth_square_occupied.h:
+
+conditions/circe/reborn_piece.h:
+
+conditions/circe/rebirth_square.h:
+
+conditions/circe/relevant_capture.h:
+
+conditions/circe/relevant_piece.h:
+
+conditions/circe/relevant_side.h:
+
+solving/pipe.h:
 
 debugging/trace.h:
 

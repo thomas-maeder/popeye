@@ -7,19 +7,20 @@
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
 
-PieNam current_football_substitution[maxply+1];
-boolean is_football_substitute[PieceCount];
-PieNam next_football_substitute[PieceCount];
+piece_walk_type current_football_substitution[maxply+1];
+boolean is_football_substitute[nr_piece_walks];
+piece_walk_type next_football_substitute[nr_piece_walks];
 boolean football_are_substitutes_limited;
 
-static PieNam const *bench[maxply+1];
+static piece_walk_type const *bench[maxply+1];
 
 static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
 
@@ -27,9 +28,9 @@ static post_move_iteration_id_type prev_post_move_iteration_id[maxply+1];
  */
 void init_football_substitutes(void)
 {
-  PieNam first_candidate;
-  PieNam substitute_index = Empty;
-  PieNam p;
+  piece_walk_type first_candidate;
+  piece_walk_type substitute_index = Empty;
+  piece_walk_type p;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -42,8 +43,8 @@ void init_football_substitutes(void)
     first_candidate = Queen;
 
   if (!football_are_substitutes_limited)
-    for (p = first_candidate; p<PieceCount; ++p)
-      if (may_exist[p])
+    for (p = first_candidate; p<nr_piece_walks; ++p)
+      if (piece_walk_may_exist[p])
         is_football_substitute[p] = ((p!=King
                                       || CondFlag[losingchess]
                                       || CondFlag[dynasty]
@@ -51,7 +52,7 @@ void init_football_substitutes(void)
                                      && p!=Dummy
                                      && (p==Pawn || !is_pawn(p)));
 
-  for (p = first_candidate; p<PieceCount; ++p)
+  for (p = first_candidate; p<nr_piece_walks; ++p)
     if (is_football_substitute[p])
     {
       next_football_substitute[substitute_index] = p;
@@ -66,7 +67,7 @@ void init_football_substitutes(void)
   TraceFunctionResultEnd();
 }
 
-static PieNam const *get_bench(void)
+static piece_walk_type const *get_bench(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
@@ -76,11 +77,11 @@ static PieNam const *get_bench(void)
                                                                             moving_id,
                                                                             sq_arrival);
 
-  if (pos!=king_square[Black] && pos!=king_square[White]
+  if (!TSTFLAG(spec[pos],Royal)
       && (pos%onerow==left_file || pos%onerow==right_file))
   {
-    PieNam const p = get_walk_of_piece_on_square(pos);
-    PieNam tmp = next_football_substitute[Empty];
+    piece_walk_type const p = get_walk_of_piece_on_square(pos);
+    piece_walk_type tmp = next_football_substitute[Empty];
 
     /* ensure moving piece is on list to allow null (= non-) substitutions */
     if (tmp!=p)
@@ -110,7 +111,7 @@ static void init_substitution(void)
 
   bench[nbply] = get_bench();
   current_football_substitution[nbply] = bench[nbply]==0 ? Empty : bench[nbply][Empty];
-  TracePiece(current_football_substitution[nbply]);TraceEOL();
+  TraceWalk(current_football_substitution[nbply]);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -124,7 +125,7 @@ static boolean advance_substitution(void)
   TraceFunctionParamListEnd();
 
   current_football_substitution[nbply] = bench[nbply][current_football_substitution[nbply]];
-  TracePiece(current_football_substitution[nbply]);TraceEOL();
+  TraceWalk(current_football_substitution[nbply]);TraceEOL();
   result = current_football_substitution[nbply]!=Empty;
 
   TraceFunctionExit(__func__);
@@ -133,10 +134,9 @@ static boolean advance_substitution(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -145,22 +145,19 @@ static boolean advance_substitution(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type football_chess_substitutor_solve(slice_index si,
-                                                   stip_length_type n)
+void football_chess_substitutor_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply])
     init_substitution();
 
   if (current_football_substitution[nbply]==Empty)
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
   else
   {
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
@@ -172,11 +169,11 @@ stip_length_type football_chess_substitutor_solve(slice_index si,
                                                                               sq_arrival);
 
     if (get_walk_of_piece_on_square(pos)!=current_football_substitution[nbply])
-      move_effect_journal_do_piece_change(move_effect_reason_football_chess_substitution,
+      move_effect_journal_do_walk_change(move_effect_reason_football_chess_substitution,
                                           pos,
                                           current_football_substitution[nbply]);
 
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -188,9 +185,7 @@ stip_length_type football_chess_substitutor_solve(slice_index si,
   prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Instrument slices with promotee markers

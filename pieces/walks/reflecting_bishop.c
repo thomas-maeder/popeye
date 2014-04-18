@@ -3,6 +3,7 @@
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 #include "debugging/assert.h"
 
@@ -72,7 +73,7 @@ static boolean reflecting_bishop_check_recursive(square intermediate_square,
   {
     numvec k1;
     square const sq_reflection = find_end_of_line(intermediate_square,k);
-    PieNam const p1 = get_walk_of_piece_on_square(sq_reflection);
+    piece_walk_type const p1 = get_walk_of_piece_on_square(sq_reflection);
 
     if (x && p1==Invalid)
     {

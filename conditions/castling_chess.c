@@ -1,7 +1,8 @@
 #include "conditions/castling_chess.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/pawns/promotion.h"
-#include "stipulation/has_solution_type.h"
+#include "position/position.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/castling.h"
@@ -9,14 +10,14 @@
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "solving/check.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -25,18 +26,16 @@
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type castling_chess_move_player_solve(slice_index si,
-                                                   stip_length_type n)
+void castling_chess_move_player_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (sq_capture>offset_platzwechsel_rochade)
@@ -54,28 +53,25 @@ stip_length_type castling_chess_move_player_solve(slice_index si,
                                           sq_capture-offset_platzwechsel_rochade,
                                           sq_passed);
 
-    result = solve(slices[si].next2,n);
+    solve(slices[si].next2);
   }
   else
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void castlingchess_generate_moves_for_piece(slice_index si, PieNam p)
+void castlingchess_generate_moves_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
 
-  generate_moves_for_piece(slices[si].next1,p);
+  generate_moves_for_piece(slices[si].next1);
 
-  if (p==King && !is_in_check(trait[nbply]))
+  if (move_generation_current_walk==King && !is_in_check(trait[nbply]))
   {
     vec_index_type k;
     for (k = vec_queen_end; k>= vec_queen_start; --k)

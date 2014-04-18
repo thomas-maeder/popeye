@@ -8,7 +8,7 @@
   7= too much fairy chess for neutral pieces
   8= leofamily with orthodox pieces ?
   9= dummy-pieces not allowed with circe.
- 10= ColourChange only with certain hoppers allowed
+ 10= HurdleColourChanging only allowed with certain hoppers
  11= knight + cavalier majeur not allowed
  12= circe rebirth outside the board ?
  13= set play with checked king ?
@@ -84,7 +84,7 @@
  83= Some fairy conditions in proof games not allowed.\n
  84= Isardam and Madrasi/Eiffel not allowed
  85= cannot decide if this move is legal or not.\n
- 86= already occupied - old piece will be deleted.\n
+ 86= already occupied - old piece goes to the underworld.\n
  87= MarsCirce, PlusChess or PhantomChess is incompatible with several fairy conditions and fairy pieces.\n
  88= potential positions in
  89= nonsense combination

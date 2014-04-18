@@ -1,6 +1,6 @@
 #include "conditions/mummer.h"
 #include "conditions/singlebox/type3.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/proxy.h"
@@ -9,11 +9,14 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
-#include "solving/move_diff_code.h"
+#include "solving/fork.h"
+#include "position/move_diff_code.h"
+#include "position/position.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -156,10 +159,9 @@ static void accept_move(ply ply, numecoup id)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -168,15 +170,14 @@ static void accept_move(ply ply, numecoup id)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
+void mummer_orchestrator_solve(slice_index si)
 {
-  stip_length_type result;
   ply const save_nbply = nbply;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   mum_length[parent_ply[nbply]] = INT_MIN;
@@ -184,7 +185,7 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
 
   copyply();
   move_generator_invert_move_order(nbply);
-  solve(slices[si].next2,n);
+  solve(slices[si].next2);
   finply();
 
   /* in some very obscure situations (cf. bug #142), we would continue with
@@ -195,18 +196,15 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
   nbply = save_nbply;
   SET_CURRMOVE(nbply,last_candidate[nbply]);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -215,15 +213,14 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
+void mummer_bookkeeper_solve(slice_index si)
 {
-  stip_length_type const result = this_move_is_illegal;
   int current_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   current_length = (*mummer_measure_length[slices[si].starter])();
@@ -237,23 +234,28 @@ stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n)
   else if (current_length==mum_length[parent_ply[nbply]])
     /* this move may be legal, but can't increase the maximum length */
     accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
-  else if (solve(slices[si].next1,n)>=slack_length)
+  else
   {
-    /* we have a new mum */
-    mum_length[parent_ply[nbply]] = current_length;
-    TraceValue("%u\n",mum_length[parent_ply[nbply]]);
+    pipe_solve_delegate(si);
 
-    reset_accepted_moves(nbply-1);
-    accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
+    if (solve_result>=slack_length)
+    {
+      /* we have a new mum */
+      mum_length[parent_ply[nbply]] = current_length;
+      TraceValue("%u\n",mum_length[parent_ply[nbply]]);
 
-    /* no need to try other flavours of the same move */
-    post_move_iteration_locked[nbply] = false;
+      reset_accepted_moves(nbply-1);
+      accept_move(nbply-1,CURRMOVE_OF_PLY(nbply));
+
+      /* no need to try other flavours of the same move */
+      post_move_iteration_locked[nbply] = false;
+    }
   }
 
+  solve_result = this_move_is_illegal;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 typedef struct
@@ -506,10 +508,9 @@ static void connect_solver_to_tester(slice_index si, stip_structure_traversal *s
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -518,21 +519,17 @@ static void connect_solver_to_tester(slice_index si, stip_structure_traversal *s
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type ultra_mummer_measurer_deadend_solve(slice_index si,
-                                                     stip_length_type n)
+void ultra_mummer_measurer_deadend_solve(slice_index si)
 {
-  stip_length_type const result = slack_length;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  solve_result = MOVE_HAS_SOLVED_LENGTH();
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Validate an observation according to Ultra-Mummer
@@ -547,7 +544,9 @@ boolean ultra_mummer_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[temporary_hack_ultra_mummer_length_measurer[side_observing]].next2,length_unspecified);
+  fork_solve(temporary_hack_ultra_mummer_length_measurer[side_observing],
+             length_unspecified);
+
   result = (*mummer_measure_length[side_observing])()==mum_length[nbply];
 
   if (result)

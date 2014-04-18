@@ -5,15 +5,17 @@ platform/maxmem.h:
 
 utilities/boolean.h:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
- platform/maxtime.h utilities/boolean.h pymsg.h pylang.h \
- utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h pieces/pieces.h \
- solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h solving/ply.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h solving/move_generator.h \
- output/plaintext/plaintext.h output/plaintext/position.h \
- output/plaintext/pieces.h
+ platform/maxtime.h utilities/boolean.h output/plaintext/message.h \
+ input/plaintext/language.h optimisations/hash.h DHT/dhtbcmem.h \
+ pieces/pieces.h solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
+ position/side.enum.h output/mode.h output/mode.enum.h solving/ply.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h solving/move_generator.h output/plaintext/plaintext.h \
+ output/plaintext/position.h output/plaintext/pieces.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h
 
 platform/maxtime_impl.h:
 
@@ -21,11 +23,9 @@ platform/maxtime.h:
 
 utilities/boolean.h:
 
-pymsg.h:
+output/plaintext/message.h:
 
-pylang.h:
-
-utilities/boolean.h:
+input/plaintext/language.h:
 
 optimisations/hash.h:
 
@@ -33,7 +33,7 @@ DHT/dhtbcmem.h:
 
 pieces/pieces.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -45,13 +45,15 @@ utilities/bitmask.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
 
-pieces/walks/vectors.h:
+position/side.enum.h:
 
 output/mode.h:
+
+output/mode.enum.h:
 
 solving/ply.h:
 
@@ -68,6 +70,14 @@ output/plaintext/plaintext.h:
 output/plaintext/position.h:
 
 output/plaintext/pieces.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/pytime.h
 
 platform/pytime.h:

@@ -9,23 +9,23 @@
 #include "debugging/assert.h"
 #include <string.h>
 
-HunterType huntertypes[maxnrhuntertypes];
+HunterType huntertypes[max_nr_hunter_walks];
 unsigned int nrhuntertypes;
 
 typedef boolean (*direction_validator_type)(numecoup n);
 
 static direction_validator_type direction_validator[maxply+1];
 
-PieNam hunter_make_type(PieNam away, PieNam home)
+piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home)
 {
   unsigned int i;
   for (i = 0; i!=nrhuntertypes; ++i)
     if (huntertypes[i].away==away && huntertypes[i].home==home)
       return Hunter0+i;
 
-  if (nrhuntertypes<maxnrhuntertypes)
+  if (nrhuntertypes<max_nr_hunter_walks)
   {
-    PieNam const result = Hunter0+nrhuntertypes;
+    piece_walk_type const result = Hunter0+nrhuntertypes;
     HunterType * const huntertype = huntertypes+nrhuntertypes;
     huntertype->away = away;
     huntertype->home = home;
@@ -54,10 +54,11 @@ static boolean goes_down(numecoup n)
   return diff<-nr_files_on_board;
 }
 
-static void generate_one_dir(PieNam part, move_filter_criterion_type criterion)
+static void generate_one_dir(piece_walk_type part, move_filter_criterion_type criterion)
 {
   numecoup const savenbcou = CURRMOVE_OF_PLY(nbply);
-  generate_moves_for_piece_based_on_walk(part);
+  move_generation_current_walk = part;
+  generate_moves_for_piece_based_on_walk();
   move_generator_filter_moves(savenbcou,criterion);
 }
 
@@ -73,7 +74,7 @@ boolean hunter_check(validator_id evaluate)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(typeofhunter<maxnrhuntertypes);
+  assert(typeofhunter<max_nr_hunter_walks);
 
   direction_validator[nbply] = goes_home;
   if ((*checkfunctions[huntertype->home])(evaluate))
@@ -92,18 +93,19 @@ boolean hunter_check(validator_id evaluate)
   return result;
 }
 
-void hunter_generate_moves(PieNam walk)
+void hunter_generate_moves(void)
 {
   TraceFunctionEntry(__func__);
-  TracePiece(walk);
+  TraceWalk(walk);
   TraceFunctionParamListEnd();
 
-  assert(walk>=Hunter0);
-  assert(walk<Hunter0+maxnrhuntertypes);
+  assert(move_generation_current_walk>=Hunter0);
+  assert(move_generation_current_walk<Hunter0+max_nr_hunter_walks);
 
   {
-    unsigned int const typeofhunter = walk-Hunter0;
+    unsigned int const typeofhunter = move_generation_current_walk-Hunter0;
     HunterType const * const huntertype = huntertypes+typeofhunter;
+    piece_walk_type const save_current_walk = move_generation_current_walk;
 
     if (trait[nbply]==White)
     {
@@ -115,6 +117,8 @@ void hunter_generate_moves(PieNam walk)
       generate_one_dir(huntertype->away,&goes_down);
       generate_one_dir(huntertype->home,&goes_up);
     }
+
+    move_generation_current_walk = save_current_walk;
   }
 
   TraceFunctionExit(__func__);
@@ -125,12 +129,14 @@ void rook_hunter_generate_moves(void)
 {
   generate_one_dir(Bishop,&goes_down);
   generate_one_dir(Rook,&goes_up);
+  move_generation_current_walk = RookHunter;
 }
 
 void bishop_hunter_generate_moves(void)
 {
   generate_one_dir(Rook,&goes_down);
   generate_one_dir(Bishop,&goes_up);
+  move_generation_current_walk = BishopHunter;
 }
 
 boolean rookhunter_check(validator_id evaluate)
@@ -213,7 +219,7 @@ void solving_initialise_hunters(slice_index root)
   TraceFunctionParam("%u",root);
   TraceFunctionParamListEnd();
 
-  if (nrhuntertypes>0 || exist[RookHunter] || exist[BishopHunter])
+  if (nrhuntertypes>0 || piece_walk_exists[RookHunter] || piece_walk_exists[BishopHunter])
   {
     stip_instrument_observation_validation(root,nr_sides,STEnforceHunterDirection);
     stip_instrument_observer_validation(root,nr_sides,STEnforceHunterDirection);

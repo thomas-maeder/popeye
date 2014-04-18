@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_ORTHODOX_SQUARE_OBSERVATION_H)
 #define OPTIMISATIONS_ORTHODOX_SQUARE_OBSERVATION_H
 
-#include "position/position.h"
+#include "position/side.h"
 #include "position/board.h"
 #include "utilities/boolean.h"
 

@@ -12,10 +12,9 @@
 boolean backhome_existance_tester_validate_observation(slice_index si);
 
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -24,19 +23,18 @@ boolean backhome_existance_tester_validate_observation(slice_index si);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type backhome_existance_tester_solve(slice_index si,
-                                                 stip_length_type n);
+void backhome_existance_tester_solve(slice_index si);
 
 /* Validate an observation according to Back Home
  * @return true iff the observation is valid
  */
 boolean back_home_validate_observation(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -45,14 +43,13 @@ boolean back_home_validate_observation(slice_index si);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type backhome_remove_illegal_moves_solve(slice_index si,
-                                                     stip_length_type n);
+void backhome_remove_illegal_moves_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -61,8 +58,9 @@ stip_length_type backhome_remove_illegal_moves_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type back_home_moves_only_solve(slice_index si, stip_length_type n);
+void back_home_moves_only_solve(slice_index si);
 
 /* Initialise solving in Back-Home
  * @param si identifies root slice of stipulation

@@ -4,7 +4,7 @@
 /* This module implements the foundations of the check detection machinery */
 
 #include "utilities/boolean.h"
-#include "position/position.h"
+#include "position/side.h"
 #include "stipulation/stipulation.h"
 
 /* Continue determining whether a side is in check
@@ -25,10 +25,6 @@ boolean is_in_check(Side a);
  * @param type type of slice with which to instrument moves
  */
 void solving_instrument_check_testing(slice_index si, slice_type type);
-
-/* Tell the check detection machinery to forget everythign about no kings */
-void check_reset_no_king_knowledge(void);
-
 
 /* Tell the check detection machinery that a side may have no king */
 void check_no_king_is_possible(void);

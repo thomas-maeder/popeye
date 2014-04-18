@@ -39,7 +39,7 @@
   7= Zu viel Maerchenschach fuer neutrale Steine
   8= Leofamily mit orthodoxen Figuren nicht erlaubt
   9= Dummy-Figuren bei Circe nicht erlaubt.
- 10= FarbeWechselnd nur bei einigen Huepfern erlaubt
+ 10= SprungbockFarbeWechselnd nur bei einigen Huepfern erlaubt
  11= Springer und Cavalier Majeur nicht erlaubt
  12= Circe-Wiedergeburt ausserhalb des Brettes ?
  13= Satzspiel mit Koenig im Schach ?
@@ -115,7 +115,7 @@
  83= Manche Maerchenbedingungen in Beweispartien nicht erlaubt.\n
  84= Isardam und Madrasi/Eiffelschach nicht erlaubt
  85= kann nicht entscheiden, ob dieser Zug legal ist.\n
- 86= ist bereits besetzt - alter Stein wird geloescht.\n
+ 86= ist bereits besetzt - alter Stein geht in die Unterwelt.\n
  87= MarsCirce, PlusSchach oder PhantomSchach unvereinbar mit verschiedenen Maerchenbedingungen und -steinen.\n
  88= moegliche Stellungen in
  89= Unsinnige Kombination

@@ -4,9 +4,10 @@
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -15,6 +16,35 @@
 square en_passant_multistep_over[maxply+1];
 
 unsigned int en_passant_top[maxply+1];
+
+unsigned int en_passant_retro_squares[en_passant_retro_capacity];
+unsigned int en_passant_nr_retro_squares;
+
+/* Undo the pawn multistep movement indicated by the user (in prepration of
+ * redoing it) */
+void en_passant_undo_multistep(void)
+{
+  if (en_passant_nr_retro_squares>2)
+    move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
+                                          en_passant_retro_squares[en_passant_nr_retro_squares-1],
+                                          en_passant_retro_squares[0]);
+}
+
+/* Redo the multistep movement */
+void en_passant_redo_multistep(void)
+{
+  if (en_passant_nr_retro_squares>2)
+  {
+    unsigned int i;
+
+    move_effect_journal_do_piece_movement(move_effect_reason_moving_piece_movement,
+                                          en_passant_retro_squares[0],
+                                          en_passant_retro_squares[en_passant_nr_retro_squares-1]);
+
+    for (i = 1; i<en_passant_nr_retro_squares-1; ++i)
+      en_passant_remember_multistep_over(en_passant_retro_squares[i]);
+  }
+}
 
 /* Remember a square avoided by a multistep move of a pawn
  * @param s avoided square
@@ -41,7 +71,7 @@ void en_passant_forget_multistep(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  en_passant_top[nbply] = en_passant_top[nbply-1];
+  en_passant_top[ply_retro_move] = en_passant_top[ply_diagram_setup];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -257,7 +287,7 @@ square en_passant_find_potential(square sq_multistep_departure)
   square result = initsquare;
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  PieNam pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+  piece_walk_type pi_moving = move_effect_journal[movement].u.piece_movement.moving;
   square const sq_arrival = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
 
   TraceFunctionEntry(__func__);
@@ -336,10 +366,9 @@ boolean en_passant_is_ep_capture(square sq_capture)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -348,14 +377,12 @@ boolean en_passant_is_ep_capture(square sq_capture)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
+void en_passant_adjuster_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==pawn_multistep)
@@ -367,17 +394,16 @@ stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n)
       move_effect_journal_do_remember_ep(multistep_over);
   }
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Instrument slices with promotee markers
+/* Instrument the solving machinery with en passant
+ * @param si identifies the root slice of the solving machinery
  */
-void stip_insert_en_passant_adjusters(slice_index si)
+void en_passant_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

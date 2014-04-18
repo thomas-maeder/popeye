@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_GOALS_OPTIMISATION_GUARDS_H)
 #define OPTIMISATION_GOALS_OPTIMISATION_GUARDS_H
 
-#include "stipulation/moves_traversal.h"
+#include "solving/moves_traversal.h"
 #include "stipulation/goals/goals.h"
 
 /* Instrument the stipulation structure with goal optimisation guards.

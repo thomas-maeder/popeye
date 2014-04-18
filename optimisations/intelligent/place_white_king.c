@@ -3,10 +3,10 @@
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/intercept_check_by_black.h"
 #include "optimisations/orthodox_square_observation.h"
-#include "solving/move_diff_code.h"
-#include "debugging/trace.h"
+#include "position/move_diff_code.h"
 #include "pieces/pieces.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 #include <stdlib.h>
 
@@ -32,7 +32,7 @@ static boolean check_from_direction(int dir)
 
   if (TSTFLAG(spec[curr],Black))
   {
-    PieNam const checker = get_walk_of_piece_on_square(curr);
+    piece_walk_type const checker = get_walk_of_piece_on_square(curr);
     result = checker==Queen || checker==(is_diagonal ? Bishop : Rook);
   }
   else

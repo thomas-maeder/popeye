@@ -108,7 +108,7 @@ typedef boolean (*validator_id)(void);
 */
 
 /* version with slice indices */
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
 typedef slice_index validator_id;
 #define EVALUATE(key) (temporary_hack_##key##_validator[trait[nbply]])
 #define INVOKE_EVALUATE(validator) (validate_observation_recursive(slices[validator].next2))

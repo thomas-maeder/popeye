@@ -5,16 +5,16 @@
 #include "position/position.h"
 #include "utilities/boolean.h"
 
-boolean is_king(PieNam p);
-boolean is_pawn(PieNam p);
-boolean is_forwardpawn(PieNam p);
-boolean is_locust(PieNam p);
-boolean is_leaper(PieNam p);
-boolean is_rider(PieNam p);
-boolean is_chineserider(PieNam p);
-boolean is_lion(PieNam p);
-boolean is_simpledecomposedleaper(PieNam p);
-boolean is_symmetricfairy(PieNam p);
-boolean is_simplehopper(PieNam p);
+boolean is_king(piece_walk_type p);
+boolean is_pawn(piece_walk_type p);
+boolean is_forwardpawn(piece_walk_type p);
+boolean is_locust(piece_walk_type p);
+boolean is_leaper(piece_walk_type p);
+boolean is_rider(piece_walk_type p);
+boolean is_chineserider(piece_walk_type p);
+boolean is_lion(piece_walk_type p);
+boolean is_simpledecomposedleaper(piece_walk_type p);
+boolean is_symmetricfairy(piece_walk_type p);
+boolean is_simplehopper(piece_walk_type p);
 
 #endif

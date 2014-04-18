@@ -27,8 +27,9 @@
 #include "solving/king_move_generator.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
 #include "debugging/measure.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "output/plaintext/pieces.h"
@@ -43,9 +44,11 @@ move_generation_elmt move_generation_stack[toppile + 1];
 numecoup current_move[maxply+1];
 numecoup current_move_id[maxply+1];
 
+piece_walk_type move_generation_current_walk;
+
 static void write_history_recursive(ply ply)
 {
-  if (ply>nil_ply+1)
+  if (parent_ply[ply]>ply_retro_move)
     write_history_recursive(parent_ply[ply]);
 
   printf(" %u:",ply);
@@ -176,13 +179,11 @@ void solving_instrument_move_generation(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void generate_moves_for_piece(slice_index si, PieNam p)
+void generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(slice_type,slices[si].type,"\n");
@@ -190,103 +191,103 @@ void generate_moves_for_piece(slice_index si, PieNam p)
   switch (slices[si].type)
   {
     case STSingleBoxType3TMovesForPieceGenerator:
-      singleboxtype3_generate_moves_for_piece(si,p);
+      singleboxtype3_generate_moves_for_piece(si);
       break;
 
     case STMadrasiMovesForPieceGenerator:
-      madrasi_generate_moves_for_piece(si,p);
+      madrasi_generate_moves_for_piece(si);
       break;
 
     case STEiffelMovesForPieceGenerator:
-      eiffel_generate_moves_for_piece(si,p);
+      eiffel_generate_moves_for_piece(si);
       break;
 
     case STDisparateMovesForPieceGenerator:
-      disparate_generate_moves_for_piece(si,p);
+      disparate_generate_moves_for_piece(si);
       break;
 
     case STParalysingMovesForPieceGenerator:
-      paralysing_generate_moves_for_piece(si,p);
+      paralysing_generate_moves_for_piece(si);
       break;
 
     case STUltraPatrolMovesForPieceGenerator:
-      ultrapatrol_generate_moves_for_piece(si,p);
+      ultrapatrol_generate_moves_for_piece(si);
       break;
 
     case STCentralMovesForPieceGenerator:
-      central_generate_moves_for_piece(si,p);
+      central_generate_moves_for_piece(si);
       break;
 
     case STBeamtenMovesForPieceGenerator:
-      beamten_generate_moves_for_piece(si,p);
+      beamten_generate_moves_for_piece(si);
       break;
 
     case STPhantomMovesForPieceGenerator:
-      phantom_generate_moves_for_piece(si,p);
+      phantom_generate_moves_for_piece(si);
       break;
 
     case STPlusMovesForPieceGenerator:
-      plus_generate_moves_for_piece(si,p);
+      plus_generate_moves_for_piece(si);
       break;
 
     case STMarsCirceMovesForPieceGenerator:
-      marscirce_generate_moves_for_piece(si,p);
+      marscirce_generate_moves_for_piece(si);
       break;
 
     case STAntiMarsCirceMovesForPieceGenerator:
-      antimars_generate_moves_for_piece(si,p);
+      antimars_generate_moves_for_piece(si);
       break;
 
     case STVaultingKingsMovesForPieceGenerator:
-      vaulting_kings_generate_moves_for_piece(si,p);
+      vaulting_kings_generate_moves_for_piece(si);
       break;
 
     case STTransmutingKingsMovesForPieceGenerator:
-      transmuting_kings_generate_moves_for_piece(si,p);
+      transmuting_kings_generate_moves_for_piece(si);
       break;
 
     case STSuperTransmutingKingsMovesForPieceGenerator:
-      supertransmuting_kings_generate_moves_for_piece(si,p);
+      supertransmuting_kings_generate_moves_for_piece(si);
       break;
 
     case STReflectiveKingsMovesForPieceGenerator:
-      reflective_kings_generate_moves_for_piece(si,p);
+      reflective_kings_generate_moves_for_piece(si);
       break;
 
     case STCastlingChessMovesForPieceGenerator:
-      castlingchess_generate_moves_for_piece(si,p);
+      castlingchess_generate_moves_for_piece(si);
       break;
 
     case STPlatzwechselRochadeMovesForPieceGenerator:
-      exchange_castling_generate_moves_for_piece(si,p);
+      exchange_castling_generate_moves_for_piece(si);
       break;
 
     case STCastlingGenerator:
-      castling_generator_generate_castling(si,p);
+      castling_generator_generate_castling(si);
       break;
 
     case STMessignyMovesForPieceGenerator:
-      messigny_generate_moves_for_piece(si,p);
+      messigny_generate_moves_for_piece(si);
       break;
 
     case STAnnanMovesForPieceGenerator:
-      annan_generate_moves_for_piece(si,p);
+      annan_generate_moves_for_piece(si);
       break;
 
     case STFaceToFaceMovesForPieceGenerator:
-      facetoface_generate_moves_for_piece(si,p);
+      facetoface_generate_moves_for_piece(si);
       break;
 
     case STBackToBackMovesForPieceGenerator:
-      backtoback_generate_moves_for_piece(si,p);
+      backtoback_generate_moves_for_piece(si);
       break;
 
     case STCheekToCheekMovesForPieceGenerator:
-      cheektocheek_generate_moves_for_piece(si,p);
+      cheektocheek_generate_moves_for_piece(si);
       break;
 
     case STMovesForPieceBasedOnWalkGenerator:
-      generate_moves_for_piece_based_on_walk(p);
+      generate_moves_for_piece_based_on_walk();
       break;
 
     default:
@@ -335,8 +336,8 @@ static void genmove(void)
       if (TSTFLAG(spec[curr_generation->departure],side))
       {
         TraceSquare(curr_generation->departure);TraceEOL();
-        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2,
-                                 get_walk_of_piece_on_square(curr_generation->departure));
+        move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
+        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
       }
       curr_generation->departure += dir_left;
     }
@@ -346,10 +347,9 @@ static void genmove(void)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -358,25 +358,21 @@ static void genmove(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type move_generator_solve(slice_index si, stip_length_type n)
+void move_generator_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   nextply(slices[si].starter);
   genmove();
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_move_generator(slice_index si, stip_structure_traversal *st)
@@ -451,10 +447,10 @@ enum
   nr_solver_inserters = sizeof solver_inserters / sizeof solver_inserters[0]
 };
 
-/* Instrument a stipulation with move generator slices
- * @param si root of branch to be instrumented
+/* Instrument the solving machinery with move generator slices
+ * @param si identifies root the solving machinery
  */
-void stip_insert_move_generators(slice_index si)
+void solving_insert_move_generators(slice_index si)
 {
   stip_structure_traversal st;
 

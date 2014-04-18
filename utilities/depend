@@ -1,11 +1,14 @@
 utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  utilities/boolean.h conditions/conditions.h position/position.h \
- position/board.h utilities/bitmask.h pieces/pieces.h \
- pieces/walks/vectors.h utilities/enumeration.h pymsg.h pylang.h \
- utilities/boolean.h solving/move_effect_journal.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h output/mode.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h debugging/trace.h debugging/assert.h
+ position/board.h utilities/bitmask.h position/side.h \
+ position/side.enum.h position/color.h position/color.enum.h \
+ pieces/pieces.h pieces/walks/vectors.h output/plaintext/message.h \
+ input/plaintext/language.h solving/move_effect_journal.h \
+ solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/trace.h debugging/assert.h
 
 utilities/table.h:
 
@@ -19,21 +22,25 @@ position/board.h:
 
 utilities/bitmask.h:
 
+position/side.h:
+
+position/side.enum.h:
+
+position/color.h:
+
+position/color.enum.h:
+
 pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
-utilities/enumeration.h:
+output/plaintext/message.h:
 
-pymsg.h:
-
-pylang.h:
-
-utilities/boolean.h:
+input/plaintext/language.h:
 
 solving/move_effect_journal.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -41,7 +48,11 @@ stipulation/goals/goals.h:
 
 stipulation/slice_type.h:
 
+stipulation/slice_type.enum.h:
+
 output/mode.h:
+
+output/mode.enum.h:
 
 solving/castling_rights.h:
 

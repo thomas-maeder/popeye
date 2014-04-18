@@ -1,10 +1,11 @@
 #include "conditions/brunner.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/has_solution_type.h"
+#include "solving/temporary_hacks.h"
 #include "solving/check.h"
 #include "solving/observation.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -20,7 +21,10 @@ boolean brunner_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = solve(slices[temporary_hack_brunner_check_defense_finder[trait[nbply]]].next2,length_unspecified)==next_move_has_solution;
+  result = (fork_solve(temporary_hack_brunner_check_defense_finder[trait[nbply]],
+                       length_unspecified)
+            ==next_move_has_solution);
+
   PUSH_OBSERVATION_TARGET_AGAIN(nbply);
 
   if (result)

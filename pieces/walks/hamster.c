@@ -1,4 +1,5 @@
 #include "pieces/walks/hamster.h"
+#include "position/position.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 

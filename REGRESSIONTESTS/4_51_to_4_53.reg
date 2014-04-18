@@ -1252,6 +1252,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
             Circe Parrain
+             LastCapture
 
    1.Ka1-b2 !
 
@@ -1338,6 +1339,30 @@ there is no solution, but 4.51 gave 1.Qb2#
 solution finished. 
 
 
+
+      White or Black maximummer?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  white 3a[#]d | 4hh[#]       1 + 1
+              Maximummer
 Can't decide whether condition applies to White or Black
 
 problem ignored
@@ -1349,7 +1374,6 @@ problem ignored
 solution finished. 
 
 
-WhiteToPlay not applicable - ignored
 
 option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 
@@ -1373,6 +1397,7 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h+1.5                       2 + 1
+WhiteToPlay not applicable - ignored
 
   1...Ka3-b2   2.Ka7-a6 b4-b5 +
   1...Ka3-a2   2.Ka7-a6 b4-b5 +

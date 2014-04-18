@@ -2,37 +2,48 @@
 #define CONDITIONS_MARSCIRCE_MARSCIRCE_H
 
 #include "pieces/pieces.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/observation.h"
+#include "solving/move_generator.h"
 #include "position/position.h"
 
 /* This module provides implements the condition Mars-Circe
  */
 
-extern square (*marscirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
+extern square marscirce_rebirth_square[toppile+1];
+
+extern square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, square, square, Side);
 
 /* Generate non-capturing moves
- * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
  */
-void marscirce_generate_non_captures(slice_index si,
-                                     PieNam p,
-                                     square sq_generate_from);
+void marscirce_generate_non_captures(slice_index si, square sq_generate_from);
 
 /* Generate capturing moves
- * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
  */
-void marscirce_generate_captures(slice_index si,
-                                 PieNam p,
-                                 square sq_generate_from);
+void marscirce_generate_captures(slice_index si, square sq_generate_from);
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param p indicates the walk according to which to generate moves
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves_for_piece(slice_index si, PieNam p);
+void marscirce_generate_moves_for_piece(slice_index si);
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void marscirce_move_to_rebirth_square_solve(slice_index si);
 
 /* Validate an observation or observer by making sure it's the one that has just
  * been reborn

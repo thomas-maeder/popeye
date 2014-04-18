@@ -1,36 +1,26 @@
 #include "solving/king_capture_avoider.h"
 #include "solving/move_effect_journal.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/pipe.h"
+#include "solving/machinery/twin.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
-#include "stipulation/proxy.h"
-#include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 typedef struct
 {
-    boolean own_king_capture_possible;
-    boolean opponent_king_capture_possible;
+    twin_number_type own_king_capture_possible;
+    twin_number_type opponent_king_capture_possible;
 } insertion_state;
 
 static insertion_state root_state;
-
-/* Reset king capture avoiders
- */
-void king_capture_avoiders_reset(void)
-{
-  root_state.own_king_capture_possible = false;
-  root_state.opponent_king_capture_possible = false;
-}
 
 /* Make stip_insert_king_capture_avoiders() insert slices that prevent moves
  * that leave the moving side without king
  */
 void king_capture_avoiders_avoid_own(void)
 {
-  root_state.own_king_capture_possible = true;
+  root_state.own_king_capture_possible = twin_number;
 }
 
 /* Make stip_insert_king_capture_avoiders() insert slices that prevent moves
@@ -38,7 +28,7 @@ void king_capture_avoiders_avoid_own(void)
  */
 void king_capture_avoiders_avoid_opponent(void)
 {
-  root_state.opponent_king_capture_possible = true;
+  root_state.opponent_king_capture_possible = twin_number;
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
@@ -51,13 +41,13 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (state->own_king_capture_possible)
+  if (state->own_king_capture_possible==twin_number)
   {
     slice_index const prototype = alloc_pipe(STOwnKingCaptureAvoider);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
   }
 
-  if (state->opponent_king_capture_possible)
+  if (state->opponent_king_capture_possible==twin_number)
   {
     slice_index const prototype = alloc_pipe(STOpponentKingCaptureAvoider);
     branch_insert_slices_contextual(si,st->context,&prototype,1);
@@ -71,23 +61,24 @@ static void remember_goal_with_potential_king_capture(slice_index si,
                                                       stip_structure_traversal *st)
 {
   insertion_state * const state = st->param;
+  twin_number_type const save_own_king_capture_possible = state->own_king_capture_possible;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->own_king_capture_possible = true;
+  state->own_king_capture_possible = twin_number;
   stip_traverse_structure_children(si,st);
-  state->own_king_capture_possible = false;
+  state->own_king_capture_possible = save_own_king_capture_possible;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Instrument a stipulation
- * @param si identifies root slice of stipulation
+/* Instrument the solving machinery with king capture avoiders
+ * @param si identifies root slice of the solving machinery
  */
-void stip_insert_king_capture_avoiders(slice_index si)
+void solving_insert_king_capture_avoiders(slice_index si)
 {
   insertion_state state = root_state;
   stip_structure_traversal st;
@@ -132,15 +123,14 @@ static boolean is_king_captured(Side side)
   for (curr = base; curr<top; ++curr)
     if (move_effect_journal[curr].type==move_effect_king_square_movement
         && move_effect_journal[curr].u.king_square_movement.side==side)
-      result = move_effect_journal[curr].u.king_square_movement.to==nullsquare;
+      result = move_effect_journal[curr].u.king_square_movement.to==initsquare;
 
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -149,33 +139,25 @@ static boolean is_king_captured(Side side)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type own_king_capture_avoider_solve(slice_index si,
-                                                stip_length_type n)
+void own_king_capture_avoider_solve(slice_index si)
 {
-  stip_length_type result;
   Side const starter = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_king_captured(starter))
-    result = this_move_is_illegal;
-  else
-    result = solve(slices[si].next1,n);
+  pipe_this_move_illegal_if(si,is_king_captured(starter));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -184,24 +166,16 @@ stip_length_type own_king_capture_avoider_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type opponent_king_capture_avoider_solve(slice_index si,
-                                                     stip_length_type n)
+void opponent_king_capture_avoider_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_king_captured(advers(slices[si].starter)))
-    result = this_move_is_illegal;
-  else
-    result = solve(slices[si].next1,n);
+  pipe_this_move_illegal_if(si,is_king_captured(advers(slices[si].starter)));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

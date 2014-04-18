@@ -23,6 +23,9 @@ static boolean annanises(Side side, square rear, square front)
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(spec[rear],side))
+  {
+    Flags const mask = BIT(side)|BIT(Royal);
+
     switch(annan_type)
     {
       case ConditionTypeA:
@@ -30,21 +33,22 @@ static boolean annanises(Side side, square rear, square front)
         break;
 
       case ConditionTypeB:
-        result = rear!=king_square[side];
+        result = !TSTFULLFLAGMASK(spec[rear],mask);
         break;
 
       case ConditionTypeC:
-        result = front!=king_square[side];
+        result = !TSTFULLFLAGMASK(spec[front],mask);
         break;
 
       case ConditionTypeD:
-        result = rear!=king_square[side] && front!=king_square[side];
+        result = !TSTFULLFLAGMASK(spec[rear],mask) && !TSTFULLFLAGMASK(spec[front],mask);
         break;
 
       default:
         assert(0);
         break;
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -54,25 +58,26 @@ static boolean annanises(Side side, square rear, square front)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void annan_generate_moves_for_piece(slice_index si, PieNam p)
+void annan_generate_moves_for_piece(slice_index si)
 {
   int const annaniser_dir = trait[nbply]==White ? -onerow : +onerow;
   square const annaniser_pos = curr_generation->departure+annaniser_dir;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (annanises(trait[nbply],annaniser_pos,curr_generation->departure))
   {
-    PieNam const annaniser = get_walk_of_piece_on_square(annaniser_pos);
-    generate_moves_for_piece(slices[si].next1,annaniser);
+    piece_walk_type const save_current_walk = move_generation_current_walk;
+    piece_walk_type const annaniser = get_walk_of_piece_on_square(annaniser_pos);
+    move_generation_current_walk = annaniser;
+    generate_moves_for_piece(slices[si].next1);
+    move_generation_current_walk = save_current_walk;
   }
   else
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -87,7 +92,7 @@ boolean annan_enforce_observer_walk(slice_index si)
   Side const side_attacking = trait[nbply];
   numvec const dir_annaniser = side_attacking==White ? dir_down : dir_up;
   square const pos_annaniser = sq_departure+dir_annaniser;
-  PieNam walk;
+  piece_walk_type walk;
   boolean result;
 
   TraceFunctionEntry(__func__);

@@ -802,12 +802,20 @@ sstipulation). A little bit more elaborate is the command
 	FrischAuf
 
 	may be given. All the pieces given after this will have these
-	attributes.  After this specification follows the list of
-	pieces: First the type of the piece followed by the list of
-	squares the piece should be placed on. By giving a new color
+	attributes. After this specification follows the list of
+	pieces: First the walk of the piece followed by the list of
+	squares where pieces should be placed on. By giving a new color
 	specifiation pieces of another color may be entered without
-	repeating the pieces command. Popeye knows the following
-	piece types:
+	repeating the pieces command.
+
+	If a piece is placed on an occupied square, the previous piece
+	is transfered below the square to the top of the underworld. In the
+	fairy conditions Circe Volcanic, Circe Parachute, GhostChess and
+	HauntedChess, moves from that square cause pieces from the underworld
+	to be transfered back into the real world. Otherwise, pieces in the
+	underworld allow promoting pawns into their walk.
+
+	Popeye supports the following piece walks:
 
 	15      1,5-leaper
 	16      1,6-leaper

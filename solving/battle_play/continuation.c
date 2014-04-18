@@ -1,6 +1,6 @@
 #include "solving/battle_play/continuation.h"
 #include "stipulation/branch.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "debugging/trace.h"
@@ -25,10 +25,9 @@ slice_index alloc_continuation_solver_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -37,31 +36,33 @@ slice_index alloc_continuation_solver_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type continuation_solver_solve(slice_index si, stip_length_type n)
+void continuation_solver_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(slices[si].next2,n);
-  if (slack_length<=result && result<=n)
+  solve(slices[si].next2);
+
+  if (move_has_solved())
   {
-    stip_length_type const n_next = n<result ? n : result;
 #if !defined(NDEBUG)
-    stip_length_type const defend_result =
+    stip_length_type const test_result = solve_result;
 #endif
-    solve(slices[si].next1,n_next);
-    assert(defend_result==result);
+    stip_length_type const save_solve_nr_remaining = solve_nr_remaining;
+
+    if (solve_nr_remaining>solve_result)
+      solve_nr_remaining = solve_result;
+    solve(slices[si].next1);
+    solve_nr_remaining = save_solve_nr_remaining;
+
+    assert(solve_result==test_result);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_continuation_solvers_postkey_play(slice_index si,
@@ -140,10 +141,10 @@ enum
   nr_continuation_solver_inserters = sizeof continuation_solver_inserters / sizeof continuation_solver_inserters[0]
 };
 
-/* Instrument the stipulation structure with STContinuationSolver slices
- * @param root_slice root slice of the stipulation
+/* Instrument the solving machinery with STContinuationSolver slices
+ * @param root_slice root slice of the solving machinery
  */
-void stip_insert_continuation_solvers(slice_index si)
+void solving_insert_continuation_solvers(slice_index si)
 {
   stip_structure_traversal st;
   boolean attack_played = false;

@@ -1,56 +1,31 @@
-pymsg$(OBJ_SUFFIX): pymsg.c pymsg.h pylang.h utilities/boolean.h \
- input/plaintext/line.h output/output.h output/mode.h \
- utilities/enumeration.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h output/plaintext/plaintext.h \
- output/latex/latex.h platform/pytime.h pyallmsg.h
+pygmarr$(OBJ_SUFFIX): pygmarr.c position/position.h position/board.h \
+ utilities/bitmask.h position/side.h position/side.enum.h \
+ position/color.h position/color.enum.h pieces/pieces.h \
+ utilities/boolean.h pieces/walks/vectors.h
 
-pymsg.h:
-
-pylang.h:
-
-utilities/boolean.h:
-
-input/plaintext/line.h:
-
-output/output.h:
-
-output/mode.h:
-
-utilities/enumeration.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
+position/position.h:
 
 position/board.h:
 
 utilities/bitmask.h:
 
-utilities/boolean.h:
+position/side.h:
 
-stipulation/slice_type.h:
+position/side.enum.h:
 
-position/position.h:
+position/color.h:
+
+position/color.enum.h:
 
 pieces/pieces.h:
 
+utilities/boolean.h:
+
 pieces/walks/vectors.h:
-
-output/plaintext/plaintext.h:
-
-output/latex/latex.h:
-
-platform/pytime.h:
-
-pyallmsg.h:
-pylang$(OBJ_SUFFIX): pylang.c pylang.h
-
-pylang.h:
 gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \
- utilities/bitmask.h pieces/pieces.h utilities/boolean.h \
- pieces/walks/vectors.h utilities/enumeration.h
+ utilities/bitmask.h position/side.h position/side.enum.h \
+ position/color.h position/color.enum.h pieces/pieces.h \
+ utilities/boolean.h pieces/walks/vectors.h
 
 position/position.h:
 
@@ -58,10 +33,16 @@ position/board.h:
 
 utilities/bitmask.h:
 
+position/side.h:
+
+position/side.enum.h:
+
+position/color.h:
+
+position/color.enum.h:
+
 pieces/pieces.h:
 
 utilities/boolean.h:
 
 pieces/walks/vectors.h:
-
-utilities/enumeration.h:

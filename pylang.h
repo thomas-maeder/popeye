@@ -9,21 +9,7 @@
 #if !defined(PYLANG_H)
 #define PYLANG_H
 
-/* Language identifiers
- */
-typedef enum
-{
-  French,
-  German,
-  English,
-  
-  LanguageCount,
-  LanguageDefault = French
-} Language;
-
-/* Language (hopefully) used by user
- */
-extern Language UserLanguage;
+#include "input/plaintext/language.h"
 
 /* Get name of a language
  * @param lang language identifier

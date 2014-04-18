@@ -1,6 +1,7 @@
 #include "pieces/walks/edgehog.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "position/position.h"
 #include "debugging/trace.h"
 
 /* Generate moves for an Edgehog

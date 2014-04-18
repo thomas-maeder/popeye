@@ -107,12 +107,12 @@ static void dump_imitator_initialisers_to_stream(FILE *dest,
  */
 static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos)
 {
-  PieNam p;
+  piece_walk_type p;
   unsigned int column = 0;
 
   fprintf(dest,"  { /* numbers of pieces */\n");
   fprintf(dest,"    { /* White */\n      ");
-  for (p = 0; p<PieceCount-1; ++p)
+  for (p = 0; p<nr_piece_walks-1; ++p)
   {
     fprintf(dest,"%u,",pos->number_of_pieces[White][p]);
     ++column;
@@ -126,7 +126,7 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
   fprintf(dest,"    },\n");
   column = 0;
   fprintf(dest,"    { /* Black */\n      ");
-  for (p = 0; p<PieceCount-1; ++p)
+  for (p = 0; p<nr_piece_walks-1; ++p)
   {
     fprintf(dest,"%u,",pos->number_of_pieces[Black][p]);
     ++column;

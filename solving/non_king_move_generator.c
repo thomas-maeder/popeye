@@ -1,9 +1,11 @@
 #include "solving/non_king_move_generator.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
+#include "position/position.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -38,10 +40,12 @@ static boolean advance_departure_square(Side side,
     {
       ++*next_square_to_try;
       if (TSTFLAG(spec[curr_generation->departure],side)
-          && curr_generation->departure!=king_square[side])
+          /* don't use king_square[side] - it may be a royal square occupied
+           * by a non-royal piece! */
+          && !TSTFLAG(spec[curr_generation->departure],Royal))
       {
-        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2,
-                                 get_walk_of_piece_on_square(curr_generation->departure));
+        move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
+        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
         return true;
       }
     }
@@ -50,10 +54,9 @@ static boolean advance_departure_square(Side side,
   return false;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -62,29 +65,27 @@ static boolean advance_departure_square(Side side,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type non_king_move_generator_solve(slice_index si,
-                                               stip_length_type n)
+void non_king_move_generator_solve(slice_index si)
 {
-  stip_length_type result = previous_move_is_illegal;
   Side const side_at_move = slices[si].starter;
   square const *next_square_to_try = boardnum;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  solve_result = immobility_on_next_move;
 
   nextply(side_at_move);
 
-  while (result<slack_length
+  while (solve_result<slack_length
          && advance_departure_square(side_at_move,&next_square_to_try))
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
 
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -1,6 +1,6 @@
 #include "solving/battle_play/setplay.h"
 #include "stipulation/branch.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/battle_play/try.h"
 #include "debugging/trace.h"

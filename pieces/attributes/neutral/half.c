@@ -5,8 +5,8 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* Deneutralise a half-neutral piece
@@ -41,11 +41,6 @@ static void do_deneutralisation(square on, Side to)
 
   --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
   occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~BIT(advers(to)));
-
-  if (king_square[advers(to)]==on)
-    move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
-                                                advers(to),
-                                                initsquare);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -126,11 +121,6 @@ static void do_neutralisation(square on)
   occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(advers(from)));
   ++number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
 
-  if (king_square[from]==on)
-    move_effect_journal_do_king_square_movement(move_effect_reason_half_neutral_king_movement,
-                                                advers(from),
-                                                on);
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -185,10 +175,9 @@ void redo_half_neutral_neutralisation(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -197,14 +186,12 @@ void redo_half_neutral_neutralisation(move_effect_journal_index_type curr)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type half_neutral_recolorer_solve(slice_index si, stip_length_type n)
+void half_neutral_recolorer_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
@@ -226,12 +213,10 @@ stip_length_type half_neutral_recolorer_solve(slice_index si, stip_length_type n
     }
   }
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Instrument a stipulation with goal filter slices

@@ -1147,6 +1147,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#4                     3 + 2
+             Uncapturable
               GhostChess
 
 zeroposition
@@ -1300,11 +1301,79 @@ b) nBc1-->d2
 solution finished. 
 
 
+
+     Vlaicu Crisan & \'Eric Huber
+17\`eme T.T. Chess Composition Microweb 2005, 3\`eme Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5 -DU   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  =R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  =B   .   .  -L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 3 + 2n
+             Uncapturable
+              Bicolores
+              GhostChess
 too much fairy chess for neutral pieces
 problem ignored
 
   add_to_move_generation_stack:           0
                      play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+b1 already occupied - old piece goes to the underworld.
+
+      pre-filling the underworld
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 0
+             Uncapturable
+              GhostChess
+
+   1.Sb1-d2[+buRb1] !
+
+   1.Sb1-c3[+buRb1] !
+
+   1.Sb1-a3[+buRb1] !
+
+
+  add_to_move_generation_stack:           3
+                     play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 

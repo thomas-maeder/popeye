@@ -2,7 +2,8 @@
 #include "pieces/walks/walks.h"
 #include "solving/move_generator.h"
 #include "solving/check.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/fork.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
@@ -12,7 +13,8 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/classification.h"
@@ -46,10 +48,9 @@ static void castle(square sq_departure, square sq_arrival,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -58,10 +59,10 @@ static void castle(square sq_departure, square sq_arrival,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type castling_player_solve(slice_index si, stip_length_type n)
+void castling_player_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_departure = move_gen_top->departure;
@@ -69,7 +70,6 @@ stip_length_type castling_player_solve(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   switch (move_gen_top->capture)
@@ -80,7 +80,7 @@ stip_length_type castling_player_solve(slice_index si, stip_length_type n)
       square const sq_partner_arrival = sq_departure+dir_right;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      result = solve(slices[si].next2,n);
+      solve(slices[si].next2);
 
       break;
     }
@@ -91,20 +91,18 @@ stip_length_type castling_player_solve(slice_index si, stip_length_type n)
       square const sq_partner_arrival = sq_departure+dir_left;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      result = solve(slices[si].next2,n);
+      solve(slices[si].next2);
 
       break;
     }
 
     default:
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
       break;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Disable a castling right
@@ -291,7 +289,7 @@ static void enable_castling_right(move_effect_reason_type reason,
 void enable_castling_rights(move_effect_reason_type reason,
                             square sq_arrival)
 {
-  PieNam const p = get_walk_of_piece_on_square(sq_arrival);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_arrival);
   Flags const specs = spec[sq_arrival];
 
   TraceFunctionEntry(__func__);
@@ -426,10 +424,9 @@ static void adjust_castling_rights(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -438,40 +435,34 @@ static void adjust_castling_rights(Side trait_ply)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type castling_rights_adjuster_solve(slice_index si,
-                                                stip_length_type n)
+void castling_rights_adjuster_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   adjust_castling_rights(slices[si].starter);
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void castling_generator_generate_castling(slice_index si, PieNam p)
+void castling_generator_generate_castling(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,p);
+  generate_moves_for_piece(slices[si].next1);
 
-  if (is_king(p))
+  if (is_king(move_generation_current_walk))
     generate_castling();
 
   TraceFunctionExit(__func__);
@@ -633,10 +624,9 @@ void solving_disable_castling(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -645,15 +635,12 @@ void solving_disable_castling(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
-                                                        stip_length_type n)
+void mutual_castling_rights_adjuster_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   switch (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture)
@@ -684,17 +671,16 @@ stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
       break;
   }
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Instrument slices with move tracers
+/* Instrument the solving machinery with mutual castling right adjusters
+ * @param si identifies the root slice of the solving machinery
  */
-void stip_insert_mutual_castling_rights_adjusters(slice_index si)
+void solving_insert_mutual_castling_rights_adjusters(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -738,7 +724,9 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
     curr_generation->arrival = to;
     push_move();
 
-    result = solve(slices[temporary_hack_castling_intermediate_move_legality_tester[side]].next2,length_unspecified)==next_move_has_solution;
+    result = (fork_solve(temporary_hack_castling_intermediate_move_legality_tester[side],
+                         length_unspecified)
+              ==next_move_has_solution);
 
     finply();
   }
@@ -750,16 +738,17 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
     occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
 
-    if (king_square[side]!=initsquare)
+    if (king_square[side]==initsquare)
+      result = !is_in_check(side);
+    else
+    {
       king_square[side] = to;
-
-    result = !is_in_check(side);
+      result = !is_in_check(side);
+      king_square[side] = from;
+    }
 
     occupy_square(from,get_walk_of_piece_on_square(to),spec[to]);
     empty_square(to);
-
-    if (king_square[side]!=initsquare)
-      king_square[side] = from;
   }
 
   TraceFunctionExit(__func__);

@@ -14,9 +14,8 @@ boolean central_validate_observation(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void central_generate_moves_for_piece(slice_index si, PieNam p);
+void central_generate_moves_for_piece(slice_index si);
 
 /* Inialise the solving machinery with Central Chess
  * @param si identifies root slice of solving machinery

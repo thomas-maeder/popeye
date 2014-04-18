@@ -1,15 +1,11 @@
 #if !defined(OPTIMISATION_INTELLIGENT_LIMIT_NR_SOLUTIONS_PER_TARGET_POS_H)
 #define OPTIMISATION_INTELLIGENT_LIMIT_NR_SOLUTIONS_PER_TARGET_POS_H
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* This module provides the slice types that limit the number of solutions per
  * target position if requested by the user
  */
-
-/* Reset the maximum number of solutions per target position
- */
-void reset_max_nr_solutions_per_target_position(void);
 
 /* Reset the number of solutions per target position
  */
@@ -43,10 +39,9 @@ boolean is_max_nr_solutions_per_target_position_limited(void);
  */
 slice_index alloc_intelligent_nr_solutions_per_target_position_counter_slice(void);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -55,20 +50,18 @@ slice_index alloc_intelligent_nr_solutions_per_target_position_counter_slice(voi
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type
-intelligent_nr_solutions_per_target_position_counter_solve(slice_index si,
-                                                            stip_length_type n);
+void intelligent_nr_solutions_per_target_position_counter_solve(slice_index si);
 
 /* Allocate a STIntelligentLimitNrSolutionsPerTargetPos slice.
  * @return index of allocated slice
  */
 slice_index alloc_intelligent_limit_nr_solutions_per_target_position_slice(void);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -77,9 +70,8 @@ slice_index alloc_intelligent_limit_nr_solutions_per_target_position_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type
-intelligent_limit_nr_solutions_per_target_position_solve(slice_index si,
-                                                          stip_length_type n);
+void intelligent_limit_nr_solutions_per_target_position_solve(slice_index si);
 
 #endif

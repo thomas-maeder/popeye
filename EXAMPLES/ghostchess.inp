@@ -227,4 +227,13 @@ stipulation h#2.5
 condition Bicolore
 condition ghostchess
 
+next
+
+title pre-filling the underworld
+pieces black uncapturable rb1 white sb1
+stip ~1
+option nowk nobk
+cond ghostchess
+
 end
+

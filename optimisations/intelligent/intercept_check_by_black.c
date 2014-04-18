@@ -78,7 +78,7 @@ static void promoted_black_pawn(unsigned int intercepter_index,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(intercepter_index,
                                                                 where_to_intercept))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {

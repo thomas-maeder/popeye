@@ -3,29 +3,19 @@
 
 /* This module implements the condition Immune Chess */
 
-#include "pieces/pieces.h"
 #include "conditions/circe/circe.h"
 #include "stipulation/stipulation.h"
-#include "utilities/boolean.h"
-#include "position/board.h"
-#include "position/position.h"
-
-/* Address of function used to determine the relevant square for finding out
- * whether a piece is immune
- */
-extern square (*immunrenai)(PieNam, Flags, square, square, square, Side);
 
 extern circe_variant_type immune_variant;
 
-/* Validate an observation according to Immune Chess
- * @return true iff the observation is valid
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
  */
-boolean immune_validate_observation(slice_index si);
+void immune_reset_variant(circe_variant_type *variant);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -34,9 +24,9 @@ boolean immune_validate_observation(slice_index si);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type immune_remove_captures_of_immune_solve(slice_index si,
-                                                        stip_length_type n);
+void immune_remove_captures_of_immune_solve(slice_index si);
 
 /* Initialise solving in Immune Chess
  * @param si identifies the root slice of the stipulation

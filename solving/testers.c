@@ -1,6 +1,6 @@
 #include "solving/testers.h"
 #include "stipulation/fork.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/if_then_else.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/conditional_pipe.h"

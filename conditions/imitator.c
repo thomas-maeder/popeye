@@ -1,7 +1,8 @@
 #include "conditions/imitator.h"
-#include "pieces/pieces.h"
 #include "conditions/conditions.h"
-#include "pymsg.h"
+#include "conditions/castling_chess.h"
+#include "output/plaintext/message.h"
+#include "pieces/pieces.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/walks/hoppers.h"
@@ -10,20 +11,14 @@
 #include "stipulation/proxy.h"
 #include "stipulation/fork.h"
 #include "stipulation/branch.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
-#include "stipulation/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
-#include "solving/move_generator.h"
-#include "conditions/castling_chess.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
 #include <stdlib.h>
 
 square im0;                    /* position of the 1st imitator */
@@ -343,7 +338,7 @@ static numecoup remove_illegal_moves_by_same_mao(numecoup curr, numecoup *new_to
 static boolean castlingimok(square sq_departure, square sq_arrival)
 {
   boolean ret= false;
-  PieNam const p = get_walk_of_piece_on_square(sq_departure);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
   Flags const flags = spec[sq_departure];
 
   /* I think this should work - clear the K, and move the Is, but don't clear the rook. */
@@ -581,7 +576,7 @@ static boolean avoid_observing_if_imitator_blocked_rider(void)
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
 
   TraceFunctionEntry(__func__);
@@ -604,7 +599,7 @@ static boolean avoid_observing_if_imitator_blocked_chinese_leaper(void)
   boolean result;
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const vec_pass_target = vec[interceptable_observation[observation_context].vector_index1];
   square const sq_pass = sq_landing+vec_pass_target;
@@ -622,7 +617,7 @@ static boolean avoid_observing_if_imitator_blocked_rider_hopper(void)
   boolean result;
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
   square const sq_hurdle = sq_landing-step;
@@ -642,7 +637,7 @@ static boolean avoid_observing_if_imitator_blocked_contragrasshopper(void)
   boolean result;
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
 
@@ -662,7 +657,7 @@ static boolean avoid_observing_if_imitator_blocked_grasshopper_n(unsigned int di
   numvec const step_hurdle_target = -vec[interceptable_observation[observation_context].vector_index1];
   square const sq_hurdle = sq_landing - dist_hurdle_target*step_hurdle_target;
 
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
 
   empty_square(sq_observer);/* an imitator might be disturbed by the moving rider! */
@@ -683,7 +678,7 @@ static boolean avoid_observing_if_imitator_blocked_nonstop_equihopper(void)
   boolean result;
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const diff_hurdle = (sq_landing-sq_observer)/2;
 
@@ -700,7 +695,7 @@ static boolean avoid_observing_if_imitator_blocked_orix(void)
   boolean result;
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
   numvec const diff_observer_landing = sq_landing-sq_observer;
@@ -720,7 +715,7 @@ static boolean avoid_observing_if_imitator_blocked_angle_hopper(angle_t angle)
   boolean result;
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-  PieNam const p = get_walk_of_piece_on_square(sq_observer);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
   Flags const flags = spec[sq_observer];
   vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index1;
   numvec const vec_departure_hurdle1 = -angle_vectors[angle][vec_index_departure_hurdle];
@@ -759,7 +754,7 @@ boolean imitator_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TracePiece(e[sq_observer]);TraceEOL();
+  TraceWalk(e[sq_observer]);TraceEOL();
   switch (e[sq_observer])
   {
     case King:
@@ -892,10 +887,9 @@ boolean imitator_validate_observation(slice_index si)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -904,25 +898,20 @@ boolean imitator_validate_observation(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type imitator_remove_illegal_moves_solve(slice_index si,
-                                                     stip_length_type n)
+void imitator_remove_illegal_moves_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   remove_illegal_moves();
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static boolean is_imitator_pos_occupied(void)
@@ -947,10 +936,9 @@ static boolean is_imitator_pos_occupied(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -959,26 +947,18 @@ static boolean is_imitator_pos_occupied(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type imitator_detect_illegal_moves_solve(slice_index si,
-                                                     stip_length_type n)
+void imitator_detect_illegal_moves_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_imitator_pos_occupied())
-    result = this_move_is_illegal;
-  else
-    result = solve(slices[si].next1,n);
+  pipe_this_move_illegal_if(si,is_imitator_pos_occupied());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void move_imitators(int delta)
@@ -1171,10 +1151,9 @@ static int imitator_diff(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -1183,31 +1162,27 @@ static int imitator_diff(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type imitator_mover_solve(slice_index si, stip_length_type n)
+void imitator_mover_solve(slice_index si)
 {
-  stip_length_type result;
   int const diff = imitator_diff();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_imitator_movement(move_effect_reason_movement_imitation,
                                            diff);
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -1216,15 +1191,12 @@ stip_length_type imitator_mover_solve(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type imitator_pawn_promoter_solve(slice_index si,
-                                              stip_length_type n)
+void imitator_pawn_promoter_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
@@ -1251,7 +1223,7 @@ stip_length_type imitator_pawn_promoter_solve(slice_index si,
                                                sq_arrival);
 
       ++stack_pointer;
-      result = solve(slices[si].next2,n);
+      solve(slices[si].next2);
       --stack_pointer;
 
       promotion_horizon = save_horizon;
@@ -1266,7 +1238,7 @@ stip_length_type imitator_pawn_promoter_solve(slice_index si,
     else
     {
       ++stack_pointer;
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
       --stack_pointer;
     }
 
@@ -1274,9 +1246,7 @@ stip_length_type imitator_pawn_promoter_solve(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_promoter(slice_index si, stip_structure_traversal *st)

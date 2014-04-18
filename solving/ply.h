@@ -7,7 +7,7 @@
  * in the parent ply).
  */
 
-#include "position/position.h"
+#include "position/side.h"
 
 typedef unsigned int ply;
 
@@ -36,7 +36,11 @@ enum
 
 enum
 {
-  nil_ply = 1
+  ply_nil,
+  ply_diagram_setup,
+  ply_twinning,
+  ply_retro_move_takeback,
+  ply_retro_move
 };
 
 /* the current ply */

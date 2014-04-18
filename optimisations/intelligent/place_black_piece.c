@@ -20,13 +20,13 @@ enum
   checkdir_uninterceptable = INT_MAX
 };
 
-static int find_interceptable_check_dir(PieNam rider_type, square placed_on)
+static int find_interceptable_check_dir(piece_walk_type rider_type, square placed_on)
 {
   int result;
   square const king_pos = king_square[White];
 
   TraceFunctionEntry(__func__);
-  TracePiece(rider_type);
+  TraceWalk(rider_type);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
@@ -58,7 +58,7 @@ static int find_interceptable_check_dir(PieNam rider_type, square placed_on)
 }
 
 void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
-                                                   PieNam promotee_type,
+                                                   piece_walk_type promotee_type,
                                                    square placed_on,
                                                    void (*go_on)(void))
 {
@@ -67,7 +67,7 @@ void intelligent_place_pinned_promoted_black_rider(unsigned int placed_index,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
-  TracePiece(promotee_type);
+  TraceWalk(promotee_type);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
@@ -146,7 +146,7 @@ typedef enum
   rider_requires_pin
 } rider_disturbance_type;
 
-static rider_disturbance_type how_does_rider_disturb(PieNam placed_type,
+static rider_disturbance_type how_does_rider_disturb(piece_walk_type placed_type,
                                                      square placed_on)
 {
   rider_disturbance_type result = rider_doesnt_disturb;
@@ -155,7 +155,7 @@ static rider_disturbance_type how_does_rider_disturb(PieNam placed_type,
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TracePiece(placed_type);
+  TraceWalk(placed_type);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
@@ -226,7 +226,7 @@ static void next_rider_interception(void)
 }
 
 static void place_rider(unsigned int placed_index,
-                        PieNam placed_type,
+                        piece_walk_type placed_type,
                         square placed_on,
                         void (*go_on)(void))
 {
@@ -234,7 +234,7 @@ static void place_rider(unsigned int placed_index,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
-  TracePiece(placed_type);
+  TraceWalk(placed_type);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
@@ -282,7 +282,7 @@ static void place_rider(unsigned int placed_index,
 }
 
 void intelligent_place_promoted_black_rider(unsigned int placed_index,
-                                            PieNam promotee_type,
+                                            piece_walk_type promotee_type,
                                             square placed_on,
                                             void (*go_on)(void))
 {
@@ -292,7 +292,7 @@ void intelligent_place_promoted_black_rider(unsigned int placed_index,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",placed_index);
-  TracePiece(promotee_type);
+  TraceWalk(promotee_type);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
@@ -378,7 +378,7 @@ void intelligent_place_pinned_promoted_black_pawn(unsigned int placed_index,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
                                                                 placed_on))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
@@ -417,7 +417,7 @@ void intelligent_place_promoted_black_pawn(unsigned int placed_index,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
                                                                 placed_on))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
@@ -526,7 +526,7 @@ void intelligent_place_pinned_black_rider(unsigned int placed_index,
                                           square placed_on,
                                           void (*go_on)(void))
 {
-  PieNam const intercepter_type = black[placed_index].type;
+  piece_walk_type const intercepter_type = black[placed_index].type;
   Flags const placed_flags = black[placed_index].flags;
   square const placed_comes_from = black[placed_index].diagram_square;
 
@@ -570,7 +570,7 @@ void intelligent_place_black_rider(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))
 {
-  PieNam const intercepter_type = black[placed_index].type;
+  piece_walk_type const intercepter_type = black[placed_index].type;
   square const placed_comes_from = black[placed_index].diagram_square;
   int const check_diff = king_square[White]-placed_on;
   int const check_dir = CheckDir[intercepter_type][check_diff];

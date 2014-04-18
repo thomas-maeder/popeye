@@ -161,7 +161,7 @@ solution finished.
 solution finished. 
 
 
-both sides need a kingboth sides need a king
+
    set play not applicable in ser-#
 
 +---a---b---c---d---e---f---g---h---+
@@ -184,6 +184,7 @@ both sides need a kingboth sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#5                      0 + 0
+both sides need a king
 SetPlay not applicable - ignored
 
 

@@ -1,0 +1,12 @@
+/* Enumeration type for the two sides which move, deliver mate etc.
+ * The macros used are defined in utilitities/enumeration.h
+ */
+
+#define ENUMERATION_TYPENAME Colour
+
+#define ENUMERATORS \
+  ENUMERATOR(colour_white) \
+    ENUMERATOR(colour_black) \
+    ENUMERATOR(colour_neutral) \
+                       \
+    ENUMERATOR(nr_colours)

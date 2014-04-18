@@ -1,12 +1,22 @@
 #if !defined(CONDITIONS_CIRCE_CAGE_H)
 #define CONDITIONS_CIRCE_CAGE_H
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
-/* Try to solve in n half-moves.
+/* Instrument the solving machinery with Circe Cage (apart from the rebirth
+ * square determination, whose instrumentation is elsewhere)
+ * @param si identifies entry slice into solving machinery
+ * @param variant identifies address of structure holding the Circe variant
+ * @param interval_start type of slice that starts the sequence of slices
+ *                       implementing that variant
+ */
+void circe_solving_instrument_cage(slice_index si,
+                                   struct circe_variant_type const *variant,
+                                   slice_type interval_start);
+
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -15,14 +25,13 @@
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
-                                                stip_length_type n);
+void circe_cage_no_cage_fork_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -31,15 +40,14 @@ stip_length_type circe_cage_no_cage_fork_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_cage_cage_tester_solve(slice_index si,
-                                               stip_length_type n);
+void circe_cage_cage_tester_solve(slice_index si);
 
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -48,9 +56,9 @@ stip_length_type circe_cage_cage_tester_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_cage_futile_captures_remover_solve(slice_index si,
-                                                          stip_length_type n);
+void circe_cage_futile_captures_remover_solve(slice_index si);
 
 /* Avoid examining captures while looking for a cage
  * @param si identifies root slice of stipulation

@@ -1,23 +1,24 @@
 #include "conditions/circe/assassin.h"
+#include "position/position.h"
 #include "conditions/circe/circe.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
+#include "stipulation/fork.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
 
-circe_assassin_use_whom_type circe_assassin_use_whom;
-
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -26,32 +27,29 @@ circe_assassin_use_whom_type circe_assassin_use_whom;
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_assassin_assassinate_solve(slice_index si,
-                                                  stip_length_type n)
+void circe_assassin_assassinate_solve(slice_index si)
 {
-  stip_length_type result;
   circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   square const sq_rebirth = context->rebirth_square;
+  Flags const mask = BIT(slices[si].starter)|BIT(Royal);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (sq_rebirth==king_square[slices[si].starter])
-    result = this_move_is_illegal;
+  if (TSTFULLFLAGMASK(spec[sq_rebirth],mask))
+    solve_result = this_move_is_illegal;
   else
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                          sq_rebirth);
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether a side is in check
@@ -64,20 +62,14 @@ boolean circe_assassin_all_piece_observation_tester_is_in_check(slice_index si,
 {
   boolean result = false;
   square const *bnp;
-  Flags side_mask = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceEnumerator(Side,side_attacked,"");
   TraceFunctionParamListEnd();
 
-  if (circe_assassin_use_whom&circe_assassin_use_attacked)
-    side_mask |= BIT(side_attacked);
-  if (circe_assassin_use_whom&circe_assassin_use_attacking)
-    side_mask |= BIT(advers(side_attacked));
-
   for (bnp = boardnum; *bnp; ++bnp)
-    if (spec[*bnp]&side_mask)
+    if (TSTFLAG(spec[*bnp],side_attacked))
     {
       replace_observation_target(*bnp);
       if (is_square_observed(EVALUATE(check)))
@@ -120,31 +112,28 @@ static void instrument(slice_index si)
 
 /* Initialise the solving machinery with Assassin Circe
  * @param si identifies root slice of stipulation
+ * @param interval_start start of the slices interval to be initialised
  */
-void circe_assassin_initialise_solving(slice_index si)
+void circe_assassin_initialise_solving(slice_index si,
+                                       slice_type interval_start)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,interval_start,"");
   TraceFunctionParamListEnd();
 
-  instrument(si);
-  circe_assassin_use_whom |= circe_assassin_use_attacked;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Initialise the solving machinery with Assassin Anticirce
- * @param si identifies root slice of stipulation
- */
-void anticirce_assassin_initialise_solving(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
+  circe_insert_rebirth_avoider(si,
+                               interval_start,
+                               STCirceDeterminedRebirth,
+                               alloc_fork_slice(STCirceTestRebirthSquareEmpty,no_slice),
+                               STCirceRebirthOnNonEmptySquare,
+                               STCircePlacingReborn);
+  circe_instrument_solving(si,
+                           interval_start,
+                           STCirceRebirthOnNonEmptySquare,
+                           alloc_pipe(STCirceAssassinAssassinate));
 
   instrument(si);
-  circe_assassin_use_whom |= circe_assassin_use_attacking;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

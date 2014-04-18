@@ -35,7 +35,7 @@ void intelligent_place_unpromoted_white_pawn(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
-void intelligent_place_promoted_white_rider(PieNam promotee_type,
+void intelligent_place_promoted_white_rider(piece_walk_type promotee_type,
                                             unsigned int placed_index,
                                             square placed_on,
                                             void (*go_on)(void))
@@ -46,7 +46,7 @@ void intelligent_place_promoted_white_rider(PieNam promotee_type,
   square const target = GuardDir[promotee_type-Pawn][placed_on].target;
 
   TraceFunctionEntry(__func__);
-  TracePiece(promotee_type);
+  TraceWalk(promotee_type);
   TraceFunctionParam("%u",placed_index);
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
@@ -111,7 +111,7 @@ void intelligent_place_promoted_white_pawn(unsigned int placed_index,
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(placed_index,
                                                                 placed_on))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
@@ -172,7 +172,7 @@ void intelligent_place_white_queen(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))
 {
-  PieNam const placed_type = white[placed_index].type;
+  piece_walk_type const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
   square const placed_comes_from = white[placed_index].diagram_square;
   int const dir_ortho = GuardDir[Rook-Pawn][placed_on].dir;
@@ -216,7 +216,7 @@ void intelligent_place_white_rider(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))
 {
-  PieNam const placed_type = white[placed_index].type;
+  piece_walk_type const placed_type = white[placed_index].type;
   Flags const placed_flags = white[placed_index].flags;
   square const placed_comes_from = white[placed_index].diagram_square;
   int const dir = GuardDir[placed_type-Pawn][placed_on].dir;

@@ -1,16 +1,18 @@
 #include "conditions/sat.h"
 #include "pieces/pieces.h"
-#include "stipulation/has_solution_type.h"
+#include "pieces/walks/vectors.h"
+#include "position/position.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "stipulation/structure_traversal.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
 #include "solving/legal_move_counter.h"
 #include "solving/check.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 boolean StrictSAT[nr_sides];
@@ -25,7 +27,7 @@ static boolean find_flights(slice_index si,
 {
   unsigned int nr_flights_found = 0;
   vec_index_type i;
-  PieNam const king_type = e[king_square[side_in_check]];
+  piece_walk_type const king_type = e[king_square[side_in_check]];
   Flags const king_flags = spec[king_square[side_in_check]];
 
   empty_square(king_square[side_in_check]);
@@ -114,10 +116,9 @@ boolean satxy_check_tester_is_in_check(slice_index si, Side side_in_check)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -126,18 +127,19 @@ boolean satxy_check_tester_is_in_check(slice_index si, Side side_in_check)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type strict_sat_initialiser_solve(slice_index si,
-                                              stip_length_type n)
+void strict_sat_initialiser_solve(slice_index si)
 {
-  stip_length_type result;
+  move_effect_journal_index_type const save_horizon = king_square_horizon;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(strictsat_updating==nr_sides);
+
+  update_king_squares();
 
   strictsat_updating = White;
   StrictSAT[White] = is_in_check(White);
@@ -147,12 +149,12 @@ stip_length_type strict_sat_initialiser_solve(slice_index si,
 
   strictsat_updating = nr_sides;
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
+
+  king_square_horizon = save_horizon;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Adjust the Strict SAT state
@@ -227,10 +229,9 @@ void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_index_ty
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -239,18 +240,19 @@ void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_index_ty
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type strict_sat_updater_solve(slice_index si, stip_length_type n)
+void strict_sat_updater_solve(slice_index si)
 {
-  stip_length_type result;
+  move_effect_journal_index_type const save_horizon = king_square_horizon;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(strictsat_updating==nr_sides);
 
+  update_king_squares();
 
   if (!StrictSAT[White])
   {
@@ -267,12 +269,12 @@ stip_length_type strict_sat_updater_solve(slice_index si, stip_length_type n)
 
   strictsat_updating = nr_sides;
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
+
+  king_square_horizon = save_horizon;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void instrument_move_with_updater(slice_index si, stip_structure_traversal *st)

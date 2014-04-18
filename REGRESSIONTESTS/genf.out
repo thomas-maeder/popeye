@@ -36,7 +36,7 @@
 
 
   add_to_move_generation_stack:          16
-                     play_move:          15
+                     play_move:          20
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          16
 Loesung beendet. 
@@ -72,7 +72,7 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:          65
-                     play_move:          39
+                     play_move:          54
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          40
 Loesung beendet. 
@@ -108,7 +108,7 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:          84
-                     play_move:          49
+                     play_move:          57
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:          50
 Loesung beendet. 

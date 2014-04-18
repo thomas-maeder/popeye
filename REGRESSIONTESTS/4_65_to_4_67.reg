@@ -206,7 +206,7 @@ there may be non-orthodox mating moves in Immune Chess
   1.Kh7-g6 #
 
   add_to_move_generation_stack:          51
-                     play_move:          31
+                     play_move:          44
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          32
 solution finished. 

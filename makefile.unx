@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.196 2014/03/05 14:07:56 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.197 2014/04/18 09:59:10 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -218,7 +218,7 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     stipulation/goals/chess81 stipulation/goals/kiss \
     stipulation/goals/king_capture \
     stipulation/goals/immobile stipulation/goals/notcheck \
-    solving solving/battle_play \
+    solving solving/battle_play solving/help_play solving/boolean solving/machinery solving/goals \
     position \
     pieces pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
     pieces/attributes pieces/attributes/neutral \
@@ -241,13 +241,14 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     utilities debugging
 
 # TODO avoid mentioning solving solving/battle_play twice
-NESTEDLIBDIRS = . \
+NESTEDLIBDIRS = \
     input/plaintext \
-    solving solving/battle_play \
+    solving/machinery \
     conditions conditions/amu conditions/ultraschachzwang conditions/marscirce \
     conditions/circe conditions/anticirce \
     conditions/owu conditions/maff conditions/singlebox conditions/einstein \
     conditions/transmuting_kings conditions/koeko \
+    solving solving/battle_play solving/help_play solving/boolean solving/goals \
     pieces \
     pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
     pieces/attributes pieces/attributes/neutral \
@@ -258,10 +259,8 @@ NESTEDLIBDIRS = . \
     options/maxsolutions \
     options/stoponshortsolutions \
     options/movenumbers \
-    solving solving/battle_play \
     optimisations/intelligent \
     optimisations/intelligent/mate optimisations/intelligent/stalemate \
-    optimisations/intelligent \
     optimisations \
     optimisations/ohneschach \
     DHT \
@@ -338,7 +337,7 @@ endif
 # ===========================================================
 # Build in a nested directory
 
-%$(OBJ_SUFFIX) %$(LIB_SUFFIX) %/clean: FORCE
+%$(OBJ_SUFFIX) %$(LIB_SUFFIX) %.enum.h %/clean: FORCE
 	$(MAKE) CURRPWD=$(dir $@) -f $(dir $@)makefile.local $@
 
 pyallmsg.h: FORCE
@@ -366,3 +365,4 @@ clobber:	clean
 FORCE:
 
 .SUFFIXES:
+

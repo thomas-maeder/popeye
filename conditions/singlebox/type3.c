@@ -2,25 +2,22 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
+#include "pieces/pieces.h"
 #include "pieces/walks/classification.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
-#include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/structure_traversal.h"
+#include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/move.h"
 #include "debugging/trace.h"
-#include "pieces/pieces.h"
-
 #include "debugging/assert.h"
 
 static struct
 {
     square where;
-    PieNam what;
+    piece_walk_type what;
 } promotion[toppile+1];
 
 /* Determine whether the move just played is legal according to Singlebox Type 3
@@ -62,10 +59,9 @@ void stip_insert_singlebox_type3(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -74,37 +70,32 @@ void stip_insert_singlebox_type3(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
-                                                      stip_length_type n)
+void singlebox_type3_pawn_promoter_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (promotion[move_generation_stack[curr].id].what==Empty)
     move_effect_journal_do_null_effect();
   else
-    move_effect_journal_do_piece_change(move_effect_reason_singlebox_promotion,
+    move_effect_journal_do_walk_change(move_effect_reason_singlebox_promotion,
                                         promotion[move_generation_stack[curr].id].where,
                                         promotion[move_generation_stack[curr].id].what);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -113,27 +104,18 @@ stip_length_type singlebox_type3_pawn_promoter_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type singlebox_type3_legality_tester_solve(slice_index si,
-                                                        stip_length_type n)
+void singlebox_type3_legality_tester_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_last_move_illegal())
-    result = this_move_is_illegal;
-  else
-    result = solve(next,n);
+  pipe_this_move_illegal_if(si,is_last_move_illegal());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Make sure to behave correctly while detecting observations by latent pawns
@@ -146,7 +128,7 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
   Side const side_attacking = trait[nbply];
   square const sq_dep = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   SquareFlags const flag = side_attacking==White ? WhPromSq : BlPromSq;
-  PieNam const pprom = observing_walk[nbply];
+  piece_walk_type const pprom = observing_walk[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -157,16 +139,16 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
   {
     if (number_of_pieces[side_attacking][pprom]<game_array.number_of_pieces[side_attacking][pprom])
     {
-      PieNam const promotee = get_walk_of_piece_on_square(sq_dep);
+      piece_walk_type const promotee = get_walk_of_piece_on_square(sq_dep);
 
       --number_of_pieces[side_attacking][promotee];
-      replace_piece(sq_dep,pprom);
+      replace_walk(sq_dep,pprom);
       ++number_of_pieces[side_attacking][pprom];
 
       result = validate_observation_recursive(slices[si].next1);
 
       --number_of_pieces[side_attacking][pprom];
-      replace_piece(sq_dep,promotee);
+      replace_walk(sq_dep,promotee);
       ++number_of_pieces[side_attacking][promotee];
     }
     else
@@ -197,7 +179,7 @@ static square find_next_latent_pawn(square sq, Side side)
       sq += dir_right;
 
     {
-      PieNam const walk_promotee = get_walk_of_piece_on_square(sq);
+      piece_walk_type const walk_promotee = get_walk_of_piece_on_square(sq);
       if (is_pawn(walk_promotee)
           && TSTFLAG(spec[sq],side)
           && (is_forwardpawn(walk_promotee)
@@ -218,19 +200,18 @@ static square find_next_latent_pawn(square sq, Side side)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void singleboxtype3_generate_moves_for_piece(slice_index si, PieNam p)
+void singleboxtype3_generate_moves_for_piece(slice_index si)
 {
   Side const side = trait[nbply];
   unsigned int nr_latent_promotions = 0;
   square where;
+  piece_walk_type const save_current_walk = move_generation_current_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
-
   for (where = find_next_latent_pawn(square_a1-dir_right,side);
        where!=initsquare;
        where = find_next_latent_pawn(where,side))
@@ -242,27 +223,29 @@ void singleboxtype3_generate_moves_for_piece(slice_index si, PieNam p)
     while (sequence.promotee!=Empty)
     {
       numecoup curr_id = current_move_id[nbply];
-      PieNam const pi_departing = get_walk_of_piece_on_square(where);
+      piece_walk_type const pi_departing = get_walk_of_piece_on_square(where);
       ++nr_latent_promotions;
-      replace_piece(where,sequence.promotee);
-      generate_moves_for_piece(slices[si].next1,
-                               where==curr_generation->departure ? sequence.promotee : p);
+      replace_walk(where,sequence.promotee);
+      move_generation_current_walk =  where==curr_generation->departure ? sequence.promotee : save_current_walk;
+      generate_moves_for_piece(slices[si].next1);
 
       for (; curr_id<current_move_id[nbply]; ++curr_id)
       {
         promotion[curr_id].where = where;
         promotion[curr_id].what = sequence.promotee;
       }
-      replace_piece(where,pi_departing);
+      replace_walk(where,pi_departing);
       singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
     }
   }
+
+  move_generation_current_walk = save_current_walk;
 
   if (nr_latent_promotions==0)
   {
     numecoup curr_id = current_move_id[nbply];
 
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
     for (; curr_id<current_move_id[nbply]; ++curr_id)
     {

@@ -5,7 +5,7 @@
  */
 
 #include "stipulation/slice_type.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/castling_rights.h"
 #include "solving/move_effect_journal.h"
 #include "pieces/pieces.h"
@@ -54,10 +54,9 @@ void enable_castling_rights(move_effect_reason_type reason,
 void disable_castling_rights(move_effect_reason_type reason,
                              square sq_departure);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -66,13 +65,13 @@ void disable_castling_rights(move_effect_reason_type reason,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type castling_player_solve(slice_index si, stip_length_type n);
+void castling_player_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -81,15 +80,14 @@ stip_length_type castling_player_solve(slice_index si, stip_length_type n);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type castling_rights_adjuster_solve(slice_index si,
-                                                stip_length_type n);
+void castling_rights_adjuster_solve(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void castling_generator_generate_castling(slice_index si, PieNam p);
+void castling_generator_generate_castling(slice_index si);
 
 /* Instrument the solving machinery with castling
  * @param si identifies root slice of solving machinery
@@ -98,10 +96,9 @@ void solving_initialise_castling(slice_index si);
 
 void solving_disable_castling(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -110,18 +107,19 @@ void solving_disable_castling(slice_index si);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type mutual_castling_rights_adjuster_solve(slice_index si,
-                                                        stip_length_type n);
+void mutual_castling_rights_adjuster_solve(slice_index si);
 
 /* Instrument a stipulation with alternative move player slices
  * @param si identifies root slice of stipulation
  */
 void insert_alternative_move_players(slice_index si, slice_type type);
 
-/* Instrument slices with move tracers
+/* Instrument the solving machinery with mutual castling right adjusters
+ * @param si identifies the root slice of the solving machinery
  */
-void stip_insert_mutual_castling_rights_adjusters(slice_index si);
+void solving_insert_mutual_castling_rights_adjusters(slice_index si);
 
 void generate_castling(void);
 

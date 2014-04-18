@@ -8,16 +8,16 @@
 
 typedef struct
 {
-    PieNam home;
-    PieNam away;
+    piece_walk_type home;
+    piece_walk_type away;
 } HunterType;
 
-extern HunterType huntertypes[maxnrhuntertypes];
+extern HunterType huntertypes[max_nr_hunter_walks];
 extern unsigned int nrhuntertypes;
 
-PieNam hunter_make_type(PieNam away, PieNam home);
+piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home);
 
-void hunter_generate_moves(PieNam walk);
+void hunter_generate_moves(void);
 boolean hunter_check(validator_id evaluate);
 
 void rook_hunter_generate_moves(void);

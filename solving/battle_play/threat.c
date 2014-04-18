@@ -1,13 +1,14 @@
 #include "solving/battle_play/threat.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
-#include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/check.h"
+#include "solving/fork.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -30,10 +31,9 @@ static stip_length_type const no_threats_found = UINT_MAX;
  */
 static unsigned int nr_threats_to_be_confirmed;
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -42,26 +42,26 @@ static unsigned int nr_threats_to_be_confirmed;
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type threat_defeated_tester_solve(slice_index si,
-                                               stip_length_type n)
+void threat_defeated_tester_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
   ply const threats_ply = parent_ply[parent_ply[nbply]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
-  if (n>=threat_lengths[threats_ply]-2)
+  /* we are not interested in whether threats are refuted when we are looking
+   * for short continuations to defenses
+   */
+  if (solve_nr_remaining>=threat_lengths[threats_ply]-2)
   {
     if (is_current_move_in_table(threats[threats_ply]))
     {
-      if (slack_length<=result && result<=n)
+      if (move_has_solved())
       {
         --nr_threats_to_be_confirmed;
         if (nr_threats_to_be_confirmed>0)
@@ -70,27 +70,24 @@ stip_length_type threat_defeated_tester_solve(slice_index si,
            * threats yet -> don't stop the iteration over the
            * attacking moves
            */
-          result = n+2;
+          solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
       }
-      else if (n==threat_lengths[threats_ply]-1)
+      else if (solve_nr_remaining==threat_lengths[threats_ply]-1)
         /* we have found a defeated threat -> stop the iteration */
-        result = n;
+        solve_result = MOVE_HAS_SOLVED_LENGTH();
     }
     else
       /* not a threat -> don't stop the iteration */
-      result = n+2;
+      solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   }
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -99,32 +96,26 @@ stip_length_type threat_defeated_tester_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type threat_collector_solve(slice_index si, stip_length_type n)
+void threat_collector_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
-  if (slack_length<=result && result<=n)
+  if (move_has_solved())
     append_to_table(threats[parent_ply[parent_ply[nbply]]]);
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -133,38 +124,35 @@ stip_length_type threat_collector_solve(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type threat_solver_solve(slice_index si, stip_length_type n)
+void threat_solver_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   threats[nbply] = allocate_table();
 
   if (!is_in_check(slices[si].starter))
-    threat_lengths[nbply] = solve(slices[si].next2,n)-1;
+  {
+    solve(slices[si].next2);
+    threat_lengths[nbply] = solve_result-1;
+  }
 
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
   free_table(threats[nbply]);
   threat_lengths[nbply] = no_threats_found;
   threats[nbply] = table_nil;
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -173,28 +161,25 @@ stip_length_type threat_solver_solve(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type threat_enforcer_solve(slice_index si, stip_length_type n)
+void threat_enforcer_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-  slice_index const threat_start = slices[si].next2;
   ply const threats_ply = parent_ply[nbply];
   stip_length_type const len_threat = threat_lengths[threats_ply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   TraceValue("%u\n",len_threat);
 
   if (len_threat<=slack_length)
-    /* the solve has something stronger than threats (typically, it
+    /* the move has something stronger than threats (typically, it
      * delivers check)
      */
-    result = solve(next,n);
-  else if (len_threat<=n)
+    pipe_solve_delegate(si);
+  else if (len_threat<=MOVE_HAS_SOLVED_LENGTH())
   {
     /* there are >=1 threats - don't report variations shorter than
      * the threats or variations that don't refute any threat
@@ -204,28 +189,26 @@ stip_length_type threat_enforcer_solve(slice_index si, stip_length_type n)
 
     nr_threats_to_be_confirmed = table_length(threats_table);
 
-    len_test_threats = solve(threat_start,len_threat);
+    len_test_threats = fork_solve(si,len_threat);
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */
-      result = solve(next,n);
+      pipe_solve_delegate(si);
     else if (len_test_threats>len_threat-2 && nr_threats_to_be_confirmed>0)
       /* variation has same length as the threat(s), but it has
        * defeated at least one threat
        */
-      result = solve(next,n);
+      pipe_solve_delegate(si);
     else
       /* variation is shorter than threat */
-      result = len_test_threats;
+      solve_result = len_test_threats;
   }
   else
     /* zugzwang, or we haven't looked for threats yet */
-    result = solve(next,n);
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* End copying on the visited slice, by moving it to the copy and linking it
@@ -386,7 +369,7 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototypes[] = {
-        alloc_dummy_move_slice(),
+        alloc_pipe(STDummyMove),
         alloc_defense_played_slice(),
         alloc_pipe(STThreatCollector)
     };
@@ -505,6 +488,8 @@ void stip_insert_threat_handlers(slice_index si)
                                     threat_handler_inserters,
                                     nr_threat_handler_inserters);
   stip_traverse_structure(si,&st);
+
+  reset_tables();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

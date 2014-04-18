@@ -1,9 +1,10 @@
 #include "conditions/kobul.h"
 #include "pieces/walks/classification.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -13,7 +14,7 @@ boolean kobul_who[nr_sides];
 
 enum
 {
-  transferred_flags_mask = PieSpMask&~COLORFLAGS&~BIT(Royal)
+  transferred_flags_mask = PieSpMask&~COLOURFLAGS&~BIT(Royal)
 };
 
 static void substitute(Side trait_ply)
@@ -24,11 +25,10 @@ static void substitute(Side trait_ply)
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
       && kobul_who[advers(trait_ply)]
-      && king_pos!=initsquare
-      && king_pos!=nullsquare)
+      && king_pos!=initsquare)
   {
-    PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
-    PieNam const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
+    piece_walk_type const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
+    piece_walk_type const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
 
     Flags const capturee_flags = move_effect_journal[capture].u.piece_removal.flags;
     Flags spec_kobul = spec[king_pos];
@@ -36,7 +36,7 @@ static void substitute(Side trait_ply)
     SETFLAGMASK(spec_kobul,capturee_flags&transferred_flags_mask);
 
     if (get_walk_of_piece_on_square(king_pos)!=kobul_kind)
-      move_effect_journal_do_piece_change(move_effect_reason_kobul_king,
+      move_effect_journal_do_walk_change(move_effect_reason_kobul_king,
                                           king_pos,
                                           kobul_kind);
 
@@ -47,10 +47,9 @@ static void substitute(Side trait_ply)
   }
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -59,24 +58,24 @@ static void substitute(Side trait_ply)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type kobul_king_substitutor_solve(slice_index si,
-                                               stip_length_type n)
+void kobul_king_substitutor_solve(slice_index si)
 {
-  stip_length_type result;
+  move_effect_journal_index_type const save_horizon = king_square_horizon;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
+  update_king_squares();
   substitute(slices[si].starter);
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
+
+  king_square_horizon = save_horizon;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Instrument a stipulation

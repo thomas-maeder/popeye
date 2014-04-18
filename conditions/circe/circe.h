@@ -5,56 +5,20 @@
  */
 
 #include "pieces/pieces.h"
-#include "solving/solve.h"
+#include "position/side.h"
+#include "position/board.h"
+#include "solving/machinery/solve.h"
 #include "stipulation/slice_type.h"
+#include "stipulation/structure_traversal.h"
 #include "solving/move_effect_journal.h"
 #include "solving/ply.h"
-#include "position/position.h"
-
-typedef enum
-{
-  circe_relevant_capture_thismove,
-  circe_relevant_capture_lastmove
-} circe_relevant_capture;
-
-typedef enum
-{
-  circe_relevant_piece_default,
-  circe_relevant_piece_other
-} circe_relevant_piece;
-
-typedef enum
-{
-  circe_determine_rebirth_square_from_pas,
-  circe_determine_rebirth_square_symmetry,
-  circe_determine_rebirth_square_diagram,
-  circe_determine_rebirth_square_pwc,
-  circe_determine_rebirth_square_rank,
-  circe_determine_rebirth_square_file,
-  circe_determine_rebirth_square_equipollents,
-  circe_determine_rebirth_square_cage,
-  circe_determine_rebirth_square_antipodes,
-  circe_determine_rebirth_square_super,
-  circe_determine_rebirth_square_take_and_make,
-  circe_determine_rebirth_square_april
-} circe_determine_rebirth_square_type;
-
-typedef enum
-{
-  circe_on_occupied_rebirth_square_default,
-  circe_on_occupied_rebirth_square_relaxed,
-  circe_on_occupied_rebirth_square_strict,
-  circe_on_occupied_rebirth_square_assassinate,
-  circe_on_occupied_rebirth_square_volcanic,
-  circe_on_occupied_rebirth_square_parachute
-} circe_behaviour_on_occupied_rebirth_square_type;
-
-typedef enum
-{
-  circe_reborn_walk_adapter_none,
-  circe_reborn_walk_adapter_clone,
-  circe_reborn_walk_adapter_chameleon
-} circe_reborn_walk_adapter_type;
+#include "solving/machinery/twin.h"
+#include "conditions/circe/rebirth_square_occupied.h"
+#include "conditions/circe/reborn_piece.h"
+#include "conditions/circe/rebirth_square.h"
+#include "conditions/circe/relevant_capture.h"
+#include "conditions/circe/relevant_piece.h"
+#include "conditions/circe/relevant_side.h"
 
 typedef enum
 {
@@ -64,32 +28,38 @@ typedef enum
   anticirce_type_count
 } anticirce_type_type;
 
-typedef struct
+typedef struct circe_variant_type
 {
     boolean is_rex_inclusive;
-    boolean is_mirror;
-    boolean is_diametral;
+    circe_relevant_side_overrider_type relevant_side_overrider;
+    circe_rebirth_square_adapter_type rebirth_square_adapter;
     circe_behaviour_on_occupied_rebirth_square_type on_occupied_rebirth_square_default;
     circe_behaviour_on_occupied_rebirth_square_type on_occupied_rebirth_square;
     circe_reborn_walk_adapter_type reborn_walk_adapter;
     boolean is_turncoat;
+    boolean do_place_reborn;
     boolean is_promotion_possible;
-    circe_relevant_piece relevant_piece;
+    circe_relevant_piece default_relevant_piece;
+    circe_relevant_piece actual_relevant_piece;
     circe_relevant_capture relevant_capture;
     circe_determine_rebirth_square_type determine_rebirth_square;
-    boolean is_frischauf;
     move_effect_reason_type rebirth_reason;
     anticirce_type_type anticirce_type;
+    boolean is_restricted_to_walks;
+    boolean is_walk_affected[nr_piece_walks];
+    twin_number_type chameleon_is_walk_squence_explicit;
+    piece_walk_type chameleon_walk_sequence[nr_piece_walks];
 } circe_variant_type;
 
 extern circe_variant_type circe_variant;
 
 typedef struct
 {
-    PieNam reborn_walk;
+    ply relevant_ply;
+    piece_walk_type reborn_walk;
     Flags reborn_spec;
     square rebirth_square;
-    PieNam relevant_walk;
+    piece_walk_type relevant_walk;
     Flags relevant_spec;
     square relevant_square;
     Side relevant_side;
@@ -107,38 +77,15 @@ extern circe_rebirth_context_index circe_rebirth_context_stack_pointer;
  */
 void circe_reset_variant(circe_variant_type *variant);
 
-/* Override the reborn walk adapter of a Circe variant object
- * @param adapter the overrider
- * @return true if the adapter hasn't been overridden yet
- */
-boolean circe_override_reborn_walk_adapter(circe_variant_type *variant,
-                                           circe_reborn_walk_adapter_type adapter);
-
-/* Override the method for determining the rebirth square of a Circe variant object
- * @param adapter the overrider
- * @return true if it hasn't been overridden yet
- */
-boolean circe_override_determine_rebirth_square(circe_variant_type *variant,
-                                                circe_reborn_walk_adapter_type determine);
-
-circe_behaviour_on_occupied_rebirth_square_type
-circe_get_on_occupied_rebirth_square(circe_variant_type const *variant);
-
 /* Find the Circe rebirth effect in the current move
  * @return the index of the rebirth effect
  *         move_effect_journal_base[nbply+1] if there is none
  */
 move_effect_journal_index_type circe_find_current_rebirth(void);
 
-/* Initialise the Circe machinery from the capture in a particular ply
- * @param ply identifies the ply
- */
-void circe_initialise_from_capture_in_ply(ply ply);
-
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -147,14 +94,13 @@ void circe_initialise_from_capture_in_ply(ply ply);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_initialise_from_current_capture_solve(slice_index si,
-                                                             stip_length_type n);
+void circe_determine_rebirth_square_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -163,14 +109,13 @@ stip_length_type circe_initialise_from_current_capture_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_determine_rebirth_square_solve(slice_index si,
-                                                      stip_length_type n);
+void circe_place_reborn_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -179,45 +124,71 @@ stip_length_type circe_determine_rebirth_square_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_test_rebirth_square_empty_solve(slice_index si, stip_length_type n);
+void circe_done_with_rebirth(slice_index si);
 
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
+/* Instrument the solving machinery with Circe
+ * @param si identifies the root slice of the solving machinery
+ * @param variant address of the structure holding the details of the Circe variant
+ * @param interval_start start of the slices interval where to instrument
  */
-stip_length_type circe_place_reborn_solve(slice_index si, stip_length_type n);
-
-void circe_initialise_solving(slice_index si);
+void circe_initialise_solving(slice_index si,
+                              circe_variant_type *variant,
+                              slice_type interval_start);
 
 /* Instrument the Circe solving machinery with some slice
  * @param si identifies root slice of stipulation
- * @param type slice type of which to add instances
+ * @param interval_start start of the slices interval where to instrument
+ * @param outside_mark end of the slices interval where to instrument
+ * @param hook_type insertion is tried at each slice of this type
+ * @param prototype prototype of type of which to add instances
+ * @note circe_instrument_solving() assumes ownership of prototype
  */
-void circe_instrument_solving(slice_index si, slice_type type);
+void circe_instrument_solving(slice_index si,
+                              slice_type interval_start,
+                              slice_type hook_type,
+                              slice_index prototype);
 
-square rennormal_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegel_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square rendiagramm_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renantipoden_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square rensymmetrie_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renequipollents_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renfile_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegelfile_polymorphic(PieNam p, Flags pspec, square j, square i, square ip, Side camp);
+/* Allocate a Circe handler slice
+ * @param type type of Circe handler slice
+ * @param variant address of Circe variant structure to be used for parametrising
+ * @return the allocated pipe
+ */
+slice_index alloc_circe_handler_slice(slice_type type,
+                                      circe_variant_type const *variant);
 
-square rennormal(PieNam pnam_captured, Flags p_captured_spec,
+square rennormal_polymorphic(piece_walk_type p, Flags pspec, square j, square i, square ip, Side camp);
+square renspiegel_polymorphic(piece_walk_type p, Flags pspec, square j, square i, square ip, Side camp);
+square renantipoden_polymorphic(piece_walk_type p, Flags pspec, square j, square i, square ip, Side camp);
+
+square rennormal(piece_walk_type pnam_captured, Flags p_captured_spec,
                  square sq_capture,
                  Side capturer);
-square renfile(PieNam p_captured, square sq_capture, Side capturer);
+square renfile(piece_walk_type p_captured, square sq_capture, Side capturer);
 
+/* Determine whether a slice type contributes to the execution of moves
+ * @param type slice type
+ * @return true iff type is a slice type that contributes to the execution of moves
+ */
+boolean is_circe_slice_type(slice_type type);
+
+/* Try to start slice insertion within the sequence of slices that deal with
+ * Circe.
+ * @param base_type type relevant for determining the position of the slices to
+ *                  be inserted
+ * @param si identifies the slice where to actually start the insertion traversal
+ * @param st address of the structure representing the insertion traversal
+ * @return true iff base_type effectively is a type from the Circe slices sequence
+ */
+boolean circe_start_insertion(slice_type base_type,
+                              slice_index si,
+                              stip_structure_traversal *st);
+
+/* Initialise a structure traversal for inserting slices
+ * into the Circe execution sequence
+ * @param st address of structure representing the traversal
+ */
+void circe_init_slice_insertion_traversal(stip_structure_traversal *st);
 
 #endif

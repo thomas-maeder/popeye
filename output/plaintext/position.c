@@ -3,6 +3,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/condition.h"
 #include "output/plaintext/pieces.h"
+#include "output/plaintext/message.h"
 #include "output/output.h"
 #include "input/plaintext/problem.h"
 #include "input/plaintext/stipulation.h"
@@ -17,7 +18,6 @@
 #include "position/position.h"
 #include "solving/castling.h"
 #include "solving/move_generator.h"
-#include "pymsg.h"
 
 #include "debugging/assert.h"
 #include <ctype.h>
@@ -160,9 +160,9 @@ void WritePosition()
   char    HLine2[40];
   char    PieCnts[20];
   char    StipOptStr[300];
-  PieSpec sp;
-  char    ListSpec[PieSpCount-nr_sides][256];
-  unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
+  piece_flag_type sp;
+  char    ListSpec[nr_piece_flags-nr_sides][256];
+  unsigned int SpecCount[nr_piece_flags-nr_sides] = { 0 };
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
   static char HorizL[]="%c   .   .   .   .   .   .   .   .   %c\n";
@@ -170,7 +170,7 @@ void WritePosition()
 
   unsigned int const fileWidth = 4;
 
-  for (sp = nr_sides; sp<PieSpCount; ++sp)
+  for (sp = nr_sides; sp<nr_piece_flags; ++sp)
     strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
 
   StdChar('\n');
@@ -225,15 +225,15 @@ void WritePosition()
       }
       else
       {
-        PieNam const pp = get_walk_of_piece_on_square(square);
-        for (sp= nr_sides; sp<PieSpCount; ++sp)
+        piece_walk_type const pp = get_walk_of_piece_on_square(square);
+        for (sp= nr_sides; sp<nr_piece_flags; ++sp)
           if (TSTFLAG(spec[square],sp) && !(sp==Royal && is_king(pp)))
           {
             AppendSquare(ListSpec[sp-nr_sides], square);
             ++SpecCount[sp-nr_sides];
           }
 
-        if (pp<Hunter0 || pp>=Hunter0+maxnrhuntertypes)
+        if (pp<Hunter0 || pp>=Hunter0+max_nr_hunter_walks)
         {
           if ((*h1= PieceTab[pp][1]) != ' ')
           {
@@ -247,7 +247,7 @@ void WritePosition()
           char *n1 = HLine2 + (h1-HLine1); /* current position on next1 line */
 
           unsigned int const hunterIndex = pp-Hunter0;
-          assert(hunterIndex<maxnrhuntertypes);
+          assert(hunterIndex<max_nr_hunter_walks);
 
           *h1-- = '/';
           if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ')
@@ -316,7 +316,7 @@ void WritePosition()
   if (SpecCount[Royal-nr_sides]>0)
     CenterLine(ListSpec[Royal-nr_sides]);
 
-  for (sp = nr_sides; sp<PieSpCount; sp++)
+  for (sp = nr_sides; sp<nr_piece_flags; sp++)
     if (TSTFLAG(some_pieces_flags,sp))
       if (sp!=Royal
           && !(sp==Patrol && CondFlag[patrouille])

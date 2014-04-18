@@ -1,6 +1,5 @@
 #include "stipulation/goals/doublestalemate/reached_tester.h"
 #include "stipulation/pipe.h"
-#include "solving/selfcheck_guard.h"
 #include "stipulation/proxy.h"
 #include "stipulation/goals/reached_tester.h"
 #include "stipulation/boolean/true.h"
@@ -8,7 +7,6 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/notcheck/reached_tester.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* This module provides functionality that detects whether double stalemate goal

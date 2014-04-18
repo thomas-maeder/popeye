@@ -477,9 +477,9 @@ option Threat only applicable in sufficiently long battle play
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3/3                        0 + 0
-Option "Threat" not applicable or indicated maximum threat length too big
 
 a) 
+Option "Threat" not applicable or indicated maximum threat length too big
 
 
   add_to_move_generation_stack:           0
@@ -940,7 +940,7 @@ only example so far of a series stipulation with option stoponshort
 solving interrupted. 
 
 
-both sides need a kingboth sides need a king
+
 earlier versions didn't stop solving after 1.h2-h3 z !
 
 +---a---b---c---d---e---f---g---h---+
@@ -964,6 +964,7 @@ earlier versions didn't stop solving after 1.h2-h3 z !
 +---a---b---c---d---e---f---g---h---+
   szh31                       2 + 1
               Quodlibet
+both sides need a king
 
    1.h2-h4 !
       1...g4*h3 ep. z

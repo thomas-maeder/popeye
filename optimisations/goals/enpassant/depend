@@ -1,20 +1,25 @@
 optimisations/goals/enpassant/filter$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/filter.c \
- optimisations/goals/enpassant/filter.h solving/solve.h \
+ optimisations/goals/enpassant/filter.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/observation.h stipulation/temporary_hacks.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- stipulation/goals/prerequisite_guards.h debugging/trace.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/goals/prerequisite_guards.h solving/pipe.h debugging/trace.h \
  debugging/assert.h
 
 optimisations/goals/enpassant/filter.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -28,15 +33,17 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -50,7 +57,9 @@ position/pieceid.h:
 
 solving/observation.h:
 
-stipulation/temporary_hacks.h:
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
 
 stipulation/pipe.h:
 
@@ -58,33 +67,52 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
-stipulation/has_solution_type.h:
+solving/has_solution_type.h:
 
-stipulation/goals/prerequisite_guards.h:
+solving/has_solution_type.enum.h:
+
+solving/goals/prerequisite_guards.h:
+
+solving/pipe.h:
 
 debugging/trace.h:
 
 debugging/assert.h:
 optimisations/goals/enpassant/remove_non_reachers$(OBJ_SUFFIX): \
  optimisations/goals/enpassant/remove_non_reachers.c \
- optimisations/goals/enpassant/remove_non_reachers.h solving/solve.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h pieces/walks/hunters.h \
- solving/observation.h solving/ply.h stipulation/temporary_hacks.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- pieces/walks/classification.h solving/move_generator.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/has_solution_type.h \
- debugging/trace.h
+ optimisations/goals/enpassant/remove_non_reachers.h \
+ solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h pieces/walks/hunters.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h solving/observation.h solving/ply.h \
+ solving/temporary_hacks.h pieces/walks/pawns/en_passant.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h pieces/walks/classification.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/pipe.h debugging/trace.h
 
 optimisations/goals/enpassant/remove_non_reachers.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -98,23 +126,33 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
+output/mode.enum.h:
+
 pieces/walks/hunters.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 solving/observation.h:
 
 solving/ply.h:
 
-stipulation/temporary_hacks.h:
+solving/temporary_hacks.h:
 
 pieces/walks/pawns/en_passant.h:
 
@@ -134,8 +172,20 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
-stipulation/has_solution_type.h:
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/pipe.h:
 
 debugging/trace.h:

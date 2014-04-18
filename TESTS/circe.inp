@@ -2,15 +2,6 @@ begin
 
 protocol circe.tst
 
-title only example of Rank Circe
-pieces white rc4 black sa4d4 qc6
-stip x1
-condition rankcirce
-option nowk nobk
-twin shift a1 a2
-
-next
-
 title only example of Mirror File Circe
 pieces white pd4 black se5
 condition filecirce
@@ -169,4 +160,60 @@ option nowk nobk
 cond circe cage
 twin cond circe cage strict
 
+next
+
+pieces white qb2 black kb1 qa3 ra1a2 bb3c3 sc1c2
+condition circe verticalmirror rexincl
+stipulation x1
+option nowk
+
+next
+
+pieces white pb3 black qa4 sc4
+stip x1
+option nowk nobk
+condition circe chameleon
+twin condition circe chameleon s q r b s
+
+next
+
+title pre-filling the underworld
+pieces black rb1 white sb1
+stip ~1
+option nowk nobk
+cond circe volcanic
+twin cond circe parachute
+
+next
+
+pieces white pb2 black sa3 bc3
+condition circe april s
+stip x1
+option nowk nobk
+
+next
+
+pieces white sc3 black sd5
+stip x1
+condition circe chameleon s q r b s
+          anticirce chameleon s r q b s
+option nowk nobk
+
+next
+
+pieces white bd3 black rb5
+stip x1
+option nowk nobk
+condition circe einstein
+twin condition circe reversaleinstein
+
+next
+
+pieces white rd6d5 sc3f3c4f4 black re3e4 sc6f6c5f5
+stip x1
+condition circe rank
+option duplex
+option nowk nobk
+
 end
+

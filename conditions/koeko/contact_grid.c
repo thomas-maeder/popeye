@@ -1,19 +1,13 @@
 #include "conditions/koeko/contact_grid.h"
+#include "position/position.h"
 #include "conditions/circe/circe.h"
 #include "conditions/grid.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/stipulation.h"
+#include "solving/pipe.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
-#include "stipulation/structure_traversal.h"
-#include "stipulation/battle_play/branch.h"
-#include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
-#include "stipulation/temporary_hacks.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 static boolean nogridcontact(square sq_arrival)
@@ -31,10 +25,9 @@ static boolean nogridcontact(square sq_arrival)
   return true;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -43,15 +36,12 @@ static boolean nogridcontact(square sq_arrival)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type contact_grid_legality_tester_solve(slice_index si,
-                                                    stip_length_type n)
+void contact_grid_legality_tester_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
@@ -62,22 +52,16 @@ stip_length_type contact_grid_legality_tester_solve(slice_index si,
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    if (nogridcontact(pos))
-      result = this_move_is_illegal;
-    else
-      result = solve(slices[si].next1,n);
+    pipe_this_move_illegal_if(si,nogridcontact(pos));
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -86,40 +70,18 @@ stip_length_type contact_grid_legality_tester_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type contact_grid_avoid_circe_rebirth(slice_index si,
-                                                  stip_length_type n)
+void contact_grid_avoid_circe_rebirth(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (nogridcontact(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square))
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = initsquare;
 
-  result = solve(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STContactGridAvoidCirceRebirth);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -130,17 +92,14 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
  */
 void contact_grid_initialise_solving(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STCirceDeterminingRebornPiece,
-                                           &instrument_rebirth);
-  stip_traverse_structure(si,&st);
+  circe_instrument_solving(si,
+                           STCirceConsideringRebirth,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STContactGridAvoidCirceRebirth));
 
   stip_instrument_moves(si,STGridContactLegalityTester);
 

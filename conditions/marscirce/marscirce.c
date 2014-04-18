@@ -1,14 +1,15 @@
 #include "conditions/marscirce/marscirce.h"
-#include "pieces/walks/pawns/en_passant.h"
-#include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/move.h"
 #include "optimisations/orthodox_check_directions.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-square (*marscirce_determine_rebirth_square)(PieNam, Flags, square, square, square, Side);
+square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, square, square, Side);
 
 static boolean always_reject(numecoup n)
 {
@@ -16,26 +17,22 @@ static boolean always_reject(numecoup n)
 }
 
 /* Generate non-capturing moves
- * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
  * @note the function is implemented in a way too generic for Mars Circe to
  *       allow it to be reused in Anti-Mars Circe.
  */
-void marscirce_generate_non_captures(slice_index si,
-                                     PieNam p,
-                                     square sq_generate_from)
+void marscirce_generate_non_captures(slice_index si, square sq_generate_from)
 {
   square const sq_real_departure = curr_generation->departure;
   numecoup const base = CURRMOVE_OF_PLY(nbply);
   numecoup curr;
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceSquare(sq_generate_from);
   TraceFunctionParamListEnd();
 
   curr_generation->departure = sq_generate_from;
-  generate_moves_for_piece(slices[si].next1,p);
+  generate_moves_for_piece(slices[si].next1);
   curr_generation->departure = sq_real_departure;
 
   move_generator_filter_captures(base,&always_reject);
@@ -48,25 +45,21 @@ void marscirce_generate_non_captures(slice_index si,
 }
 
 /* Generate capturing moves
- * @param p walk according to which to generate moves
  * @param sq_generate_from generate the moves from here
  */
-void marscirce_generate_captures(slice_index si,
-                                 PieNam p,
-                                 square sq_generate_from)
+void marscirce_generate_captures(slice_index si, square sq_generate_from)
 {
   square const sq_real_departure = curr_generation->departure;
   numecoup const base = CURRMOVE_OF_PLY(nbply);
   numecoup curr;
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceSquare(sq_generate_from);
   TraceSquare(sq_real_departure);
   TraceFunctionParamListEnd();
 
   curr_generation->departure = sq_generate_from;
-  generate_moves_for_piece(slices[si].next1,p);
+  generate_moves_for_piece(slices[si].next1);
   curr_generation->departure = sq_real_departure;
 
   move_generator_filter_noncaptures(base,&always_reject);
@@ -80,41 +73,91 @@ void marscirce_generate_captures(slice_index si,
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param p indicates the walk according to which to generate moves
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves_for_piece(slice_index si, PieNam p)
+void marscirce_generate_moves_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
+  numecoup curr_id = current_move_id[nbply];
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   {
-    square const sq_rebirth = (*marscirce_determine_rebirth_square)(p,
+    square const sq_rebirth = (*marscirce_determine_rebirth_square)(move_generation_current_walk,
                                            spec[sq_departure],
                                            sq_departure,initsquare,initsquare,
                                            advers(trait[nbply]));
 
+    marscirce_generate_non_captures(si,sq_departure);
+
+    for (; curr_id<current_move_id[nbply]; ++curr_id)
+      marscirce_rebirth_square[curr_id] = initsquare;
+
     if (sq_rebirth==sq_departure)
-      generate_moves_for_piece(slices[si].next1,p);
-    else
     {
-      marscirce_generate_non_captures(si,p,sq_departure);
+      marscirce_generate_captures(si,sq_rebirth);
 
-      if (is_square_empty(sq_rebirth))
-      {
-        occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
-        empty_square(sq_departure);
-
-        marscirce_generate_captures(si,p,sq_rebirth);
-
-        occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
-        empty_square(sq_rebirth);
-      }
+      for (; curr_id<current_move_id[nbply]; ++curr_id)
+        marscirce_rebirth_square[curr_id] = sq_rebirth;
     }
+    else if (is_square_empty(sq_rebirth))
+    {
+      occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
+      empty_square(sq_departure);
+
+      marscirce_generate_captures(si,sq_rebirth);
+
+      occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
+      empty_square(sq_rebirth);
+
+      for (; curr_id<current_move_id[nbply]; ++curr_id)
+        marscirce_rebirth_square[curr_id] = sq_rebirth;
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void marscirce_move_to_rebirth_square_solve(slice_index si)
+{
+  numecoup const curr = CURRMOVE_OF_PLY(nbply);
+  move_generation_elmt * const move_gen_top = move_generation_stack+curr;
+  square const sq_departure = move_gen_top->departure;
+  numecoup const id = move_gen_top->id;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (marscirce_rebirth_square[id]==initsquare)
+  {
+    move_effect_journal_do_null_effect();
+    pipe_solve_delegate(si);
+  }
+  else
+  {
+    move_effect_journal_do_piece_movement(move_effect_reason_phantom_movement,
+                                          sq_departure,marscirce_rebirth_square[id]);
+
+    move_gen_top->departure = marscirce_rebirth_square[id];
+    pipe_solve_delegate(si);
+    move_gen_top->departure = sq_departure;
   }
 
   TraceFunctionExit(__func__);
@@ -280,10 +323,14 @@ void solving_initialise_marscirce(slice_index si)
 
   solving_instrument_move_generation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
 
+  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
+
   stip_instrument_is_square_observed_testing(si,nr_sides,STMarsIsSquareObserved);
 
   stip_instrument_check_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
   stip_instrument_observation_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
+
+  move_effect_journal_register_pre_capture_effect();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

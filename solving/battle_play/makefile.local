@@ -1,8 +1,10 @@
 # -*- Makefile -*-
 #
 SRC_CFILES =  continuation.c threat.c try.c setplay.c \
-          min_length_optimiser.c min_length_guard.c
+          min_length_optimiser.c min_length_guard.c \
+          attack_adapter.c defense_adapter.c
 INCLUDES =  continuation.h threat.h try.h setplay.h \
-            min_length_optimiser.h min_length_guard.h
+            min_length_optimiser.h min_length_guard.h \
+            attack_adapter.h defense_adapter.h
 
 include makefile.rules $(CURRPWD)depend

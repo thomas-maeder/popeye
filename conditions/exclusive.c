@@ -1,11 +1,13 @@
 #include "conditions/exclusive.h"
 #include "stipulation/stipulation.h"
 #include "optimisations/detect_retraction.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/temporary_hacks.h"
 #include "stipulation/branch.h"
+#include "solving/has_solution_type.h"
+#include "solving/temporary_hacks.h"
+#include "solving/fork.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -265,16 +267,20 @@ void stip_insert_exclusive_chess(slice_index si)
                                            STGeneratingMoves,
                                            &insert_exclusivity_detector);
   stip_structure_traversal_override_single(&st,STMove,&insert_legality_tester);
+  stip_structure_traversal_override_single(&st,
+                                           STKingCaptureLegalityTester,
+                                           &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
+
+  reset_tables();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -283,16 +289,12 @@ void stip_insert_exclusive_chess(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
-                                                       stip_length_type n)
+void exclusive_chess_legality_tester_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if ((table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])
@@ -300,25 +302,28 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
       >1)
   {
     if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
-      result = this_move_is_illegal;
+      solve_result = this_move_is_illegal;
     else
-    {
-      stip_length_type const test_result = solve(slices[temporary_hack_mate_tester[advers(trait[nbply])]].next2,slack_length);
-      if (test_result==previous_move_is_illegal)
-        result = this_move_is_illegal;
-      else if (test_result!=slack_length+2)
-        result = previous_move_has_solved;
-      else
-        result = solve(next,n);
-    }
+      switch (fork_solve(temporary_hack_mate_tester[advers(trait[nbply])],slack_length))
+      {
+        case previous_move_is_illegal:
+          solve_result = this_move_is_illegal;
+          break;
+
+        case previous_move_has_not_solved:
+          pipe_solve_delegate(si);
+          break;
+
+        default:
+          solve_result = previous_move_has_solved;
+          break;
+      }
   }
   else
-    result = solve(next,n);
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Detect exclusivity and solve accordingly
@@ -330,20 +335,17 @@ stip_length_type exclusive_chess_legality_tester_solve(slice_index si,
  *       exclusive_chess_undecidable_continuations[nbply] before and deallocating it
  *       after the invokation.
  */
-static stip_length_type detect_exclusivity_and_solve_accordingly(slice_index si,
-                                                                 stip_length_type n)
+static void detect_exclusivity_and_solve_accordingly(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   exclusive_chess_nr_continuations_reaching_goal[nbply] = 0;
   nr_decidable_continuations_not_reaching_goal[nbply] = 0;
 
-  solve(slices[temporary_hack_exclusive_mating_move_counter[slices[si].starter]].next2,length_unspecified);
+  fork_solve(temporary_hack_exclusive_mating_move_counter[slices[si].starter],
+             length_unspecified);
 
   TraceValue("%u",nbply);
   TraceValue("%u",nr_decidable_continuations_not_reaching_goal[nbply]);
@@ -352,18 +354,15 @@ static stip_length_type detect_exclusivity_and_solve_accordingly(slice_index si,
 
   ply_horizon = maxply;
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -372,15 +371,12 @@ static stip_length_type detect_exclusivity_and_solve_accordingly(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
-                                                            stip_length_type n)
+void exclusive_chess_exclusivity_detector_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(ply_horizon==maxply);
@@ -388,14 +384,12 @@ stip_length_type exclusive_chess_exclusivity_detector_solve(slice_index si,
 
   exclusive_chess_undecidable_continuations[nbply] = allocate_table();
 
-  result = detect_exclusivity_and_solve_accordingly(si,n);
+  detect_exclusivity_and_solve_accordingly(si);
 
   free_table(exclusive_chess_undecidable_continuations[nbply]);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void remember_previous_move_as_undecidable(void)
@@ -406,10 +400,9 @@ static void remember_previous_move_as_undecidable(void)
   TraceValue("%u\n",table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]]));
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -418,15 +411,12 @@ static void remember_previous_move_as_undecidable(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index si,
-                                                                   stip_length_type n)
+void exclusive_chess_nested_exclusivity_detector_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(ply_horizon<maxply);
@@ -435,7 +425,7 @@ stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index s
   {
     TraceText("stopping recursion");
     remember_previous_move_as_undecidable();
-    result = previous_move_is_illegal;
+    solve_result = previous_move_is_illegal;
   }
   else
   {
@@ -443,7 +433,7 @@ stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index s
 
     exclusive_chess_undecidable_continuations[nbply] = allocate_table();
 
-    result = detect_exclusivity_and_solve_accordingly(si,n);
+    detect_exclusivity_and_solve_accordingly(si);
 
     TraceValue("%u",nbply);
     TraceValue("%u",exclusive_chess_nr_continuations_reaching_goal[nbply]);
@@ -461,15 +451,12 @@ stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index s
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -478,23 +465,21 @@ stip_length_type exclusive_chess_nested_exclusivity_detector_solve(slice_index s
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si,
-                                                                  stip_length_type n)
+void exclusive_chess_goal_reaching_move_counter_solve(slice_index si)
 {
-  stip_length_type result;
   unsigned int const nr_undecidable_before = table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]]);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   if (table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])==nr_undecidable_before)
   {
-    if (result==n)
+    if (solve_result==MOVE_HAS_SOLVED_LENGTH())
     {
       ++exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]];
 
@@ -504,9 +489,9 @@ stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si
 
       if (exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]==1)
         /* look for one more */
-        result = n+2;
+        solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
     }
-    else if (result==n+2)
+    else if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
     {
       ++nr_decidable_continuations_not_reaching_goal[parent_ply[nbply]];
       TraceText("remembering defined continuation");
@@ -515,11 +500,9 @@ stip_length_type exclusive_chess_goal_reaching_move_counter_solve(slice_index si
       TraceValue("%u\n",nr_decidable_continuations_not_reaching_goal[parent_ply[nbply]]);
     }
   }
-  else if (result==n)
-    result = n+2;
+  else if (solve_result==MOVE_HAS_SOLVED_LENGTH())
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -11,6 +11,7 @@
 #define CLEARFL(bits)           ((bits)=0)
 
 #define TSTFLAGMASK(bits,mask)  ((bits)&(mask))
+#define TSTFULLFLAGMASK(bits,mask)  (((bits)&(mask))==(mask))
 #define CLRFLAGMASK(bits,mask)  ((bits) &= ~(mask))
 #define SETFLAGMASK(bits,mask)  ((bits) |= (mask))
 

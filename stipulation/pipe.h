@@ -8,7 +8,6 @@
 
 #include "stipulation/structure_traversal.h"
 #include "stipulation/stipulation.h"
-#include "solving/solve.h"
 
 /* Allocate a new non-proxy pipe
  * @param type which slice type

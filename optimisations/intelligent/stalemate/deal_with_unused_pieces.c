@@ -1,5 +1,5 @@
 #include "optimisations/intelligent/stalemate/deal_with_unused_pieces.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "platform/maxtime.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -119,7 +119,7 @@ void intelligent_stalemate_deal_with_unused_pieces(void)
 
       if (unused<=MovesLeft[White])
       {
-        CapturesLeft[1] = unused;
+        CapturesLeft[ply_retro_move] = unused;
         solve_target_position();
       }
     }

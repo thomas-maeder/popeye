@@ -1,6 +1,6 @@
 #include "platform/maxtime_impl.h"
 #include "utilities/boolean.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -64,12 +64,12 @@ enum
   nrSignals = sizeof SignalToCatch / sizeof SignalToCatch[0]
 };
 
-static PieNam find_promotion(ply ply, square sq_arrival)
+static piece_walk_type find_promotion(ply ply, square sq_arrival)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[ply];
   move_effect_journal_index_type const top = move_effect_journal_base[ply+1];
   move_effect_journal_index_type curr;
-  PieNam result = Empty;
+  piece_walk_type result = Empty;
 
   for (curr = base+move_effect_journal_index_offset_other_effects; curr<top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_change
@@ -86,14 +86,14 @@ static void ReDrawPly(ply curr_ply)
 {
   ply const parent = parent_ply[curr_ply];
 
-  if (parent!=nil_ply)
+  if (parent>ply_retro_move)
     ReDrawPly(parent);
 
   {
     move_effect_journal_index_type const top = move_effect_journal_base[curr_ply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    PieNam const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
-    PieNam const promotee = find_promotion(curr_ply,move_effect_journal[movement].u.piece_movement.to);
+    piece_walk_type const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
+    piece_walk_type const promotee = find_promotion(curr_ply,move_effect_journal[movement].u.piece_movement.to);
     WritePiece(pi_moving);
     WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].departure);
     StdChar('-');

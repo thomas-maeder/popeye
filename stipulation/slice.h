@@ -3,37 +3,8 @@
 
 #include "utilities/boolean.h"
 #include "stipulation/slice_type.h"
-
-#define ENUMERATION_TYPENAME slice_structural_type
-#define ENUMERATORS                                              \
-    ENUMERATOR(slice_structure_pipe),                            \
-    ENUMERATOR(slice_structure_leaf),                            \
-    ENUMERATOR(slice_structure_branch),                          \
-    ENUMERATOR(slice_structure_fork),                            \
-    ENUMERATOR(nr_slice_structure_types)
-
-#define ENUMERATION_DECLARE
-
-#include "utilities/enumeration.h"
-
-
-#define ENUMERATION_TYPENAME slice_functional_type
-#define ENUMERATORS                                              \
-  ENUMERATOR(slice_function_unspecified),                        \
-  ENUMERATOR(slice_function_proxy),                              \
-  ENUMERATOR(slice_function_move_generator),                     \
-  ENUMERATOR(slice_function_move_reordering_optimiser),          \
-  ENUMERATOR(slice_function_move_removing_optimiser),            \
-  ENUMERATOR(slice_function_binary),                             \
-  ENUMERATOR(slice_function_testing_pipe),                       \
-  ENUMERATOR(slice_function_conditional_pipe),                   \
-  ENUMERATOR(slice_function_end_of_branch),                      \
-  ENUMERATOR(slice_function_writer),                             \
-  ENUMERATOR(nr_slice_functional_types)
-
-#define ENUMERATION_DECLARE
-
-#include "utilities/enumeration.h"
+#include "stipulation/slice_structural_type.h"
+#include "stipulation/slice_functional_type.h"
 
 /* Retrieve the structural type of a slice type
  * @param type identifies slice type of which to retrieve structural type

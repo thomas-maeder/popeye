@@ -1,9 +1,10 @@
 #include "optimisations/killer_move/prioriser.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "optimisations/killer_move/killer_move.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -61,10 +62,9 @@ static numecoup find_killer_move(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -73,15 +73,14 @@ static numecoup find_killer_move(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type killer_move_prioriser_solve(slice_index si, stip_length_type n)
+void killer_move_prioriser_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup killer_index;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   killer_index = find_killer_move();
@@ -89,10 +88,8 @@ stip_length_type killer_move_prioriser_solve(slice_index si, stip_length_type n)
   if (killer_index>MOVEBASE_OF_PLY(nbply))
     move_generator_priorise(killer_index);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -4,7 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/goals/prerequisite_guards.h"
+#include "solving/goals/prerequisite_guards.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/enpassant/filter.h"
 #include "optimisations/goals/castling/filter.h"

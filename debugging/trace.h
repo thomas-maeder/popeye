@@ -27,6 +27,7 @@ typedef unsigned long trace_level;
 #include <stdio.h>
 
 #include "pieces/pieces.h"
+#include "position/position.h"
 #include "solving/ply.h"
 #include "stipulation/stipulation.h"
 
@@ -83,12 +84,12 @@ void TraceSquareImpl(char const *prefix, square s);
 #define TraceSquare(name) \
   TraceSquareImpl(" " #name ":", name)
 
-void TracePieceImpl(char const *prefix, PieNam p);
+void TraceWalkImpl(char const *prefix, piece_walk_type p);
 
 /* Trace a piece
  */
-#define TracePiece(name) \
-  TracePieceImpl(" " #name ":", name)
+#define TraceWalk(name) \
+  TraceWalkImpl(" " #name ":", name)
 
 /* Trace the notation of the current position
  */
@@ -142,10 +143,9 @@ void TraceEnumeratorImpl(char const *format,
                          char const *enumerator_name,
                          unsigned int value);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -154,8 +154,9 @@ void TraceEnumeratorImpl(char const *format,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type move_tracer_solve(slice_index si, stip_length_type n);
+void move_tracer_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
@@ -172,7 +173,7 @@ void stip_insert_move_tracers(slice_index si);
 #define TracePointerValue(format,name)
 #define TraceText(text)
 #define TraceSquare(name)
-#define TracePiece(name)
+#define TraceWalk(name)
 #define TracePosition(echiquier,flags)
 #define TraceFunctionExit(name)
 #define TraceFunctionResult(format,name)

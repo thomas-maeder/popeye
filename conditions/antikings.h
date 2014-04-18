@@ -5,7 +5,7 @@
 
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
-#include "position/position.h"
+#include "position/side.h"
 
 /* Determine whether a side is in check
  * @param si identifies the check tester

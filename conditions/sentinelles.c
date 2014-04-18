@@ -3,8 +3,9 @@
 #include "pieces/walks/classification.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -13,7 +14,7 @@
 unsigned int sentinelles_max_nr_pawns[nr_sides];
 unsigned int sentinelles_max_nr_pawns_total;
 
-PieNam sentinelle_walk;
+piece_walk_type sentinelle_walk;
 
 sentinelles_pawn_mode_type sentinelles_pawn_mode;
 
@@ -25,7 +26,7 @@ static void insert_sentinelle(Side trait_ply)
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+  piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
   SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);
 
@@ -49,7 +50,7 @@ static void insert_sentinelle(Side trait_ply)
       if (sentinelles_is_para)
       {
         unsigned int prev_nr_other_sentinelles = number_of_pieces[advers(sentinelle_side)][sentinelle_walk];
-        PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
+        piece_walk_type const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
 
         if (pi_captured==sentinelle_walk)
           ++prev_nr_other_sentinelles;
@@ -77,10 +78,9 @@ static void insert_sentinelle(Side trait_ply)
   }
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -89,23 +89,19 @@ static void insert_sentinelle(Side trait_ply)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type sentinelles_inserter_solve(slice_index si, stip_length_type n)
+void sentinelles_inserter_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   insert_sentinelle(slices[si].starter);
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Instrument a stipulation

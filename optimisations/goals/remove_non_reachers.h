@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATION_GOALS_REMOVE_NON_REACHERS_H)
 #define OPTIMISATION_GOALS_REMOVE_NON_REACHERS_H
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* This module optimises generation of moves that are supposed to reach goals
  * by inserting slices who remove moves that can't possibly reach the goal

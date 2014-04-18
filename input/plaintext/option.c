@@ -12,7 +12,7 @@
 #include "options/nontrivial.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "output/plaintext/language_dependant.h"
-#include "pieces/attributes/neutral/neutral.h"
+#include "output/plaintext/message.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
@@ -20,76 +20,9 @@
 #include "solving/battle_play/try.h"
 #include "platform/beep.h"
 #include "platform/maxtime.h"
-#include "pymsg.h"
 
 #include <stdlib.h>
 #include <string.h>
-
-static char *ParseSquareLastCapture(char *tok, PieNam Name, Flags Spec)
-{
-  square const Square = SquareNum(*tok,tok[1]);
-  if (Square==initsquare || tok[2]!=0)
-  {
-    ErrorMsg(WrongSquareList);
-    return tok;
-  }
-  else
-  {
-    move_effect_journal_store_retro_capture(Square,Name,Spec);
-    return ReadNextTokStr();
-  }
-}
-
-static char *ParsePieceNameAndSquareLastCapture(char *tok, Flags Spec)
-{
-  PieNam Name;
-
-  tok = ParsePieceName(tok,&Name);
-
-  if (Name>=King)
-  {
-    if (tok[0]==0)
-      tok = ReadNextTokStr();
-    tok = ParseSquareLastCapture(tok,Name,Spec);
-  }
-  else
-  {
-    IoErrorMsg(WrongPieceName,0);
-    tok = ReadNextTokStr();
-  }
-
-  return tok;
-}
-
-static char *ParseLastCapturedPiece(void)
-{
-  int nr_groups = 0;
-  char *tok = ReadNextTokStr();
-  while (true)
-  {
-    Flags PieSpFlags = ParseColor(tok,nr_groups==0);
-    if (PieSpFlags==0)
-      break;
-    else
-    {
-      ++nr_groups;
-
-      if (is_piece_neutral(PieSpFlags))
-        SETFLAGMASK(some_pieces_flags,NeutralMask);
-
-      {
-        Flags nonColorFlags = 0;
-        tok = ParsePieceFlags(&nonColorFlags);
-        PieSpFlags |= nonColorFlags;
-        some_pieces_flags |= nonColorFlags;
-      }
-
-      tok = ParsePieceNameAndSquareLastCapture(tok,PieSpFlags);
-    }
-  }
-
-  return tok;
-}
 
 static void ReadMutuallyExclusiveCastling(void)
 {
@@ -278,10 +211,6 @@ char *ParseOpt(slice_index root_slice_hook)
         ReadSquares(ReadNoCastlingSquares);
         break;
 
-      case lastcapture:
-        tok = ParseLastCapturedPiece();
-        break;
-
       case mutuallyexclusivecastling:
         ReadMutuallyExclusiveCastling();
         break;
@@ -290,8 +219,7 @@ char *ParseOpt(slice_index root_slice_hook)
         /* no extra action required */
         break;
     }
-    if (indexx != lastcapture)
-      tok = ReadNextTokStr();
+    tok = ReadNextTokStr();
   }
 
   if (OptCnt==0)
@@ -313,6 +241,7 @@ void InitOpt(void)
   castling_flags_no_castling = bl_castlings|wh_castlings;
 
   en_passant_forget_multistep();
+  en_passant_nr_retro_squares = 0;
 
   resetOptionMaxtime();
 
@@ -327,6 +256,4 @@ void InitOpt(void)
     for (i = 0; i<OptCount; i++)
       OptFlag[i] = false;
   }
-
-  move_effect_journal_reset_retro_capture();
 }

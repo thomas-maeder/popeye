@@ -2,11 +2,13 @@
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/message.h"
 #include "output/plaintext/pieces.h"
 #include "input/plaintext/problem.h"
 #include "input/plaintext/pieces.h"
 #include "input/plaintext/token.h"
 #include "input/plaintext/line.h"
+#include "input/plaintext/language.h"
 #include "options/options.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
@@ -15,8 +17,6 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "conditions/grid.h"
 #include "platform/maxtime.h"
-#include "pylang.h"
-#include "pymsg.h"
 
 #include "debugging/assert.h"
 #include <ctype.h>
@@ -33,13 +33,13 @@ static char twinning[1532];
 static FILE *LaTeXFile;
 FILE *TextualSolutionBuffer;
 
-static    char *LaTeXPiecesAbbr[PieceCount];
-static    char *LaTeXPiecesFull[PieceCount];
+static    char *LaTeXPiecesAbbr[nr_piece_walks];
+static    char *LaTeXPiecesFull[nr_piece_walks];
 char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static char const CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-static char *LaTeXPiece(PieNam Name)
+static char *LaTeXPiece(piece_walk_type Name)
 {
   if (Name > Bishop) {
     if (LaTeXPiecesAbbr[Name] == NULL) {
@@ -51,7 +51,7 @@ static char *LaTeXPiece(PieNam Name)
     return LaTeXStdPie[Name];
 } /* LaTeXPiece */
 
-void LaTeXEchoAddedPiece(Flags Spec, PieNam Name, square Square)
+void LaTeXEchoAddedPiece(Flags Spec, piece_walk_type Name, square Square)
 {
   sprintf(GlobalStr,
           "%s\\%c%s %c%c",
@@ -63,7 +63,7 @@ void LaTeXEchoAddedPiece(Flags Spec, PieNam Name, square Square)
   strcat(twinning, GlobalStr);
 }
 
-void LaTeXEchoRemovedPiece(Flags Spec, PieNam Name, square Square)
+void LaTeXEchoRemovedPiece(Flags Spec, piece_walk_type Name, square Square)
 {
   strcat(twinning, " --");
   strcat(twinning,
@@ -75,7 +75,7 @@ void LaTeXEchoRemovedPiece(Flags Spec, PieNam Name, square Square)
   strcat(twinning,GlobalStr);
 }
 
-void LaTeXEchoMovedPiece(Flags Spec, PieNam Name, square FromSquare, square ToSquare)
+void LaTeXEchoMovedPiece(Flags Spec, piece_walk_type Name, square FromSquare, square ToSquare)
 {
   sprintf(GlobalStr,
           "\\%c%s %c%c",
@@ -93,8 +93,8 @@ void LaTeXEchoMovedPiece(Flags Spec, PieNam Name, square FromSquare, square ToSq
   strcat(twinning, GlobalStr);
 }
 
-void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
-                             Flags Spec2, PieNam Name2, square Square2)
+void LaTeXEchoExchangedPiece(Flags Spec1, piece_walk_type Name1, square Square1,
+                             Flags Spec2, piece_walk_type Name2, square Square2)
 {
   sprintf(GlobalStr,
           "\\%c%s %c%c",
@@ -116,7 +116,7 @@ void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
   strcat(twinning, GlobalStr);
 }
 
-void LaTeXEchoSubstitutedPiece(PieNam from, PieNam to)
+void LaTeXEchoSubstitutedPiece(piece_walk_type from, piece_walk_type to)
 {
   sprintf(GlobalStr,"{\\w%s} $\\Rightarrow$ \\w%s",
           LaTeXPiece(from),LaTeXPiece(to));
@@ -125,7 +125,7 @@ void LaTeXEchoSubstitutedPiece(PieNam from, PieNam to)
 
 char *ParseLaTeXPieces(char *tok)
 {
-  PieNam Name;
+  piece_walk_type Name;
   int i;
 
   /* don't delete all this. Since both arrays are declared static,
@@ -575,7 +575,7 @@ static void WritePieces(void)
   {
     if (!is_square_blocked(*bnp) && !is_square_empty(*bnp))
     {
-      PieNam const p = get_walk_of_piece_on_square(*bnp);
+      piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
 
       if (piece_found)
         fprintf(LaTeXFile, ", ");
@@ -593,13 +593,13 @@ static void WritePieces(void)
   fprintf(LaTeXFile, "}%%\n");
 }
 
-static boolean FindFairyWalks(boolean side_has_piece[PieceCount][nr_sides+1])
+static boolean FindFairyWalks(boolean side_has_piece[nr_piece_walks][nr_sides+1])
 {
   boolean result = false;
 
   {
-    PieNam p;
-    for (p = Empty; p < PieceCount; ++p)
+    piece_walk_type p;
+    for (p = Empty; p < nr_piece_walks; ++p)
     {
       side_has_piece[p][White] = false;
       side_has_piece[p][Black] = false;
@@ -613,7 +613,7 @@ static boolean FindFairyWalks(boolean side_has_piece[PieceCount][nr_sides+1])
     {
       if (!is_square_blocked(*bnp) && !is_square_empty(*bnp))
       {
-        PieNam const p = get_walk_of_piece_on_square(*bnp);
+        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
         if (p>Bishop && LaTeXPiecesAbbr[p]!=NULL)
         {
           result = true;
@@ -632,12 +632,12 @@ static boolean FindFairyWalks(boolean side_has_piece[PieceCount][nr_sides+1])
   return result;
 }
 
-static boolean FindPiecesWithSpecs(unsigned int SpecCount[PieSpCount-nr_sides],
-                                   char ListSpec[PieSpCount-nr_sides][256])
+static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_sides],
+                                   char ListSpec[nr_piece_flags-nr_sides][256])
 {
   {
-    PieSpec sp;
-    for (sp= nr_sides; sp<PieSpCount; ++sp)
+    piece_flag_type sp;
+    for (sp= nr_sides; sp<nr_piece_flags; ++sp)
       strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
   }
 
@@ -646,10 +646,10 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[PieSpCount-nr_sides],
     for (bnp = boardnum; *bnp; bnp++)
       if (!is_square_blocked(*bnp) && !is_square_empty(*bnp))
       {
-        PieNam const p = get_walk_of_piece_on_square(*bnp);
+        piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
 
-        PieSpec sp;
-        for (sp= nr_sides; sp<PieSpCount; ++sp)
+        piece_flag_type sp;
+        for (sp= nr_sides; sp<nr_piece_flags; ++sp)
           if (TSTFLAG(spec[*bnp], sp) && !(sp==Royal && is_king(p)))
           {
             AppendSquare(ListSpec[sp-nr_sides],*bnp);
@@ -659,8 +659,8 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[PieSpCount-nr_sides],
   }
 
   {
-    PieSpec sp;
-    for (sp= nr_sides; sp<PieSpCount; ++sp)
+    piece_flag_type sp;
+    for (sp= nr_sides; sp<nr_piece_flags; ++sp)
       if (SpecCount[sp-nr_sides]>0
           && !(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
@@ -697,15 +697,15 @@ static boolean FindHoles(char HolesSqList[256])
   return result;
 }
 
-static void WriteFairyWalks(boolean side_has_walk[PieceCount][nr_sides+1])
+static void WriteFairyWalks(boolean side_has_walk[nr_piece_walks][nr_sides+1])
 {
   boolean fairy_walk_written = false;
 
-  PieNam p;
-  for (p = Bishop+1; p<PieceCount; ++p)
+  piece_walk_type p;
+  for (p = Bishop+1; p<nr_piece_walks; ++p)
     if (side_has_walk[p][White] || side_has_walk[p][Black] || side_has_walk[p][nr_sides])
     {
-      PieNam q;
+      piece_walk_type q;
       for (q = Bishop+1; q<p; q++)
         if ((side_has_walk[q][White]
              || side_has_walk[q][Black]
@@ -733,11 +733,11 @@ static void WriteFairyWalks(boolean side_has_walk[PieceCount][nr_sides+1])
 }
 
 static void WritePiecesWithSpecs(boolean remark_written,
-                                 unsigned int const SpecCount[PieSpCount-nr_sides],
-                                 char ListSpec[PieSpCount-nr_sides][256])
+                                 unsigned int const SpecCount[nr_piece_flags-nr_sides],
+                                 char ListSpec[nr_piece_flags-nr_sides][256])
 {
-  PieSpec sp;
-  for (sp = nr_sides; sp<PieSpCount; ++sp)
+  piece_flag_type sp;
+  for (sp = nr_sides; sp<nr_piece_flags; ++sp)
     if (SpecCount[sp-nr_sides]>0)
     {
       if (remark_written)
@@ -757,11 +757,11 @@ static void WriteHoles(boolean remark_written,
 
 static void WriteFairyPieces(void)
 {
-  boolean side_has_walk[PieceCount][nr_sides+1];
+  boolean side_has_walk[nr_piece_walks][nr_sides+1];
   boolean const fairy_walk_found = FindFairyWalks(side_has_walk);
 
-  unsigned int SpecCount[PieSpCount-nr_sides] = { 0 };
-  char ListSpec[PieSpCount-nr_sides][256];
+  unsigned int SpecCount[nr_piece_flags-nr_sides] = { 0 };
+  char ListSpec[nr_piece_flags-nr_sides][256];
   boolean const piece_with_specs_found = FindPiecesWithSpecs(SpecCount,ListSpec);
 
   char HolesSqList[256] = "";

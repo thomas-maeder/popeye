@@ -1,22 +1,22 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/message.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
-#include "pymsg.h"
 
 #include "debugging/assert.h"
 #include <ctype.h>
 #include <string.h>
 
-boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
+boolean WriteSpec(Flags sp, piece_walk_type p, boolean printcolours)
 {
   boolean ret = false;
-  PieSpec spname;
+  piece_flag_type spname;
 
   if (is_piece_neutral(sp))
   {
-    StdChar(tolower(ColorString[UserLanguage][color_neutral][0]));
+    StdChar(tolower(ColourString[UserLanguage][colour_neutral][0]));
     ret = true;
   }
   else if (printcolours)
@@ -24,20 +24,20 @@ boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
     if (areColorsSwapped)
     {
       if (TSTFLAG(sp,White))
-        StdChar(tolower(ColorString[UserLanguage][color_black][0]));
+        StdChar(tolower(ColourString[UserLanguage][colour_black][0]));
       if (TSTFLAG(sp,Black))
-        StdChar(tolower(ColorString[UserLanguage][color_white][0]));
+        StdChar(tolower(ColourString[UserLanguage][colour_white][0]));
     }
     else
     {
       if (TSTFLAG(sp,White))
-        StdChar(tolower(ColorString[UserLanguage][color_white][0]));
+        StdChar(tolower(ColourString[UserLanguage][colour_white][0]));
       if (TSTFLAG(sp,Black))
-        StdChar(tolower(ColorString[UserLanguage][color_black][0]));
+        StdChar(tolower(ColourString[UserLanguage][colour_black][0]));
     }
   }
 
-  for (spname = nr_sides; spname<PieSpCount; ++spname)
+  for (spname = nr_sides; spname<nr_piece_flags; ++spname)
     if ((spname!=Volage || !CondFlag[volage])
         && (spname!=Patrol || !CondFlag[patrouille])
         && (spname!=Beamtet || !CondFlag[beamten])
@@ -51,9 +51,9 @@ boolean WriteSpec(Flags sp, PieNam p, boolean printcolours)
   return ret;
 }
 
-void WritePiece(PieNam p)
+void WritePiece(piece_walk_type p)
 {
-  if (p<Hunter0 || p>= (Hunter0 + maxnrhuntertypes))
+  if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];
     StdChar(toupper(PieceTab[p][0]));
@@ -63,7 +63,7 @@ void WritePiece(PieNam p)
   else
   {
     unsigned int const i = p-Hunter0;
-    assert(i<maxnrhuntertypes);
+    assert(i<max_nr_hunter_walks);
     WritePiece(huntertypes[i].away);
     StdChar('/');
     WritePiece(huntertypes[i].home);

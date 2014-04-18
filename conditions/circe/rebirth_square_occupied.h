@@ -7,45 +7,48 @@
 
 #include "stipulation/stipulation.h"
 
-/* Cause moves with Circe rebirth on an occupied square to be played without
- * rebirth
- * @param si entry slice into the solving machinery
- */
-void circe_no_rebirth_on_occupied_square(slice_index si,
-                                         slice_type hook_type,
-                                         slice_type nonempty_proxy_type,
-                                         slice_type joint_type);
+struct circe_variant_type;
 
-/* Cause moves with Circe rebirth on an occupied square to not be played
- * @param si entry slice into the solving machinery
- */
-void circe_stop_rebirth_on_occupied_square(slice_index si,
-                                           slice_type hook_type,
-                                           slice_type nonempty_proxy_type,
-                                           slice_type joint_type);
+typedef enum
+{
+  circe_on_occupied_rebirth_square_default,
+  circe_on_occupied_rebirth_square_relaxed,
+  circe_on_occupied_rebirth_square_strict,
+  circe_on_occupied_rebirth_square_assassinate,
+  circe_on_occupied_rebirth_square_volcanic,
+  circe_on_occupied_rebirth_square_parachute
+} circe_behaviour_on_occupied_rebirth_square_type;
 
-/* Cause moves with Circe rebirth on an occupied square to assassinate
- * @param si entry slice into the solving machinery
+/* Retrieve the behaviour of a Circe variant if the rebirth square is occupied
+ * @param variant address of the structure holding the variant
+ * @return the enumerator identifying the behaviour
  */
-void circe_assassinate_on_occupied_square(slice_index si,
-                                          slice_type hook_type,
-                                          slice_type nonempty_proxy_type,
-                                          slice_type joint_type);
+circe_behaviour_on_occupied_rebirth_square_type
+circe_get_on_occupied_rebirth_square(struct circe_variant_type const *variant);
 
-/* Cause moves with Circe rebirth on an occupied square to parachute
- * @param si entry slice into the solving machinery
+/* Deal with the situation where a rebirth is to occur on an occupied square
+ * @param si identifies entry slice into solving machinery
+ * @param variant identifies address of structure holding the Circe variant
+ * @param interval_start type of slice that starts the sequence of slices
+ *                       implementing that variant
  */
-void circe_parachute_onto_occupied_square(slice_index si,
-                                          slice_type hook_type,
-                                          slice_type nonempty_proxy_type,
-                                          slice_type joint_type);
+void circe_solving_instrument_rebirth_on_occupied_square(slice_index si,
+                                                         struct circe_variant_type const *variant,
+                                                         slice_type interval_start);
 
-/* Cause moves with Circe rebirth on an occupied square to volcanic
- * @param si entry slice into the solving machinery
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-void circe_volcanic_under_occupied_square(slice_index si,
-                                          slice_type hook_type,
-                                          slice_type nonempty_proxy_type,
-                                          slice_type joint_type);
+void circe_test_rebirth_square_empty_solve(slice_index si);
 
 #endif

@@ -1,9 +1,9 @@
 platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
  utilities/boolean.h optimisations/hash.h DHT/dhtbcmem.h pieces/pieces.h \
- solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/walks/vectors.h \
- output/mode.h solving/ply.h
+ solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
+ position/side.enum.h output/mode.h output/mode.enum.h solving/ply.h
 
 platform/maxmem.h:
 
@@ -15,7 +15,7 @@ DHT/dhtbcmem.h:
 
 pieces/pieces.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -27,13 +27,15 @@ utilities/bitmask.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
 
-pieces/walks/vectors.h:
+position/side.enum.h:
 
 output/mode.h:
+
+output/mode.enum.h:
 
 solving/ply.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \

@@ -11,23 +11,25 @@
 #include "debugging/assert.h"
 
 static void generate_moves_for_possibly_confronted_piece(slice_index si,
-                                                         PieNam p,
                                                          numvec dir_confronter)
 {
   square const confronter_pos = curr_generation->departure+dir_confronter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(spec[confronter_pos],advers(trait[nbply])))
   {
-    PieNam const confronter = get_walk_of_piece_on_square(confronter_pos);
-    generate_moves_for_piece(slices[si].next1,confronter);
+    piece_walk_type const confronter = get_walk_of_piece_on_square(confronter_pos);
+    piece_walk_type const save_current_walk = move_generation_current_walk;
+    move_generation_current_walk = confronter;
+    generate_moves_for_piece(slices[si].next1);
+    move_generation_current_walk = save_current_walk;
   }
   else
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -39,7 +41,7 @@ static boolean enforce_possibly_confronted_observer_walk(slice_index si,
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   Side const side_attacking = trait[nbply];
   square const pos_confronter = sq_departure+dir_confronter;
-  PieNam walk;
+  piece_walk_type walk;
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -68,18 +70,16 @@ static boolean enforce_possibly_confronted_observer_walk(slice_index si,
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void facetoface_generate_moves_for_piece(slice_index si, PieNam p)
+void facetoface_generate_moves_for_piece(slice_index si)
 {
   numvec const dir_confronter = trait[nbply]==White ? dir_up : dir_down;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_possibly_confronted_piece(si,p,dir_confronter);
+  generate_moves_for_possibly_confronted_piece(si,dir_confronter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -164,18 +164,16 @@ void facetoface_initialise_solving(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void backtoback_generate_moves_for_piece(slice_index si, PieNam p)
+void backtoback_generate_moves_for_piece(slice_index si)
 {
   numvec const dir_confronter = trait[nbply]==White ? dir_down : dir_up;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_possibly_confronted_piece(si,p,dir_confronter);
+  generate_moves_for_possibly_confronted_piece(si,dir_confronter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -219,19 +217,18 @@ void backtoback_initialise_solving(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void cheektocheek_generate_moves_for_piece(slice_index si, PieNam p)
+void cheektocheek_generate_moves_for_piece(slice_index si)
 {
   numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_possibly_confronted_piece(si,p,dir_left);
-  generate_moves_for_possibly_confronted_piece(si,p,dir_right);
+  generate_moves_for_possibly_confronted_piece(si,dir_left);
+  generate_moves_for_possibly_confronted_piece(si,dir_right);
 
   remove_duplicate_moves_of_single_piece(save_current_move);
 

@@ -70,6 +70,6 @@ quelle          G8/4, feenschach 119, 1-9/1996
 forderung       ser-h#4
 steine  weiss   kc8 bb6
         schwarz ka8 ba7
-bedingung       equipollentscirce
+bedingung       circe equipollents reverseseinstein
                 antieinsteinschach
 ende

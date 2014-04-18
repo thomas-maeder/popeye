@@ -93,7 +93,7 @@ boolean undo_optimise_observation_by_queen(slice_index si)
 {
   boolean result = false;
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  PieNam const walk = get_walk_of_piece_on_square(sq_departure);
+  piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -102,7 +102,7 @@ boolean undo_optimise_observation_by_queen(slice_index si)
   if ((observing_walk[nbply]==Rook || observing_walk[nbply]==Bishop)
        && walk==Queen)
   {
-    PieNam const save_observing_walk = observing_walk[nbply];
+    piece_walk_type const save_observing_walk = observing_walk[nbply];
     observing_walk[nbply] = walk;
     result = validate_observation_recursive(slices[si].next1);
     observing_walk[nbply] = save_observing_walk;
@@ -180,7 +180,7 @@ static void is_validation_branch_remainder_ortho(slice_index si,
 
 static boolean is_validation_branch_ortho(slice_index entry)
 {
-  ortho_validation_trival_state_type state = { false };
+  ortho_validation_trival_state_type state = { false, { 0 } };
   boolean all_ortho_seen = true;
 
   TraceFunctionEntry(__func__);
@@ -305,7 +305,9 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
   {
     if (CondFlag[whvault_king] || CondFlag[blvault_king]
         || (CondFlag[singlebox] && SingleBoxType==ConditionType3))
-      /* no optimisation */ ;
+    {
+      /* no optimisation */
+    }
     else if (CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
         || CondFlag[bicolores]
         || CondFlag[whtrans_king] || CondFlag[bltrans_king]

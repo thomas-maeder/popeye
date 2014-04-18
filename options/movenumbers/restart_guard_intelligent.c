@@ -1,7 +1,8 @@
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "options/movenumbers.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -9,7 +10,7 @@
 #include "options/options.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 
 #include "debugging/assert.h"
 
@@ -33,20 +34,19 @@ slice_index alloc_restart_guard_intelligent(void)
   return result;
 }
 
-static boolean is_length_ruled_out_by_option_restart(stip_length_type n)
+static boolean is_length_ruled_out_by_option_restart(void)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (OptFlag[restart])
   {
     stip_length_type min_length = 2*get_restart_number();
-    if ((n-slack_length)%2==1)
+    if ((solve_nr_remaining-slack_length)%2==1)
       --min_length;
-    result = n-slack_length<min_length;
+    result = solve_nr_remaining-slack_length<min_length;
   }
   else
     result = false;
@@ -72,10 +72,9 @@ static void print_nr_potential_target_positions(void)
   }
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -84,31 +83,26 @@ static void print_nr_potential_target_positions(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type restart_guard_intelligent_solve(slice_index si,
-                                                  stip_length_type n)
+void restart_guard_intelligent_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_length_ruled_out_by_option_restart(n))
-    result = n+2;
+  if (is_length_ruled_out_by_option_restart())
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   else
   {
     nr_potential_target_positions = 0;
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
     if (!hasMaxtimeElapsed())
       print_nr_potential_target_positions();
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
@@ -131,10 +125,9 @@ slice_index alloc_intelligent_target_counter(void)
 }
 
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -143,24 +136,19 @@ slice_index alloc_intelligent_target_counter(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type intelligent_target_counter_solve(slice_index si,
-                                                   stip_length_type n)
+void intelligent_target_counter_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   ++nr_potential_target_positions;
   TraceValue("%u\n",nr_potential_target_positions);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

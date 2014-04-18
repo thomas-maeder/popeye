@@ -5,8 +5,7 @@
  */
 
 #include "stipulation/structure_traversal.h"
-#include "stipulation/moves_traversal.h"
-#include "solving/solve.h"
+#include "solving/moves_traversal.h"
 
 /* Allocate a STConstraintSolver slice
  * @param proxy_to_constraint prototype of slice that must not be solvable
@@ -38,21 +37,6 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st);
  * @param st address of structure representing traversal
  */
 void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *st);
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type constraint_solve(slice_index si, stip_length_type n);
 
 /* Remove goal checker slices that we know can't possibly be met
  * @param si identifies entry slice to stipulation

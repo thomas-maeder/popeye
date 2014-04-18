@@ -12,14 +12,14 @@
 
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/proofgames.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/castling.h"
 #include "solving/check.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/fork.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -43,16 +43,16 @@
 typedef unsigned int index_type;
 
 #define piece_usageENUMERATORS \
-    ENUMERATOR(piece_is_unused), \
-    ENUMERATOR(piece_pins), \
-    ENUMERATOR(piece_is_fixed_to_diagram_square), \
-    ENUMERATOR(piece_intercepts), \
-    ENUMERATOR(piece_intercepts_check_from_guard), \
-    ENUMERATOR(piece_blocks), \
-    ENUMERATOR(piece_guards), \
-    ENUMERATOR(piece_gives_check), \
-    ENUMERATOR(piece_is_missing), \
-    ENUMERATOR(piece_is_captured), \
+    ENUMERATOR(piece_is_unused) \
+    ENUMERATOR(piece_pins) \
+    ENUMERATOR(piece_is_fixed_to_diagram_square) \
+    ENUMERATOR(piece_intercepts) \
+    ENUMERATOR(piece_intercepts_check_from_guard) \
+    ENUMERATOR(piece_blocks) \
+    ENUMERATOR(piece_guards) \
+    ENUMERATOR(piece_gives_check) \
+    ENUMERATOR(piece_is_missing) \
+    ENUMERATOR(piece_is_captured) \
     ENUMERATOR(piece_is_king)
 
 #define ENUMERATORS piece_usageENUMERATORS
@@ -85,12 +85,10 @@ unsigned int PieceId2index[MaxPieceId+1];
 
 unsigned int nr_reasons_for_staying_empty[maxsquare+4];
 
-static stip_length_type nr_of_moves;
-
 typedef struct
 {
   Flags       spec[nr_squares_on_board];
-  PieNam      e[nr_squares_on_board];
+  piece_walk_type      e[nr_squares_on_board];
   square      rn_sic, rb_sic;
 } stored_position_type;
 
@@ -114,8 +112,8 @@ static void StorePosition(stored_position_type *store)
 static void ResetPosition(stored_position_type const *store)
 {
   {
-    PieNam p;
-    for (p = King; p<PieceCount; ++p)
+    piece_walk_type p;
+    for (p = King; p<nr_piece_walks; ++p)
     {
       number_of_pieces[White][p] = 0;
       number_of_pieces[Black][p] = 0;
@@ -245,9 +243,9 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
                                                                      target->type,
                                                                      target->square);
         moves_per_side[TSTFLAG(spec[*bnp],White) ? White : Black] += time;
-        TracePiece(e[*bnp]);
+        TraceWalk(e[*bnp]);
         TraceSquare(*bnp);
-        TracePiece(target->type);
+        TraceWalk(target->type);
         TraceSquare(target->square);
         TraceEnumerator(piece_usage,target->usage,"");
         TraceValue("%u\n",time);
@@ -320,7 +318,7 @@ void solve_target_position(void)
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; bnp++)
     {
-      PieNam const type = get_walk_of_piece_on_square(*bnp);
+      piece_walk_type const type = get_walk_of_piece_on_square(*bnp);
       if (type!=Empty && type!=Invalid)
       {
         Flags const flags = spec[*bnp];
@@ -345,7 +343,9 @@ void solve_target_position(void)
 
   reset_nr_solutions_per_target_position();
 
-  if (solve(slices[current_start_slice].next1,nr_of_moves)<=nr_of_moves)
+  solve(slices[current_start_slice].next1);
+
+  if (solve_result<=MOVE_HAS_SOLVED_LENGTH())
     solutions_found = true;
 
   /* reset the old mating position */
@@ -365,7 +365,7 @@ void solve_target_position(void)
   }
 
   {
-    PieNam p;
+    piece_walk_type p;
 
     number_of_pieces[White][King] = 1;
     number_of_pieces[Black][King] = 1;
@@ -436,16 +436,13 @@ static void GenerateBlackKing(void)
   TraceFunctionResultEnd();
 }
 
-void IntelligentRegulargoal_types(stip_length_type n)
+void IntelligentRegulargoal_types(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (king_square[Black]!=initsquare)
   {
-    nr_of_moves = n;
-
     testcastling =
         TSTCASTLINGFLAGMASK(White,q_castling&castling_flags_no_castling)==q_castling
         || TSTCASTLINGFLAGMASK(White,k_castling&castling_flags_no_castling)==k_castling
@@ -520,7 +517,7 @@ void IntelligentRegulargoal_types(stip_length_type n)
     }
 
     {
-      PieNam p;
+      piece_walk_type p;
       for (p = King; p<=Bishop; ++p)
       {
         number_of_pieces[White][p] = 2;
@@ -672,8 +669,12 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
   if (slices[si].u.goal_handler.goal.type==goal_mate
       || slices[si].u.goal_handler.goal.type==goal_stale)
   {
-    slice_index const prototype = alloc_intelligent_duplicate_avoider_slice();
-    help_branch_insert_slices(si,&prototype,1);
+    slice_index const prototypes[] = {
+        alloc_pipe(STIntelligentDuplicateAvoider),
+        alloc_pipe(STIntelligentSolutionRememberer)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    help_branch_insert_slices(si,prototypes,nr_prototypes);
 
     if (is_max_nr_solutions_per_target_position_limited())
     {

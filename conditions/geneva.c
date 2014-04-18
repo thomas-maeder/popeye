@@ -1,53 +1,28 @@
 #include "conditions/geneva.h"
-#include "conditions/circe/circe.h"
+#include "conditions/anticirce/anticirce.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 circe_variant_type geneva_variant;
 
-static boolean is_capture_legal(numecoup n)
-{
-  boolean result;
-  square const sq_departure = move_generation_stack[n].departure;
-  Side const side_capturing = trait[nbply];
-  Side const side_capturee = advers(side_capturing);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (geneva_variant.is_rex_inclusive || sq_departure!=king_square[side_capturing])
-  {
-    square const sq_rebirth = rennormal(get_walk_of_piece_on_square(sq_departure),
-                                        spec[sq_departure],
-                                        sq_departure,
-                                        side_capturee);
-    result = is_square_empty(sq_rebirth);
-  }
-  else
-    result = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Validate an observation according to Geneva Chess
- * @return true iff the observation is valid
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
  */
-boolean geneva_validate_observation(slice_index si)
+void geneva_reset_variant(circe_variant_type *variant)
 {
-  return (is_capture_legal(CURRMOVE_OF_PLY(nbply))
-          && validate_observation_recursive(slices[si].next1));
+  anticirce_reset_variant(variant);
+
+  variant->do_place_reborn = false;
+  variant->is_rex_inclusive = false;
+  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -56,39 +31,53 @@ boolean geneva_validate_observation(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type geneva_remove_illegal_captures_solve(slice_index si,
-                                                      stip_length_type n)
+void geneva_initialise_reborn_from_capturer_solve(slice_index si)
 {
-  stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  move_effect_journal_index_type const base = move_effect_journal_base[context->relevant_ply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_capture_legal);
+  context->relevant_square = move_effect_journal[movement].u.piece_movement.from;
+  context->rebirth_from = context->relevant_square;
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-static void insert_remover(slice_index si, stip_structure_traversal *st)
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void geneva_stop_catpure_from_rebirth_square_solve(slice_index si)
 {
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  move_effect_journal_index_type const base = move_effect_journal_base[context->relevant_ply];
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STGenevaRemoveIllegalCaptures);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
+  pipe_this_move_illegal_if(si,
+                            move_effect_journal[movement].type==move_effect_piece_movement
+                            && move_effect_journal[movement].u.piece_movement.from==context->rebirth_square);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -99,22 +88,26 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
  */
 void geneva_initialise_solving(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,
-                                           STDoneGeneratingMoves,
-                                           &insert_remover);
-  stip_traverse_structure(si,&st);
+  circe_initialise_solving(si,&geneva_variant,STGenevaConsideringRebirth);
 
-  stip_instrument_observation_validation(si,nr_sides,STGenevaRemoveIllegalCaptures);
-  stip_instrument_check_validation(si,nr_sides,STGenevaRemoveIllegalCaptures);
+  circe_instrument_solving(si,
+                           STGenevaConsideringRebirth,
+                           STCirceDeterminingRebirth,
+                           alloc_pipe(STGenevaInitialiseRebornFromCapturer));
+  circe_instrument_solving(si,
+                           STGenevaConsideringRebirth,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STGenevaStopCaptureFromRebirthSquare));
+
+  stip_instrument_check_validation(si,
+                                   nr_sides,
+                                   STValidateCheckMoveByPlayingCapture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

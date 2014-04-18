@@ -44,15 +44,13 @@
 #include "debugging/assert.h"
 
 /* Generate moves for a piece
- * @param p the piece's walk
  */
-void generate_moves_for_piece_based_on_walk(PieNam p)
+void generate_moves_for_piece_based_on_walk(void)
 {
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  switch (p)
+  switch (move_generation_current_walk)
   {
     case King:
     case ErlKing:
@@ -670,8 +668,9 @@ void generate_moves_for_piece_based_on_walk(PieNam p)
     default:
       /* Since pieces like DUMMY fall through 'default', we have */
       /* to check exactly if there is something to generate ...  */
-      if (p>=Hunter0 && p<Hunter0+maxnrhuntertypes)
-        hunter_generate_moves(p);
+      if (move_generation_current_walk>=Hunter0
+          && move_generation_current_walk<Hunter0+max_nr_hunter_walks)
+        hunter_generate_moves();
       break;
   }
 

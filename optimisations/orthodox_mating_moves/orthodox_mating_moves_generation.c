@@ -2,7 +2,7 @@
 #include "conditions/conditions.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
-#include "stipulation/moves_traversal.h"
+#include "solving/moves_traversal.h"
 #include "solving/fork_on_remaining.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"

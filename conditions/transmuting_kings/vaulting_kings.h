@@ -4,12 +4,12 @@
 /* This module implements the fairy condition Vaulting Kings */
 
 #include "pieces/pieces.h"
-#include "position/position.h"
+#include "position/side.h"
 #include "solving/observation.h"
 #include "utilities/boolean.h"
 
 extern boolean vaulting_kings_transmuting[nr_sides];
-extern PieNam king_vaulters[nr_sides][PieceCount];
+extern piece_walk_type king_vaulters[nr_sides][nr_piece_walks];
 extern unsigned int nr_king_vaulters[nr_sides];
 
 /* Reset the king vaulters
@@ -20,13 +20,12 @@ void reset_king_vaulters(void);
  * @param side for who to add the piece?
  * @param p which piece to add?
  */
-void append_king_vaulter(Side side, PieNam p);
+void append_king_vaulter(Side side, piece_walk_type p);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p);
+void vaulting_kings_generate_moves_for_piece(slice_index si);
 
 /* Determine whether a square is observed be the side at the move according to
  * Vaulting Kings

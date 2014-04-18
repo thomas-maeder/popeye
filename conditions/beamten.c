@@ -3,6 +3,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 static boolean is_unobserved_beamter(numecoup n)
 {
@@ -51,17 +52,15 @@ boolean beamten_validate_observation(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void beamten_generate_moves_for_piece(slice_index si, PieNam p)
+void beamten_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (!is_unobserved_beamter(current_generation))
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

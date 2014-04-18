@@ -1,19 +1,19 @@
 #include "conditions/degradierung.h"
 #include "pieces/walks/classification.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
 #include "debugging/assert.h"
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -22,20 +22,18 @@
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type degradierung_degrader_solve(slice_index si,
-                                              stip_length_type n)
+void degradierung_degrader_solve(slice_index si)
 {
-  stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
-  PieNam const pi_played = move_effect_journal[movement].u.piece_movement.moving;
+  piece_walk_type const pi_played = move_effect_journal[movement].u.piece_movement.moving;
   SquareFlags const double_step = slices[si].starter==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(pi_played!=Empty);
@@ -43,16 +41,14 @@ stip_length_type degradierung_degrader_solve(slice_index si,
   if (!is_pawn(pi_played)
       && !TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal)
       && TSTFLAG(sq_spec[sq_arrival],double_step))
-    move_effect_journal_do_piece_change(move_effect_reason_degradierung,
+    move_effect_journal_do_walk_change(move_effect_reason_degradierung,
                                         sq_arrival,
                                         Pawn);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Instrument a stipulation

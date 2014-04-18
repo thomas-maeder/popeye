@@ -120,12 +120,6 @@ void battle_branch_make_root_slices(slice_index adapter,
  */
 void battle_make_root(slice_index si, spin_off_state_type *state);
 
-/* Spin the intro slices off a nested battle branch
- * @param adapter identifies adapter slice of the nested help branch
- * @param state address of structure holding state
- */
-void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state);
-
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
  * (semi-)reflex stipulation)
  * @param si root of branch to be instrumented

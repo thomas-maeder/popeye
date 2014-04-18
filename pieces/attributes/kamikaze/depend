@@ -1,18 +1,23 @@
 pieces/attributes/kamikaze/kamikaze$(OBJ_SUFFIX): \
  pieces/attributes/kamikaze/kamikaze.c \
- pieces/attributes/kamikaze/kamikaze.h solving/solve.h \
+ pieces/attributes/kamikaze/kamikaze.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/conditions.h \
- stipulation/move.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h debugging/assert.h
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h conditions/conditions.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h solving/pipe.h debugging/trace.h debugging/assert.h
 
 pieces/attributes/kamikaze/kamikaze.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -26,23 +31,41 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
+output/mode.enum.h:
+
 conditions/conditions.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -53,6 +76,8 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+solving/pipe.h:
 
 debugging/trace.h:
 

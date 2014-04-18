@@ -515,10 +515,9 @@ char const * const OptString[LanguageCount][OptCount] =
   /*29*/  "Bip",
   /*30*/  "SansGrille",
   /*31*/  "AjouteGrille",
-  /*32*/  "DernierePrise",
-    /*33*/  "RoquesMutuellementExclusifs",
-    /*34*/  "ButEstFin",
-    /*35*/  "optionnonpubliee"
+  /*32*/  "RoquesMutuellementExclusifs",
+  /*33*/  "ButEstFin",
+  /*34*/  "optionnonpubliee"
   },{
   /* Deutsch German Allemand */
   /* 0*/  "Widerlegung",
@@ -553,10 +552,9 @@ char const * const OptString[LanguageCount][OptCount] =
   /*29*/  "Pieps",
   /*30*/  "OhneGitter",
   /*31*/  "ZeichneGitter",
-  /*32*/  "LetzterSchlag",
-    /*33*/  "RochadenGegenseitigAusschliessend",
-    /*34*/  "ZielIstEnde",
-    /*35*/  "nichtpublizierteoption"
+  /*32*/  "RochadenGegenseitigAusschliessend",
+  /*33*/  "ZielIstEnde",
+  /*34*/  "nichtpublizierteoption"
   },{
   /* English Anglais Englisch */
   /* 0*/  "Defence",
@@ -591,10 +589,9 @@ char const * const OptString[LanguageCount][OptCount] =
   /*29*/  "Beep",
   /*30*/  "SuppressGrid",
   /*31*/  "WriteGrid",
-  /*32*/  "LastCapture",
-    /*33*/  "CastlingMutuallyExclusive",
-    /*34*/  "GoalIsEnd",
-    /*35*/  "unpublishedoption"
+  /*32*/  "CastlingMutuallyExclusive",
+  /*33*/  "GoalIsEnd",
+  /*34*/  "unpublishedoption"
   }
 };
 
@@ -797,7 +794,8 @@ char const * const CondString[LanguageCount][CondCount] =
     /*190*/ "DosADos",
     /*191*/ "JoueAJoue",
     /*192*/ "CameleonSequence",
-    /*193*/ "AntiCloneCirce"
+    /*193*/ "AntiCloneCirce",
+    /*194*/ "DernierePrise"
   },{
     /* German Condition Names */
     /* 0*/  "RexInklusive",
@@ -993,7 +991,8 @@ char const * const CondString[LanguageCount][CondCount] =
     /*190*/ "RueckenAnRuecken",
     /*191*/ "WangeAnWange",
     /*192*/ "Chamaeleonsequenz",
-    /*193*/ "AntiCloneCirce"
+    /*193*/ "AntiCloneCirce",
+    /*194*/ "LetzterSchlag"
   },{
     /* English Condition Names */
     /* 0*/  "RexInclusive",
@@ -1019,7 +1018,7 @@ char const * const CondString[LanguageCount][CondCount] =
     /*20*/  "Imitator",
     /*21*/  "CavalierMajeur",
     /*22*/  "HaanerChess",
-    /*23*/  "ChamaeleonCirce",
+    /*23*/  "ChameleonCirce",
     /*24*/  "CouscousCirce",
     /*25*/  "EquipollentsCirce",
     /*26*/  "FileCirce",
@@ -1189,13 +1188,14 @@ char const * const CondString[LanguageCount][CondCount] =
     /*190*/ "BackToBack",
     /*191*/ "CheekToCheek",
     /*192*/ "ChameleonSequence",
-    /*193*/ "AntiCloneCirce"
+    /*193*/ "AntiCloneCirce",
+    /*194*/ "LastCapture"
   }
 };
 
-char const * const *ColorTab;
+char const * const *ColourTab;
 
-char const * const ColorString[LanguageCount][nr_colors] =
+char const * const ColourString[LanguageCount][nr_colours] =
 {
   {
      /* French */
@@ -1220,7 +1220,7 @@ char const * const ColorString[LanguageCount][nr_colors] =
 
 char const * const *PieSpTab;
 
-char const * const PieSpString[LanguageCount][PieSpCount-nr_sides] =
+char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides] =
 {
   {
     /* French */
@@ -1473,6 +1473,7 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Malefique",
     "Assassin",
     "Diametral",
+    "MalefiqueVerticale",
     "Clone",
     "Chameleon",
     "Turncoats",
@@ -1497,7 +1498,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Stricte",
     "Relache",
     "Volcanique",
-    "Parachute"
+    "Parachute",
+    "Einstein",
+    "ReversEinstein"
   },{
     /* German */
     "RexInklusive",
@@ -1505,6 +1508,7 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Spiegel",
     "Assassin",
     "Diametral",
+    "VertikalSpiegel",
     "Clone",
     "Chamaeleon",
     "Turncoat",
@@ -1529,7 +1533,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Strikt",
     "Locker",
     "Vulkan",
-    "Fallschirm"
+    "Fallschirm",
+    "Einstein",
+    "ReversesEinstein"
   },{
     /* English */
     "RexInclusive",
@@ -1537,6 +1543,7 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Mirror",
     "Assassin",
     "Diametral",
+    "VerticalMirror",
     "Clone",
     "Chameleon",
     "Turncoats",
@@ -1561,7 +1568,9 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Strict",
     "Relaxed",
     "Volcanic",
-    "Parachute"
+    "Parachute",
+    "Einstein",
+    "ReversalEinstein"
   }
 };
 
@@ -1687,7 +1696,7 @@ static int comparePieceNames(void const * param1, void const * param2)
 
 static void enforce_piecename_uniqueness_one_language(Language language)
 {
-  PieNam name_index;
+  piece_walk_type name_index;
   PieTable piece_names_sorted;
   unsigned int nr_names = sizeof piece_names_sorted / sizeof piece_names_sorted[0];
 
@@ -1699,7 +1708,7 @@ static void enforce_piecename_uniqueness_one_language(Language language)
 
   /* hunter names are initialised to two blanks; qsort moves them to the
    * beginning */
-  for (name_index = maxnrhuntertypes; name_index<nr_names-1; ++name_index)
+  for (name_index = max_nr_hunter_walks; name_index<nr_names-1; ++name_index)
   {
     assert(piece_names_sorted[name_index][0]!=piece_names_sorted[name_index+1][0]
            || piece_names_sorted[name_index][1]!=piece_names_sorted[name_index+1][1]);

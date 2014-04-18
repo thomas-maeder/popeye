@@ -1,4 +1,4 @@
-both sides need a king
+
 versions <= 4.61 didn't support castling in Circe Parrain
 
 +---a---b---c---d---e---f---g---h---+
@@ -22,6 +22,7 @@ versions <= 4.61 didn't support castling in Circe Parrain
 +---a---b---c---d---e---f---g---h---+
   h002                        3 + 1
             Circe Parrain
+both sides need a king
 
   1.Bc1*b2 Be5-d4[+wRa1]   2.Bb2*d4 0-0-0[+wBe4]
 
@@ -129,7 +130,8 @@ recent Popeye versions allowed promotion to grasshopper in b
 zeroposition
 
 a) Q ==> G
-both sides need a kingboth sides need a king
+both sides need a king
+
    1.a7-a8=Q !
 
    1.a7-a8=S !
@@ -146,7 +148,8 @@ both sides need a kingboth sides need a king
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) Q ==> CA
-both sides need a kingboth sides need a king
+both sides need a king
+
    1.a7-a8=Q !
 
    1.a7-a8=S !
@@ -818,7 +821,7 @@ Until 4.61, Popeye crashed (Bug #3585629)
 solution finished. 
 
 
-both sides need a kingboth sides need a king
+
 Until 4.61, a=>b stipulations weren't correctly solved
      if there were neutral pieces
 
@@ -870,6 +873,7 @@ Until 4.61, a=>b stipulations weren't correctly solved
 +---a---b---c---d---e---f---g---h---+
   a=>b2                  0 + 0 + 2n
            AlphabeticChess
+both sides need a king
 
   1.nSa1-b3 nSa8-b6   2.nSb3-c1 nSb6-c8 a=>b
 
@@ -1237,7 +1241,7 @@ sttipulations with logically connected goals
 solution finished. 
 
 
-both sides need a king
+
    goal constraints in series play
 
 +---a---b---c---d---e---f---g---h---+
@@ -1260,6 +1264,7 @@ both sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   black 3s[1s[-1s[+]]{x}]     1 + 2
+both sides need a king
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4 Sb4*a6 Sa6-c5 +
 

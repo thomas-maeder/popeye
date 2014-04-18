@@ -1,18 +1,55 @@
 #include "conditions/circe/april.h"
+#include "conditions/circe/circe.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "pieces/pieces.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
-#include "solving/move_effect_journal.h"
+#include "stipulation/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
 
-boolean is_april_kind[PieceCount];
+/* Allocate an April Chess fork slice
+ * @param is_walk_affected map a walk to a boolean value indicating which path to take
+ *                         for the walk
+ * @return the allocated fork
+ */
+static slice_index alloc_april_chess_fork(circe_variant_type const *variant)
+{
+  slice_index const result = alloc_fork_slice(STAprilCaptureFork,no_slice);
+  slices[result].u.circe_handler.variant = variant;
+  return result;
+}
 
-/* Try to solve in n half-moves.
+/* Instrument the solving machinery with the logic for restricting Circe to
+ * certain piece walks
+ * @param si root slice of the solving machinery
+ * @param variant address of the structure representing the Circe variant
+ * @param interval_start start of the slice sequence representing the variant
+ */
+void circe_solving_instrument_april(slice_index si,
+                                    struct circe_variant_type const *variant,
+                                    slice_type interval_start)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",interval_start);
+  TraceFunctionParamListEnd();
+
+  circe_insert_rebirth_avoider(si,
+                               interval_start,
+                               interval_start,
+                               alloc_april_chess_fork(variant),
+                               STCirceRebirthAvoided,
+                               STCirceDoneWithRebirth);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -21,24 +58,19 @@ boolean is_april_kind[PieceCount];
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type april_chess_fork_solve(slice_index si, stip_length_type n)
+void april_chess_fork_solve(slice_index si)
 {
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-  PieNam const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
-  slice_index const next = is_april_kind[pi_captured] ? slices[si].next1 : slices[si].next2;
-  stip_length_type result;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  slice_index const next = slices[si].u.circe_handler.variant->is_walk_affected[context->relevant_walk] ? slices[si].next1 : slices[si].next2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(next,n);
+  solve(next);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

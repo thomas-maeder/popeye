@@ -1,24 +1,28 @@
-output/mode$(OBJ_SUFFIX): output/mode.c output/mode.h utilities/enumeration.h
+output/mode$(OBJ_SUFFIX): output/mode.c output/mode.enum utilities/enumeration.h
 
-output/mode.h:
+output/mode.enum:
 
 utilities/enumeration.h:
 output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
- utilities/enumeration.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h stipulation/pipe.h \
+ output/mode.enum.h stipulation/stipulation.h stipulation/goals/goals.h \
+ position/board.h utilities/bitmask.h utilities/boolean.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
+ position/side.enum.h pieces/pieces.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/solve.h stipulation/branch.h \
- output/plaintext/end_of_phase_writer.h \
- output/plaintext/illegal_selfcheck_writer.h output/plaintext/tree/tree.h \
- output/plaintext/line/line.h debugging/trace.h solving/ply.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/branch.h output/plaintext/end_of_phase_writer.h \
+ solving/machinery/solve.h output/plaintext/illegal_selfcheck_writer.h \
+ output/plaintext/tree/tree.h output/plaintext/line/line.h \
+ debugging/trace.h
 
 output/output.h:
 
 output/mode.h:
 
-utilities/enumeration.h:
+output/mode.enum.h:
 
 stipulation/stipulation.h:
 
@@ -32,11 +36,13 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-position/position.h:
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
-
-pieces/walks/vectors.h:
 
 stipulation/pipe.h:
 
@@ -44,13 +50,21 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
-stipulation/traversal.h:
+stipulation/slice_structural_type.h:
 
-solving/solve.h:
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
 
 stipulation/branch.h:
 
 output/plaintext/end_of_phase_writer.h:
+
+solving/machinery/solve.h:
 
 output/plaintext/illegal_selfcheck_writer.h:
 
@@ -59,5 +73,3 @@ output/plaintext/tree/tree.h:
 output/plaintext/line/line.h:
 
 debugging/trace.h:
-
-solving/ply.h:

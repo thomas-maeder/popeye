@@ -3,7 +3,8 @@
 
 #include "stipulation/goals/goals.h"
 #include "stipulation/slice_type.h"
-#include "position/position.h"
+#include "position/side.h"
+#include "pieces/pieces.h"
 #include "output/mode.h"
 #include "utilities/boolean.h"
 
@@ -27,6 +28,8 @@ enum
 {
   no_stip_length = INT_MAX
 };
+
+struct circe_variant_type;
 
 typedef struct
 {
@@ -84,13 +87,18 @@ typedef struct
         {
             slice_index condition;
         } if_then_else;
+
+        struct
+        {
+          struct circe_variant_type const * variant;
+        } circe_handler;
     } u;
 } Slice;
 
 /* slice identification */
 enum
 {
-  max_nr_slices = 15000,
+  max_nr_slices = 16000,
   no_slice = max_nr_slices
 };
 
@@ -219,7 +227,7 @@ void stip_insert_root_slices(slice_index si);
 /* Wrap the slices representing the initial moves of nested slices
  * @param si identifies slice where to start
  */
-void stip_insert_intro_slices(slice_index si);
+void solving_insert_intro_slices(slice_index si);
 
 /* Attempt to add set play to the stipulation
  * @param si identifies the root from which to apply set play

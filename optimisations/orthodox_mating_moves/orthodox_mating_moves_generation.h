@@ -1,6 +1,7 @@
 #if !defined(OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATION_H)
 #define OPTIMISATIONS_ORTHODOX_MATING_MOVES_GENERATION_H
 
+#include "position/side.h"
 #include "stipulation/stipulation.h"
 
 /* This module provides functionality regarding the optimised

@@ -1,10 +1,7 @@
 #include "stipulation/help_play/adapter.h"
-#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
-#include "solving/solve.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* Allocate a STHelpAdapter slice.
@@ -44,29 +41,6 @@ void help_adapter_make_root(slice_index adapter, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   help_make_root(adapter,state);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Wrap the slices representing the nested slices
- * @param adapter identifies solve adapter slice
- * @param st address of structure holding the traversal state
- */
-void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(adapter,st);
-
-  if (st->level==structure_traversal_level_nested
-      && slices[adapter].u.branch.length>slack_length)
-  {
-    spin_off_state_type * const state = st->param;
-    help_spin_off_intro(adapter,state);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -128,43 +102,4 @@ void help_adapter_apply_setplay(slice_index si, stip_structure_traversal *st)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type help_adapter_solve(slice_index si, stip_length_type n)
-{
-  stip_length_type result;
-  stip_length_type const full_length = slices[si].u.branch.length;
-  slice_index const next = slices[si].next1;
-  stip_length_type nr_moves_needed;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  nr_moves_needed = solve(next,full_length);
-  if (nr_moves_needed<slack_length)
-    result = immobility_on_next_move;
-  else if (nr_moves_needed<=full_length)
-    result = n;
-  else
-    result = n+2;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }

@@ -5,7 +5,7 @@
 
 enum
 {
-  maxnrhuntertypes = 10
+  max_nr_hunter_walks = 10
 };
 
 typedef enum
@@ -166,15 +166,16 @@ typedef enum
   Sting,                 /* 153 */
   Hunter0,               /* 154 */
 
-  PieceCount             = Hunter0+maxnrhuntertypes
-} PieNam;
+  nr_piece_walks = Hunter0+max_nr_hunter_walks
+} piece_walk_type;
 
 /* Enumeration type for various piece properties
- * Make sure to keep enumerators >= nr_sides
  */
 typedef enum
 {
-  Royal = 2,
+  piece_flag_white,
+  piece_flag_black,
+  Royal,
   Kamikaze,
   Paralysing,
   Chameleon,
@@ -189,8 +190,8 @@ typedef enum
   Patrol,
   FrischAuf,
 
-  PieSpCount
-} PieSpec;
+  nr_piece_flags
+} piece_flag_type;
 
 /* Set of flags representing characteristics of pieces (e.g. being
  * Neutral, or being Uncapturable)
@@ -201,8 +202,8 @@ extern Flags some_pieces_flags;
 extern Flags all_pieces_flags;
 extern Flags all_royals_flags;
 
-extern boolean exist[PieceCount];
-extern boolean may_exist[PieceCount];
-extern boolean flagfee;
+extern boolean piece_walk_exists[nr_piece_walks];
+extern boolean piece_walk_may_exist[nr_piece_walks];
+extern boolean piece_walk_may_exist_fairy;
 
 #endif

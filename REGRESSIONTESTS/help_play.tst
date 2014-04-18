@@ -361,7 +361,6 @@ solution finished.
 solution finished. 
 
 
-PostKeyPlay not applicable - ignored
 
 ignore option postkeyplay in help play
 
@@ -387,6 +386,7 @@ ignore option postkeyplay in help play
   h#2                         0 + 0
 
 a) 
+PostKeyPlay not applicable - ignored
 
 
   add_to_move_generation_stack:           0

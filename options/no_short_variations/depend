@@ -3,13 +3,16 @@ options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  stipulation/battle_play/branch.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
- stipulation/pipe.h solving/solve.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/pipe.h debugging/trace.h debugging/assert.h
 
 options/no_short_variations/no_short_variations.h:
 
@@ -25,15 +28,17 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -41,17 +46,21 @@ stipulation/battle_play/branch.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
 
 stipulation/pipe.h:
 
-solving/solve.h:
-
 debugging/trace.h:
-
-solving/ply.h:
 
 debugging/assert.h:
 options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
@@ -59,13 +68,18 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  options/no_short_variations/no_short_variations_attacker_filter.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h stipulation/has_solution_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/solve.h stipulation/battle_play/branch.h \
- solving/move_generator.h solving/ply.h debugging/trace.h \
- debugging/assert.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/battle_play/branch.h solving/machinery/solve.h \
+ solving/move_generator.h solving/ply.h solving/pipe.h solving/fork.h \
+ debugging/trace.h debugging/assert.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -81,17 +95,21 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
-stipulation/has_solution_type.h:
+output/mode.enum.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
 
 stipulation/testing_pipe.h:
 
@@ -101,15 +119,27 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
-solving/solve.h:
-
 stipulation/battle_play/branch.h:
+
+solving/machinery/solve.h:
 
 solving/move_generator.h:
 
 solving/ply.h:
+
+solving/pipe.h:
+
+solving/fork.h:
 
 debugging/trace.h:
 

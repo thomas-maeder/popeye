@@ -6,9 +6,9 @@
 #include "output/mode.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/message.h"
 #include "conditions/check_zigzag.h"
 #include "position/pieceid.h"
-#include "stipulation/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/battle_play/branch.h"
@@ -19,7 +19,6 @@
 #include "stipulation/proxy.h"
 #include "solving/play_suppressor.h"
 #include "debugging/trace.h"
-#include "pymsg.h"
 
 #include "debugging/assert.h"
 #include <ctype.h>
@@ -257,8 +256,8 @@ static slice_index ParseStructuredStip_make_branch_d(stip_length_type min_length
   TraceFunctionParam("%u",max_length);
   TraceFunctionParamListEnd();
 
-  max_length += slack_length+1;
-  min_length += slack_length+1;
+  max_length += 1;
+  min_length += 1;
 
   if (min_length>=max_length)
     min_length = max_length-1;
@@ -540,14 +539,14 @@ static slice_index ParseStructuredStip_make_branch_s(stip_length_type min_length
   TraceFunctionParamListEnd();
 
   max_length *= 2;
-  max_length += slack_length-1;
+  max_length -= 1;
 
   if (min_length==0)
-    min_length = slack_length+1;
+    min_length = 1;
   else
   {
     min_length *= 2;
-    min_length += slack_length-1;
+    min_length -= 1;
     if (min_length>max_length)
       min_length = max_length;
   }
@@ -691,8 +690,7 @@ static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length
   TraceFunctionParam("%u",max_length);
   TraceFunctionParamListEnd();
 
-  max_length += slack_length;
-  min_length += slack_length+1;
+  min_length += 1;
 
   if (min_length>=max_length)
     min_length = max_length-1;
@@ -763,16 +761,10 @@ static slice_index ParseStructuredStip_make_branch_h(stip_length_type min_length
   TraceFunctionParam("%u",max_length);
   TraceFunctionParamListEnd();
 
-  max_length += slack_length;
-
   if (min_length==0)
-    min_length = slack_length+(max_length-slack_length)%2;
-  else
-  {
-    min_length += slack_length;
-    if (min_length>max_length)
-      min_length = max_length;
-  }
+    min_length = max_length%2;
+  else if (min_length>max_length)
+    min_length = max_length;
 
   result = alloc_help_branch(max_length,min_length);
 
@@ -1124,7 +1116,7 @@ static Side ParseStructuredStip_starter(char *tok)
 
   /* We don't make any unsafe assumptions here; PieSpec enumerators
    * are initialised in terms of nr_sides */
-  ps = GetUniqIndex(nr_sides,ColorTab,tok);
+  ps = GetUniqIndex(nr_sides,ColourTab,tok);
   if (ps>nr_sides)
     IoErrorMsg(PieSpecNotUniq,0);
   else if (ps<nr_sides)

@@ -212,8 +212,9 @@ typedef enum
   cheektocheek,           /* 191 */
   chameleonsequence,      /* 192 */
   anticlonecirce,         /* 193 */
+  lastcapture,            /* 194 */
 
-  CondCount               /* 194 */
+  CondCount               /* 195 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

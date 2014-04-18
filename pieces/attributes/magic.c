@@ -10,10 +10,11 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pieces/pieces.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 
 #include "debugging/assert.h"
 
@@ -69,7 +70,7 @@ static void PushMagicView(square pos_viewed, square pos_magic, square start, squ
  * @param p type of piece
  * @return true iff pieces of type p can be magic
  */
-boolean magic_is_piece_supported(PieNam p)
+boolean magic_is_piece_supported(piece_walk_type p)
 {
   if (p>=Hunter0)
     return false;
@@ -247,7 +248,7 @@ static void identify_line(void)
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_observer);
-  TracePiece(e[sq_observer]);
+  TraceWalk(e[sq_observer]);
   TraceEOL();
   switch (e[sq_observer])
   {
@@ -452,12 +453,12 @@ boolean magic_enforce_observer(slice_index si)
   return result;
 }
 
-static void PushMagicViewsByOnePiece(PieNam pi_magic)
+static void PushMagicViewsByOnePiece(piece_walk_type pi_magic)
 {
   square const *pos_viewed;
 
   TraceFunctionEntry(__func__);
-  TracePiece(pi_magic);
+  TraceWalk(pi_magic);
   TraceFunctionParamListEnd();
 
   for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
@@ -478,7 +479,7 @@ static void PushMagicViewsByOnePiece(PieNam pi_magic)
 typedef unsigned int mark_type;
 
 static mark_type current_mark = 0;
-static mark_type walk_tried[PieceCount] = { 0 };
+static mark_type walk_tried[nr_piece_walks] = { 0 };
 
 static void PushMagicViewsByOneSide(Side side)
 {
@@ -490,8 +491,8 @@ static void PushMagicViewsByOneSide(Side side)
 
   if (current_mark==UINT_MAX)
   {
-    PieNam p;
-    for (p = King; p<PieceCount; ++p)
+    piece_walk_type p;
+    for (p = King; p<nr_piece_walks; ++p)
       walk_tried[p] = 0;
 
     current_mark = 1;
@@ -507,7 +508,7 @@ static void PushMagicViewsByOneSide(Side side)
        */
       if (TSTFLAG(spec[*pos_magic],side))
       {
-        PieNam const pi_magic = get_walk_of_piece_on_square(*pos_magic);
+        piece_walk_type const pi_magic = get_walk_of_piece_on_square(*pos_magic);
         if (walk_tried[pi_magic]!=current_mark)
         {
           walk_tried[pi_magic] = current_mark;
@@ -619,10 +620,9 @@ static void ChangeMagic(void)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -631,33 +631,27 @@ static void ChangeMagic(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type magic_views_initialiser_solve(slice_index si,
-                                                stip_length_type n)
+void magic_views_initialiser_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   ++stack_pointer;
-  assert(nbply==1);
+  assert(nbply==ply_retro_move);
   PushMagicViews();
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
   --stack_pointer;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -666,27 +660,22 @@ stip_length_type magic_views_initialiser_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type magic_pieces_recolorer_solve(slice_index si,
-                                               stip_length_type n)
+void magic_pieces_recolorer_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   ++stack_pointer;
   PushMagicViews();
   ChangeMagic();
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
   --stack_pointer;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Instrument a stipulation

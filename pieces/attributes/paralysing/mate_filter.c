@@ -1,6 +1,7 @@
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "debugging/trace.h"
 
@@ -53,10 +54,9 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -65,11 +65,10 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type paralysing_mate_filter_tester_solve(slice_index si, stip_length_type n)
+void paralysing_mate_filter_tester_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
   Side const mated = (slices[si].u.goal_filter.applies_to_who
                       ==goal_applies_to_starter
                       ? slices[si].starter
@@ -77,23 +76,20 @@ stip_length_type paralysing_mate_filter_tester_solve(slice_index si, stip_length
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(next,n);
-  if (slack_length<=result && result<=n && suffocated_by_paralysis(mated))
-    result = n+2;
+  pipe_solve_delegate(si);
+
+  if (move_has_solved() && suffocated_by_paralysis(mated))
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -102,11 +98,10 @@ stip_length_type paralysing_mate_filter_tester_solve(slice_index si, stip_length
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type paralysing_mate_filter_solve(slice_index si, stip_length_type n)
+void paralysing_mate_filter_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
   Side const mated = (slices[si].u.goal_filter.applies_to_who
                       ==goal_applies_to_starter
                       ? slices[si].starter
@@ -114,16 +109,10 @@ stip_length_type paralysing_mate_filter_solve(slice_index si, stip_length_type n
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (suffocated_by_paralysis(mated))
-    result = n+2;
-  else
-    result = solve(next,n);
+  pipe_this_move_doesnt_solve_if(si,suffocated_by_paralysis(mated));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

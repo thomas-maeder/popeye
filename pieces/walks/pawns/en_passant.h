@@ -1,7 +1,7 @@
 #if !defined(PIECES_PAWNS_EN_PASSANT_H)
 #define PIECES_PAWNS_EN_PASSANT_H
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
 #include "solving/ply.h"
@@ -12,6 +12,20 @@
 extern square en_passant_multistep_over[maxply+1];
 
 extern unsigned int en_passant_top[maxply+1];
+
+enum
+{
+  en_passant_retro_capacity = 4
+};
+extern unsigned int en_passant_retro_squares[en_passant_retro_capacity];
+extern unsigned int en_passant_nr_retro_squares;
+
+/* Undo the pawn multistep movement indicated by the user (in prepration of
+ * redoing it) */
+void en_passant_undo_multistep(void);
+
+/* Redo the multistep movement */
+void en_passant_redo_multistep(void);
 
 /* Remember a square avoided by a multistep move of a pawn
  * @param index index of square (between 0<=index<en_passant_max_nr_multistep_over)
@@ -93,10 +107,9 @@ square en_passant_find_potential(square sq_multistep_departure);
  */
 boolean en_passant_is_ep_capture(square sq_capture);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -105,11 +118,13 @@ boolean en_passant_is_ep_capture(square sq_capture);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type en_passant_adjuster_solve(slice_index si, stip_length_type n);
+void en_passant_adjuster_solve(slice_index si);
 
-/* Instrument slices with promotee markers
+/* Instrument the solving machinery with en passant
+ * @param si identifies the root slice of the solving machinery
  */
-void stip_insert_en_passant_adjusters(slice_index si);
+void en_passant_initialise_solving(slice_index si);
 
 #endif

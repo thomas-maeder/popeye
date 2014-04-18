@@ -3,10 +3,11 @@
 #include "stipulation/pipe.h"
 #include "solving/legal_move_counter.h"
 #include "solving/post_move_iteration.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
 #include <limits.h>
 
 int opponent_moves_few_moves_prioriser_table[toppile + 1];
@@ -29,10 +30,9 @@ slice_index alloc_opponent_moves_counter_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -41,25 +41,22 @@ slice_index alloc_opponent_moves_counter_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type opponent_moves_counter_solve(slice_index si,
-                                              stip_length_type n)
+void opponent_moves_counter_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup const move_id = move_generation_stack[CURRMOVE_OF_PLY(nbply)].id;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(legal_move_counter_count[nbply]==0);
   legal_move_counter_interesting[nbply] = UINT_MAX;
 
-  result = solve(slices[si].next1,n);
-  assert(slack_length<=result || result==this_move_is_illegal);
+  pipe_solve_delegate(si);
 
-  if (result==this_move_is_illegal)
+  if (solve_result==this_move_is_illegal)
     /* Defenses leading to self check get a big count.
      * But still make sure that we can correctly compute the difference of two
      * counts.
@@ -73,10 +70,8 @@ stip_length_type opponent_moves_counter_solve(slice_index si,
   /* one promotion per pawn move is normally enough */
   post_move_iteration_locked[nbply] = false;
 
-  result = n;
+  solve_result = MOVE_HAS_SOLVED_LENGTH();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

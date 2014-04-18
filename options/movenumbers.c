@@ -1,15 +1,16 @@
 #include "options/movenumbers.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/check.h"
 #include "solving/ply.h"
+#include "solving/pipe.h"
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -28,7 +29,7 @@ static boolean restart_deep;
 
 static void write_history_recursive(ply ply)
 {
-  if (ply>nil_ply+1)
+  if (ply>ply_retro_move)
   {
     write_history_recursive(parent_ply[ply]);
     printf(":");
@@ -54,7 +55,7 @@ void move_numbers_write_history(void)
 void reset_restart_number(void)
 {
   ply ply;
-  for (ply = nil_ply+1; ply<=maxply; ++ply)
+  for (ply = ply_retro_move+1; ply<=maxply; ++ply)
   {
     RestartNbr[ply] = 0;
     MoveNbr[ply] = 1;
@@ -65,7 +66,7 @@ void reset_restart_number(void)
 
 unsigned int get_restart_number(void)
 {
-  return RestartNbr[2];
+  return RestartNbr[ply_retro_move+1];
 }
 
 /* Interpret maxmem command line parameter value
@@ -75,7 +76,7 @@ boolean read_restart_number(char const *optionValue)
 {
   boolean result = false;
 
-  ply ply = nil_ply+1;
+  ply ply = ply_retro_move+1;
   char *end;
 
   while (1)
@@ -121,10 +122,9 @@ static void WriteMoveNbr(slice_index si)
   }
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -133,17 +133,13 @@ static void WriteMoveNbr(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type restart_guard_solve(slice_index si, stip_length_type n)
+void restart_guard_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(n>=slack_length);
 
   WriteMoveNbr(si);
 
@@ -152,23 +148,17 @@ stip_length_type restart_guard_solve(slice_index si, stip_length_type n)
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u\n",RestartNbr[nbply]);
-  if (MoveNbr[nbply]<=RestartNbr[nbply])
-    result = n+2;
-  else
-    result = solve(slices[si].next1,n);
+  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
 
   MoveNbr[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -177,17 +167,13 @@ stip_length_type restart_guard_solve(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type restart_guard_nested_solve(slice_index si, stip_length_type n)
+void restart_guard_nested_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
-
-  assert(n>=slack_length);
 
   if (MoveNbr[nbply-1]>0)
     ++MoveNbr[nbply];
@@ -195,17 +181,12 @@ stip_length_type restart_guard_nested_solve(slice_index si, stip_length_type n)
   TraceValue("%u",nbply);
   TraceValue("%u",MoveNbr[nbply]);
   TraceValue("%u\n",RestartNbr[nbply]);
-  if (MoveNbr[nbply]<=RestartNbr[nbply])
-    result = n+2;
-  else
-    result = solve(slices[si].next1,n);
+  pipe_this_move_doesnt_solve_if(si,MoveNbr[nbply]<=RestartNbr[nbply]);
 
   MoveNbr[nbply+1] = 0;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_guard_attack(slice_index si, stip_structure_traversal *st)

@@ -2,8 +2,9 @@
 #include "optimisations/intelligent/intelligent.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "solving/move_generator.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -22,7 +23,7 @@ typedef struct
 {
     square  from;
     square  to;
-    PieNam   prom;
+    piece_walk_type   prom;
 } simplified_move_type;
 
 static simplified_move_type **stored_solutions;
@@ -101,7 +102,7 @@ static void store_solution(void)
   {
     simplified_move_type ** const sol = stored_solutions+nr_stored_solutions;
     ply cp;
-    for (cp = 2; cp<=nbply; ++cp)
+    for (cp = nbply; cp>ply_retro_move; cp = parent_ply[cp])
     {
       simplified_move_type * const elmt = *sol + cp;
       elmt->from = move_generation_stack[CURRMOVE_OF_PLY(cp)].departure;
@@ -135,9 +136,9 @@ static boolean is_duplicate_solution(void)
 
     {
       ply cp;
-      for (cp = 2; cp <= nbply && found; ++cp)
+      for (cp = nbply; cp>ply_retro_move && found; cp = parent_ply[cp])
       {
-        simplified_move_type * const elmt = (*sol)+cp;
+        simplified_move_type * const elmt = *sol + cp;
         found = (elmt->from==move_generation_stack[CURRMOVE_OF_PLY(cp)].departure
                  && elmt->to==move_generation_stack[CURRMOVE_OF_PLY(cp)].arrival
                  && elmt->prom==get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(cp)].arrival));
@@ -152,28 +153,9 @@ static boolean is_duplicate_solution(void)
   return found;
 }
 
-/* Allocate a STIntelligentDuplicateAvoider slice.
- * @return index of allocated slice
- */
-slice_index alloc_intelligent_duplicate_avoider_slice(void)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STIntelligentDuplicateAvoider);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -182,28 +164,44 @@ slice_index alloc_intelligent_duplicate_avoider_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type intelligent_duplicate_avoider_solve(slice_index si,
-                                                      stip_length_type n)
+void intelligent_duplicate_avoider_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_duplicate_solution())
-    result = n;
-  else
-  {
-    result = solve(slices[si].next1,n);
-    if (slack_length<=result && result<=n)
-      store_solution();
-  }
+  pipe_this_move_solves_if(si,is_duplicate_solution());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void intelligent_solution_rememberer_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  if (move_has_solved())
+    store_solution();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

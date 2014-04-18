@@ -8,20 +8,20 @@
 
 #include "debugging/assert.h"
 
-boolean promonly[PieceCount];
+boolean promonly[nr_piece_walks];
 
-PieNam pieces_pawns_promotee_sequence[pieces_pawns_nr_promotee_chains][PieceCount];
+piece_walk_type pieces_pawns_promotee_sequence[pieces_pawns_nr_promotee_chains][nr_piece_walks];
 
 static void build_promotee_sequence(pieces_pawns_promotee_sequence_selector_type selector,
-                                    boolean (* const is_promotee)[PieceCount])
+                                    boolean (* const is_promotee)[nr_piece_walks])
 {
-  PieNam p;
-  PieNam prev_prom_piece = Empty;
+  piece_walk_type p;
+  piece_walk_type prev_prom_piece = Empty;
 
-  for (p = King; p<PieceCount; ++p)
+  for (p = King; p<nr_piece_walks; ++p)
     pieces_pawns_promotee_sequence[selector][p] = Empty;
 
-  for (p = King; p<PieceCount; ++p)
+  for (p = King; p<nr_piece_walks; ++p)
     if ((*is_promotee)[p])
     {
       pieces_pawns_promotee_sequence[selector][prev_prom_piece] = p;
@@ -37,14 +37,14 @@ static void init_promotee_sequence(pieces_pawns_promotee_sequence_selector_type 
     build_promotee_sequence(selector,&promonly);
   else
   {
-    boolean is_promotee[PieceCount] = { false };
-    PieNam p;
+    boolean is_promotee[nr_piece_walks] = { false };
+    piece_walk_type p;
 
     for (p = Queen; p<=Bishop; ++p)
       is_promotee[(*standard_walks)[p]] = true;
 
-    for (p = King+1; p<PieceCount; ++p)
-      if (exist[p] && !is_pawn(p) && !is_king(p))
+    for (p = King+1; p<nr_piece_walks; ++p)
+      if (piece_walk_exists[p] && !is_pawn(p) && !is_king(p))
         is_promotee[p] = true;
 
     is_promotee[Dummy] = false;
@@ -53,8 +53,8 @@ static void init_promotee_sequence(pieces_pawns_promotee_sequence_selector_type 
     {
       is_promotee[(*standard_walks)[King]] = true;
 
-      for (p = Bishop+1; p<PieceCount; ++p)
-        if (exist[p] && is_king(p))
+      for (p = Bishop+1; p<nr_piece_walks; ++p)
+        if (piece_walk_exists[p] && is_king(p))
           is_promotee[p] = true;
     }
 
@@ -62,8 +62,8 @@ static void init_promotee_sequence(pieces_pawns_promotee_sequence_selector_type 
     {
       is_promotee[(*standard_walks)[Pawn]] = true;
 
-      for (p = Bishop+1; p<PieceCount; ++p)
-        if (exist[p] && is_pawn(p))
+      for (p = Bishop+1; p<nr_piece_walks; ++p)
+        if (piece_walk_exists[p] && is_pawn(p))
           is_promotee[p] = true;
     }
 
@@ -95,14 +95,14 @@ void pieces_pawns_start_promotee_sequence(square sq_arrival,
     sequence->promotee = Empty;
   else
   {
-    PieNam const walk_moving = get_walk_of_piece_on_square(sq_arrival);
+    piece_walk_type const walk_moving = get_walk_of_piece_on_square(sq_arrival);
     sequence->selector = (walk_moving==MarinePawn
                           ? pieces_pawns_promotee_chain_marine
                           : pieces_pawns_promotee_chain_orthodox);
     sequence->promotee = pieces_pawns_promotee_sequence[sequence->selector][Empty];
   }
 
-  TracePiece(sequence->promotee);TraceEOL();
+  TraceWalk(sequence->promotee);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -120,7 +120,7 @@ void pieces_pawns_continue_promotee_sequence(pieces_pawns_promotion_sequence_typ
 
   sequence->promotee = pieces_pawns_promotee_sequence[sequence->selector][sequence->promotee];
 
-  TracePiece(sequence->promotee);TraceEOL();
+  TraceWalk(sequence->promotee);TraceEOL();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -134,7 +134,7 @@ void pieces_pawns_continue_promotee_sequence(pieces_pawns_promotion_sequence_typ
 Side is_square_occupied_by_promotable_pawn(square square_reached)
 {
   Side result = no_side;
-  PieNam const walk_moving = get_walk_of_piece_on_square(square_reached);
+  piece_walk_type const walk_moving = get_walk_of_piece_on_square(square_reached);
 
   TraceFunctionEntry(__func__);
   TraceSquare(square_reached);
@@ -166,7 +166,7 @@ void pieces_pawns_init_promotees(void)
 
   init_promotee_sequence(pieces_pawns_promotee_chain_orthodox,&standard_walks);
 
-  if (may_exist[MarinePawn])
+  if (piece_walk_may_exist[MarinePawn])
   {
     standard_walks_type marine_walks;
     marine_walks[King] = Poseidon;

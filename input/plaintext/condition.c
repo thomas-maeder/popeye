@@ -2,18 +2,24 @@
 #include "input/plaintext/pieces.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/message.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "pieces/attributes/chameleon.h"
+#include "pieces/attributes/neutral/neutral.h"
 #include "conditions/annan.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/cheylan.h"
 #include "conditions/bgl.h"
 #include "conditions/circe/april.h"
 #include "conditions/circe/circe.h"
+#include "conditions/circe/reborn_piece.h"
+#include "conditions/circe/rebirth_square.h"
+#include "conditions/circe/relevant_side.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/chameleon.h"
 #include "conditions/circe/assassin.h"
+#include "conditions/circe/parrain.h"
 #include "conditions/football.h"
 #include "conditions/geneva.h"
 #include "conditions/grid.h"
@@ -39,13 +45,68 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/castling.h"
 #include "debugging/trace.h"
-#include "pymsg.h"
 
 #include "debugging/assert.h"
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+static char *ParseSquareLastCapture(char *tok)
+{
+  retro_capture.on = SquareNum(tok[0],tok[1]);
+  if (retro_capture.on==initsquare || tok[2]!=0)
+  {
+    ErrorMsg(WrongSquareList);
+    return tok;
+  }
+  else
+    return ReadNextTokStr();
+}
+
+static char *ParsePieceWalkAndSquareLastCapture(char *tok)
+{
+  tok = ParsePieceName(tok,&retro_capture.walk);
+
+  if (retro_capture.walk>=King)
+  {
+    if (tok[0]==0)
+      tok = ReadNextTokStr();
+    tok = ParseSquareLastCapture(tok);
+  }
+  else
+  {
+    IoErrorMsg(WrongPieceName,0);
+    tok = ReadNextTokStr();
+  }
+
+  return tok;
+}
+
+static char *ParseLastCapturedPiece(char *tok)
+{
+  boolean const is_colour_mandatory = true;
+
+  retro_capture.walk = Empty;
+  retro_capture.flags = ParseColour(tok,is_colour_mandatory);
+
+  if (retro_capture.flags>0)
+  {
+    if (is_piece_neutral(retro_capture.flags))
+      SETFLAGMASK(some_pieces_flags,NeutralMask);
+
+    {
+      Flags nonColourFlags = 0;
+      tok = ParsePieceFlags(&nonColourFlags);
+      retro_capture.flags |= nonColourFlags;
+      some_pieces_flags |= nonColourFlags;
+    }
+
+    tok = ParsePieceWalkAndSquareLastCapture(tok);
+  }
+
+  return tok;
+}
 
 static long int ReadBGLNumber(char* inptr, char** endptr)
 {
@@ -101,50 +162,76 @@ static char *ParseRex(char *tok, boolean *rex, Cond what)
   return tok;
 }
 
-static char *ReadPieces(Cond condition)
+static char *ReadWalks(char *tok,
+                       boolean (*walks)[nr_piece_walks],
+                       unsigned int *nr_walks_read)
 {
-  char *tok = ReadNextTokStr();
-  boolean piece_read = false;
+  *nr_walks_read = 0;
 
-  fflush(stdout);
+  {
+    piece_walk_type p;
+    for (p = Empty; p!=nr_piece_walks; ++p)
+      (*walks)[p] = false;
+  }
 
   while (true)
   {
-    PieNam tmp_piece;
-    tok = ParseSinglePiece(tok,&tmp_piece);
+    piece_walk_type walk;
+    tok = ParseSingleWalk(tok,&walk);
 
-    TracePiece(tmp_piece);TraceValue("%s",tok);TraceEOL();
+    TraceWalk(walk);TraceValue("%s",tok);TraceEOL();
 
-    if (tmp_piece==PieceCount)
+    if (walk==nr_piece_walks)
       break;
     else
-      piece_read = true;
-
-    switch (condition)
     {
-      case promotiononly:
-        promonly[tmp_piece] = true;
-        break;
-
-      case football:
-        is_football_substitute[tmp_piece] = true;
-        football_are_substitutes_limited = true;
-        break;
-
-      case april:
-        is_april_kind[tmp_piece] = true;
-        break;
-
-      default:
-        /* Never mind ... */
-        break;
-      }
+      ++*nr_walks_read;
+      (*walks)[walk] = true;
+    }
   }
 
-  if (!piece_read && condition!=football)
+  return tok;
+}
+
+static boolean handle_chameleon_reborn_piece(twin_number_type *is_explicit,
+                                             chameleon_sequence_type* sequence,
+                                             piece_walk_type from, piece_walk_type to,
+                                             char const *tok)
+{
+  boolean result;
+
+  if (to==Empty)
   {
-    CondFlag[condition] = false;
     IoErrorMsg(WrongPieceName,0);
+    result = false;
+  }
+  else
+  {
+    if (from!=Empty)
+      chameleon_set_successor_walk_explicit(is_explicit,sequence,from,to);
+    result = true;
+  }
+
+  return result;
+}
+
+static char *ReadChameleonSequence(char *tok,
+                                   twin_number_type *is_explicit,
+                                   chameleon_sequence_type* sequence)
+{
+  piece_walk_type from = Empty;
+
+  while (true)
+  {
+    piece_walk_type to;
+    tok = ParseSingleWalk(tok,&to);
+
+    if (to==nr_piece_walks)
+      break;
+    else if (handle_chameleon_reborn_piece(is_explicit,sequence,from,to,tok))
+      from = to;
+    else
+      break;
   }
 
   return tok;
@@ -152,205 +239,229 @@ static char *ReadPieces(Cond condition)
 
 static char *ParseCirceVariants(circe_variant_type *variant)
 {
-  char *tok;
-  boolean go_on = true;
+  char *tok = ReadNextTokStr();
 
-  while (go_on)
+  while (true)
   {
-    tok = ReadNextTokStr();
-    switch (GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok))
+    unsigned int const index = GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok);
+
+    if (index==CirceVariantCount)
+      break;
+    else if (index>CirceVariantCount)
     {
-      case CirceVariantRexInclusive:
-        variant->is_rex_inclusive = true;
-        break;
+      IoErrorMsg(CondNotUniq,0);
+      break;
+    }
+    else
+    {
+      tok = ReadNextTokStr();
 
-      case CirceVariantRexExclusive:
-        variant->is_rex_inclusive = false;
-        break;
-
-      case CirceVariantMirror:
-        variant->is_mirror = true;
-        break;
-
-      case CirceVariantDiametral:
-        variant->is_diametral = true;
-        break;
-
-      case CirceVariantAssassin:
-        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
-        break;
-
-      case CirceVariantClone:
-        if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_clone))
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantChameleon:
-        if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_chameleon))
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantTurncoats:
-        variant->is_turncoat = true;
-        break;
-
-      case CirceVariantCouscous:
-        variant->relevant_piece = circe_relevant_piece_other;
-        variant->is_promotion_possible = true;
-        break;
-
-      case CirceVariantLastMove:
-        variant->relevant_capture = circe_relevant_capture_lastmove;
-        break;
-
-      case CirceVariantEquipollents:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
-          variant->is_promotion_possible = true;
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantParrain:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
-        {
-          variant->relevant_capture = circe_relevant_capture_lastmove;
-          variant->is_promotion_possible = true;
-        }
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantContraParrain:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
-        {
-          variant->relevant_capture = circe_relevant_capture_lastmove;
-          variant->is_promotion_possible = true;
-          variant->is_mirror = true;
-        }
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantCage:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_cage))
-        {
-          variant->is_promotion_possible = true;
-          variant->rebirth_reason = move_effect_reason_rebirth_choice;
-        }
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantRank:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_rank))
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantFile:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_file))
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantSymmetry:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_symmetry))
-          variant->is_promotion_possible = true;
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantDiagramm:
-        if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_diagram))
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantPWC:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_pwc))
-          variant->is_promotion_possible = true;
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantAntipodes:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_antipodes))
-          variant->is_promotion_possible = true;
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantSuper:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_super))
-        {
-          variant->is_promotion_possible = true;
-          variant->rebirth_reason = move_effect_reason_rebirth_choice;
-        }
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantTakeAndMake:
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_take_and_make))
-        {
-          variant->is_promotion_possible = true;
-          variant->rebirth_reason = move_effect_reason_rebirth_choice;
-        }
-        else
-          IoErrorMsg(NonsenseCombination,0);
-        break;
-
-      case CirceVariantApril:
+      switch (index)
       {
-        if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_april))
-        {
-          CondFlag[april] = true;
-          tok = ReadPieces(april);
-          if (CondFlag[april])
+        case CirceVariantRexInclusive:
+          variant->is_rex_inclusive = true;
+          break;
+
+        case CirceVariantRexExclusive:
+          variant->is_rex_inclusive = false;
+          break;
+
+        case CirceVariantMirror:
+          if (!circe_override_relevant_side_overrider(variant,circe_relevant_side_overrider_mirror))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantDiametral:
+          if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_diametral))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantVerticalMirror:
+          if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_verticalmirror))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantAssassin:
+          variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
+          break;
+
+        case CirceVariantClone:
+          if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_clone))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantEinstein:
+          if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_einstein))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantReverseEinstein:
+          if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_reversaleinstein))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantChameleon:
+          if (circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_chameleon))
+            tok = ReadChameleonSequence(tok,
+                                        &variant->chameleon_is_walk_squence_explicit,
+                                        &variant->chameleon_walk_sequence);
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantTurncoats:
+          variant->is_turncoat = true;
+          break;
+
+        case CirceVariantCouscous:
+          variant->actual_relevant_piece = 1-variant->default_relevant_piece;
+          variant->is_promotion_possible = true;
+          break;
+
+        case CirceVariantLastMove:
+          variant->relevant_capture = circe_relevant_capture_lastmove;
+          break;
+
+        case CirceVariantEquipollents:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
+            variant->is_promotion_possible = true;
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantParrain:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
           {
-            variant->is_promotion_possible= true;
+            variant->relevant_capture = circe_relevant_capture_lastmove;
+            variant->is_promotion_possible = true;
+          }
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantContraParrain:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents)
+              && circe_override_relevant_side_overrider(variant,circe_relevant_side_overrider_mirror))
+          {
+            variant->relevant_capture = circe_relevant_capture_lastmove;
+            variant->is_promotion_possible = true;
+          }
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantCage:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_cage))
+          {
+            variant->is_promotion_possible = true;
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
           }
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantRank:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_rank)
+              || !circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_rank)
+              || !circe_override_relevant_side_overrider(variant,circe_relevant_side_overrider_rank))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantFile:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_file))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantSymmetry:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_symmetry))
+            variant->is_promotion_possible = true;
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantDiagramm:
+          if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_diagram))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantPWC:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_pwc))
+            variant->is_promotion_possible = true;
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantAntipodes:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_antipodes))
+            variant->is_promotion_possible = true;
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantSuper:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_super))
+          {
+            variant->is_promotion_possible = true;
+            variant->rebirth_reason = move_effect_reason_rebirth_choice;
+          }
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantTakeAndMake:
+          if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_take_and_make))
+          {
+            variant->is_promotion_possible = true;
+            variant->rebirth_reason = move_effect_reason_rebirth_choice;
+          }
+          else
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantApril:
+        {
+          unsigned int nr_walks_read;
+          tok = ReadWalks(tok,&variant->is_walk_affected,&nr_walks_read);
+          if (nr_walks_read==0)
+            IoErrorMsg(WrongPieceName,0);
+          else
+          {
+            variant->is_restricted_to_walks = true;
+            variant->is_promotion_possible = true;
+            variant->rebirth_reason = move_effect_reason_rebirth_choice;
+          }
+          break;
         }
-        else
-          IoErrorMsg(NonsenseCombination,0);
 
-        break;
+        case CirceVariantFrischauf:
+          if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_frischauf))
+            IoErrorMsg(NonsenseCombination,0);
+          break;
+
+        case CirceVariantCalvet:
+          variant->anticirce_type = anticirce_type_calvet;
+          break;
+
+        case CirceVariantCheylan:
+          variant->anticirce_type = anticirce_type_cheylan;
+          break;
+
+        case CirceVariantStrict:
+          variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_strict;
+          break;
+
+        case CirceVariantRelaxed:
+          variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_relaxed;
+          break;
+
+        case CirceVariantVolcanic:
+          variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_volcanic;
+          break;
+
+        case CirceVariantParachute:
+          variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
+          break;
       }
-
-      case CirceVariantFrischauf:
-        variant->is_frischauf = true;
-        break;
-
-      case CirceVariantCalvet:
-        variant->anticirce_type = anticirce_type_calvet;
-        break;
-
-      case CirceVariantCheylan:
-        variant->anticirce_type = anticirce_type_cheylan;
-        break;
-
-      case CirceVariantStrict:
-        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_strict;
-        break;
-
-      case CirceVariantRelaxed:
-        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_relaxed;
-        break;
-
-      case CirceVariantVolcanic:
-        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_volcanic;
-        break;
-
-      case CirceVariantParachute:
-        variant->on_occupied_rebirth_square = circe_on_occupied_rebirth_square_parachute;
-        break;
-
-      case CirceVariantCount:
-        go_on = false;
-        break;
-
-      default:
-        IoErrorMsg(CondNotUniq,0);
-        go_on = false;
-        break;
     }
   }
 
@@ -401,36 +512,11 @@ char *ReadSquares(SquareListContext context)
           break;
 
         case ReadEpSquares:
-        {
-          move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-          move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-
-          switch (nr_squares_read)
-          {
-            case 0:
-              move_effect_journal[movement].u.piece_movement.from = sq;
-              break;
-
-            case 1:
-              move_effect_journal[movement].u.piece_movement.to = sq;
-              break;
-
-            case 2:
-              en_passant_remember_multistep_over(move_effect_journal[movement].u.piece_movement.to);
-              move_effect_journal[movement].u.piece_movement.to = sq;
-              break;
-
-            case 3:
-              en_passant_remember_multistep_over(move_effect_journal[movement].u.piece_movement.to);
-              move_effect_journal[movement].u.piece_movement.to = sq;
-              break;
-
-            default:
-              Message(TooManyEpKeySquares);
-              break;
-          }
+          if (en_passant_nr_retro_squares==en_passant_retro_capacity)
+            Message(TooManyEpKeySquares);
+          else
+            en_passant_retro_squares[en_passant_nr_retro_squares++] = sq;
           break;
-        }
 
         case ReadBlRoyalSq:
           royal_square[Black]= sq;
@@ -759,8 +845,8 @@ static char *ParseKoekoVariant(void)
     IoErrorMsg(CondNotUniq,0);
   else
   {
-    PieNam tmp_piece;
-    tok = ParseSinglePiece(ReadNextTokStr(),&tmp_piece);
+    piece_walk_type tmp_piece;
+    tok = ParseSingleWalk(ReadNextTokStr(),&tmp_piece);
 
     switch (tmp_piece)
     {
@@ -908,10 +994,10 @@ static char *ParseVaultingPieces(Side side)
 
   while (true)
   {
-    PieNam p;
-    tok = ParseSinglePiece(tok,&p);
+    piece_walk_type p;
+    tok = ParseSingleWalk(tok,&p);
 
-    if (p==PieceCount)
+    if (p==nr_piece_walks)
     {
       if (GetUniqIndex(1,VaultingVariantTypeTab,tok)==0)
       {
@@ -930,50 +1016,6 @@ static char *ParseVaultingPieces(Side side)
       if (side!=White)
         append_king_vaulter(Black,p);
     }
-  }
-
-  return tok;
-}
-
-static boolean handle_chameleon_reborn_piece(boolean *is_implicit,
-                                             chameleon_sequence_type* sequence,
-                                             PieNam from, PieNam to,
-                                             char const *tok)
-{
-  boolean result;
-
-  if (to==Empty)
-  {
-    IoErrorMsg(WrongPieceName,0);
-    result = false;
-  }
-  else
-  {
-    if (from!=Empty)
-      chameleon_set_successor_walk_explicit(is_implicit,sequence,from,to);
-    result = true;
-  }
-
-  return result;
-}
-
-static char *ReadChameleonSequence(boolean *is_implicit,
-                                   chameleon_sequence_type* sequence)
-{
-  char *tok = ReadNextTokStr();
-  PieNam from = Empty;
-
-  while (true)
-  {
-    PieNam to;
-    tok = ParseSinglePiece(tok,&to);
-
-    if (to==PieceCount)
-      break;
-    else if (handle_chameleon_reborn_piece(is_implicit,sequence,from,to,tok))
-      from = to;
-    else
-      break;
   }
 
   return tok;
@@ -1133,7 +1175,11 @@ char *ParseCond(void)
       /* different types of circe */
       case circediametral:
         CondFlag[circe] = true;
-        circe_variant.is_diametral = true;
+        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_diametral;
+        break;
+      case circemirrorvertical:
+        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_verticalmirror;
+        CondFlag[circe] = true;
         break;
       case circechameleon:
         CondFlag[circe] = true;
@@ -1146,6 +1192,8 @@ char *ParseCond(void)
       case circerank:
         CondFlag[circe] = true;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_rank;
+        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_rank;
+        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_rank;
         break;
       case circediagramm:
         CondFlag[circe] = true;
@@ -1159,7 +1207,7 @@ char *ParseCond(void)
       case circecouscousmirror:
         CondFlag[circe] = true;
         circe_variant.is_promotion_possible= true;
-        circe_variant.relevant_piece = circe_relevant_piece_other;
+        circe_variant.actual_relevant_piece = circe_relevant_piece_capturer;
         break;
       case circeequipollents:
         CondFlag[circe] = true;
@@ -1210,14 +1258,14 @@ char *ParseCond(void)
         circe_variant.relevant_capture = circe_relevant_capture_lastmove;
         circe_variant.is_promotion_possible= true;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
-        circe_variant.is_mirror = true;
+        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
 
       case anticirce:
         break;
       case antimirror:
         CondFlag[anticirce] = true;
-        anticirce_variant.is_mirror = true;
+        anticirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
       case anticlonecirce:
         CondFlag[anticirce] = true;
@@ -1236,7 +1284,7 @@ char *ParseCond(void)
       case antimirrorfile:
         CondFlag[anticirce] = true;
         anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        anticirce_variant.is_mirror = true;
+        anticirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
       case antisymmetrie:
         CondFlag[anticirce] = true;
@@ -1261,7 +1309,7 @@ char *ParseCond(void)
         /* different types of immunchess */
       case immunmirror:
         CondFlag[immun] = true;
-        immune_variant.is_mirror = true;
+        immune_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
       case immunfile:
         CondFlag[immun] = true;
@@ -1274,7 +1322,7 @@ char *ParseCond(void)
       case immunmirrorfile:
         CondFlag[immun] = true;
         immune_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        immune_variant.is_mirror = true;
+        immune_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
       case immunsymmetry:
         CondFlag[immun] = true;
@@ -1348,45 +1396,47 @@ char *ParseCond(void)
         tok = ParseRex(tok,&immune_variant.is_rex_inclusive, rexincl);
         break;
       case circechameleon:
-        chameleon_reset_sequence(&chameleon_circe_is_squence_implicit,
-                                 &chameleon_circe_walk_sequence);
-        ReadChameleonSequence(&chameleon_circe_is_squence_implicit,
-                              &chameleon_circe_walk_sequence);
+        tok = ReadNextTokStr();
+        tok = ReadChameleonSequence(tok,
+                                    &circe_variant.chameleon_is_walk_squence_explicit,
+                                    &circe_variant.chameleon_walk_sequence);
         break;
       case chameleonsequence:
       case chamchess:
-        ReadChameleonSequence(&chameleon_is_squence_implicit,
-                              &chameleon_walk_sequence);
+        tok = ReadNextTokStr();
+        tok = ReadChameleonSequence(tok,
+                                    &chameleon_is_squence_explicit,
+                                    &chameleon_walk_sequence);
         break;
       case circemirror:
         CondFlag[circe] = true;
-        circe_variant.is_mirror = true;
+        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         tok = ReadNextTokStr();
         tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circefilemirror:
         CondFlag[circe] = true;
-        circe_variant.is_mirror = true;
+        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
         tok = ReadNextTokStr();
         tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circeclonemirror:
         CondFlag[circe] = true;
-        circe_variant.is_mirror = true;
+        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
         tok = ReadNextTokStr();
         tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circecouscousmirror:
         CondFlag[circecouscous] = true;
-        circe_variant.is_mirror = true;
+        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         tok = ReadNextTokStr();
         tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circedoubleagents:
         CondFlag[circe] = true;
-        circe_variant.is_mirror = true;
+        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.is_turncoat = true;
         tok = ReadNextTokStr();
         tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
@@ -1407,7 +1457,7 @@ char *ParseCond(void)
         CondFlag[circe] = true;
         tok = ReadNextTokStr();
         tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
-        circe_variant.is_frischauf = true;
+        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_frischauf;
         break;
       case circefile:
       case circeequipollents:
@@ -1452,22 +1502,22 @@ char *ParseCond(void)
 
         /*****  exact-maxis  *****/
       case blmax:
-        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
+        tok = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
       case whmax:
-        tok  = ParseMummerStrictness(&mummer_strictness[White]);
+        tok = ParseMummerStrictness(&mummer_strictness[White]);
         break;
       case blmin:
-        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
+        tok = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
       case whmin:
-        tok  = ParseMummerStrictness(&mummer_strictness[White]);
+        tok = ParseMummerStrictness(&mummer_strictness[White]);
         break;
       case blcapt:
-        tok  = ParseMummerStrictness(&mummer_strictness[Black]);
+        tok = ParseMummerStrictness(&mummer_strictness[Black]);
         break;
       case whcapt:
-        tok  = ParseMummerStrictness(&mummer_strictness[White]);
+        tok = ParseMummerStrictness(&mummer_strictness[White]);
         break;
 
       case blconforsqu:
@@ -1551,23 +1601,48 @@ char *ParseCond(void)
         tok = ParseNumberedType(&magic_square_type,ConditionType1,ConditionType2);
         break;
       case promotiononly:
-        tok = ReadPieces(promotiononly);
+      {
+        unsigned int nr_walks_read;
+        tok = ReadNextTokStr();
+        tok = ReadWalks(tok,&promonly,&nr_walks_read);
+        if (nr_walks_read==0)
+        {
+          CondFlag[promotiononly] = false;
+          IoErrorMsg(WrongPieceName,0);
+        }
         break;
+      }
       case football:
+      {
+        unsigned int nr_walks_read;
         football_are_substitutes_limited = false;
-        tok = ReadPieces(football);
+        tok = ReadNextTokStr();
+        tok = ReadWalks(tok,&is_football_substitute,&nr_walks_read);
+        football_are_substitutes_limited = nr_walks_read>0;
+        init_football_substitutes();
         break;
+      }
       case april:
-        tok = ReadPieces(april);
-        if (CondFlag[april])
+      {
+        unsigned int nr_walks_read;
+        tok = ReadNextTokStr();
+        tok = ReadWalks(tok,&circe_variant.is_walk_affected,&nr_walks_read);
+        if (nr_walks_read==0)
+        {
+          CondFlag[april] = false;
+          IoErrorMsg(WrongPieceName,0);
+        }
+        else
         {
           CondFlag[circe] = true;
+          circe_variant.is_restricted_to_walks = true;
           circe_variant.is_promotion_possible= true;
           circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
           circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
-          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_april;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
         }
         break;
+      }
       case koeko:
         koeko_nocontact= &nokingcontact;
         nocontactfunc_parsed= &koeko_nocontact;
@@ -1629,8 +1704,7 @@ char *ParseCond(void)
         tok = ReadNextTokStr();
         break;
       case geneva:
-        tok = ReadNextTokStr();
-        tok = ParseRex(tok,&geneva_variant.is_rex_inclusive, rexincl);
+        tok = ParseCirceVariants(&geneva_variant);
         break;
       case whvault_king:
         tok = ParseVaultingPieces(White);
@@ -1644,6 +1718,12 @@ char *ParseCond(void)
       case gridchess:
         tok = ParseGridVariant();
         break;
+      case lastcapture:
+        tok = ReadNextTokStr();
+        retro_capture.on = initsquare;
+        tok = ParseLastCapturedPiece(tok);
+        CondFlag[lastcapture] = retro_capture.on!=initsquare;
+        break;
       default:
         tok = ReadNextTokStr();
         break;
@@ -1652,6 +1732,10 @@ char *ParseCond(void)
 
   if (CondCnt==0)
     IoErrorMsg(UnrecCondition,0);
+
+  if (CondFlag[black_oscillatingKs] && OscillatingKings[White]==ConditionTypeC
+      && CondFlag[white_oscillatingKs] && OscillatingKings[White]==ConditionTypeC)
+    CondFlag[swappingkings] = true;
 
   return tok;
 }
@@ -1669,10 +1753,8 @@ void InitCond(void)
 
   circe_reset_variant(&circe_variant);
   anticirce_reset_variant(&anticirce_variant);
-  circe_reset_variant(&immune_variant);
-  circe_reset_variant(&geneva_variant);
-
-  circe_assassin_use_whom = circe_assassin_use_none;
+  immune_reset_variant(&immune_variant);
+  geneva_reset_variant(&geneva_variant);
 
   marscirce_determine_rebirth_square = rennormal_polymorphic;
 
@@ -1704,7 +1786,6 @@ void InitCond(void)
     int const file= *bnp%onerow - nr_of_slack_files_left_of_board;
     int const row= *bnp/onerow - nr_of_slack_rows_below_board;
 
-    ClearPieceId(spec[*bnp]);
     CLEARFL(sq_spec[*bnp]);
     sq_num[*bnp]= (int)(bnp-boardnum);
 
@@ -1733,9 +1814,6 @@ void InitCond(void)
 
   number_of_imitators = 0;
 
-  memset((char *) promonly, 0, sizeof(promonly));
-  memset((char *) is_football_substitute, 0, sizeof(promonly));
-  memset((char *) is_april_kind,0,sizeof(is_april_kind));
   koeko_nocontact= nokingcontact;
   antikoeko_nocontact= nokingcontact;
   OscillatingKings[White]= ConditionTypeA;

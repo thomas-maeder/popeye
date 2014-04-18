@@ -1,11 +1,13 @@
 #include "options/nontrivial.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/avoid_unsolvable.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
 #include "solving/ply.h"
 #include "debugging/trace.h"
 
@@ -24,7 +26,7 @@ static unsigned int non_trivial_count[maxply+1];
 void reset_nontrivial_settings(void)
 {
   max_nr_nontrivial = UINT_MAX;
-  min_length_nontrivial = 2*maxply+slack_length+1;
+  min_length_nontrivial = 2*maxply+1;
 }
 
 /* Read the requested non-trivial optimisation settings from user input
@@ -77,8 +79,7 @@ boolean read_min_length_nontrivial(char const *tok)
   if (tok!=end && requested_min_length_nontrivial<=UINT_MAX)
   {
     result = true;
-    min_length_nontrivial = (2*(unsigned int)requested_min_length_nontrivial
-                             +slack_length+1);
+    min_length_nontrivial = 2*(unsigned int)requested_min_length_nontrivial+1;
     TraceValue("%u\n",min_length_nontrivial);
   }
   else
@@ -96,7 +97,7 @@ boolean read_min_length_nontrivial(char const *tok)
  */
 stip_length_type get_min_length_nontrivial(void)
 {
-  return (min_length_nontrivial-slack_length-1)/2;
+  return (min_length_nontrivial-1)/2;
 }
 
 
@@ -108,21 +109,17 @@ stip_length_type get_min_length_nontrivial(void)
  * Stop counting when more than max_nr_nontrivial have been found
  * @return number of defender's non-trivial moves
  */
-static unsigned int count_nontrivial_defenses(slice_index si,
-                                              stip_length_type n)
+static unsigned int count_nontrivial_defenses(slice_index si)
 {
   unsigned int result;
-  slice_index const tester = slices[si].next2;
-  stip_length_type const parity = ((n-slack_length-1)%2);
-  stip_length_type const n_next = min_length_nontrivial+parity;
+  stip_length_type const parity = (solve_nr_remaining-slack_length-1)%2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   non_trivial_count[nbply+1] = 0;
-  solve(tester,n_next);
+  fork_solve(si,min_length_nontrivial+slack_length+parity);
   result = non_trivial_count[nbply+1];
 
   TraceFunctionExit(__func__);
@@ -152,10 +149,9 @@ static slice_index alloc_max_nr_nontrivial_guard(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -164,39 +160,33 @@ static slice_index alloc_max_nr_nontrivial_guard(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type
-max_nr_nontrivial_guard_solve(slice_index si, stip_length_type n)
+void max_nr_nontrivial_guard_solve(slice_index si)
 {
-  slice_index const next = slices[si].next1;
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n>min_length_nontrivial)
+  if (solve_nr_remaining-slack_length>min_length_nontrivial)
   {
-    unsigned int const nr_nontrivial = count_nontrivial_defenses(si,n);
+    unsigned int const nr_nontrivial = count_nontrivial_defenses(si);
     if (max_nr_nontrivial+1>=nr_nontrivial)
     {
       ++max_nr_nontrivial;
       max_nr_nontrivial -= nr_nontrivial;
-      result = solve(next,n);
+      pipe_solve_delegate(si);
       max_nr_nontrivial += nr_nontrivial;
       --max_nr_nontrivial;
     }
     else
-      result = n+2;
+      solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   }
   else
-    result = solve(next,n);
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Allocate a STMaxNrNonTrivialCounter slice
@@ -217,10 +207,9 @@ static slice_index alloc_max_nr_nontrivial_counter(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -229,31 +218,27 @@ static slice_index alloc_max_nr_nontrivial_counter(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type max_nr_nontrivial_counter_solve(slice_index si,
-                                                  stip_length_type n)
+void max_nr_nontrivial_counter_solve(slice_index si)
 {
-  stip_length_type result = n+2;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
-  if (result>n)
+  if (solve_result>MOVE_HAS_SOLVED_LENGTH())
   {
     ++non_trivial_count[nbply];
     if (non_trivial_count[nbply]<=max_nr_nontrivial+1)
-      result = n;
+      /* found enough non-trivial defenses - stop the iteration
+       */
+      solve_result = MOVE_HAS_SOLVED_LENGTH();
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_nontrivial_guards(slice_index si,

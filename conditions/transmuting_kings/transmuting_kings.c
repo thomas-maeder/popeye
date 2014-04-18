@@ -8,10 +8,11 @@
 #include "stipulation/fork.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 #include "debugging/assert.h"
 
-PieNam transmuting_kings_potential_transmutations[PieceCount];
+piece_walk_type transmuting_kings_potential_transmutations[nr_piece_walks];
 
 boolean transmuting_kings_testing_transmutation[nr_sides];
 
@@ -31,10 +32,10 @@ static boolean is_king_transmuting_as_any_walk[maxply+1];
 void transmuting_kings_init_transmuters_sequence(void)
 {
   unsigned int tp = 0;
-  PieNam p;
+  piece_walk_type p;
 
-  for (p = King; p<PieceCount; ++p) {
-    if (may_exist[p] && p!=Dummy && p!=Hamster)
+  for (p = King; p<nr_piece_walks; ++p) {
+    if (piece_walk_may_exist[p] && p!=Dummy && p!=Hamster)
     {
       transmuting_kings_potential_transmutations[tp] = p;
       tp++;
@@ -47,13 +48,13 @@ void transmuting_kings_init_transmuters_sequence(void)
 /* Determine whether the moving side's king is transmuting as a specific walk
  * @param p the piece
  */
-boolean transmuting_kings_is_king_transmuting_as(PieNam walk)
+boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
 {
   boolean result;
   Side const side_attacking = trait[nbply];
 
   TraceFunctionEntry(__func__);
-  TracePiece(walk);
+  TraceWalk(walk);
   TraceFunctionParamListEnd();
 
   if (transmuting_kings_testing_transmutation[side_attacking])
@@ -85,7 +86,8 @@ boolean transmuting_kings_is_king_transmuting_as(PieNam walk)
 boolean generate_moves_of_transmuting_king(slice_index si)
 {
   boolean result = false;
-  PieNam const *ptrans;
+  piece_walk_type const *ptrans;
+  piece_walk_type const save_current_walk = move_generation_current_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -94,7 +96,9 @@ boolean generate_moves_of_transmuting_king(slice_index si)
   for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
-      generate_moves_for_piece(slices[si].next1,*ptrans);
+      move_generation_current_walk = *ptrans;
+      generate_moves_for_piece(slices[si].next1);
+      move_generation_current_walk = save_current_walk;
       result = true;
     }
 
@@ -106,18 +110,19 @@ boolean generate_moves_of_transmuting_king(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void transmuting_kings_generate_moves_for_piece(slice_index si, PieNam p)
+void transmuting_kings_generate_moves_for_piece(slice_index si)
 {
+  Flags const mask = BIT(trait[nbply])|BIT(Royal);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
 
-  if (!(curr_generation->departure==king_square[trait[nbply]]
+  if (!(TSTFULLFLAGMASK(spec[curr_generation->departure],mask)
         && generate_moves_of_transmuting_king(si)))
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -333,7 +338,7 @@ boolean transmuting_kings_enforce_observer_walk(slice_index si)
   {
     if (transmuting_kings_is_king_transmuting_as(observing_walk[nbply]))
     {
-      PieNam const save_walk = observing_walk[nbply];
+      piece_walk_type const save_walk = observing_walk[nbply];
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
       result = validate_observation_recursive(slices[si].next1);
       observing_walk[nbply] = save_walk;

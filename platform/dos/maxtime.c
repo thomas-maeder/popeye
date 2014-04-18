@@ -1,6 +1,6 @@
 #include "platform/maxtime_impl.h"
 #include "utilities/boolean.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 #include <limits.h>
 
 void initMaxtime(void)

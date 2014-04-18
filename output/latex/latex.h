@@ -15,12 +15,12 @@ void LaTeXShutdown(void);
 void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
 
-void LaTeXEchoAddedPiece(Flags Spec, PieNam Name, square Square);
-void LaTeXEchoRemovedPiece(Flags Spec, PieNam Name, square Square);
-void LaTeXEchoMovedPiece(Flags Spec, PieNam Name, square FromSquare, square ToSquare);
-void LaTeXEchoExchangedPiece(Flags Spec1, PieNam Name1, square Square1,
-                             Flags Spec2, PieNam Name2, square Square2);
-void LaTeXEchoSubstitutedPiece(PieNam from, PieNam to);
+void LaTeXEchoAddedPiece(Flags Spec, piece_walk_type Name, square Square);
+void LaTeXEchoRemovedPiece(Flags Spec, piece_walk_type Name, square Square);
+void LaTeXEchoMovedPiece(Flags Spec, piece_walk_type Name, square FromSquare, square ToSquare);
+void LaTeXEchoExchangedPiece(Flags Spec1, piece_walk_type Name1, square Square1,
+                             Flags Spec2, piece_walk_type Name2, square Square2);
+void LaTeXEchoSubstitutedPiece(piece_walk_type from, piece_walk_type to);
 char *ParseLaTeXPieces(char *tok);
 
 void LaTeXBeginTwinning(unsigned int TwinNumber);

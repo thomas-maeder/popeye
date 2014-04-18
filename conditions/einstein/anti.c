@@ -1,12 +1,13 @@
 #include "conditions/einstein/anti.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 #include "conditions/einstein/einstein.h"
-#include "conditions/circe/circe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -31,10 +32,10 @@ static void adjust(void)
                 || move_effect_journal[curr].reason==move_effect_reason_castling_partner_movement))
         {
           square const to = move_effect_journal[curr].u.piece_movement.to;
-          PieNam const substituted = get_walk_of_piece_on_square(to);
-          PieNam const substitute = einstein_decrease_piece(substituted);
+          piece_walk_type const substituted = get_walk_of_piece_on_square(to);
+          piece_walk_type const substitute = einstein_decrease_walk(substituted);
           if (substituted!=substitute)
-            move_effect_journal_do_piece_change(move_effect_reason_einstein_chess,
+            move_effect_journal_do_walk_change(move_effect_reason_einstein_chess,
                                                 to,substitute);
         }
     }
@@ -44,10 +45,9 @@ static void adjust(void)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -56,73 +56,29 @@ static void adjust(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type anti_einstein_moving_adjuster_solve(slice_index si,
-                                                      stip_length_type n)
+void anti_einstein_moving_adjuster_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   adjust();
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
+/* Instrument the solving machinery with AntiEinstein Chess
  */
-stip_length_type anti_einstein_determine_reborn_piece_solve(slice_index si,
-                                                            stip_length_type n)
-{
-  stip_length_type result;
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk = einstein_increase_piece(move_effect_journal[capture].u.piece_removal.walk);
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec = move_effect_journal[capture].u.piece_removal.flags;
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_walk = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_walk;
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_spec = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].reborn_spec;
-
-  result = solve(slices[si].next1,n);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-/* Instrument slices with move tracers
- */
-void stip_insert_anti_einstein_moving_adjusters(slice_index si)
+void anti_einstein_instrument_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   stip_instrument_moves(si,STAntiEinsteinArrivingAdjuster);
-  stip_instrument_moves(si,STAntiEinsteinDetermineRebornPiece);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

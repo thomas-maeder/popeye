@@ -1,10 +1,11 @@
 #include "optimisations/keepmating.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 #include "stipulation/pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 
@@ -35,17 +36,16 @@ static slice_index alloc_keepmating_filter_slice(Side mating)
  */
 static boolean is_a_mating_piece_left(Side mating_side)
 {
-  PieNam p = King+1;
-  while (p<PieceCount && number_of_pieces[mating_side][p]==0)
+  piece_walk_type p = King+1;
+  while (p<nr_piece_walks && number_of_pieces[mating_side][p]==0)
     p++;
 
-  return p<PieceCount;
+  return p<nr_piece_walks;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -54,28 +54,22 @@ static boolean is_a_mating_piece_left(Side mating_side)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type keepmating_filter_solve(slice_index si, stip_length_type n)
+void keepmating_filter_solve(slice_index si)
 {
   Side const mating = slices[si].u.keepmating_guard.mating;
-  stip_length_type result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   TraceEnumerator(Side,mating,"\n");
 
-  if (is_a_mating_piece_left(mating))
-    result = solve(slices[si].next1,n);
-  else
-    result = n+2;
+  pipe_this_move_doesnt_solve_if(si,!is_a_mating_piece_left(mating));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* **************** Stipulation instrumentation ***************

@@ -4,6 +4,7 @@
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 static boolean can_piece_move(numecoup n)
 {
@@ -24,7 +25,7 @@ static boolean can_piece_move(numecoup n)
     else
     {
       square const sq_departure = move_generation_stack[n].departure;
-      PieNam const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
+      piece_walk_type const pi_parent_moving = move_effect_journal[parent_movement].u.piece_movement.moving;
       if (get_walk_of_piece_on_square(sq_departure)==pi_parent_moving)
         result = false;
     }
@@ -38,17 +39,16 @@ static boolean can_piece_move(numecoup n)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void disparate_generate_moves_for_piece(slice_index si, PieNam p)
+void disparate_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   if (can_piece_move(current_generation))
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

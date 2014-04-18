@@ -2,12 +2,9 @@
 #include "pieces/pieces.h"
 #include "pieces/walks/walks.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
-#include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/structure_traversal.h"
+#include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "stipulation/move.h"
-#include "stipulation/temporary_hacks.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
@@ -18,18 +15,18 @@ ConditionNumberedVariantType SingleBoxType;
 static boolean singlebox_officer_out_of_box(void)
 {
   boolean result = false;
-  PieNam orthodox_walk;
+  piece_walk_type orthodox_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   for (orthodox_walk = King; orthodox_walk<=Bishop; ++orthodox_walk)
   {
-    PieNam const standard_walk = standard_walks[orthodox_walk];
+    piece_walk_type const standard_walk = standard_walks[orthodox_walk];
     if (number_of_pieces[White][standard_walk]>game_array.number_of_pieces[White][standard_walk]
         || number_of_pieces[Black][standard_walk]>game_array.number_of_pieces[Black][standard_walk])
     {
-      TracePiece(standard_walk);
+      TraceWalk(standard_walk);
       TraceValue("%u",number_of_pieces[White][standard_walk]);
       TraceValue("%u",game_array.number_of_pieces[White][standard_walk]);
       TraceValue("%u",number_of_pieces[Black][standard_walk]);
@@ -86,10 +83,9 @@ void singlebox_type1_initialise_solving(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -98,25 +94,16 @@ void singlebox_type1_initialise_solving(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type singlebox_type1_legality_tester_solve(slice_index si,
-                                                        stip_length_type n)
+void singlebox_type1_legality_tester_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (singlebox_type1_illegal())
-    result = this_move_is_illegal;
-  else
-    result = solve(next,n);
+  pipe_this_move_illegal_if(si,singlebox_type1_illegal());
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

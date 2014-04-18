@@ -8,7 +8,7 @@
 #include "debugging/assert.h"
 #include <string.h>
 
-ply nbply = nil_ply;
+ply nbply = ply_nil;
 
 ply parent_ply[maxply+1];
 
@@ -21,9 +21,8 @@ static ply ply_stack_pointer;
 /* resset the ply module */
 void ply_reset(void)
 {
-  nbply = nil_ply;
   SET_CURRMOVE(nbply,nil_coup);
-  ply_watermark = nil_ply;
+  ply_watermark = nbply;
 }
 
 /* Start a new ply as the child of the current ply, making the child the new
@@ -45,9 +44,6 @@ void nextply(Side side)
   current_move[nbply] = current_move[ply_watermark];
   current_move_id[nbply] = current_move_id[ply_watermark];
   ++ply_watermark;
-
-  TraceValue("%u",parent);
-  TraceValue("%u\n",nbply);
 
   parent_ply[nbply] = parent;
 

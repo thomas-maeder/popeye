@@ -3,6 +3,7 @@
 #include "solving/observation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 #include "debugging/assert.h"
 
@@ -12,15 +13,15 @@ static boolean is_in_chain[maxsquare];
 static boolean is_mover_supported_recursive(void)
 {
   boolean result;
+  Flags const mask = BIT(trait[nbply])|BIT(Royal);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
-  TraceSquare(king_square[trait[nbply]]);
   TraceEOL();
 
-  if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture==king_square[trait[nbply]])
+  if (TSTFULLFLAGMASK(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture],mask))
     result = true;
   else
     result = is_square_observed(EVALUATE(observation));
@@ -83,17 +84,16 @@ boolean central_validate_observation(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void central_generate_moves_for_piece(slice_index si, PieNam p)
+void central_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   if (is_mover_supported(current_generation))
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

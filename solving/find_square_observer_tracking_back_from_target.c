@@ -39,16 +39,16 @@
 
 #include "debugging/assert.h"
 
-PieNam observing_walk[maxply+1];
+piece_walk_type observing_walk[maxply+1];
 
-PieNam checkpieces[PieceCount-Leo+1]; /* only fairies ! */
+piece_walk_type checkpieces[nr_piece_walks-Leo+1]; /* only fairies ! */
 
 static boolean never_check(validator_id evaluate)
 {
   return false;
 }
 
-checkfunction_t *checkfunctions[PieceCount] =
+checkfunction_t *checkfunctions[nr_piece_walks] =
 {
 /*  0 */        0, /* not used */
 /*  1 */        0, /* not used */
@@ -225,7 +225,7 @@ boolean track_back_from_target_according_to_observer_walk(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TracePiece(observing_walk[nbply]);TraceEOL();
+  TraceWalk(observing_walk[nbply]);TraceEOL();
   result = (*checkfunctions[observing_walk[nbply]])(evaluate);
 
   TraceFunctionExit(__func__);
@@ -234,7 +234,7 @@ boolean track_back_from_target_according_to_observer_walk(slice_index si,
   return result;
 }
 
-static PieNam const ortho_walks[] = { King, Pawn, Knight, Rook, Bishop, Queen };
+static piece_walk_type const ortho_walks[] = { King, Pawn, Knight, Rook, Bishop, Queen };
 enum { nr_ortho_walks = sizeof ortho_walks / sizeof ortho_walks[0] };
 
 boolean determine_observer_walk(slice_index si, validator_id evaluate)
@@ -251,7 +251,7 @@ boolean determine_observer_walk(slice_index si, validator_id evaluate)
   }
 
   {
-    PieNam const *pcheck;
+    piece_walk_type const *pcheck;
 
     for (pcheck = checkpieces; *pcheck; ++pcheck)
     {

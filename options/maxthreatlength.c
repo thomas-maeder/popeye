@@ -1,13 +1,15 @@
 #include "options/maxthreatlength.h"
 #include "stipulation/proxy.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/dummy_move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/check.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -84,10 +86,9 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -96,48 +97,23 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type maxthreatlength_guard_solve(slice_index si,
-                                              stip_length_type n)
+void maxthreatlength_guard_solve(slice_index si)
 {
-  slice_index const next = slices[si].next1;
-  unsigned int result;
+  stip_length_type const n_max = slack_length+2*max_len_threat;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  /* determining whether the solve move has delivered check is
-     expensive, so let's try to avoid it */
-  if (max_len_threat==0)
-  {
-    if (is_in_check(slices[si].starter))
-      result = solve(next,n);
-    else
-      result = n+2;
-  }
-  else
-  {
-    stip_length_type const n_max = 2*(max_len_threat-1)+slack_length+2;
-    if (n>=n_max)
-    {
-      if (is_in_check(slices[si].starter))
-        result = solve(next,n);
-      else if (n_max<solve(slices[si].next2,n_max))
-        result = n+2;
-      else
-        result = solve(next,n);
-    }
-    else
-      /* remainder of play is too short for max_len_threat to apply */
-      result = solve(next,n);
-  }
+  pipe_this_move_doesnt_solve_if(si,
+                                 solve_nr_remaining>=n_max
+                                 && !is_in_check(slices[si].starter)
+                                 && n_max<fork_solve(si,n_max));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 
@@ -162,7 +138,7 @@ static void insert_maxthreatlength_guard(slice_index si,
                                                        si,
                                                        st->context);
     slice_index const proxy = alloc_proxy_slice();
-    slice_index const dummy = alloc_dummy_move_slice();
+    slice_index const dummy = alloc_pipe(STDummyMove);
     slice_index const played = alloc_defense_played_slice();
     slice_index const prototype = alloc_maxthreatlength_guard(proxy);
     assert(threat_start!=no_slice);

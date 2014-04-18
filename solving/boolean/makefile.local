@@ -1,0 +1,6 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = or.c and.c not.c
+INCLUDES = or.h and.h not.h
+
+include makefile.rules $(CURRPWD)depend

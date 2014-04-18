@@ -3,27 +3,15 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-#define ENUMERATION_TYPENAME Side
-#define ENUMERATORS \
-  ENUMERATOR(White), \
-    ENUMERATOR(Black), \
-                       \
-    ENUMERATOR(nr_sides), \
-    ASSIGNED_ENUMERATOR(no_side = nr_sides)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "utilities/enumeration.h"
-
 echiquier e;
 Flags spec[maxsquare+4];
 square king_square[nr_sides];
 boolean areColorsSwapped;
 boolean isBoardReflected;
-unsigned int number_of_pieces[nr_sides][PieceCount];
+unsigned int number_of_pieces[nr_sides][nr_piece_walks];
 
 /* This is the InitialGameArray */
-PieNam const PAS[nr_squares_on_board] = {
+piece_walk_type const PAS[nr_squares_on_board] = {
   Rook, Knight, Bishop, Queen, King,  Bishop,  Knight,  Rook,
   Pawn, Pawn,   Pawn,   Pawn,  Pawn,  Pawn,    Pawn,    Pawn,
   Empty, Empty, Empty,  Empty, Empty, Empty,   Empty,   Empty,
@@ -48,13 +36,13 @@ Side const PAS_sides[nr_squares_on_board] = {
 void initialise_game_array(position *pos)
 {
   unsigned int i;
-  PieNam p;
+  piece_walk_type p;
   square const *bnp;
 
   pos->king_square[White] = square_e1;
   pos->king_square[Black] = square_e8;
 
-  for (p = 0; p<PieceCount; ++p)
+  for (p = 0; p<nr_piece_walks; ++p)
   {
     pos->number_of_pieces[White][p] = 0;
     pos->number_of_pieces[Black][p] = 0;
@@ -76,7 +64,7 @@ void initialise_game_array(position *pos)
 
   for (i = 0; i<nr_squares_on_board; ++i)
   {
-    PieNam const p = PAS[i];
+    piece_walk_type const p = PAS[i];
     square const square_i = boardnum[i];
     if (p==Empty || p==Invalid)
       pos->board[square_i] = p;
@@ -122,7 +110,7 @@ void reflect_position(void)
   {
     square const sq_reflected = transformSquare(*bnp,mirra1a8);
 
-    PieNam const p = e[sq_reflected];
+    piece_walk_type const p = e[sq_reflected];
     Flags const sp = spec[sq_reflected];
 
     e[sq_reflected] = e[*bnp];
@@ -149,19 +137,19 @@ void empty_square(square s)
   spec[s] = EmptySpec;
 }
 
-void occupy_square(square s, PieNam piece, Flags flags)
+void occupy_square(square s, piece_walk_type walk, Flags flags)
 {
-  assert(piece!=Empty);
-  assert(piece!=Invalid);
-  e[s] = piece;
+  assert(walk!=Empty);
+  assert(walk!=Invalid);
+  e[s] = walk;
   spec[s] = flags;
 }
 
-void replace_piece(square s, PieNam piece)
+void replace_walk(square s, piece_walk_type walk)
 {
-  assert(piece!=Empty);
-  assert(piece!=Invalid);
-  e[s] = piece;
+  assert(walk!=Empty);
+  assert(walk!=Invalid);
+  e[s] = walk;
 }
 
 void block_square(square s)

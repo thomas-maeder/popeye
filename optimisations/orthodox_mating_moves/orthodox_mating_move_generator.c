@@ -7,12 +7,13 @@
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
-#include "solving/move_diff_code.h"
 #include "optimisations/orthodox_check_directions.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/move_diff_code.h"
 #include "conditions/conditions.h"
 
 #include "debugging/assert.h"
@@ -39,15 +40,15 @@ slice_index alloc_orthodox_mating_move_generator_slice(void)
 static boolean IsABattery(square KingSquare,
                           numvec Direction,
                           Side side,
-                          PieNam RearPiece1,
-                          PieNam RearPiece2)
+                          piece_walk_type RearPiece1,
+                          piece_walk_type RearPiece2)
 {
   square const FrontSquare = curr_generation->departure;
   square const sq_target = find_end_of_line(FrontSquare,Direction);
   if (sq_target==KingSquare)
   {
     square const sq_rear = find_end_of_line(FrontSquare,-Direction);
-    PieNam const pi_rear = get_walk_of_piece_on_square(sq_rear);
+    piece_walk_type const pi_rear = get_walk_of_piece_on_square(sq_rear);
     if ((pi_rear==RearPiece1 || pi_rear==RearPiece2)
         && TSTFLAG(spec[sq_rear],side))
       return true;
@@ -56,7 +57,7 @@ static boolean IsABattery(square KingSquare,
   return false;
 }
 
-static numvec detect_directed_battery(square sq_king, Side side, PieNam rider)
+static numvec detect_directed_battery(square sq_king, Side side, piece_walk_type rider)
 {
   numvec const dir_battery = CheckDir[rider][sq_king-curr_generation->departure];
   numvec result;
@@ -64,7 +65,7 @@ static numvec detect_directed_battery(square sq_king, Side side, PieNam rider)
   TraceFunctionEntry(__func__);
   TraceSquare(sq_king);
   TraceEnumerator(Side,side,"");
-  TracePiece(rider);
+  TraceWalk(rider);
   TraceFunctionParamListEnd();
 
   if (dir_battery!=0
@@ -217,11 +218,13 @@ static void king_nonneutral(square sq_king, Side side)
 
 static void king(square sq_king, Side side)
 {
+  Flags const mask = BIT(White)|BIT(Black)|BIT(Royal);
+
   TraceFunctionEntry(__func__);
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 
-  if (king_square[White]==king_square[Black])
+  if (TSTFULLFLAGMASK(spec[sq_king],mask))
     king_neutral(side);
   else
     king_nonneutral(sq_king,side);
@@ -354,7 +357,7 @@ static void simple_rider_indirectly_approach_king(square sq_king,
                                                   Side side,
                                                   vec_index_type index_start,
                                                   vec_index_type index_end,
-                                                  PieNam rider_walk)
+                                                  piece_walk_type rider_walk)
 {
   square const sq_departure = curr_generation->departure;
   move_diff_type const OriginalDistance = move_diff_code[abs(sq_departure-sq_king)];
@@ -439,12 +442,15 @@ static void generate_move_reaching_goal()
       curr_generation->departure = square_a;
       for (j = nr_files_on_board; j>0; j--, curr_generation->departure += dir_right)
       {
-        PieNam const p = get_walk_of_piece_on_square(curr_generation->departure);
+        piece_walk_type const p = get_walk_of_piece_on_square(curr_generation->departure);
         if (p!=Empty && TSTFLAG(spec[curr_generation->departure],side_at_move))
         {
           if (CondFlag[gridchess]
               && !GridLegal(curr_generation->departure,OpponentsKing))
-            generate_moves_for_piece_based_on_walk(p);
+          {
+            move_generation_current_walk = p;
+            generate_moves_for_piece_based_on_walk();
+          }
           else
             switch (p)
             {
@@ -484,10 +490,9 @@ static void generate_move_reaching_goal()
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -496,26 +501,22 @@ static void generate_move_reaching_goal()
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type orthodox_mating_move_generator_solve(slice_index si,
-                                                      stip_length_type n)
+void orthodox_mating_move_generator_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n==slack_length+1);
+  assert(solve_nr_remaining==slack_length+1);
 
   nextply(slices[si].starter);
   generate_move_reaching_goal();
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
+
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

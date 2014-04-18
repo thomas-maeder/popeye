@@ -1,4 +1,5 @@
 #include "solving/check.h"
+#include "position/position.h"
 #include "conditions/circe/assassin.h"
 #include "conditions/extinction.h"
 #include "conditions/sat.h"
@@ -8,33 +9,26 @@
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
+#include "solving/machinery/twin.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
-
 #include "debugging/assert.h"
 
-static boolean is_no_king_possible = false;
-static boolean is_check_possible_if_no_king = false;
-
-/* Tell the check detection machinery to forget everythign about no kings */
-void check_reset_no_king_knowledge(void)
-{
-  is_no_king_possible = false;
-  is_check_possible_if_no_king = false;
-}
+static twin_number_type is_no_king_possible;
+static twin_number_type is_check_possible_if_no_king;
 
 /* Tell the check detection machinery that a side may have no king */
 void check_no_king_is_possible(void)
 {
-  is_no_king_possible = true;
+  is_no_king_possible = twin_number;
 }
 
 /* Tell the check detection machinery that a side may be in check even if it
  * doesn't have a king*/
 void check_even_if_no_king(void)
 {
-  is_check_possible_if_no_king = true;
+  is_check_possible_if_no_king = twin_number;
 }
 
 /* Optimise the check machinery if possible
@@ -47,9 +41,10 @@ void optimise_is_in_check(slice_index si)
   TraceFunctionParamListEnd();
 
   if (king_square[White]==initsquare || king_square[Black]==initsquare)
-    is_no_king_possible = true;
+    is_no_king_possible = twin_number;
 
-  if (is_no_king_possible && !is_check_possible_if_no_king)
+  if (is_no_king_possible==twin_number
+      && is_check_possible_if_no_king!=twin_number)
     solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);
@@ -59,8 +54,7 @@ void optimise_is_in_check(slice_index si)
 static boolean no_king_check_tester_is_in_check(slice_index si,
                                                 Side side_in_check)
 {
-  if (king_square[side_in_check]==initsquare
-      || king_square[side_in_check]==nullsquare)
+  if (king_square[side_in_check]==initsquare)
     return false;
   else
     return is_in_check_recursive(slices[si].next1,side_in_check);

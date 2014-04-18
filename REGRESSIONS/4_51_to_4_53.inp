@@ -212,9 +212,8 @@ next
 
 pieces white ka1
        black kh1
-option LastCapture white bh1
 stip ~1
-condition parrain
+condition parrain LastCapture white bh1
 
 next
 

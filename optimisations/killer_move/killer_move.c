@@ -336,6 +336,15 @@ static void optimise_move_generators(slice_index si)
                                     nr_killer_move_collector_inserters);
   stip_traverse_structure(si,&st);
 
+  {
+    ply i;
+    for (i= maxply; i > 0; i--)
+    {
+      killer_moves[i].departure = initsquare;
+      killer_moves[i].arrival = initsquare;
+    }
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

@@ -6,40 +6,22 @@
 **
 **************************** End of List ******************************/
 
-#if !defined(PYINT_H)
-#define PYINT_H
+#if !defined(OPTIMISATIONS_INTELLIGENT_INTELLIGENT_H)
+#define OPTIMISATIONS_INTELLIGENT_INTELLIGENT_H
 
 #include "pieces/pieces.h"
 #include "position/position.h"
 #include "position/pieceid.h"
 #include "stipulation/goals/goals.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/ply.h"
-
-#define piece_usageENUMERATORS \
-    ENUMERATOR(piece_is_unused), \
-    ENUMERATOR(piece_pins), \
-    ENUMERATOR(piece_is_fixed_to_diagram_square), \
-    ENUMERATOR(piece_intercepts), \
-    ENUMERATOR(piece_intercepts_check_from_guard), \
-    ENUMERATOR(piece_blocks), \
-    ENUMERATOR(piece_guards), \
-    ENUMERATOR(piece_gives_check), \
-    ENUMERATOR(piece_is_missing), \
-    ENUMERATOR(piece_is_captured), \
-    ENUMERATOR(piece_is_king)
-
-#define ENUMERATORS piece_usageENUMERATORS
-#define ENUMERATION_TYPENAME piece_usage
-#define ENUMERATION_DECLARE
-#include "utilities/enumeration.h"
-#undef piece_usageENUMERATORS
+#include "optimisations/intelligent/piece_usage.h"
 
 typedef struct
 {
     square diagram_square;
     Flags flags;
-    PieNam type;
+    piece_walk_type type;
     piece_usage usage;
 } PIECE;
 
@@ -67,7 +49,7 @@ extern unsigned int MovesRequired[nr_sides][maxply+1];
 
 extern unsigned int PieceId2index[MaxPieceId+1];
 
-void IntelligentRegulargoal_types(stip_length_type n);
+void IntelligentRegulargoal_types(void);
 
 void solve_target_position(void);
 

@@ -1,5 +1,6 @@
 #include "pieces/walks/bouncy.h"
 #include "solving/move_generator.h"
+#include "position/position.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"

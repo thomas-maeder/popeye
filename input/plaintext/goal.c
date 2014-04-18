@@ -1,6 +1,7 @@
 #include "input/plaintext/goal.h"
 #include "input/plaintext/pieces.h"
 #include "output/output.h"
+#include "output/plaintext/message.h"
 #include "conditions/imitator.h"
 #include "stipulation/pipe.h"
 #include "stipulation/goals/target/reached_tester.h"
@@ -28,7 +29,6 @@
 #include "stipulation/goals/kiss/reached_tester.h"
 #include "position/pieceid.h"
 #include "debugging/trace.h"
-#include "pymsg.h"
 #include "solving/proofgames.h"
 
 #include "debugging/assert.h"

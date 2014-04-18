@@ -1,6 +1,6 @@
 #include "utilities/table.h"
 #include "conditions/conditions.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 #include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 

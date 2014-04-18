@@ -2,6 +2,6 @@
 #
 SRC_CFILES = mode.c output.c
 
-INCLUDES = mode.h output.h
+INCLUDES = mode.h mode.enum mode.enum.h output.h
 
 include makefile.rules $(CURRPWD)depend

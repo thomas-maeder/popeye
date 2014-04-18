@@ -9,7 +9,7 @@
 #include "utilities/boolean.h"
 #include "solving/observation.h"
 
-extern PieNam orphanpieces[PieceCount];
+extern piece_walk_type orphanpieces[nr_piece_walks];
 
 /* Generate moves for an Orphan
  */

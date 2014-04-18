@@ -1,10 +1,11 @@
-#include "optimisations/intelligent/mate/filter.h"
+ #include "optimisations/intelligent/mate/filter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/branch.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/duplicate_avoider.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -62,19 +63,18 @@ void impose_starter_intelligent_mate_filter(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static boolean Intelligent(slice_index si, stip_length_type n)
+static boolean Intelligent(slice_index si)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   solutions_found = false;
   current_start_slice = si;
   intelligent_duplicate_avoider_init();
-  IntelligentRegulargoal_types(n);
+  IntelligentRegulargoal_types();
   intelligent_duplicate_avoider_cleanup();
   current_start_slice = no_slice;
   result = solutions_found;
@@ -85,10 +85,9 @@ static boolean Intelligent(slice_index si, stip_length_type n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -97,21 +96,16 @@ static boolean Intelligent(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type intelligent_mate_filter_solve(slice_index si,
-                                                stip_length_type n)
+void intelligent_mate_filter_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = Intelligent(si,n) ? n : n+2;
+  pipe_this_move_solves_exactly_if(Intelligent(si));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -59,6 +59,7 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
 solution finished. 
 
 
+if we did not remove the Be3, it would be transferred to the underworld!
 
             Vlaicu CRISAN
 Sake, Portoroz 2002, 3eme Recommand\'e
@@ -94,7 +95,7 @@ a)
                      play_move:      390884
  is_white_king_square_attacked:      173569
  is_black_king_square_attacked:      362317
-b) wRe3 
+b)  -wBe3  +wRe3 
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 =
 
@@ -247,6 +248,47 @@ solution finished.
                      play_move:      146511
  is_white_king_square_attacked:       58585
  is_black_king_square_attacked:       99628
+solution finished. 
+
+
+b1 already occupied - old piece goes to the underworld.
+
+      pre-filling the underworld
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   S   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 0
+             Uncapturable
+             HauntedChess
+
+   1.Sb1-d2[+buRb1] !
+
+   1.Sb1-c3[+buRb1] !
+
+   1.Sb1-a3[+buRb1] !
+
+
+  add_to_move_generation_stack:           3
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 solution finished. 
 
 

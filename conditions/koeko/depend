@@ -1,17 +1,22 @@
 conditions/koeko/koeko$(OBJ_SUFFIX): conditions/koeko/koeko.c \
- conditions/koeko/koeko.h solving/solve.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ conditions/koeko/koeko.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/observation.h stipulation/temporary_hacks.h \
- stipulation/has_solution_type.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ position/pieceid.h solving/observation.h solving/temporary_hacks.h \
+ solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ debugging/trace.h
 
 conditions/koeko/koeko.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -25,15 +30,25 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 solving/move_effect_journal.h:
 
@@ -45,9 +60,9 @@ position/pieceid.h:
 
 solving/observation.h:
 
-stipulation/temporary_hacks.h:
+solving/temporary_hacks.h:
 
-stipulation/has_solution_type.h:
+solving/pipe.h:
 
 stipulation/move.h:
 
@@ -55,26 +70,41 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
 debugging/trace.h:
 conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
- conditions/koeko/contact_grid.h solving/solve.h \
+ conditions/koeko/contact_grid.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h conditions/circe/circe.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ conditions/circe/circe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h conditions/grid.h solving/observation.h \
- stipulation/temporary_hacks.h stipulation/has_solution_type.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ position/pieceid.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h conditions/grid.h solving/observation.h \
+ solving/temporary_hacks.h solving/pipe.h stipulation/pipe.h \
  stipulation/move.h debugging/trace.h debugging/assert.h
 
 conditions/koeko/contact_grid.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -88,17 +118,41 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
 
+output/mode.enum.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
 conditions/circe/circe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
 
 solving/move_effect_journal.h:
 
@@ -108,27 +162,29 @@ solving/ply.h:
 
 position/pieceid.h:
 
+solving/machinery/twin.h:
+
+conditions/circe/rebirth_square_occupied.h:
+
+conditions/circe/reborn_piece.h:
+
+conditions/circe/rebirth_square.h:
+
+conditions/circe/relevant_capture.h:
+
+conditions/circe/relevant_piece.h:
+
+conditions/circe/relevant_side.h:
+
 conditions/grid.h:
 
 solving/observation.h:
 
-stipulation/temporary_hacks.h:
+solving/temporary_hacks.h:
 
-stipulation/has_solution_type.h:
+solving/pipe.h:
 
 stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/traversal.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
-
-stipulation/help_play/branch.h:
 
 stipulation/move.h:
 
@@ -136,20 +192,25 @@ debugging/trace.h:
 
 debugging/assert.h:
 conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/anti.h \
- solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h utilities/boolean.h \
- stipulation/slice_type.h utilities/enumeration.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/koeko/koeko.h solving/observation.h solving/ply.h \
- stipulation/temporary_hacks.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- stipulation/has_solution_type.h stipulation/move.h \
+ solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/koeko/koeko.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/pipe.h stipulation/move.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ debugging/trace.h
 
 conditions/koeko/anti.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -163,23 +224,27 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 conditions/koeko/koeko.h:
 
 solving/observation.h:
 
+pieces/walks/vectors.h:
+
 solving/ply.h:
 
-stipulation/temporary_hacks.h:
+solving/temporary_hacks.h:
 
 solving/move_effect_journal.h:
 
@@ -187,7 +252,11 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
-stipulation/has_solution_type.h:
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/pipe.h:
 
 stipulation/move.h:
 
@@ -195,24 +264,36 @@ stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
 debugging/trace.h:
 conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h \
- solving/solve.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h utilities/boolean.h \
- stipulation/slice_type.h utilities/enumeration.h position/position.h \
- pieces/pieces.h pieces/walks/vectors.h output/mode.h \
- conditions/koeko/koeko.h solving/observation.h solving/ply.h \
- stipulation/temporary_hacks.h solving/move_effect_journal.h \
+ solving/machinery/solve.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/koeko/koeko.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/move_generator.h \
- stipulation/has_solution_type.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h debugging/trace.h
+ solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ debugging/trace.h
 
 conditions/koeko/new.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -226,23 +307,27 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 conditions/koeko/koeko.h:
 
 solving/observation.h:
 
+pieces/walks/vectors.h:
+
 solving/ply.h:
 
-stipulation/temporary_hacks.h:
+solving/temporary_hacks.h:
 
 solving/move_effect_journal.h:
 
@@ -252,13 +337,21 @@ position/pieceid.h:
 
 solving/move_generator.h:
 
-stipulation/has_solution_type.h:
+solving/pipe.h:
 
 stipulation/move.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 

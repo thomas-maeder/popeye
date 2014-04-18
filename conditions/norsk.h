@@ -1,14 +1,13 @@
 #if !defined(CONDITIONS_NORSK_H)
 #define CONDITIONS_NORSK_H
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* This module implements the condition Norsk Chess */
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -17,14 +16,13 @@
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type norsk_arriving_adjuster_solve(slice_index si,
-                                               stip_length_type n);
+void norsk_arriving_adjuster_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -33,9 +31,9 @@ stip_length_type norsk_arriving_adjuster_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type norsk_remove_illegal_captures_solve(slice_index si,
-                                                     stip_length_type n);
+void norsk_remove_illegal_captures_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */

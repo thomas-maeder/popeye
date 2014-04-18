@@ -31,9 +31,8 @@ typedef enum
 Token ReadTwin(Token tk, slice_index root_slice_hook);
 
 /* Iterate over the twins of a problem
- * @prev_token token that ended the previous twin
- * @return token that ended the current twin
+ * @return token that ended the last twin
  */
-Token iterate_twins(Token prev_token);
+Token iterate_twins(void);
 
 #endif

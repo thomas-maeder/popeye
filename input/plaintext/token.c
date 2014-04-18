@@ -1,8 +1,8 @@
 #include "input/plaintext/token.h"
 #include "input/plaintext/input_stack.h"
 #include "output/output.h"
+#include "output/plaintext/message.h"
 #include "utilities/boolean.h"
-#include "pymsg.h"
 
 #include <ctype.h>
 #include <stdio.h>

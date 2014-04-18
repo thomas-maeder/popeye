@@ -6,7 +6,8 @@ SRC_CFILES = intelligent.c moves_left.c proof.c duplicate_avoider.c limit_nr_sol
          intercept_check_by_black.c intercept_guard_by_white.c \
          intercept_black_move.c \
          pin_black_piece.c \
-         count_nr_of_moves.c
+         count_nr_of_moves.c \
+         piece_usage.c
 
 INCLUDES = intelligent.h moves_left.h proof.h duplicate_avoider.h limit_nr_solutions_per_target.h \
            place_white_piece.h place_white_king.h place_black_piece.h \
@@ -14,6 +15,7 @@ INCLUDES = intelligent.h moves_left.h proof.h duplicate_avoider.h limit_nr_solut
            intercept_check_by_black.h intercept_guard_by_white.h \
            intercept_black_move.h \
            pin_black_piece.h \
-           count_nr_of_moves.h
+           count_nr_of_moves.h \
+           piece_usage.enum piece_usage.enum.h piece_usage.h
 
 include makefile.rules $(CURRPWD)depend

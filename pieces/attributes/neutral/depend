@@ -1,18 +1,24 @@
 pieces/attributes/neutral/half$(OBJ_SUFFIX): pieces/attributes/neutral/half.c \
- pieces/attributes/neutral/half.h solving/solve.h \
+ pieces/attributes/neutral/half.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
- utilities/enumeration.h position/position.h pieces/pieces.h \
- pieces/walks/vectors.h output/mode.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- pieces/attributes/neutral/neutral.h stipulation/pipe.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h pieces/attributes/neutral/neutral.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h stipulation/branch.h stipulation/move.h \
- debugging/trace.h debugging/assert.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/branch.h stipulation/move.h solving/pipe.h debugging/trace.h \
+ debugging/assert.h
 
 pieces/attributes/neutral/half.h:
 
-solving/solve.h:
+solving/machinery/solve.h:
 
 stipulation/stipulation.h:
 
@@ -26,15 +32,17 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 solving/move_effect_journal.h:
 
@@ -46,17 +54,35 @@ position/pieceid.h:
 
 pieces/attributes/neutral/neutral.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/branch.h:
 
 stipulation/move.h:
+
+solving/pipe.h:
 
 debugging/trace.h:
 

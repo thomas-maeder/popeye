@@ -5,7 +5,7 @@
 
 #include "stipulation/stipulation.h"
 #include "solving/observation.h"
-#include "position/position.h"
+#include "position/side.h"
 #include "utilities/boolean.h"
 
 /* Don't look for observations using walks for which there are no pieces

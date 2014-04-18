@@ -22,10 +22,10 @@
 #include "output/plaintext/tree/refuting_variation_writer.h"
 #include "output/plaintext/tree/refutation_writer.h"
 #include "output/plaintext/tree/exclusive.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
-#include "pymsg.h"
 
 #include "debugging/assert.h"
 
@@ -623,7 +623,7 @@ static unsigned int measure_move_depth(ply curr_ply)
 {
   ply const parent = parent_ply[curr_ply];
 
-  if (parent==nil_ply)
+  if (parent==ply_retro_move)
     return output_plaintext_nr_move_inversions;
   else
     return measure_move_depth(parent)+1;

@@ -1,12 +1,13 @@
 #include "optimisations/orthodox_square_observation.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "position/position.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
 static boolean leapers_check_ortho(Side side_checking,
                                    square sq_king,
                                    vec_index_type kanf, vec_index_type kend,
-                                   PieNam p)
+                                   piece_walk_type p)
 {
   vec_index_type k;
   for (k = kanf; k<=kend; k++)
@@ -134,7 +135,7 @@ boolean is_square_observed_ortho(Side side_checking,
     for (k= vec_rook_end; k>=vec_rook_start; k--)
     {
       square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      PieNam const p = get_walk_of_piece_on_square(sq_departure);
+      piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
       if ((p==Rook || p==Queen) && TSTFLAG(spec[sq_departure],side_checking))
         return true;
     }
@@ -147,7 +148,7 @@ boolean is_square_observed_ortho(Side side_checking,
     for (k= vec_bishop_start; k<=vec_bishop_end; k++)
     {
       square const sq_departure = find_end_of_line(sq_target,vec[k]);
-      PieNam const p = get_walk_of_piece_on_square(sq_departure);
+      piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
       if ((p==Bishop || p==Queen) && TSTFLAG(spec[sq_departure],side_checking))
         return true;
     }

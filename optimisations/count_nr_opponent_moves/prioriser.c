@@ -1,11 +1,12 @@
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
+#include "solving/fork.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 #include <stdlib.h>
 
@@ -35,10 +36,9 @@ static int compare_nr_opponent_moves(void const *a, void const *b)
           -opponent_moves_few_moves_prioriser_table[elmt_a->id]);
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -47,18 +47,16 @@ static int compare_nr_opponent_moves(void const *a, void const *b)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
-                                                          stip_length_type n)
+void opponent_moves_few_moves_prioriser_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup const base = MOVEBASE_OF_PLY(nbply)+1;
   numecoup const top = CURRMOVE_OF_PLY(nbply)+1;
   unsigned int const nr_moves = top-base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   /* Until 4.63, moves with the same number of opponent moves were tried in
@@ -69,8 +67,7 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
 
   copyply();
 
-  solve(slices[temporary_hack_opponent_moves_counter[trait[nbply]]].next2,
-        length_unspecified);
+  fork_solve(temporary_hack_opponent_moves_counter[trait[nbply]],length_unspecified);
 
   finply();
 
@@ -79,10 +76,8 @@ stip_length_type opponent_moves_few_moves_prioriser_solve(slice_index si,
         sizeof move_generation_stack[0],
         &compare_nr_opponent_moves);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -18,7 +18,8 @@ pieces white Kc8 Rb5 Bf7e3
        black Kd5 Qf1 Se6c5 Pc6
 stipulation h=2
 condition hauntedchess
-twin add white re3
+remark if we did not remove the Be3, it would be transferred to the underworld!
+twin remove e3 add white re3
  
 nextproblem
  
@@ -49,4 +50,13 @@ stipulation #3
 condition hauntedchess
 option vari
 
+nextproblem
+
+title pre-filling the underworld
+pieces black uncapturable rb1 white sb1
+stip ~1
+option nowk nobk
+cond hauntedchess
+
 endproblem
+

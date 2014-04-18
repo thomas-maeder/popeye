@@ -6,7 +6,7 @@
 
 int GetPieNamIndex(char a, char b);
 
-char *ParseSinglePiece(char *tok, PieNam *result);
+char *ParseSingleWalk(char *tok, piece_walk_type *result);
 
 square SquareNum(char a, char b);
 
@@ -18,8 +18,8 @@ typedef enum
 
 char *ParsePieces(piece_addition_type type);
 
-Flags ParseColor(char *tok, boolean color_is_mandatory);
+Flags ParseColour(char *tok, boolean colour_is_mandatory);
 char *ParsePieceFlags(Flags *flags);
-char *ParsePieceName(char *tok, PieNam *name);
+char *ParsePieceName(char *tok, piece_walk_type *name);
 
 #endif

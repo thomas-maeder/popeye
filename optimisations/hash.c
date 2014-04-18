@@ -84,7 +84,7 @@
 
 #include <memory.h>
 #include "optimisations/hash.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 #include "solving/proofgames.h"
 #include "DHT/dhtvalue.h"
 #include "DHT/dht.h"
@@ -98,7 +98,7 @@
 #include "options/nontrivial.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/castling.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -106,6 +106,7 @@
 #include "stipulation/pipe.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "options/options.h"
@@ -121,7 +122,7 @@ typedef unsigned int hash_value_type;
 
 static struct dht *pyhash;
 
-static char    piece_nbr[PieceCount];
+static char    piece_nbr[nr_piece_walks];
 static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
@@ -1279,7 +1280,7 @@ byte *CommonEncode(byte *bp,
     {
       /* a piece has been captured and can be reborn */
       square const from = move_effect_journal[capture].u.piece_removal.on;
-      PieNam const removed = move_effect_journal[capture].u.piece_removal.walk;
+      piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
       Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
 
       *bp++ = (byte)(from-square_a1);
@@ -1339,7 +1340,7 @@ byte *CommonEncode(byte *bp,
 
 static byte *LargeEncodePiece(byte *bp, byte *position,
                               int row, int col,
-                              PieNam pienam, Flags pspec)
+                              piece_walk_type pienam, Flags pspec)
 {
   if (one_byte_hash)
     *bp++ = (byte)pspec + ((byte)piece_nbr[pienam] << (CHAR_BIT/2));
@@ -1377,7 +1378,7 @@ static void LargeEncode(stip_length_type min_length,
     square curr_square = a_square;
     for (col=0; col<nr_files_on_board; col++, curr_square+= dir_right)
     {
-      PieNam const p = get_walk_of_piece_on_square(curr_square);
+      piece_walk_type const p = get_walk_of_piece_on_square(curr_square);
       if (p!=Empty)
         bp = LargeEncodePiece(bp,position,row,col,p,spec[curr_square]);
     }
@@ -1407,7 +1408,7 @@ static void LargeEncode(stip_length_type min_length,
 
 byte *SmallEncodePiece(byte *bp,
                        int row, int col,
-                       PieNam pienam, Flags pspec)
+                       piece_walk_type pienam, Flags pspec)
 {
   *bp++= (byte)((row<<(CHAR_BIT/2))+col);
   if (one_byte_hash)
@@ -1441,7 +1442,7 @@ static void SmallEncode(stip_length_type min_length,
     square curr_square= a_square;
     for (col=0; col<nr_files_on_board; col++, curr_square += dir_right)
     {
-      PieNam const p = get_walk_of_piece_on_square(curr_square);
+      piece_walk_type const p = get_walk_of_piece_on_square(curr_square);
       if (p!=Empty)
         bp = SmallEncodePiece(bp,row,col,p,spec[curr_square]);
     }
@@ -1656,9 +1657,9 @@ static void inithash(slice_index si)
   j = 0;
 
   {
-    PieNam i;
-    for (i = PieceCount; i>Empty; --i)
-      if (may_exist[i])
+    piece_walk_type i;
+    for (i = nr_piece_walks; i>Empty; --i)
+      if (piece_walk_may_exist[i])
         piece_nbr[i] = j++;
   }
 
@@ -1986,10 +1987,9 @@ void stip_insert_hash_slices(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -1998,24 +1998,20 @@ void stip_insert_hash_slices(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type attack_hashed_solve(slice_index si, stip_length_type n)
+void attack_hashed_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert((slices[si].u.branch.length-n)%2==0);
+  assert((slices[si].u.branch.length-solve_nr_remaining)%2==0);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Remember that the current position does not have a solution in a
@@ -2033,7 +2029,6 @@ static void addtohash_battle_nosuccess(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
@@ -2074,7 +2069,6 @@ static void addtohash_battle_success(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
@@ -2103,25 +2097,24 @@ static void addtohash_battle_success(slice_index si,
 
 static
 stip_length_type delegate_can_attack_in_n(slice_index si,
-                                          stip_length_type n,
                                           stip_length_type min_length_adjusted)
 {
   stip_length_type result;
   slice_index const base = slices[si].u.derived_pipe.base;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParam("%u",min_length_adjusted);
   TraceFunctionParamListEnd();
 
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
-  if (result<=n)
+  result = solve_result;
+
+  if (result<=MOVE_HAS_SOLVED_LENGTH())
     addtohash_battle_success(base,result,min_length_adjusted);
   else
-    addtohash_battle_nosuccess(base,n,min_length_adjusted);
+    addtohash_battle_nosuccess(base,solve_nr_remaining,min_length_adjusted);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -2129,10 +2122,9 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -2141,14 +2133,14 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type attack_hashed_tester_solve(slice_index si, stip_length_type n)
+void attack_hashed_tester_solve(slice_index si)
 {
-  stip_length_type result;
   dhtElement const *he;
   slice_index const base = slices[si].u.derived_pipe.base;
   stip_length_type const min_length = slices[base].u.branch.min_length;
-  stip_length_type const played = slices[base].u.branch.length-n;
+  stip_length_type const played = slices[base].u.branch.length-solve_nr_remaining;
   stip_length_type const min_length_adjusted = (min_length<played+slack_length-1
                                                 ? slack_length-(min_length-slack_length)%2
                                                 : min_length-played);
@@ -2157,33 +2149,32 @@ stip_length_type attack_hashed_tester_solve(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert((n-slices[base].u.branch.length)%2==0);
+  assert((solve_nr_remaining-slices[base].u.branch.length)%2==0);
 
   (*encode)(min_length,validity_value);
 
   he = dhtLookupElement(pyhash,&hashBuffers[nbply]);
   if (he==dhtNilElement)
-    result = delegate_can_attack_in_n(si,n,min_length_adjusted);
+    solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
   else
   {
     hashElement_union_t const * const hue = (hashElement_union_t const *)he;
-    stip_length_type const parity = (n-min_length_adjusted)%2;
+    stip_length_type const parity = (solve_nr_remaining-min_length_adjusted)%2;
 
     /* It is more likely that a position has no solution. */
     /* Therefore let's check for "no solution" first.  TLi */
     hash_value_type const val_nosuccess = get_value_attack_nosuccess(hue,base);
     stip_length_type const n_nosuccess = 2*val_nosuccess + min_length_adjusted-parity;
-    if (n_nosuccess>=n)
-      result = n+2;
+    if (n_nosuccess>=MOVE_HAS_SOLVED_LENGTH())
+      solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
     else
     {
       hash_value_type const val_success = get_value_attack_success(hue,base);
       stip_length_type const n_success = 2*val_success + min_length_adjusted+2-parity;
-      if (n_success<=n)
-        result = n_success;
+      if (n_success<=MOVE_HAS_SOLVED_LENGTH())
+        solve_result = n_success;
       else
       {
         if (max_unsolvable<n_nosuccess)
@@ -2191,7 +2182,7 @@ stip_length_type attack_hashed_tester_solve(slice_index si, stip_length_type n)
           max_unsolvable = n_nosuccess;
           TraceValue("->%u\n",max_unsolvable);
         }
-        result = delegate_can_attack_in_n(si,n,min_length_adjusted);
+        solve_result = delegate_can_attack_in_n(si,min_length_adjusted);
       }
     }
   }
@@ -2200,9 +2191,7 @@ stip_length_type attack_hashed_tester_solve(slice_index si, stip_length_type n)
   TraceValue("->%u\n",max_unsolvable);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Look up whether the current position in the hash table to find out
@@ -2212,16 +2201,15 @@ stip_length_type attack_hashed_tester_solve(slice_index si, stip_length_type n)
  * @return true iff we know that the current position has no solution
  *         in n half-moves
  */
-static boolean inhash_help(slice_index si, stip_length_type n)
+static boolean inhash_help(slice_index si)
 {
   boolean result;
   HashBuffer *hb = &hashBuffers[nbply];
   dhtElement const *he;
-  stip_length_type const validity_value = (n-1)/2+1;
+  stip_length_type const validity_value = (solve_nr_remaining-1)/2+1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   /* In help play, we encode all positions as if the stipulation were exact.
@@ -2231,7 +2219,7 @@ static boolean inhash_help(slice_index si, stip_length_type n)
    * solutions is confusing and if we measure, the price that we are paying
    * is smaller than one might think. TM
    */
-  (*encode)(n,validity_value);
+  (*encode)(solve_nr_remaining,validity_value);
 
   ifHASHRATE(use_all++);
 
@@ -2255,9 +2243,8 @@ static boolean inhash_help(slice_index si, stip_length_type n)
 /* Remember that the current position does not have a solution in a
  * number of half-moves
  * @param si index of slice where the current position was reached
- * @param n number of half-moves
  */
-static void addtohash_help(slice_index si, stip_length_type n)
+static void addtohash_help(slice_index si)
 {
   HashBuffer const * const hb = &hashBuffers[nbply];
   dhtElement *he;
@@ -2265,7 +2252,6 @@ static void addtohash_help(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   he = dhtLookupElement(pyhash,hb);
@@ -2285,10 +2271,9 @@ static void addtohash_help(slice_index si, stip_length_type n)
 #endif /*HASHRATE*/
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -2297,45 +2282,40 @@ static void addtohash_help(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type help_hashed_solve(slice_index si, stip_length_type n)
+void help_hashed_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length);
+  assert(solve_nr_remaining>=next_move_has_solution);
 
-  if (inhash_help(si,n))
-    result = n+2;
+  if (inhash_help(si))
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   else
   {
     if (slices[si].u.branch.min_length>slack_length+1)
     {
       slices[si].u.branch.min_length -= 2;
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
       slices[si].u.branch.min_length += 2;
     }
     else
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
 
-    if (result==n+2)
-      addtohash_help(si,n);
+    if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
+      addtohash_help(si);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -2344,46 +2324,42 @@ stip_length_type help_hashed_solve(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type help_hashed_tester_solve(slice_index si, stip_length_type n)
+void help_hashed_tester_solve(slice_index si)
 {
-  stip_length_type result;
   slice_index const base = slices[si].u.derived_pipe.base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  assert(n>slack_length);
+  assert(solve_nr_remaining>=next_move_has_solution);
 
-  if (inhash_help(base,n))
-    result = n+2;
+  if (inhash_help(base))
+    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   else
   {
     if (slices[base].u.branch.min_length>slack_length+1)
     {
       slices[base].u.branch.min_length -= 2;
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
       slices[base].u.branch.min_length += 2;
     }
     else
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
 
-    if (result>n)
-      addtohash_help(base,n);
+    if (solve_result>MOVE_HAS_SOLVED_LENGTH())
+      addtohash_help(base);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -2392,24 +2368,21 @@ stip_length_type help_hashed_tester_solve(slice_index si, stip_length_type n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type hash_opener_solve(slice_index si, stip_length_type n)
+void hash_opener_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   openhash();
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
+
   closehash();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* assert()s below this line must remain active even in "productive"
@@ -2431,5 +2404,5 @@ void check_hash_assumptions(void)
   assert(nr_files_on_board<=CHAR_BIT);
 
   /* the encoding functions encode Flags as 2 bytes */
-  assert(PieSpCount<=2*CHAR_BIT);
+  assert(nr_piece_flags<=2*CHAR_BIT);
 }

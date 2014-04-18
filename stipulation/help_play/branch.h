@@ -2,7 +2,7 @@
 #define STIPULATION_HELP_PLAY_BRANCH_H
 
 #include "stipulation/stipulation.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* This module provides functionality dealing with STHelp*
  * stipulation slices.
@@ -107,12 +107,6 @@ void help_branch_make_root_slices(slice_index adapter,
  * @param state address of structure holding state
  */
 void help_make_root(slice_index adapter, spin_off_state_type *state);
-
-/* Spin the intro slices off a nested help branch
- * @param adapter identifies adapter slice of the nested help branch
- * @param state address of structure holding state
- */
-void help_spin_off_intro(slice_index adapter, spin_off_state_type *state);
 
 /* Produce slices representing set play.
  * @param adapter identifies the adapter slice at the beginning of the branch

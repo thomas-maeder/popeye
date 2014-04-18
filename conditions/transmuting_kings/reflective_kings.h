@@ -4,14 +4,13 @@
 /* This module implements the Reflective Kings */
 
 #include "pieces/pieces.h"
-#include "position/position.h"
+#include "position/side.h"
 #include "stipulation/stipulation.h"
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p);
+void reflective_kings_generate_moves_for_piece(slice_index si);
 
 /* Inialise the solving machinery with reflective kings
  * @param si identifies root slice of solving machinery

@@ -1,6 +1,6 @@
 #include "output/plaintext/twinning.h"
 #include "output/plaintext/plaintext.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 
 #include <stdio.h>
 #include <string.h>

@@ -1,14 +1,11 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/constraint.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
-#include "stipulation/dead_end.h"
-#include "stipulation/end_of_branch.h"
-#include "stipulation/end_of_branch_goal.h"
+#include "stipulation/fork.h"
 #include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/binary.h"
@@ -74,14 +71,12 @@ static slice_index const slice_rank_order[] =
   STUncapturableRemoveCaptures,
   STBackhomeExistanceTester,
   STBackhomeRemoveIllegalMoves,
-  STGenevaRemoveIllegalCaptures,
   STNocaptureRemoveCaptures,
   STWoozlesRemoveIllegalCaptures,
   STBiWoozlesRemoveIllegalCaptures,
   STHeffalumpsRemoveIllegalCaptures,
   STBiHeffalumpsRemoveIllegalCaptures,
   STNorskRemoveIllegalCaptures,
-  STImmuneRemoveCapturesOfImmune,
   STProvocateursRemoveUnobservedCaptures,
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
@@ -179,7 +174,6 @@ static slice_index const slice_rank_order[] =
   STUncapturableRemoveCaptures,
   STBackhomeExistanceTester,
   STBackhomeRemoveIllegalMoves,
-  STGenevaRemoveIllegalCaptures,
   STPiecesParalysingRemoveCaptures,
   STNocaptureRemoveCaptures,
   STWoozlesRemoveIllegalCaptures,
@@ -187,7 +181,6 @@ static slice_index const slice_rank_order[] =
   STHeffalumpsRemoveIllegalCaptures,
   STBiHeffalumpsRemoveIllegalCaptures,
   STNorskRemoveIllegalCaptures,
-  STImmuneRemoveCapturesOfImmune,
   STProvocateursRemoveUnobservedCaptures,
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
@@ -443,7 +436,7 @@ slice_index alloc_defense_branch(stip_length_type length,
     slice_index const adapter = alloc_defense_adapter_slice(length,min_length);
     slice_index const dready = alloc_branch(STReadyForDefense,length,min_length);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
-    slice_index const ddeadend = alloc_dead_end_slice();
+    slice_index const ddeadend = alloc_pipe(STDeadEnd);
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const done_dgenerating = alloc_pipe(STDoneGeneratingMoves);
     slice_index const done_dremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
@@ -455,7 +448,7 @@ slice_index alloc_defense_branch(stip_length_type length,
     slice_index const dnotend = alloc_pipe(STNotEndOfBranch);
     slice_index const aready = alloc_branch(STReadyForAttack,length-1,min_length-1);
     slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
-    slice_index const adeadend = alloc_dead_end_slice();
+    slice_index const adeadend = alloc_pipe(STDeadEnd);
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const done_agenerating = alloc_pipe(STDoneGeneratingMoves);
     slice_index const done_aremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
@@ -516,14 +509,11 @@ slice_index alloc_battle_branch(stip_length_type length,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParamListEnd();
 
-  assert(length>slack_length);
-  assert(min_length>=slack_length);
-
   {
     slice_index const adapter = alloc_attack_adapter_slice(length,min_length);
     slice_index const aready = alloc_branch(STReadyForAttack,length,min_length);
     slice_index const atestpre = alloc_pipe(STTestingPrerequisites);
-    slice_index const adeadend = alloc_dead_end_slice();
+    slice_index const adeadend = alloc_pipe(STDeadEnd);
     slice_index const agenerating = alloc_pipe(STGeneratingMoves);
     slice_index const done_agenerating = alloc_pipe(STDoneGeneratingMoves);
     slice_index const done_aremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
@@ -536,7 +526,7 @@ slice_index alloc_battle_branch(stip_length_type length,
     slice_index const dready = alloc_branch(STReadyForDefense,
                                             length-1,min_length-1);
     slice_index const dtestpre = alloc_pipe(STTestingPrerequisites);
-    slice_index const ddeadend = alloc_dead_end_slice();
+    slice_index const ddeadend = alloc_pipe(STDeadEnd);
     slice_index const dgenerating = alloc_pipe(STGeneratingMoves);
     slice_index const done_dgenerating = alloc_pipe(STDoneGeneratingMoves);
     slice_index const done_dremoving_illegal = alloc_pipe(STDoneRemovingIllegalMoves);
@@ -913,61 +903,6 @@ void battle_make_root(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParamListEnd();
 }
 
-/* Spin the intro slices off a nested battle branch
- * @param adapter identifies adapter slice of the nested help branch
- * @param state address of structure holding state
- */
-void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParamListEnd();
-
-  assert(slices[adapter].type==STAttackAdapter
-         || slices[adapter].type==STDefenseAdapter);
-
-  TraceStipulation(adapter);
-
-  {
-    slice_index const prototype = alloc_pipe(STEndOfIntro);
-    branch_insert_slices(adapter,&prototype,1);
-  }
-
-  if (branch_find_slice(STEndOfIntro,adapter,stip_traversal_context_intro)
-      !=no_slice)
-  {
-    slice_index const next = slices[adapter].next1;
-    stip_structure_traversal st;
-
-    stip_structure_traversal_init(&st,state);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_pipe,
-                                                   &pipe_spin_off_copy);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_branch,
-                                                   &pipe_spin_off_copy);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_fork,
-                                                   &pipe_spin_off_copy);
-    stip_structure_traversal_override_by_function(&st,
-                                                  slice_function_binary,
-                                                  &binary_make_root);
-    stip_structure_traversal_override_by_function(&st,
-                                                  slice_function_conditional_pipe,
-                                                  &conditional_pipe_spin_off_copy);
-    stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
-    stip_traverse_structure(next,&st);
-
-    pipe_link(slices[adapter].prev,next);
-    link_to_branch(adapter,state->spun_off[next]);
-    state->spun_off[adapter] = state->spun_off[next];
-    slices[adapter].prev = no_slice;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument a branch with STEndOfBranchForced slices (typically for a
  * (semi-)reflex stipulation)
  * @param si root of branch to be instrumented
@@ -989,7 +924,7 @@ void battle_branch_insert_end_of_branch_forced(slice_index si,
                                                 si,
                                                 stip_traversal_context_intro);
     assert(ready!=no_slice);
-    pipe_append(ready,alloc_end_of_branch_forced(forced));
+    pipe_append(ready,alloc_fork_slice(STEndOfBranchForced,forced));
   }
 
   TraceFunctionExit(__func__);
@@ -1131,7 +1066,7 @@ void battle_branch_insert_direct_end_of_branch_goal(slice_index si,
     slice_index const ready = branch_find_slice(STReadyForAttack,
                                                 si,
                                                 stip_traversal_context_intro);
-    slice_index const prototype = alloc_end_of_branch_goal(goal);
+    slice_index const prototype = alloc_fork_slice(STEndOfBranchGoal,goal);
     assert(ready!=no_slice);
     attack_branch_insert_slices(ready,&prototype,1);
   }
@@ -1158,7 +1093,7 @@ void battle_branch_insert_direct_end_of_branch(slice_index si, slice_index next)
     slice_index const ready = branch_find_slice(STReadyForAttack,
                                                 si,
                                                 stip_traversal_context_intro);
-    slice_index const prototype = alloc_end_of_branch_slice(next);
+    slice_index const prototype = alloc_fork_slice(STEndOfBranch,next);
     assert(ready!=no_slice);
     attack_branch_insert_slices(ready,&prototype,1);
   }
@@ -1185,7 +1120,7 @@ void battle_branch_insert_self_end_of_branch(slice_index si, slice_index goal)
     slice_index const ready = branch_find_slice(STReadyForDefense,
                                                 si,
                                                 stip_traversal_context_intro);
-    slice_index const prototype = alloc_end_of_branch_slice(goal);
+    slice_index const prototype = alloc_fork_slice(STEndOfBranch,goal);
     assert(ready!=no_slice);
     defense_branch_insert_slices(ready,&prototype,1);
   }
@@ -1214,7 +1149,7 @@ void battle_branch_insert_self_end_of_branch_goal(slice_index si,
     slice_index const ready = branch_find_slice(STReadyForDefense,
                                                 si,
                                                 stip_traversal_context_intro);
-    slice_index const prototype = alloc_end_of_branch_goal(goal);
+    slice_index const prototype = alloc_fork_slice(STEndOfBranchGoal,goal);
     assert(ready!=no_slice);
     defense_branch_insert_slices(ready,&prototype,1);
   }

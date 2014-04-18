@@ -3,7 +3,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "output/output.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/trivial_end_filter.h"

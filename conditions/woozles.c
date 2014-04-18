@@ -4,15 +4,17 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 #include "debugging/assert.h"
 #include <stdlib.h>
 
 boolean woozles_rex_exclusive;
 
-static PieNam woozlers[PieceCount];
+static piece_walk_type woozlers[nr_piece_walks];
 
 typedef enum
 {
@@ -26,10 +28,10 @@ static validation_phase phase[maxply+1];
 static void init_woozlers(void)
 {
   unsigned int i = 0;
-  PieNam p;
+  piece_walk_type p;
 
-  for (p = King; p<PieceCount; ++p) {
-    if (may_exist[p] && p!=Dummy && p!=Hamster)
+  for (p = King; p<nr_piece_walks; ++p) {
+    if (piece_walk_may_exist[p] && p!=Dummy && p!=Hamster)
     {
       woozlers[i] = p;
       i++;
@@ -42,7 +44,7 @@ static void init_woozlers(void)
 static boolean find_mutual_observer(void)
 {
   Side const side_woozled = trait[nbply-1];
-  PieNam const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
+  piece_walk_type const p = get_walk_of_piece_on_square(move_generation_stack[MOVEBASE_OF_PLY(nbply)].departure);
   boolean result = false;
 
   TraceFunctionEntry(__func__);
@@ -71,11 +73,12 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
 {
   square const sq_observer = move_generation_stack[n].departure;
   Side const side_woozled = trait[nbply];
+  Flags const mask = BIT(side_woozled)|BIT(Royal);
   boolean result = true;
 
-  if (!woozles_rex_exclusive || sq_observer!=king_square[side_woozled])
+  if (!woozles_rex_exclusive || !TSTFULLFLAGMASK(spec[sq_observer],mask))
   {
-    PieNam const *pcheck = woozlers;
+    piece_walk_type const *pcheck = woozlers;
     numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
     if (woozles_rex_exclusive)
@@ -207,10 +210,9 @@ static boolean woozles_is_not_illegal_capture(numecoup n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -219,25 +221,20 @@ static boolean woozles_is_not_illegal_capture(numecoup n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type woozles_remove_illegal_captures_solve(slice_index si,
-                                                       stip_length_type n)
+void woozles_remove_illegal_captures_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&woozles_is_not_illegal_capture);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void woozles_insert_remover(slice_index si, stip_structure_traversal *st)
@@ -300,10 +297,9 @@ static boolean biwoozles_is_not_illegal_capture(numecoup n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -312,25 +308,20 @@ static boolean biwoozles_is_not_illegal_capture(numecoup n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type biwoozles_remove_illegal_captures_solve(slice_index si,
-                                                         stip_length_type n)
+void biwoozles_remove_illegal_captures_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&biwoozles_is_not_illegal_capture);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void biwoozles_insert_remover(slice_index si, stip_structure_traversal *st)
@@ -519,10 +510,9 @@ static boolean heffalumps_is_not_illegal_capture(numecoup n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -531,25 +521,20 @@ static boolean heffalumps_is_not_illegal_capture(numecoup n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type heffalumps_remove_illegal_captures_solve(slice_index si,
-                                                          stip_length_type n)
+void heffalumps_remove_illegal_captures_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&heffalumps_is_not_illegal_capture);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void heffalumps_insert_remover(slice_index si, stip_structure_traversal *st)
@@ -612,10 +597,9 @@ static boolean biheffalumps_is_not_illegal_capture(numecoup n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -624,25 +608,20 @@ static boolean biheffalumps_is_not_illegal_capture(numecoup n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type biheffalumps_remove_illegal_captures_solve(slice_index si,
-                                                            stip_length_type n)
+void biheffalumps_remove_illegal_captures_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&biheffalumps_is_not_illegal_capture);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void biheffalumps_insert_remover(slice_index si, stip_structure_traversal *st)

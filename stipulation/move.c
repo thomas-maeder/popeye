@@ -5,13 +5,13 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "conditions/circe/circe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* Order in which the slice types for move execution appear
  */
-static slice_index const move_slice_rank_order[] =
+static slice_type const move_slice_rank_order[] =
 {
     STMove,
     STDummyMove,
@@ -29,12 +29,15 @@ static slice_index const move_slice_rank_order[] =
     STMummerBookkeeper,
     STUltraMummerMeasurerDeadend,
     STBackHomeMovesOnly,
+    STMarsCirceMoveToRebirthSquare,
     STCastlingPlayer,
     STMessignyMovePlayer,
     STCastlingChessMovePlayer,
     STExchangeCastlingMovePlayer,
     STMovePlayer,
     STLandingAfterMovingPieceMovement,
+    STGenevaConsideringRebirth,
+    STCirceDoneWithRebirth,
     STImitatorMover,
     STMutualCastlingRightsAdjuster,
     STSuperTransmutingKingTransmuter,
@@ -47,9 +50,7 @@ static slice_index const move_slice_rank_order[] =
     STProteanPawnAdjuster,
     STBeforePawnPromotion, /* moving pawn */
     STLandingAfterPawnPromotion,
-    STCirceParachuteUnccoverer,
-    STBeforePawnPromotion, /* uncovered pawn */
-    STLandingAfterPawnPromotion,
+    STCirceParachuteUncoverer,
     STHauntedChessGhostSummoner,
     STFootballChessSubsitutor,
     STLineChameleonArrivingAdjuster,
@@ -59,8 +60,6 @@ static slice_index const move_slice_rank_order[] =
     STLandingAfterPawnPromotion,
     STEnPassantAdjuster,
     STEinsteinEnPassantAdjuster,
-    STPhantomChessEnPassantAdjuster,
-    STAntiMarsCirceEnPassantAdjuster,
     STFrischaufPromoteeMarker,
     STDegradierungDegrader,
     STEinsteinArrivingAdjuster,
@@ -73,42 +72,7 @@ static slice_index const move_slice_rank_order[] =
     STSingleboxType2LatentPawnPromoter,
     STMagicSquareType2SideChanger,
     STAnticirceConsideringRebirth,
-    STCirceKamikazeCaptureFork,
-    STCirceCaptureFork,
-    STCirceParrainCaptureFork,
-    STCirceCageNoCageFork,
-    STAnticirceDeterminingRebornPiece,
-    STAnticirceInitialiseFromCurrentCapture,
-    STAnticirceParrainInitialiseFromCaptureInLastMove,
-    STAnticirceCouscousMakeCaptureeRelevant,
-    STMirrorCirceOverrideRelevantSide,
-    STMagicSquareType2AnticirceRelevantSideAdapter,
-    STAntiCloneCirceDetermineRebornWalk,
-    STDiagramCirceDetermineRebirthSquare,
-    STFileCirceDetermineRebirthSquare,
-    STSymmetryCirceDetermineRebirthSquare,
-    STAntipodesCirceDetermineRebirthSquare,
-    STCirceParrainDetermineRebirth,
-    STTakeMakeCirceDetermineRebirthSquares,
-    STCirceDetermineRebirthSquare,
-    STAntisupercirceDetermineRebirthSquare,
-    STCirceDiametralAdjustRebirthSquare,
-    STRankCirceProjectRebirthSquare,
-    STAnticirceCheylanFilter,
-    STAnticirceRemoveCapturer,
-    STCirceTestRebirthSquareEmpty,
-    STAnticirceRebirthOnNonEmptySquare,
-    STSupercircePreventRebirthOnNonEmptySquare,
-    STCirceAssassinAssassinate,
-    STCirceParachuteRemember,
-    STCirceVolcanicRemember,
-    STAnticircePlacingReborn,
-    STAnticircePlaceReborn,
-    STBeforePawnPromotion, /* reborn pawn */
-    STLandingAfterPawnPromotion,
-    STCirceCageCageTester,
-    STCirceRebirthAvoided,
-    STLandingAfterAnticirceRebirth,
+    STCirceDoneWithRebirth,
     STTibetSideChanger,
     STDoubleTibetSideChanger,
     STAndernachSideChanger,
@@ -122,54 +86,10 @@ static slice_index const move_slice_rank_order[] =
     STOscillatingKingsTypeC,
     STHurdleColourChanger,
     STCirceConsideringRebirth,
-    STCirceCaptureFork,
-    STCirceParrainCaptureFork,
-    STAprilCaptureFork,
-    STSuperCirceNoRebirthFork,
-    STCirceCageNoCageFork,
-    STCirceDeterminingRebornPiece,
-    STCirceInitialiseFromCurrentCapture,
-    STCirceParrainInitialiseFromCaptureInLastMove,
-    STCirceParrainDetermineRebirth,
-    STCirceContraparrainDetermineRebirth,
-    STCircePreventKingRebirth,
-    STCirceCloneDetermineRebornWalk,
-    STChameleonCirceAdaptRebornWalk,
-    STAntiEinsteinDetermineRebornPiece,
-    STCirceCouscousMakeCapturerRelevant,
-    STMirrorCirceOverrideRelevantSide,
-    STRankCirceOverrideRelevantSide,
-    STCirceDetermineRebirthSquare,
-    STFileCirceDetermineRebirthSquare,
-    STAntipodesCirceDetermineRebirthSquare,
-    STSymmetryCirceDetermineRebirthSquare,
-    STPWCDetermineRebirthSquare,
-    STDiagramCirceDetermineRebirthSquare,
-    STCirceDiametralAdjustRebirthSquare,
-    STRankCirceProjectRebirthSquare,
-    STTakeMakeCirceDetermineRebirthSquares,
-    STSuperCirceDetermineRebirthSquare,
-    STContactGridAvoidCirceRebirth,
-    STCirceTestRebirthSquareEmpty,
-    STCirceRebirthOnNonEmptySquare,
-    STSupercircePreventRebirthOnNonEmptySquare,
-    STCirceAssassinAssassinate,
-    STCirceParachuteRemember,
-    STCirceVolcanicRemember,
-    STCircePlacingReborn,
-    STCircePlaceReborn,
-    STBeforePawnPromotion, /* reborn pawn */
-    STLandingAfterPawnPromotion,
-    STCirceDoubleAgentsAdaptRebornSide,
-    STCirceVolageRecolorer,
-    STCirceRebirthAvoided,
-    STLandingAfterCirceRebirthHandler,
-    STCirceCageCageTester,
+    STCirceDoneWithRebirth,
     STMagicPiecesRecolorer,
     STSentinellesInserter,
-    STCirceParachuteUnccoverer,
-    STBeforePawnPromotion, /* uncovered pawn */
-    STLandingAfterPawnPromotion,
+    STCirceParachuteUncoverer,
     STRepublicanKingPlacer,
     STActuatedRevolvingBoard,
     STActuatedRevolvingCentre,
@@ -178,6 +98,7 @@ static slice_index const move_slice_rank_order[] =
     STMasandRecolorer,
     STLandingAfterMovePlay,
     STMoveCounter,
+    STKingSquareUpdater,
     STMoveTracer,
     STBGLAdjuster,
     STDetectMoveRetracted,
@@ -225,6 +146,30 @@ static boolean is_move_slice_type(slice_type type)
   return false;
 }
 
+/* Start inserting according to the slice type order for move execution
+ * @param si identifies starting point of insertion
+ * @param st insertion traversal where we come from and will return to
+ * @param end_of_factored_order slice type where to return to insertion defined
+ *                              by st
+ */
+static void start_insertion_according_to_move_order(slice_index si,
+                                                    stip_structure_traversal *st,
+                                                    slice_type end_of_factored_order)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  branch_insert_slices_factored_order(si,
+                                      st,
+                                      move_slice_rank_order,
+                                      nr_move_slice_rank_order_elmts,
+                                      end_of_factored_order);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to start slice insertion within the sequence of slices that deal with
  * move execution.
  * @param base_type type relevant for determining the position of the slices to
@@ -241,7 +186,15 @@ boolean move_start_insertion(slice_type base_type,
 {
   boolean result = false;
 
-  if (promotion_start_insertion(base_type,si,st))
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(slice_type,base_type,"");
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,end_of_move_slice_sequence,"");
+  TraceFunctionParamListEnd();
+
+  if (circe_start_insertion(base_type,si,st))
+    result = true;
+  else if (promotion_start_insertion(base_type,si,st))
     result = true;
   else if (is_move_slice_type(base_type))
   {
@@ -249,6 +202,9 @@ boolean move_start_insertion(slice_type base_type,
     result = true;
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
@@ -296,31 +252,8 @@ void move_init_slice_insertion_traversal(stip_structure_traversal *st)
   stip_structure_traversal_override_single(st,STMove,&insert_visit_move);
   stip_structure_traversal_override_single(st,STDummyMove,&insert_visit_move);
 
+  circe_init_slice_insertion_traversal(st);
   promotion_init_slice_insertion_traversal(st);
-}
-
-/* Start inserting according to the slice type order for move execution
- * @param si identifies starting point of insertion
- * @param st insertion traversal where we come from and will return to
- * @param end_of_factored_order slice type where to return to insertion defined
- *                              by st
- */
-void start_insertion_according_to_move_order(slice_index si,
-                                             stip_structure_traversal *st,
-                                             slice_type end_of_factored_order)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  branch_insert_slices_factored_order(si,
-                                      st,
-                                      move_slice_rank_order,
-                                      nr_move_slice_rank_order_elmts,
-                                      end_of_factored_order);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)

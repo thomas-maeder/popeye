@@ -3,7 +3,7 @@
 
 # This file contains make rules valid in all source directories
 
-CFILES = $(SRC_CFILES) $(GENERATED_CFILES)
+CFILES = $(SRC_CFILES)
 
 # derive object files from C files
 OBJECTS = $(CFILES:%.c=$(CURRPWD)%$(OBJ_SUFFIX))
@@ -19,6 +19,10 @@ $(CURRPWD)%$(OBJ_SUFFIX):	$(CURRPWD)%.c
 	@if [ 0 -eq $(OBJFILE_WORKS) -a $(notdir $@) != $@ ]; then \
 		mv -f $(notdir $@) $@; \
 	fi
+
+# produce a typedef declaration
+$(CURRPWD)%.enum.h:	$(CURRPWD)%.enum
+	gcc -E -P -imacros $< -D ENUMERATION_DECLARE utilities/enumeration.h > $@
 
 # produce a library form the object files in the current directory
 $(CURRPWD)library.$(LIB_SUFFIX): $(OBJECTS) $(CURRPWD)makefile.local
@@ -58,3 +62,4 @@ $(VERSIONDIR):
 	mkdir -p $(VERSIONDIR)
 
 FORCE:
+

@@ -8,7 +8,7 @@
   7= trop d'echecs feeriques pour les pieces neutres
   8= leofamily avec pieces orthodoxes ?
   9= en circe les pieces impuissantes sont interdites
- 10= CouleurEchangeant seulement avec quelques sauteurs
+ 10= CouleurEchangeantSautoir seulement avec quelques sauteurs
  11= cavalier + cavalier majeur interdit
  12= renaicirce hors echiquier ?
  13= jeu apparent avec roi en echec ?
@@ -84,7 +84,7 @@
  83= certaines conditions feeriques et plus courte jeux justificative interdit.\n
  84= Isardam et Madrasi/Eiffel interdit
  85= on ne peut pas determiner si ce coup est legal.\n
- 86= deja occupee - piece ancienne est eliminee.\n
+ 86= deja occupee - piece ancienne va dans l'au-dela.\n
  87= MarsCirce, EchecsPlus ou EchecsPhantom incompatible avec certains genres feeriques et avec des pieces feeriques.\n
  88= positions possibles dans
  89= Melange interdit

@@ -1,10 +1,13 @@
 #include "conditions/circe/super.h"
+#include "position/position.h"
 #include "conditions/circe/rebirth_avoider.h"
 #include "conditions/circe/circe.h"
 #include "conditions/circe/rex_inclusive.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/fork.h"
 #include "solving/post_move_iteration.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -14,10 +17,39 @@ static post_move_iteration_id_type prev_post_move_iteration_id_no_rebirth[maxply
 
 static boolean is_rebirth_square_dirty[maxply+1];
 
-/* Try to solve in n half-moves.
+/* Instrument the solving machinery with Circe Super (apart from the rebirth
+ * square determination, whose instrumentation is elsewhere)
+ * @param si identifies entry slice into solving machinery
+ * @param variant identifies address of structure holding the Circe variant
+ * @param interval_start type of slice that starts the sequence of slices
+ *                       implementing that variant
+ */
+void circe_solving_instrument_super(slice_index si,
+                                    struct circe_variant_type const *variant,
+                                    slice_type interval_start)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,interval_start,"");
+  TraceFunctionParamListEnd();
+
+  if (circe_get_on_occupied_rebirth_square(variant)
+      !=circe_on_occupied_rebirth_square_strict)
+    circe_insert_rebirth_avoider(si,
+                                 interval_start,
+                                 interval_start,
+                                 alloc_fork_slice(STSuperCirceNoRebirthFork,
+                                                  no_slice),
+                                 STCirceRebirthAvoided,
+                                 STCirceDoneWithRebirth);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -26,32 +58,27 @@ static boolean is_rebirth_square_dirty[maxply+1];
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type supercirce_no_rebirth_fork_solve(slice_index si,
-                                                   stip_length_type n)
+void supercirce_no_rebirth_fork_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_no_rebirth[nbply])
   {
-    result = solve(slices[si].next2,n);
+    solve(slices[si].next2);
     if (!post_move_iteration_locked[nbply])
       lock_post_move_iterations();
   }
   else
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
 
   prev_post_move_iteration_id_no_rebirth[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static boolean advance_rebirth_square(void)
@@ -83,10 +110,9 @@ static boolean advance_rebirth_square(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -95,15 +121,12 @@ static boolean advance_rebirth_square(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type supercirce_determine_rebirth_square_solve(slice_index si,
-                                                           stip_length_type n)
+void supercirce_determine_rebirth_square_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_rebirth[nbply])
@@ -113,10 +136,10 @@ stip_length_type supercirce_determine_rebirth_square_solve(slice_index si,
   }
 
   if (is_rebirth_square_dirty[nbply] && !advance_rebirth_square())
-    result = this_move_is_illegal;
+    solve_result = this_move_is_illegal;
   else
   {
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -128,15 +151,12 @@ stip_length_type supercirce_determine_rebirth_square_solve(slice_index si,
   prev_post_move_iteration_id_rebirth[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -145,21 +165,16 @@ stip_length_type supercirce_determine_rebirth_square_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type supercirce_prevent_rebirth_on_non_empty_square_solve(slice_index si,
-                                                                      stip_length_type n)
+void supercirce_prevent_rebirth_on_non_empty_square_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = this_move_is_illegal;
+  solve_result = this_move_is_illegal;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

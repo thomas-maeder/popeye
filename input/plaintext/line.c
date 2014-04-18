@@ -2,7 +2,7 @@
 #include "input/plaintext/token.h"
 #include "input/plaintext/input_stack.h"
 #include "output/plaintext/plaintext.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 
 #include <string.h>
 

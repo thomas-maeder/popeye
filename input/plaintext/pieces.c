@@ -1,11 +1,13 @@
 #include "input/plaintext/pieces.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
+#include "output/plaintext/message.h"
 #include "output/output.h"
 #include "output/latex/latex.h"
+#include "position/underworld.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/hunters.h"
-#include "pymsg.h"
+#include "conditions/circe/parachute.h"
 
 #include <string.h>
 
@@ -19,7 +21,7 @@ int GetPieNamIndex(char a, char b)
 
   ch= PieceTab[2];
   for (indexx= 2;
-       indexx<PieceCount;
+       indexx<nr_piece_walks;
        indexx++,ch+= sizeof(PieceChar))
   {
     if (*ch == a && *(ch + 1) == b) {
@@ -29,7 +31,7 @@ int GetPieNamIndex(char a, char b)
   return 0;
 }
 
-char *ParseSinglePiece(char *tok, PieNam *result)
+char *ParseSingleWalk(char *tok, piece_walk_type *result)
 {
   switch (strlen(tok))
   {
@@ -44,7 +46,7 @@ char *ParseSinglePiece(char *tok, PieNam *result)
       break;
 
     default:
-      *result = PieceCount;
+      *result = nr_piece_walks;
       return tok;
   }
 }
@@ -64,7 +66,7 @@ static void signal_overwritten_square(square Square)
   Message(OverwritePiece);
 }
 
-static void echo_added_piece(Flags Spec, PieNam Name, square Square)
+static void echo_added_piece(Flags Spec, piece_walk_type Name, square Square)
 {
   if (LaTeXout)
     LaTeXEchoAddedPiece(Spec,Name,Square);
@@ -79,7 +81,7 @@ static void echo_added_piece(Flags Spec, PieNam Name, square Square)
 }
 
 static char *ParseSquareList(char *tok,
-                             PieNam Name,
+                             piece_walk_type Name,
                              Flags Spec,
                              piece_addition_type type)
 {
@@ -90,24 +92,38 @@ static char *ParseSquareList(char *tok,
 
   while (true)
   {
-    square const Square = SquareNum(*tok,tok[1]);
+    square const Square = SquareNum(tok[0],tok[1]);
     if (tok[0]!=0 && tok[1]!=0 && Square!=initsquare)
     {
-      if (!is_square_empty(Square))
-      {
-        if (type==piece_addition_initial)
-          signal_overwritten_square(Square);
-
-        if (Square==king_square[White])
-          king_square[White] = initsquare;
-        if (Square==king_square[Black])
-          king_square[Black] = initsquare;
-      }
-
       if (type==piece_addition_twinning)
         echo_added_piece(Spec,Name,Square);
 
-      occupy_square(Square,Name,Spec);
+      if (!is_square_empty(Square))
+      {
+        if (type==piece_addition_initial)
+        {
+          signal_overwritten_square(Square);
+
+          underworld_make_space(nr_ghosts);
+          underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(Square);
+          underworld[nr_ghosts-1].flags = spec[Square];
+          underworld[nr_ghosts-1].on = Square;
+        }
+        else
+        {
+          move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,
+                                                         Square);
+          move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,
+                                               Square);
+        }
+      }
+
+      if (type==piece_addition_twinning)
+        move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                              Square,Name,Spec);
+      else
+        occupy_square(Square,Name,Spec);
+
       tok += 2;
       ++SquareCnt;
     }
@@ -127,7 +143,7 @@ static char *ParseSquareList(char *tok,
   return ReadNextTokStr();
 }
 
-static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam)
+static char *PrsPieShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
 {
   if (onechar)
   {
@@ -143,20 +159,20 @@ static char *PrsPieShortcut(boolean onechar, char *tok, PieNam *pienam)
   return tok;
 }
 
-char *ParsePieceName(char *tok, PieNam *name)
+char *ParsePieceName(char *tok, piece_walk_type *name)
 {
   size_t len_token;
   char const * const hunterseppos = strchr(tok,'/');
   if (hunterseppos!=0 && hunterseppos-tok<=2)
   {
-    PieNam away, home;
+    piece_walk_type away, home;
     tok = PrsPieShortcut((hunterseppos-tok)%2==1,tok,&away);
     ++tok; /* skip slash */
     len_token = strlen(tok);
     tok = PrsPieShortcut(len_token%2==1,tok,&home);
     *name = hunter_make_type(away,home);
     if (*name==Invalid)
-      IoErrorMsg(HunterTypeLimitReached,maxnrhuntertypes);
+      IoErrorMsg(HunterTypeLimitReached,max_nr_hunter_walks);
   }
   else
   {
@@ -175,7 +191,7 @@ static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type
 
   while (true)
   {
-    PieNam Name;
+    piece_walk_type Name;
     btok = tok; /* Save it, if we want to return it */
     tok = ParsePieceName(tok,&Name);
 
@@ -209,24 +225,24 @@ static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type
   return btok;
 }
 
-Flags ParseColor(char *tok, boolean color_is_mandatory)
+Flags ParseColour(char *tok, boolean colour_is_mandatory)
 {
-  Colors const color = GetUniqIndex(nr_colors,ColorTab,tok);
-  if (color==nr_colors)
+  Colour const colour = GetUniqIndex(nr_colours,ColourTab,tok);
+  if (colour==nr_colours)
   {
-    if (color_is_mandatory)
-      IoErrorMsg(NoColorSpec,0);
+    if (colour_is_mandatory)
+      IoErrorMsg(NoColourSpec,0);
     return 0;
   }
-  else if (color>nr_colors)
+  else if (colour>nr_colours)
   {
     IoErrorMsg(PieSpecNotUniq,0);
     return 0;
   }
-  else if (color==color_neutral)
+  else if (colour==colour_neutral)
     return NeutralMask;
   else
-    return BIT(color);
+    return BIT(colour);
 }
 
 char *ParsePieceFlags(Flags *flags)
@@ -238,10 +254,10 @@ char *ParsePieceFlags(Flags *flags)
     tok = ReadNextTokStr();
 
     {
-      PieSpec const ps = GetUniqIndex(PieSpCount-nr_sides,PieSpTab,tok);
-      if (ps==PieSpCount-nr_sides)
+      piece_flag_type const ps = GetUniqIndex(nr_piece_flags-nr_sides,PieSpTab,tok);
+      if (ps==nr_piece_flags-nr_sides)
         break;
-      else if (ps>PieSpCount-nr_sides)
+      else if (ps>nr_piece_flags-nr_sides)
         IoErrorMsg(PieSpecNotUniq,0);
       else
         SETFLAG(*flags,ps+nr_sides);
@@ -257,7 +273,7 @@ char *ParsePieces(piece_addition_type type)
   char *tok = ReadNextTokStr();
   while (true)
   {
-    Flags PieSpFlags = ParseColor(tok,nr_groups==0);
+    Flags PieSpFlags = ParseColour(tok,nr_groups==0);
     if (PieSpFlags==0)
       break;
     else
@@ -268,10 +284,10 @@ char *ParsePieces(piece_addition_type type)
         SETFLAGMASK(some_pieces_flags,NeutralMask);
 
       {
-        Flags nonColorFlags = 0;
-        tok = ParsePieceFlags(&nonColorFlags);
-        PieSpFlags |= nonColorFlags;
-        some_pieces_flags |= nonColorFlags;
+        Flags nonCOLOURFLAGS = 0;
+        tok = ParsePieceFlags(&nonCOLOURFLAGS);
+        PieSpFlags |= nonCOLOURFLAGS;
+        some_pieces_flags |= nonCOLOURFLAGS;
       }
 
       tok = ParsePieceNameAndSquares(tok,PieSpFlags,type);

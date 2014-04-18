@@ -3,7 +3,7 @@
 
 /* This module implements "mummer" conditions (maximummer, minimiummer etc.) */
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 typedef enum
 {
@@ -55,10 +55,9 @@ boolean mummer_set_length_measurer(Side side,
  */
 boolean ultra_mummer_validate_observation(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -67,14 +66,13 @@ boolean ultra_mummer_validate_observation(slice_index si);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type ultra_mummer_measurer_deadend_solve(slice_index si,
-                                                     stip_length_type n);
+void ultra_mummer_measurer_deadend_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -83,13 +81,13 @@ stip_length_type ultra_mummer_measurer_deadend_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n);
+void mummer_orchestrator_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -98,8 +96,9 @@ stip_length_type mummer_orchestrator_solve(slice_index si, stip_length_type n);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type mummer_bookkeeper_solve(slice_index si, stip_length_type n);
+void mummer_bookkeeper_solve(slice_index si);
 
 /* Initialise solving in mummer
  * @param si identifies root slice of stipulation

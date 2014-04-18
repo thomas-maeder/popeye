@@ -8,7 +8,7 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
-#include "solving/move_diff_code.h"
+#include "position/move_diff_code.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
 
@@ -21,7 +21,7 @@ unsigned int index_of_guarding_piece;
 
 guard_dir_struct GuardDir[5][maxsquare+4];
 
-static void init_guard_dirs_leaper(PieNam guarder,
+static void init_guard_dirs_leaper(piece_walk_type guarder,
                                    square target,
                                    vec_index_type start, vec_index_type end,
                                    numvec value)
@@ -31,7 +31,7 @@ static void init_guard_dirs_leaper(PieNam guarder,
     GuardDir[guarder-Pawn][target+vec[i]].dir = value;
 }
 
-static void init_guard_dirs_rider(PieNam guarder,
+static void init_guard_dirs_rider(piece_walk_type guarder,
                                   square flight,
                                   numvec dir)
 {
@@ -332,10 +332,10 @@ static void place_queen_opposition(square guard_from)
  * @param rider_type type of rider
  * @param guard_from from what square should the rider guard
  */
-static void place_rider(PieNam rider_type, square guard_from)
+static void place_rider(piece_walk_type rider_type, square guard_from)
 {
   TraceFunctionEntry(__func__);
-  TracePiece(rider_type);
+  TraceWalk(rider_type);
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
@@ -613,7 +613,7 @@ static void promoted_pawn(square guard_from)
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_guarding_piece,
                                                                 guard_from))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {

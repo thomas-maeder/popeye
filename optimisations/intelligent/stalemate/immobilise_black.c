@@ -1,9 +1,11 @@
 #include "optimisations/intelligent/stalemate/immobilise_black.h"
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "solving/move_effect_journal.h"
 #include "solving/castling.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -11,8 +13,8 @@
 #include "optimisations/intelligent/stalemate/black_block.h"
 #include "optimisations/intelligent/stalemate/pin_black_piece.h"
 #include "optimisations/orthodox_check_directions.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/has_solution_type.h"
+#include "solving/temporary_hacks.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -133,7 +135,9 @@ boolean intelligent_stalemate_immobilise_black(void)
    */
   CLRCASTLINGFLAGMASK(Black,k_cancastle);
   current_state = &immobilisation_state;
-  solve(slices[current_start_slice].next2,slack_length);
+
+  fork_solve(current_start_slice,length_unspecified);
+
   next_trouble_maker();
   current_state = 0;
   castling_flag = save_castling_flag;
@@ -249,10 +253,9 @@ static void update_pawn_requirement(void)
   }
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -261,19 +264,17 @@ static void update_pawn_requirement(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
-                                                          stip_length_type n)
+void intelligent_immobilisation_counter_solve(slice_index si)
 {
-  stip_length_type result;
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  PieNam const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
+  piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (sq_departure!=current_state->current.target_square)
@@ -311,13 +312,10 @@ stip_length_type intelligent_immobilisation_counter_solve(slice_index si,
       break;
   }
 
-  if (current_state->current.requirement==immobilisation_impossible)
-    result = n; /* abort iteration over moves */
-  else
-    result = n+2;
+  /* abort iteration over moves */
+  pipe_this_move_solves_exactly_if(current_state->current.requirement
+                                   ==immobilisation_impossible);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

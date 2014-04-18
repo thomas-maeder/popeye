@@ -2,7 +2,8 @@
 #define PIECES_PAWNS_PROMOTEE_SEQUENCE_H
 
 #include "pieces/pieces.h"
-#include "position/position.h"
+#include "position/board.h"
+#include "position/side.h"
 #include "utilities/boolean.h"
 
 typedef enum
@@ -13,18 +14,18 @@ typedef enum
   pieces_pawns_nr_promotee_chains
 } pieces_pawns_promotee_sequence_selector_type;
 
-extern PieNam pieces_pawns_promotee_sequence[pieces_pawns_nr_promotee_chains][PieceCount];
+extern piece_walk_type pieces_pawns_promotee_sequence[pieces_pawns_nr_promotee_chains][nr_piece_walks];
 
 typedef struct
 {
     pieces_pawns_promotee_sequence_selector_type selector;
-    PieNam promotee;
+    piece_walk_type promotee;
 } pieces_pawns_promotion_sequence_type;
 
 #define ForwardPromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==White?WhPromSq:BlPromSq))
 #define ReversePromSq(col,sq) (TSTFLAG(sq_spec[(sq)],(col)==Black?WhPromSq:BlPromSq))
 
-extern boolean promonly[PieceCount];
+extern boolean promonly[nr_piece_walks];
 
 /* Start a sequence of promotees
  * @param sq_arrival arrival square of the move

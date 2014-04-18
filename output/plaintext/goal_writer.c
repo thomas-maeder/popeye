@@ -1,8 +1,9 @@
 #include "output/plaintext/goal_writer.h"
 #include "stipulation/stipulation.h"
-#include "pymsg.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
+#include "output/plaintext/message.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -33,10 +34,9 @@ slice_index alloc_goal_writer_slice(Goal goal)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -45,24 +45,19 @@ slice_index alloc_goal_writer_slice(Goal goal)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type output_plaintext_goal_writer_solve(slice_index si,
-                                                    stip_length_type n)
+void output_plaintext_goal_writer_solve(slice_index si)
 {
-  stip_length_type result;
   Goal const goal = slices[si].u.goal_handler.goal;
-  slice_index const next = slices[si].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   StdString(goal_end_marker[goal.type]);
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

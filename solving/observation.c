@@ -9,7 +9,6 @@
 #include "conditions/disparate.h"
 #include "conditions/geneva.h"
 #include "conditions/imitator.h"
-#include "conditions/immune.h"
 #include "conditions/lortap.h"
 #include "conditions/mummer.h"
 #include "conditions/patrol.h"
@@ -39,14 +38,14 @@
 #include "pieces/attributes/magic.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/fork.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "optimisations/orthodox_square_observation.h"
 #include "optimisations/observation.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 interceptable_observation_type interceptable_observation[maxply+1];
@@ -56,7 +55,7 @@ static boolean enforce_observer_walk(slice_index si)
 {
   boolean result = false;
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  PieNam const walk = get_walk_of_piece_on_square(sq_departure);
+  piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -175,14 +174,6 @@ boolean validate_observation_recursive(slice_index si)
       result = disparate_validate_observation(si);
       break;
 
-    case STGenevaRemoveIllegalCaptures:
-      result = geneva_validate_observation(si);
-      break;
-
-    case STImmuneRemoveCapturesOfImmune:
-      result = immune_validate_observation(si);
-      break;
-
     case STLortapRemoveSupportedCaptures:
       result = lortap_validate_observation(si);
       break;
@@ -268,22 +259,16 @@ boolean validate_observation_recursive(slice_index si)
       break;
 
     case STValidatingObservationGeometryByPlayingMove:
-    {
-      result = (solve(slices[temporary_hack_move_legality_tester[trait[nbply]]].next2,
-                      length_unspecified)
+      result = (fork_solve(temporary_hack_move_legality_tester[trait[nbply]],length_unspecified)
                 ==next_move_has_solution);
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
-    }
 
     case STValidateCheckMoveByPlayingCapture:
-    {
-      result = (solve(slices[temporary_hack_king_capture_legality_tester[trait[nbply]]].next2,
-                      length_unspecified)
+      result = (fork_solve(temporary_hack_king_capture_legality_tester[trait[nbply]],length_unspecified)
                 ==next_move_has_solution);
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
-    }
 
     case STTrue:
       result = true;
@@ -368,8 +353,6 @@ static slice_index const observation_validation_slice_rank_order[] =
     STBrunnerValidateCheck,
     STCentralObservationValidator,
     STDisparateMovesForPieceGenerator,
-    STGenevaRemoveIllegalCaptures,
-    STImmuneRemoveCapturesOfImmune,
     STLortapRemoveSupportedCaptures,
     STValidatingObservationUltraMummer,
     STPatrolRemoveUnsupportedCaptures,
@@ -485,6 +468,7 @@ void stip_instrument_observation_geometry_validation(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);
+  stip_structure_traversal_override_single(&st,type,&stip_structure_visitor_noop);
   stip_structure_traversal_override_single(&st,
                                            STValidatingObservationGeometry,
                                            &instrument_observation_validation);
@@ -531,6 +515,7 @@ void stip_instrument_observer_validation(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&it);
+  stip_structure_traversal_override_single(&st,type,&stip_structure_visitor_noop);
   stip_structure_traversal_override_single(&st,
                                            STValidatingObserver,
                                            &instrument_observation_validation);

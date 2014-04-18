@@ -1,5 +1,6 @@
 #include "pieces/walks/cardinal.h"
 #include "pieces/walks/angle/angles.h"
+#include "position/position.h"
 #include "solving/move_generator.h"
 #include "debugging/trace.h"
 

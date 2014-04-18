@@ -4,15 +4,16 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 #include "debugging/trace.h"
 
-static PieNam get_paralyser(PieNam p)
+static piece_walk_type get_paralyser(piece_walk_type p)
 {
-  PieNam result = Empty;
+  piece_walk_type result = Empty;
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
+  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   switch (p)
@@ -42,7 +43,7 @@ static PieNam get_paralyser(PieNam p)
   }
 
   TraceFunctionExit(__func__);
-  TracePiece(result);
+  TraceWalk(result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -50,9 +51,9 @@ static PieNam get_paralyser(PieNam p)
 static boolean is_paralysed(numecoup n)
 {
   square const sq_departure = move_generation_stack[n].departure;
-  PieNam const p = get_walk_of_piece_on_square(sq_departure);
+  piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
   boolean result = false;
-  PieNam eiffel_piece;
+  piece_walk_type eiffel_piece;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -80,17 +81,15 @@ static boolean is_paralysed(numecoup n)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void eiffel_generate_moves_for_piece(slice_index si, PieNam p)
+void eiffel_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (!is_paralysed(current_generation))
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

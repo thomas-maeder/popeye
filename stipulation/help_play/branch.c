@@ -1,19 +1,15 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "stipulation/fork.h"
 #include "stipulation/proxy.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/constraint.h"
 #include "stipulation/branch.h"
-#include "stipulation/end_of_branch.h"
-#include "stipulation/end_of_branch_goal.h"
-#include "stipulation/dead_end.h"
 #include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 #include <limits.h>
 
@@ -64,7 +60,6 @@ static slice_index const slice_rank_order[] =
   STUncapturableRemoveCaptures,
   STBackhomeExistanceTester,
   STBackhomeRemoveIllegalMoves,
-  STGenevaRemoveIllegalCaptures,
   STPiecesParalysingRemoveCaptures,
   STNocaptureRemoveCaptures,
   STWoozlesRemoveIllegalCaptures,
@@ -72,7 +67,6 @@ static slice_index const slice_rank_order[] =
   STHeffalumpsRemoveIllegalCaptures,
   STBiHeffalumpsRemoveIllegalCaptures,
   STNorskRemoveIllegalCaptures,
-  STImmuneRemoveCapturesOfImmune,
   STProvocateursRemoveUnobservedCaptures,
   STLortapRemoveSupportedCaptures,
   STPatrolRemoveUnsupportedCaptures,
@@ -126,6 +120,7 @@ static slice_index const slice_rank_order[] =
   STMummerDeadend,
   STIntelligentSolutionsPerTargetPosCounter,
   STIntelligentDuplicateAvoider,
+  STIntelligentSolutionRememberer,
   STExclusiveChessGoalReachingMoveCounter,
   STLegalAttackCounter,
   STLegalDefenseCounter,
@@ -323,9 +318,9 @@ void help_branch_shorten(slice_index adapter)
 
   /* adjust the length and min_length members */
   --slices[adapter].u.branch.length;
-  --slices[adapter].u.branch.min_length;
-  if (slices[adapter].u.branch.min_length<slack_length)
+  if (slices[adapter].u.branch.min_length<=0)
     increase_min_length(adapter);
+  --slices[adapter].u.branch.min_length;
   branch_shorten_slices(next,STHelpAdapter,stip_traversal_context_help);
 
   TraceFunctionExit(__func__);
@@ -478,7 +473,7 @@ static slice_index help_branch_locate_played(slice_index si, unsigned int parity
     assert(played1!=no_slice);
     assert(played2!=no_slice);
 
-    if ((slices[ready].u.branch.length-slack_length)%2==parity%2)
+    if (slices[ready].u.branch.length%2==parity%2)
       result = played1;
     else
       result = played2;
@@ -543,7 +538,7 @@ void help_branch_set_end(slice_index si,
   TraceStipulation(si);
   TraceStipulation(next);
 
-  help_branch_insert_end_of_branch(si,alloc_end_of_branch_slice(next),parity);
+  help_branch_insert_end_of_branch(si,alloc_fork_slice(STEndOfBranch,next),parity);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -570,9 +565,9 @@ void help_branch_set_end_goal(slice_index si,
   TraceStipulation(to_goal);
 
   if (does_goal_imply_immobility(to_goal))
-    branch = alloc_end_of_branch_goal_immobile(to_goal);
+    branch = alloc_fork_slice(STEndOfBranchGoalImmobile,to_goal);
   else
-    branch = alloc_end_of_branch_goal(to_goal);
+    branch = alloc_fork_slice(STEndOfBranchGoal,to_goal);
 
   {
 #if !defined(NDEBUG)
@@ -607,7 +602,7 @@ void help_branch_set_end_forced(slice_index si,
 
   {
     slice_index const proxy = alloc_proxy_slice();
-    slice_index const fork = alloc_end_of_branch_forced(proxy);
+    slice_index const fork = alloc_fork_slice(STEndOfBranchForced,proxy);
 #if !defined(NDEBUG)
     boolean const inserted =
 #endif
@@ -701,7 +696,7 @@ slice_index alloc_help_branch(stip_length_type length,
     slice_index const played2 = alloc_help_move_played_slice();
     slice_index const not_end_goal2 = alloc_pipe(STNotEndOfBranchGoal);
 
-    slice_index const deadend = alloc_dead_end_slice();
+    slice_index const deadend = alloc_pipe(STDeadEnd);
 
     pipe_link(adapter,ready1);
     pipe_link(ready1,testpre1);
@@ -725,7 +720,7 @@ slice_index alloc_help_branch(stip_length_type length,
     pipe_link(played2,not_end_goal2);
     pipe_link(not_end_goal2,adapter);
 
-    if ((length-slack_length)%2==0)
+    if (length%2==0)
       help_branch_insert_slices(adapter,&deadend,1);
     else
       help_branch_insert_slices(move1,&deadend,1);
@@ -846,63 +841,6 @@ void help_make_root(slice_index adapter, spin_off_state_type *state)
   TraceFunctionResultEnd();
 }
 
-/* Spin the intro slices off a nested help branch
- * @param adapter identifies adapter slice of the nested help branch
- * @param state address of structure holding state
- */
-void help_spin_off_intro(slice_index adapter, spin_off_state_type *state)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",adapter);
-  TraceFunctionParamListEnd();
-
-  assert(slices[adapter].type==STHelpAdapter);
-
-  TraceStipulation(adapter);
-
-  {
-    slice_index const prototype = alloc_pipe(STEndOfIntro);
-    branch_insert_slices(adapter,&prototype,1);
-  }
-
-  {
-    slice_index const next = slices[adapter].next1;
-    stip_structure_traversal st;
-
-    stip_structure_traversal_init(&st,state);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_pipe,
-                                                   &pipe_spin_off_copy);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_branch,
-                                                   &pipe_spin_off_copy);
-    stip_structure_traversal_override_by_structure(&st,
-                                                   slice_structure_fork,
-                                                   &pipe_spin_off_copy);
-    stip_structure_traversal_override_by_function(&st,
-                                                  slice_function_binary,
-                                                  &binary_make_root);
-    stip_structure_traversal_override_by_function(&st,
-                                                  slice_function_conditional_pipe,
-                                                  &conditional_pipe_spin_off_copy);
-    stip_structure_traversal_override_single(&st,
-                                             STConstraintTester,
-                                             &constraint_tester_make_root);
-    stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
-    stip_traverse_structure(next,&st);
-
-    pipe_link(slices[adapter].prev,next);
-    link_to_branch(adapter,state->spun_off[next]);
-    state->spun_off[adapter] = state->spun_off[next];
-    slices[adapter].prev = no_slice;
-  }
-
-  TraceValue("%u\n",state->spun_off[adapter]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Produce slices representing set play.
  * @param adapter identifies the adapter slice at the beginning of the branch
  * @param state address of structure holding state
@@ -918,10 +856,10 @@ void help_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
 
   assert(slices[adapter].type==STHelpAdapter);
 
-  if (min_length==slack_length)
-    min_length += 2;
+  if (min_length==0)
+    min_length = 2;
 
-  if (length>slack_length+1)
+  if (length>1)
   {
     slice_index const next = slices[adapter].next1;
     slice_index const prototypes[] =
@@ -983,7 +921,7 @@ slice_index alloc_series_branch(stip_length_type length,
     slice_index const played2 = alloc_help_move_played_slice();
     slice_index const not_end_goal2 = alloc_pipe(STNotEndOfBranchGoal);
 
-    slice_index const deadend = alloc_dead_end_slice();
+    slice_index const deadend = alloc_pipe(STDeadEnd);
 
     result = adapter;
 
@@ -1001,7 +939,7 @@ slice_index alloc_series_branch(stip_length_type length,
     pipe_link(played2,not_end_goal2);
     pipe_link(not_end_goal2,adapter);
 
-    if ((length-slack_length)%2==0)
+    if (length%2==0)
       /* branch ends after the pseudo move */
       pipe_append(not_end_goal2,deadend);
     else
@@ -1029,7 +967,7 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
     slice_index const next = slices[adapter].next1;
     slice_index const prototypes[] =
     {
-      alloc_help_adapter_slice(slack_length,slack_length),
+      alloc_help_adapter_slice(0,0),
       alloc_pipe(STEndOfRoot)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

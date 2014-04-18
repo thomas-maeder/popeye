@@ -6,11 +6,12 @@
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 #include "debugging/assert.h"
 
 boolean vaulting_kings_transmuting[nr_sides];
-PieNam king_vaulters[nr_sides][PieceCount];
+piece_walk_type king_vaulters[nr_sides][nr_piece_walks];
 unsigned int nr_king_vaulters[nr_sides];
 
 typedef enum
@@ -28,7 +29,7 @@ void reset_king_vaulters(void)
   nr_king_vaulters[Black] = 0;
 }
 
-void append_king_vaulter(Side side, PieNam p)
+void append_king_vaulter(Side side, piece_walk_type p)
 {
   king_vaulters[side][nr_king_vaulters[side]] = p;
   ++nr_king_vaulters[side];
@@ -64,25 +65,30 @@ static boolean is_kingsquare_observed(void)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void vaulting_kings_generate_moves_for_piece(slice_index si, PieNam p)
+void vaulting_kings_generate_moves_for_piece(slice_index si)
 {
   Side const side = trait[nbply];
+  Flags const mask = BIT(side)|BIT(Royal);
 
-  if (curr_generation->departure==king_square[side])
+  if (TSTFULLFLAGMASK(spec[curr_generation->departure],mask))
   {
     if (is_kingsquare_observed())
     {
+      piece_walk_type const save_current_walk = move_generation_current_walk;
       unsigned int i;
       for (i = 0; i!=nr_king_vaulters[side]; ++i)
-        generate_moves_for_piece(slices[si].next1,king_vaulters[side][i]);
+      {
+        move_generation_current_walk = king_vaulters[side][i];
+        generate_moves_for_piece(slices[si].next1);
+      }
+      move_generation_current_walk = save_current_walk;
     }
     else if (vaulting_kings_transmuting[side])
       return; /* don't generate non-vaulting moves */
   }
 
-  generate_moves_for_piece(slices[si].next1,p);
+  generate_moves_for_piece(slices[si].next1);
 }
 
 /* Determine whether a square is observed be the side at the move according to
@@ -113,14 +119,14 @@ boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate)
   return result;
 }
 
-static boolean is_king_vaulter(Side side, PieNam walk)
+static boolean is_king_vaulter(Side side, piece_walk_type walk)
 {
   unsigned int i;
   boolean result = false;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
-  TracePiece(walk);
+  TraceWalk(walk);
   TraceFunctionParamListEnd();
 
   for (i = 0; i!=nr_king_vaulters[side]; ++i)
@@ -159,7 +165,7 @@ boolean vaulting_kings_enforce_observer_walk(slice_index si)
     {
       if (is_king_vaulter(side_observing,observing_walk[nbply]))
       {
-        PieNam const save_walk = observing_walk[nbply];
+        piece_walk_type const save_walk = observing_walk[nbply];
         observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
         result = validate_observation_recursive(slices[si].next1);
         observing_walk[nbply] = save_walk;

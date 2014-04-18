@@ -5,7 +5,7 @@
  * it's not necessary to test for immobility in the middle of help play
  */
 
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 
 /* Optimise away redundant immobility tests
  * @param si identifies root slice of stipulation

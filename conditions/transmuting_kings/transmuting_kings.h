@@ -4,11 +4,11 @@
 /* This module implements Transmuting Kings */
 
 #include "pieces/pieces.h"
-#include "position/position.h"
+#include "position/side.h"
 #include "stipulation/stipulation.h"
 #include "solving/observation.h"
 
-extern PieNam transmuting_kings_potential_transmutations[PieceCount];
+extern piece_walk_type transmuting_kings_potential_transmutations[nr_piece_walks];
 extern boolean transmuting_kings_testing_transmutation[nr_sides];
 
 /* Initialise the sequence of king transmuters
@@ -25,13 +25,12 @@ boolean generate_moves_of_transmuting_king(slice_index si);
 /* Determine whether the moving side's king is transmuting as a specific walk
  * @param p the piece
  */
-boolean transmuting_kings_is_king_transmuting_as(PieNam walk);
+boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void transmuting_kings_generate_moves_for_piece(slice_index si, PieNam p);
+void transmuting_kings_generate_moves_for_piece(slice_index si);
 
 /* Inialise the observation machinery with transmuting kings
  * @param si identifies root slice of solving machinery

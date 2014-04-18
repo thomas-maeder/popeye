@@ -3,8 +3,8 @@
 # Common Popeye source and generated files
 # ========================================
 
-INCLUDES = pymsg.h pylang.h
-SRC_CFILES =	pymsg.c pylang.c gengmarr.c
+INCLUDES = pylang.h
+SRC_CFILES =	pygmarr.c gengmarr.c
 GENERATED_CFILES = pygmarr.c
 ALLCFILES  =    $(SRC_CFILES) $(GENERATED_CFILES) DHT/*.c
 MSGFILES=       py-fran.msg py-deut.msg py-engl.msg genpystr.c
@@ -14,7 +14,7 @@ DEVELOP =       coding.txt
 SCRIPTS =       $(wildcard scripts/*.sh)
 SPECIALCFILES = pymain.c
 HOSTFILES     = genpystr$(OBJ_SUFFIX) \
-		pylang-host$(OBJ_SUFFIX) position/position-host$(OBJ_SUFFIX) \
+		pylang$(OBJ_SUFFIX) position/position-host$(OBJ_SUFFIX) \
 		position/board-host$(OBJ_SUFFIX) \
 		gengmarr$(EXE_SUFFIX) genpystr$(EXE_SUFFIX)
 
@@ -31,15 +31,8 @@ pyio:           pyio.c pymac.h
 		$(CCTARGET) $(DEFINEMACRO)STANDALONE $(CFLAGS) \
 			$(EXEFILE)pyio pyio.c
 
-# pylang.c is compiled both for the host and the target.
-# pylang-host$(OBJ_SUFFIX) is the object file for the host.
-pylang-host$(OBJ_SUFFIX):  pylang.c
-		$(CCHOST) $(CFLAGS) $(COMPILEONLY) pylang.c $(OBJFILE)$@
-# work around compilers that strictly derive object file name from
-# source file name
-		@if [ 0 -eq $(OBJFILE_WORKS) ]; then \
-			mv pylang$(OBJ_SUFFIX) $@; \
-		fi
+pylang$(OBJ_SUFFIX):  pylang.c
+			$(CCHOST) $(CFLAGS) $(COMPILEONLY) pylang.c $(OBJFILE)$@
 
 genpystr$(OBJ_SUFFIX):	genpystr.c
 			$(CCHOST) $(CFLAGS) \
@@ -49,7 +42,7 @@ genpystr$(OBJ_SUFFIX):	genpystr.c
 # ===========================================================
 # Target for generating utilities for string handling
 
-genpystr$(EXE_SUFFIX):	genpystr$(OBJ_SUFFIX) pylang-host$(OBJ_SUFFIX)
+genpystr$(EXE_SUFFIX):	genpystr$(OBJ_SUFFIX) pylang$(OBJ_SUFFIX)
 			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
 
 pyallmsg.h:	$(MSGFILES) genpystr$(EXE_SUFFIX)
@@ -84,8 +77,9 @@ gengmarr$(OBJ_SUFFIX):	gengmarr.c
 gengmarr$(EXE_SUFFIX):	gengmarr$(OBJ_SUFFIX) position/position-host$(OBJ_SUFFIX) position/board-host$(OBJ_SUFFIX)
 			$(LDHOST) $(EXEFILE)$@ $(LDFLAGS) $^
 
-pygmarr.c:	$(MSGFILES) gengmarr$(EXE_SUFFIX)
-		./gengmarr$(EXE_SUFFIX) > $@
+
+pygmarr.c: ./gengmarr$(EXE_SUFFIX)
+	./gengmarr$(EXE_SUFFIX) > $@
 
 
 # ===========================================================

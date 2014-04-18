@@ -1,5 +1,5 @@
 #include "conditions/wormhole.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -8,6 +8,9 @@
 #include "solving/move_generator.h"
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"
+#include "pieces/walks/pawns/promotion.h"
+#include "position/position.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -88,10 +91,9 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -100,10 +102,10 @@ static void advance_wormhole(square sq_departure, square sq_arrival)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
+void wormhole_transferer_solve(slice_index si)
 {
-  stip_length_type result;
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
   square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
@@ -111,7 +113,6 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_arrival);
@@ -129,12 +130,12 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
   }
 
   if (wormhole_next_transfer[nbply]==nr_wormholes+1)
-    result = this_move_is_illegal;
+    solve_result = this_move_is_illegal;
   else if (wormhole_next_transfer[nbply]==nr_wormholes+2)
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
   else
   {
-    PieNam const added = get_walk_of_piece_on_square(sq_arrival);
+    piece_walk_type const added = get_walk_of_piece_on_square(sq_arrival);
     Flags const addedspec = spec[sq_arrival];
     move_effect_journal_do_piece_removal(move_effect_reason_transfer_choice,
                                          sq_arrival);
@@ -142,7 +143,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
                                             wormhole_positions[wormhole_next_transfer[nbply]-1],
                                             added,addedspec);
 
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
 
     if (!post_move_iteration_locked[nbply])
     {
@@ -155,9 +156,7 @@ stip_length_type wormhole_transferer_solve(slice_index si, stip_length_type n)
   prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static boolean is_move_allowed(numecoup n)
@@ -220,10 +219,9 @@ boolean wormhole_validate_observation(slice_index si)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -232,24 +230,20 @@ boolean wormhole_validate_observation(slice_index si)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type wormhole_remove_illegal_captures_solve(slice_index si, stip_length_type n)
+void wormhole_remove_illegal_captures_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&is_move_allowed);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_remover(slice_index si, stip_structure_traversal *st)

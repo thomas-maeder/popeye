@@ -1,7 +1,7 @@
 #if !defined(INPUT_PLAINTEXT_TOKEN_H)
 #define INPUT_PLAINTEXT_TOKEN_H
 
-#include "pylang.h"
+#include "input/plaintext/language.h"
 #include "input/plaintext/line.h"
 
 typedef enum

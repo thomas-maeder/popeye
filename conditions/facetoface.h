@@ -17,9 +17,8 @@ boolean facetoface_enforce_observer_walk(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void facetoface_generate_moves_for_piece(slice_index si, PieNam p);
+void facetoface_generate_moves_for_piece(slice_index si);
 
 /* Inialise the solving machinery with Face-to-face Chess
  * @param si identifies root slice of solving machinery
@@ -28,9 +27,8 @@ void facetoface_initialise_solving(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void backtoback_generate_moves_for_piece(slice_index si, PieNam p);
+void backtoback_generate_moves_for_piece(slice_index si);
 
 
 /* Make sure that the observer has the expected walk - confronted or originally
@@ -51,9 +49,8 @@ boolean cheektocheek_enforce_observer_walk(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void cheektocheek_generate_moves_for_piece(slice_index si, PieNam p);
+void cheektocheek_generate_moves_for_piece(slice_index si);
 
 /* Inialise the solving machinery with Face-to-face Chess
  * @param si identifies root slice of solving machinery

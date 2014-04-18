@@ -18,9 +18,8 @@ boolean annan_enforce_observer_walk(slice_index si);
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void annan_generate_moves_for_piece(slice_index si, PieNam p);
+void annan_generate_moves_for_piece(slice_index si);
 
 /* Inialise the solving machinery with Annan Chess
  * @param si identifies root slice of solving machinery

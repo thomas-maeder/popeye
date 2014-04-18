@@ -3,37 +3,34 @@
 
 /* This module implements Chameleon pieces and Chameleon Chess */
 
-#include "solving/solve.h"
+#include "pieces/pieces.h"
+#include "solving/machinery/solve.h"
+#include "solving/machinery/twin.h"
 
-typedef PieNam chameleon_sequence_type[PieceCount];
+typedef piece_walk_type chameleon_sequence_type[nr_piece_walks];
 
 chameleon_sequence_type chameleon_walk_sequence;
 
-boolean chameleon_is_squence_implicit;
-
-/* Reset the mapping from captured to reborn walks
- */
-void chameleon_reset_sequence(boolean *is_implicit,
-                              chameleon_sequence_type* sequence);
+extern twin_number_type chameleon_is_squence_explicit;
 
 /* Initialise one mapping captured->reborn from an explicit indication
  * @param captured captured walk
  * @param reborn type of reborn walk if a piece with walk captured is captured
  */
-void chameleon_set_successor_walk_explicit(boolean *is_implicit,
+void chameleon_set_successor_walk_explicit(twin_number_type *is_explicit,
                                            chameleon_sequence_type* sequence,
-                                           PieNam from, PieNam to);
+                                           piece_walk_type from, piece_walk_type to);
 
 /* Initialise the reborn pieces if they haven't been already initialised
- * from explicit indications
+ * from explicit indications.
+ * @note chameleon_init_sequence_implicit() resets *is_explicit to false
  */
-void chameleon_init_sequence_implicit(boolean is_implicit,
+void chameleon_init_sequence_implicit(twin_number_type *is_explicit,
                                       chameleon_sequence_type* sequence);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -42,14 +39,13 @@ void chameleon_init_sequence_implicit(boolean is_implicit,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type chameleon_change_promotee_into_solve(slice_index si,
-                                                      stip_length_type n);
+void chameleon_change_promotee_into_solve(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -58,9 +54,9 @@ stip_length_type chameleon_change_promotee_into_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type chameleon_arriving_adjuster_solve(slice_index si,
-                                                    stip_length_type n);
+void chameleon_arriving_adjuster_solve(slice_index si);
 
 /* Instrument the solving machinery for solving problems with some
  * chameleon pieces
@@ -68,10 +64,9 @@ stip_length_type chameleon_arriving_adjuster_solve(slice_index si,
  */
 void chameleon_initialise_solving(slice_index si);
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -80,9 +75,9 @@ void chameleon_initialise_solving(slice_index si);
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type chameleon_chess_arriving_adjuster_solve(slice_index si,
-                                                         stip_length_type n);
+void chameleon_chess_arriving_adjuster_solve(slice_index si);
 
 /* Instrument the solving machinery for solving problems with the condition
  * Chameleon Chess

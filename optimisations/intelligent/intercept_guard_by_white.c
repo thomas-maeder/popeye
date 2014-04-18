@@ -47,7 +47,8 @@ static void black_piece_on(boolean is_check, square where_to_intercept, void (*g
  */
 static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
 {
-  boolean const is_check = target+dir_from_rider==king_square[Black];
+  Flags const mask = BIT(Black)|BIT(Royal);
+  boolean const is_check = TSTFULLFLAGMASK(spec[target+dir_from_rider],mask);
   square where_to_intercept;
 
   TraceFunctionEntry(__func__);
@@ -87,7 +88,7 @@ static void promoted_white_pawn(unsigned int intercepter_index,
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(intercepter_index,
                                                                 where_to_intercept))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {

@@ -3,17 +3,19 @@
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
-#include "pylang.h"
-#include "stipulation/has_solution_type.h"
-#include "solving/solve.h"
-#include "pymsg.h"
+#include "input/plaintext/language.h"
+#include "solving/has_solution_type.h"
+#include "solving/machinery/solve.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
+#include "output/plaintext/message.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/detect_retraction.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "output/plaintext/language_dependant.h"
@@ -53,7 +55,8 @@ static boolean is_mate_square(Side other_side)
 
     occupy_square(king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
-    if (solve(slices[temporary_hack_mate_tester[other_side]].next2,slack_length)==slack_length)
+    if (fork_solve(temporary_hack_mate_tester[other_side],slack_length)
+        ==slack_length)
       result = true;
 
     empty_square(king_square[other_side]);
@@ -79,7 +82,7 @@ static void advance_mate_square(Side side)
 
   assert(republican_goal.type==goal_mate);
 
-  king_square[other_side] =  king_placement[nbply]+1;
+  king_square[other_side] = king_placement[nbply]+1;
   ++number_of_pieces[other_side][King];
   while (king_square[other_side]<=square_h8)
     if (is_mate_square(other_side))
@@ -268,10 +271,9 @@ static void determine_king_placement(Side trait_ply)
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -280,16 +282,17 @@ static void determine_king_placement(Side trait_ply)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type republican_king_placer_solve(slice_index si,
-                                               stip_length_type n)
+void republican_king_placer_solve(slice_index si)
 {
-  stip_length_type result;
+  move_effect_journal_index_type const save_horizon = king_square_horizon;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
+
+  update_king_squares();
 
   if (king_square[advers(slices[si].starter)]==initsquare)
   {
@@ -297,13 +300,13 @@ stip_length_type republican_king_placer_solve(slice_index si,
 
     if (king_placement[nbply]==king_not_placed)
     {
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
       king_placement[nbply] = to_be_initialised;
     }
     else
     {
       place_king(slices[si].starter);
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
 
       if (!post_move_iteration_locked[nbply])
       {
@@ -315,18 +318,17 @@ stip_length_type republican_king_placer_solve(slice_index si,
     prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
   else
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
+
+  king_square_horizon = save_horizon;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -335,25 +337,17 @@ stip_length_type republican_king_placer_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type republican_type1_dead_end_solve(slice_index si,
-                                                  stip_length_type n)
+void republican_type1_dead_end_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (king_placement[nbply]==king_not_placed)
-    result = solve(slices[si].next1,n);
-  else
-    /* defender has inserted the attacker's king - no use to go on */
-    result = n+2;
+  /* defender has inserted the attacker's king - no use to go on */
+  pipe_this_move_doesnt_solve_if(si,king_placement[nbply]!=king_not_placed);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

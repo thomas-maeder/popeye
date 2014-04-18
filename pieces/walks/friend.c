@@ -7,7 +7,7 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-void locate_observees(PieNam walk, square pos_observees[])
+void locate_observees(piece_walk_type walk, square pos_observees[])
 {
   unsigned int current = 0;
   square const *bnp;
@@ -20,7 +20,7 @@ void locate_observees(PieNam walk, square pos_observees[])
     }
 }
 
-void isolate_observee(PieNam walk, square const pos_observees[], unsigned int isolated_observee)
+void isolate_observee(piece_walk_type walk, square const pos_observees[], unsigned int isolated_observee)
 {
   unsigned int orphan_id;
 
@@ -29,7 +29,7 @@ void isolate_observee(PieNam walk, square const pos_observees[], unsigned int is
       occupy_square(pos_observees[orphan_id],Dummy,spec[pos_observees[orphan_id]]);
 }
 
-void restore_observees(PieNam walk, square const pos_observees[])
+void restore_observees(piece_walk_type walk, square const pos_observees[])
 {
   unsigned int orphan_id;
 
@@ -38,7 +38,7 @@ void restore_observees(PieNam walk, square const pos_observees[])
 }
 
 static boolean find_next_friend_in_chain(square sq_target,
-                                         PieNam friend_observer)
+                                         piece_walk_type friend_observer)
 {
   boolean result = false;
 
@@ -92,7 +92,7 @@ void friend_generate_moves(void)
   numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
   Side const camp = trait[nbply];
 
-  PieNam const *friend_observer;
+  piece_walk_type const *friend_observer;
   for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
     if (number_of_pieces[camp][*friend_observer]>0)
     {
@@ -105,8 +105,13 @@ void friend_generate_moves(void)
       finply();
 
       if (found_chain)
-        generate_moves_for_piece_based_on_walk(*friend_observer);
+      {
+        move_generation_current_walk = *friend_observer;
+        generate_moves_for_piece_based_on_walk();
+      }
     }
+
+  move_generation_current_walk = Friend;
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
@@ -114,7 +119,7 @@ void friend_generate_moves(void)
 boolean friend_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
-  PieNam const *pfr;
+  piece_walk_type const *pfr;
   boolean result = false;
   square pos_friends[63];
 

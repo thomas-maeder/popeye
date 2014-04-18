@@ -8,31 +8,34 @@
 #include "stipulation/branch.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 
 #include "debugging/assert.h"
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void reflective_kings_generate_moves_for_piece(slice_index si, PieNam p)
+void reflective_kings_generate_moves_for_piece(slice_index si)
 {
   square const sq_departure = move_generation_stack[current_generation].departure;
+  Flags const mask = BIT(trait[nbply])|BIT(Royal);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  if (sq_departure==king_square[trait[nbply]])
+  if (TSTFULLFLAGMASK(spec[sq_departure],mask))
   {
+    piece_walk_type const save_current_walk = move_generation_current_walk;
     numecoup const base = CURRMOVE_OF_PLY(nbply);
-    generate_moves_for_piece(slices[si].next1,King);
+    move_generation_current_walk = King;
+    generate_moves_for_piece(slices[si].next1);
+    move_generation_current_walk = save_current_walk;
     if (generate_moves_of_transmuting_king(si))
       remove_duplicate_moves_of_single_piece(base);
   }
   else
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -59,7 +62,7 @@ boolean reflective_kings_enforce_observer_walk(slice_index si)
       result = true;
     else if (transmuting_kings_is_king_transmuting_as(observing_walk[nbply]))
     {
-      PieNam const save_walk = observing_walk[nbply];
+      piece_walk_type const save_walk = observing_walk[nbply];
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
       result = validate_observation_recursive(slices[si].next1);
       observing_walk[nbply] = save_walk;

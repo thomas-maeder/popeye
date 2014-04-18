@@ -7,21 +7,21 @@
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
-PieNam orphanpieces[PieceCount];
+piece_walk_type orphanpieces[nr_piece_walks];
 
 static boolean orphan_find_observation_chain(square sq_target,
-                                             PieNam orphan_observer);
+                                             piece_walk_type orphan_observer);
 
 static boolean find_next_orphan_in_chain(square sq_target,
                                          square const pos_orphans[],
-                                         PieNam orphan_observer)
+                                         piece_walk_type orphan_observer)
 {
   boolean result = false;
   unsigned int orphan_id;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_target);
-  TracePiece(orphan_observer);
+  TraceWalk(orphan_observer);
   TraceFunctionParamListEnd();
 
   for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][Orphan]; ++orphan_id)
@@ -49,13 +49,13 @@ static boolean find_next_orphan_in_chain(square sq_target,
 }
 
 static boolean orphan_find_observation_chain(square sq_target,
-                                             PieNam orphan_observer)
+                                             piece_walk_type orphan_observer)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_target);
-  TracePiece(orphan_observer);
+  TraceWalk(orphan_observer);
   TraceFunctionParamListEnd();
 
   trait[nbply] = advers(trait[nbply]);
@@ -94,7 +94,7 @@ static boolean orphan_find_observation_chain(square sq_target,
 void orphan_generate_moves(void)
 {
   numecoup const save_nbcou = CURRMOVE_OF_PLY(nbply);
-  PieNam const *orphan_observer;
+  piece_walk_type const *orphan_observer;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
@@ -108,8 +108,13 @@ void orphan_generate_moves(void)
       finply();
 
       if (found_chain)
-        generate_moves_for_piece_based_on_walk(*orphan_observer);
+      {
+        move_generation_current_walk = *orphan_observer;
+        generate_moves_for_piece_based_on_walk();
+      }
     }
+
+  move_generation_current_walk = Orphan;
 
   remove_duplicate_moves_of_single_piece(save_nbcou);
 }
@@ -118,7 +123,7 @@ boolean orphan_check(validator_id evaluate)
 {
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   boolean result = false;
-  PieNam const *orphan_observer;
+  piece_walk_type const *orphan_observer;
   square pos_orphans[63];
 
   TraceFunctionEntry(__func__);
@@ -133,7 +138,7 @@ boolean orphan_check(validator_id evaluate)
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
     if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
     {
-      TracePiece(*orphan_observer);TraceEOL();
+      TraceWalk(*orphan_observer);TraceEOL();
       if (find_next_orphan_in_chain(sq_target,pos_orphans,*orphan_observer))
       {
         result = true;

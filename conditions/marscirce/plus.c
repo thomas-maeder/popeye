@@ -10,14 +10,11 @@
 static square const center_squares[] = { square_d4, square_d5, square_e4, square_e5 };
 enum { nr_center_squares = sizeof center_squares / sizeof center_squares[0] };
 
-static void generate_additional_captures_from(slice_index si,
-                                              PieNam p,
-                                              square from)
+static void generate_additional_captures_from(slice_index si, square from)
 {
   square const sq_departure = curr_generation->departure;
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
@@ -26,7 +23,7 @@ static void generate_additional_captures_from(slice_index si,
     occupy_square(from,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
     empty_square(sq_departure);
 
-    marscirce_generate_captures(si,p,from);
+    marscirce_generate_captures(si,from);
 
     occupy_square(sq_departure,get_walk_of_piece_on_square(from),spec[from]);
     empty_square(from);
@@ -38,26 +35,24 @@ static void generate_additional_captures_from(slice_index si,
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @param p indicates the walk according to which to generate moves
  * @note the piece on the departure square need not necessarily have walk p
  */
-void plus_generate_moves_for_piece(slice_index si, PieNam p)
+void plus_generate_moves_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1,p);
+  generate_moves_for_piece(slices[si].next1);
 
   for (i = 0; i!=nr_center_squares; ++i)
     if (sq_departure==center_squares[i])
     {
       unsigned int j;
       for (j = 0; j!=nr_center_squares; ++j)
-        generate_additional_captures_from(si,p,center_squares[j]);
+        generate_additional_captures_from(si,center_squares[j]);
       break;
     }
 

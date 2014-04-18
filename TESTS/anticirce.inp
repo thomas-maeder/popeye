@@ -74,4 +74,77 @@ stip x1
 condition anticirce rank
 option nowk nobk
 
+next
+
+pieces white sb1 bc1 black pa3
+condition anticirce super april b
+stip x1
+option nobk nowk
+
+next
+
+pieces white sb3 black sc5
+stip x1
+condition anticirce chameleon
+option nowk nobk
+
+next
+
+pieces white bd3 black sf5
+stip x1
+option nowk nobk
+condition circe reversaleinstein anticirce einstein
+twin condition circe einstein anticirce reversaleinstein
+
+next
+
+pieces white sa1 black pb3
+stip x1
+condition anticirce super relaxed
+option nowk nobk
+
+next
+
+pieces white rd6d5 sc3f3c4f4 black re3e4 sc6f6c5f5
+stip x1
+condition anticirce rank
+option duplex
+option nowk nobk
+
+next
+
+pieces white sd3 black pe5
+stip x1
+condition anticirce turncoat
+option nowk nobk
+
+next
+
+pieces white pc4 black qd5
+condition circe anticirce volage
+stip x1
+option nowk nobk
+
+next
+
+pieces white pc7 black bd6
+stip ser-x2
+condition anticirce frischauf
+option nowk nobk
+
+next
+
+pieces white pc7 black sd8
+stip x1
+condition anticirce frischauf
+option nowk nobk
+
+next
+
+pieces white ka1 black pa2
+stip x1
+condition anticirce rexexcl
+option nowk nobk
+
 end
+

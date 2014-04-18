@@ -15,14 +15,14 @@
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_officer(PieNam officer_type,
+static void place_officer(piece_walk_type officer_type,
                           square to_be_intercepted,
                           unsigned int index_of_intercepting_piece)
 {
   Flags const intercepter_flags = white[index_of_intercepting_piece].flags;
 
   TraceFunctionEntry(__func__);
-  TracePiece(officer_type);
+  TraceWalk(officer_type);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
@@ -46,14 +46,14 @@ static void place_officer(PieNam officer_type,
  * @param to_be_intercepted where to intercept
  * @param index_of_intercepting_piece identifies the pawn
  */
-static void place_promotee(PieNam promotee_type,
+static void place_promotee(piece_walk_type promotee_type,
                            square to_be_intercepted,
                            unsigned int index_of_intercepting_piece)
 {
   square const intercepter_diagram_square = white[index_of_intercepting_piece].diagram_square;
 
   TraceFunctionEntry(__func__);
-  TracePiece(promotee_type);
+  TraceWalk(promotee_type);
   TraceSquare(to_be_intercepted);
   TraceValue("%u",index_of_intercepting_piece);
   TraceFunctionParamListEnd();
@@ -88,7 +88,7 @@ static void promoted_pawn(square to_be_intercepted,
   if (intelligent_can_promoted_white_pawn_theoretically_move_to(index_of_intercepting_piece,
                                                                 to_be_intercepted))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {
@@ -161,7 +161,7 @@ static void officer(square to_be_intercepted,
                     unsigned int index_of_intercepting_piece)
 {
   square const officer_diagram_square = white[index_of_intercepting_piece].diagram_square;
-  PieNam const officer_type = white[index_of_intercepting_piece].type;
+  piece_walk_type const officer_type = white[index_of_intercepting_piece].type;
 
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_intercepted);
@@ -203,7 +203,7 @@ void intercept_check_on_guarded_square(square to_be_intercepted)
       TraceEnumerator(piece_usage,white[intercepter_index].usage,"\n");
       if (white[intercepter_index].usage==piece_is_unused)
       {
-        PieNam const intercepter_type = white[intercepter_index].type;
+        piece_walk_type const intercepter_type = white[intercepter_index].type;
         white[intercepter_index].usage = piece_intercepts_check_from_guard;
 
         switch (intercepter_type)
@@ -261,7 +261,7 @@ static void place_promoted_black_pawn(square placed_on,
   if (intelligent_can_promoted_black_pawn_theoretically_move_to(placed_index,
                                                                 placed_on))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       switch (pp)
       {

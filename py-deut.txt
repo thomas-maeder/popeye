@@ -105,11 +105,9 @@ Kommandos:
 	Zeilenwechsel. 
         Durch Kombination einzelner Bedingungen koennen Sie andere
         existierende Bedingungen erhalten:
-        z.B.: Circe  und  Immunschach  ergibt  StrictCirce
         Folgendes ist momentan moeglich:
 
 	Circe
-	SpiegelCirce
 	Madrasi
 	Volage
 	Hypervolage
@@ -122,25 +120,18 @@ Kommandos:
 	Leofamily
 	ChinesischesSchach
 	PatrouilleSchach
-	PlatzwechselCirce
 	Ohneschlag
 	Immunschach
-	SpiegelImmunSchach
 	KontaktGitter
 	Imitator
 	CavalierMajeur
 	HaanerSchach
-	CouscousCirce
-	ChamaeleonCirce
-	EquipollentsCirce
-	FileCirce
 	Sentinelles
 	SchwarzerLaengstzueger
 	SchwarzerKuerzestzueger
 	WeisserLaengstzueger
 	WeisserKuerzestzueger
 	MagischeFelder
-	DiagrammCirce
 	TibetSchach
 	DoppelTibetSchach
 	Loch                            (= nicht betretbares Feld)
@@ -150,30 +141,9 @@ Kommandos:
 	SchwarzerVerfolgungszueger
 	WeisserVerfolgungszueger
 	DuellantenSchach
-	CirceParrain
-	KontraParrain
-	SymmetrieCirce
 	OhneIUW              (= Bauernumwandlungen in Imitator nicht erlaubt)
 	VogtlaenderSchach
 	AntiCirce
-	SpiegelFileCirce
-	AntipodenCirce
-	SpiegelCirceclone
-	AntiSpiegelCirce
-	AntiDiagrammCirce
-	AntiFileCirce
-	AntiSymmetrieCirce
-	AntiSpiegelFileCirce
-	AntiAntipodenCirce
-	AntiEquipollentsCirce
-	FileImmunSchach
-	DiagrammImmunSchach
-	SpiegelFileImmunSchach
-	SymmetrieImmunSchach
-	AntipodenImmunSchach
-	EquipollentsImmunSchach
-	KaefigImmunSchach
-	SuperCirce
 	ReversesEinsteinSchach
 	Degradierung
 	NorskSjakk
@@ -184,8 +154,6 @@ Kommandos:
 	SchwarzesKonsequentesZwangsfeld
 	WeissesKonsequentesZwangsfeld
 	Bicolores
-	CirceClone
-	AntiCloneCirce
 	EinsteinSchach
 	NeuKoeko
 	ReflektierendeKoenige
@@ -194,11 +162,8 @@ Kommandos:
 	BeamtenSchach
 	GlasgowSchach
 	AntiAndernachSchach
-	FrischaufCirce
-	VertikalesSpiegelCirce
 	Isardam
 	Ohneschach
-	DiametralCirce
 	UWnur
 	ExklusivSchach
 	Marscirce
@@ -209,10 +174,8 @@ Kommandos:
 	WeisserReflektierenderKoenig
 	SchwarzerReflektierenderKoenig
 	AntiEinsteinSchach
-	SpiegelCouscousCirce
 	SchwarzesKoeniglichesFeld
 	WeissesKoeniglichesFeld
-	AssassinCirce
 	PlusSchach
 	BrunnerSchach
 	ZentralSchach
@@ -237,11 +200,8 @@ Kommandos:
 	Schutzkoenige
 	WeisserOhneschlag
 	SchwarzerOhneschlag
-	AprilSchach
 	AlphabetischesSchach
 	LinienChamaeleonSchach
-	TurncoatCirce
-	DoppelAgentenCirce
 	AMU
 	NurPartiesatzsteine
 	MAFF
@@ -254,7 +214,6 @@ Kommandos:
 	AntiMarsAntipodeanCirce
 	WeisserSuperTransmutierenderKoenig
 	SchwarzerSuperTransmutierenderKoenig
-	AntiSuperCirce
 	UltraPatrouille
 	TauschKoenige
 	KoenigsDynastie
@@ -281,12 +240,10 @@ Kommandos:
 	RochadeSchach
 	Schlagschach
 	Geisterschach
-	KaefigCirce
 	Fussball
 	WeissesAlphabetischesSchach
 	SchwarzesAlphabetischesSchach
 	KobulKoenige
-	CirceTake&Make (auch bekannt als Anti-Take&Make)
 	SuperDeckungen
 	Wurmloecher
 	MarinesSchach
@@ -321,13 +278,8 @@ Kommandos:
 	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
 	festgelegt werden.
 
-	Nach einigen Circe- bzw. Immunschachbedingungen, Madrasi,
-	Phantomschach sowie Genferschach kann wahlweise noch
+	Nach Madrasi sowie Phantomschach kann wahlweise noch
 	"RexInklusive" angegeben werden.
-
-	Nach allen Anticircearten kann wahlweise "Cheylan" oder
-	"Calvet" angegeben werden, entsprechend dem gew"unschten
-	Typ. Standardannahme ist Calvet.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden.
@@ -411,6 +363,98 @@ Kommandos:
 	Kuerzestzueger-Schluesselwoertern kann mit dem Schluesselwort
 	"Ultra" angegeben werden, dass die jeweilige Ultra-Bedingung
 	gemeint ist.
+	
+	Nach Circe, AntiCirce, ImmunSchach und GenferSchach koennen eine Reihe
+	von Optionen angegeben werden; die Optionen koennen vielfaeltig
+	miteinander kombiniert werden. Nicht alle Kombinationen sind
+	sinnfaellig, und nicht alle Optionen fuer alle vier Grund-Bedingungen.
+	Zudem schliessen sich einige Optionen gegenseitig aus.
+	Einbezug des Koenigs:
+		RexInklusive	(Vorgabe bei AntiCirce)
+		RexExklusive	(Vorgabe sonst)
+	Massgebende(r) Zug/Gangart/Partei:	
+		LetzterZug 
+		Clone		(bestimmt auch Gangart des Wiedergeborenen)
+		Couscous
+		Spiegel		(spezielle Bedeutung bei Equipollents - siehe unten)
+	Einschraenkung auf Gangart:
+		April
+	Bestimmung der Wiedergeburtsfelder:
+		Equipollents
+		Parrain
+		ContraParrain
+		Reihe
+		File
+		Symmetrie
+		Diagramm
+		Platzwechsel
+		Antipoden
+		Super
+		Take&Make
+		Kaefig
+	Anpassung des Wiedergeburtsfelds:
+		Diametral
+		VertikalSpiegel
+		Frischauf
+		(Reihe)
+	Anpassung des Wiedergeborenen:
+		Chamaeleon
+		Turncoat
+		Einstein
+		ReversesEinstein
+	Verhalten bei besetztem Wiedergeburtsfeld:
+		Strikt		(Vorgabe bei AntiCirce)
+		Locker		(Vorgabe bei Circe)
+		Assassin
+		Vulkan
+		Fallschirm
+		Calvet		(Vorgabe bei AntiCirce)
+		Cheylan
+	Die folgenden "traditionellen" Bedinungsbezeichnungen koennen nach wie
+	vor verwendet werden; sie erlauben die zusaetzliche Angabe RexInklusive
+	bzw. RexExklusive:
+		traditionell:		Angabe mit Option(en):
+		SpiegelCirce		Circe Spiegel
+		PlatzwechselCirce	Circe PWC
+		CouscousCirce		Circe Couscous
+		ChamaeleonCirce		Circe Chamaeleon
+		EquipollentsCirce	Circe Equipollents
+		FileCirce		Circe File
+		DiagrammCirce		Circe Diagramm
+		CirceParrain		Circe LetzterZug Equipollents
+		KontraParrain		Circe LetzterZug Equipollents Spiegel
+		SymmetrieCirce		Circe Symmetrie
+		SpiegelFileCirce	Circe File Spiegel
+		AntipodenCirce		Circe Antipoden
+		SpiegelCirceclone	Circe Clone Spiegel
+		SuperCirce		Circe Super
+		CirceClone		Circe Clone
+		FrischaufCirce		Circe Frischauf
+		DiametralCirce		Circe Diametral
+		SpiegelCouscousCirce	Circe Couscous Spiegel
+		AssassinCirce		Circe Assassin
+		TurncoatCirce		Circe Turncoat
+		DoppelAgentenCirce	Circe Turncoat Spiegel
+		KaefigCirce		Circe Kaefig
+		CirceTake&Make		Circe Take&Make
+		VertikalesSpiegelCirce	Circe VertikalSpiegel
+		AprilSchach             Circe Super April
+		AntiSpiegelCirce	AntiCirce Spiegel
+		AntiDiagrammCirce	AntiCirce Diagramm
+		AntiFileCirce		AntiCirce File
+		AntiSymmetrieCirce	AntiCirce Symmetrie
+		AntiSpiegelFileCirce	AntiCirce File Spiegel
+		AntiAntipodenCirce	AntiCirce Antipoden 
+		AntiEquipollentsCirce	AntiCirce Equipollents
+		AntiCloneCirce		AntiCirce Clone
+		AntiSuperCirce		AntiCirce Super
+		SpiegelImmunSchach	ImmunSchach Spiegel
+		FileImmunSchach		ImmunSchach File
+		DiagrammImmunSchach	ImmunSchach Diagram
+		SpiegelFileImmunSchach	ImmunSchach File Spiegel
+		SymmetrieImmunSchach	ImmunSchach Symmetrie
+		AntipodenImmunSchach	ImmunSchach Antipoden
+		EquipollentsImmunSchach	Immunschach Equipollents
 
  - Option: Alles was zur Wirkung kommen soll ist einfach durch Zwischenraum
 	getrennt nach dem Schluesselwort anzugeben. Es wird folgendes erkannt:
@@ -834,12 +878,19 @@ aufwendiger ist das Kommando
 	angegeben werden. 
 	Nach diesen Spezifikationen kommt die Liste der Figuren, 
 	wie man sie gewoehnlich notiert:
-	Name der Figur, gefolgt von einer Liste von Felder auf denen eine
-	solche Figur plaziert werden soll. Zu jeder Zeit ist es moeglich
+	Kuerzel der Gangart, gefolgt von einer Liste von Feldern, auf denen eine
+	solche Figur plaziert werden soll. Zu jeder Zeit ist es moeglich,
 	Figuren einer anderen Farbe anzugeben, einfach durch das Angeben des
 	entsprechenden Schluesselwortes.
+	
+	Wenn ein Stein auf einem besetzen Feld plaziert wird, wird der vorherige
+	Stein unter dem Feld zuoberst in die Unterwelt versetzt. In den
+	Maerchenbedingungen Circe Vulkan, Circe Fallschirm, Geisterschach und
+	Spukschach werden Steine aus der Unterwelt durch Abzug vom Feld in die
+	reale Welt zurueckgeholt. Ansonsten ermoeglichen Steine in der Unterwelt
+	hoechstens die Bauernumwanldung in ihre Gangart.
 
-	Popeye kennt folgende Figurenarten:
+	Popeye unterstuetzt folgende Gangarten:
 
 	15      1,5-Springer
 	16      1,6-Springer                    Flamingo

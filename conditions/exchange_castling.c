@@ -5,6 +5,7 @@
 #include "solving/castling.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -12,10 +13,9 @@
 
 static boolean castling_right_used_up[nr_sides];
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -24,18 +24,16 @@ static boolean castling_right_used_up[nr_sides];
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type exchange_castling_move_player_solve(slice_index si,
-                                                      stip_length_type n)
+void exchange_castling_move_player_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt const * const move_gen_top = move_generation_stack+curr;
   square const sq_capture = move_gen_top->capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   if (sq_capture==offset_platzwechsel_rochade)
@@ -53,28 +51,26 @@ stip_length_type exchange_castling_move_player_solve(slice_index si,
 
     castling_right_used_up[trait_ply] = true;
 
-    result = solve(slices[si].next2,n);
+    solve(slices[si].next2);
 
     castling_right_used_up[trait_ply] = false;
   }
   else
-    result = solve(slices[si].next1,n);
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void exchange_castling_generate_moves_for_piece(slice_index si, PieNam p)
+void exchange_castling_generate_moves_for_piece(slice_index si)
 {
-  generate_moves_for_piece(slices[si].next1,p);
+  generate_moves_for_piece(slices[si].next1);
 
-  if (p==King && !castling_right_used_up[trait[nbply]])
+  if (move_generation_current_walk==King
+      && !castling_right_used_up[trait[nbply]])
   {
     int i;
     square square_a = square_a1;

@@ -1,6 +1,7 @@
 #if !defined(POSITION_PIECEID_H)
 #define POSITION_PIECEID_H
 
+#include "pieces/pieces.h"
 #include "position/board.h"
 
 enum
@@ -14,7 +15,7 @@ typedef unsigned int        PieceIdType;
 
 extern PieceIdType currPieceId;
 
-#define PieceIdOffset       (PieSpCount+1)
+#define PieceIdOffset       (nr_piece_flags+1)
 #define PieSpMask           ((1<<PieceIdOffset)-1)
 #define PieceIdWidth        6
 #define PieceIdMask         (((1<<(PieceIdOffset+PieceIdWidth))-1)^((1<<PieceIdOffset)-1))

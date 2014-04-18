@@ -1,14 +1,19 @@
 #include "conditions/circe/parachute.h"
+#include "position/position.h"
 #include "conditions/circe/circe.h"
+#include "conditions/circe/rebirth_avoider.h"
 #include "conditions/haunted_chess.h"
 #include "solving/observation.h"
 #include "solving/check.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
+#include "stipulation/fork.h"
+#include "stipulation/move.h"
 
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -81,9 +86,9 @@ void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_index
   TraceFunctionResultEnd();
 }
 
-static void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reason)
+void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reason,
+                                                    square sq_rebirth)
 {
-  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
 
   TraceFunctionEntry(__func__);
@@ -94,16 +99,16 @@ static void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_ty
 
   top_elmt->type = move_effect_remember_volcanic;
   top_elmt->reason = reason;
-  top_elmt->u.handle_ghost.ghost.on = context->rebirth_square;
-  top_elmt->u.handle_ghost.ghost.walk = context->reborn_walk;
-  top_elmt->u.handle_ghost.ghost.flags = context->reborn_spec;
+  top_elmt->u.handle_ghost.ghost.on = sq_rebirth;
+  top_elmt->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
+  top_elmt->u.handle_ghost.ghost.flags = spec[sq_rebirth];
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
 #endif
 
   TraceSquare(top_elmt->u.handle_ghost.ghost.on);
-  TracePiece(top_elmt->u.handle_ghost.ghost.walk);
+  TraceWalk(top_elmt->u.handle_ghost.ghost.walk);
   TraceValue("%u\n",GetPieceId(top_elmt->u.handle_ghost.ghost.flags));
 
   underworld_make_space(nr_ghosts);
@@ -151,10 +156,9 @@ void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_index_
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -163,35 +167,32 @@ void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_index_
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_parachute_remember_solve(slice_index si,
-                                                stip_length_type n)
+void circe_parachute_remember_solve(slice_index si)
 {
-  stip_length_type result;
   circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   square const sq_rebirth = context->rebirth_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_circe_parachute_remember(move_effect_reason_assassin_circe_rebirth,
                                                   sq_rebirth);
   move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                        sq_rebirth);
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+static boolean volcanic_rebirth[maxply+1];
+
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -200,33 +201,33 @@ stip_length_type circe_parachute_remember_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_volcanic_remember_solve(slice_index si,
-                                               stip_length_type n)
+void circe_volcanic_remember_solve(slice_index si)
 {
-  stip_length_type result;
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  square const sq_rebirth = context->rebirth_square;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_circe_volcanic_remember(move_effect_reason_volcanic_remember);
+  move_effect_journal_do_circe_volcanic_remember(move_effect_reason_volcanic_remember,
+                                                 sq_rebirth);
+  move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
+                                       sq_rebirth);
+  volcanic_rebirth[nbply] = true;
+  pipe_solve_delegate(si);
 
-  ++circe_rebirth_context_stack_pointer;
-  result = solve(slices[si].next1,n);
-  --circe_rebirth_context_stack_pointer;
+  volcanic_rebirth[nbply] = false;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -235,16 +236,51 @@ stip_length_type circe_volcanic_remember_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_parachute_uncoverer_solve(slice_index si,
-                                                 stip_length_type n)
+void circe_volcanic_swapper_solve(slice_index si)
 {
-  stip_length_type result;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (volcanic_rebirth[nbply])
+  {
+    piece_type const tmp = underworld[nr_ghosts-1];
+
+    underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(tmp.on);
+    underworld[nr_ghosts-1].flags = spec[tmp.on];
+
+    move_effect_journal_do_piece_removal(move_effect_reason_volcanic_remember,tmp.on);
+    move_effect_journal_do_piece_readdition(move_effect_reason_volcanic_remember,
+                                            tmp.on,tmp.walk,tmp.flags);
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void circe_parachute_uncoverer_solve(slice_index si)
+{
   unsigned int i = 0;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   while (i<nr_ghosts)
@@ -261,10 +297,87 @@ stip_length_type circe_parachute_uncoverer_solve(slice_index si,
       ++i;
   }
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+/* Initialise the solving machinery with Circe Parachute
+ * @param si identifies root slice of stipulation
+ * @param interval_start start of the slices interval to be initialised
+ */
+void circe_parachute_initialise_solving(slice_index si,
+                                        slice_type interval_start)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,interval_start,"");
+  TraceFunctionParamListEnd();
+
+  circe_insert_rebirth_avoider(si,
+                               interval_start,
+                               STCirceDeterminedRebirth,
+                               alloc_fork_slice(STCirceTestRebirthSquareEmpty,no_slice),
+                               STCirceRebirthOnNonEmptySquare,
+                               STCircePlacingReborn);
+
+  circe_instrument_solving(si,
+                           interval_start,
+                           STCirceRebirthOnNonEmptySquare,
+                           alloc_pipe(STCirceParachuteRemember));
+
+  circe_instrument_solving(si,
+                           interval_start,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STCirceParachuteUncoverer));
+
+  stip_instrument_moves(si,STCirceParachuteUncoverer);
+
+  check_no_king_is_possible();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Initialise the solving machinery with Circe Volcanic
+ * @param si identifies root slice of stipulation
+ * @param interval_start start of the slices interval to be initialised
+ */
+void circe_volcanic_initialise_solving(slice_index si,
+                                       slice_type interval_start)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,interval_start,"");
+  TraceFunctionParamListEnd();
+
+  circe_insert_rebirth_avoider(si,
+                               interval_start,
+                               STCirceDeterminedRebirth,
+                               alloc_fork_slice(STCirceTestRebirthSquareEmpty,no_slice),
+                               STCirceRebirthOnNonEmptySquare,
+                               STCircePlacingReborn);
+
+  circe_instrument_solving(si,
+                           interval_start,
+                           STCirceRebirthOnNonEmptySquare,
+                           alloc_pipe(STCirceVolcanicRemember));
+
+  circe_instrument_solving(si,
+                           interval_start,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STCirceVolcanicSwapper));
+
+  circe_instrument_solving(si,
+                           interval_start,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STCirceParachuteUncoverer));
+
+  stip_instrument_moves(si,STCirceParachuteUncoverer);
+
+  check_no_king_is_possible();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

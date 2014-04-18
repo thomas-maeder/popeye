@@ -1,17 +1,18 @@
 #include "solving/battle_play/try.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
-#include "pymsg.h"
 #include "stipulation/branch.h"
 #include "stipulation/constraint.h"
-#include "stipulation/dead_end.h"
-#include "stipulation/proxy.h"
+#include "solving/dead_end.h"
 #include "stipulation/binary.h"
+#include "stipulation/proxy.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/boolean/false.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/solve.h"
-#include "debugging/trace.h"
+#include "solving/machinery/solve.h"
+#include "solving/pipe.h"
+#include "output/plaintext/message.h"
+  #include "debugging/trace.h"
 
 #include "debugging/assert.h"
 #include <limits.h>
@@ -93,10 +94,9 @@ slice_index alloc_refutations_allocator(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -105,27 +105,23 @@ slice_index alloc_refutations_allocator(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type refutations_allocator_solve(slice_index si, stip_length_type n)
+void refutations_allocator_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   assert(refutations==table_nil);
   refutations = allocate_table();
-  result = solve(next,n);
+  pipe_solve_delegate(si);
+
   free_table(refutations);
   refutations = table_nil;
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Allocate a STRefutationsSolver defender slice.
@@ -146,10 +142,9 @@ static slice_index alloc_refutations_solver(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -158,25 +153,26 @@ static slice_index alloc_refutations_solver(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type refutations_solver_solve(slice_index si, stip_length_type n)
+void refutations_solver_solve(slice_index si)
 {
-  stip_length_type result;
+  stip_length_type variations_result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
+  variations_result = solve_result;
 
   if (table_length(refutations)>0)
-    solve(slices[si].next2,n);
+    solve(slices[si].next2);
+
+  solve_result = variations_result;
 
   TraceFunctionExit(__func__);
-  TraceValue("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Allocate a STRefutationsCollector slice.
@@ -200,10 +196,9 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -212,32 +207,27 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type refutations_collector_solve(slice_index si,
-                                              stip_length_type n)
+void refutations_collector_solve(slice_index si)
 {
-  stip_length_type result;
-  slice_index const next = slices[si].next1;
   unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  result = solve(next,n);
+  pipe_solve_delegate(si);
 
-  if (result>n)
+  if (solve_result>MOVE_HAS_SOLVED_LENGTH())
   {
     append_to_table(refutations);
     if (table_length(refutations)<=max_nr_refutations)
-      result = n;
+      solve_result = MOVE_HAS_SOLVED_LENGTH();
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Allocate a STRefutationsAvoider slice.
@@ -260,10 +250,9 @@ slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -272,25 +261,18 @@ slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type refutations_avoider_solve(slice_index si, stip_length_type n)
+void refutations_avoider_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_current_move_in_table(refutations))
-    result = n;
-  else
-    result = solve(slices[si].next1,n);
+  pipe_this_move_solves_if(si,is_current_move_in_table(refutations));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Allocate a STRefutationsFilter slice.
@@ -311,10 +293,9 @@ static slice_index alloc_refutations_filter_slice(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -323,25 +304,18 @@ static slice_index alloc_refutations_filter_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type refutations_filter_solve(slice_index si, stip_length_type n)
+void refutations_filter_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (is_current_move_in_table(refutations))
-    result = solve(slices[si].next1,n);
-  else
-    result = n;
+  pipe_this_move_solves_if(si,!is_current_move_in_table(refutations));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void filter_output_mode(slice_index si, stip_structure_traversal *st)
@@ -580,6 +554,8 @@ void stip_insert_try_solvers(slice_index si)
                                     try_solver_inserters,
                                     nr_try_solver_inserters);
   stip_traverse_structure(si,&st);
+
+  reset_tables();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

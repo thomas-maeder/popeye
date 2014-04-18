@@ -1,9 +1,12 @@
 #include "options/maxflightsquares.h"
 #include "stipulation/pipe.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "position/position.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -71,7 +74,9 @@ static boolean are_there_too_many_flights(slice_index si)
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
   save_rbn = king_square[fleeing];
-  result = solve(slices[si].next2,length_unspecified)==next_move_has_solution;
+
+  result = fork_solve(si,length_unspecified)==next_move_has_solution;
+
   save_rbn = initsquare;
 
   TraceFunctionExit(__func__);
@@ -111,10 +116,9 @@ static slice_index alloc_maxflight_guard_slice(void)
 /* **************** Implementation of interface DirectDefender **********
  */
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -123,64 +127,61 @@ static slice_index alloc_maxflight_guard_slice(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type maxflight_guard_solve(slice_index si, stip_length_type n)
+void maxflight_guard_solve(slice_index si)
 {
-  slice_index const next = slices[si].next1;
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (n>slack_length+3 && are_there_too_many_flights(si))
-    result = n+2;
-  else
-    result = solve(next,n);
+  pipe_this_move_doesnt_solve_if(si,
+                                 solve_nr_remaining>next_move_has_no_solution
+                                 && are_there_too_many_flights(si));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type flightsquares_counter_solve(slice_index si,
-                                              stip_length_type n)
+static boolean are_flights_exhausted(slice_index si)
 {
-  unsigned int result = n+2;
   Side const fleeing = advers(slices[si].starter);
+  Flags const mask = BIT(fleeing)|BIT(Royal);
 
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
-  TraceFunctionParamListEnd();
-
-  if (save_rbn!=king_square[fleeing])
+  if (!TSTFULLFLAGMASK(spec[save_rbn],mask))
   {
     assert(number_flights_left>0);
     --number_flights_left;
     if (number_flights_left==0)
-      result = n;
+      return true;
   }
 
+  return false;
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void flightsquares_counter_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_this_move_solves_exactly_if(are_flights_exhausted(si));
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 

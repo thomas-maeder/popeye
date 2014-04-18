@@ -1,5 +1,6 @@
 #include "position/underworld.h"
 #include "debugging/trace.h"
+#include "debugging/assert.h"
 
 #include <string.h>
 
@@ -35,6 +36,28 @@ underworld_index_type underworld_find_last(square pos)
   TraceFunctionResult("%d",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+void underworld_reset(void)
+{
+  nr_ghosts = 0;
+}
+
+/* Assign the ghosts ids
+ * @param id id to be assigned to the first ghost
+ * @return next id to be assigned to some piece
+ */
+PieceIdType underworld_set_piece_ids(PieceIdType id)
+{
+  unsigned int i;
+
+  for (i = 0; i!=nr_ghosts; ++i)
+  {
+    assert(id<=MaxPieceId);
+    SetPieceId(underworld[i].flags,id++);
+  }
+
+  return id;
 }
 
 /* Make space at some spot in the underworld

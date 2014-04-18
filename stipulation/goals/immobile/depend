@@ -2,15 +2,18 @@ stipulation/goals/immobile/reached_tester$(OBJ_SUFFIX): \
  stipulation/goals/immobile/reached_tester.c \
  stipulation/goals/immobile/reached_tester.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h utilities/enumeration.h \
- position/position.h pieces/pieces.h pieces/walks/vectors.h output/mode.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
  stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/traversal.h solving/solve.h stipulation/fork.h \
- stipulation/has_solution_type.h stipulation/conditional_pipe.h \
- stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
- stipulation/boolean/true.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h solving/ply.h \
- debugging/assert.h
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/fork.h stipulation/conditional_pipe.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/proxy.h stipulation/boolean/true.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ solving/machinery/solve.h debugging/trace.h debugging/assert.h
 
 stipulation/goals/immobile/reached_tester.h:
 
@@ -26,27 +29,33 @@ utilities/boolean.h:
 
 stipulation/slice_type.h:
 
-utilities/enumeration.h:
+stipulation/slice_type.enum.h:
 
-position/position.h:
+position/side.h:
+
+position/side.enum.h:
 
 pieces/pieces.h:
 
-pieces/walks/vectors.h:
-
 output/mode.h:
+
+output/mode.enum.h:
 
 stipulation/structure_traversal.h:
 
 stipulation/slice.h:
 
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
 stipulation/traversal.h:
 
-solving/solve.h:
-
 stipulation/fork.h:
-
-stipulation/has_solution_type.h:
 
 stipulation/conditional_pipe.h:
 
@@ -62,8 +71,8 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-debugging/trace.h:
+solving/machinery/solve.h:
 
-solving/ply.h:
+debugging/trace.h:
 
 debugging/assert.h:

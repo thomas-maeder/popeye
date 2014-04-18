@@ -1,5 +1,5 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"

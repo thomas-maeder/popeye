@@ -1,5 +1,5 @@
 #include "optimisations/intelligent/stalemate/finish.h"
-#include "solving/solve.h"
+#include "solving/machinery/solve.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/place_white_king.h"
 #include "optimisations/intelligent/stalemate/immobilise_black.h"

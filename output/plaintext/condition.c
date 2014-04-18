@@ -40,14 +40,14 @@
 #include <stdio.h>
 #include <string.h>
 
-static unsigned int WriteWalks(char *pos, PieNam const walks[], unsigned int nr_walks)
+static unsigned int WriteWalks(char *pos, piece_walk_type const walks[], unsigned int nr_walks)
 {
   unsigned int i;
   unsigned int result = 0;
 
   for (i = 0; i!=nr_walks; ++i)
   {
-    PieNam const walk = walks[i];
+    piece_walk_type const walk = walks[i];
     if (PieceTab[walk][1]==' ')
       result += sprintf(pos+result, " %c",toupper(PieceTab[walk][0]));
     else
@@ -71,7 +71,7 @@ void WriteBGLNumber(char* buf, long int num)
 
 #define append_to_CondLine(line,pos,format,value) snprintf(*(line)+(pos), (sizeof *(line))-(pos),(format),(value))
 
-static int append_to_CondLine_walk(char (*line)[256], int pos, PieNam walk)
+static int append_to_CondLine_walk(char (*line)[256], int pos, piece_walk_type walk)
 {
   int result = append_to_CondLine(line,pos,"%c",(char)toupper(PieceTab[walk][0]));
 
@@ -91,18 +91,18 @@ static int append_to_CondLine_square(char (*line)[256], int pos, square s)
 
 static int append_to_CondLine_chameleon_sequence(char (*line)[256],
                                                  int pos,
-                                                 chameleon_sequence_type sequence)
+                                                 chameleon_sequence_type const sequence)
 {
-  boolean already_written[PieceCount] = { false };
-  PieNam p;
+  boolean already_written[nr_piece_walks] = { false };
+  piece_walk_type p;
   int result = 0;
 
   result += append_to_CondLine(line,pos+result,"%s"," ");
 
-  for (p = King; p<PieceCount; ++p)
+  for (p = King; p<nr_piece_walks; ++p)
     if (!already_written[p] && sequence[p]!=p)
     {
-      PieNam q = p;
+      piece_walk_type q = p;
 
       result += append_to_CondLine_walk(line,pos+result,p);
 
@@ -135,7 +135,7 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantRank]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_file)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantFile]);
-  if (variant->relevant_piece==circe_relevant_piece_other)
+  if (variant->actual_relevant_piece!=variant->default_relevant_piece)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantCouscous]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_antipodes)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantAntipodes]);
@@ -143,14 +143,14 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTakeAndMake]);
   if (variant->determine_rebirth_square==circe_determine_rebirth_square_super)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantSuper]);
-  if (variant->determine_rebirth_square==circe_determine_rebirth_square_april)
+  if (variant->is_restricted_to_walks)
   {
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantApril]);
 
     {
-      PieNam pp;
-      for (pp = Empty; pp!=PieceCount; ++pp)
-        if (is_april_kind[pp])
+      piece_walk_type pp;
+      for (pp = Empty; pp!=nr_piece_walks; ++pp)
+        if (variant->is_walk_affected[pp])
         {
           written += append_to_CondLine(CondLine,written,"%c",' ');
           written += append_to_CondLine_walk(CondLine,written,pp);
@@ -161,12 +161,12 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
   {
     if (variant->relevant_capture==circe_relevant_capture_thismove)
       written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantEquipollents]);
-    else if (variant->is_mirror)
+    else if (variant->relevant_side_overrider==circe_relevant_side_overrider_mirror)
       written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantContraParrain]);
     else
       written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantParrain]);
   }
-  if (variant->is_mirror)
+  if (variant->relevant_side_overrider==circe_relevant_side_overrider_mirror)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantMirror]);
   if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_assassinate)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantAssassin]);
@@ -178,20 +178,26 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantParachute]);
   if (variant->on_occupied_rebirth_square==circe_on_occupied_rebirth_square_volcanic)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantVolcanic]);
-  if (variant->is_diametral)
+  if (variant->rebirth_square_adapter==circe_rebirth_square_adapter_diametral)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantDiametral]);
+  if (variant->rebirth_square_adapter==circe_rebirth_square_adapter_verticalmirror)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantVerticalMirror]);
   if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_clone)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantClone]);
+  if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_einstein)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantEinstein]);
+  if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_reversaleinstein)
+    written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantReverseEinstein]);
   if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
   {
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantChameleon]);
-    if (!chameleon_circe_is_squence_implicit)
+    if (variant->chameleon_is_walk_squence_explicit==twin_number)
       written += append_to_CondLine_chameleon_sequence(CondLine,written,
-                                                       chameleon_circe_walk_sequence);
+                                                       variant->chameleon_walk_sequence);
   }
   if (variant->is_turncoat)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantTurncoats]);
-  if (variant->is_frischauf)
+  if (variant->rebirth_square_adapter==circe_rebirth_square_adapter_frischauf)
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantFrischauf]);
 
   /* AntiCirceTypeCalvet is default in AntiCirce */
@@ -209,11 +215,11 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
   return written;
 }
 
-static unsigned int append_mummer_strictness(Side side,
+static unsigned int append_mummer_strictness(mummer_strictness_type strictness,
                                              char (*CondLine)[256],
                                              unsigned int written)
 {
-  switch (mummer_strictness[side])
+  switch (strictness)
   {
     case mummer_strictness_none:
     case mummer_strictness_regular:
@@ -264,6 +270,7 @@ static boolean anything_to_write(Cond cond)
     case circeclonemirror:
     case circeassassin:
     case circediametral:
+    case circemirrorvertical:
     case circeclone:
     case circechameleon:
     case circeturncoats:
@@ -328,6 +335,23 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
   Cond cond;
   boolean result = false;
 
+  if (ExtraCondFlag[maxi])
+  {
+    char CondLine[256] = { '\0' };
+    unsigned int written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
+    written = append_mummer_strictness(mummer_strictness_default_side,&CondLine,written);
+    (*WriteCondition)(CondLine,!result);
+    result = true;
+  }
+
+  if (ExtraCondFlag[ultraschachzwang])
+  {
+    char CondLine[256] = { '\0' };
+    append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[ultraschachzwang]);
+    (*WriteCondition)(CondLine,!result);
+    result = true;
+  }
+
   for (cond = 1; cond<CondCount; ++cond)
     if (CondFlag[cond] && anything_to_write(cond))
     {
@@ -338,31 +362,34 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
       {
         case blmax:
           if (ExtraCondFlag[maxi])
-            written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
-          written = append_mummer_strictness(Black,&CondLine,written);
+            continue;
+          else
+            written = append_mummer_strictness(mummer_strictness[Black],&CondLine,written);
           break;
 
         case blmin:
         case blcapt:
-          written = append_mummer_strictness(Black,&CondLine,written);
+          written = append_mummer_strictness(mummer_strictness[Black],&CondLine,written);
           break;
 
         case whmax:
           if (ExtraCondFlag[maxi])
-            written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
-          written = append_mummer_strictness(White,&CondLine,written);
+            continue;
+          else
+            written = append_mummer_strictness(mummer_strictness[White],&CondLine,written);
           break;
 
         case whmin:
         case whcapt:
-          written = append_mummer_strictness(White,&CondLine,written);
+          written = append_mummer_strictness(mummer_strictness[White],&CondLine,written);
           break;
 
         case blackultraschachzwang:
         case whiteultraschachzwang:
           if (ExtraCondFlag[ultraschachzwang])
-            written = append_to_CondLine(&CondLine,0, "%s", ExtraCondTab[ultraschachzwang]);
-          break;
+            continue;
+          else
+            break;
 
         case sentinelles:
           if (sentinelles_is_para)
@@ -385,7 +412,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         case koeko:
         case antikoeko:
         {
-          PieNam koekop = King;
+          piece_walk_type koekop = King;
           nocontactfunc_t const nocontactfunc = cond==koeko ? koeko_nocontact : antikoeko_nocontact;
           if (nocontactfunc == noknightcontact)
             koekop= Knight;
@@ -468,31 +495,19 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
         case promotiononly:
         {
-          PieNam pp = Empty;
-          while (true)
-          {
-            pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp];
-            if (pp==Empty)
-              break;
-            else
+          piece_walk_type pp = Empty;
+          for (pp = Empty; pp!=nr_piece_walks; ++pp)
+            if (promonly[pp])
             {
               written += append_to_CondLine(&CondLine,written,"%c",' ');
               written += append_to_CondLine_walk(&CondLine,written,pp);
             }
-          }
-
-          if (strlen(CondLine) <= strlen(CondTab[promotiononly]))
-            /* due to zeroposition, where pieces_pawns_promotee_sequence is not */
-            /* set (it's set in verifieposition), I suppress  */
-            /* output of promotiononly for now.  */
-            continue;
-          else
-            break;
+          break;
         }
 
         case football:
         {
-          PieNam pp= Empty;
+          piece_walk_type pp= Empty;
           while (true)
           {
             pp = next_football_substitute[pp];
@@ -632,7 +647,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
         case chameleonsequence:
         case chamchess:
-          if (!chameleon_is_squence_implicit)
+          if (chameleon_is_squence_explicit==twin_number)
             written += append_to_CondLine_chameleon_sequence(&CondLine,written,
                                                              chameleon_walk_sequence);
           break;

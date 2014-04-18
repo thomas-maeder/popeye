@@ -1,7 +1,7 @@
 #if !defined(OPTIMISATIONS_COUNTNROPPONENTMOVES_MOVE_GENERATOR_H)
 #define OPTIMISATIONS_COUNTNROPPONENTMOVES_MOVE_GENERATOR_H
 
-#include "position/position.h"
+#include "position/side.h"
 #include "stipulation/stipulation.h"
 
 /* This module provides functionality dealing with the defending side in

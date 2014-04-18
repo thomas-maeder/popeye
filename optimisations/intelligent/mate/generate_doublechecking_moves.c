@@ -11,14 +11,14 @@
 #include "debugging/assert.h"
 
 static void remember_to_keep_checking_line_open(square from, square to,
-                                                PieNam type, int delta)
+                                                piece_walk_type type, int delta)
 {
   int const diff = to-from;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from);
   TraceSquare(to);
-  TracePiece(type);
+  TraceWalk(type);
   TraceFunctionParamListEnd();
 
   assert(type>Empty);
@@ -46,7 +46,7 @@ static void remember_to_keep_checking_line_open(square from, square to,
 static void front_check_by_rider_via(unsigned int index_of_checker,
                                      square via)
 {
-  PieNam const checker_type = white[index_of_checker].type;
+  piece_walk_type const checker_type = white[index_of_checker].type;
   Flags const checker_flags = white[index_of_checker].flags;
   square const checker_origin = white[index_of_checker].diagram_square;
   square const *bnp;
@@ -67,7 +67,7 @@ static void front_check_by_rider_via(unsigned int index_of_checker,
                                                         checker_type,
                                                         *bnp))
       {
-        TraceSquare(*bnp);TracePiece(e[*bnp]);TraceEOL();
+        TraceSquare(*bnp);TraceWalk(e[*bnp]);TraceEOL();
         occupy_square(*bnp,checker_type,checker_flags);
         remember_to_keep_checking_line_open(*bnp,king_square[Black],checker_type,+1);
         remember_to_keep_checking_line_open(via,*bnp,checker_type,+1);
@@ -103,7 +103,7 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
                                                       Knight,
                                                       *bnp))
     {
-      TraceSquare(*bnp);TracePiece(e[*bnp]);TraceEOL();
+      TraceSquare(*bnp);TraceWalk(e[*bnp]);TraceEOL();
       occupy_square(*bnp,Knight,checker_flags);
       intelligent_guard_flights();
       empty_square(*bnp);
@@ -115,7 +115,7 @@ static void front_check_by_knight_via(unsigned int index_of_checker,
 }
 
 static void front_check_by_promotee_rider(unsigned int index_of_checker,
-                                          PieNam promotee_type,
+                                          piece_walk_type promotee_type,
                                           square via,
                                           vec_index_type vec_start,
                                           vec_index_type vec_end)
@@ -141,7 +141,7 @@ static void front_check_by_promotee_rider(unsigned int index_of_checker,
       {
         if (is_line_empty(to_square,king_square[Black],check_dir))
         {
-          TraceSquare(to_square);TracePiece(e[to_square]);TraceEOL();
+          TraceSquare(to_square);TraceWalk(e[to_square]);TraceEOL();
           occupy_square(to_square,promotee_type,checker_flags);
           remember_to_keep_checking_line_open(to_square,king_square[Black],promotee_type,+1);
           remember_to_keep_checking_line_open(via,to_square,promotee_type,+1);
@@ -176,7 +176,7 @@ static void front_check_by_promotee_knight(unsigned int index_of_checker,
     if (is_square_empty(to_square)
         && CheckDir[Knight][king_square[Black]-to_square]!=0)
     {
-      TraceSquare(to_square);TracePiece(e[to_square]);TraceEOL();
+      TraceSquare(to_square);TraceWalk(e[to_square]);TraceEOL();
       occupy_square(to_square,Knight,checker_flags);
       intelligent_guard_flights();
       empty_square(to_square);
@@ -195,7 +195,7 @@ static void front_check_by_promotee(unsigned int index_of_checker, square via)
   TraceFunctionParamListEnd();
 
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       if (pp!=Queen
           && intelligent_reserve_front_check_by_promotee(white[index_of_checker].diagram_square,
@@ -272,7 +272,7 @@ static void front_check_by_pawn_promotion_without_capture(unsigned int index_of_
       && intelligent_reserve_front_check_by_pawn_without_capture(white[index_of_checker].diagram_square,
                                                                  via))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       /* geometry doesn't allow for an interceptable check by a pawn that
        * doesn't capture */
@@ -307,7 +307,7 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
                                                               via,
                                                               check_from))
   {
-    PieNam pp;
+    piece_walk_type pp;
     for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
     {
       int const dir = CheckDir[pp][king_square[Black]-check_from];
@@ -347,12 +347,14 @@ static void front_check_by_pawn_promotion_with_capture(unsigned int index_of_che
 
 static void front_check_by_pawn(unsigned int index_of_checker, square via)
 {
+  Flags const mask = BIT(Black)|BIT(Royal);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
   TraceSquare(via);
   TraceFunctionParamListEnd();
 
-  if (via+2*dir_up==king_square[Black])
+  if (TSTFULLFLAGMASK(spec[via+2*dir_up],mask))
   {
     front_check_by_unpromoted_pawn(index_of_checker,via,dir_up+dir_left);
     front_check_by_unpromoted_pawn(index_of_checker,via,dir_up+dir_right);
@@ -381,11 +383,11 @@ static void generate_front_check_via(square via, boolean diagonal)
   for (index = 1; index<MaxPiece[White]; ++index)
     if (white[index].usage==piece_is_unused)
     {
-      PieNam const checker_type = white[index].type;
+      piece_walk_type const checker_type = white[index].type;
 
       TraceValue("%u",index);
       TraceSquare(white[index].diagram_square);
-      TracePiece(checker_type);
+      TraceWalk(checker_type);
       TraceEOL();
 
       white[index].usage = piece_gives_check;
@@ -427,6 +429,7 @@ static void generate_front_check(square rear_pos)
   int const dir = CheckDir[Queen][king_square[Black]-rear_pos];
   square const start = rear_pos+dir;
   boolean const diagonal = SquareCol(rear_pos)==SquareCol(start);
+  Flags const mask = BIT(Black)|BIT(Royal);
   square s;
 
   TraceFunctionEntry(__func__);
@@ -435,7 +438,7 @@ static void generate_front_check(square rear_pos)
 
   assert(dir!=0);
 
-  for (s = start; s!=king_square[Black]; s += dir)
+  for (s = start; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
     generate_front_check_via(s,diagonal);
 
   TraceFunctionExit(__func__);
@@ -444,14 +447,14 @@ static void generate_front_check(square rear_pos)
 
 static void rear_check_by_promotee(unsigned int index_of_checker,
                                    vec_index_type start, vec_index_type end,
-                                   PieNam checker_type)
+                                   piece_walk_type checker_type)
 {
   Flags const checker_flags = white[index_of_checker].flags;
   vec_index_type k;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
-  TracePiece(checker_type);
+  TraceWalk(checker_type);
   TraceFunctionParamListEnd();
 
   for (k = start; k<=end; ++k)
@@ -469,7 +472,7 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
                                                                       rear_pos))
         {
           occupy_square(rear_pos,checker_type,checker_flags);
-          TraceSquare(rear_pos);TracePiece(checker_type);TraceEOL();
+          TraceSquare(rear_pos);TraceWalk(checker_type);TraceEOL();
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,+1);
           generate_front_check(rear_pos);
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,-1);
@@ -485,7 +488,7 @@ static void rear_check_by_promotee(unsigned int index_of_checker,
 
 static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
 {
-  PieNam pp;
+  piece_walk_type pp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
@@ -516,7 +519,7 @@ static void rear_check_by_promoted_pawn(unsigned int index_of_checker)
 
 static void rear_check_by_rider(unsigned int index_of_checker,
                                 vec_index_type start, vec_index_type end,
-                                PieNam checker_type)
+                                piece_walk_type checker_type)
 {
   square const checker_origin = white[index_of_checker].diagram_square;
   Flags const checker_flags = white[index_of_checker].flags;
@@ -524,7 +527,7 @@ static void rear_check_by_rider(unsigned int index_of_checker,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",index_of_checker);
-  TracePiece(checker_type);
+  TraceWalk(checker_type);
   TraceFunctionParamListEnd();
 
   for (k = start; k<=end; ++k)
@@ -540,7 +543,7 @@ static void rear_check_by_rider(unsigned int index_of_checker,
                                                       checker_type,
                                                       rear_pos))
         {
-          TraceSquare(rear_pos);TracePiece(e[rear_pos]);TraceEOL();
+          TraceSquare(rear_pos);TraceWalk(e[rear_pos]);TraceEOL();
           occupy_square(rear_pos,checker_type,checker_flags);
           remember_to_keep_rider_line_open(rear_pos,king_square[Black],-dir,+1);
           generate_front_check(rear_pos);
@@ -564,11 +567,11 @@ static void battery(void)
 
   for (index = 1; index<MaxPiece[White]; ++index)
   {
-    PieNam const checker_type = white[index].type;
+    piece_walk_type const checker_type = white[index].type;
 
     TraceValue("%u",index);
     TraceSquare(white[index].diagram_square);
-    TracePiece(checker_type);
+    TraceWalk(checker_type);
     TraceEOL();
 
     white[index].usage = piece_gives_check;
@@ -604,12 +607,12 @@ static void battery(void)
 
 static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
                                                  square check_from,
-                                                 PieNam rider_type)
+                                                 piece_walk_type rider_type)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
   TraceSquare(check_from);
-  TracePiece(rider_type);
+  TraceWalk(rider_type);
   TraceFunctionParamListEnd();
 
   if (intelligent_reserve_officer_moves_from_to(White,
@@ -618,7 +621,7 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
                                                 check_from))
   {
     occupy_square(check_from,rider_type,white[checker_index].flags);
-    TraceSquare(check_from);TracePiece(rider_type);TraceEOL();
+    TraceSquare(check_from);TraceWalk(rider_type);TraceEOL();
     intelligent_guard_flights();
     empty_square(check_from);
     intelligent_unreserve();
@@ -631,7 +634,7 @@ static void en_passant_orthogonal_check_by_rider(unsigned int checker_index,
 static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_index,
                                                          square check_from)
 {
-  PieNam pp;
+  piece_walk_type pp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
@@ -645,7 +648,7 @@ static void en_passant_orthogonal_check_by_promoted_pawn(unsigned int checker_in
                                                                   check_from))
     {
       occupy_square(check_from,pp,white[checker_index].flags);
-      TraceSquare(check_from);TracePiece(pp);TraceEOL();
+      TraceSquare(check_from);TraceWalk(pp);TraceEOL();
       intelligent_guard_flights();
       empty_square(check_from);
       intelligent_unreserve();
@@ -670,11 +673,11 @@ static void en_passant_orthogonal_check(int dir_vertical)
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
       {
-        PieNam const checker_type = white[checker_index].type;
+        piece_walk_type const checker_type = white[checker_index].type;
 
         TraceValue("%u",checker_index);
         TraceSquare(white[checker_index].diagram_square);
-        TracePiece(checker_type);
+        TraceWalk(checker_type);
         TraceEOL();
 
         white[checker_index].usage = piece_gives_check;
@@ -709,13 +712,13 @@ static void en_passant_orthogonal_check(int dir_vertical)
 
 static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
                                                square check_from,
-                                               PieNam rider_type,
+                                               piece_walk_type rider_type,
                                                int dir_vertical)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
   TraceSquare(check_from);
-  TracePiece(rider_type);
+  TraceWalk(rider_type);
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
@@ -725,7 +728,7 @@ static void en_passant_diagonal_check_by_rider(unsigned int checker_index,
                                                 check_from))
   {
     occupy_square(check_from,rider_type,white[checker_index].flags);
-    TraceSquare(check_from);TracePiece(rider_type);TraceEOL();
+    TraceSquare(check_from);TraceWalk(rider_type);TraceEOL();
     en_passant_orthogonal_check(dir_vertical);
     empty_square(check_from);
     intelligent_unreserve();
@@ -741,7 +744,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
 {
   square const pawn_origin = white[checker_index].diagram_square;
   Flags const pawn_spec = white[checker_index].flags;
-  PieNam pp;
+  piece_walk_type pp;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",checker_index);
@@ -756,7 +759,7 @@ static void en_passant_diagonal_check_by_promoted_pawn(unsigned int checker_inde
                                                                   check_from))
     {
       occupy_square(check_from,pp,pawn_spec);
-      TraceSquare(check_from);TracePiece(pp);TraceEOL();
+      TraceSquare(check_from);TraceWalk(pp);TraceEOL();
       en_passant_orthogonal_check(dir_vertical);
       empty_square(check_from);
       intelligent_unreserve();
@@ -782,11 +785,11 @@ static void en_passant_diagonal_check(square via_capturee, int dir_vertical)
     for (checker_index = 1; checker_index<MaxPiece[White]; ++checker_index)
       if (white[checker_index].usage==piece_is_unused)
       {
-        PieNam const checker_type = white[checker_index].type;
+        piece_walk_type const checker_type = white[checker_index].type;
 
         TraceValue("%u",checker_index);
         TraceSquare(white[checker_index].diagram_square);
-        TracePiece(checker_type);
+        TraceWalk(checker_type);
         TraceEOL();
 
         white[checker_index].usage = piece_gives_check;
@@ -844,7 +847,7 @@ static void en_passant_select_capturee(square via_capturee, int dir_vertical)
   TraceFunctionParam("%d",dir_vertical);
   TraceFunctionParamListEnd();
 
-  TracePiece(e[via_capturee]);TraceEOL();
+  TraceWalk(e[via_capturee]);TraceEOL();
   if (is_square_empty(via_capturee))
   {
     square const capturee_origin = via_capturee+2*dir_up;

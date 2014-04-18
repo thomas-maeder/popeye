@@ -16,4 +16,21 @@ condition geneva patrouille
 stip x1
 option nowk nobk
 
+next
+
+pieces white pd3 black pe4d7
+stip x1
+condition geneva mirror
+option nowk nobk
+
+next
+
+pieces white rb1 black kd2 sh1
+stip +1
+condition geneva mirror
+option nowk nobk
+twin move h1 h8
+twin move h1 a8
+
 end
+

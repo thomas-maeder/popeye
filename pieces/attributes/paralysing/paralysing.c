@@ -1,16 +1,17 @@
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
-#include "solving/observation.h"
-#include "solving/move_generator.h"
+#include "pieces/pieces.h"
+#include "position/position.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/boolean/or.h"
-#include "stipulation/has_solution_type.h"
-#include "stipulation/temporary_hacks.h"
+#include "solving/observation.h"
+#include "solving/move_generator.h"
+#include "solving/has_solution_type.h"
+#include "solving/temporary_hacks.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
-#include "pieces/pieces.h"
-
 #include "debugging/assert.h"
 
 /* Allow paralysis by paralysing pieces to be temporarily suspended
@@ -66,10 +67,9 @@ static boolean is_paralysed(numecoup n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -78,11 +78,10 @@ static boolean is_paralysed(numecoup n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type paralysing_suffocation_finder_solve(slice_index si,
-                                                     stip_length_type n)
+void paralysing_suffocation_finder_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup curr;
   square sq_departure = initsquare;
   boolean found_move_from_unparalysed = false;
@@ -90,7 +89,6 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   paralysis_suspended = false;
@@ -109,18 +107,16 @@ stip_length_type paralysing_suffocation_finder_solve(slice_index si,
     }
 
   if (found_move_from_unparalysed)
-    result = next_move_has_no_solution;
+    solve_result = next_move_has_no_solution;
   else if (found_move_from_paralysed)
-    result = next_move_has_solution;
+    solve_result = next_move_has_solution;
   else
-    result = next_move_has_no_solution;
+    solve_result = next_move_has_no_solution;
 
   paralysis_suspended = true;
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(has_solution_type,result,"");
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether a side is "suffocated by paralysis", i.e. would the side
@@ -139,8 +135,8 @@ boolean suffocated_by_paralysis(Side side)
 
   paralysis_suspended = true;
 
-  result = (solve(slices[temporary_hack_suffocation_by_paralysis_finder[side]].next2,
-                  length_unspecified)
+  result = (fork_solve(temporary_hack_suffocation_by_paralysis_finder[side],
+                       length_unspecified)
             ==next_move_has_solution);
 
   paralysis_suspended = false;
@@ -177,17 +173,15 @@ boolean paralysing_validate_observer(slice_index si)
 
 /* Generate moves for a single piece
  * @param identifies generator slice
- * @param p walk to be used for generating
  */
-void paralysing_generate_moves_for_piece(slice_index si, PieNam p)
+void paralysing_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TracePiece(p);
   TraceFunctionParamListEnd();
 
   if (!is_paralysed(current_generation))
-    generate_moves_for_piece(slices[si].next1,p);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

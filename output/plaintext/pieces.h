@@ -5,8 +5,8 @@
 #include "pieces/pieces.h"
 #include "utilities/boolean.h"
 
-boolean WriteSpec(Flags pspec, PieNam p, boolean printcolours);
-void WritePiece(PieNam p);
+boolean WriteSpec(Flags pspec, piece_walk_type p, boolean printcolours);
+void WritePiece(piece_walk_type p);
 void WriteSquare(square s);
 
 void AppendSquare(char *List, square s);

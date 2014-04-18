@@ -1,10 +1,12 @@
 #include "conditions/extinction.h"
 #include "pieces/pieces.h"
+#include "solving/pipe.h"
 #include "solving/check.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
+#include "position/position.h"
 #include "debugging/trace.h"
 
 /* test for extinction rather than king capture */
@@ -88,7 +90,7 @@ boolean exctinction_all_piece_observation_tester_is_in_check(slice_index si,
   return result;
 }
 
-static PieNam find_capturee(void)
+static piece_walk_type find_capturee(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = base + move_effect_journal_index_offset_capture;
@@ -99,10 +101,9 @@ static PieNam find_capturee(void)
     return Empty;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -111,31 +112,26 @@ static PieNam find_capturee(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type extinction_extincted_tester_solve(slice_index si, stip_length_type n)
+void extinction_extincted_tester_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
     Side const side_in_check = slices[si].starter;
-    PieNam const capturee = find_capturee();
+    piece_walk_type const capturee = find_capturee();
 
-    TracePiece(capturee);
+    TraceWalk(capturee);
     TraceEnumerator(Side,side_in_check,"\n");
 
-    if (capturee!=Empty && number_of_pieces[side_in_check][capturee]==0)
-      result = solve(slices[si].next1,n);
-    else
-      result = n+2;
+    pipe_this_move_doesnt_solve_if(si,
+                                   capturee==Empty
+                                   || number_of_pieces[side_in_check][capturee]!=0);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

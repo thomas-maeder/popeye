@@ -23,6 +23,14 @@ typedef unsigned int underworld_index_type;
 
 extern underworld_index_type nr_ghosts;
 
+void underworld_reset(void);
+
+/* Assign the ghosts ids
+ * @param id id to be assigned to the first ghost
+ * @return next id to be assigned to some piece
+ */
+PieceIdType underworld_set_piece_ids(PieceIdType id);
+
 /* Make space at some spot in the underworld
  * @param ghost_pos identifies the spot
  */

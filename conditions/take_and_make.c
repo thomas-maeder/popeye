@@ -5,6 +5,7 @@
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "conditions/conditions.h"
@@ -30,10 +31,9 @@ static boolean is_not_pawn_make_to_base_line(numecoup n)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -42,25 +42,20 @@ static boolean is_not_pawn_make_to_base_line(numecoup n)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type take_and_make_avoid_pawn_make_to_base_line_solve(slice_index si,
-                                                                  stip_length_type n)
+void take_and_make_avoid_pawn_make_to_base_line_solve(slice_index si)
 {
-  stip_length_type result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_not_pawn_make_to_base_line);
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static boolean always_reject(numecoup n)
@@ -71,7 +66,7 @@ static boolean always_reject(numecoup n)
 static void generate_make_for_one_take(numecoup take_current,
                                        square take_capture)
 {
-  PieNam const taken = get_walk_of_piece_on_square(take_capture);
+  piece_walk_type const taken = get_walk_of_piece_on_square(take_capture);
   Flags const taken_spec = spec[take_capture];
   square const take_departure = move_generation_stack[take_current].departure;
   square const take_arrival = move_generation_stack[take_current].arrival;
@@ -90,7 +85,8 @@ static void generate_make_for_one_take(numecoup take_current,
   empty_square(take_departure);
 
   curr_generation->departure = take_arrival;
-  generate_moves_for_piece_based_on_walk(taken);
+  move_generation_current_walk = taken;
+  generate_moves_for_piece_based_on_walk();
   curr_generation->departure = take_departure;
 
   move_generator_filter_captures(make_filtered_base,&always_reject);
@@ -112,10 +108,9 @@ static void generate_make_for_one_take(numecoup take_current,
   TraceFunctionResultEnd();
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -124,18 +119,16 @@ static void generate_make_for_one_take(numecoup take_current,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type take_and_make_generate_make_solve(slice_index si,
-                                                   stip_length_type n)
+void take_and_make_generate_make_solve(slice_index si)
 {
-  stip_length_type result;
   numecoup const take_top = CURRMOVE_OF_PLY(nbply);
   numecoup take_current = MOVEBASE_OF_PLY(nbply)+1;
   Side const moving = trait[nbply];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   siblingply(advers(moving)); /* generate according to the taken piece's side */
@@ -154,7 +147,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
 
   trait[nbply] = moving; /* move on behalf of to the taking piece's side */
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   finply();
 
@@ -164,9 +157,7 @@ stip_length_type take_and_make_generate_make_solve(slice_index si,
   pop_all();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void insert_make_generator_avoid_pawn_to_baseline(slice_index si,

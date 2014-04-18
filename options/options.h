@@ -39,12 +39,11 @@ typedef enum
   beep,            /* 29 */
   suppressgrid,    /* 30 */
   writegrid,       /* 31 */
-  lastcapture,     /* 32 */
-  mutuallyexclusivecastling, /* 33 */
-  goal_is_end,     /* 34 */
-  degeneratetree,  /* 35 */
+  mutuallyexclusivecastling,     /* 32 */
+  goal_is_end,     /* 33 */
+  degeneratetree,  /* 34 */
 
-  OptCount         /* 36 */
+  OptCount         /* 35 */
 } Opt;
 
 extern boolean OptFlag[OptCount];

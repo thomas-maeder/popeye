@@ -8,7 +8,7 @@ standard_walks_type standard_walks;
  */
 void initalise_standard_walks(void)
 {
-  PieNam p;
+  piece_walk_type p;
 
   for (p = Empty; p<=Bishop; p++)
     standard_walks[p] = p;

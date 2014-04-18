@@ -1,6 +1,6 @@
 #include "input/plaintext/input_stack.h"
 #include "output/output.h"
-#include "pymsg.h"
+#include "output/plaintext/message.h"
 
 FILE *InputStack[MAXNEST];
 

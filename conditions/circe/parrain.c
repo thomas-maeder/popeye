@@ -1,43 +1,65 @@
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/circe.h"
-#include "stipulation/has_solution_type.h"
+#include "conditions/circe/rebirth_avoider.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/fork.h"
+#include "solving/binary.h"
 #include "solving/move_effect_journal.h"
+#include "solving/move_generator.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
-/* Try to solve in n half-moves.
- * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- */
-stip_length_type circe_parrain_initalise_from_capture_in_last_move_solve(slice_index si,
-                                                                         stip_length_type n)
-{
-  stip_length_type result;
+retro_capture_type retro_capture;
 
+/* Undo the retro capture indicated by the user (in prepration of redoing it) */
+void circe_parrain_undo_retro_capture(void)
+{
+  move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
+                                        retro_capture.on,
+                                        retro_capture_departure);
+  move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                        retro_capture.on,
+                                        retro_capture.walk,
+                                        retro_capture.flags);
+}
+
+/* Redo the retro capture */
+void circe_parrain_redo_retro_capture(void)
+{
+  move_effect_journal_do_capture_move(retro_capture_departure,
+                                      retro_capture.on,
+                                      retro_capture.on,
+                                      move_effect_reason_regular_capture);
+}
+
+/* Instrument the solving machinery with Circe Parrain (apart from the rebirth
+ * square determination, whose instrumentation is elsewhere)
+ * @param si identifies entry slice into solving machinery
+ * @param variant identifies address of structure holding the Circe variant
+ * @param interval_start type of slice that starts the sequence of slices
+ *                       implementing that variant
+ */
+void circe_solving_instrument_parrain(slice_index si,
+                                      struct circe_variant_type const *variant,
+                                      slice_type interval_start)
+{
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
+  TraceEnumerator(slice_type,interval_start,"");
   TraceFunctionParamListEnd();
 
-  circe_initialise_from_capture_in_ply(parent_ply[nbply]);
-
-  result = solve(slices[si].next1,n);
+  circe_insert_rebirth_avoider(si,
+                               interval_start,
+                               interval_start,
+                               alloc_fork_slice(STCirceParrainThreatFork,
+                                                no_slice),
+                               STCirceRebirthAvoided,
+                               STCirceDoneWithRebirth);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static int move_vector(void)
@@ -71,10 +93,9 @@ static int move_vector(void)
   return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -83,32 +104,27 @@ static int move_vector(void)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
-                                                       stip_length_type n)
+void circe_parrain_determine_rebirth_solve(slice_index si)
 {
-  stip_length_type result;
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   context->rebirth_square = context->relevant_square+move_vector();
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -117,32 +133,27 @@ stip_length_type circe_parrain_determine_rebirth_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_contraparrain_determine_rebirth_solve(slice_index si,
-                                                             stip_length_type n)
+void circe_contraparrain_determine_rebirth_solve(slice_index si)
 {
-  stip_length_type result;
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   context->rebirth_square = context->relevant_square-move_vector();
 
-  result = solve(slices[si].next1,n);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -151,28 +162,20 @@ stip_length_type circe_contraparrain_determine_rebirth_solve(slice_index si,
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type circe_parrain_capture_fork_solve(slice_index si,
-                                                  stip_length_type n)
+void circe_parrain_threat_fork_solve(slice_index si)
 {
-  stip_length_type result;
-  ply const parent = parent_ply[nbply];
-  move_effect_journal_index_type const parent_base = move_effect_journal_base[parent];
-  move_effect_journal_index_type const parent_capture = parent_base+move_effect_journal_index_offset_capture;
+  circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  move_effect_journal_index_type const base = move_effect_journal_base[context->relevant_ply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (parent_capture>=move_effect_journal_base[parent+1] /* threat! */
-      || move_effect_journal[parent_capture].type==move_effect_no_piece_removal)
-    result = solve(slices[si].next2,n);
-  else
-    result = solve(slices[si].next1,n);
+  binary_solve_if_then_else(si,capture>=move_effect_journal_base[context->relevant_ply+1]);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

@@ -5,16 +5,16 @@
  */
 #include "pieces/pieces.h"
 #include "position/position.h"
-#include "pylang.h"
 #include "conditions/conditions.h"
 #include "options/options.h"
 #include "input/plaintext/twin.h"
+#include "input/plaintext/language.h"
 #include "conditions/mummer.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/sentinelles.h"
 
 typedef char PieceChar[2];
-typedef PieceChar PieTable[PieceCount];
+typedef PieceChar PieTable[nr_piece_walks];
 extern PieTable PieNamString[LanguageCount];
 
 extern PieceChar *PieceTab;
@@ -28,10 +28,10 @@ extern char const * const *CondTab;
 extern char const * const ExtraCondString[LanguageCount][ExtraCondCount];
 extern char const * const *ExtraCondTab;
 
-extern char const * const ColorString[LanguageCount][nr_colors];
-extern char const * const *ColorTab;
+extern char const * const ColourString[LanguageCount][nr_colours];
+extern char const * const *ColourTab;
 
-extern  char const * const PieSpString[LanguageCount][PieSpCount-nr_sides];
+extern  char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides];
 extern  char const * const *PieSpTab;
 
 extern char const * const VaultingVariantTypeString[LanguageCount][1];
@@ -99,6 +99,7 @@ typedef enum
   CirceVariantMirror,
   CirceVariantAssassin,
   CirceVariantDiametral,
+  CirceVariantVerticalMirror,
   CirceVariantClone,
   CirceVariantChameleon,
   CirceVariantTurncoats,
@@ -124,6 +125,8 @@ typedef enum
   CirceVariantRelaxed,
   CirceVariantVolcanic,
   CirceVariantParachute,
+  CirceVariantEinstein,
+  CirceVariantReverseEinstein,
 
   CirceVariantCount
 } CirceVariantType;

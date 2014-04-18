@@ -1,0 +1,12 @@
+/* Enumeration type for the two sides which move, deliver mate etc.
+ * The macros used are defined in utilitities/enumeration.h
+ */
+
+#define ENUMERATION_TYPENAME Side
+
+#define ENUMERATORS \
+  ENUMERATOR(White) \
+    ENUMERATOR(Black) \
+                       \
+    ENUMERATOR(nr_sides) \
+    ASSIGNED_ENUMERATOR(no_side = nr_sides)

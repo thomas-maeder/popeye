@@ -3,7 +3,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
 #include "solving/castling.h"
-#include "solving/move_diff_code.h"
+#include "position/move_diff_code.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/moves_left.h"
 #include "optimisations/orthodox_check_directions.h"
@@ -238,12 +238,12 @@ static unsigned int knight(square from_square, square to_square)
   return result;
 }
 
-static unsigned int officer(PieNam piece, square from_square, square to_square)
+static unsigned int officer(piece_walk_type piece, square from_square, square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
-  TracePiece(piece);
+  TraceWalk(piece);
   TraceSquare(from_square);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
@@ -280,7 +280,7 @@ static unsigned int officer(PieNam piece, square from_square, square to_square)
 }
 
 static unsigned int white_pawn_promotion(square from_square,
-                                         PieNam to_piece,
+                                         piece_walk_type to_piece,
                                          square to_square)
 {
   unsigned int result = maxply+1;
@@ -288,7 +288,7 @@ static unsigned int white_pawn_promotion(square from_square,
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
-  TracePiece(to_piece);
+  TraceWalk(to_piece);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -311,7 +311,7 @@ static unsigned int white_pawn_promotion(square from_square,
 }
 
 static unsigned int black_pawn_promotion(square from_square,
-                                         PieNam to_piece,
+                                         piece_walk_type to_piece,
                                          square to_square)
 {
   unsigned int result = maxply+1;
@@ -319,7 +319,7 @@ static unsigned int black_pawn_promotion(square from_square,
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
-  TracePiece(to_piece);
+  TraceWalk(to_piece);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -342,18 +342,18 @@ static unsigned int black_pawn_promotion(square from_square,
 }
 
 static unsigned int from_to_different(Side side,
-                                      PieNam from_piece,
+                                      piece_walk_type from_piece,
                                       square from_square,
-                                      PieNam to_piece,
+                                      piece_walk_type to_piece,
                                       square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
-  TracePiece(from_piece);
+  TraceWalk(from_piece);
   TraceSquare(from_square);
-  TracePiece(to_piece);
+  TraceWalk(to_piece);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -409,18 +409,18 @@ static unsigned int from_to_different(Side side,
 }
 
 unsigned int intelligent_count_nr_of_moves_from_to_no_check(Side side,
-                                                            PieNam from_piece,
+                                                            piece_walk_type from_piece,
                                                             square from_square,
-                                                            PieNam to_piece,
+                                                            piece_walk_type to_piece,
                                                             square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
-  TracePiece(from_piece);
+  TraceWalk(from_piece);
   TraceSquare(from_square);
-  TracePiece(to_piece);
+  TraceWalk(to_piece);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -460,7 +460,7 @@ static unsigned int black_promoted_pawn_to(square pawn_comes_from,
 
     if (reserve[curr_reserve].nr_remaining_moves[Black]>=moves)
     {
-      PieNam pp;
+      piece_walk_type pp;
       for (pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][Empty]; pp!=Empty; pp = pieces_pawns_promotee_sequence[pieces_pawns_promotee_chain_orthodox][pp])
       {
         unsigned int const time = black_pawn_promotion(pawn_comes_from,
@@ -498,7 +498,7 @@ static unsigned int estimate_min_nr_black_moves_to(square to_square)
       }
       else
       {
-        PieNam const type = black[i].type;
+        piece_walk_type const type = black[i].type;
         if (type==Pawn)
         {
           if (!TSTFLAG(sq_spec[to_square],BlPromSq))
@@ -531,13 +531,13 @@ static unsigned int estimate_min_nr_black_moves_to(square to_square)
   return result;
 }
 
-static unsigned int count_nr_of_moves_same_piece_same_square_checking(PieNam piece,
+static unsigned int count_nr_of_moves_same_piece_same_square_checking(piece_walk_type piece,
                                                                       square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
-  TracePiece(piece);
+  TraceWalk(piece);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -567,18 +567,18 @@ static unsigned int count_nr_of_moves_same_piece_same_square_checking(PieNam pie
 }
 
 unsigned int intelligent_count_nr_of_moves_from_to_checking(Side side,
-                                                            PieNam from_piece,
+                                                            piece_walk_type from_piece,
                                                             square from_square,
-                                                            PieNam to_piece,
+                                                            piece_walk_type to_piece,
                                                             square to_square)
 {
   unsigned int result;
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
-  TracePiece(from_piece);
+  TraceWalk(from_piece);
   TraceSquare(from_square);
-  TracePiece(to_piece);
+  TraceWalk(to_piece);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -1005,7 +1005,7 @@ boolean intelligent_reserve_white_pawn_moves_from_to_no_promotion(square from_sq
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_square,
-                                                                 PieNam checker_type,
+                                                                 piece_walk_type checker_type,
                                                                  square to_square)
 {
   boolean result;
@@ -1013,7 +1013,7 @@ boolean intelligent_reserve_white_officer_moves_from_to_checking(square from_squ
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
-  TracePiece(checker_type);
+  TraceWalk(checker_type);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -1154,7 +1154,7 @@ static boolean reserve_promoting_white_pawn_moves_from_to(unsigned int min_nr_of
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_square,
-                                                               PieNam promotee_type,
+                                                               piece_walk_type promotee_type,
                                                                square to_square)
 {
   boolean result;
@@ -1200,7 +1200,7 @@ boolean intelligent_reserve_promoting_white_pawn_moves_from_to(square from_squar
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_promoting_black_pawn_moves_from_to(square from_square,
-                                                               PieNam promotee_type,
+                                                               piece_walk_type promotee_type,
                                                                square to_square)
 {
   boolean result;
@@ -1321,7 +1321,7 @@ boolean intelligent_reserve_black_king_moves_from_to(square from_square,
  */
 boolean intelligent_reserve_front_check_by_officer(square from_square,
                                                    square via,
-                                                   PieNam checker_type,
+                                                   piece_walk_type checker_type,
                                                    square to_square)
 {
   boolean result = false;
@@ -1329,7 +1329,7 @@ boolean intelligent_reserve_front_check_by_officer(square from_square,
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
   TraceSquare(via);
-  TracePiece(checker_type);
+  TraceWalk(checker_type);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -1364,14 +1364,14 @@ boolean intelligent_reserve_front_check_by_officer(square from_square,
  */
 boolean intelligent_reserve_officer_moves_from_to(Side side,
                                                   square from_square,
-                                                  PieNam officer_type,
+                                                  piece_walk_type officer_type,
                                                   square to_square)
 {
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
-  TracePiece(officer_type);
+  TraceWalk(officer_type);
   TraceSquare(to_square);
   TraceFunctionParamListEnd();
 
@@ -1493,7 +1493,7 @@ boolean intelligent_reserve_front_check_by_pawn_without_capture(square from_squa
  * @return true iff the move sequence is still possible
  */
 boolean intelligent_reserve_front_check_by_promotee(square from_square,
-                                                    PieNam promotee_type,
+                                                    piece_walk_type promotee_type,
                                                     square via)
 {
   boolean result;
@@ -1503,7 +1503,7 @@ boolean intelligent_reserve_front_check_by_promotee(square from_square,
 
   TraceFunctionEntry(__func__);
   TraceSquare(from_square);
-  TracePiece(promotee_type);
+  TraceWalk(promotee_type);
   TraceSquare(via);
   TraceFunctionParamListEnd();
 

@@ -1,7 +1,7 @@
 #include "optimisations/ohneschach/redundant_immobility_tests.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "optimisations/ohneschach/stop_if_check.h"
 #include "debugging/trace.h"
 

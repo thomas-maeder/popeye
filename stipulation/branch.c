@@ -4,10 +4,8 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/move.h"
-#include "solving/fork_on_remaining.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
@@ -427,7 +425,9 @@ void branch_insert_slices_factored_order(slice_index si,
   assert(state_nested.base_rank!=no_slice_rank);
 
   init_slice_insertion_traversal(&st_nested,&state_nested,st->context);
-  stip_structure_traversal_override_single(&st_nested,end_of_factored_order,&insert_return_from_factored_order);
+  stip_structure_traversal_override_single(&st_nested,
+                                           end_of_factored_order,
+                                           &insert_return_from_factored_order);
   stip_traverse_structure_children_pipe(si,&st_nested);
 
   TraceFunctionExit(__func__);

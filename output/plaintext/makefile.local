@@ -4,11 +4,11 @@
 SRC_CFILES = plaintext.c end_of_phase_writer.c illegal_selfcheck_writer.c \
              move_inversion_counter.c ohneschach_detect_undecidable_goal.c \
              goal_writer.c language_dependant.c condition.c proofgame.c \
-             position.c pieces.c twinning.c
+             position.c pieces.c twinning.c message.c
 
 INCLUDES = plaintext.h end_of_phase_writer.h illegal_selfcheck_writer.h \
            move_inversion_counter.h ohneschach_detect_undecidable_goal.h \
            goal_writer.h language_dependant.h condition.h proofgame.h \
-           position.h pieces.h twinning.h
+           position.h pieces.h twinning.h message.h
 
 include makefile.rules $(CURRPWD)depend

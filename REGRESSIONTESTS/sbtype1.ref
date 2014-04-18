@@ -97,10 +97,10 @@ solution finished.
    1.a7-a8=Q # !
 
 
-  add_to_move_generation_stack:          21
-                     play_move:          28
+  add_to_move_generation_stack:           4
+                     play_move:          11
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:          24
+ is_black_king_square_attacked:           7
 solution finished. 
 
 
@@ -131,10 +131,10 @@ solution finished.
 
   1.d2-d1=R Sg5-f3 #
 
-  add_to_move_generation_stack:         360
-                     play_move:         356
+  add_to_move_generation_stack:         175
+                     play_move:         171
  is_white_king_square_attacked:          38
- is_black_king_square_attacked:         294
+ is_black_king_square_attacked:         109
 solution finished. 
 
 
@@ -190,8 +190,8 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                       3...Kg5-h6
                           4.Sh5-f6 #
               2...Be7-f6
-                  3.Qh3-g3 #
                   3.Sg7-e6 #
+                  3.Qh3-g3 #
               2...Be7-f8
                   3.Sg7-h5 +
                       3...Bf8-g7
@@ -220,10 +220,10 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                           4.d4*e5 #
 
 
-  add_to_move_generation_stack:     1719649
-                     play_move:     1336484
- is_white_king_square_attacked:      536205
- is_black_king_square_attacked:      611339
+  add_to_move_generation_stack:     1404411
+                     play_move:     1025153
+ is_white_king_square_attacked:      535862
+ is_black_king_square_attacked:      302182
 solution finished. 
 
 
@@ -328,10 +328,10 @@ Example 1
                                           6.Qe5-g5 #
 
 
-  add_to_move_generation_stack:     7704423
-                     play_move:     8152509
- is_white_king_square_attacked:     4946477
- is_black_king_square_attacked:     1733856
+  add_to_move_generation_stack:     6699838
+                     play_move:     7190573
+ is_white_king_square_attacked:     4946008
+ is_black_king_square_attacked:      785000
 solution finished. 
 
 
@@ -388,10 +388,10 @@ solution finished.
                   3.e7*f8=B #
 
 
-  add_to_move_generation_stack:      685907
-                     play_move:      714579
- is_white_king_square_attacked:       74990
- is_black_king_square_attacked:      395973
+  add_to_move_generation_stack:      502991
+                     play_move:      592043
+ is_white_king_square_attacked:       68979
+ is_black_king_square_attacked:      280121
 solution finished. 
 
 

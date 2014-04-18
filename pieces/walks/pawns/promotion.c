@@ -1,11 +1,12 @@
 #include "pieces/walks/pawns/promotion.h"
 #include "pieces/walks/pawns/promotee_sequence.h"
-#include "stipulation/has_solution_type.h"
+#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/post_move_iteration.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -24,7 +25,7 @@ move_effect_journal_index_type promotion_horizon;
 
 /* Order in which the slice types for promotion execution appear
  */
-static slice_index const promotion_slice_rank_order[] =
+static slice_type const promotion_slice_rank_order[] =
 {
     STBeforePawnPromotion,
     STPawnToImitatorPromoter,
@@ -59,9 +60,9 @@ boolean is_promotion_slice_type(slice_type type)
  * @param end_of_factored_order slice type where to return to insertion defined
  *                              by st
  */
-void start_insertion_according_to_promotion_order(slice_index si,
-                                                  stip_structure_traversal *st,
-                                                  slice_type end_of_factored_order)
+static void start_insertion_according_to_promotion_order(slice_index si,
+                                                         stip_structure_traversal *st,
+                                                         slice_type end_of_factored_order)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -71,7 +72,7 @@ void start_insertion_according_to_promotion_order(slice_index si,
                                       st,
                                       promotion_slice_rank_order,
                                       nr_promotion_slice_rank_order_elmts,
-                                      end_of_factored_order);
+                                      STLandingAfterPawnPromotion);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -105,10 +106,9 @@ square find_potential_promotion_square(move_effect_journal_index_type base)
   return initsquare;
 }
 
-/* Try to solve in n half-moves.
+/* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
- * @param n maximum number of half moves
- * @return length of solution found and written, i.e.:
+ * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
  *            this_move_is_illegal     the move being played is illegal
  *            immobility_on_next_move  the moves just played led to an
@@ -117,15 +117,14 @@ square find_potential_promotion_square(move_effect_journal_index_type base)
  *                                     branch)
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n)
+void pawn_promoter_solve(slice_index si)
 {
-  stip_length_type result;
   move_effect_journal_index_type const save_horizon = promotion_horizon;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
   {
@@ -142,17 +141,17 @@ stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n)
     if (promotion_stack[stack_pointer].promotee==Empty)
     {
       ++stack_pointer;
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
       --stack_pointer;
     }
     else
     {
-      move_effect_journal_do_piece_change(move_effect_reason_pawn_promotion,
+      move_effect_journal_do_walk_change(move_effect_reason_pawn_promotion,
                                           sq_potential_promotion,
                                           promotion_stack[stack_pointer].promotee);
 
       ++stack_pointer;
-      result = solve(slices[si].next1,n);
+      pipe_solve_delegate(si);
       --stack_pointer;
 
       if (!post_move_iteration_locked[nbply])
@@ -169,9 +168,7 @@ stip_length_type pawn_promoter_solve(slice_index si, stip_length_type n)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void instrument_hook(slice_index si, stip_structure_traversal *st)
@@ -251,7 +248,7 @@ static void insert_visit_promotion(slice_index si, stip_structure_traversal *st)
  *                  be inserted
  * @param si identifies the slice where to actually start the insertion traversal
  * @param st address of the structure representing the insertion traversal
- * @return true iff base_type effectively is a type from the move slices sequence
+ * @return true iff base_type effectively is a type from the promotion slices sequence
  */
 boolean promotion_start_insertion(slice_type base_type,
                                   slice_index si,
