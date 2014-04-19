@@ -12,6 +12,7 @@
 #include "conditions/mummer.h"
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/sentinelles.h"
+#include "output/plaintext/message.h"
 
 typedef char PieceChar[2];
 typedef PieceChar PieTable[nr_piece_walks];
@@ -140,7 +141,7 @@ extern char const * const *TwinningTab;
 extern char const * const mummer_strictness_string[LanguageCount][nr_mummer_strictness];
 extern char const * const *mummer_strictness_tab;
 
-extern char const * const *MessageTabs[];
+extern char const *MessageTabs[LanguageCount][MsgCount];
 
 /* Make sure that we don't define ambiguous piece name shortcuts */
 void enforce_piecename_uniqueness(void);

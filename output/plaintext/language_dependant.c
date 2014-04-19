@@ -1684,7 +1684,7 @@ char const * const mummer_strictness_string[LanguageCount][nr_mummer_strictness]
   }
 };
 
-char const * const *MessageTabs[] =
+char const *MessageTabs[LanguageCount][MsgCount] =
 {
   /*0*/ {
     /* 0*/  "erreur fatale:\n",
