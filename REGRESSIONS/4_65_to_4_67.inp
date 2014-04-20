@@ -43,4 +43,15 @@ stip ser-#1
 Cond immunchess rexinclusiv
 pieces white kh7 re1 black kf6
 
+next
+
+title SAT with royal pieces
+author Neal Turnier
+origin Julia's Fairies 2014
+pieces white rd8 bg3 sa7g6 pa4b4 white royal gc4
+       black bh3 se6 pa3b6b7f6g5 black royal gf3
+stipulation s#2
+option vari
+condition sat
+
 end

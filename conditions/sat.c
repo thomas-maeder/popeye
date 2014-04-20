@@ -1,8 +1,10 @@
 #include "conditions/sat.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/vectors.h"
+#include "pieces/walks/generate_moves.h"
 #include "position/position.h"
 #include "solving/has_solution_type.h"
+#include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -26,25 +28,45 @@ static boolean find_flights(slice_index si,
                             unsigned int nr_flights_to_find)
 {
   unsigned int nr_flights_found = 0;
-  vec_index_type i;
-  piece_walk_type const king_type = e[king_square[side_in_check]];
-  Flags const king_flags = spec[king_square[side_in_check]];
+  square const save_king_square = king_square[side_in_check];
+  piece_walk_type const king_walk = get_walk_of_piece_on_square(save_king_square);
+  Flags const king_flags = spec[save_king_square];
+  square const save_departure = curr_generation->departure ;
 
-  empty_square(king_square[side_in_check]);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-  for (i = vec_queen_start; i<=vec_queen_end; ++i)
+  siblingply(side_in_check);
+
+  curr_generation->departure = save_king_square;
+  move_generation_current_walk = king_walk;
+  generate_moves_for_piece_based_on_walk();
+
+  empty_square(save_king_square);
+
+  while (encore())
   {
-    king_square[side_in_check] += vec[i];
+    king_square[side_in_check] = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
     if ((is_square_empty(king_square[side_in_check])
          || TSTFLAG(spec[king_square[side_in_check]],advers(side_in_check)))
         && king_square[side_in_check]!=king_square[advers(side_in_check)]
         && !is_in_check_recursive(slices[si].next1,side_in_check))
       ++nr_flights_found;
-    king_square[side_in_check] -= vec[i];
+
+    pop_move();
   }
 
-  occupy_square(king_square[side_in_check],king_type,king_flags);
+  king_square[side_in_check] = save_king_square;
+  occupy_square(save_king_square,king_walk,king_flags);
 
+  curr_generation->departure = save_departure;
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",nr_flights_found>nr_flights_to_find);
+  TraceFunctionResultEnd();
   return nr_flights_found>nr_flights_to_find;
 }
 

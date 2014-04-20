@@ -49,7 +49,7 @@
           2.0-0 #
 
 
-  add_to_move_generation_stack:       12750
+  add_to_move_generation_stack:       67144
                      play_move:        9365
  is_white_king_square_attacked:        4431
  is_black_king_square_attacked:       50703
@@ -126,7 +126,7 @@ Loesung beendet.
       1...Tg7-f7 !
 
 
-  add_to_move_generation_stack:       16548
+  add_to_move_generation_stack:       33435
                      play_move:        8382
  is_white_king_square_attacked:        9495
  is_black_king_square_attacked:       22998

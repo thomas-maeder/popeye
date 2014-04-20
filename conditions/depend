@@ -991,10 +991,10 @@ conditions/sat$(OBJ_SUFFIX): conditions/sat.c conditions/sat.h position/side.h \
  stipulation/slice_type.enum.h pieces/pieces.h output/mode.h \
  output/mode.enum.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- pieces/walks/vectors.h position/position.h position/color.h \
- position/color.enum.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ pieces/walks/vectors.h pieces/walks/generate_moves.h position/position.h \
+ position/color.h position/color.enum.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/move_generator.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -1041,6 +1041,8 @@ position/pieceid.h:
 
 pieces/walks/vectors.h:
 
+pieces/walks/generate_moves.h:
+
 position/position.h:
 
 position/color.h:
@@ -1050,6 +1052,8 @@ position/color.enum.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/move_generator.h:
 
 stipulation/pipe.h:
 
