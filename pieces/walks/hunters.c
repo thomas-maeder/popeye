@@ -96,7 +96,6 @@ boolean hunter_check(validator_id evaluate)
 void hunter_generate_moves(void)
 {
   TraceFunctionEntry(__func__);
-  TraceWalk(walk);
   TraceFunctionParamListEnd();
 
   assert(move_generation_current_walk>=Hunter0);

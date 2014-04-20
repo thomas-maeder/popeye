@@ -210,8 +210,8 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceWalk(p);
   TraceFunctionParamListEnd();
+
   for (where = find_next_latent_pawn(square_a1-dir_right,side);
        where!=initsquare;
        where = find_next_latent_pawn(where,side))

@@ -89,7 +89,6 @@ void central_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   if (is_mover_supported(current_generation))

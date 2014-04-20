@@ -44,7 +44,6 @@ void disparate_generate_moves_for_piece(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   if (can_piece_move(current_generation))

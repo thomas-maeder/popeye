@@ -117,7 +117,6 @@ void transmuting_kings_generate_moves_for_piece(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   if (!(TSTFULLFLAGMASK(spec[curr_generation->departure],mask)

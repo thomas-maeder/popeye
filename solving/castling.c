@@ -457,7 +457,6 @@ void castling_generator_generate_castling(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   generate_moves_for_piece(slices[si].next1);

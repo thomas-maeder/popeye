@@ -17,7 +17,6 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(spec[confronter_pos],advers(trait[nbply])))
@@ -224,7 +223,6 @@ void cheektocheek_generate_moves_for_piece(slice_index si)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
-  TraceWalk(p);
   TraceFunctionParamListEnd();
 
   generate_moves_for_possibly_confronted_piece(si,dir_left);
