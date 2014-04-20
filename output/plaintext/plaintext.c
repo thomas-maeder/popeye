@@ -198,7 +198,8 @@ static void write_regular_move(move_context *context)
   else if (capture_type==move_effect_no_piece_removal)
   {
     assert(movement_type==move_effect_piece_movement
-           || movement_type==move_effect_piece_exchange);
+           || movement_type==move_effect_piece_exchange
+           || movement_type==move_effect_none);
     if (movement_type==move_effect_piece_movement)
     {
       move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
@@ -211,7 +212,7 @@ static void write_regular_move(move_context *context)
       else
         write_castling(movement);
     }
-    else
+    else if (movement_type==move_effect_piece_exchange)
     {
       assert(move_effect_journal[movement].reason==move_effect_reason_exchange_castling_exchange
              || move_effect_journal[movement].reason==move_effect_reason_messigny_exchange);

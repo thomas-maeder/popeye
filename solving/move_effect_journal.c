@@ -1258,7 +1258,7 @@ void move_effect_journal_do_null_move(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  move_effect_journal_do_null_effect(); /* no piece removal */
+  move_effect_journal_do_no_piece_removal();
   move_effect_journal_do_null_effect(); /* and no piece movement */
 
   TraceFunctionExit(__func__);

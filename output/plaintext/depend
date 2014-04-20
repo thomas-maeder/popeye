@@ -103,7 +103,8 @@ output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/pipe.h debugging/trace.h
+ solving/pipe.h debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h solving/ply.h
 
 output/plaintext/end_of_phase_writer.h:
 
@@ -156,6 +157,16 @@ stipulation/traversal.h:
 solving/pipe.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
 output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
  output/plaintext/illegal_selfcheck_writer.h solving/machinery/solve.h \
@@ -170,7 +181,8 @@ output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/trace.h
+ solving/pipe.h debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h solving/ply.h
 
 output/plaintext/illegal_selfcheck_writer.h:
 
@@ -227,6 +239,16 @@ solving/has_solution_type.enum.h:
 solving/pipe.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
 output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  output/plaintext/move_inversion_counter.c \
  output/plaintext/move_inversion_counter.h solving/machinery/solve.h \
@@ -239,7 +261,9 @@ output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/pipe.h debugging/trace.h debugging/assert.h
+ solving/pipe.h debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h solving/ply.h \
+ debugging/assert.h
 
 output/plaintext/move_inversion_counter.h:
 
@@ -289,6 +313,16 @@ solving/pipe.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
 debugging/assert.h:
 output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  output/plaintext/ohneschach_detect_undecidable_goal.c \
@@ -305,7 +339,9 @@ output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  conditions/ohneschach.h solving/ply.h output/plaintext/message.h \
- input/plaintext/language.h solving/pipe.h debugging/trace.h
+ input/plaintext/language.h solving/pipe.h debugging/trace.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
@@ -366,6 +402,14 @@ input/plaintext/language.h:
 solving/pipe.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  output/plaintext/goal_writer.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
@@ -379,7 +423,8 @@ output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  output/plaintext/tree/tree.h output/plaintext/message.h \
  input/plaintext/language.h solving/pipe.h debugging/trace.h \
- debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h solving/ply.h debugging/assert.h
 
 output/plaintext/goal_writer.h:
 
@@ -434,6 +479,16 @@ input/plaintext/language.h:
 solving/pipe.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
 
 debugging/assert.h:
 output/plaintext/language_dependant$(OBJ_SUFFIX): \
