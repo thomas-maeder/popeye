@@ -33,7 +33,7 @@
 solution finished. 
 
 
-ColourChange only with certain hoppers allowed
+HurdleColourChanging only allowed with certain hoppers
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
