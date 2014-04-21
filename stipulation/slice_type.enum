@@ -412,7 +412,7 @@
     ENUMERATOR(STFrischaufPromoteeMarker)                              \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare)                         \
     ENUMERATOR(STPhantomMovesForPieceGenerator)                        \
-    ENUMERATOR(STPlusMovesForPieceGenerator)                           \
+    ENUMERATOR(STPlusAdditionalCapturesForPieceGenerator)              \
     ENUMERATOR(STGeneratingCapturesForPiece)                           \
     ENUMERATOR(STGeneratingNoncapturesForPiece)                        \
     ENUMERATOR(STGeneratingCapturesAndNoncapturesForPiece)             \

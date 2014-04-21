@@ -10,9 +10,9 @@
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @note the piece on the departure square need not have that walk
+ * @note the piece on the departure square need not necessarily have walk p
  */
-void plus_generate_moves_for_piece(slice_index si);
+void plus_generate_additional_captures_for_piece(slice_index si);
 
 /* Determine whether a side observes a specific square
  * @param side_observing the side

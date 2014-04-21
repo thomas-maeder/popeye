@@ -4,57 +4,42 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
+#include "stipulation/binary.h"
+#include "stipulation/proxy.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
 static square const center_squares[] = { square_d4, square_d5, square_e4, square_e5 };
 enum { nr_center_squares = sizeof center_squares / sizeof center_squares[0] };
 
-static void generate_additional_captures_from(slice_index si, square from)
-{
-  square const sq_departure = curr_generation->departure;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(from);
-  TraceFunctionParamListEnd();
-
-  if (from!=sq_departure && is_square_empty(from))
-  {
-    occupy_square(from,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
-    empty_square(sq_departure);
-
-    marscirce_generate_captures(si,from);
-
-    occupy_square(sq_departure,get_walk_of_piece_on_square(from),spec[from]);
-    empty_square(from);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void plus_generate_moves_for_piece(slice_index si)
+void plus_generate_additional_captures_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
   unsigned int i;
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
+  numecoup curr;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  generate_moves_for_piece(slices[si].next1);
 
   for (i = 0; i!=nr_center_squares; ++i)
     if (sq_departure==center_squares[i])
     {
       unsigned int j;
       for (j = 0; j!=nr_center_squares; ++j)
-        generate_additional_captures_from(si,center_squares[j]);
+        if (j!=i)
+          marscirce_try_rebirth_and_generate(si,center_squares[j]);
       break;
     }
+
+  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
+    move_generation_stack[curr].departure = sq_departure;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -68,7 +53,7 @@ static boolean is_square_observed_from_center(slice_index si,
   unsigned int i;
 
   TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
+  TraceFunctionParam("%u",si);
   TraceSquare(observer_origin);
   TraceFunctionParamListEnd();
 
@@ -126,6 +111,42 @@ boolean plus_is_square_observed(slice_index si, validator_id evaluate)
   return result;
 }
 
+static void insert_separator(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const proxy_regular = alloc_proxy_slice();
+    slice_index const regular = alloc_pipe(STGeneratingNoncapturesForPiece);
+
+    slice_index const proxy_plus = alloc_proxy_slice();
+    slice_index const capture_plus = alloc_pipe(STGeneratingCapturesForPiece);
+    slice_index const generate_plus = alloc_pipe(STPlusAdditionalCapturesForPieceGenerator);
+    slice_index const reject_non_captures = alloc_pipe(STMoveGeneratorRejectNoncaptures);
+
+    slice_index const generator = alloc_binary_slice(STMovesForPieceGeneratorCaptureNoncaptureSeparator,
+                                                     proxy_regular,
+                                                     proxy_plus);
+
+    pipe_link(slices[si].prev,generator);
+
+    pipe_link(proxy_regular,regular);
+    pipe_link(regular,si);
+
+    pipe_link(proxy_plus,capture_plus);
+    pipe_link(capture_plus,generate_plus);
+    pipe_link(generate_plus,reject_non_captures);
+    pipe_link(reject_non_captures,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Inialise thet solving machinery with Plus Chess
  * @param si identifies the root slice of the solving machinery
  */
@@ -134,7 +155,20 @@ void solving_initialise_plus(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STPlusMovesForPieceGenerator);
+  {
+    stip_structure_traversal st;
+
+    solving_instrument_move_generation(si,
+                                       no_side,
+                                       STGeneratingCapturesAndNoncapturesForPiece);
+
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STGeneratingCapturesAndNoncapturesForPiece,
+                                             &insert_separator);
+    stip_traverse_structure(si,&st);
+  }
+
   stip_instrument_is_square_observed_testing(si,nr_sides,STPlusIsSquareObserved);
 
   TraceFunctionExit(__func__);

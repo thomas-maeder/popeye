@@ -64,7 +64,7 @@ input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- output/plaintext/pieces.h output/plaintext/message.h output/output.h \
+ output/plaintext/message.h output/plaintext/pieces.h output/output.h \
  output/latex/latex.h position/underworld.h \
  pieces/attributes/neutral/neutral.h pieces/walks/hunters.h \
  solving/observation.h solving/temporary_hacks.h \
@@ -164,9 +164,9 @@ conditions/circe/relevant_side.h:
 
 conditions/sentinelles.h:
 
-output/plaintext/pieces.h:
-
 output/plaintext/message.h:
+
+output/plaintext/pieces.h:
 
 output/output.h:
 
@@ -272,10 +272,10 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- output/plaintext/condition.h output/plaintext/pieces.h \
- output/plaintext/plaintext.h output/plaintext/position.h \
- output/plaintext/proofgame.h output/plaintext/twinning.h \
- output/plaintext/message.h output/latex/latex.h \
+ output/plaintext/message.h output/plaintext/condition.h \
+ output/plaintext/pieces.h output/plaintext/plaintext.h \
+ output/plaintext/position.h output/plaintext/proofgame.h \
+ output/plaintext/twinning.h output/latex/latex.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/quodlibet.h options/goal_is_end.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/chameleon.h \
@@ -394,6 +394,8 @@ conditions/circe/relevant_side.h:
 
 conditions/sentinelles.h:
 
+output/plaintext/message.h:
+
 output/plaintext/condition.h:
 
 output/plaintext/pieces.h:
@@ -405,8 +407,6 @@ output/plaintext/position.h:
 output/plaintext/proofgame.h:
 
 output/plaintext/twinning.h:
-
-output/plaintext/message.h:
 
 output/latex/latex.h:
 

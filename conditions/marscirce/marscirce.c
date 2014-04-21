@@ -8,42 +8,11 @@
 #include "stipulation/branch.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "solving/pipe.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "debugging/assert.h"
+#include "debugging/trace.h"
 
 square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, square, square, Side);
-
-static boolean always_reject(numecoup n)
-{
-  return false;
-}
-
-/* Generate capturing moves
- * @param sq_generate_from generate the moves from here
- */
-void marscirce_generate_captures(slice_index si, square sq_generate_from)
-{
-  square const sq_real_departure = curr_generation->departure;
-  numecoup const base = CURRMOVE_OF_PLY(nbply);
-  numecoup curr;
-
-  TraceFunctionEntry(__func__);
-  TraceSquare(sq_generate_from);
-  TraceSquare(sq_real_departure);
-  TraceFunctionParamListEnd();
-
-  curr_generation->departure = sq_generate_from;
-  generate_moves_for_piece(slices[si].next1);
-  curr_generation->departure = sq_real_departure;
-
-  move_generator_filter_noncaptures(base,&always_reject);
-
-  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
-    move_generation_stack[curr].departure = sq_real_departure;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
@@ -60,6 +29,40 @@ void marscirce_remember_no_rebirth(slice_index si)
 
   for (; curr_id<current_move_id[nbply]; ++curr_id)
     marscirce_rebirth_square[curr_id] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try occupying rebirth square and generate moves
+ * @param si identifies move generator slice
+ * @param sq_rebirth rebirth square
+ */
+void marscirce_try_rebirth_and_generate(slice_index si, square sq_rebirth)
+{
+  square const sq_departure = curr_generation->departure;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_rebirth);
+  TraceFunctionParamListEnd();
+
+  assert(sq_rebirth!=sq_departure);
+
+  if (is_square_empty(sq_rebirth))
+  {
+    curr_generation->departure = sq_rebirth;
+
+    occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
+    empty_square(sq_departure);
+
+    generate_moves_for_piece(slices[si].next1);
+
+    occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
+    empty_square(sq_rebirth);
+
+    curr_generation->departure = sq_departure;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -82,24 +85,17 @@ void marscirce_generate_from_rebirth_square(slice_index si)
   numecoup curr;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  curr_generation->departure = sq_rebirth;
-
   if (sq_rebirth==sq_departure)
-    generate_moves_for_piece(slices[si].next1);
-  else if (is_square_empty(sq_rebirth))
   {
-    occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
-    empty_square(sq_departure);
-
+    curr_generation->departure = sq_rebirth;
     generate_moves_for_piece(slices[si].next1);
-
-    occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
-    empty_square(sq_rebirth);
+    curr_generation->departure = sq_departure;
   }
-
-  curr_generation->departure = sq_departure;
+  else
+    marscirce_try_rebirth_and_generate(si,sq_rebirth);
 
   for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
     move_generation_stack[curr].departure = sq_departure;

@@ -89,12 +89,12 @@ static slice_index const slice_rank_order[] =
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
     STPhantomMovesForPieceGenerator,
-    STPlusMovesForPieceGenerator,
     STMovesForPieceGeneratorCaptureNoncaptureSeparator,
     STGeneratingNoncapturesForPiece,
     STGeneratingCapturesForPiece,
     STMarsCirceRememberNoRebirth,
     STMarsCirceGenerateFromRebirthSquare,
+    STPlusAdditionalCapturesForPieceGenerator,
     STMoveGeneratorRejectCaptures,
     STMoveGeneratorRejectNoncaptures,
     STGeneratingCapturesAndNoncapturesForPiece,
@@ -357,8 +357,8 @@ void generate_moves_for_piece(slice_index si)
       phantom_generate_moves_for_piece(si);
       break;
 
-    case STPlusMovesForPieceGenerator:
-      plus_generate_moves_for_piece(si);
+    case STPlusAdditionalCapturesForPieceGenerator:
+      plus_generate_additional_captures_for_piece(si);
       break;
 
     case STMovesForPieceGeneratorCaptureNoncaptureSeparator:

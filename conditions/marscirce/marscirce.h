@@ -15,16 +15,17 @@ extern square marscirce_rebirth_square[toppile+1];
 
 extern square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, square, square, Side);
 
-/* Generate capturing moves
- * @param sq_generate_from generate the moves from here
- */
-void marscirce_generate_captures(slice_index si, square sq_generate_from);
-
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
 void marscirce_remember_no_rebirth(slice_index si);
+
+/* Try occupying rebirth square and generate moves
+ * @param si identifies move generator slice
+ * @param sq_rebirth rebirth square
+ */
+void marscirce_try_rebirth_and_generate(slice_index si, square sq_rebirth);
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
