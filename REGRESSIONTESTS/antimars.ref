@@ -59,6 +59,8 @@ solution finished.
   #2                          6 + 4
             AntiMarsCirce
 
+      1...Bh3*f5
+          2.Rf7*f5 #
       1...Bh3-c8-a6
           2.Sb8*a6 #
       1...Bh3-c8-b7
@@ -67,8 +69,6 @@ solution finished.
           2.Sd8*e6 #
       1...Bh3-c8-d7
           2.Sb8*d7 #
-      1...Bh3*f5
-          2.Rf7*f5 #
 
    1.Ka1-e1-d2 ? threat:
           2.Re3-a1-a5 #
@@ -83,6 +83,8 @@ solution finished.
           2.Rf3-h1-c1 #
       1...Sd1-g8-h6
           2.Rf3-h1-c1 #
+      1...Bh3*f5
+          2.Rf3*f5 #
       1...Bh3-c8-a6
           2.Sb8*a6 #
       1...Bh3-c8-b7
@@ -91,14 +93,12 @@ solution finished.
           2.Sd8*e6 #
       1...Bh3-c8-d7
           2.Sb8*d7 #
-      1...Bh3*f5
-          2.Rf3*f5 #
 
 
-  add_to_move_generation_stack:        5370
-                     play_move:        1605
+  add_to_move_generation_stack:        5324
+                     play_move:        1584
  is_white_king_square_attacked:          93
- is_black_king_square_attacked:        1594
+ is_black_king_square_attacked:        1573
 solution finished. 
 
 

@@ -463,7 +463,11 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/beamten.h conditions/central.h conditions/disparate.h \
  conditions/eiffel.h conditions/facetoface.h solving/observation.h \
  solving/temporary_hacks.h conditions/madrasi.h \
- conditions/marscirce/marscirce.h conditions/marscirce/anti.h \
+ conditions/marscirce/marscirce.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
  conditions/marscirce/phantom.h conditions/singlebox/type3.h \
  conditions/castling_chess.h conditions/exchange_castling.h \
@@ -475,11 +479,6 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  solving/single_piece_move_generator.h solving/castling.h \
  solving/castling_rights.h solving/move_effect_journal.h \
  position/pieceid.h solving/king_move_generator.h stipulation/branch.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/pipe.h stipulation/proxy.h stipulation/binary.h \
  debugging/measure.h solving/pipe.h debugging/trace.h \
  output/plaintext/pieces.h debugging/assert.h
@@ -544,7 +543,19 @@ conditions/madrasi.h:
 
 conditions/marscirce/marscirce.h:
 
-conditions/marscirce/anti.h:
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
 
 conditions/marscirce/plus.h:
 
@@ -585,20 +596,6 @@ position/pieceid.h:
 solving/king_move_generator.h:
 
 stipulation/branch.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/slice_structural_type.h:
-
-stipulation/slice_structural_type.enum.h:
-
-stipulation/slice_functional_type.h:
-
-stipulation/slice_functional_type.enum.h:
-
-stipulation/traversal.h:
 
 stipulation/pipe.h:
 

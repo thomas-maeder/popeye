@@ -5,6 +5,7 @@
 #include "solving/machinery/solve.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
+#include "stipulation/structure_traversal.h"
 #include "position/position.h"
 
 /* This module provides implements the condition Mars-Circe
@@ -13,11 +14,6 @@
 extern square marscirce_rebirth_square[toppile+1];
 
 extern square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, square, square, Side);
-
-/* Generate non-capturing moves
- * @param sq_generate_from generate the moves from here
- */
-void marscirce_generate_non_captures(slice_index si, square sq_generate_from);
 
 /* Generate capturing moves
  * @param sq_generate_from generate the moves from here
@@ -82,6 +78,9 @@ boolean mars_is_square_observed_by(slice_index si,
  */
 boolean marscirce_is_square_observed(slice_index si,
                                      validator_id evaluate);
+
+void marscirce_instrument_movegenerator_rebirth(slice_index si, stip_structure_traversal *st);
+void marscirce_instrument_movegenerator_no_rebirth(slice_index si, stip_structure_traversal *st);
 
 /* Inialise thet solving machinery with Mars Circe
  * @param si identifies the root slice of the solving machinery

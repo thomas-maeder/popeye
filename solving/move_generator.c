@@ -8,7 +8,6 @@
 #include "conditions/madrasi.h"
 #include "conditions/disparate.h"
 #include "conditions/marscirce/marscirce.h"
-#include "conditions/marscirce/anti.h"
 #include "conditions/marscirce/plus.h"
 #include "conditions/messigny.h"
 #include "conditions/patrol.h"
@@ -92,7 +91,6 @@ static slice_index const slice_rank_order[] =
     STPhantomMovesForPieceGenerator,
     STPlusMovesForPieceGenerator,
     STMovesForPieceGeneratorCaptureNoncaptureSeparator,
-    STAntiMarsCirceMovesForPieceGenerator,
     STGeneratingNoncapturesForPiece,
     STGeneratingCapturesForPiece,
     STMarsCirceRememberNoRebirth,
@@ -365,10 +363,6 @@ void generate_moves_for_piece(slice_index si)
 
     case STMovesForPieceGeneratorCaptureNoncaptureSeparator:
       generate_moves_for_piece_captures_noncaptures_separately(si);
-      break;
-
-    case STAntiMarsCirceMovesForPieceGenerator:
-      antimars_generate_moves_for_piece(si);
       break;
 
     case STMarsCirceRememberNoRebirth:

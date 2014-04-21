@@ -417,7 +417,6 @@
     ENUMERATOR(STGeneratingNoncapturesForPiece)                        \
     ENUMERATOR(STGeneratingCapturesAndNoncapturesForPiece)             \
     ENUMERATOR(STMovesForPieceGeneratorCaptureNoncaptureSeparator)     \
-    ENUMERATOR(STAntiMarsCirceMovesForPieceGenerator)                  \
     ENUMERATOR(STMarsCirceRememberNoRebirth)                           \
     ENUMERATOR(STMarsCirceGenerateFromRebirthSquare)                   \
     ENUMERATOR(STMoveGeneratorRejectCaptures)                          \
