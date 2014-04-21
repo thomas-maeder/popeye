@@ -1360,7 +1360,6 @@ char *ParseCond(void)
         break;
       case plus:
         marscirce_determine_rebirth_square= 0;
-        anymars= true;
         break;
 
       case whprom_sq:
