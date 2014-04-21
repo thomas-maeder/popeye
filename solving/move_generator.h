@@ -72,6 +72,19 @@ enum
 
 void move_generator_write_history(void);
 
+
+/* Insert slices into a move generation branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by help_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void move_generation_branch_insert_slices(slice_index si,
+                                          slice_index const prototypes[],
+                                          unsigned int nr_prototypes);
+
 /* Instrument move generation with a slice type
  * @param identifies where to start instrumentation
  * @param side which side (pass nr_sides for both sides)
@@ -110,6 +123,17 @@ void move_generator_solve(slice_index si);
  * @param si identifies root the solving machinery
  */
 void solving_insert_move_generators(slice_index si);
+
+/* Instrument the move generation machinery so that captures and non captures
+ * are generated (and can be adapted) separately per piece.
+ * @param si root slice of solving machinery
+ * @param side side for which to instrument; pass no_side for both sides
+ * @note inserts proxy slices STGeneratingNoncapturesForPiece and
+ *       STGeneratingCapturesForPiece that can be used for adjusting the move
+ *       generation
+ */
+void move_generator_instrument_for_captures_non_captures_separately(slice_index si,
+                                                                    Side side);
 
 typedef boolean (*move_filter_criterion_type)(numecoup n);
 

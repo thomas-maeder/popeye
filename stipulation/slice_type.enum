@@ -413,8 +413,15 @@
     ENUMERATOR(STMarsCirceMoveToRebirthSquare)                         \
     ENUMERATOR(STPhantomMovesForPieceGenerator)                        \
     ENUMERATOR(STPlusMovesForPieceGenerator)                           \
-    ENUMERATOR(STMarsCirceMovesForPieceGenerator)                      \
+    ENUMERATOR(STGeneratingCapturesForPiece)                           \
+    ENUMERATOR(STGeneratingNoncapturesForPiece)                        \
+    ENUMERATOR(STGeneratingCapturesAndNoncapturesForPiece)             \
+    ENUMERATOR(STMovesForPieceGeneratorCaptureNoncaptureSeparator)     \
     ENUMERATOR(STAntiMarsCirceMovesForPieceGenerator)                  \
+    ENUMERATOR(STMarsCirceRememberNoRebirth)                           \
+    ENUMERATOR(STMarsCirceGenerateFromRebirthSquare)                   \
+    ENUMERATOR(STMoveGeneratorRejectCaptures)                          \
+    ENUMERATOR(STMoveGeneratorRejectNoncaptures)                       \
     ENUMERATOR(STKamikazeCapturingPieceRemover)                        \
     ENUMERATOR(STHaanChessHoleInserter)                                \
     ENUMERATOR(STCastlingChessMovePlayer)                              \

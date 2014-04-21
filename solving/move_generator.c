@@ -27,6 +27,8 @@
 #include "solving/king_move_generator.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
+#include "stipulation/proxy.h"
+#include "stipulation/binary.h"
 #include "solving/temporary_hacks.h"
 #include "debugging/measure.h"
 #include "solving/pipe.h"
@@ -80,10 +82,6 @@ static slice_index const slice_rank_order[] =
     STFaceToFaceMovesForPieceGenerator,
     STBackToBackMovesForPieceGenerator,
     STCheekToCheekMovesForPieceGenerator,
-    STPhantomMovesForPieceGenerator,
-    STPlusMovesForPieceGenerator,
-    STMarsCirceMovesForPieceGenerator,
-    STAntiMarsCirceMovesForPieceGenerator,
     STVaultingKingsMovesForPieceGenerator,
     STTransmutingKingsMovesForPieceGenerator,
     STSuperTransmutingKingsMovesForPieceGenerator,
@@ -91,6 +89,17 @@ static slice_index const slice_rank_order[] =
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
+    STPhantomMovesForPieceGenerator,
+    STPlusMovesForPieceGenerator,
+    STMovesForPieceGeneratorCaptureNoncaptureSeparator,
+    STAntiMarsCirceMovesForPieceGenerator,
+    STGeneratingNoncapturesForPiece,
+    STGeneratingCapturesForPiece,
+    STMarsCirceRememberNoRebirth,
+    STMarsCirceGenerateFromRebirthSquare,
+    STMoveGeneratorRejectCaptures,
+    STMoveGeneratorRejectNoncaptures,
+    STGeneratingCapturesAndNoncapturesForPiece,
     STMovesForPieceBasedOnWalkGenerator,
     STTrue
 };
@@ -100,29 +109,54 @@ enum
   nr_slice_rank_order_elmts = sizeof slice_rank_order / sizeof slice_rank_order[0]
 };
 
-static void insert_slice(slice_index testing, slice_type type)
+static void move_generation_branch_insert_slices_impl(slice_index generating,
+                                                      slice_index const prototypes[],
+                                                      unsigned int nr_prototypes,
+                                                      slice_index base)
 {
-  slice_index const prototype = alloc_pipe(type);
   stip_structure_traversal st;
   branch_slice_insertion_state_type state =
   {
-    &prototype,1,
+    prototypes,nr_prototypes,
     slice_rank_order, nr_slice_rank_order_elmts,
     branch_slice_rank_order_nonrecursive,
     0,
-    testing,
+    generating,
     0
   };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",testing);
+  TraceFunctionParam("%u",generating);
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(slices[testing].type,&state);
+  state.base_rank = get_slice_rank(slices[base].type,&state);
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
-  stip_traverse_structure_children_pipe(testing,&st);
-  dealloc_slice(prototype);
+  stip_traverse_structure_children_pipe(generating,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a move generation branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by help_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void move_generation_branch_insert_slices(slice_index si,
+                                          slice_index const prototypes[],
+                                          unsigned int nr_prototypes)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  move_generation_branch_insert_slices_impl(si,prototypes,nr_prototypes,si);
+  deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -145,7 +179,11 @@ static void instrument_generating(slice_index si, stip_structure_traversal *st)
   {
     insertion_configuration const * config = st->param;
     if (config->side==nr_sides || config->side==slices[si].starter)
-      insert_slice(si,config->type);
+    {
+      slice_index const prototype = alloc_pipe(config->type);
+      move_generation_branch_insert_slices_impl(si,&prototype,1,si);
+      dealloc_slice(prototype);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -172,6 +210,101 @@ void solving_instrument_move_generation(slice_index si,
                                            STGeneratingMovesForPiece,
                                            &instrument_generating);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_separator(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const proxy_non_capturing = alloc_proxy_slice();
+    slice_index const non_capturing = alloc_pipe(STGeneratingNoncapturesForPiece);
+    slice_index const reject_captures = alloc_pipe(STMoveGeneratorRejectCaptures);
+
+    slice_index const proxy_capturing = alloc_proxy_slice();
+    slice_index const capturing = alloc_pipe(STGeneratingCapturesForPiece);
+    slice_index const reject_non_captures = alloc_pipe(STMoveGeneratorRejectNoncaptures);
+
+    slice_index const generator = alloc_binary_slice(STMovesForPieceGeneratorCaptureNoncaptureSeparator,
+                                                     proxy_non_capturing,
+                                                     proxy_capturing);
+
+    pipe_link(slices[si].prev,generator);
+
+    pipe_link(proxy_non_capturing,non_capturing);
+    pipe_link(non_capturing,reject_captures);
+    pipe_link(reject_captures,si);
+
+    pipe_link(proxy_capturing,capturing);
+    pipe_link(capturing,reject_non_captures);
+    pipe_link(reject_non_captures,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the move generation machinery so that captures and non captures
+ * are generated (and can be adapted) separately per piece.
+ * @param si root slice of solving machinery
+ * @param side side for which to instrument; pass no_side for both sides
+ * @note inserts proxy slices STGeneratingNoncapturesForPiece and
+ *       STGeneratingCapturesForPiece that can be used for adjusting the move
+ *       generation
+ */
+void move_generator_instrument_for_captures_non_captures_separately(slice_index si,
+                                                                    Side side)
+{
+  stip_structure_traversal st;
+
+  solving_instrument_move_generation(si,
+                                     side,
+                                     STGeneratingCapturesAndNoncapturesForPiece);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STGeneratingCapturesAndNoncapturesForPiece,
+                                           &insert_separator);
+  stip_traverse_structure(si,&st);
+}
+
+static boolean always_reject(numecoup n)
+{
+  return false;
+}
+
+static void reject_captures(slice_index si)
+{
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
+  generate_moves_for_piece(slices[si].next1);
+  move_generator_filter_captures(base,&always_reject);
+}
+
+static void reject_non_captures(slice_index si)
+{
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
+  generate_moves_for_piece(slices[si].next1);
+  move_generator_filter_noncaptures(base,&always_reject);
+}
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void generate_moves_for_piece_captures_noncaptures_separately(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  generate_moves_for_piece(slices[si].next1);
+  generate_moves_for_piece(slices[si].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -230,12 +363,28 @@ void generate_moves_for_piece(slice_index si)
       plus_generate_moves_for_piece(si);
       break;
 
-    case STMarsCirceMovesForPieceGenerator:
-      marscirce_generate_moves_for_piece(si);
+    case STMovesForPieceGeneratorCaptureNoncaptureSeparator:
+      generate_moves_for_piece_captures_noncaptures_separately(si);
       break;
 
     case STAntiMarsCirceMovesForPieceGenerator:
       antimars_generate_moves_for_piece(si);
+      break;
+
+    case STMarsCirceRememberNoRebirth:
+      marscirce_remember_no_rebirth(si);
+      break;
+
+    case STMarsCirceGenerateFromRebirthSquare:
+      marscirce_generate_from_rebirth_square(si);
+      break;
+
+    case STMoveGeneratorRejectCaptures:
+      reject_captures(si);
+      break;
+
+    case STMoveGeneratorRejectNoncaptures:
+      reject_non_captures(si);
       break;
 
     case STVaultingKingsMovesForPieceGenerator:

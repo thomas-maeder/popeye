@@ -451,17 +451,18 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   en_passant_initialise_solving(result);
 
+  if (anymars)
+    move_generator_instrument_for_captures_non_captures_separately(result,
+                                                                   nr_sides);
+
   if (CondFlag[phantom])
     solving_initialise_phantom(result);
   else if (anyantimars)
     solving_initialise_antimars(result);
-  else
-  {
-    if (CondFlag[plus])
-      solving_initialise_plus(result);
-    else if (anymars)
-      solving_initialise_marscirce(result);
-  }
+  else if (CondFlag[plus])
+    solving_initialise_plus(result);
+  else if (anymars)
+    solving_initialise_marscirce(result);
 
   if (CondFlag[linechamchess])
     stip_insert_line_chameleon_chess(result);

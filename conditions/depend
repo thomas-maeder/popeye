@@ -264,8 +264,7 @@ conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/branch.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/move.h solving/pipe.h \
- debugging/trace.h position/position.h position/color.h \
- position/color.enum.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 conditions/bgl.h:
 
@@ -339,12 +338,6 @@ solving/pipe.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
 debugging/assert.h:
 conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \
  conditions/check_zigzag.h stipulation/stipulation.h \
@@ -363,8 +356,7 @@ conditions/check_zigzag$(OBJ_SUFFIX): conditions/check_zigzag.c \
  stipulation/boolean/true.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h \
  stipulation/goals/check/reached_tester.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h solving/ply.h debugging/assert.h
+ debugging/assert.h
 
 conditions/check_zigzag.h:
 
@@ -432,16 +424,6 @@ stipulation/goals/check/reached_tester.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
-solving/ply.h:
-
 debugging/assert.h:
 conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  conditions/blackchecks.h solving/machinery/solve.h \
@@ -458,9 +440,7 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- debugging/assert.h
+ stipulation/help_play/branch.h debugging/trace.h debugging/assert.h
 
 conditions/blackchecks.h:
 
@@ -531,14 +511,6 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 debugging/assert.h:
 conditions/extinction$(OBJ_SUFFIX): conditions/extinction.c conditions/extinction.h \
@@ -1562,9 +1534,7 @@ conditions/actuated_revolving_board$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/pipe.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- debugging/assert.h
+ position/pieceid.h solving/pipe.h debugging/trace.h debugging/assert.h
 
 conditions/actuated_revolving_board.h:
 
@@ -1625,14 +1595,6 @@ position/pieceid.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 debugging/assert.h:
 conditions/sentinelles$(OBJ_SUFFIX): conditions/sentinelles.c \
@@ -1740,8 +1702,7 @@ conditions/duellists$(OBJ_SUFFIX): conditions/duellists.c conditions/duellists.h
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/pipe.h debugging/trace.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h debugging/assert.h
+ solving/pipe.h debugging/trace.h debugging/assert.h
 
 conditions/duellists.h:
 
@@ -1805,14 +1766,6 @@ solving/pipe.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
 debugging/assert.h:
 conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
  conditions/haunted_chess.h pieces/pieces.h utilities/boolean.h \
@@ -1829,8 +1782,7 @@ conditions/haunted_chess$(OBJ_SUFFIX): conditions/haunted_chess.c \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/move.h solving/move_generator.h solving/pipe.h \
- debugging/trace.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 conditions/haunted_chess.h:
 
@@ -1898,14 +1850,6 @@ solving/pipe.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
 debugging/assert.h:
 conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  conditions/ghost_chess.h solving/machinery/solve.h \
@@ -1922,8 +1866,7 @@ conditions/ghost_chess$(OBJ_SUFFIX): conditions/ghost_chess.c \
  stipulation/move.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/haunted_chess.h position/underworld.h solving/pipe.h \
- debugging/trace.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h debugging/assert.h
+ debugging/trace.h debugging/assert.h
 
 conditions/ghost_chess.h:
 
@@ -1990,14 +1933,6 @@ position/underworld.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 debugging/assert.h:
 conditions/kobul$(OBJ_SUFFIX): conditions/kobul.c conditions/kobul.h \
@@ -2191,8 +2126,7 @@ conditions/antiandernach$(OBJ_SUFFIX): conditions/antiandernach.c \
  stipulation/move.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  conditions/andernach.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h debugging/assert.h
+ debugging/assert.h
 
 conditions/antiandernach.h:
 
@@ -2258,14 +2192,6 @@ solving/pipe.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
 debugging/assert.h:
 conditions/chameleon_pursuit$(OBJ_SUFFIX): conditions/chameleon_pursuit.c \
  conditions/chameleon_pursuit.h solving/machinery/solve.h \
@@ -2281,9 +2207,7 @@ conditions/chameleon_pursuit$(OBJ_SUFFIX): conditions/chameleon_pursuit.c \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/move.h solving/pipe.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- debugging/assert.h
+ stipulation/move.h solving/pipe.h debugging/trace.h debugging/assert.h
 
 conditions/chameleon_pursuit.h:
 
@@ -2350,14 +2274,6 @@ stipulation/move.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 debugging/assert.h:
 conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h \
@@ -2646,9 +2562,9 @@ conditions/volage$(OBJ_SUFFIX): conditions/volage.c conditions/volage.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/move.h solving/pipe.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- conditions/conditions.h debugging/assert.h
+ stipulation/move.h solving/pipe.h debugging/trace.h \
+ conditions/conditions.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h debugging/assert.h
 
 conditions/volage.h:
 
@@ -2712,6 +2628,8 @@ solving/pipe.h:
 
 debugging/trace.h:
 
+conditions/conditions.h:
+
 position/position.h:
 
 position/color.h:
@@ -2719,8 +2637,6 @@ position/color.h:
 position/color.enum.h:
 
 pieces/walks/vectors.h:
-
-conditions/conditions.h:
 
 debugging/assert.h:
 conditions/magic_square$(OBJ_SUFFIX): conditions/magic_square.c \
@@ -3679,8 +3595,7 @@ conditions/monochrome$(OBJ_SUFFIX): conditions/monochrome.c conditions/monochrom
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/branch.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h
+ solving/temporary_hacks.h solving/pipe.h debugging/trace.h
 
 conditions/monochrome.h:
 
@@ -3741,12 +3656,6 @@ solving/temporary_hacks.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/bichrome$(OBJ_SUFFIX): conditions/bichrome.c conditions/bichrome.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -3759,8 +3668,7 @@ conditions/bichrome$(OBJ_SUFFIX): conditions/bichrome.c conditions/bichrome.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/branch.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h
+ solving/temporary_hacks.h solving/pipe.h debugging/trace.h
 
 conditions/bichrome.h:
 
@@ -3823,12 +3731,6 @@ solving/temporary_hacks.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/edgemover$(OBJ_SUFFIX): conditions/edgemover.c conditions/edgemover.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -3926,8 +3828,7 @@ conditions/grid$(OBJ_SUFFIX): conditions/grid.c conditions/grid.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/branch.h solving/move_generator.h solving/machinery/solve.h \
  solving/ply.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h
+ solving/temporary_hacks.h solving/pipe.h debugging/trace.h
 
 conditions/grid.h:
 
@@ -3988,12 +3889,6 @@ solving/temporary_hacks.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/patrol$(OBJ_SUFFIX): conditions/patrol.c conditions/patrol.h \
  pieces/pieces.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -4086,8 +3981,7 @@ conditions/lortap$(OBJ_SUFFIX): conditions/lortap.c conditions/lortap.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h
+ stipulation/branch.h solving/pipe.h debugging/trace.h
 
 conditions/lortap.h:
 
@@ -4148,12 +4042,6 @@ stipulation/branch.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/beamten$(OBJ_SUFFIX): conditions/beamten.c conditions/beamten.h \
  pieces/pieces.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -4222,8 +4110,7 @@ conditions/provocateurs$(OBJ_SUFFIX): conditions/provocateurs.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h
+ stipulation/branch.h solving/pipe.h debugging/trace.h
 
 conditions/provocateurs.h:
 
@@ -4284,12 +4171,6 @@ stipulation/branch.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/central$(OBJ_SUFFIX): conditions/central.c conditions/central.h \
  pieces/pieces.h utilities/boolean.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -4365,8 +4246,7 @@ conditions/immune$(OBJ_SUFFIX): conditions/immune.c conditions/immune.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h stipulation/pipe.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- debugging/trace.h position/position.h position/color.h \
- position/color.enum.h
+ debugging/trace.h
 
 conditions/immune.h:
 
@@ -4443,12 +4323,6 @@ pieces/walks/vectors.h:
 solving/temporary_hacks.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/woozles$(OBJ_SUFFIX): conditions/woozles.c conditions/woozles.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -4716,8 +4590,7 @@ conditions/geneva$(OBJ_SUFFIX): conditions/geneva.c conditions/geneva.h \
  conditions/circe/relevant_side.h conditions/anticirce/anticirce.h \
  stipulation/pipe.h solving/move_generator.h solving/observation.h \
  pieces/walks/vectors.h solving/temporary_hacks.h solving/pipe.h \
- debugging/trace.h position/position.h position/color.h \
- position/color.enum.h
+ debugging/trace.h
 
 conditions/geneva.h:
 
@@ -4800,12 +4673,6 @@ solving/temporary_hacks.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/take_and_make$(OBJ_SUFFIX): conditions/take_and_make.c \
  conditions/take_and_make.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -4920,8 +4787,7 @@ conditions/ohneschach$(OBJ_SUFFIX): conditions/ohneschach.c conditions/ohneschac
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/battle_play/branch.h solving/recursion_stopper.h \
  solving/check.h solving/fork.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h debugging/assert.h
+ debugging/assert.h
 
 conditions/ohneschach.h:
 
@@ -4990,14 +4856,6 @@ solving/fork.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 debugging/assert.h:
 conditions/annan$(OBJ_SUFFIX): conditions/annan.c conditions/annan.h \
@@ -5188,8 +5046,7 @@ conditions/superguards$(OBJ_SUFFIX): conditions/superguards.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h
+ stipulation/branch.h solving/pipe.h debugging/trace.h
 
 conditions/superguards.h:
 
@@ -5250,12 +5107,6 @@ stipulation/branch.h:
 solving/pipe.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 conditions/brunner$(OBJ_SUFFIX): conditions/brunner.c conditions/brunner.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -5265,7 +5116,6 @@ conditions/brunner$(OBJ_SUFFIX): conditions/brunner.c conditions/brunner.h \
  solving/temporary_hacks.h solving/check.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/machinery/solve.h \
  solving/move_generator.h solving/fork.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
  debugging/assert.h
 
 conditions/brunner.h:
@@ -5315,12 +5165,6 @@ solving/move_generator.h:
 solving/fork.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 
 debugging/assert.h:
 conditions/wormhole$(OBJ_SUFFIX): conditions/wormhole.c conditions/wormhole.h \
@@ -5637,9 +5481,7 @@ conditions/follow_my_leader$(OBJ_SUFFIX): conditions/follow_my_leader.c \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/move_generator.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- debugging/assert.h
+ solving/move_generator.h debugging/trace.h debugging/assert.h
 
 conditions/follow_my_leader.h:
 
@@ -5680,14 +5522,6 @@ position/pieceid.h:
 solving/move_generator.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 debugging/assert.h:
 conditions/alphabetic$(OBJ_SUFFIX): conditions/alphabetic.c conditions/alphabetic.h \
@@ -5737,8 +5571,7 @@ conditions/forced_squares$(OBJ_SUFFIX): conditions/forced_squares.c \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/ply.h debugging/trace.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h debugging/assert.h
+ solving/ply.h debugging/trace.h debugging/assert.h
 
 conditions/forced_squares.h:
 
@@ -5774,14 +5607,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
 debugging/assert.h:
 conditions/synchronous$(OBJ_SUFFIX): conditions/synchronous.c \
  conditions/synchronous.h solving/move_effect_journal.h \
@@ -5792,7 +5617,6 @@ conditions/synchronous$(OBJ_SUFFIX): conditions/synchronous.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/move_generator.h pieces/walks/vectors.h debugging/trace.h \
- position/position.h position/color.h position/color.enum.h \
  debugging/assert.h
 
 conditions/synchronous.h:
@@ -5836,12 +5660,6 @@ solving/move_generator.h:
 pieces/walks/vectors.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 
 debugging/assert.h:
 conditions/must_capture$(OBJ_SUFFIX): conditions/must_capture.c \

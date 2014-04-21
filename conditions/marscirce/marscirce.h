@@ -28,7 +28,13 @@ void marscirce_generate_captures(slice_index si, square sq_generate_from);
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves_for_piece(slice_index si);
+void marscirce_remember_no_rebirth(slice_index si);
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void marscirce_generate_from_rebirth_square(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

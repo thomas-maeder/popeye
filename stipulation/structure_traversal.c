@@ -210,6 +210,17 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
         break;
       }
 
+      case STGeneratingMovesForPiece:
+      {
+        structure_traversal_level_type const save_level = st->level;
+        stip_traversal_context_type const save_context = st->context;
+        assert(st->context==stip_traversal_context_intro);
+        st->context = stip_traversal_context_move_generation;
+        stip_traverse_structure(slices[pipe].next1,st);
+        st->context = save_context;
+        break;
+      }
+
       default:
         stip_traverse_structure(slices[pipe].next1,st);
         break;

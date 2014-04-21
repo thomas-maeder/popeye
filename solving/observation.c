@@ -130,7 +130,7 @@ boolean validate_observation_recursive(slice_index si)
       result = cheektocheek_enforce_observer_walk(si);
       break;
 
-    case STMarsCirceMovesForPieceGenerator:
+    case STMarsCirceGenerateFromRebirthSquare:
       result = mars_enforce_observer(si);
       break;
 
@@ -331,7 +331,7 @@ static slice_index const observation_validation_slice_rank_order[] =
 {
     STValidatingCheck,
     STValidatingObservation,
-    STMarsCirceMovesForPieceGenerator,
+    STMarsCirceGenerateFromRebirthSquare,
     STAMUObservationCounter,
     STMasandEnforceObserver,
     STUndoOptimiseObservationsByQueen,

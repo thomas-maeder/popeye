@@ -4,6 +4,8 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -75,47 +77,63 @@ void marscirce_generate_captures(slice_index si, square sq_generate_from)
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void marscirce_generate_moves_for_piece(slice_index si)
+void marscirce_remember_no_rebirth(slice_index si)
 {
-  square const sq_departure = curr_generation->departure;
   numecoup curr_id = current_move_id[nbply];
 
   TraceFunctionEntry(__func__);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
+  generate_moves_for_piece(slices[si].next1);
+
+  for (; curr_id<current_move_id[nbply]; ++curr_id)
+    marscirce_rebirth_square[curr_id] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void marscirce_generate_from_rebirth_square(slice_index si)
+{
+  square const sq_departure = curr_generation->departure;
+  numecoup curr_id = current_move_id[nbply];
+  square const sq_rebirth = (*marscirce_determine_rebirth_square)(move_generation_current_walk,
+                                                                  spec[sq_departure],
+                                                                  sq_departure,initsquare,initsquare,
+                                                                  advers(trait[nbply]));
+
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
+  numecoup curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  curr_generation->departure = sq_rebirth;
+
+  if (sq_rebirth==sq_departure)
+    generate_moves_for_piece(slices[si].next1);
+  else if (is_square_empty(sq_rebirth))
   {
-    square const sq_rebirth = (*marscirce_determine_rebirth_square)(move_generation_current_walk,
-                                           spec[sq_departure],
-                                           sq_departure,initsquare,initsquare,
-                                           advers(trait[nbply]));
+    occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
+    empty_square(sq_departure);
 
-    marscirce_generate_non_captures(si,sq_departure);
+    generate_moves_for_piece(slices[si].next1);
 
-    for (; curr_id<current_move_id[nbply]; ++curr_id)
-      marscirce_rebirth_square[curr_id] = initsquare;
-
-    if (sq_rebirth==sq_departure)
-    {
-      marscirce_generate_captures(si,sq_rebirth);
-
-      for (; curr_id<current_move_id[nbply]; ++curr_id)
-        marscirce_rebirth_square[curr_id] = sq_rebirth;
-    }
-    else if (is_square_empty(sq_rebirth))
-    {
-      occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
-      empty_square(sq_departure);
-
-      marscirce_generate_captures(si,sq_rebirth);
-
-      occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
-      empty_square(sq_rebirth);
-
-      for (; curr_id<current_move_id[nbply]; ++curr_id)
-        marscirce_rebirth_square[curr_id] = sq_rebirth;
-    }
+    occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
+    empty_square(sq_rebirth);
   }
+
+  curr_generation->departure = sq_departure;
+
+  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
+    move_generation_stack[curr].departure = sq_departure;
+
+  for (; curr_id<current_move_id[nbply]; ++curr_id)
+    marscirce_rebirth_square[curr_id] = sq_rebirth;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -313,6 +331,40 @@ boolean marscirce_is_square_observed(slice_index si, validator_id evaluate)
   return result;
 }
 
+static void insert_no_rebirth(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STMarsCirceRememberNoRebirth);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_rebirth(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STMarsCirceGenerateFromRebirthSquare);
+    branch_insert_slices_contextual(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Inialise thet solving machinery with Mars Circe
  * @param si identifies the root slice of the solving machinery
  */
@@ -321,14 +373,24 @@ void solving_initialise_marscirce(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solving_instrument_move_generation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STGeneratingNoncapturesForPiece,
+                                             &insert_no_rebirth);
+    stip_structure_traversal_override_single(&st,
+                                             STGeneratingCapturesForPiece,
+                                             &insert_rebirth);
+    stip_traverse_structure(si,&st);
+  }
 
   stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
 
   stip_instrument_is_square_observed_testing(si,nr_sides,STMarsIsSquareObserved);
 
-  stip_instrument_check_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
-  stip_instrument_observation_validation(si,nr_sides,STMarsCirceMovesForPieceGenerator);
+  stip_instrument_check_validation(si,nr_sides,STMarsCirceGenerateFromRebirthSquare);
+  stip_instrument_observation_validation(si,nr_sides,STMarsCirceGenerateFromRebirthSquare);
 
   move_effect_journal_register_pre_capture_effect();
 
