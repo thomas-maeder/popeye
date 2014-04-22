@@ -329,7 +329,7 @@ boolean marscirce_is_square_observed(slice_index si, validator_id evaluate)
   return result;
 }
 
-void marscirce_instrument_movegenerator_no_rebirth(slice_index si, stip_structure_traversal *st)
+static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -338,15 +338,20 @@ void marscirce_instrument_movegenerator_no_rebirth(slice_index si, stip_structur
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_pipe(STMarsCirceRememberNoRebirth);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STMarsCirceRememberNoRebirth),
+        alloc_pipe(STMoveGeneratorRejectCaptures)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void marscirce_instrument_movegenerator_rebirth(slice_index si, stip_structure_traversal *st)
+static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -358,7 +363,8 @@ void marscirce_instrument_movegenerator_rebirth(slice_index si, stip_structure_t
     slice_index const prototypes[] = {
         alloc_pipe(STMarsCirceFixDeparture),
         alloc_pipe(STMarsCirceGenerateFromRebirthSquare),
-        alloc_pipe(STMarsCirceRememberRebirth)
+        alloc_pipe(STMarsCirceRememberRebirth),
+        alloc_pipe(STMoveGeneratorRejectNoncaptures)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
@@ -380,11 +386,11 @@ void solving_initialise_marscirce(slice_index si)
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,
-                                             STGeneratingNoncapturesForPiece,
-                                             &marscirce_instrument_movegenerator_no_rebirth);
+                                             STMoveForPieceGeneratorStandardPath,
+                                             &instrument_no_rebirth);
     stip_structure_traversal_override_single(&st,
-                                             STGeneratingCapturesForPiece,
-                                             &marscirce_instrument_movegenerator_rebirth);
+                                             STMoveForPieceGeneratorAlternativePath,
+                                             &instrument_rebirth);
     stip_traverse_structure(si,&st);
   }
 

@@ -138,17 +138,17 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const proxy_regular = alloc_proxy_slice();
-    slice_index const regular = alloc_pipe(STGeneratingNoncapturesForPiece);
+    slice_index const regular = alloc_pipe(STMoveForPieceGeneratorStandardPath);
     slice_index const remember_no_rebirth = alloc_pipe(STMarsCirceRememberNoRebirth);
 
     slice_index const proxy_phantom = alloc_proxy_slice();
-    slice_index const capture_phantom = alloc_pipe(STGeneratingCapturesForPiece);
+    slice_index const capture_phantom = alloc_pipe(STMoveForPieceGeneratorAlternativePath);
     slice_index const fix_departure = alloc_pipe(STMarsCirceFixDeparture);
     slice_index const avoid_duplicates = alloc_pipe(STPhantomAvoidDuplicateMoves);
     slice_index const generate_phantom = alloc_pipe(STPhantomMovesForPieceGenerator);
     slice_index const remember_rebirth = alloc_pipe(STMarsCirceRememberRebirth);
 
-    slice_index const separator = alloc_binary_slice(STMovesForPieceGeneratorCaptureNoncaptureSeparator,
+    slice_index const separator = alloc_binary_slice(STMoveForPieceGeneratorTwoPaths,
                                                      proxy_regular,
                                                      proxy_phantom);
 
@@ -188,11 +188,11 @@ void solving_initialise_phantom(slice_index si)
 
     solving_instrument_move_generation(si,
                                        no_side,
-                                       STGeneratingCapturesAndNoncapturesForPiece);
+                                       STMoveForPieceGeneratorPathsJoint);
 
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,
-                                             STGeneratingCapturesAndNoncapturesForPiece,
+                                             STMoveForPieceGeneratorPathsJoint,
                                              &insert_separator);
     stip_traverse_structure(si,&st);
   }

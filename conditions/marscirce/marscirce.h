@@ -92,9 +92,6 @@ boolean mars_is_square_observed_by(slice_index si,
 boolean marscirce_is_square_observed(slice_index si,
                                      validator_id evaluate);
 
-void marscirce_instrument_movegenerator_rebirth(slice_index si, stip_structure_traversal *st);
-void marscirce_instrument_movegenerator_no_rebirth(slice_index si, stip_structure_traversal *st);
-
 /* Inialise thet solving machinery with Mars Circe
  * @param si identifies the root slice of the solving machinery
  */

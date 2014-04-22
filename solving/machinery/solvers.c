@@ -452,8 +452,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   en_passant_initialise_solving(result);
 
   if (anymars || anyantimars)
-    move_generator_instrument_for_captures_non_captures_separately(result,
-                                                                   nr_sides);
+    move_generator_instrument_for_alternative_paths(result,nr_sides);
 
   if (CondFlag[phantom])
     solving_initialise_phantom(result);

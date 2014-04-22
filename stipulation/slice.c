@@ -99,7 +99,7 @@ static slice_type const fork_slice_types[] =
     STValidatingObservationFork,
     STValidatingObserverFork,
     STValidatingObservationGeometryFork,
-    STMovesForPieceGeneratorCaptureNoncaptureSeparator
+    STMoveForPieceGeneratorTwoPaths
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -213,10 +213,10 @@ static slice_type const proxy_slice_types[] =
     STValidatingObservation,
     STValidatingObserver,
     STValidatingObservationGeometry,
-    STGeneratingCapturesAndNoncapturesForPiece,
-    STGeneratingCapturesForPiece,
-    STGeneratingNoncapturesForPiece,
-    STGeneratingCapturesAndNoncapturesForPiece
+    STMoveForPieceGeneratorPathsJoint,
+    STMoveForPieceGeneratorAlternativePath,
+    STMoveForPieceGeneratorStandardPath,
+    STMoveForPieceGeneratorPathsJoint
 };
 
 static slice_type const move_generator_slice_types[] =
@@ -274,7 +274,7 @@ static slice_type const binary_slice_types[] =
     STKillerMoveFinalDefenseMove,
     STTransmutingKingIsSquareObserved,
     STVaultingKingIsSquareObserved,
-    STMovesForPieceGeneratorCaptureNoncaptureSeparator
+    STMoveForPieceGeneratorTwoPaths
 };
 
 static slice_type const testing_pipe_slice_types[] =

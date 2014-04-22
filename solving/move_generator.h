@@ -132,7 +132,7 @@ void solving_insert_move_generators(slice_index si);
  *       STGeneratingCapturesForPiece that can be used for adjusting the move
  *       generation
  */
-void move_generator_instrument_for_captures_non_captures_separately(slice_index si,
+void move_generator_instrument_for_alternative_paths(slice_index si,
                                                                     Side side);
 
 typedef boolean (*move_filter_criterion_type)(numecoup n);

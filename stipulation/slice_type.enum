@@ -415,10 +415,10 @@
     ENUMERATOR(STPhantomAvoidDuplicateMoves)                           \
     ENUMERATOR(STPhantomMovesForPieceGenerator)                        \
     ENUMERATOR(STPlusAdditionalCapturesForPieceGenerator)              \
-    ENUMERATOR(STGeneratingCapturesForPiece)                           \
-    ENUMERATOR(STGeneratingNoncapturesForPiece)                        \
-    ENUMERATOR(STGeneratingCapturesAndNoncapturesForPiece)             \
-    ENUMERATOR(STMovesForPieceGeneratorCaptureNoncaptureSeparator)     \
+    ENUMERATOR(STMoveForPieceGeneratorAlternativePath)                 \
+    ENUMERATOR(STMoveForPieceGeneratorStandardPath)                    \
+    ENUMERATOR(STMoveForPieceGeneratorPathsJoint)                      \
+    ENUMERATOR(STMoveForPieceGeneratorTwoPaths)                        \
     ENUMERATOR(STMarsCirceRememberNoRebirth)                           \
     ENUMERATOR(STMarsCirceRememberRebirth)                             \
     ENUMERATOR(STMarsCirceFixDeparture)                                \

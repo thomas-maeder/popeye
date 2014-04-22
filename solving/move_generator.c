@@ -88,9 +88,9 @@ static slice_index const slice_rank_order[] =
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
-    STMovesForPieceGeneratorCaptureNoncaptureSeparator,
-    STGeneratingNoncapturesForPiece,
-    STGeneratingCapturesForPiece,
+    STMoveForPieceGeneratorTwoPaths,
+    STMoveForPieceGeneratorStandardPath,
+    STMoveForPieceGeneratorAlternativePath,
     STPhantomEnforceRexInclusive,
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
@@ -101,7 +101,7 @@ static slice_index const slice_rank_order[] =
     STMarsCirceRememberNoRebirth,
     STMoveGeneratorRejectCaptures,
     STMoveGeneratorRejectNoncaptures,
-    STGeneratingCapturesAndNoncapturesForPiece,
+    STMoveForPieceGeneratorPathsJoint,
     STMovesForPieceBasedOnWalkGenerator,
     STTrue
 };
@@ -226,53 +226,48 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const proxy_non_capturing = alloc_proxy_slice();
-    slice_index const non_capturing = alloc_pipe(STGeneratingNoncapturesForPiece);
-    slice_index const reject_captures = alloc_pipe(STMoveGeneratorRejectCaptures);
+    slice_index const proxy_standard = alloc_proxy_slice();
+    slice_index const standard = alloc_pipe(STMoveForPieceGeneratorStandardPath);
 
-    slice_index const proxy_capturing = alloc_proxy_slice();
-    slice_index const capturing = alloc_pipe(STGeneratingCapturesForPiece);
-    slice_index const reject_non_captures = alloc_pipe(STMoveGeneratorRejectNoncaptures);
+    slice_index const proxy_alternative = alloc_proxy_slice();
+    slice_index const alternative = alloc_pipe(STMoveForPieceGeneratorAlternativePath);
 
-    slice_index const generator = alloc_binary_slice(STMovesForPieceGeneratorCaptureNoncaptureSeparator,
-                                                     proxy_non_capturing,
-                                                     proxy_capturing);
+    slice_index const generator = alloc_binary_slice(STMoveForPieceGeneratorTwoPaths,
+                                                     proxy_standard,
+                                                     proxy_alternative);
 
     pipe_link(slices[si].prev,generator);
 
-    pipe_link(proxy_non_capturing,non_capturing);
-    pipe_link(non_capturing,reject_captures);
-    pipe_link(reject_captures,si);
+    pipe_link(proxy_standard,standard);
+    pipe_link(standard,si);
 
-    pipe_link(proxy_capturing,capturing);
-    pipe_link(capturing,reject_non_captures);
-    pipe_link(reject_non_captures,si);
+    pipe_link(proxy_alternative,alternative);
+    pipe_link(alternative,si);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-/* Instrument the move generation machinery so that captures and non captures
- * are generated (and can be adapted) separately per piece.
+/* Instrument the move generation machinery so that there are two paths which
+ * can be adapted separately.
  * @param si root slice of solving machinery
  * @param side side for which to instrument; pass no_side for both sides
- * @note inserts proxy slices STGeneratingNoncapturesForPiece and
- *       STGeneratingCapturesForPiece that can be used for adjusting the move
+ * @note inserts proxy slices STMoveForPieceGeneratorStandardPath and
+ *       STMoveForPieceGeneratorAlternativePath that can be used for adjusting the move
  *       generation
  */
-void move_generator_instrument_for_captures_non_captures_separately(slice_index si,
-                                                                    Side side)
+void move_generator_instrument_for_alternative_paths(slice_index si, Side side)
 {
   stip_structure_traversal st;
 
   solving_instrument_move_generation(si,
                                      side,
-                                     STGeneratingCapturesAndNoncapturesForPiece);
+                                     STMoveForPieceGeneratorPathsJoint);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,
-                                           STGeneratingCapturesAndNoncapturesForPiece,
+                                           STMoveForPieceGeneratorPathsJoint,
                                            &insert_separator);
   stip_traverse_structure(si,&st);
 }
@@ -373,7 +368,7 @@ void generate_moves_for_piece(slice_index si)
       plus_generate_additional_captures_for_piece(si);
       break;
 
-    case STMovesForPieceGeneratorCaptureNoncaptureSeparator:
+    case STMoveForPieceGeneratorTwoPaths:
       generate_moves_for_piece_captures_noncaptures_separately(si);
       break;
 
