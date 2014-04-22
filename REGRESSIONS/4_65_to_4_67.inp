@@ -54,4 +54,12 @@ stipulation s#2
 option vari
 condition sat
 
+next
+
+title since 4.51, we generated duplicate moves in Echecks Plus
+condition plus
+pieces white sd4 black pc6
+stip x1
+option nowk nobk
+
 end

@@ -19,6 +19,18 @@ extern square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, squa
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
+void marscirce_fix_departure(slice_index si);
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void marscirce_remember_rebirth(slice_index si);
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
 void marscirce_remember_no_rebirth(slice_index si);
 
 /* Try occupying rebirth square and generate moves

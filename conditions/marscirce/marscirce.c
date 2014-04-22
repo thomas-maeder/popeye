@@ -18,17 +18,61 @@ square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, squ
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
+void marscirce_fix_departure(slice_index si)
+{
+  numecoup const base = CURRMOVE_OF_PLY(nbply);
+  numecoup curr;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  generate_moves_for_piece(slices[si].next1);
+
+  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
+    move_generation_stack[curr].departure = curr_generation->departure;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
 void marscirce_remember_no_rebirth(slice_index si)
 {
   numecoup curr_id = current_move_id[nbply];
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   generate_moves_for_piece(slices[si].next1);
 
   for (; curr_id<current_move_id[nbply]; ++curr_id)
     marscirce_rebirth_square[curr_id] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void marscirce_remember_rebirth(slice_index si)
+{
+  numecoup curr_id = current_move_id[nbply];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  generate_moves_for_piece(slices[si].next1);
+
+  for (; curr_id<current_move_id[nbply]; ++curr_id)
+    marscirce_rebirth_square[curr_id] = curr_generation->departure;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -75,33 +119,19 @@ void marscirce_try_rebirth_and_generate(slice_index si, square sq_rebirth)
 void marscirce_generate_from_rebirth_square(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
-  numecoup curr_id = current_move_id[nbply];
   square const sq_rebirth = (*marscirce_determine_rebirth_square)(move_generation_current_walk,
                                                                   spec[sq_departure],
                                                                   sq_departure,initsquare,initsquare,
                                                                   advers(trait[nbply]));
-
-  numecoup const base = CURRMOVE_OF_PLY(nbply);
-  numecoup curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (sq_rebirth==sq_departure)
-  {
-    curr_generation->departure = sq_rebirth;
     generate_moves_for_piece(slices[si].next1);
-    curr_generation->departure = sq_departure;
-  }
   else
     marscirce_try_rebirth_and_generate(si,sq_rebirth);
-
-  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
-    move_generation_stack[curr].departure = sq_departure;
-
-  for (; curr_id<current_move_id[nbply]; ++curr_id)
-    marscirce_rebirth_square[curr_id] = sq_rebirth;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -325,8 +355,13 @@ void marscirce_instrument_movegenerator_rebirth(slice_index si, stip_structure_t
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const prototype = alloc_pipe(STMarsCirceGenerateFromRebirthSquare);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_index const prototypes[] = {
+        alloc_pipe(STMarsCirceFixDeparture),
+        alloc_pipe(STMarsCirceGenerateFromRebirthSquare),
+        alloc_pipe(STMarsCirceRememberRebirth)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
