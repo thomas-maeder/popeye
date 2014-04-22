@@ -9,9 +9,8 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
-#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/pipe.h"
-#include "stipulation/binary.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -128,7 +127,7 @@ void phantom_generate_moves_for_piece(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void insert_separator(slice_index si, stip_structure_traversal *st)
+static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -137,36 +136,44 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const proxy_regular = alloc_proxy_slice();
-    slice_index const regular = alloc_pipe(STMoveForPieceGeneratorStandardPath);
-    slice_index const remember_no_rebirth = alloc_pipe(STMarsCirceRememberNoRebirth);
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STMarsCirceRememberNoRebirth)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
 
-    slice_index const proxy_phantom = alloc_proxy_slice();
-    slice_index const capture_phantom = alloc_pipe(STMoveForPieceGeneratorAlternativePath);
-    slice_index const fix_departure = alloc_pipe(STMarsCirceFixDeparture);
-    slice_index const avoid_duplicates = alloc_pipe(STPhantomAvoidDuplicateMoves);
-    slice_index const generate_phantom = alloc_pipe(STPhantomMovesForPieceGenerator);
-    slice_index const remember_rebirth = alloc_pipe(STMarsCirceRememberRebirth);
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
-    slice_index const separator = alloc_binary_slice(STMoveForPieceGeneratorTwoPaths,
-                                                     proxy_regular,
-                                                     proxy_phantom);
+static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
 
-    pipe_link(slices[si].prev,separator);
+  stip_traverse_structure_children(si,st);
 
-    pipe_link(proxy_regular,regular);
-    pipe_link(regular,remember_no_rebirth);
-    pipe_link(remember_no_rebirth,si);
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STMarsCirceFixDeparture),
+        alloc_pipe(STPhantomAvoidDuplicateMoves),
+        alloc_pipe(STPhantomMovesForPieceGenerator),
+        alloc_pipe(STMarsCirceRememberRebirth)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
 
-    pipe_link(proxy_phantom,capture_phantom);
-    pipe_link(capture_phantom,fix_departure);
-    pipe_link(fix_departure,avoid_duplicates);
-    pipe_link(avoid_duplicates,generate_phantom);
-    pipe_link(generate_phantom,remember_rebirth);
-    pipe_link(remember_rebirth,si);
-
-    if (!phantom_chess_rex_inclusive)
-      pipe_append(capture_phantom,alloc_pipe(STPhantomEnforceRexInclusive));
+  if (!phantom_chess_rex_inclusive)
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STPhantomEnforceRexInclusive)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -181,24 +188,21 @@ void solving_initialise_phantom(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-
   {
     stip_structure_traversal st;
-
-    solving_instrument_move_generation(si,
-                                       no_side,
-                                       STMoveForPieceGeneratorPathsJoint);
-
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,
-                                             STMoveForPieceGeneratorPathsJoint,
-                                             &insert_separator);
+                                             STMoveForPieceGeneratorStandardPath,
+                                             &instrument_no_rebirth);
+    stip_structure_traversal_override_single(&st,
+                                             STMoveForPieceGeneratorAlternativePath,
+                                             &instrument_rebirth);
     stip_traverse_structure(si,&st);
   }
 
   stip_instrument_is_square_observed_testing(si,nr_sides,STPhantomIsSquareObserved);
 
+  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
   move_effect_journal_register_pre_capture_effect();
 
   TraceFunctionExit(__func__);

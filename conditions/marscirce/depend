@@ -304,8 +304,8 @@ conditions/marscirce/phantom$(OBJ_SUFFIX): conditions/marscirce/phantom.c \
  conditions/circe/relevant_side.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/pipe.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/move.h stipulation/proxy.h \
- stipulation/binary.h debugging/trace.h debugging/assert.h
+ solving/has_solution_type.enum.h stipulation/move.h stipulation/branch.h \
+ debugging/trace.h debugging/assert.h
 
 conditions/marscirce/phantom.h:
 
@@ -399,9 +399,7 @@ solving/has_solution_type.enum.h:
 
 stipulation/move.h:
 
-stipulation/proxy.h:
-
-stipulation/binary.h:
+stipulation/branch.h:
 
 debugging/trace.h:
 
