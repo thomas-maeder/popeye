@@ -88,13 +88,17 @@ static slice_index const slice_rank_order[] =
     STCastlingChessMovesForPieceGenerator,
     STPlatzwechselRochadeMovesForPieceGenerator,
     STMessignyMovesForPieceGenerator,
-    STPhantomMovesForPieceGenerator,
     STMovesForPieceGeneratorCaptureNoncaptureSeparator,
     STGeneratingNoncapturesForPiece,
     STGeneratingCapturesForPiece,
-    STMarsCirceRememberNoRebirth,
+    STPhantomEnforceRexInclusive,
+    STMarsCirceFixDeparture,
+    STPhantomAvoidDuplicateMoves,
     STMarsCirceGenerateFromRebirthSquare,
     STPlusAdditionalCapturesForPieceGenerator,
+    STPhantomMovesForPieceGenerator,
+    STMarsCirceRememberRebirth,
+    STMarsCirceRememberNoRebirth,
     STMoveGeneratorRejectCaptures,
     STMoveGeneratorRejectNoncaptures,
     STGeneratingCapturesAndNoncapturesForPiece,
@@ -353,6 +357,14 @@ void generate_moves_for_piece(slice_index si)
       beamten_generate_moves_for_piece(si);
       break;
 
+    case STPhantomEnforceRexInclusive:
+      phantom_enforce_rex_inclusive(si);
+      break;
+
+    case STPhantomAvoidDuplicateMoves:
+      phantom_avoid_duplicate_moves(si);
+      break;
+
     case STPhantomMovesForPieceGenerator:
       phantom_generate_moves_for_piece(si);
       break;
@@ -365,8 +377,16 @@ void generate_moves_for_piece(slice_index si)
       generate_moves_for_piece_captures_noncaptures_separately(si);
       break;
 
+    case STMarsCirceRememberRebirth:
+      marscirce_remember_rebirth(si);
+      break;
+
     case STMarsCirceRememberNoRebirth:
       marscirce_remember_no_rebirth(si);
+      break;
+
+    case STMarsCirceFixDeparture:
+      marscirce_fix_departure(si);
       break;
 
     case STMarsCirceGenerateFromRebirthSquare:

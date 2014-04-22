@@ -21,8 +21,6 @@ void plus_generate_additional_captures_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
   unsigned int i;
-  numecoup const base = CURRMOVE_OF_PLY(nbply);
-  numecoup curr;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -37,9 +35,6 @@ void plus_generate_additional_captures_for_piece(slice_index si)
           marscirce_try_rebirth_and_generate(si,center_squares[j]);
       break;
     }
-
-  for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
-    move_generation_stack[curr].departure = sq_departure;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -122,10 +117,14 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
   {
     slice_index const proxy_regular = alloc_proxy_slice();
     slice_index const regular = alloc_pipe(STGeneratingNoncapturesForPiece);
+    slice_index const remember_no_rebirth = alloc_pipe(STMarsCirceRememberNoRebirth);
 
     slice_index const proxy_plus = alloc_proxy_slice();
     slice_index const capture_plus = alloc_pipe(STGeneratingCapturesForPiece);
+    slice_index const fix_departure = alloc_pipe(STMarsCirceFixDeparture);
+    slice_index const avoid_duplicates = alloc_pipe(STPhantomAvoidDuplicateMoves);
     slice_index const generate_plus = alloc_pipe(STPlusAdditionalCapturesForPieceGenerator);
+    slice_index const remember_rebirth = alloc_pipe(STMarsCirceRememberRebirth);
     slice_index const reject_non_captures = alloc_pipe(STMoveGeneratorRejectNoncaptures);
 
     slice_index const generator = alloc_binary_slice(STMovesForPieceGeneratorCaptureNoncaptureSeparator,
@@ -135,10 +134,14 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
     pipe_link(slices[si].prev,generator);
 
     pipe_link(proxy_regular,regular);
-    pipe_link(regular,si);
+    pipe_link(regular,remember_no_rebirth);
+    pipe_link(remember_no_rebirth,si);
 
     pipe_link(proxy_plus,capture_plus);
-    pipe_link(capture_plus,generate_plus);
+    pipe_link(capture_plus,remember_rebirth);
+    pipe_link(remember_rebirth,fix_departure);
+    pipe_link(fix_departure,avoid_duplicates);
+    pipe_link(avoid_duplicates,generate_plus);
     pipe_link(generate_plus,reject_non_captures);
     pipe_link(reject_non_captures,si);
   }

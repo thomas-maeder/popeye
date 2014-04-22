@@ -12,6 +12,18 @@ extern boolean phantom_chess_rex_inclusive;
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void phantom_enforce_rex_inclusive(slice_index si);
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void phantom_avoid_duplicate_moves(slice_index si);
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
  * @note the piece on the departure square need not have that walk
  */
 void phantom_generate_moves_for_piece(slice_index si);

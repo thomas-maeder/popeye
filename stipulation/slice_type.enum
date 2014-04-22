@@ -411,6 +411,8 @@
     ENUMERATOR(STLineChameleonArrivingAdjuster)                        \
     ENUMERATOR(STFrischaufPromoteeMarker)                              \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare)                         \
+    ENUMERATOR(STPhantomEnforceRexInclusive)                           \
+    ENUMERATOR(STPhantomAvoidDuplicateMoves)                           \
     ENUMERATOR(STPhantomMovesForPieceGenerator)                        \
     ENUMERATOR(STPlusAdditionalCapturesForPieceGenerator)              \
     ENUMERATOR(STGeneratingCapturesForPiece)                           \
@@ -418,6 +420,8 @@
     ENUMERATOR(STGeneratingCapturesAndNoncapturesForPiece)             \
     ENUMERATOR(STMovesForPieceGeneratorCaptureNoncaptureSeparator)     \
     ENUMERATOR(STMarsCirceRememberNoRebirth)                           \
+    ENUMERATOR(STMarsCirceRememberRebirth)                             \
+    ENUMERATOR(STMarsCirceFixDeparture)                                \
     ENUMERATOR(STMarsCirceGenerateFromRebirthSquare)                   \
     ENUMERATOR(STMoveGeneratorRejectCaptures)                          \
     ENUMERATOR(STMoveGeneratorRejectNoncaptures)                       \
