@@ -451,12 +451,12 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   en_passant_initialise_solving(result);
 
-  if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || anyantimars)
+  if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || CondFlag[antimars])
     move_generator_instrument_for_alternative_paths(result,nr_sides);
 
   if (CondFlag[phantom])
     solving_initialise_phantom(result);
-  else if (anyantimars)
+  else if (CondFlag[antimars])
     solving_initialise_antimars(result);
   else if (CondFlag[plus])
     solving_initialise_plus(result);

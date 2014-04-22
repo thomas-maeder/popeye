@@ -32,10 +32,11 @@
 #include "conditions/madrasi.h"
 #include "conditions/magic_square.h"
 #include "conditions/marscirce/marscirce.h"
+#include "conditions/marscirce/anti.h"
+#include "conditions/marscirce/phantom.h"
 #include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/protean.h"
-#include "conditions/marscirce/phantom.h"
 #include "conditions/republican.h"
 #include "conditions/sat.h"
 #include "conditions/sentinelles.h"
@@ -1348,15 +1349,16 @@ char *ParseCond(void)
         break;
       case antimars:
         marscirce_determine_rebirth_square= rennormal_polymorphic;
-        anyantimars= true;
         break;
       case antimarsmirror:
         marscirce_determine_rebirth_square= renspiegel_polymorphic;
-        anyantimars= true;
+        CondFlag[antimars] = true;
+        antimars_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
       case antimarsantipodean:
         marscirce_determine_rebirth_square= renantipoden_polymorphic;
-        anyantimars= true;
+        CondFlag[antimars] = true;
+        antimars_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
         break;
       case plus:
         marscirce_determine_rebirth_square= 0;
@@ -1474,6 +1476,9 @@ char *ParseCond(void)
         break;
       case mars:
         tok = ParseCirceVariants(&marscirce_variant);
+        break;
+      case antimars:
+        tok = ParseCirceVariants(&antimars_variant);
         break;
       case protean:
         tok = ReadNextTokStr();
@@ -1750,13 +1755,12 @@ void InitCond(void)
   mummer_strictness[White] = mummer_strictness_none;
   mummer_strictness[Black] = mummer_strictness_none;
 
-  anyantimars = false;
-
   circe_reset_variant(&circe_variant);
   anticirce_reset_variant(&anticirce_variant);
   immune_reset_variant(&immune_variant);
   geneva_reset_variant(&geneva_variant);
   marscirce_reset_variant(&marscirce_variant);
+  marscirce_reset_variant(&antimars_variant);
 
   marscirce_determine_rebirth_square = rennormal_polymorphic;
 

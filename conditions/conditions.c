@@ -5,5 +5,4 @@ boolean ExtraCondFlag[ExtraCondCount];
 
 square royal_square[nr_sides];
 
-boolean anyantimars;
 boolean calc_reflective_king[nr_sides];

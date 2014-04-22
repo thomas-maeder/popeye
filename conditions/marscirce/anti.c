@@ -10,6 +10,8 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+circe_variant_type antimars_variant;
+
 static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);

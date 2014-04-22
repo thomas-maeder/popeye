@@ -1074,9 +1074,9 @@ static boolean verify_position(slice_index si)
       disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
-  if (CondFlag[mars] || anyantimars || CondFlag[plus] || CondFlag[phantom])
+  if (CondFlag[mars] || CondFlag[antimars] || CondFlag[plus] || CondFlag[phantom])
   {
-    if (CondFlag[mars]+anyantimars+CondFlag[plus]+CondFlag[phantom]>1)
+    if (CondFlag[mars]+CondFlag[antimars]+CondFlag[plus]+CondFlag[phantom]>1)
     {
       VerifieMsg(MarsCirceAndOthers);
       return false;
@@ -1524,7 +1524,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[isardam]
       || CondFlag[ohneschach]
       || CondFlag[mars] || CondFlag[plus] || CondFlag[phantom]
-      || anyantimars
+      || CondFlag[antimars]
       || CondFlag[brunner]
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
@@ -1546,7 +1546,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[isardam]
       || CondFlag[ohneschach]
       || CondFlag[mars] || CondFlag[plus]|| CondFlag[phantom]
-      || anyantimars
+      || CondFlag[antimars]
       || CondFlag[brunner]
       || CondFlag[blsupertrans_king]
       || CondFlag[whsupertrans_king]
