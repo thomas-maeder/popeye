@@ -26,9 +26,9 @@
 #include "conditions/magic_square.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/marscirce/anti.h"
+#include "conditions/marscirce/phantom.h"
 #include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
-#include "conditions/marscirce/phantom.h"
 #include "conditions/protean.h"
 #include "conditions/republican.h"
 #include "conditions/sat.h"
@@ -626,6 +626,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
         case antimars:
           written = append_circe_variants(&antimars_variant,&CondLine,written,CirceVariantRexInclusive);
+          break;
+
+        case phantom:
+          written = append_circe_variants(&phantom_variant,&CondLine,written,CirceVariantRexExclusive);
           break;
 
         case geneva:

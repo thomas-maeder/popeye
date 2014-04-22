@@ -15,6 +15,8 @@
 
 square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, square, square, Side);
 
+square marscirce_rebirth_square[toppile+1];
+
 circe_variant_type marscirce_variant;
 
 /* Reset a circe_variant object to the default values

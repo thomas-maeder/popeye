@@ -11,14 +11,24 @@
 #include "stipulation/move.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
-boolean phantom_chess_rex_inclusive;
+circe_variant_type phantom_variant;
 
-square marscirce_rebirth_square[toppile+1];
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
+ */
+void phantom_reset_variant(circe_variant_type *variant)
+{
+  anticirce_reset_variant(variant);
+
+  variant->do_place_reborn = false;
+  variant->is_rex_inclusive = false;
+  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
+}
 
 static boolean is_regular_arrival(square sq_arrival,
                                   numecoup start_moves_from_rebirth_square,
@@ -111,10 +121,12 @@ void phantom_avoid_duplicate_moves(slice_index si)
 void phantom_generate_moves_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
-  square const sq_rebirth = rennormal(move_generation_current_walk,
-                                      spec[sq_departure],
-                                      sq_departure,
-                                      advers(trait[nbply]));
+  square const sq_rebirth = (*marscirce_determine_rebirth_square)(move_generation_current_walk,
+                                                                  spec[sq_departure],
+                                                                  sq_departure,
+                                                                  initsquare,
+                                                                  initsquare,
+                                                                  advers(trait[nbply]));
 
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -167,7 +179,7 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
     branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
-  if (!phantom_chess_rex_inclusive)
+  if (!phantom_variant.is_rex_inclusive)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STPhantomEnforceRexInclusive)
@@ -231,7 +243,7 @@ boolean phantom_is_square_observed(slice_index si, validator_id evaluate)
 
     for (observer_origin = boardnum; *observer_origin; ++observer_origin)
       if (*observer_origin!=sq_target /* no auto-observation */
-          && (!TSTFLAG(spec[*observer_origin],Royal) || phantom_chess_rex_inclusive)
+          && (!TSTFLAG(spec[*observer_origin],Royal) || phantom_variant.is_rex_inclusive)
           && TSTFLAG(spec[*observer_origin],side_observing)
           && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply]
           && mars_is_square_observed_by(si,evaluate,*observer_origin))

@@ -4,11 +4,17 @@
 #include "pieces/pieces.h"
 #include "solving/machinery/solve.h"
 #include "solving/observation.h"
+#include "conditions/circe/circe.h"
 
 /* This module provides implements the condition Phantom Chess
  */
 
-extern boolean phantom_chess_rex_inclusive;
+extern circe_variant_type phantom_variant;
+
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
+ */
+void phantom_reset_variant(circe_variant_type *variant);
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.

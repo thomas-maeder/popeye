@@ -1485,8 +1485,7 @@ char *ParseCond(void)
         tok = ParseRex(tok,&protean_is_rex_exclusive, rexexcl);
         break;
       case phantom:
-        tok = ReadNextTokStr();
-        tok = ParseRex(tok,&phantom_chess_rex_inclusive,rexincl);
+        tok = ParseCirceVariants(&phantom_variant);
         break;
       case madras:
         tok = ReadNextTokStr();
@@ -1761,6 +1760,7 @@ void InitCond(void)
   geneva_reset_variant(&geneva_variant);
   marscirce_reset_variant(&marscirce_variant);
   marscirce_reset_variant(&antimars_variant);
+  phantom_reset_variant(&phantom_variant);
 
   marscirce_determine_rebirth_square = rennormal_polymorphic;
 
@@ -1769,7 +1769,7 @@ void InitCond(void)
 
   sentinelles_is_para= false;
   madrasi_is_rex_inclusive = false;
-  phantom_chess_rex_inclusive = false;
+  phantom_variant.is_rex_inclusive = false;
   messigny_rex_exclusive = false;
   woozles_rex_exclusive = false;
   protean_is_rex_exclusive = false;
