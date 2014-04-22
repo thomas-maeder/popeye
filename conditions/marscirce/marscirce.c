@@ -1,4 +1,5 @@
 #include "conditions/marscirce/marscirce.h"
+#include "conditions/anticirce/anticirce.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_effect_journal.h"
@@ -13,6 +14,20 @@
 #include "debugging/trace.h"
 
 square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, square, square, square, Side);
+
+circe_variant_type marscirce_variant;
+
+/* Reset a circe_variant object to the default values
+ * @param variant address of the variant object to be reset
+ */
+void marscirce_reset_variant(circe_variant_type *variant)
+{
+  anticirce_reset_variant(variant);
+
+  variant->do_place_reborn = false;
+  variant->is_rex_inclusive = true;
+  variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
+}
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.

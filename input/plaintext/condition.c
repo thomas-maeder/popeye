@@ -1340,11 +1340,11 @@ char *ParseCond(void)
         /* different types of mars circe */
       case mars:
         marscirce_determine_rebirth_square= rennormal_polymorphic;
-        anymars= true;
         break;
       case marsmirror:
         marscirce_determine_rebirth_square= renspiegel_polymorphic;
-        anymars= true;
+        CondFlag[mars] = true;
+        marscirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
       case antimars:
         marscirce_determine_rebirth_square= rennormal_polymorphic;
@@ -1471,6 +1471,9 @@ char *ParseCond(void)
         break;
       case circe:
         tok = ParseCirceVariants(&circe_variant);
+        break;
+      case mars:
+        tok = ParseCirceVariants(&marscirce_variant);
         break;
       case protean:
         tok = ReadNextTokStr();
@@ -1747,13 +1750,13 @@ void InitCond(void)
   mummer_strictness[White] = mummer_strictness_none;
   mummer_strictness[Black] = mummer_strictness_none;
 
-  anymars = false;
   anyantimars = false;
 
   circe_reset_variant(&circe_variant);
   anticirce_reset_variant(&anticirce_variant);
   immune_reset_variant(&immune_variant);
   geneva_reset_variant(&geneva_variant);
+  marscirce_reset_variant(&marscirce_variant);
 
   marscirce_determine_rebirth_square = rennormal_polymorphic;
 

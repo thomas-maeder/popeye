@@ -24,6 +24,7 @@
 #include "conditions/koeko/koeko.h"
 #include "conditions/madrasi.h"
 #include "conditions/magic_square.h"
+#include "conditions/marscirce/marscirce.h"
 #include "conditions/messigny.h"
 #include "conditions/oscillating_kings.h"
 #include "conditions/marscirce/phantom.h"
@@ -305,6 +306,7 @@ static boolean anything_to_write(Cond cond)
     case immunsymmetry:
     case immunantipoden:
     case immunequipollents:
+    case marsmirror:
       return false;
 
     case white_oscillatingKs:
@@ -613,6 +615,10 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         case madras:
           if (madrasi_is_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
+          break;
+
+        case mars:
+          written = append_circe_variants(&marscirce_variant,&CondLine,written,CirceVariantRexInclusive);
           break;
 
         case geneva:

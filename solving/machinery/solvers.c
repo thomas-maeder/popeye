@@ -451,7 +451,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   en_passant_initialise_solving(result);
 
-  if (CondFlag[phantom] || anymars || CondFlag[plus] || anyantimars)
+  if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || anyantimars)
     move_generator_instrument_for_alternative_paths(result,nr_sides);
 
   if (CondFlag[phantom])
@@ -460,7 +460,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     solving_initialise_antimars(result);
   else if (CondFlag[plus])
     solving_initialise_plus(result);
-  else if (anymars)
+  else if (CondFlag[mars])
     solving_initialise_marscirce(result);
 
   if (CondFlag[linechamchess])
