@@ -252,7 +252,7 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
 /* Instrument the move generation machinery so that there are two paths which
  * can be adapted separately.
  * @param si root slice of solving machinery
- * @param side side for which to instrument; pass no_side for both sides
+ * @param side side for which to instrument; pass nr_sides for both sides
  * @note inserts proxy slices STMoveForPieceGeneratorStandardPath and
  *       STMoveForPieceGeneratorAlternativePath that can be used for adjusting the move
  *       generation

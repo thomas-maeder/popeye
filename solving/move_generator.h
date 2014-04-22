@@ -127,7 +127,7 @@ void solving_insert_move_generators(slice_index si);
 /* Instrument the move generation machinery so that captures and non captures
  * are generated (and can be adapted) separately per piece.
  * @param si root slice of solving machinery
- * @param side side for which to instrument; pass no_side for both sides
+ * @param side side for which to instrument; pass nr_sides for both sides
  * @note inserts proxy slices STGeneratingNoncapturesForPiece and
  *       STGeneratingCapturesForPiece that can be used for adjusting the move
  *       generation
