@@ -451,7 +451,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   en_passant_initialise_solving(result);
 
-  if (CondFlag[phantom] || anymars || anyantimars)
+  if (CondFlag[phantom] || anymars || CondFlag[plus] || anyantimars)
     move_generator_instrument_for_alternative_paths(result,nr_sides);
 
   if (CondFlag[phantom])

@@ -5,8 +5,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/binary.h"
-#include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -106,7 +105,7 @@ boolean plus_is_square_observed(slice_index si, validator_id evaluate)
   return result;
 }
 
-static void insert_separator(slice_index si, stip_structure_traversal *st)
+static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -115,35 +114,14 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
-    slice_index const proxy_regular = alloc_proxy_slice();
-    slice_index const regular = alloc_pipe(STMoveForPieceGeneratorStandardPath);
-    slice_index const remember_no_rebirth = alloc_pipe(STMarsCirceRememberNoRebirth);
-
-    slice_index const proxy_plus = alloc_proxy_slice();
-    slice_index const capture_plus = alloc_pipe(STMoveForPieceGeneratorAlternativePath);
-    slice_index const fix_departure = alloc_pipe(STMarsCirceFixDeparture);
-    slice_index const avoid_duplicates = alloc_pipe(STPhantomAvoidDuplicateMoves);
-    slice_index const generate_plus = alloc_pipe(STPlusAdditionalCapturesForPieceGenerator);
-    slice_index const remember_rebirth = alloc_pipe(STMarsCirceRememberRebirth);
-    slice_index const reject_non_captures = alloc_pipe(STMoveGeneratorRejectNoncaptures);
-
-    slice_index const generator = alloc_binary_slice(STMoveForPieceGeneratorTwoPaths,
-                                                     proxy_regular,
-                                                     proxy_plus);
-
-    pipe_link(slices[si].prev,generator);
-
-    pipe_link(proxy_regular,regular);
-    pipe_link(regular,remember_no_rebirth);
-    pipe_link(remember_no_rebirth,si);
-
-    pipe_link(proxy_plus,capture_plus);
-    pipe_link(capture_plus,remember_rebirth);
-    pipe_link(remember_rebirth,fix_departure);
-    pipe_link(fix_departure,avoid_duplicates);
-    pipe_link(avoid_duplicates,generate_plus);
-    pipe_link(generate_plus,reject_non_captures);
-    pipe_link(reject_non_captures,si);
+    slice_index const prototypes[] = {
+        alloc_pipe(STMarsCirceFixDeparture),
+        alloc_pipe(STPhantomAvoidDuplicateMoves),
+        alloc_pipe(STPlusAdditionalCapturesForPieceGenerator),
+        alloc_pipe(STMoveGeneratorRejectNoncaptures)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -160,15 +138,10 @@ void solving_initialise_plus(slice_index si)
 
   {
     stip_structure_traversal st;
-
-    solving_instrument_move_generation(si,
-                                       no_side,
-                                       STMoveForPieceGeneratorPathsJoint);
-
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,
-                                             STMoveForPieceGeneratorPathsJoint,
-                                             &insert_separator);
+                                             STMoveForPieceGeneratorAlternativePath,
+                                             &instrument_rebirth);
     stip_traverse_structure(si,&st);
   }
 
