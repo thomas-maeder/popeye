@@ -105,6 +105,27 @@ boolean plus_is_square_observed(slice_index si, validator_id evaluate)
   return result;
 }
 
+static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STMarsCirceRememberNoRebirth)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -118,6 +139,7 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STMarsCirceFixDeparture),
         alloc_pipe(STPhantomAvoidDuplicateMoves),
         alloc_pipe(STPlusAdditionalCapturesForPieceGenerator),
+        alloc_pipe(STMarsCirceRememberRebirth),
         alloc_pipe(STMoveGeneratorRejectNoncaptures)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -140,12 +162,18 @@ void solving_initialise_plus(slice_index si)
     stip_structure_traversal st;
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,
+                                             STMoveForPieceGeneratorStandardPath,
+                                             &instrument_no_rebirth);
+    stip_structure_traversal_override_single(&st,
                                              STMoveForPieceGeneratorAlternativePath,
                                              &instrument_rebirth);
     stip_traverse_structure(si,&st);
   }
 
   stip_instrument_is_square_observed_testing(si,nr_sides,STPlusIsSquareObserved);
+
+  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
+  move_effect_journal_register_pre_capture_effect();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
