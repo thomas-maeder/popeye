@@ -212,7 +212,6 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
 
       case STGeneratingMovesForPiece:
       {
-        structure_traversal_level_type const save_level = st->level;
         stip_traversal_context_type const save_context = st->context;
         assert(st->context==stip_traversal_context_intro);
         st->context = stip_traversal_context_move_generation;
