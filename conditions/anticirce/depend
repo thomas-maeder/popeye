@@ -18,7 +18,8 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  solving/move_generator.h stipulation/pipe.h stipulation/branch.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/move.h solving/pipe.h debugging/trace.h debugging/assert.h
+ stipulation/move.h solving/pipe.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h debugging/assert.h
 
 conditions/anticirce/anticirce.h:
 
@@ -110,6 +111,12 @@ solving/pipe.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
 debugging/assert.h:
 conditions/anticirce/cheylan$(OBJ_SUFFIX): conditions/anticirce/cheylan.c \
  conditions/anticirce/cheylan.h solving/machinery/solve.h \
@@ -129,7 +136,9 @@ conditions/anticirce/cheylan$(OBJ_SUFFIX): conditions/anticirce/cheylan.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/pipe.h stipulation/pipe.h \
- stipulation/move.h debugging/trace.h debugging/assert.h
+ stipulation/move.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ debugging/assert.h
 
 conditions/anticirce/cheylan.h:
 
@@ -207,6 +216,14 @@ stipulation/move.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
 debugging/assert.h:
 conditions/anticirce/magic_square$(OBJ_SUFFIX): conditions/anticirce/magic_square.c \
  conditions/anticirce/magic_square.h solving/machinery/solve.h \
@@ -227,7 +244,8 @@ conditions/anticirce/magic_square$(OBJ_SUFFIX): conditions/anticirce/magic_squar
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/pipe.h stipulation/move.h \
- solving/pipe.h debugging/trace.h debugging/assert.h
+ solving/pipe.h debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h debugging/assert.h
 
 conditions/anticirce/magic_square.h:
 
@@ -309,6 +327,14 @@ solving/pipe.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
 debugging/assert.h:
 conditions/anticirce/clone$(OBJ_SUFFIX): conditions/anticirce/clone.c \
  conditions/anticirce/clone.h solving/machinery/solve.h \
@@ -327,7 +353,8 @@ conditions/anticirce/clone$(OBJ_SUFFIX): conditions/anticirce/clone.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/pipe.h debugging/trace.h \
- debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h debugging/assert.h
 
 conditions/anticirce/clone.h:
 
@@ -399,6 +426,14 @@ solving/pipe.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
 debugging/assert.h:
 conditions/anticirce/couscous$(OBJ_SUFFIX): conditions/anticirce/couscous.c \
  conditions/anticirce/couscous.h solving/machinery/solve.h \
@@ -417,7 +452,8 @@ conditions/anticirce/couscous$(OBJ_SUFFIX): conditions/anticirce/couscous.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h solving/pipe.h debugging/trace.h \
- debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h debugging/assert.h
 
 conditions/anticirce/couscous.h:
 
@@ -488,5 +524,13 @@ conditions/circe/relevant_side.h:
 solving/pipe.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 debugging/assert.h:

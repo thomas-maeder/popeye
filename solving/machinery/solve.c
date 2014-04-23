@@ -994,6 +994,10 @@ void solve(slice_index si)
       circe_initialise_reborn_from_capturer_solve(si);
       break;
 
+    case STMarscirceInitialiseRebornFromGenerated:
+      marscirce_initialise_reborn_from_generated_solve(si);
+      break;
+
     case STGenevaInitialiseRebornFromCapturer:
       geneva_initialise_reborn_from_capturer_solve(si);
       break;
@@ -1004,6 +1008,10 @@ void solve(slice_index si)
 
     case STAnticirceRemoveCapturer:
       anticirce_remove_capturer_solve(si);
+      break;
+
+    case STMarscirceRemoveCapturer:
+      marscirce_remove_capturer_solve(si);
       break;
 
     case STFootballChessSubsitutor:

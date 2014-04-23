@@ -9,7 +9,8 @@
 typedef enum
 {
   circe_relevant_capture_thismove,
-  circe_relevant_capture_lastmove
+  circe_relevant_capture_lastmove,
+  circe_relevant_capture_nocapture
 } circe_relevant_capture;
 
 /* Instrument the solving machinery with the logic for determining which capture

@@ -27,7 +27,7 @@ void immune_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  circe_initialise_solving(si,&immune_variant,STGenevaConsideringRebirth);
+  circe_initialise_solving(si,&immune_variant,STMove,STGenevaConsideringRebirth);
 
   stip_instrument_check_validation(si,
                                    nr_sides,

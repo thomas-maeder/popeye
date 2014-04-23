@@ -320,6 +320,7 @@
     ENUMERATOR(STRepublicanType1DeadEnd)                               \
     ENUMERATOR(STCirceConsideringRebirth)                              \
     ENUMERATOR(STGenevaConsideringRebirth)                             \
+    ENUMERATOR(STMarsCirceConsideringRebirth)                          \
     ENUMERATOR(STGenevaStopCaptureFromRebirthSquare)                   \
     ENUMERATOR(STCirceCaptureFork)                                     \
     ENUMERATOR(STCirceParrainThreatFork)                               \
@@ -373,9 +374,11 @@
     ENUMERATOR(STAnticirceConsideringRebirth)                          \
     ENUMERATOR(STCirceKamikazeCaptureFork)                             \
     ENUMERATOR(STAnticirceInitialiseRebornFromCapturer)                \
+    ENUMERATOR(STMarscirceInitialiseRebornFromGenerated)               \
     ENUMERATOR(STGenevaInitialiseRebornFromCapturer)                   \
     ENUMERATOR(STAnticirceCheylanFilter)                               \
     ENUMERATOR(STAnticirceRemoveCapturer)                              \
+    ENUMERATOR(STMarscirceRemoveCapturer)                              \
     ENUMERATOR(STSentinellesInserter)                                  \
     ENUMERATOR(STMagicViewsInitialiser)                                \
     ENUMERATOR(STMagicPiecesRecolorer)                                 \

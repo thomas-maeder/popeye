@@ -195,6 +195,7 @@ static slice_type const proxy_slice_types[] =
     STOutputModeSelector,
     STCirceConsideringRebirth,
     STGenevaConsideringRebirth,
+    STMarsCirceConsideringRebirth,
     STCirceDeterminingRebirth,
     STCirceDeterminedRebirth,
     STCirceRebirthAvoided,

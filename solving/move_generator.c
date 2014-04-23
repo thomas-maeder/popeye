@@ -6,6 +6,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/binary.h"
+#include "conditions/circe/circe.h"
 #include "output/plaintext/pieces.h"
 #include "debugging/measure.h"
 #include "debugging/trace.h"
@@ -68,6 +69,8 @@ static slice_index const slice_rank_order[] =
     STPhantomEnforceRexInclusive,
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
+    STMarsCirceConsideringRebirth,
+    STCirceDoneWithRebirth,
     STMarsCirceGenerateFromRebirthSquare,
     STPlusAdditionalCapturesForPieceGenerator,
     STPhantomMovesForPieceGenerator,
@@ -106,9 +109,13 @@ static void move_generation_branch_insert_slices_impl(slice_index generating,
   TraceFunctionParamListEnd();
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-  assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
-  stip_traverse_structure_children_pipe(generating,&st);
+
+  if (!circe_start_insertion(slices[base].type,generating,&st))
+  {
+    assert(state.base_rank!=no_slice_rank);
+    stip_traverse_structure_children_pipe(generating,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

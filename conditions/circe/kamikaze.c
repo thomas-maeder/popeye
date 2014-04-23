@@ -18,7 +18,7 @@ void circe_kamikaze_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   anticirce_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed;
-  circe_initialise_solving(si,&anticirce_variant,STAnticirceConsideringRebirth);
+  circe_initialise_solving(si,&anticirce_variant,STMove,STAnticirceConsideringRebirth);
   circe_instrument_solving(si,
                            STAnticirceConsideringRebirth,
                            STCirceDeterminedRebirth,

@@ -94,7 +94,7 @@ void geneva_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  circe_initialise_solving(si,&geneva_variant,STGenevaConsideringRebirth);
+  circe_initialise_solving(si,&geneva_variant,STMove,STGenevaConsideringRebirth);
 
   circe_instrument_solving(si,
                            STGenevaConsideringRebirth,

@@ -32,6 +32,7 @@ static slice_type const circe_slice_rank_order[] =
     STCirceConsideringRebirth,
     STAnticirceConsideringRebirth,
     STGenevaConsideringRebirth,
+    STMarsCirceConsideringRebirth,
     STCirceInitialiseFromCurrentMove,
     STCirceInitialiseFromLastMove,
     STCirceKamikazeCaptureFork,
@@ -42,6 +43,7 @@ static slice_type const circe_slice_rank_order[] =
     STCirceDeterminingRebirth,
     STCirceInitialiseRebornFromCapturee,
     STAnticirceInitialiseRebornFromCapturer,
+    STMarscirceInitialiseRebornFromGenerated,
     STGenevaInitialiseRebornFromCapturer,
     STCirceCloneDetermineRebornWalk,
     STAntiCloneCirceDetermineRebornWalk,
@@ -76,6 +78,7 @@ static slice_type const circe_slice_rank_order[] =
     STGenevaStopCaptureFromRebirthSquare,
     STAnticirceCheylanFilter,
     STAnticirceRemoveCapturer,
+    STMarscirceRemoveCapturer,
     STCirceTestRebirthSquareEmpty,
     STCirceRebirthOnNonEmptySquare,
     STSupercircePreventRebirthOnNonEmptySquare,
@@ -521,6 +524,7 @@ static void instrument_circe(slice_index si, stip_structure_traversal *st)
 
 static void insert_basic_slices(slice_index si,
                                 circe_variant_type const * variant,
+                                slice_type what,
                                 slice_type interval_start)
 {
   initialisation_state_type state = { variant, interval_start };
@@ -534,7 +538,7 @@ static void insert_basic_slices(slice_index si,
   stip_structure_traversal_override_single(&st,
                                            STCageCirceNonCapturingMoveFinder,
                                            &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,STMove,&instrument_move);
+  stip_structure_traversal_override_single(&st,what,&instrument_move);
   stip_structure_traversal_override_single(&st,interval_start,&instrument_circe);
   stip_traverse_structure(si,&st);
 
@@ -545,17 +549,21 @@ static void insert_basic_slices(slice_index si,
 /* Instrument the solving machinery with Circe
  * @param si identifies the root slice of the solving machinery
  * @param variant address of the structure holding the details of the Circe variant
+ * @param what what exactly is being instrumented?
  * @param interval_start start of the slices interval where to instrument
  */
 void circe_initialise_solving(slice_index si,
                               circe_variant_type *variant,
+                              slice_type what,
                               slice_type interval_start)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,what,"");
+  TraceEnumerator(slice_type,interval_start,"");
   TraceFunctionParamListEnd();
 
-  insert_basic_slices(si,variant,interval_start);
+  insert_basic_slices(si,variant,what,interval_start);
 
   circe_solving_instrument_relevant_capture(si,variant,interval_start);
   circe_solving_instrument_reborn_piece(si,variant,interval_start);
@@ -607,7 +615,8 @@ void circe_initialise_solving(slice_index si,
   if (variant->relevant_capture==circe_relevant_capture_lastmove)
     circe_solving_instrument_parrain(si,variant,interval_start);
 
-  circe_solving_instrument_nocapture_bypass(si,interval_start);
+  if (variant->relevant_capture!=circe_relevant_capture_nocapture)
+    circe_solving_instrument_nocapture_bypass(si,interval_start);
 
   if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
     chameleon_init_sequence_implicit(&variant->chameleon_is_walk_squence_explicit,

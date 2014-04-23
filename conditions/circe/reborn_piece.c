@@ -74,6 +74,10 @@ static slice_type get_reborn_initialiser_type(circe_variant_type const *variant)
       result = STAnticirceInitialiseRebornFromCapturer;
       break;
 
+    case circe_relevant_piece_generated:
+      result = STMarscirceInitialiseRebornFromGenerated;
+      break;
+
     default:
       assert(0);
       result = no_slice_type;

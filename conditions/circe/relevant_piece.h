@@ -10,7 +10,8 @@
 typedef enum
 {
   circe_relevant_piece_capturee,
-  circe_relevant_piece_capturer
+  circe_relevant_piece_capturer,
+  circe_relevant_piece_generated,
 } circe_relevant_piece;
 
 struct circe_variant_type;

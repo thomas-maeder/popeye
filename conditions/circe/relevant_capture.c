@@ -5,6 +5,25 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+static slice_type determine_slice_type(circe_relevant_capture type)
+{
+  switch (type)
+  {
+    case circe_relevant_capture_thismove:
+      return STCirceInitialiseFromCurrentMove;
+
+    case circe_relevant_capture_lastmove:
+      return STCirceInitialiseFromLastMove;
+
+    case circe_relevant_capture_nocapture:
+      return no_slice_type;
+
+    default:
+      assert(0);
+      return no_slice_type;
+  }
+}
+
 /* Instrument the solving machinery with the logic for determining which capture
  * is the basis of the rebirth in a Circe variant
  * @param si root slice of the solving machinery
@@ -20,12 +39,11 @@ void circe_solving_instrument_relevant_capture(slice_index si,
   TraceFunctionParam("%u",interval_start);
   TraceFunctionParamListEnd();
 
-  circe_instrument_solving(si,
-                           interval_start,
-                           interval_start,
-                           alloc_pipe(variant->relevant_capture==circe_relevant_capture_lastmove
-                                      ? STCirceInitialiseFromLastMove
-                                      : STCirceInitialiseFromCurrentMove));
+  {
+    slice_type const type = determine_slice_type(variant->relevant_capture);
+    if (type!=no_slice_type)
+      circe_instrument_solving(si,interval_start,interval_start,alloc_pipe(type));
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

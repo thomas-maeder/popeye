@@ -77,6 +77,15 @@ void solving_initialise_antimars(slice_index si)
     stip_traverse_structure(si,&st);
   }
 
+  circe_initialise_solving(si,
+                           &antimars_variant,
+                           STMoveForPieceGeneratorStandardPath,
+                           STMarsCirceConsideringRebirth);
+  circe_instrument_solving(si,
+                           STMarsCirceConsideringRebirth,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STMarscirceRemoveCapturer));
+
   stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
 
   move_effect_journal_register_pre_capture_effect();
