@@ -723,13 +723,31 @@ boolean is_square_observed_recursive(slice_index si)
   return result;
 }
 
+/* Determine whether a square is observed be the side at the move
+ * @return true iff sq_target is observed by the side at the move
+ */
 boolean is_square_observed(validator_id evaluate)
 {
-  validator_id const save_observation_validator = observation_validator;
+  return is_square_observed_nested(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
+                                   evaluate);
+}
+
+boolean is_square_observed_nested(slice_index si, validator_id evaluate)
+{
   boolean result;
+  validator_id const save_observation_validator = observation_validator;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
   observation_validator = evaluate;
-  result = is_square_observed_recursive(slices[temporary_hack_is_square_observed[trait[nbply]]].next2);
+  result = is_square_observed_recursive(si);
   observation_validator = save_observation_validator;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 

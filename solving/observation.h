@@ -134,6 +134,8 @@ boolean is_square_observed_recursive(slice_index si);
  */
 boolean is_square_observed(validator_id evaluate);
 
+boolean is_square_observed_nested(slice_index si, validator_id evaluate);
+
 /* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
  * @param type type of slice to insert

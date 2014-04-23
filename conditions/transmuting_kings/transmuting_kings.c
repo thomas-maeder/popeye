@@ -66,12 +66,8 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
     siblingply(advers(side_attacking));
     push_observation_target(king_square[side_attacking]);
     observing_walk[nbply] = walk;
-    {
-      validator_id const save_observation_validator = observation_validator;
-      observation_validator = EVALUATE(observation);
-      result = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2);
-      observation_validator = save_observation_validator;
-    }
+    result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+                                       EVALUATE(observation));
     finply();
 
     transmuting_kings_testing_transmutation[side_attacking] = false;
