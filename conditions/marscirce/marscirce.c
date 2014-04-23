@@ -79,7 +79,7 @@ void marscirce_initialise_reborn_from_generated_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   context->rebirth_from = curr_generation->departure;
-  context->reborn_walk = get_walk_of_piece_on_square(context->rebirth_from);
+  context->reborn_walk = move_generation_current_walk;
   context->reborn_spec = spec[context->rebirth_from];
 
   context->relevant_ply = nbply;
@@ -140,7 +140,6 @@ void marscirce_remember_rebirth(slice_index si)
  */
 void marscirce_remove_capturer_solve(slice_index si)
 {
-  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
   square const sq_departure = curr_generation->departure;
   piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
   Flags const flags = spec[sq_departure];
