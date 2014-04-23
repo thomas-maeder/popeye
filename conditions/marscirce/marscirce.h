@@ -56,12 +56,6 @@ void marscirce_remember_rebirth(slice_index si);
  */
 void marscirce_remember_no_rebirth(slice_index si);
 
-/* Try occupying rebirth square and generate moves
- * @param si identifies move generator slice
- * @param sq_rebirth rebirth square
- */
-void marscirce_try_rebirth_and_generate(slice_index si, square sq_rebirth);
-
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @note the piece on the departure square need not necessarily have walk p

@@ -7,11 +7,46 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
+#include "debugging/assert.h"
+#include "debugging/trace.h"
 
 static square const center_squares[] = { square_d4, square_d5, square_e4, square_e5 };
 enum { nr_center_squares = sizeof center_squares / sizeof center_squares[0] };
+
+/* Try occupying rebirth square and generate moves
+ * @param si identifies move generator slice
+ * @param sq_rebirth rebirth square
+ */
+static void try_rebirth_and_generate(slice_index si, square sq_rebirth)
+{
+  square const sq_departure = curr_generation->departure;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(sq_rebirth);
+  TraceFunctionParamListEnd();
+
+  assert(sq_rebirth!=sq_departure);
+
+  if (is_square_empty(sq_rebirth))
+  {
+    curr_generation->departure = sq_rebirth;
+
+    occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
+    empty_square(sq_departure);
+
+    solve(slices[si].next1);
+
+    occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
+    empty_square(sq_rebirth);
+
+    curr_generation->departure = sq_departure;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
@@ -32,7 +67,7 @@ void plus_generate_additional_captures_for_piece(slice_index si)
       unsigned int j;
       for (j = 0; j!=nr_center_squares; ++j)
         if (j!=i)
-          marscirce_try_rebirth_and_generate(si,center_squares[j]);
+          try_rebirth_and_generate(si,center_squares[j]);
       break;
     }
 

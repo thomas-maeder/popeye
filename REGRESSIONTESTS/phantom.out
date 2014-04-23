@@ -142,7 +142,7 @@ Loesung beendet.
       1...Ka8-a7 !
 
 
-  add_to_move_generation_stack:        2033
+  add_to_move_generation_stack:        2081
                      play_move:        1677
  is_white_king_square_attacked:         190
  is_black_king_square_attacked:        1661
@@ -235,7 +235,7 @@ Loesung beendet.
       1...Kh1-g2 !
 
 
-  add_to_move_generation_stack:       17522
+  add_to_move_generation_stack:       17606
                      play_move:       10007
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        9440
