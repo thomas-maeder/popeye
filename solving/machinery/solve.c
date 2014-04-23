@@ -112,6 +112,26 @@
 #include "conditions/wormhole.h"
 #include "conditions/backhome.h"
 #include "conditions/shielded_kings.h"
+#include "conditions/annan.h"
+#include "conditions/beamten.h"
+#include "conditions/central.h"
+#include "conditions/disparate.h"
+#include "conditions/eiffel.h"
+#include "conditions/facetoface.h"
+#include "conditions/madrasi.h"
+#include "conditions/disparate.h"
+#include "conditions/marscirce/marscirce.h"
+#include "conditions/marscirce/plus.h"
+#include "conditions/messigny.h"
+#include "conditions/patrol.h"
+#include "conditions/marscirce/phantom.h"
+#include "conditions/singlebox/type3.h"
+#include "conditions/castling_chess.h"
+#include "conditions/exchange_castling.h"
+#include "conditions/transmuting_kings/transmuting_kings.h"
+#include "conditions/transmuting_kings/super.h"
+#include "conditions/transmuting_kings/reflective_kings.h"
+#include "conditions/transmuting_kings/vaulting_kings.h"
 #include "optimisations/hash.h"
 #include "optimisations/keepmating.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
@@ -181,6 +201,7 @@
 #include "pieces/attributes/jigger.h"
 #include "pieces/attributes/uncapturable.h"
 #include "pieces/attributes/kamikaze/kamikaze.h"
+#include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "solving/avoid_unsolvable.h"
@@ -1637,6 +1658,135 @@ void solve(slice_index si)
 
     case STFalse:
       solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
+      break;
+
+    /* move generators: */
+    case STSingleBoxType3TMovesForPieceGenerator:
+      singleboxtype3_generate_moves_for_piece(si);
+      break;
+
+    case STMadrasiMovesForPieceGenerator:
+      madrasi_generate_moves_for_piece(si);
+      break;
+
+    case STEiffelMovesForPieceGenerator:
+      eiffel_generate_moves_for_piece(si);
+      break;
+
+    case STDisparateMovesForPieceGenerator:
+      disparate_generate_moves_for_piece(si);
+      break;
+
+    case STParalysingMovesForPieceGenerator:
+      paralysing_generate_moves_for_piece(si);
+      break;
+
+    case STUltraPatrolMovesForPieceGenerator:
+      ultrapatrol_generate_moves_for_piece(si);
+      break;
+
+    case STCentralMovesForPieceGenerator:
+      central_generate_moves_for_piece(si);
+      break;
+
+    case STBeamtenMovesForPieceGenerator:
+      beamten_generate_moves_for_piece(si);
+      break;
+
+    case STPhantomEnforceRexInclusive:
+      phantom_enforce_rex_inclusive(si);
+      break;
+
+    case STPhantomAvoidDuplicateMoves:
+      phantom_avoid_duplicate_moves(si);
+      break;
+
+    case STPhantomMovesForPieceGenerator:
+      phantom_generate_moves_for_piece(si);
+      break;
+
+    case STPlusAdditionalCapturesForPieceGenerator:
+      plus_generate_additional_captures_for_piece(si);
+      break;
+
+    case STMoveForPieceGeneratorTwoPaths:
+      generate_moves_for_piece_two_paths(si);
+      break;
+
+    case STMarsCirceRememberRebirth:
+      marscirce_remember_rebirth(si);
+      break;
+
+    case STMarsCirceRememberNoRebirth:
+      marscirce_remember_no_rebirth(si);
+      break;
+
+    case STMarsCirceFixDeparture:
+      marscirce_fix_departure(si);
+      break;
+
+    case STMarsCirceGenerateFromRebirthSquare:
+      marscirce_generate_from_rebirth_square(si);
+      break;
+
+    case STMoveGeneratorRejectCaptures:
+      move_generation_reject_captures(si);
+      break;
+
+    case STMoveGeneratorRejectNoncaptures:
+      move_generation_reject_non_captures(si);
+      break;
+
+    case STVaultingKingsMovesForPieceGenerator:
+      vaulting_kings_generate_moves_for_piece(si);
+      break;
+
+    case STTransmutingKingsMovesForPieceGenerator:
+      transmuting_kings_generate_moves_for_piece(si);
+      break;
+
+    case STSuperTransmutingKingsMovesForPieceGenerator:
+      supertransmuting_kings_generate_moves_for_piece(si);
+      break;
+
+    case STReflectiveKingsMovesForPieceGenerator:
+      reflective_kings_generate_moves_for_piece(si);
+      break;
+
+    case STCastlingChessMovesForPieceGenerator:
+      castlingchess_generate_moves_for_piece(si);
+      break;
+
+    case STPlatzwechselRochadeMovesForPieceGenerator:
+      exchange_castling_generate_moves_for_piece(si);
+      break;
+
+    case STCastlingGenerator:
+      castling_generator_generate_castling(si);
+      break;
+
+    case STMessignyMovesForPieceGenerator:
+      messigny_generate_moves_for_piece(si);
+      break;
+
+    case STAnnanMovesForPieceGenerator:
+      annan_generate_moves_for_piece(si);
+      break;
+
+    case STFaceToFaceMovesForPieceGenerator:
+      facetoface_generate_moves_for_piece(si);
+      break;
+
+    case STBackToBackMovesForPieceGenerator:
+      backtoback_generate_moves_for_piece(si);
+      break;
+
+    case STCheekToCheekMovesForPieceGenerator:
+      cheektocheek_generate_moves_for_piece(si);
+      break;
+
+    case STMovesForPieceBasedOnWalkGenerator:
+      generate_moves_for_piece_based_on_walk();
       break;
 
     default:

@@ -69,7 +69,7 @@ void phantom_enforce_rex_inclusive(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!TSTFLAG(spec[curr_generation->departure],Royal))
-    generate_moves_for_piece(slices[si].next1);
+    solve(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -90,7 +90,7 @@ void phantom_avoid_duplicate_moves(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1);
+  solve(slices[si].next1);
 
   for (curr_from_sq_rebirth = start_moves_from_rebirth_square+1;
        curr_from_sq_rebirth<=CURRMOVE_OF_PLY(nbply);

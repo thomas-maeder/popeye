@@ -86,7 +86,7 @@ static boolean generate_moves_of_supertransmuting_king(slice_index si)
     {
       numecoup curr_id = current_move_id[nbply];
       move_generation_current_walk = *ptrans;
-      generate_moves_for_piece(slices[si].next1);
+      solve(slices[si].next1);
       for (; curr_id<current_move_id[nbply]; ++curr_id)
         supertransmutation[curr_id] = *ptrans;
       result = true;
@@ -110,7 +110,7 @@ void supertransmuting_kings_generate_moves_for_piece(slice_index si)
         && generate_moves_of_supertransmuting_king(si)))
   {
     numecoup curr_id = current_move_id[nbply];
-    generate_moves_for_piece(slices[si].next1);
+    solve(slices[si].next1);
     for (; curr_id<current_move_id[nbply]; ++curr_id)
       supertransmutation[curr_id] = Empty;
   }

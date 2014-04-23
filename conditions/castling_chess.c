@@ -69,7 +69,7 @@ void castlingchess_generate_moves_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
 
-  generate_moves_for_piece(slices[si].next1);
+  solve(slices[si].next1);
 
   if (move_generation_current_walk==King && !is_in_check(trait[nbply]))
   {

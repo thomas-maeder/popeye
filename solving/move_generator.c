@@ -1,40 +1,14 @@
 #include "solving/move_generator.h"
-#include "conditions/annan.h"
-#include "conditions/beamten.h"
-#include "conditions/central.h"
-#include "conditions/disparate.h"
-#include "conditions/eiffel.h"
-#include "conditions/facetoface.h"
-#include "conditions/madrasi.h"
-#include "conditions/disparate.h"
-#include "conditions/marscirce/marscirce.h"
-#include "conditions/marscirce/plus.h"
-#include "conditions/messigny.h"
-#include "conditions/patrol.h"
-#include "conditions/marscirce/phantom.h"
-#include "conditions/singlebox/type3.h"
-#include "conditions/castling_chess.h"
-#include "conditions/exchange_castling.h"
-#include "conditions/transmuting_kings/transmuting_kings.h"
-#include "conditions/transmuting_kings/super.h"
-#include "conditions/transmuting_kings/reflective_kings.h"
-#include "conditions/transmuting_kings/vaulting_kings.h"
-#include "pieces/attributes/paralysing/paralysing.h"
-#include "pieces/walks/generate_moves.h"
+#include "solving/temporary_hacks.h"
+#include "solving/pipe.h"
 #include "solving/single_piece_move_generator.h"
-#include "solving/castling.h"
-#include "solving/king_move_generator.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/binary.h"
-#include "solving/temporary_hacks.h"
-#include "debugging/measure.h"
-#include "solving/pipe.h"
-#include "debugging/trace.h"
-#include "pieces/pieces.h"
 #include "output/plaintext/pieces.h"
-
+#include "debugging/measure.h"
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 #include <string.h>
 
@@ -277,17 +251,23 @@ static boolean always_reject(numecoup n)
   return false;
 }
 
-static void reject_captures(slice_index si)
+/* Reject generated captures
+ * @param si identifies the slice
+ */
+void move_generation_reject_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_for_piece(slices[si].next1);
+  solve(slices[si].next1);
   move_generator_filter_captures(base,&always_reject);
 }
 
-static void reject_non_captures(slice_index si)
+/* Reject generated non-captures
+ * @param si identifies the slice
+ */
+void move_generation_reject_non_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_for_piece(slices[si].next1);
+  solve(slices[si].next1);
   move_generator_filter_noncaptures(base,&always_reject);
 }
 
@@ -295,168 +275,17 @@ static void reject_non_captures(slice_index si)
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void generate_moves_for_piece_captures_noncaptures_separately(slice_index si)
+void generate_moves_for_piece_two_paths(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1);
-  generate_moves_for_piece(slices[si].next2);
+  solve(slices[si].next1);
+  solve(slices[si].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
-
-/* Generate moves for a single piece
- * @param identifies generator slice
- */
-void generate_moves_for_piece(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-
-  switch (slices[si].type)
-  {
-    case STSingleBoxType3TMovesForPieceGenerator:
-      singleboxtype3_generate_moves_for_piece(si);
-      break;
-
-    case STMadrasiMovesForPieceGenerator:
-      madrasi_generate_moves_for_piece(si);
-      break;
-
-    case STEiffelMovesForPieceGenerator:
-      eiffel_generate_moves_for_piece(si);
-      break;
-
-    case STDisparateMovesForPieceGenerator:
-      disparate_generate_moves_for_piece(si);
-      break;
-
-    case STParalysingMovesForPieceGenerator:
-      paralysing_generate_moves_for_piece(si);
-      break;
-
-    case STUltraPatrolMovesForPieceGenerator:
-      ultrapatrol_generate_moves_for_piece(si);
-      break;
-
-    case STCentralMovesForPieceGenerator:
-      central_generate_moves_for_piece(si);
-      break;
-
-    case STBeamtenMovesForPieceGenerator:
-      beamten_generate_moves_for_piece(si);
-      break;
-
-    case STPhantomEnforceRexInclusive:
-      phantom_enforce_rex_inclusive(si);
-      break;
-
-    case STPhantomAvoidDuplicateMoves:
-      phantom_avoid_duplicate_moves(si);
-      break;
-
-    case STPhantomMovesForPieceGenerator:
-      phantom_generate_moves_for_piece(si);
-      break;
-
-    case STPlusAdditionalCapturesForPieceGenerator:
-      plus_generate_additional_captures_for_piece(si);
-      break;
-
-    case STMoveForPieceGeneratorTwoPaths:
-      generate_moves_for_piece_captures_noncaptures_separately(si);
-      break;
-
-    case STMarsCirceRememberRebirth:
-      marscirce_remember_rebirth(si);
-      break;
-
-    case STMarsCirceRememberNoRebirth:
-      marscirce_remember_no_rebirth(si);
-      break;
-
-    case STMarsCirceFixDeparture:
-      marscirce_fix_departure(si);
-      break;
-
-    case STMarsCirceGenerateFromRebirthSquare:
-      marscirce_generate_from_rebirth_square(si);
-      break;
-
-    case STMoveGeneratorRejectCaptures:
-      reject_captures(si);
-      break;
-
-    case STMoveGeneratorRejectNoncaptures:
-      reject_non_captures(si);
-      break;
-
-    case STVaultingKingsMovesForPieceGenerator:
-      vaulting_kings_generate_moves_for_piece(si);
-      break;
-
-    case STTransmutingKingsMovesForPieceGenerator:
-      transmuting_kings_generate_moves_for_piece(si);
-      break;
-
-    case STSuperTransmutingKingsMovesForPieceGenerator:
-      supertransmuting_kings_generate_moves_for_piece(si);
-      break;
-
-    case STReflectiveKingsMovesForPieceGenerator:
-      reflective_kings_generate_moves_for_piece(si);
-      break;
-
-    case STCastlingChessMovesForPieceGenerator:
-      castlingchess_generate_moves_for_piece(si);
-      break;
-
-    case STPlatzwechselRochadeMovesForPieceGenerator:
-      exchange_castling_generate_moves_for_piece(si);
-      break;
-
-    case STCastlingGenerator:
-      castling_generator_generate_castling(si);
-      break;
-
-    case STMessignyMovesForPieceGenerator:
-      messigny_generate_moves_for_piece(si);
-      break;
-
-    case STAnnanMovesForPieceGenerator:
-      annan_generate_moves_for_piece(si);
-      break;
-
-    case STFaceToFaceMovesForPieceGenerator:
-      facetoface_generate_moves_for_piece(si);
-      break;
-
-    case STBackToBackMovesForPieceGenerator:
-      backtoback_generate_moves_for_piece(si);
-      break;
-
-    case STCheekToCheekMovesForPieceGenerator:
-      cheektocheek_generate_moves_for_piece(si);
-      break;
-
-    case STMovesForPieceBasedOnWalkGenerator:
-      generate_moves_for_piece_based_on_walk();
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice
@@ -495,7 +324,7 @@ static void genmove(void)
       {
         TraceSquare(curr_generation->departure);TraceEOL();
         move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
+        solve(slices[temporary_hack_move_generator[side]].next2);
       }
       curr_generation->departure += dir_left;
     }

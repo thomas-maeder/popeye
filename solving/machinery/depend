@@ -616,8 +616,13 @@ solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  conditions/nocapture.h conditions/nopromotion.h conditions/geneva.h \
  conditions/edgemover.h conditions/grid.h conditions/take_and_make.h \
  conditions/superguards.h conditions/wormhole.h conditions/backhome.h \
- conditions/shielded_kings.h optimisations/hash.h DHT/dhtbcmem.h \
- optimisations/keepmating.h \
+ conditions/shielded_kings.h conditions/annan.h conditions/beamten.h \
+ conditions/central.h conditions/disparate.h conditions/eiffel.h \
+ conditions/facetoface.h conditions/madrasi.h conditions/marscirce/plus.h \
+ conditions/transmuting_kings/transmuting_kings.h \
+ conditions/transmuting_kings/reflective_kings.h \
+ conditions/transmuting_kings/vaulting_kings.h optimisations/hash.h \
+ DHT/dhtbcmem.h optimisations/keepmating.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  optimisations/count_nr_opponent_moves/prioriser.h \
  optimisations/goals/castling/filter.h \
@@ -673,8 +678,9 @@ solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  pieces/attributes/hurdle_colour_changing.h pieces/attributes/magic.h \
  pieces/attributes/chameleon.h pieces/attributes/jigger.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
- pieces/walks/pawns/en_passant.h pieces/walks/pawns/promotion.h \
- solving/avoid_unsolvable.h solving/battle_play/attack_adapter.h \
+ pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
+ pieces/walks/pawns/promotion.h solving/avoid_unsolvable.h \
+ solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
@@ -1007,6 +1013,28 @@ conditions/backhome.h:
 
 conditions/shielded_kings.h:
 
+conditions/annan.h:
+
+conditions/beamten.h:
+
+conditions/central.h:
+
+conditions/disparate.h:
+
+conditions/eiffel.h:
+
+conditions/facetoface.h:
+
+conditions/madrasi.h:
+
+conditions/marscirce/plus.h:
+
+conditions/transmuting_kings/transmuting_kings.h:
+
+conditions/transmuting_kings/reflective_kings.h:
+
+conditions/transmuting_kings/vaulting_kings.h:
+
 optimisations/hash.h:
 
 DHT/dhtbcmem.h:
@@ -1148,6 +1176,8 @@ pieces/attributes/jigger.h:
 pieces/attributes/uncapturable.h:
 
 pieces/attributes/kamikaze/kamikaze.h:
+
+pieces/walks/generate_moves.h:
 
 pieces/walks/pawns/en_passant.h:
 

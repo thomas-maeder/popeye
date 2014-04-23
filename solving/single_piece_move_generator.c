@@ -67,7 +67,7 @@ void single_piece_move_generator_solve(slice_index si)
 
   curr_generation->departure = square_departure;
   move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-  generate_moves_for_piece(slices[temporary_hack_move_generator[side_at_move]].next2);
+  solve(slices[temporary_hack_move_generator[side_at_move]].next2);
 
   square_departure = initsquare;
 

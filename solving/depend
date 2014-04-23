@@ -458,30 +458,17 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h solving/ply.h \
- conditions/annan.h conditions/conditions.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- conditions/beamten.h conditions/central.h conditions/disparate.h \
- conditions/eiffel.h conditions/facetoface.h solving/observation.h \
- solving/temporary_hacks.h conditions/madrasi.h \
- conditions/marscirce/marscirce.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/temporary_hacks.h solving/pipe.h \
+ solving/single_piece_move_generator.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- conditions/marscirce/plus.h conditions/messigny.h conditions/patrol.h \
- conditions/marscirce/phantom.h conditions/singlebox/type3.h \
- conditions/castling_chess.h conditions/exchange_castling.h \
- conditions/transmuting_kings/transmuting_kings.h \
- conditions/transmuting_kings/super.h \
- conditions/transmuting_kings/reflective_kings.h \
- conditions/transmuting_kings/vaulting_kings.h \
- pieces/attributes/paralysing/paralysing.h pieces/walks/generate_moves.h \
- solving/single_piece_move_generator.h solving/castling.h \
- solving/castling_rights.h solving/move_effect_journal.h \
- position/pieceid.h solving/king_move_generator.h stipulation/branch.h \
  stipulation/pipe.h stipulation/proxy.h stipulation/binary.h \
- debugging/measure.h solving/pipe.h debugging/trace.h \
- output/plaintext/pieces.h debugging/assert.h
+ output/plaintext/pieces.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h debugging/measure.h \
+ debugging/trace.h debugging/assert.h
 
 solving/move_generator.h:
 
@@ -513,35 +500,13 @@ output/mode.enum.h:
 
 solving/ply.h:
 
-conditions/annan.h:
-
-conditions/conditions.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
-conditions/beamten.h:
-
-conditions/central.h:
-
-conditions/disparate.h:
-
-conditions/eiffel.h:
-
-conditions/facetoface.h:
-
-solving/observation.h:
-
 solving/temporary_hacks.h:
 
-conditions/madrasi.h:
+solving/pipe.h:
 
-conditions/marscirce/marscirce.h:
+solving/single_piece_move_generator.h:
+
+stipulation/branch.h:
 
 stipulation/structure_traversal.h:
 
@@ -557,59 +522,25 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-conditions/marscirce/plus.h:
-
-conditions/messigny.h:
-
-conditions/patrol.h:
-
-conditions/marscirce/phantom.h:
-
-conditions/singlebox/type3.h:
-
-conditions/castling_chess.h:
-
-conditions/exchange_castling.h:
-
-conditions/transmuting_kings/transmuting_kings.h:
-
-conditions/transmuting_kings/super.h:
-
-conditions/transmuting_kings/reflective_kings.h:
-
-conditions/transmuting_kings/vaulting_kings.h:
-
-pieces/attributes/paralysing/paralysing.h:
-
-pieces/walks/generate_moves.h:
-
-solving/single_piece_move_generator.h:
-
-solving/castling.h:
-
-solving/castling_rights.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
-
-solving/king_move_generator.h:
-
-stipulation/branch.h:
-
 stipulation/pipe.h:
 
 stipulation/proxy.h:
 
 stipulation/binary.h:
 
+output/plaintext/pieces.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
 debugging/measure.h:
 
-solving/pipe.h:
-
 debugging/trace.h:
-
-output/plaintext/pieces.h:
 
 debugging/assert.h:
 solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \

@@ -37,7 +37,7 @@ void generate_king_moves(void)
   {
     curr_generation->departure = king_square[side];
     move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-    generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
+    solve(slices[temporary_hack_move_generator[side]].next2);
   }
   else
   {

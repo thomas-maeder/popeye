@@ -97,7 +97,7 @@ boolean generate_moves_of_transmuting_king(slice_index si)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       move_generation_current_walk = *ptrans;
-      generate_moves_for_piece(slices[si].next1);
+      solve(slices[si].next1);
       move_generation_current_walk = save_current_walk;
       result = true;
     }
@@ -121,7 +121,7 @@ void transmuting_kings_generate_moves_for_piece(slice_index si)
 
   if (!(TSTFULLFLAGMASK(spec[curr_generation->departure],mask)
         && generate_moves_of_transmuting_king(si)))
-    generate_moves_for_piece(slices[si].next1);
+    solve(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

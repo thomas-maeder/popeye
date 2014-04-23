@@ -89,7 +89,7 @@ void eiffel_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_paralysed(current_generation))
-    generate_moves_for_piece(slices[si].next1);
+    solve(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

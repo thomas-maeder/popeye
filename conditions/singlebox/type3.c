@@ -227,7 +227,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
       ++nr_latent_promotions;
       replace_walk(where,sequence.promotee);
       move_generation_current_walk =  where==curr_generation->departure ? sequence.promotee : save_current_walk;
-      generate_moves_for_piece(slices[si].next1);
+      solve(slices[si].next1);
 
       for (; curr_id<current_move_id[nbply]; ++curr_id)
       {
@@ -245,7 +245,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
   {
     numecoup curr_id = current_move_id[nbply];
 
-    generate_moves_for_piece(slices[si].next1);
+    solve(slices[si].next1);
 
     for (; curr_id<current_move_id[nbply]; ++curr_id)
     {

@@ -94,10 +94,21 @@ void solving_instrument_move_generation(slice_index si,
                                         Side side,
                                         slice_type type);
 
-/* Generate moves for a single piece
- * @param identifies generator slice
+/* Reject generated captures
+ * @param si identifies the slice
  */
-void generate_moves_for_piece(slice_index si);
+void move_generation_reject_captures(slice_index si);
+
+/* Reject generated non-captures
+ * @param si identifies the slice
+ */
+void move_generation_reject_non_captures(slice_index si);
+
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void generate_moves_for_piece_two_paths(slice_index si);
 
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice

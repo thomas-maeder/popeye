@@ -66,7 +66,7 @@ void messigny_generate_moves_for_piece(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1);
+  solve(slices[si].next1);
 
   if (!(king_square[trait[nbply]]==curr_generation->departure
       && messigny_rex_exclusive))

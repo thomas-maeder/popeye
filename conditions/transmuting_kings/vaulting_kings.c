@@ -80,7 +80,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
       for (i = 0; i!=nr_king_vaulters[side]; ++i)
       {
         move_generation_current_walk = king_vaulters[side][i];
-        generate_moves_for_piece(slices[si].next1);
+        solve(slices[si].next1);
       }
       move_generation_current_walk = save_current_walk;
     }
@@ -88,7 +88,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
       return; /* don't generate non-vaulting moves */
   }
 
-  generate_moves_for_piece(slices[si].next1);
+  solve(slices[si].next1);
 }
 
 /* Determine whether a square is observed be the side at the move according to
