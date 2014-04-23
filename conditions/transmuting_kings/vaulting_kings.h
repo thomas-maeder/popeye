@@ -32,7 +32,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si);
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate);
+boolean vaulting_king_is_square_observed(slice_index si);
 
 /* Make sure to behave correctly while detecting observations by vaulting kings
  */

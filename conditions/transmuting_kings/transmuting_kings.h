@@ -50,14 +50,14 @@ void transmuting_kings_initialise_solving(slice_index si, Side side);
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean transmuting_king_is_square_observed(slice_index si, validator_id evaluate);
+boolean transmuting_king_is_square_observed(slice_index si);
 
 /* Find out if the royal piece is not transmuted (i.e. moves according to its
  * original walk)
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean transmuting_king_detect_non_transmutation(slice_index si, validator_id evaluate);
+boolean transmuting_king_detect_non_transmutation(slice_index si);
 
 /* Make sure to behave correctly while detecting observations by
  * transmuting kings

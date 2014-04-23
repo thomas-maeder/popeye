@@ -37,6 +37,6 @@ void solving_initialise_phantom(slice_index si);
  * @param si identifies tester slice
  * @return true iff side is in check
  */
-boolean phantom_is_square_observed(slice_index si, validator_id evaluate);
+boolean phantom_is_square_observed(slice_index si);
 
 #endif

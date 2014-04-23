@@ -105,7 +105,7 @@ static boolean is_square_observed_from_center(slice_index si,
  * @param identifies tester slice
  * @return true iff side is in check
  */
-boolean plus_is_square_observed(slice_index si, validator_id evaluate)
+boolean plus_is_square_observed(slice_index si)
 {
   boolean result = false;
 
@@ -113,7 +113,7 @@ boolean plus_is_square_observed(slice_index si, validator_id evaluate)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_observed_recursive(slices[si].next1,evaluate))
+  if (is_square_observed_recursive(slices[si].next1))
     result = true;
   else
   {
@@ -127,7 +127,7 @@ boolean plus_is_square_observed(slice_index si, validator_id evaluate)
       if (TSTFLAG(spec[observer_origin],side_observing)
           && get_walk_of_piece_on_square(observer_origin)==observing_walk[nbply]
           && observer_origin!=sq_target /* no auto-observation */
-          && is_square_observed_from_center(si,evaluate,observer_origin))
+          && is_square_observed_from_center(si,observation_validator,observer_origin))
       {
         result = true;
         break;

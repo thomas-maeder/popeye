@@ -216,8 +216,7 @@ checkfunction_t *checkfunctions[nr_piece_walks] =
 /*163 */  hunter_check
 };
 
-boolean track_back_from_target_according_to_observer_walk(slice_index si,
-                                                          validator_id evaluate)
+boolean track_back_from_target_according_to_observer_walk(slice_index si)
 {
   boolean result;
 
@@ -226,7 +225,7 @@ boolean track_back_from_target_according_to_observer_walk(slice_index si,
   TraceFunctionParamListEnd();
 
   TraceWalk(observing_walk[nbply]);TraceEOL();
-  result = (*checkfunctions[observing_walk[nbply]])(evaluate);
+  result = (*checkfunctions[observing_walk[nbply]])(observation_validator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -237,7 +236,7 @@ boolean track_back_from_target_according_to_observer_walk(slice_index si,
 static piece_walk_type const ortho_walks[] = { King, Pawn, Knight, Rook, Bishop, Queen };
 enum { nr_ortho_walks = sizeof ortho_walks / sizeof ortho_walks[0] };
 
-boolean determine_observer_walk(slice_index si, validator_id evaluate)
+boolean determine_observer_walk(slice_index si)
 {
   {
     unsigned int i;
@@ -245,7 +244,7 @@ boolean determine_observer_walk(slice_index si, validator_id evaluate)
     for (i = 0; i!=nr_ortho_walks; ++i)
     {
       observing_walk[nbply] = ortho_walks[i];
-      if (is_square_observed_recursive(slices[si].next1,evaluate))
+      if (is_square_observed_recursive(slices[si].next1))
         return true;
     }
   }
@@ -256,7 +255,7 @@ boolean determine_observer_walk(slice_index si, validator_id evaluate)
     for (pcheck = checkpieces; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
-      if (is_square_observed_recursive(slices[si].next1,evaluate))
+      if (is_square_observed_recursive(slices[si].next1))
         return true;
     }
   }

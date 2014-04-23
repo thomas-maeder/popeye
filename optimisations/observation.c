@@ -7,18 +7,16 @@
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 
-boolean dont_try_observing_with_non_existing_walk(slice_index si,
-                                                  validator_id evaluate)
+boolean dont_try_observing_with_non_existing_walk(slice_index si)
 {
   return (number_of_pieces[trait[nbply]][observing_walk[nbply]]>0
-          && is_square_observed_recursive(slices[si].next1,evaluate));
+          && is_square_observed_recursive(slices[si].next1));
 }
 
-boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si,
-                                                             validator_id evaluate)
+boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
 {
   return (number_of_pieces[White][observing_walk[nbply]]+number_of_pieces[Black][observing_walk[nbply]]>0
-          && is_square_observed_recursive(slices[si].next1,evaluate));
+          && is_square_observed_recursive(slices[si].next1));
 }
 
 static boolean observation_by_rook_tested[maxply+1];
@@ -27,10 +25,9 @@ static boolean observation_by_bishop_tested[maxply+1];
 /* Initialise counters used for determining whether observations by queen
  * can be optimised away because of observations by rook+bishop
  */
-boolean optimise_away_observations_by_queen_initialise(slice_index si,
-                                                       validator_id evaluate)
+boolean optimise_away_observations_by_queen_initialise(slice_index si)
 {
-  boolean result = is_square_observed_recursive(slices[si].next1,evaluate);
+  boolean result = is_square_observed_recursive(slices[si].next1);
   observation_by_rook_tested[nbply] = false;
   observation_by_bishop_tested[nbply] = false;
   return result;
@@ -38,19 +35,19 @@ boolean optimise_away_observations_by_queen_initialise(slice_index si,
 
 /* Try to optimise away observations by queen
  */
-boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluate)
+boolean optimise_away_observations_by_queen(slice_index si)
 {
   boolean result;
 
   switch (observing_walk[nbply])
   {
     case Rook:
-      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      result = is_square_observed_recursive(slices[si].next1);
       observation_by_rook_tested[nbply] = true;
       break;
 
     case Bishop:
-      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      result = is_square_observed_recursive(slices[si].next1);
       observation_by_bishop_tested[nbply] = true;
       break;
 
@@ -62,7 +59,7 @@ boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluat
         else
         {
           observing_walk[nbply] = Bishop;
-          result = is_square_observed_recursive(slices[si].next1,evaluate);
+          result = is_square_observed_recursive(slices[si].next1);
           observing_walk[nbply] = Queen;
         }
       }
@@ -71,16 +68,16 @@ boolean optimise_away_observations_by_queen(slice_index si, validator_id evaluat
         if (observation_by_bishop_tested[nbply])
         {
           observing_walk[nbply] = Rook;
-          result = is_square_observed_recursive(slices[si].next1,evaluate);
+          result = is_square_observed_recursive(slices[si].next1);
           observing_walk[nbply] = Queen;
         }
         else
-          result = is_square_observed_recursive(slices[si].next1,evaluate);
+          result = is_square_observed_recursive(slices[si].next1);
       }
       break;
 
     default:
-      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      result = is_square_observed_recursive(slices[si].next1);
       break;
   }
 

@@ -469,7 +469,12 @@ static void PushMagicViewsByOnePiece(piece_walk_type pi_magic)
       replace_observation_target(*pos_viewed);
       observing_walk[nbply] = pi_magic;
       /* ignore return value - it's ==false */
-      is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observation));
+      {
+        validator_id const save_observation_validator = observation_validator;
+        observation_validator = EVALUATE(observation);
+        is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2);
+        observation_validator = save_observation_validator;
+      }
     }
 
   TraceFunctionExit(__func__);

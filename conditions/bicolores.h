@@ -10,7 +10,7 @@
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean bicolores_try_both_sides(slice_index si, validator_id evaluate);
+boolean bicolores_try_both_sides(slice_index si);
 
 /* Instrument the solving machinery with Bicolores
  * @param si root slice of the solving machinery

@@ -112,8 +112,7 @@ boolean mars_is_square_observed_by(slice_index si,
  * @param side_observing the side
  * @return true iff side is in check
  */
-boolean marscirce_is_square_observed(slice_index si,
-                                     validator_id evaluate);
+boolean marscirce_is_square_observed(slice_index si);
 
 /* Inialise thet solving machinery with Mars Circe
  * @param si identifies the root slice of the solving machinery

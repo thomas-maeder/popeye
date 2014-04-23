@@ -51,7 +51,12 @@ static boolean is_kingsquare_observed(void)
 
     siblingply(advers(side));
     push_observation_target(king_square[side]);
-    result = is_square_observed_recursive(slices[temporary_hack_is_square_observed[side]].next2,EVALUATE(observation));
+    {
+      validator_id const save_observation_validator = observation_validator;
+      observation_validator = EVALUATE(observation);
+      result = is_square_observed_recursive(slices[temporary_hack_is_square_observed[side]].next2);
+      observation_validator = save_observation_validator;
+    }
     finply();
 
     transmuting_kings_testing_transmutation[side] = false;
@@ -96,7 +101,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate)
+boolean vaulting_king_is_square_observed(slice_index si)
 {
   boolean result;
   Side const side_observing = trait[nbply];
@@ -106,11 +111,11 @@ boolean vaulting_king_is_square_observed(slice_index si, validator_id evaluate)
   TraceFunctionParamListEnd();
 
   if (king_square[side_observing]==initsquare)
-    result = is_square_observed_recursive(slices[si].next1,evaluate);
+    result = is_square_observed_recursive(slices[si].next1);
   else
   {
     is_king_vaulting[nbply] = dont_know;
-    result = is_square_observed_recursive(slices[si].next1,evaluate);
+    result = is_square_observed_recursive(slices[si].next1);
   }
 
   TraceFunctionExit(__func__);

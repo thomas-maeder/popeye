@@ -299,7 +299,7 @@ boolean mars_is_square_observed_from_rebirth_square(slice_index si,
     if (is_square_empty(current_rebirth_square[nbply]))
     {
       occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_observing);
-      result = is_square_observed_recursive(slices[si].next1,evaluate);
+      result = is_square_observed_recursive(slices[si].next1);
       empty_square(current_rebirth_square[nbply]);
     }
 
@@ -350,7 +350,7 @@ boolean mars_is_square_observed_by(slice_index si,
  * @param si identifies the tester slice
  * @return true iff side is in check
  */
-boolean marscirce_is_square_observed(slice_index si, validator_id evaluate)
+boolean marscirce_is_square_observed(slice_index si)
 {
   boolean result = false;
   Side const side_observing = trait[nbply];
@@ -365,7 +365,7 @@ boolean marscirce_is_square_observed(slice_index si, validator_id evaluate)
     if (*observer_origin!=sq_target /* no auto-observation */
         && TSTFLAG(spec[*observer_origin],side_observing)
         && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply]
-        && mars_is_square_observed_by(si,evaluate,*observer_origin))
+        && mars_is_square_observed_by(si,observation_validator,*observer_origin))
     {
       result = true;
       break;

@@ -632,7 +632,9 @@ void observation_play_move_to_validate(slice_index si, Side side)
                                    STValidateCheckMoveByPlayingCapture);
 }
 
-boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
+validator_id observation_validator;
+
+boolean is_square_observed_recursive(slice_index si)
 {
   boolean result;
 
@@ -650,55 +652,55 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
       break;
 
     case STPhantomIsSquareObserved:
-      result = phantom_is_square_observed(si,evaluate);
+      result = phantom_is_square_observed(si);
       break;
 
     case STPlusIsSquareObserved:
-      result = plus_is_square_observed(si,evaluate);
+      result = plus_is_square_observed(si);
       break;
 
     case STMarsIsSquareObserved:
-      result = marscirce_is_square_observed(si,evaluate);
+      result = marscirce_is_square_observed(si);
       break;
 
     case STVaultingKingIsSquareObserved:
-      result = vaulting_king_is_square_observed(si,evaluate);
+      result = vaulting_king_is_square_observed(si);
       break;
 
     case STTransmutingKingIsSquareObserved:
-      result = transmuting_king_is_square_observed(si,evaluate);
+      result = transmuting_king_is_square_observed(si);
       break;
 
     case STTransmutingKingDetectNonTransmutation:
-      result = transmuting_king_detect_non_transmutation(si,evaluate);
+      result = transmuting_king_detect_non_transmutation(si);
       break;
 
     case STDetermineObserverWalk:
-      result = determine_observer_walk(si,evaluate);
+      result = determine_observer_walk(si);
       break;
 
     case STBicoloresTryBothSides:
-      result = bicolores_try_both_sides(si,evaluate);
+      result = bicolores_try_both_sides(si);
       break;
 
     case STDontTryObservingWithNonExistingWalk:
-      result = dont_try_observing_with_non_existing_walk(si,evaluate);
+      result = dont_try_observing_with_non_existing_walk(si);
       break;
 
     case STDontTryObservingWithNonExistingWalkBothSides:
-      result = dont_try_observing_with_non_existing_walk_both_sides(si,evaluate);
+      result = dont_try_observing_with_non_existing_walk_both_sides(si);
       break;
 
     case STOptimiseObservationsByQueenInitialiser:
-      result = optimise_away_observations_by_queen_initialise(si,evaluate);
+      result = optimise_away_observations_by_queen_initialise(si);
       break;
 
     case STOptimiseObservationsByQueen:
-      result = optimise_away_observations_by_queen(si,evaluate);
+      result = optimise_away_observations_by_queen(si);
       break;
 
     case STTrackBackFromTargetAccordingToObserverWalk:
-      result = track_back_from_target_according_to_observer_walk(si,evaluate);
+      result = track_back_from_target_according_to_observer_walk(si);
       break;
 
     case STTrue:
@@ -723,8 +725,12 @@ boolean is_square_observed_recursive(slice_index si, validator_id evaluate)
 
 boolean is_square_observed(validator_id evaluate)
 {
-  return is_square_observed_recursive(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
-                                      evaluate);
+  validator_id const save_observation_validator = observation_validator;
+  boolean result;
+  observation_validator = evaluate;
+  result = is_square_observed_recursive(slices[temporary_hack_is_square_observed[trait[nbply]]].next2);
+  observation_validator = save_observation_validator;
+  return result;
 }
 
 static slice_index const is_square_observed_slice_rank_order[] =

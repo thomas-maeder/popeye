@@ -120,13 +120,14 @@ typedef slice_index validator_id;
          INVOKE_EVALUATE(evaluate)) \
   )
 
+extern validator_id observation_validator;
+
 /* Determine whether a square is observed be the side at the move; recursive
  * implementation over various slices
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean is_square_observed_recursive(slice_index si,
-                                     validator_id evaluate);
+boolean is_square_observed_recursive(slice_index si);
 
 /* Determine whether a square is observed be the side at the move
  * @return true iff sq_target is observed by the side at the move

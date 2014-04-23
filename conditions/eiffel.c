@@ -68,7 +68,12 @@ static boolean is_paralysed(numecoup n)
       siblingply(eiffel_side);
       push_observation_target(sq_departure);
       observing_walk[nbply] = eiffel_piece;
-      result = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observation_geometry));
+      {
+        validator_id const save_observation_validator = observation_validator;
+        observation_validator = EVALUATE(observation_geometry);
+        result = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2);
+        observation_validator = save_observation_validator;
+      }
       finply();
     }
   }

@@ -211,7 +211,7 @@ void solving_initialise_phantom(slice_index si)
  * @param si identifies tester slice
  * @return true iff side is in check
  */
-boolean phantom_is_square_observed(slice_index si, validator_id evaluate)
+boolean phantom_is_square_observed(slice_index si)
 {
   boolean result = false;
 
@@ -219,7 +219,7 @@ boolean phantom_is_square_observed(slice_index si, validator_id evaluate)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_observed_recursive(slices[si].next1,evaluate))
+  if (is_square_observed_recursive(slices[si].next1))
     result = true;
   else
   {
@@ -232,7 +232,7 @@ boolean phantom_is_square_observed(slice_index si, validator_id evaluate)
           && (!TSTFLAG(spec[*observer_origin],Royal) || phantom_variant.is_rex_inclusive)
           && TSTFLAG(spec[*observer_origin],side_observing)
           && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply]
-          && mars_is_square_observed_by(si,evaluate,*observer_origin))
+          && mars_is_square_observed_by(si,observation_validator,*observer_origin))
       {
         result = true;
         break;

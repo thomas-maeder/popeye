@@ -4,16 +4,16 @@
  * @param si identifies next slice
  * @return true iff sq_target is observed by the side at the move
  */
-boolean bicolores_try_both_sides(slice_index si, validator_id evaluate)
+boolean bicolores_try_both_sides(slice_index si)
 {
   boolean result;
 
-  if (is_square_observed_recursive(slices[si].next1,evaluate))
+  if (is_square_observed_recursive(slices[si].next1))
     result = true;
   else
   {
     trait[nbply] = advers(trait[nbply]);
-    result = is_square_observed_recursive(slices[si].next1,evaluate);
+    result = is_square_observed_recursive(slices[si].next1);
     trait[nbply] = advers(trait[nbply]);
   }
 

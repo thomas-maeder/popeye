@@ -57,7 +57,12 @@ static boolean find_mutual_observer(void)
 
   ++phase[parent_ply[nbply]];
 
-  result = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observer));
+  {
+    validator_id const save_observation_validator = observation_validator;
+    observation_validator = EVALUATE(observer);
+    result = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2);
+    observation_validator = save_observation_validator;
+  }
 
   --phase[parent_ply[nbply]];
 
@@ -93,11 +98,18 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
     for (; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
-      if (number_of_pieces[side_woozle][*pcheck]>0
-          && is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,EVALUATE(observer)))
+      if (number_of_pieces[side_woozle][*pcheck]>0)
       {
-        result = false;
-        break;
+        validator_id const save_observation_validator = observation_validator;
+        boolean observed;
+        observation_validator = EVALUATE(observer);
+        observed = is_square_observed_recursive(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2);
+        observation_validator = save_observation_validator;
+        if (observed)
+        {
+          result = false;
+          break;
+        }
       }
     }
 
