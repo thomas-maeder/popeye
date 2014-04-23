@@ -1,4 +1,5 @@
 #include "conditions/marscirce/phantom.h"
+#include "conditions/anticirce/anticirce.h"
 #include "conditions/marscirce/marscirce.h"
 #include "conditions/circe/circe.h"
 #include "solving/move_effect_journal.h"
@@ -39,7 +40,6 @@ static boolean is_regular_arrival(square sq_arrival,
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
-  TraceFunctionParam("%u",start_regular_moves);
   TraceFunctionParam("%u",start_moves_from_rebirth_square);
   TraceFunctionParamListEnd();
 
@@ -66,7 +66,6 @@ void phantom_enforce_rex_inclusive(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
-  TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
   if (!TSTFLAG(spec[curr_generation->departure],Royal))
