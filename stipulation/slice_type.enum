@@ -416,7 +416,6 @@
     ENUMERATOR(STMarsCirceMoveToRebirthSquare)                         \
     ENUMERATOR(STPhantomEnforceRexInclusive)                           \
     ENUMERATOR(STPhantomAvoidDuplicateMoves)                           \
-    ENUMERATOR(STPhantomMovesForPieceGenerator)                        \
     ENUMERATOR(STPlusAdditionalCapturesForPieceGenerator)              \
     ENUMERATOR(STMoveForPieceGeneratorAlternativePath)                 \
     ENUMERATOR(STMoveForPieceGeneratorStandardPath)                    \

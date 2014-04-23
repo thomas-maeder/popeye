@@ -1709,10 +1709,6 @@ void solve(slice_index si)
       phantom_avoid_duplicate_moves(si);
       break;
 
-    case STPhantomMovesForPieceGenerator:
-      phantom_generate_moves_for_piece(si);
-      break;
-
     case STPlusAdditionalCapturesForPieceGenerator:
       plus_generate_additional_captures_for_piece(si);
       break;

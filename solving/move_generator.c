@@ -73,7 +73,6 @@ static slice_index const slice_rank_order[] =
     STCirceDoneWithRebirth,
     STMarsCirceGenerateFromRebirthSquare,
     STPlusAdditionalCapturesForPieceGenerator,
-    STPhantomMovesForPieceGenerator,
     STMarsCirceRememberRebirth,
     STMarsCirceRememberNoRebirth,
     STMoveGeneratorRejectCaptures,

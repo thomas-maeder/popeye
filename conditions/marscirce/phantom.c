@@ -26,6 +26,9 @@ void phantom_reset_variant(circe_variant_type *variant)
 {
   anticirce_reset_variant(variant);
 
+  variant->relevant_capture = circe_relevant_capture_nocapture;
+  variant->default_relevant_piece = circe_relevant_piece_generated;
+  variant->actual_relevant_piece = circe_relevant_piece_generated;
   variant->do_place_reborn = false;
   variant->is_rex_inclusive = false;
   variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
@@ -113,31 +116,6 @@ void phantom_avoid_duplicate_moves(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Generate moves for a piece with a specific walk from a specific departure
- * square.
- * @note the piece on the departure square need not necessarily have walk p
- */
-void phantom_generate_moves_for_piece(slice_index si)
-{
-  square const sq_departure = curr_generation->departure;
-  square const sq_rebirth = (*marscirce_determine_rebirth_square)(move_generation_current_walk,
-                                                                  spec[sq_departure],
-                                                                  sq_departure,
-                                                                  initsquare,
-                                                                  initsquare,
-                                                                  advers(trait[nbply]));
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (sq_rebirth!=sq_departure)
-    marscirce_try_rebirth_and_generate(si,sq_rebirth);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -171,7 +149,7 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
     slice_index const prototypes[] = {
         alloc_pipe(STMarsCirceFixDeparture),
         alloc_pipe(STPhantomAvoidDuplicateMoves),
-        alloc_pipe(STPhantomMovesForPieceGenerator),
+        alloc_pipe(STMarsCirceGenerateFromRebirthSquare),
         alloc_pipe(STMarsCirceRememberRebirth)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -210,6 +188,15 @@ void solving_initialise_phantom(slice_index si)
                                              &instrument_rebirth);
     stip_traverse_structure(si,&st);
   }
+
+  circe_initialise_solving(si,
+                           &marscirce_variant,
+                           STMoveForPieceGeneratorAlternativePath,
+                           STMarsCirceConsideringRebirth);
+  circe_instrument_solving(si,
+                           STMarsCirceConsideringRebirth,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STMarscirceRemoveCapturer));
 
   stip_instrument_is_square_observed_testing(si,nr_sides,STPhantomIsSquareObserved);
 
