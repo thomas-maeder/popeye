@@ -240,34 +240,25 @@ void transmuting_kings_initialise_solving(slice_index si, Side side)
  */
 void transmuting_king_is_square_observed(slice_index si)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   is_square_observed_recursive(slices[si].next1);
 
-  if (observation_validation_result)
-    result = true;
-  else
+  if (!observation_validation_result)
   {
     square const sq_king = king_square[trait[nbply]];
-    if (sq_king==initsquare || is_king_transmuting_as_any_walk[nbply])
-      result = false;
-    else
+    if (sq_king!=initsquare && !is_king_transmuting_as_any_walk[nbply])
     {
       testing_with_non_transmuting_king[nbply] = true;
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
       is_square_observed_recursive(slices[si].next2);
-      result = observation_validation_result;
       testing_with_non_transmuting_king[nbply] = false;
     }
   }
 
   is_king_transmuting_as_any_walk[nbply] = false;
-
-  observation_validation_result = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
