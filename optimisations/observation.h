@@ -10,17 +10,18 @@
 
 /* Don't look for observations using walks for which there are no pieces
  */
-boolean dont_try_observing_with_non_existing_walk(slice_index si);
-boolean dont_try_observing_with_non_existing_walk_both_sides(slice_index si);
+void dont_try_observing_with_non_existing_walk(slice_index si);
+void dont_try_observing_with_non_existing_walk_both_sides(slice_index si);
 
 /* Initialise counters used for determining whether observations by queen
  * can be optimised away because of observations by rook+bishop
  */
-boolean optimise_away_observations_by_queen_initialise(slice_index si);
+void optimise_away_observations_by_queen_initialise(slice_index si);
 
 /* Try to optimise away observations by queen
+ * @note sets observation_validation_result
  */
-boolean optimise_away_observations_by_queen(slice_index si);
+void optimise_away_observations_by_queen(slice_index si);
 
 /* Restore matters after optimisation observations by queen
  */

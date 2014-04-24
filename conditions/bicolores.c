@@ -2,22 +2,18 @@
 
 /* Try observing with both sides
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @note sets observation_validation_result
  */
-boolean bicolores_try_both_sides(slice_index si)
+void bicolores_try_both_sides(slice_index si)
 {
-  boolean result;
+  is_square_observed_recursive(slices[si].next1);
 
-  if (is_square_observed_recursive(slices[si].next1))
-    result = true;
-  else
+  if (!observation_validation_result)
   {
     trait[nbply] = advers(trait[nbply]);
-    result = is_square_observed_recursive(slices[si].next1);
+    is_square_observed_recursive(slices[si].next1);
     trait[nbply] = advers(trait[nbply]);
   }
-
-  return result;
 }
 
 /* Instrument the solving machinery with Bicolores

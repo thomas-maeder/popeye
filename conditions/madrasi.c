@@ -39,8 +39,9 @@ boolean madrasi_is_moving_piece_observed(square sq)
       nextply(observing_side);
       push_observation_target(sq);
       observing_walk[nbply] = p;
-      result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
-                                         EVALUATE(observation_geometry));
+      is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+                                EVALUATE(observation_geometry));
+      result = observation_validation_result;
       finply();
     }
   }
@@ -74,8 +75,9 @@ static boolean is_paralysed(numecoup n)
       siblingply(observing_side);
       push_observation_target(sq_departure);
       observing_walk[nbply] = candidate;
-      result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
-                                         EVALUATE(observation_geometry));
+      is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+                                EVALUATE(observation_geometry));
+      result = observation_validation_result;
       finply();
     }
     else

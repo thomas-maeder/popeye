@@ -103,9 +103,9 @@ static boolean is_square_observed_from_center(slice_index si,
 
 /* Determine whether a side observes a specific square
  * @param identifies tester slice
- * @return true iff side is in check
+ * @note sets observation_validation_result
  */
-boolean plus_is_square_observed(slice_index si)
+void plus_is_square_observed(slice_index si)
 {
   boolean result = false;
 
@@ -113,7 +113,9 @@ boolean plus_is_square_observed(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_observed_recursive(slices[si].next1))
+  is_square_observed_recursive(slices[si].next1);
+
+  if (observation_validation_result)
     result = true;
   else
   {
@@ -135,10 +137,10 @@ boolean plus_is_square_observed(slice_index si)
     }
   }
 
+  observation_validation_result = result;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)

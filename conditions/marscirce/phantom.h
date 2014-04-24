@@ -35,8 +35,8 @@ void solving_initialise_phantom(slice_index si);
 
 /* Determine whether a specific side is in check in Phantom Chess
  * @param si identifies tester slice
- * @return true iff side is in check
+ * @note sets observation_validation_result
  */
-boolean phantom_is_square_observed(slice_index si);
+void phantom_is_square_observed(slice_index si);
 
 #endif

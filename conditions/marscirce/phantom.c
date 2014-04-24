@@ -209,9 +209,9 @@ void solving_initialise_phantom(slice_index si)
 
 /* Determine whether a specific side is in check in Phantom Chess
  * @param si identifies tester slice
- * @return true iff side is in check
+ * @note sets observation_validation_result
  */
-boolean phantom_is_square_observed(slice_index si)
+void phantom_is_square_observed(slice_index si)
 {
   boolean result = false;
 
@@ -219,7 +219,9 @@ boolean phantom_is_square_observed(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_observed_recursive(slices[si].next1))
+  is_square_observed_recursive(slices[si].next1);
+
+  if (observation_validation_result)
     result = true;
   else
   {
@@ -239,8 +241,8 @@ boolean phantom_is_square_observed(slice_index si)
       }
   }
 
+  observation_validation_result = result;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }

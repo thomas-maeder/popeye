@@ -632,12 +632,8 @@ void observation_play_move_to_validate(slice_index si, Side side)
                                    STValidateCheckMoveByPlayingCapture);
 }
 
-validator_id observation_validator;
-
-boolean is_square_observed_recursive(slice_index si)
+void is_square_observed_recursive(slice_index si)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -647,94 +643,97 @@ boolean is_square_observed_recursive(slice_index si)
   switch (slices[si].type)
   {
     case STIsSquareObservedOrtho:
-      result = is_square_observed_ortho(trait[nbply],
-                                        move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
+      observation_validation_result = is_square_observed_ortho(trait[nbply],
+                                                               move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
       break;
 
     case STPhantomIsSquareObserved:
-      result = phantom_is_square_observed(si);
+      phantom_is_square_observed(si);
       break;
 
     case STPlusIsSquareObserved:
-      result = plus_is_square_observed(si);
+      plus_is_square_observed(si);
       break;
 
     case STMarsIsSquareObserved:
-      result = marscirce_is_square_observed(si);
+      marscirce_is_square_observed(si);
       break;
 
     case STVaultingKingIsSquareObserved:
-      result = vaulting_king_is_square_observed(si);
+      vaulting_king_is_square_observed(si);
       break;
 
     case STTransmutingKingIsSquareObserved:
-      result = transmuting_king_is_square_observed(si);
+      transmuting_king_is_square_observed(si);
       break;
 
     case STTransmutingKingDetectNonTransmutation:
-      result = transmuting_king_detect_non_transmutation(si);
+      transmuting_king_detect_non_transmutation(si);
       break;
 
     case STDetermineObserverWalk:
-      result = determine_observer_walk(si);
+      determine_observer_walk(si);
       break;
 
     case STBicoloresTryBothSides:
-      result = bicolores_try_both_sides(si);
+      bicolores_try_both_sides(si);
       break;
 
     case STDontTryObservingWithNonExistingWalk:
-      result = dont_try_observing_with_non_existing_walk(si);
+      dont_try_observing_with_non_existing_walk(si);
       break;
 
     case STDontTryObservingWithNonExistingWalkBothSides:
-      result = dont_try_observing_with_non_existing_walk_both_sides(si);
+      dont_try_observing_with_non_existing_walk_both_sides(si);
       break;
 
     case STOptimiseObservationsByQueenInitialiser:
-      result = optimise_away_observations_by_queen_initialise(si);
+      optimise_away_observations_by_queen_initialise(si);
       break;
 
     case STOptimiseObservationsByQueen:
-      result = optimise_away_observations_by_queen(si);
+      optimise_away_observations_by_queen(si);
       break;
 
     case STTrackBackFromTargetAccordingToObserverWalk:
-      result = track_back_from_target_according_to_observer_walk(si);
+      track_back_from_target_according_to_observer_walk(si);
       break;
 
     case STTrue:
-      result = true;
+      observation_validation_result = true;
       break;
 
     case STFalse:
-      result = false;
+      observation_validation_result = false;
       break;
 
     default:
       assert(0);
-      result = true;
       break;
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
+
+validator_id observation_validator;
+boolean observation_validation_result;
 
 /* Determine whether a square is observed be the side at the move
  * @return true iff sq_target is observed by the side at the move
  */
 boolean is_square_observed(validator_id evaluate)
 {
-  return is_square_observed_nested(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
-                                   evaluate);
+  is_square_observed_nested(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
+                            evaluate);
+  return observation_validation_result;
 }
 
-boolean is_square_observed_nested(slice_index si, validator_id evaluate)
+/* Perform a nested observation validation run from within an observation
+ * validation run
+ * @note sets observation_validation_result */
+void is_square_observed_nested(slice_index si, validator_id evaluate)
 {
-  boolean result;
   validator_id const save_observation_validator = observation_validator;
 
   TraceFunctionEntry(__func__);
@@ -742,13 +741,11 @@ boolean is_square_observed_nested(slice_index si, validator_id evaluate)
   TraceFunctionParamListEnd();
 
   observation_validator = evaluate;
-  result = is_square_observed_recursive(si);
+  is_square_observed_recursive(si);
   observation_validator = save_observation_validator;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static slice_index const is_square_observed_slice_rank_order[] =

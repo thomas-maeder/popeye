@@ -13,8 +13,8 @@ extern checkfunction_t *checkfunctions[nr_piece_walks];
 
 extern piece_walk_type checkpieces[nr_piece_walks-Leo+1]; /* only fairies ! */
 
-boolean track_back_from_target_according_to_observer_walk(slice_index si);
+void track_back_from_target_according_to_observer_walk(slice_index si);
 
-boolean determine_observer_walk(slice_index si);
+void determine_observer_walk(slice_index si);
 
 #endif

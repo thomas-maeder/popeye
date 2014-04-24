@@ -51,8 +51,9 @@ static boolean is_kingsquare_observed(void)
 
     siblingply(advers(side));
     push_observation_target(king_square[side]);
-    result = is_square_observed_nested(slices[temporary_hack_is_square_observed[side]].next2,
-                                       EVALUATE(observation));
+    is_square_observed_nested(slices[temporary_hack_is_square_observed[side]].next2,
+                              EVALUATE(observation));
+    result = observation_validation_result;
     finply();
 
     transmuting_kings_testing_transmutation[side] = false;
@@ -95,11 +96,10 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
 /* Determine whether a square is observed be the side at the move according to
  * Vaulting Kings
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @note sets observation_validation_result
  */
-boolean vaulting_king_is_square_observed(slice_index si)
+void vaulting_king_is_square_observed(slice_index si)
 {
-  boolean result;
   Side const side_observing = trait[nbply];
 
   TraceFunctionEntry(__func__);
@@ -107,17 +107,15 @@ boolean vaulting_king_is_square_observed(slice_index si)
   TraceFunctionParamListEnd();
 
   if (king_square[side_observing]==initsquare)
-    result = is_square_observed_recursive(slices[si].next1);
+    is_square_observed_recursive(slices[si].next1);
   else
   {
     is_king_vaulting[nbply] = dont_know;
-    result = is_square_observed_recursive(slices[si].next1);
+    is_square_observed_recursive(slices[si].next1);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 static boolean is_king_vaulter(Side side, piece_walk_type walk)

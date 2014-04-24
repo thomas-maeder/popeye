@@ -121,20 +121,24 @@ typedef slice_index validator_id;
   )
 
 extern validator_id observation_validator;
+extern boolean observation_validation_result;
 
 /* Determine whether a square is observed be the side at the move; recursive
  * implementation over various slices
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @note sets observation_validation_result
  */
-boolean is_square_observed_recursive(slice_index si);
+void is_square_observed_recursive(slice_index si);
 
 /* Determine whether a square is observed be the side at the move
  * @return true iff sq_target is observed by the side at the move
  */
 boolean is_square_observed(validator_id evaluate);
 
-boolean is_square_observed_nested(slice_index si, validator_id evaluate);
+/* Perform a nested observation validation run from within an observation
+ * validation run
+ * @note sets observation_validation_result */
+void is_square_observed_nested(slice_index si, validator_id evaluate);
 
 /* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch

@@ -8,9 +8,9 @@
 
 /* Try observing with both sides
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @note sets observation_validation_result
  */
-boolean bicolores_try_both_sides(slice_index si);
+void bicolores_try_both_sides(slice_index si);
 
 /* Instrument the solving machinery with Bicolores
  * @param si root slice of the solving machinery

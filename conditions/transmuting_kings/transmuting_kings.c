@@ -66,8 +66,9 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
     siblingply(advers(side_attacking));
     push_observation_target(king_square[side_attacking]);
     observing_walk[nbply] = walk;
-    result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
-                                       EVALUATE(observation));
+    is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+                              EVALUATE(observation));
+    result = observation_validation_result;
     finply();
 
     transmuting_kings_testing_transmutation[side_attacking] = false;
@@ -235,9 +236,9 @@ void transmuting_kings_initialise_solving(slice_index si, Side side)
 /* Determine whether a square is observed be the side at the move according to
  * Transmuting Kings
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @note sets observation_validation_result
  */
-boolean transmuting_king_is_square_observed(slice_index si)
+void transmuting_king_is_square_observed(slice_index si)
 {
   boolean result;
 
@@ -245,7 +246,9 @@ boolean transmuting_king_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_square_observed_recursive(slices[si].next1))
+  is_square_observed_recursive(slices[si].next1);
+
+  if (observation_validation_result)
     result = true;
   else
   {
@@ -256,25 +259,26 @@ boolean transmuting_king_is_square_observed(slice_index si)
     {
       testing_with_non_transmuting_king[nbply] = true;
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
-      result = is_square_observed_recursive(slices[si].next2);
+      is_square_observed_recursive(slices[si].next2);
+      result = observation_validation_result;
       testing_with_non_transmuting_king[nbply] = false;
     }
   }
 
   is_king_transmuting_as_any_walk[nbply] = false;
 
+  observation_validation_result = result;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Find out if the royal piece is not transmuted (i.e. moves according to its
  * original walk)
  * @param si identifies next slice
- * @return true iff sq_target is observed by the side at the move
+ * @note sets observation_validation_result
  */
-boolean transmuting_king_detect_non_transmutation(slice_index si)
+void transmuting_king_detect_non_transmutation(slice_index si)
 {
   boolean result;
 
@@ -286,7 +290,9 @@ boolean transmuting_king_detect_non_transmutation(slice_index si)
 
   is_king_transmuting_as_observing_walk[nbply] = dont_know;
 
-  result = is_square_observed_recursive(slices[si].next1);
+  is_square_observed_recursive(slices[si].next1);
+
+  result = observation_validation_result;
 
   if (!result && !is_king_transmuting_as_any_walk[nbply])
     switch (is_king_transmuting_as_observing_walk[nbply])
@@ -307,10 +313,10 @@ boolean transmuting_king_detect_non_transmutation(slice_index si)
         break;
     }
 
+  observation_validation_result = result;
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Make sure to behave correctly while detecting observations by vaulting kings
