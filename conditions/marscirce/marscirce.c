@@ -271,13 +271,13 @@ boolean mars_enforce_observer(slice_index si)
  * @param observer_origin potentially delivering check ...
  * @param sq_rebrirth ... from this square
  * @note the piece on observer_origin must belong to advers(side)
+ * @note sets observation_validation_result
  */
-boolean mars_is_square_observed_from_rebirth_square(slice_index si,
-                                                    validator_id evaluate,
-                                                    square observer_origin,
-                                                    square sq_rebirth)
+void mars_is_square_observed_from_rebirth_square(slice_index si,
+                                                 validator_id evaluate,
+                                                 square observer_origin,
+                                                 square sq_rebirth)
 {
-  boolean result = false;
   Flags const spec_observing = spec[observer_origin];
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
@@ -290,6 +290,8 @@ boolean mars_is_square_observed_from_rebirth_square(slice_index si,
   current_rebirth_square[nbply] = sq_rebirth;
   current_observer_origin[nbply] = observer_origin;
 
+	observation_validation_result = false;
+
   if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
       || CheckDir[observing_walk[nbply]][sq_target-current_rebirth_square[nbply]]!=0)
   {
@@ -300,7 +302,6 @@ boolean mars_is_square_observed_from_rebirth_square(slice_index si,
     {
       occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_observing);
       is_square_observed_recursive(slices[si].next1);
-      result = observation_validation_result;
       empty_square(current_rebirth_square[nbply]);
     }
 
@@ -308,20 +309,18 @@ boolean mars_is_square_observed_from_rebirth_square(slice_index si,
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether a specific piece delivers check to a specific side
  * @param observer_origin potentially delivering check ...
  * @note the piece on pos_checking must belong to advers(side)
+ * @note sets observation_validation_result
  */
-boolean mars_is_square_observed_by(slice_index si,
-                                   validator_id evaluate,
-                                   square observer_origin)
+void mars_is_square_observed_by(slice_index si,
+                                validator_id evaluate,
+                                square observer_origin)
 {
-  boolean result = false;
   Flags const spec_checking = spec[observer_origin];
   Side const side_observed = advers(trait[nbply]);
 
@@ -337,14 +336,12 @@ boolean mars_is_square_observed_by(slice_index si,
   TraceSquare(observer_origin);
   TraceFunctionParamListEnd();
 
-  result = mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,sq_rebirth);
+  mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,sq_rebirth);
 
   current_rebirth_square[nbply] = initsquare;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether a side observes a specific square
@@ -353,7 +350,6 @@ boolean mars_is_square_observed_by(slice_index si,
  */
 void marscirce_is_square_observed(slice_index si)
 {
-  boolean result = false;
   Side const side_observing = trait[nbply];
   square const *observer_origin;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
@@ -362,17 +358,17 @@ void marscirce_is_square_observed(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
+  observation_validation_result = false;
+
   for (observer_origin = boardnum; *observer_origin; ++observer_origin)
     if (*observer_origin!=sq_target /* no auto-observation */
         && TSTFLAG(spec[*observer_origin],side_observing)
-        && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply]
-        && mars_is_square_observed_by(si,observation_validator,*observer_origin))
+        && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
     {
-      result = true;
-      break;
+      mars_is_square_observed_by(si,observation_validator,*observer_origin);
+      if (observation_validation_result)
+        break;
     }
-
-  observation_validation_result = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

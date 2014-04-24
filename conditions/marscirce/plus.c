@@ -75,11 +75,10 @@ void plus_generate_additional_captures_for_piece(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean is_square_observed_from_center(slice_index si,
-                                              validator_id evaluate,
-                                              square observer_origin)
+static void is_square_observed_from_center(slice_index si,
+                                           validator_id evaluate,
+                                           square observer_origin)
 {
-  boolean result = false;
   unsigned int i;
 
   TraceFunctionEntry(__func__);
@@ -87,18 +86,18 @@ static boolean is_square_observed_from_center(slice_index si,
   TraceSquare(observer_origin);
   TraceFunctionParamListEnd();
 
+  observation_validation_result = false;
+
   for (i = 0; i!=nr_center_squares; ++i)
-    if (observer_origin!=center_squares[i] /* already tested without rebirth */
-        && mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,center_squares[i]))
+    if (observer_origin!=center_squares[i]) /* already tested without rebirth */
     {
-      result = true;
-      break;
+      mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,center_squares[i]);
+      if (observation_validation_result)
+        break;
     }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Determine whether a side observes a specific square
@@ -107,17 +106,13 @@ static boolean is_square_observed_from_center(slice_index si,
  */
 void plus_is_square_observed(slice_index si)
 {
-  boolean result = false;
-
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
   is_square_observed_recursive(slices[si].next1);
 
-  if (observation_validation_result)
-    result = true;
-  else
+  if (!observation_validation_result)
   {
     square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
     Side const side_observing = trait[nbply];
@@ -128,16 +123,14 @@ void plus_is_square_observed(slice_index si)
       square const observer_origin = center_squares[i];
       if (TSTFLAG(spec[observer_origin],side_observing)
           && get_walk_of_piece_on_square(observer_origin)==observing_walk[nbply]
-          && observer_origin!=sq_target /* no auto-observation */
-          && is_square_observed_from_center(si,observation_validator,observer_origin))
+          && observer_origin!=sq_target) /* no auto-observation */
       {
-        result = true;
-        break;
+        is_square_observed_from_center(si,observation_validator,observer_origin);
+        if (observation_validation_result)
+          break;
       }
     }
   }
-
-  observation_validation_result = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

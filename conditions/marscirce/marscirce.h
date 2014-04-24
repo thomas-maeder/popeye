@@ -94,19 +94,21 @@ boolean mars_enforce_observer(slice_index si);
  * @param observer_origin potentially delivering check ...
  * @param sq_rebrirth ... from this square
  * @note the piece on observer_origin must belong to advers(side)
+ * @note sets observation_validation_result
  */
-boolean mars_is_square_observed_from_rebirth_square(slice_index si,
-                                                    validator_id evaluate,
-                                                    square observer_origin,
-                                                    square sq_rebirth);
+void mars_is_square_observed_from_rebirth_square(slice_index si,
+                                                 validator_id evaluate,
+                                                 square observer_origin,
+                                                 square sq_rebirth);
 
 /* Determine whether a specific piece delivers check to a specific side
  * @param observer_origin potentially delivering check ...
  * @note the piece on pos_checking must belong to advers(side)
+ * @note sets observation_validation_result
  */
-boolean mars_is_square_observed_by(slice_index si,
-                                    validator_id evaluate,
-                                    square observer_origin);
+void mars_is_square_observed_by(slice_index si,
+                                validator_id evaluate,
+                                square observer_origin);
 
 /* Determine whether a side observes a specific square
  * @param side_observing the side

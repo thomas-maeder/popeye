@@ -213,17 +213,13 @@ void solving_initialise_phantom(slice_index si)
  */
 void phantom_is_square_observed(slice_index si)
 {
-  boolean result = false;
-
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
   is_square_observed_recursive(slices[si].next1);
 
-  if (observation_validation_result)
-    result = true;
-  else
+  if (!observation_validation_result)
   {
     Side const side_observing = trait[nbply];
     square const *observer_origin;
@@ -233,15 +229,13 @@ void phantom_is_square_observed(slice_index si)
       if (*observer_origin!=sq_target /* no auto-observation */
           && (!TSTFLAG(spec[*observer_origin],Royal) || phantom_variant.is_rex_inclusive)
           && TSTFLAG(spec[*observer_origin],side_observing)
-          && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply]
-          && mars_is_square_observed_by(si,observation_validator,*observer_origin))
+          && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
       {
-        result = true;
-        break;
+        mars_is_square_observed_by(si,observation_validator,*observer_origin);
+        if (observation_validation_result)
+          break;
       }
   }
-
-  observation_validation_result = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
