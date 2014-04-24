@@ -12,7 +12,7 @@ void dont_try_observing_with_non_existing_walk(slice_index si)
   if (number_of_pieces[trait[nbply]][observing_walk[nbply]]>0)
     is_square_observed_recursive(slices[si].next1);
   else
-    observation_validation_result = false;
+    observation_result = false;
 }
 
 void dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
@@ -20,7 +20,7 @@ void dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
   if (number_of_pieces[White][observing_walk[nbply]]+number_of_pieces[Black][observing_walk[nbply]]>0)
     is_square_observed_recursive(slices[si].next1);
   else
-    observation_validation_result = false;
+    observation_result = false;
 }
 
 static boolean observation_by_rook_tested[maxply+1];
@@ -28,7 +28,7 @@ static boolean observation_by_bishop_tested[maxply+1];
 
 /* Initialise counters used for determining whether observations by queen
  * can be optimised away because of observations by rook+bishop
- * @note sets observation_validation_result
+ * @note sets observation_result
  */
 void optimise_away_observations_by_queen_initialise(slice_index si)
 {
@@ -38,7 +38,7 @@ void optimise_away_observations_by_queen_initialise(slice_index si)
 }
 
 /* Try to optimise away observations by queen
- * @note sets observation_validation_result
+ * @note sets observation_result
  */
 void optimise_away_observations_by_queen(slice_index si)
 {
@@ -58,7 +58,7 @@ void optimise_away_observations_by_queen(slice_index si)
       if (observation_by_rook_tested[nbply])
       {
         if (observation_by_bishop_tested[nbply])
-          observation_validation_result = false;
+          observation_result = false;
         else
         {
           observing_walk[nbply] = Bishop;

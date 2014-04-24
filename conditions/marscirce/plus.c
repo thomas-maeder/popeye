@@ -86,13 +86,13 @@ static void is_square_observed_from_center(slice_index si,
   TraceSquare(observer_origin);
   TraceFunctionParamListEnd();
 
-  observation_validation_result = false;
+  observation_result = false;
 
   for (i = 0; i!=nr_center_squares; ++i)
     if (observer_origin!=center_squares[i]) /* already tested without rebirth */
     {
       mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,center_squares[i]);
-      if (observation_validation_result)
+      if (observation_result)
         break;
     }
 
@@ -102,7 +102,7 @@ static void is_square_observed_from_center(slice_index si,
 
 /* Determine whether a side observes a specific square
  * @param identifies tester slice
- * @note sets observation_validation_result
+ * @note sets observation_result
  */
 void plus_is_square_observed(slice_index si)
 {
@@ -112,7 +112,7 @@ void plus_is_square_observed(slice_index si)
 
   is_square_observed_recursive(slices[si].next1);
 
-  if (!observation_validation_result)
+  if (!observation_result)
   {
     square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
     Side const side_observing = trait[nbply];
@@ -126,7 +126,7 @@ void plus_is_square_observed(slice_index si)
           && observer_origin!=sq_target) /* no auto-observation */
       {
         is_square_observed_from_center(si,observation_validator,observer_origin);
-        if (observation_validation_result)
+        if (observation_result)
           break;
       }
     }

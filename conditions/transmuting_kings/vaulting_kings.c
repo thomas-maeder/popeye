@@ -51,9 +51,8 @@ static boolean is_kingsquare_observed(void)
 
     siblingply(advers(side));
     push_observation_target(king_square[side]);
-    is_square_observed_nested(slices[temporary_hack_is_square_observed[side]].next2,
-                              EVALUATE(observation));
-    result = observation_validation_result;
+    result = is_square_observed_nested(slices[temporary_hack_is_square_observed[side]].next2,
+                                       EVALUATE(observation));
     finply();
 
     transmuting_kings_testing_transmutation[side] = false;

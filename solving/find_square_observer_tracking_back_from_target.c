@@ -223,7 +223,7 @@ void track_back_from_target_according_to_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceWalk(observing_walk[nbply]);TraceEOL();
-  observation_validation_result = (*checkfunctions[observing_walk[nbply]])(observation_validator);
+  observation_result = (*checkfunctions[observing_walk[nbply]])(observation_validator);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -241,7 +241,7 @@ void determine_observer_walk(slice_index si)
     {
       observing_walk[nbply] = ortho_walks[i];
       is_square_observed_recursive(slices[si].next1);
-      if (observation_validation_result)
+      if (observation_result)
         return;
     }
   }
@@ -253,7 +253,7 @@ void determine_observer_walk(slice_index si)
     {
       observing_walk[nbply] = *pcheck;
       is_square_observed_recursive(slices[si].next1);
-      if (observation_validation_result)
+      if (observation_result)
         return;
     }
   }

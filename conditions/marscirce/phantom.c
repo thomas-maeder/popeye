@@ -209,7 +209,7 @@ void solving_initialise_phantom(slice_index si)
 
 /* Determine whether a specific side is in check in Phantom Chess
  * @param si identifies tester slice
- * @note sets observation_validation_result
+ * @note sets observation_result
  */
 void phantom_is_square_observed(slice_index si)
 {
@@ -219,7 +219,7 @@ void phantom_is_square_observed(slice_index si)
 
   is_square_observed_recursive(slices[si].next1);
 
-  if (!observation_validation_result)
+  if (!observation_result)
   {
     Side const side_observing = trait[nbply];
     square const *observer_origin;
@@ -232,7 +232,7 @@ void phantom_is_square_observed(slice_index si)
           && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
       {
         mars_is_square_observed_by(si,observation_validator,*observer_origin);
-        if (observation_validation_result)
+        if (observation_result)
           break;
       }
   }

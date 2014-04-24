@@ -66,9 +66,8 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
     siblingply(advers(side_attacking));
     push_observation_target(king_square[side_attacking]);
     observing_walk[nbply] = walk;
-    is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
-                              EVALUATE(observation));
-    result = observation_validation_result;
+    result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+                                       EVALUATE(observation));
     finply();
 
     transmuting_kings_testing_transmutation[side_attacking] = false;
@@ -236,7 +235,7 @@ void transmuting_kings_initialise_solving(slice_index si, Side side)
 /* Determine whether a square is observed be the side at the move according to
  * Transmuting Kings
  * @param si identifies next slice
- * @note sets observation_validation_result
+ * @note sets observation_result
  */
 void transmuting_king_is_square_observed(slice_index si)
 {
@@ -246,7 +245,7 @@ void transmuting_king_is_square_observed(slice_index si)
 
   is_square_observed_recursive(slices[si].next1);
 
-  if (!observation_validation_result)
+  if (!observation_result)
   {
     square const sq_king = king_square[trait[nbply]];
     if (sq_king!=initsquare && !is_king_transmuting_as_any_walk[nbply])
@@ -267,7 +266,7 @@ void transmuting_king_is_square_observed(slice_index si)
 /* Find out if the royal piece is not transmuted (i.e. moves according to its
  * original walk)
  * @param si identifies next slice
- * @note sets observation_validation_result
+ * @note sets observation_result
  */
 void transmuting_king_detect_non_transmutation(slice_index si)
 {
@@ -283,7 +282,7 @@ void transmuting_king_detect_non_transmutation(slice_index si)
 
   is_square_observed_recursive(slices[si].next1);
 
-  result = observation_validation_result;
+  result = observation_result;
 
   if (!result && !is_king_transmuting_as_any_walk[nbply])
     switch (is_king_transmuting_as_observing_walk[nbply])
@@ -304,7 +303,7 @@ void transmuting_king_detect_non_transmutation(slice_index si)
         break;
     }
 
-  observation_validation_result = result;
+  observation_result = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

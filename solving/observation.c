@@ -643,7 +643,7 @@ void is_square_observed_recursive(slice_index si)
   switch (slices[si].type)
   {
     case STIsSquareObservedOrtho:
-      observation_validation_result = is_square_observed_ortho(trait[nbply],
+      observation_result = is_square_observed_ortho(trait[nbply],
                                                                move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
       break;
 
@@ -700,11 +700,11 @@ void is_square_observed_recursive(slice_index si)
       break;
 
     case STTrue:
-      observation_validation_result = true;
+      observation_result = true;
       break;
 
     case STFalse:
-      observation_validation_result = false;
+      observation_result = false;
       break;
 
     default:
@@ -717,23 +717,27 @@ void is_square_observed_recursive(slice_index si)
 }
 
 validator_id observation_validator;
-boolean observation_validation_result;
+boolean observation_result;
 
 /* Determine whether a square is observed be the side at the move
- * @return true iff sq_target is observed by the side at the move
+ * @return true iff the target square is observed
  */
 boolean is_square_observed(validator_id evaluate)
 {
-  is_square_observed_nested(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
-                            evaluate);
-  return observation_validation_result;
+  return is_square_observed_nested(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
+                                   evaluate);
 }
 
 /* Perform a nested observation validation run from within an observation
  * validation run
- * @note sets observation_validation_result */
-void is_square_observed_nested(slice_index si, validator_id evaluate)
+ * Restores observation_validator and observation_result to their previous
+ * values before returning.
+ * @return true iff the target square is observed
+ */
+boolean is_square_observed_nested(slice_index si, validator_id evaluate)
 {
+  boolean result;
+  boolean const save_observation_validation_result = observation_result;
   validator_id const save_observation_validator = observation_validator;
 
   TraceFunctionEntry(__func__);
@@ -742,10 +746,15 @@ void is_square_observed_nested(slice_index si, validator_id evaluate)
 
   observation_validator = evaluate;
   is_square_observed_recursive(si);
+  result = observation_result;
+
   observation_validator = save_observation_validator;
+  observation_result = save_observation_validation_result;
 
   TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
+  return result;
 }
 
 static slice_index const is_square_observed_slice_rank_order[] =
