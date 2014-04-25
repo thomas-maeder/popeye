@@ -699,14 +699,6 @@ void is_square_observed_recursive(slice_index si)
       track_back_from_target_according_to_observer_walk(si);
       break;
 
-    case STTrue:
-      observation_result = true;
-      break;
-
-    case STFalse:
-      observation_result = false;
-      break;
-
     default:
       assert(0);
       break;
@@ -775,8 +767,7 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STMarsIsSquareObserved,
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
-    STTrackBackFromTargetAccordingToObserverWalk,
-    STFalse
+    STTrackBackFromTargetAccordingToObserverWalk
 };
 
 enum
