@@ -270,8 +270,6 @@ void transmuting_king_is_square_observed(slice_index si)
  */
 void transmuting_king_detect_non_transmutation(slice_index si)
 {
-  boolean result;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -282,9 +280,7 @@ void transmuting_king_detect_non_transmutation(slice_index si)
 
   is_square_observed_recursive(slices[si].next1);
 
-  result = observation_result;
-
-  if (!result && !is_king_transmuting_as_any_walk[nbply])
+  if (!observation_result && !is_king_transmuting_as_any_walk[nbply])
     switch (is_king_transmuting_as_observing_walk[nbply])
     {
       case dont_know:
@@ -302,8 +298,6 @@ void transmuting_king_detect_non_transmutation(slice_index si)
         assert(0);
         break;
     }
-
-  observation_result = result;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
