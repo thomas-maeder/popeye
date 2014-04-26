@@ -48,7 +48,7 @@ void marscirce_fix_departure(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  generate_moves_for_piece(slices[si].next1);
 
   for (curr = base+1; curr<=CURRMOVE_OF_PLY(nbply); ++curr)
     move_generation_stack[curr].departure = curr_generation->departure;
@@ -104,7 +104,7 @@ void marscirce_remember_no_rebirth(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  generate_moves_for_piece(slices[si].next1);
 
   for (; curr_id<current_move_id[nbply]; ++curr_id)
     marscirce_rebirth_square[curr_id] = initsquare;
@@ -125,7 +125,7 @@ void marscirce_remember_rebirth(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  generate_moves_for_piece(slices[si].next1);
 
   for (; curr_id<current_move_id[nbply]; ++curr_id)
     marscirce_rebirth_square[curr_id] = curr_generation->departure;
@@ -176,7 +176,7 @@ void marscirce_generate_from_rebirth_square(slice_index si)
   curr_generation->departure = sq_rebirth;
 
   occupy_square(sq_rebirth,context->reborn_walk,context->reborn_spec);
-  solve(slices[si].next1);
+  generate_moves_for_piece(slices[si].next1);
   empty_square(sq_rebirth);
 
   curr_generation->departure = sq_departure;
@@ -301,7 +301,7 @@ void mars_is_square_observed_from_rebirth_square(slice_index si,
     if (is_square_empty(current_rebirth_square[nbply]))
     {
       occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_observing);
-      solve(slices[si].next1);
+      is_square_observed_recursive(slices[si].next1);
       empty_square(current_rebirth_square[nbply]);
     }
 

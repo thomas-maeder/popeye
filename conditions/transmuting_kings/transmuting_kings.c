@@ -122,7 +122,7 @@ void transmuting_kings_generate_moves_for_piece(slice_index si)
 
   if (!(TSTFULLFLAGMASK(spec[curr_generation->departure],mask)
         && generate_moves_of_transmuting_king(si)))
-    solve(slices[si].next1);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -243,7 +243,7 @@ void transmuting_king_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  is_square_observed_recursive(slices[si].next1);
 
   if (!observation_result)
   {
@@ -252,7 +252,7 @@ void transmuting_king_is_square_observed(slice_index si)
     {
       testing_with_non_transmuting_king[nbply] = true;
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
-      solve(slices[si].next2);
+      is_square_observed_recursive(slices[si].next2);
       testing_with_non_transmuting_king[nbply] = false;
     }
   }
@@ -278,7 +278,7 @@ void transmuting_king_detect_non_transmutation(slice_index si)
 
   is_king_transmuting_as_observing_walk[nbply] = dont_know;
 
-  solve(slices[si].next1);
+  is_square_observed_recursive(slices[si].next1);
 
   if (!observation_result && !is_king_transmuting_as_any_walk[nbply])
     switch (is_king_transmuting_as_observing_walk[nbply])

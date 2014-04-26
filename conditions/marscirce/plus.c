@@ -36,7 +36,7 @@ static void try_rebirth_and_generate(slice_index si, square sq_rebirth)
     occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
     empty_square(sq_departure);
 
-    solve(slices[si].next1);
+    generate_moves_for_piece(slices[si].next1);
 
     occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
     empty_square(sq_rebirth);
@@ -110,7 +110,7 @@ void plus_is_square_observed(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  is_square_observed_recursive(slices[si].next1);
 
   if (!observation_result)
   {

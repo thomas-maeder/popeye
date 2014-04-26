@@ -24,11 +24,11 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
     piece_walk_type const confronter = get_walk_of_piece_on_square(confronter_pos);
     piece_walk_type const save_current_walk = move_generation_current_walk;
     move_generation_current_walk = confronter;
-    solve(slices[si].next1);
+    generate_moves_for_piece(slices[si].next1);
     move_generation_current_walk = save_current_walk;
   }
   else
-    solve(slices[si].next1);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

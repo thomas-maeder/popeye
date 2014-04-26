@@ -81,7 +81,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
       for (i = 0; i!=nr_king_vaulters[side]; ++i)
       {
         move_generation_current_walk = king_vaulters[side][i];
-        solve(slices[si].next1);
+        generate_moves_for_piece(slices[si].next1);
       }
       move_generation_current_walk = save_current_walk;
     }

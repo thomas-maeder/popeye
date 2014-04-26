@@ -60,7 +60,7 @@ void beamten_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_unobserved_beamter(current_generation))
-    solve(slices[si].next1);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

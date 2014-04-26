@@ -43,7 +43,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 interceptable_observation_type interceptable_observation[maxply+1];
@@ -659,7 +658,7 @@ boolean is_square_observed_nested(slice_index si, validator_id evaluate)
   TraceFunctionParamListEnd();
 
   observation_validator = evaluate;
-  solve(si);
+  is_square_observed_recursive(si);
   result = observation_result;
 
   observation_validator = save_observation_validator;

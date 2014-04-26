@@ -2,8 +2,10 @@
 #define SOLVING_OBSERVATION_H
 
 #include "stipulation/stipulation.h"
+#include "solving/machinery/dispatch.h"
 #include "pieces/walks/vectors.h"
 #include "solving/ply.h"
+#include "debugging/trace.h"
 
 /* This module provides supports observation as used by many conditions and
  * piece attributes. This includes
@@ -135,6 +137,14 @@ boolean is_square_observed(validator_id evaluate);
  * @return true iff the target square is observed
  */
 boolean is_square_observed_nested(slice_index si, validator_id evaluate);
+
+#if defined(DOTRACE)
+#define is_square_observed_recursive(si) \
+  dispatch(si), \
+  TraceValue("%u",observation_result), TraceEOL()
+#else
+#define is_square_observed_recursive(si) dispatch(si)
+#endif
 
 /* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch

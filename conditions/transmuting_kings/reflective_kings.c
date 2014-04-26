@@ -29,13 +29,13 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
     piece_walk_type const save_current_walk = move_generation_current_walk;
     numecoup const base = CURRMOVE_OF_PLY(nbply);
     move_generation_current_walk = King;
-    solve(slices[si].next1);
+    generate_moves_for_piece(slices[si].next1);
     move_generation_current_walk = save_current_walk;
     if (generate_moves_of_transmuting_king(si))
       remove_duplicate_moves_of_single_piece(base);
   }
   else
-    solve(slices[si].next1);
+    generate_moves_for_piece(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

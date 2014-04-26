@@ -263,7 +263,7 @@ static boolean always_reject(numecoup n)
 void move_generation_reject_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  solve(slices[si].next1);
+  generate_moves_for_piece(slices[si].next1);
   move_generator_filter_captures(base,&always_reject);
 }
 
@@ -273,7 +273,7 @@ void move_generation_reject_captures(slice_index si)
 void move_generation_reject_non_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  solve(slices[si].next1);
+  generate_moves_for_piece(slices[si].next1);
   move_generator_filter_noncaptures(base,&always_reject);
 }
 
@@ -286,8 +286,8 @@ void generate_moves_for_piece_two_paths(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
-  solve(slices[si].next2);
+  generate_moves_for_piece(slices[si].next1);
+  generate_moves_for_piece(slices[si].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -328,9 +328,8 @@ static void genmove(void)
     {
       if (TSTFLAG(spec[curr_generation->departure],side))
       {
-        TraceSquare(curr_generation->departure);TraceEOL();
         move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-        solve(slices[temporary_hack_move_generator[side]].next2);
+        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
       }
       curr_generation->departure += dir_left;
     }

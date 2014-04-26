@@ -6,6 +6,8 @@
 #include "stipulation/slice_type.h"
 #include "stipulation/stipulation.h"
 #include "pieces/pieces.h"
+#include "solving/machinery/dispatch.h"
+#include "debugging/trace.h"
 
 /* This module provides functionality dealing with the attacking side
  * in STMoveGenerator stipulation slices.
@@ -109,6 +111,14 @@ void move_generation_reject_non_captures(slice_index si);
  * @note the piece on the departure square need not necessarily have walk p
  */
 void generate_moves_for_piece_two_paths(slice_index si);
+
+#if defined(DOTRACE)
+#define generate_moves_for_piece(si) \
+  TraceWalk(move_generation_current_walk), TraceSquare(curr_generation->departure), TraceEOL(), \
+  dispatch(si)
+#else
+#define generate_moves_for_piece(si) dispatch(si)
+#endif
 
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice
