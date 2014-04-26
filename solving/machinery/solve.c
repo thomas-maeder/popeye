@@ -77,6 +77,7 @@
 #include "conditions/kobul.h"
 #include "conditions/andernach.h"
 #include "conditions/antiandernach.h"
+#include "conditions/bicolores.h"
 #include "conditions/chameleon_pursuit.h"
 #include "conditions/norsk.h"
 #include "conditions/protean.h"
@@ -158,8 +159,10 @@
 #include "optimisations/killer_move/prioriser.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h"
 #include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
+#include "optimisations/orthodox_square_observation.h"
 #include "optimisations/ohneschach/non_checking_first.h"
 #include "optimisations/ohneschach/stop_if_check.h"
+#include "optimisations/observation.h"
 #include "options/maxsolutions/guard.h"
 #include "options/maxsolutions/initialiser.h"
 #include "options/maxtime.h"
@@ -222,6 +225,7 @@
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_move.h"
 #include "solving/find_shortest.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/for_each_move.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/if_then_else.h"
@@ -1791,6 +1795,64 @@ void solve(slice_index si)
 
     case STMovesForPieceBasedOnWalkGenerator:
       generate_moves_for_piece_based_on_walk();
+      break;
+
+    /* square observation */
+    case STIsSquareObservedOrtho:
+      observation_result = is_square_observed_ortho(trait[nbply],
+                                                    move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
+      break;
+
+    case STPhantomIsSquareObserved:
+      phantom_is_square_observed(si);
+      break;
+
+    case STPlusIsSquareObserved:
+      plus_is_square_observed(si);
+      break;
+
+    case STMarsIsSquareObserved:
+      marscirce_is_square_observed(si);
+      break;
+
+    case STVaultingKingIsSquareObserved:
+      vaulting_king_is_square_observed(si);
+      break;
+
+    case STTransmutingKingIsSquareObserved:
+      transmuting_king_is_square_observed(si);
+      break;
+
+    case STTransmutingKingDetectNonTransmutation:
+      transmuting_king_detect_non_transmutation(si);
+      break;
+
+    case STDetermineObserverWalk:
+      determine_observer_walk(si);
+      break;
+
+    case STBicoloresTryBothSides:
+      bicolores_try_both_sides(si);
+      break;
+
+    case STDontTryObservingWithNonExistingWalk:
+      dont_try_observing_with_non_existing_walk(si);
+      break;
+
+    case STDontTryObservingWithNonExistingWalkBothSides:
+      dont_try_observing_with_non_existing_walk_both_sides(si);
+      break;
+
+    case STOptimiseObservationsByQueenInitialiser:
+      optimise_away_observations_by_queen_initialise(si);
+      break;
+
+    case STOptimiseObservationsByQueen:
+      optimise_away_observations_by_queen(si);
+      break;
+
+    case STTrackBackFromTargetAccordingToObserverWalk:
+      track_back_from_target_according_to_observer_walk(si);
       break;
 
     default:

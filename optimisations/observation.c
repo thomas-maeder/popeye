@@ -10,7 +10,7 @@
 void dont_try_observing_with_non_existing_walk(slice_index si)
 {
   if (number_of_pieces[trait[nbply]][observing_walk[nbply]]>0)
-    is_square_observed_recursive(slices[si].next1);
+    solve(slices[si].next1);
   else
     observation_result = false;
 }
@@ -18,7 +18,7 @@ void dont_try_observing_with_non_existing_walk(slice_index si)
 void dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
 {
   if (number_of_pieces[White][observing_walk[nbply]]+number_of_pieces[Black][observing_walk[nbply]]>0)
-    is_square_observed_recursive(slices[si].next1);
+    solve(slices[si].next1);
   else
     observation_result = false;
 }
@@ -32,7 +32,7 @@ static boolean observation_by_bishop_tested[maxply+1];
  */
 void optimise_away_observations_by_queen_initialise(slice_index si)
 {
-  is_square_observed_recursive(slices[si].next1);
+  solve(slices[si].next1);
   observation_by_rook_tested[nbply] = false;
   observation_by_bishop_tested[nbply] = false;
 }
@@ -45,12 +45,12 @@ void optimise_away_observations_by_queen(slice_index si)
   switch (observing_walk[nbply])
   {
     case Rook:
-      is_square_observed_recursive(slices[si].next1);
+      solve(slices[si].next1);
       observation_by_rook_tested[nbply] = true;
       break;
 
     case Bishop:
-      is_square_observed_recursive(slices[si].next1);
+      solve(slices[si].next1);
       observation_by_bishop_tested[nbply] = true;
       break;
 
@@ -62,7 +62,7 @@ void optimise_away_observations_by_queen(slice_index si)
         else
         {
           observing_walk[nbply] = Bishop;
-          is_square_observed_recursive(slices[si].next1);
+          solve(slices[si].next1);
           observing_walk[nbply] = Queen;
         }
       }
@@ -71,16 +71,16 @@ void optimise_away_observations_by_queen(slice_index si)
         if (observation_by_bishop_tested[nbply])
         {
           observing_walk[nbply] = Rook;
-          is_square_observed_recursive(slices[si].next1);
+          solve(slices[si].next1);
           observing_walk[nbply] = Queen;
         }
         else
-          is_square_observed_recursive(slices[si].next1);
+          solve(slices[si].next1);
       }
       break;
 
     default:
-      is_square_observed_recursive(slices[si].next1);
+      solve(slices[si].next1);
       break;
   }
 }

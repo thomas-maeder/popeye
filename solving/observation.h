@@ -123,13 +123,6 @@ typedef slice_index validator_id;
 extern validator_id observation_validator;
 extern boolean observation_result;
 
-/* Determine whether a square is observed be the side at the move; recursive
- * implementation over various slices
- * @param si identifies next slice
- * @note sets observation_result
- */
-void is_square_observed_recursive(slice_index si);
-
 /* Determine whether a square is observed be the side at the move
  * @return true iff the target square is observed
  */

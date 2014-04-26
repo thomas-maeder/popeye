@@ -240,7 +240,7 @@ void determine_observer_walk(slice_index si)
     for (i = 0; i!=nr_ortho_walks; ++i)
     {
       observing_walk[nbply] = ortho_walks[i];
-      is_square_observed_recursive(slices[si].next1);
+      solve(slices[si].next1);
       if (observation_result)
         return;
     }
@@ -252,7 +252,7 @@ void determine_observer_walk(slice_index si)
     for (pcheck = checkpieces; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
-      is_square_observed_recursive(slices[si].next1);
+      solve(slices[si].next1);
       if (observation_result)
         return;
     }

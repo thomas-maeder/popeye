@@ -1688,10 +1688,10 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  solving/ply.h solving/temporary_hacks.h conditions/amu/attack_counter.h \
  solving/machinery/solve.h conditions/backhome.h conditions/beamten.h \
  conditions/bgl.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h conditions/bicolores.h conditions/brunner.h \
- conditions/central.h conditions/disparate.h conditions/geneva.h \
- conditions/circe/circe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ position/pieceid.h conditions/brunner.h conditions/central.h \
+ conditions/disparate.h conditions/geneva.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
@@ -1711,13 +1711,13 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  conditions/marscirce/marscirce.h conditions/singlebox/type3.h \
  conditions/transmuting_kings/transmuting_kings.h \
  conditions/transmuting_kings/reflective_kings.h \
- conditions/transmuting_kings/vaulting_kings.h pieces/walks/hunters.h \
+ conditions/transmuting_kings/vaulting_kings.h \
+ optimisations/observation.h pieces/walks/hunters.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
- solving/find_square_observer_tracking_back_from_target.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h stipulation/pipe.h stipulation/branch.h \
- optimisations/orthodox_square_observation.h optimisations/observation.h \
- debugging/trace.h debugging/assert.h
+ solving/fork.h solving/find_square_observer_tracking_back_from_target.h \
+ stipulation/pipe.h stipulation/branch.h debugging/trace.h \
+ debugging/assert.h
 
 solving/observation.h:
 
@@ -1766,8 +1766,6 @@ solving/move_effect_journal.h:
 solving/castling_rights.h:
 
 position/pieceid.h:
-
-conditions/bicolores.h:
 
 conditions/brunner.h:
 
@@ -1867,13 +1865,13 @@ conditions/transmuting_kings/reflective_kings.h:
 
 conditions/transmuting_kings/vaulting_kings.h:
 
+optimisations/observation.h:
+
 pieces/walks/hunters.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
 pieces/attributes/magic.h:
-
-solving/find_square_observer_tracking_back_from_target.h:
 
 solving/has_solution_type.h:
 
@@ -1881,13 +1879,11 @@ solving/has_solution_type.enum.h:
 
 solving/fork.h:
 
+solving/find_square_observer_tracking_back_from_target.h:
+
 stipulation/pipe.h:
 
 stipulation/branch.h:
-
-optimisations/orthodox_square_observation.h:
-
-optimisations/observation.h:
 
 debugging/trace.h:
 

@@ -106,11 +106,11 @@ void vaulting_king_is_square_observed(slice_index si)
   TraceFunctionParamListEnd();
 
   if (king_square[side_observing]==initsquare)
-    is_square_observed_recursive(slices[si].next1);
+    solve(slices[si].next1);
   else
   {
     is_king_vaulting[nbply] = dont_know;
-    is_square_observed_recursive(slices[si].next1);
+    solve(slices[si].next1);
   }
 
   TraceFunctionExit(__func__);

@@ -301,7 +301,7 @@ void mars_is_square_observed_from_rebirth_square(slice_index si,
     if (is_square_empty(current_rebirth_square[nbply]))
     {
       occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_observing);
-      is_square_observed_recursive(slices[si].next1);
+      solve(slices[si].next1);
       empty_square(current_rebirth_square[nbply]);
     }
 

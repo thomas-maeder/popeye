@@ -110,7 +110,7 @@ void plus_is_square_observed(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  is_square_observed_recursive(slices[si].next1);
+  solve(slices[si].next1);
 
   if (!observation_result)
   {

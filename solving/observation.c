@@ -3,7 +3,6 @@
 #include "conditions/backhome.h"
 #include "conditions/beamten.h"
 #include "conditions/bgl.h"
-#include "conditions/bicolores.h"
 #include "conditions/brunner.h"
 #include "conditions/central.h"
 #include "conditions/disparate.h"
@@ -33,18 +32,17 @@
 #include "conditions/transmuting_kings/transmuting_kings.h"
 #include "conditions/transmuting_kings/reflective_kings.h"
 #include "conditions/transmuting_kings/vaulting_kings.h"
+#include "optimisations/observation.h"
 #include "pieces/walks/hunters.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/magic.h"
-#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"
 #include "solving/has_solution_type.h"
 #include "solving/fork.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "optimisations/orthodox_square_observation.h"
-#include "optimisations/observation.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -632,82 +630,6 @@ void observation_play_move_to_validate(slice_index si, Side side)
                                    STValidateCheckMoveByPlayingCapture);
 }
 
-void is_square_observed_recursive(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-
-  switch (slices[si].type)
-  {
-    case STIsSquareObservedOrtho:
-      observation_result = is_square_observed_ortho(trait[nbply],
-                                                               move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
-      break;
-
-    case STPhantomIsSquareObserved:
-      phantom_is_square_observed(si);
-      break;
-
-    case STPlusIsSquareObserved:
-      plus_is_square_observed(si);
-      break;
-
-    case STMarsIsSquareObserved:
-      marscirce_is_square_observed(si);
-      break;
-
-    case STVaultingKingIsSquareObserved:
-      vaulting_king_is_square_observed(si);
-      break;
-
-    case STTransmutingKingIsSquareObserved:
-      transmuting_king_is_square_observed(si);
-      break;
-
-    case STTransmutingKingDetectNonTransmutation:
-      transmuting_king_detect_non_transmutation(si);
-      break;
-
-    case STDetermineObserverWalk:
-      determine_observer_walk(si);
-      break;
-
-    case STBicoloresTryBothSides:
-      bicolores_try_both_sides(si);
-      break;
-
-    case STDontTryObservingWithNonExistingWalk:
-      dont_try_observing_with_non_existing_walk(si);
-      break;
-
-    case STDontTryObservingWithNonExistingWalkBothSides:
-      dont_try_observing_with_non_existing_walk_both_sides(si);
-      break;
-
-    case STOptimiseObservationsByQueenInitialiser:
-      optimise_away_observations_by_queen_initialise(si);
-      break;
-
-    case STOptimiseObservationsByQueen:
-      optimise_away_observations_by_queen(si);
-      break;
-
-    case STTrackBackFromTargetAccordingToObserverWalk:
-      track_back_from_target_according_to_observer_walk(si);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 validator_id observation_validator;
 boolean observation_result;
 
@@ -737,7 +659,7 @@ boolean is_square_observed_nested(slice_index si, validator_id evaluate)
   TraceFunctionParamListEnd();
 
   observation_validator = evaluate;
-  is_square_observed_recursive(si);
+  solve(si);
   result = observation_result;
 
   observation_validator = save_observation_validator;
