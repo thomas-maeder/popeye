@@ -88,7 +88,6 @@ boolean generate_moves_of_transmuting_king(slice_index si)
 {
   boolean result = false;
   piece_walk_type const *ptrans;
-  piece_walk_type const save_current_walk = move_generation_current_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -97,9 +96,7 @@ boolean generate_moves_of_transmuting_king(slice_index si)
   for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
-      move_generation_current_walk = *ptrans;
-      generate_moves_for_piece(slices[si].next1);
-      move_generation_current_walk = save_current_walk;
+      generate_moves_different_walk(slices[si].next1,*ptrans);
       result = true;
     }
 

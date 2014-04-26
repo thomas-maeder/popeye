@@ -76,14 +76,9 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
   {
     if (is_kingsquare_observed())
     {
-      piece_walk_type const save_current_walk = move_generation_current_walk;
       unsigned int i;
       for (i = 0; i!=nr_king_vaulters[side]; ++i)
-      {
-        move_generation_current_walk = king_vaulters[side][i];
-        generate_moves_for_piece(slices[si].next1);
-      }
-      move_generation_current_walk = save_current_walk;
+        generate_moves_different_walk(slices[si].next1,king_vaulters[side][i]);
     }
     else if (vaulting_kings_transmuting[side])
       return; /* don't generate non-vaulting moves */

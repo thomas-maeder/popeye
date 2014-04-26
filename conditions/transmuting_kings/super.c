@@ -78,21 +78,17 @@ void supertransmuting_kings_transmuter_solve(slice_index si)
 static boolean generate_moves_of_supertransmuting_king(slice_index si)
 {
   boolean result = false;
-  piece_walk_type const save_current_walk = move_generation_current_walk;
 
   piece_walk_type const *ptrans;
   for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       numecoup curr_id = current_move_id[nbply];
-      move_generation_current_walk = *ptrans;
-      generate_moves_for_piece(slices[si].next1);
+      generate_moves_different_walk(slices[si].next1,*ptrans);
       for (; curr_id<current_move_id[nbply]; ++curr_id)
         supertransmutation[curr_id] = *ptrans;
       result = true;
     }
-
-  move_generation_current_walk = save_current_walk;
 
   return result;
 }

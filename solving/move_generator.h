@@ -112,6 +112,12 @@ void move_generation_reject_non_captures(slice_index si);
  */
 void generate_moves_for_piece_two_paths(slice_index si);
 
+/* Generate moves for the current piece, but based on a different walk
+ * @param si identifies the generator slices
+ * @param walk the basis to be used for the move generation
+ */
+void generate_moves_different_walk(slice_index si, piece_walk_type walk);
+
 #if defined(DOTRACE)
 #define generate_moves_for_piece(si) \
   TraceWalk(move_generation_current_walk), TraceSquare(curr_generation->departure), TraceEOL(), \

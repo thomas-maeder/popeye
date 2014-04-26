@@ -206,7 +206,6 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
   Side const side = trait[nbply];
   unsigned int nr_latent_promotions = 0;
   square where;
-  piece_walk_type const save_current_walk = move_generation_current_walk;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -226,8 +225,10 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
       piece_walk_type const pi_departing = get_walk_of_piece_on_square(where);
       ++nr_latent_promotions;
       replace_walk(where,sequence.promotee);
-      move_generation_current_walk =  where==curr_generation->departure ? sequence.promotee : save_current_walk;
-      generate_moves_for_piece(slices[si].next1);
+      if (where==curr_generation->departure)
+        generate_moves_different_walk(slices[si].next1,sequence.promotee);
+      else
+        generate_moves_for_piece(slices[si].next1);
 
       for (; curr_id<current_move_id[nbply]; ++curr_id)
       {
@@ -238,8 +239,6 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
       singlebox_type2_continue_singlebox_promotion_sequence(promoting_side,&sequence);
     }
   }
-
-  move_generation_current_walk = save_current_walk;
 
   if (nr_latent_promotions==0)
   {

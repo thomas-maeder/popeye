@@ -26,11 +26,8 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
 
   if (TSTFULLFLAGMASK(spec[sq_departure],mask))
   {
-    piece_walk_type const save_current_walk = move_generation_current_walk;
     numecoup const base = CURRMOVE_OF_PLY(nbply);
-    move_generation_current_walk = King;
-    generate_moves_for_piece(slices[si].next1);
-    move_generation_current_walk = save_current_walk;
+    generate_moves_different_walk(slices[si].next1,King);
     if (generate_moves_of_transmuting_king(si))
       remove_duplicate_moves_of_single_piece(base);
   }

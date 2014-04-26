@@ -3,7 +3,8 @@ conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h conditions/conditions.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h conditions/conditions.h \
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h pieces/walks/walks.h \
  pieces/walks/pawns/promotee_sequence.h solving/pipe.h stipulation/pipe.h \
@@ -13,7 +14,7 @@ conditions/singlebox/type1$(OBJ_SUFFIX): conditions/singlebox/type1.c \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/move.h solving/observation.h solving/ply.h \
- solving/temporary_hacks.h debugging/trace.h debugging/assert.h
+ solving/temporary_hacks.h debugging/assert.h
 
 conditions/singlebox/type1.h:
 
@@ -42,6 +43,10 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 conditions/conditions.h:
 
@@ -83,15 +88,14 @@ solving/ply.h:
 
 solving/temporary_hacks.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  conditions/singlebox/type2.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h solving/ply.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  pieces/walks/pawns/promotee_sequence.h pieces/walks/classification.h \
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h stipulation/pipe.h \
@@ -103,7 +107,7 @@ conditions/singlebox/type2$(OBJ_SUFFIX): conditions/singlebox/type2.c \
  stipulation/move.h solving/post_move_iteration.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/pipe.h conditions/singlebox/type1.h \
- conditions/conditions.h debugging/trace.h debugging/assert.h
+ conditions/conditions.h debugging/assert.h
 
 conditions/singlebox/type2.h:
 
@@ -132,6 +136,10 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 solving/ply.h:
 
@@ -179,8 +187,6 @@ conditions/singlebox/type1.h:
 
 conditions/conditions.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  conditions/singlebox/type3.h pieces/pieces.h utilities/boolean.h \
@@ -188,10 +194,10 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h output/mode.h output/mode.enum.h \
- solving/observation.h pieces/walks/vectors.h solving/ply.h \
- solving/temporary_hacks.h conditions/singlebox/type1.h \
- conditions/conditions.h position/position.h position/color.h \
- position/color.enum.h conditions/singlebox/type2.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
+ conditions/singlebox/type1.h conditions/conditions.h position/position.h \
+ position/color.h position/color.enum.h conditions/singlebox/type2.h \
  pieces/walks/pawns/promotee_sequence.h pieces/walks/classification.h \
  solving/move_generator.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h \
@@ -201,7 +207,7 @@ conditions/singlebox/type3$(OBJ_SUFFIX): conditions/singlebox/type3.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/move.h debugging/trace.h debugging/assert.h
+ stipulation/move.h debugging/assert.h
 
 conditions/singlebox/type3.h:
 
@@ -230,6 +236,10 @@ position/side.enum.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 solving/observation.h:
 
@@ -284,7 +294,5 @@ stipulation/slice_functional_type.enum.h:
 stipulation/traversal.h:
 
 stipulation/move.h:
-
-debugging/trace.h:
 
 debugging/assert.h:

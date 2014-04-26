@@ -293,6 +293,27 @@ void generate_moves_for_piece_two_paths(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Generate moves for the current piece, but based on a different walk
+ * @param si identifies the generator slices
+ * @param walk the basis to be used for the move generation
+ */
+void generate_moves_different_walk(slice_index si, piece_walk_type walk)
+{
+  piece_walk_type const save_current_walk = move_generation_current_walk;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceWalk(walk);
+  TraceFunctionParamListEnd();
+
+  move_generation_current_walk = walk;
+  generate_moves_for_piece(si);
+  move_generation_current_walk = save_current_walk;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice
  */
