@@ -1698,7 +1698,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
 }
 
 void twin_solve_stipulation(slice_index stipulation_root_hook,
-                                   twin_context_type context)
+                            twin_context_type context)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
   square new_king_square[nr_sides] = { initsquare, initsquare };
