@@ -45,7 +45,7 @@ static boolean advance_departure_square(Side side,
           && !TSTFLAG(spec[curr_generation->departure],Royal))
       {
         move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-        solve(slices[temporary_hack_move_generator[side]].next2);
+        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
         return true;
       }
     }

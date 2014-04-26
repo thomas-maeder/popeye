@@ -98,7 +98,7 @@ boolean generate_moves_of_transmuting_king(slice_index si)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       move_generation_current_walk = *ptrans;
-      solve(slices[si].next1);
+      generate_moves_for_piece(slices[si].next1);
       move_generation_current_walk = save_current_walk;
       result = true;
     }
