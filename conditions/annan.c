@@ -69,13 +69,8 @@ void annan_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (annanises(trait[nbply],annaniser_pos,curr_generation->departure))
-  {
-    piece_walk_type const save_current_walk = move_generation_current_walk;
-    piece_walk_type const annaniser = get_walk_of_piece_on_square(annaniser_pos);
-    move_generation_current_walk = annaniser;
-    generate_moves_for_piece(slices[si].next1);
-    move_generation_current_walk = save_current_walk;
-  }
+    generate_moves_different_walk(slices[si].next1,
+                                  get_walk_of_piece_on_square(annaniser_pos));
   else
     generate_moves_for_piece(slices[si].next1);
 
