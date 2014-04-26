@@ -294,12 +294,6 @@
  */
 void dispatch(slice_index si)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceValue("%u\n",solve_nr_remaining);
-
   TraceEnumerator(slice_type,slices[si].type,"\n");
   switch (slices[si].type)
   {
@@ -1857,9 +1851,4 @@ void dispatch(slice_index si)
       assert(0);
       break;
   }
-
-  TraceValue("%u\n",solve_result);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
