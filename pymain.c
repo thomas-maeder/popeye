@@ -132,6 +132,7 @@ int parseCommandlineOptions(int argc, char *argv[])
       }
 #else
       /* ignore the value*/
+      idx++;
 #endif
 
       idx++;
