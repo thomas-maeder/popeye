@@ -23,7 +23,7 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
     generate_moves_different_walk(slices[si].next1,
                                   get_walk_of_piece_on_square(confronter_pos));
   else
-    generate_moves_for_piece(slices[si].next1);
+    generate_moves_delegate(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

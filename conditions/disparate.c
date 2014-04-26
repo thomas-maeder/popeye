@@ -47,7 +47,7 @@ void disparate_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (can_piece_move(current_generation))
-    generate_moves_for_piece(slices[si].next1);
+    generate_moves_delegate(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

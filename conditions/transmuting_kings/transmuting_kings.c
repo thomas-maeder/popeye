@@ -119,7 +119,7 @@ void transmuting_kings_generate_moves_for_piece(slice_index si)
 
   if (!(TSTFULLFLAGMASK(spec[curr_generation->departure],mask)
         && generate_moves_of_transmuting_king(si)))
-    generate_moves_for_piece(slices[si].next1);
+    generate_moves_delegate(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

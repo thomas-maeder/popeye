@@ -108,7 +108,6 @@ void move_generation_reject_non_captures(slice_index si);
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @note the piece on the departure square need not necessarily have walk p
  */
 void generate_moves_for_piece_two_paths(slice_index si);
 
@@ -119,12 +118,17 @@ void generate_moves_for_piece_two_paths(slice_index si);
 void generate_moves_different_walk(slice_index si, piece_walk_type walk);
 
 #if defined(DOTRACE)
-#define generate_moves_for_piece(si) \
+#define generate_moves_delegate(si) \
   TraceWalk(move_generation_current_walk), TraceSquare(curr_generation->departure), TraceEOL(), \
   dispatch(si)
 #else
-#define generate_moves_for_piece(si) dispatch(si)
+#define generate_moves_delegate(si) dispatch(si)
 #endif
+
+/* Initiate the generation of moves for the piece occupying a specific square
+ * @param sq_departure square occupied by the piece for which to generate moves
+ */
+void generate_moves_for_piece(square sq_departure);
 
 /* Allocate a STMoveGenerator slice.
  * @return index of allocated slice

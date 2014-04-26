@@ -57,22 +57,14 @@ slice_index alloc_single_piece_move_generator_slice(void)
  */
 void single_piece_move_generator_solve(slice_index si)
 {
-  Side const side_at_move = slices[si].starter;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(side_at_move);
-
-  curr_generation->departure = square_departure;
-  move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-  generate_moves_for_piece(slices[temporary_hack_move_generator[side_at_move]].next2);
-
+  nextply(slices[si].starter);
+  generate_moves_for_piece(square_departure);
   square_departure = initsquare;
-
   pipe_solve_delegate(si);
-
   finply();
 
   TraceFunctionExit(__func__);

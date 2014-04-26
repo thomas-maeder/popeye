@@ -27,25 +27,6 @@ slice_index alloc_king_move_generator_slice(void)
   return result;
 }
 
-/* Generate moves for the king (if any) of a side
- */
-void generate_king_moves(void)
-{
-  Side const side = trait[nbply];
-
-  if (TSTFLAG(spec[king_square[side]],Royal))
-  {
-    curr_generation->departure = king_square[side];
-    move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-    generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
-  }
-  else
-  {
-    /* - there is no king_square, or
-     * - king_square is a royal square */
-  }
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -61,15 +42,24 @@ void generate_king_moves(void)
  */
 void king_move_generator_solve(slice_index si)
 {
-  Side const attacker = slices[si].starter;
+  Side const side_at_move = slices[si].starter;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(attacker);
-  generate_king_moves();
+  nextply(side_at_move);
+
+  if (TSTFLAG(spec[king_square[side_at_move]],Royal))
+    generate_moves_for_piece(king_square[side_at_move]);
+  else
+  {
+    /* - there is no king_square, or
+     * - king_square is a royal square */
+  }
+
   pipe_solve_delegate(si);
+
   finply();
 
   TraceFunctionExit(__func__);

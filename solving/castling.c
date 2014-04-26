@@ -459,7 +459,7 @@ void castling_generator_generate_castling(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1);
+  generate_moves_delegate(slices[si].next1);
 
   if (is_king(move_generation_current_walk))
     generate_castling();

@@ -12,10 +12,6 @@
  */
 slice_index alloc_king_move_generator_slice(void);
 
-/* Generate moves for the king (if any) of a side
- */
-void generate_king_moves(void);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

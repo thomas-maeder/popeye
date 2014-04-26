@@ -28,24 +28,23 @@ slice_index alloc_non_king_move_generator_slice(void)
   return result;
 }
 
-static boolean advance_departure_square(Side side,
-                                        square const **next_square_to_try)
+static boolean advance_departure_square(square const **next_square_to_try)
 {
   while (true)
   {
-    curr_generation->departure = **next_square_to_try;
-    if (curr_generation->departure==0)
+    square const sq_departure = **next_square_to_try;
+    if (sq_departure==0)
       break;
     else
     {
       ++*next_square_to_try;
-      if (TSTFLAG(spec[curr_generation->departure],side)
-          /* don't use king_square[side] - it may be a royal square occupied
-           * by a non-royal piece! */
-          && !TSTFLAG(spec[curr_generation->departure],Royal))
+
+      if (TSTFLAG(spec[sq_departure],trait[nbply])
+        /* don't use king_square[side] - it may be a royal square occupied
+         * by a non-royal piece! */
+             && !TSTFLAG(spec[sq_departure],Royal))
       {
-        move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
+        generate_moves_for_piece(sq_departure);
         return true;
       }
     }
@@ -69,7 +68,6 @@ static boolean advance_departure_square(Side side,
  */
 void non_king_move_generator_solve(slice_index si)
 {
-  Side const side_at_move = slices[si].starter;
   square const *next_square_to_try = boardnum;
 
   TraceFunctionEntry(__func__);
@@ -78,10 +76,10 @@ void non_king_move_generator_solve(slice_index si)
 
   solve_result = immobility_on_next_move;
 
-  nextply(side_at_move);
+  nextply(slices[si].starter);
 
   while (solve_result<slack_length
-         && advance_departure_square(side_at_move,&next_square_to_try))
+         && advance_departure_square(&next_square_to_try))
     pipe_solve_delegate(si);
 
   finply();

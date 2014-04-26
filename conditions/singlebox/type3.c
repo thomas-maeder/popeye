@@ -228,7 +228,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
       if (where==curr_generation->departure)
         generate_moves_different_walk(slices[si].next1,sequence.promotee);
       else
-        generate_moves_for_piece(slices[si].next1);
+        generate_moves_delegate(slices[si].next1);
 
       for (; curr_id<current_move_id[nbply]; ++curr_id)
       {
@@ -244,7 +244,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
   {
     numecoup curr_id = current_move_id[nbply];
 
-    generate_moves_for_piece(slices[si].next1);
+    generate_moves_delegate(slices[si].next1);
 
     for (; curr_id<current_move_id[nbply]; ++curr_id)
     {

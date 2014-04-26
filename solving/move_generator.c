@@ -263,7 +263,7 @@ static boolean always_reject(numecoup n)
 void move_generation_reject_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_for_piece(slices[si].next1);
+  generate_moves_delegate(slices[si].next1);
   move_generator_filter_captures(base,&always_reject);
 }
 
@@ -273,21 +273,20 @@ void move_generation_reject_captures(slice_index si)
 void move_generation_reject_non_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_for_piece(slices[si].next1);
+  generate_moves_delegate(slices[si].next1);
   move_generator_filter_noncaptures(base,&always_reject);
 }
 
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
- * @note the piece on the departure square need not necessarily have walk p
  */
 void generate_moves_for_piece_two_paths(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  generate_moves_for_piece(slices[si].next1);
-  generate_moves_for_piece(slices[si].next2);
+  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(slices[si].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -307,8 +306,25 @@ void generate_moves_different_walk(slice_index si, piece_walk_type walk)
   TraceFunctionParamListEnd();
 
   move_generation_current_walk = walk;
-  generate_moves_for_piece(si);
+  generate_moves_delegate(si);
   move_generation_current_walk = save_current_walk;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Initiate the generation of moves for the piece occupying a specific square
+ * @param sq_departure square occupied by the piece for which to generate moves
+ */
+void generate_moves_for_piece(square sq_departure)
+{
+  TraceFunctionEntry(__func__);
+  TraceSquare(sq_departure);
+  TraceFunctionParamListEnd();
+
+  curr_generation->departure = sq_departure;
+  move_generation_current_walk = get_walk_of_piece_on_square(sq_departure);
+  generate_moves_delegate(slices[temporary_hack_move_generator[trait[nbply]]].next2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -344,16 +360,10 @@ static void genmove(void)
   for (i = nr_rows_on_board; i>0; i--, square_h += dir_down)
   {
     unsigned int j;
-    curr_generation->departure = square_h;
-    for (j = nr_files_on_board; j>0; j--)
-    {
-      if (TSTFLAG(spec[curr_generation->departure],side))
-      {
-        move_generation_current_walk = get_walk_of_piece_on_square(curr_generation->departure);
-        generate_moves_for_piece(slices[temporary_hack_move_generator[side]].next2);
-      }
-      curr_generation->departure += dir_left;
-    }
+    square sq_departure = square_h;
+    for (j = nr_files_on_board; j>0; j--, sq_departure += dir_left)
+      if (TSTFLAG(spec[sq_departure],side))
+        generate_moves_for_piece(sq_departure);
   }
 
   TraceFunctionExit(__func__);
