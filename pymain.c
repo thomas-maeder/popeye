@@ -115,6 +115,7 @@ int parseCommandlineOptions(int argc, char *argv[])
     }
     else if (strcmp(argv[idx], "-maxtrace")==0)
     {
+#if defined(DOTRACE)
       trace_level max_trace_level;
       char *end;
 
@@ -122,17 +123,16 @@ int parseCommandlineOptions(int argc, char *argv[])
       if (idx<argc)
       {
         max_trace_level = strtoul(argv[idx], &end, 10);
-#if defined(DOTRACE)
         if (*end==0)
           TraceSetMaxLevel(max_trace_level);
         else
         {
           /* conversion failure  - ignore option */
         }
-#else
-      /* ignore */
-#endif
       }
+#else
+      /* ignore the value*/
+#endif
 
       idx++;
       continue;
