@@ -1,11 +1,13 @@
 #if !defined(SOLVING_SOLVE_H)
 #define SOLVING_SOLVE_H
 
-/* Interface for dynamically dispatching solve operations to slices
- * depending on the slice type
+/* Interface for dynamically dispatching solve operations to slices depending
+ * on their type
  */
 
 #include "stipulation/stipulation.h"
+#include "solving/machinery/dispatch.h"
+#include "debugging/trace.h"
 
 extern stip_length_type solve_nr_remaining;
 extern stip_length_type solve_result;
@@ -23,7 +25,14 @@ extern stip_length_type solve_result;
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void solve(slice_index si);
+#if defined(DOTRACE)
+#define solve(si) \
+  TraceValue("%u",solve_nr_remaining), TraceEOL(), \
+  dispatch(si), \
+  TraceValue("%u",solve_nr_remaining), TraceValue("%u",solve_result), TraceEOL()
+#else
+#define solve(si) dispatch(si)
+#endif
 
 /* Detect whether solve_result indicates that solving has succeeded
  * @return true iff solving has succeeded

@@ -1,4 +1,5 @@
 #include "conditions/bicolores.h"
+#include "solving/machinery/solve.h"
 
 /* Try observing with both sides
  * @param si identifies next slice
