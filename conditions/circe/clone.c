@@ -33,7 +33,7 @@ void circe_clone_determine_reborn_walk_solve(slice_index si)
   if (!TSTFLAG(move_effect_journal[movement].u.piece_movement.movingspec,Royal))
     context->reborn_walk = move_effect_journal[movement].u.piece_movement.moving;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -42,7 +42,7 @@ void antipodes_circe_determine_rebirth_square_solve(slice_index si)
   else
     circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square += nr_files_on_board/2*dir_left;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

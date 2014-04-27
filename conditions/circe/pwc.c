@@ -28,7 +28,7 @@ void pwc_determine_rebirth_square_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = move_effect_journal[movement].u.piece_movement.from;
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

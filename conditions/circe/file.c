@@ -45,7 +45,7 @@ void file_circe_determine_rebirth_square_solve(slice_index si)
       circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = col_capture + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

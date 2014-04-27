@@ -38,7 +38,7 @@ void circe_glasgow_adjust_rebirth_square_solve(slice_index si)
   if (TSTFLAG(sq_spec[candidate],prom))
     context->rebirth_square = candidate;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

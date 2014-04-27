@@ -73,7 +73,7 @@ void circe_initialise_relevant_from_reborn(slice_index si)
   context->relevant_walk = context->reborn_walk;
   context->relevant_spec = context->reborn_spec;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

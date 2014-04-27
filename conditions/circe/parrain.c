@@ -116,7 +116,7 @@ void circe_parrain_determine_rebirth_solve(slice_index si)
 
   context->rebirth_square = context->relevant_square+move_vector();
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -145,7 +145,7 @@ void circe_contraparrain_determine_rebirth_solve(slice_index si)
 
   context->rebirth_square = context->relevant_square-move_vector();
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

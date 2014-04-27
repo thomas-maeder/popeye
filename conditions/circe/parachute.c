@@ -182,7 +182,7 @@ void circe_parachute_remember_solve(slice_index si)
                                                   sq_rebirth);
   move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                        sq_rebirth);
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -217,7 +217,7 @@ void circe_volcanic_remember_solve(slice_index si)
   move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                        sq_rebirth);
   volcanic_rebirth[nbply] = true;
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   volcanic_rebirth[nbply] = false;
 
@@ -256,7 +256,7 @@ void circe_volcanic_swapper_solve(slice_index si)
                                             tmp.on,tmp.walk,tmp.flags);
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -297,7 +297,7 @@ void circe_parachute_uncoverer_solve(slice_index si)
       ++i;
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

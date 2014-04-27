@@ -12,7 +12,7 @@
 
 #include "debugging/assert.h"
 
-boolean messigny_rex_exclusive;
+boolean messigny_rex_inclusive;
 
 static void find_forbidden_squares(square *from, square *to)
 {
@@ -69,7 +69,7 @@ void messigny_generate_moves_for_piece(slice_index si)
   generate_moves_delegate(slices[si].next1);
 
   if (!(king_square[trait[nbply]]==curr_generation->departure
-      && messigny_rex_exclusive))
+      && !messigny_rex_inclusive))
   {
     square forbidden_from;
     square forbidden_to;

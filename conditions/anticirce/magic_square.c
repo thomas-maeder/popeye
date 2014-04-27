@@ -45,7 +45,7 @@ void magic_square_anticirce_relevant_side_adapter_solve(slice_index si)
       context->relevant_side = slices[si].starter;
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

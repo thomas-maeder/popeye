@@ -32,7 +32,7 @@ void anti_clone_circe_determine_reborn_walk_solve(slice_index si)
   if (!TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,Royal))
     context->reborn_walk = move_effect_journal[capture].u.piece_removal.walk;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -28,7 +28,7 @@ void circe_diametral_adjust_rebirth_square_solve(slice_index si)
 
   context->rebirth_square = square_h8+square_a1 - context->rebirth_square;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

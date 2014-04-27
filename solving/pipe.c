@@ -92,3 +92,19 @@ void pipe_solve_delegate(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Dispatch to next1. Intended to be used by pipes that can be used in different
+ * contexts.
+ * @param si identifies the pipe
+ */
+void pipe_dispatch_delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  dispatch(slices[si].next1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

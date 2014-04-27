@@ -6,7 +6,7 @@
 #include "pieces/pieces.h"
 #include "solving/machinery/solve.h"
 
-extern boolean messigny_rex_exclusive;
+extern boolean messigny_rex_inclusive;
 
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation

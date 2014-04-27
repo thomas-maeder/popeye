@@ -72,7 +72,7 @@ void circe_make_current_move_relevant_solve(slice_index si)
 
   context->relevant_ply = nbply;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -101,7 +101,7 @@ void circe_make_last_move_relevant_solve(slice_index si)
 
   context->relevant_ply = parent_ply[nbply];
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

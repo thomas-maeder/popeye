@@ -29,7 +29,7 @@ void circe_einstein_adjust_reborn_walk_solve(slice_index si)
 
   context->reborn_walk = einstein_decrease_walk(context->reborn_walk);
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -58,7 +58,7 @@ void circe_reversal_einstein_adjust_reborn_walk_solve(slice_index si)
 
   context->reborn_walk = einstein_increase_walk(context->reborn_walk);
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

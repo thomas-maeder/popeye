@@ -69,7 +69,7 @@ void april_chess_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(next);
+  dispatch(next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

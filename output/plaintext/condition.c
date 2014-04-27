@@ -645,7 +645,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           break;
 
         case messigny:
-          if (messigny_rex_exclusive)
+          if (!messigny_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
           break;
 
@@ -653,12 +653,12 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         case biwoozles:
         case heffalumps:
         case biheffalumps:
-          if (woozles_rex_exclusive)
+          if (!woozles_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
           break;
 
         case protean:
-          if (protean_is_rex_exclusive)
+          if (!protean_is_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
           break;
 

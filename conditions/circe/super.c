@@ -68,12 +68,12 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_no_rebirth[nbply])
   {
-    solve(slices[si].next2);
+    dispatch(slices[si].next2);
     if (!post_move_iteration_locked[nbply])
       lock_post_move_iterations();
   }
   else
-    pipe_solve_delegate(si);
+    pipe_dispatch_delegate(si);
 
   prev_post_move_iteration_id_no_rebirth[nbply] = post_move_iteration_id[nbply];
 
@@ -139,7 +139,7 @@ void supercirce_determine_rebirth_square_solve(slice_index si)
     solve_result = this_move_is_illegal;
   else
   {
-    pipe_solve_delegate(si);
+    pipe_dispatch_delegate(si);
 
     if (!post_move_iteration_locked[nbply])
     {

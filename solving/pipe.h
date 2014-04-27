@@ -34,4 +34,10 @@ void pipe_this_move_solves_exactly_if(boolean condition);
  */
 void pipe_solve_delegate(slice_index si);
 
+/* Dispatch to next1. Intended to be used by pipes that can be used in different
+ * contexts.
+ * @param si identifies the pipe
+ */
+void pipe_dispatch_delegate(slice_index si);
+
 #endif

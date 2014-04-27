@@ -45,7 +45,7 @@ void circe_assassin_assassinate_solve(slice_index si)
   {
     move_effect_journal_do_piece_removal(move_effect_reason_assassin_circe_rebirth,
                                          sq_rebirth);
-    pipe_solve_delegate(si);
+    pipe_dispatch_delegate(si);
   }
 
   TraceFunctionExit(__func__);

@@ -42,7 +42,7 @@ void frischauf_adjust_rebirth_square_solve(slice_index si)
     context->rebirth_square = col + onerow*row;
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -94,7 +94,7 @@ void frischauf_promotee_marker_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   mark_promotees();
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

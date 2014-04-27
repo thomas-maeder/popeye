@@ -33,7 +33,7 @@ void rank_circe_override_relevant_side_solve(slice_index si)
   if (row_capture%2 == (context->relevant_side==Black))
     context->relevant_side = advers(context->relevant_side);
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -64,7 +64,7 @@ void rank_circe_adjust_rebirth_square_solve(slice_index si)
 
   context->rebirth_square = onerow*row_capture + file_rebirth;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

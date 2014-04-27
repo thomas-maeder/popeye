@@ -31,7 +31,7 @@ void circe_verticalmirror_adjust_rebirth_square_solve(slice_index si)
   context->rebirth_square -= column;
   context->rebirth_square += column_adjusted;
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

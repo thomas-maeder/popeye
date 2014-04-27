@@ -11,7 +11,7 @@
 
 #include "debugging/assert.h"
 
-boolean protean_is_rex_exclusive;
+boolean protean_is_rex_inclusive;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -38,7 +38,7 @@ void protean_pawn_adjuster_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
-      && (!protean_is_rex_exclusive || !TSTFLAG(spec[sq_arrival],Royal)))
+      && (protean_is_rex_inclusive || !TSTFLAG(spec[sq_arrival],Royal)))
   {
     piece_walk_type substitute = move_effect_journal[capture].u.piece_removal.walk;
     if (substitute==Pawn)

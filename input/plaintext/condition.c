@@ -155,11 +155,14 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
   }
 }
 
-static char *ParseRex(char *tok, boolean *rex, Cond what)
+static char *ParseRexIncl(char *tok, boolean *is_rexincl, Cond what)
 {
-  *rex = what==GetUniqIndex(CondCount,CondTab,tok);
-  if (*rex)
+  if (what==GetUniqIndex(CondCount,CondTab,tok))
+  {
+    *is_rexincl = what==rexincl;
     tok = ReadNextTokStr();
+  }
+
   return tok;
 }
 
@@ -1367,14 +1370,14 @@ char *ParseCond(void)
     {
       case messigny:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&messigny_rex_exclusive, rexexcl);
+        tok = ParseRexIncl(tok,&messigny_rex_inclusive, rexexcl);
         break;
       case woozles:
       case biwoozles:
       case heffalumps:
       case biheffalumps:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&woozles_rex_exclusive, rexexcl);
+        tok = ParseRexIncl(tok,&woozles_rex_inclusive, rexexcl);
         break;
       case immun:
         tok = ParseCirceVariants(&immune_variant);
@@ -1382,7 +1385,7 @@ char *ParseCond(void)
       case immunmirror:
       case immundiagramm:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&immune_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&immune_variant.is_rex_inclusive, rexincl);
         break;
       case circechameleon:
         tok = ReadNextTokStr();
@@ -1401,51 +1404,51 @@ char *ParseCond(void)
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circefilemirror:
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circeclonemirror:
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circecouscousmirror:
         CondFlag[circecouscous] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circedoubleagents:
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.is_turncoat = true;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circeassassin:
         CondFlag[circe] = true;
         circe_variant.on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circeclone:
         CondFlag[circe] = true;
         circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case frischauf:
         CondFlag[circe] = true;
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_frischauf;
         break;
       case circefile:
@@ -1457,7 +1460,7 @@ char *ParseCond(void)
       case circediametral:
       case circerank:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
         break;
       case circe:
         tok = ParseCirceVariants(&circe_variant);
@@ -1467,7 +1470,7 @@ char *ParseCond(void)
         break;
       case marsmirror:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&marscirce_variant.is_rex_inclusive, rexexcl);
+        tok = ParseRexIncl(tok,&marscirce_variant.is_rex_inclusive, rexexcl);
         break;
       case antimars:
         tok = ParseCirceVariants(&antimars_variant);
@@ -1475,18 +1478,18 @@ char *ParseCond(void)
       case antimarsantipodean:
       case antimarsmirror:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&antimars_variant.is_rex_inclusive, rexexcl);
+        tok = ParseRexIncl(tok,&antimars_variant.is_rex_inclusive, rexexcl);
         break;
       case protean:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&protean_is_rex_exclusive, rexexcl);
+        tok = ParseRexIncl(tok,&protean_is_rex_inclusive, rexexcl);
         break;
       case phantom:
         tok = ParseCirceVariants(&phantom_variant);
         break;
       case madras:
         tok = ReadNextTokStr();
-        tok = ParseRex(tok,&madrasi_is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, rexincl);
         break;
       case isardam:
         tok = ParseLetteredType(&isardam_variant,ConditionTypeB);
@@ -1765,9 +1768,9 @@ void InitCond(void)
   sentinelles_is_para= false;
   madrasi_is_rex_inclusive = false;
   phantom_variant.is_rex_inclusive = false;
-  messigny_rex_exclusive = false;
-  woozles_rex_exclusive = false;
-  protean_is_rex_exclusive = false;
+  messigny_rex_inclusive = true;
+  woozles_rex_inclusive = true;
+  protean_is_rex_inclusive = true;
 
   sentinelles_max_nr_pawns[Black] = 8;
   sentinelles_max_nr_pawns[White] = 8;

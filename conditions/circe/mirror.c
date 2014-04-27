@@ -27,7 +27,7 @@ void mirror_circe_override_relevant_side_solve(slice_index si)
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side = advers(circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_side);
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

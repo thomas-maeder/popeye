@@ -6,7 +6,7 @@
 
 /* This module implements the condition Protean Chess */
 
-extern boolean protean_is_rex_exclusive;
+extern boolean protean_is_rex_inclusive;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

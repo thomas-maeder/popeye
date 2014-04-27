@@ -126,7 +126,7 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
     context->rebirth_square = rebirth_square[take_make_circe_current_rebirth_square_index[stack_pointer]];
 
     ++stack_pointer;
-    pipe_solve_delegate(si);
+    pipe_dispatch_delegate(si);
     --stack_pointer;
 
     if (!post_move_iteration_locked[nbply])

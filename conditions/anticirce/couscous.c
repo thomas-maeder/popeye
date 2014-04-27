@@ -36,7 +36,7 @@ void anticirce_couscous_make_capturee_relevant_solve(slice_index si)
     context->relevant_side = advers(context->relevant_side);
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -101,7 +101,7 @@ void anticirce_remove_capturer_solve(slice_index si)
                                          pos);
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

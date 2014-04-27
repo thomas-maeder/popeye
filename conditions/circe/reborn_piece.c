@@ -178,7 +178,7 @@ void circe_initialise_reborn_from_capturee_solve(slice_index si)
   context->relevant_square = move_effect_journal[capture].u.piece_removal.on;
   context->relevant_side = trait[context->relevant_ply];
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -221,7 +221,7 @@ void circe_initialise_reborn_from_capturer_solve(slice_index si)
   context->relevant_square = move_effect_journal[capture].u.piece_removal.on;
   context->relevant_side = advers(trait[context->relevant_ply]);
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

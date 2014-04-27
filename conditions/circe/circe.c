@@ -333,7 +333,7 @@ void circe_determine_rebirth_square_solve(slice_index si)
                                       context->relevant_square,
                                       context->relevant_side);
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -367,7 +367,7 @@ void circe_place_reborn_solve(slice_index si)
                                           context->rebirth_square,
                                           context->reborn_walk,
                                           context->reborn_spec);
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -393,7 +393,7 @@ void circe_done_with_rebirth(slice_index si)
   TraceFunctionParamListEnd();
 
   ++circe_rebirth_context_stack_pointer;
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   --circe_rebirth_context_stack_pointer;
 

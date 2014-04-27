@@ -29,7 +29,7 @@ void symmetry_circe_determine_rebirth_square_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = (square_h8+square_a1) - sq_capture;
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

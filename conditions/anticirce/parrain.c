@@ -29,7 +29,7 @@ stip_length_type anticirce_parrain_initalise_from_capture_in_last_move_solve(sli
 
   anticirce_initialise_from_capture_in_ply(parent_ply[nbply]);
 
-  result = solve(slices[si].next1,n);
+  result = dispatch(slices[si].next1,n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -59,7 +59,7 @@ void circe_doubleagents_adapt_reborn_side_solve(slice_index si)
                                          move_effect_journal[rebirth].u.piece_addition.on);
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

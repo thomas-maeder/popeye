@@ -6,7 +6,7 @@
 
 /* This module implements the condition Woozles */
 
-extern boolean woozles_rex_exclusive;
+extern boolean woozles_rex_inclusive;
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

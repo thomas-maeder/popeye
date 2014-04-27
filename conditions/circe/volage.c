@@ -78,7 +78,7 @@ void circe_volage_recolorer_solve(slice_index si)
     }
   }
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

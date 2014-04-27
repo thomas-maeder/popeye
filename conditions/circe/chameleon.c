@@ -35,7 +35,7 @@ void chameleon_circe_adapt_reborn_walk_solve(slice_index si)
   context->reborn_walk = slices[si].u.circe_handler.variant->chameleon_walk_sequence[context->reborn_walk];
   TraceWalk(context->reborn_walk);TraceEOL();
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -96,7 +96,7 @@ stip_length_type antisupercirce_determine_rebirth_square_solve(slice_index si,
   }
   else
   {
-    result = solve(slices[si].next1,n);
+    result = dispatch(slices[si].next1,n);
 
     if (!post_move_iteration_locked[nbply])
     {

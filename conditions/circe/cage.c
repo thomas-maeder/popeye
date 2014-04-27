@@ -79,10 +79,10 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_no_cage[nbply])
   {
     if (no_cage_for_current_capture[nbply])
-      solve(slices[si].next2);
+      dispatch(slices[si].next2);
     else
     {
-      pipe_solve_delegate(si);
+      pipe_dispatch_delegate(si);
 
       if (!post_move_iteration_locked[nbply]
           && circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square==initsquare
@@ -97,7 +97,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   {
     cage_found_for_current_capture[nbply] = false;
     no_cage_for_current_capture[nbply] = false;
-    pipe_solve_delegate(si);
+    pipe_dispatch_delegate(si);
   }
 
   prev_post_move_iteration_id_no_cage[nbply] = post_move_iteration_id[nbply];
@@ -150,13 +150,13 @@ void circe_cage_cage_tester_solve(slice_index si)
   {
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
     if (rebirth<move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
-      pipe_solve_delegate(si);
+      pipe_dispatch_delegate(si);
     else if (find_non_capturing_move(rebirth,advers(slices[si].starter)))
       solve_result = this_move_is_illegal;
     else
     {
       cage_found_for_current_capture[nbply] = true;
-      pipe_solve_delegate(si);
+      pipe_dispatch_delegate(si);
     }
   }
 
@@ -190,7 +190,7 @@ void circe_cage_futile_captures_remover_solve(slice_index si)
 
   move_generator_filter_captures(MOVEBASE_OF_PLY(nbply),&is_false);
 
-  pipe_solve_delegate(si);
+  pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
