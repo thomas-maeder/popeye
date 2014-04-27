@@ -188,6 +188,23 @@ void marscirce_generate_from_rebirth_square(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void marscirce_generate_moves_enforce_rex_exclusive(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!TSTFLAG(spec[curr_generation->departure],Royal))
+    generate_moves_delegate(slices[si].next1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -231,8 +248,8 @@ void marscirce_move_to_rebirth_square_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static square current_rebirth_square[maxply+1];
-static square current_observer_origin[maxply+1];
+square current_rebirth_square[maxply+1];
+square current_observer_origin[maxply+1];
 
 boolean mars_enforce_observer(slice_index si)
 {
@@ -267,84 +284,6 @@ boolean mars_enforce_observer(slice_index si)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
-}
-
-/* Determine whether a specific piece delivers check to a specific side from a
- * specific rebirth square
- * @param observer_origin potentially delivering check ...
- * @param sq_rebrirth ... from this square
- * @note the piece on observer_origin must belong to advers(side)
- * @note sets observation_result
- */
-void mars_is_square_observed_from_rebirth_square(slice_index si,
-                                                 validator_id evaluate,
-                                                 square observer_origin,
-                                                 square sq_rebirth)
-{
-  Flags const spec_observing = spec[observer_origin];
-  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceSquare(observer_origin);
-  TraceSquare(sq_rebirth);
-  TraceFunctionParamListEnd();
-
-  current_rebirth_square[nbply] = sq_rebirth;
-  current_observer_origin[nbply] = observer_origin;
-
-	observation_result = false;
-
-  if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
-      || CheckDir[observing_walk[nbply]][sq_target-current_rebirth_square[nbply]]!=0)
-  {
-    empty_square(observer_origin);
-
-    /* test only now - we may have just emptied the rebirth square! */
-    if (is_square_empty(current_rebirth_square[nbply]))
-    {
-      occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_observing);
-      is_square_observed_recursive(slices[si].next1);
-      empty_square(current_rebirth_square[nbply]);
-    }
-
-    occupy_square(observer_origin,observing_walk[nbply],spec_observing);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine whether a specific piece delivers check to a specific side
- * @param observer_origin potentially delivering check ...
- * @note the piece on pos_checking must belong to advers(side)
- * @note sets observation_result
- */
-void mars_is_square_observed_by(slice_index si,
-                                validator_id evaluate,
-                                square observer_origin)
-{
-  Flags const spec_checking = spec[observer_origin];
-  Side const side_observed = advers(trait[nbply]);
-
-  square const sq_rebirth = (*marscirce_determine_rebirth_square)(observing_walk[nbply],
-                                                                  spec_checking,
-                                                                  observer_origin,
-                                                                  initsquare,
-                                                                  initsquare,
-                                                                  side_observed);
-
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
-  TraceSquare(observer_origin);
-  TraceFunctionParamListEnd();
-
-  mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,sq_rebirth);
-
-  current_rebirth_square[nbply] = initsquare;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 /* Determine whether a specific piece delivers check to a specific side
@@ -424,6 +363,25 @@ void marscirce_iterate_observers(slice_index si)
       if (observation_result)
         break;
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether a side observes a specific square
+ * @param side_observing the side
+ * @note sets observation_validation_result
+ */
+void marscirce_is_square_observed_enforce_rex_exclusive(slice_index si)
+{
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!TSTFLAG(context->reborn_spec,Royal))
+    is_square_observed_recursive(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -518,6 +476,12 @@ void solving_initialise_marscirce(slice_index si)
                            STMarsCirceConsideringObserverRebirth,
                            STCirceDeterminedRebirth,
                            alloc_pipe(STMarscirceRemoveCapturer));
+
+  if (!observation_variant.is_rex_inclusive)
+    circe_instrument_solving(si,
+                             STMarsCirceConsideringObserverRebirth,
+                             STMarsIterateObservers,
+                             alloc_pipe(STMarsCirceIsSquareObservedEnforceRexInclusive));
 
   stip_instrument_is_square_observed_testing(si,nr_sides,STMarsIsSquareObserved);
 

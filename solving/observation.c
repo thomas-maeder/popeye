@@ -671,6 +671,24 @@ boolean is_square_observed_nested(slice_index si, validator_id evaluate)
   return result;
 }
 
+/* Determine whether a side observes a specific square
+ * @param si identifies the tester slice
+ * @note sets observation_result
+ */
+void is_square_observed_two_paths(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  is_square_observed_recursive(slices[si].next1);
+
+  if (!observation_result)
+    is_square_observed_recursive(slices[si].next2);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static slice_index const is_square_observed_slice_rank_order[] =
 {
     STTestingIfSquareIsObserved,
@@ -686,11 +704,14 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STDontTryObservingWithNonExistingWalkBothSides,
     STOptimiseObservationsByQueen,
     STTransmutingKingDetectNonTransmutation,
+    STIsSquareObservedTwoPaths,
+    STIsSquareObservedStandardPath,
+    STIsSquareObservedAlternativePath,
     STMarsCirceConsideringObserverRebirth,
     STCirceDoneWithRebirth,
     STMarsIsSquareObserved,
-    STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
+    STIsSquareObservedPathsJoint,
     STTrackBackFromTargetAccordingToObserverWalk
 };
 
@@ -821,4 +842,60 @@ void stip_instrument_is_square_observed_testing(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static void insert_separator(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const proxy_standard = alloc_proxy_slice();
+    slice_index const standard = alloc_pipe(STIsSquareObservedStandardPath);
+
+    slice_index const proxy_alternative = alloc_proxy_slice();
+    slice_index const alternative = alloc_pipe(STIsSquareObservedAlternativePath);
+
+    slice_index const generator = alloc_binary_slice(STIsSquareObservedTwoPaths,
+                                                     proxy_standard,
+                                                     proxy_alternative);
+
+    pipe_link(slices[si].prev,generator);
+
+    pipe_link(proxy_standard,standard);
+    pipe_link(standard,si);
+
+    pipe_link(proxy_alternative,alternative);
+    pipe_link(alternative,si);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the square observation testing machinery so that there are two
+ * paths which can be adapted separately.
+ * @param si root slice of solving machinery
+ * @param side side for which to instrument; pass nr_sides for both sides
+ * @note inserts proxy slices STIsSquareObservedStandardPath and
+ *       STIsSquareObservedAlternativePath that can be used for adjusting the move
+ *       generation
+ */
+void is_square_observed_instrument_for_alternative_paths(slice_index si,
+                                                         Side side)
+{
+  stip_structure_traversal st;
+
+  stip_instrument_is_square_observed_testing(si,
+                                             side,
+                                             STIsSquareObservedPathsJoint);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STIsSquareObservedPathsJoint,
+                                           &insert_separator);
+  stip_traverse_structure(si,&st);
 }

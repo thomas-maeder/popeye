@@ -18,6 +18,9 @@ extern square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, squa
 
 extern circe_variant_type marscirce_variant;
 
+extern square current_rebirth_square[maxply+1];
+extern square current_observer_origin[maxply+1];
+
 /* Reset a circe_variant object to the default values
  * @param variant address of the variant object to be reset
  */
@@ -68,6 +71,12 @@ void marscirce_remove_capturer_solve(slice_index si);
  */
 void marscirce_generate_from_rebirth_square(slice_index si);
 
+/* Generate moves for a piece with a specific walk from a specific departure
+ * square.
+ * @note the piece on the departure square need not necessarily have walk p
+ */
+void marscirce_generate_moves_enforce_rex_exclusive(slice_index si);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -89,32 +98,24 @@ void marscirce_move_to_rebirth_square_solve(slice_index si);
  */
 boolean mars_enforce_observer(slice_index si);
 
-/* Determine whether a specific piece delivers check to a specific side from a
- * specific rebirth square
- * @param observer_origin potentially delivering check ...
- * @param sq_rebrirth ... from this square
- * @note the piece on observer_origin must belong to advers(side)
- * @note sets observation_validation_result
- */
-void mars_is_square_observed_from_rebirth_square(slice_index si,
-                                                 validator_id evaluate,
-                                                 square observer_origin,
-                                                 square sq_rebirth);
-
-/* Determine whether a specific piece delivers check to a specific side
- * @param observer_origin potentially delivering check ...
- * @note the piece on pos_checking must belong to advers(side)
- * @note sets observation_validation_result
- */
-void mars_is_square_observed_by(slice_index si,
-                                validator_id evaluate,
-                                square observer_origin);
-
 /* Determine whether a side observes a specific square
  * @param side_observing the side
  * @note sets observation_validation_result
  */
 void marscirce_is_square_observed(slice_index si);
+
+/* Determine whether a side observes a specific square
+ * @param side_observing the side
+ * @note sets observation_validation_result
+ */
+void marscirce_iterate_observers(slice_index si);
+
+/* Determine whether a side observes a specific square
+ * @param side_observing the side
+ * @note sets observation_validation_result
+ */
+void marscirce_is_square_observed_enforce_rex_exclusive(slice_index si);
+
 
 /* Inialise thet solving machinery with Mars Circe
  * @param si identifies the root slice of the solving machinery

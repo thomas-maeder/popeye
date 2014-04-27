@@ -65,23 +65,6 @@ static boolean is_regular_arrival(square sq_arrival,
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void phantom_enforce_rex_inclusive(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (!TSTFLAG(spec[curr_generation->departure],Royal))
-    generate_moves_delegate(slices[si].next1);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Generate moves for a piece with a specific walk from a specific departure
- * square.
- * @note the piece on the departure square need not necessarily have walk p
- */
 void phantom_avoid_duplicate_moves(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
@@ -116,7 +99,7 @@ void phantom_avoid_duplicate_moves(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
+static void instrument_generation_no_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -137,7 +120,7 @@ static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
+static void instrument_generation_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceValue("%u",si);
@@ -159,7 +142,27 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
   if (!phantom_variant.is_rex_inclusive)
   {
     slice_index const prototypes[] = {
-        alloc_pipe(STPhantomEnforceRexInclusive)
+        alloc_pipe(STMarsCirceMoveGeneratorEnforceRexInclusive)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void instrument_observation_rebirth(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children(si,st);
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STMarsIsSquareObserved)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
@@ -174,6 +177,8 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
  */
 void solving_initialise_phantom(slice_index si)
 {
+  circe_variant_type observation_variant = phantom_variant;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
@@ -182,10 +187,10 @@ void solving_initialise_phantom(slice_index si)
     stip_structure_traversal_init(&st,0);
     stip_structure_traversal_override_single(&st,
                                              STMoveForPieceGeneratorStandardPath,
-                                             &instrument_no_rebirth);
+                                             &instrument_generation_no_rebirth);
     stip_structure_traversal_override_single(&st,
                                              STMoveForPieceGeneratorAlternativePath,
-                                             &instrument_rebirth);
+                                             &instrument_generation_rebirth);
     stip_traverse_structure(si,&st);
   }
 
@@ -198,44 +203,38 @@ void solving_initialise_phantom(slice_index si)
                            STCirceDeterminedRebirth,
                            alloc_pipe(STMarscirceRemoveCapturer));
 
-  stip_instrument_is_square_observed_testing(si,nr_sides,STPhantomIsSquareObserved);
+  is_square_observed_instrument_for_alternative_paths(si,nr_sides);
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,
+                                             STIsSquareObservedAlternativePath,
+                                             &instrument_observation_rebirth);
+    stip_traverse_structure(si,&st);
+  }
+
+  observation_variant.default_relevant_piece = circe_relevant_piece_observing_walk;
+  /* cf. get_relevant_piece_determinator */
+  observation_variant.actual_relevant_piece = circe_relevant_piece_observing_walk;
+
+  circe_initialise_solving(si,
+                           &observation_variant,
+                           STIsSquareObservedAlternativePath,
+                           STMarsCirceConsideringObserverRebirth);
+  circe_instrument_solving(si,
+                           STMarsCirceConsideringObserverRebirth,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STMarscirceRemoveCapturer));
+
+  if (!observation_variant.is_rex_inclusive)
+    circe_instrument_solving(si,
+                             STMarsCirceConsideringObserverRebirth,
+                             STMarsIterateObservers,
+                             alloc_pipe(STMarsCirceIsSquareObservedEnforceRexInclusive));
 
   stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
   move_effect_journal_register_pre_capture_effect();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Determine whether a specific side is in check in Phantom Chess
- * @param si identifies tester slice
- * @note sets observation_result
- */
-void phantom_is_square_observed(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
-  TraceFunctionParamListEnd();
-
-  is_square_observed_recursive(slices[si].next1);
-
-  if (!observation_result)
-  {
-    Side const side_observing = trait[nbply];
-    square const *observer_origin;
-    square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
-
-    for (observer_origin = boardnum; *observer_origin; ++observer_origin)
-      if (*observer_origin!=sq_target /* no auto-observation */
-          && (!TSTFLAG(spec[*observer_origin],Royal) || phantom_variant.is_rex_inclusive)
-          && TSTFLAG(spec[*observer_origin],side_observing)
-          && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
-      {
-        mars_is_square_observed_by(si,observation_validator,*observer_origin);
-        if (observation_result)
-          break;
-      }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

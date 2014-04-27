@@ -415,7 +415,7 @@
     ENUMERATOR(STLineChameleonArrivingAdjuster)                        \
     ENUMERATOR(STFrischaufPromoteeMarker)                              \
     ENUMERATOR(STMarsCirceMoveToRebirthSquare)                         \
-    ENUMERATOR(STPhantomEnforceRexInclusive)                           \
+    ENUMERATOR(STMarsCirceMoveGeneratorEnforceRexInclusive)            \
     ENUMERATOR(STPhantomAvoidDuplicateMoves)                           \
     ENUMERATOR(STPlusAdditionalCapturesForPieceGenerator)              \
     ENUMERATOR(STMoveForPieceGeneratorAlternativePath)                 \
@@ -493,8 +493,12 @@
     ENUMERATOR(STFaceToFaceEnforceObserverWalk)                        \
     ENUMERATOR(STBackToBackEnforceObserverWalk)                        \
     ENUMERATOR(STCheekToCheekEnforceObserverWalk)                      \
+    ENUMERATOR(STIsSquareObservedTwoPaths)                             \
+    ENUMERATOR(STIsSquareObservedStandardPath)                         \
+    ENUMERATOR(STIsSquareObservedAlternativePath)                      \
+    ENUMERATOR(STIsSquareObservedPathsJoint)                           \
     ENUMERATOR(STMarsIterateObservers)                                 \
-    ENUMERATOR(STPhantomIsSquareObserved)                              \
+    ENUMERATOR(STMarsCirceIsSquareObservedEnforceRexInclusive)         \
     ENUMERATOR(STPlusIsSquareObserved)                                 \
     ENUMERATOR(STMarsIsSquareObserved)                                 \
     ENUMERATOR(STIsSquareObservedOrtho)                                \

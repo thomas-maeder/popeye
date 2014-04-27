@@ -146,6 +146,12 @@ boolean is_square_observed_nested(slice_index si, validator_id evaluate);
 #define is_square_observed_recursive(si) dispatch(si)
 #endif
 
+/* Determine whether a side observes a specific square
+ * @param si identifies the tester slice
+ * @note sets observation_result
+ */
+void is_square_observed_two_paths(slice_index si);
+
 /* Insert slices into a observation branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
  * prototypes are deallocated by help_branch_insert_slices().
@@ -173,5 +179,17 @@ void is_square_observed_insert_slice(slice_index testing,
 void stip_instrument_is_square_observed_testing(slice_index si,
                                                 Side side,
                                                 slice_type type);
+
+
+/* Instrument the square observation testing machinery so that there are two
+ * paths which can be adapted separately.
+ * @param si root slice of solving machinery
+ * @param side side for which to instrument; pass nr_sides for both sides
+ * @note inserts proxy slices STIsSquareObservedStandardPath and
+ *       STIsSquareObservedAlternativePath that can be used for adjusting the move
+ *       generation
+ */
+void is_square_observed_instrument_for_alternative_paths(slice_index si,
+                                                         Side side);
 
 #endif

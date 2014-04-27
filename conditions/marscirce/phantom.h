@@ -20,23 +20,11 @@ void phantom_reset_variant(circe_variant_type *variant);
  * square.
  * @note the piece on the departure square need not necessarily have walk p
  */
-void phantom_enforce_rex_inclusive(slice_index si);
-
-/* Generate moves for a piece with a specific walk from a specific departure
- * square.
- * @note the piece on the departure square need not necessarily have walk p
- */
 void phantom_avoid_duplicate_moves(slice_index si);
 
 /* Inialise the solving machinery with Phantom Chess
  * @param si identifies root slice of solving machinery
  */
 void solving_initialise_phantom(slice_index si);
-
-/* Determine whether a specific side is in check in Phantom Chess
- * @param si identifies tester slice
- * @note sets observation_validation_result
- */
-void phantom_is_square_observed(slice_index si);
 
 #endif

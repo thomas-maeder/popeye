@@ -46,6 +46,7 @@ static slice_type const circe_slice_rank_order[] =
     STAnticirceInitialiseRebornFromCapturer,
     STMarscirceInitialiseRebornFromGenerated,
     STMarsIterateObservers,
+    STMarsCirceIsSquareObservedEnforceRexInclusive,
     STGenevaInitialiseRebornFromCapturer,
     STCirceCloneDetermineRebornWalk,
     STAntiCloneCirceDetermineRebornWalk,

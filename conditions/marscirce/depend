@@ -266,7 +266,7 @@ conditions/marscirce/plus$(OBJ_SUFFIX): conditions/marscirce/plus.c \
  conditions/circe/relevant_side.h \
  solving/find_square_observer_tracking_back_from_target.h \
  stipulation/pipe.h stipulation/branch.h stipulation/move.h \
- debugging/assert.h
+ optimisations/orthodox_check_directions.h debugging/assert.h
 
 conditions/marscirce/plus.h:
 
@@ -361,6 +361,8 @@ stipulation/pipe.h:
 stipulation/branch.h:
 
 stipulation/move.h:
+
+optimisations/orthodox_check_directions.h:
 
 debugging/assert.h:
 conditions/marscirce/phantom$(OBJ_SUFFIX): conditions/marscirce/phantom.c \

@@ -66,7 +66,7 @@ static slice_index const slice_rank_order[] =
     STMoveForPieceGeneratorTwoPaths,
     STMoveForPieceGeneratorStandardPath,
     STMoveForPieceGeneratorAlternativePath,
-    STPhantomEnforceRexInclusive,
+    STMarsCirceMoveGeneratorEnforceRexInclusive,
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
     STMarsCirceConsideringRebirth,

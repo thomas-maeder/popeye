@@ -8,6 +8,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "pieces/pieces.h"
+#include "optimisations/orthodox_check_directions.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -75,6 +76,45 @@ void plus_generate_additional_captures_for_piece(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void is_square_observed_from_rebirth_square(slice_index si,
+                                                   validator_id evaluate,
+                                                   square observer_origin,
+                                                   square sq_rebirth)
+{
+  Flags const spec_observing = spec[observer_origin];
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceSquare(observer_origin);
+  TraceSquare(sq_rebirth);
+  TraceFunctionParamListEnd();
+
+  current_rebirth_square[nbply] = sq_rebirth;
+  current_observer_origin[nbply] = observer_origin;
+
+  observation_result = false;
+
+  if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
+      || CheckDir[observing_walk[nbply]][sq_target-current_rebirth_square[nbply]]!=0)
+  {
+    empty_square(observer_origin);
+
+    /* test only now - we may have just emptied the rebirth square! */
+    if (is_square_empty(current_rebirth_square[nbply]))
+    {
+      occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_observing);
+      is_square_observed_recursive(slices[si].next1);
+      empty_square(current_rebirth_square[nbply]);
+    }
+
+    occupy_square(observer_origin,observing_walk[nbply],spec_observing);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void is_square_observed_from_center(slice_index si,
                                            validator_id evaluate,
                                            square observer_origin)
@@ -91,7 +131,7 @@ static void is_square_observed_from_center(slice_index si,
   for (i = 0; i!=nr_center_squares; ++i)
     if (observer_origin!=center_squares[i]) /* already tested without rebirth */
     {
-      mars_is_square_observed_from_rebirth_square(si,evaluate,observer_origin,center_squares[i]);
+      is_square_observed_from_rebirth_square(si,evaluate,observer_origin,center_squares[i]);
       if (observation_result)
         break;
     }

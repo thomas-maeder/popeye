@@ -1697,8 +1697,8 @@ void dispatch(slice_index si)
       beamten_generate_moves_for_piece(si);
       break;
 
-    case STPhantomEnforceRexInclusive:
-      phantom_enforce_rex_inclusive(si);
+    case STMarsCirceMoveGeneratorEnforceRexInclusive:
+      marscirce_generate_moves_enforce_rex_exclusive(si);
       break;
 
     case STPhantomAvoidDuplicateMoves:
@@ -1795,16 +1795,16 @@ void dispatch(slice_index si)
                                                     move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
       break;
 
-    case STPhantomIsSquareObserved:
-      phantom_is_square_observed(si);
-      break;
-
     case STPlusIsSquareObserved:
       plus_is_square_observed(si);
       break;
 
     case STMarsIterateObservers:
       marscirce_iterate_observers(si);
+      break;
+
+    case STMarsCirceIsSquareObservedEnforceRexInclusive:
+      marscirce_is_square_observed_enforce_rex_exclusive(si);
       break;
 
     case STMarsIsSquareObserved:
@@ -1849,6 +1849,10 @@ void dispatch(slice_index si)
 
     case STTrackBackFromTargetAccordingToObserverWalk:
       track_back_from_target_according_to_observer_walk(si);
+      break;
+
+    case STIsSquareObservedTwoPaths:
+      is_square_observed_two_paths(si);
       break;
 
     default:
