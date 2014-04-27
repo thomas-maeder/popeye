@@ -256,6 +256,62 @@ move_effect_journal_index_type circe_find_current_rebirth(void)
   return result;
 }
 
+static square rennormal(piece_walk_type walk_captured,
+                        square sq_capture,
+                        Side capturer)
+{
+  square  result;
+  unsigned int const column = sq_capture%onerow;
+  unsigned int const rank = sq_capture/onerow;
+  Side const colour_sq_capture = (rank&1)!=(column&1) ? White : Black;
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(walk_captured);
+  TraceSquare(sq_capture);
+  TraceEnumerator(Side,capturer,"");
+  TraceFunctionParamListEnd();
+
+  if (capturer == Black)
+  {
+    if (is_pawn(walk_captured))
+      result = column + (nr_of_slack_rows_below_board+1)*onerow;
+    else if (walk_captured==standard_walks[Knight])
+      result = colour_sq_capture == White ? square_b1 : square_g1;
+    else if (walk_captured==standard_walks[Rook])
+      result = colour_sq_capture == White ? square_h1 : square_a1;
+    else if (walk_captured==standard_walks[Queen])
+      result = square_d1;
+    else if (walk_captured==standard_walks[Bishop])
+      result = colour_sq_capture == White ? square_f1 : square_c1;
+    else if (walk_captured==standard_walks[King])
+      result = square_e1;
+    else
+      result = column + onerow*(nr_of_slack_rows_below_board+nr_rows_on_board-1);
+  }
+  else
+  {
+    if (is_pawn(walk_captured))
+      result = column + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
+    else if (walk_captured==standard_walks[King])
+      result = square_e8;
+    else if (walk_captured==standard_walks[Knight])
+      result = colour_sq_capture == White ? square_g8 : square_b8;
+    else if (walk_captured==standard_walks[Rook])
+      result = colour_sq_capture == White ? square_a8 : square_h8;
+    else if (walk_captured==standard_walks[Queen])
+      result = square_d8;
+    else if (walk_captured==standard_walks[Bishop])
+      result = colour_sq_capture == White ? square_c8 : square_f8;
+    else
+      result = column + onerow*(nr_of_slack_rows_below_board);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceSquare(result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -278,7 +334,6 @@ void circe_determine_rebirth_square_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   context->rebirth_square = rennormal(context->relevant_walk,
-                                      context->relevant_spec,
                                       context->relevant_square,
                                       context->relevant_side);
 
@@ -348,132 +403,6 @@ void circe_done_with_rebirth(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-square renfile(piece_walk_type p_captured, square sq_capture, Side capturer)
-{
-  int col = sq_capture % onerow;
-  square result;
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(p_captured);
-  TraceSquare(sq_capture);
-  TraceEnumerator(Side,capturer,"");
-  TraceFunctionParamListEnd();
-
-  if (capturer==Black)
-  {
-    if (is_pawn(p_captured))
-      result = col + (nr_of_slack_rows_below_board+1)*onerow;
-    else
-      result = col + nr_of_slack_rows_below_board*onerow;
-  }
-  else
-  {
-    if (is_pawn(p_captured))
-      result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
-    else
-      result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-1)*onerow;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceSquare(result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-square renantipoden_polymorphic(piece_walk_type p_captured, Flags p_captured_spec,
-                    square sq_capture,
-                    square sq_departure, square sq_arrival,
-                    Side capturer)
-{
-  unsigned int const row = sq_capture/onerow - nr_of_slack_rows_below_board;
-  unsigned int const file = sq_capture%onerow - nr_of_slack_files_left_of_board;
-
-  square result = sq_capture;
-
-  if (row<nr_rows_on_board/2)
-    result += nr_rows_on_board/2*dir_up;
-  else
-    result += nr_rows_on_board/2*dir_down;
-
-  if (file<nr_files_on_board/2)
-    result += nr_files_on_board/2*dir_right;
-  else
-    result += nr_files_on_board/2*dir_left;
-
-  return result;
-}
-
-square rennormal_polymorphic(piece_walk_type pnam_captured, Flags p_captured_spec,
-                 square sq_capture, square sq_departure, square sq_arrival,
-                 Side capturer)
-{
-  return rennormal(pnam_captured,p_captured_spec,sq_capture,capturer);
-}
-
-square rennormal(piece_walk_type pnam_captured, Flags p_captured_spec,
-                  square sq_capture,
-                  Side capturer)
-{
-  square  Result;
-  unsigned int col = sq_capture % onerow;
-  unsigned int const ran = sq_capture / onerow;
-  Side const cou = (ran&1) != (col&1) ? White : Black;
-
-  TraceFunctionEntry(__func__);
-  TraceWalk(pnam_captured);
-  TraceSquare(sq_capture);
-  TraceEnumerator(Side,capturer,"");
-  TraceFunctionParamListEnd();
-
-  if (capturer == Black)
-  {
-    if (is_pawn(pnam_captured))
-      Result = col + (nr_of_slack_rows_below_board+1)*onerow;
-    else if (pnam_captured==standard_walks[Knight])
-      Result = cou == White ? square_b1 : square_g1;
-    else if (pnam_captured==standard_walks[Rook])
-      Result = cou == White ? square_h1 : square_a1;
-    else if (pnam_captured==standard_walks[Queen])
-      Result = square_d1;
-    else if (pnam_captured==standard_walks[Bishop])
-      Result = cou == White ? square_f1 : square_c1;
-    else if (pnam_captured==standard_walks[King])
-      Result = square_e1;
-    else
-      Result = col + onerow*(nr_of_slack_rows_below_board+nr_rows_on_board-1);
-  }
-  else
-  {
-    if (is_pawn(pnam_captured))
-      Result = col + (nr_of_slack_rows_below_board+nr_rows_on_board-2)*onerow;
-    else if (pnam_captured==standard_walks[King])
-      Result = square_e8;
-    else if (pnam_captured==standard_walks[Knight])
-      Result = cou == White ? square_g8 : square_b8;
-    else if (pnam_captured==standard_walks[Rook])
-      Result = cou == White ? square_a8 : square_h8;
-    else if (pnam_captured==standard_walks[Queen])
-      Result = square_d8;
-    else if (pnam_captured==standard_walks[Bishop])
-      Result = cou == White ? square_c8 : square_f8;
-    else
-      Result = col + onerow*(nr_of_slack_rows_below_board);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceSquare(Result);
-  TraceFunctionResultEnd();
-  return(Result);
-}
-
-square renspiegel_polymorphic(piece_walk_type p_captured, Flags p_captured_spec,
-                              square sq_capture,
-                              square sq_departure, square sq_arrival,
-                              Side capturer)
-{
-  return rennormal(p_captured,p_captured_spec,sq_capture,advers(capturer));
 }
 
 typedef struct

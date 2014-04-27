@@ -160,15 +160,6 @@ void circe_instrument_solving(slice_index si,
 slice_index alloc_circe_handler_slice(slice_type type,
                                       circe_variant_type const *variant);
 
-square rennormal_polymorphic(piece_walk_type p, Flags pspec, square j, square i, square ip, Side camp);
-square renspiegel_polymorphic(piece_walk_type p, Flags pspec, square j, square i, square ip, Side camp);
-square renantipoden_polymorphic(piece_walk_type p, Flags pspec, square j, square i, square ip, Side camp);
-
-square rennormal(piece_walk_type pnam_captured, Flags p_captured_spec,
-                 square sq_capture,
-                 Side capturer);
-square renfile(piece_walk_type p_captured, square sq_capture, Side capturer);
-
 /* Determine whether a slice type contributes to the execution of moves
  * @param type slice type
  * @return true iff type is a slice type that contributes to the execution of moves

@@ -1339,29 +1339,17 @@ char *ParseCond(void)
         break;
 
         /* different types of mars circe */
-      case mars:
-        marscirce_determine_rebirth_square= rennormal_polymorphic;
-        break;
       case marsmirror:
-        marscirce_determine_rebirth_square= renspiegel_polymorphic;
         CondFlag[mars] = true;
         marscirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
-      case antimars:
-        marscirce_determine_rebirth_square= rennormal_polymorphic;
-        break;
       case antimarsmirror:
-        marscirce_determine_rebirth_square= renspiegel_polymorphic;
         CondFlag[antimars] = true;
         antimars_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         break;
       case antimarsantipodean:
-        marscirce_determine_rebirth_square= renantipoden_polymorphic;
         CondFlag[antimars] = true;
         antimars_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
-        break;
-      case plus:
-        marscirce_determine_rebirth_square= 0;
         break;
 
       case whprom_sq:
@@ -1761,8 +1749,6 @@ void InitCond(void)
   marscirce_reset_variant(&marscirce_variant);
   marscirce_reset_variant(&antimars_variant);
   phantom_reset_variant(&phantom_variant);
-
-  marscirce_determine_rebirth_square = rennormal_polymorphic;
 
   royal_square[White] = initsquare;
   royal_square[Black] = initsquare;
