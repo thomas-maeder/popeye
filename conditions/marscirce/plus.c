@@ -76,8 +76,6 @@ void plus_generate_additional_captures_for_piece(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static square current_rebirth_square[maxply+1];
-
 static void is_square_observed_from_rebirth_square(slice_index si,
                                                    validator_id evaluate,
                                                    square observer_origin,
@@ -92,21 +90,19 @@ static void is_square_observed_from_rebirth_square(slice_index si,
   TraceSquare(sq_rebirth);
   TraceFunctionParamListEnd();
 
-  current_rebirth_square[nbply] = sq_rebirth;
-
   observation_result = false;
 
   if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
-      || CheckDir[observing_walk[nbply]][sq_target-current_rebirth_square[nbply]]!=0)
+      || CheckDir[observing_walk[nbply]][sq_target-sq_rebirth]!=0)
   {
     empty_square(observer_origin);
 
     /* test only now - we may have just emptied the rebirth square! */
-    if (is_square_empty(current_rebirth_square[nbply]))
+    if (is_square_empty(sq_rebirth))
     {
-      occupy_square(current_rebirth_square[nbply],observing_walk[nbply],spec_observing);
+      occupy_square(sq_rebirth,observing_walk[nbply],spec_observing);
       is_square_observed_recursive(slices[si].next1);
-      empty_square(current_rebirth_square[nbply]);
+      empty_square(sq_rebirth);
     }
 
     occupy_square(observer_origin,observing_walk[nbply],spec_observing);
