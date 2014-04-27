@@ -1,4 +1,4 @@
-	     B E S C H R E I B U N G   V O N   P O P E Y E   4 . 5
+	     B E S C H R E I B U N G   V O N   P O P E Y E   4 . 6
 
 Bemerkungen zur Verteilung von Popeye:
 
@@ -102,9 +102,7 @@ Kommandos:
 
  - Bedingung: Nach diesem Schluesselwort sind alle die Bedingungen die das
 	Problem erfordert anzugeben. Getrennt durch Zwischenraeume oder
-	Zeilenwechsel. 
-        Durch Kombination einzelner Bedingungen koennen Sie andere
-        existierende Bedingungen erhalten:
+	Zeilenwechsel.
         Folgendes ist momentan moeglich:
 
 	Circe
@@ -275,8 +273,7 @@ Kommandos:
 	explizit festgelegten Chamaeleons die Reihenfolge festgelegt werden
 	festgelegt werden.
 
-	Nach Madrasi sowie Phantomschach kann wahlweise noch
-	"RexInklusive" angegeben werden.
+	Nach Madrasi kann wahlweise noch "RexInklusive" angegeben werden.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
 	angegeben werden.
@@ -451,7 +448,7 @@ Kommandos:
 		AntiMarsAntipodeanCirce	AntiMarsCirce Antipoden
 		SpiegelImmunSchach	ImmunSchach Spiegel
 		FileImmunSchach		ImmunSchach File
-		DiagrammImmunSchach	ImmunSchach Diagram
+		DiagrammImmunSchach	ImmunSchach Diagramm
 		SpiegelFileImmunSchach	ImmunSchach File Spiegel
 		SymmetrieImmunSchach	ImmunSchach Symmetrie
 		AntipodenImmunSchach	ImmunSchach Antipoden
