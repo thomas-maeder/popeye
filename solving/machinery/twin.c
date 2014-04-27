@@ -199,7 +199,7 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
       for (bnp = boardnum; *bnp; ++bnp)
       {
         square const s = *bnp;
-        assert(!TSTFLAG(spec[s],Royal));
+        CLRFLAG(spec[s],Royal); /* piece may be royal from previous twin */
         if (get_walk_of_piece_on_square(s)==King)
         {
           Side const king_side = TSTFLAG(spec[s],White) ? White : Black;
