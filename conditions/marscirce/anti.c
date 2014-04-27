@@ -86,8 +86,13 @@ void solving_initialise_antimars(slice_index si)
                            STCirceDeterminedRebirth,
                            alloc_pipe(STMarscirceRemoveCapturer));
 
-  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
+  if (antimars_variant.rebirth_reason==move_effect_reason_rebirth_choice)
+    circe_instrument_solving(si,
+                             STMarsCirceConsideringRebirth,
+                             STMarsCirceConsideringRebirth,
+                             alloc_pipe(STMoveGenerationPostMoveIterator));
 
+  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
   move_effect_journal_register_pre_capture_effect();
 
   TraceFunctionExit(__func__);

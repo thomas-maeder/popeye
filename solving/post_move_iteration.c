@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -38,7 +39,7 @@ void lock_post_move_iterations(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void post_move_iteration_initialiser_solve(slice_index si)
+void move_execution_post_move_iterator_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -54,6 +55,48 @@ void post_move_iteration_initialiser_solve(slice_index si)
     ++post_move_iteration_id[nbply];
     TraceValue("%u",nbply);TraceValue("%u\n",post_move_iteration_id[nbply]);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Iterate if move generation uses a post-move iterating slice (e.g. for
+ * MarsCirce Super)
+ * @param si identifies move generator slice
+ */
+void move_generation_post_move_iterator_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  do
+  {
+    post_move_iteration_locked[nbply] = false;
+    pipe_move_generation_delegate(si);
+  } while (post_move_iteration_locked[nbply]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Iterate if square observation testing uses a post-move iterating slice (e.g.
+ * for MarsCirce Super)
+ * @param si identifies move generator slice
+ */
+void square_observation_post_move_iterator_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  do
+  {
+    post_move_iteration_locked[nbply] = false;
+    pipe_is_square_observed_delegate(si);
+  } while (post_move_iteration_locked[nbply] && !observation_result);
+
+  post_move_iteration_locked[nbply] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

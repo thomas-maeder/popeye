@@ -402,7 +402,7 @@ void dispatch(slice_index si)
       break;
 
     case STPostMoveIterationInitialiser:
-      post_move_iteration_initialiser_solve(si);
+      move_execution_post_move_iterator_solve(si);
       break;
 
     case STMoveEffectJournalUndoer:
@@ -1789,6 +1789,10 @@ void dispatch(slice_index si)
       generate_moves_for_piece_based_on_walk();
       break;
 
+    case STMoveGenerationPostMoveIterator:
+      move_generation_post_move_iterator_solve(si);
+      break;
+
     /* square observation */
     case STIsSquareObservedOrtho:
       observation_result = is_square_observed_ortho(trait[nbply],
@@ -1853,6 +1857,10 @@ void dispatch(slice_index si)
 
     case STIsSquareObservedTwoPaths:
       is_square_observed_two_paths(si);
+      break;
+
+    case STSquareObservationPostMoveIterator:
+      square_observation_post_move_iterator_solve(si);
       break;
 
     default:

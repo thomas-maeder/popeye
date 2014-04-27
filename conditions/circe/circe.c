@@ -70,6 +70,8 @@ static slice_type const circe_slice_rank_order[] =
     STPWCDetermineRebirthSquare,
     STDiagramCirceDetermineRebirthSquare,
     STTakeMakeCirceDetermineRebirthSquares,
+    STMoveGenerationPostMoveIterator,
+    STSquareObservationPostMoveIterator,
     STSuperCirceDetermineRebirthSquare,
     STCirceDiametralAdjustRebirthSquare,
     STCirceVerticalMirrorAdjustRebirthSquare,

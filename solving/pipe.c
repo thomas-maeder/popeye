@@ -1,5 +1,7 @@
 #include "solving/pipe.h"
 #include "solving/has_solution_type.h"
+#include "solving/observation.h"
+#include "solving/move_generator.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -88,6 +90,36 @@ void pipe_solve_delegate(slice_index si)
   TraceFunctionParamListEnd();
 
   solve(slices[si].next1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Delegate testing observation to next1
+ * @param si identifies the pipe
+ */
+void pipe_is_square_observed_delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  is_square_observed_recursive(slices[si].next1);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Delegate generating to next1
+ * @param si identifies the pipe
+ */
+void pipe_move_generation_delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  generate_moves_delegate(slices[si].next1);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -470,6 +470,18 @@ void solving_initialise_marscirce(slice_index si)
                            STCirceDeterminedRebirth,
                            alloc_pipe(STMarscirceRemoveCapturer));
 
+  if (marscirce_variant.rebirth_reason==move_effect_reason_rebirth_choice)
+  {
+    circe_instrument_solving(si,
+                             STMarsCirceConsideringRebirth,
+                             STMarsCirceConsideringRebirth,
+                             alloc_pipe(STMoveGenerationPostMoveIterator));
+    circe_instrument_solving(si,
+                             STMarsCirceConsideringObserverRebirth,
+                             STMarsCirceConsideringObserverRebirth,
+                             alloc_pipe(STSquareObservationPostMoveIterator));
+  }
+
   if (!observation_variant.is_rex_inclusive)
     circe_instrument_solving(si,
                              STMarsCirceConsideringObserverRebirth,

@@ -36,7 +36,19 @@ void lock_post_move_iterations(void);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void post_move_iteration_initialiser_solve(slice_index si);
+void move_execution_post_move_iterator_solve(slice_index si);
+
+/* Iterate if move generation uses a post-move iterating slice (e.g. for
+ * MarsCirce Super)
+ * @param si identifies move generator slice
+ */
+void move_generation_post_move_iterator_solve(slice_index si);
+
+/* Iterate if square observation testing uses a post-move iterating slice (e.g.
+ * for MarsCirce Super)
+ * @param si identifies move generator slice
+ */
+void square_observation_post_move_iterator_solve(slice_index si);
 
 /* Instrument the solving machinery with post move iteration slices
  * @param si identifies the root of the solving machinery

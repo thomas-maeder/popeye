@@ -277,4 +277,14 @@ bedingung marscirce
 option ohnewk ohnesk
 zwilling bedingung marscirce rexexkl
 
+weiteresproblem
+
+titel Beispiel f\"ur MarsCirce Super
+steine weiss sh8 schwarz bb6
+bedingung marscirce super
+forderung zb61
+option ohnewk ohnesk
+zwilling hinzuf schwarz ka8
+zwilling ferner hinzuf schwarz bc7
+
 ende

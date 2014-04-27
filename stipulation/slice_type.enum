@@ -35,6 +35,8 @@
     ENUMERATOR(STFindAttack) /* find an attack */                     \
     ENUMERATOR(STFindDefense) /* find a defense*/                     \
     ENUMERATOR(STPostMoveIterationInitialiser)                        \
+    ENUMERATOR(STMoveGenerationPostMoveIterator)                      \
+    ENUMERATOR(STSquareObservationPostMoveIterator)                   \
     ENUMERATOR(STMoveEffectJournalUndoer)                             \
     ENUMERATOR(STMovePlayer)                                          \
     ENUMERATOR(STCastlingPlayer)                                      \
