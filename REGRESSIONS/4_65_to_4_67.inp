@@ -62,4 +62,12 @@ pieces white sd4 black pc6
 stip x1
 option nowk nobk
 
+next
+
+title 4.63 and 4.65 found only one solution
+author Bernd Schwarzkopf
+pieces white Ke1h1 Rd4 black Kh3 Pf3h2
+condition royaldynasty
+stipulation ser-s#2
+
 end
