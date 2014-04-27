@@ -1491,7 +1491,7 @@ char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount] =
     "Antipodes",
     "Take&Make",
     "Super",
-    "April",
+    "Avril",
     "Frischauf",
     "Calvet",
     "Cheylan",
