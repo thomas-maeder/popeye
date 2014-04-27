@@ -18,9 +18,6 @@ extern square (*marscirce_determine_rebirth_square)(piece_walk_type, Flags, squa
 
 extern circe_variant_type marscirce_variant;
 
-extern square current_rebirth_square[maxply+1];
-extern square current_observer_origin[maxply+1];
-
 /* Reset a circe_variant object to the default values
  * @param variant address of the variant object to be reset
  */

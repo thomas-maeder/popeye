@@ -76,6 +76,8 @@ void plus_generate_additional_captures_for_piece(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static square current_rebirth_square[maxply+1];
+
 static void is_square_observed_from_rebirth_square(slice_index si,
                                                    validator_id evaluate,
                                                    square observer_origin,
@@ -91,7 +93,6 @@ static void is_square_observed_from_rebirth_square(slice_index si,
   TraceFunctionParamListEnd();
 
   current_rebirth_square[nbply] = sq_rebirth;
-  current_observer_origin[nbply] = observer_origin;
 
   observation_result = false;
 

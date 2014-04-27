@@ -248,18 +248,18 @@ void marscirce_move_to_rebirth_square_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-square current_rebirth_square[maxply+1];
-square current_observer_origin[maxply+1];
-
 boolean mars_enforce_observer(slice_index si)
 {
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  square const sq_observer = current_rebirth_square[nbply];
+  square const sq_observer = context->rebirth_square;
   boolean result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  assert(circe_rebirth_context_stack_pointer>0);
 
   if (sq_observer==sq_departure)
   {
@@ -268,13 +268,13 @@ boolean mars_enforce_observer(slice_index si)
     Flags const spec_observing = spec[sq_observer];
 
     empty_square(sq_observer);
-    occupy_square(current_observer_origin[nbply],observing_walk[nbply],spec_observing);
-    move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = current_observer_origin[nbply];
+    occupy_square(context->rebirth_from,observing_walk[nbply],spec_observing);
+    move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = context->rebirth_from;
 
     result = validate_observation_recursive(slices[si].next1);
 
     move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = sq_observer;
-    empty_square(current_observer_origin[nbply]);
+    empty_square(context->rebirth_from);
     occupy_square(sq_observer,observing_walk[nbply],spec_observing);
   }
   else
@@ -302,15 +302,12 @@ void marscirce_is_square_observed(slice_index si)
 
   assert(circe_rebirth_context_stack_pointer>0);
 
-  current_rebirth_square[nbply] = context->rebirth_square;
-  current_observer_origin[nbply] = context->rebirth_from;
-
   observation_result = false;
 
   if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
       || CheckDir[observing_walk[nbply]][sq_target-context->rebirth_square]!=0)
   {
-    if (is_square_empty(current_rebirth_square[nbply]))
+    if (is_square_empty(context->rebirth_square))
     {
       TraceSquare(context->rebirth_square);
       TraceWalk(context->reborn_walk);
@@ -321,8 +318,6 @@ void marscirce_is_square_observed(slice_index si)
       empty_square(context->rebirth_square);
     }
   }
-
-  current_rebirth_square[nbply] = initsquare;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
