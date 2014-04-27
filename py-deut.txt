@@ -358,10 +358,10 @@ Kommandos:
 	"Ultra" angegeben werden, dass die jeweilige Ultra-Bedingung
 	gemeint ist.
 	
-	Nach Circe, AntiCirce, MarsCirce, ImmunSchach, PhantomSchach und
-	GenferSchach koennen eine Reihe von Optionen angegeben werden; die
-	Optionen koennen vielfaeltig miteinander kombiniert werden. Nicht
-	alle Kombinationen sind sinnfaellig, und nicht alle Optionen fuer
+	Nach Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
+	PhantomSchach und GenferSchach koennen eine Reihe von Optionen angegeben
+	werden; die Optionen koennen vielfaeltig miteinander kombiniert werden.
+	Nicht alle Kombinationen sind sinnfaellig, und nicht alle Optionen fuer
 	alle Grund-Bedingungen.
 	Zudem schliessen sich einige Optionen gegenseitig aus.
 	Einbezug des Koenigs:
