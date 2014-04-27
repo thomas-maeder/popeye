@@ -106,11 +106,7 @@ enum
   nr_circe_exit_slice_types = 1
 };
 
-/* Determine whether a slice type contributes to the execution of moves
- * @param type slice type
- * @return true iff type is a slice type that contributes to the execution of moves
- */
-boolean is_circe_slice_type(slice_type type)
+static boolean is_circe_slice_type(slice_type type)
 {
   unsigned int i;
   for (i = 0; i!=nr_circe_slice_rank_order_elmts-nr_circe_exit_slice_types; ++i)

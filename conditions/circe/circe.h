@@ -160,12 +160,6 @@ void circe_instrument_solving(slice_index si,
 slice_index alloc_circe_handler_slice(slice_type type,
                                       circe_variant_type const *variant);
 
-/* Determine whether a slice type contributes to the execution of moves
- * @param type slice type
- * @return true iff type is a slice type that contributes to the execution of moves
- */
-boolean is_circe_slice_type(slice_type type);
-
 /* Try to start slice insertion within the sequence of slices that deal with
  * Circe.
  * @param base_type type relevant for determining the position of the slices to
