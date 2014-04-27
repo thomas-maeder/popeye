@@ -1465,8 +1465,17 @@ char *ParseCond(void)
       case mars:
         tok = ParseCirceVariants(&marscirce_variant);
         break;
+      case marsmirror:
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&marscirce_variant.is_rex_inclusive, rexexcl);
+        break;
       case antimars:
         tok = ParseCirceVariants(&antimars_variant);
+        break;
+      case antimarsantipodean:
+      case antimarsmirror:
+        tok = ReadNextTokStr();
+        tok = ParseRex(tok,&antimars_variant.is_rex_inclusive, rexexcl);
         break;
       case protean:
         tok = ReadNextTokStr();
