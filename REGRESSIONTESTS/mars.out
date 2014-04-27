@@ -986,3 +986,74 @@ b) MarsCirce RexExklusive
 Loesung beendet. 
 
 
+
+    Beispiel f\"ur MarsCirce Super
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   S   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .  -B   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zb61                        1 + 1
+           MarsCirce Super
+
+a) 
+
+   1.Sh8-c8*b6 z !
+
+   1.Sh8-a8*b6 z !
+
+   1.Sh8-d7*b6 z !
+
+   1.Sh8-d5*b6 z !
+
+   1.Sh8-c4*b6 z !
+
+   1.Sh8-a4*b6 z !
+
+
+  add_to_move_generation_stack:         332
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) +sKa8 
+
+Die am Zug befindliche Partei kann den Koenig schlagen
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
++c) +sBc7 
+
+   1.Sh8-c8*b6 + z !
+
+   1.Sh8-d7*b6 + z !
+
+   1.Sh8-d5*b6 + z !
+
+   1.Sh8-c4*b6 + z !
+
+   1.Sh8-a4*b6 + z !
+
+
+  add_to_move_generation_stack:         324
+                     play_move:           5
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           6
+Loesung beendet. 
+
+
