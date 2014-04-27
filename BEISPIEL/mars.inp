@@ -260,4 +260,21 @@ forderung h=2
 option satz ohnesk
 bedingung marscirce madrasi ohneschlag
 
+weiteresproblem
+
+titel Beispiel f\"ur MarsCirce Diagramm
+steine weiss bh3 schwarz bg5
+forderung ser-zg56
+bedingung marscirce diagramm
+option ohnewk ohnesk
+
+weiteresproblem
+
+titel Beispiel f\"ur MarsCirce RexExklusive
+steine weiss kh8 sg6 schwarz sd2
+forderung x1
+bedingung marscirce
+option ohnewk ohnesk
+zwilling bedingung marscirce rexexkl
+
 ende

@@ -904,3 +904,85 @@ Loesung beendet.
 Loesung beendet. 
 
 
+
+  Beispiel f\"ur MarsCirce Diagramm
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .  -B   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   B   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-zg56                    1 + 1
+          MarsCirce Diagramm
+
+  1.h3-h4   2.h4-h5   3.h5-h6   4.h6-h7   5.h7-h8=S   6.Sh8-h3*g5 z
+
+  add_to_move_generation_stack:         135
+                     play_move:          19
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+Loesung beendet. 
+
+
+
+Beispiel f\"ur MarsCirce RexExklusive
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   S   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .  -S   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          2 + 1
+              MarsCirce
+
+a) 
+
+   1.Sg6-b1*d2 x !
+
+   1.Kh8-e1*d2 x !
+
+
+  add_to_move_generation_stack:          16
+                     play_move:           2
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           0
+b) MarsCirce RexExklusive
+
+   1.Sg6-b1*d2 x !
+
+
+  add_to_move_generation_stack:          16
+                     play_move:           1
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           0
+Loesung beendet. 
+
+
