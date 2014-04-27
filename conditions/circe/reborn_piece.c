@@ -78,6 +78,10 @@ static slice_type get_reborn_initialiser_type(circe_variant_type const *variant)
       result = STMarscirceInitialiseRebornFromGenerated;
       break;
 
+    case circe_relevant_piece_observing_walk:
+      result = STMarsIterateObservers;
+      break;
+
     default:
       assert(0);
       result = no_slice_type;

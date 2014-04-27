@@ -6,6 +6,7 @@
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
 #include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -618,6 +619,10 @@ void branch_insert_slices_contextual(slice_index si,
 
     case stip_traversal_context_move_generation:
       move_generation_branch_insert_slices(si,prototypes,nr_prototypes);
+      break;
+
+    case stip_traversal_context_test_square_observation:
+      observation_branch_insert_slices(si,prototypes,nr_prototypes);
       break;
 
     default:

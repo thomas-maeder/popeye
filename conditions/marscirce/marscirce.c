@@ -140,7 +140,8 @@ void marscirce_remember_rebirth(slice_index si)
  */
 void marscirce_remove_capturer_solve(slice_index si)
 {
-  square const sq_departure = curr_generation->departure;
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
+  square const sq_departure = context->rebirth_from;
   piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
   Flags const flags = spec[sq_departure];
 
@@ -148,8 +149,10 @@ void marscirce_remove_capturer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(walk!=Empty);
+
   empty_square(sq_departure);
-  solve(slices[si].next1);
+  dispatch(slices[si].next1);
   occupy_square(sq_departure,walk,flags);
 
   TraceFunctionExit(__func__);
@@ -344,12 +347,55 @@ void mars_is_square_observed_by(slice_index si,
   TraceFunctionResultEnd();
 }
 
-/* Determine whether a side observes a specific square
- * @param si identifies the tester slice
+/* Determine whether a specific piece delivers check to a specific side
+ * @param observer_origin potentially delivering check ...
+ * @note the piece on pos_checking must belong to advers(side)
  * @note sets observation_result
  */
 void marscirce_is_square_observed(slice_index si)
 {
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer-1];
+  square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+
+  TraceFunctionEntry(__func__);
+  TraceValue("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(circe_rebirth_context_stack_pointer>0);
+
+  current_rebirth_square[nbply] = context->rebirth_square;
+  current_observer_origin[nbply] = context->rebirth_from;
+
+  observation_result = false;
+
+  if (observing_walk[nbply]<Queen || observing_walk[nbply]>Bishop
+      || CheckDir[observing_walk[nbply]][sq_target-context->rebirth_square]!=0)
+  {
+    if (is_square_empty(current_rebirth_square[nbply]))
+    {
+      TraceSquare(context->rebirth_square);
+      TraceWalk(context->reborn_walk);
+      TraceValue("%u",TSTFLAG(spec[context->rebirth_square],White));
+      TraceValue("%u\n",TSTFLAG(spec[context->rebirth_square],Black));
+      occupy_square(context->rebirth_square,context->reborn_walk,context->reborn_spec);
+      is_square_observed_recursive(slices[si].next1);
+      empty_square(context->rebirth_square);
+    }
+  }
+
+  current_rebirth_square[nbply] = initsquare;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Determine whether a side observes a specific square
+ * @param si identifies the tester slice
+ * @note sets observation_result
+ */
+void marscirce_iterate_observers(slice_index si)
+{
+  circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   Side const side_observing = trait[nbply];
   square const *observer_origin;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
@@ -360,12 +406,21 @@ void marscirce_is_square_observed(slice_index si)
 
   observation_result = false;
 
+  context->relevant_ply = nbply;
+
   for (observer_origin = boardnum; *observer_origin; ++observer_origin)
     if (*observer_origin!=sq_target /* no auto-observation */
         && TSTFLAG(spec[*observer_origin],side_observing)
         && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
     {
-      mars_is_square_observed_by(si,observation_validator,*observer_origin);
+      context->rebirth_from = *observer_origin;
+      context->reborn_walk = observing_walk[nbply];
+      context->reborn_spec = spec[context->rebirth_from];
+      context->relevant_side = advers(side_observing);
+      context->relevant_square = context->rebirth_from;
+
+      is_square_observed_recursive(slices[si].next1);
+
       if (observation_result)
         break;
     }
@@ -399,7 +454,7 @@ static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
 static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
-  TraceValue("%u",si);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children(si,st);
@@ -424,7 +479,10 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
  */
 void solving_initialise_marscirce(slice_index si)
 {
+  circe_variant_type observation_variant = marscirce_variant;
+
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
@@ -445,6 +503,19 @@ void solving_initialise_marscirce(slice_index si)
                            STMarsCirceConsideringRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringRebirth,
+                           STCirceDeterminedRebirth,
+                           alloc_pipe(STMarscirceRemoveCapturer));
+
+  observation_variant.default_relevant_piece = circe_relevant_piece_observing_walk;
+  /* cf. get_relevant_piece_determinator */
+  observation_variant.actual_relevant_piece = circe_relevant_piece_observing_walk;
+
+  circe_initialise_solving(si,
+                           &observation_variant,
+                           STDetermineObserverWalk,
+                           STMarsCirceConsideringObserverRebirth);
+  circe_instrument_solving(si,
+                           STMarsCirceConsideringObserverRebirth,
                            STCirceDeterminedRebirth,
                            alloc_pipe(STMarscirceRemoveCapturer));
 

@@ -1803,6 +1803,10 @@ void dispatch(slice_index si)
       plus_is_square_observed(si);
       break;
 
+    case STMarsIterateObservers:
+      marscirce_iterate_observers(si);
+      break;
+
     case STMarsIsSquareObserved:
       marscirce_is_square_observed(si);
       break;

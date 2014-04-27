@@ -321,6 +321,7 @@
     ENUMERATOR(STCirceConsideringRebirth)                              \
     ENUMERATOR(STGenevaConsideringRebirth)                             \
     ENUMERATOR(STMarsCirceConsideringRebirth)                          \
+    ENUMERATOR(STMarsCirceConsideringObserverRebirth)                  \
     ENUMERATOR(STGenevaStopCaptureFromRebirthSquare)                   \
     ENUMERATOR(STCirceCaptureFork)                                     \
     ENUMERATOR(STCirceParrainThreatFork)                               \
@@ -492,6 +493,7 @@
     ENUMERATOR(STFaceToFaceEnforceObserverWalk)                        \
     ENUMERATOR(STBackToBackEnforceObserverWalk)                        \
     ENUMERATOR(STCheekToCheekEnforceObserverWalk)                      \
+    ENUMERATOR(STMarsIterateObservers)                                 \
     ENUMERATOR(STPhantomIsSquareObserved)                              \
     ENUMERATOR(STPlusIsSquareObserved)                                 \
     ENUMERATOR(STMarsIsSquareObserved)                                 \

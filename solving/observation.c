@@ -25,6 +25,7 @@
 #include "conditions/edgemover.h"
 #include "conditions/annan.h"
 #include "conditions/facetoface.h"
+#include "conditions/circe/circe.h"
 #include "conditions/marscirce/phantom.h"
 #include "conditions/marscirce/plus.h"
 #include "conditions/marscirce/marscirce.h"
@@ -685,6 +686,8 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STDontTryObservingWithNonExistingWalkBothSides,
     STOptimiseObservationsByQueen,
     STTransmutingKingDetectNonTransmutation,
+    STMarsCirceConsideringObserverRebirth,
+    STCirceDoneWithRebirth,
     STMarsIsSquareObserved,
     STPhantomIsSquareObserved,
     STPlusIsSquareObserved,
@@ -695,6 +698,63 @@ enum
 {
   nr_is_square_observed_slice_rank_order_elmts = sizeof is_square_observed_slice_rank_order / sizeof is_square_observed_slice_rank_order[0]
 };
+
+static void observation_branch_insert_slices_impl(slice_index si,
+                                                  slice_index const prototypes[],
+                                                  unsigned int nr_prototypes,
+                                                  slice_index base)
+{
+  stip_structure_traversal st;
+  branch_slice_insertion_state_type state =
+  {
+    prototypes,nr_prototypes,
+    is_square_observed_slice_rank_order, nr_is_square_observed_slice_rank_order_elmts,
+    branch_slice_rank_order_nonrecursive,
+    0,
+    si,
+    0
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  state.base_rank = get_slice_rank(slices[base].type,&state);
+  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+
+  if (!circe_start_insertion(slices[base].type,si,&st))
+  {
+    assert(state.base_rank!=no_slice_rank);
+    stip_traverse_structure_children_pipe(si,&st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert slices into a observation branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by help_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void observation_branch_insert_slices(slice_index si,
+                                      slice_index const prototypes[],
+                                      unsigned int nr_prototypes)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  observation_branch_insert_slices_impl(si,prototypes,nr_prototypes,si);
+  deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 /* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch

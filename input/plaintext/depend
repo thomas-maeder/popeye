@@ -52,6 +52,7 @@ input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
  input/plaintext/token.h input/plaintext/language.h \
  input/plaintext/line.h conditions/mummer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -121,6 +122,10 @@ input/plaintext/line.h:
 conditions/mummer.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 conditions/anticirce/anticirce.h:
 
@@ -260,6 +265,7 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  input/plaintext/input_stack.h output/output.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h conditions/mummer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -283,8 +289,7 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  stipulation/proxy.h stipulation/move_inverter.h \
  stipulation/help_play/branch.h stipulation/battle_play/branch.h \
  solving/goals/prerequisite_guards.h utilities/table.h platform/maxmem.h \
- platform/pytime.h debugging/trace.h debugging/measure.h \
- debugging/assert.h
+ platform/pytime.h debugging/measure.h debugging/assert.h
 
 input/plaintext/twin.h:
 
@@ -351,6 +356,10 @@ options/options.h:
 conditions/mummer.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 conditions/anticirce/anticirce.h:
 
@@ -442,8 +451,6 @@ platform/maxmem.h:
 
 platform/pytime.h:
 
-debugging/trace.h:
-
 debugging/measure.h:
 
 debugging/assert.h:
@@ -464,9 +471,10 @@ input/plaintext/stipulation$(OBJ_SUFFIX): input/plaintext/stipulation.c \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/help_play/branch.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/not.h stipulation/proxy.h \
- stipulation/pipe.h debugging/trace.h debugging/assert.h
+ stipulation/pipe.h debugging/assert.h
 
 input/plaintext/stipulation.h:
 
@@ -542,6 +550,10 @@ stipulation/help_play/branch.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/battle_play/branch.h:
 
 stipulation/move_inverter.h:
@@ -553,8 +565,6 @@ stipulation/boolean/not.h:
 stipulation/proxy.h:
 
 stipulation/pipe.h:
-
-debugging/trace.h:
 
 debugging/assert.h:
 input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
@@ -570,6 +580,7 @@ input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
  conditions/conditions.h options/options.h input/plaintext/twin.h \
  conditions/mummer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -587,7 +598,7 @@ input/plaintext/sstipulation$(OBJ_SUFFIX): input/plaintext/sstipulation.c \
  stipulation/battle_play/branch.h stipulation/move_inverter.h \
  stipulation/boolean/and.h stipulation/boolean/or.h \
  stipulation/boolean/not.h stipulation/proxy.h stipulation/pipe.h \
- solving/play_suppressor.h debugging/trace.h debugging/assert.h
+ solving/play_suppressor.h debugging/assert.h
 
 input/plaintext/sstipulation.h:
 
@@ -648,6 +659,10 @@ input/plaintext/twin.h:
 conditions/mummer.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 conditions/anticirce/anticirce.h:
 
@@ -715,8 +730,6 @@ stipulation/pipe.h:
 
 solving/play_suppressor.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -727,6 +740,7 @@ input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h
  position/color.enum.h pieces/walks/vectors.h output/output.h \
  output/plaintext/message.h input/plaintext/language.h \
  conditions/imitator.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
@@ -755,8 +769,8 @@ input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h
  stipulation/goals/proofgame/reached_tester.h \
  stipulation/goals/atob/reached_tester.h \
  stipulation/goals/chess81/reached_tester.h \
- stipulation/goals/kiss/reached_tester.h debugging/trace.h \
- solving/proofgames.h debugging/assert.h
+ stipulation/goals/kiss/reached_tester.h solving/proofgames.h \
+ debugging/assert.h
 
 input/plaintext/goal.h:
 
@@ -803,6 +817,10 @@ input/plaintext/language.h:
 conditions/imitator.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 solving/move_effect_journal.h:
 
@@ -874,8 +892,6 @@ stipulation/goals/chess81/reached_tester.h:
 
 stipulation/goals/kiss/reached_tester.h:
 
-debugging/trace.h:
-
 solving/proofgames.h:
 
 debugging/assert.h:
@@ -890,9 +906,10 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h input/plaintext/line.h conditions/mummer.h \
- solving/machinery/solve.h conditions/anticirce/anticirce.h \
- conditions/circe/circe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ conditions/anticirce/anticirce.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
@@ -918,8 +935,7 @@ input/plaintext/condition$(OBJ_SUFFIX): input/plaintext/condition.c \
  conditions/protean.h conditions/republican.h conditions/sat.h \
  conditions/singlebox/type1.h \
  conditions/transmuting_kings/vaulting_kings.h conditions/woozles.h \
- pieces/walks/pawns/en_passant.h solving/castling.h debugging/trace.h \
- debugging/assert.h
+ pieces/walks/pawns/en_passant.h solving/castling.h debugging/assert.h
 
 input/plaintext/condition.h:
 
@@ -976,6 +992,10 @@ input/plaintext/line.h:
 conditions/mummer.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 conditions/anticirce/anticirce.h:
 
@@ -1097,8 +1117,6 @@ pieces/walks/pawns/en_passant.h:
 
 solving/castling.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  input/plaintext/option.h stipulation/stipulation.h \
@@ -1111,9 +1129,9 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  input/plaintext/token.h input/plaintext/language.h \
  input/plaintext/line.h output/output.h options/options.h \
  options/maxsolutions/maxsolutions.h options/movenumbers.h \
- solving/machinery/solve.h options/maxthreatlength.h \
- options/degenerate_tree.h options/maxflightsquares.h \
- options/nontrivial.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ options/maxthreatlength.h options/degenerate_tree.h \
+ options/maxflightsquares.h options/nontrivial.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  input/plaintext/twin.h conditions/mummer.h \
@@ -1187,6 +1205,10 @@ options/maxsolutions/maxsolutions.h:
 options/movenumbers.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 options/maxthreatlength.h:
 
@@ -1279,6 +1301,7 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  position/color.enum.h pieces/walks/vectors.h output/plaintext/message.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h conditions/mummer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -1356,6 +1379,10 @@ options/options.h:
 conditions/mummer.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 conditions/anticirce/anticirce.h:
 

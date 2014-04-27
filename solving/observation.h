@@ -146,6 +146,18 @@ boolean is_square_observed_nested(slice_index si, validator_id evaluate);
 #define is_square_observed_recursive(si) dispatch(si)
 #endif
 
+/* Insert slices into a observation branch.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by help_branch_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void observation_branch_insert_slices(slice_index si,
+                                      slice_index const prototypes[],
+                                      unsigned int nr_prototypes);
+
 /* Instrument a particular square observation validation branch with a slice type
  * @param testing identifies STTestingIfSquareIsObserved at entrance of branch
  * @param type type of slice to insert

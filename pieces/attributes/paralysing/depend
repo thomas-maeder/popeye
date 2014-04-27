@@ -6,6 +6,7 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  output/mode.h output/mode.enum.h \
  pieces/attributes/paralysing/mate_filter.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/paralysing/stalemate_special.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
@@ -16,7 +17,7 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  stipulation/branch.h stipulation/boolean/or.h solving/observation.h \
  solving/ply.h solving/temporary_hacks.h solving/move_generator.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h debugging/trace.h debugging/assert.h
+ solving/fork.h debugging/assert.h
 
 pieces/attributes/paralysing/paralysing.h:
 
@@ -47,6 +48,10 @@ output/mode.enum.h:
 pieces/attributes/paralysing/mate_filter.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 pieces/attributes/paralysing/stalemate_special.h:
 
@@ -94,8 +99,6 @@ solving/has_solution_type.enum.h:
 
 solving/fork.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/mate_filter.c \
@@ -104,15 +107,15 @@ pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/solve.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/pipe.h pieces/attributes/paralysing/paralysing.h \
- debugging/trace.h debugging/assert.h
+ debugging/assert.h
 
 pieces/attributes/paralysing/mate_filter.h:
 
@@ -142,6 +145,10 @@ output/mode.enum.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -166,8 +173,6 @@ solving/pipe.h:
 
 pieces/attributes/paralysing/paralysing.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/stalemate_special.c \
@@ -176,15 +181,15 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/solve.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  pieces/attributes/paralysing/paralysing.h solving/check.h solving/pipe.h \
- debugging/trace.h debugging/assert.h
+ debugging/assert.h
 
 pieces/attributes/paralysing/stalemate_special.h:
 
@@ -214,6 +219,10 @@ output/mode.enum.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -240,8 +249,6 @@ solving/check.h:
 
 solving/pipe.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  pieces/attributes/paralysing/remove_captures.c \
@@ -251,8 +258,9 @@ pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/move_generator.h solving/machinery/solve.h solving/ply.h \
- solving/pipe.h debugging/trace.h
+ solving/move_generator.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ solving/pipe.h
 
 pieces/attributes/paralysing/remove_captures.h:
 
@@ -292,8 +300,10 @@ solving/move_generator.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 solving/ply.h:
 
 solving/pipe.h:
-
-debugging/trace.h:
