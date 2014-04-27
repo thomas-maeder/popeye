@@ -1,4 +1,4 @@
-	     D E S C R I P T I O N  D E  P O P E Y E    4 . 5
+	     D E S C R I P T I O N  D E  P O P E Y E    4 . 6
 
 Remarques au sujet de la distribution de Popeye:
 
@@ -104,7 +104,6 @@ simples:
 
 	RexInclusif
 	Circe
-	CirceMalefique
 	Madrasi
 	Volage
 	Hypervolage
@@ -117,19 +116,12 @@ simples:
 	Leofamily
 	Chinoises
 	Patrouille
-	CirceEchange
 	SansPrises
 	Immun
-	ImmunMalefique
 	ContactGrille
 	Imitator
 	CavalierMajeur
 	Haan
-	CirceCouscous
-	CirceCameleon
-	CirceEquipollents
-	FileCirce
-	CirceDiagramme
 	Sentinelles
 	NoirMaximum
 	BlancMaximum
@@ -145,36 +137,13 @@ simples:
 	NoirPoursuite
 	BlancPoursuite
 	Duelliste
-	CirceParrain
-	ContraParrain
-	CirceSymmetrique
 	SansIProm      (= Les pions ne peuvent se promouvoir pas en imitator)
 	EchecsVogtlaender
 	EchecsEinstein
 	Bicolores
 	KoekoNouveaux
-	CirceClone
-	AntiCirceClone
 	AntiCirce
-	FileCirceMalefique
-	CirceAntipoden
-	CirceCloneMalefique
-	AntiCirceMalefique
-	AntiCirceDiagramme
-	AntiFileCirce
-	AntiCirceSymmetrique
-	AntiFileCirceMalefique
-	AntiCirceAntipoden
-	AntiCirceEquipollents
-	ImmunFile
-	ImmunDiagramme
-	ImmunFileMalefique
-	ImmunSymmetrique
-	ImmunAntipoden
-	ImmunEquipollents
-	ImmunCage
 	ReversEchecsEinstein
-	SuperCirce
 	Degradierung
 	NorskSjakk
 	EchecsTraitor
@@ -188,25 +157,19 @@ simples:
 	EchecsFonctionnaire
 	EchecsGlasgow
 	EchecsAntiAndernach
-	FrischaufCirce
-	CirceMalefiqueVerticale
 	Isardam
 	SansEchecs
-	CirceDiametrale
 	PromSeul
 	EchecsExclusif
 	MarsCirce
-	MarsCirceMalefique
 	EchecsPhantom
 	BlancRoiTransmute
 	NoirRoiTransmute
 	BlancRoiReflecteur
 	NoirRoiReflecteur
 	EchecsAntiEinstein
-	CirceCouscousMalefique
 	NoirCaseRoyal
 	BlancCaseRoyal
-	CirceAssassin
 	EchecsPlus
 	EchecsBrunner
 	EchecsCentral
@@ -231,11 +194,8 @@ simples:
 	ShieldedKings
 	BlancSansPrises
 	NoirSansPrises
-	EchecsAvril
 	EchecsAlphabetique
 	EchecsCameleonLigne
-	CirceTurncoats
-	CirceDoubleAgents
 	AMU
 ????    SingleBox
 	MAFF
@@ -244,11 +204,8 @@ simples:
 	NoirRoisOscillant
 	AntiRois
 	AntiMarsCirce
-	AntiMarsMalefiqueCirce
-	AntiMarsAntipodeanCirce
 	BlancSuperRoiTransmute
 	NoirSuperRoiTransmute
-	AntiSuperCirce
 	UltraPatrouille
 	RoisEchanges
 	DynastieRoyale
@@ -275,12 +232,10 @@ simples:
 	EchecsRoque
 	QuiPerdGagne
 	EchecsGhost
-	CirceCage
 	Football
 	BlancEchecsAlphabetique
 	NoirEchecsAlphabetique
 	RoisKobul
-	CirceTake&Make (aussi connu comme Anti-Take&Make)
 	Supergardes
 	TrousDeVer
 	EchecsMarins
@@ -396,6 +351,101 @@ simples:
 	Les conditions PriseForce, Maximum et Minimum peuvent etre
 	suivies par le mot-cle "Ultra" pour indiquer qu'il s'agit de
 	la condition ultra respective.
+	
+	Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunSchach,
+	PhantomSchach et GenferSchach peuvent etre suivies d'un nombre
+	d'options; les options peuvent etre combinees ad libitum. Toutes les
+	combinaisons ne sont pas raisonnables, ni toutes les options pour toutes
+	les conditions de base. En outre, certaines options s'excludent
+	mutuellement.
+	Inclusion du roi:
+		RexInclusif	(standard pour AntiCirce et MarsCirce)
+		RexExclusif	(standard pour les autres conditions)
+	Coup/marche/camp determinant:
+		CoupDernier 
+		Clone		(definit aussi la marche de la piece renee)
+		Couscous
+		Malefique	(special avec Equipollents - voir plus bas)
+	Restriction a des marches specifiques:
+		Avril
+	Definition des cases de renaissance:
+		Equipollents
+		Parrain
+		ContraParrain
+		Rangee
+		Colonne
+		Symetrie
+		Diagramme
+		Echange
+		Antipodes
+		Super
+		Take&Make
+		Cage
+	Adaptation de la case de renaissance:
+		Diametral
+		MalefiqueVerticale
+		Frischauf
+		(Rangee)
+	Adaptation de la marche de la piece renee:
+		Cameleon
+		Turncoats
+		Einstein
+		ReversEinstein
+	Comportement en case de case de renaissance occupee:
+		Relache		(standard dans Circe)
+		Strict		(standard sinon)
+		Assassin
+		Volcan
+		Parachute
+		Calvet		(Vorgabe bei AntiCirce)
+		Cheylan
+	Les noms de condition "traditionnels" suivanta peuvent toujours etre
+	utilises; ils permettent d'ajouter RexInclusif ou RexExclusif.
+		traditionel:		Indication avec option(s):
+		CirceMalefique		Circe Malefique
+		CirceEchange		Circe Echange
+		CirceCouscous		Circe Couscous
+		CirceCameleon		Circe Camaeleon
+		CirceEquipollents	Circe Equipollents
+		FileCirce		Circe Colonne
+		CirceDiagramme		Circe Diagramme
+		CirceParrain		Circe LetzterZug Equipollents
+		ContraParrain		Circe LetzterZug Equipollents Spiegel
+		CirceSymmetrique	Circe Symetrie
+		FileCirceMalefique	Circe Colonne Malefique
+		CirceAntipoden		Circe Antipodes
+		CirceCloneMalefique	Circe Clone Malefique
+		SuperCirce		Circe Super
+		CirceClone		Circe Clone
+		FrischaufCirce		Circe Frischauf
+		CirceDiametrale		Circe Diametral
+		CirceCouscousMalefique	Circe Couscous Malefique
+		CirceAssassin		Circe Assassin
+		CirceTurncoats		Circe Turncoats
+		CirceDoubleAgents	Circe Turncoats Malefique
+		CirceCage		Circe Cage
+		CirceTake&Make		Circe Take&Make (aussi connu comme Anti-Take&Make)
+		CirceMalefiqueVerticale	Circe MalefiqueVerticale
+		EchecsAvril             Circe Super Avril
+		AntiCirceMalefique	AntiCirce Malefique
+		AntiCirceDiagramme	AntiCirce Diagramme
+		AntiFileCirce		AntiCirce Colonne
+		AntiSymmetrieCirce	AntiCirce Symetrie
+		AntiFileCirceMalefique	AntiCirce Colonne Malefique
+		AntiCirceAntipoden	AntiCirce Antipodes
+		AntiCirceEquipollents	AntiCirce Equipollents
+		AntiCirceClone		AntiCirce Clone
+		AntiSuperCirce		AntiCirce Super
+		MarsCirceMalefique	MarsCirce Malefique
+		AntiMarsMalefiqueCirce  AntiMarsCirce Malefique
+		AntiMarsAntipodeanCirce	AntiMarsCirce Antipodes
+		ImmunMalefique		Immun Malefique
+		ImmunFile		Immun Colonne
+		ImmunDiagramme		Immun Diagramme
+		ImmunFileMalefique	Immun Colonne Malefique
+		ImmunSymmetrique	Immun Symetrie
+		ImmunAntipoden		Immun Antipodes
+		ImmunEquipollents	Immun Equipollents
 
  - option: Toutes les options demandees sont a introduire apres ce mot-cle,
 	separees par une espace. Les options suivantes seront reconnues:
