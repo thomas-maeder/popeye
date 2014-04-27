@@ -167,7 +167,6 @@ Kommandos:
 	UWnur
 	ExklusivSchach
 	Marscirce
-	MarsSpiegelCirce
 	PhantomSchach
 	WeisserTransmutierenderKoenig
 	SchwarzerTransmutierenderKoenig
@@ -210,8 +209,6 @@ Kommandos:
 	SchwarzeOszillierendeKoenige
 	AntiKoenige
 	AntiMarsCirce
-	AntiMarsMalefiqueCirce
-	AntiMarsAntipodeanCirce
 	WeisserSuperTransmutierenderKoenig
 	SchwarzerSuperTransmutierenderKoenig
 	UltraPatrouille
@@ -364,13 +361,14 @@ Kommandos:
 	"Ultra" angegeben werden, dass die jeweilige Ultra-Bedingung
 	gemeint ist.
 	
-	Nach Circe, AntiCirce, ImmunSchach und GenferSchach koennen eine Reihe
-	von Optionen angegeben werden; die Optionen koennen vielfaeltig
-	miteinander kombiniert werden. Nicht alle Kombinationen sind
-	sinnfaellig, und nicht alle Optionen fuer alle vier Grund-Bedingungen.
+	Nach Circe, AntiCirce, MarsCirce, ImmunSchach, PhantomSchach und
+	GenferSchach koennen eine Reihe von Optionen angegeben werden; die
+	Optionen koennen vielfaeltig miteinander kombiniert werden. Nicht
+	alle Kombinationen sind sinnfaellig, und nicht alle Optionen fuer
+	alle Grund-Bedingungen.
 	Zudem schliessen sich einige Optionen gegenseitig aus.
 	Einbezug des Koenigs:
-		RexInklusive	(Vorgabe bei AntiCirce)
+		RexInklusive	(Vorgabe bei AntiCirce und MarsCirce)
 		RexExklusive	(Vorgabe sonst)
 	Massgebende(r) Zug/Gangart/Partei:	
 		LetzterZug 
@@ -403,8 +401,8 @@ Kommandos:
 		Einstein
 		ReversesEinstein
 	Verhalten bei besetztem Wiedergeburtsfeld:
-		Strikt		(Vorgabe bei AntiCirce)
 		Locker		(Vorgabe bei Circe)
+		Strikt		(Vorgabe sonst)
 		Assassin
 		Vulkan
 		Fallschirm
@@ -448,6 +446,9 @@ Kommandos:
 		AntiEquipollentsCirce	AntiCirce Equipollents
 		AntiCloneCirce		AntiCirce Clone
 		AntiSuperCirce		AntiCirce Super
+		MarsSpiegelCirce	MarsCirce Spiegel
+		AntiMarsMalefiqueCirce  AntiMarsCirce Spiegel
+		AntiMarsAntipodeanCirce	AntiMarsCirce Antipoden
 		SpiegelImmunSchach	ImmunSchach Spiegel
 		FileImmunSchach		ImmunSchach File
 		DiagrammImmunSchach	ImmunSchach Diagram
