@@ -1,4 +1,4 @@
-     D E S C R I P T I O N   O F   P O P E Y E    4 . 5
+     D E S C R I P T I O N   O F   P O P E Y E    4 . 6
  
 
 Some remarks on the distribution of popeye:
@@ -97,10 +97,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	the file. The file will not be deleted.
 
  - condition: All the conditions neccessary for the problem, seperated by
-	blanks or newline, should be given to this command. 
-        Through combination of single conditions you can get other
-        already existing conditions:
-        for example: Circe  and  Immunchess  results in  StrictCirce
+	blanks or newline, should be given to this command.
         The following conditions are implemented:
 
 	RexInclusive
@@ -119,25 +116,18 @@ commands expect further parameters. Lets start with the simpler commands:
 	Leofamily
 	ChineseChess
 	Patrouille
-	PWC
 	NoCapture
 	ImmunChess
-	MirrorImmunChess
 	ContactGridChess
 	Imitator
 	CavalierMajeur
 	HaanerChess
-	CouscousCirce
-	ChameleonCirce
-	EquipollentsCirce
-	FileCirce
 	Sentinelles
 	BlackMaximummer
 	WhiteMaximummer
 	BlackMinimummer
 	WhiteMinimummer
 	MagicSquares
-	DiagramCirce
 	Tibet
 	DoubleTibet
 	Hole                    (= a square where you cannot move to)
@@ -147,35 +137,12 @@ commands expect further parameters. Lets start with the simpler commands:
 	BlackFollowMyLeader
 	WhiteFollowMyLeader
 	DuellistChess
-	ParrainCirce
-	ContraParrain
-	SymmetryCirce
 	NoIProm                 No Promotion to Imitator allowed
 	VogtlaenderChess
 	EinsteinChess
 	Bicolores
 	NewKoeko
-	CirceClone
-	AntiCloneCirce
 	AntiCirce
-	MirrorFileCirce
-	AntipodeanCirce
-	MirrorCirceClone
-	MirrorAntiCirce
-	DiagramAntiCirce
-	FileAntiCirce
-	SymmetryAntiCirce
-	MirrorAntiCirce
-	AntipodeanAntiCirce
-	EquipollentsAntiCirce
-	MirrorFileAnticirce
-	FileImmunChess
-	DiagramImmunChess
-	MirrorFileImmunChess
-	SymmetryImmunChess
-	AntipodeanImmunChess
-	EquipollentsImmunChess
-	CageImmunChess
 	ReversalEinsteinChess
 	SuperCirce
 	RelegationChess
@@ -191,25 +158,19 @@ commands expect further parameters. Lets start with the simpler commands:
 	FunctionaryChess
 	GlasgowChess
 	AntiAndernachChess
-	FrischaufCirce
-	VerticalMirrorCirce
 	Isardam
 	ChecklessChess
-	DiametralCirce
 	PromOnly
 	ExclusiveChess
 	Marscirce
-	MarsMirrorCirce
 	PhantomChess
 	WhiteTransmutedKing
 	BlackTransmutedKing
 	WhiteReflectiveKing
 	BlackReflectiveKing
 	AntiEinsteinChess
-	MirrorCouscousCirce
 	BlackRoyalSquare
 	WhiteRoyalSquare
-	CirceAssassin
 	PlusChess
 	BrunnerChess
 	CentralChess
@@ -234,11 +195,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	ShieldedKings
 	NoWhiteCapture
 	NoBlackCapture
-	AprilChess
 	AlphabeticChess
 	LineChameleonChess
-	CirceTurncoats
-	CirceDoubleAgents
 	AMU
 	SingleBox
 	MAFF
@@ -247,11 +205,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	BlackOscillatingKings
 	AntiKings
 	AntiMarsCirce
-	AntiMarsMirrorCirce
-	AntiMarsAntipodeanCirce
 	WhiteSuperTransmutingKing
 	BlackSuperTransmutingKing
-	AntiSuperCirce
 	UltraPatrol
 	SwappingKings
 	RoyalDynasty
@@ -278,12 +233,10 @@ commands expect further parameters. Lets start with the simpler commands:
 	ChameleonPursuit
 	LosingChess
 	GhostChess
-	CageCirce
 	Football
 	WhiteAlphabeticChess
 	BlackAlphabeticChess
 	KobulKings
-	CirceTake&Make (also known as Anti-Take&Make)
 	SuperGuards
 	Wormholes
 	MarineChess
@@ -317,8 +270,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	auxiliary condition ChameleonSequence can be used to define that
 	sequence of the explicitly indicated chameleons.
 
-	After some of the Circe, Immun, Madrasi, Phantomchess or Genevachess
-	conditions you can enter "RexInclusiv".
+	After Madrasi, you can enter "RexInclusiv".
 
 	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
 	according to the type desired; Calvet is the default.
@@ -396,6 +348,100 @@ commands expect further parameters. Lets start with the simpler commands:
 	the keyword "Ultra" indicates that the respective Ultra
 	condition is intended.
 	
+	After Circe, AntiCirce, MarsCirce, AntiMarsCirce, ImmunChess,
+	PhantomChess and GenevaChess, a number of options can be indicated; the
+	options can be combined in various ways. Not
+	all combinations make sense, and not all options make sense for
+	all base conditions.
+	In addition, some options are mutually exclusive.
+	Inclusion of the kings:
+		RexInclusive	(default for AntiCirce and MarsCirce)
+		RexExclusive	(default otherwise)
+	Relevant move/walk/side:	
+		LastMove 
+		Clone		(also defines the walk of the reborn piece)
+		Couscous
+		Mirror		(special meaning for Equipollents - see below)
+	Restrition to piece walk:
+		April
+	Definition of the rebirth square(s):
+		Equipollents
+		Parrain
+		ContraParrain
+		Rank
+		File
+		Symmetry
+		Diagram
+		PWC
+		Antipodes
+		Super
+		Take&Make
+		Cage
+	Adaptation of the rebirth square:
+		Diametral
+		VerticalMirror
+		Frischauf
+		(Rank)
+	Adaptation of the reborn piece's walk:
+		Chameleon
+		Turncoat
+		Einstein
+		ReversalEinstein
+	Behaviour in case of occupied rebirth square:
+		Relaxed		(default for Circe)
+		Strict		(default otherwise)
+		Assassin
+		Volcanic
+		Parachute
+		Calvet		(default for AntiCirce)
+		Cheylan
+	The following "traditional" condition names can still be used;
+	RexInclusive resp. RexExclusive can be added:
+		traditional:		Indication with option(s):
+		MirrorCirce		Circe Mirror
+		PWC			Circe PWC
+		CouscousCirce		Circe Couscous
+		ChameleonCirce		Circe Chameleon
+		EquipollentsCirce	Circe Equipollents
+		FileCirce		Circe File
+		DiagramCirce		Circe Diagram
+		ParrainCirce		Circe LastMove Equipollents
+		ContraParrain		Circe LastMove Equipollents Mirror
+		SymmetryCirce		Circe Symmetry
+		MirrorFileCirce		Circe File Mirror
+		AntipodeanCirce		Circe Antipodes
+		MirrorCirceClone	Circe Clone Mirror
+		SuperCirce		Circe Super
+		CirceClone		Circe Clone
+		FrischaufCirce		Circe Frischauf
+		DiametralCirce		Circe Diametral
+		MirrorCouscousCirce	Circe Couscous Mirror
+		CirceAssassin		Circe Assassin
+		CirceTurncoats		Circe Turncoat
+		CirceDoubleAgents	Circe Turncoat Mirror
+		CageCirce		Circe Cage
+		CirceTake&Make		Circe Take&Make (also known as Anti-Take&Make)
+		VerticalMirrorCirce	Circe VerticalMirror
+		AprilChess		Circe Super April
+		MirrorAntiCirce		AntiCirce Mirror
+		DiagramAntiCirce	AntiCirce Diagram
+		FileAntiCirce		AntiCirce File
+		SymmetryAntiCirce	AntiCirce Symmetry
+		MirrorFileAnticirce	AntiCirce File Mirror
+		AntipodeanAntiCirce	AntiCirce Antipodes
+		EquipollentsAntiCirce	AntiCirce Equipollents
+		AntiCloneCirce		AntiCirce Clone
+		AntiSuperCirce		AntiCirce Super
+		MarsMirrorCirce		MarsCirce Mirror
+		AntiMarsMirrorCirce	AntiMarsCirce Mirror
+		AntiMarsAntipodeanCirce	AntiMarsCirce Antipodes
+		MirrorImmunChess	ImmunChess Mirror
+		FileImmunChess		ImmunChess File
+		DiagramImmunChess	ImmunChess Diagram
+		MirrorFileImmunChess	ImmunChess File Mirror
+		SymmetryImmunChess	ImmunChess Symmetry
+		AntipodeanImmunChess	ImmunChess Antipodes
+		EquipollentsImmunChess	ImmunChess Equipollents
 
  - option: Everything which should be in effect should be given here as
 	blank seperated list. The following is recognized:
@@ -515,7 +561,7 @@ commands expect further parameters. Lets start with the simpler commands:
 						{ctr}	    {ctr }
 						{<>r}	    {<>r }
 						{c81}	    {c81 }
-							    {Zxy }
+							    {Kxy }
       
 							    {dia } + n{.5}
 			   {SER-}			  + {dia } + n
