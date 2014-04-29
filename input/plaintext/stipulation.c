@@ -349,19 +349,19 @@ static char *ParseHelp(char *tok,
 
 static char *ParseHelpDia(char *tok,
                           slice_index proxy,
+                          slice_index proxy_next,
                           play_length_type play_length)
 {
   char *result;
-  slice_index proxy_to_goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
+  TraceFunctionParam("%u",proxy_next);
   TraceFunctionParam("%u",play_length);
   TraceFunctionParamListEnd();
 
-  proxy_to_goal = alloc_proxy_slice();
-  result = ParseGoal(tok,proxy_to_goal);
+  result = ParseGoal(tok,proxy_next);
   if (result!=0)
   {
     stip_length_type length;
@@ -371,7 +371,7 @@ static char *ParseHelpDia(char *tok,
     {
       link_to_branch(proxy,alloc_help_branch(length,min_length));
       select_output_mode(proxy,output_mode_line);
-      help_branch_set_end_goal(proxy,proxy_to_goal,1);
+      help_branch_set_end_goal(proxy,proxy_next,1);
     }
   }
 
@@ -516,14 +516,22 @@ static char *ParsePlay(char *tok,
                        play_length_type play_length)
 {
   /* seriesmovers with introductory moves */
-  char *arrowpos = strstr(tok,"->");
   char *result = 0;
+  char *arrowpos;
+  slice_index const proxy_next = alloc_proxy_slice();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
+  if (strncmp("exact-", tok, 6) == 0)
+  {
+    play_length = play_length_exact;
+    tok += 6;
+  }
+
+  arrowpos = strstr(tok,"->");
   if (arrowpos!=0)
   {
     char *end;
@@ -532,7 +540,6 @@ static char *ParsePlay(char *tok,
       IoErrorMsg(WrongInt, 0);
     else
     {
-      slice_index const proxy_next = alloc_proxy_slice();
       result = ParsePlay(arrowpos+2,root_slice_hook,proxy_next,play_length);
       if (result!=0 && slices[proxy_next].next1!=no_slice)
       {
@@ -542,18 +549,11 @@ static char *ParsePlay(char *tok,
         link_to_branch(proxy,branch);
         select_output_mode(proxy,output_mode_line);
       }
-      else
-        dealloc_slices(proxy_next);
     }
   }
 
-  else if (strncmp("exact-", tok, 6) == 0)
-    result = ParsePlay(tok+6,root_slice_hook,proxy,play_length_exact);
-
   else if (strncmp("ser-reci-h",tok,10) == 0)
   {
-    slice_index const proxy_next = alloc_proxy_slice();
-
     /* skip over "ser-reci-h" */
     tok = ParseReciEnd(tok+10,proxy_next);
     if (tok!=0 && slices[proxy_next].next1!=no_slice)
@@ -571,26 +571,19 @@ static char *ParsePlay(char *tok,
         select_output_mode(proxy,output_mode_line);
       }
     }
-    else
-      dealloc_slices(proxy_next);
   }
 
   else if (strncmp("ser-hs",tok,6)==0)
   {
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    tok = ParseGoal(tok+6,proxy_to_goal); /* skip over "ser-hs" */
-    if (tok==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    tok = ParseGoal(tok+6,proxy_next); /* skip over "ser-hs" */
+    if (tok!=0)
     {
       stip_length_type length;
       stip_length_type min_length;
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
-      if (result==0)
-        dealloc_slices(proxy_to_goal);
-      else
+      if (result!=0)
       {
-        slice_index const defense_branch = MakeEndOfSelfPlay(proxy_to_goal);
+        slice_index const defense_branch = MakeEndOfSelfPlay(proxy_next);
 
         /* in ser-hs, the series is 1 half-move longer than in usual
          * series play! */
@@ -608,7 +601,7 @@ static char *ParsePlay(char *tok,
           link_to_branch(proxy,series);
         }
 
-        solving_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_next,White);
         select_output_mode(proxy,output_mode_line);
       }
     }
@@ -616,86 +609,71 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("ser-h",tok,5) == 0)
   {
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    result = ParseSeries(tok+5,proxy,proxy_to_goal,play_length); /* skip over "ser-h" */
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-h" */
+    if (result!=0)
     {
       slice_index const help = alloc_help_branch(1,1);
-      help_branch_set_end_goal(help,proxy_to_goal,1);
+      help_branch_set_end_goal(help,proxy_next,1);
       help_branch_set_end(proxy,help,1);
 
       {
-        slice_index const next = slices[proxy_to_goal].next1;
+        slice_index const next = slices[proxy_next].next1;
         assert(next!=no_slice);
         if (slices[next].type==STGoalReachedTester
             && slices[next].u.goal_handler.goal.type==goal_proofgame)
-          solving_impose_starter(proxy_to_goal,White);
+          solving_impose_starter(proxy_next,White);
         else
-          solving_impose_starter(proxy_to_goal,Black);
+          solving_impose_starter(proxy_next,Black);
       }
     }
   }
 
   else if (strncmp("ser-s",tok,5) == 0)
   {
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    result = ParseSeries(tok+5,proxy,proxy_to_goal,play_length); /* skip over "ser-s" */
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-s" */
+    if (result!=0)
     {
-      help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_to_goal),1);
-      solving_impose_starter(proxy_to_goal,White);
+      help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_next),1);
+      solving_impose_starter(proxy_next,White);
     }
   }
 
   else if (strncmp("ser-r",tok,5) == 0)
   {
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    result = ParseSeries(tok+5,proxy,proxy_to_goal,play_length); /* skip over "ser-r" */
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-r" */
+    if (result!=0)
     {
-      slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
+      slice_index const proxy_semi = MakeSemireflexBranch(proxy_next);
       help_branch_set_end_forced(proxy,proxy_semi,1);
       series_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi));
-      solving_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_next,White);
     }
   }
 
   else if (strncmp("ser-",tok,4) == 0)
   {
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    result = ParseSeries(tok+4,proxy,proxy_to_goal,play_length); /* skip over "ser-" */
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    result = ParseSeries(tok+4,proxy,proxy_next,play_length); /* skip over "ser-" */
+    if (result!=0)
     {
-      help_branch_set_end_goal(proxy,proxy_to_goal,1);
-      solving_impose_starter(proxy_to_goal,Black);
+      help_branch_set_end_goal(proxy,proxy_next,1);
+      solving_impose_starter(proxy_next,Black);
     }
   }
 
   else if (strncmp("phser-r",tok,7) == 0)
   {
     boolean const shorten = true;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseHelp(tok+7, /* skip over phser-r */
-                       proxy,proxy_to_goal,
+                       proxy,proxy_next,
                        play_length,shorten);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
+      slice_index const proxy_semi = MakeSemireflexBranch(proxy_next);
       help_branch_set_end_forced(proxy,proxy_semi,1);
       if (help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0))
       {
         help_branch_insert_check_zigzag(proxy);
-        solving_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_next,White);
       }
       else
         result = 0;
@@ -705,62 +683,51 @@ static char *ParsePlay(char *tok,
   else if (strncmp("phser-s",tok,7) == 0)
   {
     boolean const shorten = true;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseHelp(tok+7, /* skip over phser-s */
-                       proxy,proxy_to_goal,
+                       proxy,proxy_next,
                        play_length,shorten);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_to_goal),1);
+      help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_next),1);
       help_branch_insert_check_zigzag(proxy);
-      solving_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_next,White);
     }
   }
 
   else if (strncmp("phser-",tok,6) == 0)
   {
     boolean const shorten = true;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseHelp(tok+6, /* skip over phser- */
-                       proxy,proxy_to_goal,
+                       proxy,proxy_next,
                        play_length,shorten);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      help_branch_set_end_goal(proxy,proxy_to_goal,1);
+      help_branch_set_end_goal(proxy,proxy_next,1);
       help_branch_insert_check_zigzag(proxy);
-      solving_impose_starter(proxy_to_goal,Black);
+      solving_impose_starter(proxy_next,Black);
     }
   }
 
   else if (strncmp("pser-hs",tok,7) == 0)
   {
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    tok = ParseGoal(tok+7,proxy_to_goal); /* skip over "ser-hs" */
-    if (tok==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    tok = ParseGoal(tok+7,proxy_next); /* skip over "ser-hs" */
+    if (tok!=0)
     {
       stip_length_type length;
       stip_length_type min_length;
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
-      if (result==0)
-        dealloc_slices(proxy_to_goal);
-      else
+      if (result!=0)
       {
         slice_index const series = alloc_help_branch(length,min_length);
         slice_index const help_proxy = alloc_proxy_slice();
         slice_index const help = alloc_help_branch(1,1);
-        slice_index const defense_branch = MakeEndOfSelfPlay(proxy_to_goal);
+        slice_index const defense_branch = MakeEndOfSelfPlay(proxy_next);
         link_to_branch(help_proxy,help);
         help_branch_set_end_forced(help_proxy,defense_branch,1);
         help_branch_set_end(series,help_proxy,1);
         link_to_branch(proxy,series);
         help_branch_insert_check_zigzag(proxy);
-        solving_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_next,White);
         select_output_mode(proxy,output_mode_line);
       }
     }
@@ -769,61 +736,52 @@ static char *ParsePlay(char *tok,
   else if (strncmp("pser-h",tok,6) == 0)
   {
     boolean const shorten = true;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseHelp(tok+6, /* skip over pser-h */
-                       proxy,proxy_to_goal,
+                       proxy,proxy_next,
                        play_length,shorten);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      slice_index const to_goal = slices[proxy_to_goal].next1;
+      slice_index const to_goal = slices[proxy_next].next1;
       slice_index const nested = alloc_help_branch(1,1);
-      help_branch_set_end_goal(nested,proxy_to_goal,1);
+      help_branch_set_end_goal(nested,proxy_next,1);
       help_branch_set_end(proxy,nested,1);
       help_branch_insert_check_zigzag(proxy);
       if (slices[to_goal].type==STGoalReachedTester
           && slices[to_goal].u.goal_handler.goal.type==goal_proofgame)
-        solving_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_next,White);
       else
-        solving_impose_starter(proxy_to_goal,Black);
+        solving_impose_starter(proxy_next,Black);
     }
   }
 
   else if (strncmp("pser-r",tok,6) == 0)
   {
     boolean const ends_on_defense = false;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseBattle(tok+6, /* skip over pser-r */
-                         proxy,proxy_to_goal,
+                         proxy,proxy_next,
                          play_length,ends_on_defense);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
+      slice_index const proxy_semi = MakeSemireflexBranch(proxy_next);
       battle_branch_insert_end_of_branch_forced(proxy,proxy_semi);
       battle_branch_insert_attack_constraint(proxy,MakeReflexBranch(proxy_semi));
       battle_branch_insert_defense_check_zigzag(proxy);
       select_output_mode(proxy,output_mode_line);
-      solving_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_next,White);
     }
   }
 
   else if (strncmp("pser-s",tok,6) == 0)
   {
     boolean const ends_on_defense = false;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseBattle(tok+6, /* skip over pser-s */
-                         proxy,proxy_to_goal,
+                         proxy,proxy_next,
                          play_length,ends_on_defense);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
       battle_branch_insert_direct_end_of_branch(proxy,
-                                                MakeEndOfSelfPlay(proxy_to_goal));
-      solving_impose_starter(proxy_to_goal,Black);
+                                                MakeEndOfSelfPlay(proxy_next));
+      solving_impose_starter(proxy_next,Black);
       select_output_mode(proxy,output_mode_line);
       battle_branch_insert_defense_check_zigzag(proxy);
     }
@@ -832,23 +790,19 @@ static char *ParsePlay(char *tok,
   else if (strncmp("pser-",tok,5) == 0)
   {
     boolean const ends_on_defense = false;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseBattle(tok+5, /* skip over pser- */
-                         proxy,proxy_to_goal,
+                         proxy,proxy_next,
                          play_length,ends_on_defense);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
       select_output_mode(proxy,output_mode_line);
-      battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_to_goal);
+      battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_next);
       battle_branch_insert_defense_check_zigzag(proxy);
     }
   }
 
   else if (strncmp("reci-h",tok,6) == 0)
   {
-    slice_index const proxy_next = alloc_proxy_slice();
     char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
                                      proxy_next);
     if (tok2!=0 && slices[proxy_next].next1!=no_slice)
@@ -864,9 +818,7 @@ static char *ParsePlay(char *tok,
         result = 0;
       }
 
-      if (result==0)
-        dealloc_slices(proxy_next);
-      else
+      if (result!=0)
       {
         if (length==2)
         {
@@ -891,13 +843,13 @@ static char *ParsePlay(char *tok,
 
   else if (strncmp("dia",tok,3)==0)
   {
-    result = ParseHelpDia(tok,proxy,play_length);
+    result = ParseHelpDia(tok,proxy,proxy_next,play_length);
     if (result!=0)
       solving_impose_starter(proxy,White);
   }
   else if (strncmp("a=>b",tok,4)==0)
   {
-    result = ParseHelpDia(tok,proxy,play_length);
+    result = ParseHelpDia(tok,proxy,proxy_next,play_length);
     if (result!=0)
       solving_impose_starter(proxy,Black);
   }
@@ -905,34 +857,28 @@ static char *ParsePlay(char *tok,
   else if (strncmp("hs",tok,2)==0)
   {
     boolean const shorten = true;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseHelp(tok+2, /* skip over "hs" */
-                       proxy,proxy_to_goal,
+                       proxy,proxy_next,
                        play_length,shorten);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_to_goal),1);
-      solving_impose_starter(proxy_to_goal,White);
+      help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_next),1);
+      solving_impose_starter(proxy_next,White);
     }
   }
 
   else if (strncmp("hr",tok,2)==0)
   {
     boolean const shorten = true;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseHelp(tok+2, /* skip over "hr" */
-                       proxy,proxy_to_goal,
+                       proxy,proxy_next,
                        play_length,shorten);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
+      slice_index const proxy_semi = MakeSemireflexBranch(proxy_next);
       help_branch_set_end_forced(proxy,proxy_semi,1);
       if (help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0))
-        solving_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_next,White);
       else
         result = 0;
     }
@@ -941,85 +887,73 @@ static char *ParsePlay(char *tok,
   else if (*tok=='h')
   {
     boolean const shorten = false;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseHelp(tok+1, /* skip over "h" */
-                       proxy,proxy_to_goal,
+                       proxy,proxy_next,
                        play_length,shorten);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      help_branch_set_end_goal(proxy,proxy_to_goal,1);
-      solving_impose_starter(proxy_to_goal,Black);
+      help_branch_set_end_goal(proxy,proxy_next,1);
+      solving_impose_starter(proxy_next,Black);
     }
   }
 
   else if (strncmp("semi-r",tok,6)==0)
   {
     boolean const ends_on_defense = false;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseBattle(tok+6, /* skip over "semi-r" */
-                         proxy,proxy_to_goal,
+                         proxy,proxy_next,
                          play_length,ends_on_defense);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
       battle_branch_insert_end_of_branch_forced(proxy,
-                                                MakeSemireflexBranch(proxy_to_goal));
+                                                MakeSemireflexBranch(proxy_next));
       select_output_mode(proxy,output_mode_tree);
-      solving_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_next,White);
     }
   }
 
   else if (*tok=='s')
   {
     boolean const ends_on_defense = true;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseBattle(tok+1, /* skip over 's' */
-                         proxy,proxy_to_goal,
+                         proxy,proxy_next,
                          play_length,ends_on_defense);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
       select_output_mode(proxy,output_mode_tree);
-      battle_branch_insert_self_end_of_branch_goal(proxy,proxy_to_goal);
+      battle_branch_insert_self_end_of_branch_goal(proxy,proxy_next);
     }
   }
 
   else if (*tok=='r')
   {
     boolean const ends_on_defense = false;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseBattle(tok+1, /* skip over 'r' */
-                         proxy,proxy_to_goal,
+                         proxy,proxy_next,
                          play_length,ends_on_defense);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    if (result!=0)
     {
-      slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
+      slice_index const proxy_semi = MakeSemireflexBranch(proxy_next);
       battle_branch_insert_end_of_branch_forced(proxy,proxy_semi);
       battle_branch_insert_attack_constraint(proxy,MakeReflexBranch(proxy_semi));
       select_output_mode(proxy,output_mode_tree);
-      solving_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_next,White);
     }
   }
 
   else
   {
     boolean const ends_on_defense = false;
-    slice_index const proxy_to_goal = alloc_proxy_slice();
-    result = ParseBattle(tok,proxy,proxy_to_goal,play_length,ends_on_defense);
-    if (result==0)
-      dealloc_slices(proxy_to_goal);
-    else
+    result = ParseBattle(tok,proxy,proxy_next,play_length,ends_on_defense);
+    if (result!=0)
     {
       select_output_mode(proxy,output_mode_tree);
-      battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_to_goal);
+      battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_next);
     }
   }
+
+  if (result==0)
+    dealloc_slices(proxy_next);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",result);
