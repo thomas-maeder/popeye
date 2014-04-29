@@ -167,7 +167,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_king_oscillators(slice_index si)
+void solving_insert_king_oscillators(slice_index si)
 {
   stip_structure_traversal st;
 
@@ -175,7 +175,7 @@ void stip_insert_king_oscillators(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,slices[si].starter);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);

@@ -177,7 +177,7 @@ void einstein_moving_adjuster_solve(slice_index si)
 
 /* Instrument slices with move tracers
  */
-void stip_insert_einstein_moving_adjusters(slice_index si)
+void solving_insert_einstein_moving_adjusters(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

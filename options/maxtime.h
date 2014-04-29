@@ -27,6 +27,6 @@ void maxtime_guard_solve(slice_index si);
 /* Instrument a stipulation with STMaxTimeGuard slices
  * @param si identifies slice where to start
  */
-void stip_insert_maxtime_guards(slice_index si);
+void solving_insert_maxtime_guards(slice_index si);
 
 #endif

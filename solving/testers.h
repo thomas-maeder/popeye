@@ -8,6 +8,6 @@
  * @note the state information passed to the slice visitors is of type boolean
  *       and indicates whether spinning off testers has started
  */
-void stip_spin_off_testers(slice_index si);
+void solving_spin_off_testers(slice_index si);
 
 #endif

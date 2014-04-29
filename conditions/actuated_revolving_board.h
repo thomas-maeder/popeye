@@ -8,7 +8,7 @@
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_actuated_revolving_board(slice_index si);
+void solving_insert_actuated_revolving_board(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

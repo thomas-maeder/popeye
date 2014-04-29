@@ -96,7 +96,7 @@ void line_chameleon_arriving_adjuster_solve(slice_index si)
 
 /* Instrument slices with move tracers
  */
-void stip_insert_line_chameleon_chess(slice_index si)
+void solving_insert_line_chameleon_chess(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

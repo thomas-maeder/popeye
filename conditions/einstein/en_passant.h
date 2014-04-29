@@ -24,6 +24,6 @@ void einstein_en_passant_adjuster_solve(slice_index si);
 
 /* Instrument slices with promotee markers
  */
-void stip_insert_einstein_en_passant_adjusters(slice_index si);
+void solving_insert_einstein_en_passant_adjusters(slice_index si);
 
 #endif

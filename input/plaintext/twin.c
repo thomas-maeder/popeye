@@ -690,18 +690,23 @@ static char *ParseTwinning(slice_index root_slice_hook)
 
 Token ReadInitialTwin(slice_index root_slice_hook)
 {
+  Token result;
   char *tok;
+  boolean more_input = true;
 
   /* open mode for protocol and/or TeX file; overwrite existing file(s)
    * if we are doing a regression test */
   char const *open_mode = flag_regression ? "w" : "a";
 
-  TraceText("ReadInitialTwin()\n");
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice_hook);
+  TraceFunctionParamListEnd();
+
   tok = ReadNextTokStr();
   TwinNumber= 1;
-  while (true)
+  while (more_input)
   {
-    Token const result = StringToToken(tok);
+    result = StringToToken(tok);
     if (result>TokenCount)
     {
       IoErrorMsg(ComNotUniq,0);
@@ -723,28 +728,14 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           if (TwinNumber==1)
             TwinStorePosition();
 
-          if (slices[root_slice_hook].next1!=no_slice)
-            return result;
-          else
-          {
-            IoErrorMsg(NoStipulation,0);
-            tok = ReadNextTokStr();
-            break;
-          }
+          more_input = false;
+          break;
 
         case NextProblem:
         case EndProblem:
-          if (slices[root_slice_hook].next1!=no_slice)
-            return result;
-          else
-          {
-            IoErrorMsg(NoStipulation,0);
-            tok = ReadNextTokStr();
-            break;
-          }
-
         case ZeroPosition:
-          return result;
+          more_input = false;
+          break;
 
         case StipToken:
           if (slices[root_slice_hook].next1==no_slice)
@@ -870,6 +861,11 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
       }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 Token ReadSubsequentTwin(slice_index root_slice_hook)
@@ -896,24 +892,24 @@ Token ReadSubsequentTwin(slice_index root_slice_hook)
       switch (result)
       {
         case TwinProblem:
-          if (slices[root_slice_hook].next1!=no_slice)
-            more_twinning = false;
-          else
+          if (slices[root_slice_hook].next1==no_slice)
           {
             IoErrorMsg(NoStipulation,0);
             tok = ReadNextTokStr();
           }
+          else
+            more_twinning = false;
           break;
 
         case NextProblem:
         case EndProblem:
-          if (root_slice_hook!=no_slice)
-            more_twinning = false;
-          else
+          if (root_slice_hook==no_slice)
           {
             IoErrorMsg(NoStipulation,0);
             tok = ReadNextTokStr();
           }
+          else
+            more_twinning = false;
           break;
 
         case RemToken:
@@ -1008,7 +1004,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       else
       {
         stip_detect_starter(proxy);
-        stip_impose_starter(proxy,advers(slices[proxy].starter));
+        solving_impose_starter(proxy,advers(slices[proxy].starter));
       }
       result = true;
       break;
@@ -1076,34 +1072,39 @@ static void deal_with_stipulation(slice_index stipulation_root_hook,
   TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
-  if (slices[stipulation_root_hook].starter==no_side)
-    complete_stipulation(stipulation_root_hook);
-
-  TraceStipulation(stipulation_root_hook);
-
-  if (slices[slices[stipulation_root_hook].next1].starter==no_side)
-    VerifieMsg(CantDecideWhoIsAtTheMove);
+  if (slices[stipulation_root_hook].next1==no_slice)
+    IoErrorMsg(NoStipulation,0);
   else
   {
-    Side const regular_starter = slices[stipulation_root_hook].starter;
+    if (slices[stipulation_root_hook].starter==no_side)
+      complete_stipulation(stipulation_root_hook);
 
-    if (!OptFlag[halfduplex])
-      twin_solve_stipulation(stipulation_root_hook,context);
+    TraceStipulation(stipulation_root_hook);
 
-    if (OptFlag[halfduplex] || OptFlag[duplex])
+    if (slices[slices[stipulation_root_hook].next1].starter==no_side)
+      VerifieMsg(CantDecideWhoIsAtTheMove);
+    else
     {
-      stip_impose_starter(stipulation_root_hook,advers(regular_starter));
-      twin_solve_stipulation(stipulation_root_hook,
-                             OptFlag[duplex] ? twin_subsequent : context);
-      stip_impose_starter(stipulation_root_hook,regular_starter);
+      Side const regular_starter = slices[stipulation_root_hook].starter;
+
+      if (!OptFlag[halfduplex])
+        twin_solve_stipulation(stipulation_root_hook,context);
+
+      if (OptFlag[halfduplex] || OptFlag[duplex])
+      {
+        solving_impose_starter(stipulation_root_hook,advers(regular_starter));
+        twin_solve_stipulation(stipulation_root_hook,
+                               OptFlag[duplex] ? twin_subsequent : context);
+        solving_impose_starter(stipulation_root_hook,regular_starter);
+      }
+
+      Message(NewLine);
+
+      WRITE_COUNTER(add_to_move_generation_stack);
+      WRITE_COUNTER(play_move);
+      WRITE_COUNTER(is_white_king_square_attacked);
+      WRITE_COUNTER(is_black_king_square_attacked);
     }
-
-    Message(NewLine);
-
-    WRITE_COUNTER(add_to_move_generation_stack);
-    WRITE_COUNTER(play_move);
-    WRITE_COUNTER(is_white_king_square_attacked);
-    WRITE_COUNTER(is_black_king_square_attacked);
   }
 
   TraceFunctionExit(__func__);

@@ -255,7 +255,7 @@ static void spin_off_state_init(spin_off_state_type *state)
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
  */
-void stip_insert_root_slices(slice_index si)
+void solving_insert_root_slices(slice_index si)
 {
   stip_structure_traversal st;
   spin_off_state_type state;
@@ -599,7 +599,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
  * @param si identifies the root from which to apply set play
  * @return true iff set play could be added
  */
-boolean stip_apply_setplay(slice_index si)
+boolean solving_apply_setplay(slice_index si)
 {
   boolean result;
   spin_off_state_type state;
@@ -845,7 +845,7 @@ static void stip_impose_starter_impl(slice_index si,
  * @param si identifies slice where to start
  * @param starter starting side at the root of the stipulation
  */
-void stip_impose_starter(slice_index si, Side starter)
+void solving_impose_starter(slice_index si, Side starter)
 {
   stip_structure_traversal st;
 

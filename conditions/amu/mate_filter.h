@@ -24,6 +24,6 @@ void amu_mate_filter_solve(slice_index si);
 /* Instrument a stipulation with AMU mate filter slices
  * @param si root of branch to be instrumented
  */
-void stip_insert_amu_mate_filters(slice_index si);
+void solving_insert_amu_mate_filters(slice_index si);
 
 #endif

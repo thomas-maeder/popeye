@@ -153,7 +153,7 @@ enum
  * - avoid going on solving if a non-immobilising goal has been reached
  * @param root_slice identifes root slice of stipulation
  */
-void stip_instrument_help_ends_of_branches(slice_index root_slice)
+void solving_instrument_help_ends_of_branches(slice_index root_slice)
 {
   stip_structure_traversal st;
 

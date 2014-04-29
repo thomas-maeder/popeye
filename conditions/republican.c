@@ -221,7 +221,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_republican_king_placers(slice_index si)
+void solving_insert_republican_king_placers(slice_index si)
 {
   stip_structure_traversal st;
 

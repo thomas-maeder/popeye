@@ -28,6 +28,6 @@ void oscillating_kings_type_c_solve(slice_index si);
 /* Instrument a stipulation for Oscillating Kings
  * @param si identifies root slice of stipulation
  */
-void stip_insert_king_oscillators(slice_index si);
+void solving_insert_king_oscillators(slice_index si);
 
 #endif

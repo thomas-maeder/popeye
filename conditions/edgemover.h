@@ -29,6 +29,6 @@ void edgemover_remove_illegal_moves_solve(slice_index si);
 /* Instrument the solvers with EdgeMover
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_edgemover(slice_index si);
+void solving_insert_edgemover(slice_index si);
 
 #endif

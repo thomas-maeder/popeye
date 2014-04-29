@@ -20,6 +20,6 @@ void disable_orthodox_mating_move_optimisation(Side side);
 /* Optimise move generation by inserting orthodox mating move generators
  * @param si identifies the root slice of the stipulation
  */
-void stip_optimise_with_orthodox_mating_move_generators(slice_index si);
+void solving_optimise_with_orthodox_mating_move_generators(slice_index si);
 
 #endif

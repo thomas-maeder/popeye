@@ -23,6 +23,6 @@ void nocapture_remove_captures_solve(slice_index si);
 /* Instrument the solvers with Nocapture
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_nocapture(slice_index si);
+void solving_insert_nocapture(slice_index si);
 
 #endif

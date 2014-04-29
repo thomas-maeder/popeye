@@ -4,7 +4,8 @@ debugging/assert$(OBJ_SUFFIX): debugging/assert.c debugging/assert.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/move_generator.h solving/ply.h
+ solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
+ solving/ply.h
 
 debugging/assert.h:
 
@@ -36,6 +37,10 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 solving/move_generator.h:
 
 solving/ply.h:
@@ -44,10 +49,10 @@ debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h optimisations/hash.h \
- DHT/dhtbcmem.h solving/machinery/solve.h solving/ply.h \
- output/plaintext/plaintext.h debugging/assert.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ DHT/dhtbcmem.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ debugging/trace.h solving/ply.h output/plaintext/plaintext.h \
+ debugging/assert.h stipulation/move.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h
@@ -84,6 +89,10 @@ DHT/dhtbcmem.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 solving/ply.h:
 
 output/plaintext/plaintext.h:
@@ -110,8 +119,8 @@ debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h optimisations/hash.h \
- DHT/dhtbcmem.h solving/machinery/solve.h solving/ply.h \
- output/plaintext/plaintext.h debugging/assert.h
+ DHT/dhtbcmem.h solving/machinery/solve.h solving/machinery/dispatch.h \
+ solving/ply.h output/plaintext/plaintext.h debugging/assert.h
 
 debugging/trace.h:
 
@@ -144,6 +153,8 @@ optimisations/hash.h:
 DHT/dhtbcmem.h:
 
 solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
 
 solving/ply.h:
 

@@ -23,6 +23,6 @@ void nopromotion_avoid_promotion_moving_solve(slice_index si);
 /* Instrument the solvers with NoPromotions
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_nopromotions(slice_index si);
+void solving_insert_nopromotions(slice_index si);
 
 #endif

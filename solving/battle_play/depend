@@ -3,7 +3,8 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/branch.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -11,7 +12,7 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
- stipulation/battle_play/branch.h debugging/trace.h debugging/assert.h
+ stipulation/battle_play/branch.h debugging/assert.h
 
 solving/battle_play/continuation.h:
 
@@ -41,6 +42,10 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/branch.h:
 
 stipulation/structure_traversal.h:
@@ -67,8 +72,6 @@ stipulation/pipe.h:
 
 stipulation/battle_play/branch.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  solving/battle_play/threat.h stipulation/structure_traversal.h \
@@ -79,13 +82,14 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
- output/mode.h output/mode.enum.h solving/machinery/solve.h solving/ply.h \
+ output/mode.h output/mode.enum.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  utilities/table.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/testing_pipe.h \
  stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
  stipulation/move_played.h stipulation/battle_play/branch.h \
  solving/avoid_unsolvable.h solving/check.h solving/fork.h solving/pipe.h \
- debugging/trace.h debugging/assert.h
+ debugging/assert.h
 
 solving/battle_play/threat.h:
 
@@ -129,6 +133,10 @@ output/mode.enum.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 solving/ply.h:
 
 utilities/table.h:
@@ -157,8 +165,6 @@ solving/fork.h:
 
 solving/pipe.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  solving/battle_play/try.h utilities/table.h utilities/boolean.h \
@@ -173,10 +179,11 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/fork.h stipulation/branch.h stipulation/constraint.h \
  solving/moves_traversal.h solving/dead_end.h solving/machinery/solve.h \
- stipulation/binary.h stipulation/proxy.h stipulation/boolean/true.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/binary.h \
+ stipulation/proxy.h stipulation/boolean/true.h \
  stipulation/boolean/false.h stipulation/battle_play/branch.h \
  solving/pipe.h output/plaintext/message.h input/plaintext/language.h \
- debugging/trace.h debugging/assert.h
+ debugging/assert.h
 
 solving/battle_play/try.h:
 
@@ -234,6 +241,10 @@ solving/dead_end.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/binary.h:
 
 stipulation/proxy.h:
@@ -249,8 +260,6 @@ solving/pipe.h:
 output/plaintext/message.h:
 
 input/plaintext/language.h:
-
-debugging/trace.h:
 
 debugging/assert.h:
 solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
@@ -329,14 +338,14 @@ solving/battle_play/min_length_optimiser$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/branch.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/avoid_unsolvable.h solving/pipe.h debugging/trace.h \
- debugging/assert.h
+ solving/avoid_unsolvable.h solving/pipe.h debugging/assert.h
 
 solving/battle_play/min_length_optimiser.h:
 
@@ -366,6 +375,10 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/branch.h:
 
 stipulation/structure_traversal.h:
@@ -386,8 +399,6 @@ solving/avoid_unsolvable.h:
 
 solving/pipe.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  solving/battle_play/min_length_guard.c \
@@ -395,7 +406,8 @@ solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/pipe.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -405,7 +417,7 @@ solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  solving/has_solution_type.enum.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
  solving/battle_play/min_length_optimiser.h solving/pipe.h \
- debugging/trace.h debugging/assert.h
+ debugging/assert.h
 
 solving/battle_play/min_length_guard.h:
 
@@ -434,6 +446,10 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 stipulation/pipe.h:
 
@@ -465,8 +481,6 @@ solving/battle_play/min_length_optimiser.h:
 
 solving/pipe.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 solving/battle_play/attack_adapter$(OBJ_SUFFIX): \
  solving/battle_play/attack_adapter.c \
@@ -479,10 +493,10 @@ solving/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/pipe.h stipulation/pipe.h stipulation/branch.h \
- stipulation/binary.h stipulation/conditional_pipe.h debugging/trace.h \
- debugging/assert.h
+ stipulation/binary.h stipulation/conditional_pipe.h debugging/assert.h
 
 solving/battle_play/attack_adapter.h:
 
@@ -526,6 +540,10 @@ output/mode.enum.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
@@ -540,8 +558,6 @@ stipulation/binary.h:
 
 stipulation/conditional_pipe.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 solving/battle_play/defense_adapter$(OBJ_SUFFIX): \
  solving/battle_play/defense_adapter.c \
@@ -554,10 +570,10 @@ solving/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h solving/machinery/solve.h \
- stipulation/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/battle_play/branch.h \
  solving/battle_play/attack_adapter.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h debugging/trace.h \
- debugging/assert.h
+ solving/has_solution_type.enum.h solving/pipe.h debugging/assert.h
 
 solving/battle_play/defense_adapter.h:
 
@@ -601,6 +617,10 @@ output/mode.enum.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/pipe.h:
 
 stipulation/branch.h:
@@ -614,7 +634,5 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/pipe.h:
-
-debugging/trace.h:
 
 debugging/assert.h:

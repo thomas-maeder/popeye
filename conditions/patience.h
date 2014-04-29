@@ -11,7 +11,7 @@ extern boolean PatienceB;
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_patience_chess(slice_index si);
+void solving_insert_patience_chess(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

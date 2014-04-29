@@ -236,7 +236,7 @@ static char *ParseBattle(char *tok,
                                            ? 1
                                            : length-1);
       link_to_branch(proxy,alloc_battle_branch(length,min_length));
-      stip_impose_starter(proxy,White);
+      solving_impose_starter(proxy,White);
     }
   }
 
@@ -542,6 +542,8 @@ static char *ParsePlay(char *tok,
         link_to_branch(proxy,branch);
         select_output_mode(proxy,output_mode_line);
       }
+      else
+        dealloc_slices(proxy_next);
     }
   }
 
@@ -565,22 +567,28 @@ static char *ParsePlay(char *tok,
         help_branch_set_end(branch,proxy_next,1);
         link_to_branch(proxy,branch);
 
-        stip_impose_starter(proxy_next,Black);
+        solving_impose_starter(proxy_next,Black);
         select_output_mode(proxy,output_mode_line);
       }
     }
+    else
+      dealloc_slices(proxy_next);
   }
 
   else if (strncmp("ser-hs",tok,6)==0)
   {
     slice_index const proxy_to_goal = alloc_proxy_slice();
     tok = ParseGoal(tok+6,proxy_to_goal); /* skip over "ser-hs" */
-    if (tok!=0)
+    if (tok==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       stip_length_type length;
       stip_length_type min_length;
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
-      if (result!=0)
+      if (result==0)
+        dealloc_slices(proxy_to_goal);
+      else
       {
         slice_index const defense_branch = MakeEndOfSelfPlay(proxy_to_goal);
 
@@ -600,7 +608,7 @@ static char *ParsePlay(char *tok,
           link_to_branch(proxy,series);
         }
 
-        stip_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_to_goal,White);
         select_output_mode(proxy,output_mode_line);
       }
     }
@@ -610,7 +618,9 @@ static char *ParsePlay(char *tok,
   {
     slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseSeries(tok+5,proxy,proxy_to_goal,play_length); /* skip over "ser-h" */
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       slice_index const help = alloc_help_branch(1,1);
       help_branch_set_end_goal(help,proxy_to_goal,1);
@@ -621,9 +631,9 @@ static char *ParsePlay(char *tok,
         assert(next!=no_slice);
         if (slices[next].type==STGoalReachedTester
             && slices[next].u.goal_handler.goal.type==goal_proofgame)
-          stip_impose_starter(proxy_to_goal,White);
+          solving_impose_starter(proxy_to_goal,White);
         else
-          stip_impose_starter(proxy_to_goal,Black);
+          solving_impose_starter(proxy_to_goal,Black);
       }
     }
   }
@@ -632,10 +642,12 @@ static char *ParsePlay(char *tok,
   {
     slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseSeries(tok+5,proxy,proxy_to_goal,play_length); /* skip over "ser-s" */
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_to_goal),1);
-      stip_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_to_goal,White);
     }
   }
 
@@ -643,12 +655,14 @@ static char *ParsePlay(char *tok,
   {
     slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseSeries(tok+5,proxy,proxy_to_goal,play_length); /* skip over "ser-r" */
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
       help_branch_set_end_forced(proxy,proxy_semi,1);
       series_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi));
-      stip_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_to_goal,White);
     }
   }
 
@@ -656,10 +670,12 @@ static char *ParsePlay(char *tok,
   {
     slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseSeries(tok+4,proxy,proxy_to_goal,play_length); /* skip over "ser-" */
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       help_branch_set_end_goal(proxy,proxy_to_goal,1);
-      stip_impose_starter(proxy_to_goal,Black);
+      solving_impose_starter(proxy_to_goal,Black);
     }
   }
 
@@ -670,14 +686,16 @@ static char *ParsePlay(char *tok,
     result = ParseHelp(tok+7, /* skip over phser-r */
                        proxy,proxy_to_goal,
                        play_length,shorten);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
       help_branch_set_end_forced(proxy,proxy_semi,1);
       if (help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0))
       {
         help_branch_insert_check_zigzag(proxy);
-        stip_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_to_goal,White);
       }
       else
         result = 0;
@@ -691,11 +709,13 @@ static char *ParsePlay(char *tok,
     result = ParseHelp(tok+7, /* skip over phser-s */
                        proxy,proxy_to_goal,
                        play_length,shorten);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_to_goal),1);
       help_branch_insert_check_zigzag(proxy);
-      stip_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_to_goal,White);
     }
   }
 
@@ -706,11 +726,13 @@ static char *ParsePlay(char *tok,
     result = ParseHelp(tok+6, /* skip over phser- */
                        proxy,proxy_to_goal,
                        play_length,shorten);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       help_branch_set_end_goal(proxy,proxy_to_goal,1);
       help_branch_insert_check_zigzag(proxy);
-      stip_impose_starter(proxy_to_goal,Black);
+      solving_impose_starter(proxy_to_goal,Black);
     }
   }
 
@@ -718,12 +740,16 @@ static char *ParsePlay(char *tok,
   {
     slice_index const proxy_to_goal = alloc_proxy_slice();
     tok = ParseGoal(tok+7,proxy_to_goal); /* skip over "ser-hs" */
-    if (tok!=0)
+    if (tok==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       stip_length_type length;
       stip_length_type min_length;
       result = ParseSeriesLength(tok,&length,&min_length,play_length);
-      if (result!=0)
+      if (result==0)
+        dealloc_slices(proxy_to_goal);
+      else
       {
         slice_index const series = alloc_help_branch(length,min_length);
         slice_index const help_proxy = alloc_proxy_slice();
@@ -734,7 +760,7 @@ static char *ParsePlay(char *tok,
         help_branch_set_end(series,help_proxy,1);
         link_to_branch(proxy,series);
         help_branch_insert_check_zigzag(proxy);
-        stip_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_to_goal,White);
         select_output_mode(proxy,output_mode_line);
       }
     }
@@ -747,7 +773,9 @@ static char *ParsePlay(char *tok,
     result = ParseHelp(tok+6, /* skip over pser-h */
                        proxy,proxy_to_goal,
                        play_length,shorten);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       slice_index const to_goal = slices[proxy_to_goal].next1;
       slice_index const nested = alloc_help_branch(1,1);
@@ -756,9 +784,9 @@ static char *ParsePlay(char *tok,
       help_branch_insert_check_zigzag(proxy);
       if (slices[to_goal].type==STGoalReachedTester
           && slices[to_goal].u.goal_handler.goal.type==goal_proofgame)
-        stip_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_to_goal,White);
       else
-        stip_impose_starter(proxy_to_goal,Black);
+        solving_impose_starter(proxy_to_goal,Black);
     }
   }
 
@@ -769,14 +797,16 @@ static char *ParsePlay(char *tok,
     result = ParseBattle(tok+6, /* skip over pser-r */
                          proxy,proxy_to_goal,
                          play_length,ends_on_defense);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
       battle_branch_insert_end_of_branch_forced(proxy,proxy_semi);
       battle_branch_insert_attack_constraint(proxy,MakeReflexBranch(proxy_semi));
       battle_branch_insert_defense_check_zigzag(proxy);
       select_output_mode(proxy,output_mode_line);
-      stip_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_to_goal,White);
     }
   }
 
@@ -787,11 +817,13 @@ static char *ParsePlay(char *tok,
     result = ParseBattle(tok+6, /* skip over pser-s */
                          proxy,proxy_to_goal,
                          play_length,ends_on_defense);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       battle_branch_insert_direct_end_of_branch(proxy,
                                                 MakeEndOfSelfPlay(proxy_to_goal));
-      stip_impose_starter(proxy_to_goal,Black);
+      solving_impose_starter(proxy_to_goal,Black);
       select_output_mode(proxy,output_mode_line);
       battle_branch_insert_defense_check_zigzag(proxy);
     }
@@ -804,7 +836,9 @@ static char *ParsePlay(char *tok,
     result = ParseBattle(tok+5, /* skip over pser- */
                          proxy,proxy_to_goal,
                          play_length,ends_on_defense);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       select_output_mode(proxy,output_mode_line);
       battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_to_goal);
@@ -823,34 +857,34 @@ static char *ParsePlay(char *tok,
       stip_length_type min_length;
       result = ParseHelpLength(tok2,&length,&min_length,play_length);
 
-      if (result!=0)
+      if (length==1)
       {
-        if (length==1)
+        /* at least 2 half moves requried for a reciprocal stipulation */
+        IoErrorMsg(StipNotSupported,0);
+        result = 0;
+      }
+
+      if (result==0)
+        dealloc_slices(proxy_next);
+      else
+      {
+        if (length==2)
         {
-          /* at least 2 half moves requried for a reciprocal stipulation */
-          IoErrorMsg(StipNotSupported,0);
-          result = 0;
+          pipe_link(proxy,slices[proxy_next].next1);
+          dealloc_slice(proxy_next);
         }
         else
         {
-          if (length==2)
-          {
-            pipe_link(proxy,slices[proxy_next].next1);
-            dealloc_slice(proxy_next);
-          }
-          else
-          {
-            stip_length_type const min_length2 = (min_length<2
-                                                  ? min_length
-                                                  : min_length-2);
-            slice_index const branch = alloc_help_branch(length-2,min_length2);
-            help_branch_set_end(branch,proxy_next,1);
-            attach_help_branch(length,proxy,branch);
-          }
-
-          stip_impose_starter(proxy_next,Black);
-          select_output_mode(proxy,output_mode_line);
+          stip_length_type const min_length2 = (min_length<2
+                                                ? min_length
+                                                : min_length-2);
+          slice_index const branch = alloc_help_branch(length-2,min_length2);
+          help_branch_set_end(branch,proxy_next,1);
+          attach_help_branch(length,proxy,branch);
         }
+
+        solving_impose_starter(proxy_next,Black);
+        select_output_mode(proxy,output_mode_line);
       }
     }
   }
@@ -859,13 +893,13 @@ static char *ParsePlay(char *tok,
   {
     result = ParseHelpDia(tok,proxy,play_length);
     if (result!=0)
-      stip_impose_starter(proxy,White);
+      solving_impose_starter(proxy,White);
   }
   else if (strncmp("a=>b",tok,4)==0)
   {
     result = ParseHelpDia(tok,proxy,play_length);
     if (result!=0)
-      stip_impose_starter(proxy,Black);
+      solving_impose_starter(proxy,Black);
   }
 
   else if (strncmp("hs",tok,2)==0)
@@ -875,10 +909,12 @@ static char *ParsePlay(char *tok,
     result = ParseHelp(tok+2, /* skip over "hs" */
                        proxy,proxy_to_goal,
                        play_length,shorten);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_to_goal),1);
-      stip_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_to_goal,White);
     }
   }
 
@@ -889,12 +925,14 @@ static char *ParsePlay(char *tok,
     result = ParseHelp(tok+2, /* skip over "hr" */
                        proxy,proxy_to_goal,
                        play_length,shorten);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
       help_branch_set_end_forced(proxy,proxy_semi,1);
       if (help_branch_insert_constraint(proxy,MakeReflexBranch(proxy_semi),0))
-        stip_impose_starter(proxy_to_goal,White);
+        solving_impose_starter(proxy_to_goal,White);
       else
         result = 0;
     }
@@ -907,10 +945,12 @@ static char *ParsePlay(char *tok,
     result = ParseHelp(tok+1, /* skip over "h" */
                        proxy,proxy_to_goal,
                        play_length,shorten);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       help_branch_set_end_goal(proxy,proxy_to_goal,1);
-      stip_impose_starter(proxy_to_goal,Black);
+      solving_impose_starter(proxy_to_goal,Black);
     }
   }
 
@@ -921,12 +961,14 @@ static char *ParsePlay(char *tok,
     result = ParseBattle(tok+6, /* skip over "semi-r" */
                          proxy,proxy_to_goal,
                          play_length,ends_on_defense);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       battle_branch_insert_end_of_branch_forced(proxy,
                                                 MakeSemireflexBranch(proxy_to_goal));
       select_output_mode(proxy,output_mode_tree);
-      stip_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_to_goal,White);
     }
   }
 
@@ -937,7 +979,9 @@ static char *ParsePlay(char *tok,
     result = ParseBattle(tok+1, /* skip over 's' */
                          proxy,proxy_to_goal,
                          play_length,ends_on_defense);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       select_output_mode(proxy,output_mode_tree);
       battle_branch_insert_self_end_of_branch_goal(proxy,proxy_to_goal);
@@ -951,13 +995,15 @@ static char *ParsePlay(char *tok,
     result = ParseBattle(tok+1, /* skip over 'r' */
                          proxy,proxy_to_goal,
                          play_length,ends_on_defense);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_to_goal);
       battle_branch_insert_end_of_branch_forced(proxy,proxy_semi);
       battle_branch_insert_attack_constraint(proxy,MakeReflexBranch(proxy_semi));
       select_output_mode(proxy,output_mode_tree);
-      stip_impose_starter(proxy_to_goal,White);
+      solving_impose_starter(proxy_to_goal,White);
     }
   }
 
@@ -966,7 +1012,9 @@ static char *ParsePlay(char *tok,
     boolean const ends_on_defense = false;
     slice_index const proxy_to_goal = alloc_proxy_slice();
     result = ParseBattle(tok,proxy,proxy_to_goal,play_length,ends_on_defense);
-    if (result!=0)
+    if (result==0)
+      dealloc_slices(proxy_to_goal);
+    else
     {
       select_output_mode(proxy,output_mode_tree);
       battle_branch_insert_direct_end_of_branch_goal(proxy,proxy_to_goal);

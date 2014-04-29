@@ -111,7 +111,7 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
  * @param si identifies slice where to start
  * @return true iff the option stoponshort applies
  */
-boolean stip_insert_stoponshortsolutions_filters(slice_index si)
+boolean solving_insert_stoponshortsolutions_filters(slice_index si)
 {
   boolean result = false;
   stip_structure_traversal st;

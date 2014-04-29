@@ -60,7 +60,7 @@ static slice_index make_mate_tester_fork(Side side)
     slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
     result = alloc_goal_reached_tester_slice(mate_goal,mate_tester);
     dealloc_slice(slices[result].next1);
-    stip_impose_starter(result,side);
+    solving_impose_starter(result,side);
   }
   else
     result = alloc_proxy_slice();
@@ -83,7 +83,7 @@ static slice_index make_exclusive_mating_move_counter_fork(Side side)
   link_to_branch(proxy_branch,attack);
   battle_branch_insert_direct_end_of_branch_goal(attack,proxy_to_goal);
   result = alloc_conditional_pipe(STExclusiveChessMatingMoveCounterFork,proxy_branch);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -98,7 +98,7 @@ static slice_index make_brunner_check_defense_finder(Side side)
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
   result = alloc_conditional_pipe(STBrunnerDefenderFinder,proxy_branch);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -113,7 +113,7 @@ static slice_index make_move_legality_tester(Side side)
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
   result = alloc_conditional_pipe(STMoveLegalityTester,proxy_branch);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -128,7 +128,7 @@ static slice_index make_king_capture_legality_tester(Side side)
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
   result = alloc_conditional_pipe(STKingCaptureLegalityTester,proxy_branch);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -143,7 +143,7 @@ static slice_index make_ultra_mummer_length_measurer(Side side)
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
   result = alloc_conditional_pipe(STUltraMummerMeasurerFork,proxy_branch);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -170,7 +170,7 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
       help_branch_set_end_goal(help,proxy_goal,1);
       link_to_branch(proxy_branch,help);
       result = alloc_conditional_pipe(STCageCirceNonCapturingMoveFinder,proxy_branch);
-      stip_impose_starter(result,side);
+      solving_impose_starter(result,side);
     }
   }
   else
@@ -188,7 +188,7 @@ static slice_index make_circe_take_make_rebirth_squares_finder(Side side)
   link_to_branch(proxy_branch,help);
   help_branch_insert_slices(help,&prototype,1);
   result = alloc_conditional_pipe(STTakeMakeCirceCollectRebirthSquaresFork,proxy_branch);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
 
   return result;
 }
@@ -204,7 +204,7 @@ static slice_index make_castling_intermediate_move_legality_tester(Side side)
   help_branch_set_end_goal(help,proxy_goal,1);
   link_to_branch(proxy_branch,help);
   result = alloc_conditional_pipe(STCastlingIntermediateMoveLegalityTester,proxy_branch);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
 
   return result;
 }
@@ -230,7 +230,7 @@ static slice_index make_opponent_moves_counter_fork(Side side)
     branch_insert_slices(attack,prototypes,nr_prototypes);
     link_to_branch(proxy,attack);
     result = alloc_conditional_pipe(STOpponentMovesCounterFork,proxy);
-    stip_impose_starter(result,side);
+    solving_impose_starter(result,side);
   }
   else
     result = alloc_proxy_slice();
@@ -253,7 +253,7 @@ static slice_index make_back_home_finder(Side side)
   };
   branch_insert_slices(defense,prototypes,2);
   link_to_branch(proxy,defense);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -265,7 +265,7 @@ static slice_index make_suffocation_by_paralysis_detector(Side side)
   slice_index const prototype = alloc_pipe(STPiecesParalysingSuffocationFinder);
   branch_insert_slices(attack,&prototype,1);
   link_to_branch(proxy,attack);
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -278,7 +278,7 @@ static slice_index make_move_generator(Side side)
   pipe_append(proxy,generating);
   pipe_append(generating,ortho);
   pipe_link(ortho,alloc_true_slice());
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
   return result;
 }
 
@@ -293,7 +293,7 @@ static slice_index make_check_tester(void)
   pipe_append(testing,initialiser);
   pipe_append(initialiser,king_square_observation_tester);
   pipe_link(king_square_observation_tester,alloc_true_slice());
-  stip_impose_starter(result,Black);
+  solving_impose_starter(result,Black);
   return result;
 }
 
@@ -317,8 +317,8 @@ static void make_is_square_observed(Side side)
   pipe_link(optimising,track_back);
   pipe_link(track_back,alloc_false_slice());
 
-  stip_impose_starter(temporary_hack_is_square_observed[side],side);
-  stip_impose_starter(temporary_hack_is_square_observed_specific[side],side);
+  solving_impose_starter(temporary_hack_is_square_observed[side],side);
+  solving_impose_starter(temporary_hack_is_square_observed_specific[side],side);
 }
 
 static slice_index make_check_validator(Side side)
@@ -335,7 +335,7 @@ static slice_index make_check_validator(Side side)
   pipe_link(enforce_walk,observer);
   pipe_link(observer,geometry);
   pipe_link(geometry,alloc_true_slice());
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
 
   return result;
 }
@@ -354,7 +354,7 @@ static slice_index make_observation_validator(Side side)
   pipe_link(enforce_walk,observer);
   pipe_link(observer,geometry);
   pipe_link(geometry,alloc_true_slice());
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
 
   return result;
 }
@@ -371,7 +371,7 @@ static slice_index make_observer_validator(Side side)
   pipe_link(observer,enforce_walk);
   pipe_link(enforce_walk,geometry);
   pipe_link(geometry,alloc_true_slice());
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
 
   return result;
 }
@@ -386,7 +386,7 @@ static slice_index make_observation_geometry_validator(Side side)
   pipe_link(proxy,testing);
   pipe_link(testing,enforce_walk);
   pipe_link(enforce_walk,alloc_true_slice());
-  stip_impose_starter(result,side);
+  solving_impose_starter(result,side);
 
   return result;
 }

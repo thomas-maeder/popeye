@@ -91,7 +91,7 @@ void castlingchess_generate_moves_for_piece(slice_index si)
 
 /* Instrument slices with move tracers
  */
-void stip_insert_castling_chess(slice_index si)
+void solving_insert_castling_chess(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

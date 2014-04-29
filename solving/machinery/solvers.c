@@ -222,7 +222,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   result = stip_deep_copy(stipulation_root_hook);
 
-  stip_impose_starter(result,slices[stipulation_root_hook].starter);
+  solving_impose_starter(result,slices[stipulation_root_hook].starter);
 
   goal_prerequisite_guards_initialse_solving(result);
 
@@ -232,24 +232,24 @@ slice_index build_solvers(slice_index stipulation_root_hook)
    * stip_insert_move_generators() because flight counting machinery needs
    * selfcheck guards and move generators */
   if (OptFlag[solflights])
-    stip_insert_maxflight_guards(result);
+    solving_insert_maxflight_guards(result);
 
   /* must come before stip_insert_selfcheck_guards() because the
    * instrumentation of the goal filters inserts or slices of
    * which both branches need selfcheck guards */
   if (CondFlag[circe])
-    stip_insert_circe_goal_filters(result);
+    solving_insert_circe_goal_filters(result);
   if (TSTFLAG(some_pieces_flags,Kamikaze))
-    stip_insert_kamikaze(result);
+    solving_insert_kamikaze(result);
 
-  /* must come before stip_apply_setplay() */
-  stip_insert_root_slices(result);
+  /* must come before solving_apply_setplay() */
+  solving_insert_root_slices(result);
   solving_insert_intro_slices(result);
 
   /* must come before stip_insert_selfcheck_guards() because the set play
    * branch needs a selfcheck guard */
   if (OptFlag[solapparent] && !OptFlag[restart]
-      && !stip_apply_setplay(result))
+      && !solving_apply_setplay(result))
     Message(SetPlayNotApplicable);
 
   /* must come before stip_insert_move_generators() because immobilise_black
@@ -273,10 +273,10 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   solving_insert_move_generators(result);
 
   if (OptFlag[keepmating])
-    stip_insert_keepmating_filters(result);
+    solving_insert_keepmating_filters(result);
 
   if (CondFlag[amu])
-    stip_insert_amu_mate_filters(result);
+    solving_insert_amu_mate_filters(result);
 
   if (CondFlag[whiteultraschachzwang]
       || CondFlag[blackultraschachzwang])
@@ -322,15 +322,15 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     }
 
   if (CondFlag[exclusive])
-    stip_insert_exclusive_chess(result);
+    solving_insert_exclusive_chess(result);
 
   solving_insert_king_capture_avoiders(result);
 
   if (CondFlag[isardam])
-    stip_insert_isardam_legality_testers(result);
+    solving_insert_isardam_legality_testers(result);
 
   if (CondFlag[patience])
-    stip_insert_patience_chess(result);
+    solving_insert_patience_chess(result);
 
   if (TSTFLAG(some_pieces_flags,Paralysing))
     paralysing_initialise_solving(result);
@@ -344,24 +344,24 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     blackchecks_initialise_solving(result);
 
   if (CondFlag[masand])
-    stip_insert_masand(result);
+    solving_insert_masand(result);
 
   if (CondFlag[dynasty])
     dynasty_initialise_solving(result);
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
-    stip_insert_hurdle_colour_changers(result);
+    solving_insert_hurdle_colour_changers(result);
 
-  stip_insert_king_oscillators(result);
+  solving_insert_king_oscillators(result);
 
   if (CondFlag[messigny])
-    stip_insert_messigny(result);
+    solving_insert_messigny(result);
 
   if (CondFlag[arc])
-    stip_insert_actuated_revolving_centre(result);
+    solving_insert_actuated_revolving_centre(result);
 
   if (CondFlag[actrevolving])
-    stip_insert_actuated_revolving_board(result);
+    solving_insert_actuated_revolving_board(result);
 
   if (CondFlag[circe])
   {
@@ -375,7 +375,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   }
 
   if (CondFlag[sentinelles])
-    stip_insert_sentinelles_inserters(result);
+    solving_insert_sentinelles_inserters(result);
 
   if (CondFlag[anticirce])
   {
@@ -386,68 +386,68 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   }
 
   if (CondFlag[duellist])
-    stip_insert_duellists(result);
+    solving_insert_duellists(result);
 
   if (CondFlag[hauntedchess])
-    stip_insert_haunted_chess(result);
+    solving_insert_haunted_chess(result);
 
   if (CondFlag[ghostchess])
-    stip_insert_ghost_chess(result);
+    solving_insert_ghost_chess(result);
 
   if (kobul_who[White] || kobul_who[Black])
-    stip_insert_kobul_king_substitutors(result);
+    solving_insert_kobul_king_substitutors(result);
 
   if (TSTFLAG(some_pieces_flags,HalfNeutral))
-    stip_insert_half_neutral_recolorers(result);
+    solving_insert_half_neutral_recolorers(result);
 
   if (CondFlag[andernach])
-    stip_insert_andernach(result);
+    solving_insert_andernach(result);
 
   if (CondFlag[antiandernach])
-    stip_insert_antiandernach(result);
+    solving_insert_antiandernach(result);
 
   if (CondFlag[champursue])
-    stip_insert_chameleon_pursuit(result);
+    solving_insert_chameleon_pursuit(result);
 
   if (CondFlag[norsk])
-    stip_insert_norsk_chess(result);
+    solving_insert_norsk_chess(result);
 
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
-    stip_insert_protean_chess(result);
+    solving_insert_protean_chess(result);
 
   solving_initialise_castling(result);
 
   if (CondFlag[einstein])
-    stip_insert_einstein_moving_adjusters(result);
+    solving_insert_einstein_moving_adjusters(result);
 
   if (CondFlag[reveinstein])
-    stip_insert_reverse_einstein_moving_adjusters(result);
+    solving_insert_reverse_einstein_moving_adjusters(result);
 
   if (CondFlag[antieinstein])
     anti_einstein_instrument_solving(result);
 
   if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
-    stip_insert_einstein_en_passant_adjusters(result);
+    solving_insert_einstein_en_passant_adjusters(result);
 
   if (CondFlag[traitor])
-    stip_insert_traitor_side_changers(result);
+    solving_insert_traitor_side_changers(result);
 
   if (TSTFLAG(some_pieces_flags,Volage))
-    stip_insert_volage_side_changers(result);
+    solving_insert_volage_side_changers(result);
 
   if (CondFlag[magicsquare])
-    stip_insert_magic_square(result);
+    solving_insert_magic_square(result);
 
   if (CondFlag[wormholes])
     wormhole_initialse_solving(result);
 
   if (CondFlag[dbltibet])
-    stip_insert_double_tibet(result);
+    solving_insert_double_tibet(result);
   else if (CondFlag[tibet])
-    stip_insert_tibet(result);
+    solving_insert_tibet(result);
 
   if (CondFlag[degradierung])
-    stip_insert_degradierung(result);
+    solving_insert_degradierung(result);
 
   en_passant_initialise_solving(result);
 
@@ -464,7 +464,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     solving_initialise_marscirce(result);
 
   if (CondFlag[linechamchess])
-    stip_insert_line_chameleon_chess(result);
+    solving_insert_line_chameleon_chess(result);
 
   if (CondFlag[chamchess])
     chameleon_chess_initialise_solving(result);
@@ -482,22 +482,22 @@ slice_index build_solvers(slice_index stipulation_root_hook)
                                      &chameleon_walk_sequence);
 
   if (CondFlag[haanerchess])
-    stip_insert_haan_chess(result);
+    solving_insert_haan_chess(result);
 
   if (CondFlag[castlingchess])
-    stip_insert_castling_chess(result);
+    solving_insert_castling_chess(result);
 
   if (CondFlag[amu])
-    stip_insert_amu_attack_counter(result);
+    solving_insert_amu_attack_counter(result);
 
   if (OptFlag[mutuallyexclusivecastling])
     solving_insert_mutual_castling_rights_adjusters(result);
 
   if (CondFlag[imitators])
-    stip_insert_imitator(result);
+    solving_insert_imitator(result);
 
   if (CondFlag[football])
-    stip_insert_football_chess(result);
+    solving_insert_football_chess(result);
 
   if (CondFlag[platzwechselrochade])
     exchange_castling_initialise_solving(result);
@@ -505,7 +505,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   solving_insert_post_move_iteration(result);
 
   if (dealWithMaxtime())
-    stip_insert_maxtime_guards(result);
+    solving_insert_maxtime_guards(result);
 
   if (CondFlag[BGL])
     bgl_initialise_solving(result);
@@ -534,10 +534,10 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     biheffalumps_initialise_solving(result);
 
   if (CondFlag[nocapture] || CondFlag[nowhcapture] || CondFlag[noblcapture])
-    stip_insert_nocapture(result);
+    solving_insert_nocapture(result);
 
   if (CondFlag[nowhiteprom] || CondFlag[noblackprom])
-    stip_insert_nopromotions(result);
+    solving_insert_nopromotions(result);
 
   if (CondFlag[geneva])
     geneva_initialise_solving(result);
@@ -563,49 +563,49 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     superguards_initialise_solving(result);
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
-    stip_insert_edgemover(result);
+    solving_insert_edgemover(result);
 
   if (CondFlag[gridchess])
     grid_initialise_solving(result);
 
   if (TSTFLAG(some_pieces_flags,Uncapturable))
-    stip_insert_uncapturable(result);
+    solving_insert_uncapturable(result);
 
   if (CondFlag[takemake])
-    stip_insert_take_and_make(result);
+    solving_insert_take_and_make(result);
 
   if (OptFlag[noshort])
-    stip_insert_no_short_variations_filters(result);
+    solving_insert_no_short_variations_filters(result);
 
   if (OptFlag[maxsols])
-    stip_insert_maxsolutions_filters(result);
+    solving_insert_maxsolutions_filters(result);
 
-  stip_optimise_dead_end_slices(result);
+  solving_optimise_dead_end_slices(result);
 
   if (OptFlag[stoponshort]
-      && !stip_insert_stoponshortsolutions_filters(result))
+      && !solving_insert_stoponshortsolutions_filters(result))
     Message(NoStopOnShortSolutions);
 
-  stip_remove_irrelevant_constraints(result);
+  solving_remove_irrelevant_constraints(result);
 
   if (OptFlag[movenbr])
-    stip_insert_restart_guards(result);
+    solving_insert_restart_guards(result);
 
   solving_insert_continuation_solvers(result);
 
   solving_insert_find_shortest_solvers(result);
 
-  stip_optimise_with_orthodox_mating_move_generators(result);
+  solving_optimise_with_orthodox_mating_move_generators(result);
 
-  stip_optimise_with_goal_non_reacher_removers(result);
+  solving_optimise_with_goal_non_reacher_removers(result);
 
   if (!OptFlag[solvariantes])
     solving_insert_play_suppressors(result);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
-    stip_insert_threat_boundaries(result);
+    solving_insert_threat_boundaries(result);
 
-  stip_spin_off_testers(result);
+  solving_spin_off_testers(result);
 
   mummer_initialise_solving(result);
 
@@ -617,44 +617,44 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   }
 
   if (is_hashtable_allocated())
-    stip_insert_hash_slices(result);
+    solving_insert_hashing(result);
 
-  stip_instrument_help_ends_of_branches(result);
+  solving_instrument_help_ends_of_branches(result);
 
-  stip_insert_setplay_solvers(result);
+  solving_insert_setplay_solvers(result);
 
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-    stip_insert_try_solvers(result);
+    solving_insert_try_solvers(result);
 
   solving_insert_trivial_variation_filters(result);
 
-  stip_insert_min_length(result);
+  solving_insert_min_length(result);
 
   if (OptFlag[nontrivial])
-    stip_insert_max_nr_nontrivial_guards(result);
+    solving_insert_max_nr_nontrivial_guards(result);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
-    stip_insert_threat_handlers(result);
+    solving_insert_threat_handlers(result);
 
   if (OptFlag[degeneratetree])
-    stip_insert_degenerate_tree_guards(result);
+    solving_insert_degenerate_tree_guards(result);
 
-  stip_impose_starter(result,slices[result].starter);
-  stip_optimise_with_countnropponentmoves(result);
+  solving_impose_starter(result,slices[result].starter);
+  solving_optimise_with_countnropponentmoves(result);
 
-  stip_optimise_with_killer_moves(result);
+  solving_optimise_with_killer_moves(result);
 
   if (is_piece_neutral(some_pieces_flags))
     solving_optimise_by_detecting_retracted_moves(result);
 
-  stip_insert_output_slices(result);
+  solving_insert_output_slices(result);
 
   if (OptFlag[solmenaces]
-      && !stip_insert_maxthreatlength_guards(result))
+      && !solving_insert_maxthreatlength_guards(result))
     Message(ThreatOptionAndExactStipulationIncompatible);
 
   if (CondFlag[republican])
-    stip_insert_republican_king_placers(result);
+    solving_insert_republican_king_placers(result);
 
   and_enable_shortcut_logic(result);
 
@@ -665,7 +665,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   stip_instrument_moves(result,STKingSquareUpdater);
 
   if (TSTFLAG(some_pieces_flags,Magic))
-    stip_insert_magic_pieces_recolorers(result);
+    solving_insert_magic_pieces_recolorers(result);
 
   if (CondFlag[vogt])
     vogtlaender_initalise_solving(result);
@@ -717,11 +717,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     annan_initialise_solving(result);
 
 #if defined(DOTRACE)
-  stip_insert_move_tracers(result);
+  solving_insert_move_tracers(result);
 #endif
 
 #if defined(DOMEASURE)
-  stip_insert_move_counters(result);
+  solving_insert_move_counters(result);
 #endif
 
   if (CondFlag[shieldedkings])
@@ -745,7 +745,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   optimise_is_square_observed(result);
   optimise_is_in_check(result);
 
-  stip_impose_starter(result,slices[result].starter);
+  solving_impose_starter(result,slices[result].starter);
 
   resolve_proxies(&result);
 

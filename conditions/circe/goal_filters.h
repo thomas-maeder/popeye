@@ -6,6 +6,6 @@
 /* Instrument a stipulation with goal filter slices
  * @param si root of branch to be instrumented
  */
-void stip_insert_circe_goal_filters(slice_index si);
+void solving_insert_circe_goal_filters(slice_index si);
 
 #endif

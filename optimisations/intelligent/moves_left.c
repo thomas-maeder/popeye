@@ -174,13 +174,13 @@ void intelligent_moves_left_initialiser_solve(slice_index si)
   /* the mate and stalemate machineries rely on Black being (stale)mated */
   if (goaled_side(si)==White)
   {
-    stip_impose_starter(si,advers(slices[si].starter));
+    solving_impose_starter(si,advers(slices[si].starter));
     swap_sides();
     reflect_position();
     delegate(si);
     reflect_position();
     swap_sides();
-    stip_impose_starter(si,advers(slices[si].starter));
+    solving_impose_starter(si,advers(slices[si].starter));
   }
   else
     delegate(si);

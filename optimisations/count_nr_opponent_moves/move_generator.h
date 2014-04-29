@@ -28,6 +28,6 @@ boolean is_countnropponentmoves_defense_move_optimisation_enabled(Side side);
  * opponent moves
  * @param si identifies slice where to start
  */
-void stip_optimise_with_countnropponentmoves(slice_index si);
+void solving_optimise_with_countnropponentmoves(slice_index si);
 
 #endif

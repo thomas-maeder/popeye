@@ -69,12 +69,12 @@ void threat_solver_solve(slice_index si);
  * threats
  * @param si identifies slice where to start
  */
-void stip_insert_threat_handlers(slice_index si);
+void solving_insert_threat_handlers(slice_index si);
 
 /* Instrument the stipulation representation with proxy slices marking the
  * beginning and end of the threat
  * @param si identifies slice where to start
  */
-void stip_insert_threat_boundaries(slice_index si);
+void solving_insert_threat_boundaries(slice_index si);
 
 #endif

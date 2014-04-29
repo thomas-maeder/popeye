@@ -244,7 +244,7 @@ enum
 /* Optimise move generation by inserting orthodox mating move generators
  * @param si identifies the root slice of the stipulation
  */
-void stip_optimise_with_goal_non_reacher_removers(slice_index si)
+void solving_optimise_with_goal_non_reacher_removers(slice_index si)
 {
   stip_moves_traversal st;
   final_move_optimisation_state state = { { no_goal, initsquare }, 2, false };

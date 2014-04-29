@@ -16,7 +16,7 @@
 /* Spin off slices for testing whethere there is a solution
  * @param si root slice of the stipulation
  */
-void stip_spin_off_testers(slice_index si)
+void solving_spin_off_testers(slice_index si)
 {
   stip_structure_traversal st;
 

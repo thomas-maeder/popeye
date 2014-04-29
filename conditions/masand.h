@@ -6,7 +6,7 @@
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_masand(slice_index si);
+void solving_insert_masand(slice_index si);
 
 /* Validate an observation or observer by making sure it's the checking piece
  * @param si identifies the validator slice

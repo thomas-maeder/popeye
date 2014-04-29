@@ -571,7 +571,7 @@ void mummer_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  stip_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,slices[si].starter);
 
   stip_structure_traversal_init(&st,&state);
 

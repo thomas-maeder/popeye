@@ -145,6 +145,6 @@ void help_hashed_tester_solve(slice_index si);
 /* Instrument stipulation with hashing slices
  * @param si identifies slice where to start
  */
-void stip_insert_hash_slices(slice_index si);
+void solving_insert_hashing(slice_index si);
 
 #endif

@@ -1158,7 +1158,7 @@ char *ParseStructuredStip(slice_index root_slice_hook)
     if (tok==0)
       tok = ReadNextTokStr();
     else if (slices[root_slice_hook].next1!=no_slice)
-      stip_impose_starter(root_slice_hook,starter);
+      solving_impose_starter(root_slice_hook,starter);
   }
 
   /* signal to our caller that the stipulation has changed */

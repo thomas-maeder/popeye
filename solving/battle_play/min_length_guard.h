@@ -24,6 +24,6 @@ void min_length_guard_solve(slice_index si);
 /* Instrument the stipulation with minimum length functionality
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_min_length(slice_index si);
+void solving_insert_min_length(slice_index si);
 
 #endif

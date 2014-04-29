@@ -61,7 +61,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 /* Instrument the solvers with Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_nocapture(slice_index si)
+void solving_insert_nocapture(slice_index si)
 {
   stip_structure_traversal st;
   boolean enabled[nr_sides] =
@@ -76,7 +76,7 @@ void stip_insert_nocapture(slice_index si)
 
   TraceStipulation(si);
 
-  stip_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,slices[si].starter);
 
   stip_structure_traversal_init(&st,&enabled);
   stip_structure_traversal_override_single(&st,

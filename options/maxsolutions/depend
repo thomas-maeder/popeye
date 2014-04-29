@@ -11,8 +11,9 @@ options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolution
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/machinery/solve.h options/maxsolutions/initialiser.h \
- options/maxsolutions/guard.h debugging/trace.h debugging/assert.h
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ options/maxsolutions/initialiser.h options/maxsolutions/guard.h \
+ debugging/assert.h
 
 options/maxsolutions/maxsolutions.h:
 
@@ -66,11 +67,13 @@ stipulation/help_play/branch.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 options/maxsolutions/initialiser.h:
 
 options/maxsolutions/guard.h:
-
-debugging/trace.h:
 
 debugging/assert.h:
 options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.c \
@@ -79,13 +82,14 @@ options/maxsolutions/initialiser$(OBJ_SUFFIX): options/maxsolutions/initialiser.
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  options/maxsolutions/maxsolutions.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/pipe.h debugging/trace.h
+ solving/pipe.h
 
 options/maxsolutions/initialiser.h:
 
@@ -114,6 +118,10 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 options/maxsolutions/maxsolutions.h:
 
@@ -134,14 +142,13 @@ stipulation/slice_functional_type.enum.h:
 stipulation/traversal.h:
 
 solving/pipe.h:
-
-debugging/trace.h:
 options/maxsolutions/guard$(OBJ_SUFFIX): options/maxsolutions/guard.c \
  options/maxsolutions/guard.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  options/maxsolutions/maxsolutions.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -149,7 +156,7 @@ options/maxsolutions/guard$(OBJ_SUFFIX): options/maxsolutions/guard.c \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/trace.h
+ solving/pipe.h
 
 options/maxsolutions/guard.h:
 
@@ -178,6 +185,10 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 options/maxsolutions/maxsolutions.h:
 
@@ -202,5 +213,3 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/pipe.h:
-
-debugging/trace.h:

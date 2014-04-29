@@ -11,7 +11,7 @@ extern ConditionLetteredVariantType isardam_variant;
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_isardam_legality_testers(slice_index si);
+void solving_insert_isardam_legality_testers(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

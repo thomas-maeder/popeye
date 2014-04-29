@@ -180,7 +180,7 @@ enum
 /* Remove goal checker slices that we know can't possibly be met
  * @param si identifies entry slice to stipulation
  */
-void stip_remove_irrelevant_constraints(slice_index si)
+void solving_remove_irrelevant_constraints(slice_index si)
 {
   stip_structure_traversal st;
 

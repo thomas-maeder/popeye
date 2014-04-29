@@ -102,7 +102,7 @@ enum
 /* Instrument a stipulation with STMaxTimeGuard slices
  * @param si identifies slice where to start
  */
-void stip_insert_maxtime_guards(slice_index si)
+void solving_insert_maxtime_guards(slice_index si)
 {
   stip_structure_traversal st;
 

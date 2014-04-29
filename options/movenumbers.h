@@ -29,7 +29,7 @@ boolean read_restart_number(char const *optionValue);
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start
  */
-void stip_insert_restart_guards(slice_index si);
+void solving_insert_restart_guards(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

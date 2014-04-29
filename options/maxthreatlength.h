@@ -29,7 +29,7 @@ stip_length_type get_max_threat_length(void);
  * @param si identifies slice where to start
  * @return true iff the stipulation could be instrumented
  */
-boolean stip_insert_maxthreatlength_guards(slice_index si);
+boolean solving_insert_maxthreatlength_guards(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

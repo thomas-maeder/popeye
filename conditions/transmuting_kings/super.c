@@ -148,7 +148,7 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  stip_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,slices[si].starter);
 
   stip_structure_traversal_init(&st,&side);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);

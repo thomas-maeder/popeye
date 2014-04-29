@@ -202,7 +202,7 @@ static void insert_make_generator(slice_index si, stip_structure_traversal *st)
 /* Instrument the solvers with Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_take_and_make(slice_index si)
+void solving_insert_take_and_make(slice_index si)
 {
   stip_structure_traversal st;
 

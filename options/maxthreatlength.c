@@ -189,7 +189,7 @@ enum
 /* Instrument stipulation with STMaxThreatLength slices
  * @param si identifies slice where to start
  */
-boolean stip_insert_maxthreatlength_guards(slice_index si)
+boolean solving_insert_maxthreatlength_guards(slice_index si)
 {
   boolean result = false;
   stip_structure_traversal st;

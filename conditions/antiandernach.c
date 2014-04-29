@@ -43,7 +43,7 @@ void antiandernach_side_changer_solve(slice_index si)
 
 /* Instrument slices with move tracers
  */
-void stip_insert_antiandernach(slice_index si)
+void solving_insert_antiandernach(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

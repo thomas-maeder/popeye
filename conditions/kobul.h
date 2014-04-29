@@ -26,6 +26,6 @@ void kobul_king_substitutor_solve(slice_index si);
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_kobul_king_substitutors(slice_index si);
+void solving_insert_kobul_king_substitutors(slice_index si);
 
 #endif

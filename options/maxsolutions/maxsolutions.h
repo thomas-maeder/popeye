@@ -40,6 +40,6 @@ boolean max_nr_solutions_found_in_phase(void);
 /* Instrument a stipulation with STMaxSolutions*Filter slices
  * @param si identifies slice where to start
  */
-void stip_insert_maxsolutions_filters(slice_index si);
+void solving_insert_maxsolutions_filters(slice_index si);
 
 #endif

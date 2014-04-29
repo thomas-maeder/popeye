@@ -37,6 +37,6 @@ void norsk_remove_illegal_captures_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void stip_insert_norsk_chess(slice_index si);
+void solving_insert_norsk_chess(slice_index si);
 
 #endif

@@ -37,6 +37,6 @@ boolean has_short_solution_been_found_in_phase(void);
  * @param si identifies slice where to start
  * @return true iff the option stoponshort applies
  */
-boolean stip_insert_stoponshortsolutions_filters(slice_index si);
+boolean solving_insert_stoponshortsolutions_filters(slice_index si);
 
 #endif

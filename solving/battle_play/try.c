@@ -532,7 +532,7 @@ enum
 /* Instrument the stipulation structure with slices solving tries
  * @param si identifies entry branch into stipulation
  */
-void stip_insert_try_solvers(slice_index si)
+void solving_insert_try_solvers(slice_index si)
 {
   stip_structure_traversal st;
   output_mode mode = output_mode_none;

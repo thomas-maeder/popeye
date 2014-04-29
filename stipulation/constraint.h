@@ -41,6 +41,6 @@ void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *
 /* Remove goal checker slices that we know can't possibly be met
  * @param si identifies entry slice to stipulation
  */
-void stip_remove_irrelevant_constraints(slice_index si);
+void solving_remove_irrelevant_constraints(slice_index si);
 
 #endif

@@ -28,6 +28,6 @@ void andernach_side_changer_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void stip_insert_andernach(slice_index si);
+void solving_insert_andernach(slice_index si);
 
 #endif

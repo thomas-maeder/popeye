@@ -164,7 +164,7 @@ static void insert_nested_min_length(slice_index si,
 /* Instrument the stipulation with minimum length functionality
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_min_length(slice_index si)
+void solving_insert_min_length(slice_index si)
 {
   stip_structure_traversal st;
   insertion_state_type state = { slack_length, slack_length };

@@ -79,7 +79,7 @@ void imitator_pawn_promoter_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void stip_insert_imitator(slice_index si);
+void solving_insert_imitator(slice_index si);
 
 void undo_imitator_movement(move_effect_journal_index_type curr);
 void redo_imitator_movement(move_effect_journal_index_type curr);

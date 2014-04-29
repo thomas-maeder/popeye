@@ -117,6 +117,6 @@ void refutations_filter_solve(slice_index si);
 /* Instrument the stipulation structure with slices solving tries
  * @param si identifies entry branch into stipulation
  */
-void stip_insert_try_solvers(slice_index si);
+void solving_insert_try_solvers(slice_index si);
 
 #endif

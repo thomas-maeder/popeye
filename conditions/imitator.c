@@ -1338,7 +1338,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 
 /* Instrument slices with move tracers
  */
-void stip_insert_imitator(slice_index si)
+void solving_insert_imitator(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

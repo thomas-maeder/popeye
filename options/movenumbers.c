@@ -307,7 +307,7 @@ enum
 /* Instrument stipulation with STRestartGuard slices
  * @param si identifies slice where to start
  */
-void stip_insert_restart_guards(slice_index si)
+void solving_insert_restart_guards(slice_index si)
 {
   insert_guard_mode mode = insert_guard_mode_unknown;
   stip_structure_traversal st;

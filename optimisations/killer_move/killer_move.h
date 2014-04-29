@@ -19,6 +19,6 @@ void disable_killer_move_optimisation(Side);
 /* Instrument stipulation with killer move slices
  * @param si identifies slice where to start
  */
-void stip_optimise_with_killer_moves(slice_index si);
+void solving_optimise_with_killer_moves(slice_index si);
 
 #endif

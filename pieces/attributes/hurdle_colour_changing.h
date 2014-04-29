@@ -23,6 +23,6 @@ void hurdle_colour_changer_solve(slice_index si);
 /* Instrument a stipulation for "hurdle colour changing" hoppers
  * @param si identifies root slice of stipulation
  */
-void stip_insert_hurdle_colour_changers(slice_index si);
+void solving_insert_hurdle_colour_changers(slice_index si);
 
 #endif

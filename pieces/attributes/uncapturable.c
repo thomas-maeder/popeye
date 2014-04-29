@@ -68,7 +68,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 /* Instrument the solvers with Koeko
  * @param si identifies the root slice of the stipulation
  */
-void stip_insert_uncapturable(slice_index si)
+void solving_insert_uncapturable(slice_index si)
 {
   stip_structure_traversal st;
 

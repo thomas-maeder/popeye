@@ -22,6 +22,6 @@ void reverse_einstein_moving_adjuster_solve(slice_index si);
 
 /* Instrument slices with move tracers
  */
-void stip_insert_reverse_einstein_moving_adjusters(slice_index si);
+void solving_insert_reverse_einstein_moving_adjusters(slice_index si);
 
 #endif

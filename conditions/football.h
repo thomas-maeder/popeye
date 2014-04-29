@@ -35,6 +35,6 @@ void football_chess_substitutor_solve(slice_index si);
 
 /* Instrument slices with promotee markers
  */
-void stip_insert_football_chess(slice_index si);
+void solving_insert_football_chess(slice_index si);
 
 #endif

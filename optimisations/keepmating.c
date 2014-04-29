@@ -224,7 +224,7 @@ enum
 /* Instrument stipulation with STKeepMatingFilter slices
  * @param si identifies slice where to start
  */
-void stip_insert_keepmating_filters(slice_index si)
+void solving_insert_keepmating_filters(slice_index si)
 {
   insertion_state_type state = { { false, false } };
   stip_structure_traversal st;

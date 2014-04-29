@@ -241,7 +241,7 @@ static void substitute_self_check_guard(slice_index si, stip_structure_traversal
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_exclusive_chess(slice_index si)
+void solving_insert_exclusive_chess(slice_index si)
 {
   stip_structure_traversal st;
   insertion_state_type state = { false, false, false };

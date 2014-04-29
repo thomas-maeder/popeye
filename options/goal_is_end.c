@@ -221,7 +221,7 @@ boolean stip_insert_goal_is_end_testers(slice_index root_slice)
   TraceFunctionParamListEnd();
 
   stip_detect_starter(root_slice);
-  stip_impose_starter(root_slice,slices[root_slice].starter);
+  solving_impose_starter(root_slice,slices[root_slice].starter);
 
   find_ending_goal(root_slice,&state);
 

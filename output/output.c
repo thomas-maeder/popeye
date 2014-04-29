@@ -72,7 +72,7 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
  * the selected output mode.
  * @param si identifies slice where to start
  */
-void stip_insert_output_slices(slice_index si)
+void solving_insert_output_slices(slice_index si)
 {
   stip_structure_traversal st;
 

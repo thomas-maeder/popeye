@@ -103,7 +103,7 @@ enum
 /* Instrument the stipulation structure with slices solving set play
  * @param root_slice root slice of the stipulation
  */
-void stip_insert_setplay_solvers(slice_index si)
+void solving_insert_setplay_solvers(slice_index si)
 {
   stip_structure_traversal st;
   output_mode mode = output_mode_none;

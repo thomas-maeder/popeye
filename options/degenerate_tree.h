@@ -25,7 +25,7 @@ void init_degenerate_tree(stip_length_type max_length_short);
 /* Instrument stipulation with STDegenerateTree slices
  * @param si identifies slice where to start
  */
-void stip_insert_degenerate_tree_guards(slice_index si);
+void solving_insert_degenerate_tree_guards(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

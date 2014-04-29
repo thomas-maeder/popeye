@@ -35,7 +35,7 @@ void move_counter_solve(slice_index si)
 
 /* Instrument slices with move counters
  */
-void stip_insert_move_counters(slice_index si)
+void solving_insert_move_counters(slice_index si)
 {
   stip_instrument_moves(si,STMoveCounter);
 }

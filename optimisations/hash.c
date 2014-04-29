@@ -1950,7 +1950,7 @@ enum
 /* Instrument stipulation with hashing slices
  * @param si identifies slice where to start
  */
-void stip_insert_hash_slices(slice_index si)
+void solving_insert_hashing(slice_index si)
 {
   stip_structure_traversal st;
   insertion_state_type state = { no_slice, false };

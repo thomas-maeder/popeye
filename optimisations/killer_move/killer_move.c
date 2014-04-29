@@ -352,13 +352,13 @@ static void optimise_move_generators(slice_index si)
 /* Instrument stipulation with killer move slices
  * @param si identifies slice where to start
  */
-void stip_optimise_with_killer_moves(slice_index si)
+void solving_optimise_with_killer_moves(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,slices[si].starter);
   optimise_final_defense_move_with_killer_moves(si);
   optimise_move_generators(si);
 

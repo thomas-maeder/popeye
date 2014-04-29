@@ -17,7 +17,7 @@ slice_index alloc_output_mode_selector(output_mode mode);
  * the selected output mode.
  * @param si identifies slice where to start
  */
-void stip_insert_output_slices(slice_index si);
+void solving_insert_output_slices(slice_index si);
 
 boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first));
 

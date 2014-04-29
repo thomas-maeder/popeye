@@ -31,7 +31,7 @@ void optimise_away_unnecessary_selfcheckguards(slice_index si);
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_exclusive_chess(slice_index si);
+void solving_insert_exclusive_chess(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

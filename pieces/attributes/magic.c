@@ -682,7 +682,7 @@ void magic_pieces_recolorer_solve(slice_index si)
 /* Instrument a stipulation
  * @param si identifies root slice of stipulation
  */
-void stip_insert_magic_pieces_recolorers(slice_index si)
+void solving_insert_magic_pieces_recolorers(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

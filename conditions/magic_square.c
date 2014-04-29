@@ -86,7 +86,7 @@ void magic_square_side_changer_solve(slice_index si)
 
 /* Instrument slices with magic square side changers
  */
-void stip_insert_magic_square(slice_index si)
+void solving_insert_magic_square(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

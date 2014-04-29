@@ -167,7 +167,7 @@ enum
 /* Optimise away redundant deadend slices
  * @param si identifies the entry slice
  */
-void stip_optimise_dead_end_slices(slice_index si)
+void solving_optimise_dead_end_slices(slice_index si)
 {
   stip_moves_traversal mt;
   optimisation_state state = null_optimisation_state;

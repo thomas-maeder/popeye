@@ -172,7 +172,7 @@ void stip_detect_starter(slice_index si);
  * @param si identifies slice where to start
  * @param starter starting side at the root of the stipulation
  */
-void stip_impose_starter(slice_index si, Side starter);
+void solving_impose_starter(slice_index si, Side starter);
 
 struct stip_structure_traversal;
 
@@ -209,9 +209,9 @@ void init_deep_copy(struct stip_structure_traversal *st,
                     stip_deep_copies_type *copies);
 
 /* structure holding state in traversals for
- * stip_insert_root_slices()
+ * solving_insert_root_slices()
  * stip_insert_intro_slices()
- * stip_apply_setplay()
+ * solving_apply_setplay()
  */
 typedef struct
 {
@@ -222,7 +222,7 @@ typedef struct
  * slices of appropriately equipped slice types
  * @param si identifies slice where to start
  */
-void stip_insert_root_slices(slice_index si);
+void solving_insert_root_slices(slice_index si);
 
 /* Wrap the slices representing the initial moves of nested slices
  * @param si identifies slice where to start
@@ -233,6 +233,6 @@ void solving_insert_intro_slices(slice_index si);
  * @param si identifies the root from which to apply set play
  * @return true iff set play could be added
  */
-boolean stip_apply_setplay(slice_index si);
+boolean solving_apply_setplay(slice_index si);
 
 #endif

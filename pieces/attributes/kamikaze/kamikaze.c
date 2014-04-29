@@ -46,7 +46,7 @@ void kamikaze_capturing_piece_remover_solve(slice_index si)
 /* Instrument a stipulation with goal filter slices
  * @param si root of branch to be instrumented
  */
-void stip_insert_kamikaze(slice_index si)
+void solving_insert_kamikaze(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

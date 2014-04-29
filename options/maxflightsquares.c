@@ -213,7 +213,7 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
 /* Instrument stipulation with STMaxFlightsquares slices
  * @param si identifies slice where to start
  */
-void stip_insert_maxflight_guards(slice_index si)
+void solving_insert_maxflight_guards(slice_index si)
 {
   stip_structure_traversal st;
 

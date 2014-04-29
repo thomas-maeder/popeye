@@ -44,6 +44,6 @@ void half_neutral_recolorer_solve(slice_index si);
 /* Instrument a stipulation with goal filter slices
  * @param si root of branch to be instrumented
  */
-void stip_insert_half_neutral_recolorers(slice_index si);
+void solving_insert_half_neutral_recolorers(slice_index si);
 
 #endif
