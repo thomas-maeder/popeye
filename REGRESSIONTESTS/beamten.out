@@ -28,10 +28,10 @@
 
   1.bSa8-c7 bTa6-b6   2.bKb8-a8 Kd5-c6   3.bSc7-d5 bTb6-a6   4.bSd5-b6 Kc6*b6[+sbSb8] #
 
-  add_to_move_generation_stack:       58649
-                     play_move:       54109
+  add_to_move_generation_stack:       58653
+                     play_move:       54113
  is_white_king_square_attacked:        7978
- is_black_king_square_attacked:       49827
+ is_black_king_square_attacked:       49831
 Loesung beendet. 
 
 
@@ -136,10 +136,10 @@ Loesung beendet.
   1.Sd1-b2 Td3-f3   2.Sb3-d2 Tf3-d3   3.Sd2-b1 Td3-a3 #
   1.Sb3-c1 Td3-c3   2.Sc1-a2 Tc3-d3   3.Sd1-b2 Td3-d1 #
 
-  add_to_move_generation_stack:        9895
-                     play_move:        8642
+  add_to_move_generation_stack:        9904
+                     play_move:        8651
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        7994
+ is_black_king_square_attacked:        8003
 Loesung beendet. 
 
 

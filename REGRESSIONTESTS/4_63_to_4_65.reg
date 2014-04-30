@@ -1722,10 +1722,10 @@ identities (read: rebirth squares) into account.
 
   1.Qc3-d4 e3*d4[+bQc3]   2.Qc3-e3 d2*e3[+bQc3]   3.Qc3-d3 g2*f3 #
 
-  add_to_move_generation_stack:     1327768
-                     play_move:      732502
+  add_to_move_generation_stack:     1327798
+                     play_move:      732532
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      710606
+ is_black_king_square_attacked:      710636
 solution finished. 
 
 

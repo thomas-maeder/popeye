@@ -231,18 +231,18 @@ a)
 
   1...Lg2-f3 +   2.Ke2-f1 Lf3-e2 +   3.Kf1-g2 Le2-f1 +   4.Kg2-h1 Kg4-h3   5.Td4-d8 Lf1-g2 #
 
-  add_to_move_generation_stack:     3289316
-                     play_move:     1706721
- is_white_king_square_attacked:      239646
- is_black_king_square_attacked:     1555030
+  add_to_move_generation_stack:     3289407
+                     play_move:     1706799
+ is_white_king_square_attacked:      239699
+ is_black_king_square_attacked:     1555058
 b) sKe2-->f2
 
   1...Lc5-b6   2.Kf2-g1 Kg4-h3   3.La7-b8 Lb6-c7   4.Td4-d8 Lc7-d6   5.Td8-h8 Ld6-c5 #
 
-  add_to_move_generation_stack:     2326947
-                     play_move:     1210564
- is_white_king_square_attacked:      177695
- is_black_king_square_attacked:     1087745
+  add_to_move_generation_stack:     2327030
+                     play_move:     1210640
+ is_white_king_square_attacked:      177748
+ is_black_king_square_attacked:     1087771
 Loesung beendet. 
 
 

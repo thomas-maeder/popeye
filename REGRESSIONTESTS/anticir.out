@@ -2058,18 +2058,18 @@ a)
 
   1...Kd6-e5   2.Dc8-e8 + Ke5-f6   3.d2*c1=D[sDc1->d8] + Kf6*g7[wKg7->e1] #
 
-  add_to_move_generation_stack:     4582456
-                     play_move:     4090219
- is_white_king_square_attacked:      305063
- is_black_king_square_attacked:     3576685
+  add_to_move_generation_stack:     4582496
+                     play_move:     4090247
+ is_white_king_square_attacked:      305065
+ is_black_king_square_attacked:     3576711
 b) sTg7-->g8
 
   1...Kd6-e7   2.d2*c1=T[sTc1->h8] Ke7-d8   3.Tg8-e8 Kd8*c8[wKc8->e1] #
 
-  add_to_move_generation_stack:     4639345
-                     play_move:     4119134
- is_white_king_square_attacked:      307800
- is_black_king_square_attacked:     3602385
+  add_to_move_generation_stack:     4639386
+                     play_move:     4119163
+ is_white_king_square_attacked:      307802
+ is_black_king_square_attacked:     3602412
 Loesung beendet. 
 
 
@@ -2267,18 +2267,18 @@ a)
 
   1...Ld1-a4   2.Sf3-h2 La4-e8   3.Da2-g2 + Kh1*h2[wKh2->e1] #
 
-  add_to_move_generation_stack:      640173
-                     play_move:      697369
- is_white_king_square_attacked:       53896
- is_black_king_square_attacked:      591309
+  add_to_move_generation_stack:      640187
+                     play_move:      697384
+ is_white_king_square_attacked:       53897
+ is_black_king_square_attacked:      591322
 b) Spiegelung a1<-->h1
 
   1...Lb1-g6   2.Dh2-c2 Lg6-e8   3.Kc1-b1 Le1*c3[wLc3->c1] #
 
-  add_to_move_generation_stack:      665166
-                     play_move:      703737
+  add_to_move_generation_stack:      665180
+                     play_move:      703750
  is_white_king_square_attacked:       46477
- is_black_king_square_attacked:      613941
+ is_black_king_square_attacked:      613954
 Loesung beendet. 
 
 
@@ -3144,8 +3144,8 @@ Platzwechsel dank Repuls des schlagenden Steins
 
   1.Kc1-c2   2.Te1-c1   3.Kc2*d3[wKd3->e1]
 
-  add_to_move_generation_stack:        2203
-                     play_move:        2233
+  add_to_move_generation_stack:        2219
+                     play_move:        2249
  is_white_king_square_attacked:         281
  is_black_king_square_attacked:           0
 Loesung beendet. 

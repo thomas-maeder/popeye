@@ -219,10 +219,10 @@ Loesung beendet.
 
   1.b6-b7=S   2.Sb7-d6=L   3.Ld6-b8=T #
 
-  add_to_move_generation_stack:         256
-                     play_move:         256
- is_white_king_square_attacked:          73
- is_black_king_square_attacked:         250
+  add_to_move_generation_stack:         263
+                     play_move:         263
+ is_white_king_square_attacked:          75
+ is_black_king_square_attacked:         257
 Loesung beendet. 
 
 

@@ -1657,10 +1657,10 @@ c) nTe6
 
   1.nTe6*e1 nTe1-a1   2.b2-b1=S Sf1-d2 =
 
-  add_to_move_generation_stack:     1973699
-                     play_move:     1268148
+  add_to_move_generation_stack:     1973718
+                     play_move:     1268173
  is_white_king_square_attacked:      321221
- is_black_king_square_attacked:     1209435
+ is_black_king_square_attacked:     1209460
 Loesung beendet. 
 
 

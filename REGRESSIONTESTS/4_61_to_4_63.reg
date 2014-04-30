@@ -279,19 +279,19 @@ a)
 
   1.nRg8-f8 nRf8-f5   2.Be8-f7 nRf5-h5 +   3.Qg6-g5 Ke7*f7 #
 
-  add_to_move_generation_stack:     2393145
-                     play_move:     2145718
+  add_to_move_generation_stack:     2393169
+                     play_move:     2145742
  is_white_king_square_attacked:      185502
- is_black_king_square_attacked:     2119549
+ is_black_king_square_attacked:     2119573
 b) bBe8-->h8
 
   1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
   1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
 
-  add_to_move_generation_stack:     4065413
-                     play_move:     3663288
+  add_to_move_generation_stack:     4065447
+                     play_move:     3663322
  is_white_king_square_attacked:      309625
- is_black_king_square_attacked:     3605673
+ is_black_king_square_attacked:     3605707
 solution finished. 
 
 
@@ -743,10 +743,10 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
   1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
   1.Se6-d8 nZh8-e6   2.Ba2-d5 nROf8*e6-h8 #
 
-  add_to_move_generation_stack:     1058816
-                     play_move:      671147
+  add_to_move_generation_stack:     1058873
+                     play_move:      671188
  is_white_king_square_attacked:       85491
- is_black_king_square_attacked:      667121
+ is_black_king_square_attacked:      667162
 solution finished. 
 
 
@@ -1268,10 +1268,10 @@ both sides need a king
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4 Sb4*a6 Sa6-c5 +
 
-  add_to_move_generation_stack:         316
-                     play_move:         316
+  add_to_move_generation_stack:         320
+                     play_move:         320
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         153
+ is_black_king_square_attacked:         157
 solution finished. 
 
 
@@ -1313,10 +1313,10 @@ movenumbers and nested series branches; until 4.61, Popeye produced
  10  (Kg3-g4 )
  11  (Kg3-h3 )
 
-  add_to_move_generation_stack:      235771
-                     play_move:      250400
- is_white_king_square_attacked:      221287
- is_black_king_square_attacked:      216339
+  add_to_move_generation_stack:      235779
+                     play_move:      250411
+ is_white_king_square_attacked:      221298
+ is_black_king_square_attacked:      216350
 solution finished. 
 
 

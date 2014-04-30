@@ -135,18 +135,18 @@ a) sKf8-->a4
 
   1...d7-d8=S   2.c2-c1=T Sd8-c6   3.Tc1*c6=w[+wSb1] Sb1-c3 #
 
-  add_to_move_generation_stack:      128815
-                     play_move:       72796
- is_white_king_square_attacked:       14186
- is_black_king_square_attacked:       72216
+  add_to_move_generation_stack:      128821
+                     play_move:       72805
+ is_white_king_square_attacked:       14188
+ is_black_king_square_attacked:       72225
 b) wKa2-->f2
 
   1...d7-d8=L   2.c2-c1=D Ld8-g5   3.Dc1*g5=w[+wLc1] Lc1-a3 #
 
-  add_to_move_generation_stack:      129776
-                     play_move:       73064
- is_white_king_square_attacked:        9873
- is_black_king_square_attacked:       72089
+  add_to_move_generation_stack:      129785
+                     play_move:       73076
+ is_white_king_square_attacked:        9875
+ is_black_king_square_attacked:       72101
 Loesung beendet. 
 
 

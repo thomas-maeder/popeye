@@ -62,10 +62,10 @@ Loesung beendet.
 
   1.Kc5-c6 e2-e4   2.d7-d5 e4*d5 +   3.Kc6-b7[+sBc6] d5*c6 +   4.Kb7-a8[+sBb7] c6*b7 #
 
-  add_to_move_generation_stack:     2320928
-                     play_move:     1889357
+  add_to_move_generation_stack:     2320948
+                     play_move:     1889377
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1816521
+ is_black_king_square_attacked:     1816541
 Loesung beendet. 
 
 

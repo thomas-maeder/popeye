@@ -121,9 +121,9 @@ solution finished.
 
   1.Sb5-d4   2.Sd4*e2   3.0-0
 
-  add_to_move_generation_stack:         862
+  add_to_move_generation_stack:         882
                      play_move:         407
- is_white_king_square_attacked:         467
+ is_white_king_square_attacked:         469
  is_black_king_square_attacked:         368
 solution finished. 
 

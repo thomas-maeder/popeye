@@ -107,10 +107,10 @@ used to take several minutes in releases 4.37 to 4.43
 
   1.Ke1-d1   2.Kd1-c1   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Bf2-e1 + a=>b
 
-  add_to_move_generation_stack:       22624
-                     play_move:       22624
- is_white_king_square_attacked:       15622
- is_black_king_square_attacked:       13885
+  add_to_move_generation_stack:       22696
+                     play_move:       22696
+ is_white_king_square_attacked:       15677
+ is_black_king_square_attacked:       13929
 solution finished. 
 
 
@@ -163,10 +163,10 @@ Initial (White ->):
 
   1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 + a=>b
 
-  add_to_move_generation_stack:       11004
-                     play_move:       11004
- is_white_king_square_attacked:        6306
- is_black_king_square_attacked:        5426
+  add_to_move_generation_stack:       11074
+                     play_move:       11074
+ is_white_king_square_attacked:        6356
+ is_black_king_square_attacked:        5464
 solution finished. 
 
 
@@ -220,10 +220,10 @@ Initial (White ->):
 
   1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 + a=>b
 
-  add_to_move_generation_stack:       11004
-                     play_move:       11004
- is_white_king_square_attacked:        6306
- is_black_king_square_attacked:        5426
+  add_to_move_generation_stack:       11074
+                     play_move:       11074
+ is_white_king_square_attacked:        6356
+ is_black_king_square_attacked:        5464
 solving interrupted. 
 
 

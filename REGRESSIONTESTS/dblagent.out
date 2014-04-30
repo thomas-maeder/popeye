@@ -75,10 +75,10 @@ Loesung beendet.
 
   1.Kb1-c2   2.Kc2-d3   3.Kd3*e3[+sBe2=w]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 #
 
-  add_to_move_generation_stack:        9542
-                     play_move:        9300
- is_white_king_square_attacked:       11687
- is_black_king_square_attacked:       14286
+  add_to_move_generation_stack:        9582
+                     play_move:        9340
+ is_white_king_square_attacked:       11757
+ is_black_king_square_attacked:       14361
 Loesung beendet. 
 
 

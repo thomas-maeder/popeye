@@ -219,10 +219,10 @@ Loesung beendet.
   5  (Kc8-b8 )
   6  (Kc8-d8 )
 
-  add_to_move_generation_stack:        6643
-                     play_move:        2732
- is_white_king_square_attacked:         849
- is_black_king_square_attacked:        2702
+  add_to_move_generation_stack:        6671
+                     play_move:        2744
+ is_white_king_square_attacked:         855
+ is_black_king_square_attacked:        2712
 Loesung beendet. 
 
 

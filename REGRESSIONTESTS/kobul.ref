@@ -406,10 +406,10 @@ solution finished.
   1.nGb3-e6 nrSd5-f6   2.nGe6-g6 Lh7*g6-f5[f6=rG] #
   1.nrSd5-c3 nGb3-d3   2.nrSc3-e2 Lh7*d3-c2[e2=rG] #
 
-  add_to_move_generation_stack:        1424
-                     play_move:         909
+  add_to_move_generation_stack:        1433
+                     play_move:         918
  is_white_king_square_attacked:         168
- is_black_king_square_attacked:         752
+ is_black_king_square_attacked:         761
 solution finished. 
 
 
@@ -444,18 +444,18 @@ a)
 
   1.e7-e6=w g7-g8=S=b   2.Sg8-e7=w Se7-g6=b   3.e4-e3=w Kf7*g6[h5=rS] #
 
-  add_to_move_generation_stack:      116686
-                     play_move:      119053
+  add_to_move_generation_stack:      116702
+                     play_move:      119069
  is_white_king_square_attacked:        9255
- is_black_king_square_attacked:      115513
+ is_black_king_square_attacked:      115529
 b) bPg3-->f6
 
   1.Kh5-h6 Kf7-f8   2.Kh6-h7 g7-g8=B=b   3.Kh7-h8 Kf8*g8[h8=rB] #
 
-  add_to_move_generation_stack:      117154
-                     play_move:      119502
+  add_to_move_generation_stack:      117170
+                     play_move:      119518
  is_white_king_square_attacked:        8752
- is_black_king_square_attacked:      115823
+ is_black_king_square_attacked:      115839
 solution finished. 
 
 

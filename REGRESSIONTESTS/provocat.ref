@@ -62,10 +62,10 @@ solution finished.
   1.Qf3-g4 Bb8-a7   2.Kf4-f3 Ba7-d4   3.Be5-g3 Rf1-f2 #
   1.Be5-d4 Rf1-g1   2.Kf4-e5 Rg1-g6   3.Qf3-f5 Bb8-d6 #
 
-  add_to_move_generation_stack:    50234926
-                     play_move:    36586520
+  add_to_move_generation_stack:    50234968
+                     play_move:    36586562
  is_white_king_square_attacked:     2626182
- is_black_king_square_attacked:    36401700
+ is_black_king_square_attacked:    36401742
 solution finished. 
 
 

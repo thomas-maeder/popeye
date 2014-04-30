@@ -284,18 +284,18 @@ a)
 
   1...Lb8-e5 +   2.Kd4-c5 b7-b8=D   3.a2-a1=S Db8-b3 =
 
-  add_to_move_generation_stack:      808872
-                     play_move:      300575
- is_white_king_square_attacked:      148229
- is_black_king_square_attacked:      245619
+  add_to_move_generation_stack:      808958
+                     play_move:      300603
+ is_white_king_square_attacked:      148243
+ is_black_king_square_attacked:      245645
 b) wSa7-->e5
 
   1...Lb8-a7 +   2.Kd4-c3 b7-b8=T   3.a2-a1=L Tb8-b2 =
 
-  add_to_move_generation_stack:      963473
-                     play_move:      371103
- is_white_king_square_attacked:      173923
- is_black_king_square_attacked:      308057
+  add_to_move_generation_stack:      963577
+                     play_move:      371135
+ is_white_king_square_attacked:      173939
+ is_black_king_square_attacked:      308087
 Loesung beendet. 
 
 
@@ -870,8 +870,8 @@ Loesung beendet.
 
   1.Sg1-f3 Sb8-c6   2.Sf3-e5 Sc6*e5=w   3.Se5*d7=s Sd7-b8 dia
 
-  add_to_move_generation_stack:     1085127
-                     play_move:     1085127
+  add_to_move_generation_stack:     1085147
+                     play_move:     1085147
  is_white_king_square_attacked:        8654
  is_black_king_square_attacked:       51807
 Loesung beendet. 

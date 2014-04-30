@@ -78,10 +78,10 @@ Loesung beendet.
 
   1.Dc8-c1 Kh5-g6   2.Kh3-g4 Kg6-f7   3.Kg4-f5 Kf7-e8   4.Kf5-e6 d2-d4 #
 
-  add_to_move_generation_stack:     1192354
-                     play_move:     1064728
+  add_to_move_generation_stack:     1192404
+                     play_move:     1064778
  is_white_king_square_attacked:      125228
- is_black_king_square_attacked:      975730
+ is_black_king_square_attacked:      975780
 Loesung beendet. 
 
 
@@ -149,10 +149,10 @@ Loesung beendet.
 
   1.Da8-h1 Dh8*h1   2.La2-b1 Dh1*b1   3.Sd2-e4 Db1*e4 =
 
-  add_to_move_generation_stack:    26138368
-                     play_move:    12415963
+  add_to_move_generation_stack:    26138394
+                     play_move:    12415989
  is_white_king_square_attacked:     6305186
- is_black_king_square_attacked:    10106391
+ is_black_king_square_attacked:    10106417
 Loesung beendet. 
 
 

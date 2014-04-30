@@ -70,10 +70,10 @@ solution finished.
 
   1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 #
 
-  add_to_move_generation_stack:      457976
-                     play_move:      423977
- is_white_king_square_attacked:       46114
- is_black_king_square_attacked:      398818
+  add_to_move_generation_stack:      457996
+                     play_move:      423997
+ is_white_king_square_attacked:       46126
+ is_black_king_square_attacked:      398828
 solution finished. 
 
 
@@ -105,18 +105,18 @@ a)
 
   1...Kc8-c7   2.Be8-f7 Bf8-g7   3.Ke6-e7 Kc7*d7 #
 
-  add_to_move_generation_stack:       68848
-                     play_move:       60000
- is_white_king_square_attacked:        2868
- is_black_king_square_attacked:       59445
+  add_to_move_generation_stack:       68860
+                     play_move:       60012
+ is_white_king_square_attacked:        2869
+ is_black_king_square_attacked:       59457
 b) Patrouille
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 #
 
-  add_to_move_generation_stack:      135127
-                     play_move:      102643
+  add_to_move_generation_stack:      135139
+                     play_move:      102651
  is_white_king_square_attacked:        3031
- is_black_king_square_attacked:      101485
+ is_black_king_square_attacked:      101493
 solution finished. 
 
 

@@ -318,10 +318,10 @@ Janez Nastran, 205 Sahovska misel 6/2005
   5  (Kg8-f8 )
   6  (Kg8-h8 )
 
-  add_to_move_generation_stack:    11202630
-                     play_move:     9959813
+  add_to_move_generation_stack:    11202648
+                     play_move:     9959831
  is_white_king_square_attacked:     1511851
- is_black_king_square_attacked:     8728419
+ is_black_king_square_attacked:     8728437
 Loesung beendet. 
 
 
@@ -429,9 +429,9 @@ Loesung beendet.
 
   1.b2-b4 g7-g5   2.b4-b5 g5-g4   3.b5-b6 g4-g3   4.b6*c7 g3*f2 +   5.c7*d8=K + dia
 
-  add_to_move_generation_stack:    98330240
-                     play_move:    98330248
- is_white_king_square_attacked:     2612225
+  add_to_move_generation_stack:    98330280
+                     play_move:    98330288
+ is_white_king_square_attacked:     2612245
  is_black_king_square_attacked:     5751373
 Loesung beendet. 
 
