@@ -1509,10 +1509,8 @@ static boolean ProofImpossible(void)
 
   if (CondFlag[haanerchess])
   {
-    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     TraceText("impossible hole created\n");
-    return target.board[move_effect_journal[movement].u.piece_movement.from] != Empty;
+    return target.board[move_effect_journal_get_departure_square(nbply)] != Empty;
   }
 
   /* collect the pieces for further investigations */

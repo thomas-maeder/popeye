@@ -1,12 +1,12 @@
 #include "conditions/haunted_chess.h"
 #include "pieces/pieces.h"
+#include "position/position.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
 #include "solving/move_generator.h"
-
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -89,23 +89,24 @@ void move_effect_journal_redo_forget_ghost(move_effect_journal_index_type curr)
  */
 void haunted_chess_ghost_summoner_solve(slice_index si)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
-  underworld_index_type const ghost_pos = underworld_find_last(sq_departure);
+  underworld_index_type idx_ghost = nr_ghosts;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (ghost_pos!=ghost_not_found)
+  while (idx_ghost>0)
   {
-    move_effect_journal_do_piece_readdition(move_effect_reason_summon_ghost,
-                                            sq_departure,
-                                            underworld[ghost_pos].walk,
-                                            underworld[ghost_pos].flags);
+    --idx_ghost;
+    if (is_square_empty(underworld[idx_ghost].on))
+    {
+      move_effect_journal_do_piece_readdition(move_effect_reason_summon_ghost,
+                                              underworld[idx_ghost].on,
+                                              underworld[idx_ghost].walk,
+                                              underworld[idx_ghost].flags);
 
-    move_effect_journal_do_forget_ghost(ghost_pos);
+      move_effect_journal_do_forget_ghost(idx_ghost);
+    }
   }
 
   pipe_solve_delegate(si);

@@ -108,7 +108,7 @@ void wormhole_transferer_solve(slice_index si)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_departure = move_effect_journal_get_departure_square(nbply);
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
 
   TraceFunctionEntry(__func__);

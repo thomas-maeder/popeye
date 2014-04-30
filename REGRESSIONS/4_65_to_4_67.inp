@@ -70,4 +70,37 @@ pieces white Ke1h1 Rd4 black Kh3 Pf3h2
 condition royaldynasty
 stipulation ser-s#2
 
+next
+
+title just to make sure
+pieces black sa5 white kd7 ra7
+condition marscirce haan
+stip ser-za12
+option nobk
+twin stip ser-za72
+
+next
+
+title just to make sure
+pieces white pa5 kh6 black pb3h3 sb8
+condition blacksync marscirce
+stip s+1
+option vari nobk
+
+next
+
+title just to make sure
+pieces white pa5 black pb3
+stip x1
+condition volage marscirce
+option nowk nobk
+
+next
+
+title just to make sure - returning to a6 would be illegal
+pieces white pa6 black pa4
+condition whitemaxi antimarsc wormholes a6a3
+stip ~1
+option nowk nobk
+
 end

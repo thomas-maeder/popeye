@@ -64,6 +64,7 @@ void circe_solving_instrument_parrain(slice_index si,
 
 static int move_vector(void)
 {
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
   move_effect_journal_index_type curr;
   int result = 0;
@@ -73,7 +74,7 @@ static int move_vector(void)
 
   assert(move_effect_journal_base[nbply]<=top);
 
-  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
+  for (curr = base; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_movement)
     {
       square const from = move_effect_journal[curr].u.piece_movement.from;

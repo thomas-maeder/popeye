@@ -615,10 +615,10 @@ Loesung beendet.
   1.Kc8-b8   2.Kb8-c7   3.Kc7-c6   4.Kc6-b5   5.Kb5-a6   6.Ka6-b7 a7-a7*b6 ==
   1.Kc8-b8   2.Kb8-b7   3.Kb7-c6   4.Kc6-b5   5.Kb5-a5   6.Ka5-a6 a7-a7*b6 ==
 
-  add_to_move_generation_stack:     1269092
-                     play_move:      341022
- is_white_king_square_attacked:       89944
- is_black_king_square_attacked:      260239
+  add_to_move_generation_stack:     1284020
+                     play_move:      340167
+ is_white_king_square_attacked:       89149
+ is_black_king_square_attacked:      260121
 Loesung beendet. 
 
 

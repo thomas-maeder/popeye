@@ -1,8 +1,8 @@
 #include "conditions/circe/pwc.h"
 #include "conditions/circe/circe.h"
 #include "solving/pipe.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -20,14 +20,11 @@
  */
 void pwc_determine_rebirth_square_solve(slice_index si)
 {
-  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = move_effect_journal[movement].u.piece_movement.from;
+  circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].rebirth_square = move_effect_journal_get_departure_square(nbply);
   pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);

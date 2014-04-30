@@ -332,3 +332,155 @@ solution finished.
 solution finished. 
 
 
+
+          just to make sure
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   R   .   .   K   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -S   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-za12                    2 + 1
+             HaanerChess
+              MarsCirce
+
+a) 
+
+  1.Ra7-a1*a5   2.Ra5-a1 z
+
+  add_to_move_generation_stack:         281
+                     play_move:          14
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:           0
+b) ser-za72
+
+
+  add_to_move_generation_stack:         281
+                     play_move:          13
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+          just to make sure
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -S   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   K   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .  -P   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s+1                         2 + 3
+              MarsCirce
+          BlackSynchronMover
+
+   1.a5-a2*b3 !
+      1...Sb8-c6 +
+
+
+  add_to_move_generation_stack:          84
+                     play_move:          24
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+          just to make sure
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   P   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  x1                          1 + 1
+                Volage
+              MarsCirce
+
+   1.a5-a2*b3=b x !
+
+
+  add_to_move_generation_stack:           4
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+
+
+just to make sure - returning to a6 would be illegal
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   P   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4  -P   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+           WhiteMaximummer
+            AntiMarsCirce
+           Wormholes a3 a6
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished. 
+
+

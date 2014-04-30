@@ -15,7 +15,7 @@ static void change_side(void)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_departure = move_effect_journal_get_departure_square(nbply);
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   Flags const movingspec = move_effect_journal[movement].u.piece_movement.movingspec;
   PieceIdType const moving_id = GetPieceId(movingspec);

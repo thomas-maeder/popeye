@@ -25,7 +25,7 @@ static void insert_sentinelle(Side trait_ply)
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
   move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-  square const sq_departure = move_effect_journal[movement].u.piece_movement.from;
+  square const sq_departure = move_effect_journal_get_departure_square(nbply);
   piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
   Flags const spec_pi_moving = move_effect_journal[movement].u.piece_movement.movingspec;
   SquareFlags const prom_square = BIT(WhPromSq)|BIT(BlPromSq);
