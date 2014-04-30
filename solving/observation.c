@@ -42,8 +42,10 @@
 #include "solving/fork.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/binary.h"
 #include "debugging/assert.h"
 
 interceptable_observation_type interceptable_observation[maxply+1];
