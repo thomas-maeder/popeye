@@ -143,10 +143,10 @@ Loesung beendet.
 
   1.nBe7-e8=nT   2.nTe8-e1   3.nTe1-f1 + nBg2*f1=nL[+nTa8] #
 
-  add_to_move_generation_stack:      396452
-                     play_move:      279844
- is_white_king_square_attacked:      148069
- is_black_king_square_attacked:      171570
+  add_to_move_generation_stack:      396389
+                     play_move:      279775
+ is_white_king_square_attacked:      148036
+ is_black_king_square_attacked:      171534
 Loesung beendet. 
 
 
@@ -568,8 +568,8 @@ Loesung beendet.
 
   1.Dh4-g4   2.Kh3-h4   3.Dg4-h3 +
 
-  add_to_move_generation_stack:        3881
-                     play_move:        3881
+  add_to_move_generation_stack:        3846
+                     play_move:        3846
  is_white_king_square_attacked:         543
  is_black_king_square_attacked:         539
 Loesung beendet. 
@@ -604,8 +604,8 @@ Loesung beendet.
 
   1.Se2-c1   2.Kd3-e2   3.Sc1-d3
 
-  add_to_move_generation_stack:        3881
-                     play_move:        3881
+  add_to_move_generation_stack:        3846
+                     play_move:        3846
  is_white_king_square_attacked:         539
  is_black_king_square_attacked:         543
 Loesung beendet. 

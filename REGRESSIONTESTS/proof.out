@@ -25,8 +25,8 @@
 
   1.Sb1-c3 d7-d6   2.Sc3-d5 Sb8-d7   3.Sd5*e7 Sd7-f6   4.Se7*g8 Sf6*g8 dia
 
-  add_to_move_generation_stack:       52163
-                     play_move:       52163
+  add_to_move_generation_stack:       52143
+                     play_move:       52143
  is_white_king_square_attacked:         536
  is_black_king_square_attacked:        2457
 Loesung beendet. 
@@ -485,9 +485,9 @@ Loesung beendet.
 
   1.e2-e3 d7-d6   2.Dd1-h5 Lc8-g4   3.e3-e4 Lg4-d1   4.Dh5*d1 dia
 
-  add_to_move_generation_stack:       33701
-                     play_move:       33701
- is_white_king_square_attacked:        1382
+  add_to_move_generation_stack:       33681
+                     play_move:       33681
+ is_white_king_square_attacked:        1380
  is_black_king_square_attacked:        1665
 Loesung beendet. 
 
@@ -519,9 +519,9 @@ Loesung beendet.
 
   1.c2-c3 e7-e6   2.Dd1-a4 Ke8-e7   3.b2-b3 d7-d6   4.Da4-e8 + Ke7*e8 dia
 
-  add_to_move_generation_stack:       59852
-                     play_move:       59852
- is_white_king_square_attacked:        2336
+  add_to_move_generation_stack:       59832
+                     play_move:       59832
+ is_white_king_square_attacked:        2334
  is_black_king_square_attacked:        2220
 Loesung beendet. 
 
@@ -557,9 +557,9 @@ Loesung beendet.
   1.e2-e4 e7-e6   2.Lf1-c4 c7-c6   3.Lc4*e6 d7*e6 dia
   1.e2-e4 e7-e6   2.Lf1-b5 Ke8-e7   3.Lb5*d7 c7-c6   4.Ld7-e8 Ke7*e8 dia
 
-  add_to_move_generation_stack:      241748
-                     play_move:      241748
- is_white_king_square_attacked:        9582
+  add_to_move_generation_stack:      241728
+                     play_move:      241728
+ is_white_king_square_attacked:        9580
  is_black_king_square_attacked:        9760
 Loesung beendet. 
 

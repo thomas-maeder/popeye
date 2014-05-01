@@ -1650,10 +1650,10 @@ Loesung beendet.
   1.Te4-c4   2.Sb5-c7   3.Sc7-a8   4.c6-c7   5.Le8-b5   6.Tc4-c6   7.c3-c4   8.c4-c5   9.c2-c4  10.Tc6*d6 x
   1.Te4-c4   2.Sb5-c7   3.Sc7-a8   4.c6-c7   5.Le8-b5   6.Tc4-c6   7.c3-c4   8.c4-c5   9.c2-c4  10.Sa8*b6 + x
 
-  add_to_move_generation_stack:   440625499
-                     play_move:   171290053
- is_white_king_square_attacked:   171290053
- is_black_king_square_attacked:   106158812
+  add_to_move_generation_stack:   440625415
+                     play_move:   171289682
+ is_white_king_square_attacked:   171289682
+ is_black_king_square_attacked:   106158539
 Loesung beendet. 
 
 

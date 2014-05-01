@@ -94,10 +94,10 @@ Loesung beendet.
 
   1.Sf7-e5   2.e7-e5   3.d7-d5   4.d4-d3   5.Se5-c4   6.Kf5-e5 Lg7-e5 #
 
-  add_to_move_generation_stack:      970444
-                     play_move:      811790
- is_white_king_square_attacked:      110770
- is_black_king_square_attacked:      811790
+  add_to_move_generation_stack:      970372
+                     play_move:      811718
+ is_white_king_square_attacked:      110722
+ is_black_king_square_attacked:      811718
 Loesung beendet. 
 
 

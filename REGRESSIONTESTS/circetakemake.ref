@@ -85,10 +85,10 @@ a)
  56  (Rh6-h8 )
  57  (Rh6-h7 )
 
-  add_to_move_generation_stack:    97287096
-                     play_move:    47843019
- is_white_king_square_attacked:    46970625
- is_black_king_square_attacked:    35575787
+  add_to_move_generation_stack:    97284892
+                     play_move:    47841825
+ is_white_king_square_attacked:    46969431
+ is_black_king_square_attacked:    35574707
 b) bBf6 
 
  58  (Ke3*d2[+bSb3] )
@@ -139,10 +139,10 @@ b) bBf6
 102  (Rh6-h8 )
 103  (Rh6-h7 )
 
-  add_to_move_generation_stack:    38211454
-                     play_move:    19927383
- is_white_king_square_attacked:    19552948
- is_black_king_square_attacked:    14239689
+  add_to_move_generation_stack:    38210356
+                     play_move:    19926821
+ is_white_king_square_attacked:    19552386
+ is_black_king_square_attacked:    14239055
 solution finished. 
 
 
@@ -234,10 +234,10 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
  58  (c7-c5 )
  59  (c7-c6 )
 
-  add_to_move_generation_stack:      915379
-                     play_move:      332585
+  add_to_move_generation_stack:      915316
+                     play_move:      332526
  is_white_king_square_attacked:      101914
- is_black_king_square_attacked:      331361
+ is_black_king_square_attacked:      331302
 solution finished. 
 
 
@@ -346,10 +346,10 @@ a)
  73  (Sg8-f6 )
  74  (Sg8-h6 )
 
-  add_to_move_generation_stack:     3012321
-                     play_move:     1218565
- is_white_king_square_attacked:     1214084
- is_black_king_square_attacked:      343458
+  add_to_move_generation_stack:     3009928
+                     play_move:     1217551
+ is_white_king_square_attacked:     1213070
+ is_black_king_square_attacked:      343274
 b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 
  75  (Sc2-a1 )
@@ -481,10 +481,10 @@ b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 200  (Rd8-f8 )
 201  (Rd8-e8 )
 
-  add_to_move_generation_stack:     5036444
-                     play_move:     1523349
- is_white_king_square_attacked:     1514424
- is_black_king_square_attacked:      880562
+  add_to_move_generation_stack:     5034107
+                     play_move:     1522886
+ is_white_king_square_attacked:     1513961
+ is_black_king_square_attacked:      880304
 solution finished. 
 
 
@@ -557,10 +557,10 @@ a)
  38  (Bg8*h7[+bSg5] + )
  39  (Bg8*h7[+bSf6] + )
 
-  add_to_move_generation_stack:    88904757
-                     play_move:    32404162
- is_white_king_square_attacked:    31652256
- is_black_king_square_attacked:    15965491
+  add_to_move_generation_stack:    88904235
+                     play_move:    32404008
+ is_white_king_square_attacked:    31652102
+ is_black_king_square_attacked:    15965415
 b)  -bSg1
 
  40  (Kf1-g2 )
@@ -603,10 +603,10 @@ b)  -bSg1
  76  (Bg8*h7[+bSg5] + )
  77  (Bg8*h7[+bSf6] + )
 
-  add_to_move_generation_stack:    83491820
-                     play_move:    29984869
- is_white_king_square_attacked:    29273625
- is_black_king_square_attacked:    14927863
+  add_to_move_generation_stack:    83491288
+                     play_move:    29984715
+ is_white_king_square_attacked:    29273471
+ is_black_king_square_attacked:    14927785
 solution finished. 
 
 
@@ -675,10 +675,10 @@ a)
  34  (Sb8-c6 )
  35  (Sb8-d7 )
 
-  add_to_move_generation_stack:       88326
-                     play_move:       59567
+  add_to_move_generation_stack:       88285
+                     play_move:       59532
  is_white_king_square_attacked:       11459
- is_black_king_square_attacked:       58523
+ is_black_king_square_attacked:       58488
 b) bKa7-->c6
 
  36  (Sc1*e2[+wPe3] )
@@ -720,10 +720,10 @@ b) bKa7-->c6
  71  (Sb8-a6 )
  72  (Sb8-d7 )
 
-  add_to_move_generation_stack:      154078
-                     play_move:       90807
+  add_to_move_generation_stack:      154035
+                     play_move:       90770
  is_white_king_square_attacked:       17418
- is_black_king_square_attacked:       89825
+ is_black_king_square_attacked:       89788
 solution finished. 
 
 
@@ -798,10 +798,10 @@ a)
  40  (Re8-g8 + )
  41  (Re8-f8 )
 
-  add_to_move_generation_stack:     2283202
-                     play_move:     1336669
+  add_to_move_generation_stack:     2283158
+                     play_move:     1336628
  is_white_king_square_attacked:      239961
- is_black_king_square_attacked:     1264188
+ is_black_king_square_attacked:     1264147
 b) bRe8-->e7
 
  42  (Sd4-b3 )
@@ -845,10 +845,10 @@ b) bRe8-->e7
  79  (Re7-g7 + )
  80  (Re7-f7 )
 
-  add_to_move_generation_stack:     2070015
-                     play_move:     1210546
+  add_to_move_generation_stack:     2069973
+                     play_move:     1210507
  is_white_king_square_attacked:      224650
- is_black_king_square_attacked:     1144259
+ is_black_king_square_attacked:     1144220
 solution finished. 
 
 
@@ -988,10 +988,10 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
 107  (Qc7-d7 )
   1.Qc7-d7 Rb1*c1[+wSb3]   2.b7*c8=B[+bQd8] + a5*b4[+wRb7] #
 
-  add_to_move_generation_stack:     5518111
-                     play_move:     2547473
- is_white_king_square_attacked:     2538391
- is_black_king_square_attacked:     1774472
+  add_to_move_generation_stack:     5516542
+                     play_move:     2546930
+ is_white_king_square_attacked:     2537848
+ is_black_king_square_attacked:     1774112
 solution finished. 
 
 
@@ -1056,10 +1056,10 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, Special prize
  31  (Re3-f3 )
   1...Re3-f3   2.Kd5-e5 Rf3-f6   3.Sc3-d5 d2-d4 #
 
-  add_to_move_generation_stack:     2111184
-                     play_move:      827449
- is_white_king_square_attacked:      235654
- is_black_king_square_attacked:      812005
+  add_to_move_generation_stack:     2111141
+                     play_move:      827416
+ is_white_king_square_attacked:      235622
+ is_black_king_square_attacked:      812003
 solution finished. 
 
 

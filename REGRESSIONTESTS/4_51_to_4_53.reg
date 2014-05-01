@@ -1458,8 +1458,8 @@ if wK could castle after having moved, we'd have 8 solutions
  19  (h2-h4 )
  20  (h2-h3 )
 
-  add_to_move_generation_stack:    13430892
-                     play_move:     6180589
+  add_to_move_generation_stack:    13430852
+                     play_move:     6180547
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -2008,9 +2008,9 @@ solving interrupted.
   1.Kc6-b7 b3-b2   2.a6-a7 b2*c1=Q   3.Kb7-a8 Qc1-c8 #
   1.Kc6-b7 b3-b2   2.Kb7-a8 b2*c1=Q   3.a6-a7 Qc1-c8 #
 
-  add_to_move_generation_stack:       66716
-                     play_move:       40229
- is_white_king_square_attacked:       36370
+  add_to_move_generation_stack:       66703
+                     play_move:       40216
+ is_white_king_square_attacked:       36357
  is_black_king_square_attacked:        9873
 solution finished. 
 
@@ -2298,8 +2298,8 @@ feature request 2813613: proof games and Cavalier Majeur
 
   1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia
 
-  add_to_move_generation_stack:     6999987
-                     play_move:     6999987
+  add_to_move_generation_stack:     6999963
+                     play_move:     6999963
  is_white_king_square_attacked:       15723
  is_black_king_square_attacked:      357929
 solution finished. 
@@ -2427,10 +2427,10 @@ ghostchess bug; 4.51 didn't find a solution here
 
   1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] #
 
-  add_to_move_generation_stack:        4099
-                     play_move:        2273
- is_white_king_square_attacked:         614
- is_black_king_square_attacked:        2257
+  add_to_move_generation_stack:        4060
+                     play_move:        2248
+ is_white_king_square_attacked:         607
+ is_black_king_square_attacked:        2232
 solution finished. 
 
 

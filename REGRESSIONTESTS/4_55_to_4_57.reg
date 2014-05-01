@@ -1076,9 +1076,9 @@ solution finished.
   1.Sb1-c3 a7-a5   2.Ra1-b1 a5-a4   3.Rb1-a1 a4-a3   4.Sc3-b1 Ra8-a5   5.Sb1*a3 Ra5-a4   6.Sa3-b1 Ra4-a8 dia
   1.Sb1-c3 a7-a5   2.Ra1-b1 a5-a4   3.Rb1-a1 a4-a3   4.Sc3-b1 Ra8-a5   5.Sb1*a3 Ra5-a7   6.Sa3-b1 Ra7-a8 dia
 
-  add_to_move_generation_stack:       53600
-                     play_move:       53600
- is_white_king_square_attacked:        2682
+  add_to_move_generation_stack:       53540
+                     play_move:       53540
+ is_white_king_square_attacked:        2674
  is_black_king_square_attacked:        2985
 solving interrupted. 
 
@@ -1358,10 +1358,10 @@ Popeye didn't find a solution since at least 4.37
   1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3-h2   6.Kh2*h3[+wPh2]   7.Kh3-g2   8.Kg2*h2[+wPg2]   9.Kh2*g1[+wPh2]  10.Kg1*g2[+wPg1]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4
   1.Kg1*h2[+wPg1]   2.Kh2-h3   3.Kh3*h4[+wPh3]   4.Kh4-g3   5.Kg3*h3[+wPg3]   6.Kh3-g2   7.Kg2*g3[+wPg2]   8.Kg3-h2   9.Kh2*g1[+wPh2]  10.Kg1*g2[+wPg1]  11.Kg2-h3  12.Kh3*h2[+wPh3]  13.Kh2*g1[+wPh2] h3-h4
 
-  add_to_move_generation_stack:       56038
-                     play_move:       56038
- is_white_king_square_attacked:       21020
- is_black_king_square_attacked:       34633
+  add_to_move_generation_stack:       55983
+                     play_move:       55983
+ is_white_king_square_attacked:       20970
+ is_black_king_square_attacked:       34578
 solution finished. 
 
 

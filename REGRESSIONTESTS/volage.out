@@ -273,10 +273,10 @@ Loesung beendet.
   1.a2-a1=S=w   2.b2*a1=D[+wSb8]   3.Da1-a2=w Da2-g8 =
   1.b2-b1=L=w   2.a2*b1=T[+wLc8]   3.Tb1-b8=w Lc8-e6 =
 
-  add_to_move_generation_stack:       82050
-                     play_move:       32081
+  add_to_move_generation_stack:       82040
+                     play_move:       32065
  is_white_king_square_attacked:       12494
- is_black_king_square_attacked:       30457
+ is_black_king_square_attacked:       30441
 Loesung beendet. 
 
 

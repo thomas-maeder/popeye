@@ -556,10 +556,10 @@ a)
 
   1.Kg7-f8 Kd5-d4   2.a2-a1=Q + Kd4*a1=Q   3.Rh8-g8 Qa1-f6 #
 
-  add_to_move_generation_stack:     6163613
-                     play_move:     4466978
+  add_to_move_generation_stack:     6163583
+                     play_move:     4466945
  is_white_king_square_attacked:      176253
- is_black_king_square_attacked:     4131615
+ is_black_king_square_attacked:     4131582
 b) bPa2-->b2
 
   1.Kg7-f8 Kd5-c6   2.Rh8-g8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q #
@@ -568,10 +568,10 @@ b) bPa2-->b2
   1.Rh8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q #
   1.Rh8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=Q + Kb6-f6=Q #
 
-  add_to_move_generation_stack:     6320412
-                     play_move:     4527012
+  add_to_move_generation_stack:     6320382
+                     play_move:     4526979
  is_white_king_square_attacked:      170482
- is_black_king_square_attacked:     4189218
+ is_black_king_square_attacked:     4189185
 solution finished. 
 
 

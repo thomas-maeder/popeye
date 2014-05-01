@@ -164,10 +164,10 @@ Loesung beendet.
   1.nhBd7-d5=sh   2.hBd5-d4=nh   3.nhBd4-d3=sh   4.hBd3-d2=nh   5.nhBd2-d1=nhT=sh   6.hTd1-d5=nh nhTd5-a5=wh #
   1.nhBd7-d6=sh   2.hBd6-d5=nh   3.nhBd5-d4=sh   4.hBd4-d3=nh   5.nhBd3-d2=sh   6.hBd2-d1=hS=nh nhSd1-c3=wh #
 
-  add_to_move_generation_stack:       13359
-                     play_move:       11727
- is_white_king_square_attacked:        2416
- is_black_king_square_attacked:       11727
+  add_to_move_generation_stack:       13327
+                     play_move:       11695
+ is_white_king_square_attacked:        2404
+ is_black_king_square_attacked:       11695
 Loesung beendet. 
 
 
@@ -842,10 +842,10 @@ Loesung beendet.
   1...Lf1-h3   2.nSe3-g4 0-0=nh #
   1...Lf1-d3   2.nSe3-c4 hKe1-d1=nh #
 
-  add_to_move_generation_stack:        6546
-                     play_move:        5071
- is_white_king_square_attacked:         450
- is_black_king_square_attacked:        1582
+  add_to_move_generation_stack:        6512
+                     play_move:        5042
+ is_white_king_square_attacked:         448
+ is_black_king_square_attacked:        1575
 Loesung beendet. 
 
 

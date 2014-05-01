@@ -263,10 +263,10 @@ added white pa2 against many cooks with triton pinning from a1
 
   1.BPe2-d1=MS BPd7-c8=TR   2.MSd1*c3-b5 TRc1*c2-c3   3.MSb5-a7 Kc4-b5 =
 
-  add_to_move_generation_stack:    47944907
-                     play_move:    31440972
+  add_to_move_generation_stack:    47944896
+                     play_move:    31440951
  is_white_king_square_attacked:    13338110
- is_black_king_square_attacked:    28419978
+ is_black_king_square_attacked:    28419957
 solution finished. 
 
 
@@ -421,10 +421,10 @@ solution finished.
 
   1.MPb4-b3 MPa2*b3-c4   2.MPb2-b1=TR MPc4*b5-a6   3.TRb1-b7 MPa6*b7-c8=SI #
 
-  add_to_move_generation_stack:      908797
-                     play_move:      877794
+  add_to_move_generation_stack:      908790
+                     play_move:      877784
  is_white_king_square_attacked:       39355
- is_black_king_square_attacked:      862243
+ is_black_king_square_attacked:      862233
 solution finished. 
 
 
@@ -456,10 +456,10 @@ solution finished.
 
   1.MPe2-e1=ND MPf7-f8=ND   2.NDe1-c3 NDf8*c5-b4   3.MPf2-f1=SI MPg7-g8=TR ==
 
-  add_to_move_generation_stack:   259892195
-                     play_move:    50606621
+  add_to_move_generation_stack:   259892176
+                     play_move:    50606596
  is_white_king_square_attacked:    48075030
- is_black_king_square_attacked:     2531875
+ is_black_king_square_attacked:     2531850
 solution finished. 
 
 
@@ -739,9 +739,9 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
   1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
 
-  add_to_move_generation_stack:    32744636
-                     play_move:    32745959
- is_white_king_square_attacked:     2513329
+  add_to_move_generation_stack:    32744616
+                     play_move:    32745939
+ is_white_king_square_attacked:     2513309
  is_black_king_square_attacked:      168494
 solution finished. 
 
@@ -870,10 +870,10 @@ solution finished.
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d6  10.MHd6-e6  11.MHe6*f5-g4 MHh2-f2 #
   1.MPc2-c1=MH   2.MHc1-c6   3.MHc6*d5-e4   4.MPd7-d5   5.MPd5-d4   6.MPd4-d3   7.MPd3-d2   8.MPd2-d1=MH   9.MHd1-d5  10.MHd5*f5-g5  11.MHg5-g4 MHh2-f2 #
 
-  add_to_move_generation_stack:    29467837
-                     play_move:    24006820
- is_white_king_square_attacked:     8105135
- is_black_king_square_attacked:    24006820
+  add_to_move_generation_stack:    29467747
+                     play_move:    24006685
+ is_white_king_square_attacked:     8105039
+ is_black_king_square_attacked:    24006685
 solution finished. 
 
 

@@ -344,10 +344,10 @@ Loesung beendet.
 
   1.Dg7-f6 Kc3-b2   2.Df6-g7 Le5-c3   3.Dg7-g8 Lc3-g7 #
 
-  add_to_move_generation_stack:      163609
-                     play_move:      139842
- is_white_king_square_attacked:        9890
- is_black_king_square_attacked:      137589
+  add_to_move_generation_stack:      163570
+                     play_move:      139808
+ is_white_king_square_attacked:        9889
+ is_black_king_square_attacked:      137555
 Loesung beendet. 
 
 

@@ -273,9 +273,9 @@ solution finished.
 
   1.Bd5-h1   2.Kc6-d5   3.Kd5-e4   4.Ke4-f3   5.Kf3-g2   6.Kg2*g1   7.Bh1*b7 #
 
-  add_to_move_generation_stack:      192964
-                     play_move:       40709
- is_white_king_square_attacked:      150554
+  add_to_move_generation_stack:      192416
+                     play_move:       40634
+ is_white_king_square_attacked:      150086
  is_black_king_square_attacked:         141
 solution finished. 
 

@@ -208,10 +208,10 @@ Loesung beendet.
 
   1.Ta4-a2 Tf3-f1   2.Ta2-f2 Kc6-d5   3.Kf4-g3 Kd5-e4   4.Tf2-h2 Tf1-f3   5.Kg3-g2 Tf3-f1   6.Kg2-h1 Ke4-f3 #
 
-  add_to_move_generation_stack:    27958971
-                     play_move:     7838785
+  add_to_move_generation_stack:    27957871
+                     play_move:     7838709
  is_white_king_square_attacked:     1127262
- is_black_king_square_attacked:     6976925
+ is_black_king_square_attacked:     6976849
 Loesung beendet. 
 
 
