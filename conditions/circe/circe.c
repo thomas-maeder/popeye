@@ -468,44 +468,6 @@ static void insert_basic_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void insert_promotion_boundaries(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] = {
-        alloc_pipe(STBeforePawnPromotion),
-        alloc_pipe(STLandingAfterPawnPromotion)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    circe_insert_slices(si,st->context,prototypes,nr_prototypes);
-  }
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_promoters(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STPawnPromoter);
-    promotion_insert_slices(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument the solving machinery with Circe
  * @param si identifies the root slice of the solving machinery
  * @param variant address of the structure holding the details of the Circe variant
@@ -547,14 +509,7 @@ void circe_initialise_solving(slice_index si,
                                                        variant));
 
     if (variant->is_promotion_possible)
-    {
-      stip_structure_traversal st;
-      stip_structure_traversal_init(&st,0);
-      stip_structure_traversal_override_single(&st,STCircePlacingReborn,&insert_promotion_boundaries);
-      stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&insert_promoters);
-      stip_traverse_structure(si,&st);
-
-    }
+      promotion_insert_slice_sequence(si,STCircePlacingReborn,&circe_insert_slices);
 
     if (variant->is_turncoat)
       circe_solving_instrument_turncoats(si,variant,interval_start);

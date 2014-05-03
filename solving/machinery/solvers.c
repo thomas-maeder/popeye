@@ -208,44 +208,6 @@ void adjust_slack_length(slice_index si, stip_length_type to)
   slack_length = to;
 }
 
-static void insert_promotion_boundaries(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] = {
-        alloc_pipe(STBeforePawnPromotion),
-        alloc_pipe(STLandingAfterPawnPromotion)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    move_insert_slices(si,st->context,prototypes,nr_prototypes);
-  }
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_promoters(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  {
-    slice_index const prototype = alloc_pipe(STPawnPromoter);
-    promotion_insert_slices(si,st->context,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument the slices representing the stipulation with solving slices
  * @param stipulation_root_hook proxy slice into stipulation
  * @return a copy of the stipulation instrumented with solvers
@@ -507,15 +469,10 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[chamchess])
     chameleon_chess_initialise_solving(result);
 
-  {
-    stip_structure_traversal st;
-    stip_structure_traversal_init(&st,0);
-    stip_structure_traversal_override_single(&st,STMove,&insert_promotion_boundaries);
-    stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&insert_promoters);
-    stip_traverse_structure(result,&st);
-  }
+  promotion_insert_slice_sequence(result,STMove,&move_insert_slices);
+  promotion_instrument_solving_default(result);
 
-  /* this has to come after pieces_pawns_promotion_initialise_solving()
+  /* this has to come after all promotion_insert_slice_sequence() invokations
    * to support for promotion into Chameleon
    */
   if (TSTFLAG(some_pieces_flags,Chameleon))

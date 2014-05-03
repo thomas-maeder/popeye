@@ -4,7 +4,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
 #include "solving/post_move_iteration.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -116,6 +115,100 @@ void promotion_insert_slices(slice_index si,
   stip_traverse_structure(si,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_promoters(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STPawnPromoter);
+    promotion_insert_slices(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrumentall promotion slice sequences of the solving machinery with the
+ * default promotion behavior
+ * @param si identifies root slice of the solving machinery
+ */
+void promotion_instrument_solving_default(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STBeforePawnPromotion,
+                                           &insert_promoters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+typedef struct
+{
+    slice_inserter_contextual_type const inserter;
+} insertion_param_type;
+
+static void insert_boundaries(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    insertion_param_type const * const param = st->param;
+    slice_index const prototypes[] = {
+        alloc_pipe(STBeforePawnPromotion),
+        alloc_pipe(STLandingAfterPawnPromotion)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    (param->inserter)(si,st->context,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Insert (the boundaries of) a promotion slice sequence into the solving
+ * machinery
+ * @param si identifies the root slice of the solving machinery
+ * @param insertion_point type of insertion point slices
+ * @param inserter slice insertion function for inserting from insertion_point
+ *                 slices
+ */
+void promotion_insert_slice_sequence(slice_index si,
+                                     slice_type insertion_point,
+                                     slice_inserter_contextual_type inserter)
+{
+  insertion_param_type param = { inserter };
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&param);
+  stip_structure_traversal_override_single(&st,
+                                           insertion_point,
+                                           &insert_boundaries);
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -111,6 +111,13 @@ void branch_insert_slices(slice_index si,
                           slice_index const prototypes[],
                           unsigned int nr_prototypes);
 
+/* Type of pointers to contextual slice inserter functions
+ */
+typedef void (*slice_inserter_contextual_type)(slice_index si,
+                                               stip_traversal_context_type context,
+                                               slice_index const prototypes[],
+                                               unsigned int nr_prototypes);
+
 /* Insert slices into a branch, taking into account the context of a structure
  * traversal that led to the insertion point.
  * The inserted slices are copies of the elements of prototypes; the elements of

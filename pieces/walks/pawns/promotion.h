@@ -3,6 +3,7 @@
 
 #include "solving/machinery/solve.h"
 #include "solving/move_effect_journal.h"
+#include "stipulation/branch.h"
 #include "stipulation/structure_traversal.h"
 #include "position/board.h"
 
@@ -60,5 +61,22 @@ void promotion_insert_slices(slice_index si,
                              stip_traversal_context_type context,
                              slice_index const prototypes[],
                              unsigned int nr_prototypes);
+
+/* Instrument all promotion slice sequences of the solving machinery with the
+ * default promotion behavior
+ * @param si identifies root slice of the solving machinery
+ */
+void promotion_instrument_solving_default(slice_index si);
+
+/* Insert (the boundaries of) a promotion slice sequence into the solving
+ * machinery
+ * @param si identifies the root slice of the solving machinery
+ * @param insertion_point type of insertion point slices
+ * @param inserter slice insertion function for inserting from insertion_point
+ *                 slices
+ */
+void promotion_insert_slice_sequence(slice_index si,
+                                     slice_type insertion_point,
+                                     slice_inserter_contextual_type inserter);
 
 #endif
