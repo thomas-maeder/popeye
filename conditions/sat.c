@@ -309,7 +309,7 @@ static void instrument_move_with_updater(slice_index si, stip_structure_traversa
 
   {
     slice_index const prototype = alloc_pipe(STStrictSATUpdater);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

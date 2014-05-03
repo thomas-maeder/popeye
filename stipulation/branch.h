@@ -84,7 +84,9 @@ unsigned int get_slice_rank(slice_type type,
 /* Initialise a structure traversal for inserting slices into a branch
  * @param st address of structure representing the traversal
  * @param state address of structure representing the insertion
- * @param context initial context of traversal
+ * @param context initial context of the insertion traversal; typically the
+ *                current context of a surrounding traversal that has arrived
+ *                at the slice where the insertion is to start
  */
 void init_slice_insertion_traversal(stip_structure_traversal *st,
                                     branch_slice_insertion_state_type *state,
@@ -97,21 +99,9 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
 void deallocate_slice_insertion_prototypes(slice_index const prototypes[],
                                            unsigned int nr_prototypes);
 
-/* Insert slices into a generic branch; the elements of
- * prototypes are *not* deallocated by leaf_branch_insert_slices_nested().
- * The inserted slices are copies of the elements of prototypes).
- * Each slice is inserted at a position that corresponds to its predefined rank.
- * @param si identifies starting point of insertion
- * @param prototypes contains the prototypes whose copies are inserted
- * @param nr_prototypes number of elements of array prototypes
- */
-void branch_insert_slices_nested(slice_index si,
-                                 slice_index const prototypes[],
-                                 unsigned int nr_prototypes);
-
 /* Insert slices into a branch.
  * The inserted slices are copies of the elements of prototypes; the elements of
- * prototypes are deallocated by leaf_branch_insert_slices().
+ * prototypes are deallocated by branch_insert_slices().
  * Each slice is inserted at a position that corresponds to its predefined rank.
  * @param si identifies starting point of insertion
  * @param prototypes contains the prototypes whose copies are inserted
@@ -136,20 +126,28 @@ void branch_insert_slices_contextual(slice_index si,
                                      slice_index const prototypes[],
                                      unsigned int nr_prototypes);
 
-/* Temporarily use a slice type order factored out from different contexts for
- * insertion.
+/* Prepare a structure traversal object for slice insertion according to a
+ * factored out slice type order. After branch_prepare_slice_insertion_in_factored_order()
+ * has returned:
+ * - further customise the traversal object according to the respective neeeds
+ * - invoke stip_traverse_structure_children_pipe(si,st_nested)
  * @param si identifies starting point of insertion
  * @param st insertion traversal where we come from and will return to
+ * @param st_nested traversal object to be prepared
+ * @param state_nested to hold state of *st_nested; *state_nested must be
+ *                     defined in the same scope as *st_nested
  * @param order factored slice type order
  * @param nr_order number of elements of order
  * @param end_of_factored_order slice type where to return to insertion defined
  *                              by st
  */
-void branch_insert_slices_factored_order(slice_index si,
-                                         stip_structure_traversal *st,
-                                         slice_index const order[],
-                                         unsigned int nr_order,
-                                         slice_type end_of_factored_order);
+void branch_prepare_slice_insertion_in_factored_order(slice_index si,
+                                                      stip_structure_traversal *st,
+                                                      stip_structure_traversal *st_nested,
+                                                      branch_slice_insertion_state_type *state_nested,
+                                                      slice_index const order[],
+                                                      unsigned int nr_order,
+                                                      slice_type end_of_factored_order);
 
 /* Insert slices into a goal branch.
  * The inserted slices are copies of the elements of prototypes; the elements of

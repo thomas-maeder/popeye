@@ -483,13 +483,13 @@ static void insert_handler(slice_index si, stip_structure_traversal *st)
   assert(state->landing!=no_slice);
   link_to_branch(proxy,state->landing);
 
-  branch_insert_slices_contextual(si,st->context,&prototype,1);
+  move_insert_slices(si,st->context,&prototype,1);
 }
 
 static void insert_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index const prototype = alloc_pipe(STLandingAfterMovingPieceMovement);
-  branch_insert_slices_contextual(si,st->context,&prototype,1);
+  move_insert_slices(si,st->context,&prototype,1);
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)

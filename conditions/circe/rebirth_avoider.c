@@ -33,7 +33,7 @@ static void insert_fork(slice_index si, stip_structure_traversal *st)
   assert(state->joint!=no_slice);
   link_to_branch(avoided,state->joint);
 
-  branch_insert_slices_contextual(si,st->context,&prototype,1);
+  circe_insert_slices(si,st->context,&prototype,1);
 }
 
 static void instrument(slice_index si, stip_structure_traversal *st)

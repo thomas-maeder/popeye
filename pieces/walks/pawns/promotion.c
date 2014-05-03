@@ -40,39 +40,82 @@ enum
   nr_promotion_exit_slice_types = 1
 };
 
-/* Determine whether a slice type contributes to the execution of moves
- * @param type slice type
- * @return true iff type is a slice type that contributes to the execution of moves
- */
-boolean is_promotion_slice_type(slice_type type)
-{
-  unsigned int i;
-  for (i = 0; i!=nr_promotion_slice_rank_order_elmts-nr_promotion_exit_slice_types; ++i)
-    if (type==promotion_slice_rank_order[i])
-      return true;
-
-  return false;
-}
-
-/* Start inserting according to the slice type order for promotion execution
- * @param si identifies starting point of insertion
- * @param st insertion traversal where we come from and will return to
- * @param end_of_factored_order slice type where to return to insertion defined
- *                              by st
- */
-static void start_insertion_according_to_promotion_order(slice_index si,
-                                                         stip_structure_traversal *st,
-                                                         slice_type end_of_factored_order)
+static void insert_visit_promotion(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  branch_insert_slices_factored_order(si,
-                                      st,
-                                      promotion_slice_rank_order,
-                                      nr_promotion_slice_rank_order_elmts,
-                                      STLandingAfterPawnPromotion);
+  {
+    branch_slice_insertion_state_type const * const state = st->param;
+    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    if (!branch_insert_before(si,rank,st))
+    {
+      stip_structure_traversal st_nested;
+      branch_slice_insertion_state_type state_nested;
+      branch_prepare_slice_insertion_in_factored_order(si,
+                                                       st,
+                                                       &st_nested,&state_nested,
+                                                       promotion_slice_rank_order,
+                                                       nr_promotion_slice_rank_order_elmts,
+                                                       STLandingAfterPawnPromotion);
+      stip_traverse_structure_children_pipe(si,&st_nested);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Initialise a structure traversal for inserting slices
+ * into the promotion execution sequence
+ * @param st address of structure representing the traversal
+ */
+void promotion_init_slice_insertion_traversal(stip_structure_traversal *st)
+{
+  stip_structure_traversal_override_single(st,
+                                           STBeforePawnPromotion,
+                                           &insert_visit_promotion);
+}
+
+/* Insert slices into a promotion execution slices sequence.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by promotion_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param context initial context of the insertion traversal; typically the
+ *                current context of a surrounding traversal that has arrived
+ *                at slice si
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void promotion_insert_slices(slice_index si,
+                             stip_traversal_context_type context,
+                             slice_index const prototypes[],
+                             unsigned int nr_prototypes)
+{
+  stip_structure_traversal st;
+  branch_slice_insertion_state_type state =
+  {
+      prototypes, nr_prototypes,
+      promotion_slice_rank_order, nr_promotion_slice_rank_order_elmts,
+      branch_slice_rank_order_nonrecursive,
+      0,
+      si,
+      0
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",context);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  init_slice_insertion_traversal(&st,&state,context);
+  state.base_rank = get_slice_rank(slices[si].type,&state);
+  stip_traverse_structure(si,&st);
+
+  deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -169,107 +212,4 @@ void pawn_promoter_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static void instrument_hook(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototype = alloc_pipe(STBeforePawnPromotion);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
-  }
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void append_others(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  pipe_append(si,alloc_pipe(STLandingAfterPawnPromotion));
-  pipe_append(si,alloc_pipe(STPawnPromoter));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Instrument the solving machinery with the promotion of something other than
- * the moving piece
- * @param si identifies the root slice of the solving machinery
- * @param hook_type type of slice marking a position where pawn promotion is
- *                  required
- */
-void pieces_pawns_promotion_insert_solvers(slice_index si, slice_type hook_type)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,hook_type,&instrument_hook);
-  stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&append_others);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void insert_visit_promotion(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    branch_slice_insertion_state_type const * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
-    if (!branch_insert_before(si,rank,st))
-      start_insertion_according_to_promotion_order(si,st,STLandingAfterPawnPromotion);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to start slice insertion within the sequence of slices that deal with
- * pawn promotion.
- * @param base_type type relevant for determining the position of the slices to
- *                  be inserted
- * @param si identifies the slice where to actually start the insertion traversal
- * @param st address of the structure representing the insertion traversal
- * @return true iff base_type effectively is a type from the promotion slices sequence
- */
-boolean promotion_start_insertion(slice_type base_type,
-                                  slice_index si,
-                                  stip_structure_traversal *st)
-{
-  boolean result = false;
-
-  if (is_promotion_slice_type(base_type))
-  {
-    start_insertion_according_to_promotion_order(si,st,STLandingAfterPawnPromotion);
-    result = true;
-  }
-
-  return result;
-}
-
-/* Initialise a structure traversal for inserting slices
- * into the promotion execution sequence
- * @param st address of structure representing the traversal
- */
-void promotion_init_slice_insertion_traversal(stip_structure_traversal *st)
-{
-  stip_structure_traversal_override_single(st,STBeforePawnPromotion,&insert_visit_promotion);
 }

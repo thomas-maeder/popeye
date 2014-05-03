@@ -132,80 +132,50 @@ enum
   nr_move_exit_slice_types = 3
 };
 
-/* Determine whether a slice type contributes to the execution of moves
- * @param type slice type
- * @return true iff type is a slice type that contributes to the execution of moves
- */
-static boolean is_move_slice_type(slice_type type)
-{
-  unsigned int i;
-  for (i = 0; i!=nr_move_slice_rank_order_elmts-nr_move_exit_slice_types; ++i)
-    if (type==move_slice_rank_order[i])
-      return true;
-
-  return false;
-}
-
-/* Start inserting according to the slice type order for move execution
+/* Insert slices into a move execution slices sequence.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by move_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
  * @param si identifies starting point of insertion
- * @param st insertion traversal where we come from and will return to
- * @param end_of_factored_order slice type where to return to insertion defined
- *                              by st
+ * @param context initial context of the insertion traversal; typically the
+ *                current context of a surrounding traversal that has arrived
+ *                at slice si
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
  */
-static void start_insertion_according_to_move_order(slice_index si,
-                                                    stip_structure_traversal *st,
-                                                    slice_type end_of_factored_order)
+void move_insert_slices(slice_index si,
+                        stip_traversal_context_type context,
+                        slice_index const prototypes[],
+                        unsigned int nr_prototypes)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  branch_insert_slices_factored_order(si,
-                                      st,
-                                      move_slice_rank_order,
-                                      nr_move_slice_rank_order_elmts,
-                                      end_of_factored_order);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to start slice insertion within the sequence of slices that deal with
- * move execution.
- * @param base_type type relevant for determining the position of the slices to
- *                  be inserted
- * @param si identifies the slice where to actually start the insertion traversal
- * @param st address of the structure representing the insertion traversal
- * @param end_of_move_slice_sequence type of slice which ends the move sequence
- * @return true iff base_type effectively is a type from the move slices sequence
- */
-boolean move_start_insertion(slice_type base_type,
-                             slice_index si,
-                             stip_structure_traversal *st,
-                             slice_type end_of_move_slice_sequence)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,base_type,"");
-  TraceFunctionParam("%u",si);
-  TraceEnumerator(slice_type,end_of_move_slice_sequence,"");
-  TraceFunctionParamListEnd();
-
-  if (circe_start_insertion(base_type,si,st))
-    result = true;
-  else if (promotion_start_insertion(base_type,si,st))
-    result = true;
-  else if (is_move_slice_type(base_type))
+  stip_structure_traversal st;
+  branch_slice_insertion_state_type state =
   {
-    start_insertion_according_to_move_order(si,st,end_of_move_slice_sequence);
-    result = true;
-  }
+      prototypes, nr_prototypes,
+      move_slice_rank_order, nr_move_slice_rank_order_elmts,
+      branch_slice_rank_order_nonrecursive,
+      0,
+      si,
+      0
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",context);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  init_slice_insertion_traversal(&st,&state,context);
+  circe_init_slice_insertion_traversal(&st);
+  promotion_init_slice_insertion_traversal(&st);
+
+  state.base_rank = get_slice_rank(slices[si].type,&state);
+  stip_traverse_structure(si,&st);
+
+  deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 slice_type get_end_of_factored_order(stip_structure_traversal *st)
@@ -226,8 +196,6 @@ slice_type get_end_of_factored_order(stip_structure_traversal *st)
 
 static void insert_visit_move(slice_index si, stip_structure_traversal *st)
 {
-  slice_type const end_of_factored_order = get_end_of_factored_order(st);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -236,7 +204,18 @@ static void insert_visit_move(slice_index si, stip_structure_traversal *st)
     branch_slice_insertion_state_type const * const state = st->param;
     unsigned int const rank = get_slice_rank(slices[si].type,state);
     if (!branch_insert_before(si,rank,st))
-      start_insertion_according_to_move_order(si,st,end_of_factored_order);
+    {
+      slice_type const end_of_factored_order = get_end_of_factored_order(st);
+      stip_structure_traversal st_nested;
+      branch_slice_insertion_state_type state_nested;
+      branch_prepare_slice_insertion_in_factored_order(si,
+                                                       st,
+                                                       &st_nested,&state_nested,
+                                                       move_slice_rank_order,
+                                                       nr_move_slice_rank_order_elmts,
+                                                       end_of_factored_order);
+      stip_traverse_structure_children_pipe(si,&st_nested);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -267,7 +246,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   {
     slice_type const * const type = st->param;
     slice_index const prototype = alloc_pipe(*type);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

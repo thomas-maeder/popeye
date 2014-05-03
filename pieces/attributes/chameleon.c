@@ -247,7 +247,7 @@ static void instrument_promoter(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STChameleonChangePromoteeInto);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    promotion_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

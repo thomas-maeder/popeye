@@ -8,6 +8,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
@@ -51,13 +52,13 @@ static void insert_null_move_handler(slice_index si, stip_structure_traversal *s
   assert(*landing!=no_slice);
   link_to_branch(proxy,*landing);
 
-  branch_insert_slices_contextual(si,st->context,&prototype,1);
+  move_insert_slices(si,st->context,&prototype,1);
 }
 
 static void insert_landing(slice_index si, stip_structure_traversal *st)
 {
   slice_index const prototype = alloc_pipe(STLandingAfterMovingPieceMovement);
-  branch_insert_slices_contextual(si,st->context,&prototype,1);
+  move_insert_slices(si,st->context,&prototype,1);
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
@@ -81,7 +82,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
     {
       slice_index const prototype = alloc_pipe(STBlackChecks);
-      branch_insert_slices_contextual(si,st->context,&prototype,1);
+      move_insert_slices(si,st->context,&prototype,1);
     }
   }
   else

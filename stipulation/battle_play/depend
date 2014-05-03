@@ -16,7 +16,8 @@ stipulation/battle_play/branch$(OBJ_SUFFIX): stipulation/battle_play/branch.c \
  stipulation/binary.h stipulation/boolean/true.h \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h debugging/trace.h \
- debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h solving/ply.h debugging/assert.h
 
 stipulation/battle_play/branch.h:
 
@@ -88,6 +89,16 @@ stipulation/battle_play/defense_adapter.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/attack_adapter.c \
@@ -103,7 +114,9 @@ stipulation/battle_play/attack_adapter$(OBJ_SUFFIX): \
  output/mode.h output/mode.enum.h stipulation/branch.h \
  stipulation/battle_play/branch.h \
  stipulation/battle_play/defense_adapter.h stipulation/pipe.h \
- debugging/trace.h debugging/assert.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h solving/ply.h \
+ debugging/assert.h
 
 stipulation/battle_play/attack_adapter.h:
 
@@ -155,6 +168,16 @@ stipulation/pipe.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
 debugging/assert.h:
 stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/battle_play/defense_adapter.c \
@@ -168,7 +191,9 @@ stipulation/battle_play/defense_adapter$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/pipe.h stipulation/branch.h \
- stipulation/battle_play/branch.h debugging/trace.h debugging/assert.h
+ stipulation/battle_play/branch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ solving/ply.h debugging/assert.h
 
 stipulation/battle_play/defense_adapter.h:
 
@@ -217,5 +242,15 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
 
 debugging/assert.h:

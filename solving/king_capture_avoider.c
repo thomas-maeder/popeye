@@ -4,6 +4,7 @@
 #include "solving/machinery/twin.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
+#include "stipulation/move.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -44,13 +45,13 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   if (state->own_king_capture_possible==twin_number)
   {
     slice_index const prototype = alloc_pipe(STOwnKingCaptureAvoider);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   if (state->opponent_king_capture_possible==twin_number)
   {
     slice_index const prototype = alloc_pipe(STOpponentKingCaptureAvoider);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

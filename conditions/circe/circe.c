@@ -108,72 +108,6 @@ enum
   nr_circe_exit_slice_types = 1
 };
 
-static boolean is_circe_slice_type(slice_type type)
-{
-  unsigned int i;
-  for (i = 0; i!=nr_circe_slice_rank_order_elmts-nr_circe_exit_slice_types; ++i)
-    if (type==circe_slice_rank_order[i])
-      return true;
-
-  return false;
-}
-
-/* Start inserting according to the slice type order for Circe execution
- * @param si identifies starting point of insertion
- * @param st insertion traversal where we come from and will return to
- * @param end_of_factored_order slice type where to return to insertion defined
- *                              by st
- */
-static void start_insertion_according_to_circe_order(slice_index si,
-                                                     stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  branch_insert_slices_factored_order(si,
-                                      st,
-                                      circe_slice_rank_order,
-                                      nr_circe_slice_rank_order_elmts,
-                                      STCirceDoneWithRebirth);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to start slice insertion within the sequence of slices that deal with
- * Circe.
- * @param base_type type relevant for determining the position of the slices to
- *                  be inserted
- * @param si identifies the slice where to actually start the insertion traversal
- * @param st address of the structure representing the insertion traversal
- * @return true iff base_type effectively is a type from the Circe slices sequence
- */
-boolean circe_start_insertion(slice_type base_type,
-                              slice_index si,
-                              stip_structure_traversal *st)
-{
-  boolean result = false;
-
-  TraceFunctionEntry(__func__);
-  TraceEnumerator(slice_type,base_type,"");
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (promotion_start_insertion(base_type,si,st))
-    result = true;
-  else if (is_circe_slice_type(base_type))
-  {
-    start_insertion_according_to_circe_order(si,st);
-    result = true;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void insert_visit_circe(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -184,7 +118,17 @@ static void insert_visit_circe(slice_index si, stip_structure_traversal *st)
     branch_slice_insertion_state_type const * const state = st->param;
     unsigned int const rank = get_slice_rank(slices[si].type,state);
     if (!branch_insert_before(si,rank,st))
-      start_insertion_according_to_circe_order(si,st);
+    {
+      stip_structure_traversal st_nested;
+      branch_slice_insertion_state_type state_nested;
+      branch_prepare_slice_insertion_in_factored_order(si,
+                                                       st,
+                                                       &st_nested,&state_nested,
+                                                       circe_slice_rank_order,
+                                                       nr_circe_slice_rank_order_elmts,
+                                                       STCirceDoneWithRebirth);
+      stip_traverse_structure_children_pipe(si,&st_nested);
+    }
   }
 
   TraceFunctionExit(__func__);
@@ -199,6 +143,54 @@ void circe_init_slice_insertion_traversal(stip_structure_traversal *st)
 {
   stip_structure_traversal_override_single(st,STCirceConsideringRebirth,&insert_visit_circe);
   stip_structure_traversal_override_single(st,STAnticirceConsideringRebirth,&insert_visit_circe);
+  stip_structure_traversal_override_single(st,STGenevaConsideringRebirth,&insert_visit_circe);
+  stip_structure_traversal_override_single(st,STMarsCirceConsideringRebirth,&insert_visit_circe);
+  stip_structure_traversal_override_single(st,STMarsCirceConsideringObserverRebirth,&insert_visit_circe);
+}
+
+/* Insert slices into a Circe execution slices sequence.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by circe_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param context initial context of the insertion traversal; typically the
+ *                current context of a surrounding traversal that has arrived
+ *                at slice si
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void circe_insert_slices(slice_index si,
+                         stip_traversal_context_type context,
+                         slice_index const prototypes[],
+                         unsigned int nr_prototypes)
+{
+  stip_structure_traversal st;
+  branch_slice_insertion_state_type state =
+  {
+      prototypes, nr_prototypes,
+      circe_slice_rank_order, nr_circe_slice_rank_order_elmts,
+      branch_slice_rank_order_nonrecursive,
+      0,
+      si,
+      0
+  };
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",context);
+  TraceFunctionParam("%u",nr_prototypes);
+  TraceFunctionParamListEnd();
+
+  init_slice_insertion_traversal(&st,&state,context);
+  promotion_init_slice_insertion_traversal(&st);
+
+  state.base_rank = get_slice_rank(slices[si].type,&state);
+  stip_traverse_structure(si,&st);
+
+  deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 circe_variant_type circe_variant;
@@ -445,7 +437,7 @@ static void instrument_circe(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STCirceDeterminedRebirth)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    circe_insert_slices(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -471,6 +463,44 @@ static void insert_basic_slices(slice_index si,
   stip_structure_traversal_override_single(&st,what,&instrument_move);
   stip_structure_traversal_override_single(&st,interval_start,&instrument_circe);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_promotion_boundaries(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STBeforePawnPromotion),
+        alloc_pipe(STLandingAfterPawnPromotion)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    circe_insert_slices(si,st->context,prototypes,nr_prototypes);
+  }
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_promoters(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STPawnPromoter);
+    promotion_insert_slices(si,st->context,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -517,7 +547,14 @@ void circe_initialise_solving(slice_index si,
                                                        variant));
 
     if (variant->is_promotion_possible)
-      pieces_pawns_promotion_insert_solvers(si,STCircePlacingReborn);
+    {
+      stip_structure_traversal st;
+      stip_structure_traversal_init(&st,0);
+      stip_structure_traversal_override_single(&st,STCircePlacingReborn,&insert_promotion_boundaries);
+      stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&insert_promoters);
+      stip_traverse_structure(si,&st);
+
+    }
 
     if (variant->is_turncoat)
       circe_solving_instrument_turncoats(si,variant,interval_start);
@@ -573,7 +610,7 @@ static void instrument(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const copy = copy_slice(state->prototype);
-    branch_insert_slices_contextual(si,st->context,&copy,1);
+    circe_insert_slices(si,st->context,&copy,1);
   }
 
   TraceFunctionExit(__func__);

@@ -850,9 +850,10 @@ solving/for_each_move$(OBJ_SUFFIX): solving/for_each_move.c solving/for_each_mov
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h stipulation/branch.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/find_move.h \
- solving/move_generator.h solving/ply.h debugging/assert.h
+ solving/pipe.h stipulation/branch.h stipulation/move.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ solving/find_move.h solving/move_generator.h solving/ply.h \
+ debugging/assert.h
 
 solving/for_each_move.h:
 
@@ -909,6 +910,8 @@ solving/has_solution_type.enum.h:
 solving/pipe.h:
 
 stipulation/branch.h:
+
+stipulation/move.h:
 
 stipulation/battle_play/branch.h:
 
@@ -1604,7 +1607,7 @@ solving/king_capture_avoider$(OBJ_SUFFIX): solving/king_capture_avoider.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/pipe.h debugging/assert.h
+ stipulation/pipe.h stipulation/move.h debugging/assert.h
 
 solving/king_capture_avoider.h:
 
@@ -1667,6 +1670,8 @@ stipulation/slice_functional_type.enum.h:
 stipulation/traversal.h:
 
 stipulation/pipe.h:
+
+stipulation/move.h:
 
 debugging/assert.h:
 solving/recursion_stopper$(OBJ_SUFFIX): solving/recursion_stopper.c \
@@ -1779,7 +1784,8 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/fork.h solving/find_square_observer_tracking_back_from_target.h \
- stipulation/pipe.h stipulation/branch.h debugging/assert.h
+ stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/binary.h debugging/assert.h
 
 solving/observation.h:
 
@@ -1947,9 +1953,13 @@ solving/fork.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 
+stipulation/proxy.h:
+
 stipulation/pipe.h:
 
 stipulation/branch.h:
+
+stipulation/binary.h:
 
 debugging/assert.h:
 solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h \

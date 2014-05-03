@@ -39,36 +39,26 @@ square find_potential_promotion_square(move_effect_journal_index_type base);
  */
 void pawn_promoter_solve(slice_index si);
 
-/* Determine whether a slice type contributes to the execution of moves
- * @param type slice type
- * @return true iff type is a slice type that contributes to the execution of moves
- */
-boolean is_promotion_slice_type(slice_type type);
-
-/* Instrument the solving machinery with the promotion of something other than
- * the moving piece
- * @param si identifies the root slice of the solving machinery
- * @param hook_type type of slice marking a position where pawn promotion is
- *                  required
- */
-void pieces_pawns_promotion_insert_solvers(slice_index si, slice_type hook_type);
-
-/* Try to start slice insertion within the sequence of slices that deal with
- * pawn promotion.
- * @param base_type type relevant for determining the position of the slices to
- *                  be inserted
- * @param si identifies the slice where to actually start the insertion traversal
- * @param st address of the structure representing the insertion traversal
- * @return true iff base_type effectively is a type from the promotion slices sequence
- */
-boolean promotion_start_insertion(slice_type base_type,
-                                  slice_index si,
-                                  stip_structure_traversal *st);
-
 /* Initialise a structure traversal for inserting slices
  * into the promotion execution sequence
  * @param st address of structure representing the traversal
  */
 void promotion_init_slice_insertion_traversal(stip_structure_traversal *st);
+
+/* Insert slices into a promotion execution slices sequence.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by promotion_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param context initial context of the insertion traversal; typically the
+ *                current context of a surrounding traversal that has arrived
+ *                at slice si
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void promotion_insert_slices(slice_index si,
+                             stip_traversal_context_type context,
+                             slice_index const prototypes[],
+                             unsigned int nr_prototypes);
 
 #endif

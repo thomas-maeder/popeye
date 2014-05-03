@@ -743,13 +743,12 @@ static void observation_branch_insert_slices_impl(slice_index si,
   TraceFunctionParamListEnd();
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  assert(state.base_rank!=no_slice_rank);
 
-  if (!circe_start_insertion(slices[base].type,si,&st))
-  {
-    assert(state.base_rank!=no_slice_rank);
-    stip_traverse_structure_children_pipe(si,&st);
-  }
+  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  circe_init_slice_insertion_traversal(&st);
+
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

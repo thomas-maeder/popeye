@@ -327,11 +327,6 @@ void circe_parachute_initialise_solving(slice_index si,
                            STCirceRebirthOnNonEmptySquare,
                            alloc_pipe(STCirceParachuteRemember));
 
-  circe_instrument_solving(si,
-                           interval_start,
-                           STCirceDeterminedRebirth,
-                           alloc_pipe(STCirceParachuteUncoverer));
-
   stip_instrument_moves(si,STCirceParachuteUncoverer);
 
   check_no_king_is_possible();
@@ -368,11 +363,6 @@ void circe_volcanic_initialise_solving(slice_index si,
                            interval_start,
                            STCirceDeterminedRebirth,
                            alloc_pipe(STCirceVolcanicSwapper));
-
-  circe_instrument_solving(si,
-                           interval_start,
-                           STCirceDeterminedRebirth,
-                           alloc_pipe(STCirceParachuteUncoverer));
 
   stip_instrument_moves(si,STCirceParachuteUncoverer);
 

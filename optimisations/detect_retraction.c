@@ -3,6 +3,7 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "stipulation/move.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "stipulation/proxy.h"
@@ -32,7 +33,7 @@ static void optimise_move(slice_index si, stip_structure_traversal *st)
       if (state->does_retract_refute)
       {
         slice_index const prototype = alloc_pipe(STDetectMoveRetracted);
-        branch_insert_slices_contextual(si,st->context,&prototype,1);
+        move_insert_slices(si,st->context,&prototype,1);
       }
       break;
 
@@ -123,8 +124,8 @@ static void priorise(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-/* Optimise move generation by inserting orthodox mating move generators
- * @param si identifies the root slice of the stipulation
+/* Optimise move generation by priorising moves retracting the previous move
+ * @param si identifies the root slice of the solving machinery
  */
 void solving_optimise_by_detecting_retracted_moves(slice_index si)
 {

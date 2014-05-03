@@ -280,6 +280,44 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_promotion_boundaries(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STBeforePawnPromotion),
+        alloc_pipe(STLandingAfterPawnPromotion)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    move_insert_slices(si,st->context,prototypes,nr_prototypes);
+  }
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_promoters(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STPawnPromoter);
+    promotion_insert_slices(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Initialise solving in Wormholes
  * @param si root slice of stipulation
  */
@@ -311,7 +349,13 @@ void wormhole_initialse_solving(slice_index si)
     stip_traverse_structure(si,&st);
   }
 
-  pieces_pawns_promotion_insert_solvers(si,STWormholeTransferer);
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,0);
+    stip_structure_traversal_override_single(&st,STWormholeTransferer,&insert_promotion_boundaries);
+    stip_structure_traversal_override_single(&st,STBeforePawnPromotion,&insert_promoters);
+    stip_traverse_structure(si,&st);
+  }
 
   stip_instrument_observation_validation(si,nr_sides,STWormholeRemoveIllegalCaptures);
   stip_instrument_check_validation(si,nr_sides,STWormholeRemoveIllegalCaptures);

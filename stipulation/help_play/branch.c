@@ -163,14 +163,11 @@ static void help_branch_insert_slices_impl(slice_index si,
   TraceFunctionParamListEnd();
 
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_help);
+  move_init_slice_insertion_traversal(&st);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
 
-  if (!move_start_insertion(slices[base].type,si,&st,STHelpMovePlayed))
-  {
-    ++state.base_rank;
-    stip_traverse_structure_children_pipe(si,&st);
-  }
+  stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

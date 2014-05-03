@@ -2,6 +2,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/trivial_end_filter.h"
@@ -96,7 +97,7 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
     if (CondFlag[exclusive])
     {
       slice_index const prototype = alloc_exclusive_chess_undecidable_writer_tree_slice();
-      branch_insert_slices_contextual(si,st->context,&prototype,1);
+      move_insert_slices(si,st->context,&prototype,1);
     }
   }
 

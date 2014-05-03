@@ -3,6 +3,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 
@@ -69,7 +70,7 @@ static void insert_move_iterator_move(slice_index si,
         alloc_pipe(STLandingAfterMovePlay)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    defense_branch_insert_slices(si,prototypes,nr_prototypes);
+    move_insert_slices(si,st->context,prototypes,nr_prototypes);
   }
   else
   {
@@ -83,7 +84,7 @@ static void insert_move_iterator_move(slice_index si,
         alloc_pipe(STLandingAfterMovePlay)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    move_insert_slices(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

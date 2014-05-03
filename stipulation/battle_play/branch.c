@@ -268,6 +268,7 @@ void battle_branch_insert_slices_nested(slice_index adapter,
   state.base_rank = get_slice_rank(slices[adapter].type,&state);
   assert(state.base_rank!=no_slice_rank);
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  move_init_slice_insertion_traversal(&st);
   stip_traverse_structure_children_pipe(adapter,&st);
 
   TraceFunctionExit(__func__);
@@ -333,14 +334,10 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   ++state.base_rank;
 
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
+  move_init_slice_insertion_traversal(&st);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-
-  if (!move_start_insertion(slices[base].type,proxy,&st,STAttackPlayed))
-  {
-    ++state.base_rank;
-    stip_traverse_structure_children_pipe(proxy,&st);
-  }
+  stip_traverse_structure(proxy,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 
@@ -402,14 +399,10 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   ++state.base_rank;
 
   init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
+  move_init_slice_insertion_traversal(&st);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
-
-  if (!move_start_insertion(slices[base].type,proxy,&st,STDefensePlayed))
-  {
-    ++state.base_rank;
-    stip_traverse_structure_children_pipe(proxy,&st);
-  }
+  stip_traverse_structure(proxy,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
 

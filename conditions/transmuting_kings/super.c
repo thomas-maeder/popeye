@@ -7,6 +7,7 @@
 #include "solving/check.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -128,7 +129,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   if (slices[si].starter==*side)
   {
     slice_index const prototype = alloc_pipe(STSuperTransmutingKingTransmuter);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

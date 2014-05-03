@@ -160,22 +160,26 @@ void circe_instrument_solving(slice_index si,
 slice_index alloc_circe_handler_slice(slice_type type,
                                       circe_variant_type const *variant);
 
-/* Try to start slice insertion within the sequence of slices that deal with
- * Circe.
- * @param base_type type relevant for determining the position of the slices to
- *                  be inserted
- * @param si identifies the slice where to actually start the insertion traversal
- * @param st address of the structure representing the insertion traversal
- * @return true iff base_type effectively is a type from the Circe slices sequence
- */
-boolean circe_start_insertion(slice_type base_type,
-                              slice_index si,
-                              stip_structure_traversal *st);
-
 /* Initialise a structure traversal for inserting slices
  * into the Circe execution sequence
  * @param st address of structure representing the traversal
  */
 void circe_init_slice_insertion_traversal(stip_structure_traversal *st);
+
+/* Insert slices into a Circe execution slices sequence.
+ * The inserted slices are copies of the elements of prototypes; the elements of
+ * prototypes are deallocated by circe_insert_slices().
+ * Each slice is inserted at a position that corresponds to its predefined rank.
+ * @param si identifies starting point of insertion
+ * @param context initial context of the insertion traversal; typically the
+ *                current context of a surrounding traversal that has arrived
+ *                at slice si
+ * @param prototypes contains the prototypes whose copies are inserted
+ * @param nr_prototypes number of elements of array prototypes
+ */
+void circe_insert_slices(slice_index si,
+                         stip_traversal_context_type context,
+                         slice_index const prototypes[],
+                         unsigned int nr_prototypes);
 
 #endif

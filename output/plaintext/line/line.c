@@ -5,6 +5,7 @@
 #include "output/output.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/trivial_end_filter.h"
 #include "output/plaintext/move_inversion_counter.h"
@@ -189,7 +190,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   if (CondFlag[exclusive])
   {
     slice_index const prototype = alloc_exclusive_chess_undecidable_writer_line_slice();
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   stip_traverse_structure_children_pipe(si,st);

@@ -1262,7 +1262,7 @@ static void insert_promoter(slice_index si, stip_structure_traversal *st)
     slice_index const prototype = alloc_fork_slice(STPawnToImitatorPromoter,proxy);
     assert(*landing!=no_slice);
     link_to_branch(proxy,*landing);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    promotion_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

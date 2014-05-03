@@ -7,8 +7,8 @@
  * retract the preceding move by the opponent and by priorising such defenses.
  */
 
-/* Optimise move generation by inserting orthodox mating move generators
- * @param si identifies the root slice of the stipulation
+/* Optimise move generation by priorising moves retracting the previous move
+ * @param si identifies the root slice of the solving machinery
  */
 void solving_optimise_by_detecting_retracted_moves(slice_index si);
 

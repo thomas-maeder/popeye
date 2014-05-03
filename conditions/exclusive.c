@@ -4,6 +4,7 @@
 #include "output/plaintext/message.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "solving/has_solution_type.h"
 #include "solving/temporary_hacks.h"
 #include "solving/fork.h"
@@ -166,7 +167,7 @@ static void insert_legality_tester(slice_index si,
   if (!state->is_this_mating_move_played_for_testing_exclusivity)
   {
     slice_index const prototype = alloc_pipe(STExclusiveChessLegalityTester);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

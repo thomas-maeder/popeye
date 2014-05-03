@@ -2,6 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "conditions/conditions.h"
@@ -26,7 +27,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   if (CondFlag[cond])
   {
     slice_index const prototype = alloc_ultraschachzwang_legality_tester_slice();
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

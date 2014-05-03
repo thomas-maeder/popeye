@@ -13,6 +13,7 @@
 #include "optimisations/detect_retraction.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/temporary_hacks.h"
@@ -211,7 +212,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STRepublicanKingPlacer);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    move_insert_slices(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
