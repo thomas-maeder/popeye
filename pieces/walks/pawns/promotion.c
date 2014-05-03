@@ -57,7 +57,7 @@ static void insert_visit_promotion(slice_index si, stip_structure_traversal *st)
                                                        &st_nested,&state_nested,
                                                        promotion_slice_rank_order,
                                                        nr_promotion_slice_rank_order_elmts,
-                                                       STLandingAfterPawnPromotion);
+                                                       nr_promotion_exit_slice_types);
       stip_traverse_structure_children_pipe(si,&st_nested);
     }
   }
@@ -97,7 +97,7 @@ void promotion_insert_slices(slice_index si,
   branch_slice_insertion_state_type state =
   {
       prototypes, nr_prototypes,
-      promotion_slice_rank_order, nr_promotion_slice_rank_order_elmts,
+      promotion_slice_rank_order, nr_promotion_slice_rank_order_elmts, nr_promotion_exit_slice_types,
       branch_slice_rank_order_nonrecursive,
       0,
       si,

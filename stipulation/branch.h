@@ -68,6 +68,7 @@ typedef struct branch_slice_insertion_state_type
     unsigned int nr_prototypes;
     slice_index const *slice_rank_order;
     unsigned int nr_slice_rank_order_elmts;
+    unsigned int nr_exit_slice_types;
     branch_slice_rank_order_type type;
     unsigned int base_rank;
     slice_index prev;
@@ -154,7 +155,7 @@ void branch_prepare_slice_insertion_in_factored_order(slice_index si,
                                                       branch_slice_insertion_state_type *state_nested,
                                                       slice_index const order[],
                                                       unsigned int nr_order,
-                                                      slice_type end_of_factored_order);
+                                                      unsigned int nr_exit_slice_types);
 
 /* Insert slices into a goal branch.
  * The inserted slices are copies of the elements of prototypes; the elements of

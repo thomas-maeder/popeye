@@ -150,7 +150,7 @@ static void help_branch_insert_slices_impl(slice_index si,
   branch_slice_insertion_state_type state =
   {
       prototypes, nr_prototypes,
-      slice_rank_order, nr_slice_rank_order_elmts,
+      slice_rank_order, nr_slice_rank_order_elmts, 0,
       branch_slice_rank_order_recursive,
       0,
       si,

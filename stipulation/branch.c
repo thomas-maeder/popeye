@@ -136,7 +136,8 @@ static void next_insertion(slice_index si,
     branch_slice_insertion_state_type nested_state =
     {
         state->prototypes+1, state->nr_prototypes-1,
-        state->slice_rank_order, state->nr_slice_rank_order_elmts, state->type,
+        state->slice_rank_order, state->nr_slice_rank_order_elmts, state->nr_exit_slice_types,
+        state->type,
         prototype_rank+1,
         si,
         state->parent
@@ -401,6 +402,64 @@ static void insert_return_from_factored_order(slice_index si, stip_structure_tra
   TraceFunctionResultEnd();
 }
 
+static void end_insertion(slice_index si, stip_structure_traversal *st)
+{
+  branch_slice_insertion_state_type * const state = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(state->parent==0);
+
+  {
+    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    slice_index const prototype = state->prototypes[0];
+    slice_type const prototype_type = slices[prototype].type;
+    unsigned int const prototype_rank = get_slice_rank(prototype_type,state);
+
+    if (rank>prototype_rank)
+    {
+      slice_index const copy = copy_slice(prototype);
+      pipe_append(state->prev,copy);
+      next_insertion(copy,prototype_rank,st);
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void init_slice_insertion_traversal_common(stip_structure_traversal *st,
+                                                  branch_slice_insertion_state_type *state,
+                                                  stip_traversal_context_type context)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(st,state);
+  st->context = context;
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_leaf,
+                                                 &insert_visit_leaf);
+  stip_structure_traversal_override_by_structure(st,
+                                                   slice_structure_pipe,
+                                                   &insert_visit_pipe);
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_branch,
+                                                 & insert_visit_pipe);
+  stip_structure_traversal_override_by_structure(st,
+                                                 slice_structure_fork,
+                                                 &insert_visit_pipe);
+  stip_structure_traversal_override_by_function(st,
+                                                slice_function_binary,
+                                                &insert_visit_binary);
+  stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Prepare a structure traversal object for slice insertion according to a
  * factored out slice type order. After branch_prepare_slice_insertion_in_factored_order()
  * has returned:
@@ -422,7 +481,7 @@ void branch_prepare_slice_insertion_in_factored_order(slice_index si,
                                                       branch_slice_insertion_state_type *state_nested,
                                                       slice_index const order[],
                                                       unsigned int nr_order,
-                                                      slice_type end_of_factored_order)
+                                                      unsigned int nr_exit_slice_types)
 {
   branch_slice_insertion_state_type * const state = st->param;
 
@@ -435,6 +494,7 @@ void branch_prepare_slice_insertion_in_factored_order(slice_index si,
   state_nested->parent = st;
   state_nested->slice_rank_order = order;
   state_nested->nr_slice_rank_order_elmts = nr_order;
+  state_nested->nr_exit_slice_types = nr_exit_slice_types;
   state_nested->type = branch_slice_rank_order_nonrecursive;
   state_nested->base_rank = 0;
   state_nested->prev = si;
@@ -442,10 +502,15 @@ void branch_prepare_slice_insertion_in_factored_order(slice_index si,
   state_nested->base_rank = get_slice_rank(slices[si].type,state_nested);
   assert(state_nested->base_rank!=no_slice_rank);
 
-  init_slice_insertion_traversal(st_nested,state_nested,st->context);
-  stip_structure_traversal_override_single(st_nested,
-                                           end_of_factored_order,
-                                           &insert_return_from_factored_order);
+  init_slice_insertion_traversal_common(st_nested,state_nested,st->context);
+
+  {
+    unsigned int i;
+    for (i = nr_order-nr_exit_slice_types; i!=nr_order; ++i)
+      stip_structure_traversal_override_single(st_nested,
+                                               order[i],
+                                               &insert_return_from_factored_order);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -465,24 +530,17 @@ void init_slice_insertion_traversal(stip_structure_traversal *st,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(st,state);
-  st->context = context;
-  stip_structure_traversal_override_by_structure(st,
-                                                 slice_structure_leaf,
-                                                 &insert_visit_leaf);
-  stip_structure_traversal_override_by_structure(st,
-                                                 slice_structure_pipe,
-                                                 &insert_visit_pipe);
-  stip_structure_traversal_override_by_structure(st,
-                                                 slice_structure_branch,
-                                                 &insert_visit_pipe);
-  stip_structure_traversal_override_by_structure(st,
-                                                 slice_structure_fork,
-                                                 &insert_visit_pipe);
-  stip_structure_traversal_override_by_function(st,
-                                                slice_function_binary,
-                                                &insert_visit_binary);
-  stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
+  init_slice_insertion_traversal_common(st,state,context);
+
+  {
+    unsigned int i;
+    for (i = state->nr_slice_rank_order_elmts-state->nr_exit_slice_types;
+         i!=state->nr_slice_rank_order_elmts;
+         ++i)
+      stip_structure_traversal_override_single(st,
+                                               state->slice_rank_order[i],
+                                               &end_insertion);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -551,7 +609,7 @@ void branch_insert_slices(slice_index si,
   stip_structure_traversal st;
   branch_slice_insertion_state_type state = {
       prototypes, nr_prototypes,
-      slice_rank_order, nr_slice_rank_order_elmts,
+      slice_rank_order, nr_slice_rank_order_elmts, 0,
       branch_slice_rank_order_nonrecursive,
       0,
       si,

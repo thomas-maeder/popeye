@@ -305,7 +305,7 @@ static void insert_slice(slice_index testing,
   branch_slice_insertion_state_type state =
   {
     &prototype,1,
-    rank_order, nr_rank_order,
+    rank_order, nr_rank_order, 1,
     branch_slice_rank_order_nonrecursive,
     0,
     testing,
@@ -714,7 +714,8 @@ static slice_index const is_square_observed_slice_rank_order[] =
     STMarsIsSquareObserved,
     STPlusIsSquareObserved,
     STIsSquareObservedPathsJoint,
-    STTrackBackFromTargetAccordingToObserverWalk
+    STTrackBackFromTargetAccordingToObserverWalk,
+    STTrue
 };
 
 enum
@@ -731,7 +732,7 @@ static void observation_branch_insert_slices_impl(slice_index si,
   branch_slice_insertion_state_type state =
   {
     prototypes,nr_prototypes,
-    is_square_observed_slice_rank_order, nr_is_square_observed_slice_rank_order_elmts,
+    is_square_observed_slice_rank_order, nr_is_square_observed_slice_rank_order_elmts, 1,
     branch_slice_rank_order_nonrecursive,
     0,
     si,

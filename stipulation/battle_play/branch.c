@@ -250,7 +250,7 @@ void battle_branch_insert_slices_nested(slice_index adapter,
   branch_slice_insertion_state_type state =
   {
     prototypes, nr_prototypes,
-    slice_rank_order, nr_slice_rank_order_elmts,
+    slice_rank_order, nr_slice_rank_order_elmts, 0,
     branch_slice_rank_order_recursive,
     0,
     adapter,
@@ -311,7 +311,7 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   branch_slice_insertion_state_type state =
   {
     prototypes, nr_prototypes,
-    slice_rank_order, nr_slice_rank_order_elmts,
+    slice_rank_order, nr_slice_rank_order_elmts, 0,
     branch_slice_rank_order_recursive,
     0,
     proxy,
@@ -381,7 +381,7 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   branch_slice_insertion_state_type state =
   {
     prototypes, nr_prototypes,
-    slice_rank_order, nr_slice_rank_order_elmts,
+    slice_rank_order, nr_slice_rank_order_elmts, 0,
     branch_slice_rank_order_recursive,
     0,
     proxy,

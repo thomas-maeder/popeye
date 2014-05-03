@@ -96,7 +96,7 @@ static void move_generation_branch_insert_slices_impl(slice_index generating,
   branch_slice_insertion_state_type state =
   {
     prototypes,nr_prototypes,
-    slice_rank_order, nr_slice_rank_order_elmts,
+    slice_rank_order, nr_slice_rank_order_elmts, 1,
     branch_slice_rank_order_nonrecursive,
     0,
     generating,

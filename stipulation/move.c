@@ -152,7 +152,7 @@ void move_insert_slices(slice_index si,
   branch_slice_insertion_state_type state =
   {
       prototypes, nr_prototypes,
-      move_slice_rank_order, nr_move_slice_rank_order_elmts,
+      move_slice_rank_order, nr_move_slice_rank_order_elmts, nr_move_exit_slice_types,
       branch_slice_rank_order_nonrecursive,
       0,
       si,
@@ -178,22 +178,6 @@ void move_insert_slices(slice_index si,
   TraceFunctionResultEnd();
 }
 
-slice_type get_end_of_factored_order(stip_structure_traversal *st)
-{
-  switch (st->context)
-  {
-    case stip_traversal_context_attack:
-      return STAttackPlayed;
-    case stip_traversal_context_defense:
-      return STDefensePlayed;
-    case stip_traversal_context_help:
-      return STHelpMovePlayed;
-    default:
-      assert(0);
-      return no_slice_type;
-  }
-}
-
 static void insert_visit_move(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
@@ -205,7 +189,6 @@ static void insert_visit_move(slice_index si, stip_structure_traversal *st)
     unsigned int const rank = get_slice_rank(slices[si].type,state);
     if (!branch_insert_before(si,rank,st))
     {
-      slice_type const end_of_factored_order = get_end_of_factored_order(st);
       stip_structure_traversal st_nested;
       branch_slice_insertion_state_type state_nested;
       branch_prepare_slice_insertion_in_factored_order(si,
@@ -213,7 +196,7 @@ static void insert_visit_move(slice_index si, stip_structure_traversal *st)
                                                        &st_nested,&state_nested,
                                                        move_slice_rank_order,
                                                        nr_move_slice_rank_order_elmts,
-                                                       end_of_factored_order);
+                                                       nr_move_exit_slice_types);
       stip_traverse_structure_children_pipe(si,&st_nested);
     }
   }

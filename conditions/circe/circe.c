@@ -125,7 +125,7 @@ static void insert_visit_circe(slice_index si, stip_structure_traversal *st)
                                                        &st_nested,&state_nested,
                                                        circe_slice_rank_order,
                                                        nr_circe_slice_rank_order_elmts,
-                                                       STCirceDoneWithRebirth);
+                                                       nr_circe_exit_slice_types);
       stip_traverse_structure_children_pipe(si,&st_nested);
     }
   }
@@ -167,7 +167,7 @@ void circe_insert_slices(slice_index si,
   branch_slice_insertion_state_type state =
   {
       prototypes, nr_prototypes,
-      circe_slice_rank_order, nr_circe_slice_rank_order_elmts,
+      circe_slice_rank_order, nr_circe_slice_rank_order_elmts, nr_circe_exit_slice_types,
       branch_slice_rank_order_nonrecursive,
       0,
       si,

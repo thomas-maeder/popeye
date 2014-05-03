@@ -226,7 +226,7 @@ static void insert_slice(slice_index testing, slice_type type)
   branch_slice_insertion_state_type state =
   {
     &prototype,1,
-    slice_rank_order, nr_slice_rank_order_elmts,
+    slice_rank_order, nr_slice_rank_order_elmts, 1,
     branch_slice_rank_order_nonrecursive,
     0,
     testing,
