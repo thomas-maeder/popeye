@@ -1,6 +1,7 @@
 #include "conditions/geneva.h"
 #include "conditions/anticirce/anticirce.h"
 #include "stipulation/pipe.h"
+#include "stipulation/move.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
@@ -94,7 +95,7 @@ void geneva_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  circe_initialise_solving(si,&geneva_variant,STMove,STGenevaConsideringRebirth);
+  circe_initialise_solving(si,&geneva_variant,STMove,&move_insert_slices,STGenevaConsideringRebirth);
 
   circe_instrument_solving(si,
                            STGenevaConsideringRebirth,

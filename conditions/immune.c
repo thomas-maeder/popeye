@@ -1,5 +1,6 @@
 #include "conditions/immune.h"
 #include "stipulation/pipe.h"
+#include "stipulation/move.h"
 #include "solving/observation.h"
 #include "debugging/trace.h"
 
@@ -27,7 +28,7 @@ void immune_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  circe_initialise_solving(si,&immune_variant,STMove,STGenevaConsideringRebirth);
+  circe_initialise_solving(si,&immune_variant,STMove,&move_insert_slices,STGenevaConsideringRebirth);
 
   stip_instrument_check_validation(si,
                                    nr_sides,

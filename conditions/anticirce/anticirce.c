@@ -52,7 +52,7 @@ void anticirce_initialise_solving(slice_index si)
                                                  ==circe_relevant_side_overrider_mirror
                                                  ? circe_relevant_side_overrider_none
                                                  : circe_relevant_side_overrider_mirror);
-  circe_initialise_solving(si,&anticirce_variant,STMove,STAnticirceConsideringRebirth);
+  circe_initialise_solving(si,&anticirce_variant,STMove,&move_insert_slices,STAnticirceConsideringRebirth);
 
   if (anticirce_variant.do_place_reborn)
   {

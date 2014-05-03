@@ -16,7 +16,6 @@
 #include "pieces/attributes/chameleon.h"
 #include "conditions/conditions.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "solving/move_effect_journal.h"
@@ -399,9 +398,10 @@ typedef struct
 {
   circe_variant_type const * variant;
   slice_type interval_start;
+  slice_inserter_contextual_type const inserter;
 } initialisation_state_type;
 
-static void instrument_move(slice_index si, stip_structure_traversal *st)
+static void insert_boundaries(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -414,7 +414,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STCirceDoneWithRebirth)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    (*state->inserter)(si,st->context,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children_pipe(si,st);
@@ -447,9 +447,10 @@ static void instrument_circe(slice_index si, stip_structure_traversal *st)
 static void insert_basic_slices(slice_index si,
                                 circe_variant_type const * variant,
                                 slice_type what,
+                                slice_inserter_contextual_type inserter,
                                 slice_type interval_start)
 {
-  initialisation_state_type state = { variant, interval_start };
+  initialisation_state_type state = { variant, interval_start, inserter };
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
@@ -460,7 +461,7 @@ static void insert_basic_slices(slice_index si,
   stip_structure_traversal_override_single(&st,
                                            STCageCirceNonCapturingMoveFinder,
                                            &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,what,&instrument_move);
+  stip_structure_traversal_override_single(&st,what,&insert_boundaries);
   stip_structure_traversal_override_single(&st,interval_start,&instrument_circe);
   stip_traverse_structure(si,&st);
 
@@ -472,11 +473,13 @@ static void insert_basic_slices(slice_index si,
  * @param si identifies the root slice of the solving machinery
  * @param variant address of the structure holding the details of the Circe variant
  * @param what what exactly is being instrumented?
+ * @param inserter slice insertion function for inserting from what slices
  * @param interval_start start of the slices interval where to instrument
  */
 void circe_initialise_solving(slice_index si,
                               circe_variant_type *variant,
                               slice_type what,
+                              slice_inserter_contextual_type inserter,
                               slice_type interval_start)
 {
   TraceFunctionEntry(__func__);
@@ -485,7 +488,7 @@ void circe_initialise_solving(slice_index si,
   TraceEnumerator(slice_type,interval_start,"");
   TraceFunctionParamListEnd();
 
-  insert_basic_slices(si,variant,what,interval_start);
+  insert_basic_slices(si,variant,what,inserter,interval_start);
 
   circe_solving_instrument_relevant_capture(si,variant,interval_start);
   circe_solving_instrument_reborn_piece(si,variant,interval_start);

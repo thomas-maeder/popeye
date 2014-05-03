@@ -10,6 +10,7 @@
 #include "solving/machinery/solve.h"
 #include "stipulation/slice_type.h"
 #include "stipulation/structure_traversal.h"
+#include "stipulation/branch.h"
 #include "solving/move_effect_journal.h"
 #include "solving/ply.h"
 #include "solving/machinery/twin.h"
@@ -132,11 +133,13 @@ void circe_done_with_rebirth(slice_index si);
  * @param si identifies the root slice of the solving machinery
  * @param variant address of the structure holding the details of the Circe variant
  * @param what what exactly is being instrumented?
+ * @param inserter slice insertion function for inserting from what slices
  * @param interval_start start of the slices interval where to instrument
  */
 void circe_initialise_solving(slice_index si,
                               circe_variant_type *variant,
                               slice_type what,
+                              slice_inserter_contextual_type inserter,
                               slice_type interval_start);
 
 /* Instrument the Circe solving machinery with some slice

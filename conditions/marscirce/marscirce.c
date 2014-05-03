@@ -451,6 +451,7 @@ void solving_initialise_marscirce(slice_index si)
   circe_initialise_solving(si,
                            &marscirce_variant,
                            STMoveForPieceGeneratorAlternativePath,
+                           &branch_insert_slices_contextual,
                            STMarsCirceConsideringRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringRebirth,
@@ -464,6 +465,7 @@ void solving_initialise_marscirce(slice_index si)
   circe_initialise_solving(si,
                            &observation_variant,
                            STDetermineObserverWalk,
+                           &branch_insert_slices_contextual,
                            STMarsCirceConsideringObserverRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringObserverRebirth,

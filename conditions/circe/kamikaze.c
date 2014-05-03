@@ -4,6 +4,7 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
+#include "stipulation/move.h"
 #include "solving/binary.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -18,7 +19,7 @@ void circe_kamikaze_initialise_solving(slice_index si)
   TraceFunctionParamListEnd();
 
   anticirce_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_relaxed;
-  circe_initialise_solving(si,&anticirce_variant,STMove,STAnticirceConsideringRebirth);
+  circe_initialise_solving(si,&anticirce_variant,STMove,&move_insert_slices,STAnticirceConsideringRebirth);
   circe_instrument_solving(si,
                            STAnticirceConsideringRebirth,
                            STCirceDeterminedRebirth,

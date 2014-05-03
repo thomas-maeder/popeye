@@ -365,7 +365,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[circe])
   {
-    circe_initialise_solving(result,&circe_variant,STMove,STCirceConsideringRebirth);
+    circe_initialise_solving(result,&circe_variant,STMove,&move_insert_slices,STCirceConsideringRebirth);
 
     if (circe_variant.is_rex_inclusive)
       circe_rex_inclusive_initialise_check_validation(result);

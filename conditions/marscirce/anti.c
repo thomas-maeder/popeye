@@ -80,6 +80,7 @@ void solving_initialise_antimars(slice_index si)
   circe_initialise_solving(si,
                            &antimars_variant,
                            STMoveForPieceGeneratorStandardPath,
+                           &branch_insert_slices_contextual,
                            STMarsCirceConsideringRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringRebirth,
