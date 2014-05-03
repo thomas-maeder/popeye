@@ -179,7 +179,7 @@ static void insert_boundaries(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STLandingAfterPawnPromotion)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    (param->inserter)(si,st->context,prototypes,nr_prototypes);
+    (*param->inserter)(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
