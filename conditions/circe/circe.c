@@ -32,6 +32,7 @@ static slice_type const circe_slice_rank_order[] =
     STGenevaConsideringRebirth,
     STMarsCirceConsideringRebirth,
     STMarsCirceConsideringObserverRebirth,
+    STAntimarsCirceConsideringRebirth,
     STCirceInitialiseFromCurrentMove,
     STCirceInitialiseFromLastMove,
     STCirceKamikazeCaptureFork,
@@ -140,6 +141,7 @@ void circe_init_slice_insertion_traversal(stip_structure_traversal *st)
   stip_structure_traversal_override_single(st,STGenevaConsideringRebirth,&insert_visit_circe);
   stip_structure_traversal_override_single(st,STMarsCirceConsideringRebirth,&insert_visit_circe);
   stip_structure_traversal_override_single(st,STMarsCirceConsideringObserverRebirth,&insert_visit_circe);
+  stip_structure_traversal_override_single(st,STAntimarsCirceConsideringRebirth,&insert_visit_circe);
 }
 
 /* Insert slices into a Circe execution slices sequence.

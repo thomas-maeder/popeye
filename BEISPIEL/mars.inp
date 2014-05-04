@@ -287,4 +287,12 @@ option ohnewk ohnesk
 zwilling hinzuf schwarz ka8
 zwilling ferner hinzuf schwarz bc7
 
+weiteresproblem
+
+titel Kombination von MarsCirce und AntiMarsCirce
+steine weiss sg6 schwarz ba3
+forderung ~1
+bedingung marscirce antimarscirce spiegel
+option ohnewk ohnesk
+
 ende

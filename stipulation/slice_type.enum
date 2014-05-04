@@ -324,6 +324,7 @@
     ENUMERATOR(STGenevaConsideringRebirth)                             \
     ENUMERATOR(STMarsCirceConsideringRebirth)                          \
     ENUMERATOR(STMarsCirceConsideringObserverRebirth)                  \
+    ENUMERATOR(STAntimarsCirceConsideringRebirth)                      \
     ENUMERATOR(STGenevaStopCaptureFromRebirthSquare)                   \
     ENUMERATOR(STCirceCaptureFork)                                     \
     ENUMERATOR(STCirceParrainThreatFork)                               \

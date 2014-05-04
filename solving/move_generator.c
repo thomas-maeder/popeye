@@ -71,6 +71,7 @@ static slice_index const slice_rank_order[] =
     STMarsCirceFixDeparture,
     STPhantomAvoidDuplicateMoves,
     STMarsCirceConsideringRebirth,
+    STAntimarsCirceConsideringRebirth,
     STCirceDoneWithRebirth,
     STMarsCirceGenerateFromRebirthSquare,
     STPlusAdditionalCapturesForPieceGenerator,

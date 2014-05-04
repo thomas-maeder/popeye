@@ -240,9 +240,6 @@ void solving_initialise_plus(slice_index si)
 
   stip_instrument_is_square_observed_testing(si,nr_sides,STPlusIsSquareObserved);
 
-  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-  move_effect_journal_register_pre_capture_effect();
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

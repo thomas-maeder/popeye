@@ -523,9 +523,6 @@ void solving_initialise_marscirce(slice_index si)
   stip_instrument_check_validation(si,nr_sides,STMarsCirceGenerateFromRebirthSquare);
   stip_instrument_observation_validation(si,nr_sides,STMarsCirceGenerateFromRebirthSquare);
 
-  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-  move_effect_journal_register_pre_capture_effect();
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

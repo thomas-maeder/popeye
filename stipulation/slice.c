@@ -198,6 +198,7 @@ static slice_type const proxy_slice_types[] =
     STGenevaConsideringRebirth,
     STMarsCirceConsideringRebirth,
     STMarsCirceConsideringObserverRebirth,
+    STAntimarsCirceConsideringRebirth,
     STCirceDeterminingRebirth,
     STCirceDeterminedRebirth,
     STCirceRebirthAvoided,

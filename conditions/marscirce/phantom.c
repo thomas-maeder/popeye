@@ -247,9 +247,6 @@ void solving_initialise_phantom(slice_index si)
                              STMarsIterateObservers,
                              alloc_pipe(STMarsCirceIsSquareObservedEnforceRexInclusive));
 
-  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-  move_effect_journal_register_pre_capture_effect();
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

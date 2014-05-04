@@ -1080,7 +1080,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[mars] || CondFlag[antimars] || CondFlag[plus] || CondFlag[phantom])
   {
-    if (CondFlag[mars]+CondFlag[antimars]+CondFlag[plus]+CondFlag[phantom]>1)
+    if ((CondFlag[mars]||CondFlag[antimars])+CondFlag[plus]+CondFlag[phantom]>1)
     {
       VerifieMsg(MarsCirceAndOthers);
       return false;

@@ -1057,3 +1057,45 @@ Die am Zug befindliche Partei kann den Koenig schlagen
 Loesung beendet. 
 
 
+
+Kombination von MarsCirce und AntiMarsCirce
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   S   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3  -B   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+              MarsCirce
+        AntiMarsCirce Spiegel
+
+   1.Sg6-b1*a3 !
+
+   1.Sg6-g8-e7 !
+
+   1.Sg6-g8-f6 !
+
+   1.Sg6-g8-h6 !
+
+
+  add_to_move_generation_stack:           6
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+Loesung beendet. 
+
+

@@ -452,16 +452,24 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   en_passant_initialise_solving(result);
 
   if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || CondFlag[antimars])
+  {
     move_generator_instrument_for_alternative_paths(result,nr_sides);
+
+    stip_instrument_moves(result,STMarsCirceMoveToRebirthSquare);
+    move_effect_journal_register_pre_capture_effect();
+  }
 
   if (CondFlag[phantom])
     solving_initialise_phantom(result);
-  else if (CondFlag[antimars])
-    solving_initialise_antimars(result);
   else if (CondFlag[plus])
     solving_initialise_plus(result);
-  else if (CondFlag[mars])
-    solving_initialise_marscirce(result);
+  else
+  {
+    if (CondFlag[antimars])
+      solving_initialise_antimars(result);
+    if (CondFlag[mars])
+      solving_initialise_marscirce(result);
+  }
 
   if (CondFlag[linechamchess])
     solving_insert_line_chameleon_chess(result);

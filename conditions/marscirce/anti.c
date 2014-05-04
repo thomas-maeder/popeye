@@ -81,20 +81,17 @@ void solving_initialise_antimars(slice_index si)
                            &antimars_variant,
                            STMoveForPieceGeneratorStandardPath,
                            &slice_insertion_insert_contextually,
-                           STMarsCirceConsideringRebirth);
+                           STAntimarsCirceConsideringRebirth);
   circe_instrument_solving(si,
-                           STMarsCirceConsideringRebirth,
+                           STAntimarsCirceConsideringRebirth,
                            STCirceDeterminedRebirth,
                            alloc_pipe(STMarscirceRemoveCapturer));
 
   if (antimars_variant.rebirth_reason==move_effect_reason_rebirth_choice)
     circe_instrument_solving(si,
-                             STMarsCirceConsideringRebirth,
-                             STMarsCirceConsideringRebirth,
+                             STAntimarsCirceConsideringRebirth,
+                             STAntimarsCirceConsideringRebirth,
                              alloc_pipe(STMoveGenerationPostMoveIterator));
-
-  stip_instrument_moves(si,STMarsCirceMoveToRebirthSquare);
-  move_effect_journal_register_pre_capture_effect();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
