@@ -103,4 +103,11 @@ condition whitemaxi antimarsc wormholes a6a3
 stip ~1
 option nowk nobk
 
+next
+
+title Popeye 4.63 and 4.65 only printed the first solution
+pieces white Kb2 Pc4  black Ka4 Pa2a5b3b5
+stipulation h=2
+option intelligent
+
 end

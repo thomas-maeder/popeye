@@ -5,6 +5,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
+#include "solving/move_effect_journal.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -78,6 +79,16 @@ static boolean alloc_room_for_solution(void)
   return result;
 }
 
+static piece_walk_type get_promotion_walk(ply ply)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[ply];
+  move_effect_journal_index_type const promotion = base+move_effect_journal_index_offset_movement+1;
+  if (move_effect_journal[promotion].type==move_effect_piece_change)
+    return move_effect_journal[promotion].u.piece_change.to;
+  else
+    return Empty;
+}
+
 /* Store the current solution in order to avoid writing it again later
  */
 static void store_solution(void)
@@ -107,7 +118,7 @@ static void store_solution(void)
       simplified_move_type * const elmt = *sol + cp;
       elmt->from = move_generation_stack[CURRMOVE_OF_PLY(cp)].departure;
       elmt->to = move_generation_stack[CURRMOVE_OF_PLY(cp)].arrival;
-      elmt->prom = get_walk_of_piece_on_square(elmt->to);
+      elmt->prom = get_promotion_walk(cp);
     }
   }
 
@@ -141,11 +152,10 @@ static boolean is_duplicate_solution(void)
         simplified_move_type * const elmt = *sol + cp;
         found = (elmt->from==move_generation_stack[CURRMOVE_OF_PLY(cp)].departure
                  && elmt->to==move_generation_stack[CURRMOVE_OF_PLY(cp)].arrival
-                 && elmt->prom==get_walk_of_piece_on_square(move_generation_stack[CURRMOVE_OF_PLY(cp)].arrival));
+                 && elmt->prom==get_promotion_walk(cp));
       }
     }
   }
-
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",found);

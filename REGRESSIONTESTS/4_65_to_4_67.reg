@@ -484,3 +484,39 @@ just to make sure - returning to a6 would be illegal
 solution finished. 
 
 
+
+Popeye 4.63 and 4.65 only printed the first solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P  -P   .   .   .   .   .   .   5
+|                                   |
+4  -K   .   P   .   .   .   .   .   4
+|                                   |
+3   .  -P   .   .   .   .   .   .   3
+|                                   |
+2  -P   K   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=2                         2 + 5
+
+  1.a2-a1=Q + Kb2*a1   2.b5-b4 Ka1-b2 =
+  1.a2-a1=S Kb2*a1   2.b5-b4 Ka1-b2 =
+  1.a2-a1=R Kb2*a1   2.b5-b4 Ka1-b2 =
+  1.a2-a1=B + Kb2*a1   2.b5-b4 Ka1-b2 =
+
+  add_to_move_generation_stack:         406
+                     play_move:         430
+ is_white_king_square_attacked:          48
+ is_black_king_square_attacked:         230
+solution finished. 
+
+
