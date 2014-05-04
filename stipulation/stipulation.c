@@ -2,6 +2,7 @@
 #include "stipulation/fork.h"
 #include "stipulation/pipe.h"
 #include "stipulation/move_inverter.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/branch.h"
 #include "stipulation/binary.h"
 #include "stipulation/goals/reached_tester.h"
@@ -586,7 +587,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
 
   {
     slice_index const set_fork = alloc_fork_slice(STSetplayFork,proxy);
-    branch_insert_slices(si,&set_fork,1);
+    slice_insertion_insert(si,&set_fork,1);
   }
 
   pipe_append(proxy,alloc_move_inverter_slice());

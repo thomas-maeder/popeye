@@ -249,7 +249,7 @@ static void woozles_insert_remover(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STWoozlesRemoveIllegalCaptures);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -336,7 +336,7 @@ static void biwoozles_insert_remover(slice_index si, stip_structure_traversal *s
 
   {
     slice_index const prototype = alloc_pipe(STBiWoozlesRemoveIllegalCaptures);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -549,7 +549,7 @@ static void heffalumps_insert_remover(slice_index si, stip_structure_traversal *
 
   {
     slice_index const prototype = alloc_pipe(STHeffalumpsRemoveIllegalCaptures);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -636,7 +636,7 @@ static void biheffalumps_insert_remover(slice_index si, stip_structure_traversal
 
   {
     slice_index const prototype = alloc_pipe(STBiHeffalumpsRemoveIllegalCaptures);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

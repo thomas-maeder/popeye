@@ -175,7 +175,7 @@ static void insert_make_generator_avoid_pawn_to_baseline(slice_index si,
         alloc_pipe(STTakeAndMakeGenerateMake),
         alloc_pipe(STTakeAndMakeAvoidPawnMakeToBaseLine),
     };
-    branch_insert_slices_contextual(si,st->context,prototypes,2);
+    slice_insertion_insert_contextually(si,st->context,prototypes,2);
   }
 
   TraceFunctionExit(__func__);
@@ -192,7 +192,7 @@ static void insert_make_generator(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STTakeAndMakeGenerateMake);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

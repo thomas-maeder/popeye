@@ -336,7 +336,7 @@ void strictsat_initialise_solving(slice_index si)
 
   {
     slice_index const prototype = alloc_pipe(STStrictSATInitialiser);
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

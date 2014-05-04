@@ -3,6 +3,7 @@
 #include "solving/pipe.h"
 #include "solving/single_piece_move_generator.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/binary.h"
@@ -110,7 +111,7 @@ static void move_generation_branch_insert_slices_impl(slice_index generating,
   state.base_rank = get_slice_rank(slices[base].type,&state);
   assert(state.base_rank!=no_slice_rank);
 
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   circe_init_slice_insertion_traversal(&st);
 
   stip_traverse_structure(generating,&st);
@@ -407,7 +408,7 @@ static void insert_move_generator(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_move_generator_slice();
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -425,7 +426,7 @@ static void insert_single_piece_move_generator(slice_index si,
 
   {
     slice_index const proto = alloc_single_piece_move_generator_slice();
-    branch_insert_slices(slices[si].next2,&proto,1);
+    slice_insertion_insert(slices[si].next2,&proto,1);
   }
 
   TraceFunctionExit(__func__);

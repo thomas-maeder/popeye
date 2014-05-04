@@ -198,7 +198,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STBackhomeExistanceTester),
         alloc_pipe(STBackhomeRemoveIllegalMoves)
     };
-    branch_insert_slices_contextual(si,st->context,prototypes,2);
+    slice_insertion_insert_contextually(si,st->context,prototypes,2);
   }
 
   TraceFunctionExit(__func__);

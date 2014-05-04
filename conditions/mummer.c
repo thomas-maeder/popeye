@@ -287,7 +287,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
       assert(st->activity==stip_traversal_activity_testing);
       assert(st->context==stip_traversal_context_help);
 
-      branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+      slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
     }
     else
     {
@@ -297,7 +297,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
           alloc_pipe(STMummerDeadend)
       };
       enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+      slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
     }
   }
 
@@ -457,7 +457,7 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
     if (mummer_strictness[state->current_side]!=mummer_strictness_regular)
     {
       slice_index const prototype = alloc_pipe(STUltraMummerMeasurerDeadend);
-      branch_insert_slices_contextual(copies[slices[si].next1],st->context,&prototype,1);
+      slice_insertion_insert_contextually(copies[slices[si].next1],st->context,&prototype,1);
     }
   }
 

@@ -403,7 +403,7 @@ options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
+ stipulation/slice_insertion.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/check.h solving/ply.h \
  solving/pipe.h options/movenumbers/restart_guard_intelligent.h \
  output/output.h output/plaintext/plaintext.h output/plaintext/message.h \
@@ -461,7 +461,7 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 stipulation/battle_play/branch.h:
 

@@ -19,6 +19,7 @@
 #include "stipulation/fork.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/temporary_hacks.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
@@ -141,6 +142,7 @@ static void ResetPosition(stored_position_type const *store)
           Side const side = TSTFLAG(store->spec[i],White) ? White : Black;
           ++number_of_pieces[side][store->e[i]];
           occupy_square(boardnum[i],store->e[i],store->spec[i]);
+          break;
         }
       }
   }
@@ -776,21 +778,21 @@ static void intelligent_filter_inserter(slice_index si,
     case goal_atob:
     {
       slice_index const prototype = alloc_intelligent_proof();
-      branch_insert_slices(si,&prototype,1);
+      slice_insertion_insert(si,&prototype,1);
       break;
     }
 
     case goal_mate:
     {
       slice_index const prototype = alloc_intelligent_mate_filter(find_goal_tester_fork(si));
-      branch_insert_slices(si,&prototype,1);
+      slice_insertion_insert(si,&prototype,1);
       break;
     }
 
     case goal_stale:
     {
       slice_index const prototype = alloc_intelligent_stalemate_filter();
-      branch_insert_slices(si,&prototype,1);
+      slice_insertion_insert(si,&prototype,1);
       break;
     }
 
@@ -801,7 +803,7 @@ static void intelligent_filter_inserter(slice_index si,
 
   {
     slice_index const prototype = alloc_intelligent_moves_left_initialiser();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

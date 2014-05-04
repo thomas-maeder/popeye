@@ -19,7 +19,7 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/pipe.h stipulation/branch.h \
+ stipulation/pipe.h stipulation/branch.h stipulation/slice_insertion.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/guard_flights.h \
  optimisations/intelligent/moves_left.h \
@@ -119,6 +119,8 @@ stipulation/traversal.h:
 stipulation/pipe.h:
 
 stipulation/branch.h:
+
+stipulation/slice_insertion.h:
 
 optimisations/intelligent/count_nr_of_moves.h:
 

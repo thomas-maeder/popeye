@@ -1,6 +1,6 @@
 #include "options/maxsolutions/maxsolutions.h"
 #include "solving/has_solution_type.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "options/maxsolutions/initialiser.h"
@@ -159,7 +159,7 @@ static void insert_guard_and_counter(slice_index si, stip_structure_traversal *s
       alloc_maxsolutions_counter_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -179,7 +179,7 @@ static void insert_counter(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_help && !*inserted)
   {
     slice_index const prototype = alloc_maxsolutions_counter_slice();
-    branch_insert_slices(slices[si].next2,&prototype,1);
+    slice_insertion_insert(slices[si].next2,&prototype,1);
     *inserted = true;
   }
 
@@ -221,7 +221,7 @@ static void insert_counter_in_forced_branch(slice_index si, stip_structure_trave
   if (st->context==stip_traversal_context_help && !*inserted)
   {
     slice_index const prototype = alloc_maxsolutions_counter_slice();
-    branch_insert_slices(slices[si].next2,&prototype,1);
+    slice_insertion_insert(slices[si].next2,&prototype,1);
     *inserted = true;
   }
 
@@ -271,7 +271,7 @@ void solving_insert_maxsolutions_filters(slice_index si)
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
   stip_structure_traversal_init(&st,&inserted);

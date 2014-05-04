@@ -44,7 +44,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/binary.h"
 #include "debugging/assert.h"
 
@@ -319,7 +319,7 @@ static void insert_slice(slice_index testing,
 
   state.base_rank = get_slice_rank(slices[testing].type,&state);
   assert(state.base_rank!=no_slice_rank);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   stip_traverse_structure_children_pipe(testing,&st);
   dealloc_slice(prototype);
 
@@ -746,7 +746,7 @@ static void observation_branch_insert_slices_impl(slice_index si,
   state.base_rank = get_slice_rank(slices[base].type,&state);
   assert(state.base_rank!=no_slice_rank);
 
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   circe_init_slice_insertion_traversal(&st);
 
   stip_traverse_structure(si,&st);

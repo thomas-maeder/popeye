@@ -1,7 +1,7 @@
 #include "options/movenumbers.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/check.h"
@@ -197,7 +197,7 @@ static void insert_guard_attack(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STRestartGuard);
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -234,12 +234,12 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
             alloc_pipe(STRestartGuardNested),
             alloc_pipe(STRestartGuardNested)
         };
-        branch_insert_slices(si,prototypes,3);
+        slice_insertion_insert(si,prototypes,3);
       }
       else
       {
         slice_index const prototype = alloc_pipe(STRestartGuard);
-        branch_insert_slices(si,&prototype,1);
+        slice_insertion_insert(si,&prototype,1);
       }
     }
   }
@@ -250,7 +250,7 @@ static void insert_guard_help(slice_index si, stip_structure_traversal *st)
         alloc_intelligent_target_counter()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

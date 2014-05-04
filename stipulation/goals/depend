@@ -2,13 +2,8 @@ stipulation/goals/goals$(OBJ_SUFFIX): stipulation/goals/goals.c \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/stipulation.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/boolean/false.h debugging/trace.h debugging/assert.h
+ pieces/pieces.h output/mode.h output/mode.enum.h debugging/trace.h \
+ debugging/assert.h
 
 stipulation/goals/goals.h:
 
@@ -33,24 +28,6 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
-
-stipulation/pipe.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/slice_structural_type.h:
-
-stipulation/slice_structural_type.enum.h:
-
-stipulation/slice_functional_type.h:
-
-stipulation/slice_functional_type.enum.h:
-
-stipulation/traversal.h:
-
-stipulation/boolean/false.h:
 
 debugging/trace.h:
 
@@ -116,6 +93,66 @@ stipulation/traversal.h:
 stipulation/conditional_pipe.h:
 
 stipulation/boolean/true.h:
+
+debugging/trace.h:
+
+debugging/assert.h:
+stipulation/goals/slice_insertion$(OBJ_SUFFIX): stipulation/goals/slice_insertion.c \
+ stipulation/goals/slice_insertion.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ stipulation/slice_insertion.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/pipe.h debugging/trace.h debugging/assert.h
+
+stipulation/goals/slice_insertion.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+stipulation/slice_insertion.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
+
+stipulation/pipe.h:
 
 debugging/trace.h:
 

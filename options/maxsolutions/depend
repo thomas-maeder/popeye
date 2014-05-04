@@ -5,7 +5,7 @@ options/maxsolutions/maxsolutions$(OBJ_SUFFIX): options/maxsolutions/maxsolution
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/branch.h stipulation/structure_traversal.h \
+ stipulation/slice_insertion.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -45,7 +45,7 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 stipulation/structure_traversal.h:
 

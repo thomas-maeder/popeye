@@ -4,7 +4,7 @@
 #include "position/pieceid.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
@@ -695,7 +695,7 @@ void solving_insert_magic_pieces_recolorers(slice_index si)
 
   {
     slice_index const prototype = alloc_pipe(STMagicViewsInitialiser);
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   stip_instrument_observation_validation(si,nr_sides,STMagicPiecesObserverEnforcer);

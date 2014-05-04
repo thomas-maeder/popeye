@@ -191,10 +191,11 @@ solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortes
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/branch.h stipulation/battle_play/branch.h \
- solving/avoid_unsolvable.h solving/find_by_increasing_length.h \
- solving/fork_on_remaining.h solving/pipe.h debugging/assert.h
+ stipulation/branch.h stipulation/slice_insertion.h \
+ stipulation/battle_play/branch.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/avoid_unsolvable.h \
+ solving/find_by_increasing_length.h solving/fork_on_remaining.h \
+ solving/pipe.h debugging/assert.h
 
 solving/find_shortest.h:
 
@@ -248,13 +249,15 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
+stipulation/branch.h:
+
+stipulation/slice_insertion.h:
+
+stipulation/battle_play/branch.h:
+
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
-
-stipulation/branch.h:
-
-stipulation/battle_play/branch.h:
 
 solving/avoid_unsolvable.h:
 
@@ -480,9 +483,10 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/pipe.h stipulation/proxy.h stipulation/binary.h \
- conditions/circe/circe.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h solving/machinery/twin.h \
+ stipulation/slice_insertion.h stipulation/pipe.h stipulation/proxy.h \
+ stipulation/binary.h conditions/circe/circe.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -545,6 +549,8 @@ stipulation/slice_functional_type.h:
 stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/pipe.h:
 
@@ -1355,7 +1361,7 @@ solving/avoid_unsolvable$(OBJ_SUFFIX): solving/avoid_unsolvable.c \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/proxy.h stipulation/branch.h stipulation/binary.h \
+ stipulation/proxy.h stipulation/slice_insertion.h stipulation/binary.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/pipe.h debugging/assert.h
 
@@ -1415,7 +1421,7 @@ solving/has_solution_type.enum.h:
 
 stipulation/proxy.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 stipulation/binary.h:
 
@@ -1439,11 +1445,12 @@ solving/selfcheck_guard$(OBJ_SUFFIX): solving/selfcheck_guard.c \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/branch.h stipulation/proxy.h stipulation/boolean/and.h \
- stipulation/boolean/true.h \
+ stipulation/slice_insertion.h stipulation/proxy.h \
+ stipulation/boolean/and.h stipulation/boolean/true.h \
  stipulation/goals/doublestalemate/reached_tester.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/check.h solving/pipe.h debugging/assert.h
+ stipulation/goals/slice_insertion.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/check.h solving/pipe.h \
+ debugging/assert.h
 
 solving/selfcheck_guard.h:
 
@@ -1497,7 +1504,7 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 stipulation/proxy.h:
 
@@ -1506,6 +1513,8 @@ stipulation/boolean/and.h:
 stipulation/boolean/true.h:
 
 stipulation/goals/doublestalemate/reached_tester.h:
+
+stipulation/goals/slice_insertion.h:
 
 stipulation/battle_play/branch.h:
 
@@ -1763,7 +1772,8 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ stipulation/slice_insertion.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/imitator.h \
@@ -1784,8 +1794,8 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/fork.h solving/find_square_observer_tracking_back_from_target.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/branch.h \
- stipulation/binary.h debugging/assert.h
+ stipulation/proxy.h stipulation/pipe.h stipulation/binary.h \
+ debugging/assert.h
 
 solving/observation.h:
 
@@ -1862,6 +1872,8 @@ stipulation/slice_functional_type.h:
 stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
+
+stipulation/slice_insertion.h:
 
 solving/machinery/twin.h:
 
@@ -1957,8 +1969,6 @@ stipulation/proxy.h:
 
 stipulation/pipe.h:
 
-stipulation/branch.h:
-
 stipulation/binary.h:
 
 debugging/assert.h:
@@ -1978,8 +1988,8 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/machinery/twin.h debugging/measure.h \
- debugging/assert.h
+ stipulation/slice_insertion.h solving/machinery/twin.h \
+ debugging/measure.h debugging/assert.h
 
 solving/check.h:
 
@@ -2061,7 +2071,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/machinery/twin.h:
 
@@ -2300,7 +2310,8 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ stipulation/slice_insertion.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/duellists.h \
@@ -2414,6 +2425,8 @@ stipulation/slice_functional_type.h:
 stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
+
+stipulation/slice_insertion.h:
 
 solving/machinery/twin.h:
 
@@ -3144,8 +3157,8 @@ solving/temporary_hacks$(OBJ_SUFFIX): solving/temporary_hacks.c \
  stipulation/goals/king_capture/reached_tester.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/legal_move_counter.h solving/ply.h conditions/circe/circe.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/machinery/twin.h \
+ stipulation/slice_insertion.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -3255,6 +3268,8 @@ solving/legal_move_counter.h:
 solving/ply.h:
 
 conditions/circe/circe.h:
+
+stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 

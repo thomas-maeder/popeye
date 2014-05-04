@@ -1,5 +1,5 @@
 #include "solving/battle_play/setplay.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/battle_play/try.h"
@@ -38,7 +38,7 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
 
     stip_traverse_structure_children_pipe(si,st);
   }

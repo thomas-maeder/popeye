@@ -3,7 +3,7 @@
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/binary.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -49,7 +49,7 @@ static void insert_reset_unsolvable_attack(slice_index si,
 
   {
     slice_index const prototype = alloc_reset_unsolvable_slice();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -86,7 +86,7 @@ static void insert_reset_unsolvable_help(slice_index si,
 
   {
     slice_index const prototype = alloc_reset_unsolvable_slice();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

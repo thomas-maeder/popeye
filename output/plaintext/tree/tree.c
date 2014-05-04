@@ -1,7 +1,7 @@
 #include "output/plaintext/tree/tree.h"
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -68,7 +68,7 @@ static void insert_writer_for_move_in_parent(slice_index si,
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
   stip_traverse_structure_children_pipe(si,st);
@@ -92,7 +92,7 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
 
     if (CondFlag[exclusive])
     {
@@ -116,13 +116,13 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
   if (slices[si].u.goal_handler.goal.type!=no_goal)
   {
     slice_index const prototype = alloc_goal_writer_slice(slices[si].u.goal_handler.goal);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   if (CondFlag[ohneschach])
   {
     slice_index const prototype = alloc_ohneschach_detect_undecidable_goal_slice();
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);
@@ -288,7 +288,7 @@ static void insert_end_of_solution_writer(slice_index si,
   if (st->level==structure_traversal_level_top)
   {
     slice_index const prototype = alloc_end_of_solution_writer_slice();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

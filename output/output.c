@@ -1,6 +1,6 @@
 #include "output/output.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/tree/tree.h"
@@ -61,7 +61,7 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    branch_insert_slices(si,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

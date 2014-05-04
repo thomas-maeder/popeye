@@ -5,12 +5,14 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/constraint.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "stipulation/move_played.h"
 #include "stipulation/binary.h"
 #include "stipulation/help_play/adapter.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
+
 #include <limits.h>
 
 /* Order in which the slice types dealing with help moves appear
@@ -162,7 +164,7 @@ static void help_branch_insert_slices_impl(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_help);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_help);
   move_init_slice_insertion_traversal(&st);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
@@ -828,7 +830,7 @@ void help_make_root(slice_index adapter, spin_off_state_type *state)
 
   {
     slice_index const prototype = alloc_pipe(STEndOfRoot);
-    branch_insert_slices(adapter,&prototype,1);
+    slice_insertion_insert(adapter,&prototype,1);
     help_branch_make_root_slices(adapter,state);
     branch_shorten_slices(adapter,STEndOfRoot,stip_traversal_context_intro);
     pipe_remove(adapter);
@@ -1010,7 +1012,7 @@ void series_branch_insert_constraint(slice_index si, slice_index constraint)
 
   {
     slice_index const prototype = alloc_constraint_tester_slice(constraint);
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -1036,7 +1038,7 @@ void series_branch_insert_goal_constraint(slice_index si, slice_index constraint
 
   {
     slice_index const prototype = alloc_goal_constraint_tester_slice(constraint);
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

@@ -13,7 +13,7 @@ output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h output/plaintext/end_of_phase_writer.h \
+ stipulation/slice_insertion.h output/plaintext/end_of_phase_writer.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  output/plaintext/illegal_selfcheck_writer.h output/plaintext/tree/tree.h \
  output/plaintext/line/line.h
@@ -60,7 +60,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 output/plaintext/end_of_phase_writer.h:
 

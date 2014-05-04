@@ -2,6 +2,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "stipulation/pipe.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/branch.h"
 #include "stipulation/binary.h"
 #include "stipulation/conditional_pipe.h"
@@ -39,7 +40,7 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
 
   {
     slice_index const prototype = alloc_pipe(STEndOfIntro);
-    branch_insert_slices(adapter,&prototype,1);
+    slice_insertion_insert(adapter,&prototype,1);
   }
 
   if (branch_find_slice(STEndOfIntro,adapter,stip_traversal_context_intro)

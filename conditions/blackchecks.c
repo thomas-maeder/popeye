@@ -119,7 +119,7 @@ static void instrument_move_generator(slice_index si,
   if (slices[si].starter==Black)
   {
     slice_index const prototype = alloc_pipe(STBlackChecksNullMoveGenerator);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   stip_traverse_structure_children(si,st);

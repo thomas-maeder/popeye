@@ -43,7 +43,7 @@ static void substitute_owu_specific_testers(slice_index si,
 
     {
       slice_index const prototype = alloc_legal_defense_counter_slice();
-      branch_insert_slices(king_branch,&prototype,1);
+      slice_insertion_insert(king_branch,&prototype,1);
     }
 
     {
@@ -55,7 +55,7 @@ static void substitute_owu_specific_testers(slice_index si,
       assert(generator!=no_slice);
       pipe_substitute(generator,alloc_king_move_generator_slice());
 
-      branch_insert_slices(king_branch,&prototype,1);
+      slice_insertion_insert(king_branch,&prototype,1);
     }
 
     {

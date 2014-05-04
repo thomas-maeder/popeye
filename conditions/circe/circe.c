@@ -19,7 +19,6 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "solving/move_effect_journal.h"
-
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -113,21 +112,17 @@ static void insert_visit_circe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  if (!slice_insertion_insert_before(si,st))
   {
-    branch_slice_insertion_state_type const * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
-    if (!branch_insert_before(si,rank,st))
-    {
-      stip_structure_traversal st_nested;
-      branch_slice_insertion_state_type state_nested;
-      branch_prepare_slice_insertion_in_factored_order(si,
-                                                       st,
-                                                       &st_nested,&state_nested,
-                                                       circe_slice_rank_order,
-                                                       nr_circe_slice_rank_order_elmts,
-                                                       nr_circe_exit_slice_types);
-      stip_traverse_structure_children_pipe(si,&st_nested);
-    }
+    stip_structure_traversal st_nested;
+    branch_slice_insertion_state_type state_nested;
+    slice_insertion_prepare_factored_order(si,
+                                                     st,
+                                                     &st_nested,&state_nested,
+                                                     circe_slice_rank_order,
+                                                     nr_circe_slice_rank_order_elmts,
+                                                     nr_circe_exit_slice_types);
+    stip_traverse_structure_children_pipe(si,&st_nested);
   }
 
   TraceFunctionExit(__func__);
@@ -180,7 +175,7 @@ void circe_insert_slices(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  init_slice_insertion_traversal(&st,&state,context);
+  slice_insertion_init_traversal(&st,&state,context);
   promotion_init_slice_insertion_traversal(&st);
 
   state.base_rank = get_slice_rank(slices[si].type,&state);

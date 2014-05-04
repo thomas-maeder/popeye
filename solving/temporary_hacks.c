@@ -227,7 +227,7 @@ static slice_index make_opponent_moves_counter_fork(Side side)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_index const attack = alloc_defense_branch(slack_length+2,slack_length+1);
-    branch_insert_slices(attack,prototypes,nr_prototypes);
+    slice_insertion_insert(attack,prototypes,nr_prototypes);
     link_to_branch(proxy,attack);
     result = alloc_conditional_pipe(STOpponentMovesCounterFork,proxy);
     solving_impose_starter(result,side);
@@ -251,7 +251,7 @@ static slice_index make_back_home_finder(Side side)
       alloc_pipe(STBackHomeMovesOnly),
       alloc_legal_defense_counter_slice()
   };
-  branch_insert_slices(defense,prototypes,2);
+  slice_insertion_insert(defense,prototypes,2);
   link_to_branch(proxy,defense);
   solving_impose_starter(result,side);
   return result;
@@ -263,7 +263,7 @@ static slice_index make_suffocation_by_paralysis_detector(Side side)
   slice_index const result = alloc_conditional_pipe(STPiecesParalysingSuffocationFinderFork,proxy);
   slice_index const attack = alloc_battle_branch(slack_length+1,slack_length+1);
   slice_index const prototype = alloc_pipe(STPiecesParalysingSuffocationFinder);
-  branch_insert_slices(attack,&prototype,1);
+  slice_insertion_insert(attack,&prototype,1);
   link_to_branch(proxy,attack);
   solving_impose_starter(result,side);
   return result;

@@ -1,11 +1,12 @@
 #include "pieces/attributes/chameleon.h"
 #include "pieces/walks/walks.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "position/position.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -14,7 +15,6 @@
 
 enum
 {
-  max_nr_promotions_per_ply = 3,
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 

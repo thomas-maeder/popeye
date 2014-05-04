@@ -1329,7 +1329,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STImitatorRemoveIllegalMoves);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

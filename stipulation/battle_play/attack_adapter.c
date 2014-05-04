@@ -1,5 +1,6 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "stipulation/pipe.h"
@@ -93,7 +94,7 @@ static void apply_setplay_series(slice_index adapter,
 
   {
     slice_index const proto = alloc_defense_adapter_slice(0,0);
-    branch_insert_slices(adapter,&proto,1);
+    slice_insertion_insert(adapter,&proto,1);
   }
 
   {

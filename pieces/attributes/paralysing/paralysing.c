@@ -4,7 +4,7 @@
 #include "pieces/pieces.h"
 #include "position/position.h"
 #include "stipulation/proxy.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/boolean/or.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
@@ -335,7 +335,7 @@ static void insert_captures_remover(slice_index si,
 
   {
     slice_index const prototype = alloc_pipe(STPiecesParalysingRemoveCaptures);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

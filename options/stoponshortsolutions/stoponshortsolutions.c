@@ -1,10 +1,9 @@
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "options/stoponshortsolutions/initialiser.h"
 #include "options/stoponshortsolutions/filter.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/help_play/branch.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 static boolean short_solution_found_in_problem;
@@ -98,7 +97,7 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
     stip_length_type const min_length = slices[si].u.branch.min_length;
     slice_index const prototype = alloc_stoponshortsolutions_filter(length,
                                                                     min_length);
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   *inserted = true;
@@ -132,7 +131,7 @@ boolean solving_insert_stoponshortsolutions_filters(slice_index si)
   if (result)
   {
     slice_index const prototype = alloc_stoponshortsolutions_initialiser_slice();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

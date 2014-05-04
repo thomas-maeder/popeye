@@ -1,18 +1,19 @@
 #include "solving/selfcheck_guard.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/proxy.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/true.h"
 #include "stipulation/goals/goals.h"
 #include "stipulation/goals/doublestalemate/reached_tester.h"
+#include "stipulation/goals/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
 
 
@@ -82,7 +83,7 @@ static void insert_selfcheck_guard_branch(slice_index si,
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
     slices[prototype].starter = slices[si].starter;
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   stip_traverse_structure_children_pipe(si,st);
@@ -427,7 +428,7 @@ static void instrument_move_inverter(slice_index si,
   if (state->guard_needed)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
     state->guard_needed = false;
   }
 
@@ -502,7 +503,7 @@ static void instrument_move_inverters(slice_index si)
 
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

@@ -10,7 +10,7 @@
 #include "solving/machinery/solve.h"
 #include "stipulation/slice_type.h"
 #include "stipulation/structure_traversal.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/move_effect_journal.h"
 #include "solving/ply.h"
 #include "solving/machinery/twin.h"

@@ -7,7 +7,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "stipulation/proxy.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -110,7 +110,7 @@ static void priorise(slice_index si, stip_structure_traversal *st)
         if (state->can_priorise)
         {
           slice_index const prototype = alloc_pipe(STRetractionPrioriser);
-          branch_insert_slices_contextual(si,st->context,&prototype,1);
+          slice_insertion_insert_contextually(si,st->context,&prototype,1);
         }
         break;
 

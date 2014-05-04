@@ -173,7 +173,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
     if (tok!=0 && operand!=no_slice)
     {
       slice_index const prototype = alloc_move_inverter_slice();
-      branch_insert_slices(proxy,&prototype,1);
+      slice_insertion_insert(proxy,&prototype,1);
     }
   }
 
@@ -311,7 +311,7 @@ static char *ParseStructuredStip_nested_branch(char *tok,
     if (is_suppressed)
     {
       slice_index const prototype = alloc_play_suppressor_slice();
-      branch_insert_slices(proxy_operand,&prototype,1);
+      slice_insertion_insert(proxy_operand,&prototype,1);
       if (branch_find_slice(STPlaySuppressor,
                             proxy_operand,
                             stip_traversal_context_intro)

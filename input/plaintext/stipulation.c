@@ -8,7 +8,7 @@
 #include "conditions/check_zigzag.h"
 #include "position/position.h"
 #include "position/pieceid.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/move_inverter.h"
@@ -272,7 +272,7 @@ static void attach_help_branch(stip_length_type length,
 void select_output_mode(slice_index si, output_mode mode)
 {
   slice_index const prototype = alloc_output_mode_selector(mode);
-  branch_insert_slices(si,&prototype,1);
+  slice_insertion_insert(si,&prototype,1);
 }
 
 static char *ParseHelpLength(char *tok,

@@ -173,7 +173,8 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ stipulation/slice_insertion.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/circe/parachute.h \
@@ -267,6 +268,8 @@ stipulation/slice_functional_type.h:
 stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
+
+stipulation/slice_insertion.h:
 
 solving/machinery/twin.h:
 
@@ -439,7 +442,7 @@ optimisations/detect_retraction$(OBJ_SUFFIX): optimisations/detect_retraction.c 
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/move.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/pipe.h stipulation/proxy.h \
- stipulation/branch.h debugging/assert.h
+ stipulation/slice_insertion.h debugging/assert.h
 
 optimisations/detect_retraction.h:
 
@@ -509,7 +512,7 @@ solving/pipe.h:
 
 stipulation/proxy.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 debugging/assert.h:
 optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \

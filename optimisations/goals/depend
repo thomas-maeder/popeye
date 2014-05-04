@@ -97,8 +97,8 @@ optimisations/goals/remove_non_reachers$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/proxy.h stipulation/branch.h solving/moves_traversal.h \
- solving/fork_on_remaining.h \
+ stipulation/proxy.h stipulation/slice_insertion.h \
+ solving/moves_traversal.h solving/fork_on_remaining.h \
  optimisations/goals/enpassant/remove_non_reachers.h \
  optimisations/goals/castling/remove_non_reachers.h \
  optimisations/goals/chess81/remove_non_reachers.h \
@@ -169,7 +169,7 @@ solving/has_solution_type.enum.h:
 
 stipulation/proxy.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/moves_traversal.h:
 

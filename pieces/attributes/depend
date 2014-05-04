@@ -115,8 +115,8 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h stipulation/move.h solving/move_effect_journal.h \
- solving/castling_rights.h \
+ stipulation/slice_insertion.h stipulation/move.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h solving/pipe.h \
  optimisations/orthodox_check_directions.h output/plaintext/message.h \
@@ -190,7 +190,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 stipulation/move.h:
 
@@ -218,17 +218,17 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/machinery/twin.h \
- pieces/walks/walks.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h \
- solving/post_move_iteration.h solving/ply.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ pieces/walks/walks.h pieces/walks/pawns/promotion.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h stipulation/slice_insertion.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h stipulation/move.h solving/pipe.h \
- debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h solving/post_move_iteration.h stipulation/pipe.h \
+ stipulation/move.h solving/pipe.h debugging/assert.h
 
 pieces/attributes/chameleon.h:
 
@@ -266,25 +266,17 @@ solving/machinery/twin.h:
 
 pieces/walks/walks.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
-solving/post_move_iteration.h:
-
-solving/ply.h:
+pieces/walks/pawns/promotion.h:
 
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
 
+solving/ply.h:
+
 position/pieceid.h:
 
-stipulation/pipe.h:
+stipulation/slice_insertion.h:
 
 stipulation/structure_traversal.h:
 
@@ -300,7 +292,17 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/post_move_iteration.h:
+
+stipulation/pipe.h:
 
 stipulation/move.h:
 
@@ -400,9 +402,9 @@ pieces/attributes/uncapturable$(OBJ_SUFFIX): pieces/attributes/uncapturable.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/move_generator.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/pipe.h
+ stipulation/slice_insertion.h solving/move_generator.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h solving/pipe.h
 
 pieces/attributes/uncapturable.h:
 
@@ -454,7 +456,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/move_generator.h:
 

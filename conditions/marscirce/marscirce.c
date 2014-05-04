@@ -395,7 +395,7 @@ static void instrument_no_rebirth(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STMoveGeneratorRejectCaptures)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -418,7 +418,7 @@ static void instrument_rebirth(slice_index si, stip_structure_traversal *st)
         alloc_pipe(STMoveGeneratorRejectNoncaptures)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -451,7 +451,7 @@ void solving_initialise_marscirce(slice_index si)
   circe_initialise_solving(si,
                            &marscirce_variant,
                            STMoveForPieceGeneratorAlternativePath,
-                           &branch_insert_slices_contextual,
+                           &slice_insertion_insert_contextually,
                            STMarsCirceConsideringRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringRebirth,
@@ -465,7 +465,7 @@ void solving_initialise_marscirce(slice_index si)
   circe_initialise_solving(si,
                            &observation_variant,
                            STDetermineObserverWalk,
-                           &branch_insert_slices_contextual,
+                           &slice_insertion_insert_contextually,
                            STMarsCirceConsideringObserverRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringObserverRebirth,

@@ -4,6 +4,7 @@
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/constraint.h"
 #include "stipulation/proxy.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/branch.h"
 #include "stipulation/fork.h"
 #include "stipulation/move.h"
@@ -13,8 +14,8 @@
 #include "stipulation/battle_play/attack_adapter.h"
 #include "stipulation/battle_play/defense_adapter.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
 #include <limits.h>
 
 /* Order in which the slice types appear in battle branches
@@ -267,7 +268,7 @@ void battle_branch_insert_slices_nested(slice_index adapter,
 
   state.base_rank = get_slice_rank(slices[adapter].type,&state);
   assert(state.base_rank!=no_slice_rank);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   move_init_slice_insertion_traversal(&st);
   stip_traverse_structure_children_pipe(adapter,&st);
 
@@ -333,7 +334,7 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_attack);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_attack);
   move_init_slice_insertion_traversal(&st);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
@@ -398,7 +399,7 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   assert(state.base_rank!=no_slice_rank);
   ++state.base_rank;
 
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_defense);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_defense);
   move_init_slice_insertion_traversal(&st);
 
   state.base_rank = get_slice_rank(slices[base].type,&state);
@@ -769,7 +770,7 @@ boolean battle_branch_apply_postkeyplay(slice_index root_proxy)
 
     {
       slice_index const prototype = alloc_move_inverter_slice();
-      branch_insert_slices(root_proxy,&prototype,1);
+      slice_insertion_insert(root_proxy,&prototype,1);
     }
 
     result = true;

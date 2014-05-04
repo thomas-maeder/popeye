@@ -1,8 +1,9 @@
 #include "solving/battle_play/min_length_guard.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
-#include "solving/has_solution_type.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/branch.h"
+#include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/battle_play/min_length_optimiser.h"
@@ -124,7 +125,7 @@ static void insert_intro_min_length(slice_index si,
   {
     slice_index const prototype = alloc_min_length_optimiser_slice(length,
                                                                    min_length);
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

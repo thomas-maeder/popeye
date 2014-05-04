@@ -4,7 +4,7 @@
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/goals/goals.h"
 #include "solving/moves_traversal.h"
 #include "solving/fork_on_remaining.h"
@@ -90,7 +90,7 @@ static void optimise_last_move_generation(slice_index si,
   pipe_link(proxy1,si);
   pipe_link(proxy2,copies[si]);
 
-  branch_insert_slices_contextual(copies[si],parent_context,&remover,1);
+  slice_insertion_insert_contextually(copies[si],parent_context,&remover,1);
 }
 
 /* Remember the goal imminent after a defense or solve move
@@ -122,7 +122,7 @@ static void optimise_final_moves_move_generator(slice_index si,
       assert(slices[slices[si].next1].type==STDoneGeneratingMoves);
 
       if (st->full_length<=2)
-        branch_insert_slices_contextual(si,st->context,&remover,1);
+        slice_insertion_insert_contextually(si,st->context,&remover,1);
       else
         optimise_last_move_generation(si,st->context,remover);
     }

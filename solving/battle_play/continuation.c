@@ -1,5 +1,5 @@
 #include "solving/battle_play/continuation.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
@@ -78,7 +78,7 @@ static void insert_continuation_solvers_postkey_play(slice_index si,
       && slices[si].u.branch.length>slack_length)
   {
     slice_index const prototype = alloc_continuation_solver_slice();
-    branch_insert_slices(si,&prototype,1);
+    slice_insertion_insert(si,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

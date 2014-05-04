@@ -27,7 +27,7 @@ static slice_index alloc_immobility_test_branch(void)
 
   {
     slice_index const prototype = alloc_recursion_stopper_slice();
-    branch_insert_slices(result,&prototype,1);
+    slice_insertion_insert(result,&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -60,7 +60,7 @@ static void insert_stop_on_check(slice_index si, stip_structure_traversal *st)
 
     link_to_branch(proxy1,tester1);
     link_to_branch(proxy2,tester2);
-    branch_insert_slices_contextual(si,st->context,&prototype0,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype0,1);
     defense_branch_insert_slices(not_goal1,&prototype1,1);
     defense_branch_insert_slices(not_goal2,&prototype2,1);
   }

@@ -1,7 +1,7 @@
 #include "pieces/attributes/uncapturable.h"
 #include "position/position.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -58,7 +58,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const prototype = alloc_pipe(STUncapturableRemoveCaptures);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   TraceFunctionExit(__func__);

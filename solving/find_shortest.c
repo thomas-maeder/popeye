@@ -2,9 +2,10 @@
 #include "options/options.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
-#include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/has_solution_type.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/fork_on_remaining.h"
@@ -146,7 +147,7 @@ static void insert_find_shortest_help_adapter(slice_index si,
       if (st->context==stip_traversal_context_intro)
       {
         slice_index const prototype = alloc_find_shortest_slice(length,min_length);
-        branch_insert_slices(si,&prototype,1);
+        slice_insertion_insert(si,&prototype,1);
       }
     }
     else /* root or set play */
@@ -156,7 +157,7 @@ static void insert_find_shortest_help_adapter(slice_index si,
         {
           slice_index const prototype =
               alloc_find_by_increasing_length_slice(length,min_length);
-          branch_insert_slices(si,&prototype,1);
+          slice_insertion_insert(si,&prototype,1);
         }
         {
           slice_index const ready_root = branch_find_slice(STReadyForHelpMove,

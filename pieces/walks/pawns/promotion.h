@@ -3,7 +3,7 @@
 
 #include "solving/machinery/solve.h"
 #include "solving/move_effect_journal.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/structure_traversal.h"
 #include "position/board.h"
 

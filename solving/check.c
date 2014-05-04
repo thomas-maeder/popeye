@@ -8,7 +8,7 @@
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/temporary_hacks.h"
 #include "solving/machinery/twin.h"
 #include "debugging/trace.h"
@@ -240,7 +240,7 @@ static void insert_slice(slice_index testing, slice_type type)
 
   state.base_rank = get_slice_rank(slices[testing].type,&state);
   assert(state.base_rank!=no_slice_rank);
-  init_slice_insertion_traversal(&st,&state,stip_traversal_context_intro);
+  slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   stip_traverse_structure_children_pipe(testing,&st);
   dealloc_slice(prototype);
 

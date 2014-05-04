@@ -10,7 +10,8 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/check.h pieces/walks/pawns/promotion.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/pieceid.h stipulation/branch.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -69,9 +70,9 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  solving/end_of_branch_tester.h solving/dead_end.h \
  stipulation/constraint.h solving/moves_traversal.h \
  stipulation/goals/immobile/reached_tester.h \
- stipulation/goals/kiss/reached_tester.h stipulation/branch.h \
- stipulation/fork.h stipulation/move.h solving/king_capture_avoider.h \
- solving/testers.h solving/find_shortest.h solving/for_each_move.h \
+ stipulation/goals/kiss/reached_tester.h stipulation/fork.h \
+ stipulation/move.h solving/king_capture_avoider.h solving/testers.h \
+ solving/find_shortest.h solving/for_each_move.h \
  solving/battle_play/try.h solving/battle_play/threat.h \
  solving/battle_play/continuation.h solving/battle_play/setplay.h \
  solving/battle_play/min_length_guard.h solving/boolean/and.h \
@@ -166,6 +167,8 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+stipulation/branch.h:
 
 stipulation/structure_traversal.h:
 
@@ -428,8 +431,6 @@ solving/moves_traversal.h:
 stipulation/goals/immobile/reached_tester.h:
 
 stipulation/goals/kiss/reached_tester.h:
-
-stipulation/branch.h:
 
 stipulation/fork.h:
 
@@ -1024,8 +1025,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  pieces/attributes/chameleon.h pieces/attributes/jigger.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
  pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
- pieces/walks/pawns/promotion.h solving/avoid_unsolvable.h \
- solving/battle_play/attack_adapter.h \
+ pieces/walks/pawns/promotion.h stipulation/branch.h \
+ solving/avoid_unsolvable.h solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
  solving/battle_play/min_length_optimiser.h solving/battle_play/threat.h \
@@ -1539,6 +1540,8 @@ pieces/walks/generate_moves.h:
 pieces/walks/pawns/en_passant.h:
 
 pieces/walks/pawns/promotion.h:
+
+stipulation/branch.h:
 
 solving/avoid_unsolvable.h:
 

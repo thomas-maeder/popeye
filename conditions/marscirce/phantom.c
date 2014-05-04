@@ -113,7 +113,7 @@ static void instrument_generation_no_rebirth(slice_index si, stip_structure_trav
         alloc_pipe(STMarsCirceRememberNoRebirth)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -136,7 +136,7 @@ static void instrument_generation_rebirth(slice_index si, stip_structure_travers
         alloc_pipe(STMarsCirceRememberRebirth)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
   }
 
   if (!phantom_variant.is_rex_inclusive)
@@ -145,7 +145,7 @@ static void instrument_generation_rebirth(slice_index si, stip_structure_travers
         alloc_pipe(STMarsCirceMoveGeneratorEnforceRexInclusive)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -165,7 +165,7 @@ static void instrument_observation_rebirth(slice_index si, stip_structure_traver
         alloc_pipe(STMarsIsSquareObserved)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    branch_insert_slices_contextual(si,st->context,prototypes,nr_prototypes);
+    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
@@ -197,7 +197,7 @@ void solving_initialise_phantom(slice_index si)
   circe_initialise_solving(si,
                            &marscirce_variant,
                            STMoveForPieceGeneratorAlternativePath,
-                           &branch_insert_slices_contextual,
+                           &slice_insertion_insert_contextually,
                            STMarsCirceConsideringRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringRebirth,
@@ -222,7 +222,7 @@ void solving_initialise_phantom(slice_index si)
   circe_initialise_solving(si,
                            &observation_variant,
                            STIsSquareObservedAlternativePath,
-                           &branch_insert_slices_contextual,
+                           &slice_insertion_insert_contextually,
                            STMarsCirceConsideringObserverRebirth);
   circe_instrument_solving(si,
                            STMarsCirceConsideringObserverRebirth,

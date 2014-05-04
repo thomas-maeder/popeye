@@ -1,5 +1,6 @@
 #include "conditions/exclusive.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/goals/slice_insertion.h"
 #include "optimisations/detect_retraction.h"
 #include "output/plaintext/message.h"
 #include "stipulation/pipe.h"
@@ -141,7 +142,7 @@ static void insert_exclusivity_detector(slice_index si,
                              ? STExclusiveChessNestedExclusivityDetector
                              : STExclusiveChessExclusivityDetector);
     slice_index const prototype = alloc_pipe(type);
-    branch_insert_slices_contextual(si,st->context,&prototype,1);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
   stip_traverse_structure_children_pipe(si,st);
