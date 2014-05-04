@@ -14,6 +14,11 @@ extern circe_variant_type geneva_variant;
  */
 void geneva_reset_variant(circe_variant_type *variant);
 
+/* Control a Geneva variant for meaningfulness
+ * @param variant address of the variant
+ */
+boolean geneva_is_variant_consistent(circe_variant_type const *variant);
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

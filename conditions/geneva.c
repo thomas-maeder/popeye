@@ -21,6 +21,33 @@ void geneva_reset_variant(circe_variant_type *variant)
   variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
 }
 
+/* Control a Geneva variant for meaningfulness
+ * @param variant address of the variant
+ */
+boolean geneva_is_variant_consistent(circe_variant_type const *variant)
+{
+  if (variant->on_occupied_rebirth_square_default!=circe_on_occupied_rebirth_square_strict)
+    return false;
+  if (variant->reborn_walk_adapter!=circe_reborn_walk_adapter_none)
+    return false;
+  if (variant->is_turncoat)
+    return false;
+  if (variant->default_relevant_piece!=circe_relevant_piece_capturer)
+    return false;
+  if (variant->actual_relevant_piece!=circe_relevant_piece_capturer)
+    return false;
+  if (variant->relevant_capture!=circe_relevant_capture_thismove)
+    return false;
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_pwc)
+    return false;
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_equipollents)
+    return false;
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
+    return false;
+
+  return true;
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

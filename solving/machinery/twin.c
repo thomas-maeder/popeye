@@ -19,6 +19,7 @@
 #include "conditions/follow_my_leader.h"
 #include "conditions/football.h"
 #include "conditions/forced_squares.h"
+#include "conditions/geneva.h"
 #include "conditions/imitator.h"
 #include "conditions/immune.h"
 #include "conditions/isardam.h"
@@ -1098,17 +1099,10 @@ static boolean verify_position(slice_index si)
       disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
-  if (CondFlag[mars] && !marscirce_is_variant_consistent(&marscirce_variant))
-  {
-    VerifieMsg(NonsenseCombination);
-    return false;
-  }
-  if (CondFlag[antimars] && !marscirce_is_variant_consistent(&antimars_variant))
-  {
-    VerifieMsg(NonsenseCombination);
-    return false;
-  }
-  if (CondFlag[phantom] && !marscirce_is_variant_consistent(&phantom_variant))
+  if ((CondFlag[mars] && !marscirce_is_variant_consistent(&marscirce_variant))
+      || (CondFlag[antimars] && !marscirce_is_variant_consistent(&antimars_variant))
+      || (CondFlag[phantom] && !marscirce_is_variant_consistent(&phantom_variant))
+      || (CondFlag[geneva] && !geneva_is_variant_consistent(&geneva_variant)))
   {
     VerifieMsg(NonsenseCombination);
     return false;
