@@ -278,8 +278,8 @@ void pawn_promoter_solve(slice_index si)
     else
     {
       move_effect_journal_do_walk_change(move_effect_reason_pawn_promotion,
-                                          sq_potential_promotion,
-                                          promotion_stack[stack_pointer].promotee);
+                                         sq_potential_promotion,
+                                         promotion_stack[stack_pointer].promotee);
 
       ++stack_pointer;
       pipe_solve_delegate(si);
