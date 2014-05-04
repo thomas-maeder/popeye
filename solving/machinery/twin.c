@@ -22,6 +22,9 @@
 #include "conditions/imitator.h"
 #include "conditions/immune.h"
 #include "conditions/isardam.h"
+#include "conditions/marscirce/marscirce.h"
+#include "conditions/marscirce/anti.h"
+#include "conditions/marscirce/phantom.h"
 #include "conditions/mummer.h"
 #include "conditions/must_capture.h"
 #include "conditions/republican.h"
@@ -1095,6 +1098,22 @@ static boolean verify_position(slice_index si)
       disable_orthodox_mating_move_optimisation(nr_sides);
   }
 
+  if (CondFlag[mars] && !marscirce_is_variant_consistent(&marscirce_variant))
+  {
+    VerifieMsg(NonsenseCombination);
+    return false;
+  }
+  if (CondFlag[antimars] && !marscirce_is_variant_consistent(&antimars_variant))
+  {
+    VerifieMsg(NonsenseCombination);
+    return false;
+  }
+  if (CondFlag[phantom] && !marscirce_is_variant_consistent(&phantom_variant))
+  {
+    VerifieMsg(NonsenseCombination);
+    return false;
+  }
+
   if (CondFlag[madras] || CondFlag[eiffel] || CondFlag[isardam])
   {
     if ( CondFlag[imitators]|| TSTFLAG(some_pieces_flags,Paralysing))
@@ -1545,7 +1564,7 @@ static boolean verify_position(slice_index si)
       || CondFlag[exclusive]
       || CondFlag[isardam]
       || CondFlag[ohneschach]
-      || CondFlag[mars] || CondFlag[plus]|| CondFlag[phantom]
+      || CondFlag[mars] || CondFlag[plus] || CondFlag[phantom]
       || CondFlag[antimars]
       || CondFlag[brunner]
       || CondFlag[blsupertrans_king]

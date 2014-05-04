@@ -33,6 +33,34 @@ void marscirce_reset_variant(circe_variant_type *variant)
   variant->on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
 }
 
+/* Control a Mars Circe variant for meaningfulness
+ * @param variant address of the variant
+ */
+boolean marscirce_is_variant_consistent(circe_variant_type const *variant)
+{
+  if (variant->on_occupied_rebirth_square_default!=circe_on_occupied_rebirth_square_strict)
+    return false;
+  if (variant->reborn_walk_adapter!=circe_reborn_walk_adapter_none)
+    /* TODO allow circe_reborn_walk_adapter_chameleon? */
+    return false;
+  if (variant->is_turncoat)
+    return false;
+  if (variant->default_relevant_piece!=circe_relevant_piece_generated)
+    return false;
+  if (variant->actual_relevant_piece!=circe_relevant_piece_generated)
+    return false;
+  if (variant->relevant_capture!=circe_relevant_capture_nocapture)
+    return false;
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_pwc)
+    return false;
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_equipollents)
+    return false;
+  if (variant->determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
+    return false;
+
+  return true;
+}
+
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @note the piece on the departure square need not necessarily have walk p

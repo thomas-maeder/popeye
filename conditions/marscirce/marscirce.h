@@ -21,6 +21,11 @@ extern circe_variant_type marscirce_variant;
  */
 void marscirce_reset_variant(circe_variant_type *variant);
 
+/* Control a Mars Circe variant for meaningfulness
+ * @param variant address of the variant
+ */
+boolean marscirce_is_variant_consistent(circe_variant_type const *variant);
+
 /* Generate moves for a piece with a specific walk from a specific departure
  * square.
  * @note the piece on the departure square need not necessarily have walk p
