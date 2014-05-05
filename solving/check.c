@@ -211,7 +211,7 @@ static slice_index const slice_rank_order[] =
     STKingSquareObservationTester,
     STExtinctionAllPieceObservationTester,
     STCirceAssassinAllPieceObservationTester,
-    STTrue
+    STTestedCheck
 };
 
 enum

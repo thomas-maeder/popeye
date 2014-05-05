@@ -9,7 +9,8 @@ static slice_type const leaf_slice_types[] =
 {
     STFalse,
     STTrue,
-    STGeneratedMovesForPiece
+    STGeneratedMovesForPiece,
+    STTestedCheck
 };
 
 static slice_type const branch_slice_types[] =
@@ -212,6 +213,7 @@ static slice_type const proxy_slice_types[] =
     STGeneratingMovesForPiece,
     STGeneratedMovesForPiece,
     STTestingCheck,
+    STTestedCheck,
     STTestingIfSquareIsObserved,
     STTestingIfSquareIsObservedWithSpecificWalk,
     STOptimisingObserverWalk,

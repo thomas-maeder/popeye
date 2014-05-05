@@ -290,10 +290,11 @@ static slice_index make_check_tester(void)
   slice_index const testing = alloc_pipe(STTestingCheck);
   slice_index const initialiser = alloc_pipe(STKingSquareObservationTesterPlyInitialiser);
   slice_index const king_square_observation_tester = alloc_pipe(STKingSquareObservationTester);
+  slice_index const tested = create_slice(STTestedCheck);
   link_to_branch(proxy,testing);
   pipe_append(testing,initialiser);
   pipe_append(initialiser,king_square_observation_tester);
-  pipe_link(king_square_observation_tester,alloc_true_slice());
+  pipe_link(king_square_observation_tester,tested);
   solving_impose_starter(result,Black);
   return result;
 }
