@@ -129,6 +129,7 @@
     ENUMERATOR(STCastlingRightsAdjuster)                                \
     ENUMERATOR(STMoveGeneratorFork)                                     \
     ENUMERATOR(STGeneratingMovesForPiece)                               \
+    ENUMERATOR(STGeneratedMovesForPiece)                                \
     ENUMERATOR(STMovesForPieceBasedOnWalkGenerator)                     \
     ENUMERATOR(STCastlingGenerator)                                     \
     ENUMERATOR(STRefutationsAllocator) /* (de)allocate the table holding the refutations */ \

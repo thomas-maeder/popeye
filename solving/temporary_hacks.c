@@ -275,9 +275,10 @@ static slice_index make_move_generator(Side side)
   slice_index const result = alloc_conditional_pipe(STMoveGeneratorFork,proxy);
   slice_index const generating = alloc_pipe(STGeneratingMovesForPiece);
   slice_index const ortho = alloc_pipe(STMovesForPieceBasedOnWalkGenerator);
+  slice_index const generated = create_slice(STGeneratedMovesForPiece);
   pipe_append(proxy,generating);
   pipe_append(generating,ortho);
-  pipe_link(ortho,alloc_true_slice());
+  pipe_link(ortho,generated);
   solving_impose_starter(result,side);
   return result;
 }

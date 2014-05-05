@@ -8,7 +8,8 @@ static slice_structural_type highest_structural_type[nr_slice_types];
 static slice_type const leaf_slice_types[] =
 {
     STFalse,
-    STTrue
+    STTrue,
+    STGeneratedMovesForPiece
 };
 
 static slice_type const branch_slice_types[] =
@@ -209,6 +210,7 @@ static slice_type const proxy_slice_types[] =
     STLandingAfterPawnPromotion,
     STMummerDeadend,
     STGeneratingMovesForPiece,
+    STGeneratedMovesForPiece,
     STTestingCheck,
     STTestingIfSquareIsObserved,
     STTestingIfSquareIsObservedWithSpecificWalk,

@@ -81,7 +81,7 @@ static slice_index const slice_rank_order[] =
     STMoveGeneratorRejectNoncaptures,
     STMoveForPieceGeneratorPathsJoint,
     STMovesForPieceBasedOnWalkGenerator,
-    STTrue
+    STGeneratedMovesForPiece
 };
 
 enum
