@@ -3084,15 +3084,22 @@ conditions/circe/rebirth_avoider$(OBJ_SUFFIX): conditions/circe/rebirth_avoider.
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ conditions/circe/circe.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_insertion.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/branch.h stipulation/fork.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h debugging/assert.h
+ stipulation/help_play/branch.h debugging/assert.h
 
 conditions/circe/rebirth_avoider.h:
 
@@ -3120,9 +3127,13 @@ output/mode.h:
 
 output/mode.enum.h:
 
-stipulation/proxy.h:
+conditions/circe/circe.h:
 
-stipulation/pipe.h:
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 stipulation/structure_traversal.h:
 
@@ -3138,6 +3149,34 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
+stipulation/slice_insertion.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+solving/machinery/twin.h:
+
+conditions/circe/rebirth_square_occupied.h:
+
+conditions/circe/reborn_piece.h:
+
+conditions/circe/rebirth_square.h:
+
+conditions/circe/relevant_capture.h:
+
+conditions/circe/relevant_piece.h:
+
+conditions/circe/relevant_side.h:
+
+stipulation/proxy.h:
+
+stipulation/pipe.h:
+
 stipulation/branch.h:
 
 stipulation/fork.h:
@@ -3145,12 +3184,6 @@ stipulation/fork.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
-
-solving/machinery/solve.h:
-
-solving/machinery/dispatch.h:
-
-debugging/trace.h:
 
 debugging/assert.h:
 conditions/circe/rebirth_square_occupied$(OBJ_SUFFIX): \

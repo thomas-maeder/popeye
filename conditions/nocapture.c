@@ -1,7 +1,7 @@
 #include "conditions/nocapture.h"
 #include "conditions/conditions.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

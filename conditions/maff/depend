@@ -11,9 +11,10 @@ conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_teste
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/proxy.h stipulation/branch.h stipulation/boolean/and.h \
- solving/king_move_generator.h solving/non_king_move_generator.h \
- solving/legal_move_counter.h solving/ply.h debugging/assert.h
+ stipulation/proxy.h stipulation/branch.h stipulation/slice_insertion.h \
+ stipulation/boolean/and.h solving/king_move_generator.h \
+ solving/non_king_move_generator.h solving/legal_move_counter.h \
+ solving/ply.h debugging/assert.h
 
 conditions/maff/immobility_tester.h:
 
@@ -70,6 +71,8 @@ solving/has_solution_type.enum.h:
 stipulation/proxy.h:
 
 stipulation/branch.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/boolean/and.h:
 

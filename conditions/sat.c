@@ -7,7 +7,7 @@
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "stipulation/structure_traversal.h"
 #include "solving/temporary_hacks.h"

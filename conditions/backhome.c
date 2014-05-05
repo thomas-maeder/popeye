@@ -4,7 +4,7 @@
 #include "position/position.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/legal_move_counter.h"

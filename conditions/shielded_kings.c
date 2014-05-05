@@ -2,7 +2,7 @@
 #include "solving/observation.h"
 #include "solving/move_generator.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "position/position.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

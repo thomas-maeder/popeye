@@ -15,10 +15,10 @@
 #include "stipulation/boolean/and.h"
 #include "stipulation/boolean/not.h"
 #include "stipulation/proxy.h"
-
+#include "stipulation/branch.h"
 #include "debugging/trace.h"
-
 #include "debugging/assert.h"
+
 #include <stdlib.h>
 #include <string.h>
 

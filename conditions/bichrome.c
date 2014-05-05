@@ -1,7 +1,7 @@
 #include "conditions/bichrome.h"
 #include "conditions/monochrome.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"

@@ -8,6 +8,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"

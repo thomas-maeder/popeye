@@ -7,6 +7,7 @@
 #include "stipulation/boolean/true.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "solving/temporary_hacks.h"

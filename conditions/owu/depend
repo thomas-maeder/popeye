@@ -11,10 +11,10 @@ conditions/owu/immobility_tester$(OBJ_SUFFIX): conditions/owu/immobility_tester.
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h stipulation/boolean/and.h \
- solving/king_move_generator.h solving/non_king_move_generator.h \
- solving/legal_move_counter.h solving/ply.h solving/capture_counter.h \
- debugging/assert.h
+ stipulation/branch.h stipulation/slice_insertion.h \
+ stipulation/boolean/and.h solving/king_move_generator.h \
+ solving/non_king_move_generator.h solving/legal_move_counter.h \
+ solving/ply.h solving/capture_counter.h debugging/assert.h
 
 conditions/owu/immobility_tester.h:
 
@@ -71,6 +71,8 @@ stipulation/slice_functional_type.enum.h:
 stipulation/traversal.h:
 
 stipulation/branch.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/boolean/and.h:
 

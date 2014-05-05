@@ -1,4 +1,5 @@
 #include "conditions/circe/rebirth_avoider.h"
+#include "conditions/circe/circe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"

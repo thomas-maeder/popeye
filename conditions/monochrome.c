@@ -1,6 +1,6 @@
 #include "conditions/monochrome.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

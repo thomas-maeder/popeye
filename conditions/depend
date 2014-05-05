@@ -14,9 +14,10 @@ conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h stipulation/move.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/temporary_hacks.h \
- solving/fork.h solving/pipe.h debugging/assert.h
+ stipulation/branch.h stipulation/slice_insertion.h stipulation/move.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/temporary_hacks.h solving/fork.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/exclusive.h:
 
@@ -87,6 +88,8 @@ stipulation/slice_functional_type.enum.h:
 stipulation/traversal.h:
 
 stipulation/branch.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/move.h:
 
@@ -277,7 +280,7 @@ conditions/bgl$(OBJ_SUFFIX): conditions/bgl.c conditions/bgl.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/has_solution_type.h \
+ stipulation/slice_insertion.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/move.h solving/pipe.h \
  debugging/assert.h
 
@@ -345,7 +348,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/has_solution_type.h:
 
@@ -459,8 +462,9 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/fork.h \
- stipulation/branch.h stipulation/move.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h debugging/assert.h
+ stipulation/branch.h stipulation/slice_insertion.h stipulation/move.h \
+ stipulation/battle_play/branch.h stipulation/help_play/branch.h \
+ debugging/assert.h
 
 conditions/blackchecks.h:
 
@@ -529,6 +533,8 @@ stipulation/pipe.h:
 stipulation/fork.h:
 
 stipulation/branch.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/move.h:
 
@@ -1009,9 +1015,9 @@ conditions/sat$(OBJ_SUFFIX): conditions/sat.c conditions/sat.h position/side.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h stipulation/move.h solving/temporary_hacks.h \
- solving/legal_move_counter.h solving/check.h solving/pipe.h \
- debugging/assert.h
+ stipulation/slice_insertion.h stipulation/move.h \
+ solving/temporary_hacks.h solving/legal_move_counter.h solving/check.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/sat.h:
 
@@ -1085,7 +1091,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 stipulation/move.h:
 
@@ -2381,7 +2387,7 @@ conditions/norsk$(OBJ_SUFFIX): conditions/norsk.c conditions/norsk.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h stipulation/move.h solving/pipe.h \
+ stipulation/slice_insertion.h stipulation/move.h solving/pipe.h \
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h debugging/assert.h
 
@@ -2449,7 +2455,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 stipulation/move.h:
 
@@ -3624,10 +3630,11 @@ conditions/mummer$(OBJ_SUFFIX): conditions/mummer.c conditions/mummer.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/boolean/true.h stipulation/branch.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- solving/post_move_iteration.h solving/move_generator.h solving/fork.h \
- position/move_diff_code.h position/position.h position/color.h \
- position/color.enum.h solving/pipe.h debugging/assert.h
+ stipulation/slice_insertion.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h solving/post_move_iteration.h \
+ solving/move_generator.h solving/fork.h position/move_diff_code.h \
+ position/position.h position/color.h position/color.enum.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/mummer.h:
 
@@ -3699,6 +3706,8 @@ stipulation/boolean/true.h:
 
 stipulation/branch.h:
 
+stipulation/slice_insertion.h:
+
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
@@ -3732,8 +3741,8 @@ conditions/monochrome$(OBJ_SUFFIX): conditions/monochrome.c conditions/monochrom
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h solving/pipe.h
+ stipulation/slice_insertion.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/pipe.h
 
 conditions/monochrome.h:
 
@@ -3787,7 +3796,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/observation.h:
 
@@ -3808,8 +3817,8 @@ conditions/bichrome$(OBJ_SUFFIX): conditions/bichrome.c conditions/bichrome.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h solving/pipe.h
+ stipulation/slice_insertion.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/pipe.h
 
 conditions/bichrome.h:
 
@@ -3865,7 +3874,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/observation.h:
 
@@ -3886,10 +3895,10 @@ conditions/edgemover$(OBJ_SUFFIX): conditions/edgemover.c conditions/edgemover.h
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/move_generator.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/observation.h solving/temporary_hacks.h solving/pipe.h \
- debugging/assert.h
+ stipulation/slice_insertion.h solving/move_generator.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h solving/observation.h solving/temporary_hacks.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/edgemover.h:
 
@@ -3943,7 +3952,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/move_generator.h:
 
@@ -3972,10 +3981,10 @@ conditions/grid$(OBJ_SUFFIX): conditions/grid.c conditions/grid.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/move_generator.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- solving/pipe.h
+ stipulation/slice_insertion.h solving/move_generator.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h solving/observation.h pieces/walks/vectors.h \
+ solving/temporary_hacks.h solving/pipe.h
 
 conditions/grid.h:
 
@@ -4019,7 +4028,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/move_generator.h:
 
@@ -4051,8 +4060,8 @@ conditions/patrol$(OBJ_SUFFIX): conditions/patrol.c conditions/patrol.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h position/position.h position/color.h \
- position/color.enum.h
+ stipulation/slice_insertion.h solving/pipe.h position/position.h \
+ position/color.h position/color.enum.h
 
 conditions/patrol.h:
 
@@ -4112,7 +4121,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/pipe.h:
 
@@ -4134,7 +4143,7 @@ conditions/lortap$(OBJ_SUFFIX): conditions/lortap.c conditions/lortap.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h
+ stipulation/slice_insertion.h solving/pipe.h
 
 conditions/lortap.h:
 
@@ -4194,7 +4203,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/pipe.h:
 conditions/beamten$(OBJ_SUFFIX): conditions/beamten.c conditions/beamten.h \
@@ -4268,7 +4277,7 @@ conditions/provocateurs$(OBJ_SUFFIX): conditions/provocateurs.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h
+ stipulation/slice_insertion.h solving/pipe.h
 
 conditions/provocateurs.h:
 
@@ -4328,7 +4337,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/pipe.h:
 conditions/central$(OBJ_SUFFIX): conditions/central.c conditions/central.h \
@@ -4502,9 +4511,10 @@ conditions/woozles$(OBJ_SUFFIX): conditions/woozles.c conditions/woozles.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/move_generator.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
+ stipulation/slice_insertion.h solving/move_generator.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h solving/observation.h pieces/walks/vectors.h \
+ solving/temporary_hacks.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  position/position.h position/color.h position/color.enum.h \
  debugging/assert.h
@@ -4551,7 +4561,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/move_generator.h:
 
@@ -4592,9 +4602,9 @@ conditions/nocapture$(OBJ_SUFFIX): conditions/nocapture.c conditions/nocapture.h
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/move_generator.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/pipe.h
+ stipulation/slice_insertion.h solving/move_generator.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h solving/pipe.h
 
 conditions/nocapture.h:
 
@@ -4648,7 +4658,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/move_generator.h:
 
@@ -4874,7 +4884,7 @@ conditions/take_and_make$(OBJ_SUFFIX): conditions/take_and_make.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h conditions/conditions.h
+ stipulation/slice_insertion.h solving/pipe.h conditions/conditions.h
 
 conditions/take_and_make.h:
 
@@ -4952,7 +4962,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/pipe.h:
 
@@ -4969,10 +4979,11 @@ conditions/ohneschach$(OBJ_SUFFIX): conditions/ohneschach.c conditions/ohneschac
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/conditional_pipe.h stipulation/slice_insertion.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/battle_play/branch.h solving/recursion_stopper.h \
- solving/check.h solving/fork.h solving/pipe.h debugging/assert.h
+ stipulation/conditional_pipe.h stipulation/branch.h \
+ stipulation/slice_insertion.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h stipulation/battle_play/branch.h \
+ solving/recursion_stopper.h solving/check.h solving/fork.h \
+ solving/pipe.h debugging/assert.h
 
 conditions/ohneschach.h:
 
@@ -5027,6 +5038,8 @@ stipulation/slice_functional_type.enum.h:
 stipulation/traversal.h:
 
 stipulation/conditional_pipe.h:
+
+stipulation/branch.h:
 
 stipulation/slice_insertion.h:
 
@@ -5155,7 +5168,7 @@ conditions/shielded_kings$(OBJ_SUFFIX): conditions/shielded_kings.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h position/position.h position/color.h \
+ stipulation/slice_insertion.h position/position.h position/color.h \
  position/color.enum.h solving/pipe.h
 
 conditions/shielded_kings.h:
@@ -5216,7 +5229,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 position/position.h:
 
@@ -5486,7 +5499,7 @@ conditions/backhome$(OBJ_SUFFIX): conditions/backhome.c conditions/backhome.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/move_generator.h solving/ply.h \
+ stipulation/slice_insertion.h solving/move_generator.h solving/ply.h \
  solving/observation.h solving/temporary_hacks.h \
  solving/legal_move_counter.h solving/pipe.h solving/fork.h \
  debugging/assert.h
@@ -5555,7 +5568,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-stipulation/branch.h:
+stipulation/slice_insertion.h:
 
 solving/move_generator.h:
 

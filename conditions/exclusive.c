@@ -5,6 +5,7 @@
 #include "output/plaintext/message.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/move.h"
 #include "solving/has_solution_type.h"
 #include "solving/temporary_hacks.h"
