@@ -117,6 +117,10 @@ static void write_ply_history(unsigned int *next_move_number,
   {
     ply const child_nbply = nbply;
 
+    /* TODO undoing and redoing is currently necessary for:
+     * - detecting whether a move has delivered check
+     * - correctly outputting iterator movements
+     */
     undo_move_effects();
 
     nbply = parent_ply[nbply];
