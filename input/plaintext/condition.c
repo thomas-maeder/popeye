@@ -155,11 +155,11 @@ static long int ReadBGLNumber(char* inptr, char** endptr)
   }
 }
 
-static char *ParseRexIncl(char *tok, boolean *is_rexincl, Cond what)
+static char *ParseRexIncl(char *tok, boolean *is_rexincl, CirceVariantType what)
 {
-  if (what==GetUniqIndex(CondCount,CondTab,tok))
+  if (what==GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok))
   {
-    *is_rexincl = what==rexincl;
+    *is_rexincl = what==CirceVariantRexInclusive;
     tok = ReadNextTokStr();
   }
 
@@ -1370,14 +1370,14 @@ char *ParseCond(void)
     {
       case messigny:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&messigny_rex_inclusive, rexexcl);
+        tok = ParseRexIncl(tok,&messigny_rex_inclusive, CirceVariantRexExclusive);
         break;
       case woozles:
       case biwoozles:
       case heffalumps:
       case biheffalumps:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&woozles_rex_inclusive, rexexcl);
+        tok = ParseRexIncl(tok,&woozles_rex_inclusive, CirceVariantRexExclusive);
         break;
       case immun:
         tok = ParseCirceVariants(&immune_variant);
@@ -1385,7 +1385,7 @@ char *ParseCond(void)
       case immunmirror:
       case immundiagramm:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&immune_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&immune_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circechameleon:
         tok = ReadNextTokStr();
@@ -1404,51 +1404,51 @@ char *ParseCond(void)
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circefilemirror:
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circeclonemirror:
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circecouscousmirror:
         CondFlag[circecouscous] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circedoubleagents:
         CondFlag[circe] = true;
         circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
         circe_variant.is_turncoat = true;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circeassassin:
         CondFlag[circe] = true;
         circe_variant.on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circeclone:
         CondFlag[circe] = true;
         circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case frischauf:
         CondFlag[circe] = true;
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_frischauf;
         break;
       case circefile:
@@ -1460,7 +1460,7 @@ char *ParseCond(void)
       case circediametral:
       case circerank:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case circe:
         tok = ParseCirceVariants(&circe_variant);
@@ -1470,7 +1470,7 @@ char *ParseCond(void)
         break;
       case marsmirror:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&marscirce_variant.is_rex_inclusive, rexexcl);
+        tok = ParseRexIncl(tok,&marscirce_variant.is_rex_inclusive, CirceVariantRexExclusive);
         break;
       case antimars:
         tok = ParseCirceVariants(&antimars_variant);
@@ -1478,18 +1478,18 @@ char *ParseCond(void)
       case antimarsantipodean:
       case antimarsmirror:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&antimars_variant.is_rex_inclusive, rexexcl);
+        tok = ParseRexIncl(tok,&antimars_variant.is_rex_inclusive, CirceVariantRexExclusive);
         break;
       case protean:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&protean_is_rex_inclusive, rexexcl);
+        tok = ParseRexIncl(tok,&protean_is_rex_inclusive, CirceVariantRexExclusive);
         break;
       case phantom:
         tok = ParseCirceVariants(&phantom_variant);
         break;
       case madras:
         tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, rexincl);
+        tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case isardam:
         tok = ParseLetteredType(&isardam_variant,ConditionTypeB);

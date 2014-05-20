@@ -100,8 +100,6 @@ commands expect further parameters. Lets start with the simpler commands:
 	blanks or newline, should be given to this command.
         The following conditions are implemented:
 
-	RexInclusive
-	RexExclusive
 	Circe
 	MirrorCirce
 	Madrasi
@@ -270,7 +268,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	auxiliary condition ChameleonSequence can be used to define that
 	sequence of the explicitly indicated chameleons.
 
-	After Madrasi, you can enter "RexInclusiv".
+	After Madrasi, you can enter "RexInclusive".
 
 	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
 	according to the type desired; Calvet is the default.
@@ -292,7 +290,7 @@ commands expect further parameters. Lets start with the simpler commands:
 	number.
 
 	After MessignyChess, (Bi)Woozles, (Bi)Heffalumps and Protean
-	Chess you can enter "RexExclusiv".
+	Chess you can enter "RexExclusive".
 
 	After the WhiteOscillatingKings or BlackOscillatingKings
 	condition "TypeB" or or "TypeC" can be entered.

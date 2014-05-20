@@ -102,7 +102,6 @@ simples:
          mot-cle, separees par des espaces ou par la fin d'une
          ligne. Les conditions suivantes sont possibles a present:
 
-	RexInclusif
 	Circe
 	Madrasi
 	Volage

@@ -244,9 +244,6 @@ static boolean anything_to_write(Cond cond)
 {
   switch (cond)
   {
-    case rexexcl:
-      return false;
-
     case volage:
       return !CondFlag[hypervolage];
 
@@ -357,7 +354,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     result = true;
   }
 
-  for (cond = 1; cond<CondCount; ++cond)
+  for (cond = 0; cond<CondCount; ++cond)
     if (CondFlag[cond] && anything_to_write(cond))
     {
       char CondLine[256] = { '\0' };
@@ -617,7 +614,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
         case madras:
           if (madrasi_is_rex_inclusive)
-            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexincl]);
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
           break;
 
         case mars:
@@ -646,7 +643,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
         case messigny:
           if (!messigny_rex_inclusive)
-            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexExclusive]);
           break;
 
         case woozles:
@@ -654,12 +651,12 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         case heffalumps:
         case biheffalumps:
           if (!woozles_rex_inclusive)
-            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexExclusive]);
           break;
 
         case protean:
           if (!protean_is_rex_inclusive)
-            written += append_to_CondLine(&CondLine,written," %s",CondTab[rexexcl]);
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexExclusive]);
           break;
 
         case chameleonsequence:

@@ -32,11 +32,11 @@ extern char const * const *ExtraCondTab;
 extern char const * const ColourString[LanguageCount][nr_colours];
 extern char const * const *ColourTab;
 
-extern  char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides];
-extern  char const * const *PieSpTab;
+extern char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides];
+extern char const * const *PieSpTab;
 
 extern char const * const VaultingVariantTypeString[LanguageCount][1];
-char const * const *VaultingVariantTypeTab;
+extern char const * const *VaultingVariantTypeTab;
 
 extern char const * const ConditionLetteredVariantTypeString[LanguageCount][ConditionLetteredVariantTypeCount];
 extern char const * const *ConditionLetteredVariantTypeTab;

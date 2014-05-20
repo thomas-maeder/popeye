@@ -155,7 +155,6 @@ Kommandos:
 	EinsteinSchach
 	NeuKoeko
 	ReflektierendeKoenige
-	RexInklusive
 	ChamaeleonSchach
 	BeamtenSchach
 	GlasgowSchach
