@@ -351,7 +351,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	options can be combined in various ways. Not
 	all combinations make sense, and not all options make sense for
 	all base conditions.
-	In addition, some options are mutually exclusive.
+	In addition, options who belong to the same of the following 8 groups
+	are normally mutually exclusive.
 	Inclusion of the kings:
 		RexInclusive	(default for AntiCirce and MarsCirce)
 		RexExclusive	(default otherwise)
@@ -391,7 +392,8 @@ commands expect further parameters. Lets start with the simpler commands:
 		Assassin
 		Volcanic
 		Parachute
-		Calvet		(default for AntiCirce)
+	Self-block of the reborn piece:
+		Calvet		(default)
 		Cheylan
 	The following "traditional" condition names can still be used;
 	RexInclusive resp. RexExclusive can be added:

@@ -362,7 +362,8 @@ Kommandos:
 	werden; die Optionen koennen vielfaeltig miteinander kombiniert werden.
 	Nicht alle Kombinationen sind sinnfaellig, und nicht alle Optionen fuer
 	alle Grund-Bedingungen.
-	Zudem schliessen sich einige Optionen gegenseitig aus.
+	Zudem schliessen Optionen normalerweise gegenseitig aus, welche zur
+	selben der folgenden 8 Gruppen gehören.
 	Einbezug des Koenigs:
 		RexInklusive	(Vorgabe bei AntiCirce und MarsCirce)
 		RexExklusive	(Vorgabe sonst)
@@ -402,7 +403,8 @@ Kommandos:
 		Assassin
 		Vulkan
 		Fallschirm
-		Calvet		(Vorgabe bei AntiCirce)
+	Selbstblock des Wiedergeborenen:
+		Calvet		(Vorgabe)
 		Cheylan
 	Die folgenden "traditionellen" Bedinungsbezeichnungen koennen nach wie
 	vor verwendet werden; sie erlauben die zusaetzliche Angabe RexInklusive

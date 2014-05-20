@@ -355,17 +355,18 @@ simples:
 	PhantomSchach et GenferSchach peuvent etre suivies d'un nombre
 	d'options; les options peuvent etre combinees ad libitum. Toutes les
 	combinaisons ne sont pas raisonnables, ni toutes les options pour toutes
-	les conditions de base. En outre, certaines options s'excludent
-	mutuellement.
+	les conditions de base.
+	En outre, les options qui appartiennent au meme groupe parmis le 8
+	groupes suivants sont normalement mutuellement exclusives.
 	Inclusion du roi:
 		RexInclusif	(standard pour AntiCirce et MarsCirce)
 		RexExclusif	(standard pour les autres conditions)
-	Coup/marche/camp determinant:
+	Coup/allure/camp determinant:
 		CoupDernier 
-		Clone		(definit aussi la marche de la piece renee)
+		Clone		(definit aussi l'allure de la piece renee)
 		Couscous
 		Malefique	(special avec Equipollents - voir plus bas)
-	Restriction a des marches specifiques:
+	Restriction a des allures specifiques:
 		Avril
 	Definition des cases de renaissance:
 		Equipollents
@@ -385,7 +386,7 @@ simples:
 		MalefiqueVerticale
 		Frischauf
 		(Rangee)
-	Adaptation de la marche de la piece renee:
+	Adaptation de l'allure de la piece renee:
 		Cameleon
 		Turncoats
 		Einstein
@@ -396,7 +397,8 @@ simples:
 		Assassin
 		Volcan
 		Parachute
-		Calvet		(Vorgabe bei AntiCirce)
+	Auto-blocage de la piece promue:
+		Calvet		(standard)
 		Cheylan
 	Les noms de condition "traditionnels" suivanta peuvent toujours etre
 	utilises; ils permettent d'ajouter RexInclusif ou RexExclusif.
@@ -860,7 +862,7 @@ suivante est un peu plus compliquee:
 	Imprenable
 	FrischAuf
 
-	Suit la liste des pieces comme d'habitude: marche de la piece suivi par
+	Suit la liste des pieces comme d'habitude: allure de la piece suivi par
 	une liste de cases ou une telle piece est placee. On peut toujours
 	changer la couleur des pieces a entrer en entrant le mot-cle convenant.
 
@@ -868,9 +870,9 @@ suivante est un peu plus compliquee:
 	transferee sour la case dans l'au-dela. Dans les conditions Circe
 	Volcanique, Circe Parachute, EchecGhost et EchecHantees, les coups depuis
 	cette case transferent une piece de l'au-dela dans le monde reel. Sinon,
-	les pieces dans l'au-dela permette la promotion de pions dans leur marche.
+	les pieces dans l'au-dela permette la promotion de pions dans leur allure.
 
-	Popeye supporte les marches de piece suivantes:
+	Popeye supporte les allures de piece suivantes:
 
 	15      1,5-cavalier
 	16      1,6-cavalier
