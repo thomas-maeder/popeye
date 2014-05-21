@@ -365,8 +365,8 @@ commands expect further parameters. Lets start with the simpler commands:
 		April
 	Definition of the rebirth square(s):
 		Equipollents
-		Parrain
-		ContraParrain
+		Parrain		(== Equipollents LastMove)
+		ContraParrain	(== Equipollents LastMove Mirror)
 		Rank
 		File
 		Symmetry

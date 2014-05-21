@@ -370,8 +370,8 @@ simples:
 		Avril
 	Definition des cases de renaissance:
 		Equipollents
-		Parrain
-		ContraParrain
+		Parrain		(== Equipollents CoupDernier)
+		ContraParrain	(== Equipollents CoupDernier Malefique)
 		Rangee
 		Colonne
 		Symetrie
