@@ -5107,10 +5107,10 @@ dies ist ein Testfall fuer intelligent und loch
   1.La4-c2   2.Sb2-a4   3.Sa4-c3   4.Sc3-b1   5.Sb1-a3   6.Kb4-a4   7.Sc6-b4   8.Tc4-c3   9.Tc3-b3  10.Lc2-e4  11.Le4-b7 Sa5*b7 =
   1.Kb4-c5   2.Tb5-b3   3.Sc6-b4   4.La4-c6   5.Kc5-b5   6.Tc4-c5   7.Sb2-c4   8.Sc4-a3   9.Kb5-a4  10.Tc5-b5  11.Lc6-b7 Sa5*b7 =
 
-  add_to_move_generation_stack:    21656056
-                     play_move:    21497776
+  add_to_move_generation_stack:    20039219
+                     play_move:    19883521
  is_white_king_square_attacked:       72067
- is_black_king_square_attacked:    20865655
+ is_black_king_square_attacked:    19251400
 Loesung beendet. 
 
 

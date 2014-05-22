@@ -154,7 +154,7 @@ void replace_walk(square s, piece_walk_type walk)
 
 void block_square(square s)
 {
-  assert(is_square_empty(s) || e[s]==Invalid);
+  assert(is_square_empty(s) || is_square_blocked(s));
   e[s] = Invalid;
   spec[s] = BorderSpec;
 }

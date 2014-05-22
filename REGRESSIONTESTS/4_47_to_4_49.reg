@@ -429,10 +429,10 @@ solution finished.
 
   1.Bh2-g1   2.h3-h2 Ke2-f1 =
 
-  add_to_move_generation_stack:         510
-                     play_move:         543
+  add_to_move_generation_stack:         455
+                     play_move:         488
  is_white_king_square_attacked:          11
- is_black_king_square_attacked:         367
+ is_black_king_square_attacked:         312
 solution finished. 
 
 

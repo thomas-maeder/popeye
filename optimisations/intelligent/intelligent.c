@@ -162,7 +162,7 @@ void remember_to_keep_rider_line_open(square from, square to,
 
   for (s = from+dir; s!=to; s+=dir)
   {
-    assert(is_square_empty(s));
+    /*assert(is_square_empty(s)); doesn't work if there are holes! */
     nr_reasons_for_staying_empty[s] += delta;
   }
 
@@ -354,7 +354,8 @@ void solve_target_position(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp!=initsquare; bnp++)
-      empty_square(*bnp);
+      if (!is_square_blocked(*bnp))
+        empty_square(*bnp);
   }
 
   {
@@ -514,7 +515,7 @@ void IntelligentRegulargoal_types(void)
     {
       square const *bnp;
       for (bnp= boardnum; *bnp!=initsquare; ++bnp)
-        if (get_walk_of_piece_on_square(*bnp)!=Invalid)
+        if (!is_square_blocked(*bnp))
           empty_square(*bnp);
     }
 
