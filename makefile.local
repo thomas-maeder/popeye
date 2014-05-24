@@ -1,5 +1,7 @@
 # -*- Makefile -*-
 #
+# rules that apply to the directory that this file belongs to
+#
 # Common Popeye source and generated files
 # ========================================
 
