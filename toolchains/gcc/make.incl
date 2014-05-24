@@ -66,6 +66,8 @@ ARCH=                   # use platform default
 
 # Select target compiler optimization level
 CCOPTIM=-O3
+# -fprofile-use
+# -fprofile-generate
 
 # Option for producing dependency information in makefile format
 DEPEND=-MM -MP
@@ -90,6 +92,8 @@ OTHER+=-std=c99
 
 # Select target linker optimization level
 LDOPTIM=-O3
+# -fprofile-use
+# -fprofile-generate
 
 # Option for naming objectfile
 # NOTE: the trailing blank on the following line is relevant (at least
