@@ -5,8 +5,8 @@
 #define ENUMERATION_TYPENAME Side
 
 #define ENUMERATORS \
-  ENUMERATOR(White) \
-    ENUMERATOR(Black) \
+  ENUMERATOR(White), \
+    ENUMERATOR(Black), \
                        \
-    ENUMERATOR(nr_sides) \
+    ENUMERATOR(nr_sides), \
     ASSIGNED_ENUMERATOR(no_side = nr_sides)

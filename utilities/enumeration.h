@@ -55,8 +55,8 @@ char const *enum_type_names[] =
 
 /* Define the enumeration type named ENUMERATION_TYPENAME
  */
-#define ENUMERATOR(x) x,
-#define ASSIGNED_ENUMERATOR(x) x,
+#define ENUMERATOR(x) x
+#define ASSIGNED_ENUMERATOR(x) x
 
 typedef enum
 {
@@ -85,8 +85,8 @@ extern char const *ENUMNAME_CONCAT(ENUMERATION_TYPENAME,_names)[];
  */
 #define ENUMNAME_CONCAT2(a,b) a##b
 #define ENUMNAME_CONCAT(a,b) ENUMNAME_CONCAT2(a,b)
-#define ENUMERATOR(x) #x,
-#define ASSIGNED_ENUMERATOR(x)
+#define ENUMERATOR(x) #x
+#define ASSIGNED_ENUMERATOR(x) ""
 char const *ENUMNAME_CONCAT(ENUMERATION_TYPENAME,_names)[] =
 {
 	ENUMERATORS

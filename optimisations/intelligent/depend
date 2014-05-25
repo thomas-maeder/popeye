@@ -32,7 +32,7 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/mate/generate_checking_moves.h \
  optimisations/intelligent/mate/generate_doublechecking_moves.h \
  output/plaintext/pieces.h platform/maxtime.h options/options.h \
- debugging/assert.h utilities/enumeration.h
+ debugging/assert.h
 
 optimisations/intelligent/intelligent.h:
 
@@ -151,8 +151,6 @@ platform/maxtime.h:
 options/options.h:
 
 debugging/assert.h:
-
-utilities/enumeration.h:
 optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  optimisations/intelligent/moves_left.c \
  optimisations/intelligent/moves_left.h solving/machinery/solve.h \

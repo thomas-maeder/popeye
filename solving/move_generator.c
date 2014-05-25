@@ -13,6 +13,7 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 #include <string.h>
+#include <stdio.h>
 
 move_generation_elmt *curr_generation = &move_generation_stack[toppile];
 

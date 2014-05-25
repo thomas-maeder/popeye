@@ -5,8 +5,8 @@
 #define ENUMERATION_TYPENAME Colour
 
 #define ENUMERATORS \
-  ENUMERATOR(colour_white) \
-    ENUMERATOR(colour_black) \
-    ENUMERATOR(colour_neutral) \
+  ENUMERATOR(colour_white), \
+    ENUMERATOR(colour_black), \
+    ENUMERATOR(colour_neutral), \
                        \
     ENUMERATOR(nr_colours)

@@ -32,6 +32,7 @@
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
+#include "optimisations/intelligent/piece_usage.h"
 #include "output/plaintext/pieces.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
@@ -42,26 +43,6 @@
 #include <stdio.h>
 
 typedef unsigned int index_type;
-
-#define piece_usageENUMERATORS \
-    ENUMERATOR(piece_is_unused) \
-    ENUMERATOR(piece_pins) \
-    ENUMERATOR(piece_is_fixed_to_diagram_square) \
-    ENUMERATOR(piece_intercepts) \
-    ENUMERATOR(piece_intercepts_check_from_guard) \
-    ENUMERATOR(piece_blocks) \
-    ENUMERATOR(piece_guards) \
-    ENUMERATOR(piece_gives_check) \
-    ENUMERATOR(piece_is_missing) \
-    ENUMERATOR(piece_is_captured) \
-    ENUMERATOR(piece_is_king)
-
-#define ENUMERATORS piece_usageENUMERATORS
-#define ENUMERATION_TYPENAME piece_usage
-#define ENUMERATION_MAKESTRINGS
-#include "utilities/enumeration.h"
-#undef piece_usageENUMERATORS
-
 
 goal_type goal_to_be_reached;
 

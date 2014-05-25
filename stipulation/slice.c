@@ -146,22 +146,6 @@ slice_structural_type slice_type_get_structural_type(slice_type type)
   return highest_structural_type[type];
 }
 
-#define ENUMERATION_TYPENAME slice_functional_type
-#define ENUMERATORS                             \
-    ENUMERATOR(slice_function_unspecified)                        \
-    ENUMERATOR(slice_function_proxy)                              \
-    ENUMERATOR(slice_function_move_generator)                     \
-    ENUMERATOR(slice_function_binary)                             \
-    ENUMERATOR(slice_function_testing_pipe)                       \
-    ENUMERATOR(slice_function_conditional_pipe)                   \
-    ENUMERATOR(slice_function_end_of_branch)                      \
-    ENUMERATOR(slice_function_writer)                             \
-    ENUMERATOR(nr_slice_functional_types)
-
-#define ENUMERATION_MAKESTRINGS
-
-#include "utilities/enumeration.h"
-
 static slice_functional_type functional_type[nr_slice_types];
 
 static slice_type const proxy_slice_types[] =

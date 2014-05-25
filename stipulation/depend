@@ -1,21 +1,10 @@
-stipulation/slice_type$(OBJ_SUFFIX): stipulation/slice_type.c \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
- stipulation/slice_type.enum utilities/enumeration.h
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
-
-stipulation/slice_type.enum:
-
-utilities/enumeration.h:
 stipulation/slice$(OBJ_SUFFIX): stipulation/slice.c stipulation/slice.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h debugging/trace.h \
- debugging/assert.h utilities/enumeration.h
+ debugging/assert.h
 
 stipulation/slice.h:
 
@@ -36,8 +25,6 @@ stipulation/slice_functional_type.enum.h:
 debugging/trace.h:
 
 debugging/assert.h:
-
-utilities/enumeration.h:
 stipulation/structure_traversal$(OBJ_SUFFIX): stipulation/structure_traversal.c \
  stipulation/structure_traversal.h stipulation/slice.h \
  utilities/boolean.h stipulation/slice_type.h \

@@ -7,8 +7,8 @@ utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/trace.h debugging/assert.h
+ solving/machinery/dispatch.h debugging/trace.h solving/castling_rights.h \
+ solving/ply.h position/pieceid.h debugging/assert.h
 
 utilities/table.h:
 
@@ -54,12 +54,14 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 solving/castling_rights.h:
 
 solving/ply.h:
 
 position/pieceid.h:
-
-debugging/trace.h:
 
 debugging/assert.h:
