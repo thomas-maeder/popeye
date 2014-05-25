@@ -32,6 +32,6 @@ INCLUDES = testers.h move_effect_journal.h \
            end_of_branch.h end_of_branch_goal.h setplay_fork.h if_then_else.h \
            move_inverter.h move_played.h move_player.h moves_traversal.h \
            temporary_hacks.h has_solution_type.h has_solution_type.enum.h \
-           pipe.h fork.h end_of_branch_tester.h
+           has_solution_type.enum pipe.h fork.h end_of_branch_tester.h
 
 include makefile.rules $(CURRPWD)depend
