@@ -188,4 +188,15 @@ forderung exact-ser-h=5
 bedingung circe vulkan
 option zugnu start 15
 
+weiter
+
+autor Manfred Nieroba
+quelle Problemkiste 1995
+steine weiss ka2 sf6 ba6c6
+       schwarz ka5 bc2
+forderung h=3
+bedingung circe strikt
+zwilling versetze f6 b6
+
 endeproblem
+
