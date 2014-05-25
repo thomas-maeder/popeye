@@ -6,7 +6,7 @@ SRC_CFILES = reached_tester.c doublemate.c countermate.c any.c notcheck.c \
              exchange_by_rebirth.c king_capture.c circuit_by_rebirth.c \
              prerequisite_guards.c prerequisite_optimiser.c
 
-INCLUDES = reached_tester.h doublemate.h countermate.h any.c notcheck.h \
+INCLUDES = reached_tester.h doublemate.h countermate.h any.h notcheck.h \
            circuit.h kiss.h steingewinn.h target.h capture.h immobile.h \
            exchange.h enpassant.h proofgame.h chess81.h check.h castling.h \
            exchange_by_rebirth.h king_capture.h circuit_by_rebirth.h \
