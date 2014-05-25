@@ -367,7 +367,7 @@ simples:
 		Couscous
 		Malefique	(special avec Equipollents - voir plus bas)
 	Restriction a des allures specifiques:
-		Avril
+		Avril		(suivie par la liste d'allures)
 	Definition des cases de renaissance:
 		Equipollents
 		Parrain		(== Equipollents CoupDernier)

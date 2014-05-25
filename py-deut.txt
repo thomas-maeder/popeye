@@ -373,7 +373,7 @@ Kommandos:
 		Couscous
 		Spiegel		(spezielle Bedeutung bei Equipollents - siehe unten)
 	Einschraenkung auf Gangart:
-		April
+		April		(gefolgt von der Liste der Gangarten)
 	Bestimmung der Wiedergeburtsfelder:
 		Equipollents
 		Parrain		(== Equipollents LetzterZug)
