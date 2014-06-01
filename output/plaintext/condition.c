@@ -617,6 +617,13 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
             written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
           break;
 
+        case isardam:
+          if (isardam_variant==ConditionTypeB)
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+          if (madrasi_is_rex_inclusive)
+            written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
+          break;
+
         case mars:
           written = append_circe_variants(&marscirce_variant,&CondLine,written,CirceVariantRexInclusive);
           break;
@@ -664,11 +671,6 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           if (chameleon_is_squence_explicit==twin_number)
             written += append_to_CondLine_chameleon_sequence(&CondLine,written,
                                                              chameleon_walk_sequence);
-          break;
-
-        case isardam:
-          if (isardam_variant==ConditionTypeB)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
           break;
 
         case annan:

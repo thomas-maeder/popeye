@@ -1,0 +1,12 @@
+begin
+
+prot 4_67_to_4_69.reg
+
+title added support for Isardam RexInclusive
+pieces white kh1 bh5 black kf3 bd1
+condition isardam
+stipulation zg21
+twin condition isardam rexincl
+
+end
+

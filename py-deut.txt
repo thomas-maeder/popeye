@@ -275,7 +275,7 @@ Kommandos:
 	Nach Madrasi kann wahlweise noch "RexInklusive" angegeben werden.
 
 	Nach der Isardam Bedingung kann wahlweise noch "TypB"
-	angegeben werden.
+	angegeben werden und anschliessend "RexInklusiv".
 
 	Nach der Bedingung NurPartiesatzsteine kann wahlweise
 	"Typ1", "Typ2" oder "Typ3" angegeben werden.
@@ -1001,8 +1001,8 @@ aufwendiger ist das Kommando
 	pn      Pfadfinderin
 	po      Poseidon
 	pr      Prinzessin                      1,1 Reiter + 1,2 Springer
-	qe      EquiEnglisch                    "EquiApproacher" kann unterbrochen werden
-	qf      EquiFranzoesisch                "EquiApproacher" kann nicht unterbrochen werden
+	qe      Equistopper                     kann unterbrochen werden
+	qf      Nonstop-Equistopper             kann nicht unterbrochen werden
         qn      Quintessence = (3,1)-Zigzag Nachtreiter (e.g. a1-b3-d2-e4-g3...)
 	ra      Rao                             chinesische Rose
 	rb      ReversBauer   zieht umgekehrt wie ein "normaler" Bauer; wandelt auf entgegengesetzter Reihe um

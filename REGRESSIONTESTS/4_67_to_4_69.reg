@@ -1,0 +1,36 @@
+
+added support for Isardam RexInclusive
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .  -K   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -B   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  zg21                        2 + 2
+               Isardam
+
+a) 
+
+   1.Kh1-g2 + z !
+
+
+b) Isardam RexInclusive
+
+
+solution finished. 
+
+

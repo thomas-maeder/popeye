@@ -273,7 +273,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	After all Anticirce conditions "Cheylan" or "Calvet" can be entered -
 	according to the type desired; Calvet is the default.
 
-	After the Isardam condition, "TypeB" can be entered.
+	After the Isardam condition, "TypeB" and then "RexInclusive" can be
+	specified.
 
 	After the SingleBox condition, "Type1", "Type2" or "Type3" can
 	be entered.
@@ -970,8 +971,8 @@ sstipulation). A little bit more elaborate is the command
 	pp      reverse pawn       moves opposite to normal p and promotes at opp end of board
 	pr      princess   
 	q       queen   
-	qe      equi english			equi approacher stopable
-	qf      equi french 			equi approacher nonstopable
+	qe      equistopper			stoppable
+	qf      non-stop equistopper  		not stoppable
         qn      quintessence = (3,1)-Zigzag Nightrider (e.g. a1-b3-d2-e4-g3...)
 	qq      querquisite
 	r       rook   

@@ -273,7 +273,8 @@ simples:
 	s'agit du type Cheylan ou Calvet. Si rien n'est indique, le
 	type utilise est Calvet.
 
-	Pour la condition Isardam, on peut indiquer s'il s'agit du TypeB.
+	Pour la condition Isardam, on peut indiquer TypeB puis
+	RexInclusif.
 
 	Pour la condition SingleBox, on peut indiquer s'il s'agit du
 	Type1, du Type2 ou du Type3.
@@ -983,8 +984,8 @@ suivante est un peu plus compliquee:
 	po      pos\'eidon
 	pv      pion renverse     joue en directions opposees du pion normal; se promeut sur la rangee opposee
 	pr      princesse   
-	qa      equi anglais
-	qf      equi francais
+	qa      equistoppeur
+	qf      equistoppeur non-stop
         qn      quintessence = (3,1)-Zigzag noctambule (e.g. a1-b3-d2-e4-g3...)
 	qq      querquisite
 	r       roi

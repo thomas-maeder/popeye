@@ -1493,6 +1493,7 @@ char *ParseCond(void)
         break;
       case isardam:
         tok = ParseLetteredType(&isardam_variant,ConditionTypeB);
+        tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
         break;
       case annan:
         tok = ParseLetteredType(&annan_type,ConditionTypeD);
