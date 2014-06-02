@@ -122,6 +122,9 @@ void iterate_problems(void)
 
     prev_token = iterate_twins();
 
+    if (LaTeXout)
+      LaTeXEndDiagram();
+
     if (max_solutions_reached()
         || was_max_nr_solutions_per_target_position_reached()
         || has_short_solution_been_found_in_problem()
@@ -129,9 +132,6 @@ void iterate_problems(void)
       StdString(GetMsgString(InterMessage));
     else
       StdString(GetMsgString(FinishProblem));
-
-    if (LaTeXout)
-      LaTeXEndDiagram();
 
     StdString(" ");
     PrintTime();
