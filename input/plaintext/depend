@@ -1309,10 +1309,10 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h input/plaintext/twin.h \
- output/latex/latex.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h output/plaintext/message.h \
- output/plaintext/language_dependant.h conditions/conditions.h \
- options/options.h conditions/mummer.h solving/machinery/solve.h \
+ output/plaintext/message.h output/plaintext/language_dependant.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h conditions/conditions.h options/options.h \
+ conditions/mummer.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -1370,7 +1370,9 @@ output/mode.enum.h:
 
 input/plaintext/twin.h:
 
-output/latex/latex.h:
+output/plaintext/message.h:
+
+output/plaintext/language_dependant.h:
 
 position/position.h:
 
@@ -1379,10 +1381,6 @@ position/color.h:
 position/color.enum.h:
 
 pieces/walks/vectors.h:
-
-output/plaintext/message.h:
-
-output/plaintext/language_dependant.h:
 
 conditions/conditions.h:
 

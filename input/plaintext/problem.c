@@ -3,7 +3,6 @@
 #include "input/plaintext/condition.h"
 #include "input/plaintext/option.h"
 #include "input/plaintext/twin.h"
-#include "output/latex/latex.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
 #include "options/maxsolutions/maxsolutions.h"
@@ -121,9 +120,6 @@ void iterate_problems(void)
     reset_short_solution_found_in_problem();
 
     prev_token = iterate_twins();
-
-    if (LaTeXout)
-      LaTeXEndDiagram();
 
     if (max_solutions_reached()
         || was_max_nr_solutions_per_target_position_reached()

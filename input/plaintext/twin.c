@@ -1222,6 +1222,9 @@ Token iterate_twins(void)
   dealloc_slices(stipulation_root_hook);
   assert_no_leaked_slices();
 
+  if (LaTeXout)
+    LaTeXEndDiagram();
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
