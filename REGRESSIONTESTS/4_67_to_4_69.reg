@@ -28,9 +28,17 @@ a)
    1.Kh1-g2 + z !
 
 
+  add_to_move_generation_stack:           8
+                     play_move:           4
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           2
 b) Isardam RexInclusive
 
 
+  add_to_move_generation_stack:           8
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           1
 solution finished. 
 
 
