@@ -61,8 +61,6 @@ Loesung beendet.
 
 Initial (Weiss ->):
 
-           Umwandlung in K
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
@@ -82,10 +80,8 @@ Initial (Weiss ->):
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b0.5                     1 + 0
-             Schlagschach
 
-  1.a7-a8=K a=>b 
+  1.a7-a8=K a=>b
 
   add_to_move_generation_stack:           1
                      play_move:           6
@@ -121,8 +117,6 @@ keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
 
 Initial (Schwarz ->):
 
-keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -T  -S  -L  -D  -K   K   .   .   8
@@ -142,10 +136,8 @@ keine Optimierung mit Distanz Standfeld-Zielfeld der Koenige
 1   T   S   L   D   K  -K   .   T   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b1                     14 + 12
-             Schlagschach
 
-  1.Kf1*e1 Kf8*e8 a=>b 
+  1.Kf1*e1 Kf8*e8 a=>b
 
   add_to_move_generation_stack:          70
                      play_move:          15
