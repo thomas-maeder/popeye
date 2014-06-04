@@ -853,3 +853,48 @@ letzte 6 Halbz\"uge - Test f\"urs Hashing
 Loesung beendet. 
 
 
+
+           Manfred Nieroba
+          Problemkiste 1995
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   B   .   B   .   .   S   .   .   6
+|                                   |
+5  -K   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   K   .  -B   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h=3                         4 + 2
+             Circe Strikt
+
+a) 
+
+  1.Ka5-b6 Ka2-b2   2.Kb6-c7 Kb2-c1   3.Kc7-c8 c6-c7 =
+
+  add_to_move_generation_stack:     3113587
+                     play_move:     1302231
+ is_white_king_square_attacked:      587480
+ is_black_king_square_attacked:     1154660
+b) wSf6-->b6
+
+  1.Ka5*b6[+wSg1] Sg1-e2   2.Kb6-a7 Se2-c1   3.Ka7-a8 a6-a7 =
+
+  add_to_move_generation_stack:     2281895
+                     play_move:     1003425
+ is_white_king_square_attacked:      430167
+ is_black_king_square_attacked:      894734
+Loesung beendet. 
+
+
