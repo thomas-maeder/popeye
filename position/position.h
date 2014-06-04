@@ -14,17 +14,13 @@
 /* Array containing an element for each square plus many slack square
  * for making move generation easier
  */
-typedef piece_walk_type echiquier[maxsquare+4];
+typedef piece_walk_type echiquier[maxsquare+5];
 
 /* Some useful symbols for dealing with these flags
  */
 
-extern echiquier e;
-extern Flags spec[maxsquare+4];
-extern square king_square[nr_sides];
 extern boolean areColorsSwapped;
 extern boolean isBoardReflected;
-extern unsigned int number_of_pieces[nr_sides][nr_piece_walks];
 
 enum
 {
@@ -45,13 +41,14 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 typedef struct
 {
     echiquier board;                     /* placement of the pieces */
-    Flags spec[maxsquare+4];      /* spec[s] contains flags for piece board[i]*/
+    Flags spec[maxsquare+5];      /* spec[s] contains flags for piece board[i]*/
     square king_square[nr_sides];        /* placement of the kings */
-    unsigned int inum;                   /* number of iterators */
+    unsigned int number_of_imitators;    /* number of iterators */
     imarr isquare;                       /* placement of iterators */
     unsigned number_of_pieces[nr_sides][nr_piece_walks]; /* number of piece kind */
 } position;
 
+extern position being_solved;
 
 /* Sequence of pieces corresponding to the game array (a1..h1, a2..h2
  * ... a8..h8)
@@ -79,14 +76,14 @@ void empty_square(square s);
 void block_square(square s);
 void occupy_square(square s, piece_walk_type walk, Flags flags);
 void replace_walk(square s, piece_walk_type walk);
-#define is_square_empty(s) (e[(s)]==Empty)
-#define is_square_blocked(s) (e[(s)]==Invalid)
-#define get_walk_of_piece_on_square(s) (e[(s)])
+#define is_square_empty(s) (being_solved.board[(s)]==Empty)
+#define is_square_blocked(s) (being_solved.board[(s)]==Invalid)
+#define get_walk_of_piece_on_square(s) (being_solved.board[(s)])
 square find_end_of_line(square from, numvec dir);
-#define piece_belongs_to_opponent(sq)    TSTFLAG(spec[(sq)],advers(trait[nbply]))
+#define piece_belongs_to_opponent(sq)    TSTFLAG(being_solved.spec[(sq)],advers(trait[nbply]))
 
 /* Change the side of some piece specs
- * @param spec address of piece specs where to change the side
+ * @param being_solved.spec address of piece specs where to change the side
  */
 void piece_change_side(Flags *spec);
 

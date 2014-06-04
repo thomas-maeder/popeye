@@ -152,7 +152,7 @@ void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
         piece_walk_type const p = get_walk_of_piece_on_square(curr_square);
         if (p!=Empty)
         {
-          Flags const flags = spec[curr_square];
+          Flags const flags = being_solved.spec[curr_square];
           if (piece_walk_may_exist_fairy || is_piece_neutral(some_pieces_flags))
             ProofLargeEncodePiece(&bp,row,col,p,flags);
           else
@@ -460,24 +460,24 @@ void ProofSaveStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  start.king_square[Black] = king_square[Black];
-  start.king_square[White] = king_square[White];
+  start.king_square[Black] = being_solved.king_square[Black];
+  start.king_square[White] = being_solved.king_square[White];
 
   for (p = King; p<nr_piece_walks; ++p)
   {
-    start.number_of_pieces[White][p] = number_of_pieces[White][p];
-    start.number_of_pieces[Black][p] = number_of_pieces[Black][p];
+    start.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
+    start.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
   }
 
   for (i = 0; i<maxsquare; ++i)
     start.board[i] = get_walk_of_piece_on_square(i);
 
   for (i = 0; i<nr_squares_on_board; ++i)
-    start.spec[boardnum[i]] = spec[boardnum[i]];
+    start.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
 
-  start.inum = number_of_imitators;
-  for (i = 0; i<number_of_imitators; ++i)
-    start.isquare[i] = isquare[i];
+  start.number_of_imitators = being_solved.number_of_imitators;
+  for (i = 0; i<being_solved.number_of_imitators; ++i)
+    start.isquare[i] = being_solved.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -490,8 +490,8 @@ void ProofRestoreStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  king_square[Black] = start.king_square[Black];
-  king_square[White] = start.king_square[White];
+  being_solved.king_square[Black] = start.king_square[Black];
+  being_solved.king_square[White] = start.king_square[White];
 
   for (i = 0; i<nr_squares_on_board; ++i)
     switch (start.board[boardnum[i]])
@@ -509,9 +509,9 @@ void ProofRestoreStartPosition(void)
         break;
     }
 
-  number_of_imitators = start.inum;
-  for (i = 0; i<number_of_imitators; ++i)
-    isquare[i] = start.isquare[i];
+  being_solved.number_of_imitators = start.number_of_imitators;
+  for (i = 0; i<being_solved.number_of_imitators; ++i)
+    being_solved.isquare[i] = start.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -525,24 +525,24 @@ void ProofSaveTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  target.king_square[White] = king_square[White];
-  target.king_square[Black] = king_square[Black];
+  target.king_square[White] = being_solved.king_square[White];
+  target.king_square[Black] = being_solved.king_square[Black];
 
   for (p = King; p<nr_piece_walks; ++p)
   {
-    target.number_of_pieces[White][p] = number_of_pieces[White][p];
-    target.number_of_pieces[Black][p] = number_of_pieces[Black][p];
+    target.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
+    target.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
   }
 
   for (i = 0; i<maxsquare; ++i)
     target.board[i] = get_walk_of_piece_on_square(i);
 
   for (i = 0; i<nr_squares_on_board; ++i)
-    target.spec[boardnum[i]] = spec[boardnum[i]];
+    target.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
 
-  target.inum = number_of_imitators;
-  for (i = 0; i<number_of_imitators; ++i)
-    target.isquare[i] = isquare[i];
+  target.number_of_imitators = being_solved.number_of_imitators;
+  for (i = 0; i<being_solved.number_of_imitators; ++i)
+    target.isquare[i] = being_solved.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -553,8 +553,8 @@ void ProofRestoreTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  king_square[Black] = target.king_square[Black];
-  king_square[White] = target.king_square[White];
+  being_solved.king_square[Black] = target.king_square[Black];
+  being_solved.king_square[White] = target.king_square[White];
 
   {
     square i;
@@ -575,12 +575,12 @@ void ProofRestoreTargetPosition(void)
       }
   }
 
-  number_of_imitators = target.inum;
+  being_solved.number_of_imitators = target.number_of_imitators;
 
   {
     unsigned int i;
-    for (i = 0; i<number_of_imitators; ++i)
-      isquare[i] = target.isquare[i];
+    for (i = 0; i<being_solved.number_of_imitators; ++i)
+      being_solved.isquare[i] = target.isquare[i];
   }
 
   TraceFunctionExit(__func__);
@@ -601,9 +601,9 @@ static boolean compareProofPieces(void)
   {
     TraceWalk(ProofPieces[i]);
     TraceSquare(ProofSquares[i]);
-    TraceWalk(e[ProofSquares[i]]);
+    TraceWalk(being_solved.board[ProofSquares[i]]);
     TraceEOL();
-    if (ProofPieces[i] != get_walk_of_piece_on_square(ProofSquares[i]) && ProofSpecs[i]!=spec[i])
+    if (ProofPieces[i] != get_walk_of_piece_on_square(ProofSquares[i]) && ProofSpecs[i]!=being_solved.spec[i])
     {
       result = false;
       break;
@@ -626,8 +626,8 @@ static boolean compareProofNbrPiece(void)
   TraceFunctionParamListEnd();
 
   for (p = King; p<=last_piece; ++p)
-    if (target.number_of_pieces[White][p]!=number_of_pieces[White][p]
-        || target.number_of_pieces[Black][p]!=number_of_pieces[Black][p])
+    if (target.number_of_pieces[White][p]!=being_solved.number_of_pieces[White][p]
+        || target.number_of_pieces[Black][p]!=being_solved.number_of_pieces[Black][p])
     {
       result = false;
       break;
@@ -649,8 +649,8 @@ static boolean compareImitators(void)
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<number_of_imitators; ++imi_idx)
-      if (target.isquare[imi_idx]!=isquare[imi_idx])
+    for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; ++imi_idx)
+      if (target.isquare[imi_idx]!=being_solved.isquare[imi_idx])
       {
         result = false;
         break;
@@ -690,16 +690,16 @@ static int ProofKingMovesNeeded(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  TraceSquare(king_square[side]);
+  TraceSquare(being_solved.king_square[side]);
   TraceEOL();
 
-  if (king_square[side]==initsquare)
+  if (being_solved.king_square[side]==initsquare)
     /* no king in play, or king can be created by promotion
      * -> no optimisation possible */
     needed = 0;
   else
   {
-    needed = KingMoves[side][king_square[side]];
+    needed = KingMoves[side][being_solved.king_square[side]];
 
     if (TSTCASTLINGFLAGMASK(side,k_cancastle))
     {
@@ -777,7 +777,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
      test is always false. It has already been checked in
      ProofImpossible. But we need it here for the recursion.
   */
-  if ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],side))
+  if ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],side))
       && !(target.board[sq]==Pawn && TSTFLAG(target.spec[sq],side)))
     return 0;
 
@@ -794,7 +794,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
     /* double step */
     square const sq_double_step_departure = sq+2*dir_backward;
     if (TSTFLAG(sq_spec[sq_double_step_departure],double_step)
-        && (get_walk_of_piece_on_square(sq_double_step_departure)==Pawn && TSTFLAG(spec[sq_double_step_departure],side))
+        && (get_walk_of_piece_on_square(sq_double_step_departure)==Pawn && TSTFLAG(being_solved.spec[sq_double_step_departure],side))
         && !(target.board[sq_double_step_departure]==Pawn && TSTFLAG(target.spec[sq_double_step_departure],side)))
       return 1;
 
@@ -830,10 +830,10 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
 
 static boolean blocked_by_pawn(square sq)
 {
-  return (((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],White))
+  return (((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White))
            && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White))
            && PawnMovesNeeded(White,sq)>=current_length)
-          || ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],Black))
+          || ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black))
               && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black))
               && PawnMovesNeeded(Black,sq)>=current_length));
 }
@@ -1000,7 +1000,7 @@ static void PieceMovesFromTo(Side side,
   TraceFunctionParam("%d",captrequ);
   TraceFunctionParamListEnd();
 
-  assert(TSTFLAG(spec[from],side));
+  assert(TSTFLAG(being_solved.spec[from],side));
   assert(TSTFLAG(target.spec[to],side));
 
   *moves= current_length;
@@ -1199,19 +1199,19 @@ static boolean ProofFairyImpossible(void)
 
   TraceText("ProofFairyImpossible\n");
 
-  Nbr[White] = number_of_pieces[White][Pawn]
-          + number_of_pieces[White][Knight]
-          + number_of_pieces[White][Rook]
-          + number_of_pieces[White][Bishop]
-          + number_of_pieces[White][Queen]
-          + number_of_pieces[White][King];
+  Nbr[White] = being_solved.number_of_pieces[White][Pawn]
+          + being_solved.number_of_pieces[White][Knight]
+          + being_solved.number_of_pieces[White][Rook]
+          + being_solved.number_of_pieces[White][Bishop]
+          + being_solved.number_of_pieces[White][Queen]
+          + being_solved.number_of_pieces[White][King];
 
-  Nbr[Black] = number_of_pieces[Black][Pawn]
-          + number_of_pieces[Black][Knight]
-          + number_of_pieces[Black][Rook]
-          + number_of_pieces[Black][Bishop]
-          + number_of_pieces[Black][Queen]
-          + number_of_pieces[Black][King];
+  Nbr[Black] = being_solved.number_of_pieces[Black][Pawn]
+          + being_solved.number_of_pieces[Black][Knight]
+          + being_solved.number_of_pieces[Black][Rook]
+          + being_solved.number_of_pieces[Black][Bishop]
+          + being_solved.number_of_pieces[Black][Queen]
+          + being_solved.number_of_pieces[Black][King];
 
   /* not enough time to capture the remaining pieces */
   if (change_moving_piece)
@@ -1231,7 +1231,7 @@ static boolean ProofFairyImpossible(void)
          captured?
       */
       for (sq= square_a2; sq <= square_h2; sq++)
-        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],White))
+        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White))
             && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White)))
           ++count;
 
@@ -1244,7 +1244,7 @@ static boolean ProofFairyImpossible(void)
          been captured?
       */
       for (sq= square_a7; sq <= square_h7; sq++)
-        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],Black))
+        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black))
             && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black)))
           ++count;
 
@@ -1282,8 +1282,8 @@ static boolean ProofFairyImpossible(void)
         }
       }
 
-      if (target.number_of_pieces[White][Pawn] > number_of_pieces[White][Pawn]+parrain_pawn[White]
-          || target.number_of_pieces[Black][Pawn] > number_of_pieces[Black][Pawn]+parrain_pawn[Black])
+      if (target.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]
+          || target.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black])
         return true;
     }
 
@@ -1300,7 +1300,7 @@ static boolean ProofFairyImpossible(void)
          captured?
       */
       for (sq= square_a2; sq<=square_h2; sq++)
-        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],White)))
+        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White)))
         {
           if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White)))
           {
@@ -1312,7 +1312,7 @@ static boolean ProofFairyImpossible(void)
               ++count;
           }
           else if ((target.board[sq+dir_up]==Pawn && TSTFLAG(target.spec[sq+dir_up],White))
-                   && !(get_walk_of_piece_on_square(sq+dir_up)==Pawn && TSTFLAG(spec[sq+dir_up],White)))
+                   && !(get_walk_of_piece_on_square(sq+dir_up)==Pawn && TSTFLAG(being_solved.spec[sq+dir_up],White)))
           {
             if (!(target.board[sq+2*dir_up]==Pawn && TSTFLAG(target.spec[sq+2*dir_up],White))
                 && !(target.board[sq+3*dir_up]==Pawn && TSTFLAG(target.spec[sq+3*dir_up],White))
@@ -1333,7 +1333,7 @@ static boolean ProofFairyImpossible(void)
          been captured?
       */
       for (sq= square_a7; sq <= square_h7; sq++)
-        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],Black)))
+        if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black)))
         {
           if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black)))
           {
@@ -1345,7 +1345,7 @@ static boolean ProofFairyImpossible(void)
               ++count;
           }
           else if ((target.board[sq+dir_down]==Pawn && TSTFLAG(target.spec[sq+dir_down],Black))
-                   && !(get_walk_of_piece_on_square(sq+dir_down)==Pawn && TSTFLAG(spec[sq+dir_down],Black)))
+                   && !(get_walk_of_piece_on_square(sq+dir_down)==Pawn && TSTFLAG(being_solved.spec[sq+dir_down],Black)))
           {
             if (!(target.board[sq+2*dir_down]==Pawn && TSTFLAG(target.spec[sq+2*dir_down],Black))
                 && !(target.board[sq+3*dir_down]==Pawn && TSTFLAG(target.spec[sq+3*dir_down],Black))
@@ -1371,7 +1371,7 @@ static boolean ProofFairyImpossible(void)
     if (p!=Empty)
     {
       if (p!=get_walk_of_piece_on_square(*bnp)
-          || (target.spec[*bnp]&COLOURFLAGS)!=(spec[*bnp]&COLOURFLAGS))
+          || (target.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
       {
         if (MovesAvailable==0)
           return true;
@@ -1396,33 +1396,33 @@ static boolean ProofImpossible(void)
   TraceText("ProofImpossible\n");
 
   /* too many pawns captured or promoted */
-  if (target.number_of_pieces[White][Pawn] > number_of_pieces[White][Pawn])
+  if (target.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn])
   {
     TraceValue("%d ",target.number_of_pieces[White][Pawn]);
-    TraceValue("%d\n",number_of_pieces[White][Pawn]);
+    TraceValue("%d\n",being_solved.number_of_pieces[White][Pawn]);
     return true;
   }
 
-  if (target.number_of_pieces[Black][Pawn] > number_of_pieces[Black][Pawn])
+  if (target.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn])
   {
-    TraceValue("%d ",number_of_pieces[Black][Pawn]);
-    TraceValue("%d\n",number_of_pieces[Black][Pawn]);
+    TraceValue("%d ",being_solved.number_of_pieces[Black][Pawn]);
+    TraceValue("%d\n",being_solved.number_of_pieces[Black][Pawn]);
     return true;
   }
 
-  Nbr[White] = number_of_pieces[White][Pawn]
-          + number_of_pieces[White][Knight]
-          + number_of_pieces[White][Rook]
-          + number_of_pieces[White][Bishop]
-          + number_of_pieces[White][Queen]
-          + number_of_pieces[White][King];
+  Nbr[White] = being_solved.number_of_pieces[White][Pawn]
+          + being_solved.number_of_pieces[White][Knight]
+          + being_solved.number_of_pieces[White][Rook]
+          + being_solved.number_of_pieces[White][Bishop]
+          + being_solved.number_of_pieces[White][Queen]
+          + being_solved.number_of_pieces[White][King];
 
-  Nbr[Black] = number_of_pieces[Black][Pawn]
-          + number_of_pieces[Black][Knight]
-          + number_of_pieces[Black][Rook]
-          + number_of_pieces[Black][Bishop]
-          + number_of_pieces[Black][Queen]
-          + number_of_pieces[Black][King];
+  Nbr[Black] = being_solved.number_of_pieces[Black][Pawn]
+          + being_solved.number_of_pieces[Black][Knight]
+          + being_solved.number_of_pieces[Black][Rook]
+          + being_solved.number_of_pieces[Black][Bishop]
+          + being_solved.number_of_pieces[Black][Queen]
+          + being_solved.number_of_pieces[Black][King];
 
   /* too many pieces captured */
   if (Nbr[White] < ProofNbrPieces[White])
@@ -1475,14 +1475,14 @@ static boolean ProofImpossible(void)
      been captured?
   */
   for (sq= square_a2; sq<=square_h2; sq+=dir_right)
-    if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],White)))
+    if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White)))
       return true;
 
   /* has a black pawn on the seventh rank moved or has it
      been captured?
   */
   for (sq= square_a7; sq<=square_h7; sq+=dir_right)
-    if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(spec[sq],Black)))
+    if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black)))
       return true;
 
   {
@@ -1528,7 +1528,7 @@ static boolean ProofImpossible(void)
     piece_walk_type const p1 = target.board[*bnp];
     piece_walk_type const p2 = get_walk_of_piece_on_square(*bnp);
     Side const side_target = TSTFLAG(target.spec[*bnp],White) ? White : Black;
-    Side const side_current = TSTFLAG(spec[*bnp],White) ? White : Black;
+    Side const side_current = TSTFLAG(being_solved.spec[*bnp],White) ? White : Black;
 
     if (p1!=p2 || side_target!=side_current)
     {

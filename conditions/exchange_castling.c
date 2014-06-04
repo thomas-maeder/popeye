@@ -80,7 +80,7 @@ void exchange_castling_generate_moves_for_piece(slice_index si)
       curr_generation->arrival = square_a;
       for (j = nr_files_on_board; j>0; --j, curr_generation->arrival += dir_right)
         if (curr_generation->arrival!=curr_generation->departure
-            && TSTFLAG(spec[curr_generation->arrival],trait[nbply])
+            && TSTFLAG(being_solved.spec[curr_generation->arrival],trait[nbply])
             && !is_pawn(get_walk_of_piece_on_square(curr_generation->arrival))) /* not sure if "castling" with Ps forbidden */
           push_special_move(offset_platzwechsel_rochade);
     }

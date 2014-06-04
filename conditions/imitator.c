@@ -22,8 +22,6 @@
 #include <stdlib.h>
 
 square im0;                    /* position of the 1st imitator */
-imarr isquare;                 /* Imitatorstandfelder */
-unsigned int number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
 enum
 {
@@ -63,9 +61,9 @@ static boolean are_all_imitator_arrivals_empty(square sq_departure, square sq_ar
   TraceSquare(sq_arrival);
   TraceFunctionParamListEnd();
 
-  for (imi_idx = number_of_imitators; imi_idx>0; imi_idx--)
+  for (imi_idx = being_solved.number_of_imitators; imi_idx>0; imi_idx--)
   {
-    square const j2 = isquare[imi_idx-1]+diff;
+    square const j2 = being_solved.isquare[imi_idx-1]+diff;
     if (j2!=sq_departure && !is_square_empty(j2))
     {
       result = false;
@@ -134,7 +132,7 @@ static boolean is_imitator_line_clear(unsigned int i,
                                       numvec diff_first_not_necessarily_empty)
 {
   boolean result = true;
-  square const sq_first_not_necessarily_empty = isquare[i]+diff_first_not_necessarily_empty;
+  square const sq_first_not_necessarily_empty = being_solved.isquare[i]+diff_first_not_necessarily_empty;
   square sq_curr;
 
   TraceFunctionEntry(__func__);
@@ -144,7 +142,7 @@ static boolean is_imitator_line_clear(unsigned int i,
   TraceValue("%d",diff_first_not_necessarily_empty);
   TraceFunctionParamListEnd();
 
-  for (sq_curr = isquare[i]+diff_first_necessarily_empty; sq_curr!=sq_first_not_necessarily_empty; sq_curr += step)
+  for (sq_curr = being_solved.isquare[i]+diff_first_necessarily_empty; sq_curr!=sq_first_not_necessarily_empty; sq_curr += step)
   {
     TraceSquare(sq_curr);TraceEOL();
     if (!is_square_empty(sq_curr))
@@ -173,9 +171,9 @@ static boolean are_all_imitator_lines_clear(numvec diff_first_necessarily_empty,
   TraceValue("%d",diff_first_not_necessarily_empty);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",number_of_imitators);
+  TraceValue("%u\n",being_solved.number_of_imitators);
 
-  for (i = 0; i!=number_of_imitators; ++i)
+  for (i = 0; i!=being_solved.number_of_imitators; ++i)
     if (!is_imitator_line_clear(i,diff_first_necessarily_empty,step,diff_first_not_necessarily_empty))
     {
       result = false;
@@ -192,9 +190,9 @@ static boolean have_all_imitators_hurdle(numvec diff_hurdle)
 {
   unsigned int i;
 
-  for (i = 0; i!=number_of_imitators; ++i)
+  for (i = 0; i!=being_solved.number_of_imitators; ++i)
   {
-    square const sq_hurdle = isquare[i]+diff_hurdle;
+    square const sq_hurdle = being_solved.isquare[i]+diff_hurdle;
     if (is_square_empty(sq_hurdle) || is_square_blocked(sq_hurdle))
       return false;
   }
@@ -339,7 +337,7 @@ static boolean castlingimok(square sq_departure, square sq_arrival)
 {
   boolean ret= false;
   piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
-  Flags const flags = spec[sq_departure];
+  Flags const flags = being_solved.spec[sq_departure];
 
   /* I think this should work - clear the K, and move the Is, but don't clear the rook. */
   /* If the Is crash into the R, the move would be illegal as the K moves first.        */
@@ -577,7 +575,7 @@ static boolean avoid_observing_if_imitator_blocked_rider(void)
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_observer);
@@ -600,7 +598,7 @@ static boolean avoid_observing_if_imitator_blocked_chinese_leaper(void)
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
   numvec const vec_pass_target = vec[interceptable_observation[observation_context].vector_index1];
   square const sq_pass = sq_landing+vec_pass_target;
 
@@ -618,7 +616,7 @@ static boolean avoid_observing_if_imitator_blocked_rider_hopper(void)
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
   square const sq_hurdle = sq_landing-step;
   numvec const diff_hurdle = sq_hurdle-sq_observer;
@@ -638,7 +636,7 @@ static boolean avoid_observing_if_imitator_blocked_contragrasshopper(void)
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
 
   empty_square(sq_observer);
@@ -658,7 +656,7 @@ static boolean avoid_observing_if_imitator_blocked_grasshopper_n(unsigned int di
   square const sq_hurdle = sq_landing - dist_hurdle_target*step_hurdle_target;
 
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
 
   empty_square(sq_observer);/* an imitator might be disturbed by the moving rider! */
   result = (have_all_imitators_hurdle(sq_hurdle-sq_observer)
@@ -679,7 +677,7 @@ static boolean avoid_observing_if_imitator_blocked_nonstop_equihopper(void)
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
   numvec const diff_hurdle = (sq_landing-sq_observer)/2;
 
   empty_square(sq_observer);
@@ -696,7 +694,7 @@ static boolean avoid_observing_if_imitator_blocked_orix(void)
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
   numvec const step = -vec[interceptable_observation[observation_context].vector_index1];
   numvec const diff_observer_landing = sq_landing-sq_observer;
   numvec const diff_observer_hurdle = diff_observer_landing/2;
@@ -716,7 +714,7 @@ static boolean avoid_observing_if_imitator_blocked_angle_hopper(angle_t angle)
   square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
   square const sq_landing = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
   piece_walk_type const p = get_walk_of_piece_on_square(sq_observer);
-  Flags const flags = spec[sq_observer];
+  Flags const flags = being_solved.spec[sq_observer];
   vec_index_type const vec_index_departure_hurdle = 2*interceptable_observation[observation_context].vector_index1;
   numvec const vec_departure_hurdle1 = -angle_vectors[angle][vec_index_departure_hurdle];
   numvec const vec_departure_hurdle2 = -angle_vectors[angle][vec_index_departure_hurdle-1];
@@ -754,8 +752,8 @@ boolean imitator_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceWalk(e[sq_observer]);TraceEOL();
-  switch (e[sq_observer])
+  TraceWalk(being_solved.board[sq_observer]);TraceEOL();
+  switch (being_solved.board[sq_observer])
   {
     case King:
     case ErlKing:
@@ -922,10 +920,10 @@ static boolean is_imitator_pos_occupied(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  for (i=0; i!=number_of_imitators; ++i)
-    if (!is_square_empty(isquare[i]))
+  for (i=0; i!=being_solved.number_of_imitators; ++i)
+    if (!is_square_empty(being_solved.isquare[i]))
     {
-      TraceSquare(isquare[i]);TraceEOL();
+      TraceSquare(being_solved.isquare[i]);TraceEOL();
       result = true;
       break;
     }
@@ -969,11 +967,11 @@ static void move_imitators(int delta)
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",number_of_imitators);
-  for (i=0; i!=number_of_imitators; ++i)
+  TraceValue("%u",being_solved.number_of_imitators);
+  for (i=0; i!=being_solved.number_of_imitators; ++i)
   {
-    isquare[i] += delta;
-    TraceSquare(isquare[i]);
+    being_solved.isquare[i] += delta;
+    TraceSquare(being_solved.isquare[i]);
   }
   TraceEOL();
 
@@ -1000,7 +998,7 @@ static void move_effect_journal_do_imitator_movement(move_effect_reason_type rea
   top_elmt->type = move_effect_imitator_movement;
   top_elmt->reason = reason;
   top_elmt->u.imitator_movement.delta = delta;
-  top_elmt->u.imitator_movement.nr_moved = number_of_imitators;
+  top_elmt->u.imitator_movement.nr_moved = being_solved.number_of_imitators;
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -1074,11 +1072,11 @@ static void move_effect_journal_do_imitator_addition(move_effect_reason_type rea
 
   ++move_effect_journal_base[nbply+1];
 
-  if (number_of_imitators==maxinum)
+  if (being_solved.number_of_imitators==maxinum)
     FtlMsg(ManyImitators);
 
-  isquare[number_of_imitators] = to;
-  ++number_of_imitators;
+  being_solved.isquare[being_solved.number_of_imitators] = to;
+  ++being_solved.number_of_imitators;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1094,8 +1092,8 @@ void undo_imitator_addition(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  assert(number_of_imitators>0);
-  --number_of_imitators;
+  assert(being_solved.number_of_imitators>0);
+  --being_solved.number_of_imitators;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1112,11 +1110,11 @@ void redo_imitator_addition(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  if (number_of_imitators==maxinum)
+  if (being_solved.number_of_imitators==maxinum)
     FtlMsg(ManyImitators);
 
-  isquare[number_of_imitators] = to;
-  ++number_of_imitators;
+  being_solved.isquare[being_solved.number_of_imitators] = to;
+  ++being_solved.number_of_imitators;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

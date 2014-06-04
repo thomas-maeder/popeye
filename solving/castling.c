@@ -290,7 +290,7 @@ void enable_castling_rights(move_effect_reason_type reason,
                             square sq_arrival)
 {
   piece_walk_type const p = get_walk_of_piece_on_square(sq_arrival);
-  Flags const specs = spec[sq_arrival];
+  Flags const specs = being_solved.spec[sq_arrival];
 
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
@@ -734,19 +734,19 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
     square const from = curr_generation->departure;
     TraceSquare(from);TraceEOL();
 
-    occupy_square(to,get_walk_of_piece_on_square(from),spec[from]);
+    occupy_square(to,get_walk_of_piece_on_square(from),being_solved.spec[from]);
     empty_square(from);
 
-    if (king_square[side]==initsquare)
+    if (being_solved.king_square[side]==initsquare)
       result = !is_in_check(side);
     else
     {
-      king_square[side] = to;
+      being_solved.king_square[side] = to;
       result = !is_in_check(side);
-      king_square[side] = from;
+      being_solved.king_square[side] = from;
     }
 
-    occupy_square(from,get_walk_of_piece_on_square(to),spec[to]);
+    occupy_square(from,get_walk_of_piece_on_square(to),being_solved.spec[to]);
     empty_square(to);
   }
 

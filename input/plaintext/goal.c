@@ -224,7 +224,7 @@ char *ParseGoal(char *tok, slice_index proxy)
           for (i = 0; i<nr_squares_on_board; i++)
             empty_square(boardnum[i]);
           for (i = 0; i<maxinum; i++)
-            isquare[i] = initsquare;
+            being_solved.isquare[i] = initsquare;
         }
 
         break;

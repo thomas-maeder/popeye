@@ -48,7 +48,7 @@ static boolean is_kiss(void)
       if (s!=pos
           && !is_square_blocked(s)
           && get_walk_of_piece_on_square(s)!=Empty
-          && GetPieceId(spec[s])==id_to_be_kissed
+          && GetPieceId(being_solved.spec[s])==id_to_be_kissed
           && is_naked(s,pos))
         return true;
     }

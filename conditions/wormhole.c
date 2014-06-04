@@ -136,7 +136,7 @@ void wormhole_transferer_solve(slice_index si)
   else
   {
     piece_walk_type const added = get_walk_of_piece_on_square(sq_arrival);
-    Flags const addedspec = spec[sq_arrival];
+    Flags const addedspec = being_solved.spec[sq_arrival];
     move_effect_journal_do_piece_removal(move_effect_reason_transfer_choice,
                                          sq_arrival);
     move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_choice,

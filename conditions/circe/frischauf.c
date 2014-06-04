@@ -64,7 +64,7 @@ static void mark_promotees(void)
         && move_effect_journal[curr].reason==move_effect_reason_pawn_promotion)
     {
       square const on = move_effect_journal[curr].u.piece_change.on;
-      Flags flags = spec[on];
+      Flags flags = being_solved.spec[on];
       SETFLAG(flags,FrischAuf);
       move_effect_journal_do_flags_change(move_effect_reason_frischauf_mark_promotee,
                                           on,flags);

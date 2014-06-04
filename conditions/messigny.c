@@ -68,7 +68,7 @@ void messigny_generate_moves_for_piece(slice_index si)
 
   generate_moves_delegate(slices[si].next1);
 
-  if (!(king_square[trait[nbply]]==curr_generation->departure
+  if (!(being_solved.king_square[trait[nbply]]==curr_generation->departure
       && !messigny_rex_inclusive))
   {
     square forbidden_from;

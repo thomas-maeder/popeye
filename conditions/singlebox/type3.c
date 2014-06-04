@@ -137,19 +137,19 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
   if (is_pawn(get_walk_of_piece_on_square(sq_dep))
       && TSTFLAG(sq_spec[sq_dep],flag))
   {
-    if (number_of_pieces[side_attacking][pprom]<game_array.number_of_pieces[side_attacking][pprom])
+    if (being_solved.number_of_pieces[side_attacking][pprom]<game_array.number_of_pieces[side_attacking][pprom])
     {
       piece_walk_type const promotee = get_walk_of_piece_on_square(sq_dep);
 
-      --number_of_pieces[side_attacking][promotee];
+      --being_solved.number_of_pieces[side_attacking][promotee];
       replace_walk(sq_dep,pprom);
-      ++number_of_pieces[side_attacking][pprom];
+      ++being_solved.number_of_pieces[side_attacking][pprom];
 
       result = validate_observation_recursive(slices[si].next1);
 
-      --number_of_pieces[side_attacking][pprom];
+      --being_solved.number_of_pieces[side_attacking][pprom];
       replace_walk(sq_dep,promotee);
-      ++number_of_pieces[side_attacking][promotee];
+      ++being_solved.number_of_pieces[side_attacking][promotee];
     }
     else
       result = false;
@@ -181,7 +181,7 @@ static square find_next_latent_pawn(square sq, Side side)
     {
       piece_walk_type const walk_promotee = get_walk_of_piece_on_square(sq);
       if (is_pawn(walk_promotee)
-          && TSTFLAG(spec[sq],side)
+          && TSTFLAG(being_solved.spec[sq],side)
           && (is_forwardpawn(walk_promotee)
               ? ForwardPromSq(side,sq)
               : ReversePromSq(side,sq)))

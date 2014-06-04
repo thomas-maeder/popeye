@@ -353,7 +353,7 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
       if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
-        WriteSpec(spec[*bnp],e[*bnp],true);
+        WriteSpec(being_solved.spec[*bnp],being_solved.board[*bnp],true);
         WritePiece(get_walk_of_piece_on_square(*bnp));
         WriteSquare(*bnp);
         fprintf(stdout," ");

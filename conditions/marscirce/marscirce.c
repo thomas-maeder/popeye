@@ -106,7 +106,7 @@ void marscirce_initialise_reborn_from_generated_solve(slice_index si)
 
   context->rebirth_from = curr_generation->departure;
   context->reborn_walk = move_generation_current_walk;
-  context->reborn_spec = spec[context->rebirth_from];
+  context->reborn_spec = being_solved.spec[context->rebirth_from];
 
   context->relevant_ply = nbply;
   context->relevant_square = context->rebirth_from;
@@ -169,7 +169,7 @@ void marscirce_remove_capturer_solve(slice_index si)
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   square const sq_departure = context->rebirth_from;
   piece_walk_type const walk = get_walk_of_piece_on_square(sq_departure);
-  Flags const flags = spec[sq_departure];
+  Flags const flags = being_solved.spec[sq_departure];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -224,7 +224,7 @@ void marscirce_generate_moves_enforce_rex_exclusive(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!TSTFLAG(spec[curr_generation->departure],Royal))
+  if (!TSTFLAG(being_solved.spec[curr_generation->departure],Royal))
     generate_moves_delegate(slices[si].next1);
 
   TraceFunctionExit(__func__);
@@ -291,7 +291,7 @@ boolean mars_enforce_observer(slice_index si)
   {
     /* restore as if the capture had occcured directly, to allow other
      * conditions (e.g. Madrasi) to correctly work. */
-    Flags const spec_observing = spec[sq_observer];
+    Flags const spec_observing = being_solved.spec[sq_observer];
 
     empty_square(sq_observer);
     occupy_square(context->rebirth_from,observing_walk[nbply],spec_observing);
@@ -337,8 +337,8 @@ void marscirce_is_square_observed(slice_index si)
     {
       TraceSquare(context->rebirth_square);
       TraceWalk(context->reborn_walk);
-      TraceValue("%u",TSTFLAG(spec[context->rebirth_square],White));
-      TraceValue("%u\n",TSTFLAG(spec[context->rebirth_square],Black));
+      TraceValue("%u",TSTFLAG(being_solved.spec[context->rebirth_square],White));
+      TraceValue("%u\n",TSTFLAG(being_solved.spec[context->rebirth_square],Black));
       occupy_square(context->rebirth_square,context->reborn_walk,context->reborn_spec);
       is_square_observed_recursive(slices[si].next1);
       empty_square(context->rebirth_square);
@@ -370,12 +370,12 @@ void marscirce_iterate_observers(slice_index si)
 
   for (observer_origin = boardnum; *observer_origin; ++observer_origin)
     if (*observer_origin!=sq_target /* no auto-observation */
-        && TSTFLAG(spec[*observer_origin],side_observing)
+        && TSTFLAG(being_solved.spec[*observer_origin],side_observing)
         && get_walk_of_piece_on_square(*observer_origin)==observing_walk[nbply])
     {
       context->rebirth_from = *observer_origin;
       context->reborn_walk = observing_walk[nbply];
-      context->reborn_spec = spec[context->rebirth_from];
+      context->reborn_spec = being_solved.spec[context->rebirth_from];
       context->relevant_side = advers(side_observing);
       context->relevant_square = context->rebirth_from;
 

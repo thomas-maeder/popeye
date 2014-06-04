@@ -13,7 +13,7 @@ static boolean is_not_capture_of_uncapturable(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !TSTFLAG(spec[move_generation_stack[n].capture],Uncapturable);
+  result = !TSTFLAG(being_solved.spec[move_generation_stack[n].capture],Uncapturable);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

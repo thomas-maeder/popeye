@@ -21,7 +21,7 @@ static boolean is_mover_supported_recursive(void)
   TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture);
   TraceEOL();
 
-  if (TSTFULLFLAGMASK(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture],mask))
+  if (TSTFULLFLAGMASK(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture],mask))
     result = true;
   else
     result = is_square_observed(EVALUATE(observation));

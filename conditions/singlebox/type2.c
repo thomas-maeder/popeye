@@ -32,7 +32,7 @@ square next_latent_pawn(square s, Side c)
   }
 
   for (; i<8; ++i, s+=delta)
-    if (TSTFLAG(spec[s],c) && get_walk_of_piece_on_square(s)==Pawn)
+    if (TSTFLAG(being_solved.spec[s],c) && get_walk_of_piece_on_square(s)==Pawn)
       return s;
 
   return initsquare;
@@ -53,7 +53,7 @@ boolean singlebox_illegal_latent_white_pawn(void)
   {
     piece_walk_type p;
     for (p = Queen; p<=Bishop; ++p)
-      if (number_of_pieces[White][p]<game_array.number_of_pieces[White][p])
+      if (being_solved.number_of_pieces[White][p]<game_array.number_of_pieces[White][p])
       {
         result = true;
         break;
@@ -82,7 +82,7 @@ boolean singlebox_illegal_latent_black_pawn(void)
   {
     piece_walk_type p;
     for (p = Queen; p<=Bishop; ++p)
-      if (number_of_pieces[Black][p]<game_array.number_of_pieces[Black][p])
+      if (being_solved.number_of_pieces[Black][p]<game_array.number_of_pieces[Black][p])
       {
         result = true;
         break;
@@ -218,7 +218,7 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
   pieces_pawns_start_promotee_sequence(sq_prom,sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn
-        && number_of_pieces[*side][sequence->promotee]<game_array.number_of_pieces[*side][sequence->promotee])
+        && being_solved.number_of_pieces[*side][sequence->promotee]<game_array.number_of_pieces[*side][sequence->promotee])
       break;
     else
       pieces_pawns_continue_promotee_sequence(sequence);
@@ -235,7 +235,7 @@ void singlebox_type2_continue_singlebox_promotion_sequence(Side side,
   pieces_pawns_continue_promotee_sequence(sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn
-        && number_of_pieces[side][sequence->promotee]<game_array.number_of_pieces[side][sequence->promotee])
+        && being_solved.number_of_pieces[side][sequence->promotee]<game_array.number_of_pieces[side][sequence->promotee])
       break;
     else
       pieces_pawns_continue_promotee_sequence(sequence);

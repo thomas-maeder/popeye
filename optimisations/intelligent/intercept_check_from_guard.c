@@ -187,7 +187,7 @@ static void officer(square to_be_intercepted,
 void intercept_check_on_guarded_square(square to_be_intercepted)
 {
   unsigned int intercepter_index;
-  boolean const is_diagonal = SquareCol(to_be_intercepted)==SquareCol(king_square[Black]);
+  boolean const is_diagonal = SquareCol(to_be_intercepted)==SquareCol(being_solved.king_square[Black]);
 
   TraceFunctionEntry(__func__);
   TraceSquare(to_be_intercepted);

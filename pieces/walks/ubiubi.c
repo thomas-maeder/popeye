@@ -49,7 +49,7 @@ void ubiubi_generate_moves(void)
   for (bnp = boardnum; *bnp; ++bnp)
     if (is_square_empty(*bnp))
       board_state[*bnp] = ubiubi_empty;
-    else if (TSTFLAG(spec[*bnp],opposite))
+    else if (TSTFLAG(being_solved.spec[*bnp],opposite))
       board_state[*bnp] = ubiubi_opposibe;
     else
       board_state[*bnp] = ubiubi_taboo;

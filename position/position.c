@@ -3,12 +3,10 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
-echiquier e;
-Flags spec[maxsquare+4];
-square king_square[nr_sides];
 boolean areColorsSwapped;
 boolean isBoardReflected;
-unsigned int number_of_pieces[nr_sides][nr_piece_walks];
+
+position being_solved;
 
 /* This is the InitialGameArray */
 piece_walk_type const PAS[nr_squares_on_board] = {
@@ -77,7 +75,7 @@ void initialise_game_array(position *pos)
     }
   }
 
-  pos->inum = 0;
+  pos->number_of_imitators = 0;
   for (i = 0; i<maxinum; ++i)
     pos->isquare[i] = initsquare;
 }
@@ -86,14 +84,14 @@ void initialise_game_array(position *pos)
 void swap_sides(void)
 {
   square const *bnp;
-  square const save_white_king_square = king_square[White];
+  square const save_white_king_square = being_solved.king_square[White];
 
-  king_square[White] = king_square[Black]==initsquare ? initsquare : king_square[Black];
-  king_square[Black] = save_white_king_square==initsquare ? initsquare : save_white_king_square;
+  being_solved.king_square[White] = being_solved.king_square[Black]==initsquare ? initsquare : being_solved.king_square[Black];
+  being_solved.king_square[Black] = save_white_king_square==initsquare ? initsquare : save_white_king_square;
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (!is_piece_neutral(spec[*bnp]) && !is_square_empty(*bnp))
-      piece_change_side(&spec[*bnp]);
+    if (!is_piece_neutral(being_solved.spec[*bnp]) && !is_square_empty(*bnp))
+      piece_change_side(&being_solved.spec[*bnp]);
 
   areColorsSwapped = !areColorsSwapped;
 }
@@ -103,28 +101,28 @@ void reflect_position(void)
 {
   square const *bnp;
 
-  king_square[White] = king_square[White]==initsquare ? initsquare : transformSquare(king_square[White],mirra1a8);
-  king_square[Black] = king_square[Black]==initsquare ? initsquare : transformSquare(king_square[Black],mirra1a8);
+  being_solved.king_square[White] = being_solved.king_square[White]==initsquare ? initsquare : transformSquare(being_solved.king_square[White],mirra1a8);
+  being_solved.king_square[Black] = being_solved.king_square[Black]==initsquare ? initsquare : transformSquare(being_solved.king_square[Black],mirra1a8);
 
   for (bnp = boardnum; *bnp < (square_a1+square_h8)/2; bnp++)
   {
     square const sq_reflected = transformSquare(*bnp,mirra1a8);
 
-    piece_walk_type const p = e[sq_reflected];
-    Flags const sp = spec[sq_reflected];
+    piece_walk_type const p = being_solved.board[sq_reflected];
+    Flags const sp = being_solved.spec[sq_reflected];
 
-    e[sq_reflected] = e[*bnp];
-    spec[sq_reflected] = spec[*bnp];
+    being_solved.board[sq_reflected] = being_solved.board[*bnp];
+    being_solved.spec[sq_reflected] = being_solved.spec[*bnp];
 
-    e[*bnp] = p;
-    spec[*bnp] = sp;
+    being_solved.board[*bnp] = p;
+    being_solved.spec[*bnp] = sp;
   }
 
   isBoardReflected = !isBoardReflected;
 }
 
 /* Change the side of some piece specs
- * @param spec address of piece specs where to change the side
+ * @param being_solved.spec address of piece specs where to change the side
  */
 void piece_change_side(Flags *spec)
 {
@@ -133,30 +131,30 @@ void piece_change_side(Flags *spec)
 
 void empty_square(square s)
 {
-  e[s] = Empty;
-  spec[s] = EmptySpec;
+  being_solved.board[s] = Empty;
+  being_solved.spec[s] = EmptySpec;
 }
 
 void occupy_square(square s, piece_walk_type walk, Flags flags)
 {
   assert(walk!=Empty);
   assert(walk!=Invalid);
-  e[s] = walk;
-  spec[s] = flags;
+  being_solved.board[s] = walk;
+  being_solved.spec[s] = flags;
 }
 
 void replace_walk(square s, piece_walk_type walk)
 {
   assert(walk!=Empty);
   assert(walk!=Invalid);
-  e[s] = walk;
+  being_solved.board[s] = walk;
 }
 
 void block_square(square s)
 {
   assert(is_square_empty(s) || is_square_blocked(s));
-  e[s] = Invalid;
-  spec[s] = BorderSpec;
+  being_solved.board[s] = Invalid;
+  being_solved.spec[s] = BorderSpec;
 }
 
 square find_end_of_line(square from, numvec dir)

@@ -73,7 +73,7 @@ static boolean are_there_too_many_flights(slice_index si)
 
   assert(save_rbn==initsquare); /* is there already a check going on? */
   number_flights_left = max_nr_flights+1;
-  save_rbn = king_square[fleeing];
+  save_rbn = being_solved.king_square[fleeing];
 
   result = fork_solve(si,length_unspecified)==next_move_has_solution;
 
@@ -148,7 +148,7 @@ static boolean are_flights_exhausted(slice_index si)
   Side const fleeing = advers(slices[si].starter);
   Flags const mask = BIT(fleeing)|BIT(Royal);
 
-  if (!TSTFULLFLAGMASK(spec[save_rbn],mask))
+  if (!TSTFULLFLAGMASK(being_solved.spec[save_rbn],mask))
   {
     assert(number_flights_left>0);
     --number_flights_left;

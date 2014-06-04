@@ -123,7 +123,7 @@ static boolean test_radialknight_check(vec_index_type kanf, vec_index_type kend,
   {
     square const sq_hurdle = sq_target+vec[idx_to_hurdle];
     if (!is_square_blocked(sq_hurdle) && !is_square_empty(sq_hurdle)
-        && TSTFLAG(spec[sq_hurdle],advers(trait[nbply])))
+        && TSTFLAG(being_solved.spec[sq_hurdle],advers(trait[nbply])))
     {
       vec_index_type idx_to_observer;
       for (idx_to_observer= kanf; idx_to_observer<= kend; idx_to_observer++)

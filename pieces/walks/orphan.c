@@ -24,7 +24,7 @@ static boolean find_next_orphan_in_chain(square sq_target,
   TraceWalk(orphan_observer);
   TraceFunctionParamListEnd();
 
-  for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][Orphan]; ++orphan_id)
+  for (orphan_id = 0; orphan_id<being_solved.number_of_pieces[trait[nbply]][Orphan]; ++orphan_id)
   {
     boolean does_orphan_observe;
 
@@ -64,12 +64,12 @@ static boolean orphan_find_observation_chain(square sq_target,
   observing_walk[nbply] = orphan_observer;
   if ((*checkfunctions[orphan_observer])(EVALUATE(observer)))
     result = true;
-  else if (number_of_pieces[trait[nbply]][Orphan]==0)
+  else if (being_solved.number_of_pieces[trait[nbply]][Orphan]==0)
     result = false;
   else
   {
-    --number_of_pieces[advers(trait[nbply])][Orphan];
-    occupy_square(sq_target,Dummy,spec[sq_target]);
+    --being_solved.number_of_pieces[advers(trait[nbply])][Orphan];
+    occupy_square(sq_target,Dummy,being_solved.spec[sq_target]);
 
     {
       square pos_orphans[63];
@@ -77,8 +77,8 @@ static boolean orphan_find_observation_chain(square sq_target,
       result = find_next_orphan_in_chain(sq_target,pos_orphans,orphan_observer);
     }
 
-    occupy_square(sq_target,Orphan,spec[sq_target]);
-    ++number_of_pieces[advers(trait[nbply])][Orphan];
+    occupy_square(sq_target,Orphan,being_solved.spec[sq_target]);
+    ++being_solved.number_of_pieces[advers(trait[nbply])][Orphan];
   }
 
   trait[nbply] = advers(trait[nbply]);
@@ -97,7 +97,7 @@ void orphan_generate_moves(void)
   piece_walk_type const *orphan_observer;
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; ++orphan_observer)
-    if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
+    if (being_solved.number_of_pieces[White][*orphan_observer]+being_solved.number_of_pieces[Black][*orphan_observer]>0)
     {
       boolean found_chain;
 
@@ -136,7 +136,7 @@ boolean orphan_check(validator_id evaluate)
   push_observation_target(sq_target);
 
   for (orphan_observer = orphanpieces; *orphan_observer!=Empty; orphan_observer++)
-    if (number_of_pieces[White][*orphan_observer]+number_of_pieces[Black][*orphan_observer]>0)
+    if (being_solved.number_of_pieces[White][*orphan_observer]+being_solved.number_of_pieces[Black][*orphan_observer]>0)
     {
       TraceWalk(*orphan_observer);TraceEOL();
       if (find_next_orphan_in_chain(sq_target,pos_orphans,*orphan_observer))

@@ -66,10 +66,10 @@ static boolean stalemate_isGoalReachable(void)
         square const from_square = *bnp;
         if (!is_square_empty(from_square) && !is_square_blocked(from_square))
         {
-          PieceIdType const id = GetPieceId(spec[from_square]);
+          PieceIdType const id = GetPieceId(being_solved.spec[from_square]);
           if (target_position[id].diagram_square!=initsquare)
           {
-            Side const from_side = TSTFLAG(spec[from_square],White) ? White : Black;
+            Side const from_side = TSTFLAG(being_solved.spec[from_square],White) ? White : Black;
             piece_walk_type const from_piece = get_walk_of_piece_on_square(from_square);
             MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_side,
                                                                                               from_piece,
@@ -93,7 +93,7 @@ static boolean stalemate_isGoalReachable(void)
         piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
         square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
         piece_walk_type const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
-        Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
+        Side const side_arrived = TSTFLAG(being_solved.spec[sq_arrival],White) ? White : Black;
         unsigned int const time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
                                                                                         pi_departing,
                                                                                         sq_departure,
@@ -108,7 +108,7 @@ static boolean stalemate_isGoalReachable(void)
 
         TraceWalk(pi_departing);
         TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure);
-        TraceWalk(e[move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival]);
+        TraceWalk(being_solved.board[move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival]);
         TraceSquare(move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival);
         TraceWalk(target_position[id].type);
         TraceSquare(target_position[id].diagram_square);

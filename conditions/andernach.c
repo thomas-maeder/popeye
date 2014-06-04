@@ -25,7 +25,7 @@ void andernach_assume_side(Side side)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    if (pos!=initsquare && !TSTFLAG(spec[pos],side))
+    if (pos!=initsquare && !TSTFLAG(being_solved.spec[pos],side))
       move_effect_journal_do_side_change(move_effect_reason_andernach_chess,pos);
   }
 }

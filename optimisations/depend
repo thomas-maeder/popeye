@@ -11,8 +11,10 @@ optimisations/immobility_tester_king_first$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  conditions/mummer.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h stipulation/proxy.h \
- stipulation/pipe.h stipulation/branch.h stipulation/boolean/and.h \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ solving/ply.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/branch.h stipulation/boolean/and.h \
  solving/king_move_generator.h solving/non_king_move_generator.h \
  debugging/assert.h
 
@@ -64,6 +66,16 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -85,8 +97,8 @@ optimisations/keepmating$(OBJ_SUFFIX): optimisations/keepmating.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
@@ -133,6 +145,8 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
+solving/ply.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -162,14 +176,15 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- output/plaintext/message.h input/plaintext/language.h \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ solving/ply.h output/plaintext/message.h input/plaintext/language.h \
  solving/proofgames.h DHT/dhtvalue.h DHT/fxf.h DHT/dht.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h conditions/bgl.h \
- conditions/circe/circe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/temporary_hacks.h conditions/bgl.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
@@ -179,8 +194,7 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/circe/parachute.h \
  conditions/duellists.h conditions/haunted_chess.h position/underworld.h \
- conditions/imitator.h position/position.h position/color.h \
- position/color.enum.h options/nontrivial.h solving/avoid_unsolvable.h \
+ conditions/imitator.h options/nontrivial.h solving/avoid_unsolvable.h \
  solving/castling.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
@@ -223,6 +237,14 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
 solving/ply.h:
 
 output/plaintext/message.h:
@@ -246,8 +268,6 @@ solving/castling_rights.h:
 position/pieceid.h:
 
 solving/observation.h:
-
-pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
 
@@ -295,12 +315,6 @@ position/underworld.h:
 
 conditions/imitator.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
 options/nontrivial.h:
 
 solving/avoid_unsolvable.h:
@@ -339,10 +353,10 @@ optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h pieces/pieces.h output/mode.h \
  output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h position/position.h position/color.h \
- position/color.enum.h
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h solving/ply.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h solving/observation.h \
+ solving/temporary_hacks.h
 
 optimisations/orthodox_square_observation.h:
 
@@ -378,25 +392,25 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
-
-solving/temporary_hacks.h:
-
 position/position.h:
 
 position/color.h:
 
 position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
 optimisations/orthodox_check_directions$(OBJ_SUFFIX): \
  optimisations/orthodox_check_directions.c \
  optimisations/orthodox_check_directions.h pieces/walks/vectors.h \
@@ -433,10 +447,12 @@ optimisations/detect_retraction$(OBJ_SUFFIX): optimisations/detect_retraction.c 
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
- solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ solving/ply.h solving/move_generator.h solving/move_effect_journal.h \
+ solving/castling_rights.h position/pieceid.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
@@ -476,9 +492,17 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/move_generator.h:
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 solving/ply.h:
+
+solving/move_generator.h:
 
 solving/move_effect_journal.h:
 
@@ -522,8 +546,8 @@ optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h solving/observation.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h conditions/conditions.h \
- position/position.h position/color.h position/color.enum.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h solving/temporary_hacks.h conditions/conditions.h \
  conditions/singlebox/type1.h solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/move_generator.h stipulation/branch.h \
@@ -570,15 +594,15 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-conditions/conditions.h:
-
 position/position.h:
 
 position/color.h:
 
 position/color.enum.h:
+
+solving/temporary_hacks.h:
+
+conditions/conditions.h:
 
 conditions/singlebox/type1.h:
 

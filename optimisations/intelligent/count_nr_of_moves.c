@@ -553,7 +553,7 @@ static unsigned int count_nr_of_moves_same_piece_same_square_checking(piece_walk
 
      default:
        /* it's a rider */
-       if (move_diff_code[abs(king_square[Black]-to_square)]<3)
+       if (move_diff_code[abs(being_solved.king_square[Black]-to_square)]<3)
          result = 2;
        else
          result = 0;
@@ -608,8 +608,8 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
 
   if (MovesLeft[White]==5
       && from_square<=square_h2
-      && (TSTFLAG(spec[from_square+dir_up],White)
-          || TSTFLAG(spec[from_square+2*dir_up],White)))
+      && (TSTFLAG(being_solved.spec[from_square+dir_up],White)
+          || TSTFLAG(being_solved.spec[from_square+2*dir_up],White)))
     /* pawn can't reach the promotion square */
     result = maxply+1;
   else
@@ -624,16 +624,16 @@ unsigned int intelligent_count_moves_to_white_promotion(square from_square)
       if (MovesLeft[White]<=6)
       {
         /* immediate double step is required if this pawn is to promote */
-        if (get_walk_of_piece_on_square(from_square+dir_up)==Pawn && TSTFLAG(spec[from_square+dir_up],Black)
-            && (get_walk_of_piece_on_square(from_square+dir_left)==King || !TSTFLAG(spec[from_square+dir_left],White))
-            && (get_walk_of_piece_on_square(from_square+dir_right)==King || !TSTFLAG(spec[from_square+dir_right],White)))
+        if (get_walk_of_piece_on_square(from_square+dir_up)==Pawn && TSTFLAG(being_solved.spec[from_square+dir_up],Black)
+            && (get_walk_of_piece_on_square(from_square+dir_left)==King || !TSTFLAG(being_solved.spec[from_square+dir_left],White))
+            && (get_walk_of_piece_on_square(from_square+dir_right)==King || !TSTFLAG(being_solved.spec[from_square+dir_right],White)))
           /* Black can't immediately get rid of block on 3rd row
            * -> no immediate double step possible */
           ++result;
 
-        else if (get_walk_of_piece_on_square(from_square+2*dir_up)==Pawn && TSTFLAG(spec[from_square+2*dir_up],Black)
-                 && (get_walk_of_piece_on_square(from_square+dir_up+dir_left)==King || !TSTFLAG(spec[from_square+dir_up+dir_left],White))
-                 && (get_walk_of_piece_on_square(from_square+dir_up+dir_right)==King || !TSTFLAG(spec[from_square+dir_up+dir_right],White))
+        else if (get_walk_of_piece_on_square(from_square+2*dir_up)==Pawn && TSTFLAG(being_solved.spec[from_square+2*dir_up],Black)
+                 && (get_walk_of_piece_on_square(from_square+dir_up+dir_left)==King || !TSTFLAG(being_solved.spec[from_square+dir_up+dir_left],White))
+                 && (get_walk_of_piece_on_square(from_square+dir_up+dir_right)==King || !TSTFLAG(being_solved.spec[from_square+dir_up+dir_right],White))
                  && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_left)
                  && !en_passant_is_capture_possible_to(White,from_square+dir_up+dir_right))
           /* Black can't immediately get rid of block on 4th row

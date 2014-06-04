@@ -47,7 +47,7 @@ void orthodox_mating_king_contact_generator_solve(slice_index si)
 {
   Side const moving = slices[si].starter;
   Side const mated = advers(moving);
-  square const sq_mated_king = king_square[mated];
+  square const sq_mated_king = being_solved.king_square[mated];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -55,7 +55,7 @@ void orthodox_mating_king_contact_generator_solve(slice_index si)
 
   assert(solve_nr_remaining==slack_length+1);
 
-  curr_generation->departure = king_square[moving];
+  curr_generation->departure = being_solved.king_square[moving];
 
   if (curr_generation->departure!=sq_mated_king)
   {
@@ -64,7 +64,7 @@ void orthodox_mating_king_contact_generator_solve(slice_index si)
     {
       curr_generation->arrival = curr_generation->departure+vec[k];
       if ((is_square_empty(curr_generation->arrival)
-          || TSTFLAG(spec[curr_generation->arrival],mated))
+          || TSTFLAG(being_solved.spec[curr_generation->arrival],mated))
           && move_diff_code[abs(sq_mated_king-curr_generation->arrival)]<=1+1)
         push_move();
     }

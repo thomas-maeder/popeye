@@ -19,8 +19,8 @@ static void (*go_on_after)(void);
  */
 static boolean check_from_direction(int dir)
 {
-  square curr = king_square[White]-dir;
-  boolean const is_diagonal = SquareCol(curr)==SquareCol(king_square[White]);
+  square curr = being_solved.king_square[White]-dir;
+  boolean const is_diagonal = SquareCol(curr)==SquareCol(being_solved.king_square[White]);
   boolean result;
 
   TraceFunctionEntry(__func__);
@@ -30,7 +30,7 @@ static boolean check_from_direction(int dir)
   while (is_square_empty(curr))
     curr -= dir;
 
-  if (TSTFLAG(spec[curr],Black))
+  if (TSTFLAG(being_solved.spec[curr],Black))
   {
     piece_walk_type const checker = get_walk_of_piece_on_square(curr);
     result = checker==Queen || checker==(is_diagonal ? Bishop : Rook);
@@ -77,7 +77,7 @@ static boolean guards_from(square white_king_square)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = move_diff_code[abs(white_king_square-king_square[Black])]<9;
+  result = move_diff_code[abs(white_king_square-being_solved.king_square[Black])]<9;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -100,14 +100,14 @@ void intelligent_place_white_king(square place_on, void (*go_on)(void))
       && intelligent_reserve_white_king_moves_from_to(white[index_of_king].diagram_square,
                                                       place_on))
   {
-    king_square[White] = place_on;
+    being_solved.king_square[White] = place_on;
     occupy_square(place_on,King,white[index_of_king].flags);
 
     current_direction = vec_queen_start-1;
     go_on_after = go_on;
     continue_intercepting_checks();
 
-    king_square[White] = initsquare;
+    being_solved.king_square[White] = initsquare;
     empty_square(place_on);
 
     intelligent_unreserve();

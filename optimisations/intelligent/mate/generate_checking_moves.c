@@ -67,7 +67,7 @@ static void init_disturb_mate_dir_rider(square const check_from, int dir)
     if (vec[i]>0)
     {
       square s;
-      for (s = check_from; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
+      for (s = check_from; !TSTFULLFLAGMASK(being_solved.spec[s],mask); s += dir)
         init_disturb_mate_rider_onedir(s,vec[i],disturb_index);
       ++disturb_index;
     }
@@ -78,7 +78,7 @@ static void init_disturb_mate_dir_rider(square const check_from, int dir)
     if (vec[i]>0)
     {
       square s;
-      for (s = check_from; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
+      for (s = check_from; !TSTFULLFLAGMASK(being_solved.spec[s],mask); s += dir)
         init_disturb_mate_rider_onedir(s,vec[i],disturb_index);
       ++disturb_index;
     }
@@ -98,7 +98,7 @@ static void init_disturb_mate_dir_knight(square const check_from, int dir)
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  for (s = check_from; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
+  for (s = check_from; !TSTFULLFLAGMASK(being_solved.spec[s],mask); s += dir)
   {
     vec_index_type i;
     for (i = vec_knight_start; i<=vec_knight_end; ++i)
@@ -118,7 +118,7 @@ static void init_disturb_mate_dir_pawn(square const check_from, int dir)
   TraceFunctionParam("%d",dir);
   TraceFunctionParamListEnd();
 
-  for (s = check_from+dir; !TSTFULLFLAGMASK(spec[s],mask); s += dir)
+  for (s = check_from+dir; !TSTFULLFLAGMASK(being_solved.spec[s],mask); s += dir)
   {
     DisturbMateDirPawn[s+dir_up] = disturbance_by_pawn_interception_single;
     if (square_a5<=s && s<=square_h5)
@@ -149,7 +149,7 @@ static void fini_disturb_mate_dir(void)
 
 static void remember_mating_line(piece_walk_type checker_type, square const check_from, int delta)
 {
-  int const diff = king_square[Black]-check_from;
+  int const diff = being_solved.king_square[Black]-check_from;
   int const dir = CheckDir[checker_type][diff];
 
   TraceFunctionEntry(__func__);
@@ -159,7 +159,7 @@ static void remember_mating_line(piece_walk_type checker_type, square const chec
   TraceFunctionParamListEnd();
 
   remember_to_keep_rider_line_open(check_from,
-                                   king_square[Black],
+                                   being_solved.king_square[Black],
                                    dir,
                                    delta);
 
@@ -176,7 +176,7 @@ static void by_promoted_rider(unsigned int index_of_checker,
                               piece_walk_type promotee_type,
                               square const check_from)
 {
-  int const diff = king_square[Black]-check_from;
+  int const diff = being_solved.king_square[Black]-check_from;
   int const dir = CheckDir[promotee_type][diff];
 
   TraceFunctionEntry(__func__);
@@ -203,7 +203,7 @@ static void by_promoted_rider(unsigned int index_of_checker,
 
 static void by_promoted_knight(unsigned int index_of_checker, square const check_from)
 {
-  int const diff = king_square[Black]-check_from;
+  int const diff = being_solved.king_square[Black]-check_from;
   int const dir = CheckDir[Knight][diff];
 
   TraceFunctionEntry(__func__);
@@ -217,7 +217,7 @@ static void by_promoted_knight(unsigned int index_of_checker, square const check
                                                                 check_from))
   {
     occupy_square(check_from,Knight,white[index_of_checker].flags);
-    init_disturb_mate_dir(check_from,king_square[Black]-check_from);
+    init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
     intelligent_guard_flights();
     fini_disturb_mate_dir();
     intelligent_unreserve();
@@ -277,7 +277,7 @@ static void by_unpromoted_pawn(unsigned int index_of_checker, square const check
       && intelligent_reserve_white_pawn_moves_from_to_checking(checker_from,check_from))
   {
     occupy_square(check_from,Pawn,checker_flags);
-    init_disturb_mate_dir(check_from,king_square[Black]-check_from);
+    init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
     intelligent_guard_flights();
     fini_disturb_mate_dir();
     empty_square(check_from);
@@ -292,7 +292,7 @@ static void by_rider(unsigned int index_of_checker, square const check_from)
 {
   piece_walk_type const checker_type = white[index_of_checker].type;
   Flags const checker_flags = white[index_of_checker].flags;
-  int const diff = king_square[Black]-check_from;
+  int const diff = being_solved.king_square[Black]-check_from;
   int const dir = CheckDir[checker_type][diff];
 
   TraceFunctionEntry(__func__);
@@ -318,7 +318,7 @@ static void by_rider(unsigned int index_of_checker, square const check_from)
 
 static void by_knight(unsigned int index_of_checker, square const check_from)
 {
-  int const diff = king_square[Black]-check_from;
+  int const diff = being_solved.king_square[Black]-check_from;
   int const dir = CheckDir[Knight][diff];
 
   TraceFunctionEntry(__func__);
@@ -332,7 +332,7 @@ static void by_knight(unsigned int index_of_checker, square const check_from)
                                                                   check_from))
   {
     occupy_square(check_from,Knight,white[index_of_checker].flags);
-    init_disturb_mate_dir(check_from,king_square[Black]-check_from);
+    init_disturb_mate_dir(check_from,being_solved.king_square[Black]-check_from);
     intelligent_guard_flights();
     fini_disturb_mate_dir();
     intelligent_unreserve();

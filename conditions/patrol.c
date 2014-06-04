@@ -37,7 +37,7 @@ boolean patrol_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Patrol))
+  if (TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Patrol))
     result = (is_mover_supported(CURRMOVE_OF_PLY(nbply))
               && validate_observation_recursive(slices[si].next1));
   else
@@ -56,7 +56,7 @@ static boolean is_not_unsupported_patrol_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[move_generation_stack[n].departure],Patrol))
+  if (TSTFLAG(being_solved.spec[move_generation_stack[n].departure],Patrol))
     result = is_mover_supported(n);
   else
     result = true;

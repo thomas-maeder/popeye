@@ -95,25 +95,25 @@ static void plan_blocks_of_flights(void)
 {
   vec_index_type i;
   unsigned int nr_available_blockers;
-  Flags const king_square_flags = spec[king_square[Black]];
+  Flags const king_square_flags = being_solved.spec[being_solved.king_square[Black]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   nr_available_blockers = intelligent_get_nr_reservable_masses(Black);
 
-  assert(get_walk_of_piece_on_square(king_square[Black])==King);
-  empty_square(king_square[Black]);
+  assert(get_walk_of_piece_on_square(being_solved.king_square[Black])==King);
+  empty_square(being_solved.king_square[Black]);
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
-    square const flight = king_square[Black]+vec[i];
+    square const flight = being_solved.king_square[Black]+vec[i];
 
-    if (is_square_blocked(flight) || TSTFLAG(spec[flight],Black))
+    if (is_square_blocked(flight) || TSTFLAG(being_solved.spec[flight],Black))
       ; /* 'flight' is off board or blocked - don't bother */
     else if (!is_square_observed_ortho(White,flight))
     {
-      if (TSTFLAG(spec[flight],White)
+      if (TSTFLAG(being_solved.spec[flight],White)
           || nr_king_flights_to_be_blocked==nr_available_blockers)
       {
         /* flight can't be blocked! */
@@ -128,7 +128,7 @@ static void plan_blocks_of_flights(void)
     }
   }
 
-  occupy_square(king_square[Black],King,king_square_flags);
+  occupy_square(being_solved.king_square[Black],King,king_square_flags);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

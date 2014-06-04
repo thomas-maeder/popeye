@@ -22,7 +22,7 @@ static boolean annanises(Side side, square rear, square front)
   TraceSquare(front);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[rear],side))
+  if (TSTFLAG(being_solved.spec[rear],side))
   {
     Flags const mask = BIT(side)|BIT(Royal);
 
@@ -33,15 +33,15 @@ static boolean annanises(Side side, square rear, square front)
         break;
 
       case ConditionTypeB:
-        result = !TSTFULLFLAGMASK(spec[rear],mask);
+        result = !TSTFULLFLAGMASK(being_solved.spec[rear],mask);
         break;
 
       case ConditionTypeC:
-        result = !TSTFULLFLAGMASK(spec[front],mask);
+        result = !TSTFULLFLAGMASK(being_solved.spec[front],mask);
         break;
 
       case ConditionTypeD:
-        result = !TSTFULLFLAGMASK(spec[rear],mask) && !TSTFULLFLAGMASK(spec[front],mask);
+        result = !TSTFULLFLAGMASK(being_solved.spec[rear],mask) && !TSTFULLFLAGMASK(being_solved.spec[front],mask);
         break;
 
       default:

@@ -9,8 +9,6 @@
 /* This module implements imitators */
 
 extern square im0;                    /* position of the 1st imitator */
-extern imarr isquare;                 /* Imitatorstandfelder */
-extern unsigned int number_of_imitators;       /* aktuelle Anzahl Imitatoren */
 
 /* Validate an observation according to Imitators
  * @return true iff the observation is valid

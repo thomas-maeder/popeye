@@ -106,7 +106,7 @@ static char *ParseSquareList(char *tok,
 
           underworld_make_space(nr_ghosts);
           underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(Square);
-          underworld[nr_ghosts-1].flags = spec[Square];
+          underworld[nr_ghosts-1].flags = being_solved.spec[Square];
           underworld[nr_ghosts-1].on = Square;
         }
         else

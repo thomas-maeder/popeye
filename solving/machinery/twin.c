@@ -106,8 +106,8 @@ static void countPieces(void)
     piece_walk_type p;
     for (p = King; p<nr_piece_walks; ++p)
     {
-      number_of_pieces[White][p] = 0;
-      number_of_pieces[Black][p] = 0;
+      being_solved.number_of_pieces[White][p] = 0;
+      being_solved.number_of_pieces[Black][p] = 0;
     }
   }
 
@@ -119,10 +119,10 @@ static void countPieces(void)
         piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
         piece_walk_exists[p] = true;
         piece_walk_may_exist[p] = true;
-        if (TSTFLAG(spec[*bnp],White))
-          ++number_of_pieces[White][p];
-        if (TSTFLAG(spec[*bnp],Black))
-          ++number_of_pieces[Black][p];
+        if (TSTFLAG(being_solved.spec[*bnp],White))
+          ++being_solved.number_of_pieces[White][p];
+        if (TSTFLAG(being_solved.spec[*bnp],Black))
+          ++being_solved.number_of_pieces[Black][p];
       }
   }
 
@@ -159,23 +159,23 @@ static boolean locate_unique_royal(Side side, square *location)
       square const s = *bnp;
       if (is_king(get_walk_of_piece_on_square(s)))
       {
-        if (TSTFLAG(spec[s],side))
+        if (TSTFLAG(being_solved.spec[s],side))
         {
           *location = s;
           ++nr_royals;
         }
-        CLRFLAGMASK(spec[s],all_pieces_flags);
-        SETFLAGMASK(spec[s],all_royals_flags|BIT(Royal));
+        CLRFLAGMASK(being_solved.spec[s],all_pieces_flags);
+        SETFLAGMASK(being_solved.spec[s],all_royals_flags|BIT(Royal));
       }
-      else if (TSTFLAG(spec[s],Royal))
+      else if (TSTFLAG(being_solved.spec[s],Royal))
       {
-        if (TSTFLAG(spec[s],side))
+        if (TSTFLAG(being_solved.spec[s],side))
         {
           *location = s;
           ++nr_royals;
         }
-        CLRFLAGMASK(spec[s],all_pieces_flags);
-        SETFLAGMASK(spec[s],all_royals_flags);
+        CLRFLAGMASK(being_solved.spec[s],all_pieces_flags);
+        SETFLAGMASK(being_solved.spec[s],all_royals_flags);
       }
     }
   }
@@ -203,16 +203,16 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
       for (bnp = boardnum; *bnp; ++bnp)
       {
         square const s = *bnp;
-        CLRFLAG(spec[s],Royal); /* piece may be royal from previous twin */
+        CLRFLAG(being_solved.spec[s],Royal); /* piece may be royal from previous twin */
         if (get_walk_of_piece_on_square(s)==King)
         {
-          Side const king_side = TSTFLAG(spec[s],White) ? White : Black;
-          CLRFLAGMASK(spec[s],all_pieces_flags);
-          SETFLAGMASK(spec[s],all_royals_flags);
-          if (number_of_pieces[king_side][King]==1)
+          Side const king_side = TSTFLAG(being_solved.spec[s],White) ? White : Black;
+          CLRFLAGMASK(being_solved.spec[s],all_pieces_flags);
+          SETFLAGMASK(being_solved.spec[s],all_royals_flags);
+          if (being_solved.number_of_pieces[king_side][King]==1)
           {
             (*new_king_square)[king_side] = s;
-            SETFLAG(spec[s],Royal);
+            SETFLAG(being_solved.spec[s],Royal);
           }
         }
       }
@@ -227,7 +227,7 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
       {
-        assert(!TSTFLAG(spec[*bnp],Royal));
+        assert(!TSTFLAG(being_solved.spec[*bnp],Royal));
       }
     }
   }
@@ -288,7 +288,7 @@ void initialise_piece_ids(void)
     if (!is_square_empty(*bnp))
     {
       assert(currPieceId<=MaxPieceId);
-      SetPieceId(spec[*bnp],currPieceId++);
+      SetPieceId(being_solved.spec[*bnp],currPieceId++);
     }
 
   currPieceId = underworld_set_piece_ids(currPieceId);
@@ -331,18 +331,18 @@ void initialise_piece_flags_from_conditions(void)
       if (!is_square_empty(*bnp))
       {
         piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
-        SETFLAGMASK(spec[*bnp],all_pieces_flags);
+        SETFLAGMASK(being_solved.spec[*bnp],all_pieces_flags);
 
-        SavePositionInDiagram(spec[*bnp],*bnp);
+        SavePositionInDiagram(being_solved.spec[*bnp],*bnp);
 
-        if (TSTFLAG(spec[*bnp],ColourChange)
+        if (TSTFLAG(being_solved.spec[*bnp],ColourChange)
             && !(is_simplehopper(p)
                  || is_chineserider(p)
                  || is_lion(p)
                  || p==ContraGras))
         {
           /* relies on imitators already having been implemented */
-          CLRFLAG(spec[*bnp],ColourChange);
+          CLRFLAG(being_solved.spec[*bnp],ColourChange);
           ErrorMsg(ColourChangeRestricted);
         }
       }
@@ -609,7 +609,7 @@ static boolean verify_position(slice_index si)
     }
   }
 
-  im0 = isquare[0];
+  im0 = being_solved.isquare[0];
   if (! CondFlag[imitators])
     CondFlag[noiprom] = true;
 
@@ -729,7 +729,7 @@ static boolean verify_position(slice_index si)
   {
     piece_walk_type p;
     for (p = Queen; p<=Bishop; p++)
-      if (number_of_pieces[White][p]+number_of_pieces[Black][p]!=0)
+      if (being_solved.number_of_pieces[White][p]+being_solved.number_of_pieces[Black][p]!=0)
       {
         VerifieMsg(LeoFamAndOrtho);
         return false;
@@ -935,7 +935,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[cavaliermajeur])
   {
-    if (number_of_pieces[White][Knight] + number_of_pieces[Black][Knight] > 0)
+    if (being_solved.number_of_pieces[White][Knight] + being_solved.number_of_pieces[Black][Knight] > 0)
     {
       VerifieMsg(CavMajAndKnight);
       return false;
@@ -943,18 +943,18 @@ static boolean verify_position(slice_index si)
     piece_walk_may_exist_fairy = true;
   }
 
-  if (OptFlag[sansrb] && king_square[White]!=initsquare)
+  if (OptFlag[sansrb] && being_solved.king_square[White]!=initsquare)
     OptFlag[sansrb] = false;
 
-  if (OptFlag[sansrn] && king_square[Black]!=initsquare)
+  if (OptFlag[sansrn] && being_solved.king_square[Black]!=initsquare)
     OptFlag[sansrn] = false;
 
-  if (king_square[White]==initsquare && number_of_pieces[White][King]==0 && !OptFlag[sansrb])
+  if (being_solved.king_square[White]==initsquare && being_solved.number_of_pieces[White][King]==0 && !OptFlag[sansrb])
   {
     ErrorMsg(MissingKing);
     ErrorMsg(NewLine);
   }
-  else if (king_square[Black]==initsquare && number_of_pieces[Black][King]==0 && !OptFlag[sansrn])
+  else if (being_solved.king_square[Black]==initsquare && being_solved.number_of_pieces[Black][King]==0 && !OptFlag[sansrn])
   {
     ErrorMsg(MissingKing);
     ErrorMsg(NewLine);
@@ -970,11 +970,11 @@ static boolean verify_position(slice_index si)
        * would require knowledge of the departure square. Other forms now allowed
        */
       if ((!OptFlag[sansrb]
-           && king_square[White]!=initsquare
-           && get_walk_of_piece_on_square(king_square[White])!=standard_walks[King])
+           && being_solved.king_square[White]!=initsquare
+           && get_walk_of_piece_on_square(being_solved.king_square[White])!=standard_walks[King])
           || (!OptFlag[sansrn]
-              && king_square[Black]!=initsquare
-              && get_walk_of_piece_on_square(king_square[Black])!=standard_walks[King]))
+              && being_solved.king_square[Black]!=initsquare
+              && get_walk_of_piece_on_square(being_solved.king_square[Black])!=standard_walks[King]))
       {
         VerifieMsg(RoyalPWCRexCirce);
         return false;
@@ -1069,7 +1069,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[black_oscillatingKs] || CondFlag[white_oscillatingKs])
   {
-    if (king_square[White]==initsquare || king_square[Black]==initsquare)
+    if (being_solved.king_square[White]==initsquare || being_solved.king_square[Black]==initsquare)
     {
       CondFlag[black_oscillatingKs] = false;
       CondFlag[white_oscillatingKs] = false;
@@ -1272,8 +1272,8 @@ static boolean verify_position(slice_index si)
       || TSTFLAG(some_pieces_flags,Paralysing)
       || CondFlag[madras] || CondFlag[eiffel]
       || CondFlag[brunner]
-      || (king_square[White]!=initsquare && get_walk_of_piece_on_square(king_square[White])!=King)
-      || (king_square[Black]!=initsquare && get_walk_of_piece_on_square(king_square[Black])!=King)
+      || (being_solved.king_square[White]!=initsquare && get_walk_of_piece_on_square(being_solved.king_square[White])!=King)
+      || (being_solved.king_square[Black]!=initsquare && get_walk_of_piece_on_square(being_solved.king_square[Black])!=King)
       || TSTFLAG(some_pieces_flags, Chameleon)
       || CondFlag[einstein]
       || CondFlag[reveinstein]
@@ -1406,12 +1406,12 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
 
   if ((calc_reflective_king[White]
-       && king_square[White]!=initsquare
-       && (get_walk_of_piece_on_square(king_square[White])!=King
+       && being_solved.king_square[White]!=initsquare
+       && (get_walk_of_piece_on_square(being_solved.king_square[White])!=King
            || CondFlag[sting]))
       || (calc_reflective_king[Black]
-          && king_square[Black]!=initsquare
-          && (get_walk_of_piece_on_square(king_square[Black])!=King
+          && being_solved.king_square[Black]!=initsquare
+          && (get_walk_of_piece_on_square(being_solved.king_square[Black])!=King
               || CondFlag[sting])))
   {
     VerifieMsg(TransmRoyalPieces);
@@ -1485,19 +1485,19 @@ static boolean verify_position(slice_index si)
   /* check castling possibilities */
   CLEARFL(castling_flag);
 
-  if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(spec[square_e1], White)
-      && (!CondFlag[dynasty] || number_of_pieces[White][standard_walks[King]]==1))
+  if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(being_solved.spec[square_e1], White)
+      && (!CondFlag[dynasty] || being_solved.number_of_pieces[White][standard_walks[King]]==1))
     SETCASTLINGFLAGMASK(White,k_cancastle);
-  if ((get_walk_of_piece_on_square(square_h1)== standard_walks[Rook]) && TSTFLAG(spec[square_h1], White))
+  if ((get_walk_of_piece_on_square(square_h1)== standard_walks[Rook]) && TSTFLAG(being_solved.spec[square_h1], White))
     SETCASTLINGFLAGMASK(White,rh_cancastle);
-  if ((get_walk_of_piece_on_square(square_a1)== standard_walks[Rook]) && TSTFLAG(spec[square_a1], White))
+  if ((get_walk_of_piece_on_square(square_a1)== standard_walks[Rook]) && TSTFLAG(being_solved.spec[square_a1], White))
     SETCASTLINGFLAGMASK(White,ra_cancastle);
-  if ((get_walk_of_piece_on_square(square_e8)== standard_walks[King]) && TSTFLAG(spec[square_e8], Black)
-      && (!CondFlag[dynasty] || number_of_pieces[Black][standard_walks[King]]==1))
+  if ((get_walk_of_piece_on_square(square_e8)== standard_walks[King]) && TSTFLAG(being_solved.spec[square_e8], Black)
+      && (!CondFlag[dynasty] || being_solved.number_of_pieces[Black][standard_walks[King]]==1))
     SETCASTLINGFLAGMASK(Black,k_cancastle);
-  if ((get_walk_of_piece_on_square(square_h8)== standard_walks[Rook]) && TSTFLAG(spec[square_h8], Black))
+  if ((get_walk_of_piece_on_square(square_h8)== standard_walks[Rook]) && TSTFLAG(being_solved.spec[square_h8], Black))
     SETCASTLINGFLAGMASK(Black,rh_cancastle);
-  if ((get_walk_of_piece_on_square(square_a8)== standard_walks[Rook]) && TSTFLAG(spec[square_a8], Black))
+  if ((get_walk_of_piece_on_square(square_a8)== standard_walks[Rook]) && TSTFLAG(being_solved.spec[square_a8], Black))
     SETCASTLINGFLAGMASK(Black,ra_cancastle);
 
   castling_flag &= castling_flags_no_castling;
@@ -1609,14 +1609,23 @@ static boolean verify_position(slice_index si)
 
 static void take_back_retro(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[lastcapture])
     circe_parrain_undo_retro_capture();
   else if (OptFlag[enpassant])
     en_passant_undo_multistep();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void replay_retro(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[lastcapture])
     circe_parrain_redo_retro_capture();
   else
@@ -1632,6 +1641,9 @@ static void replay_retro(void)
     else
       move_effect_journal_do_null_effect();
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void solve_any_stipulation(slice_index stipulation_root_hook)
@@ -1700,7 +1712,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
     initialise_piece_ids();
     initialise_piece_flags_from_conditions();
     ProofInitialise(stipulation_root);
-    if (locate_royals(&king_square))
+    if (locate_royals(&being_solved.king_square))
       solve_any_stipulation(stipulation_root_hook);
 
     ProofRestoreTargetPosition();

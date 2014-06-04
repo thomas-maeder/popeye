@@ -215,7 +215,7 @@ void circe_initialise_reborn_from_capturer_solve(slice_index si)
                                                                                  moving_id,
                                                                                  sq_arrival);
   context->reborn_walk = get_walk_of_piece_on_square(context->rebirth_from);
-  context->reborn_spec = spec[context->rebirth_from];
+  context->reborn_spec = being_solved.spec[context->rebirth_from];
 
   /* TODO WinChloe uses the arrival square, which seems to make more sense */
   context->relevant_square = move_effect_journal[capture].u.piece_removal.on;

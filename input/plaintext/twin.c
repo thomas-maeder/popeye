@@ -51,12 +51,12 @@ static void TwinStorePosition(void)
 {
   int i;
 
-  twin_rb= king_square[White];
-  twin_rn= king_square[Black];
+  twin_rb= being_solved.king_square[White];
+  twin_rn= being_solved.king_square[Black];
   for (i= 0; i < nr_squares_on_board; i++)
   {
     twin_e[i] = get_walk_of_piece_on_square(boardnum[i]);
-    twin_spec[i] = spec[boardnum[i]];
+    twin_spec[i] = being_solved.spec[boardnum[i]];
   }
 }
 
@@ -103,24 +103,24 @@ static char *ParseTwinningMove(int indexx)
   }
 
   /* issue the twinning */
-  WriteSpec(spec[sq1],get_walk_of_piece_on_square(sq1),!is_square_empty(sq1));
+  WriteSpec(being_solved.spec[sq1],get_walk_of_piece_on_square(sq1),!is_square_empty(sq1));
   WritePiece(get_walk_of_piece_on_square(sq1));
   WriteSquare(sq1);
   if (indexx == TwinningExchange) {
     StdString("<-->");
-    WriteSpec(spec[sq2], get_walk_of_piece_on_square(sq2),!is_square_empty(sq2));
+    WriteSpec(being_solved.spec[sq2], get_walk_of_piece_on_square(sq2),!is_square_empty(sq2));
     WritePiece(get_walk_of_piece_on_square(sq2));
     WriteSquare(sq2);
     if (LaTeXout)
-      LaTeXEchoExchangedPiece(spec[sq1],get_walk_of_piece_on_square(sq1),sq1,
-                              spec[sq2],get_walk_of_piece_on_square(sq2),sq2);
+      LaTeXEchoExchangedPiece(being_solved.spec[sq1],get_walk_of_piece_on_square(sq1),sq1,
+                              being_solved.spec[sq2],get_walk_of_piece_on_square(sq2),sq2);
   }
   else
   {
     StdString("-->");
     WriteSquare(sq2);
     if (LaTeXout)
-      LaTeXEchoMovedPiece(spec[sq1],get_walk_of_piece_on_square(sq1),sq1,sq2);
+      LaTeXEchoMovedPiece(being_solved.spec[sq1],get_walk_of_piece_on_square(sq1),sq1,sq2);
   }
 
   if (indexx==TwinningMove)
@@ -366,10 +366,10 @@ static char *ParseTwinningRemove(void)
     if (get_walk_of_piece_on_square(sq)>=King)
     {
       if (LaTeXout)
-        LaTeXEchoRemovedPiece(spec[sq],get_walk_of_piece_on_square(sq),sq);
+        LaTeXEchoRemovedPiece(being_solved.spec[sq],get_walk_of_piece_on_square(sq),sq);
 
       StdString(" -");
-      WriteSpec(spec[sq], get_walk_of_piece_on_square(sq),true);
+      WriteSpec(being_solved.spec[sq], get_walk_of_piece_on_square(sq),true);
       WritePiece(get_walk_of_piece_on_square(sq));
       WriteSquare(sq);
 
@@ -391,15 +391,15 @@ static char *ParseTwinningRemove(void)
 static char *ParseTwinningPolish(void)
 {
   {
-    square const king_square_white = king_square[White];
-    king_square[White] = king_square[Black];
-    king_square[Black] = king_square_white;
+    square const king_square_white = being_solved.king_square[White];
+    being_solved.king_square[White] = being_solved.king_square[Black];
+    being_solved.king_square[Black] = king_square_white;
   }
 
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; bnp++)
-      if (!is_piece_neutral(spec[*bnp]) && !is_square_empty(*bnp))
+      if (!is_piece_neutral(being_solved.spec[*bnp]) && !is_square_empty(*bnp))
         move_effect_journal_do_side_change(move_effect_reason_diagram_setup,*bnp);
   }
 
@@ -847,8 +847,8 @@ Token ReadInitialTwin(slice_index root_slice_hook)
             int i;
             for (i = 0; i<nr_squares_on_board; i++)
               occupy_square(boardnum[i],PAS[i],BIT(PAS_sides[i]));
-            king_square[White] = square_e1;
-            king_square[Black] = square_e8;
+            being_solved.king_square[White] = square_e1;
+            being_solved.king_square[Black] = square_e8;
           }
           break;
 
@@ -1156,8 +1156,8 @@ static Token subsequent_twin(slice_index stipulation_root_hook)
 
   initialise_piece_flags_from_conditions();
 
-  TraceSquare(king_square[White]);
-  TraceSquare(king_square[Black]);
+  TraceSquare(being_solved.king_square[White]);
+  TraceSquare(being_solved.king_square[Black]);
   TraceEOL();
 
   deal_with_stipulation(stipulation_root_hook,twin_subsequent);

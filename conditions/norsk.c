@@ -98,7 +98,7 @@ static boolean is_not_illegal_capture(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !(TSTFLAG(spec[move_generation_stack[n].departure],Royal)
+  result = !(TSTFLAG(being_solved.spec[move_generation_stack[n].departure],Royal)
              || (get_walk_of_piece_on_square(move_generation_stack[n].capture)
                  !=get_walk_of_piece_on_square(move_generation_stack[n].departure)));
 

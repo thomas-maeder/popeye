@@ -61,8 +61,8 @@ static boolean is_square_occupied_by_imitator(square s)
   boolean result = false;
   unsigned int imi_idx;
 
-  for (imi_idx = 0; imi_idx<number_of_imitators; ++imi_idx)
-    if (s==isquare[imi_idx])
+  for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; ++imi_idx)
+    if (s==being_solved.isquare[imi_idx])
     {
       result = true;
       break;
@@ -169,7 +169,7 @@ static void CollectPiecesWithAttribute(char ListSpec[256], piece_flag_type sp)
     square square = square_a;
 
     for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
-      if (TSTFLAG(spec[square],sp))
+      if (TSTFLAG(being_solved.spec[square],sp))
         AppendSquare(ListSpec,square);
   }
 }
@@ -207,7 +207,7 @@ static unsigned int CollectRoyalPiecePositions(char ListSpec[256])
     square square = square_a;
 
     for (file = 0; file!=nr_files_on_board; ++file, square += dir_right)
-      if (TSTFLAG(spec[square],Royal)
+      if (TSTFLAG(being_solved.spec[square],Royal)
           && !is_king(get_walk_of_piece_on_square(square)))
       {
         AppendSquare(ListSpec,square);
@@ -242,11 +242,11 @@ static void WriteStipulationOptionsPieceCounts(void)
 
     for (file = 0; file!=nr_files_on_board; ++file, square += dir_right)
     {
-      if (is_piece_neutral(spec[square]))
+      if (is_piece_neutral(being_solved.spec[square]))
         ++nNeutr;
-      else if (TSTFLAG(spec[square],Black))
+      else if (TSTFLAG(being_solved.spec[square],Black))
         ++nBlack;
-      else if (TSTFLAG(spec[square],White))
+      else if (TSTFLAG(being_solved.spec[square],White))
         ++nWhite;
     }
   }
@@ -306,7 +306,6 @@ static void WriteRegularCells(square square_a)
        file!=nr_files_on_board;
        ++file, square += dir_right)
   {
-
     char cell[fileWidth+1];
     char *pos = cell + (sizeof cell)/2;
 
@@ -340,9 +339,9 @@ static void WriteRegularCells(square square_a)
         pos = WriteWalkRtoL(pos,huntertypes[hunterIndex].away);
       }
 
-      if (is_piece_neutral(spec[square]))
+      if (is_piece_neutral(being_solved.spec[square]))
         pos[0] = '=';
-      else if (TSTFLAG(spec[square],Black))
+      else if (TSTFLAG(being_solved.spec[square],Black))
         pos[0] = '-';
     }
 

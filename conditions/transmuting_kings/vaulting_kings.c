@@ -50,7 +50,7 @@ static boolean is_kingsquare_observed(void)
     transmuting_kings_testing_transmutation[side] = true;
 
     siblingply(advers(side));
-    push_observation_target(king_square[side]);
+    push_observation_target(being_solved.king_square[side]);
     result = is_square_observed_nested(slices[temporary_hack_is_square_observed[side]].next2,
                                        EVALUATE(observation));
     finply();
@@ -72,7 +72,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
   Side const side = trait[nbply];
   Flags const mask = BIT(side)|BIT(Royal);
 
-  if (TSTFULLFLAGMASK(spec[curr_generation->departure],mask))
+  if (TSTFULLFLAGMASK(being_solved.spec[curr_generation->departure],mask))
   {
     if (is_kingsquare_observed())
     {
@@ -100,7 +100,7 @@ void vaulting_king_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (king_square[side_observing]==initsquare)
+  if (being_solved.king_square[side_observing]==initsquare)
     solve(slices[si].next1);
   else
   {
@@ -141,7 +141,7 @@ boolean vaulting_kings_enforce_observer_walk(slice_index si)
 {
   boolean result;
   Side const side_observing = trait[nbply];
-  square const sq_king = king_square[side_observing];
+  square const sq_king = being_solved.king_square[side_observing];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

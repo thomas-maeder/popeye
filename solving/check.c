@@ -40,7 +40,7 @@ void optimise_is_in_check(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (king_square[White]==initsquare || king_square[Black]==initsquare)
+  if (being_solved.king_square[White]==initsquare || being_solved.king_square[Black]==initsquare)
     is_no_king_possible = twin_number;
 
   if (is_no_king_possible==twin_number
@@ -54,7 +54,7 @@ void optimise_is_in_check(slice_index si)
 static boolean no_king_check_tester_is_in_check(slice_index si,
                                                 Side side_in_check)
 {
-  if (king_square[side_in_check]==initsquare)
+  if (being_solved.king_square[side_in_check]==initsquare)
     return false;
   else
     return is_in_check_recursive(slices[si].next1,side_in_check);
@@ -71,7 +71,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
   TraceFunctionParamListEnd();
 
   nextply(advers(side_in_check));
-  push_observation_target(king_square[side_in_check]);
+  push_observation_target(being_solved.king_square[side_in_check]);
   result = is_in_check_recursive(slices[si].next1,side_in_check);
   finply();
 
@@ -103,8 +103,8 @@ static boolean king_square_observation_tester_is_in_check(slice_index si,
     INCREMENT_COUNTER(is_black_king_square_attacked);
   }
 
-  TraceSquare(king_square[side_king_attacked]);TraceEOL();
-  assert(king_square[side_king_attacked]!=initsquare);
+  TraceSquare(being_solved.king_square[side_king_attacked]);TraceEOL();
+  assert(being_solved.king_square[side_king_attacked]!=initsquare);
 
   result = is_square_observed(EVALUATE(check));
 

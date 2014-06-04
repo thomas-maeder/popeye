@@ -156,7 +156,7 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
   fprintf(dest,",\n");
   dump_royal_initialisers_to_stream(dest,pos->king_square[White],pos->king_square[Black]);
   fprintf(dest,",\n");
-  dump_imitator_initialisers_to_stream(dest,pos->inum,pos->isquare);
+  dump_imitator_initialisers_to_stream(dest,pos->number_of_imitators,pos->isquare);
   fprintf(dest,",\n");
   dump_nr_piece_initialisers_to_stream(dest,pos);
   fprintf(dest,"\n};\n");

@@ -60,16 +60,16 @@ void circe_volage_recolorer_solve(slice_index si)
     {
       square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
 
-      if (TSTFLAG(spec[sq_rebirth],Volage)
+      if (TSTFLAG(being_solved.spec[sq_rebirth],Volage)
           && (SquareCol(sq_rebirth)
               !=SquareCol(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture)))
       {
-        if (!TSTFLAG(spec[sq_rebirth],trait[nbply]))
+        if (!TSTFLAG(being_solved.spec[sq_rebirth],trait[nbply]))
           move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
                                              sq_rebirth);
         if (!CondFlag[hypervolage])
         {
-          Flags changed = spec[sq_rebirth];
+          Flags changed = being_solved.spec[sq_rebirth];
           CLRFLAG(changed,Volage);
           move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
                                               sq_rebirth,changed);

@@ -364,7 +364,7 @@ static void genmove(void)
     unsigned int j;
     square sq_departure = square_h;
     for (j = nr_files_on_board; j>0; j--, sq_departure += dir_left)
-      if (TSTFLAG(spec[sq_departure],side))
+      if (TSTFLAG(being_solved.spec[sq_departure],side))
         generate_moves_for_piece(sq_departure);
   }
 

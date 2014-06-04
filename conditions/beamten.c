@@ -14,7 +14,7 @@ static boolean is_unobserved_beamter(numecoup n)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_departure],Beamtet))
+  if (TSTFLAG(being_solved.spec[sq_departure],Beamtet))
   {
     siblingply(advers(trait[nbply]));
     push_observation_target(sq_departure);

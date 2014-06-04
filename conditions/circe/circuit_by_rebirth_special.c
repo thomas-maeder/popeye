@@ -57,7 +57,7 @@ void circe_circuit_special_solve(slice_index si)
     if (rebirth>=move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
     {
       square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
-      if (GetPositionInDiagram(spec[sq_rebirth])==sq_rebirth)
+      if (GetPositionInDiagram(being_solved.spec[sq_rebirth])==sq_rebirth)
         pipe_solve_delegate(si);
     }
   }

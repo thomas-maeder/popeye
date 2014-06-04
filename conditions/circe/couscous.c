@@ -38,7 +38,7 @@ void circe_couscous_make_capturer_relevant_solve(slice_index si)
     circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
     context->relevant_walk = get_walk_of_piece_on_square(pos);
-    context->relevant_spec = spec[pos];
+    context->relevant_spec = being_solved.spec[pos];
     context->relevant_side = advers(context->relevant_side);
   }
 

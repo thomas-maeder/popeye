@@ -42,8 +42,8 @@ void goal_exchange_reached_tester_solve(slice_index si)
                                                                               sq_arrival);
     square const sq_diagram = GetPositionInDiagram(movingspec);
     pipe_this_move_doesnt_solve_if(si,
-                                   GetPositionInDiagram(spec[sq_diagram])!=pos
-                                   || !TSTFLAG(spec[sq_diagram],just_moved)
+                                   GetPositionInDiagram(being_solved.spec[sq_diagram])!=pos
+                                   || !TSTFLAG(being_solved.spec[sq_diagram],just_moved)
                                    || sq_diagram==pos);
   }
 

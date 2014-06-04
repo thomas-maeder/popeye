@@ -19,7 +19,7 @@ static void side_change_if_magic(square on, Flags changedspec)
       && !TSTFLAG(changedspec,Royal)
       && !is_piece_neutral(changedspec)
       && !is_square_empty(on)
-      && GetPieceId(changedspec)==GetPieceId(spec[on]))
+      && GetPieceId(changedspec)==GetPieceId(being_solved.spec[on]))
     move_effect_journal_do_side_change(move_effect_reason_magic_square,on);
 }
 
@@ -69,8 +69,8 @@ void magic_square_side_changer_solve(slice_index si)
       {
         square const from = move_effect_journal[curr].u.piece_exchange.from;
         square const to = move_effect_journal[curr].u.piece_exchange.to;
-        side_change_if_magic(from,spec[from]);
-        side_change_if_magic(from,spec[to]);
+        side_change_if_magic(from,being_solved.spec[from]);
+        side_change_if_magic(from,being_solved.spec[to]);
         break;
       }
 

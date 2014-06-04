@@ -35,7 +35,7 @@ static void move_effect_journal_do_circe_parachute_remember(move_effect_reason_t
   top_elmt->reason = reason;
   top_elmt->u.handle_ghost.ghost.on = sq_rebirth;
   top_elmt->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
-  top_elmt->u.handle_ghost.ghost.flags = spec[sq_rebirth];
+  top_elmt->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -101,7 +101,7 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
   top_elmt->reason = reason;
   top_elmt->u.handle_ghost.ghost.on = sq_rebirth;
   top_elmt->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
-  top_elmt->u.handle_ghost.ghost.flags = spec[sq_rebirth];
+  top_elmt->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
 #if defined(DOTRACE)
   top_elmt->id = move_effect_journal_next_id++;
   TraceValue("%lu\n",top_elmt->id);
@@ -249,7 +249,7 @@ void circe_volcanic_swapper_solve(slice_index si)
     piece_type const tmp = underworld[nr_ghosts-1];
 
     underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(tmp.on);
-    underworld[nr_ghosts-1].flags = spec[tmp.on];
+    underworld[nr_ghosts-1].flags = being_solved.spec[tmp.on];
 
     move_effect_journal_do_piece_removal(move_effect_reason_volcanic_remember,tmp.on);
     move_effect_journal_do_piece_readdition(move_effect_reason_volcanic_remember,

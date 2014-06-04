@@ -50,7 +50,7 @@ static boolean IsABattery(square KingSquare,
     square const sq_rear = find_end_of_line(FrontSquare,-Direction);
     piece_walk_type const pi_rear = get_walk_of_piece_on_square(sq_rear);
     if ((pi_rear==RearPiece1 || pi_rear==RearPiece2)
-        && TSTFLAG(spec[sq_rear],side))
+        && TSTFLAG(being_solved.spec[sq_rear],side))
       return true;
   }
 
@@ -224,7 +224,7 @@ static void king(square sq_king, Side side)
   TraceSquare(sq_king);
   TraceFunctionParamListEnd();
 
-  if (TSTFULLFLAGMASK(spec[sq_king],mask))
+  if (TSTFULLFLAGMASK(being_solved.spec[sq_king],mask))
     king_neutral(side);
   else
     king_nonneutral(sq_king,side);
@@ -427,7 +427,7 @@ static void generate_move_reaching_goal()
 {
   square square_a = square_a1;
   Side const side_at_move = trait[nbply];
-  square const OpponentsKing = side_at_move==White ? king_square[Black] : king_square[White];
+  square const OpponentsKing = side_at_move==White ? being_solved.king_square[Black] : being_solved.king_square[White];
   int i;
 
   TraceFunctionEntry(__func__);
@@ -443,7 +443,7 @@ static void generate_move_reaching_goal()
       for (j = nr_files_on_board; j>0; j--, curr_generation->departure += dir_right)
       {
         piece_walk_type const p = get_walk_of_piece_on_square(curr_generation->departure);
-        if (p!=Empty && TSTFLAG(spec[curr_generation->departure],side_at_move))
+        if (p!=Empty && TSTFLAG(being_solved.spec[curr_generation->departure],side_at_move))
         {
           if (CondFlag[gridchess]
               && !GridLegal(curr_generation->departure,OpponentsKing))

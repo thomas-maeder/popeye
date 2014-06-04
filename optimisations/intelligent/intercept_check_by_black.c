@@ -48,7 +48,7 @@ void white_piece(int dir_from_rider, void (*go_on)(void))
   TraceFunctionParam("%d",dir_from_rider);
   TraceFunctionParamListEnd();
 
-  for (where_to_intercept = king_square[White]-dir_from_rider;
+  for (where_to_intercept = being_solved.king_square[White]-dir_from_rider;
        is_square_empty(where_to_intercept);
        where_to_intercept -= dir_from_rider)
     if (nr_reasons_for_staying_empty[where_to_intercept]==0)
@@ -187,8 +187,8 @@ static void black_piece_on(square where_to_intercept,
  */
 static void black_piece(int dir_to_rider, void (*go_on)(void))
 {
-  square const start = king_square[White]-dir_to_rider;
-  boolean const is_diagonal = SquareCol(king_square[White])==SquareCol(start);
+  square const start = being_solved.king_square[White]-dir_to_rider;
+  boolean const is_diagonal = SquareCol(being_solved.king_square[White])==SquareCol(start);
   square where_to_intercept;
 
   TraceFunctionEntry(__func__);

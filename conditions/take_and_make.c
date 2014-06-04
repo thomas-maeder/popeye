@@ -67,7 +67,7 @@ static void generate_make_for_one_take(numecoup take_current,
                                        square take_capture)
 {
   piece_walk_type const taken = get_walk_of_piece_on_square(take_capture);
-  Flags const taken_spec = spec[take_capture];
+  Flags const taken_spec = being_solved.spec[take_capture];
   square const take_departure = move_generation_stack[take_current].departure;
   square const take_arrival = move_generation_stack[take_current].arrival;
   numecoup const make_filtered_base = CURRMOVE_OF_PLY(nbply);
@@ -81,7 +81,7 @@ static void generate_make_for_one_take(numecoup take_current,
   empty_square(take_capture);
   occupy_square(take_arrival,
                 get_walk_of_piece_on_square(take_departure),
-                spec[take_departure]);
+                being_solved.spec[take_departure]);
   empty_square(take_departure);
 
   curr_generation->departure = take_arrival;
@@ -100,7 +100,7 @@ static void generate_make_for_one_take(numecoup take_current,
 
   occupy_square(take_departure,
                 get_walk_of_piece_on_square(take_arrival),
-                spec[take_arrival]);
+                being_solved.spec[take_arrival]);
   empty_square(take_arrival);
   occupy_square(take_capture,taken,taken_spec);
 

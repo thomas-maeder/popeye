@@ -34,12 +34,12 @@ static void try_rebirth_and_generate(slice_index si, square sq_rebirth)
   {
     curr_generation->departure = sq_rebirth;
 
-    occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),spec[sq_departure]);
+    occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),being_solved.spec[sq_departure]);
     empty_square(sq_departure);
 
     generate_moves_delegate(slices[si].next1);
 
-    occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),spec[sq_rebirth]);
+    occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),being_solved.spec[sq_rebirth]);
     empty_square(sq_rebirth);
 
     curr_generation->departure = sq_departure;
@@ -81,7 +81,7 @@ static void is_square_observed_from_rebirth_square(slice_index si,
                                                    square observer_origin,
                                                    square sq_rebirth)
 {
-  Flags const spec_observing = spec[observer_origin];
+  Flags const spec_observing = being_solved.spec[observer_origin];
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
 
   TraceFunctionEntry(__func__);
@@ -158,7 +158,7 @@ void plus_is_square_observed(slice_index si)
     for (i = 0; i!=nr_center_squares; ++i)
     {
       square const observer_origin = center_squares[i];
-      if (TSTFLAG(spec[observer_origin],side_observing)
+      if (TSTFLAG(being_solved.spec[observer_origin],side_observing)
           && get_walk_of_piece_on_square(observer_origin)==observing_walk[nbply]
           && observer_origin!=sq_target) /* no auto-observation */
       {

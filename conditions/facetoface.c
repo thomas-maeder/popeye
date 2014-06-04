@@ -19,7 +19,7 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[confronter_pos],advers(trait[nbply])))
+  if (TSTFLAG(being_solved.spec[confronter_pos],advers(trait[nbply])))
     generate_moves_different_walk(slices[si].next1,
                                   get_walk_of_piece_on_square(confronter_pos));
   else
@@ -46,7 +46,7 @@ static boolean enforce_possibly_confronted_observer_walk(slice_index si,
   TraceSquare(pos_confronter);
   TraceEOL();
 
-  if (TSTFLAG(spec[pos_confronter],advers(side_attacking)))
+  if (TSTFLAG(being_solved.spec[pos_confronter],advers(side_attacking)))
     walk = get_walk_of_piece_on_square(pos_confronter);
   else
     walk = get_walk_of_piece_on_square(sq_departure);

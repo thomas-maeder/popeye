@@ -17,7 +17,7 @@ static boolean is_not_king_captures_guarded_king(numecoup n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_observer],Royal) && TSTFLAG(spec[sq_observee],Royal))
+  if (TSTFLAG(being_solved.spec[sq_observer],Royal) && TSTFLAG(being_solved.spec[sq_observee],Royal))
   {
     siblingply(advers(trait[nbply]));
     push_observation_target(move_generation_stack[n].capture);

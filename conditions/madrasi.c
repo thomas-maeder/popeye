@@ -24,14 +24,14 @@ boolean madrasi_is_moving_piece_observed(square sq)
   TraceSquare(sq);
   TraceFunctionParamListEnd();
 
-  if (!madrasi_is_rex_inclusive && TSTFULLFLAGMASK(spec[sq],mask))
+  if (!madrasi_is_rex_inclusive && TSTFULLFLAGMASK(being_solved.spec[sq],mask))
     result = false;
   else
   {
     piece_walk_type const p = get_walk_of_piece_on_square(sq);
     Side const observing_side = advers(observed_side);
 
-    if (number_of_pieces[observing_side][p]==0)
+    if (being_solved.number_of_pieces[observing_side][p]==0)
       result = false;
     else
     {
@@ -62,14 +62,14 @@ static boolean is_paralysed(numecoup n)
   TraceSquare(sq_departure);
   TraceFunctionParamListEnd();
 
-  if (!madrasi_is_rex_inclusive && TSTFULLFLAGMASK(spec[sq_departure],mask))
+  if (!madrasi_is_rex_inclusive && TSTFULLFLAGMASK(being_solved.spec[sq_departure],mask))
     result = false;
   else
   {
     piece_walk_type const candidate = get_walk_of_piece_on_square(sq_departure);
     Side const observing_side = advers(observed_side);
 
-    if (number_of_pieces[observing_side][candidate]>0)
+    if (being_solved.number_of_pieces[observing_side][candidate]>0)
     {
       siblingply(observing_side);
       push_observation_target(sq_departure);

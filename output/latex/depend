@@ -9,15 +9,16 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  conditions/conditions.h options/options.h input/plaintext/twin.h \
  input/plaintext/token.h input/plaintext/language.h \
  input/plaintext/line.h conditions/mummer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h solving/machinery/twin.h \
- conditions/circe/rebirth_square_occupied.h \
+ stipulation/slice_insertion.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -85,6 +86,10 @@ conditions/mummer.h:
 
 solving/machinery/solve.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 conditions/anticirce/anticirce.h:
 
 conditions/circe/circe.h:
@@ -102,6 +107,8 @@ stipulation/slice_functional_type.h:
 stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
+
+stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 

@@ -28,9 +28,9 @@ static boolean find_flights(slice_index si,
                             unsigned int nr_flights_to_find)
 {
   unsigned int nr_flights_found = 0;
-  square const save_king_square = king_square[side_in_check];
+  square const save_king_square = being_solved.king_square[side_in_check];
   piece_walk_type const king_walk = get_walk_of_piece_on_square(save_king_square);
-  Flags const king_flags = spec[save_king_square];
+  Flags const king_flags = being_solved.spec[save_king_square];
   square const save_departure = curr_generation->departure ;
 
   TraceFunctionEntry(__func__);
@@ -47,17 +47,17 @@ static boolean find_flights(slice_index si,
 
   while (encore())
   {
-    king_square[side_in_check] = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
-    if ((is_square_empty(king_square[side_in_check])
-         || TSTFLAG(spec[king_square[side_in_check]],advers(side_in_check)))
-        && king_square[side_in_check]!=king_square[advers(side_in_check)]
+    being_solved.king_square[side_in_check] = move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival;
+    if ((is_square_empty(being_solved.king_square[side_in_check])
+         || TSTFLAG(being_solved.spec[being_solved.king_square[side_in_check]],advers(side_in_check)))
+        && being_solved.king_square[side_in_check]!=being_solved.king_square[advers(side_in_check)]
         && !is_in_check_recursive(slices[si].next1,side_in_check))
       ++nr_flights_found;
 
     pop_move();
   }
 
-  king_square[side_in_check] = save_king_square;
+  being_solved.king_square[side_in_check] = save_king_square;
   occupy_square(save_king_square,king_walk,king_flags);
 
   curr_generation->departure = save_departure;

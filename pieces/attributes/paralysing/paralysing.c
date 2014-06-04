@@ -33,7 +33,7 @@ boolean paralysing_validate_observation_geometry(slice_index si)
   result = validate_observation_recursive(slices[si].next1);
 
   if (result && validating_paralysis_observation_geometry)
-    result = TSTFLAG(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Paralysing);
+    result = TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Paralysing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -160,7 +160,7 @@ boolean paralysing_validate_observer(slice_index si)
 
   /* we are not validating a paralysis, but an observation (e.g. check or
    * Patrol Chess) in the presence of paralysing pieces */
-  result = (!TSTFLAG(spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],
+  result = (!TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],
                      Paralysing)
             && !is_paralysed(CURRMOVE_OF_PLY(nbply))
             &&  validate_observation_recursive(slices[si].next1));

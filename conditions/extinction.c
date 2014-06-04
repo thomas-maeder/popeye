@@ -74,7 +74,7 @@ boolean exctinction_all_piece_observation_tester_is_in_check(slice_index si,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; ++bnp)
-    if (TSTFLAG(spec[*bnp],side_attacked))
+    if (TSTFLAG(being_solved.spec[*bnp],side_attacked))
     {
       replace_observation_target(*bnp);
       if (is_square_observed(EVALUATE(check)))
@@ -129,7 +129,7 @@ void extinction_extincted_tester_solve(slice_index si)
 
     pipe_this_move_doesnt_solve_if(si,
                                    capturee==Empty
-                                   || number_of_pieces[side_in_check][capturee]!=0);
+                                   || being_solved.number_of_pieces[side_in_check][capturee]!=0);
   }
 
   TraceFunctionExit(__func__);

@@ -77,7 +77,7 @@ static piece_walk_type const *get_bench(void)
                                                                             moving_id,
                                                                             sq_arrival);
 
-  if (!TSTFLAG(spec[pos],Royal)
+  if (!TSTFLAG(being_solved.spec[pos],Royal)
       && (pos%onerow==left_file || pos%onerow==right_file))
   {
     piece_walk_type const p = get_walk_of_piece_on_square(pos);

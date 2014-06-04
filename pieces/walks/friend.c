@@ -12,8 +12,8 @@ void locate_observees(piece_walk_type walk, square pos_observees[])
   unsigned int current = 0;
   square const *bnp;
 
-  for (bnp = boardnum; current<number_of_pieces[trait[nbply]][walk]; ++bnp)
-    if (get_walk_of_piece_on_square(*bnp)==walk && TSTFLAG(spec[*bnp],trait[nbply]))
+  for (bnp = boardnum; current<being_solved.number_of_pieces[trait[nbply]][walk]; ++bnp)
+    if (get_walk_of_piece_on_square(*bnp)==walk && TSTFLAG(being_solved.spec[*bnp],trait[nbply]))
     {
       pos_observees[current] = *bnp;
       ++current;
@@ -24,17 +24,17 @@ void isolate_observee(piece_walk_type walk, square const pos_observees[], unsign
 {
   unsigned int orphan_id;
 
-  for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][walk]; ++orphan_id)
+  for (orphan_id = 0; orphan_id<being_solved.number_of_pieces[trait[nbply]][walk]; ++orphan_id)
     if (orphan_id!=isolated_observee)
-      occupy_square(pos_observees[orphan_id],Dummy,spec[pos_observees[orphan_id]]);
+      occupy_square(pos_observees[orphan_id],Dummy,being_solved.spec[pos_observees[orphan_id]]);
 }
 
 void restore_observees(piece_walk_type walk, square const pos_observees[])
 {
   unsigned int orphan_id;
 
-  for (orphan_id = 0; orphan_id<number_of_pieces[trait[nbply]][walk]; ++orphan_id)
-    occupy_square(pos_observees[orphan_id],walk,spec[pos_observees[orphan_id]]);
+  for (orphan_id = 0; orphan_id<being_solved.number_of_pieces[trait[nbply]][walk]; ++orphan_id)
+    occupy_square(pos_observees[orphan_id],walk,being_solved.spec[pos_observees[orphan_id]]);
 }
 
 static boolean find_next_friend_in_chain(square sq_target,
@@ -48,17 +48,17 @@ static boolean find_next_friend_in_chain(square sq_target,
     result = true;
   else
   {
-    --number_of_pieces[trait[nbply]][Friend];
+    --being_solved.number_of_pieces[trait[nbply]][Friend];
 
-    if (number_of_pieces[trait[nbply]][Friend]>0)
+    if (being_solved.number_of_pieces[trait[nbply]][Friend]>0)
     {
       unsigned int k;
       square pos_remaining_friends[63];
 
-      occupy_square(sq_target,Dummy,spec[sq_target]);
+      occupy_square(sq_target,Dummy,being_solved.spec[sq_target]);
       locate_observees(Friend,pos_remaining_friends);
 
-      for (k = 0; k<number_of_pieces[trait[nbply]][Friend]; k++)
+      for (k = 0; k<being_solved.number_of_pieces[trait[nbply]][Friend]; k++)
       {
         boolean is_friend_observed;
 
@@ -76,10 +76,10 @@ static boolean find_next_friend_in_chain(square sq_target,
         }
       }
 
-      occupy_square(sq_target,Friend,spec[sq_target]);
+      occupy_square(sq_target,Friend,being_solved.spec[sq_target]);
     }
 
-    ++number_of_pieces[trait[nbply]][Friend];
+    ++being_solved.number_of_pieces[trait[nbply]][Friend];
   }
 
   return result;
@@ -94,7 +94,7 @@ void friend_generate_moves(void)
 
   piece_walk_type const *friend_observer;
   for (friend_observer = orphanpieces; *friend_observer!=Empty; ++friend_observer)
-    if (number_of_pieces[camp][*friend_observer]>0)
+    if (being_solved.number_of_pieces[camp][*friend_observer]>0)
     {
       boolean found_chain;
 
@@ -133,10 +133,10 @@ boolean friend_check(validator_id evaluate)
   push_observation_target(sq_target);
 
   for (pfr = orphanpieces; *pfr!=Empty; pfr++)
-    if (number_of_pieces[trait[nbply]][*pfr]>0)
+    if (being_solved.number_of_pieces[trait[nbply]][*pfr]>0)
     {
       unsigned int k;
-      for (k = 0; k<number_of_pieces[trait[nbply]][Friend]; ++k)
+      for (k = 0; k<being_solved.number_of_pieces[trait[nbply]][Friend]; ++k)
       {
         boolean does_friend_observe;
 

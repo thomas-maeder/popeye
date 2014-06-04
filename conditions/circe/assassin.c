@@ -39,7 +39,7 @@ void circe_assassin_assassinate_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFULLFLAGMASK(spec[sq_rebirth],mask))
+  if (TSTFULLFLAGMASK(being_solved.spec[sq_rebirth],mask))
     solve_result = this_move_is_illegal;
   else
   {
@@ -69,7 +69,7 @@ boolean circe_assassin_all_piece_observation_tester_is_in_check(slice_index si,
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; ++bnp)
-    if (TSTFLAG(spec[*bnp],side_attacked))
+    if (TSTFLAG(being_solved.spec[*bnp],side_attacked))
     {
       replace_observation_target(*bnp);
       if (is_square_observed(EVALUATE(check)))

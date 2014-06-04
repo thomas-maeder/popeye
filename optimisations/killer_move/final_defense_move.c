@@ -103,7 +103,7 @@ static stip_length_type defend_with_non_killer_pieces(slice_index si)
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; result<=next_move_has_solution && *bnp!=initsquare; ++bnp)
-    if (*bnp!=killer_pos && TSTFLAG(spec[*bnp],defender))
+    if (*bnp!=killer_pos && TSTFLAG(being_solved.spec[*bnp],defender))
     {
       init_single_piece_move_generator(*bnp);
       pipe_solve_delegate(si);
@@ -134,7 +134,7 @@ static void defend_with_killer_piece(slice_index si)
   TraceSquare(killer_pos);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[killer_pos],defender))
+  if (TSTFLAG(being_solved.spec[killer_pos],defender))
   {
     init_single_piece_move_generator(killer_pos);
     solve(slices[si].next2);

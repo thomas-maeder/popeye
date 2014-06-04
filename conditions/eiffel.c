@@ -63,7 +63,7 @@ static boolean is_paralysed(numecoup n)
   if (eiffel_piece!=Empty)
   {
     Side const eiffel_side = advers(trait[nbply]);
-    if (number_of_pieces[eiffel_side][eiffel_piece]>0)
+    if (being_solved.number_of_pieces[eiffel_side][eiffel_piece]>0)
     {
       siblingply(eiffel_side);
       push_observation_target(sq_departure);

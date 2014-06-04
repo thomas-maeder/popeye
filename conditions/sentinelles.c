@@ -49,20 +49,20 @@ static void insert_sentinelle(Side trait_ply)
 
       if (sentinelles_is_para)
       {
-        unsigned int prev_nr_other_sentinelles = number_of_pieces[advers(sentinelle_side)][sentinelle_walk];
+        unsigned int prev_nr_other_sentinelles = being_solved.number_of_pieces[advers(sentinelle_side)][sentinelle_walk];
         piece_walk_type const pi_captured = move_effect_journal[capture].u.piece_removal.walk;
 
         if (pi_captured==sentinelle_walk)
           ++prev_nr_other_sentinelles;
 
-        if (number_of_pieces[sentinelle_side][sentinelle_walk]>prev_nr_other_sentinelles)
+        if (being_solved.number_of_pieces[sentinelle_side][sentinelle_walk]>prev_nr_other_sentinelles)
           sentinelle_side = no_side;
       }
 
       if (sentinelle_side!=no_side)
       {
-        if (number_of_pieces[sentinelle_side][sentinelle_walk]+1>sentinelles_max_nr_pawns[sentinelle_side]
-            || number_of_pieces[White][sentinelle_walk]+number_of_pieces[Black][sentinelle_walk]+1 > sentinelles_max_nr_pawns_total)
+        if (being_solved.number_of_pieces[sentinelle_side][sentinelle_walk]+1>sentinelles_max_nr_pawns[sentinelle_side]
+            || being_solved.number_of_pieces[White][sentinelle_walk]+being_solved.number_of_pieces[Black][sentinelle_walk]+1 > sentinelles_max_nr_pawns_total)
           sentinelle_side = no_side;
       }
 

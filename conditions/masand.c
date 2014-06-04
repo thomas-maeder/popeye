@@ -83,9 +83,9 @@ static void change_observed(square observer_pos)
 
   for (bnp = boardnum; *bnp; bnp++)
     if (!is_square_empty(*bnp)
-        && !TSTFLAG(spec[*bnp],Royal)
+        && !TSTFLAG(being_solved.spec[*bnp],Royal)
         && *bnp!=observer_pos
-        && !is_piece_neutral(spec[*bnp])
+        && !is_piece_neutral(being_solved.spec[*bnp])
         && observed(*bnp,observer_pos))
       move_effect_journal_do_side_change(move_effect_reason_masand,*bnp);
 
@@ -121,7 +121,7 @@ void masand_recolorer_solve(slice_index si)
                                                                               moving_id,
                                                                               sq_arrival);
     Side const opponent = advers(slices[si].starter);
-    if (is_in_check(opponent) && observed(king_square[opponent],pos))
+    if (is_in_check(opponent) && observed(being_solved.king_square[opponent],pos))
       change_observed(pos);
   }
 

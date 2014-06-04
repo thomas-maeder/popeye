@@ -137,14 +137,14 @@ static void pin_using_specific_piece_on(unsigned int pinner_index,
  */
 int intelligent_is_black_piece_pinnable(square piece_pos)
 {
-  int const diff = piece_pos-king_square[Black];
+  int const diff = piece_pos-being_solved.king_square[Black];
   int result = CheckDir[Queen][diff];
 
   TraceFunctionEntry(__func__);
   TraceSquare(piece_pos);
   TraceFunctionParamListEnd();
 
-  if (result!=0 && !is_line_empty(king_square[Black],piece_pos,result))
+  if (result!=0 && !is_line_empty(being_solved.king_square[Black],piece_pos,result))
     result = 0;
 
   TraceFunctionExit(__func__);
@@ -177,7 +177,7 @@ void intelligent_pin_pinnable_black_piece(square piece_pos,
 
     square pin_on;
 
-    remember_to_keep_rider_line_open(king_square[Black],piece_pos,pin_dir,+1);
+    remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,+1);
 
     for (pin_on = piece_pos+pin_dir; is_square_empty(pin_on); pin_on += pin_dir)
     {
@@ -203,7 +203,7 @@ void intelligent_pin_pinnable_black_piece(square piece_pos,
     for (pin_on -= pin_dir; pin_on!=piece_pos; pin_on -= pin_dir)
       --nr_reasons_for_staying_empty[pin_on];
 
-    remember_to_keep_rider_line_open(king_square[Black],piece_pos,pin_dir,-1);
+    remember_to_keep_rider_line_open(being_solved.king_square[Black],piece_pos,pin_dir,-1);
 
     intelligent_unreserve();
   }

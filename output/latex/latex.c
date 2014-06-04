@@ -583,7 +583,7 @@ static void WritePieces(void)
         piece_found = true;
 
       fprintf(LaTeXFile,"%c%s%c%c",
-              is_piece_neutral(spec[*bnp]) ? 'n' : TSTFLAG(spec[*bnp],White) ? 'w' : 's',
+              is_piece_neutral(being_solved.spec[*bnp]) ? 'n' : TSTFLAG(being_solved.spec[*bnp],White) ? 'w' : 's',
               LaTeXPiece(p),
               *bnp%onerow-200%onerow+'a',
               *bnp/onerow-200/onerow+'1');
@@ -618,9 +618,9 @@ static boolean FindFairyWalks(boolean side_has_piece[nr_piece_walks][nr_sides+1]
         {
           result = true;
 
-          if (is_piece_neutral(spec[*bnp]))
+          if (is_piece_neutral(being_solved.spec[*bnp]))
             side_has_piece[p][nr_sides] = true;
-          else if (TSTFLAG(spec[*bnp], White))
+          else if (TSTFLAG(being_solved.spec[*bnp], White))
             side_has_piece[p][White] = true;
           else
             side_has_piece[p][Black] = true;
@@ -650,7 +650,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
 
         piece_flag_type sp;
         for (sp= nr_sides; sp<nr_piece_flags; ++sp)
-          if (TSTFLAG(spec[*bnp], sp) && !(sp==Royal && is_king(p)))
+          if (TSTFLAG(being_solved.spec[*bnp], sp) && !(sp==Royal && is_king(p)))
           {
             AppendSquare(ListSpec[sp-nr_sides],*bnp);
             ++SpecCount[sp-nr_sides];

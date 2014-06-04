@@ -38,22 +38,22 @@ static void occupy(square dest, piece_walk_type pi_src, Flags spec_src)
 static void revolve(void)
 {
   piece_walk_type const piece_temp = get_walk_of_piece_on_square(square_d4);
-  Flags const spec_temp = spec[square_d4];
+  Flags const spec_temp = being_solved.spec[square_d4];
 
-  occupy(square_d4,get_walk_of_piece_on_square(square_e4),spec[square_e4]);
-  occupy(square_e4,get_walk_of_piece_on_square(square_e5),spec[square_e5]);
-  occupy(square_e5,get_walk_of_piece_on_square(square_d5),spec[square_d5]);
+  occupy(square_d4,get_walk_of_piece_on_square(square_e4),being_solved.spec[square_e4]);
+  occupy(square_e4,get_walk_of_piece_on_square(square_e5),being_solved.spec[square_e5]);
+  occupy(square_e5,get_walk_of_piece_on_square(square_d5),being_solved.spec[square_d5]);
   occupy(square_d5,piece_temp,spec_temp);
 }
 
 static void unrevolve(void)
 {
   piece_walk_type const piece_temp = get_walk_of_piece_on_square(square_d5);
-  Flags const spec_temp = spec[square_d5];
+  Flags const spec_temp = being_solved.spec[square_d5];
 
-  occupy(square_d5,get_walk_of_piece_on_square(square_e5),spec[square_e5]);
-  occupy(square_e5,get_walk_of_piece_on_square(square_e4),spec[square_e4]);
-  occupy(square_e4,get_walk_of_piece_on_square(square_d4),spec[square_d4]);
+  occupy(square_d5,get_walk_of_piece_on_square(square_e5),being_solved.spec[square_e5]);
+  occupy(square_e5,get_walk_of_piece_on_square(square_e4),being_solved.spec[square_e4]);
+  occupy(square_e4,get_walk_of_piece_on_square(square_d4),being_solved.spec[square_d4]);
   occupy(square_d4,piece_temp,spec_temp);
 }
 

@@ -1128,7 +1128,7 @@ static unsigned int TellCommonEncodePosLeng(unsigned int len,
   if (CondFlag[imitators])
   {
     unsigned int imi_idx;
-    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
+    for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; imi_idx++)
       len++;
 
     /* coding of no. of imitators and average of one
@@ -1271,9 +1271,9 @@ byte *CommonEncode(byte *bp,
     /* The number of imitators has to be coded too to avoid
      * ambiguities.
      */
-    *bp++ = (byte)number_of_imitators;
-    for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
-      *bp++ = (byte)(isquare[imi_idx]-square_a1);
+    *bp++ = (byte)being_solved.number_of_imitators;
+    for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; imi_idx++)
+      *bp++ = (byte)(being_solved.isquare[imi_idx]-square_a1);
   }
 
   if (OptFlag[nontrivial])
@@ -1387,7 +1387,7 @@ static void LargeEncode(stip_length_type min_length,
     {
       piece_walk_type const p = get_walk_of_piece_on_square(curr_square);
       if (p!=Empty)
-        bp = LargeEncodePiece(bp,position,row,col,p,spec[curr_square]);
+        bp = LargeEncodePiece(bp,position,row,col,p,being_solved.spec[curr_square]);
     }
   }
 
@@ -1451,7 +1451,7 @@ static void SmallEncode(stip_length_type min_length,
     {
       piece_walk_type const p = get_walk_of_piece_on_square(curr_square);
       if (p!=Empty)
-        bp = SmallEncodePiece(bp,row,col,p,spec[curr_square]);
+        bp = SmallEncodePiece(bp,row,col,p,being_solved.spec[curr_square]);
     }
   }
 

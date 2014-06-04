@@ -508,7 +508,7 @@ char *ReadSquares(SquareListContext context)
       switch (context)
       {
         case ReadImitators:
-          isquare[nr_squares_read] = sq;
+          being_solved.isquare[nr_squares_read] = sq;
           break;
 
         case ReadHoles:
@@ -572,7 +572,7 @@ char *ReadSquares(SquareListContext context)
   }
 
   if (context==ReadImitators)
-    number_of_imitators = nr_squares_read;
+    being_solved.number_of_imitators = nr_squares_read;
 
   return tok;
 }
@@ -1817,7 +1817,7 @@ void InitCond(void)
   for (i= 0; i < ExtraCondCount; ++i)
     ExtraCondFlag[i] = false;
 
-  number_of_imitators = 0;
+  being_solved.number_of_imitators = 0;
 
   koeko_nocontact= nokingcontact;
   antikoeko_nocontact= nokingcontact;

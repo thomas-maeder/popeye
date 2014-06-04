@@ -5,9 +5,10 @@ pieces/walks/chinese/riders$(OBJ_SUFFIX): pieces/walks/chinese/riders.c \
  utilities/boolean.h pieces/walks/vectors.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h output/mode.h \
- output/mode.enum.h solving/ply.h solving/temporary_hacks.h \
- pieces/walks/riders.h pieces/walks/lions.h pieces/walks/hoppers.h \
- solving/move_generator.h solving/machinery/solve.h debugging/trace.h
+ output/mode.enum.h solving/machinery/dispatch.h solving/ply.h \
+ debugging/trace.h solving/temporary_hacks.h pieces/walks/riders.h \
+ pieces/walks/lions.h pieces/walks/hoppers.h solving/move_generator.h \
+ solving/machinery/solve.h
 
 pieces/walks/chinese/riders.h:
 
@@ -45,7 +46,11 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
 solving/ply.h:
+
+debugging/trace.h:
 
 solving/temporary_hacks.h:
 
@@ -58,8 +63,6 @@ pieces/walks/hoppers.h:
 solving/move_generator.h:
 
 solving/machinery/solve.h:
-
-debugging/trace.h:
 pieces/walks/chinese/leapers$(OBJ_SUFFIX): pieces/walks/chinese/leapers.c \
  pieces/walks/chinese/leapers.h position/board.h utilities/bitmask.h \
  position/position.h position/side.h position/side.enum.h \
@@ -68,7 +71,7 @@ pieces/walks/chinese/leapers$(OBJ_SUFFIX): pieces/walks/chinese/leapers.c \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
- solving/ply.h debugging/trace.h
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h
 
 pieces/walks/chinese/leapers.h:
 
@@ -108,18 +111,21 @@ output/mode.h:
 
 output/mode.enum.h:
 
-solving/ply.h:
+solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+solving/ply.h:
 pieces/walks/chinese/pawn$(OBJ_SUFFIX): pieces/walks/chinese/pawn.c \
  pieces/walks/chinese/pawn.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h pieces/walks/vectors.h \
- solving/ply.h solving/temporary_hacks.h position/position.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
+ debugging/trace.h solving/temporary_hacks.h position/position.h \
  position/color.h position/color.enum.h solving/move_generator.h \
- solving/machinery/solve.h debugging/trace.h
+ solving/machinery/solve.h
 
 pieces/walks/chinese/pawn.h:
 
@@ -149,9 +155,13 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
 pieces/walks/vectors.h:
 
 solving/ply.h:
+
+debugging/trace.h:
 
 solving/temporary_hacks.h:
 
@@ -164,18 +174,16 @@ position/color.enum.h:
 solving/move_generator.h:
 
 solving/machinery/solve.h:
-
-debugging/trace.h:
 pieces/walks/chinese/mao$(OBJ_SUFFIX): pieces/walks/chinese/mao.c \
  pieces/walks/chinese/mao.h position/board.h utilities/bitmask.h \
  solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h pieces/walks/vectors.h \
- solving/ply.h solving/temporary_hacks.h pieces/walks/angle/angles.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
+ debugging/trace.h solving/temporary_hacks.h pieces/walks/angle/angles.h \
  pieces/walks/hoppers.h position/position.h position/color.h \
- position/color.enum.h solving/move_generator.h solving/machinery/solve.h \
- debugging/trace.h
+ position/color.enum.h solving/move_generator.h solving/machinery/solve.h
 
 pieces/walks/chinese/mao.h:
 
@@ -205,9 +213,13 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
 pieces/walks/vectors.h:
 
 solving/ply.h:
+
+debugging/trace.h:
 
 solving/temporary_hacks.h:
 
@@ -224,5 +236,3 @@ position/color.enum.h:
 solving/move_generator.h:
 
 solving/machinery/solve.h:
-
-debugging/trace.h:

@@ -64,7 +64,7 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
     transmuting_kings_testing_transmutation[side_attacking] = true;
 
     siblingply(advers(side_attacking));
-    push_observation_target(king_square[side_attacking]);
+    push_observation_target(being_solved.king_square[side_attacking]);
     observing_walk[nbply] = walk;
     result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
                                        EVALUATE(observation));
@@ -117,7 +117,7 @@ void transmuting_kings_generate_moves_for_piece(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!(TSTFULLFLAGMASK(spec[curr_generation->departure],mask)
+  if (!(TSTFULLFLAGMASK(being_solved.spec[curr_generation->departure],mask)
         && generate_moves_of_transmuting_king(si)))
     generate_moves_delegate(slices[si].next1);
 
@@ -244,7 +244,7 @@ void transmuting_king_is_square_observed(slice_index si)
 
   if (!observation_result)
   {
-    square const sq_king = king_square[trait[nbply]];
+    square const sq_king = being_solved.king_square[trait[nbply]];
     if (sq_king!=initsquare && !is_king_transmuting_as_any_walk[nbply])
     {
       testing_with_non_transmuting_king[nbply] = true;
@@ -305,7 +305,7 @@ void transmuting_king_detect_non_transmutation(slice_index si)
 boolean transmuting_kings_enforce_observer_walk(slice_index si)
 {
   boolean result;
-  square const sq_king = king_square[trait[nbply]];
+  square const sq_king = being_solved.king_square[trait[nbply]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -77,7 +77,7 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
   Flags const mask = BIT(side_woozled)|BIT(Royal);
   boolean result = true;
 
-  if (woozles_rex_inclusive || !TSTFULLFLAGMASK(spec[sq_observer],mask))
+  if (woozles_rex_inclusive || !TSTFULLFLAGMASK(being_solved.spec[sq_observer],mask))
   {
     piece_walk_type const *pcheck = woozlers;
     numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
@@ -94,7 +94,7 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
     for (; *pcheck; ++pcheck)
     {
       observing_walk[nbply] = *pcheck;
-      if (number_of_pieces[side_woozle][*pcheck]>0
+      if (being_solved.number_of_pieces[side_woozle][*pcheck]>0
           && is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
                                        EVALUATE(observer)))
       {

@@ -36,7 +36,7 @@ static void init_guard_dirs_rider(piece_walk_type guarder,
                                   numvec dir)
 {
   square const start = flight+dir;
-  if (move_diff_code[abs(king_square[Black]-start)]<=2)
+  if (move_diff_code[abs(being_solved.king_square[Black]-start)]<=2)
   {
     /* start is a flight, too.
      * GuardDir will be initialised from start in this dir */
@@ -210,7 +210,7 @@ void init_guard_dirs(square black_king_pos)
  */
 static boolean white_king_guards_flight(square from)
 {
-  move_diff_type const diff = move_diff_code[abs(king_square[Black]-from)];
+  move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-from)];
   boolean const result = diff>3 && diff<=8;
 
   TraceFunctionEntry(__func__);
@@ -244,9 +244,9 @@ static void remember_to_keep_guard_line_open(square from, square to,
   TraceValue("%d\n",dir);
 
   /* the guard line only needs to be kept open up to the flight closest to
-   * from; e.g. reset to to c1 with from:a1 to:e1 king_square[Black]:d2
+   * from; e.g. reset to to c1 with from:a1 to:e1 being_solved.king_square[Black]:d2
    */
-  for (s = to-dir; s!=from && move_diff_code[abs(king_square[Black]-s)]<=2; s -= dir)
+  for (s = to-dir; s!=from && move_diff_code[abs(being_solved.king_square[Black]-s)]<=2; s -= dir)
     to = s;
 
   remember_to_keep_rider_line_open(from,to,dir,delta);
@@ -306,7 +306,7 @@ static void guarding_done(void)
  */
 static void place_queen_opposition(square guard_from)
 {
-  square const to_be_intercepted = (king_square[Black]+guard_from)/2;
+  square const to_be_intercepted = (being_solved.king_square[Black]+guard_from)/2;
 
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -350,10 +350,10 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
       case guard_dir_guard_uninterceptable:
       {
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
-        if (!TSTFLAG(spec[guarded],Black))
+        if (!TSTFLAG(being_solved.spec[guarded],Black))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
-          if (CheckDir[rider_type][king_square[Black]-guard_from]!=0
+          if (CheckDir[rider_type][being_solved.king_square[Black]-guard_from]!=0
               && is_square_empty(guarded))
           {
             assert(nr_reasons_for_staying_empty[guarded]==0);
@@ -368,11 +368,11 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
       default:
       {
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
-        if (!TSTFLAG(spec[guarded],Black) && is_line_empty(guard_from,guarded,dir))
+        if (!TSTFLAG(being_solved.spec[guarded],Black) && is_line_empty(guard_from,guarded,dir))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
           remember_to_keep_guard_line_open(guard_from,guarded,+1);
-          if (CheckDir[rider_type][king_square[Black]-guard_from]!=0)
+          if (CheckDir[rider_type][being_solved.king_square[Black]-guard_from]!=0)
           {
             if (is_square_empty(guarded))
             {
@@ -381,7 +381,7 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
             }
             else
             {
-              PieceIdType const id = GetPieceId(spec[guarded]);
+              PieceIdType const id = GetPieceId(being_solved.spec[guarded]);
               if (white[PieceId2index[id]].usage==piece_guards)
               {
                 white[PieceId2index[id]].usage = piece_intercepts_check_from_guard;
@@ -460,7 +460,7 @@ static void promoted_queen(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(king_square[Black]-guard_from)])
+  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
   {
     case 1+0: /* e.g. Ka2 Qb2 */
     case 1+1: /* e.g. Ka2 Qb3 */
@@ -513,7 +513,7 @@ static void promoted_rook(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(king_square[Black]-guard_from)])
+  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
   {
     case 1+0: /* e.g. Ka2 Rb2 */
       /* uninterceptable check */
@@ -550,7 +550,7 @@ static void promoted_rook(square guard_from)
  */
 static void promoted_bishop(square guard_from)
 {
-  move_diff_type const diff = move_diff_code[abs(king_square[Black]-guard_from)];
+  move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-guard_from)];
 
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -588,7 +588,7 @@ static void promoted_knight(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[Knight][king_square[Black]-guard_from]==0
+  if (CheckDir[Knight][being_solved.king_square[Black]-guard_from]==0
       && intelligent_reserve_promoting_white_pawn_moves_from_to(white[index_of_guarding_piece].diagram_square,
                                                                 Knight,
                                                                 guard_from))
@@ -652,7 +652,7 @@ static void queen(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(king_square[Black]-guard_from)])
+  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
   {
     case 1+0: /* e.g. Ka2 Qb2 */
     case 1+1: /* e.g. Ka2 Qb3 */
@@ -708,7 +708,7 @@ static void rook(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  switch (move_diff_code[abs(king_square[Black]-guard_from)])
+  switch (move_diff_code[abs(being_solved.king_square[Black]-guard_from)])
   {
     case 1+0: /* e.g. Ka2 Rb2 */
       /* uninterceptable check */
@@ -747,7 +747,7 @@ static void rook(square guard_from)
  */
 static void bishop(square guard_from)
 {
-  move_diff_type const diff = move_diff_code[abs(king_square[Black]-guard_from)];
+  move_diff_type const diff = move_diff_code[abs(being_solved.king_square[Black]-guard_from)];
 
   TraceFunctionEntry(__func__);
   TraceSquare(guard_from);
@@ -786,7 +786,7 @@ static void knight(square guard_from)
   TraceSquare(guard_from);
   TraceFunctionParamListEnd();
 
-  if (CheckDir[Knight][king_square[Black]-guard_from]==0
+  if (CheckDir[Knight][being_solved.king_square[Black]-guard_from]==0
       && intelligent_reserve_officer_moves_from_to(White,
                                                    white[index_of_guarding_piece].diagram_square,
                                                    Knight,
@@ -898,14 +898,14 @@ static void king()
             && white_king_guards_flight(*bnp)
             && intelligent_reserve_white_king_moves_from_to(comes_from,*bnp))
         {
-          king_square[White]= *bnp;
+          being_solved.king_square[White]= *bnp;
           occupy_square(*bnp,King,white[index_of_king].flags);
           intelligent_continue_guarding_flights();
           empty_square(*bnp);
           intelligent_unreserve();
         }
 
-      king_square[White] = initsquare;
+      being_solved.king_square[White] = initsquare;
       white[index_of_king].usage = piece_is_unused;
 
       intelligent_unreserve();

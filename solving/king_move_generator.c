@@ -50,12 +50,12 @@ void king_move_generator_solve(slice_index si)
 
   nextply(side_at_move);
 
-  if (TSTFLAG(spec[king_square[side_at_move]],Royal))
-    generate_moves_for_piece(king_square[side_at_move]);
+  if (TSTFLAG(being_solved.spec[being_solved.king_square[side_at_move]],Royal))
+    generate_moves_for_piece(being_solved.king_square[side_at_move]);
   else
   {
-    /* - there is no king_square, or
-     * - king_square is a royal square */
+    /* - there is no being_solved.king_square, or
+     * - being_solved.king_square is a royal square */
   }
 
   pipe_solve_delegate(si);

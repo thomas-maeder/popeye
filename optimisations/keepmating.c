@@ -37,7 +37,7 @@ static slice_index alloc_keepmating_filter_slice(Side mating)
 static boolean is_a_mating_piece_left(Side mating_side)
 {
   piece_walk_type p = King+1;
-  while (p<nr_piece_walks && number_of_pieces[mating_side][p]==0)
+  while (p<nr_piece_walks && being_solved.number_of_pieces[mating_side][p]==0)
     p++;
 
   return p<nr_piece_walks;

@@ -46,21 +46,21 @@ static boolean is_mate_square(Side other_side)
 {
   boolean result = false;
 
-  if (is_square_empty(king_square[other_side]))
+  if (is_square_empty(being_solved.king_square[other_side]))
   {
     TraceFunctionEntry(__func__);
     TraceEnumerator(Side,other_side,"");
     TraceFunctionParamListEnd();
 
-    TraceSquare(king_square[other_side]);TraceEOL();
+    TraceSquare(being_solved.king_square[other_side]);TraceEOL();
 
-    occupy_square(king_square[other_side],King,BIT(Royal)|BIT(other_side));
+    occupy_square(being_solved.king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
     if (fork_solve(temporary_hack_mate_tester[other_side],slack_length)
         ==slack_length)
       result = true;
 
-    empty_square(king_square[other_side]);
+    empty_square(being_solved.king_square[other_side]);
 
     TraceFunctionExit(__func__);
     TraceFunctionResult("%u",result);
@@ -83,17 +83,17 @@ static void advance_mate_square(Side side)
 
   assert(republican_goal.type==goal_mate);
 
-  king_square[other_side] = king_placement[nbply]+1;
-  ++number_of_pieces[other_side][King];
-  while (king_square[other_side]<=square_h8)
+  being_solved.king_square[other_side] = king_placement[nbply]+1;
+  ++being_solved.number_of_pieces[other_side][King];
+  while (being_solved.king_square[other_side]<=square_h8)
     if (is_mate_square(other_side))
       break;
     else
-      ++king_square[other_side];
+      ++being_solved.king_square[other_side];
 
-  --number_of_pieces[other_side][King];
-  king_placement[nbply] = king_square[other_side];
-  king_square[other_side] = initsquare;
+  --being_solved.number_of_pieces[other_side][King];
+  king_placement[nbply] = being_solved.king_square[other_side];
+  being_solved.king_square[other_side] = initsquare;
 
   TraceSquare(king_placement[nbply]);TraceEOL();
 
@@ -295,7 +295,7 @@ void republican_king_placer_solve(slice_index si)
 
   update_king_squares();
 
-  if (king_square[advers(slices[si].starter)]==initsquare)
+  if (being_solved.king_square[advers(slices[si].starter)]==initsquare)
   {
     determine_king_placement(slices[si].starter);
 

@@ -14,7 +14,7 @@ static boolean leapers_check_ortho(Side side_checking,
   {
     square const sq_departure = sq_king+vec[k];
     if (get_walk_of_piece_on_square(sq_departure)==p
-        && TSTFLAG(spec[sq_departure],side_checking))
+        && TSTFLAG(being_solved.spec[sq_departure],side_checking))
       return true;
   }
 
@@ -40,7 +40,7 @@ static boolean pawn_test_check_ortho(Side side_checking, square sq_departure)
   TraceFunctionParamListEnd();
 
   result = (get_walk_of_piece_on_square(sq_departure)==Pawn
-            && TSTFLAG(spec[sq_departure],side_checking));
+            && TSTFLAG(being_solved.spec[sq_departure],side_checking));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -116,40 +116,40 @@ static boolean pawn_check_ortho(Side side_checking, square sq_king)
 boolean is_square_observed_ortho(Side side_checking,
                                  square sq_target)
 {
-  if (number_of_pieces[side_checking][King]>0
+  if (being_solved.number_of_pieces[side_checking][King]>0
       && king_check_ortho(side_checking,sq_target))
     return true;
 
-  if (number_of_pieces[side_checking][Pawn]>0
+  if (being_solved.number_of_pieces[side_checking][Pawn]>0
       && pawn_check_ortho(side_checking,sq_target))
     return true;
 
-  if (number_of_pieces[side_checking][Knight]>0
+  if (being_solved.number_of_pieces[side_checking][Knight]>0
       && knight_check_ortho(side_checking,sq_target))
     return true;
 
-  if (number_of_pieces[side_checking][Queen]>0
-      || number_of_pieces[side_checking][Rook]>0)
+  if (being_solved.number_of_pieces[side_checking][Queen]>0
+      || being_solved.number_of_pieces[side_checking][Rook]>0)
   {
     vec_index_type k;
     for (k= vec_rook_end; k>=vec_rook_start; k--)
     {
       square const sq_departure = find_end_of_line(sq_target,vec[k]);
       piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
-      if ((p==Rook || p==Queen) && TSTFLAG(spec[sq_departure],side_checking))
+      if ((p==Rook || p==Queen) && TSTFLAG(being_solved.spec[sq_departure],side_checking))
         return true;
     }
   }
 
-  if (number_of_pieces[side_checking][Queen]>0
-      || number_of_pieces[side_checking][Bishop]>0)
+  if (being_solved.number_of_pieces[side_checking][Queen]>0
+      || being_solved.number_of_pieces[side_checking][Bishop]>0)
   {
     vec_index_type k;
     for (k= vec_bishop_start; k<=vec_bishop_end; k++)
     {
       square const sq_departure = find_end_of_line(sq_target,vec[k]);
       piece_walk_type const p = get_walk_of_piece_on_square(sq_departure);
-      if ((p==Bishop || p==Queen) && TSTFLAG(spec[sq_departure],side_checking))
+      if ((p==Bishop || p==Queen) && TSTFLAG(being_solved.spec[sq_departure],side_checking))
         return true;
     }
   }
@@ -159,23 +159,23 @@ boolean is_square_observed_ortho(Side side_checking,
 
 boolean is_square_uninterceptably_observed_ortho(Side side_checking, square sq_target)
 {
-  if (number_of_pieces[side_checking][Pawn]>0
+  if (being_solved.number_of_pieces[side_checking][Pawn]>0
       && pawn_check_ortho(side_checking,sq_target))
     return true;
 
-  if (number_of_pieces[side_checking][Knight]>0
+  if (being_solved.number_of_pieces[side_checking][Knight]>0
       && knight_check_ortho(side_checking,sq_target))
     return true;
 
-  if (number_of_pieces[side_checking][Rook]>0
+  if (being_solved.number_of_pieces[side_checking][Rook]>0
       && leapers_check_ortho(side_checking,sq_target, vec_rook_start,vec_rook_end, Rook))
     return true;
 
-  if (number_of_pieces[side_checking][Bishop]>0
+  if (being_solved.number_of_pieces[side_checking][Bishop]>0
       && leapers_check_ortho(side_checking,sq_target, vec_bishop_start,vec_bishop_end, Bishop))
     return true;
 
-  if (number_of_pieces[side_checking][Queen]>0
+  if (being_solved.number_of_pieces[side_checking][Queen]>0
       && leapers_check_ortho(side_checking,sq_target, vec_queen_start,vec_queen_end, Queen))
     return true;
 

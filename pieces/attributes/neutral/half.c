@@ -35,12 +35,12 @@ static void do_deneutralisation(square on, Side to)
 
   ++move_effect_journal_base[nbply+1];
 
-  assert(TSTFLAG(spec[on],White));
-  assert(TSTFLAG(spec[on],Black));
-  assert(is_piece_neutral(spec[on]));
+  assert(TSTFLAG(being_solved.spec[on],White));
+  assert(TSTFLAG(being_solved.spec[on],Black));
+  assert(is_piece_neutral(being_solved.spec[on]));
 
-  --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~BIT(advers(to)));
+  --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
+  occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]&~BIT(advers(to)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -62,8 +62,8 @@ void undo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(advers(to)));
-  ++number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
+  occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]|BIT(advers(to)));
+  ++being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -85,8 +85,8 @@ void redo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  --number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~BIT(advers(to)));
+  --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
+  occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]&~BIT(advers(to)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -98,7 +98,7 @@ void redo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
 static void do_neutralisation(square on)
 {
   move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
-  Side const from = TSTFLAG(spec[on],White) ? White : Black;
+  Side const from = TSTFLAG(being_solved.spec[on],White) ? White : Black;
 
   TraceFunctionEntry(__func__);
   TraceSquare(on);
@@ -118,8 +118,8 @@ static void do_neutralisation(square on)
 
   ++move_effect_journal_base[nbply+1];
 
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(advers(from)));
-  ++number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
+  occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]|BIT(advers(from)));
+  ++being_solved.number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -141,12 +141,12 @@ void undo_half_neutral_neutralisation(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  assert(TSTFLAG(spec[on],White));
-  assert(TSTFLAG(spec[on],Black));
-  assert(is_piece_neutral(spec[on]));
+  assert(TSTFLAG(being_solved.spec[on],White));
+  assert(TSTFLAG(being_solved.spec[on],Black));
+  assert(is_piece_neutral(being_solved.spec[on]));
 
-  --number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]&~BIT(advers(from)));
+  --being_solved.number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
+  occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]&~BIT(advers(from)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -168,8 +168,8 @@ void redo_half_neutral_neutralisation(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  occupy_square(on,get_walk_of_piece_on_square(on),spec[on]|BIT(advers(from)));
-  ++number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
+  occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]|BIT(advers(from)));
+  ++being_solved.number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -206,7 +206,7 @@ void half_neutral_recolorer_solve(slice_index si)
 
     if (TSTFLAG(movingspec,HalfNeutral))
     {
-      if (is_piece_neutral(spec[pos]))
+      if (is_piece_neutral(being_solved.spec[pos]))
         do_deneutralisation(pos,slices[si].starter);
       else
         do_neutralisation(pos);

@@ -48,7 +48,7 @@ static void black_piece_on(boolean is_check, square where_to_intercept, void (*g
 static void black_piece(square target, int dir_from_rider, void (*go_on)(void))
 {
   Flags const mask = BIT(Black)|BIT(Royal);
-  boolean const is_check = TSTFULLFLAGMASK(spec[target+dir_from_rider],mask);
+  boolean const is_check = TSTFULLFLAGMASK(being_solved.spec[target+dir_from_rider],mask);
   square where_to_intercept;
 
   TraceFunctionEntry(__func__);

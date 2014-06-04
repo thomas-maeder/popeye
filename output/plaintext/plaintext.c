@@ -277,7 +277,7 @@ static void write_flags_change(move_context *context,
         WriteSquare(move_effect_journal[curr].u.flags_change.on);
         StdString("=");
         WriteSpec(move_effect_journal[curr].u.flags_change.to,
-                  e[move_effect_journal[curr].u.flags_change.on],
+                  being_solved.board[move_effect_journal[curr].u.flags_change.on],
                   false);
       }
       break;
@@ -612,7 +612,7 @@ static void write_imitator_movement(move_context *context,
 
   for (icount = 0; icount<nr_moved; ++icount)
   {
-    WriteSquare(isquare[icount]);
+    WriteSquare(being_solved.isquare[icount]);
     if (icount+1<nr_moved)
       StdChar(',');
   }

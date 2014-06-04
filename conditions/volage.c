@@ -26,14 +26,14 @@ static void change_side(void)
 
   if (TSTFLAG(movingspec,Volage)
       && SquareCol(sq_departure)!=SquareCol(pos)
-      && !TSTFLAG(spec[pos],to_side))
+      && !TSTFLAG(being_solved.spec[pos],to_side))
   {
     move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
                                        pos);
 
     if (!CondFlag[hypervolage])
     {
-      Flags flags = spec[pos];
+      Flags flags = being_solved.spec[pos];
       CLRFLAG(flags,Volage);
       move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
                                           pos,

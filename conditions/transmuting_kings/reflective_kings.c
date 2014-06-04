@@ -24,7 +24,7 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFULLFLAGMASK(spec[sq_departure],mask))
+  if (TSTFULLFLAGMASK(being_solved.spec[sq_departure],mask))
   {
     numecoup const base = CURRMOVE_OF_PLY(nbply);
     generate_moves_different_walk(slices[si].next1,King);
@@ -45,7 +45,7 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
 boolean reflective_kings_enforce_observer_walk(slice_index si)
 {
   boolean result;
-  square const sq_king = king_square[trait[nbply]];
+  square const sq_king = being_solved.king_square[trait[nbply]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

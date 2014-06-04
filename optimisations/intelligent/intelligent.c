@@ -78,15 +78,15 @@ static stored_position_type initial_position;
 
 static void StorePosition(stored_position_type *store)
 {
-  store->rn_sic = king_square[Black];
-  store->rb_sic = king_square[White];
+  store->rn_sic = being_solved.king_square[Black];
+  store->rb_sic = being_solved.king_square[White];
 
   {
     unsigned int i;
     for (i = 0; i<nr_squares_on_board; i++)
     {
       store->e[i] = get_walk_of_piece_on_square(boardnum[i]);
-      store->spec[i] = spec[boardnum[i]];
+      store->spec[i] = being_solved.spec[boardnum[i]];
     }
   }
 }
@@ -97,13 +97,13 @@ static void ResetPosition(stored_position_type const *store)
     piece_walk_type p;
     for (p = King; p<nr_piece_walks; ++p)
     {
-      number_of_pieces[White][p] = 0;
-      number_of_pieces[Black][p] = 0;
+      being_solved.number_of_pieces[White][p] = 0;
+      being_solved.number_of_pieces[Black][p] = 0;
     }
   }
 
-  king_square[Black] = store->rn_sic;
-  king_square[White] = store->rb_sic;
+  being_solved.king_square[Black] = store->rn_sic;
+  being_solved.king_square[White] = store->rb_sic;
 
   {
     unsigned int i;
@@ -121,7 +121,7 @@ static void ResetPosition(stored_position_type const *store)
         default:
         {
           Side const side = TSTFLAG(store->spec[i],White) ? White : Black;
-          ++number_of_pieces[side][store->e[i]];
+          ++being_solved.number_of_pieces[side][store->e[i]];
           occupy_square(boardnum[i],store->e[i],store->spec[i]);
           break;
         }
@@ -191,11 +191,11 @@ boolean black_pawn_attacks_king(square from)
   assert(!TSTFLAG(sq_spec[from],BlPromSq));
   assert(!TSTFLAG(sq_spec[from],BlBaseSq));
 
-  if (king_square[White]==initsquare)
+  if (being_solved.king_square[White]==initsquare)
     result = false;
   else
   {
-    int const diff = king_square[White]-from;
+    int const diff = being_solved.king_square[White]-from;
     result = diff==dir_down+dir_right || diff==dir_down+dir_left;
   }
 
@@ -216,17 +216,17 @@ static void trace_target_position(PIECE const position[MaxPieceId+1],
   for (bnp = boardnum; *bnp!=initsquare; bnp++)
     if (!is_square_empty(*bnp))
     {
-      Flags const sp = spec[*bnp];
+      Flags const sp = being_solved.spec[*bnp];
       PieceIdType const id = GetPieceId(sp);
       PIECE const * const target = &position[id];
       if (target->square!=vide)
       {
-        unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(e[*bnp],
+        unsigned int const time = intelligent_count_nr_of_moves_from_to_no_check(being_solved.board[*bnp],
                                                                      *bnp,
                                                                      target->type,
                                                                      target->square);
-        moves_per_side[TSTFLAG(spec[*bnp],White) ? White : Black] += time;
-        TraceWalk(e[*bnp]);
+        moves_per_side[TSTFLAG(being_solved.spec[*bnp],White) ? White : Black] += time;
+        TraceWalk(being_solved.board[*bnp]);
         TraceSquare(*bnp);
         TraceWalk(target->type);
         TraceSquare(target->square);
@@ -271,7 +271,7 @@ void solve_target_position(void)
    * using cygwin) appear to have an optimiser error which may cause the value
    * of the expression save_king_square[Black] (but not the underlying memory!!)
    * to be modified from here to the end of the function (where
-   * the value of king_square[Black] is to be restored).
+   * the value of being_solved.king_square[Black] is to be restored).
    *
    * This error doesn't manifest itself if save_king_square is volatile.
    *
@@ -285,8 +285,8 @@ void solve_target_position(void)
    */
   volatile
 #endif
-  square const save_king_square[nr_sides] = { king_square[White],
-                                              king_square[Black] };
+  square const save_king_square[nr_sides] = { being_solved.king_square[White],
+                                              being_solved.king_square[Black] };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -304,7 +304,7 @@ void solve_target_position(void)
       piece_walk_type const type = get_walk_of_piece_on_square(*bnp);
       if (type!=Empty && type!=Invalid)
       {
-        Flags const flags = spec[*bnp];
+        Flags const flags = being_solved.spec[*bnp];
         PieceIdType const id = GetPieceId(flags);
         target_position[id].type = type;
         target_position[id].flags = flags;
@@ -351,18 +351,18 @@ void solve_target_position(void)
   {
     piece_walk_type p;
 
-    number_of_pieces[White][King] = 1;
-    number_of_pieces[Black][King] = 1;
+    being_solved.number_of_pieces[White][King] = 1;
+    being_solved.number_of_pieces[Black][King] = 1;
 
     for (p = King+1; p<=Bishop; ++p)
     {
-      number_of_pieces[White][p] = 2;
-      number_of_pieces[Black][p] = 2;
+      being_solved.number_of_pieces[White][p] = 2;
+      being_solved.number_of_pieces[Black][p] = 2;
     }
   }
 
-  king_square[White] = save_king_square[White];
-  king_square[Black] = save_king_square[Black];
+  being_solved.king_square[White] = save_king_square[White];
+  being_solved.king_square[Black] = save_king_square[Black];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -398,7 +398,7 @@ static void GenerateBlackKing(void)
       }
 
       occupy_square(*bnp,King,king_flags);
-      king_square[Black] = *bnp;
+      being_solved.king_square[Black] = *bnp;
       black[index_of_king].usage = piece_is_king;
 
       init_guard_dirs(*bnp);
@@ -425,7 +425,7 @@ void IntelligentRegulargoal_types(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (king_square[Black]!=initsquare)
+  if (being_solved.king_square[Black]!=initsquare)
   {
     testcastling =
         TSTCASTLINGFLAGMASK(White,q_castling&castling_flags_no_castling)==q_castling
@@ -438,21 +438,21 @@ void IntelligentRegulargoal_types(void)
     MaxPiece[Black] = 0;
     MaxPiece[White] = 0;
 
-    black[index_of_king].type= get_walk_of_piece_on_square(king_square[Black]);
-    black[index_of_king].flags= spec[king_square[Black]];
-    black[index_of_king].diagram_square= king_square[Black];
-    PieceId2index[GetPieceId(spec[king_square[Black]])] = index_of_king;
+    black[index_of_king].type= get_walk_of_piece_on_square(being_solved.king_square[Black]);
+    black[index_of_king].flags= being_solved.spec[being_solved.king_square[Black]];
+    black[index_of_king].diagram_square= being_solved.king_square[Black];
+    PieceId2index[GetPieceId(being_solved.spec[being_solved.king_square[Black]])] = index_of_king;
     ++MaxPiece[Black];
 
-    if (king_square[White]==initsquare)
+    if (being_solved.king_square[White]==initsquare)
       white[index_of_king].usage = piece_is_missing;
     else
     {
       white[index_of_king].usage = piece_is_unused;
-      white[index_of_king].type = get_walk_of_piece_on_square(king_square[White]);
-      white[index_of_king].flags = spec[king_square[White]];
-      white[index_of_king].diagram_square = king_square[White];
-      PieceId2index[GetPieceId(spec[king_square[White]])] = index_of_king;
+      white[index_of_king].type = get_walk_of_piece_on_square(being_solved.king_square[White]);
+      white[index_of_king].flags = being_solved.spec[being_solved.king_square[White]];
+      white[index_of_king].diagram_square = being_solved.king_square[White];
+      PieceId2index[GetPieceId(being_solved.spec[being_solved.king_square[White]])] = index_of_king;
       assert(white[index_of_king].type==King);
     }
 
@@ -464,26 +464,26 @@ void IntelligentRegulargoal_types(void)
       nextply(White);
 
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-        if (king_square[White]!=*bnp && TSTFLAG(spec[*bnp],White))
+        if (being_solved.king_square[White]!=*bnp && TSTFLAG(being_solved.spec[*bnp],White))
         {
           white[MaxPiece[White]].type = get_walk_of_piece_on_square(*bnp);
-          white[MaxPiece[White]].flags = spec[*bnp];
+          white[MaxPiece[White]].flags = being_solved.spec[*bnp];
           white[MaxPiece[White]].diagram_square = *bnp;
           white[MaxPiece[White]].usage = piece_is_unused;
           if (get_walk_of_piece_on_square(*bnp)==Pawn)
             moves_to_white_prom[MaxPiece[White]] = intelligent_count_moves_to_white_promotion(*bnp);
-          PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[White];
+          PieceId2index[GetPieceId(being_solved.spec[*bnp])] = MaxPiece[White];
           ++MaxPiece[White];
         }
 
       for (bnp = boardnum; *bnp!=initsquare; ++bnp)
-        if (king_square[Black]!=*bnp && TSTFLAG(spec[*bnp],Black))
+        if (being_solved.king_square[Black]!=*bnp && TSTFLAG(being_solved.spec[*bnp],Black))
         {
           black[MaxPiece[Black]].type = get_walk_of_piece_on_square(*bnp);
-          black[MaxPiece[Black]].flags = spec[*bnp];
+          black[MaxPiece[Black]].flags = being_solved.spec[*bnp];
           black[MaxPiece[Black]].diagram_square = *bnp;
           black[MaxPiece[Black]].usage = piece_is_unused;
-          PieceId2index[GetPieceId(spec[*bnp])] = MaxPiece[Black];
+          PieceId2index[GetPieceId(being_solved.spec[*bnp])] = MaxPiece[Black];
           ++MaxPiece[Black];
         }
 
@@ -504,8 +504,8 @@ void IntelligentRegulargoal_types(void)
       piece_walk_type p;
       for (p = King; p<=Bishop; ++p)
       {
-        number_of_pieces[White][p] = 2;
-        number_of_pieces[Black][p] = 2;
+        being_solved.number_of_pieces[White][p] = 2;
+        being_solved.number_of_pieces[Black][p] = 2;
       }
     }
 

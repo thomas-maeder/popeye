@@ -53,8 +53,8 @@ static void PushMagicView(square pos_viewed, square pos_magic, square start, squ
   assert(magic_views_top[stack_pointer]<magicviews_size);
 
   magicviews[top].pos_viewed = pos_viewed;
-  magicviews[top].viewedid = GetPieceId(spec[pos_viewed]);
-  magicviews[top].magicpieceid = GetPieceId(spec[pos_magic]);
+  magicviews[top].viewedid = GetPieceId(being_solved.spec[pos_viewed]);
+  magicviews[top].magicpieceid = GetPieceId(being_solved.spec[pos_magic]);
   magicviews[top].line_start = start;
   magicviews[top].line_end = end;
   ++magic_views_top[stack_pointer];
@@ -248,9 +248,9 @@ static void identify_line(void)
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_observer);
-  TraceWalk(e[sq_observer]);
+  TraceWalk(being_solved.board[sq_observer]);
   TraceEOL();
-  switch (e[sq_observer])
+  switch (being_solved.board[sq_observer])
   {
     /* TODO simplify using classes? */
     case Rook:
@@ -434,7 +434,7 @@ boolean magic_enforce_observer(slice_index si)
   {
     square const sq_observer = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
-    if (TSTFLAG(spec[sq_observer],Magic))
+    if (TSTFLAG(being_solved.spec[sq_observer],Magic))
     {
        if (validate_observation_recursive(slices[si].next1))
         identify_line();
@@ -463,8 +463,8 @@ static void PushMagicViewsByOnePiece(piece_walk_type pi_magic)
 
   for (pos_viewed = boardnum; *pos_viewed; pos_viewed++)
     if (get_walk_of_piece_on_square(*pos_viewed)>Invalid
-        && !TSTFLAGMASK(spec[*pos_viewed],BIT(Magic)|BIT(Royal))
-        && !is_piece_neutral(spec[*pos_viewed]))
+        && !TSTFLAGMASK(being_solved.spec[*pos_viewed],BIT(Magic)|BIT(Royal))
+        && !is_piece_neutral(being_solved.spec[*pos_viewed]))
     {
       replace_observation_target(*pos_viewed);
       observing_walk[nbply] = pi_magic;
@@ -504,10 +504,10 @@ static void PushMagicViewsByOneSide(Side side)
   {
     square const *pos_magic;
     for (pos_magic = boardnum; *pos_magic; pos_magic++)
-      /* insisting on TSTFLAG(spec[*pos_magic],Magic) would prevent magic pieces
+      /* insisting on TSTFLAG(being_solved.spec[*pos_magic],Magic) would prevent magic pieces
        * from working properly in conditions such as Annan Chess
        */
-      if (TSTFLAG(spec[*pos_magic],side))
+      if (TSTFLAG(being_solved.spec[*pos_magic],side))
       {
         piece_walk_type const pi_magic = get_walk_of_piece_on_square(*pos_magic);
         if (walk_tried[pi_magic]!=current_mark)
@@ -613,7 +613,7 @@ static void ChangeMagic(void)
     /* only change if viewee suffers odd-no. new views */
     if (count_changed_views(*bnp)%2==1)
     {
-      assert(!is_piece_neutral(spec[*bnp]));
+      assert(!is_piece_neutral(being_solved.spec[*bnp]));
       move_effect_journal_do_side_change(move_effect_reason_magic_piece,*bnp);
     }
 

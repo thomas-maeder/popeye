@@ -11,7 +11,7 @@ static boolean mover_is_not_paralysing(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = !TSTFLAG(spec[move_generation_stack[n].departure],Paralysing);
+  result = !TSTFLAG(being_solved.spec[move_generation_stack[n].departure],Paralysing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

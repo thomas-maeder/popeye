@@ -30,7 +30,7 @@ static boolean is_piece_illegally_observed(Side side, square z)
 {
   boolean result;
 
-  if (TSTFLAG(spec[z],side))
+  if (TSTFLAG(being_solved.spec[z],side))
   {
     trait[nbply] = side; /* from Madrasi's perspective! */
     result = madrasi_is_moving_piece_observed(z);

@@ -39,10 +39,10 @@ static boolean advance_departure_square(square const **next_square_to_try)
     {
       ++*next_square_to_try;
 
-      if (TSTFLAG(spec[sq_departure],trait[nbply])
+      if (TSTFLAG(being_solved.spec[sq_departure],trait[nbply])
         /* don't use king_square[side] - it may be a royal square occupied
          * by a non-royal piece! */
-             && !TSTFLAG(spec[sq_departure],Royal))
+             && !TSTFLAG(being_solved.spec[sq_departure],Royal))
       {
         generate_moves_for_piece(sq_departure);
         return true;

@@ -32,7 +32,7 @@ void kamikaze_capturing_piece_remover_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (TSTFLAG(spec[sq_arrival],Kamikaze)
+  if (TSTFLAG(being_solved.spec[sq_arrival],Kamikaze)
       && move_effect_journal[capture].type==move_effect_piece_removal)
     move_effect_journal_do_piece_removal(move_effect_reason_kamikaze_capturer,
                                          sq_arrival);

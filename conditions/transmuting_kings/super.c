@@ -59,7 +59,7 @@ void supertransmuting_kings_transmuter_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    Flags flags = spec[pos];
+    Flags flags = being_solved.spec[pos];
 
     CLRFLAG(flags,Royal);
     move_effect_journal_do_flags_change(move_effect_reason_king_transmutation,

@@ -90,10 +90,10 @@ play_move
 
 if (PatienceB) {
   ply nply;
-  e[sq_departure]= obs;
+  being_solved.board[sq_departure]= obs;
   for (nply= nbply - 1 ; nply > 1 ; nply--) {
     if (trait[nply] == trait_ply) {
-      e[sqdep[nply]]= vide;
+      being_solved.board[sqdep[nply]]= vide;
     }
   }
 }
@@ -104,7 +104,7 @@ retract_move
     ply nply;
     for (nply= nbply - 1 ; nply > 1 ; nply--) {
       if (trait[nply] == trait[nbply]) {
-        e[sqdep[nply]]= obs;
+        being_solved.board[sqdep[nply]]= obs;
       }
     }
   }

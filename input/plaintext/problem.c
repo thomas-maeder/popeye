@@ -48,8 +48,8 @@ static void InitBoard(void)
   for (bnp = boardnum; *bnp; bnp++)
     empty_square(*bnp);
 
-  king_square[White] = initsquare;
-  king_square[Black] = initsquare;
+  being_solved.king_square[White] = initsquare;
+  being_solved.king_square[Black] = initsquare;
 
   CLEARFL(all_pieces_flags);
   CLEARFL(all_royals_flags);

@@ -18,16 +18,16 @@ static void update_king_square(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",number_of_pieces[side][King]);
-  if (number_of_pieces[side][King]==1)
+  TraceValue("%u\n",being_solved.number_of_pieces[side][King]);
+  if (being_solved.number_of_pieces[side][King]==1)
   {
-    if (king_square[side]==initsquare)
+    if (being_solved.king_square[side]==initsquare)
     {
       square const *bnp;
       for (bnp = boardnum; *bnp; ++bnp)
-        if (TSTFLAG(spec[*bnp],side) && get_walk_of_piece_on_square(*bnp)==King)
+        if (TSTFLAG(being_solved.spec[*bnp],side) && get_walk_of_piece_on_square(*bnp)==King)
         {
-          Flags flags = spec[*bnp];
+          Flags flags = being_solved.spec[*bnp];
           SETFLAG(flags,Royal);
           move_effect_journal_do_flags_change(move_effect_reason_royal_dynasty,
                                               *bnp,flags);
@@ -38,18 +38,18 @@ static void update_king_square(Side side)
   }
   else
   {
-    if (king_square[side]!=initsquare)
+    if (being_solved.king_square[side]!=initsquare)
     {
-      Flags flags = spec[king_square[side]];
+      Flags flags = being_solved.spec[being_solved.king_square[side]];
 
-      /* before move_effect_journal_do_flags_change() or king_square may have
+      /* before move_effect_journal_do_flags_change() or being_solved.king_square may have
        * been modified
        */
-      disable_castling_rights(move_effect_reason_royal_dynasty,king_square[side]);
+      disable_castling_rights(move_effect_reason_royal_dynasty,being_solved.king_square[side]);
 
       CLRFLAG(flags,Royal);
       move_effect_journal_do_flags_change(move_effect_reason_royal_dynasty,
-                                          king_square[side],flags);
+                                          being_solved.king_square[side],flags);
     }
   }
 

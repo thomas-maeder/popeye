@@ -9,7 +9,7 @@
 
 void dont_try_observing_with_non_existing_walk(slice_index si)
 {
-  if (number_of_pieces[trait[nbply]][observing_walk[nbply]]>0)
+  if (being_solved.number_of_pieces[trait[nbply]][observing_walk[nbply]]>0)
     is_square_observed_recursive(slices[si].next1);
   else
     observation_result = false;
@@ -17,7 +17,7 @@ void dont_try_observing_with_non_existing_walk(slice_index si)
 
 void dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
 {
-  if (number_of_pieces[White][observing_walk[nbply]]+number_of_pieces[Black][observing_walk[nbply]]>0)
+  if (being_solved.number_of_pieces[White][observing_walk[nbply]]+being_solved.number_of_pieces[Black][observing_walk[nbply]]>0)
     is_square_observed_recursive(slices[si].next1);
   else
     observation_result = false;

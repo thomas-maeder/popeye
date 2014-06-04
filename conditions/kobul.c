@@ -21,7 +21,7 @@ static void substitute(Side trait_ply)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-  square const king_pos = king_square[advers(trait_ply)];
+  square const king_pos = being_solved.king_square[advers(trait_ply)];
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
       && kobul_who[advers(trait_ply)]
@@ -31,7 +31,7 @@ static void substitute(Side trait_ply)
     piece_walk_type const kobul_kind = is_pawn(pi_captured) ? King : pi_captured;
 
     Flags const capturee_flags = move_effect_journal[capture].u.piece_removal.flags;
-    Flags spec_kobul = spec[king_pos];
+    Flags spec_kobul = being_solved.spec[king_pos];
     CLRFLAGMASK(spec_kobul,transferred_flags_mask);
     SETFLAGMASK(spec_kobul,capturee_flags&transferred_flags_mask);
 
@@ -40,7 +40,7 @@ static void substitute(Side trait_ply)
                                           king_pos,
                                           kobul_kind);
 
-    if (spec[king_pos]!=spec_kobul)
+    if (being_solved.spec[king_pos]!=spec_kobul)
       move_effect_journal_do_flags_change(move_effect_reason_kobul_king,
                                           king_pos,
                                           spec_kobul);

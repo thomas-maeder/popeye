@@ -123,7 +123,7 @@ static square decide_about_change(void)
 
   square const sq_promotion = find_promotion(horizon);
   if (sq_promotion!=initsquare
-      && !TSTFLAG(spec[sq_promotion],Chameleon)
+      && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon)
       && !post_move_iteration_locked[nbply])
   {
     result = sq_promotion;
@@ -135,7 +135,7 @@ static square decide_about_change(void)
 
 static void do_change(void)
 {
-  Flags changed = spec[change_into_chameleon[stack_pointer]];
+  Flags changed = being_solved.spec[change_into_chameleon[stack_pointer]];
   SETFLAG(changed,Chameleon);
   move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
                                       change_into_chameleon[stack_pointer],

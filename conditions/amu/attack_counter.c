@@ -30,7 +30,7 @@ boolean amu_count_observation(slice_index si)
     square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
 
     if (get_walk_of_piece_on_square(sq_departure)==observing_walk[nbply]
-        && TSTFLAG(spec[sq_departure],trait[nbply]))
+        && TSTFLAG(being_solved.spec[sq_departure],trait[nbply]))
     {
       /* this deals correctly with double attacks by the same piece (e.g. a rose) */
       if (single_attacker_departure==sq_departure)

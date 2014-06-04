@@ -24,7 +24,7 @@ static boolean goes_back_home(numecoup n)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = sq_arrival==pieceid2pos[GetPieceId(spec[sq_departure])];
+  result = sq_arrival==pieceid2pos[GetPieceId(being_solved.spec[sq_departure])];
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -223,7 +223,7 @@ void backhome_initialise_solving(slice_index si)
     square const *bnp;
     for (bnp = boardnum; *bnp; ++bnp)
       if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
-        pieceid2pos[GetPieceId(spec[*bnp])] = *bnp;
+        pieceid2pos[GetPieceId(being_solved.spec[*bnp])] = *bnp;
   }
 
   {

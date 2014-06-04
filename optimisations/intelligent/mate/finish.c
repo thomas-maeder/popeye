@@ -70,9 +70,9 @@ static boolean exists_redundant_white_piece(void)
   for (bnp = boardnum; !result && *bnp!=initsquare; bnp++)
   {
     square const sq = *bnp;
-    if (TSTFLAG(spec[sq],White) && !TSTFLAG(spec[sq],Royal))
+    if (TSTFLAG(being_solved.spec[sq],White) && !TSTFLAG(being_solved.spec[sq],Royal))
     {
-      PieceIdType const id = GetPieceId(spec[sq]);
+      PieceIdType const id = GetPieceId(being_solved.spec[sq]);
       piece_usage const usage = white[PieceId2index[id]].usage;
       TraceValue("%u",PieceId2index[id]);
       TraceSquare(*bnp);
@@ -80,7 +80,7 @@ static boolean exists_redundant_white_piece(void)
       if (usage!=piece_intercepts_check_from_guard && usage!=piece_gives_check)
       {
         piece_walk_type const p = get_walk_of_piece_on_square(sq);
-        Flags const sp = spec[sq];
+        Flags const sp = being_solved.spec[sq];
         empty_square(sq);
         result = fork_solve(current_start_slice,slack_length)==slack_length;
         occupy_square(sq,p,sp);
@@ -104,19 +104,19 @@ static square find_king_flight(void)
 {
   square result = initsquare;
   vec_index_type i;
-  Flags const king_spec = spec[king_square[Black]];
+  Flags const king_spec = being_solved.spec[being_solved.king_square[Black]];
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  empty_square(king_square[Black]);
+  empty_square(being_solved.king_square[Black]);
 
   for (i = vec_queen_start; i<=vec_queen_end; ++i)
   {
-    square const flight = king_square[Black]+vec[i];
+    square const flight = being_solved.king_square[Black]+vec[i];
 
     if (!is_square_blocked(flight)
-        && !TSTFLAG(spec[flight],Black)
+        && !TSTFLAG(being_solved.spec[flight],Black)
         && !is_square_observed_ortho(White,flight))
     {
       result = flight;
@@ -124,7 +124,7 @@ static square find_king_flight(void)
     }
   }
 
-  occupy_square(king_square[Black],King,king_spec);
+  occupy_square(being_solved.king_square[Black],King,king_spec);
 
   TraceFunctionExit(__func__);
   TraceSquare(result);

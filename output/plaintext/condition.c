@@ -533,8 +533,8 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
         case imitators:
         {
           unsigned int imi_idx;
-          for (imi_idx = 0; imi_idx<number_of_imitators; imi_idx++)
-            written += append_to_CondLine_square(&CondLine,written,isquare[imi_idx]);
+          for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; imi_idx++)
+            written += append_to_CondLine_square(&CondLine,written,being_solved.isquare[imi_idx]);
           break;
         }
 

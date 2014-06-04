@@ -18,7 +18,7 @@ static void update_hurdle_colour(void)
   square const sq_hurdle = hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle;
   piece_walk_type const pi_hurdle = get_walk_of_piece_on_square(sq_hurdle);
 
-  if (pi_hurdle>King && !is_piece_neutral(spec[sq_hurdle]))
+  if (pi_hurdle>King && !is_piece_neutral(being_solved.spec[sq_hurdle]))
     move_effect_journal_do_side_change(move_effect_reason_hurdle_colour_changing,
                                        sq_hurdle);
 }

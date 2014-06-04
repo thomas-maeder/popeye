@@ -23,8 +23,8 @@ static void perform_oscillation(void)
   TraceFunctionParamListEnd();
 
   move_effect_journal_do_piece_exchange(move_effect_reason_oscillating_kings,
-                                        king_square[White],
-                                        king_square[Black]);
+                                        being_solved.king_square[White],
+                                        being_solved.king_square[Black]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -17,7 +17,7 @@ void chinese_pawn_generate_moves(void)
     int const dir_forward = trait[nbply]==White ? dir_up : dir_down;
     curr_generation->arrival = sq_departure+dir_forward;
     if (is_square_empty(curr_generation->arrival)
-        || TSTFLAG(spec[curr_generation->arrival],opponent))
+        || TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
       push_move();
   }
 
@@ -26,12 +26,12 @@ void chinese_pawn_generate_moves(void)
     {
       curr_generation->arrival = sq_departure+dir_right;
       if (is_square_empty(curr_generation->arrival)
-          || TSTFLAG(spec[curr_generation->arrival],opponent))
+          || TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
         push_move();
     }
     {
       curr_generation->arrival = sq_departure+dir_left;
-      if (is_square_empty(curr_generation->arrival) || TSTFLAG(spec[curr_generation->arrival],opponent))
+      if (is_square_empty(curr_generation->arrival) || TSTFLAG(being_solved.spec[curr_generation->arrival],opponent))
         push_move();
     }
   }

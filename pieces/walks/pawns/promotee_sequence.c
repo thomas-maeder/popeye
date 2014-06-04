@@ -144,10 +144,10 @@ Side is_square_occupied_by_promotable_pawn(square square_reached)
   {
     boolean const forward = is_forwardpawn(walk_moving);
     if ((forward ? ForwardPromSq(White,square_reached) : ReversePromSq(White,square_reached))
-        && TSTFLAG(spec[square_reached],White))
+        && TSTFLAG(being_solved.spec[square_reached],White))
       result = White;
     else if ((forward ? ForwardPromSq(Black,square_reached) : ReversePromSq(Black,square_reached))
-             && TSTFLAG(spec[square_reached],Black))
+             && TSTFLAG(being_solved.spec[square_reached],Black))
       result = Black;
   }
 

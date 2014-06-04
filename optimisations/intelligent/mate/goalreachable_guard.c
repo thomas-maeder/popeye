@@ -47,23 +47,23 @@ static boolean mate_isGoalReachable(void)
         piece_walk_type const from_piece = get_walk_of_piece_on_square(from_square);
         if (from_piece!=Empty && from_piece!=Invalid)
         {
-          PieceIdType const id = GetPieceId(spec[from_square]);
+          PieceIdType const id = GetPieceId(being_solved.spec[from_square]);
           if (target_position[id].diagram_square!=initsquare)
           {
-            Side const from_side = TSTFLAG(spec[from_square],White) ? White : Black;
+            Side const from_side = TSTFLAG(being_solved.spec[from_square],White) ? White : Black;
             if (from_side==White
                 && white[PieceId2index[id]].usage==piece_gives_check
                 && MovesLeft[White]>0)
             {
-              square const save_king_square = king_square[Black];
-              PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
-              king_square[Black] = target_position[id_king].diagram_square;
+              square const save_king_square = being_solved.king_square[Black];
+              PieceIdType const id_king = GetPieceId(being_solved.spec[being_solved.king_square[Black]]);
+              being_solved.king_square[Black] = target_position[id_king].diagram_square;
               MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_checking(from_side,
                                                                                                 from_piece,
                                                                                                 from_square,
                                                                                                 target_position[id].type,
                                                                                                 target_position[id].diagram_square);
-              king_square[Black] = save_king_square;
+              being_solved.king_square[Black] = save_king_square;
             }
             else
               MovesRequired[from_side][nbply] += intelligent_count_nr_of_moves_from_to_no_check(from_side,
@@ -109,19 +109,19 @@ static boolean mate_isGoalReachable(void)
         unsigned int time_now;
         piece_walk_type const pi_departing = move_effect_journal[movement].u.piece_movement.moving;
         piece_walk_type const pi_arrived = get_walk_of_piece_on_square(sq_arrival);
-        Side const side_arrived = TSTFLAG(spec[sq_arrival],White) ? White : Black;
+        Side const side_arrived = TSTFLAG(being_solved.spec[sq_arrival],White) ? White : Black;
         if (trait[nbply]==White
             && white[PieceId2index[id]].usage==piece_gives_check)
         {
-          square const save_king_square = king_square[Black];
-          PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
-          king_square[Black] = target_position[id_king].diagram_square;
+          square const save_king_square = being_solved.king_square[Black];
+          PieceIdType const id_king = GetPieceId(being_solved.spec[being_solved.king_square[Black]]);
+          being_solved.king_square[Black] = target_position[id_king].diagram_square;
           time_before = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
                                                                        pi_departing,
                                                                        sq_departure,
                                                                        target_position[id].type,
                                                                        target_position[id].diagram_square);
-          king_square[Black] = save_king_square;
+          being_solved.king_square[Black] = save_king_square;
         }
         else
           time_before = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,
@@ -134,15 +134,15 @@ static boolean mate_isGoalReachable(void)
             && white[PieceId2index[id]].usage==piece_gives_check
             && MovesLeft[White]>0)
         {
-          square const save_king_square = king_square[Black];
-          PieceIdType const id_king = GetPieceId(spec[king_square[Black]]);
-          king_square[Black] = target_position[id_king].diagram_square;
+          square const save_king_square = being_solved.king_square[Black];
+          PieceIdType const id_king = GetPieceId(being_solved.spec[being_solved.king_square[Black]]);
+          being_solved.king_square[Black] = target_position[id_king].diagram_square;
           time_now = intelligent_count_nr_of_moves_from_to_checking(side_arrived,
                                                                     pi_arrived,
                                                                     sq_arrival,
                                                                     target_position[id].type,
                                                                     target_position[id].diagram_square);
-          king_square[Black] = save_king_square;
+          being_solved.king_square[Black] = save_king_square;
         }
         else
           time_now = intelligent_count_nr_of_moves_from_to_no_check(side_arrived,

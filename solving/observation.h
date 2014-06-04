@@ -116,7 +116,7 @@ typedef slice_index validator_id;
 #define INVOKE_EVALUATE(validator) (validate_observation_recursive(slices[validator].next2))
 
 #define EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival) \
-  ( TSTFLAG(spec[sq_departure],trait[nbply]) \
+  ( TSTFLAG(being_solved.spec[sq_departure],trait[nbply]) \
     && ( move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = (sq_departure), \
          move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival = (sq_arrival), \
          INVOKE_EVALUATE(evaluate)) \
