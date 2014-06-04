@@ -1740,10 +1740,6 @@ never generates the same solution twice (but some solutions
 
 Initial (White ->):
 
-in a=>b or proof games, the intelligent machinery
-never generates the same solution twice (but some solutions
-      may look very similar ...)
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -R  -S  -B   .  -K  -B  -S  -R   8
@@ -1763,8 +1759,6 @@ never generates the same solution twice (but some solutions
 1   R   S   B   .   K   B   S   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b1.5                   16 + 16
-              Circe Cage
 
   1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b
   1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b
@@ -1804,9 +1798,6 @@ promote to bishop (no cage for queen) even if there was a cage
 
 Initial (Black ->):
 
-promote to bishop (no cage for queen) even if there was a cage
-  when we promoted to queen or rook
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -R  -S  -B  -Q  -K  -B  -S  -R   8
@@ -1826,8 +1817,6 @@ promote to bishop (no cage for queen) even if there was a cage
 1   R   S   B   Q   K   .   S   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b0.5                   16 + 16
-              Circe Cage
 
   1.e2*d1=B a=>b
 
@@ -2237,9 +2226,6 @@ issue 2886962: 4.51 didn't allow a reborn rook
 
 Initial (Black ->):
 
-issue 2886962: 4.51 didn't allow a reborn rook
-  to castle in proof games and a=>b
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -K  -R   R   .   .   .   .   .   8
@@ -2259,8 +2245,6 @@ issue 2886962: 4.51 didn't allow a reborn rook
 1   .   .   .   .   K   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b1.0                     2 + 2
-                Circe
 
   1.Rb8*c8[+wRh1] 0-0 a=>b
 
