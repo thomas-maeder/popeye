@@ -221,8 +221,6 @@ solution finished.
 
 Initial (Black ->):
 
-4.63 couldn't solve proof games with worm holes
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -R  -S  -B  -Q  -K   .   .  -R   8
@@ -242,8 +240,6 @@ Initial (Black ->):
 1   R   S   B   Q   .   B   S   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b1                     16 + 16
-           Wormholes e5 f8
 
   1.h7-h6 Kg7-f8[wKf8->e5] a=>b
 
@@ -846,12 +842,12 @@ versions up to 4.63 didn't allow hunters to capture or be captured ep
 |                                   |
 8   .   .   .   .   .   .   .   .   8
 |                                   |
-7   .   .   . -P/   .   .   .   .   7
-|              B                    |
+7   .   .   .  -P/  .   .   .   .   7
+|               B                   |
 6   .   .   .   .   .   .   .   .   6
 |                                   |
-5   .   .   .   .  P/   .   .   .   5
-|                  B                |
+5   .   .   .   .   P/  .   .   .   5
+|                   B               |
 4   .   .   .   .   .   .   .   .   4
 |                                   |
 3   .   .   .   .   .   .   .   .   3

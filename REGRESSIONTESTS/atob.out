@@ -25,9 +25,6 @@
 
 Initial (Weiss ->):
 
-                  ?
-           Andernach 5/2001
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   T   .   .   .   8
@@ -47,7 +44,6 @@ Initial (Weiss ->):
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b6                       4 + 3
 
   1.Tb6-h6 La6-f1   2.Te8-e2 Tg3-g6   3.Kb3-c4 Kc7-b6   4.Kc4-d5 Kb6-b5   5.Te2-e5 Tg6-g4   6.Th6-d6 Lf1-c4 + a=>b
 
@@ -85,9 +81,6 @@ Loesung beendet.
 
 Initial (Weiss ->):
 
-                  ?
-           Andernach 5/2001
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
@@ -107,7 +100,6 @@ Initial (Weiss ->):
 1   .   .   .   .   .  -K   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b16                      5 + 5
 
   1  (d3-d4 )
   2  (e4-e5 )
@@ -159,9 +151,6 @@ Loesung beendet.
 
 Initial (Schwarz ->):
 
-    Norbert Geissler & Oliver Sick
-           Andernach 5/2001
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
@@ -181,7 +170,6 @@ Initial (Schwarz ->):
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b5.5                     5 + 3
 
   1  (c2-c1=D )
   2  (c2-c1=S )
@@ -236,9 +224,6 @@ Loesung beendet.
 
 Initial (Schwarz ->):
 
-           Rene J. Millour
-           Fehler-Beispiel
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -K   .   .   .   .   .   .   .   8
@@ -258,8 +243,6 @@ Initial (Schwarz ->):
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b2.5                     2 + 1
-             Imitator d4
 
   1.Ka8-b8[Ie4] Ka5-b5[If4]   2.Kb8-c7[Ig3] Kb5-a6[If4]   3.Kc7*c6[If3] a=>b
 
@@ -297,9 +280,6 @@ Loesung beendet.
 
 Initial (Schwarz ->):
 
-          Ren\'e J. Millour
-    Die Schwalbe 203, Oktober 2003
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
@@ -319,7 +299,6 @@ Initial (Schwarz ->):
 1   .   .   K   D   S   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b3                      10 + 8
 
   1.f2-f1=D e7-e8=D   2.Df1-d3 De8-e2   3.Dd3*d1 + De2*d1 a=>b
   1.f2-f1=S e7-e8=S   2.Sf1-g3 Se8-f6   3.Sg3*h5 Sf6*h5 a=>b

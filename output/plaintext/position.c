@@ -419,7 +419,7 @@ static void WriteBlankLine(void)
   StdString(" |\n");
 }
 
-static void WriteBoard(void)
+void WriteBoard(void)
 {
   unsigned int row;
   square square_a;
