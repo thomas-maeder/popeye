@@ -40,7 +40,6 @@
 #include "optimisations/killer_move/killer_move.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "output/plaintext/message.h"
-#include "output/plaintext/proofgame.h"
 #include "solving/castling.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_effect_journal.h"
@@ -244,8 +243,7 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
   return result;
 }
 
-static boolean proofgame_restore_start(slice_index stipulation_root,
-                                       twin_context_type context)
+static boolean proofgame_restore_start(slice_index stipulation_root)
 {
   boolean result = false;
 
@@ -263,8 +261,6 @@ static boolean proofgame_restore_start(slice_index stipulation_root,
 
     case goal_atob:
       ProofRestoreStartPosition();
-      if (!OptFlag[noboard] && context==twin_initial)
-        ProofWriteStartPosition(stipulation_root);
       result = true;
       break;
 
@@ -1694,19 +1690,17 @@ static void solve_any_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
-                                        twin_context_type context)
+static void solve_proofgame_stipulation(slice_index stipulation_root_hook)
 {
   slice_index const stipulation_root = slices[stipulation_root_hook].next1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   ProofSaveTargetPosition();
 
-  if (proofgame_restore_start(stipulation_root,context))
+  if (proofgame_restore_start(stipulation_root))
   {
     countPieces();
     initialise_piece_ids();
@@ -1722,8 +1716,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook,
   TraceFunctionResultEnd();
 }
 
-void twin_solve_stipulation(slice_index stipulation_root_hook,
-                            twin_context_type context)
+void twin_solve_stipulation(slice_index stipulation_root_hook)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
   square new_king_square[nr_sides] = { initsquare, initsquare };
@@ -1746,7 +1739,7 @@ void twin_solve_stipulation(slice_index stipulation_root_hook,
 
     if (stip_ends_in(slices[stipulation_root_hook].next1,goal_proofgame)
         || stip_ends_in(slices[stipulation_root_hook].next1,goal_atob))
-      solve_proofgame_stipulation(stipulation_root_hook,context);
+      solve_proofgame_stipulation(stipulation_root_hook);
     else
       solve_any_stipulation(stipulation_root_hook);
   }

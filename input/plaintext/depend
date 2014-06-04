@@ -282,16 +282,17 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/plaintext/condition.h \
  output/plaintext/pieces.h output/plaintext/plaintext.h \
- output/plaintext/position.h output/plaintext/proofgame.h \
- output/plaintext/twinning.h output/latex/latex.h \
+ output/plaintext/position.h output/plaintext/twinning.h \
+ output/latex/latex.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/quodlibet.h options/goal_is_end.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/chameleon.h \
  position/underworld.h stipulation/pipe.h stipulation/branch.h \
  stipulation/proxy.h stipulation/move_inverter.h \
  stipulation/help_play/branch.h stipulation/battle_play/branch.h \
- solving/goals/prerequisite_guards.h utilities/table.h platform/maxmem.h \
- platform/pytime.h debugging/measure.h debugging/assert.h
+ solving/goals/prerequisite_guards.h solving/proofgames.h \
+ utilities/table.h platform/maxmem.h platform/pytime.h \
+ debugging/measure.h debugging/assert.h
 
 input/plaintext/twin.h:
 
@@ -417,8 +418,6 @@ output/plaintext/plaintext.h:
 
 output/plaintext/position.h:
 
-output/plaintext/proofgame.h:
-
 output/plaintext/twinning.h:
 
 output/latex/latex.h:
@@ -448,6 +447,8 @@ stipulation/help_play/branch.h:
 stipulation/battle_play/branch.h:
 
 solving/goals/prerequisite_guards.h:
+
+solving/proofgames.h:
 
 utilities/table.h:
 

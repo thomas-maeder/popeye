@@ -22,8 +22,7 @@ typedef enum
  * @param stipulation_root_hook identifies the root slice of the stipulation
  * @param context context of the twin to be solved
  */
-void twin_solve_stipulation(slice_index stipulation_root_hook,
-                            twin_context_type context);
+void twin_solve_stipulation(slice_index stipulation_root_hook);
 
 /* Assign every piece of the position their id
  */

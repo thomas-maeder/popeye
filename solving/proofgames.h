@@ -10,8 +10,12 @@
 #define PYPROOF_H
 
 #include "stipulation/stipulation.h"
+#include "position/position.h"
 
 extern boolean change_moving_piece;
+
+extern position proofgames_start_position;
+extern position proofgames_target_position;
 
 /* Encode the hash key for the current position
  */

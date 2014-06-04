@@ -53,8 +53,8 @@
 
 boolean change_moving_piece;
 
-static position start;
-static position target;
+position proofgames_start_position;
+position proofgames_target_position;
 
 /* an array to store the position */
 static piece_walk_type ProofPieces[32];
@@ -207,7 +207,7 @@ static void ProofInitialiseKingMoves(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (target.king_square[side]==initsquare)
+  if (proofgames_target_position.king_square[side]==initsquare)
   {
     /* set all squares to a maximum */
     for (bnp = boardnum; *bnp; ++bnp)
@@ -220,11 +220,11 @@ static void ProofInitialiseKingMoves(Side side)
       KingMoves[side][*bnp] = current_length;
 
     for (sq = square_pawn_base; sq<square_pawn_base+nr_files_on_board; ++sq)
-      if (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],side))
+      if (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],side))
         KingMoves[side][sq] = -1; /* blocked */
 
     for (sq = square_opponent_pawn_base; sq<square_opponent_pawn_base+nr_files_on_board; ++sq)
-      if (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],advers(side)))
+      if (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],advers(side)))
       {
         KingMoves[side][sq]= -1;    /* blocked */
         if (is_observation_trivially_validated(advers(side)))
@@ -245,7 +245,7 @@ static void ProofInitialiseKingMoves(Side side)
       KingMoves[side][square_opponent_base+file_f]= -1;
 
     /* initialise wh king */
-    KingMoves[side][target.king_square[side]]= 0;
+    KingMoves[side][proofgames_target_position.king_square[side]]= 0;
     MoveNbr= 0;
     do
     {
@@ -317,7 +317,7 @@ void ProofInitialiseIntelligentSide(Side side)
   {
     piece_walk_type i;
     for (i = King; i <= Bishop; ++i)
-      ProofNbrPieces[side] += target.number_of_pieces[side][i];
+      ProofNbrPieces[side] += proofgames_target_position.number_of_pieces[side][i];
   }
 
   if (!ProofFairy)
@@ -334,34 +334,34 @@ void ProofInitialiseIntelligentSide(Side side)
     square const sq_queen_block_right = sq_queen+dir_forward+dir_right;
 
     /* determine pieces blocked */
-    BlockedQueenBishop[side] = (target.board[sq_queen_bishop]==Bishop && TSTFLAG(target.spec[sq_queen_bishop],side))
-        && (target.board[sq_queen_bishop_block_left]==Pawn && TSTFLAG(target.spec[sq_queen_bishop_block_left],side))
-        && (target.board[sq_queen_bishop_block_right]==Pawn && TSTFLAG(target.spec[sq_queen_bishop_block_right],side));
+    BlockedQueenBishop[side] = (proofgames_target_position.board[sq_queen_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop],side))
+        && (proofgames_target_position.board[sq_queen_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_left],side))
+        && (proofgames_target_position.board[sq_queen_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_right],side));
 
-    BlockedKingBishop[side] = (target.board[sq_king_bishop]==Bishop && TSTFLAG(target.spec[sq_king_bishop],side))
-        && (target.board[sq_king_bishop_block_left]==Pawn && TSTFLAG(target.spec[sq_king_bishop_block_left],side))
-        && (target.board[sq_king_bishop_block_right]==Pawn && TSTFLAG(target.spec[sq_king_bishop_block_right],side));
+    BlockedKingBishop[side] = (proofgames_target_position.board[sq_king_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_king_bishop],side))
+        && (proofgames_target_position.board[sq_king_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_left],side))
+        && (proofgames_target_position.board[sq_king_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_right],side));
 
     BlockedQueen[side] = BlockedQueenBishop[side]
         && BlockedKingBishop[side]
-        && (target.board[sq_queen]==Queen && TSTFLAG(target.spec[sq_queen],side))
-        && (target.board[sq_queen_block_left]==Pawn && TSTFLAG(target.spec[sq_queen_block_left],side))
-        && (target.board[sq_queen_block_right]==Pawn && TSTFLAG(target.spec[sq_queen_block_right],side));
+        && (proofgames_target_position.board[sq_queen]==Queen && TSTFLAG(proofgames_target_position.spec[sq_queen],side))
+        && (proofgames_target_position.board[sq_queen_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_left],side))
+        && (proofgames_target_position.board[sq_queen_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_right],side));
 
     /* determine pieces captured */
-    CapturedQueenBishop[side] = !(target.board[sq_queen_bishop]==Bishop && TSTFLAG(target.spec[sq_queen_bishop],side))
-        && (target.board[sq_queen_bishop_block_left]==Pawn && TSTFLAG(target.spec[sq_queen_bishop_block_left],side))
-        && (target.board[sq_queen_bishop_block_right]==Pawn && TSTFLAG(target.spec[sq_queen_bishop_block_right],side));
+    CapturedQueenBishop[side] = !(proofgames_target_position.board[sq_queen_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop],side))
+        && (proofgames_target_position.board[sq_queen_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_left],side))
+        && (proofgames_target_position.board[sq_queen_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_bishop_block_right],side));
 
-    CapturedKingBishop[side] = !(target.board[sq_king_bishop]==Bishop && TSTFLAG(target.spec[sq_king_bishop],side))
-        && (target.board[sq_king_bishop_block_left]==Pawn && TSTFLAG(target.spec[sq_king_bishop_block_left],side))
-        && (target.board[sq_king_bishop_block_right]==Pawn && TSTFLAG(target.spec[sq_king_bishop_block_right],side));
+    CapturedKingBishop[side] = !(proofgames_target_position.board[sq_king_bishop]==Bishop && TSTFLAG(proofgames_target_position.spec[sq_king_bishop],side))
+        && (proofgames_target_position.board[sq_king_bishop_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_left],side))
+        && (proofgames_target_position.board[sq_king_bishop_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_king_bishop_block_right],side));
 
     CapturedQueen[side] = BlockedQueenBishop[side]
         && BlockedKingBishop[side]
-        && !(target.board[sq_queen]==Queen && TSTFLAG(target.spec[sq_queen],side))
-        && (target.board[sq_queen_block_left]==Pawn && TSTFLAG(target.spec[sq_queen_block_left],side))
-        && (target.board[sq_queen_block_right]==Pawn && TSTFLAG(target.spec[sq_queen_block_right],side));
+        && !(proofgames_target_position.board[sq_queen]==Queen && TSTFLAG(proofgames_target_position.spec[sq_queen],side))
+        && (proofgames_target_position.board[sq_queen_block_left]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_left],side))
+        && (proofgames_target_position.board[sq_queen_block_right]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_queen_block_right],side));
 
     /* update castling possibilities */
     if (BlockedQueenBishop[side])
@@ -402,9 +402,9 @@ static void override_standard_walk(square s, Side side, piece_walk_type orthodox
 {
   piece_walk_type const overriding_walk = standard_walks[orthodox_walk];
 
-  --start.number_of_pieces[side][start.board[s]];
-  start.board[s] = overriding_walk;
-  ++start.number_of_pieces[side][overriding_walk];
+  --proofgames_start_position.number_of_pieces[side][proofgames_start_position.board[s]];
+  proofgames_start_position.board[s] = overriding_walk;
+  ++proofgames_start_position.number_of_pieces[side][overriding_walk];
 }
 
 void ProofInitialiseStartPosition(void)
@@ -412,7 +412,7 @@ void ProofInitialiseStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  start = game_array;
+  proofgames_start_position = game_array;
 
   override_standard_walk(square_e1,White,King);
   override_standard_walk(square_d1,White,Queen);
@@ -460,24 +460,24 @@ void ProofSaveStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  start.king_square[Black] = being_solved.king_square[Black];
-  start.king_square[White] = being_solved.king_square[White];
+  proofgames_start_position.king_square[Black] = being_solved.king_square[Black];
+  proofgames_start_position.king_square[White] = being_solved.king_square[White];
 
   for (p = King; p<nr_piece_walks; ++p)
   {
-    start.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
-    start.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
+    proofgames_start_position.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
+    proofgames_start_position.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
   }
 
   for (i = 0; i<maxsquare; ++i)
-    start.board[i] = get_walk_of_piece_on_square(i);
+    proofgames_start_position.board[i] = get_walk_of_piece_on_square(i);
 
   for (i = 0; i<nr_squares_on_board; ++i)
-    start.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
+    proofgames_start_position.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
 
-  start.number_of_imitators = being_solved.number_of_imitators;
+  proofgames_start_position.number_of_imitators = being_solved.number_of_imitators;
   for (i = 0; i<being_solved.number_of_imitators; ++i)
-    start.isquare[i] = being_solved.isquare[i];
+    proofgames_start_position.isquare[i] = being_solved.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -490,11 +490,11 @@ void ProofRestoreStartPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  being_solved.king_square[Black] = start.king_square[Black];
-  being_solved.king_square[White] = start.king_square[White];
+  being_solved.king_square[Black] = proofgames_start_position.king_square[Black];
+  being_solved.king_square[White] = proofgames_start_position.king_square[White];
 
   for (i = 0; i<nr_squares_on_board; ++i)
-    switch (start.board[boardnum[i]])
+    switch (proofgames_start_position.board[boardnum[i]])
     {
       case Empty:
         empty_square(boardnum[i]);
@@ -505,13 +505,13 @@ void ProofRestoreStartPosition(void)
         break;
 
       default:
-        occupy_square(boardnum[i],start.board[boardnum[i]],start.spec[boardnum[i]]);
+        occupy_square(boardnum[i],proofgames_start_position.board[boardnum[i]],proofgames_start_position.spec[boardnum[i]]);
         break;
     }
 
-  being_solved.number_of_imitators = start.number_of_imitators;
+  being_solved.number_of_imitators = proofgames_start_position.number_of_imitators;
   for (i = 0; i<being_solved.number_of_imitators; ++i)
-    being_solved.isquare[i] = start.isquare[i];
+    being_solved.isquare[i] = proofgames_start_position.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -525,24 +525,24 @@ void ProofSaveTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  target.king_square[White] = being_solved.king_square[White];
-  target.king_square[Black] = being_solved.king_square[Black];
+  proofgames_target_position.king_square[White] = being_solved.king_square[White];
+  proofgames_target_position.king_square[Black] = being_solved.king_square[Black];
 
   for (p = King; p<nr_piece_walks; ++p)
   {
-    target.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
-    target.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
+    proofgames_target_position.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
+    proofgames_target_position.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
   }
 
   for (i = 0; i<maxsquare; ++i)
-    target.board[i] = get_walk_of_piece_on_square(i);
+    proofgames_target_position.board[i] = get_walk_of_piece_on_square(i);
 
   for (i = 0; i<nr_squares_on_board; ++i)
-    target.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
+    proofgames_target_position.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
 
-  target.number_of_imitators = being_solved.number_of_imitators;
+  proofgames_target_position.number_of_imitators = being_solved.number_of_imitators;
   for (i = 0; i<being_solved.number_of_imitators; ++i)
-    target.isquare[i] = being_solved.isquare[i];
+    proofgames_target_position.isquare[i] = being_solved.isquare[i];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -553,13 +553,13 @@ void ProofRestoreTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  being_solved.king_square[Black] = target.king_square[Black];
-  being_solved.king_square[White] = target.king_square[White];
+  being_solved.king_square[Black] = proofgames_target_position.king_square[Black];
+  being_solved.king_square[White] = proofgames_target_position.king_square[White];
 
   {
     square i;
     for (i = 0; i<maxsquare; ++i)
-      switch (target.board[i])
+      switch (proofgames_target_position.board[i])
       {
         case Empty:
           empty_square(i);
@@ -570,17 +570,17 @@ void ProofRestoreTargetPosition(void)
           break;
 
         default:
-          occupy_square(i,target.board[i],target.spec[i]);
+          occupy_square(i,proofgames_target_position.board[i],proofgames_target_position.spec[i]);
           break;
       }
   }
 
-  being_solved.number_of_imitators = target.number_of_imitators;
+  being_solved.number_of_imitators = proofgames_target_position.number_of_imitators;
 
   {
     unsigned int i;
     for (i = 0; i<being_solved.number_of_imitators; ++i)
-      being_solved.isquare[i] = target.isquare[i];
+      being_solved.isquare[i] = proofgames_target_position.isquare[i];
   }
 
   TraceFunctionExit(__func__);
@@ -626,8 +626,8 @@ static boolean compareProofNbrPiece(void)
   TraceFunctionParamListEnd();
 
   for (p = King; p<=last_piece; ++p)
-    if (target.number_of_pieces[White][p]!=being_solved.number_of_pieces[White][p]
-        || target.number_of_pieces[Black][p]!=being_solved.number_of_pieces[Black][p])
+    if (proofgames_target_position.number_of_pieces[White][p]!=being_solved.number_of_pieces[White][p]
+        || proofgames_target_position.number_of_pieces[Black][p]!=being_solved.number_of_pieces[Black][p])
     {
       result = false;
       break;
@@ -650,7 +650,7 @@ static boolean compareImitators(void)
   {
     unsigned int imi_idx;
     for (imi_idx = 0; imi_idx<being_solved.number_of_imitators; ++imi_idx)
-      if (target.isquare[imi_idx]!=being_solved.isquare[imi_idx])
+      if (proofgames_target_position.isquare[imi_idx]!=being_solved.isquare[imi_idx])
       {
         result = false;
         break;
@@ -778,7 +778,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
      ProofImpossible. But we need it here for the recursion.
   */
   if ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],side))
-      && !(target.board[sq]==Pawn && TSTFLAG(target.spec[sq],side)))
+      && !(proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],side)))
     return 0;
 
   else if (TSTFLAG(sq_spec[sq],double_step))
@@ -795,7 +795,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
     square const sq_double_step_departure = sq+2*dir_backward;
     if (TSTFLAG(sq_spec[sq_double_step_departure],double_step)
         && (get_walk_of_piece_on_square(sq_double_step_departure)==Pawn && TSTFLAG(being_solved.spec[sq_double_step_departure],side))
-        && !(target.board[sq_double_step_departure]==Pawn && TSTFLAG(target.spec[sq_double_step_departure],side)))
+        && !(proofgames_target_position.board[sq_double_step_departure]==Pawn && TSTFLAG(proofgames_target_position.spec[sq_double_step_departure],side)))
       return 1;
 
     if (!is_square_blocked(sq+dir_backward+dir_right))
@@ -831,10 +831,10 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
 static boolean blocked_by_pawn(square sq)
 {
   return (((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White))
-           && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White))
+           && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],White))
            && PawnMovesNeeded(White,sq)>=current_length)
           || ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black))
-              && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black))
+              && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],Black))
               && PawnMovesNeeded(Black,sq)>=current_length));
 }
 
@@ -952,7 +952,7 @@ static void PromPieceMovesFromTo(Side side,
   *moves= current_length;
 
   PawnMovesFromTo(side,from, cenpromsq, &mov1, &cap1, captallowed);
-  OfficerMovesFromTo(target.board[to], cenpromsq, to, &mov2);
+  OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq, to, &mov2);
   if (mov1+mov2 < *moves)
     *moves= mov1+mov2;
 
@@ -962,7 +962,7 @@ static void PromPieceMovesFromTo(Side side,
     {
       /* got out of range sometimes ! */
       PawnMovesFromTo(side,from, cenpromsq+i, &mov1, &cap1, captallowed);
-      OfficerMovesFromTo(target.board[to], cenpromsq+i, to, &mov2);
+      OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq+i, to, &mov2);
       if (mov1+mov2 < *moves)
         *moves= mov1+mov2;
     }
@@ -970,7 +970,7 @@ static void PromPieceMovesFromTo(Side side,
     {
       /* got out of range sometimes ! */
       PawnMovesFromTo(side,from, cenpromsq-i, &mov1, &cap1, captallowed);
-      OfficerMovesFromTo(target.board[to], cenpromsq-i, to, &mov2);
+      OfficerMovesFromTo(proofgames_target_position.board[to], cenpromsq-i, to, &mov2);
       if (mov1+mov2 < *moves)
         *moves= mov1+mov2;
     }
@@ -990,7 +990,7 @@ static void PieceMovesFromTo(Side side,
                              int captrequ)
 {
   piece_walk_type const pfrom = get_walk_of_piece_on_square(from);
-  piece_walk_type const pto = target.board[to];
+  piece_walk_type const pto = proofgames_target_position.board[to];
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -1001,7 +1001,7 @@ static void PieceMovesFromTo(Side side,
   TraceFunctionParamListEnd();
 
   assert(TSTFLAG(being_solved.spec[from],side));
-  assert(TSTFLAG(target.spec[to],side));
+  assert(TSTFLAG(proofgames_target_position.spec[to],side));
 
   *moves= current_length;
 
@@ -1232,7 +1232,7 @@ static boolean ProofFairyImpossible(void)
       */
       for (sq= square_a2; sq <= square_h2; sq++)
         if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White))
-            && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White)))
+            && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],White)))
           ++count;
 
       if (16-count < ProofNbrPieces[Black])
@@ -1245,7 +1245,7 @@ static boolean ProofFairyImpossible(void)
       */
       for (sq= square_a7; sq <= square_h7; sq++)
         if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black))
-            && (target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black)))
+            && (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],Black)))
           ++count;
 
       if (16-count < ProofNbrPieces[White])
@@ -1282,8 +1282,8 @@ static boolean ProofFairyImpossible(void)
         }
       }
 
-      if (target.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]
-          || target.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black])
+      if (proofgames_target_position.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn]+parrain_pawn[White]
+          || proofgames_target_position.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn]+parrain_pawn[Black])
         return true;
     }
 
@@ -1302,22 +1302,22 @@ static boolean ProofFairyImpossible(void)
       for (sq= square_a2; sq<=square_h2; sq++)
         if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White)))
         {
-          if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White)))
+          if ((proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],White)))
           {
-            if (!(target.board[sq+dir_up]==Pawn && TSTFLAG(target.spec[sq+dir_up],White))
-                && !(target.board[sq+2*dir_up]==Pawn && TSTFLAG(target.spec[sq+2*dir_up],White))
-                && !(target.board[sq+3*dir_up]==Pawn && TSTFLAG(target.spec[sq+3*dir_up],White))
-                && !(target.board[sq+4*dir_up]==Pawn && TSTFLAG(target.spec[sq+4*dir_up],White))
-                && !(target.board[sq+5*dir_up]==Pawn && TSTFLAG(target.spec[sq+5*dir_up],White)))
+            if (!(proofgames_target_position.board[sq+dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+dir_up],White))
+                && !(proofgames_target_position.board[sq+2*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+2*dir_up],White))
+                && !(proofgames_target_position.board[sq+3*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+3*dir_up],White))
+                && !(proofgames_target_position.board[sq+4*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+4*dir_up],White))
+                && !(proofgames_target_position.board[sq+5*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+5*dir_up],White)))
               ++count;
           }
-          else if ((target.board[sq+dir_up]==Pawn && TSTFLAG(target.spec[sq+dir_up],White))
+          else if ((proofgames_target_position.board[sq+dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+dir_up],White))
                    && !(get_walk_of_piece_on_square(sq+dir_up)==Pawn && TSTFLAG(being_solved.spec[sq+dir_up],White)))
           {
-            if (!(target.board[sq+2*dir_up]==Pawn && TSTFLAG(target.spec[sq+2*dir_up],White))
-                && !(target.board[sq+3*dir_up]==Pawn && TSTFLAG(target.spec[sq+3*dir_up],White))
-                && !(target.board[sq+4*dir_up]==Pawn && TSTFLAG(target.spec[sq+4*dir_up],White))
-                && !(target.board[sq+5*dir_up]==Pawn && TSTFLAG(target.spec[sq+5*dir_up],White)))
+            if (!(proofgames_target_position.board[sq+2*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+2*dir_up],White))
+                && !(proofgames_target_position.board[sq+3*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+3*dir_up],White))
+                && !(proofgames_target_position.board[sq+4*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+4*dir_up],White))
+                && !(proofgames_target_position.board[sq+5*dir_up]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+5*dir_up],White)))
               ++count;
           }
         }
@@ -1335,22 +1335,22 @@ static boolean ProofFairyImpossible(void)
       for (sq= square_a7; sq <= square_h7; sq++)
         if (!(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black)))
         {
-          if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black)))
+          if ((proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],Black)))
           {
-            if (!(target.board[sq+dir_down]==Pawn && TSTFLAG(target.spec[sq+dir_down],Black))
-                && !(target.board[sq+2*dir_down]==Pawn && TSTFLAG(target.spec[sq+2*dir_down],Black))
-                && !(target.board[sq+3*dir_down]==Pawn && TSTFLAG(target.spec[sq+3*dir_down],Black))
-                && !(target.board[sq+4*dir_down]==Pawn && TSTFLAG(target.spec[sq+4*dir_down],Black))
-                && !(target.board[sq+5*dir_down]==Pawn && TSTFLAG(target.spec[sq+5*dir_down],Black)))
+            if (!(proofgames_target_position.board[sq+dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+dir_down],Black))
+                && !(proofgames_target_position.board[sq+2*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+2*dir_down],Black))
+                && !(proofgames_target_position.board[sq+3*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+3*dir_down],Black))
+                && !(proofgames_target_position.board[sq+4*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+4*dir_down],Black))
+                && !(proofgames_target_position.board[sq+5*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+5*dir_down],Black)))
               ++count;
           }
-          else if ((target.board[sq+dir_down]==Pawn && TSTFLAG(target.spec[sq+dir_down],Black))
+          else if ((proofgames_target_position.board[sq+dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+dir_down],Black))
                    && !(get_walk_of_piece_on_square(sq+dir_down)==Pawn && TSTFLAG(being_solved.spec[sq+dir_down],Black)))
           {
-            if (!(target.board[sq+2*dir_down]==Pawn && TSTFLAG(target.spec[sq+2*dir_down],Black))
-                && !(target.board[sq+3*dir_down]==Pawn && TSTFLAG(target.spec[sq+3*dir_down],Black))
-                && !(target.board[sq+4*dir_down]==Pawn && TSTFLAG(target.spec[sq+4*dir_down],Black))
-                && !(target.board[sq+5*dir_down]==Pawn && TSTFLAG(target.spec[sq+5*dir_down],Black)))
+            if (!(proofgames_target_position.board[sq+2*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+2*dir_down],Black))
+                && !(proofgames_target_position.board[sq+3*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+3*dir_down],Black))
+                && !(proofgames_target_position.board[sq+4*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+4*dir_down],Black))
+                && !(proofgames_target_position.board[sq+5*dir_down]==Pawn && TSTFLAG(proofgames_target_position.spec[sq+5*dir_down],Black)))
               ++count;
           }
         }
@@ -1367,11 +1367,11 @@ static boolean ProofFairyImpossible(void)
 
   for (bnp = boardnum; *bnp; bnp++)
   {
-    piece_walk_type const p = target.board[*bnp];
+    piece_walk_type const p = proofgames_target_position.board[*bnp];
     if (p!=Empty)
     {
       if (p!=get_walk_of_piece_on_square(*bnp)
-          || (target.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
+          || (proofgames_target_position.spec[*bnp]&COLOURFLAGS)!=(being_solved.spec[*bnp]&COLOURFLAGS))
       {
         if (MovesAvailable==0)
           return true;
@@ -1396,14 +1396,14 @@ static boolean ProofImpossible(void)
   TraceText("ProofImpossible\n");
 
   /* too many pawns captured or promoted */
-  if (target.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn])
+  if (proofgames_target_position.number_of_pieces[White][Pawn] > being_solved.number_of_pieces[White][Pawn])
   {
-    TraceValue("%d ",target.number_of_pieces[White][Pawn]);
+    TraceValue("%d ",proofgames_target_position.number_of_pieces[White][Pawn]);
     TraceValue("%d\n",being_solved.number_of_pieces[White][Pawn]);
     return true;
   }
 
-  if (target.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn])
+  if (proofgames_target_position.number_of_pieces[Black][Pawn] > being_solved.number_of_pieces[Black][Pawn])
   {
     TraceValue("%d ",being_solved.number_of_pieces[Black][Pawn]);
     TraceValue("%d\n",being_solved.number_of_pieces[Black][Pawn]);
@@ -1460,12 +1460,12 @@ static boolean ProofImpossible(void)
     return true;
 
   /* has one of the blocked pieces been captured ? */
-  if ((BlockedQueenBishop[White] && !(target.board[square_c1]==Bishop && TSTFLAG(target.spec[square_c1],White)))
-      || (BlockedKingBishop[White] && !(target.board[square_f1]==Bishop && TSTFLAG(target.spec[square_f1],White)))
-      || (BlockedQueenBishop[Black] && !(target.board[square_c8]==Bishop && TSTFLAG(target.spec[square_c8],Black)))
-      || (BlockedKingBishop[Black] && !(target.board[square_f8]==Bishop && TSTFLAG(target.spec[square_f8],Black)))
-      || (BlockedQueen[White]  && !(target.board[square_d1]==Queen && TSTFLAG(target.spec[square_d1],White)))
-      || (BlockedQueen[Black]  && !(target.board[square_d8]==Queen && TSTFLAG(target.spec[square_d8],Black))))
+  if ((BlockedQueenBishop[White] && !(proofgames_target_position.board[square_c1]==Bishop && TSTFLAG(proofgames_target_position.spec[square_c1],White)))
+      || (BlockedKingBishop[White] && !(proofgames_target_position.board[square_f1]==Bishop && TSTFLAG(proofgames_target_position.spec[square_f1],White)))
+      || (BlockedQueenBishop[Black] && !(proofgames_target_position.board[square_c8]==Bishop && TSTFLAG(proofgames_target_position.spec[square_c8],Black)))
+      || (BlockedKingBishop[Black] && !(proofgames_target_position.board[square_f8]==Bishop && TSTFLAG(proofgames_target_position.spec[square_f8],Black)))
+      || (BlockedQueen[White]  && !(proofgames_target_position.board[square_d1]==Queen && TSTFLAG(proofgames_target_position.spec[square_d1],White)))
+      || (BlockedQueen[Black]  && !(proofgames_target_position.board[square_d8]==Queen && TSTFLAG(proofgames_target_position.spec[square_d8],Black))))
   {
     TraceText("blocked piece was captured\n");
     return true;
@@ -1475,14 +1475,14 @@ static boolean ProofImpossible(void)
      been captured?
   */
   for (sq= square_a2; sq<=square_h2; sq+=dir_right)
-    if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],White)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White)))
+    if ((proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],White)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],White)))
       return true;
 
   /* has a black pawn on the seventh rank moved or has it
      been captured?
   */
   for (sq= square_a7; sq<=square_h7; sq+=dir_right)
-    if ((target.board[sq]==Pawn && TSTFLAG(target.spec[sq],Black)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black)))
+    if ((proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],Black)) && !(get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],Black)))
       return true;
 
   {
@@ -1510,7 +1510,7 @@ static boolean ProofImpossible(void)
   if (CondFlag[haanerchess])
   {
     TraceText("impossible hole created\n");
-    return target.board[move_effect_journal_get_departure_square(nbply)] != Empty;
+    return proofgames_target_position.board[move_effect_journal_get_departure_square(nbply)] != Empty;
   }
 
   /* collect the pieces for further investigations */
@@ -1525,9 +1525,9 @@ static boolean ProofImpossible(void)
 
   for (bnp= boardnum; *bnp; bnp++)
   {
-    piece_walk_type const p1 = target.board[*bnp];
+    piece_walk_type const p1 = proofgames_target_position.board[*bnp];
     piece_walk_type const p2 = get_walk_of_piece_on_square(*bnp);
-    Side const side_target = TSTFLAG(target.spec[*bnp],White) ? White : Black;
+    Side const side_target = TSTFLAG(proofgames_target_position.spec[*bnp],White) ? White : Black;
     Side const side_current = TSTFLAG(being_solved.spec[*bnp],White) ? White : Black;
 
     if (p1!=p2 || side_target!=side_current)
@@ -1627,11 +1627,11 @@ static void loadTargetPiecesAndSquares(void)
   for (i = 0; i<nr_squares_on_board; ++i)
   {
     square const square_i = boardnum[i];
-    piece_walk_type const p = target.board[square_i];
+    piece_walk_type const p = proofgames_target_position.board[square_i];
     if (p!=Empty && p!=Invalid)
     {
       ProofPieces[ProofNbrAllPieces] = p;
-      ProofSpecs[ProofNbrAllPieces] = target.spec[square_i];
+      ProofSpecs[ProofNbrAllPieces] = proofgames_target_position.spec[square_i];
       ProofSquares[ProofNbrAllPieces] = square_i;
       ++ProofNbrAllPieces;
     }

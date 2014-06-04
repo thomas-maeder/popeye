@@ -13,7 +13,6 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/position.h"
-#include "output/plaintext/proofgame.h"
 #include "output/plaintext/twinning.h"
 #include "output/plaintext/message.h"
 #include "output/latex/latex.h"
@@ -32,6 +31,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/machinery/twin.h"
+#include "solving/proofgames.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/pytime.h"
@@ -549,7 +549,6 @@ static char *ParseTwinning(slice_index root_slice_hook)
   boolean TwinningRead= false;
 
   ++TwinNumber;
-  OptFlag[noboard]= true;
 
   while (true)
   {
@@ -1033,6 +1032,25 @@ static boolean apply_whitetoplay(slice_index proxy)
   return result;
 }
 
+static void write_position(slice_index stipulation_root_hook)
+{
+  if (!OptFlag[noboard])
+  {
+    WritePosition(&being_solved);
+
+    if ((find_unique_goal(stipulation_root_hook).type)==goal_atob)
+    {
+      char InitialLine[40];
+
+      sprintf(InitialLine,
+              "\nInitial (%s ->):\n",
+              ColourString[UserLanguage][slices[stipulation_root_hook].starter]);
+      StdString(InitialLine);
+      WriteBoard(&proofgames_start_position);
+    }
+  }
+}
+
 static void complete_stipulation(slice_index stipulation_root_hook)
 {
   TraceFunctionEntry(__func__);
@@ -1064,47 +1082,34 @@ static void complete_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-static void deal_with_stipulation(slice_index stipulation_root_hook,
-                                  twin_context_type context)
+static void deal_with_stipulation(slice_index stipulation_root_hook)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
-  if (slices[stipulation_root_hook].next1==no_slice)
-    IoErrorMsg(NoStipulation,0);
+  if (slices[slices[stipulation_root_hook].next1].starter==no_side)
+    VerifieMsg(CantDecideWhoIsAtTheMove);
   else
   {
-    if (slices[stipulation_root_hook].starter==no_side)
-      complete_stipulation(stipulation_root_hook);
+    Side const regular_starter = slices[stipulation_root_hook].starter;
 
-    TraceStipulation(stipulation_root_hook);
+    if (!OptFlag[halfduplex])
+      twin_solve_stipulation(stipulation_root_hook);
 
-    if (slices[slices[stipulation_root_hook].next1].starter==no_side)
-      VerifieMsg(CantDecideWhoIsAtTheMove);
-    else
+    if (OptFlag[halfduplex] || OptFlag[duplex])
     {
-      Side const regular_starter = slices[stipulation_root_hook].starter;
-
-      if (!OptFlag[halfduplex])
-        twin_solve_stipulation(stipulation_root_hook,context);
-
-      if (OptFlag[halfduplex] || OptFlag[duplex])
-      {
-        solving_impose_starter(stipulation_root_hook,advers(regular_starter));
-        twin_solve_stipulation(stipulation_root_hook,
-                               OptFlag[duplex] ? twin_subsequent : context);
-        solving_impose_starter(stipulation_root_hook,regular_starter);
-      }
-
-      Message(NewLine);
-
-      WRITE_COUNTER(add_to_move_generation_stack);
-      WRITE_COUNTER(play_move);
-      WRITE_COUNTER(is_white_king_square_attacked);
-      WRITE_COUNTER(is_black_king_square_attacked);
+      solving_impose_starter(stipulation_root_hook,advers(regular_starter));
+      twin_solve_stipulation(stipulation_root_hook);
+      solving_impose_starter(stipulation_root_hook,regular_starter);
     }
+
+    Message(NewLine);
+
+    WRITE_COUNTER(add_to_move_generation_stack);
+    WRITE_COUNTER(play_move);
+    WRITE_COUNTER(is_white_king_square_attacked);
+    WRITE_COUNTER(is_black_king_square_attacked);
   }
 
   TraceFunctionExit(__func__);
@@ -1116,22 +1121,51 @@ static void deal_with_stipulation(slice_index stipulation_root_hook,
  */
 static Token zeroposition(slice_index stipulation_root_hook)
 {
-  Token result;
+  Token result = TokenCount;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  StdString("\n");
-  StdString(TokenTab[ZeroPosition]);
-  StdString("\n\n");
-  TwinNumber= 0;
-  TwinStorePosition();
+  if (slices[stipulation_root_hook].next1==no_slice)
+    IoErrorMsg(NoStipulation,0);
+  else
+  {
+    if (slices[stipulation_root_hook].starter==no_side)
+      complete_stipulation(stipulation_root_hook);
 
-  result = ReadSubsequentTwin(stipulation_root_hook);
+    TraceStipulation(stipulation_root_hook);
 
-  initialise_piece_flags_from_conditions();
-  deal_with_stipulation(stipulation_root_hook,twin_subsequent);
+    write_position(stipulation_root_hook);
+
+    StdString("\n");
+    StdString(TokenTab[ZeroPosition]);
+    StdString("\n\n");
+    TwinNumber= 0;
+    TwinStorePosition();
+
+    result = ReadSubsequentTwin(stipulation_root_hook);
+
+    initialise_piece_flags_from_conditions();
+
+    if (slices[stipulation_root_hook].next1==no_slice)
+    {
+      IoErrorMsg(NoStipulation,0);
+      result = TokenCount;
+    }
+    else
+    {
+      if (slices[stipulation_root_hook].starter==no_side)
+        complete_stipulation(stipulation_root_hook);
+
+      TraceStipulation(stipulation_root_hook);
+
+      if (LaTeXout)
+        LaTeXBeginDiagram();
+
+      deal_with_stipulation(stipulation_root_hook);
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1160,7 +1194,58 @@ static Token subsequent_twin(slice_index stipulation_root_hook)
   TraceSquare(being_solved.king_square[Black]);
   TraceEOL();
 
-  deal_with_stipulation(stipulation_root_hook,twin_subsequent);
+  if (slices[stipulation_root_hook].next1==no_slice)
+    IoErrorMsg(NoStipulation,0);
+  else
+  {
+    if (slices[stipulation_root_hook].starter==no_side)
+      complete_stipulation(stipulation_root_hook);
+
+    TraceStipulation(stipulation_root_hook);
+
+    deal_with_stipulation(stipulation_root_hook);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static Token initial_twin(slice_index stipulation_root_hook,
+                          Token end_of_twin_token)
+{
+  Token result = TokenCount;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
+  if (slices[stipulation_root_hook].next1==no_slice)
+    IoErrorMsg(NoStipulation,0);
+  else
+  {
+    if (slices[stipulation_root_hook].starter==no_side)
+      complete_stipulation(stipulation_root_hook);
+
+    TraceStipulation(stipulation_root_hook);
+
+    write_position(stipulation_root_hook);
+
+    if (LaTeXout)
+      LaTeXBeginDiagram();
+
+    if (end_of_twin_token==TwinProblem)
+    {
+      Message(NewLine);
+      WriteTwinNumber(TwinNumber);
+      Message(NewLine);
+    }
+
+    deal_with_stipulation(stipulation_root_hook);
+
+    result = end_of_twin_token;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1193,25 +1278,12 @@ Token iterate_twins(void)
   initialise_piece_ids();
   initialise_piece_flags_from_conditions();
 
-  if (!OptFlag[noboard])
-    WritePosition(&being_solved);
-
-  if (LaTeXout)
-    LaTeXBeginDiagram();
-
-  if (result==TwinProblem)
-  {
-    Message(NewLine);
-    WriteTwinNumber(TwinNumber);
-    Message(NewLine);
-  }
-
   StartTimer();
 
   if (result==ZeroPosition)
     result = zeroposition(stipulation_root_hook);
   else
-    deal_with_stipulation(stipulation_root_hook,twin_initial);
+    result = initial_twin(stipulation_root_hook,result);
 
   while (result==TwinProblem)
     result = subsequent_twin(stipulation_root_hook);
