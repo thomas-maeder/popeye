@@ -13,5 +13,5 @@ void ProofWriteStartPosition(slice_index start)
           "\nInitial (%s ->):\n",
           ColourString[UserLanguage][slices[start].starter]);
   StdString(InitialLine);
-  WriteBoard();
+  WriteBoard(&being_solved);
 }

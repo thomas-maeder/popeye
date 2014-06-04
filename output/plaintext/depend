@@ -923,11 +923,11 @@ output/plaintext/message.h:
 
 output/plaintext/position.h:
 output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
- output/plaintext/position.h output/plaintext/plaintext.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h output/plaintext/language_dependant.h \
- pieces/pieces.h position/position.h position/side.h position/side.enum.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
+ output/plaintext/position.h position/position.h position/board.h \
+ utilities/bitmask.h position/side.h position/side.enum.h \
+ position/color.h position/color.enum.h pieces/pieces.h \
+ utilities/boolean.h pieces/walks/vectors.h output/plaintext/plaintext.h \
+ stipulation/goals/goals.h output/plaintext/language_dependant.h \
  conditions/conditions.h options/options.h input/plaintext/twin.h \
  stipulation/stipulation.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
@@ -957,21 +957,11 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
 
 output/plaintext/position.h:
 
-output/plaintext/plaintext.h:
-
-stipulation/goals/goals.h:
+position/position.h:
 
 position/board.h:
 
 utilities/bitmask.h:
-
-utilities/boolean.h:
-
-output/plaintext/language_dependant.h:
-
-pieces/pieces.h:
-
-position/position.h:
 
 position/side.h:
 
@@ -981,7 +971,17 @@ position/color.h:
 
 position/color.enum.h:
 
+pieces/pieces.h:
+
+utilities/boolean.h:
+
 pieces/walks/vectors.h:
+
+output/plaintext/plaintext.h:
+
+stipulation/goals/goals.h:
+
+output/plaintext/language_dependant.h:
 
 conditions/conditions.h:
 

@@ -117,7 +117,7 @@ static void ReDrawBoard(int sig)
      TLi
   */
 
-  WritePosition();
+  WriteBoard(&being_solved);
 
   /* and write (some information about) the sequences of moves that
      lead to this position.

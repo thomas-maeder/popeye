@@ -1194,7 +1194,7 @@ Token iterate_twins(void)
   initialise_piece_flags_from_conditions();
 
   if (!OptFlag[noboard])
-    WritePosition();
+    WritePosition(&being_solved);
 
   if (LaTeXout)
     LaTeXBeginDiagram();
