@@ -1374,8 +1374,9 @@ problem ignored
 solution finished. 
 
 
+WhiteToPlay not applicable - ignored
 
-option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
+option WhiteToPlay not applicable in help play
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1397,7 +1398,6 @@ option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h+1.5                       2 + 1
-WhiteToPlay not applicable - ignored
 
   1...Ka3-b2   2.Ka7-a6 b4-b5 +
   1...Ka3-a2   2.Ka7-a6 b4-b5 +

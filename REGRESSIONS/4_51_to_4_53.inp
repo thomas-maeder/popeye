@@ -238,7 +238,7 @@ condition maximummer
 
 next
 
-title option WhiteToPlay in a hXn.5 gives a hXn with the other side at the move
+title option WhiteToPlay not applicable in help play
 stip h+1.5
 opt wh
 fors 8/k7/16/1P6/K7/16

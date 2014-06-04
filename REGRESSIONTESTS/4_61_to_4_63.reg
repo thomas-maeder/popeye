@@ -1479,29 +1479,6 @@ input-error:command not known
 offending item: Variation
 input-error:command not known
 offending item: NoBoard
-
-stipulation token without actual stipulation caused a crash
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8   .  -R   .  -K   .  -R   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .  -S   .   .   6
-|                                   |
-5   .   .   .   .   S   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .   .   R   .   .   3
-|                                   |
-2   .   .   .   .   .   .   .   .   2
-|                                   |
-1   .   .   .   .   K   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  option                      3 + 4
 input-error:no stipulation specified
 offending item: end
 solution finished. 
