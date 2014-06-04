@@ -18,11 +18,16 @@
 #include "position/position.h"
 #include "solving/castling.h"
 #include "solving/move_generator.h"
-
 #include "debugging/assert.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
+
+enum
+{
+  fileWidth = 4
+};
 
 static void CenterLine(char const *s)
 {
@@ -221,21 +226,70 @@ static void WriteRoyalPiecePositions(void)
     CenterLine(ListSpec);
 }
 
-void WritePosition(void)
+static void WriteStipulationOptionsPieceCounts(void)
 {
   unsigned int nBlack = 0;
   unsigned int nWhite = 0;
   unsigned int nNeutr = 0;
   square square_a = square_a8;
   unsigned int row;
-  char PieCnts[20];
   char StipOptStr[300];
+
+  for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
+  {
+    unsigned int file;
+    square square = square_a;
+
+    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
+    {
+      if (is_piece_neutral(spec[square]))
+        ++nNeutr;
+      else if (TSTFLAG(spec[square],Black))
+        ++nBlack;
+      else if (TSTFLAG(spec[square],White))
+        ++nWhite;
+    }
+  }
+
+  strcpy(StipOptStr, AlphaStip);
+
+  if (OptFlag[solmenaces])
+  {
+    sprintf(StipOptStr+strlen(StipOptStr), "/%u", get_max_threat_length());
+    if (OptFlag[solflights])
+      sprintf(StipOptStr+strlen(StipOptStr), "/%d", get_max_flights());
+  }
+  else if (OptFlag[solflights])
+    sprintf(StipOptStr+strlen(StipOptStr), "//%d", get_max_flights());
+
+  if (OptFlag[nontrivial])
+    sprintf(StipOptStr+strlen(StipOptStr),
+            ";%d,%u",
+            max_nr_nontrivial,get_min_length_nontrivial());
+
+  {
+    size_t const stipOptLength = strlen(StipOptStr);
+    int const pieceCntWidth = (stipOptLength>nr_files_on_board*fileWidth
+                               ? 1
+                               : nr_files_on_board*fileWidth-stipOptLength+1);
+    char PieCnts[20];
+    if (nNeutr>0)
+      sprintf(PieCnts, "%d + %d + %dn", nWhite, nBlack, nNeutr);
+    else
+      sprintf(PieCnts, "%d + %d", nWhite, nBlack);
+    sprintf(GlobalStr, "  %s%*s\n", StipOptStr, pieceCntWidth, PieCnts);
+    StdString(GlobalStr);
+  }
+}
+
+void WritePosition(void)
+{
+  square square_a = square_a8;
+  unsigned int row;
 
   static char BorderL[] = "+---a---b---c---d---e---f---g---h---+\n";
   static char HorizL[] = "%c   .   .   .   .   .   .   .   .   %c\n";
   static char BlankL[] = "|                                   |\n";
-
-  unsigned int const fileWidth = 4;
 
   StdChar('\n');
   MultiCenter(ActAuthor);
@@ -320,17 +374,9 @@ void WritePosition(void)
         }
 
         if (is_piece_neutral(spec[square]))
-        {
-          nNeutr++;
           *h1= '=';
-        }
         else if (TSTFLAG(spec[square],Black))
-        {
-          nBlack++;
           *h1= '-';
-        }
-        else
-          nWhite++;
       }
     }
 
@@ -339,35 +385,8 @@ void WritePosition(void)
   }
 
   StdString(BorderL);
-  if (nNeutr>0)
-    sprintf(PieCnts, "%d + %d + %dn", nWhite, nBlack, nNeutr);
-  else
-    sprintf(PieCnts, "%d + %d", nWhite, nBlack);
 
-  strcpy(StipOptStr, AlphaStip);
-
-  if (OptFlag[solmenaces])
-  {
-    sprintf(StipOptStr+strlen(StipOptStr), "/%u", get_max_threat_length());
-    if (OptFlag[solflights])
-      sprintf(StipOptStr+strlen(StipOptStr), "/%d", get_max_flights());
-  }
-  else if (OptFlag[solflights])
-    sprintf(StipOptStr+strlen(StipOptStr), "//%d", get_max_flights());
-
-  if (OptFlag[nontrivial])
-    sprintf(StipOptStr+strlen(StipOptStr),
-            ";%d,%u",
-            max_nr_nontrivial,get_min_length_nontrivial());
-
-  {
-    size_t const stipOptLength = strlen(StipOptStr);
-    int const pieceCntWidth = (stipOptLength>nr_files_on_board*fileWidth
-                               ? 1
-                               : nr_files_on_board*fileWidth-stipOptLength+1);
-    sprintf(GlobalStr, "  %s%*s\n", StipOptStr, pieceCntWidth, PieCnts);
-    StdString(GlobalStr);
-  }
+  WriteStipulationOptionsPieceCounts();
 
   WriteRoyalPiecePositions();
   WriteNonRoyalAttributedPieces();
