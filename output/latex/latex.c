@@ -363,36 +363,44 @@ static void WriteCondition(char const CondLine[], boolean is_first)
 
 static void WriteAuthor(void)
 {
-  if (ActAuthor[0]!='\0')
+  if (strlen(ActAuthor)>0)
   {
-    if (strchr(ActAuthor, ',')) {
+    char TeXAuthor[256];
+    strcpy(TeXAuthor,ActAuthor);
+
+    if (strchr(TeXAuthor, ','))
+    {
       /* , --> correct format */
-      char *cp, *endcp = 0;
+      char *cp = strchr(TeXAuthor,'\n');
+      char *endcp = 0;
 
-      while ((cp=strchr(ActAuthor, '\n'))) {
+      while (cp!=0)
+      {
         *cp= ';';
-        endcp= cp;
+        endcp = cp;
+        cp = strchr(TeXAuthor,'\n');
       }
-      if (endcp)
-        *endcp= '\0';
+      if (endcp!=0)
+        *endcp = '\0';
 
-      sprintf(GlobalStr, " \\author{%s}%%%%\n", ActAuthor);
+      sprintf(GlobalStr, " \\author{%s}%%%%\n", TeXAuthor);
       LaTeXStr(GlobalStr);
 
-      if (endcp)
-        *endcp= '\n';
-      while ((cp=strchr(ActAuthor, ';')))
+      if (endcp!=0)
+        *endcp = '\n';
+      while ((cp=strchr(TeXAuthor, ';')))
         *cp= '\n';
     }
-    else {
+    else
+    {
       /* reverse first and surnames */
       char *cp1, *cp2, *cp3;
 
       fprintf(LaTeXFile, " \\author{");
-      cp1= ActAuthor;
+      cp1= TeXAuthor;
       while ((cp2=strchr(cp1, '\n'))) {
         *cp2= '\0';
-        if (cp1 != ActAuthor)
+        if (cp1 != TeXAuthor)
           fprintf(LaTeXFile, "; ");
         cp3= cp2;
         while (cp3 > cp1 && *cp3 != ' ')
