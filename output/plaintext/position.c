@@ -151,27 +151,91 @@ static void WriteGrid(void)
   StdString(BorderL);
 }
 
-void WritePosition()
+static void CollectPiecesWithAttribute(char ListSpec[256], piece_flag_type sp)
 {
-  int nBlack, nWhite, nNeutr;
-  square square, square_a;
-  int row, file;
-  char    HLine1[40];
-  char    HLine2[40];
-  char    PieCnts[20];
-  char    StipOptStr[300];
-  piece_flag_type sp;
-  char    ListSpec[nr_piece_flags-nr_sides][256];
-  unsigned int SpecCount[nr_piece_flags-nr_sides] = { 0 };
+  square square_a = square_a8;
+  unsigned int row;
 
-  static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
-  static char HorizL[]="%c   .   .   .   .   .   .   .   .   %c\n";
-  static char BlankL[]="|                                   |\n";
+  strcpy(ListSpec,PieSpString[UserLanguage][sp-nr_sides]);
+
+  for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
+  {
+    unsigned int file;
+    square square = square_a;
+
+    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
+      if (TSTFLAG(spec[square],sp))
+        AppendSquare(ListSpec,square);
+  }
+}
+
+static void WriteNonRoyalAttributedPieces(void)
+{
+  piece_flag_type sp;
+
+  for (sp = Royal+1; sp<nr_piece_flags; ++sp)
+    if (TSTFLAG(some_pieces_flags,sp))
+    {
+      if (!(sp==Patrol && CondFlag[patrouille])
+          && !(sp==Volage && CondFlag[volage])
+          && !(sp==Beamtet && CondFlag[beamten]))
+      {
+        char ListSpec[256];
+        CollectPiecesWithAttribute(ListSpec,sp);
+        CenterLine(ListSpec);
+      }
+    }
+}
+
+static unsigned int CollectRoyalPiecePositions(char ListSpec[256])
+{
+  unsigned int result = 0;
+
+  square square_a = square_a8;
+  unsigned int row;
+
+  strcpy(ListSpec,PieSpString[UserLanguage][Royal-nr_sides]);
+
+  for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
+  {
+    unsigned int file;
+    square square = square_a;
+
+    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
+      if (TSTFLAG(spec[square],Royal)
+          && !is_king(get_walk_of_piece_on_square(square)))
+      {
+        AppendSquare(ListSpec,square);
+        ++result;
+      }
+  }
+
+  return result;
+}
+
+static void WriteRoyalPiecePositions(void)
+{
+  char ListSpec[256];
+
+  if (CollectRoyalPiecePositions(ListSpec)>0)
+    CenterLine(ListSpec);
+}
+
+void WritePosition(void)
+{
+  unsigned int nBlack = 0;
+  unsigned int nWhite = 0;
+  unsigned int nNeutr = 0;
+  square square_a = square_a8;
+  unsigned int row;
+  char PieCnts[20];
+  char StipOptStr[300];
+
+  static char BorderL[] = "+---a---b---c---d---e---f---g---h---+\n";
+  static char HorizL[] = "%c   .   .   .   .   .   .   .   .   %c\n";
+  static char BlankL[] = "|                                   |\n";
 
   unsigned int const fileWidth = 4;
-
-  for (sp = nr_sides; sp<nr_piece_flags; ++sp)
-    strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
 
   StdChar('\n');
   MultiCenter(ActAuthor);
@@ -179,23 +243,22 @@ void WritePosition()
   MultiCenter(ActAward);
   MultiCenter(ActTitle);
 
-  nBlack= nWhite= nNeutr= 0;
   StdChar('\n');
   StdString(BorderL);
   StdString(BlankL);
 
-  for (row=1, square_a = square_a8;
-       row<=nr_rows_on_board;
-       row++, square_a += dir_down)
+  for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
   {
+    unsigned int file;
+    square square = square_a;
     char const *digits="87654321";
-    sprintf(HLine1, HorizL, digits[row-1], digits[row-1]);
+    char    HLine1[40];
+    char    HLine2[40];
 
+    sprintf(HLine1, HorizL, digits[row-1], digits[row-1]);
     strcpy(HLine2,BlankL);
 
-    for (file= 1, square= square_a;
-         file <= nr_files_on_board;
-         file++, square += dir_right)
+    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
     {
       char *h1= HLine1 + fileWidth*file;
 
@@ -226,13 +289,6 @@ void WritePosition()
       else
       {
         piece_walk_type const pp = get_walk_of_piece_on_square(square);
-        for (sp= nr_sides; sp<nr_piece_flags; ++sp)
-          if (TSTFLAG(spec[square],sp) && !(sp==Royal && is_king(pp)))
-          {
-            AppendSquare(ListSpec[sp-nr_sides], square);
-            ++SpecCount[sp-nr_sides];
-          }
-
         if (pp<Hunter0 || pp>=Hunter0+max_nr_hunter_walks)
         {
           if ((*h1= PieceTab[pp][1]) != ' ')
@@ -313,16 +369,8 @@ void WritePosition()
     StdString(GlobalStr);
   }
 
-  if (SpecCount[Royal-nr_sides]>0)
-    CenterLine(ListSpec[Royal-nr_sides]);
-
-  for (sp = nr_sides; sp<nr_piece_flags; sp++)
-    if (TSTFLAG(some_pieces_flags,sp))
-      if (sp!=Royal
-          && !(sp==Patrol && CondFlag[patrouille])
-          && !(sp==Volage && CondFlag[volage])
-          && !(sp==Beamtet && CondFlag[beamten]))
-        CenterLine(ListSpec[sp-nr_sides]);
+  WriteRoyalPiecePositions();
+  WriteNonRoyalAttributedPieces();
 
   WriteConditions(&WriteCondition);
 
