@@ -849,9 +849,6 @@ Until 4.61, a=>b stipulations weren't correctly solved
 
 Initial (Black ->):
 
-Until 4.61, a=>b stipulations weren't correctly solved
-     if there were neutral pieces
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  =S   .   .   .   .   .   .   .   8
@@ -871,8 +868,6 @@ Until 4.61, a=>b stipulations weren't correctly solved
 1  =S   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b2                  0 + 0 + 2n
-           AlphabeticChess
 both sides need a king
 
   1.nSa1-b3 nSa8-b6   2.nSb3-c1 nSb6-c8 a=>b

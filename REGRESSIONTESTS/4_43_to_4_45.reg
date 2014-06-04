@@ -24,8 +24,6 @@ some solutions were not found in ser-a=>b without black king
 
 Initial (White ->):
 
-some solutions were not found in ser-a=>b without black king
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .  -R   8
@@ -45,7 +43,6 @@ some solutions were not found in ser-a=>b without black king
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ser-a=>b2                   1 + 2
 
   1.Ka2-a3   2.Ka3*a4 a=>b
 
@@ -82,8 +79,6 @@ used to take several minutes in releases 4.37 to 4.43
 
 Initial (White ->):
 
-used to take several minutes in releases 4.37 to 4.43
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
@@ -103,7 +98,6 @@ used to take several minutes in releases 4.37 to 4.43
 1   .   .   .   .   K   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ser-a=>b12                  2 + 2
 
   1.Ke1-d1   2.Kd1-c1   3.Kc1-b1   4.Kb1*a2   5.Ka2-b1   6.Kb1-c1   7.Kc1-d1   8.Kd1-e2   9.Ke2-f3  10.Kf3-g4  11.Kg4-h5  12.Bf2-e1 + a=>b
 
@@ -139,7 +133,6 @@ solution finished.
 
 Initial (White ->):
 
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
@@ -159,7 +152,6 @@ Initial (White ->):
 1   .   .   .   K   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ser-a=>b11                  2 + 2
 
   1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 + a=>b
 
@@ -196,7 +188,6 @@ Test for StopOnShortSolutions in proof games and a=>b
 
 Initial (White ->):
 
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .   .   .   8
@@ -216,7 +207,6 @@ Initial (White ->):
 1   .   .   .   K   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ser-a=>b12                  2 + 2
 
   1.Kd1-c1   2.Kc1-b1   3.Kb1*a2   4.Ka2-b1   5.Kb1-c1   6.Kc1-d1   7.Kd1-e2   8.Ke2-f3   9.Kf3-g4  10.Kg4-h5  11.Bf2-e1 + a=>b
 

@@ -640,8 +640,6 @@ solution finished.
 
 Initial (Black ->):
 
-  only example so far of ser-ha=>bN*
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -R  -S  -B  -Q  -K  -B  -S  -R   8
@@ -661,7 +659,6 @@ Initial (Black ->):
 1   R   S   B   Q   K   B   S   R   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  ser-ha=>b2                16 + 16
 
   1...a2-a3 a=>b
 
@@ -841,8 +838,6 @@ checks weren't indicated on the move reaching a goal
 
 Initial (Black ->):
 
-checks weren't indicated on the move reaching a goal
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8   .   .   .   .   .   .  -K   .   8
@@ -862,7 +857,6 @@ checks weren't indicated on the move reaching a goal
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b1                       2 + 2
 
   1.c7-c5 d5*c6 ep. + a=>b
   1.c7-c6 d5*c6 + a=>b

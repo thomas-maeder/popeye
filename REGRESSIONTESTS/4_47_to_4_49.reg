@@ -567,7 +567,6 @@ duplex didn't work in a=>b or proof games
 
 Initial (Black ->):
 
-
 +---a---b---c---d---e---f---g---h---+
 |                                   |
 8  -R   .   .   .   .   .   .   .   8
@@ -587,9 +586,6 @@ Initial (Black ->):
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  a=>b0.5                     1 + 1
-              Circe PWC
-                Duplex
 
   1.Ra8*a7[+wRa8] a=>b
 
