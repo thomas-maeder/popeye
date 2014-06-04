@@ -282,7 +282,7 @@ static void WriteStipulationOptionsPieceCounts(void)
   }
 }
 
-void WritePosition(void)
+static void WriteBoard(void)
 {
   square square_a = square_a8;
   unsigned int row;
@@ -290,12 +290,6 @@ void WritePosition(void)
   static char BorderL[] = "+---a---b---c---d---e---f---g---h---+\n";
   static char HorizL[] = "%c   .   .   .   .   .   .   .   .   %c\n";
   static char BlankL[] = "|                                   |\n";
-
-  StdChar('\n');
-  MultiCenter(ActAuthor);
-  MultiCenter(ActOrigin);
-  MultiCenter(ActAward);
-  MultiCenter(ActTitle);
 
   StdChar('\n');
   StdString(BorderL);
@@ -306,8 +300,8 @@ void WritePosition(void)
     unsigned int file;
     square square = square_a;
     char const *digits="87654321";
-    char    HLine1[40];
-    char    HLine2[40];
+    char HLine1[40];
+    char HLine2[40];
 
     sprintf(HLine1, HorizL, digits[row-1], digits[row-1]);
     strcpy(HLine2,BlankL);
@@ -385,14 +379,26 @@ void WritePosition(void)
   }
 
   StdString(BorderL);
+}
 
+static void WriteMeta(void)
+{
+  StdChar('\n');
+  MultiCenter(ActAuthor);
+  MultiCenter(ActOrigin);
+  MultiCenter(ActAward);
+  MultiCenter(ActTitle);
+}
+
+void WritePosition(void)
+{
+  WriteMeta();
+
+  WriteBoard();
   WriteStipulationOptionsPieceCounts();
-
   WriteRoyalPiecePositions();
   WriteNonRoyalAttributedPieces();
-
   WriteConditions(&WriteCondition);
-
   WriteCastlingMutuallyExclusive();
 
   if (OptFlag[halfduplex])
