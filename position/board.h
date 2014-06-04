@@ -206,6 +206,10 @@ extern int         zzzao[square_h8 - square_a1 + 1];
 #define GridNum(s)      (sq_spec[(s)] >> Grid)
 #define ClearGridNum(s) (sq_spec[(s)] &= ((1<<Grid)-1))
 
+#define is_on_board(sq) \
+   (left_file<=(sq)%onerow && (sq)%onerow<=right_file \
+    && bottom_row<=(sq)/onerow && (sq)/onerow<=top_row)
+
 /* Calculate a square transformation
  * @param sq square to be reflected
  * @param transformation transformation to be performed

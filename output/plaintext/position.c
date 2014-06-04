@@ -201,12 +201,12 @@ static unsigned int CollectRoyalPiecePositions(char ListSpec[256])
 
   strcpy(ListSpec,PieSpString[UserLanguage][Royal-nr_sides]);
 
-  for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
+  for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
     unsigned int file;
     square square = square_a;
 
-    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
+    for (file = 0; file!=nr_files_on_board; ++file, square += dir_right)
       if (TSTFLAG(spec[square],Royal)
           && !is_king(get_walk_of_piece_on_square(square)))
       {
@@ -235,12 +235,12 @@ static void WriteStipulationOptionsPieceCounts(void)
   unsigned int row;
   char StipOptStr[300];
 
-  for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
+  for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
     unsigned int file;
     square square = square_a;
 
-    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
+    for (file = 0; file!=nr_files_on_board; ++file, square += dir_right)
     {
       if (is_piece_neutral(spec[square]))
         ++nNeutr;
@@ -282,103 +282,175 @@ static void WriteStipulationOptionsPieceCounts(void)
   }
 }
 
-static void WriteBoard(void)
+static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
 {
-  square square_a = square_a8;
-  unsigned int row;
-
-  static char BorderL[] = "+---a---b---c---d---e---f---g---h---+\n";
-  static char HorizL[] = "%c   .   .   .   .   .   .   .   .   %c\n";
-  static char BlankL[] = "|                                   |\n";
-
-  StdChar('\n');
-  StdString(BorderL);
-  StdString(BlankL);
-
-  for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
+  pos[0] = PieceTab[walk][1];
+  if (pos[0]!=' ')
   {
-    unsigned int file;
-    square square = square_a;
-    char const *digits="87654321";
-    char HLine1[40];
-    char HLine2[40];
+    pos[0] = toupper(pos[0]);
+    --pos;
+  }
 
-    sprintf(HLine1, HorizL, digits[row-1], digits[row-1]);
-    strcpy(HLine2,BlankL);
+  pos[0] = toupper(PieceTab[walk][0]);
+  --pos;
 
-    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
+  return pos;
+}
+
+static void WriteRegularCells(square square_a)
+{
+  unsigned int file;
+  square square;
+
+  for (file = 0,  square = square_a;
+       file!=nr_files_on_board;
+       ++file, square += dir_right)
+  {
+
+    char cell[fileWidth+1];
+    char *pos = cell + (sizeof cell)/2;
+
+    snprintf(cell, sizeof cell, "%*c", fileWidth, ' ');
+
+    if (CondFlag[gridchess] && !OptFlag[suppressgrid])
     {
-      char *h1= HLine1 + fileWidth*file;
+      if (is_on_board(square+dir_left)
+          && GridLegal(square, square+dir_left))
+        cell[0] = '|';
+    }
 
-      if (CondFlag[gridchess] && !OptFlag[suppressgrid])
-      {
-        if (file < nr_files_on_board
-            && GridLegal(square, square+dir_right))
-          HLine1[fileWidth*file+2] = '|';
-
-        if (row < nr_rows_on_board
-            && GridLegal(square, square+dir_down))
-        {
-          HLine2[fileWidth*file-1] = '-';
-          HLine2[fileWidth*file] = '-';
-          HLine2[fileWidth*file+1] = '-';
-        }
-      }
-
-      if (is_square_occupied_by_imitator(square))
-        *h1= 'I';
-      else if (is_square_blocked(square))
-        /* this is a hole ! */
-        *h1= ' ';
-      else if (is_square_empty(square))
-      {
-        /* nothing */
-      }
+    if (is_square_occupied_by_imitator(square))
+      pos[0] = 'I';
+    else if (is_square_blocked(square))
+      /* this is a hole ! */
+      pos[0] = ' ';
+    else if (is_square_empty(square))
+      pos[0] = '.';
+    else
+    {
+      piece_walk_type const walk = get_walk_of_piece_on_square(square);
+      if (walk<Hunter0 || walk>=Hunter0+max_nr_hunter_walks)
+        pos = WriteWalkRtoL(pos,walk);
       else
       {
-        piece_walk_type const pp = get_walk_of_piece_on_square(square);
-        if (pp<Hunter0 || pp>=Hunter0+max_nr_hunter_walks)
-        {
-          if ((*h1= PieceTab[pp][1]) != ' ')
-          {
-            *h1= toupper(*h1);
-            h1--;
-          }
-          *h1--= toupper(PieceTab[pp][0]);
-        }
-        else
-        {
-          char *n1 = HLine2 + (h1-HLine1); /* current position on next1 line */
+        unsigned int const hunterIndex = walk-Hunter0;
+        assert(hunterIndex<max_nr_hunter_walks);
 
-          unsigned int const hunterIndex = pp-Hunter0;
-          assert(hunterIndex<max_nr_hunter_walks);
+        pos[1] = '/';
+        pos = WriteWalkRtoL(pos,huntertypes[hunterIndex].away);
+      }
 
-          *h1-- = '/';
-          if ((*h1= PieceTab[huntertypes[hunterIndex].away][1]) != ' ')
-          {
-            *h1= toupper(*h1);
-            h1--;
-          }
-          *h1--= toupper(PieceTab[huntertypes[hunterIndex].away][0]);
+      if (is_piece_neutral(spec[square]))
+        pos[0] = '=';
+      else if (TSTFLAG(spec[square],Black))
+        pos[0] = '-';
+    }
 
-          --n1;   /* leave pos. below '/' empty */
-          if ((*n1= PieceTab[huntertypes[hunterIndex].home][1]) != ' ')
-            *n1= toupper(*n1);
-          *n1 = toupper(PieceTab[huntertypes[hunterIndex].home][0]);
-        }
+    StdString(cell);
+  }
+}
 
-        if (is_piece_neutral(spec[square]))
-          *h1= '=';
-        else if (TSTFLAG(spec[square],Black))
-          *h1= '-';
+static void WriteBaseCells(square square_a)
+{
+  unsigned int file;
+  square square;
+
+  for (file = 0, square = square_a;
+       file!=nr_files_on_board;
+       ++file, square += dir_right)
+  {
+    piece_walk_type const walk = get_walk_of_piece_on_square(square);
+
+    char cell[fileWidth+1];
+    char *pos = cell + (sizeof cell)/2;
+
+    snprintf(cell, sizeof cell, "%*c", fileWidth, ' ');
+
+    if (CondFlag[gridchess] && !OptFlag[suppressgrid])
+    {
+      if (is_on_board(square+dir_down)
+          && GridLegal(square,square+dir_down))
+      {
+        pos[-1] = '-';
+        pos[0] = '-';
+        pos[+1] = '-';
       }
     }
 
-    StdString(HLine1);
-    StdString(HLine2);
+    if (Hunter0<=walk && walk<Hunter0+max_nr_hunter_walks)
+    {
+      unsigned int const hunterIndex = walk-Hunter0;
+      WriteWalkRtoL(pos,huntertypes[hunterIndex].home);
+    }
+
+    StdString(cell);
+  }
+}
+
+static void WriteBorder(void)
+{
+  unsigned int file;
+  char letter;
+
+  assert(nr_files_on_board <= 'z'-'a');
+
+  StdString("+--");
+
+  for (file = 0, letter = 'a'; file!=nr_files_on_board; ++file, ++letter)
+  {
+    char cell[fileWidth+1];
+    snprintf(cell, sizeof cell, "-%c--", letter);
+    StdString(cell);
   }
 
-  StdString(BorderL);
+  StdString("-+\n");
+}
+
+static void WriteBlankLine(void)
+{
+  unsigned int file;
+
+  StdString("| ");
+  StdString(" ");
+
+  for (file = 0; file!=nr_files_on_board; ++file)
+    StdString("    ");
+
+  StdString(" |\n");
+}
+
+static void WriteBoard(void)
+{
+  unsigned int row;
+  square square_a;
+
+  assert(nr_rows_on_board<10);
+
+  StdChar('\n');
+  WriteBorder();
+  WriteBlankLine();
+
+  for (row = 0, square_a = square_a8;
+       row!=nr_rows_on_board;
+       ++row, square_a += dir_down)
+  {
+    char border[4];
+
+    snprintf(border, sizeof border, "%d ", nr_rows_on_board-row);
+    StdString(border);
+
+    WriteRegularCells(square_a);
+
+    snprintf(border, sizeof border, "  %d", nr_rows_on_board-row);
+    StdString(border);
+    StdChar('\n');
+
+    StdString("| ");
+    WriteBaseCells(square_a);
+    StdString("  |\n");
+  }
+
+  WriteBorder();
 }
 
 static void WriteMeta(void)
