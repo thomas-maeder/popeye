@@ -31,7 +31,6 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/machinery/twin.h"
-#include "solving/proofgames.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/pytime.h"
@@ -1036,18 +1035,10 @@ static void write_position(slice_index stipulation_root_hook)
 {
   if (!OptFlag[noboard])
   {
-    WritePosition(&being_solved);
-
     if ((find_unique_goal(stipulation_root_hook).type)==goal_atob)
-    {
-      char InitialLine[40];
-
-      sprintf(InitialLine,
-              "\nInitial (%s ->):\n",
-              ColourString[UserLanguage][slices[stipulation_root_hook].starter]);
-      StdString(InitialLine);
-      WriteBoard(&proofgames_start_position);
-    }
+      WritePositionAtoB(slices[stipulation_root_hook].starter);
+    else
+      WritePositionRegular();
   }
 }
 

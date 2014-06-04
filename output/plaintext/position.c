@@ -18,6 +18,7 @@
 #include "position/position.h"
 #include "solving/castling.h"
 #include "solving/move_generator.h"
+#include "solving/proofgames.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -229,14 +230,11 @@ static void WriteRoyalPiecePositions(position const *pos)
     CenterLine(ListSpec);
 }
 
-static void WriteStipulationOptionsPieceCounts(position const *pos)
+static void DoPieceCounts(position const *pos,
+                          unsigned piece_per_colour[nr_colours])
 {
-  unsigned int nBlack = 0;
-  unsigned int nWhite = 0;
-  unsigned int nNeutr = 0;
   square square_a = square_a8;
   unsigned int row;
-  char StipOptStr[300];
 
   for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
@@ -246,15 +244,43 @@ static void WriteStipulationOptionsPieceCounts(position const *pos)
     for (file = 0; file!=nr_files_on_board; ++file, square += dir_right)
     {
       if (is_piece_neutral(pos->spec[square]))
-        ++nNeutr;
+        ++piece_per_colour[colour_neutral];
       else if (TSTFLAG(pos->spec[square],Black))
-        ++nBlack;
+        ++piece_per_colour[colour_black];
       else if (TSTFLAG(pos->spec[square],White))
-        ++nWhite;
+        ++piece_per_colour[colour_white];
     }
   }
+}
+
+static void WritePieceCounts(position const *pos)
+{
+  unsigned piece_per_colour[nr_colours] = { 0 };
+  char StipOptStr[300];
+  int const pieceCntWidth = nr_files_on_board*fileWidth+1;
+  char PieCnts[20];
+
+  StipOptStr[0] = 0;
+
+  DoPieceCounts(pos,piece_per_colour);
+
+  if (piece_per_colour[colour_neutral]>0)
+    sprintf(PieCnts, "%d + %d + %dn", piece_per_colour[colour_white], piece_per_colour[colour_black], piece_per_colour[colour_neutral]);
+  else
+    sprintf(PieCnts, "%d + %d", piece_per_colour[colour_white], piece_per_colour[colour_black]);
+  sprintf(GlobalStr, "  %s%*s\n", StipOptStr, pieceCntWidth, PieCnts);
+  StdString(GlobalStr);
+}
+
+static void WriteStipulationOptionsPieceCounts(position const *pos)
+{
+  unsigned piece_per_colour[nr_colours] = { 0 };
+
+  char StipOptStr[300];
 
   strcpy(StipOptStr, AlphaStip);
+
+  DoPieceCounts(pos,piece_per_colour);
 
   if (OptFlag[solmenaces])
   {
@@ -276,10 +302,10 @@ static void WriteStipulationOptionsPieceCounts(position const *pos)
                                ? 1
                                : nr_files_on_board*fileWidth-stipOptLength+1);
     char PieCnts[20];
-    if (nNeutr>0)
-      sprintf(PieCnts, "%d + %d + %dn", nWhite, nBlack, nNeutr);
+    if (piece_per_colour[colour_neutral]>0)
+      sprintf(PieCnts, "%d + %d + %dn", piece_per_colour[colour_white], piece_per_colour[colour_black], piece_per_colour[colour_neutral]);
     else
-      sprintf(PieCnts, "%d + %d", nWhite, nBlack);
+      sprintf(PieCnts, "%d + %d", piece_per_colour[colour_white], piece_per_colour[colour_black]);
     sprintf(GlobalStr, "  %s%*s\n", StipOptStr, pieceCntWidth, PieCnts);
     StdString(GlobalStr);
   }
@@ -463,10 +489,8 @@ static void WriteMeta(void)
   MultiCenter(ActTitle);
 }
 
-void WritePosition(position const *pos)
+static void WriteCaptions(position const *pos)
 {
-  WriteMeta();
-  WriteBoard(pos);
   WriteStipulationOptionsPieceCounts(pos);
   WriteRoyalPiecePositions(pos);
   WriteNonRoyalAttributedPieces(pos);
@@ -483,4 +507,28 @@ void WritePosition(position const *pos)
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid();
+}
+
+void WritePositionAtoB(Side starter)
+{
+  char InitialLine[40];
+
+  WriteMeta();
+  WriteBoard(&proofgames_start_position);
+  WritePieceCounts(&proofgames_start_position);
+
+  sprintf(InitialLine,"=> (%s ->)",ColourString[UserLanguage][starter]);
+  StdChar('\n');
+  CenterLine(InitialLine);
+  StdChar('\n');
+
+  WriteBoard(&being_solved);
+  WriteCaptions(&being_solved);
+}
+
+void WritePositionRegular(void)
+{
+  WriteMeta();
+  WriteBoard(&being_solved);
+  WriteCaptions(&being_solved);
 }

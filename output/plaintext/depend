@@ -824,7 +824,7 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  conditions/imitator.h pieces/attributes/neutral/neutral.h \
  pieces/walks/classification.h pieces/walks/hunters.h \
  solving/observation.h solving/temporary_hacks.h solving/castling.h \
- solving/move_generator.h debugging/assert.h
+ solving/move_generator.h solving/proofgames.h debugging/assert.h
 
 output/plaintext/position.h:
 
@@ -963,6 +963,8 @@ solving/temporary_hacks.h:
 solving/castling.h:
 
 solving/move_generator.h:
+
+solving/proofgames.h:
 
 debugging/assert.h:
 output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \

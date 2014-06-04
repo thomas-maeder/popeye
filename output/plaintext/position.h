@@ -3,7 +3,9 @@
 
 #include "position/position.h"
 
-void WritePosition(position const *pos);
 void WriteBoard(position const *pos);
+
+void WritePositionRegular(void);
+void WritePositionAtoB(Side starter);
 
 #endif
