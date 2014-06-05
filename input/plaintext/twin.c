@@ -1218,6 +1218,8 @@ static Token initial_twin(slice_index stipulation_root_hook,
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
+  initialise_piece_flags_from_conditions();
+
   if (slices[stipulation_root_hook].next1==no_slice)
     IoErrorMsg(NoStipulation,0);
   else
@@ -1273,7 +1275,6 @@ Token iterate_twins(void)
   assert(nbply==ply_twinning);
 
   initialise_piece_ids();
-  initialise_piece_flags_from_conditions();
 
   StartTimer();
 

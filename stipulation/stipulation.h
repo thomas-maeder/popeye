@@ -235,4 +235,16 @@ void solving_insert_intro_slices(slice_index si);
  */
 boolean solving_apply_setplay(slice_index si);
 
+/* Are piece ids required for solving the current stipulation?
+ */
+boolean stipulation_are_pieceids_required(void);
+
+/* Remember that piece ids are required for solving the current stipulation
+ */
+void stipulation_remember_pieceids_required(void);
+
+/* Reset the current stipulation before constructing a new one
+ */
+void stipulation_reset(void);
+
 #endif

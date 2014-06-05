@@ -969,7 +969,7 @@ char *ParseStip(slice_index root_slice_hook)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  CLRFLAGMASK(some_pieces_flags,PieceIdMask);
+  stipulation_reset();
 
   strcpy(AlphaStip,tok);
   if (ParsePlay(tok,root_slice_hook,root_slice_hook,play_length_minimum))

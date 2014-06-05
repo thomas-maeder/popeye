@@ -186,22 +186,22 @@ char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_circuit:
         pipe_link(proxy,alloc_goal_circuit_reached_tester_system());
-        SETFLAGMASK(some_pieces_flags,PieceIdMask);
+        stipulation_remember_pieceids_required();
         break;
 
       case goal_exchange:
         pipe_link(proxy,alloc_goal_exchange_reached_tester_system());
-        SETFLAGMASK(some_pieces_flags,PieceIdMask);
+        stipulation_remember_pieceids_required();
         break;
 
       case goal_circuit_by_rebirth:
         pipe_link(proxy,alloc_goal_circuit_by_rebirth_reached_tester_system());
-        SETFLAGMASK(some_pieces_flags,PieceIdMask);
+        stipulation_remember_pieceids_required();
         break;
 
       case goal_exchange_by_rebirth:
         pipe_link(proxy,alloc_goal_exchange_by_rebirth_reached_tester_system());
-        SETFLAGMASK(some_pieces_flags,PieceIdMask);
+        stipulation_remember_pieceids_required();
         break;
 
       case goal_any:

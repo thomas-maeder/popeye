@@ -318,7 +318,7 @@ void initialise_piece_flags_from_conditions(void)
     SETFLAG(all_royals_flags,Beamtet);
   }
 
-  if (CondFlag[ghostchess]  || CondFlag[hauntedchess])
+  if (CondFlag[ghostchess] || CondFlag[hauntedchess])
     SETFLAG(some_pieces_flags,Uncapturable);
 
   {
@@ -621,6 +621,9 @@ static boolean verify_position(slice_index si)
     VerifieMsg(PercentAndParrain);
     return false;
   }
+
+  if (stipulation_are_pieceids_required())
+    SETFLAGMASK(some_pieces_flags,PieceIdMask);
 
   if (TSTFLAG(some_pieces_flags, HalfNeutral))
     SETFLAGMASK(some_pieces_flags,NeutralMask);

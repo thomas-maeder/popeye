@@ -1142,7 +1142,7 @@ char *ParseStructuredStip(slice_index root_slice_hook)
   TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
 
-  CLRFLAGMASK(some_pieces_flags,PieceIdMask);
+  stipulation_reset();
 
   AlphaStip[0] = 0;
 

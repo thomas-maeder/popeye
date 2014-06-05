@@ -24,9 +24,9 @@
 
 #include "debugging/assert.h"
 
-
 Slice slices[max_nr_slices];
 
+static boolean are_pieceids_required;
 
 /* Keep track of allocated slice indices
  */
@@ -889,4 +889,25 @@ void stip_impose_starter_nested(slice_index si,
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Are piece ids required for solving the current stipulation?
+ */
+boolean stipulation_are_pieceids_required(void)
+{
+  return are_pieceids_required;
+}
+
+/* Remember that piece ids are required for solving the current stipulation
+ */
+void stipulation_remember_pieceids_required(void)
+{
+  are_pieceids_required = true;
+}
+
+/* Reset the current stipulation before constructing a new one
+ */
+void stipulation_reset(void)
+{
+  are_pieceids_required = false;
 }
