@@ -1123,10 +1123,21 @@ static Token zeroposition(slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
+  StdString("\n");
+  StdString(TokenTab[ZeroPosition]);
+  StdString("\n\n");
+  TwinNumber= 0;
+  TwinStorePosition();
+
+  result = ReadSubsequentTwin(stipulation_root_hook);
+
   initialise_piece_flags();
 
   if (slices[stipulation_root_hook].next1==no_slice)
+  {
     IoErrorMsg(NoStipulation,0);
+    result = TokenCount;
+  }
   else
   {
     if (slices[stipulation_root_hook].starter==no_side)
@@ -1134,35 +1145,10 @@ static Token zeroposition(slice_index stipulation_root_hook)
 
     TraceStipulation(stipulation_root_hook);
 
-    write_position(stipulation_root_hook);
+    if (LaTeXout)
+      LaTeXBeginDiagram();
 
-    StdString("\n");
-    StdString(TokenTab[ZeroPosition]);
-    StdString("\n\n");
-    TwinNumber= 0;
-    TwinStorePosition();
-
-    result = ReadSubsequentTwin(stipulation_root_hook);
-
-    initialise_piece_flags();
-
-    if (slices[stipulation_root_hook].next1==no_slice)
-    {
-      IoErrorMsg(NoStipulation,0);
-      result = TokenCount;
-    }
-    else
-    {
-      if (slices[stipulation_root_hook].starter==no_side)
-        complete_stipulation(stipulation_root_hook);
-
-      TraceStipulation(stipulation_root_hook);
-
-      if (LaTeXout)
-        LaTeXBeginDiagram();
-
-      deal_with_stipulation(stipulation_root_hook);
-    }
+    deal_with_stipulation(stipulation_root_hook);
   }
 
   TraceFunctionExit(__func__);
@@ -1210,47 +1196,27 @@ static Token subsequent_twin(slice_index stipulation_root_hook)
   return result;
 }
 
-static Token initial_twin(slice_index stipulation_root_hook,
-                          Token end_of_twin_token)
+static void initial_twin(slice_index stipulation_root_hook,
+                         Token end_of_twin_token)
 {
-  Token result = TokenCount;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  initialise_piece_flags();
+  if (LaTeXout)
+    LaTeXBeginDiagram();
 
-  if (slices[stipulation_root_hook].next1==no_slice)
-    IoErrorMsg(NoStipulation,0);
-  else
+  if (end_of_twin_token==TwinProblem)
   {
-    if (slices[stipulation_root_hook].starter==no_side)
-      complete_stipulation(stipulation_root_hook);
-
-    TraceStipulation(stipulation_root_hook);
-
-    write_position(stipulation_root_hook);
-
-    if (LaTeXout)
-      LaTeXBeginDiagram();
-
-    if (end_of_twin_token==TwinProblem)
-    {
-      Message(NewLine);
-      WriteTwinNumber(TwinNumber);
-      Message(NewLine);
-    }
-
-    deal_with_stipulation(stipulation_root_hook);
-
-    result = end_of_twin_token;
+    Message(NewLine);
+    WriteTwinNumber(TwinNumber);
+    Message(NewLine);
   }
 
+  deal_with_stipulation(stipulation_root_hook);
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
 
 /* Iterate over the twins of a problem
@@ -1279,22 +1245,36 @@ Token iterate_twins(void)
 
   StartTimer();
 
-  if (result==ZeroPosition)
-    result = zeroposition(stipulation_root_hook);
+  initialise_piece_flags();
+
+  if (slices[stipulation_root_hook].next1==no_slice)
+    IoErrorMsg(NoStipulation,0);
   else
-    result = initial_twin(stipulation_root_hook,result);
+  {
+    if (slices[stipulation_root_hook].starter==no_side)
+      complete_stipulation(stipulation_root_hook);
 
-  while (result==TwinProblem)
-    result = subsequent_twin(stipulation_root_hook);
+    TraceStipulation(stipulation_root_hook);
 
-  undo_move_effects();
-  finply();
+    write_position(stipulation_root_hook);
 
-  dealloc_slices(stipulation_root_hook);
-  assert_no_leaked_slices();
+    if (result==ZeroPosition)
+      result = zeroposition(stipulation_root_hook);
+    else
+      initial_twin(stipulation_root_hook,result);
 
-  if (LaTeXout)
-    LaTeXEndDiagram();
+    while (result==TwinProblem)
+      result = subsequent_twin(stipulation_root_hook);
+
+    undo_move_effects();
+    finply();
+
+    dealloc_slices(stipulation_root_hook);
+    assert_no_leaked_slices();
+
+    if (LaTeXout)
+      LaTeXEndDiagram();
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
