@@ -498,7 +498,6 @@ static char *ParseForsythColour(char *tok, Flags *colour_flags)
   {
     ++tok;
     *colour_flags = NeutralMask;
-    SETFLAGMASK(some_pieces_flags,NeutralMask);
   }
   else
     *colour_flags = 0;
@@ -1124,6 +1123,8 @@ static Token zeroposition(slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
+  initialise_piece_flags();
+
   if (slices[stipulation_root_hook].next1==no_slice)
     IoErrorMsg(NoStipulation,0);
   else
@@ -1143,7 +1144,7 @@ static Token zeroposition(slice_index stipulation_root_hook)
 
     result = ReadSubsequentTwin(stipulation_root_hook);
 
-    initialise_piece_flags_from_conditions();
+    initialise_piece_flags();
 
     if (slices[stipulation_root_hook].next1==no_slice)
     {
@@ -1185,7 +1186,7 @@ static Token subsequent_twin(slice_index stipulation_root_hook)
 
   result = ReadSubsequentTwin(stipulation_root_hook);
 
-  initialise_piece_flags_from_conditions();
+  initialise_piece_flags();
 
   TraceSquare(being_solved.king_square[White]);
   TraceSquare(being_solved.king_square[Black]);
@@ -1218,7 +1219,7 @@ static Token initial_twin(slice_index stipulation_root_hook,
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  initialise_piece_flags_from_conditions();
+  initialise_piece_flags();
 
   if (slices[stipulation_root_hook].next1==no_slice)
     IoErrorMsg(NoStipulation,0);

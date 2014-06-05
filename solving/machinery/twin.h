@@ -23,8 +23,8 @@ void twin_solve_stipulation(slice_index stipulation_root_hook);
 void initialise_piece_ids(void);
 
 
-/* Assign pieces flags as defined by the conditions
+/* Initialise piece flags from conditions, the pieces themselve etc.
  */
-void initialise_piece_flags_from_conditions(void);
+void initialise_piece_flags(void);
 
 #endif

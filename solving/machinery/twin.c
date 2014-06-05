@@ -293,10 +293,32 @@ void initialise_piece_ids(void)
   TraceFunctionResultEnd();
 }
 
-void initialise_piece_flags_from_conditions(void)
+/* Initialise piece flags from conditions, the pieces themselve etc.
+ */
+void initialise_piece_flags(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  CLEARFL(some_pieces_flags);
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; ++bnp)
+      if (!is_square_empty(*bnp))
+      {
+        if (is_piece_neutral(being_solved.spec[*bnp]))
+          SETFLAGMASK(some_pieces_flags,NeutralMask);
+
+        if (TSTFLAG(being_solved.spec[*bnp],Royal)
+            && !is_king(get_walk_of_piece_on_square(*bnp)))
+          SETFLAG(some_pieces_flags,Royal);
+
+        some_pieces_flags |= being_solved.spec[*bnp] & ~NeutralMask & ~BIT(Royal);
+      }
+  }
+
+  CLRFLAGMASK(some_pieces_flags,PieceIdMask);
 
   if (CondFlag[volage])
   {
@@ -1707,7 +1729,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook)
   {
     countPieces();
     initialise_piece_ids();
-    initialise_piece_flags_from_conditions();
+    initialise_piece_flags();
     ProofInitialise(stipulation_root);
     if (locate_royals(&being_solved.king_square))
       solve_any_stipulation(stipulation_root_hook);

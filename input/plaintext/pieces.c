@@ -278,19 +278,13 @@ char *ParsePieces(piece_addition_type type)
       break;
     else
     {
-      ++nr_groups;
-
-      if (is_piece_neutral(PieSpFlags))
-        SETFLAGMASK(some_pieces_flags,NeutralMask);
-
-      {
-        Flags nonCOLOURFLAGS = 0;
-        tok = ParsePieceFlags(&nonCOLOURFLAGS);
-        PieSpFlags |= nonCOLOURFLAGS;
-        some_pieces_flags |= nonCOLOURFLAGS;
-      }
+      Flags nonCOLOURFLAGS = 0;
+      tok = ParsePieceFlags(&nonCOLOURFLAGS);
+      PieSpFlags |= nonCOLOURFLAGS;
 
       tok = ParsePieceNameAndSquares(tok,PieSpFlags,type);
+
+      ++nr_groups;
     }
   }
 
