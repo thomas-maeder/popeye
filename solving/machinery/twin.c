@@ -1723,7 +1723,6 @@ void twin_solve_stipulation(slice_index stipulation_root_hook)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParam("%u",context);
   TraceFunctionParamListEnd();
 
   initialise_piece_walk_caches();
