@@ -46,6 +46,12 @@ static piece_walk_type twin_e[nr_squares_on_board];
 static Flags  twin_spec[nr_squares_on_board];
 static square twin_rb, twin_rn;
 
+typedef enum
+{
+  twin_initial,
+  twin_subsequent
+} twin_context_type;
+
 static void TwinStorePosition(void)
 {
   int i;

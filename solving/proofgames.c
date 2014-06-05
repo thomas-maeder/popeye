@@ -454,30 +454,10 @@ void ProofInitialiseStartPosition(void)
 
 void ProofSaveStartPosition(void)
 {
-  unsigned int i;
-  piece_walk_type p;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  proofgames_start_position.king_square[Black] = being_solved.king_square[Black];
-  proofgames_start_position.king_square[White] = being_solved.king_square[White];
-
-  for (p = King; p<nr_piece_walks; ++p)
-  {
-    proofgames_start_position.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
-    proofgames_start_position.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
-  }
-
-  for (i = 0; i<maxsquare; ++i)
-    proofgames_start_position.board[i] = get_walk_of_piece_on_square(i);
-
-  for (i = 0; i<nr_squares_on_board; ++i)
-    proofgames_start_position.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
-
-  proofgames_start_position.number_of_imitators = being_solved.number_of_imitators;
-  for (i = 0; i<being_solved.number_of_imitators; ++i)
-    proofgames_start_position.isquare[i] = being_solved.isquare[i];
+  proofgames_start_position = being_solved;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -485,33 +465,10 @@ void ProofSaveStartPosition(void)
 
 void ProofRestoreStartPosition(void)
 {
-  unsigned int i;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  being_solved.king_square[Black] = proofgames_start_position.king_square[Black];
-  being_solved.king_square[White] = proofgames_start_position.king_square[White];
-
-  for (i = 0; i<nr_squares_on_board; ++i)
-    switch (proofgames_start_position.board[boardnum[i]])
-    {
-      case Empty:
-        empty_square(boardnum[i]);
-        break;
-
-      case Invalid:
-        block_square(boardnum[i]);
-        break;
-
-      default:
-        occupy_square(boardnum[i],proofgames_start_position.board[boardnum[i]],proofgames_start_position.spec[boardnum[i]]);
-        break;
-    }
-
-  being_solved.number_of_imitators = proofgames_start_position.number_of_imitators;
-  for (i = 0; i<being_solved.number_of_imitators; ++i)
-    being_solved.isquare[i] = proofgames_start_position.isquare[i];
+  being_solved = proofgames_start_position;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -519,30 +476,10 @@ void ProofRestoreStartPosition(void)
 
 void ProofSaveTargetPosition(void)
 {
-  unsigned int i;
-  piece_walk_type p;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  proofgames_target_position.king_square[White] = being_solved.king_square[White];
-  proofgames_target_position.king_square[Black] = being_solved.king_square[Black];
-
-  for (p = King; p<nr_piece_walks; ++p)
-  {
-    proofgames_target_position.number_of_pieces[White][p] = being_solved.number_of_pieces[White][p];
-    proofgames_target_position.number_of_pieces[Black][p] = being_solved.number_of_pieces[Black][p];
-  }
-
-  for (i = 0; i<maxsquare; ++i)
-    proofgames_target_position.board[i] = get_walk_of_piece_on_square(i);
-
-  for (i = 0; i<nr_squares_on_board; ++i)
-    proofgames_target_position.spec[boardnum[i]] = being_solved.spec[boardnum[i]];
-
-  proofgames_target_position.number_of_imitators = being_solved.number_of_imitators;
-  for (i = 0; i<being_solved.number_of_imitators; ++i)
-    proofgames_target_position.isquare[i] = being_solved.isquare[i];
+  proofgames_target_position = being_solved;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -553,35 +490,7 @@ void ProofRestoreTargetPosition(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  being_solved.king_square[Black] = proofgames_target_position.king_square[Black];
-  being_solved.king_square[White] = proofgames_target_position.king_square[White];
-
-  {
-    square i;
-    for (i = 0; i<maxsquare; ++i)
-      switch (proofgames_target_position.board[i])
-      {
-        case Empty:
-          empty_square(i);
-          break;
-
-        case Invalid:
-          block_square(i);
-          break;
-
-        default:
-          occupy_square(i,proofgames_target_position.board[i],proofgames_target_position.spec[i]);
-          break;
-      }
-  }
-
-  being_solved.number_of_imitators = proofgames_target_position.number_of_imitators;
-
-  {
-    unsigned int i;
-    for (i = 0; i<being_solved.number_of_imitators; ++i)
-      being_solved.isquare[i] = proofgames_target_position.isquare[i];
-  }
+  being_solved = proofgames_target_position;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -10,11 +10,17 @@
 #include <string.h>
 
 HunterType huntertypes[max_nr_hunter_walks];
-unsigned int nrhuntertypes;
+static unsigned int nrhuntertypes;
 
 typedef boolean (*direction_validator_type)(numecoup n);
 
 static direction_validator_type direction_validator[maxply+1];
+
+/* reset the hunters module for solving a new problem */
+void hunters_reset(void)
+{
+  nrhuntertypes = 0;
+}
 
 piece_walk_type hunter_make_type(piece_walk_type away, piece_walk_type home)
 {

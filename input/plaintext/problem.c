@@ -39,7 +39,8 @@ static void InitBoard(void)
     block_square(i);
   }
 
-  /* dummy squares for Messigny chess and castling -- must be empty */
+  /* dummy squares for various purposes -- must be empty */
+  empty_square(pawn_multistep);
   empty_square(messigny_exchange);
   empty_square(kingside_castling);
   empty_square(queenside_castling);
@@ -50,12 +51,6 @@ static void InitBoard(void)
 
   being_solved.king_square[White] = initsquare;
   being_solved.king_square[Black] = initsquare;
-
-  CLEARFL(all_pieces_flags);
-  CLEARFL(all_royals_flags);
-  CLEARFL(some_pieces_flags);
-
-  nrhuntertypes = 0;
 }
 
 static void ReadBeginSpec(void)
@@ -118,6 +113,9 @@ void iterate_problems(void)
     reset_max_solutions();
     reset_was_max_nr_solutions_per_target_position_reached();
     reset_short_solution_found_in_problem();
+
+    pieces_reset();
+    hunters_reset();
 
     prev_token = iterate_twins();
 

@@ -12,12 +12,6 @@ typedef unsigned long twin_number_type;
  */
 extern twin_number_type twin_number;
 
-typedef enum
-{
-  twin_initial,
-  twin_subsequent
-} twin_context_type;
-
 /* Solve the stipulation
  * @param stipulation_root_hook identifies the root slice of the stipulation
  * @param context context of the twin to be solved

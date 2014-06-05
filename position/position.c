@@ -54,6 +54,13 @@ void initialise_game_array(position *pos)
     pos->spec[i] = BorderSpec;
   }
 
+  /* dummy squares for various purposes -- must be empty */
+  pos->board[pawn_multistep] = Empty;
+  pos->board[messigny_exchange] = Empty;
+  pos->board[kingside_castling] = Empty;
+  pos->board[queenside_castling] = Empty;
+  pos->board[retro_capture_departure] = Empty;
+
   for (bnp = boardnum; *bnp; bnp++)
   {
     pos->board[*bnp] = Empty;

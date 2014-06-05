@@ -195,6 +195,21 @@ typedef enum
   nrSquareFlags
 } SquareFlags;
 
+enum
+{
+  /* the following values are used instead of capture square
+   * to indicate special moves */
+  messigny_exchange = maxsquare+1,
+
+  min_castling = maxsquare+2,
+  kingside_castling = min_castling,
+  queenside_castling = maxsquare+3,
+  max_castling = queenside_castling,
+
+  retro_capture_departure = maxsquare+4,
+  pawn_multistep = maxsquare, /* must refer to a square that is always empty */
+};
+
 extern SquareFlags zzzan[square_h8 - square_a1 + 1];
 #define sq_spec         (zzzan - square_a1)
 
