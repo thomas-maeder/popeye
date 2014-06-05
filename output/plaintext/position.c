@@ -253,14 +253,14 @@ static void DoPieceCounts(position const *pos,
   }
 }
 
-static void WritePieceCounts(position const *pos)
+static void WritePieceCounts(position const *pos, unsigned int indentation)
 {
   unsigned piece_per_colour[nr_colours] = { 0 };
-  char StipOptStr[300];
-  int const pieceCntWidth = nr_files_on_board*fileWidth+1;
   char PieCnts[20];
 
-  StipOptStr[0] = 0;
+  unsigned int const pieceCntWidth = (indentation>nr_files_on_board*fileWidth
+                                      ? 1
+                                     : nr_files_on_board*fileWidth-indentation+1);
 
   DoPieceCounts(pos,piece_per_colour);
 
@@ -268,47 +268,35 @@ static void WritePieceCounts(position const *pos)
     sprintf(PieCnts, "%d + %d + %dn", piece_per_colour[colour_white], piece_per_colour[colour_black], piece_per_colour[colour_neutral]);
   else
     sprintf(PieCnts, "%d + %d", piece_per_colour[colour_white], piece_per_colour[colour_black]);
-  sprintf(GlobalStr, "  %s%*s\n", StipOptStr, pieceCntWidth, PieCnts);
+  sprintf(GlobalStr, "  %*s", pieceCntWidth, PieCnts);
   StdString(GlobalStr);
 }
 
-static void WriteStipulationOptionsPieceCounts(position const *pos)
+static int WriteStipulationOptions(position const *pos)
 {
-  unsigned piece_per_colour[nr_colours] = { 0 };
-
   char StipOptStr[300];
-
-  strcpy(StipOptStr, AlphaStip);
-
-  DoPieceCounts(pos,piece_per_colour);
 
   if (OptFlag[solmenaces])
   {
-    sprintf(StipOptStr+strlen(StipOptStr), "/%u", get_max_threat_length());
+    sprintf(StipOptStr, "/%u", get_max_threat_length());
     if (OptFlag[solflights])
       sprintf(StipOptStr+strlen(StipOptStr), "/%d", get_max_flights());
   }
   else if (OptFlag[solflights])
-    sprintf(StipOptStr+strlen(StipOptStr), "//%d", get_max_flights());
+    sprintf(StipOptStr, "//%d", get_max_flights());
+  else
+    StipOptStr[0] = 0;
 
   if (OptFlag[nontrivial])
     sprintf(StipOptStr+strlen(StipOptStr),
             ";%d,%u",
             max_nr_nontrivial,get_min_length_nontrivial());
 
-  {
-    size_t const stipOptLength = strlen(StipOptStr);
-    int const pieceCntWidth = (stipOptLength>nr_files_on_board*fileWidth
-                               ? 1
-                               : nr_files_on_board*fileWidth-stipOptLength+1);
-    char PieCnts[20];
-    if (piece_per_colour[colour_neutral]>0)
-      sprintf(PieCnts, "%d + %d + %dn", piece_per_colour[colour_white], piece_per_colour[colour_black], piece_per_colour[colour_neutral]);
-    else
-      sprintf(PieCnts, "%d + %d", piece_per_colour[colour_white], piece_per_colour[colour_black]);
-    sprintf(GlobalStr, "  %s%*s\n", StipOptStr, pieceCntWidth, PieCnts);
-    StdString(GlobalStr);
-  }
+  StdString("  ");
+  StdString(AlphaStip);
+  StdString(StipOptStr);
+
+  return strlen(StipOptStr)+strlen(AlphaStip)+2;
 }
 
 static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
@@ -491,7 +479,9 @@ static void WriteMeta(void)
 
 static void WriteCaptions(position const *pos)
 {
-  WriteStipulationOptionsPieceCounts(pos);
+  WritePieceCounts(pos,WriteStipulationOptions(pos));
+  StdChar('\n');
+
   WriteRoyalPiecePositions(pos);
   WriteNonRoyalAttributedPieces(pos);
   WriteConditions(&WriteCondition);
@@ -515,7 +505,8 @@ void WritePositionAtoB(Side starter)
 
   WriteMeta();
   WriteBoard(&proofgames_start_position);
-  WritePieceCounts(&proofgames_start_position);
+  WritePieceCounts(&proofgames_start_position,0);
+  StdChar('\n');
 
   sprintf(InitialLine,"=> (%s ->)",ColourString[UserLanguage][starter]);
   StdChar('\n');
