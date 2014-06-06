@@ -320,7 +320,12 @@ void initialise_piece_flags(void)
       }
   }
 
-  if (stipulation_are_pieceids_required())
+  if (TSTFLAG(some_pieces_flags,HalfNeutral))
+    SETFLAGMASK(some_pieces_flags,NeutralMask);
+
+  if (stipulation_are_pieceids_required()
+      || CondFlag[backhome]
+      || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
     SETFLAGMASK(some_pieces_flags,PieceIdMask);
   else
     CLRFLAGMASK(some_pieces_flags,PieceIdMask);
@@ -648,14 +653,6 @@ static boolean verify_position(slice_index si)
     VerifieMsg(PercentAndParrain);
     return false;
   }
-
-  if (TSTFLAG(some_pieces_flags, HalfNeutral))
-    SETFLAGMASK(some_pieces_flags,NeutralMask);
-
-  if (CondFlag[backhome])
-    SETFLAGMASK(some_pieces_flags,PieceIdMask);
-  if (circe_variant.determine_rebirth_square==circe_determine_rebirth_square_diagram)
-    SETFLAGMASK(some_pieces_flags,PieceIdMask);
 
   if (CondFlag[republican] && !republican_verifie_position(si))
     return false;
