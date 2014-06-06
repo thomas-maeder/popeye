@@ -1181,9 +1181,6 @@ static Token zeroposition(slice_index stipulation_root_hook)
 
     TraceStipulation(stipulation_root_hook);
 
-    if (LaTeXout)
-      LaTeXBeginDiagram();
-
     deal_with_stipulation(stipulation_root_hook);
   }
 
@@ -1199,9 +1196,6 @@ static void initial_twin(slice_index stipulation_root_hook,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
-
-  if (LaTeXout)
-    LaTeXBeginDiagram();
 
   if (end_of_twin_token==TwinProblem)
   {
@@ -1253,6 +1247,9 @@ Token iterate_twins(void)
     TraceStipulation(stipulation_root_hook);
 
     write_position(stipulation_root_hook);
+
+    if (LaTeXout)
+      LaTeXBeginDiagram();
 
     if (result==ZeroPosition)
       result = zeroposition(stipulation_root_hook);
