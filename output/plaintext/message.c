@@ -4,11 +4,11 @@
 
 #if defined(DOS)
 #if defined(_MSC_VER)
-#	if defined(SHARING)		/* Import defines for locking regions  StH */
-#		include <sys/locking.h>
-#	endif
-#endif	/* _MSC_VER */
-#endif	/* DOS */
+# if defined(SHARING)        /* Import defines for locking regions  StH */
+#  include <sys/locking.h>
+# endif
+#endif    /* _MSC_VER */
+#endif    /* DOS */
 
 #define PYMSG
 
@@ -26,8 +26,8 @@ typedef unsigned long UnLong;
 
 
 #if !defined(SEEK_SET)
-#	define SEEK_SET 0
-#endif	/* not SEEK_SET */
+#    define SEEK_SET 0
+#endif    /* not SEEK_SET */
 
 static char const * const *ActualMsgTab;
 
@@ -90,9 +90,9 @@ void Message(message_id_t id)
 {
   DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
   if (id<StringCnt)
-	sprintf(GlobalStr, GetMsgString(id), AdditionalArg);
+    sprintf(GlobalStr, GetMsgString(id), AdditionalArg);
   else
-	sprintf(GlobalStr, GetMsgString(InternalError), id);
+    sprintf(GlobalStr, GetMsgString(InternalError), id);
   AdditionalArg= NULL;
   StdString(GlobalStr);
 }
@@ -101,9 +101,9 @@ void ErrorMsg(message_id_t id)
 {
   DBG((stderr, "ErrorMsg(%d) = %s\n", id, GetMsgString(id)));
   if (id<StringCnt)
-	sprintf(GlobalStr, GetMsgString(id), AdditionalArg);
+    sprintf(GlobalStr, GetMsgString(id), AdditionalArg);
   else
-	sprintf(GlobalStr, GetMsgString(InternalError), id);
+    sprintf(GlobalStr, GetMsgString(InternalError), id);
   AdditionalArg= NULL;
   ErrString(GlobalStr);
 }
@@ -112,11 +112,11 @@ void FtlMsg(message_id_t id)
 {
   char *SaveArg= 0;
   if (AdditionalArg)
-	SaveArg= AdditionalArg;
+    SaveArg= AdditionalArg;
   ErrorMsg(ErrFatal);
   ErrorMsg(NewLine);
   if (SaveArg)
-	AdditionalArg= SaveArg;
+    AdditionalArg= SaveArg;
   ErrorMsg(id);
   ErrorMsg(NewLine);
   exit(id);
@@ -194,7 +194,7 @@ char *MakeTimeString(void)
   Seconds= (Seconds%60);
   if (Hours>0)
   {
-	sprintf(TmString,"%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
+    sprintf(TmString,"%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
   }
   else if (Minutes>0)
   {
