@@ -1238,21 +1238,19 @@ Token iterate_twins(void)
 
   result = ReadInitialTwin(stipulation_root_hook);
 
-  nextply(no_side);
-  assert(nbply==ply_twinning);
-
-  initialise_piece_ids();
-
-  StartTimer();
-
-  initialise_piece_flags();
-
   if (slices[stipulation_root_hook].next1==no_slice)
     IoErrorMsg(NoStipulation,0);
   else
   {
-    if (slices[stipulation_root_hook].starter==no_side)
-      complete_stipulation(stipulation_root_hook);
+    nextply(no_side);
+    assert(nbply==ply_twinning);
+
+    StartTimer();
+
+    initialise_piece_ids();
+    initialise_piece_flags();
+
+    complete_stipulation(stipulation_root_hook);
 
     TraceStipulation(stipulation_root_hook);
 
