@@ -114,7 +114,6 @@ void iterate_problems(void)
     reset_was_max_nr_solutions_per_target_position_reached();
     reset_short_solution_found_in_problem();
 
-    pieces_reset();
     hunters_reset();
 
     prev_token = iterate_twins();

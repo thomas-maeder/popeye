@@ -206,7 +206,4 @@ extern boolean piece_walk_exists[nr_piece_walks];
 extern boolean piece_walk_may_exist[nr_piece_walks];
 extern boolean piece_walk_may_exist_fairy;
 
-/* reset the pieces module for solving a new problem */
-void pieces_reset(void);
-
 #endif

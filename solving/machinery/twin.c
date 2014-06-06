@@ -301,6 +301,8 @@ void initialise_piece_flags(void)
   TraceFunctionParamListEnd();
 
   CLEARFL(some_pieces_flags);
+  CLEARFL(all_pieces_flags);
+  CLEARFL(all_royals_flags);
 
   {
     square const *bnp;
