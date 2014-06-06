@@ -15,6 +15,11 @@ void LaTeXShutdown(void);
 void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
 
+void LaTexOpenSolution(void);
+void LaTeXFlushSolution(void);
+
+void LaTeXFlushTwinning(void);
+
 void LaTeXEchoAddedPiece(Flags Spec, piece_walk_type Name, square Square);
 void LaTeXEchoRemovedPiece(Flags Spec, piece_walk_type Name, square Square);
 void LaTeXEchoMovedPiece(Flags Spec, piece_walk_type Name, square FromSquare, square ToSquare);

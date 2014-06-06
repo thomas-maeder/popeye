@@ -68,8 +68,7 @@ static void signal_overwritten_square(square Square)
 
 static void echo_added_piece(Flags Spec, piece_walk_type Name, square Square)
 {
-  if (LaTeXout)
-    LaTeXEchoAddedPiece(Spec,Name,Square);
+  LaTeXEchoAddedPiece(Spec,Name,Square);
 
   if (is_square_empty(Square))
     StdChar('+');

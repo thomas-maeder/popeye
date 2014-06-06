@@ -116,16 +116,14 @@ static char *ParseTwinningMove(int indexx)
     WriteSpec(being_solved.spec[sq2], get_walk_of_piece_on_square(sq2),!is_square_empty(sq2));
     WritePiece(get_walk_of_piece_on_square(sq2));
     WriteSquare(sq2);
-    if (LaTeXout)
-      LaTeXEchoExchangedPiece(being_solved.spec[sq1],get_walk_of_piece_on_square(sq1),sq1,
-                              being_solved.spec[sq2],get_walk_of_piece_on_square(sq2),sq2);
+    LaTeXEchoExchangedPiece(being_solved.spec[sq1],get_walk_of_piece_on_square(sq1),sq1,
+                            being_solved.spec[sq2],get_walk_of_piece_on_square(sq2),sq2);
   }
   else
   {
     StdString("-->");
     WriteSquare(sq2);
-    if (LaTeXout)
-      LaTeXEchoMovedPiece(being_solved.spec[sq1],get_walk_of_piece_on_square(sq1),sq1,sq2);
+    LaTeXEchoMovedPiece(being_solved.spec[sq1],get_walk_of_piece_on_square(sq1),sq1,sq2);
   }
 
   if (indexx==TwinningMove)
@@ -162,8 +160,7 @@ static char *ParseTwinningRotate(void)
     move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                 rotation);
 
-    if (LaTeXout)
-      LaTeXTwinningRotate(tok);
+    LaTeXTwinningRotate(tok);
 
     StdString(TwinningTab[TwinningRotate]);
     StdString(" ");
@@ -222,15 +219,13 @@ static void WriteConditionTwinning(char const CondLine[], boolean is_first)
   if (is_first)
   {
     StdString(CondLine);
-    if (LaTeXout)
-      LaTeXTwinningFirstCondition(CondLine);
+    LaTeXTwinningFirstCondition(CondLine);
   }
   else
   {
     StdString("\n   ");
     StdString(CondLine);
-    if (LaTeXout)
-      LaTeXTwinningNextCondition(CondLine);
+    LaTeXTwinningNextCondition(CondLine);
   }
 }
 
@@ -260,8 +255,7 @@ static char *ParseTwinningShift(void)
     }
   }
 
-  if (LaTeXout)
-    LaTeXTwinningShift(sq1,sq2);
+  LaTeXTwinningShift(sq1,sq2);
 
   StdString(TwinningTab[TwinningShift]);
   StdString(" ");
@@ -370,8 +364,7 @@ static char *ParseTwinningRemove(void)
 
     if (get_walk_of_piece_on_square(sq)>=King)
     {
-      if (LaTeXout)
-        LaTeXEchoRemovedPiece(being_solved.spec[sq],get_walk_of_piece_on_square(sq),sq);
+      LaTeXEchoRemovedPiece(being_solved.spec[sq],get_walk_of_piece_on_square(sq),sq);
 
       StdString(" -");
       WriteSpec(being_solved.spec[sq], get_walk_of_piece_on_square(sq),true);
@@ -410,8 +403,7 @@ static char *ParseTwinningPolish(void)
 
   StdString(TwinningTab[TwinningPolish]);
 
-  if (LaTeXout)
-    LaTeXTwinningPolish();
+  LaTeXTwinningPolish();
 
   return ReadNextTokStr();
 }
@@ -434,8 +426,7 @@ static char *ParseTwinningSubstitute(void)
       IoErrorMsg(WrongPieceName,0);
     else
     {
-      if (LaTeXout)
-        LaTeXEchoSubstitutedPiece(p_old,p_new);
+      LaTeXEchoSubstitutedPiece(p_old,p_new);
 
       WritePiece(p_old);
       StdString(" ==> ");
@@ -565,8 +556,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
         || tk==EndProblem)
     {
       Message(NewLine);
-      if (LaTeXout)
-        LaTeXEndTwinning();
+      LaTeXEndTwinning();
       break;
     }
 
@@ -591,23 +581,20 @@ static char *ParseTwinning(slice_index root_slice_hook)
     if (TwinningRead)
     {
       StdString("  ");
-      if (LaTeXout)
-        LaTeXNextTwinning();
+      LaTeXNextTwinning();
     }
     else
     {
       if (continued)
       {
         StdChar('+');
-        if (LaTeXout)
-          LaTeXContinuedTwinning();
+        LaTeXContinuedTwinning();
       }
       else
         TwinResetPosition();
 
       WriteTwinNumber(TwinNumber);
-      if (LaTeXout)
-        LaTeXBeginTwinning(TwinNumber);
+      LaTeXBeginTwinning(TwinNumber);
     }
 
     TwinningRead= true;
@@ -635,8 +622,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
 
         /* issue the twinning */
         StdString(AlphaStip);
-        if (LaTeXout)
-          LaTeXTwinningStipulation(AlphaStip);
+        LaTeXTwinningStipulation(AlphaStip);
         break;
       case TwinningStructStip:
         {
@@ -648,8 +634,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
 
         /* issue the twinning */
         StdString(AlphaStip);
-        if (LaTeXout)
-          LaTeXTwinningStipulation(AlphaStip);
+        LaTeXTwinningStipulation(AlphaStip);
         break;
       case TwinningAdd:
         tok = ParsePieces(piece_addition_twinning);
@@ -1249,7 +1234,10 @@ Token iterate_twins(void)
     write_position(stipulation_root_hook);
 
     if (LaTeXout)
+    {
       LaTeXBeginDiagram();
+      LaTexOpenSolution();
+    }
 
     if (result==ZeroPosition)
       result = zeroposition(stipulation_root_hook);
@@ -1266,7 +1254,11 @@ Token iterate_twins(void)
     assert_no_leaked_slices();
 
     if (LaTeXout)
+    {
+      LaTeXFlushSolution();
+      LaTeXFlushTwinning();
       LaTeXEndDiagram();
+    }
   }
 
   TraceFunctionExit(__func__);
