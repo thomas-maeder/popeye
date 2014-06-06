@@ -706,7 +706,6 @@ Token ReadInitialTwin(slice_index root_slice_hook)
   TraceFunctionParamListEnd();
 
   tok = ReadNextTokStr();
-  TwinNumber= 1;
   while (more_input)
   {
     result = StringToToken(tok);
@@ -728,9 +727,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         case TwinProblem:
-          if (TwinNumber==1)
-            TwinStorePosition();
-
+          TwinStorePosition();
           more_input = false;
           break;
 
@@ -1112,51 +1109,6 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-/* Deal with the problem having a zeroposition
- * @return token that ended the first real twin
- */
-static Token zeroposition(slice_index stipulation_root_hook)
-{
-  Token result = TokenCount;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParamListEnd();
-
-  StdString("\n");
-  StdString(TokenTab[ZeroPosition]);
-  StdString("\n\n");
-  TwinNumber= 0;
-  TwinStorePosition();
-
-  result = ReadSubsequentTwin(stipulation_root_hook);
-
-  initialise_piece_flags();
-
-  if (slices[stipulation_root_hook].next1==no_slice)
-  {
-    IoErrorMsg(NoStipulation,0);
-    result = TokenCount;
-  }
-  else
-  {
-    if (slices[stipulation_root_hook].starter==no_side)
-      complete_stipulation(stipulation_root_hook);
-
-    TraceStipulation(stipulation_root_hook);
-
-    if (LaTeXout)
-      LaTeXBeginDiagram();
-
-    deal_with_stipulation(stipulation_root_hook);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 /* Deal with a "real twin" of a problem
  * @return token that ended the current twin
  */
@@ -1196,6 +1148,51 @@ static Token subsequent_twin(slice_index stipulation_root_hook)
   return result;
 }
 
+/* Deal with the problem having a zeroposition
+ * @return token that ended the first real twin
+ */
+static Token zeroposition(slice_index stipulation_root_hook)
+{
+  Token result = TokenCount;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
+  StdString("\n");
+  StdString(TokenTab[ZeroPosition]);
+  StdString("\n\n");
+  TwinNumber= 0;
+  TwinStorePosition();
+
+  result = ReadSubsequentTwin(stipulation_root_hook);
+
+  if (slices[stipulation_root_hook].next1==no_slice)
+  {
+    IoErrorMsg(NoStipulation,0);
+    result = TokenCount;
+  }
+  else
+  {
+    initialise_piece_flags();
+
+    if (slices[stipulation_root_hook].starter==no_side)
+      complete_stipulation(stipulation_root_hook);
+
+    TraceStipulation(stipulation_root_hook);
+
+    if (LaTeXout)
+      LaTeXBeginDiagram();
+
+    deal_with_stipulation(stipulation_root_hook);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void initial_twin(slice_index stipulation_root_hook,
                          Token end_of_twin_token)
 {
@@ -1208,6 +1205,7 @@ static void initial_twin(slice_index stipulation_root_hook,
 
   if (end_of_twin_token==TwinProblem)
   {
+    TwinNumber = 1;
     Message(NewLine);
     WriteTwinNumber(TwinNumber);
     Message(NewLine);
