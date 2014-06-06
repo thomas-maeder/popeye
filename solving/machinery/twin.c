@@ -320,7 +320,10 @@ void initialise_piece_flags(void)
       }
   }
 
-  CLRFLAGMASK(some_pieces_flags,PieceIdMask);
+  if (stipulation_are_pieceids_required())
+    SETFLAGMASK(some_pieces_flags,PieceIdMask);
+  else
+    CLRFLAGMASK(some_pieces_flags,PieceIdMask);
 
   if (CondFlag[volage])
   {
@@ -645,9 +648,6 @@ static boolean verify_position(slice_index si)
     VerifieMsg(PercentAndParrain);
     return false;
   }
-
-  if (stipulation_are_pieceids_required())
-    SETFLAGMASK(some_pieces_flags,PieceIdMask);
 
   if (TSTFLAG(some_pieces_flags, HalfNeutral))
     SETFLAGMASK(some_pieces_flags,NeutralMask);
