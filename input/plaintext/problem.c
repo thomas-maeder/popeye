@@ -67,6 +67,7 @@ static void ReadBeginSpec(void)
         OptTab= &OptString[UserLanguage][0];
         CondTab= &CondString[UserLanguage][0];
         TwinningTab= &TwinningString[UserLanguage][0];
+        TwinningMirrorTab= &TwinningMirrorString[UserLanguage][0];
         VaultingVariantTypeTab = &VaultingVariantTypeString[UserLanguage][0];
         ConditionLetteredVariantTypeTab = &ConditionLetteredVariantTypeString[UserLanguage][0];
         ConditionNumberedVariantTypeTab = &ConditionNumberedVariantTypeString[UserLanguage][0];

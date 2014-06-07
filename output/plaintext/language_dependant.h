@@ -138,6 +138,9 @@ extern char const * const *CirceVariantTypeTab;
 extern char const * const TwinningString[LanguageCount][TwinningCount];
 extern char const * const *TwinningTab;
 
+extern char const * const TwinningMirrorString[LanguageCount][TwinningMirrorCount];
+extern char const * const *TwinningMirrorTab;
+
 extern char const * const mummer_strictness_string[LanguageCount][nr_mummer_strictness];
 extern char const * const *mummer_strictness_tab;
 

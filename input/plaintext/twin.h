@@ -17,16 +17,22 @@ typedef enum
   TwinningCond,         /* 8 */
   TwinningPolish,       /* 9 */
   TwinningMirror,      /* 10 */
-  TwinningMirra1h1,    /* 11 */
-  TwinningMirra1a8,    /* 12 */
-  TwinningMirra1h8,    /* 13 */
-  TwinningMirra8h1,    /* 14 */
-  TwinningShift,       /* 15 */
-  TwinningSubstitute,  /* 16 */
-  TwinningForsyth,     /* 17 */
+  TwinningShift,       /* 11 */
+  TwinningSubstitute,  /* 12 */
+  TwinningForsyth,     /* 13 */
 
-  TwinningCount   /* 17 */
+  TwinningCount   /* 14 */
 } TwinningType;
+
+typedef enum
+{
+  TwinningMirrora1h1,
+  TwinningMirrora1a8,
+  TwinningMirrora1h8,
+  TwinningMirrora8h1,
+
+  TwinningMirrorCount
+} TwinningMirrorType;
 
 Token ReadTwin(Token tk, slice_index root_slice_hook);
 

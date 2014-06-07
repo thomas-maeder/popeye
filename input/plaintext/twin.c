@@ -173,30 +173,30 @@ static char *ParseTwinningRotate(void)
 static char *ParseTwinningMirror(void)
 {
   char *tok = ReadNextTokStr();
-  TwinningType indexx= GetUniqIndex(TwinningCount,TwinningTab,tok);
+  TwinningType indexx= GetUniqIndex(TwinningMirrorCount,TwinningMirrorTab,tok);
 
-  if (indexx>TwinningCount)
+  if (indexx>TwinningMirrorCount)
     IoErrorMsg(OptNotUniq,0);
   else
   {
     switch (indexx)
     {
-      case TwinningMirra1h1:
+      case TwinningMirrora1h1:
         move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                     mirra1h1);
         break;
 
-      case TwinningMirra1a8:
+      case TwinningMirrora1a8:
         move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                     mirra1a8);
         break;
 
-      case TwinningMirra1h8:
+      case TwinningMirrora1h8:
         move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                     mirra1h8);
         break;
 
-      case TwinningMirra8h1:
+      case TwinningMirrora8h1:
         move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                     mirra8h1);
         break;
@@ -208,7 +208,7 @@ static char *ParseTwinningMirror(void)
 
     StdString(TwinningTab[TwinningMirror]);
     StdString(" ");
-    StdString(TwinningTab[indexx]);
+    StdString(TwinningMirrorTab[indexx]);
   }
 
   return ReadNextTokStr();

@@ -1603,13 +1603,9 @@ char const * const TwinningString[LanguageCount][TwinningCount] =
     /* 8*/  "condition",
     /* 9*/  "CouleurEchange",
     /*10*/  "miroir",
-    /*11*/  "a1<-->h1",
-    /*12*/  "a1<-->a8",
-    /*13*/  "a1<-->h8",
-    /*14*/  "a8<-->h1",
-    /*15*/  "translation",
-    /*16*/  "remplace",
-    /*17*/  "forsyth"
+    /*11*/  "translation",
+    /*12*/  "remplace",
+    /*13*/  "forsyth"
   },
   { /* German */
     /* 0*/  "versetze",
@@ -1623,13 +1619,9 @@ char const * const TwinningString[LanguageCount][TwinningCount] =
     /* 8*/  "Bedingung",
     /* 9*/  "Farbwechsel",
     /*10*/  "Spiegelung",
-    /*11*/  "a1<-->h1",
-    /*12*/  "a1<-->a8",
-    /*13*/  "a1<-->h8",
-    /*14*/  "a8<-->h1",
-    /*15*/  "Verschiebung",
-    /*16*/  "ersetze",
-    /*17*/  "forsyth"
+    /*11*/  "Verschiebung",
+    /*12*/  "ersetze",
+    /*13*/  "forsyth"
   },
   { /* English */
     /* 0*/  "move",
@@ -1643,13 +1635,33 @@ char const * const TwinningString[LanguageCount][TwinningCount] =
     /* 8*/  "condition",
     /* 9*/  "PolishType",
     /*10*/  "mirror",
-    /*11*/  "a1<-->h1",
-    /*12*/  "a1<-->a8",
-    /*13*/  "a1<-->h8",
-    /*14*/  "a8<-->h1",
-    /*15*/  "shift",
-    /*16*/  "substitute",
-    /*17*/  "forsyth"
+    /*11*/  "shift",
+    /*12*/  "substitute",
+    /*13*/  "forsyth"
+  }
+};
+
+char const * const *TwinningMirrorTab;
+
+char const * const TwinningMirrorString[LanguageCount][TwinningMirrorCount] =
+{
+  { /* francais */
+    "a1<-->h1",
+    "a1<-->a8",
+    "a1<-->h8",
+    "a8<-->h1"
+  },
+  { /* German */
+    "a1<-->h1",
+    "a1<-->a8",
+    "a1<-->h8",
+    "a8<-->h1"
+  },
+  { /* English */
+    "a1<-->h1",
+    "a1<-->a8",
+    "a1<-->h8",
+    "a8<-->h1"
   }
 };
 
