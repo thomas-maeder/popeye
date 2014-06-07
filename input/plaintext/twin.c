@@ -173,7 +173,7 @@ static char *ParseTwinningRotate(void)
 static char *ParseTwinningMirror(void)
 {
   char *tok = ReadNextTokStr();
-  TwinningType indexx= GetUniqIndex(TwinningMirrorCount,TwinningMirrorTab,tok);
+  TwinningMirrorType indexx = GetUniqIndex(TwinningMirrorCount,TwinningMirrorTab,tok);
 
   if (indexx>TwinningMirrorCount)
     IoErrorMsg(OptNotUniq,0);
@@ -231,106 +231,47 @@ static void WriteConditionTwinning(char const CondLine[], boolean is_first)
 
 static char *ParseTwinningShift(void)
 {
-  square sq1= 0, sq2= 0;
-  square const *bnp;
-  char *tok;
-  int diffrank, diffcol, minrank, maxrank, mincol, maxcol, r, c;
+  char *tok = ReadNextTokStr();
+  square const sq1 = SquareNum(tok[0],tok[1]);
 
-  /* read the first square */
-  while (sq1 == 0) {
-    tok = ReadNextTokStr();
-    sq1= SquareNum(tok[0], tok[1]);
-    if (sq1 == initsquare) {
-      ErrorMsg(WrongSquareList);
-    }
-  }
-
-  /* read the second square */
-  while (sq2 == 0)
+  if (sq1==initsquare)
   {
-    tok = ReadNextTokStr();
-    sq2= SquareNum(tok[0], tok[1]);
-    if (sq2 == initsquare) {
-      ErrorMsg(WrongSquareList);
-    }
+    ErrorMsg(WrongSquareList);
+    return tok;
   }
-
-  LaTeXTwinningShift(sq1,sq2);
-
-  StdString(TwinningTab[TwinningShift]);
-  StdString(" ");
-  WriteSquare(sq1);
-  StdString(" ==> ");
-  WriteSquare(sq2);
-
-  diffrank= sq2/onerow-sq1/onerow;
-  diffcol= sq2%onerow-sq1%onerow;
-
-  minrank= 2*nr_of_slack_rows_below_board + nr_rows_on_board - 1;
-  maxrank= 0;
-  mincol= onerow-1;
-  maxcol= 0;
-
-  for (bnp= boardnum; *bnp; bnp++)
-    if (!is_square_empty(*bnp))
-    {
-      if (*bnp/onerow < minrank)
-        minrank= *bnp/onerow;
-      if (*bnp/onerow > maxrank)
-        maxrank= *bnp/onerow;
-      if (*bnp%onerow < mincol)
-        mincol= *bnp%onerow;
-      if (*bnp%onerow > maxcol)
-        maxcol= *bnp%onerow;
-    }
-
-  if ( maxcol+diffcol > 15
-       || mincol+diffcol <  8
-       || maxrank+diffrank > 15
-       || minrank+diffrank <  8)
-    ErrorMsg(PieceOutside);
   else
   {
-    /* move along columns */
-    if (diffrank > 0)
-    {
-      for (c= 8; c <= 15; c++)
-        for (r= maxrank; r >= minrank; r--)
-          if (!is_square_empty(onerow*r+c))
-            move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
-                                                  onerow*r+c, onerow*(r+diffrank)+c);
-    }
-    else if (diffrank < 0)
-    {
-      for (c= 8; c <= 15; c++)
-        for (r= minrank; r <= maxrank; r++)
-          if (!is_square_empty(onerow*r+c))
-            move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
-                                                  onerow*r+c, onerow*(r+diffrank)+c);
-    }
+    char *tok = ReadNextTokStr();
+    square const sq2 = SquareNum(tok[0],tok[1]);
 
-    /* move along ranks */
-    if (diffcol > 0)
+    if (sq2==initsquare)
     {
-      for (c= maxcol; c >= mincol; c--)
-        for (r= 8; r <= 15; r++)
-          if (!is_square_empty(onerow*r+c))
-            move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
-                                                  onerow*r+c, onerow*r+c+diffcol);
+      ErrorMsg(WrongSquareList);
+      return tok;
     }
-    else if (diffcol < 0)
+    else
     {
-      for (c= mincol; c <= maxcol; c++)
-        for (r= 8; r <= 15; r++)
-          if (!is_square_empty(onerow*r+c))
-            move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
-                                                  onerow*r+c, onerow*r+c+diffcol);
+      int const diffrank = sq2/onerow-sq1/onerow;
+      int const diffcol = sq2%onerow-sq1%onerow;
+      if (twin_twinning_validate(diffrank,diffcol))
+      {
+        move_effect_journal_do_twinning_shift(diffrank,diffcol);
+
+        LaTeXTwinningShift(sq1,sq2);
+
+        StdString(TwinningTab[TwinningShift]);
+        StdString(" ");
+        WriteSquare(sq1);
+        StdString(" ==> ");
+        WriteSquare(sq2);
+      }
+      else
+        ErrorMsg(PieceOutside);
+
+      return ReadNextTokStr();
     }
   }
-
-  /* read next1 token */
-  return ReadNextTokStr();
-} /* ParseTwinningShift */
+}
 
 static char *ParseTwinningRemove(void)
 {
@@ -388,23 +329,9 @@ static char *ParseTwinningRemove(void)
 
 static char *ParseTwinningPolish(void)
 {
-  {
-    square const king_square_white = being_solved.king_square[White];
-    being_solved.king_square[White] = being_solved.king_square[Black];
-    being_solved.king_square[Black] = king_square_white;
-  }
-
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
-      if (!is_piece_neutral(being_solved.spec[*bnp]) && !is_square_empty(*bnp))
-        move_effect_journal_do_side_change(move_effect_reason_diagram_setup,*bnp);
-  }
-
+  move_effect_journal_do_twinning_polish();
   StdString(TwinningTab[TwinningPolish]);
-
   LaTeXTwinningPolish();
-
   return ReadNextTokStr();
 }
 
@@ -432,13 +359,7 @@ static char *ParseTwinningSubstitute(void)
       StdString(" ==> ");
       WritePiece(p_new);
 
-      {
-        square const *bnp;
-        for (bnp = boardnum; *bnp; bnp++)
-          if (get_walk_of_piece_on_square(*bnp)==p_old)
-            move_effect_journal_do_walk_change(move_effect_reason_diagram_setup,
-                                               *bnp,p_new);
-      }
+      move_effect_journal_do_twinning_substitute(p_old,p_new);
     }
   }
 

@@ -49,6 +49,10 @@ typedef enum
   move_effect_remember_parachuted,
   move_effect_remember_volcanic,
 
+  move_effect_twinning_polish,
+  move_effect_twinning_substitute,
+  move_effect_twinning_shift,
+
   nr_move_effect_types
 } move_effect_type;
 
@@ -106,7 +110,8 @@ typedef enum
   move_effect_reason_phantom_movement,
   move_effect_reason_sat_adjustment,
 
-  move_effect_reason_diagram_setup
+  move_effect_reason_diagram_setup,
+  move_effect_reason_twinning
 } move_effect_reason_type;
 
 typedef unsigned int move_effect_journal_index_type;
@@ -220,6 +225,11 @@ typedef struct
             square from;
             square to;
         } duellist;
+        struct
+        {
+            int diffrank;
+            int diffcol;
+        } twinning_shift;
     } u;
 #if defined(DOTRACE)
       unsigned long id;
@@ -376,6 +386,15 @@ void move_effect_journal_do_null_effect(void);
 /* Add the effects of a null move to the current move of the current ply
  */
 void move_effect_journal_do_null_move(void);
+
+/* Execute a Polish type twinning
+ */
+void move_effect_journal_do_twinning_polish(void);
+
+/* Execute a twinning that substitutes a walk for another
+ */
+void move_effect_journal_do_twinning_substitute(piece_walk_type from,
+                                                piece_walk_type to);
 
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played

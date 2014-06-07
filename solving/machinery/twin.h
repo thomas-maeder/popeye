@@ -12,6 +12,11 @@ typedef unsigned long twin_number_type;
  */
 extern twin_number_type twin_number;
 
+/* Validate whether shifting the entire position would move >=1 piece off board
+ * @return true iff it doesn't
+ */
+boolean twin_twinning_validate(int diffrank, int diffcol);
+
 /* Solve the stipulation
  * @param stipulation_root_hook identifies the root slice of the stipulation
  * @param context context of the twin to be solved
@@ -21,7 +26,6 @@ void twin_solve_stipulation(slice_index stipulation_root_hook);
 /* Assign every piece of the position their id
  */
 void initialise_piece_ids(void);
-
 
 /* Initialise piece flags from conditions, the pieces themselve etc.
  */

@@ -531,6 +531,21 @@ static void redo_piece_removal(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
+static void do_walk_change(square on, piece_walk_type to)
+{
+  if (TSTFLAG(being_solved.spec[on],White))
+    --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
+  if (TSTFLAG(being_solved.spec[on],Black))
+    --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+
+  replace_walk(on,to);
+
+  if (TSTFLAG(being_solved.spec[on],White))
+    ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
+  if (TSTFLAG(being_solved.spec[on],Black))
+    ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+}
+
 /* Add changing the walk of a piece to the current move of the current ply
  * @param reason reason for changing the piece's nature
  * @param on position of the piece to be changed
@@ -564,17 +579,7 @@ void move_effect_journal_do_walk_change(move_effect_reason_type reason,
 
   ++move_effect_journal_base[nbply+1];
 
-  if (TSTFLAG(being_solved.spec[on],White))
-    --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
-  if (TSTFLAG(being_solved.spec[on],Black))
-    --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
-
-  replace_walk(on,to);
-
-  if (TSTFLAG(being_solved.spec[on],White))
-    ++being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
-  if (TSTFLAG(being_solved.spec[on],Black))
-    ++being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
+  do_walk_change(on,to);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -593,24 +598,7 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  if (TSTFLAG(being_solved.spec[on],White))
-    --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
-  if (TSTFLAG(being_solved.spec[on],Black))
-    --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
-
-  replace_walk(on,from);
-
-  if (TSTFLAG(being_solved.spec[on],White))
-    ++being_solved.number_of_pieces[White][from];
-  if (TSTFLAG(being_solved.spec[on],Black))
-    ++being_solved.number_of_pieces[Black][from];
-
-  TraceValue("%d",GetPieceId(being_solved.spec[on]));
-  TraceValue("%d",TSTFLAG(being_solved.spec[on],White));
-  TraceValue("%d",TSTFLAG(being_solved.spec[on],Black));
-  TraceValue("%d",is_piece_neutral(being_solved.spec[on]));
-  TraceValue("%d",TSTFLAG(being_solved.spec[on],HalfNeutral));
-  TraceValue("%d\n",being_solved.board[on]);
+  do_walk_change(on,from);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -629,17 +617,7 @@ static void redo_piece_change(move_effect_journal_index_type curr)
   TraceValue("%lu\n",move_effect_journal[curr].id);
 #endif
 
-  if (TSTFLAG(being_solved.spec[on],White))
-    --being_solved.number_of_pieces[White][get_walk_of_piece_on_square(on)];
-  if (TSTFLAG(being_solved.spec[on],Black))
-    --being_solved.number_of_pieces[Black][get_walk_of_piece_on_square(on)];
-
-  replace_walk(on,to);
-
-  if (TSTFLAG(being_solved.spec[on],White))
-    ++being_solved.number_of_pieces[White][to];
-  if (TSTFLAG(being_solved.spec[on],Black))
-    ++being_solved.number_of_pieces[Black][to];
+  do_walk_change(on,to);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1273,6 +1251,201 @@ void move_effect_journal_do_null_move(void)
   TraceFunctionResultEnd();
 }
 
+static void do_polish(void)
+{
+  {
+    square const king_square_white = being_solved.king_square[White];
+    being_solved.king_square[White] = being_solved.king_square[Black];
+    being_solved.king_square[Black] = king_square_white;
+  }
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (!is_piece_neutral(being_solved.spec[*bnp]) && !is_square_empty(*bnp))
+      {
+        Side const to = TSTFLAG(being_solved.spec[*bnp],White) ? Black : White;
+        --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(*bnp)];
+        piece_change_side(&being_solved.spec[*bnp]);
+        occupy_square(*bnp,get_walk_of_piece_on_square(*bnp),being_solved.spec[*bnp]);
+        ++being_solved.number_of_pieces[to][get_walk_of_piece_on_square(*bnp)];
+      }
+  }
+}
+
+/* Execute a Polish type twinning
+ */
+void move_effect_journal_do_twinning_polish(void)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_twinning_polish;
+  top_elmt->reason = move_effect_reason_twinning;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_base[nbply+1];
+
+  do_polish();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_twinning_polish(move_effect_journal_index_type curr)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  do_polish();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_substitute_all(piece_walk_type from, piece_walk_type to)
+{
+  square const *bnp;
+  for (bnp = boardnum; *bnp; bnp++)
+    if (get_walk_of_piece_on_square(*bnp)==from)
+      do_walk_change(*bnp,to);
+}
+
+/* Execute a twinning that substitutes a walk for another
+ */
+void move_effect_journal_do_twinning_substitute(piece_walk_type from,
+                                                piece_walk_type to)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+
+  TraceFunctionEntry(__func__);
+  TraceWalk(from);
+  TraceWalk(to);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_twinning_substitute;
+  top_elmt->reason = move_effect_reason_twinning;
+  top_elmt->u.piece_change.from = from;
+  top_elmt->u.piece_change.to = to;
+  top_elmt->u.piece_change.on = initsquare;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_base[nbply+1];
+
+  do_substitute_all(from,to);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_twinning_substitute(move_effect_journal_index_type curr)
+{
+  piece_walk_type const from = move_effect_journal[curr].u.piece_change.from;
+  piece_walk_type const to = move_effect_journal[curr].u.piece_change.to;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  do_substitute_all(to,from);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_shift(int diffrank, int diffcol)
+{
+  echiquier board = { 0 };
+  Flags spec[maxsquare+5] = { 0 };
+
+  square const *bnp;
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (!is_square_empty(*bnp))
+    {
+      square const to = *bnp + onerow*diffrank + diffcol;
+      board[to] = being_solved.board[*bnp];
+      spec[to] = being_solved.spec[*bnp];
+      being_solved.board[*bnp] = Empty;
+      CLEARFL(being_solved.spec[*bnp]);
+    }
+
+  for (bnp = boardnum; *bnp; bnp++)
+    if (board[*bnp]!=Empty)
+    {
+      being_solved.board[*bnp] = board[*bnp];
+      being_solved.spec[*bnp] = spec[*bnp];
+    }
+}
+
+/* Execute a twinning that shifts the entire position
+ */
+void move_effect_journal_do_twinning_shift(int diffrank, int diffcol)
+{
+  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
+
+  top_elmt->type = move_effect_twinning_shift;
+  top_elmt->reason = move_effect_reason_twinning;
+  top_elmt->u.twinning_shift.diffrank = diffrank;
+  top_elmt->u.twinning_shift.diffcol = diffcol;
+#if defined(DOTRACE)
+  top_elmt->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",top_elmt->id);
+#endif
+
+  ++move_effect_journal_base[nbply+1];
+
+  do_shift(diffrank,diffcol);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void undo_twinning_shift(move_effect_journal_index_type curr)
+{
+  int const diffrank = move_effect_journal[curr].u.twinning_shift.diffrank;
+  int const diffcol = move_effect_journal[curr].u.twinning_shift.diffcol;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",curr);
+  TraceFunctionParamListEnd();
+
+#if defined(DOTRACE)
+  TraceValue("%lu\n",move_effect_journal[curr].id);
+#endif
+
+  do_shift(-diffrank,-diffcol);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played
  * @param followed_id id of the piece to be followed
@@ -1637,6 +1810,18 @@ void undo_move_effects(void)
 
       case move_effect_remember_volcanic:
         move_effect_journal_undo_circe_volcanic_remember(top-1);
+        break;
+
+      case move_effect_twinning_polish:
+        undo_twinning_polish(top-1);
+        break;
+
+      case move_effect_twinning_substitute:
+        undo_twinning_substitute(top-1);
+        break;
+
+      case move_effect_twinning_shift:
+        undo_twinning_shift(top-1);
         break;
 
       default:

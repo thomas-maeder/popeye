@@ -1772,3 +1772,35 @@ void twin_solve_stipulation(slice_index stipulation_root_hook)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Validate whether shifting the entire position would move >=1 piece off board
+ * @return true iff it doesn't
+ */
+boolean twin_twinning_validate(int diffrank, int diffcol)
+{
+  int minrank = 2*nr_of_slack_rows_below_board + nr_rows_on_board - 1;
+  int maxrank = 0;
+  int mincol = onerow-1;
+  int maxcol = 0;
+
+  {
+    square const *bnp;
+    for (bnp = boardnum; *bnp; bnp++)
+      if (!is_square_empty(*bnp))
+      {
+        if (*bnp/onerow < minrank)
+          minrank = *bnp/onerow;
+        if (*bnp/onerow > maxrank)
+          maxrank = *bnp/onerow;
+        if (*bnp%onerow < mincol)
+          mincol = *bnp%onerow;
+        if (*bnp%onerow > maxcol)
+          maxcol = *bnp%onerow;
+      }
+  }
+
+  return !(maxcol+diffcol>=nr_of_slack_files_left_of_board+nr_files_on_board
+           || mincol+diffcol<nr_of_slack_files_left_of_board
+           || maxrank+diffrank>=nr_of_slack_rows_below_board+nr_rows_on_board
+           || minrank+diffrank<nr_of_slack_rows_below_board);
+}
