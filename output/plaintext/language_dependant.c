@@ -1604,8 +1604,7 @@ char const * const TwinningString[LanguageCount][TwinningCount] =
     /* 9*/  "CouleurEchange",
     /*10*/  "miroir",
     /*11*/  "translation",
-    /*12*/  "remplace",
-    /*13*/  "forsyth"
+    /*12*/  "remplace"
   },
   { /* German */
     /* 0*/  "versetze",
@@ -1620,8 +1619,7 @@ char const * const TwinningString[LanguageCount][TwinningCount] =
     /* 9*/  "Farbwechsel",
     /*10*/  "Spiegelung",
     /*11*/  "Verschiebung",
-    /*12*/  "ersetze",
-    /*13*/  "forsyth"
+    /*12*/  "ersetze"
   },
   { /* English */
     /* 0*/  "move",
@@ -1636,8 +1634,7 @@ char const * const TwinningString[LanguageCount][TwinningCount] =
     /* 9*/  "PolishType",
     /*10*/  "mirror",
     /*11*/  "shift",
-    /*12*/  "substitute",
-    /*13*/  "forsyth"
+    /*12*/  "substitute"
   }
 };
 

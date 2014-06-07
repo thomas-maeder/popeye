@@ -2,6 +2,7 @@
 #define SOLVING_MACHINERY_TWIN_H
 
 #include "stipulation/stipulation.h"
+#include "solving/move_effect_journal.h"
 
 typedef unsigned long twin_number_type;
 

@@ -604,15 +604,15 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- pieces/attributes/magic.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/castling_rights.h \
+ solving/ply.h position/pieceid.h pieces/attributes/magic.h \
  pieces/attributes/neutral/neutral.h position/position.h position/color.h \
  position/color.enum.h pieces/walks/vectors.h pieces/walks/walks.h \
  pieces/walks/classification.h pieces/walks/pawns/promotee_sequence.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/observation.h solving/temporary_hacks.h pieces/walks/orphan.h \
- position/underworld.h conditions/conditions.h conditions/alphabetic.h \
+ pieces/walks/pawns/en_passant.h solving/observation.h \
+ solving/temporary_hacks.h pieces/walks/orphan.h position/underworld.h \
+ conditions/conditions.h conditions/alphabetic.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -670,13 +670,21 @@ output/mode.h:
 
 output/mode.enum.h:
 
-pieces/attributes/magic.h:
+solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+pieces/attributes/magic.h:
 
 pieces/attributes/neutral/neutral.h:
 
@@ -695,14 +703,6 @@ pieces/walks/classification.h:
 pieces/walks/pawns/promotee_sequence.h:
 
 pieces/walks/pawns/en_passant.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
 
 solving/observation.h:
 

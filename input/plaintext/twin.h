@@ -19,9 +19,8 @@ typedef enum
   TwinningMirror,      /* 10 */
   TwinningShift,       /* 11 */
   TwinningSubstitute,  /* 12 */
-  TwinningForsyth,     /* 13 */
 
-  TwinningCount   /* 14 */
+  TwinningCount   /* 13 */
 } TwinningType;
 
 typedef enum

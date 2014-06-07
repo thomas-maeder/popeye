@@ -366,98 +366,6 @@ static char *ParseTwinningSubstitute(void)
   return tok;
 }
 
-static square NextSquare(square sq)
-{
-  if (sq%onerow<nr_of_slack_files_left_of_board+nr_files_on_board-1)
-    return sq+1;
-  else if (sq>=square_a2 && sq<=square_h8)
-    return sq - onerow - (nr_files_on_board-1);
-  else
-    return initsquare;
-}
-
-static char *ParseForsythPiece(char *tok,
-                               unsigned int nr_chars,
-                               Flags colour_flags,
-                               square *pos,
-                               twin_context_type context)
-{
-  char const char1 = tolower((int)*tok++);
-  char const char2 = nr_chars==1 ? ' ' : tolower((int)*tok++);
-
-  piece_walk_type const walk = GetPieNamIndex(char1,char2);
-  if (walk>=King)
-  {
-    if (context==twin_initial)
-      occupy_square(*pos,walk,colour_flags);
-    else
-      move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                            *pos,walk,colour_flags);
-
-    *pos = NextSquare(*pos);
-  }
-  else
-    ++tok;           /* error */
-
-  return tok;
-}
-
-static char *ParseForsythColour(char *tok, Flags *colour_flags)
-{
-  if (isalpha((int)*tok))
-    *colour_flags = BIT(islower((int)*tok) ? Black : White);
-  else if (*tok=='=')
-  {
-    ++tok;
-    *colour_flags = NeutralMask;
-  }
-  else
-    *colour_flags = 0;
-
-  return tok;
-}
-
-static char *ParseForsythPieceAndColor(char *tok,
-                                       unsigned int nr_chars,
-                                       square *pos,
-                                       twin_context_type context)
-{
-  Flags colour_flags;
-  tok = ParseForsythColour(tok,&colour_flags);
-  if (colour_flags==0)
-    ++tok;
-  else
-    tok = ParseForsythPiece(tok,nr_chars,colour_flags,pos,context);
-
-  return tok;
-}
-
-static char *ParseForsyth(twin_context_type context)
-{
-  square sq = square_a8;
-  char *tok = ReadNextCaseSensitiveTokStr();
-
-  sprintf(GlobalStr, "  %s  \n", tok);
-  if (context==twin_subsequent)
-    StdString(tok);
-
-  while (sq && *tok)
-    if (isdigit((int)*tok))
-    {
-      int num = *tok++ - '0';
-      if (isdigit((int)*tok))
-        num = 10*num + *tok++ - '0';
-      for (; num && sq; num--)
-        sq = NextSquare(sq);
-    }
-    else if (*tok=='.')
-      tok = ParseForsythPieceAndColor(tok+1,2,&sq,context);
-    else
-      tok = ParseForsythPieceAndColor(tok,1,&sq,context);
-
-  return ReadNextTokStr();
-}
-
 static char *ParseTwinning(slice_index root_slice_hook)
 {
   char  *tok = ReadNextTokStr();
@@ -577,16 +485,6 @@ static char *ParseTwinning(slice_index root_slice_hook)
       case TwinningSubstitute:
         tok = ParseTwinningSubstitute();
         break;
-      case TwinningForsyth:
-        {
-          square const *bnp;
-          for (bnp = boardnum; *bnp; bnp++)
-            if (!is_square_empty(*bnp))
-              move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,
-                                                   *bnp);
-          tok = ParseForsyth(twin_subsequent);
-        }
-        break;
       default:
         /* no further action required */
         break;
@@ -596,6 +494,89 @@ static char *ParseTwinning(slice_index root_slice_hook)
   TraceText("ParseTwinning() returns\n");
   return tok;
 } /* ParseTwinning */
+
+static square NextSquare(square sq)
+{
+  if (sq%onerow<nr_of_slack_files_left_of_board+nr_files_on_board-1)
+    return sq+1;
+  else if (sq>=square_a2 && sq<=square_h8)
+    return sq - onerow - (nr_files_on_board-1);
+  else
+    return initsquare;
+}
+
+static char *ParseForsythPiece(char *tok,
+                               unsigned int nr_chars,
+                               Flags colour_flags,
+                               square *pos)
+{
+  char const char1 = tolower((int)*tok++);
+  char const char2 = nr_chars==1 ? ' ' : tolower((int)*tok++);
+
+  piece_walk_type const walk = GetPieNamIndex(char1,char2);
+  if (walk>=King)
+  {
+    occupy_square(*pos,walk,colour_flags);
+    *pos = NextSquare(*pos);
+  }
+  else
+    ++tok;           /* error */
+
+  return tok;
+}
+
+static char *ParseForsythColour(char *tok, Flags *colour_flags)
+{
+  if (isalpha((int)*tok))
+    *colour_flags = BIT(islower((int)*tok) ? Black : White);
+  else if (*tok=='=')
+  {
+    ++tok;
+    *colour_flags = NeutralMask;
+  }
+  else
+    *colour_flags = 0;
+
+  return tok;
+}
+
+static char *ParseForsythPieceAndColor(char *tok,
+                                       unsigned int nr_chars,
+                                       square *pos)
+{
+  Flags colour_flags;
+  tok = ParseForsythColour(tok,&colour_flags);
+  if (colour_flags==0)
+    ++tok;
+  else
+    tok = ParseForsythPiece(tok,nr_chars,colour_flags,pos);
+
+  return tok;
+}
+
+static char *ParseForsyth(void)
+{
+  char *tok = ReadNextCaseSensitiveTokStr();
+  square sq = square_a8;
+
+  sprintf(GlobalStr, "  %s  \n", tok);
+
+  while (sq && *tok)
+     if (isdigit((int)*tok))
+     {
+       int num = *tok++ - '0';
+       if (isdigit((int)*tok))
+         num = 10*num + *tok++ - '0';
+       for (; num && sq; num--)
+         sq = NextSquare(sq);
+     }
+     else if (*tok=='.')
+       tok = ParseForsythPieceAndColor(tok+1,2,&sq);
+     else
+       tok = ParseForsythPieceAndColor(tok,1,&sq);
+
+  return ReadNextTokStr();
+}
 
 Token ReadInitialTwin(slice_index root_slice_hook)
 {
@@ -759,7 +740,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         case Forsyth:
-          tok = ParseForsyth(twin_initial);
+          tok = ParseForsyth();
           break;
 
         default:
