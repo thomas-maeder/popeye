@@ -396,6 +396,10 @@ void move_effect_journal_do_twinning_polish(void);
 void move_effect_journal_do_twinning_substitute(piece_walk_type from,
                                                 piece_walk_type to);
 
+/* Execute a twinning that shifts the entire position
+ */
+void move_effect_journal_do_twinning_shift(int diffrank, int diffcol);
+
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played
  * @param followed_id id of the piece to be followed
