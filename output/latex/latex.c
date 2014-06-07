@@ -392,8 +392,6 @@ void LaTeXEndDiagram(void)
 {
   if (LaTeXFile!=0)
   {
-    char line[256];
-
     if (!(OptFlag[solmenaces]
           || OptFlag[solflights]
           || OptFlag[nontrivial]
