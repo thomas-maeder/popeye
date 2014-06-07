@@ -245,12 +245,7 @@ typedef enum
 
 extern boolean CondFlag[CondCount];
 extern boolean ExtraCondFlag[ExtraCondCount];
-
 extern square royal_square[nr_sides];
-
-extern boolean anymars;
-extern boolean anyantimars;
 extern boolean calc_reflective_king[nr_sides];
-extern boolean anyparrain;
 
 #endif
