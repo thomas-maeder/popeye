@@ -1776,7 +1776,7 @@ void twin_solve_stipulation(slice_index stipulation_root_hook)
 /* Validate whether shifting the entire position would move >=1 piece off board
  * @return true iff it doesn't
  */
-boolean twin_twinning_validate(int diffrank, int diffcol)
+boolean twin_twinning_shift_validate(int diffrank, int diffcol)
 {
   int minrank = 2*nr_of_slack_rows_below_board + nr_rows_on_board - 1;
   int maxrank = 0;

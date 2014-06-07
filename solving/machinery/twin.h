@@ -15,7 +15,7 @@ extern twin_number_type twin_number;
 /* Validate whether shifting the entire position would move >=1 piece off board
  * @return true iff it doesn't
  */
-boolean twin_twinning_validate(int diffrank, int diffcol);
+boolean twin_twinning_shift_validate(int diffrank, int diffcol);
 
 /* Solve the stipulation
  * @param stipulation_root_hook identifies the root slice of the stipulation

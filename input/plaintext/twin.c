@@ -253,7 +253,7 @@ static char *ParseTwinningShift(void)
     {
       int const diffrank = sq2/onerow-sq1/onerow;
       int const diffcol = sq2%onerow-sq1%onerow;
-      if (twin_twinning_validate(diffrank,diffcol))
+      if (twin_twinning_shift_validate(diffrank,diffcol))
       {
         move_effect_journal_do_twinning_shift(diffrank,diffcol);
 
