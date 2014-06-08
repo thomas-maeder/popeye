@@ -82,24 +82,13 @@ void en_passant_forget_multistep(void)
  */
 void move_effect_journal_do_remember_ep(square s)
 {
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remember_ep_capture_potential,move_effect_reason_moving_piece_movement);
 
   TraceFunctionEntry(__func__);
   TraceSquare(s);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_remember_ep_capture_potential;
-  top_elmt->reason = move_effect_reason_moving_piece_movement;
-  top_elmt->u.ep_capture_potential.square = s;
- #if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
- #endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.ep_capture_potential.square = s;
 
   ++en_passant_top[nbply];
   en_passant_multistep_over[en_passant_top[nbply]] = s;

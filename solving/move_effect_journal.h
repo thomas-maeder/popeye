@@ -267,6 +267,15 @@ void move_effect_journal_register_pre_capture_effect(void);
  */
 void move_effect_journal_reset(void);
 
+/* Allocate an entry
+ * @param type type of the effect
+ * @param reason reason of the effect
+ * @return address of allocated entry
+ * @note terminates the program if the entries are exhausted
+ */
+move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_type type,
+                                                                   move_effect_reason_type reason);
+
 /* Add moving a piece to the current move of the current ply
  * @param reason reason for moving the piece
  * @param from current position of the piece

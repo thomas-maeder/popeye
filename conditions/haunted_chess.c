@@ -13,24 +13,14 @@
 
 void move_effect_journal_do_forget_ghost(underworld_index_type const summoned)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_forget_ghost,move_effect_reason_summon_ghost);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",summoned);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_forget_ghost;
-  top_elmt->reason = move_effect_reason_summon_ghost;
-  top_elmt->u.handle_ghost.pos = summoned;
-  top_elmt->u.handle_ghost.ghost = underworld[summoned];
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.handle_ghost.pos = summoned;
+  entry->u.handle_ghost.ghost = underworld[summoned];
 
   underworld_lose_space(summoned);
 

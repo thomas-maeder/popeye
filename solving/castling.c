@@ -114,26 +114,15 @@ static void do_disable_castling_right(move_effect_reason_type reason,
                                       Side side,
                                       castling_flag_type right)
 {
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_disable_castling_right,reason);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",right);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_disable_castling_right;
-  top_elmt->reason = reason;
-  top_elmt->u.castling_rights_adjustment.side = side;
-  top_elmt->u.castling_rights_adjustment.right = right;
- #if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
- #endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.castling_rights_adjustment.side = side;
+  entry->u.castling_rights_adjustment.right = right;
 
   CLRCASTLINGFLAGMASK(side,right);
 
@@ -194,26 +183,15 @@ static void do_enable_castling_right(move_effect_reason_type reason,
                                      Side side,
                                      castling_flag_type right)
 {
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[top];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_enable_castling_right,reason);
 
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
   TraceFunctionParam("%u",right);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_enable_castling_right;
-  top_elmt->reason = reason;
-  top_elmt->u.castling_rights_adjustment.side = side;
-  top_elmt->u.castling_rights_adjustment.right = right;
- #if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
- #endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.castling_rights_adjustment.side = side;
+  entry->u.castling_rights_adjustment.right = right;
 
   SETCASTLINGFLAGMASK(side,right);
 

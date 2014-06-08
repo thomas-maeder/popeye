@@ -22,30 +22,20 @@
 static void move_effect_journal_do_circe_parachute_remember(move_effect_reason_type reason,
                                                             square sq_rebirth)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remember_parachuted,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceSquare(sq_rebirth);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_remember_parachuted;
-  top_elmt->reason = reason;
-  top_elmt->u.handle_ghost.ghost.on = sq_rebirth;
-  top_elmt->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
-  top_elmt->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
+  entry->u.handle_ghost.ghost.on = sq_rebirth;
+  entry->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
+  entry->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
 
   underworld_make_space(0);
 
-  underworld[0] = top_elmt->u.handle_ghost.ghost;
-
-  ++move_effect_journal_base[nbply+1];
+  underworld[0] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -89,33 +79,23 @@ void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_index
 void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reason,
                                                     square sq_rebirth)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_remember_volcanic,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
+  entry->u.handle_ghost.ghost.on = sq_rebirth;
+  entry->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
+  entry->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
 
-  top_elmt->type = move_effect_remember_volcanic;
-  top_elmt->reason = reason;
-  top_elmt->u.handle_ghost.ghost.on = sq_rebirth;
-  top_elmt->u.handle_ghost.ghost.walk = get_walk_of_piece_on_square(sq_rebirth);
-  top_elmt->u.handle_ghost.ghost.flags = being_solved.spec[sq_rebirth];
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
-
-  TraceSquare(top_elmt->u.handle_ghost.ghost.on);
-  TraceWalk(top_elmt->u.handle_ghost.ghost.walk);
-  TraceValue("%u\n",GetPieceId(top_elmt->u.handle_ghost.ghost.flags));
+  TraceSquare(entry->u.handle_ghost.ghost.on);
+  TraceWalk(entry->u.handle_ghost.ghost.walk);
+  TraceValue("%u\n",GetPieceId(entry->u.handle_ghost.ghost.flags));
 
   underworld_make_space(nr_ghosts);
 
-  underworld[nr_ghosts-1] = top_elmt->u.handle_ghost.ghost;
-
-  ++move_effect_journal_base[nbply+1];
+  underworld[nr_ghosts-1] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

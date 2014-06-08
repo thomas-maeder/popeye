@@ -986,25 +986,15 @@ static void move_imitators(int delta)
 static void move_effect_journal_do_imitator_movement(move_effect_reason_type reason,
                                                      int delta)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_imitator_movement,reason);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceFunctionParam("%d",delta);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_imitator_movement;
-  top_elmt->reason = reason;
-  top_elmt->u.imitator_movement.delta = delta;
-  top_elmt->u.imitator_movement.nr_moved = being_solved.number_of_imitators;
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.imitator_movement.delta = delta;
+  entry->u.imitator_movement.nr_moved = being_solved.number_of_imitators;
 
   move_imitators(delta);
 
@@ -1054,23 +1044,13 @@ void redo_imitator_movement(move_effect_journal_index_type curr)
 static void move_effect_journal_do_imitator_addition(move_effect_reason_type reason,
                                                      square to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_imitator_addition,reason);
 
   TraceFunctionEntry(__func__);
   TraceSquare(to);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_imitator_addition;
-  top_elmt->reason = reason;
-  top_elmt->u.imitator_addition.to = to;
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.imitator_addition.to = to;
 
   if (being_solved.number_of_imitators==maxinum)
     FtlMsg(ManyImitators);

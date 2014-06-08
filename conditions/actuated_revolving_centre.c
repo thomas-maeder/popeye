@@ -85,22 +85,10 @@ square actuated_revolving_centre_revolve_square(square s)
  */
 static void move_effect_journal_do_centre_revolution(move_effect_reason_type reason)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_centre_revolution;
-  top_elmt->reason = reason;
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
-
-  ++move_effect_journal_base[nbply+1];
-
+  move_effect_journal_allocate_entry(move_effect_centre_revolution,reason);
   revolve();
 
   TraceFunctionExit(__func__);

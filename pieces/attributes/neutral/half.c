@@ -15,25 +15,15 @@
  */
 static void do_deneutralisation(square on, Side to)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_half_neutral_deneutralisation,move_effect_reason_half_neutral_deneutralisation);
 
   TraceFunctionEntry(__func__);
   TraceSquare(on);
   TraceEnumerator(Side,to,"");
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_half_neutral_deneutralisation;
-  top_elmt->reason = move_effect_reason_half_neutral_deneutralisation;
-  top_elmt->u.half_neutral_phase_change.on = on;
-  top_elmt->u.half_neutral_phase_change.side = to;
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.half_neutral_phase_change.on = on;
+  entry->u.half_neutral_phase_change.side = to;
 
   assert(TSTFLAG(being_solved.spec[on],White));
   assert(TSTFLAG(being_solved.spec[on],Black));
@@ -97,7 +87,7 @@ void redo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
  */
 static void do_neutralisation(square on)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[move_effect_journal_base[nbply+1]];
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_half_neutral_neutralisation,move_effect_reason_half_neutral_neutralisation);
   Side const from = TSTFLAG(being_solved.spec[on],White) ? White : Black;
 
   TraceFunctionEntry(__func__);
@@ -105,18 +95,8 @@ static void do_neutralisation(square on)
   TraceEnumerator(Side,from,"");
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]+1<move_effect_journal_size);
-
-  top_elmt->type = move_effect_half_neutral_neutralisation;
-  top_elmt->reason = move_effect_reason_half_neutral_neutralisation;
-  top_elmt->u.half_neutral_phase_change.on = on;
-  top_elmt->u.half_neutral_phase_change.side = from;
-#if defined(DOTRACE)
-  top_elmt->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",top_elmt->id);
-#endif
-
-  ++move_effect_journal_base[nbply+1];
+  entry->u.half_neutral_phase_change.on = on;
+  entry->u.half_neutral_phase_change.side = from;
 
   occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]|BIT(advers(from)));
   ++being_solved.number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
