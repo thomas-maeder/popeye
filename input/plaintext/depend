@@ -1,7 +1,7 @@
 input/plaintext/token$(OBJ_SUFFIX): input/plaintext/token.c input/plaintext/token.h \
- input/plaintext/language.h output/output.h output/mode.h \
- output/mode.enum.h stipulation/stipulation.h stipulation/goals/goals.h \
- position/board.h utilities/bitmask.h utilities/boolean.h \
+ input/plaintext/language.h utilities/boolean.h output/output.h \
+ output/mode.h output/mode.enum.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/plaintext/message.h \
  output/plaintext/plaintext.h
@@ -9,6 +9,8 @@ input/plaintext/token$(OBJ_SUFFIX): input/plaintext/token.c input/plaintext/toke
 input/plaintext/token.h:
 
 input/plaintext/language.h:
+
+utilities/boolean.h:
 
 output/output.h:
 
@@ -23,8 +25,6 @@ stipulation/goals/goals.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-utilities/boolean.h:
 
 stipulation/slice_type.h:
 
@@ -1218,9 +1218,10 @@ platform/beep.h:
 platform/maxtime.h:
 input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  input/plaintext/problem.h input/plaintext/token.h \
- input/plaintext/language.h input/plaintext/condition.h position/board.h \
- utilities/bitmask.h input/plaintext/option.h stipulation/stipulation.h \
- stipulation/goals/goals.h utilities/boolean.h stipulation/slice_type.h \
+ input/plaintext/language.h utilities/boolean.h \
+ input/plaintext/condition.h position/board.h utilities/bitmask.h \
+ input/plaintext/option.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h input/plaintext/twin.h \
  output/plaintext/message.h output/plaintext/language_dependant.h \
@@ -1252,6 +1253,8 @@ input/plaintext/token.h:
 
 input/plaintext/language.h:
 
+utilities/boolean.h:
+
 input/plaintext/condition.h:
 
 position/board.h:
@@ -1263,8 +1266,6 @@ input/plaintext/option.h:
 stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
-
-utilities/boolean.h:
 
 stipulation/slice_type.h:
 

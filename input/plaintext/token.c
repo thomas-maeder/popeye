@@ -111,15 +111,21 @@ char InputLine[LINESIZE];    /* This array contains the input as is */
 
 static char LineSpaceChar[] = " \t;.,";
 
-void OpenInput(char const *s)
+boolean OpenInput(char const *s)
 {
-  Input = fopen(s,"r");
-  if(Input==NULL)
+  if (strlen(s)==0)
     Input = stdin;
+  else
+    Input = fopen(s,"r");
 
-  InputOriginal = Input;
-
-  InputMirror = tmpfile();
+  if (Input==NULL)
+    return false;
+  else
+  {
+    InputOriginal = Input;
+    InputMirror = tmpfile();
+    return true;
+  }
 }
 
 void CloseInput(void)

@@ -197,28 +197,29 @@ int main(int argc, char *argv[])
 
   idx_end_of_options = parseCommandlineOptions(argc,argv);
 
-  OpenInput(idx_end_of_options<argc ? argv[idx_end_of_options] : " ");
+  if (OpenInput(idx_end_of_options<argc ? argv[idx_end_of_options] : ""))
+  {
+    initMaxtime();
 
-  initMaxtime();
+    if (!dimensionHashtable())
+      pyfputs("Couldn't allocate the requested amount of memory\n",stdout);
 
-  if (!dimensionHashtable())
-    pyfputs("Couldn't allocate the requested amount of memory\n",stdout);
+    /* start timer to be able to display a reasonable time if the user
+     * aborts execution before the timer is started for the first
+     * problem */
+    StartTimer();
 
-  /* start timer to be able to display a reasonable time if the user
-   * aborts execution before the timer is started for the first
-   * problem */
-  StartTimer();
+    InitCheckDir();
 
-  InitCheckDir();
+    /* Don't use StdString() - possible trace file is not yet opened
+     */
+    pyfputs(versionString,stdout);
+    pyfputs(maxmemString(),stdout);
 
-  /* Don't use StdString() - possible trace file is not yet opened
-   */
-  pyfputs(versionString,stdout);
-  pyfputs(maxmemString(),stdout);
+    iterate_problems();
 
-  iterate_problems();
-
-  CloseInput();
+    CloseInput();
+  }
 
   if (LaTeXout)
     LaTeXShutdown();

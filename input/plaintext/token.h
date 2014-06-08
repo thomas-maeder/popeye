@@ -2,6 +2,7 @@
 #define INPUT_PLAINTEXT_TOKEN_H
 
 #include "input/plaintext/language.h"
+#include "utilities/boolean.h"
 
 #include <stdio.h>
 
@@ -44,7 +45,7 @@ extern char InputLine[LINESIZE];    /* This array contains the input as is */
 
 extern char TokenLine[LINESIZE];
 
-void OpenInput(char const *s);
+boolean OpenInput(char const *s);
 void CloseInput(void);
 
 char *ReadNextCaseSensitiveTokStr(void);
