@@ -215,12 +215,7 @@ void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_
   castling_flag_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   SETCASTLINGFLAGMASK(side,right);
 
