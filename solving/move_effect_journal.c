@@ -2,6 +2,7 @@
 #include "pieces/pieces.h"
 #include "solving/castling.h"
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
 #include "conditions/bgl.h"
 #include "conditions/duellists.h"
 #include "conditions/imitator.h"
@@ -14,6 +15,10 @@
 #include "pieces/attributes/neutral/half.h"
 #include "position/pieceid.h"
 #include "solving/pipe.h"
+#include "input/plaintext/condition.h"
+#include "input/plaintext/token.h"
+#include "input/plaintext/stipulation.h"
+#include "input/plaintext/sstipulation.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -462,7 +467,7 @@ static void redo_piece_removal(move_effect_journal_entry_type const *entry)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TraceWalk(entry->u.piece_removal.walk);TraceEOL();
+  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(entry->u.piece_removal.walk);TraceEOL();
 
   do_removal(from);
 
@@ -1193,9 +1198,6 @@ static void undo_twinning_shift(move_effect_journal_entry_type const *entry)
   TraceFunctionResultEnd();
 }
 
-#include "input/plaintext/condition.h"
-#include "input/plaintext/token.h"
-
 static move_effect_journal_index_type find_original_condition(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
@@ -1243,6 +1245,124 @@ static void undo_input_condition(move_effect_journal_entry_type const *entry)
       move_effect_journal_entry_type const * const cond = &move_effect_journal[idx_cond];
       InputStartReplay(cond->u.input_complex.start);
       ParseCond();
+      InputEndReplay();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the original stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ */
+void move_effect_journal_do_remember_stipulation(slice_index root_slice_hook,
+                                                 fpos_t start)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  entry->u.input_complex.start = start;
+  entry->u.input_complex.root = root_slice_hook;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static move_effect_journal_index_type find_original_stipulation(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
+  move_effect_journal_index_type curr;
+
+  for (curr = move_effect_journal_base[ply_diagram_setup]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_input_stipulation)
+      return curr;
+
+  return move_effect_journal_index_null;
+}
+
+static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* restore the original stipulation if we are undoing a stipulation twinning
+   */
+  if (nbply==ply_twinning)
+  {
+    move_effect_journal_index_type const idx_stip = find_original_stipulation();
+    if (idx_stip!=move_effect_journal_index_null)
+    {
+      move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
+      slice_index const root = stip->u.input_complex.root;
+      slice_index const next = slices[root].next1;
+      pipe_unlink(root);
+      dealloc_slices(next);
+
+      InputStartReplay(stip->u.input_complex.start);
+      ParseStip(root);
+      InputEndReplay();
+    }
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Remember the original stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ */
+void move_effect_journal_do_remember_sstipulation(slice_index root_slice_hook,
+                                                  fpos_t start)
+{
+  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  entry->u.input_complex.start = start;
+  entry->u.input_complex.root = root_slice_hook;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static move_effect_journal_index_type find_original_sstipulation(void)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[ply_diagram_setup+1];
+  move_effect_journal_index_type curr;
+
+  for (curr = move_effect_journal_base[ply_diagram_setup]; curr!=top; ++curr)
+    if (move_effect_journal[curr].type==move_effect_input_sstipulation)
+      return curr;
+
+  return move_effect_journal_index_null;
+}
+
+static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  /* restore the original stipulation if we are undoing a stipulation twinning
+   */
+  if (nbply==ply_twinning)
+  {
+    move_effect_journal_index_type const idx_stip = find_original_sstipulation();
+    if (idx_stip!=move_effect_journal_index_null)
+    {
+      move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
+      slice_index const root = stip->u.input_complex.root;
+      slice_index const next = slices[root].next1;
+      pipe_unlink(root);
+      dealloc_slices(next);
+
+      InputStartReplay(stip->u.input_complex.start);
+      ParseStructuredStip(root);
       InputEndReplay();
     }
   }
@@ -1650,6 +1770,14 @@ void undo_move_effects(void)
 
       case move_effect_input_condition:
         undo_input_condition(entry);
+        break;
+
+      case move_effect_input_stipulation:
+        undo_input_stipulation(entry);
+        break;
+
+      case move_effect_input_sstipulation:
+        undo_input_sstipulation(entry);
         break;
 
       default:

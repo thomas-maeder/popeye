@@ -51,6 +51,8 @@ typedef enum
   move_effect_remember_volcanic,
 
   move_effect_input_condition,
+  move_effect_input_stipulation,
+  move_effect_input_sstipulation,
   move_effect_twinning_polish,
   move_effect_twinning_substitute,
   move_effect_twinning_shift,
@@ -229,6 +231,7 @@ typedef struct
         } duellist;
         struct
         {
+            slice_index root;
             fpos_t start;
         } input_complex;
         struct
@@ -416,6 +419,15 @@ void move_effect_journal_do_twinning_substitute(piece_walk_type from,
  * @param start input position at start of parsing the condition
  */
 void move_effect_journal_do_remember_condition(fpos_t start);
+
+/* Remember the original stipulation for restoration after the stipulation has
+ * been modified by a twinning
+ * @param start input position at start of parsing the stipulation
+ */
+void move_effect_journal_do_remember_stipulation(slice_index root_slice_hook,
+                                                 fpos_t start);
+void move_effect_journal_do_remember_sstipulation(slice_index root_slice_hook,
+                                                  fpos_t start);
 
 /* Execute a twinning that shifts the entire position
  */

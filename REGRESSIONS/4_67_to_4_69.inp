@@ -29,5 +29,13 @@ twin condition circe
 twin cont add white kh1
 twin add white kh1
 
-end
+next
 
+title Until 4.67, Popeye didn't restore the initial stipulation for twin c)
+pieces white pa2 black kb4
+stip +1
+option nowk
+twin stip ~1
+twin add black ph7
+
+end

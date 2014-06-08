@@ -185,3 +185,59 @@ d) wKh1
 solution finished. 
 
 
+
+Until 4.67, Popeye didn't restore the initial stipulation for twin c)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  +1                          1 + 1
+
+a) 
+
+   1.a2-a3 + !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+b) ~1
+
+   1.a2-a4 !
+
+   1.a2-a3 + !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           3
+c) +bPh7 
+
+   1.a2-a3 + !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+solution finished. 
+
+

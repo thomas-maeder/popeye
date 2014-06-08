@@ -441,29 +441,37 @@ static char *ParseTwinning(slice_index root_slice_hook)
         tok = ParseTwinningMirror();
         break;
       case TwinningStip:
-        {
-          slice_index const next = slices[root_slice_hook].next1;
-          pipe_unlink(root_slice_hook);
-          dealloc_slices(next);
-        }
+      {
+        fpos_t const beforeStip = InputGetPosition();
+
+        slice_index const next = slices[root_slice_hook].next1;
+        pipe_unlink(root_slice_hook);
+        dealloc_slices(next);
+
         tok = ParseStip(root_slice_hook);
+        move_effect_journal_do_remember_stipulation(root_slice_hook,beforeStip);
 
         /* issue the twinning */
         StdString(AlphaStip);
         LaTeXTwinningStipulation(AlphaStip);
         break;
+      }
       case TwinningStructStip:
-        {
-          slice_index const next = slices[root_slice_hook].next1;
-          pipe_unlink(root_slice_hook);
-          dealloc_slices(next);
-        }
+      {
+        fpos_t const beforeStip = InputGetPosition();
+
+        slice_index const next = slices[root_slice_hook].next1;
+        pipe_unlink(root_slice_hook);
+        dealloc_slices(next);
+
         tok = ParseStructuredStip(root_slice_hook);
+        move_effect_journal_do_remember_sstipulation(root_slice_hook,beforeStip);
 
         /* issue the twinning */
         StdString(AlphaStip);
         LaTeXTwinningStipulation(AlphaStip);
         break;
+      }
       case TwinningAdd:
         tok = ParsePieces(piece_addition_twinning);
         break;
@@ -630,8 +638,10 @@ Token ReadInitialTwin(slice_index root_slice_hook)
         case StipToken:
           if (slices[root_slice_hook].next1==no_slice)
           {
+            fpos_t const beforeCond = InputGetPosition();
             *AlphaStip='\0';
             tok = ParseStip(root_slice_hook);
+            move_effect_journal_do_remember_stipulation(root_slice_hook,beforeCond);
           }
           else
           {
