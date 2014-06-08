@@ -41,14 +41,10 @@ static void move_effect_journal_do_circe_parachute_remember(move_effect_reason_t
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_index_type curr)
+void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   underworld_lose_space(0);
 
@@ -56,21 +52,14 @@ void move_effect_journal_undo_circe_parachute_remember(move_effect_journal_index
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_index_type curr)
+void move_effect_journal_redo_circe_parachute_remember(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[curr];
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   underworld_make_space(0);
 
-  underworld[0] = top_elmt->u.handle_ghost.ghost;
+  underworld[0] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -101,14 +90,10 @@ void move_effect_journal_do_circe_volcanic_remember(move_effect_reason_type reas
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_index_type curr)
+void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   underworld_lose_space(nr_ghosts-1);
 
@@ -116,21 +101,14 @@ void move_effect_journal_undo_circe_volcanic_remember(move_effect_journal_index_
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_index_type curr)
+void move_effect_journal_redo_circe_volcanic_remember(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const top_elmt = &move_effect_journal[curr];
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   underworld_make_space(nr_ghosts);
 
-  underworld[nr_ghosts-1] = top_elmt->u.handle_ghost.ghost;
+  underworld[nr_ghosts-1] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

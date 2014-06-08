@@ -15,14 +15,12 @@ extern square duellists[nr_sides];
 int duellists_measure_length(void);
 
 /* Undo remembering a duellist
- * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_remember_duellist(move_effect_journal_index_type curr);
+void move_effect_journal_undo_remember_duellist(move_effect_journal_entry_type const *entry);
 
 /* Redo remembering a duellist
- * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_remember_duellist(move_effect_journal_index_type curr);
+void move_effect_journal_redo_remember_duellist(move_effect_journal_entry_type const *entry);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

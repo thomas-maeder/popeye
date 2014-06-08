@@ -20,7 +20,8 @@
 
 move_effect_journal_entry_type move_effect_journal[move_effect_journal_size];
 
-move_effect_journal_index_type move_effect_journal_base[maxply+1];
+/* starting at 1 simplifies pointer arithmetic in undo_move_effects */
+move_effect_journal_index_type move_effect_journal_base[maxply+1] = { 1, 1 };
 
 move_effect_journal_index_type move_effect_journal_index_offset_capture = 0;
 move_effect_journal_index_type move_effect_journal_index_offset_movement = 1;
@@ -88,8 +89,8 @@ move_effect_journal_entry_type *move_effect_journal_allocate_entry(move_effect_t
   result->reason = reason;
 
 #if defined(DOTRACE)
-  entry->id = move_effect_journal_next_id++;
-  TraceValue("%lu\n",entry->id);
+  result->id = move_effect_journal_next_id++;
+  TraceValue("%lu\n",result->id);
 #endif
 
   ++move_effect_journal_base[nbply+1];
@@ -162,18 +163,13 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_movement(move_effect_journal_index_type curr)
+static void undo_piece_movement(move_effect_journal_entry_type const *entry)
 {
-  square const from = move_effect_journal[curr].u.piece_movement.from;
-  square const to = move_effect_journal[curr].u.piece_movement.to;
+  square const from = entry->u.piece_movement.from;
+  square const to = entry->u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   TraceSquare(from);TraceSquare(to);TraceWalk(being_solved.board[to]);TraceEOL();
 
@@ -187,19 +183,14 @@ static void undo_piece_movement(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_movement(move_effect_journal_index_type curr)
+static void redo_piece_movement(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const from = curr_elmt->u.piece_movement.from;
-  square const to = curr_elmt->u.piece_movement.to;
+  square const from = entry->u.piece_movement.from;
+  square const to = entry->u.piece_movement.to;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
   TraceSquare(from);
   TraceSquare(to);
   TraceEOL();
@@ -250,19 +241,14 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_readdition(move_effect_journal_index_type curr)
+static void undo_piece_readdition(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const on = curr_elmt->u.piece_addition.on;
-  piece_walk_type const added = curr_elmt->u.piece_addition.walk;
-  Flags const addedspec = curr_elmt->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.on;
+  piece_walk_type const added = entry->u.piece_addition.walk;
+  Flags const addedspec = entry->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   if (TSTFLAG(addedspec,White))
     --being_solved.number_of_pieces[White][added];
@@ -275,20 +261,14 @@ static void undo_piece_readdition(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_readdition(move_effect_journal_index_type curr)
+static void redo_piece_readdition(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const on = curr_elmt->u.piece_addition.on;
-  piece_walk_type const added = curr_elmt->u.piece_addition.walk;
-  Flags const addedspec = curr_elmt->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.on;
+  piece_walk_type const added = entry->u.piece_addition.walk;
+  Flags const addedspec = entry->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   if (TSTFLAG(addedspec,White))
     ++being_solved.number_of_pieces[White][added];
@@ -337,19 +317,14 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_creation(move_effect_journal_index_type curr)
+static void undo_piece_creation(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const on = curr_elmt->u.piece_addition.on;
-  piece_walk_type const created = curr_elmt->u.piece_addition.walk;
-  Flags const createdspec = curr_elmt->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.on;
+  piece_walk_type const created = entry->u.piece_addition.walk;
+  Flags const createdspec = entry->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   if (TSTFLAG(createdspec,White))
     --being_solved.number_of_pieces[White][created];
@@ -365,20 +340,14 @@ static void undo_piece_creation(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_creation(move_effect_journal_index_type curr)
+static void redo_piece_creation(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const on = curr_elmt->u.piece_addition.on;
-  piece_walk_type const created = curr_elmt->u.piece_addition.walk;
-  Flags const createdspec = curr_elmt->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.on;
+  piece_walk_type const created = entry->u.piece_addition.walk;
+  Flags const createdspec = entry->u.piece_addition.flags;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   if (TSTFLAG(createdspec,White))
     ++being_solved.number_of_pieces[White][created];
@@ -418,7 +387,7 @@ static void push_removal_elmt(move_effect_reason_type reason, square from)
   TraceSquare(from);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u",top);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TraceWalk(being_solved.board[from]);TraceEOL();
+  TraceValue("%u",nbply);TraceSquare(from);TraceWalk(being_solved.board[from]);TraceEOL();
 
   entry->u.piece_removal.on = from;
   entry->u.piece_removal.walk = get_walk_of_piece_on_square(from);
@@ -466,18 +435,14 @@ void move_effect_journal_do_piece_removal(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_removal(move_effect_journal_index_type curr)
+static void undo_piece_removal(move_effect_journal_entry_type const *entry)
 {
-  square const from = move_effect_journal[curr].u.piece_removal.on;
-  piece_walk_type const removed = move_effect_journal[curr].u.piece_removal.walk;
-  Flags const removedspec = move_effect_journal[curr].u.piece_removal.flags;
+  square const from = entry->u.piece_removal.on;
+  piece_walk_type const removed = entry->u.piece_removal.walk;
+  Flags const removedspec = entry->u.piece_removal.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   occupy_square(from,removed,removedspec);
 
@@ -490,19 +455,14 @@ static void undo_piece_removal(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_removal(move_effect_journal_index_type curr)
+static void redo_piece_removal(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const from = curr_elmt->u.piece_removal.on;
+  square const from = entry->u.piece_removal.on;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
-  TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TraceWalk(curr_elmt->u.piece_removal.walk);TraceEOL();
+  TraceValue("%u",curr);TraceText("removal");TraceValue("%u",nbply);TraceSquare(from);TraceWalk(entry->u.piece_removal.walk);TraceEOL();
 
   do_removal(from);
 
@@ -555,18 +515,13 @@ void move_effect_journal_do_walk_change(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_change(move_effect_journal_index_type curr)
+static void undo_piece_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.piece_change.on;
-  piece_walk_type const from = move_effect_journal[curr].u.piece_change.from;
+  square const on = entry->u.piece_change.on;
+  piece_walk_type const from = entry->u.piece_change.from;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   do_walk_change(on,from);
 
@@ -574,18 +529,13 @@ static void undo_piece_change(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_change(move_effect_journal_index_type curr)
+static void redo_piece_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.piece_change.on;
-  piece_walk_type const to = move_effect_journal[curr].u.piece_change.to;
+  square const on = entry->u.piece_change.on;
+  piece_walk_type const to = entry->u.piece_change.to;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   do_walk_change(on,to);
 
@@ -624,20 +574,15 @@ void move_effect_journal_do_piece_exchange(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_piece_exchange(move_effect_journal_index_type curr)
+static void undo_piece_exchange(move_effect_journal_entry_type const *entry)
 {
-  square const from = move_effect_journal[curr].u.piece_exchange.from;
-  square const to = move_effect_journal[curr].u.piece_exchange.to;
+  square const from = entry->u.piece_exchange.from;
+  square const to = entry->u.piece_exchange.to;
   piece_walk_type const pi_to = get_walk_of_piece_on_square(to);
   Flags const spec_pi_to = being_solved.spec[to];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   occupy_square(to,get_walk_of_piece_on_square(from),being_solved.spec[from]);
   occupy_square(from,pi_to,spec_pi_to);
@@ -646,21 +591,16 @@ static void undo_piece_exchange(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_piece_exchange(move_effect_journal_index_type curr)
+static void redo_piece_exchange(move_effect_journal_entry_type const *entry)
 {
-  move_effect_journal_entry_type * const curr_elmt = &move_effect_journal[curr];
-  square const from = curr_elmt->u.piece_exchange.from;
-  square const to = curr_elmt->u.piece_exchange.to;
+  square const from = entry->u.piece_exchange.from;
+  square const to = entry->u.piece_exchange.to;
   piece_walk_type const pi_to = get_walk_of_piece_on_square(to);
   Flags const spec_pi_to = being_solved.spec[to];
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
   TraceSquare(from);
   TraceSquare(to);
   TraceEOL();
@@ -701,18 +641,13 @@ void move_effect_journal_do_side_change(move_effect_reason_type reason, square o
   TraceFunctionResultEnd();
 }
 
-static void undo_side_change(move_effect_journal_index_type curr)
+static void undo_side_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.side_change.on;
+  square const on = entry->u.side_change.on;
   Side const from = TSTFLAG(being_solved.spec[on],White) ? Black : White;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   --being_solved.number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];
   piece_change_side(&being_solved.spec[on]);
@@ -723,18 +658,13 @@ static void undo_side_change(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_side_change(move_effect_journal_index_type curr)
+static void redo_side_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.side_change.on;
+  square const on = entry->u.side_change.on;
   Side const to = TSTFLAG(being_solved.spec[on],White) ? Black : White;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
   piece_change_side(&being_solved.spec[on]);
@@ -767,17 +697,12 @@ void move_effect_journal_do_square_block(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_square_block(move_effect_journal_index_type curr)
+static void undo_square_block(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.square_block.square;
+  square const on = entry->u.square_block.square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   empty_square(on);
 
@@ -785,17 +710,12 @@ static void undo_square_block(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_square_block(move_effect_journal_index_type curr)
+static void redo_square_block(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.square_block.square;
+  square const on = entry->u.square_block.square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   block_square(on);
 
@@ -830,25 +750,20 @@ void move_effect_journal_do_king_square_movement(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_king_square_movement(move_effect_journal_index_type curr)
+static void undo_king_square_movement(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.king_square_movement.side;
-  square const from = move_effect_journal[curr].u.king_square_movement.from;
+  Side const side = entry->u.king_square_movement.side;
+  square const from = entry->u.king_square_movement.from;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   TraceEnumerator(Side,side,"");
   TraceSquare(from);
-  TraceSquare(move_effect_journal[curr].u.king_square_movement.to);
+  TraceSquare(entry->u.king_square_movement.to);
   TraceEOL();
 
-  assert(being_solved.king_square[side]==move_effect_journal[curr].u.king_square_movement.to);
+  assert(being_solved.king_square[side]==entry->u.king_square_movement.to);
 
   being_solved.king_square[side] = from;
 
@@ -856,25 +771,20 @@ static void undo_king_square_movement(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_king_square_movement(move_effect_journal_index_type curr)
+static void redo_king_square_movement(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.king_square_movement.side;
-  square const to = move_effect_journal[curr].u.king_square_movement.to;
+  Side const side = entry->u.king_square_movement.side;
+  square const to = entry->u.king_square_movement.to;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
-
   TraceEnumerator(Side,side,"");
-  TraceSquare(move_effect_journal[curr].u.king_square_movement.from);
+  TraceSquare(entry->u.king_square_movement.from);
   TraceSquare(to);
   TraceEOL();
 
-  assert(being_solved.king_square[side]==move_effect_journal[curr].u.king_square_movement.from);
+  assert(being_solved.king_square[side]==entry->u.king_square_movement.from);
 
   being_solved.king_square[side] = to;
 
@@ -919,22 +829,17 @@ void move_effect_journal_do_flags_change(move_effect_reason_type reason,
   TraceFunctionResultEnd();
 }
 
-static void undo_flags_change(move_effect_journal_index_type curr)
+static void undo_flags_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.flags_change.on;
-  Flags const from = move_effect_journal[curr].u.flags_change.from;
+  square const on = entry->u.flags_change.on;
+  Flags const from = entry->u.flags_change.from;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   TraceSquare(on);TraceEOL();
 
-  assert(being_solved.spec[on]==move_effect_journal[curr].u.flags_change.to);
+  assert(being_solved.spec[on]==entry->u.flags_change.to);
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(from));
 
   if (TSTFLAG(being_solved.spec[on],White))
@@ -953,20 +858,15 @@ static void undo_flags_change(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_flags_change(move_effect_journal_index_type curr)
+static void redo_flags_change(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.flags_change.on;
-  Flags const to = move_effect_journal[curr].u.flags_change.to;
+  square const on = entry->u.flags_change.on;
+  Flags const to = entry->u.flags_change.to;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
-
-  assert(being_solved.spec[on]==move_effect_journal[curr].u.flags_change.from);
+  assert(being_solved.spec[on]==entry->u.flags_change.from);
   assert(GetPieceId(being_solved.spec[on])==GetPieceId(to));
 
   if (TSTFLAG(being_solved.spec[on],White))
@@ -1061,17 +961,12 @@ static SquareTransformation const inverse_transformation[] =
     mirra8h1
 };
 
-static void undo_board_transformation(move_effect_journal_index_type curr)
+static void undo_board_transformation(move_effect_journal_entry_type const *entry)
 {
-  SquareTransformation const transformation = move_effect_journal[curr].u.board_transformation.transformation;
+  SquareTransformation const transformation = entry->u.board_transformation.transformation;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   transformBoard(inverse_transformation[transformation]);
 
@@ -1079,17 +974,12 @@ static void undo_board_transformation(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-static void redo_board_transformation(move_effect_journal_index_type curr)
+static void redo_board_transformation(move_effect_journal_entry_type const *entry)
 {
-  SquareTransformation const transformation = move_effect_journal[curr].u.board_transformation.transformation;
+  SquareTransformation const transformation = entry->u.board_transformation.transformation;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   transformBoard(transformation);
 
@@ -1191,15 +1081,10 @@ void move_effect_journal_do_twinning_polish(void)
   TraceFunctionResultEnd();
 }
 
-static void undo_twinning_polish(move_effect_journal_index_type curr)
+static void undo_twinning_polish(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   do_polish();
 
@@ -1237,18 +1122,13 @@ void move_effect_journal_do_twinning_substitute(piece_walk_type from,
   TraceFunctionResultEnd();
 }
 
-static void undo_twinning_substitute(move_effect_journal_index_type curr)
+static void undo_twinning_substitute(move_effect_journal_entry_type const *entry)
 {
-  piece_walk_type const from = move_effect_journal[curr].u.piece_change.from;
-  piece_walk_type const to = move_effect_journal[curr].u.piece_change.to;
+  piece_walk_type const from = entry->u.piece_change.from;
+  piece_walk_type const to = entry->u.piece_change.to;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   do_substitute_all(to,from);
 
@@ -1299,18 +1179,13 @@ void move_effect_journal_do_twinning_shift(int diffrank, int diffcol)
   TraceFunctionResultEnd();
 }
 
-static void undo_twinning_shift(move_effect_journal_index_type curr)
+static void undo_twinning_shift(move_effect_journal_entry_type const *entry)
 {
-  int const diffrank = move_effect_journal[curr].u.twinning_shift.diffrank;
-  int const diffcol = move_effect_journal[curr].u.twinning_shift.diffcol;
+  int const diffrank = entry->u.twinning_shift.diffrank;
+  int const diffcol = entry->u.twinning_shift.diffcol;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   do_shift(-diffrank,-diffcol);
 
@@ -1426,132 +1301,143 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
  */
 void redo_move_effects(void)
 {
+  move_effect_journal_index_type const parent_top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
-  move_effect_journal_index_type curr;
+  move_effect_journal_entry_type const *top_entry = &move_effect_journal[top];
+  move_effect_journal_entry_type const *entry;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply]<=top);
+  assert(parent_top<=top);
 
-  for (curr = move_effect_journal_base[nbply]; curr!=top; ++curr)
-    switch (move_effect_journal[curr].type)
+  for (entry = &move_effect_journal[parent_top]; entry!=top_entry; ++entry)
+  {
+#if defined(DOTRACE)
+    TraceValue("%u\n",entry->type);
+    TraceValue("%lu\n",entry->id);
+#endif
+
+    switch (entry->type)
     {
       case move_effect_none:
         /* nothing */
         break;
 
       case move_effect_piece_movement:
-        redo_piece_movement(curr);
+        redo_piece_movement(entry);
         break;
 
       case move_effect_piece_readdition:
-        redo_piece_readdition(curr);
+        redo_piece_readdition(entry);
         break;
 
       case move_effect_piece_creation:
-        redo_piece_creation(curr);
+        redo_piece_creation(entry);
         break;
 
       case move_effect_no_piece_removal:
         break;
 
       case move_effect_piece_removal:
-        redo_piece_removal(curr);
+        redo_piece_removal(entry);
         break;
 
       case move_effect_piece_change:
-        redo_piece_change(curr);
+        redo_piece_change(entry);
         break;
 
       case move_effect_piece_exchange:
-        redo_piece_exchange(curr);
+        redo_piece_exchange(entry);
         break;
 
       case move_effect_side_change:
-        redo_side_change(curr);
+        redo_side_change(entry);
         break;
 
       case move_effect_king_square_movement:
-        redo_king_square_movement(curr);
+        redo_king_square_movement(entry);
         break;
 
       case move_effect_flags_change:
-        redo_flags_change(curr);
+        redo_flags_change(entry);
         break;
 
       case move_effect_board_transformation:
-        redo_board_transformation(curr);
+        redo_board_transformation(entry);
         break;
 
       case move_effect_centre_revolution:
-        redo_centre_revolution(curr);
+        redo_centre_revolution(entry);
         break;
 
       case move_effect_imitator_addition:
-        redo_imitator_addition(curr);
+        redo_imitator_addition(entry);
         break;
 
       case move_effect_imitator_movement:
-        redo_imitator_movement(curr);
+        redo_imitator_movement(entry);
         break;
 
       case move_effect_remember_ghost:
-        move_effect_journal_redo_remember_ghost(curr);
+        move_effect_journal_redo_remember_ghost(entry);
         break;
 
       case move_effect_forget_ghost:
-        move_effect_journal_redo_forget_ghost(curr);
+        move_effect_journal_redo_forget_ghost(entry);
         break;
 
       case move_effect_half_neutral_deneutralisation:
-        redo_half_neutral_deneutralisation(curr);
+        redo_half_neutral_deneutralisation(entry);
         break;
 
       case move_effect_half_neutral_neutralisation:
-        redo_half_neutral_neutralisation(curr);
+        redo_half_neutral_neutralisation(entry);
         break;
 
       case move_effect_square_block:
-        redo_square_block(curr);
+        redo_square_block(entry);
         break;
 
       case move_effect_bgl_adjustment:
-        move_effect_journal_redo_bgl_adjustment(curr);
+        move_effect_journal_redo_bgl_adjustment(entry);
         break;
 
       case move_effect_strict_sat_adjustment:
-        move_effect_journal_redo_strict_sat_adjustment(curr);
+        move_effect_journal_redo_strict_sat_adjustment(entry);
         break;
 
       case move_effect_disable_castling_right:
-        move_effect_journal_redo_disabling_castling_right(curr);
+        move_effect_journal_redo_disabling_castling_right(entry);
         break;
 
       case move_effect_enable_castling_right:
-        move_effect_journal_redo_enabling_castling_right(curr);
+        move_effect_journal_redo_enabling_castling_right(entry);
         break;
 
       case move_effect_remember_ep_capture_potential:
-        move_effect_journal_redo_remember_ep(curr);
+        move_effect_journal_redo_remember_ep(entry);
         break;
 
       case move_effect_remember_duellist:
-        move_effect_journal_redo_remember_duellist(curr);
+        move_effect_journal_redo_remember_duellist(entry);
         break;
 
       case move_effect_remember_parachuted:
-        move_effect_journal_redo_circe_parachute_remember(curr);
+        move_effect_journal_redo_circe_parachute_remember(entry);
         break;
 
       case move_effect_remember_volcanic:
-        move_effect_journal_redo_circe_volcanic_remember(curr);
+        move_effect_journal_redo_circe_volcanic_remember(entry);
         break;
+
+        /* intentionally not mentioning the twinnings - they are not redone */
 
       default:
         assert(0);
         break;
     }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1562,138 +1448,146 @@ void redo_move_effects(void)
 void undo_move_effects(void)
 {
   move_effect_journal_index_type const parent_top = move_effect_journal_base[nbply];
-  move_effect_journal_index_type top;
+  move_effect_journal_entry_type const *parent_top_entry = &move_effect_journal[parent_top-1];
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_entry_type const *entry;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal_base[nbply+1]>=parent_top);
+  assert(parent_top>0);
+  assert(top>=parent_top);
 
-  for (top = move_effect_journal_base[nbply+1]; top!=parent_top; --top)
+  for (entry = &move_effect_journal[top-1]; entry!=parent_top_entry; --entry)
   {
-    switch (move_effect_journal[top-1].type)
+#if defined(DOTRACE)
+    TraceValue("%u\n",entry->type);
+    TraceValue("%lu\n",entry->id);
+#endif
+
+    switch (entry->type)
     {
       case move_effect_none:
         /* nothing */
         break;
 
       case move_effect_piece_movement:
-        undo_piece_movement(top-1);
+        undo_piece_movement(entry);
         break;
 
       case move_effect_piece_readdition:
-        undo_piece_readdition(top-1);
+        undo_piece_readdition(entry);
         break;
 
       case move_effect_piece_creation:
-        undo_piece_creation(top-1);
+        undo_piece_creation(entry);
         break;
 
       case move_effect_no_piece_removal:
         break;
 
       case move_effect_piece_removal:
-        undo_piece_removal(top-1);
+        undo_piece_removal(entry);
         break;
 
       case move_effect_piece_change:
-        undo_piece_change(top-1);
+        undo_piece_change(entry);
         break;
 
       case move_effect_piece_exchange:
-        undo_piece_exchange(top-1);
+        undo_piece_exchange(entry);
         break;
 
       case move_effect_side_change:
-        undo_side_change(top-1);
+        undo_side_change(entry);
         break;
 
       case move_effect_king_square_movement:
-        undo_king_square_movement(top-1);
+        undo_king_square_movement(entry);
         break;
 
       case move_effect_flags_change:
-        undo_flags_change(top-1);
+        undo_flags_change(entry);
         break;
 
       case move_effect_board_transformation:
-        undo_board_transformation(top-1);
+        undo_board_transformation(entry);
         break;
 
       case move_effect_centre_revolution:
-        undo_centre_revolution(top-1);
+        undo_centre_revolution(entry);
         break;
 
       case move_effect_imitator_addition:
-        undo_imitator_addition(top-1);
+        undo_imitator_addition(entry);
         break;
 
       case move_effect_imitator_movement:
-        undo_imitator_movement(top-1);
+        undo_imitator_movement(entry);
         break;
 
       case move_effect_remember_ghost:
-        move_effect_journal_undo_remember_ghost(top-1);
+        move_effect_journal_undo_remember_ghost(entry);
         break;
 
       case move_effect_forget_ghost:
-        move_effect_journal_undo_forget_ghost(top-1);
+        move_effect_journal_undo_forget_ghost(entry);
         break;
 
       case move_effect_half_neutral_deneutralisation:
-        undo_half_neutral_deneutralisation(top-1);
+        undo_half_neutral_deneutralisation(entry);
         break;
 
       case move_effect_half_neutral_neutralisation:
-        undo_half_neutral_neutralisation(top-1);
+        undo_half_neutral_neutralisation(entry);
         break;
 
       case move_effect_square_block:
-        undo_square_block(top-1);
+        undo_square_block(entry);
         break;
 
       case move_effect_bgl_adjustment:
-        move_effect_journal_undo_bgl_adjustment(top-1);
+        move_effect_journal_undo_bgl_adjustment(entry);
         break;
 
       case move_effect_strict_sat_adjustment:
-        move_effect_journal_undo_strict_sat_adjustment(top-1);
+        move_effect_journal_undo_strict_sat_adjustment(entry);
         break;
 
       case move_effect_disable_castling_right:
-        move_effect_journal_undo_disabling_castling_right(top-1);
+        move_effect_journal_undo_disabling_castling_right(entry);
         break;
 
       case move_effect_enable_castling_right:
-        move_effect_journal_undo_enabling_castling_right(top-1);
+        move_effect_journal_undo_enabling_castling_right(entry);
         break;
 
       case move_effect_remember_ep_capture_potential:
-        move_effect_journal_undo_remember_ep(top-1);
+        move_effect_journal_undo_remember_ep(entry);
         break;
 
       case move_effect_remember_duellist:
-        move_effect_journal_undo_remember_duellist(top-1);
+        move_effect_journal_undo_remember_duellist(entry);
         break;
 
       case move_effect_remember_parachuted:
-        move_effect_journal_undo_circe_parachute_remember(top-1);
+        move_effect_journal_undo_circe_parachute_remember(entry);
         break;
 
       case move_effect_remember_volcanic:
-        move_effect_journal_undo_circe_volcanic_remember(top-1);
+        move_effect_journal_undo_circe_volcanic_remember(entry);
         break;
 
       case move_effect_twinning_polish:
-        undo_twinning_polish(top-1);
+        undo_twinning_polish(entry);
         break;
 
       case move_effect_twinning_substitute:
-        undo_twinning_substitute(top-1);
+        undo_twinning_substitute(entry);
         break;
 
       case move_effect_twinning_shift:
-        undo_twinning_shift(top-1);
+        undo_twinning_shift(entry);
         break;
 
       default:

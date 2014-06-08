@@ -100,15 +100,10 @@ void move_effect_journal_do_remember_ep(square s)
 /* Undo remembering a possible en passant capture
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr)
+void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   --en_passant_top[nbply];
 
@@ -117,19 +112,13 @@ void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr)
 }
 
 /* Redo remembering a possible en passant capture
- * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_remember_ep(move_effect_journal_index_type curr)
+void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry)
 {
-  square const s = move_effect_journal[curr].u.ep_capture_potential.square;
+  square const s = entry->u.ep_capture_potential.square;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   ++en_passant_top[nbply];
   en_passant_multistep_over[en_passant_top[nbply]] = s;

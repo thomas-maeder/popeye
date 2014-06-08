@@ -12,14 +12,14 @@
 /* Remember the ghost from the current capture
  */
 void move_effect_journal_do_remember_ghost(void);
-void move_effect_journal_undo_remember_ghost(move_effect_journal_index_type curr);
-void move_effect_journal_redo_remember_ghost(move_effect_journal_index_type curr);
+void move_effect_journal_undo_remember_ghost(move_effect_journal_entry_type const *entry);
+void move_effect_journal_redo_remember_ghost(move_effect_journal_entry_type const *entry);
 
 /* Forget a ghost "below" a square (typically because it is on the board now)
  */
 void move_effect_journal_do_forget_ghost(underworld_index_type const summoned);
-void move_effect_journal_undo_forget_ghost(move_effect_journal_index_type curr);
-void move_effect_journal_redo_forget_ghost(move_effect_journal_index_type curr);
+void move_effect_journal_undo_forget_ghost(move_effect_journal_entry_type const *entry);
+void move_effect_journal_redo_forget_ghost(move_effect_journal_entry_type const *entry);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

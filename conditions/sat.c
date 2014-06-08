@@ -201,17 +201,12 @@ static void do_strict_sat_adjustment(Side side)
 /* Undo a Strict SAT state adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_index_type curr)
+void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.strict_sat_adjustment.side;
+  Side const side = entry->u.strict_sat_adjustment.side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   StrictSAT[side] = false;
 
@@ -222,17 +217,12 @@ void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_index_ty
 /* Redo a Strict SAT state adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_index_type curr)
+void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.strict_sat_adjustment.side;
+  Side const side = entry->u.strict_sat_adjustment.side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   StrictSAT[side] = true;
 

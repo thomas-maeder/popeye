@@ -21,22 +21,22 @@ extern castling_flag_type castling_flags_no_castling;
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_disabling_castling_right(move_effect_journal_index_type curr);
+void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry);
 
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_disabling_castling_right(move_effect_journal_index_type curr);
+void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry);
 
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_enabling_castling_right(move_effect_journal_index_type curr);
+void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry);
 
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_enabling_castling_right(move_effect_journal_index_type curr);
+void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry);
 
 /* Enable castling rights for the piece that just arrived (for whatever reason)
  * on a square

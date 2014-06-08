@@ -64,18 +64,13 @@ static void do_bgl_adjustment(Side side, long int diff)
 /* Undo a BGL adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr)
+void move_effect_journal_undo_bgl_adjustment(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.bgl_adjustment.side;
-  long int const diff = move_effect_journal[curr].u.bgl_adjustment.diff;
+  Side const side = entry->u.bgl_adjustment.side;
+  long int const diff = entry->u.bgl_adjustment.diff;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   TraceValue("%lu\n",diff);
 
@@ -88,18 +83,13 @@ void move_effect_journal_undo_bgl_adjustment(move_effect_journal_index_type curr
 /* Redo a BGL adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_bgl_adjustment(move_effect_journal_index_type curr)
+void move_effect_journal_redo_bgl_adjustment(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.bgl_adjustment.side;
-  long int const diff = move_effect_journal[curr].u.bgl_adjustment.diff;
+  Side const side = entry->u.bgl_adjustment.side;
+  long int const diff = entry->u.bgl_adjustment.diff;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   TraceValue("%lu\n",diff);
 

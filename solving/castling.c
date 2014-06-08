@@ -133,18 +133,13 @@ static void do_disable_castling_right(move_effect_reason_type reason,
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_disabling_castling_right(move_effect_journal_index_type curr)
+void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.castling_rights_adjustment.side;
-  castling_flag_type const right = move_effect_journal[curr].u.castling_rights_adjustment.right;
+  Side const side = entry->u.castling_rights_adjustment.side;
+  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   SETCASTLINGFLAGMASK(side,right);
 
@@ -155,18 +150,13 @@ void move_effect_journal_undo_disabling_castling_right(move_effect_journal_index
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_disabling_castling_right(move_effect_journal_index_type curr)
+void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.castling_rights_adjustment.side;
-  castling_flag_type const right = move_effect_journal[curr].u.castling_rights_adjustment.right;
+  Side const side = entry->u.castling_rights_adjustment.side;
+  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   CLRCASTLINGFLAGMASK(side,right);
 
@@ -202,18 +192,13 @@ static void do_enable_castling_right(move_effect_reason_type reason,
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_enabling_castling_right(move_effect_journal_index_type curr)
+void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.castling_rights_adjustment.side;
-  castling_flag_type const right = move_effect_journal[curr].u.castling_rights_adjustment.right;
+  Side const side = entry->u.castling_rights_adjustment.side;
+  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   CLRCASTLINGFLAGMASK(side,right);
 
@@ -224,10 +209,10 @@ void move_effect_journal_undo_enabling_castling_right(move_effect_journal_index_
 /* Redo removing a castling right
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_enabling_castling_right(move_effect_journal_index_type curr)
+void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
-  Side const side = move_effect_journal[curr].u.castling_rights_adjustment.side;
-  castling_flag_type const right = move_effect_journal[curr].u.castling_rights_adjustment.right;
+  Side const side = entry->u.castling_rights_adjustment.side;
+  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",curr);

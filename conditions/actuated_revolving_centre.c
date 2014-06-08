@@ -95,15 +95,10 @@ static void move_effect_journal_do_centre_revolution(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_centre_revolution(move_effect_journal_index_type curr)
+void undo_centre_revolution(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   unrevolve();
 
@@ -111,15 +106,10 @@ void undo_centre_revolution(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-void redo_centre_revolution(move_effect_journal_index_type curr)
+void redo_centre_revolution(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   revolve();
 

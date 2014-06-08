@@ -45,12 +45,12 @@ void move_effect_journal_do_remember_ep(square s);
 /* Undo remembering a possible en passant capture
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_remember_ep(move_effect_journal_index_type curr);
+void move_effect_journal_undo_remember_ep(move_effect_journal_entry_type const *entry);
 
 /* Redo remembering a possible en passant capture
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_remember_ep(move_effect_journal_index_type curr);
+void move_effect_journal_redo_remember_ep(move_effect_journal_entry_type const *entry);
 
 /* Was a pawn multistep move played in a certain ply?
  * @param ply the ply

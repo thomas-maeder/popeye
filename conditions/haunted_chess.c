@@ -28,37 +28,27 @@ void move_effect_journal_do_forget_ghost(underworld_index_type const summoned)
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_forget_ghost(move_effect_journal_index_type curr)
+void move_effect_journal_undo_forget_ghost(move_effect_journal_entry_type const *entry)
 {
-  underworld_index_type const ghost_pos = move_effect_journal[curr].u.handle_ghost.pos;
+  underworld_index_type const ghost_pos = entry->u.handle_ghost.pos;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   underworld_make_space(ghost_pos);
 
-  underworld[ghost_pos] = move_effect_journal[curr].u.handle_ghost.ghost;
+  underworld[ghost_pos] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_forget_ghost(move_effect_journal_index_type curr)
+void move_effect_journal_redo_forget_ghost(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
 
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
-
-  underworld_lose_space(move_effect_journal[curr].u.handle_ghost.pos);
+  underworld_lose_space(entry->u.handle_ghost.pos);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -141,17 +131,12 @@ void move_effect_journal_do_remember_ghost(void)
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_undo_remember_ghost(move_effect_journal_index_type curr)
+void move_effect_journal_undo_remember_ghost(move_effect_journal_entry_type const *entry)
 {
-  underworld_index_type const ghost_pos = move_effect_journal[curr].u.handle_ghost.pos;
+  underworld_index_type const ghost_pos = entry->u.handle_ghost.pos;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   underworld_lose_space(ghost_pos);
 
@@ -159,21 +144,16 @@ void move_effect_journal_undo_remember_ghost(move_effect_journal_index_type curr
   TraceFunctionResultEnd();
 }
 
-void move_effect_journal_redo_remember_ghost(move_effect_journal_index_type curr)
+void move_effect_journal_redo_remember_ghost(move_effect_journal_entry_type const *entry)
 {
-  underworld_index_type const ghost_pos = move_effect_journal[curr].u.handle_ghost.pos;
+  underworld_index_type const ghost_pos = entry->u.handle_ghost.pos;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   underworld_make_space(ghost_pos);
 
-  underworld[ghost_pos] = move_effect_journal[curr].u.handle_ghost.ghost;
+  underworld[ghost_pos] = entry->u.handle_ghost.ghost;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

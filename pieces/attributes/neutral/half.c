@@ -39,18 +39,13 @@ static void do_deneutralisation(square on, Side to)
 /* Undo the deneutralisation a half-neutral piece
  * @param curr identifies the deneutralisation effect
  */
-void undo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
+void undo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
-  Side const to = move_effect_journal[curr].u.half_neutral_phase_change.side;
+  square const on = entry->u.half_neutral_phase_change.on;
+  Side const to = entry->u.half_neutral_phase_change.side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]|BIT(advers(to)));
   ++being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
@@ -60,20 +55,14 @@ void undo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
 }
 
 /* Redo the deneutralisation a half-neutral piece
- * @param curr identifies the deneutralisation effect
  */
-void redo_half_neutral_deneutralisation(move_effect_journal_index_type curr)
+void redo_half_neutral_deneutralisation(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
-  Side const to = move_effect_journal[curr].u.half_neutral_phase_change.side;
+  square const on = entry->u.half_neutral_phase_change.on;
+  Side const to = entry->u.half_neutral_phase_change.side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   --being_solved.number_of_pieces[advers(to)][get_walk_of_piece_on_square(on)];
   occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]&~BIT(advers(to)));
@@ -108,18 +97,13 @@ static void do_neutralisation(square on)
 /* Undo the neutralisation a half-neutral piece
  * @param curr identifies the neutralisation effect
  */
-void undo_half_neutral_neutralisation(move_effect_journal_index_type curr)
+void undo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
-  Side const from = move_effect_journal[curr].u.half_neutral_phase_change.side;
+  square const on = entry->u.half_neutral_phase_change.on;
+  Side const from = entry->u.half_neutral_phase_change.side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   assert(TSTFLAG(being_solved.spec[on],White));
   assert(TSTFLAG(being_solved.spec[on],Black));
@@ -133,20 +117,14 @@ void undo_half_neutral_neutralisation(move_effect_journal_index_type curr)
 }
 
 /* Redo the neutralisation a half-neutral piece
- * @param curr identifies the neutralisation effect
  */
-void redo_half_neutral_neutralisation(move_effect_journal_index_type curr)
+void redo_half_neutral_neutralisation(move_effect_journal_entry_type const *entry)
 {
-  square const on = move_effect_journal[curr].u.half_neutral_phase_change.on;
-  Side const from = move_effect_journal[curr].u.half_neutral_phase_change.side;
+  square const on = entry->u.half_neutral_phase_change.on;
+  Side const from = entry->u.half_neutral_phase_change.side;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   occupy_square(on,get_walk_of_piece_on_square(on),being_solved.spec[on]|BIT(advers(from)));
   ++being_solved.number_of_pieces[advers(from)][get_walk_of_piece_on_square(on)];

@@ -12,12 +12,12 @@ extern unsigned int SAT_max_nr_allowed_flights[nr_sides];
 /* Undo a Strict SAT state adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_index_type curr);
+void move_effect_journal_undo_strict_sat_adjustment(move_effect_journal_entry_type const *entry);
 
 /* Redo a Strict SAT state adjustment
  * @param curr identifies the adjustment effect
  */
-void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_index_type curr);
+void move_effect_journal_redo_strict_sat_adjustment(move_effect_journal_entry_type const *entry);
 
 /* Determine whether a side is in check
  * @param si identifies the check tester

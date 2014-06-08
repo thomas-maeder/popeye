@@ -1002,17 +1002,12 @@ static void move_effect_journal_do_imitator_movement(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_imitator_movement(move_effect_journal_index_type curr)
+void undo_imitator_movement(move_effect_journal_entry_type const *entry)
 {
-  int const delta = move_effect_journal[curr].u.imitator_movement.delta;
+  int const delta = entry->u.imitator_movement.delta;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   move_imitators(-delta);
 
@@ -1020,16 +1015,12 @@ void undo_imitator_movement(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-void redo_imitator_movement(move_effect_journal_index_type curr)
+void redo_imitator_movement(move_effect_journal_entry_type const *entry)
 {
-  int const delta = move_effect_journal[curr].u.imitator_movement.delta;
+  int const delta = entry->u.imitator_movement.delta;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   move_imitators(delta);
 
@@ -1062,15 +1053,10 @@ static void move_effect_journal_do_imitator_addition(move_effect_reason_type rea
   TraceFunctionResultEnd();
 }
 
-void undo_imitator_addition(move_effect_journal_index_type curr)
+void undo_imitator_addition(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",curr);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   assert(being_solved.number_of_imitators>0);
   --being_solved.number_of_imitators;
@@ -1079,16 +1065,12 @@ void undo_imitator_addition(move_effect_journal_index_type curr)
   TraceFunctionResultEnd();
 }
 
-void redo_imitator_addition(move_effect_journal_index_type curr)
+void redo_imitator_addition(move_effect_journal_entry_type const *entry)
 {
-  square const to = move_effect_journal[curr].u.imitator_addition.to;
+  square const to = entry->u.imitator_addition.to;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-#if defined(DOTRACE)
-  TraceValue("%lu\n",move_effect_journal[curr].id);
-#endif
 
   if (being_solved.number_of_imitators==maxinum)
     FtlMsg(ManyImitators);
