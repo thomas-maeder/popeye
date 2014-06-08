@@ -6,7 +6,6 @@
 #include "input/plaintext/sstipulation.h"
 #include "input/plaintext/condition.h"
 #include "input/plaintext/option.h"
-#include "input/plaintext/input_stack.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/condition.h"
@@ -684,12 +683,6 @@ Token ReadInitialTwin(slice_index root_slice_hook)
 
         case RemToken:
           ReadRemark();
-          tok = ReadNextTokStr();
-          break;
-
-        case InputToken:
-          ReadToEndOfLine();
-          PushInput(InputLine);
           tok = ReadNextTokStr();
           break;
 

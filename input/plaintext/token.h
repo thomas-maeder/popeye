@@ -2,7 +2,6 @@
 #define INPUT_PLAINTEXT_TOKEN_H
 
 #include "input/plaintext/language.h"
-#include "input/plaintext/line.h"
 
 typedef enum
 {
@@ -18,29 +17,33 @@ typedef enum
   OptToken,         /* 9 */
   RemToken,        /* 10 */
   TraceToken,      /* 11 */
-  InputToken,      /* 12 */
-  SepToken,        /* 13 */
-  TitleToken,      /* 14 */
-  TwinProblem,     /* 15 */
-  ZeroPosition,    /* 16 */
-  LaTeXToken,      /* 17 */
-  LaTeXPieces,     /* 18 */
-  Award,           /* 19 */
-  Array,           /* 20 */
-  Forsyth,         /* 21 */
+  SepToken,        /* 12 */
+  TitleToken,      /* 13 */
+  TwinProblem,     /* 14 */
+  ZeroPosition,    /* 15 */
+  LaTeXToken,      /* 16 */
+  LaTeXPieces,     /* 17 */
+  Award,           /* 18 */
+  Array,           /* 19 */
+  Forsyth,         /* 20 */
 
-  TokenCount       /* 22 */
+  TokenCount       /* 21 */
 } Token;
-
-extern char LastChar;
 
 extern char const *TokenString[LanguageCount][TokenCount];
 extern char const **TokenTab; /* set according to language */
 
+enum
+{
+  LINESIZE = 256
+};
+
+extern char InputLine[LINESIZE];    /* This array contains the input as is */
+
 extern char TokenLine[LINESIZE];
 
-/* advance LastChar to the next1 input character */
-void NextChar(void);
+void OpenInput(char const *s);
+void CloseInput(void);
 
 char *ReadNextCaseSensitiveTokStr(void);
 
@@ -49,5 +52,10 @@ char *ReadNextTokStr(void);
 unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char const *tok);
 
 Token StringToToken(char const *tok);
+
+/* read into InputLine until the next1 end of line */
+void ReadToEndOfLine(void);
+
+void ReadRemark(void);
 
 #endif

@@ -7,7 +7,7 @@
 #include "input/plaintext/problem.h"
 #include "input/plaintext/pieces.h"
 #include "input/plaintext/token.h"
-#include "input/plaintext/line.h"
+#include "input/plaintext/token.h"
 #include "input/plaintext/language.h"
 #include "options/options.h"
 #include "options/maxsolutions/maxsolutions.h"

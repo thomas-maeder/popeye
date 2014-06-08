@@ -98,7 +98,6 @@ void iterate_problems(void)
 {
   Token prev_token = BeginProblem;
 
-  LastChar= ' ';
   ReadBeginSpec();
 
   do

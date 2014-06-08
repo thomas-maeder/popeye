@@ -3,7 +3,7 @@
 #include "solving/moves_traversal.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "input/plaintext/problem.h"
-#include "input/plaintext/input_stack.h"
+#include "input/plaintext/token.h"
 #include "input/plaintext/language.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"

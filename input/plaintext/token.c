@@ -1,7 +1,7 @@
 #include "input/plaintext/token.h"
-#include "input/plaintext/input_stack.h"
 #include "output/output.h"
 #include "output/plaintext/message.h"
+#include "output/plaintext/plaintext.h"
 #include "utilities/boolean.h"
 
 #include <ctype.h>
@@ -9,7 +9,7 @@
 #include <string.h>
 
 static char SpaceChar[] = " \t\n\r;.,";
-char LastChar;
+static char LastChar = ' ';
 
 char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
@@ -43,16 +43,15 @@ char const *TokenString[LanguageCount][TokenCount] =
     /* 9*/  "option",
     /*10*/  "remarque",
     /*11*/  "protocol",
-    /*12*/  "entree",
-    /*13*/  Sep,
-    /*14*/  "titre",
-    /*15*/  "jumeau",
-    /*16*/  "zeroposition",
-    /*17*/  "LaTeX",
-    /*18*/  "PiecesLaTeX",
-    /*19*/  "prix",
-    /*20*/  "PositionInitialPartie",
-    /*21*/  "Forsyth"
+    /*12*/  Sep,
+    /*13*/  "titre",
+    /*14*/  "jumeau",
+    /*15*/  "zeroposition",
+    /*16*/  "LaTeX",
+    /*17*/  "PiecesLaTeX",
+    /*18*/  "prix",
+    /*19*/  "PositionInitialPartie",
+    /*20*/  "Forsyth"
   },
   { /* Deutsch */
     /* 0*/  "AnfangProblem",
@@ -67,16 +66,15 @@ char const *TokenString[LanguageCount][TokenCount] =
     /* 9*/  "Option",
     /*10*/  "Bemerkung",
     /*11*/  "Protokoll",
-    /*12*/  "Eingabe",
-    /*13*/  Sep,
-    /*14*/  "Titel",
-    /*15*/  "Zwilling",
-    /*16*/  "NullStellung",
-    /*17*/  "LaTeX",
-    /*18*/  "LaTeXSteine",
-    /*19*/  "Auszeichnung",
-    /*20*/  "PartieAnfangsStellung",
-    /*21*/  "Forsyth"
+    /*12*/  Sep,
+    /*13*/  "Titel",
+    /*14*/  "Zwilling",
+    /*15*/  "NullStellung",
+    /*16*/  "LaTeX",
+    /*17*/  "LaTeXSteine",
+    /*18*/  "Auszeichnung",
+    /*19*/  "PartieAnfangsStellung",
+    /*20*/  "Forsyth"
   },
   { /* english */
     /* 0*/  "beginproblem",
@@ -91,35 +89,43 @@ char const *TokenString[LanguageCount][TokenCount] =
     /* 9*/  "option",
     /*10*/  "remark",
     /*11*/  "protocol",
-    /*12*/  "input",
-    /*13*/  Sep,
-    /*14*/  "title",
-    /*15*/  "twin",
-    /*16*/  "zeroposition",
-    /*17*/  "LaTeX",
-    /*18*/  "LaTeXPieces",
-    /*19*/  "award",
-    /*20*/  "InitialGameArray",
-    /*21*/  "Forsyth"
+    /*12*/  Sep,
+    /*13*/  "title",
+    /*14*/  "twin",
+    /*15*/  "zeroposition",
+    /*16*/  "LaTeX",
+    /*17*/  "LaTeXPieces",
+    /*18*/  "award",
+    /*19*/  "InitialGameArray",
+    /*20*/  "Forsyth"
   }
 };
 
-/* advance LastChar to the next1 input character */
-void NextChar(void)
+static FILE *Input;
+
+char InputLine[LINESIZE];    /* This array contains the input as is */
+
+static char LineSpaceChar[] = " \t;.,";
+
+void OpenInput(char const *s)
 {
-  static boolean eof = false;
-  int const ch = getc(InputStack[NestLevel]);
-  if (ch==-1)
-  {
-    if (eof)
-    {
-      if (PopInput()<0)
-        FtlMsg(EoFbeforeEoP);
-      NextChar();
-    }
-    eof = true;
+  Input = fopen(s,"r");
+  if(Input==NULL)
+    Input = stdin;
+}
+
+void CloseInput(void)
+{
+  if(Input!=stdin)
+    fclose(Input);
+}
+
+/* advance LastChar to the next1 input character */
+static void NextChar(void)
+{
+  int const ch = getc(Input);
+  if (ch==EOF)
     LastChar= ' ';
-  }
   else
     LastChar = ch;
 }
@@ -253,4 +259,40 @@ unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char con
 Token StringToToken(char const *tok)
 {
   return GetUniqIndex(TokenCount,TokenTab,tok);
+}
+
+/* read into InputLine until the next1 end of line */
+void ReadToEndOfLine(void)
+{
+  char *p = InputLine;
+
+  do
+  {
+    NextChar();
+  } while (strchr(LineSpaceChar,LastChar));
+
+  while (LastChar!='\n')
+  {
+    *p++ = LastChar;
+    NextChar();
+  }
+
+  if (p >= (InputLine + sizeof(InputLine)))
+    FtlMsg(InpLineOverflow);
+
+  *p = '\0';
+}
+
+void ReadRemark(void)
+{
+  if (LastChar != '\n')
+  {
+    ReadToEndOfLine();
+    if (TraceFile!=NULL)
+    {
+      fputs(InputLine, TraceFile);
+      fflush(TraceFile);
+    }
+    Message(NewLine);
+  }
 }

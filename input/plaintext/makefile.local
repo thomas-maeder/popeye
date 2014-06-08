@@ -1,10 +1,10 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = token.c pieces.c line.c input_stack.c twin.c \
+SRC_CFILES = token.c pieces.c twin.c \
              stipulation.c sstipulation.c goal.c condition.c option.c \
              problem.c language.c
 
-INCLUDES = token.h pieces.h line.h input_stack.h twin.h \
+INCLUDES = token.h pieces.h twin.h \
            stipulation.h sstipulation.h goal.h condition.h option.h \
            problem.h language.h
 

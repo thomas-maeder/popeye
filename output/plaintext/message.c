@@ -13,7 +13,6 @@
 #define PYMSG
 
 #include "output/plaintext/message.h"
-#include "input/plaintext/line.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
