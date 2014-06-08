@@ -3,6 +3,8 @@
 
 #include "input/plaintext/language.h"
 
+#include <stdio.h>
+
 typedef enum
 {
   BeginProblem,     /* 0 */
@@ -57,5 +59,9 @@ Token StringToToken(char const *tok);
 void ReadToEndOfLine(void);
 
 void ReadRemark(void);
+
+fpos_t InputGetPosition(void);
+void InputStartReplay(fpos_t pos);
+void InputEndReplay(void);
 
 #endif

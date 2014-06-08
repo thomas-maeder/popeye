@@ -102,6 +102,10 @@ char const *TokenString[LanguageCount][TokenCount] =
 };
 
 static FILE *Input;
+static FILE *InputOriginal;
+
+static FILE *InputMirror;
+static fpos_t mirrorEnd;
 
 char InputLine[LINESIZE];    /* This array contains the input as is */
 
@@ -112,12 +116,16 @@ void OpenInput(char const *s)
   Input = fopen(s,"r");
   if(Input==NULL)
     Input = stdin;
+
+  InputOriginal = Input;
+
+  InputMirror = tmpfile();
 }
 
 void CloseInput(void)
 {
-  if(Input!=stdin)
-    fclose(Input);
+  fclose(Input);
+  fclose(InputMirror);
 }
 
 /* advance LastChar to the next1 input character */
@@ -127,7 +135,32 @@ static void NextChar(void)
   if (ch==EOF)
     LastChar= ' ';
   else
+  {
     LastChar = ch;
+    if (InputMirror!=Input)
+      fputc(ch,InputMirror);
+  }
+}
+
+fpos_t InputGetPosition(void)
+{
+  fpos_t result;
+  fgetpos(InputMirror,&result);
+  return result;
+}
+
+void InputStartReplay(fpos_t pos)
+{
+  Input = InputMirror;
+  fgetpos(InputMirror,&mirrorEnd);
+  fsetpos(Input,&pos);
+}
+
+void InputEndReplay(void)
+{
+
+  Input = InputOriginal;
+  fsetpos(InputMirror,&mirrorEnd);
 }
 
 char *ReadNextCaseSensitiveTokStr(void)
