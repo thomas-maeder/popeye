@@ -468,10 +468,14 @@ static char *ParseTwinning(slice_index root_slice_hook)
         tok = ParsePieces(piece_addition_twinning);
         break;
       case TwinningCond:
+      {
+        fpos_t const beforeCond = InputGetPosition();
         InitCond();
         tok = ParseCond();
+        move_effect_journal_do_remember_condition(beforeCond);
         WriteConditions(&WriteConditionTwinning);
         break;
+      }
       case TwinningRemove:
         tok = ParseTwinningRemove();
         break;
@@ -674,8 +678,12 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         case CondToken:
+        {
+          fpos_t const beforeCond = InputGetPosition();
           tok = ParseCond();
+          move_effect_journal_do_remember_condition(beforeCond);
           break;
+        }
 
         case OptToken:
           tok = ParseOpt(root_slice_hook);

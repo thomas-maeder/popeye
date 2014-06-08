@@ -1431,7 +1431,7 @@ c) wBa8
 
 
   add_to_move_generation_stack:          24
-                     play_move:          28
+                     play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solving interrupted. 

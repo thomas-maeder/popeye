@@ -1027,10 +1027,9 @@ static char *ParseVaultingPieces(Side side)
 
 char *ParseCond(void)
 {
-  char    *tok, *ptr;
+  char *tok = ReadNextTokStr();
   unsigned int CondCnt = 0;
 
-  tok = ReadNextTokStr();
   while (true)
   {
     Cond const indexx = GetUniqIndex(CondCount,CondTab,tok);
@@ -1675,6 +1674,8 @@ char *ParseCond(void)
         break;
       case SAT:
       case strictSAT:
+      {
+        char *ptr;
         tok = ReadNextTokStr();
         SAT_max_nr_allowed_flights[White] = strtoul(tok,&ptr,10) + 1;
         if (tok == ptr) {
@@ -1687,7 +1688,10 @@ char *ParseCond(void)
         if (tok == ptr)
           SAT_max_nr_allowed_flights[Black]= SAT_max_nr_allowed_flights[White];
         break;
+      }
       case BGL:
+      {
+        char *ptr;
         BGL_global= false;
         tok = ReadNextTokStr();
         BGL_values[White] = ReadBGLNumber(tok,&ptr);
@@ -1710,6 +1714,7 @@ char *ParseCond(void)
         }
         tok = ReadNextTokStr();
         break;
+      }
       case geneva:
         tok = ParseCirceVariants(&geneva_variant);
         break;

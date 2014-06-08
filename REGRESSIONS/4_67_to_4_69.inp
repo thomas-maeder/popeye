@@ -8,5 +8,26 @@ condition isardam
 stipulation zg21
 twin condition isardam rexincl
 
+next
+
+title Until 4.67, Popeye didn't restore to "no condition" for twin d)
+pieces white bh1 black pg2
+stip ~1
+option nowk nobk
+twin condition circe
+twin cont add white kh1
+twin add white kh1
+
+next
+
+title Until 4.67, Popeye didn't restore the initial condition for twin d)
+pieces white bh1 black pg2
+stip ~1
+condition anticirce
+option nowk nobk
+twin condition circe
+twin cont add white kh1
+twin add white kh1
+
 end
 

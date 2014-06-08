@@ -100,7 +100,9 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  position/underworld.h conditions/sat.h conditions/circe/parachute.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/neutral/half.h solving/pipe.h debugging/assert.h
+ pieces/attributes/neutral/half.h solving/pipe.h debugging/assert.h \
+ input/plaintext/condition.h input/plaintext/token.h \
+ input/plaintext/language.h
 
 solving/move_effect_journal.h:
 
@@ -179,6 +181,12 @@ pieces/attributes/neutral/half.h:
 solving/pipe.h:
 
 debugging/assert.h:
+
+input/plaintext/condition.h:
+
+input/plaintext/token.h:
+
+input/plaintext/language.h:
 solving/find_shortest$(OBJ_SUFFIX): solving/find_shortest.c solving/find_shortest.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -2320,7 +2328,7 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
  pieces/attributes/neutral/neutral.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h options/options.h \
  input/plaintext/twin.h input/plaintext/token.h \
- input/plaintext/language.h input/plaintext/line.h conditions/mummer.h \
+ input/plaintext/language.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/sentinelles.h \
  output/plaintext/message.h output/plaintext/pieces.h
 
@@ -2465,8 +2473,6 @@ input/plaintext/twin.h:
 input/plaintext/token.h:
 
 input/plaintext/language.h:
-
-input/plaintext/line.h:
 
 conditions/mummer.h:
 
