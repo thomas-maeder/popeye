@@ -51,7 +51,14 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-twin_number_type twin_number;
+/* Sequence number of the current twin.
+ * Mainly used for boolean twin-related flags: flag==twin_number means true,
+ * and everything else means false. This allows us to not reset the flag at the
+ * beginning (or end) of a twin.
+ * We start at 1 so that all these flags (initialised with 0) are initially
+ * false.
+ */
+twin_number_type twin_number = 1;
 
 boolean twin_is_continued = false;
 

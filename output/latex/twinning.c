@@ -283,86 +283,89 @@ void LaTeXWriteTwinning(void)
 
     assert(base<=top);
 
-    if (twin_is_continued)
-      strcat(twinning, "+");
-
-    LaTeXBeginTwinning(TwinNumber);
-
-    for (curr = base; curr!=top; ++curr)
+    if (base<top)
     {
-      if (written_on_last_entry)
-      {
-        strcat(twinning, ", ");
-        written_on_last_entry = false;
-      }
+      if (twin_is_continued)
+        strcat(twinning, "+");
 
-      switch (move_effect_journal[curr].type)
-      {
-        case move_effect_piece_creation:
-          WritePieceCreation(curr);
-          written_on_last_entry = true;
-          break;
+      LaTeXBeginTwinning(TwinNumber);
 
-        case move_effect_piece_removal:
-          if (WritePieceRemoval(curr))
+      for (curr = base; curr!=top; ++curr)
+      {
+        if (written_on_last_entry)
+        {
+          strcat(twinning, ", ");
+          written_on_last_entry = false;
+        }
+
+        switch (move_effect_journal[curr].type)
+        {
+          case move_effect_piece_creation:
+            WritePieceCreation(curr);
             written_on_last_entry = true;
-          break;
+            break;
 
-        case move_effect_piece_movement:
-          WritePieceMovement(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_piece_removal:
+            if (WritePieceRemoval(curr))
+              written_on_last_entry = true;
+            break;
 
-        case move_effect_piece_exchange:
-          WritePieceExchange(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_piece_movement:
+            WritePieceMovement(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_board_transformation:
-          WriteBoardTransformation(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_piece_exchange:
+            WritePieceExchange(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_twinning_shift:
-          WriteShift(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_board_transformation:
+            WriteBoardTransformation(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_input_condition:
-          WriteConditions(&WriteCondition);
-          written_on_last_entry = true;
-          break;
+          case move_effect_twinning_shift:
+            WriteShift(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_input_stipulation:
-        case move_effect_input_sstipulation:
-          WriteStipulation(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_input_condition:
+            WriteConditions(&WriteCondition);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_twinning_polish:
-          WritePolish(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_input_stipulation:
+          case move_effect_input_sstipulation:
+            WriteStipulation(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_twinning_substitute:
-          WriteSubstitute(curr);
-          written_on_last_entry = true;
-          break;
+          case move_effect_twinning_polish:
+            WritePolish(curr);
+            written_on_last_entry = true;
+            break;
 
-        case move_effect_king_square_movement:
-          /* the search for royals leaves its traces in the twinning ply */
-        case move_effect_remember_volcanic:
-          /* Forsberg twinning */
-          break;
+          case move_effect_twinning_substitute:
+            WriteSubstitute(curr);
+            written_on_last_entry = true;
+            break;
 
-        default:
-          assert(0);
-          break;
+          case move_effect_king_square_movement:
+            /* the search for royals leaves its traces in the twinning ply */
+          case move_effect_remember_volcanic:
+            /* Forsberg twinning */
+            break;
+
+          default:
+            assert(0);
+            break;
+        }
       }
+
+      LaTeXEndTwinning();
+
+      last_horizon = top;
     }
-
-    LaTeXEndTwinning();
-
-    last_horizon = top;
   }
 }

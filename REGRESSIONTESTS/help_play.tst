@@ -393,7 +393,7 @@ a)
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) hs#2
+b) hs#2  
 PostKeyPlay not applicable - ignored
 
 
