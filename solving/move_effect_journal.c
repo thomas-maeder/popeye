@@ -1141,17 +1141,18 @@ static void undo_twinning_substitute(move_effect_journal_entry_type const *entry
   TraceFunctionResultEnd();
 }
 
-static void do_shift(int diffrank, int diffcol)
+static void do_shift(square from, square to)
 {
   echiquier board = { 0 };
   Flags spec[maxsquare+5] = { 0 };
+  int const vector = to-from;
 
   square const *bnp;
 
   for (bnp = boardnum; *bnp; bnp++)
     if (!is_square_empty(*bnp))
     {
-      square const to = *bnp + onerow*diffrank + diffcol;
+      square const to = *bnp + vector;
       board[to] = being_solved.board[*bnp];
       spec[to] = being_solved.spec[*bnp];
       being_solved.board[*bnp] = Empty;
@@ -1168,17 +1169,17 @@ static void do_shift(int diffrank, int diffcol)
 
 /* Execute a twinning that shifts the entire position
  */
-void move_effect_journal_do_twinning_shift(int diffrank, int diffcol)
+void move_effect_journal_do_twinning_shift(square from, square to)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_twinning_shift,move_effect_reason_twinning);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  entry->u.twinning_shift.diffrank = diffrank;
-  entry->u.twinning_shift.diffcol = diffcol;
+  entry->u.twinning_shift.from = from;
+  entry->u.twinning_shift.to = to;
 
-  do_shift(diffrank,diffcol);
+  do_shift(from,to);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1186,13 +1187,10 @@ void move_effect_journal_do_twinning_shift(int diffrank, int diffcol)
 
 static void undo_twinning_shift(move_effect_journal_entry_type const *entry)
 {
-  int const diffrank = entry->u.twinning_shift.diffrank;
-  int const diffcol = entry->u.twinning_shift.diffcol;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  do_shift(-diffrank,-diffcol);
+  do_shift(entry->u.twinning_shift.to,entry->u.twinning_shift.from);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

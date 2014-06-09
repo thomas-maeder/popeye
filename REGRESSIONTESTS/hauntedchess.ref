@@ -95,7 +95,7 @@ a)
                      play_move:      390884
  is_white_king_square_attacked:      173569
  is_black_king_square_attacked:      362317
-b)  -wBe3  +wRe3 
+b) wRe3  
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 =
 

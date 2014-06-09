@@ -2,13 +2,14 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  position/position.h position/board.h utilities/bitmask.h position/side.h \
  position/side.enum.h position/color.h position/color.enum.h \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- output/output.h output/mode.h output/mode.enum.h \
- stipulation/stipulation.h stipulation/goals/goals.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h \
- output/plaintext/plaintext.h output/plaintext/language_dependant.h \
- conditions/conditions.h options/options.h input/plaintext/twin.h \
- input/plaintext/token.h input/plaintext/language.h conditions/mummer.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ input/plaintext/twin.h stipulation/stipulation.h \
+ stipulation/goals/goals.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h output/mode.h output/mode.enum.h \
+ input/plaintext/token.h input/plaintext/language.h \
+ output/latex/twinning.h output/output.h output/plaintext/plaintext.h \
+ output/plaintext/language_dependant.h conditions/conditions.h \
+ options/options.h conditions/mummer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -22,7 +23,8 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/plaintext/pieces.h \
- input/plaintext/problem.h input/plaintext/pieces.h \
+ output/plaintext/condition.h input/plaintext/problem.h \
+ input/plaintext/pieces.h input/plaintext/stipulation.h \
  options/maxsolutions/maxsolutions.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
@@ -51,11 +53,7 @@ utilities/boolean.h:
 
 pieces/walks/vectors.h:
 
-output/output.h:
-
-output/mode.h:
-
-output/mode.enum.h:
+input/plaintext/twin.h:
 
 stipulation/stipulation.h:
 
@@ -65,6 +63,18 @@ stipulation/slice_type.h:
 
 stipulation/slice_type.enum.h:
 
+output/mode.h:
+
+output/mode.enum.h:
+
+input/plaintext/token.h:
+
+input/plaintext/language.h:
+
+output/latex/twinning.h:
+
+output/output.h:
+
 output/plaintext/plaintext.h:
 
 output/plaintext/language_dependant.h:
@@ -72,12 +82,6 @@ output/plaintext/language_dependant.h:
 conditions/conditions.h:
 
 options/options.h:
-
-input/plaintext/twin.h:
-
-input/plaintext/token.h:
-
-input/plaintext/language.h:
 
 conditions/mummer.h:
 
@@ -135,9 +139,13 @@ output/plaintext/message.h:
 
 output/plaintext/pieces.h:
 
+output/plaintext/condition.h:
+
 input/plaintext/problem.h:
 
 input/plaintext/pieces.h:
+
+input/plaintext/stipulation.h:
 
 options/maxsolutions/maxsolutions.h:
 
@@ -152,5 +160,148 @@ pieces/attributes/neutral/neutral.h:
 conditions/grid.h:
 
 platform/maxtime.h:
+
+debugging/assert.h:
+output/latex/twinning$(OBJ_SUFFIX): output/latex/twinning.c output/latex/twinning.h \
+ output/latex/latex.h position/position.h position/board.h \
+ utilities/bitmask.h position/side.h position/side.enum.h \
+ position/color.h position/color.enum.h pieces/pieces.h \
+ utilities/boolean.h pieces/walks/vectors.h input/plaintext/twin.h \
+ stipulation/stipulation.h stipulation/goals/goals.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h output/mode.h \
+ output/mode.enum.h input/plaintext/token.h input/plaintext/language.h \
+ output/output.h output/plaintext/plaintext.h \
+ output/plaintext/language_dependant.h conditions/conditions.h \
+ options/options.h conditions/mummer.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ conditions/anticirce/anticirce.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_insertion.h solving/move_effect_journal.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
+ solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h conditions/sentinelles.h \
+ output/plaintext/message.h output/plaintext/pieces.h \
+ output/plaintext/condition.h input/plaintext/stipulation.h \
+ pieces/attributes/neutral/neutral.h debugging/assert.h
+
+output/latex/twinning.h:
+
+output/latex/latex.h:
+
+position/position.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+pieces/walks/vectors.h:
+
+input/plaintext/twin.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+input/plaintext/token.h:
+
+input/plaintext/language.h:
+
+output/output.h:
+
+output/plaintext/plaintext.h:
+
+output/plaintext/language_dependant.h:
+
+conditions/conditions.h:
+
+options/options.h:
+
+conditions/mummer.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+conditions/anticirce/anticirce.h:
+
+conditions/circe/circe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/traversal.h:
+
+stipulation/slice_insertion.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
+
+solving/machinery/twin.h:
+
+conditions/circe/rebirth_square_occupied.h:
+
+conditions/circe/reborn_piece.h:
+
+conditions/circe/rebirth_square.h:
+
+conditions/circe/relevant_capture.h:
+
+conditions/circe/relevant_piece.h:
+
+conditions/circe/relevant_side.h:
+
+conditions/sentinelles.h:
+
+output/plaintext/message.h:
+
+output/plaintext/pieces.h:
+
+output/plaintext/condition.h:
+
+input/plaintext/stipulation.h:
+
+pieces/attributes/neutral/neutral.h:
 
 debugging/assert.h:

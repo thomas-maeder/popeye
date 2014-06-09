@@ -13,10 +13,13 @@ typedef unsigned long twin_number_type;
  */
 extern twin_number_type twin_number;
 
+/* is the current twin a continued twin? */
+extern boolean twin_is_continued;
+
 /* Validate whether shifting the entire position would move >=1 piece off board
  * @return true iff it doesn't
  */
-boolean twin_twinning_shift_validate(int diffrank, int diffcol);
+boolean twin_twinning_shift_validate(square from, square to);
 
 /* Solve the stipulation
  * @param stipulation_root_hook identifies the root slice of the stipulation

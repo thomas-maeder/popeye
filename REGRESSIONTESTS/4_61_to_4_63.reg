@@ -129,7 +129,7 @@ recent Popeye versions allowed promotion to grasshopper in b
 
 zeroposition
 
-a) Q ==> G
+a) Q ==> G  
 both sides need a king
 
    1.a7-a8=Q !
@@ -147,7 +147,7 @@ both sides need a king
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) Q ==> CA
+b) Q ==> CA  
 both sides need a king
 
    1.a7-a8=Q !
@@ -283,7 +283,7 @@ a)
                      play_move:     2145718
  is_white_king_square_attacked:      185502
  is_black_king_square_attacked:     2119549
-b) bBe8-->h8
+b) bBe8-->h8  
 
   1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
   1.Bh8-f6 + Ke7-e6   2.Kh7-h6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
@@ -367,7 +367,8 @@ a)
                      play_move:         139
  is_white_king_square_attacked:          25
  is_black_king_square_attacked:         144
-b) wuSa3-->g5Dit is een grote test
+Dit is een grote test
+b) wuSa3-->g5  
 
    1.uSg5-e6 ! threat:
           2.uSe6-c7 #
@@ -412,7 +413,7 @@ a)
                      play_move:          23
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          20
-b) +wSa8 
+b) +wSa8  
 
   1...Rh3-a3 #
 
@@ -1412,7 +1413,7 @@ a)
                      play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) SingleBox    Type2
+b) SingleBox    Type2  
 
    1.Qb1-h7 !
 
@@ -1423,7 +1424,7 @@ b) SingleBox    Type2
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-c) wBa8 
+c) wBa8  
 
    1.Qb1-h7 !
 

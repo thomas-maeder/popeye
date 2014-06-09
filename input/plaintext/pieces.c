@@ -66,19 +66,6 @@ static void signal_overwritten_square(square Square)
   Message(OverwritePiece);
 }
 
-static void echo_added_piece(Flags Spec, piece_walk_type Name, square Square)
-{
-  LaTeXEchoAddedPiece(Spec,Name,Square);
-
-  if (is_square_empty(Square))
-    StdChar('+');
-
-  WriteSpec(Spec,Name, Name!=Empty);
-  WritePiece(Name);
-  WriteSquare(Square);
-  StdChar(' ');
-}
-
 static char *ParseSquareList(char *tok,
                              piece_walk_type Name,
                              Flags Spec,
@@ -94,9 +81,6 @@ static char *ParseSquareList(char *tok,
     square const Square = SquareNum(tok[0],tok[1]);
     if (tok[0]!=0 && tok[1]!=0 && Square!=initsquare)
     {
-      if (type==piece_addition_twinning)
-        echo_added_piece(Spec,Name,Square);
-
       if (!is_square_empty(Square))
       {
         if (type==piece_addition_initial)

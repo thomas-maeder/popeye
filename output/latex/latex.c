@@ -1,15 +1,16 @@
 #include "output/latex/latex.h"
+#include "output/latex/twinning.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/pieces.h"
+#include "output/plaintext/condition.h"
 #include "input/plaintext/problem.h"
 #include "input/plaintext/pieces.h"
 #include "input/plaintext/token.h"
-#include "input/plaintext/token.h"
 #include "input/plaintext/language.h"
-#include "options/options.h"
+#include "input/plaintext/stipulation.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
@@ -28,114 +29,27 @@ boolean LaTeXout;
 
 static char filename[LINESIZE];    /* This array contains the input as is */
 
-static char twinning[1532];
-
-static FILE *LaTeXFile;
+FILE *LaTeXFile;
 FILE *TextualSolutionBuffer;
 
-static    char *LaTeXPiecesAbbr[nr_piece_walks];
-static    char *LaTeXPiecesFull[nr_piece_walks];
+static char *LaTeXPiecesAbbr[nr_piece_walks];
+static char *LaTeXPiecesFull[nr_piece_walks];
 char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
 
 static char const CharChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-static char *LaTeXPiece(piece_walk_type Name)
+char *LaTeXWalk(piece_walk_type walk)
 {
-  if (Name > Bishop) {
-    if (LaTeXPiecesAbbr[Name] == NULL) {
+  if (walk > Bishop)
+  {
+    if (LaTeXPiecesAbbr[walk] == NULL)
+    {
       ErrorMsg(UndefLatexPiece);
       return "??";
     } else
-      return LaTeXPiecesAbbr[Name];
+      return LaTeXPiecesAbbr[walk];
   } else
-    return LaTeXStdPie[Name];
-} /* LaTeXPiece */
-
-void LaTeXEchoAddedPiece(Flags Spec, piece_walk_type Name, square Square)
-{
-  if (LaTeXFile!=0)
-  {
-    sprintf(GlobalStr,
-            "%s\\%c%s %c%c",
-            is_square_empty(Square) ? "+" : "",
-            is_piece_neutral(Spec) ? 'n' : (TSTFLAG(Spec, White) ? 'w' : 's'),
-            LaTeXPiece(Name),
-            'a'-nr_of_slack_files_left_of_board+Square%onerow,
-            '1'-nr_of_slack_rows_below_board+Square/onerow);
-    strcat(twinning, GlobalStr);
-  }
-}
-
-void LaTeXEchoRemovedPiece(Flags Spec, piece_walk_type Name, square Square)
-{
-  if (LaTeXFile!=0)
-  {
-    strcat(twinning, " --");
-    strcat(twinning,
-           is_piece_neutral(Spec) ? "\\n" : (TSTFLAG(Spec, White) ? "\\w" : "\\s"));
-    strcat(twinning,LaTeXPiece(Name));
-    sprintf(GlobalStr, " %c%c",
-            'a'-nr_files_on_board+Square%onerow,
-            '1'-nr_rows_on_board+Square/onerow);
-    strcat(twinning,GlobalStr);
-  }
-}
-
-void LaTeXEchoMovedPiece(Flags Spec, piece_walk_type Name, square FromSquare, square ToSquare)
-{
-  if (LaTeXFile!=0)
-  {
-    sprintf(GlobalStr,
-            "\\%c%s %c%c",
-            is_piece_neutral(Spec) ? 'n' : (TSTFLAG(Spec, White) ? 'w' : 's'),
-            LaTeXPiece(Name),
-            'a'-nr_of_slack_files_left_of_board+FromSquare%onerow,
-            '1'-nr_of_slack_rows_below_board+FromSquare/onerow);
-    strcat(twinning, GlobalStr);
-
-    strcat(twinning, "{\\ra}");
-
-    sprintf(GlobalStr, "%c%c",
-            'a'-nr_files_on_board+ToSquare%onerow,
-            '1'-nr_rows_on_board+ToSquare/onerow);
-    strcat(twinning, GlobalStr);
-  }
-}
-
-void LaTeXEchoExchangedPiece(Flags Spec1, piece_walk_type Name1, square Square1,
-                             Flags Spec2, piece_walk_type Name2, square Square2)
-{
-  if (LaTeXFile!=0)
-  {
-    sprintf(GlobalStr,
-            "\\%c%s %c%c",
-            is_piece_neutral(Spec1) ? 'n' : (TSTFLAG(Spec1, White) ? 'w' : 's'),
-            LaTeXPiece(Name1),
-            'a'-nr_of_slack_files_left_of_board+Square1%onerow,
-            '1'-nr_of_slack_rows_below_board+Square1/onerow);
-    strcat(twinning, GlobalStr);
-
-    strcat(twinning, "{\\lra}");
-
-    sprintf(GlobalStr, "\\%c%s ",
-            is_piece_neutral(Spec2) ? 'n' : (TSTFLAG(Spec2, White) ? 'w' : 's'),
-            LaTeXPiece(Name2));
-    strcat(twinning, GlobalStr);
-    sprintf(GlobalStr, "%c%c",
-            'a'-nr_files_on_board+Square2%onerow,
-            '1'-nr_rows_on_board+Square2/onerow);
-    strcat(twinning, GlobalStr);
-  }
-}
-
-void LaTeXEchoSubstitutedPiece(piece_walk_type from, piece_walk_type to)
-{
-  if (LaTeXFile!=0)
-  {
-    sprintf(GlobalStr,"{\\w%s} $\\Rightarrow$ \\w%s",
-            LaTeXPiece(from),LaTeXPiece(to));
-    strcat(twinning,GlobalStr);
-  }
+    return LaTeXStdPie[walk];
 }
 
 char *ParseLaTeXPieces(char *tok)
@@ -196,7 +110,7 @@ char *ParseLaTeXPieces(char *tok)
   return tok;
 }
 
-static void LaTeXStr(char const *line)
+void LaTeXStr(char const *line)
 {
   while (*line) {
     switch (*line) {
@@ -234,6 +148,15 @@ static void LaTeXStr(char const *line)
         fprintf(LaTeXFile, "{\\ra}");
         line++;
       } else {  /* ordinary minus */
+        fprintf(LaTeXFile, "%c", *line);
+      }
+      break;
+    case '<':
+      if (*(line+1)=='-' && *(line+2)=='-' && *(line+3)=='>')   /* convert -> to \lra  */
+      {
+        fprintf(LaTeXFile, "{\\lra}");
+        line += 3;
+      } else {  /* ordinary less than */
         fprintf(LaTeXFile, "%c", *line);
       }
       break;
@@ -333,23 +256,6 @@ void LaTexCloseSolutionBuffer(void)
   {
     fclose(TextualSolutionBuffer);
     TextualSolutionBuffer = NULL;
-  }
-}
-
-void LaTeXFlushTwinning(void)
-{
-  if (LaTeXFile!=0)
-  {
-    if (twinning[0]!='\0')
-    {
-      fprintf(LaTeXFile, " \\twins{");
-      /* remove the last "{\\newline} */
-      twinning[strlen(twinning)-10]= '\0';
-      LaTeXStr(twinning);
-      fprintf(LaTeXFile, "}%%\n");
-
-      twinning[0] = 0;
-    }
   }
 }
 
@@ -613,25 +519,6 @@ static void WriteDedication(void)
   }
 }
 
-static void WriteOptions(void)
-{
-  if (OptFlag[duplex])
-  {
-    strcat(twinning, OptTab[duplex]);
-    strcat(twinning, "{\\newline}");
-  }
-  else if (OptFlag[halfduplex])
-  {
-    strcat(twinning, OptTab[halfduplex]);
-    strcat(twinning, "{\\newline}");
-  }
-  if (OptFlag[quodlibet])
-  {
-    strcat(twinning, OptTab[quodlibet]);
-    strcat(twinning, "{\\newline}");
-  }
-}
-
 static void WritePieces(void)
 {
   square const *bnp;
@@ -652,7 +539,7 @@ static void WritePieces(void)
 
       fprintf(LaTeXFile,"%c%s%c%c",
               is_piece_neutral(being_solved.spec[*bnp]) ? 'n' : TSTFLAG(being_solved.spec[*bnp],White) ? 'w' : 's',
-              LaTeXPiece(p),
+              LaTeXWalk(p),
               *bnp%onerow-200%onerow+'a',
               *bnp/onerow-200/onerow+'1');
     }
@@ -1001,7 +888,7 @@ void LaTeXBeginDiagram(void)
     WriteSource();
     WriteAward();
     WriteDedication();
-    WriteOptions();
+    LaTeXWriteOptions();
     WritePieces();
     WriteFairyPieces();
     WriteStipulation();
@@ -1011,99 +898,5 @@ void LaTeXBeginDiagram(void)
       fprintf(LaTeXFile, "}%%\n");
 
     WriteSquareFrames();
-  }
-}
-
-void LaTeXBeginTwinning(unsigned int TwinNumber)
-{
-  if (LaTeXFile!=0)
-  {
-    if (TwinNumber-1<='z'-'a')
-      sprintf(GlobalStr, "%c) ", 'a'+TwinNumber-1);
-    else
-      sprintf(GlobalStr, "z%u) ", (unsigned int)(TwinNumber-1-('z'-'a')));
-
-    strcat(twinning,GlobalStr);
-  }
-}
-
-void LaTeXEndTwinning(void)
-{
-  if (LaTeXFile!=0)
-    strcat(twinning,"{\\newline}");
-}
-
-void LaTeXNextTwinning(void)
-{
-  if (LaTeXFile!=0)
-    strcat(twinning, ", ");
-}
-
-void LaTeXContinuedTwinning(void)
-{
-  if (LaTeXFile!=0)
-    strcat(twinning, "+");
-}
-
-void LaTeXTwinningRotate(char const text[])
-{
-  if (LaTeXFile!=0)
-  {
-    sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], text);
-    strcat(twinning, GlobalStr);
-  }
-}
-
-void LaTeXTwinningFirstCondition(char const text[])
-{
-  if (LaTeXFile!=0)
-    strcat(twinning,text);
-}
-
-void LaTeXTwinningNextCondition(char const text[])
-{
-  if (LaTeXFile!=0)
-  {
-    strcat(twinning, ", ");
-    strcat(twinning,text);
-  }
-}
-
-void LaTeXTwinningShift(square From, square To)
-{
-  if (LaTeXFile!=0)
-  {
-    sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
-            TwinningTab[TwinningShift],
-            'a'-nr_files_on_board+From%onerow,
-            '1'-nr_rows_on_board+From/onerow,
-            'a'-nr_files_on_board+To%onerow,
-            '1'-nr_rows_on_board+To/onerow);
-    strcat(twinning, GlobalStr);
-  }
-}
-
-void LaTeXTwinningPolish(void)
-{
-  if (LaTeXFile!=0)
-    strcat(twinning, TwinningTab[TwinningPolish]);
-}
-
-void LaTeXTwinningStipulation(char const text[])
-{
-  if (LaTeXFile!=0)
-  {
-    strcat(twinning, text);
-    if (OptFlag[solapparent]) {
-      strcat(twinning, "*");
-    }
-
-    if (OptFlag[whitetoplay])
-    {
-      char temp[10];        /* increased due to buffer overflow */
-      sprintf(temp, " %c{\\ra}",
-              tolower(*PieSpString[UserLanguage][White]));
-      strcat(twinning, temp);
-    }
   }
 }

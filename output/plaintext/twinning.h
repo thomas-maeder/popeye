@@ -3,4 +3,6 @@
 
 void WriteTwinNumber(unsigned int TwinNumber);
 
+void WriteTwinning(void);
+
 #endif

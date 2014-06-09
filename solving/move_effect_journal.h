@@ -236,8 +236,8 @@ typedef struct
         } input_complex;
         struct
         {
-            int diffrank;
-            int diffcol;
+            square from;
+            square to;
         } twinning_shift;
     } u;
 #if defined(DOTRACE)
@@ -431,7 +431,7 @@ void move_effect_journal_do_remember_sstipulation(slice_index root_slice_hook,
 
 /* Execute a twinning that shifts the entire position
  */
-void move_effect_journal_do_twinning_shift(int diffrank, int diffcol);
+void move_effect_journal_do_twinning_shift(square from, square to);
 
 /* Follow the captured or a moved piece through the "other" effects of a move
  * @param ply ply in which the move was played

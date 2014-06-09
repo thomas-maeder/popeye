@@ -53,6 +53,8 @@
 
 twin_number_type twin_number;
 
+boolean twin_is_continued = false;
+
 static void initialise_piece_walk_caches(void)
 {
   piece_walk_type p;
@@ -1776,31 +1778,14 @@ void twin_solve_stipulation(slice_index stipulation_root_hook)
 /* Validate whether shifting the entire position would move >=1 piece off board
  * @return true iff it doesn't
  */
-boolean twin_twinning_shift_validate(int diffrank, int diffcol)
+boolean twin_twinning_shift_validate(square from, square to)
 {
-  int minrank = 2*nr_of_slack_rows_below_board + nr_rows_on_board - 1;
-  int maxrank = 0;
-  int mincol = onerow-1;
-  int maxcol = 0;
+  int const vector = to-from;
 
-  {
-    square const *bnp;
-    for (bnp = boardnum; *bnp; bnp++)
-      if (!is_square_empty(*bnp))
-      {
-        if (*bnp/onerow < minrank)
-          minrank = *bnp/onerow;
-        if (*bnp/onerow > maxrank)
-          maxrank = *bnp/onerow;
-        if (*bnp%onerow < mincol)
-          mincol = *bnp%onerow;
-        if (*bnp%onerow > maxcol)
-          maxcol = *bnp%onerow;
-      }
-  }
+  square const *bnp;
+  for (bnp = boardnum; *bnp; bnp++)
+    if (!is_square_empty(*bnp) && is_square_blocked(*bnp+vector))
+      return false;
 
-  return !(maxcol+diffcol>=nr_of_slack_files_left_of_board+nr_files_on_board
-           || mincol+diffcol<nr_of_slack_files_left_of_board
-           || maxrank+diffrank>=nr_of_slack_rows_below_board+nr_rows_on_board
-           || minrank+diffrank<nr_of_slack_rows_below_board);
+  return true;
 }
