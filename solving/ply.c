@@ -22,7 +22,6 @@ static ply ply_stack_pointer;
 void ply_reset(void)
 {
   SET_CURRMOVE(nbply,nil_coup);
-  ply_watermark = nbply;
 }
 
 /* Start a new ply as the child of the current ply, making the child the new
