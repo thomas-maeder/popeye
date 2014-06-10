@@ -444,7 +444,7 @@ a)
                      play_move:       24166
  is_white_king_square_attacked:         969
  is_black_king_square_attacked:       24173
-b) wPe6 
+b) wPe6  
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
           2.mSa3*c4[d6=b] #
@@ -478,7 +478,7 @@ b) wPe6
                      play_move:       24300
  is_white_king_square_attacked:         966
  is_black_king_square_attacked:       24307
-+c) wSg6 
++c) wSg6  
 
    1.mQf4-e3[c5=w][e6=b] ! threat:
           2.mSa3*c4[d6=b] #
@@ -512,7 +512,7 @@ b) wPe6
                      play_move:       24057
  is_white_king_square_attacked:         944
  is_black_king_square_attacked:       24064
-+d) bPe6 
++d) bPe6  
 
    1.mQf4-e3[c5=w][e6=w] ! threat:
           2.mSa3*c4[d6=b] #
@@ -669,7 +669,7 @@ a)
                      play_move:           5
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
-b) wmKa5 
+b) wmKa5  
 
    1.mKa5-b4[+wPa5] !
 
@@ -686,7 +686,6 @@ b) wmKa5
                      play_move:           5
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
-c) nmKa5 
 too much fairy chess for neutral pieces
 problem ignored
 

@@ -232,7 +232,7 @@ enum
  * plaintext line mode output.
  * @param si identifies slice where to start
  */
-void stip_insert_output_plaintext_line_slices(slice_index si)
+void solving_insert_output_plaintext_line_slices(slice_index si)
 {
   stip_structure_traversal st;
 

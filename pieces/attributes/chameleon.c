@@ -27,7 +27,7 @@ static move_effect_journal_index_type horizon;
 
 piece_walk_type chameleon_walk_sequence[nr_piece_walks];
 
-twin_number_type chameleon_is_squence_explicit;
+twin_id_type chameleon_is_squence_explicit;
 
 static void reset_sequence(chameleon_sequence_type* sequence)
 {
@@ -40,14 +40,14 @@ static void reset_sequence(chameleon_sequence_type* sequence)
  * @param captured captured walk
  * @param reborn type of reborn walk if a piece with walk captured is captured
  */
-void chameleon_set_successor_walk_explicit(twin_number_type *is_explicit,
+void chameleon_set_successor_walk_explicit(twin_id_type *is_explicit,
                                            chameleon_sequence_type* sequence,
                                            piece_walk_type from, piece_walk_type to)
 {
-  if (*is_explicit != twin_number)
+  if (*is_explicit != twin_id)
   {
     reset_sequence(sequence);
-    *is_explicit = twin_number;
+    *is_explicit = twin_id;
   }
 
   (*sequence)[from] = to;
@@ -57,14 +57,14 @@ void chameleon_set_successor_walk_explicit(twin_number_type *is_explicit,
  * from the explicit indication
  * @note chameleon_init_sequence_implicit() resets *is_explicit to false
  */
-void chameleon_init_sequence_implicit(twin_number_type *is_explicit,
+void chameleon_init_sequence_implicit(twin_id_type *is_explicit,
                                       chameleon_sequence_type* sequence)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*is_explicit==twin_number);
+  TraceFunctionParam("%u",*is_explicit==twin_id);
   TraceFunctionParamListEnd();
 
-  if (*is_explicit!=twin_number)
+  if (*is_explicit!=twin_id)
   {
     reset_sequence(sequence);
 

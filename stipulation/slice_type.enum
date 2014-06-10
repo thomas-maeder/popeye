@@ -456,8 +456,9 @@
     ENUMERATOR(STImitatorRemoveIllegalMoves),                           \
     ENUMERATOR(STImitatorDetectIllegalMoves),                           \
     ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
-    /* output slices */                                                \
+    /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
+    ENUMERATOR(STOutputPlaintextTwinningWriter),                        \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
@@ -475,7 +476,9 @@
     ENUMERATOR(STOutputPlaintextGoalWriter), /* plain text output, tree mode: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
-    /* square observation tester slices */                             \
+    ENUMERATOR(STOutputLaTeXTwinningWriter),                            \
+    ENUMERATOR(STOutputLaTeXLineLineWriter), /* LaTeX output, line mode: write a line */  \
+    /* square observation tester slices */                              \
     ENUMERATOR(STIsSquareObservedFork),                                 \
     ENUMERATOR(STTestingIfSquareIsObserved),                            \
     ENUMERATOR(STTestingIfSquareIsObservedWithSpecificWalk),            \

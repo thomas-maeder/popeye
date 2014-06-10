@@ -6,6 +6,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "input/plaintext/stipulation.h"
 #include "solving/move_effect_journal.h"
+#include "solving/pipe.h"
 #include "debugging/assert.h"
 
 #include <stdio.h>
@@ -13,12 +14,12 @@
 
 static move_effect_journal_index_type last_horizon;
 
-void WriteTwinNumber(unsigned int TwinNumber)
+static void WriteTwinNumber(void)
 {
-  if (TwinNumber-1<='z'-'a')
-    sprintf(GlobalStr, "%c) ", 'a'+TwinNumber-1);
+  if (twin_number-twin_a<='z'-'a')
+    sprintf(GlobalStr, "%c) ", 'a'+twin_number-twin_a);
   else
-    sprintf(GlobalStr, "z%u) ", (unsigned int)(TwinNumber-1-('z'-'a')));
+    sprintf(GlobalStr, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 
   StdString(GlobalStr);
 }
@@ -203,7 +204,7 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   StdString("  ");
 }
 
-void WriteTwinning(void)
+static void WriteTwinning(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
   move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
@@ -211,72 +212,102 @@ void WriteTwinning(void)
 
   assert(base<=top);
 
-  if (twin_is_continued)
-    StdChar('+');
-
-  WriteTwinNumber(TwinNumber);
-
-  for (curr = base; curr!=top; ++curr)
+  if (!twin_is_duplex && twin_number>=twin_a)
   {
-    move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+    if (twin_is_continued)
+      StdChar('+');
 
-    switch (entry->type)
+    WriteTwinNumber();
+
+    for (curr = base; curr!=top; ++curr)
     {
-      case move_effect_piece_creation:
-        WritePieceCreation(curr);
-        break;
+      move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-      case move_effect_piece_removal:
-        WritePieceRemoval(curr);
-        break;
+      switch (entry->type)
+      {
+        case move_effect_piece_creation:
+          WritePieceCreation(curr);
+          break;
 
-      case move_effect_piece_movement:
-        WritePieceMovement(curr);
-        break;
+        case move_effect_piece_removal:
+          WritePieceRemoval(curr);
+          break;
 
-      case move_effect_piece_exchange:
-        WritePieceExchange(curr);
-        break;
+        case move_effect_piece_movement:
+          WritePieceMovement(curr);
+          break;
 
-      case move_effect_board_transformation:
-        WriteBoardTransformation(curr);
-        break;
+        case move_effect_piece_exchange:
+          WritePieceExchange(curr);
+          break;
 
-      case move_effect_twinning_shift:
-        WriteShift(curr);
-        break;
+        case move_effect_board_transformation:
+          WriteBoardTransformation(curr);
+          break;
 
-      case move_effect_input_condition:
-        WriteConditions(&WriteCondition);
-        StdString("  ");
-        break;
+        case move_effect_twinning_shift:
+          WriteShift(curr);
+          break;
 
-      case move_effect_input_stipulation:
-      case move_effect_input_sstipulation:
-        WriteStipulation(curr);
-        break;
+        case move_effect_input_condition:
+          WriteConditions(&WriteCondition);
+          StdString("  ");
+          break;
 
-      case move_effect_twinning_polish:
-        WritePolish(curr);
-        break;
+        case move_effect_input_stipulation:
+        case move_effect_input_sstipulation:
+          WriteStipulation(curr);
+          break;
 
-      case move_effect_twinning_substitute:
-        WriteSubstitute(curr);
-        break;
+        case move_effect_twinning_polish:
+          WritePolish(curr);
+          break;
 
-      case move_effect_king_square_movement:
-        /* the search for royals leaves its traces in the twinning ply */
-      case move_effect_remember_volcanic:
-        /* Forsberg twinning */
-        break;
+        case move_effect_twinning_substitute:
+          WriteSubstitute(curr);
+          break;
 
-      default:
-        assert(0);
-        break;
+        case move_effect_king_square_movement:
+          /* the search for royals leaves its traces in the twinning ply */
+        case move_effect_remember_volcanic:
+          /* Forsberg twinning */
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
     }
+
+    Message(NewLine);
+
+    last_horizon = top;
   }
+}
 
-  Message(NewLine);
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_twinning(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
-  last_horizon = top;
+  WriteTwinning();
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.198 2014/04/18 12:22:52 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.199 2014/06/10 21:12:32 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -285,7 +285,8 @@ NESTEDLIBDIRS = \
     optimisations/goals/castling optimisations/goals/enpassant \
     optimisations/goals/chess81 optimisations/goals/capture \
     optimisations/goals/target \
-    output output/latex output/plaintext/tree output/plaintext/line output/plaintext \
+    output output/latex output/latex/line \
+    output/plaintext output/plaintext/tree output/plaintext/line \
     position \
     platform platform/$(PLATFORM) \
     utilities debugging \

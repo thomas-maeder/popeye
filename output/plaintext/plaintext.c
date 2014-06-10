@@ -2,6 +2,10 @@
 #include "output/plaintext/condition.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/message.h"
+#include "output/plaintext/tree/tree.h"
+#include "output/plaintext/line/line.h"
+#include "output/plaintext/illegal_selfcheck_writer.h"
+#include "output/plaintext/end_of_phase_writer.h"
 #include "conditions/conditions.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
@@ -10,10 +14,13 @@
 #include "conditions/singlebox/type1.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/classification.h"
-#include "debugging/trace.h"
 #include "pieces/pieces.h"
-
+#include "stipulation/pipe.h"
+#include "stipulation/structure_traversal.h"
+#include "stipulation/slice_insertion.h"
+#include "debugging/trace.h"
 #include "debugging/assert.h"
+
 #include <stdlib.h>
 
 char GlobalStr[4000];
@@ -765,4 +772,65 @@ boolean output_plaintext_goal_writer_replaces_check_writer(goal_type goal)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void select_output_mode(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (slices[si].u.output_mode_selector.mode==output_mode_line)
+    solving_insert_output_plaintext_line_slices(si);
+  else
+  {
+    boolean const is_setplay = st->level==structure_traversal_level_setplay;
+    solving_insert_output_plaintext_tree_slices(si,is_setplay);
+  }
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STOutputPlaintextTwinningWriter),
+        alloc_illegal_selfcheck_writer_slice(),
+        alloc_end_of_phase_writer_slice()
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with slices that write the solution in
+ * plain text
+ */
+void output_plaintext_instrument_solving(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STOutputModeSelector,
+                                           &select_output_mode);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

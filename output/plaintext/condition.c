@@ -193,7 +193,7 @@ static unsigned int append_circe_variants(circe_variant_type const *variant,
   if (variant->reborn_walk_adapter==circe_reborn_walk_adapter_chameleon)
   {
     written += append_to_CondLine(CondLine,written," %s",CirceVariantTypeTab[CirceVariantChameleon]);
-    if (variant->chameleon_is_walk_squence_explicit==twin_number)
+    if (variant->chameleon_is_walk_squence_explicit==twin_id)
       written += append_to_CondLine_chameleon_sequence(CondLine,written,
                                                        variant->chameleon_walk_sequence);
   }
@@ -668,7 +668,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
 
         case chameleonsequence:
         case chamchess:
-          if (chameleon_is_squence_explicit==twin_number)
+          if (chameleon_is_squence_explicit==twin_id)
             written += append_to_CondLine_chameleon_sequence(&CondLine,written,
                                                              chameleon_walk_sequence);
           break;

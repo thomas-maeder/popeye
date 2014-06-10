@@ -193,6 +193,8 @@
 #include "output/plaintext/tree/try_writer.h"
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/exclusive.h"
+#include "output/plaintext/twinning.h"
+#include "output/latex/twinning.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
@@ -1225,6 +1227,14 @@ void dispatch(slice_index si)
 
     case STStopOnShortSolutionsInitialiser:
       stoponshortsolutions_initialiser_solve(si);
+      break;
+
+    case STOutputLaTeXTwinningWriter:
+      output_latex_write_twinning(si);
+      break;
+
+    case STOutputPlaintextTwinningWriter:
+      output_plaintext_write_twinning(si);
       break;
 
     case STIllegalSelfcheckWriter:

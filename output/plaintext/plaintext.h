@@ -1,6 +1,7 @@
 #if !defined(OUTPUT_PLAINTEXT_PLAINTEXT_H)
 #define OUTPUT_PLAINTEXT_PLAINTEXT_H
 
+#include "stipulation/stipulation.h"
 #include "stipulation/goals/goals.h"
 
 #include <stdio.h>
@@ -23,5 +24,10 @@ void output_plaintext_write_move(void);
  * @return true iff the check writer should be replaced by the goal writer
  */
 boolean output_plaintext_goal_writer_replaces_check_writer(goal_type goal);
+
+/* Instrument the solving machinery with slices that write the solution in
+ * plain text
+ */
+void output_plaintext_instrument_solving(slice_index si);
 
 #endif

@@ -16,10 +16,11 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "pieces/walks/classification.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "stipulation/pipe.h"
 #include "conditions/grid.h"
 #include "platform/maxtime.h"
-
 #include "debugging/assert.h"
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -899,4 +900,49 @@ void LaTeXBeginDiagram(void)
 
     WriteSquareFrames();
   }
+}
+
+static void visit_output_mode_selector(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STOutputLaTeXTwinningWriter)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with slices that write the solution in
+ * LaTeX
+ */
+void output_latex_instrument_solving(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STOutputModeSelector,
+                                           &visit_output_mode_selector);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

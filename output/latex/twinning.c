@@ -9,6 +9,7 @@
 #include "input/plaintext/stipulation.h"
 #include "options/options.h"
 #include "pieces/attributes/neutral/neutral.h"
+#include "solving/pipe.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -55,23 +56,19 @@ void LaTeXFlushTwinning(void)
   }
 }
 
-void LaTeXBeginTwinning(unsigned int TwinNumber)
+static void BeginTwinning(void)
 {
-  if (LaTeXFile!=0)
-  {
-    if (TwinNumber-1<='z'-'a')
-      sprintf(GlobalStr, "%c) ", 'a'+TwinNumber-1);
-    else
-      sprintf(GlobalStr, "z%u) ", (unsigned int)(TwinNumber-1-('z'-'a')));
+  if (twin_number-twin_a<='z'-'a')
+    sprintf(GlobalStr, "%c) ", 'a'+twin_number-twin_a);
+  else
+    sprintf(GlobalStr, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 
-    strcat(twinning,GlobalStr);
-  }
+  strcat(twinning,GlobalStr);
 }
 
-void LaTeXEndTwinning(void)
+static void EndTwinning(void)
 {
-  if (LaTeXFile!=0)
-    strcat(twinning,"{\\newline}");
+  strcat(twinning,"{\\newline}");
 }
 
 static boolean find_removal(move_effect_journal_index_type top,
@@ -272,23 +269,23 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   strcat(twinning,GlobalStr);
 }
 
-void LaTeXWriteTwinning(void)
+static void WriteTwinning(void)
 {
   if (LaTeXFile!=0)
   {
-    move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
+    move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1]-2; /* reduce by 2 king square movements*/
     move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
     move_effect_journal_index_type curr;
     boolean written_on_last_entry = false;
 
     assert(base<=top);
 
-    if (base<top)
+    if (!twin_is_duplex && twin_number>=twin_a && base<top)
     {
       if (twin_is_continued)
         strcat(twinning, "+");
 
-      LaTeXBeginTwinning(TwinNumber);
+      BeginTwinning();
 
       for (curr = base; curr!=top; ++curr)
       {
@@ -363,9 +360,36 @@ void LaTeXWriteTwinning(void)
         }
       }
 
-      LaTeXEndTwinning();
+      EndTwinning();
 
       last_horizon = top;
     }
   }
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_latex_write_twinning(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  WriteTwinning();
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

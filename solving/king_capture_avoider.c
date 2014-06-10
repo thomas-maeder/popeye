@@ -10,8 +10,8 @@
 
 typedef struct
 {
-    twin_number_type own_king_capture_possible;
-    twin_number_type opponent_king_capture_possible;
+    twin_id_type own_king_capture_possible;
+    twin_id_type opponent_king_capture_possible;
 } insertion_state;
 
 static insertion_state root_state;
@@ -21,7 +21,7 @@ static insertion_state root_state;
  */
 void king_capture_avoiders_avoid_own(void)
 {
-  root_state.own_king_capture_possible = twin_number;
+  root_state.own_king_capture_possible = twin_id;
 }
 
 /* Make stip_insert_king_capture_avoiders() insert slices that prevent moves
@@ -29,7 +29,7 @@ void king_capture_avoiders_avoid_own(void)
  */
 void king_capture_avoiders_avoid_opponent(void)
 {
-  root_state.opponent_king_capture_possible = twin_number;
+  root_state.opponent_king_capture_possible = twin_id;
 }
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
@@ -42,13 +42,13 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (state->own_king_capture_possible==twin_number)
+  if (state->own_king_capture_possible==twin_id)
   {
     slice_index const prototype = alloc_pipe(STOwnKingCaptureAvoider);
     move_insert_slices(si,st->context,&prototype,1);
   }
 
-  if (state->opponent_king_capture_possible==twin_number)
+  if (state->opponent_king_capture_possible==twin_id)
   {
     slice_index const prototype = alloc_pipe(STOpponentKingCaptureAvoider);
     move_insert_slices(si,st->context,&prototype,1);
@@ -62,13 +62,13 @@ static void remember_goal_with_potential_king_capture(slice_index si,
                                                       stip_structure_traversal *st)
 {
   insertion_state * const state = st->param;
-  twin_number_type const save_own_king_capture_possible = state->own_king_capture_possible;
+  twin_id_type const save_own_king_capture_possible = state->own_king_capture_possible;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->own_king_capture_possible = twin_number;
+  state->own_king_capture_possible = twin_id;
   stip_traverse_structure_children(si,st);
   state->own_king_capture_possible = save_own_king_capture_possible;
 

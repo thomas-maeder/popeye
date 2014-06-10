@@ -33,10 +33,6 @@ typedef enum
   TwinningMirrorCount
 } TwinningMirrorType;
 
-/* a)==1, b)==2, ...
- */
-extern unsigned int TwinNumber;
-
 Token ReadTwin(Token tk, slice_index root_slice_hook);
 
 /* Iterate over the twins of a problem

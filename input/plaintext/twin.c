@@ -40,16 +40,6 @@
 #include <ctype.h>
 #include <string.h>
 
-/* a)==1, b)==2, ...
- */
-unsigned int TwinNumber;
-
-typedef enum
-{
-  twin_initial,
-  twin_subsequent
-} twin_context_type;
-
 static void TwinResetPosition(void)
 {
   assert(nbply==ply_twinning);
@@ -279,7 +269,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
   char  *tok = ReadNextTokStr();
   boolean TwinningRead= false;
 
-  ++TwinNumber;
+  ++twin_number;
 
   while (true)
   {
@@ -864,17 +854,17 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     VerifieMsg(CantDecideWhoIsAtTheMove);
   else
   {
-    Side const regular_starter = slices[stipulation_root_hook].starter;
-
-    if (!OptFlag[halfduplex])
-      twin_solve_stipulation(stipulation_root_hook);
-
-    if (OptFlag[halfduplex] || OptFlag[duplex])
+    if (OptFlag[duplex])
     {
-      solving_impose_starter(stipulation_root_hook,advers(regular_starter));
-      twin_solve_stipulation(stipulation_root_hook);
-      solving_impose_starter(stipulation_root_hook,regular_starter);
+      twin_solve(stipulation_root_hook);
+      twin_is_duplex = true;
+      twin_solve_duplex(stipulation_root_hook);
+      twin_is_duplex = false;
     }
+    else if (OptFlag[halfduplex])
+      twin_solve_duplex(stipulation_root_hook);
+    else
+      twin_solve(stipulation_root_hook);
 
     Message(NewLine);
 
@@ -884,7 +874,7 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     WRITE_COUNTER(is_black_king_square_attacked);
   }
 
-  ++twin_number;
+  ++twin_id;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -894,11 +884,8 @@ static Token solve_twins(slice_index stipulation_root_hook)
 {
   Token result;
 
-  TwinNumber = 1;
+  twin_number = twin_a;
   twin_is_continued = false;
-
-  WriteTwinning();
-  LaTeXWriteTwinning();
 
   deal_with_stipulation(stipulation_root_hook);
 
@@ -910,11 +897,7 @@ static Token solve_twins(slice_index stipulation_root_hook)
       IoErrorMsg(NoStipulation,0);
     else
     {
-      WriteTwinning();
-      LaTeXWriteTwinning();
-
       initialise_piece_flags();
-
       deal_with_stipulation(stipulation_root_hook);
     }
 
@@ -994,7 +977,11 @@ Token iterate_twins(void)
       end_of_twin_token = solve_twins(stipulation_root_hook);
     }
     else
+    {
+      twin_number = twin_number_original_position_no_twins;
+      twin_is_continued = false;
       deal_with_stipulation(stipulation_root_hook);
+    }
 
     undo_move_effects();
     finply();

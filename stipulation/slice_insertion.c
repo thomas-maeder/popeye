@@ -558,6 +558,8 @@ static slice_index const slice_rank_order[] =
   STHashOpener,
   STTemporaryHackFork,
   STOutputModeSelector,
+  STOutputPlaintextTwinningWriter,
+  STOutputLaTeXTwinningWriter,
   STStrictSATInitialiser,
   STSetplayFork,
   STMoveInverter,

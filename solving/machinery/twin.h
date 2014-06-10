@@ -4,28 +4,47 @@
 #include "stipulation/stipulation.h"
 #include "solving/move_effect_journal.h"
 
-typedef unsigned long twin_number_type;
+typedef unsigned long twin_id_type;
 
-/* Sequence number of the current twin.
- * Mainly used for boolean twin-related flags: flag==twin_number means true,
+/* Sequence number of the current twin (and its duplex if any).
+ * Mainly used for boolean twin-related flags: flag==twin_id means true,
  * and everything else means false. This allows us to not reset the flag at the
  * beginning (or end) of a twin.
  */
-extern twin_number_type twin_number;
+extern twin_id_type twin_id;
 
 /* is the current twin a continued twin? */
 extern boolean twin_is_continued;
+
+/* is this (virtual) twin the duplex of a twin?
+ * NB: halfduplex doesn't count as duplex here
+ */
+extern boolean twin_is_duplex;
+
+enum
+{
+  twin_number_original_position_no_twins = 0,
+  twin_zeroposition,
+  twin_a = 1,
+  twin_b = 2
+  /* etc. */
+};
+extern unsigned int twin_number;
 
 /* Validate whether shifting the entire position would move >=1 piece off board
  * @return true iff it doesn't
  */
 boolean twin_twinning_shift_validate(square from, square to);
 
-/* Solve the stipulation
+/* Solve the current (actual or virtual) twin
  * @param stipulation_root_hook identifies the root slice of the stipulation
- * @param context context of the twin to be solved
  */
-void twin_solve_stipulation(slice_index stipulation_root_hook);
+void twin_solve(slice_index stipulation_root_hook);
+
+/* Solve the duplex of the current twin
+ * @param stipulation_root_hook identifies the root slice of the stipulation
+ */
+void twin_solve_duplex(slice_index stipulation_root_hook);
 
 /* Assign every piece of the position their id
  */

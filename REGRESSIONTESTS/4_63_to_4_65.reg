@@ -869,7 +869,7 @@ a)
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) brP/Bd7 
+b) brP/Bd7  
 
 
   add_to_move_generation_stack:          11
@@ -964,7 +964,7 @@ a)
                      play_move:          26
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) brPd7 
+b) brPd7  
 
   1.MPb6*c5-d4 Oe5-e6 +
   1.MPb6*c5-d4 Oe5*f6
@@ -1043,7 +1043,7 @@ a)
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) brPe7 
+b) brPe7  
 
   1.rPe7-e5 GYd5-a2
   1.rPe7-e5 GYd5-b3
@@ -1375,7 +1375,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) wSe4 
+b) wSe4  
 
    1.Sf7*h6 x !
 
@@ -1422,7 +1422,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b)  -wBa4  +wSa3 
+b) -wBa4  +wSa3  
 
    1.Sh3-b1*c3 x !
 
@@ -1469,7 +1469,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b)  -wBa4  +wSa3 
+b) -wBa4  +wSa3  
 
    1.Sh3-b1*c3 x !
 
@@ -1516,7 +1516,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) bSe4 
+b) bSe4  
 
    1.Sf7*h6 x !
 
@@ -1563,7 +1563,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b)  -bBa3  +bSa2 
+b) -bBa3  +bSa2  
 
    1.Sh6-g1*h3 x !
 
@@ -1991,7 +1991,7 @@ a)
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b)  -bmPa3
+b) -bmPa3  
 
    1.Sh1-g3[g3=b] !
 
@@ -2078,7 +2078,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) zd11
+b) zd11  
 
    1.mAMa1-d1[d4=w] z !
 
@@ -2087,7 +2087,7 @@ b) zd11
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-c) zb31
+c) zb31  
 
    1.mAMa1-b3[d4=w] z !
 
@@ -2757,7 +2757,7 @@ the side to play can capture the king
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
-b) wGe2-->a4
+b) wGe2-->a4  
 
    1.Ga4-e4 + !
 
@@ -2801,7 +2801,7 @@ the side to play can capture the king
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
-b) wSTe2-->a4
+b) wSTe2-->a4  
 
    1.STa4-e4 + !
 
@@ -2987,15 +2987,15 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-b)  -wKb1
 both sides need a king
+b) -wKb1  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-c)  -wBc1
+c) -wBc1  
 
 
   add_to_move_generation_stack:           5
@@ -3073,7 +3073,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-b) wKb8-->b5
+b) wKb8-->b5  
 
 
   add_to_move_generation_stack:          15
@@ -3118,7 +3118,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b)  -bSe8
+b) -bSe8  
 
 
   add_to_move_generation_stack:           8
@@ -3347,7 +3347,7 @@ a)
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          14
 b) Madrasi
-   MarsCirce
+   MarsCirce  
 
    1.Rc6-d6 + !
 

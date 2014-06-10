@@ -218,11 +218,10 @@ pieces/attributes/chameleon$(OBJ_SUFFIX): pieces/attributes/chameleon.c \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/machinery/twin.h \
- pieces/walks/walks.h pieces/walks/pawns/promotion.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
- position/pieceid.h stipulation/slice_insertion.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/pieceid.h pieces/walks/walks.h pieces/walks/pawns/promotion.h \
+ stipulation/slice_insertion.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
@@ -264,10 +263,6 @@ debugging/trace.h:
 
 solving/machinery/twin.h:
 
-pieces/walks/walks.h:
-
-pieces/walks/pawns/promotion.h:
-
 solving/move_effect_journal.h:
 
 solving/castling_rights.h:
@@ -275,6 +270,10 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+pieces/walks/walks.h:
+
+pieces/walks/pawns/promotion.h:
 
 stipulation/slice_insertion.h:
 

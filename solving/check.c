@@ -15,20 +15,20 @@
 #include "debugging/measure.h"
 #include "debugging/assert.h"
 
-static twin_number_type is_no_king_possible;
-static twin_number_type is_check_possible_if_no_king;
+static twin_id_type is_no_king_possible;
+static twin_id_type is_check_possible_if_no_king;
 
 /* Tell the check detection machinery that a side may have no king */
 void check_no_king_is_possible(void)
 {
-  is_no_king_possible = twin_number;
+  is_no_king_possible = twin_id;
 }
 
 /* Tell the check detection machinery that a side may be in check even if it
  * doesn't have a king*/
 void check_even_if_no_king(void)
 {
-  is_check_possible_if_no_king = twin_number;
+  is_check_possible_if_no_king = twin_id;
 }
 
 /* Optimise the check machinery if possible
@@ -41,10 +41,10 @@ void optimise_is_in_check(slice_index si)
   TraceFunctionParamListEnd();
 
   if (being_solved.king_square[White]==initsquare || being_solved.king_square[Black]==initsquare)
-    is_no_king_possible = twin_number;
+    is_no_king_possible = twin_id;
 
-  if (is_no_king_possible==twin_number
-      && is_check_possible_if_no_king!=twin_number)
+  if (is_no_king_possible==twin_id
+      && is_check_possible_if_no_king!=twin_id)
     solving_instrument_check_testing(si,STNoKingCheckTester);
 
   TraceFunctionExit(__func__);

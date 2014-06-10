@@ -185,14 +185,14 @@ a)
                      play_move:          18
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          12
-b) +bRa5 
+b) +bRa5  
 
 
   add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           1
-+c) ##2
++c) ##2  
 
 
   add_to_move_generation_stack:           8
@@ -237,21 +237,21 @@ a)
                      play_move:         186
  is_white_king_square_attacked:         157
  is_black_king_square_attacked:          38
-b) +wSb4 
+b) +wSb4  
 
 
   add_to_move_generation_stack:           8
                      play_move:           7
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           1
-+c) ##!2
++c) ##!2  
 
 
   add_to_move_generation_stack:         197
                      play_move:         175
  is_white_king_square_attacked:         159
  is_black_king_square_attacked:          25
-+d)  -wSb4
++d) -wSb4  
 
    1.Kc8-b7 ##! !
 
@@ -260,7 +260,7 @@ b) +wSb4
                      play_move:         186
  is_white_king_square_attacked:         166
  is_black_king_square_attacked:          38
-+e) ser-##!1
++e) ser-##!1  
 
   1.Kc8-b7 ##!
 
@@ -268,7 +268,7 @@ b) +wSb4
                      play_move:         186
  is_white_king_square_attacked:         157
  is_black_king_square_attacked:          38
-+f) +wSb4 
++f) +wSb4  
 
 
   add_to_move_generation_stack:           8
@@ -310,7 +310,7 @@ a)
                      play_move:         496
  is_white_king_square_attacked:         462
  is_black_king_square_attacked:          67
-b) +wSd4 
+b) +wSd4  
 
 
   add_to_move_generation_stack:          56
@@ -353,7 +353,7 @@ a)
                      play_move:         682
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         657
-b) ser-s##!1
+b) ser-s##!1  
 
   1.Qa3-c5 + Kc8-b7 ##!
 
@@ -382,35 +382,35 @@ a)
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) #2
+b) #2  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-c) s#1
+c) s#1  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-d) r#1
+d) r#1  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-e) h#3
+e) h#3  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-f) ser-h#5
+f) ser-h#5  
 
 
   add_to_move_generation_stack:           0
@@ -478,61 +478,61 @@ option Threat only applicable in sufficiently long battle play
 +---a---b---c---d---e---f---g---h---+
   #3/3                        0 + 0
 
+Option "Threat" not applicable or indicated maximum threat length too big
 a) 
+
+
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) #4  
+
+
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 Option "Threat" not applicable or indicated maximum threat length too big
+c) s#3  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) #4
+d) s#4  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-c) s#3
 Option "Threat" not applicable or indicated maximum threat length too big
+e) r#3  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-d) s#4
+f) r#4  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-e) r#3
 Option "Threat" not applicable or indicated maximum threat length too big
+g) h#7  
 
 
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-f) r#4
-
-
-  add_to_move_generation_stack:           0
-                     play_move:           0
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
-g) h#7
 Option "Threat" not applicable or indicated maximum threat length too big
-
-
-  add_to_move_generation_stack:           0
-                     play_move:           0
- is_white_king_square_attacked:           0
- is_black_king_square_attacked:           0
-h) ser-h#8
-Option "Threat" not applicable or indicated maximum threat length too big
+h) ser-h#8  
 
 
   add_to_move_generation_stack:           0

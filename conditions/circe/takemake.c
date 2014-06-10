@@ -22,7 +22,7 @@ static square rebirth_square[toppile+1];
 static numecoup take_make_circe_current_rebirth_square_index[maxply+1];
 static unsigned int stack_pointer = 1;
 
-static boolean init_rebirth_squares(Side side_reborn)
+static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *context)
 {
   boolean result = false;
   square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
@@ -30,6 +30,9 @@ static boolean init_rebirth_squares(Side side_reborn)
   Flags const flags_capturing = being_solved.spec[sq_capture];
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  Side const relevant_side = (trait[context->relevant_ply]==context->relevant_side
+                              ? advers(context->relevant_side)
+                              : context->relevant_side);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -42,7 +45,7 @@ static boolean init_rebirth_squares(Side side_reborn)
 
   init_single_piece_move_generator(sq_capture);
 
-  result = (fork_solve(temporary_hack_circe_take_make_rebirth_squares_finder[side_reborn],
+  result = (fork_solve(temporary_hack_circe_take_make_rebirth_squares_finder[relevant_side],
                        length_unspecified)
             ==next_move_has_solution);
 
@@ -119,7 +122,7 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[nbply]
-      && !init_rebirth_squares(advers(context->relevant_side)))
+      && !init_rebirth_squares(context))
     solve_result = this_move_is_illegal;
   else
   {

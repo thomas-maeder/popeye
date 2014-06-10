@@ -197,7 +197,7 @@ static char *ReadWalks(char *tok,
   return tok;
 }
 
-static boolean handle_chameleon_reborn_piece(twin_number_type *is_explicit,
+static boolean handle_chameleon_reborn_piece(twin_id_type *is_explicit,
                                              chameleon_sequence_type* sequence,
                                              piece_walk_type from, piece_walk_type to,
                                              char const *tok)
@@ -220,7 +220,7 @@ static boolean handle_chameleon_reborn_piece(twin_number_type *is_explicit,
 }
 
 static char *ReadChameleonSequence(char *tok,
-                                   twin_number_type *is_explicit,
+                                   twin_id_type *is_explicit,
                                    chameleon_sequence_type* sequence)
 {
   piece_walk_type from = Empty;

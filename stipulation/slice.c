@@ -328,6 +328,8 @@ static slice_type const end_of_branch_slice_types[] =
 
 static slice_type const writer_slice_types[] =
 {
+    STOutputPlaintextTwinningWriter,
+    STOutputLaTeXTwinningWriter,
     STIllegalSelfcheckWriter,
     STEndOfPhaseWriter,
     STEndOfSolutionWriter,
@@ -341,7 +343,8 @@ static slice_type const writer_slice_types[] =
     STRefutationWriter,
     STOutputPlaintextTreeCheckWriter,
     STOutputPlaintextLineLineWriter,
-    STOutputPlaintextGoalWriter
+    STOutputPlaintextGoalWriter,
+    STOutputLaTeXLineLineWriter
 };
 
 static void init_one_functional_type(slice_type const slice_types[],

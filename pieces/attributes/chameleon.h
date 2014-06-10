@@ -11,13 +11,13 @@ typedef piece_walk_type chameleon_sequence_type[nr_piece_walks];
 
 chameleon_sequence_type chameleon_walk_sequence;
 
-extern twin_number_type chameleon_is_squence_explicit;
+extern twin_id_type chameleon_is_squence_explicit;
 
 /* Initialise one mapping captured->reborn from an explicit indication
  * @param captured captured walk
  * @param reborn type of reborn walk if a piece with walk captured is captured
  */
-void chameleon_set_successor_walk_explicit(twin_number_type *is_explicit,
+void chameleon_set_successor_walk_explicit(twin_id_type *is_explicit,
                                            chameleon_sequence_type* sequence,
                                            piece_walk_type from, piece_walk_type to);
 
@@ -25,7 +25,7 @@ void chameleon_set_successor_walk_explicit(twin_number_type *is_explicit,
  * from explicit indications.
  * @note chameleon_init_sequence_implicit() resets *is_explicit to false
  */
-void chameleon_init_sequence_implicit(twin_number_type *is_explicit,
+void chameleon_init_sequence_implicit(twin_id_type *is_explicit,
                                       chameleon_sequence_type* sequence);
 
 /* Try to solve in solve_nr_remaining half-moves.

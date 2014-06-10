@@ -51,16 +51,19 @@
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
-/* Sequence number of the current twin.
- * Mainly used for boolean twin-related flags: flag==twin_number means true,
+/* Sequence number of the current twin (and its duplex if any).
+ * Mainly used for boolean twin-related flags: flag==twin_id means true,
  * and everything else means false. This allows us to not reset the flag at the
  * beginning (or end) of a twin.
  * We start at 1 so that all these flags (initialised with 0) are initially
  * false.
  */
-twin_number_type twin_number = 1;
+twin_id_type twin_id = 1;
+
+unsigned int twin_number;
 
 boolean twin_is_continued = false;
+boolean twin_is_duplex = false;
 
 static void initialise_piece_walk_caches(void)
 {
@@ -1675,6 +1678,7 @@ static void replay_retro(void)
   TraceFunctionResultEnd();
 }
 
+
 static void solve_any_stipulation(slice_index stipulation_root_hook)
 {
   TraceFunctionEntry(__func__);
@@ -1749,7 +1753,10 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-void twin_solve_stipulation(slice_index stipulation_root_hook)
+/* Solve the current (actual or virtual) twin
+ * @param stipulation_root_hook identifies the root slice of the stipulation
+ */
+void twin_solve(slice_index stipulation_root_hook)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
   square new_king_square[nr_sides] = { initsquare, initsquare };
@@ -1777,6 +1784,25 @@ void twin_solve_stipulation(slice_index stipulation_root_hook)
   }
 
   king_square_horizon = save_king_square_horizon;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Solve the duplex of the current twin
+ * @param stipulation_root_hook identifies the root slice of the stipulation
+ */
+void twin_solve_duplex(slice_index stipulation_root_hook)
+{
+  Side const regular_starter = slices[stipulation_root_hook].starter;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
+  solving_impose_starter(stipulation_root_hook,advers(regular_starter));
+  twin_solve(stipulation_root_hook);
+  solving_impose_starter(stipulation_root_hook,regular_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

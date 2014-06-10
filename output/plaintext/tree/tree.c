@@ -602,7 +602,7 @@ static void optimise_leaf_slices(slice_index si)
  * @param si identifies slice where to start
  * @param is_setplay is si part of set play?
  */
-void stip_insert_output_plaintext_tree_slices(slice_index si, boolean is_setplay)
+void solving_insert_output_plaintext_tree_slices(slice_index si, boolean is_setplay)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
