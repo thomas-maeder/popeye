@@ -458,6 +458,8 @@
     ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
+    ENUMERATOR(STOutputPlainTextPositionWriter),                        \
+    ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinningWriter),                        \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \

@@ -31,6 +31,7 @@ boolean LaTeXout;
 static char filename[LINESIZE];    /* This array contains the input as is */
 
 FILE *LaTeXFile;
+static FILE *TextualSolutionBufferPrivate;
 FILE *TextualSolutionBuffer;
 
 static char *LaTeXPiecesAbbr[nr_piece_walks];
@@ -236,87 +237,94 @@ static boolean Open(void)
 static void Close(void)
 {
   assert(LaTeXFile!=NULL);
+
   fclose(LaTeXFile);
   LaTeXFile = NULL;
 }
 
 void LaTexOpenSolution(void)
 {
-  if (LaTeXFile!=0)
-  {
-    fprintf(LaTeXFile, " \\solution{%%\n");
+  assert(LaTeXFile!=NULL);
+  assert(TextualSolutionBufferPrivate==NULL);
 
-    assert(TextualSolutionBuffer==NULL);
-    TextualSolutionBuffer = tmpfile();
-  }
+  fprintf(LaTeXFile, " \\solution{%%\n");
+
+  assert(TextualSolutionBufferPrivate==NULL);
+  TextualSolutionBufferPrivate = tmpfile();
 }
 
 void LaTexCloseSolutionBuffer(void)
 {
-  if (TextualSolutionBuffer!=NULL)
-  {
-    fclose(TextualSolutionBuffer);
-    TextualSolutionBuffer = NULL;
-  }
+  assert(TextualSolutionBufferPrivate!=NULL);
+
+  fclose(TextualSolutionBufferPrivate);
+  TextualSolutionBufferPrivate = NULL;
+}
+
+void LaTeXActivateSolutionBuffer(void)
+{
+  TextualSolutionBuffer = TextualSolutionBufferPrivate;
+}
+
+void LaTeXDeactivateSolutionBuffer(void)
+{
+  TextualSolutionBuffer = NULL;
 }
 
 void LaTeXFlushSolution(void)
 {
-  if (LaTeXFile!=0)
+  char line[256];
+
+  assert(LaTeXFile!=NULL);
+
+  /* solution */
+  rewind(TextualSolutionBufferPrivate);
+  while (fgets(line, (sizeof line)-1, TextualSolutionBufferPrivate))
   {
-    char line[256];
-
-    /* solution */
-    rewind(TextualSolutionBuffer);
-    while (fgets(line, (sizeof line)-1, TextualSolutionBuffer))
+    if (strlen(line)>1 && line[1]==')')
+      /* twin */
+      fprintf(LaTeXFile, "%c)", line[0]);
+    else if (strlen(line)>2 && line[2]==')')
     {
-      if (strlen(line)>1 && line[1]==')')
-        /* twin */
-        fprintf(LaTeXFile, "%c)", line[0]);
-      else if (strlen(line)>2 && line[2]==')')
-      {
-        if (line[0] == '+')        /* twin (continued) */
-          fprintf(LaTeXFile, "%c)", line[1]);
-        else
-          fprintf(LaTeXFile, "%c%c)", line[0], line[1]);
-      }
-      else if (strlen(line)>3 && line[3]==')')
-        /* continued twinning and >z */
-        fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
-
-      if (strchr(line, '.'))   /* line containing a move */
-        LaTeXStr(line);
+      if (line[0] == '+')        /* twin (continued) */
+        fprintf(LaTeXFile, "%c)", line[1]);
+      else
+        fprintf(LaTeXFile, "%c%c)", line[0], line[1]);
     }
+    else if (strlen(line)>3 && line[3]==')')
+      /* continued twinning and >z */
+      fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
 
-    fprintf(LaTeXFile, "\n }%%\n");
-
-    fclose(TextualSolutionBuffer);
-    TextualSolutionBuffer = NULL;
+    if (strchr(line, '.'))   /* line containing a move */
+      LaTeXStr(line);
   }
+
+  fprintf(LaTeXFile, "\n }%%\n");
+
+  LaTexCloseSolutionBuffer();
 }
 
 void LaTeXEndDiagram(void)
 {
-  if (LaTeXFile!=0)
+  assert(LaTeXFile!=NULL);
+
+  if (!(OptFlag[solmenaces]
+        || OptFlag[solflights]
+        || OptFlag[nontrivial]
+        || max_solutions_reached()
+        || was_max_nr_solutions_per_target_position_reached()
+        || has_short_solution_been_found_in_problem()
+        || hasMaxtimeElapsed()))
   {
-    if (!(OptFlag[solmenaces]
-          || OptFlag[solflights]
-          || OptFlag[nontrivial]
-          || max_solutions_reached()
-          || was_max_nr_solutions_per_target_position_reached()
-          || has_short_solution_been_found_in_problem()
-          || hasMaxtimeElapsed()))
-    {
-      fprintf(LaTeXFile, " \\Co+%%");
-      if (!flag_regression)
-        fprintf(LaTeXFile, "%s", versionString);
-      fprintf(LaTeXFile, "\n");
-    }
-
-    fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
-
-    Close();
+    fprintf(LaTeXFile, " \\Co+%%");
+    if (!flag_regression)
+      fprintf(LaTeXFile, "%s", versionString);
+    fprintf(LaTeXFile, "\n");
   }
+
+  fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
+
+  Close();
 }
 
 static void WriteCondition(char const CondLine[], boolean is_first)

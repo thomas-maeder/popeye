@@ -298,7 +298,7 @@ a)
                      play_move:        2577
  is_white_king_square_attacked:         170
  is_black_king_square_attacked:        2580
-b) Circe Platzwechsel
+b) Circe Platzwechsel  
 
    1.Df6-g5 ! Drohung:
           2.Dg5-g4 #
@@ -354,6 +354,8 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
 Loesung beendet. 
 
 
+Es fehlt ein weisser oder schwarzer Koenig
+
 
 Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 
@@ -378,8 +380,6 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 +---a---b---c---d---e---f---g---h---+
   !=1                         2 + 3
            Paralysierend h3
-Es fehlt ein weisser oder schwarzer Koenig
-
 
    1.Kc2-d3 != !
 

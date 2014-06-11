@@ -10,7 +10,6 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/plaintext.h"
-#include "output/plaintext/position.h"
 #include "output/plaintext/twinning.h"
 #include "output/plaintext/message.h"
 #include "output/latex/latex.h"
@@ -797,17 +796,6 @@ static boolean apply_whitetoplay(slice_index proxy)
   return result;
 }
 
-static void write_position(slice_index stipulation_root_hook)
-{
-  if (!OptFlag[noboard])
-  {
-    if ((find_unique_goal(stipulation_root_hook).type)==goal_atob)
-      WritePositionAtoB(slices[stipulation_root_hook].starter);
-    else
-      WritePositionRegular();
-  }
-}
-
 static void complete_stipulation(slice_index stipulation_root_hook)
 {
   TraceFunctionEntry(__func__);
@@ -854,12 +842,15 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     VerifieMsg(CantDecideWhoIsAtTheMove);
   else
   {
+    initialise_piece_flags();
+
     if (OptFlag[duplex])
     {
+      twin_duplex_type = twin_has_duplex;
       twin_solve(stipulation_root_hook);
-      twin_is_duplex = true;
+      twin_duplex_type = twin_is_duplex;
       twin_solve_duplex(stipulation_root_hook);
-      twin_is_duplex = false;
+      twin_duplex_type = twin_no_duplex;
     }
     else if (OptFlag[halfduplex])
       twin_solve_duplex(stipulation_root_hook);
@@ -897,7 +888,7 @@ static Token solve_twins(slice_index stipulation_root_hook)
       IoErrorMsg(NoStipulation,0);
     else
     {
-      initialise_piece_flags();
+      twin_stage = result==TwinProblem ? twin_regular : twin_last;
       deal_with_stipulation(stipulation_root_hook);
     }
 
@@ -938,48 +929,31 @@ Token iterate_twins(void)
 
     initialise_piece_ids();
 
-    initialise_piece_flags();
-
-    /* this is only needed to be able to indicate the correct starting side
-     * in a=>b stipulations: */
-    complete_stipulation(stipulation_root_hook);
-
-    write_position(stipulation_root_hook);
-
-    if (LaTeXout)
-    {
-      LaTeXBeginDiagram();
-      LaTexOpenSolution();
-    }
-
     if (end_of_twin_token==ZeroPosition)
     {
-      Message(NewLine);
-      StdString(TokenTab[ZeroPosition]);
-      Message(NewLine);
-      Message(NewLine);
+      twin_stage = twin_zeroposition;
+      deal_with_stipulation(stipulation_root_hook);
 
       end_of_twin_token = ReadSubsequentTwin(stipulation_root_hook);
-
-      if (slices[stipulation_root_hook].next1==no_slice)
+      if (end_of_twin_token!=TwinProblem)
+        IoErrorMsg(ZeroPositionNoTwin,0);
+      else if (slices[stipulation_root_hook].next1==no_slice)
         IoErrorMsg(NoStipulation,0);
       else
       {
-        initialise_piece_flags();
-
+        twin_stage = twin_regular;
         end_of_twin_token = solve_twins(stipulation_root_hook);
       }
     }
     else if (end_of_twin_token==TwinProblem)
     {
-      Message(NewLine);
-
+      twin_stage = twin_initial;
       end_of_twin_token = solve_twins(stipulation_root_hook);
     }
     else
     {
-      twin_number = twin_number_original_position_no_twins;
       twin_is_continued = false;
+      twin_stage = twin_original_position_no_twins;
       deal_with_stipulation(stipulation_root_hook);
     }
 
@@ -988,13 +962,6 @@ Token iterate_twins(void)
 
     dealloc_slices(stipulation_root_hook);
     assert_no_leaked_slices();
-
-    if (LaTeXout)
-    {
-      LaTeXFlushSolution();
-      LaTeXFlushTwinning();
-      LaTeXEndDiagram();
-    }
   }
 
   TraceFunctionExit(__func__);

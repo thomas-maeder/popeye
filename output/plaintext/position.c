@@ -513,8 +513,15 @@ void WritePositionAtoB(Side starter)
   CenterLine(InitialLine);
   StdChar('\n');
 
-  WriteBoard(&being_solved);
-  WriteCaptions(&being_solved);
+  WriteBoard(&proofgames_target_position);
+  WriteCaptions(&proofgames_target_position);
+}
+
+void WritePositionProofGame(void)
+{
+  WriteMeta();
+  WriteBoard(&proofgames_target_position);
+  WriteCaptions(&proofgames_target_position);
 }
 
 void WritePositionRegular(void)

@@ -6,6 +6,7 @@
 void WriteBoard(position const *pos);
 
 void WritePositionRegular(void);
+void WritePositionProofGame(void);
 void WritePositionAtoB(Side starter);
 
 #endif

@@ -175,6 +175,8 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "options/stoponshortsolutions/initialiser.h"
+#include "output/output.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -1235,6 +1237,14 @@ void dispatch(slice_index si)
 
     case STOutputPlaintextTwinningWriter:
       output_plaintext_write_twinning(si);
+      break;
+
+    case STOutputPlainTextPositionWriter:
+      output_plaintext_write_position(si);
+      break;
+
+    case STOutputEndOfIntro:
+      output_end_of_intro(si);
       break;
 
     case STIllegalSelfcheckWriter:

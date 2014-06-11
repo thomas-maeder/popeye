@@ -221,7 +221,7 @@ a)
                      play_move:         104
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          62
-b)  -wQc1
+b) -wQc1  
 
    1.h7*g8=R[+bQd1=w] # !
 
@@ -309,917 +309,917 @@ a)
                      play_move:          69
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          60
-b) +wSa7 +bBa5 
+b) +wSa7  +bBa5  
 
 
   add_to_move_generation_stack:         777
                      play_move:         758
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         698
-c) +wSa7 +bBa4 
+c) +wSa7  +bBa4  
 
 
   add_to_move_generation_stack:         760
                      play_move:         741
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         681
-d) +wSa7 +bBa3 
+d) +wSa7  +bBa3  
 
 
   add_to_move_generation_stack:         751
                      play_move:         732
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         672
-e) +wSa7 +bBa2 
+e) +wSa7  +bBa2  
 
 
   add_to_move_generation_stack:         706
                      play_move:         687
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         627
-f) +wSa7 +bBb7 
+f) +wSa7  +bBb7  
 
 
   add_to_move_generation_stack:         866
                      play_move:         847
  is_white_king_square_attacked:          70
  is_black_king_square_attacked:         781
-g) +wSa7 +bBb6 
+g) +wSa7  +bBb6  
 
 
   add_to_move_generation_stack:         932
                      play_move:         913
  is_white_king_square_attacked:          73
  is_black_king_square_attacked:         844
-h) +wSa7 +bBb5 
+h) +wSa7  +bBb5  
 
 
   add_to_move_generation_stack:         932
                      play_move:         913
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         841
-i) +wSa7 +bBb4 
+i) +wSa7  +bBb4  
 
 
   add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
-j) +wSa7 +bBb3 
+j) +wSa7  +bBb3  
 
 
   add_to_move_generation_stack:         888
                      play_move:         869
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         797
-k) +wSa7 +bBb2 
+k) +wSa7  +bBb2  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-l) +wSa7 +bBc7 
+l) +wSa7  +bBc7  
 
 
   add_to_move_generation_stack:         965
                      play_move:         946
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         874
-m) +wSa7 +bBc6 
+m) +wSa7  +bBc6  
 
 
   add_to_move_generation_stack:        1025
                      play_move:        1006
  is_white_king_square_attacked:          82
  is_black_king_square_attacked:         928
-n) +wSa7 +bBc5 
+n) +wSa7  +bBc5  
 
 
   add_to_move_generation_stack:        1118
                      play_move:        1099
  is_white_king_square_attacked:          85
  is_black_king_square_attacked:        1018
-o) +wSa7 +bBc4 
+o) +wSa7  +bBc4  
 
 
   add_to_move_generation_stack:        1063
                      play_move:        1044
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         960
-p) +wSa7 +bBc3 
+p) +wSa7  +bBc3  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-q) +wSa7 +bBc2 
+q) +wSa7  +bBc2  
 
 
   add_to_move_generation_stack:         888
                      play_move:         869
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         797
-r) +wSa7 +bBd7 
+r) +wSa7  +bBd7  
 
 
   add_to_move_generation_stack:         949
                      play_move:         930
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         858
-s) +wSa7 +bBd6 
+s) +wSa7  +bBd6  
 
 
   add_to_move_generation_stack:        1151
                      play_move:        1132
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:        1048
-t) +wSa7 +bBd5 
+t) +wSa7  +bBd5  
 
 
   add_to_move_generation_stack:        1154
                      play_move:        1135
  is_white_king_square_attacked:          94
  is_black_king_square_attacked:        1045
-u) +wSa7 +bBd4 
+u) +wSa7  +bBd4  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-v) +wSa7 +bBd3 
+v) +wSa7  +bBd3  
 
 
   add_to_move_generation_stack:        1063
                      play_move:        1044
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         960
-w) +wSa7 +bBd2 
+w) +wSa7  +bBd2  
 
 
   add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
-x) +wSa7 +bBe7 
+x) +wSa7  +bBe7  
 
 
   add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
-y) +wSa7 +bBe6 
+y) +wSa7  +bBe6  
 
 
   add_to_move_generation_stack:        1073
                      play_move:        1054
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         970
-z) +wSa7 +bBe5 
+z) +wSa7  +bBe5  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z1) +wSa7 +bBe4 
+z1) +wSa7  +bBe4  
 
 
   add_to_move_generation_stack:        1151
                      play_move:        1135
  is_white_king_square_attacked:          94
  is_black_king_square_attacked:        1045
-z2) +wSa7 +bBe3 
+z2) +wSa7  +bBe3  
 
 
   add_to_move_generation_stack:        1115
                      play_move:        1099
  is_white_king_square_attacked:          85
  is_black_king_square_attacked:        1018
-z3) +wSa7 +bBe2 
+z3) +wSa7  +bBe2  
 
 
   add_to_move_generation_stack:         969
                      play_move:         951
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         879
-z4) +wSa7 +bBf7 
+z4) +wSa7  +bBf7  
 
 
   add_to_move_generation_stack:         890
                      play_move:         871
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         799
-z5) +wSa7 +bBf6 
+z5) +wSa7  +bBf6  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z6) +wSa7 +bBf5 
+z6) +wSa7  +bBf5  
 
 
   add_to_move_generation_stack:        1073
                      play_move:        1054
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         970
-z7) +wSa7 +bBf4 
+z7) +wSa7  +bBf4  
 
 
   add_to_move_generation_stack:        1148
                      play_move:        1132
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:        1048
-z8) +wSa7 +bBf3 
+z8) +wSa7  +bBf3  
 
 
   add_to_move_generation_stack:        1032
                      play_move:        1032
  is_white_king_square_attacked:          79
  is_black_king_square_attacked:         954
-z9) +wSa7 +bBf2 
+z9) +wSa7  +bBf2  
 
 
   add_to_move_generation_stack:         917
                      play_move:         901
  is_white_king_square_attacked:          73
  is_black_king_square_attacked:         832
-z10) +wSa7 +bBg7 
+z10) +wSa7  +bBg7  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z11) +wSa7 +bBg6 
+z11) +wSa7  +bBg6  
 
 
   add_to_move_generation_stack:         890
                      play_move:         871
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         799
-z12) +wSa7 +bBg5 
+z12) +wSa7  +bBg5  
 
 
   add_to_move_generation_stack:         963
                      play_move:         944
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         872
-z13) +wSa7 +bBg4 
+z13) +wSa7  +bBg4  
 
 
   add_to_move_generation_stack:         979
                      play_move:         963
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         891
-z14) +wSa7 +bBg3 
+z14) +wSa7  +bBg3  
 
 
   add_to_move_generation_stack:         950
                      play_move:         934
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:         862
-z15) +wSa7 +bBg2 
+z15) +wSa7  +bBg2  
 
 
   add_to_move_generation_stack:         752
                      play_move:         752
  is_white_king_square_attacked:          61
  is_black_king_square_attacked:         692
-z16) +wSa7 +bBh7 
+z16) +wSa7  +bBh7  
 
 
   add_to_move_generation_stack:         727
                      play_move:         708
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         648
-z17) +wSa7 +bBh6 
+z17) +wSa7  +bBh6  
 
 
   add_to_move_generation_stack:         787
                      play_move:         768
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         708
-z18) +wSa7 +bBh5 
+z18) +wSa7  +bBh5  
 
 
   add_to_move_generation_stack:         797
                      play_move:         778
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         718
-z19) +wSa7 +bBh4 
+z19) +wSa7  +bBh4  
 
 
   add_to_move_generation_stack:         777
                      play_move:         758
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         698
-z20) +wSa7 +bBh3 
+z20) +wSa7  +bBh3  
 
 
   add_to_move_generation_stack:         768
                      play_move:         749
  is_white_king_square_attacked:          64
  is_black_king_square_attacked:         689
-z21) +wSa7 +bBh2 
+z21) +wSa7  +bBh2  
 
 
   add_to_move_generation_stack:         701
                      play_move:         682
  is_white_king_square_attacked:          58
  is_black_king_square_attacked:         628
-z22) +wSa5 +bBa7 
+z22) +wSa5  +bBa7  
 
 
   add_to_move_generation_stack:        1019
                      play_move:         928
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         858
-z23) +wSa5 +bBa4 
+z23) +wSa5  +bBa4  
 
 
   add_to_move_generation_stack:        1003
                      play_move:         904
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         834
-z24) +wSa5 +bBa3 
+z24) +wSa5  +bBa3  
 
 
   add_to_move_generation_stack:         981
                      play_move:         888
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         818
-z25) +wSa5 +bBa2 
+z25) +wSa5  +bBa2  
 
 
   add_to_move_generation_stack:         895
                      play_move:         796
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         726
-z26) +wSa5 +bBb7 
+z26) +wSa5  +bBb7  
 
 
   add_to_move_generation_stack:        1100
                      play_move:        1002
  is_white_king_square_attacked:          95
  is_black_king_square_attacked:         925
-z27) +wSa5 +bBb6 
+z27) +wSa5  +bBb6  
 
 
   add_to_move_generation_stack:        1193
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
-z28) +wSa5 +bBb5 
+z28) +wSa5  +bBb5  
 
 
   add_to_move_generation_stack:        1235
                      play_move:        1124
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1040
-z29) +wSa5 +bBb4 
+z29) +wSa5  +bBb4  
 
 
   add_to_move_generation_stack:        1195
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
-z30) +wSa5 +bBb3 
+z30) +wSa5  +bBb3  
 
 
   add_to_move_generation_stack:        1114
                      play_move:        1003
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         919
-z31) +wSa5 +bBb2 
+z31) +wSa5  +bBb2  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z32) +wSa5 +bBc7 
+z32) +wSa5  +bBc7  
 
 
   add_to_move_generation_stack:        1193
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
-z33) +wSa5 +bBc6 
+z33) +wSa5  +bBc6  
 
 
   add_to_move_generation_stack:        1327
                      play_move:        1217
  is_white_king_square_attacked:         111
  is_black_king_square_attacked:        1126
-z34) +wSa5 +bBc5 
+z34) +wSa5  +bBc5  
 
 
   add_to_move_generation_stack:        1473
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
-z35) +wSa5 +bBc4 
+z35) +wSa5  +bBc4  
 
 
   add_to_move_generation_stack:        1346
                      play_move:        1223
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1125
-z36) +wSa5 +bBc3 
+z36) +wSa5  +bBc3  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z37) +wSa5 +bBc2 
+z37) +wSa5  +bBc2  
 
 
   add_to_move_generation_stack:        1169
                      play_move:        1058
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         974
-z38) +wSa5 +bBd7 
+z38) +wSa5  +bBd7  
 
 
   add_to_move_generation_stack:        1259
                      play_move:        1149
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1065
-z39) +wSa5 +bBd6 
+z39) +wSa5  +bBd6  
 
 
   add_to_move_generation_stack:        1473
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
-z40) +wSa5 +bBd5 
+z40) +wSa5  +bBd5  
 
 
   add_to_move_generation_stack:        1449
                      play_move:        1327
  is_white_king_square_attacked:         127
  is_black_king_square_attacked:        1222
-z41) +wSa5 +bBd4 
+z41) +wSa5  +bBd4  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z42) +wSa5 +bBd3 
+z42) +wSa5  +bBd3  
 
 
   add_to_move_generation_stack:        1399
                      play_move:        1276
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1178
-z43) +wSa5 +bBd2 
+z43) +wSa5  +bBd2  
 
 
   add_to_move_generation_stack:        1195
                      play_move:        1090
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1010
-z44) +wSa5 +bBe7 
+z44) +wSa5  +bBe7  
 
 
   add_to_move_generation_stack:        1239
                      play_move:        1134
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1050
-z45) +wSa5 +bBe6 
+z45) +wSa5  +bBe6  
 
 
   add_to_move_generation_stack:        1376
                      play_move:        1254
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1156
-z46) +wSa5 +bBe5 
+z46) +wSa5  +bBe5  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z47) +wSa5 +bBe4 
+z47) +wSa5  +bBe4  
 
 
   add_to_move_generation_stack:        1489
                      play_move:        1373
  is_white_king_square_attacked:         127
  is_black_king_square_attacked:        1268
-z48) +wSa5 +bBe3 
+z48) +wSa5  +bBe3  
 
 
   add_to_move_generation_stack:        1467
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
-z49) +wSa5 +bBe2 
+z49) +wSa5  +bBe2  
 
 
   add_to_move_generation_stack:        1246
                      play_move:        1143
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1059
-z50) +wSa5 +bBf7 
+z50) +wSa5  +bBf7  
 
 
   add_to_move_generation_stack:        1138
                      play_move:        1027
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         943
-z51) +wSa5 +bBf6 
+z51) +wSa5  +bBf6  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z52) +wSa5 +bBf5 
+z52) +wSa5  +bBf5  
 
 
   add_to_move_generation_stack:        1422
                      play_move:        1300
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1202
-z53) +wSa5 +bBf4 
+z53) +wSa5  +bBf4  
 
 
   add_to_move_generation_stack:        1467
                      play_move:        1358
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1260
-z54) +wSa5 +bBf3 
+z54) +wSa5  +bBf3  
 
 
   add_to_move_generation_stack:        1293
                      play_move:        1223
  is_white_king_square_attacked:         105
  is_black_king_square_attacked:        1132
-z55) +wSa5 +bBf2 
+z55) +wSa5  +bBf2  
 
 
   add_to_move_generation_stack:        1213
                      play_move:        1120
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1036
-z56) +wSa5 +bBg7 
+z56) +wSa5  +bBg7  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z57) +wSa5 +bBg6 
+z57) +wSa5  +bBg6  
 
 
   add_to_move_generation_stack:        1184
                      play_move:        1073
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         989
-z58) +wSa5 +bBg5 
+z58) +wSa5  +bBg5  
 
 
   add_to_move_generation_stack:        1239
                      play_move:        1134
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1050
-z59) +wSa5 +bBg4 
+z59) +wSa5  +bBg4  
 
 
   add_to_move_generation_stack:        1272
                      play_move:        1169
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1085
-z60) +wSa5 +bBg3 
+z60) +wSa5  +bBg3  
 
 
   add_to_move_generation_stack:        1216
                      play_move:        1120
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1036
-z61) +wSa5 +bBg2 
+z61) +wSa5  +bBg2  
 
 
   add_to_move_generation_stack:         946
                      play_move:         891
  is_white_king_square_attacked:          82
  is_black_king_square_attacked:         821
-z62) +wSa5 +bBh7 
+z62) +wSa5  +bBh7  
 
 
   add_to_move_generation_stack:         974
                      play_move:         875
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         805
-z63) +wSa5 +bBh6 
+z63) +wSa5  +bBh6  
 
 
   add_to_move_generation_stack:        1017
                      play_move:         924
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         854
-z64) +wSa5 +bBh5 
+z64) +wSa5  +bBh5  
 
 
   add_to_move_generation_stack:        1038
                      play_move:         940
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         870
-z65) +wSa5 +bBh4 
+z65) +wSa5  +bBh4  
 
 
   add_to_move_generation_stack:        1001
                      play_move:         910
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         840
-z66) +wSa5 +bBh3 
+z66) +wSa5  +bBh3  
 
 
   add_to_move_generation_stack:        1003
                      play_move:         911
  is_white_king_square_attacked:          87
  is_black_king_square_attacked:         841
-z67) +wSa5 +bBh2 
+z67) +wSa5  +bBh2  
 
 
   add_to_move_generation_stack:         911
                      play_move:         821
  is_white_king_square_attacked:          81
  is_black_king_square_attacked:         758
-z68) +wSa4 +bBa7 
+z68) +wSa4  +bBa7  
 
 
   add_to_move_generation_stack:         972
                      play_move:         890
  is_white_king_square_attacked:          87
  is_black_king_square_attacked:         820
-z69) +wSa4 +bBa5 
+z69) +wSa4  +bBa5  
 
 
   add_to_move_generation_stack:         976
                      play_move:         885
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         815
-z70) +wSa4 +bBa3 
+z70) +wSa4  +bBa3  
 
 
   add_to_move_generation_stack:         936
                      play_move:         849
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         779
-z71) +wSa4 +bBa2 
+z71) +wSa4  +bBa2  
 
 
   add_to_move_generation_stack:         947
                      play_move:         856
  is_white_king_square_attacked:          88
  is_black_king_square_attacked:         786
-z72) +wSa4 +bBb7 
+z72) +wSa4  +bBb7  
 
 
   add_to_move_generation_stack:        1174
                      play_move:        1077
  is_white_king_square_attacked:          97
  is_black_king_square_attacked:        1000
-z73) +wSa4 +bBb6 
+z73) +wSa4  +bBb6  
 
 
   add_to_move_generation_stack:        1170
                      play_move:        1080
  is_white_king_square_attacked:         103
  is_black_king_square_attacked:         996
-z74) +wSa4 +bBb5 
+z74) +wSa4  +bBb5  
 
 
   add_to_move_generation_stack:        1226
                      play_move:        1128
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1048
-z75) +wSa4 +bBb4 
+z75) +wSa4  +bBb4  
 
 
   add_to_move_generation_stack:        1197
                      play_move:        1098
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1014
-z76) +wSa4 +bBb3 
+z76) +wSa4  +bBb3  
 
 
   add_to_move_generation_stack:        1130
                      play_move:        1031
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:         951
-z77) +wSa4 +bBb2 
+z77) +wSa4  +bBb2  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z78) +wSa4 +bBc7 
+z78) +wSa4  +bBc7  
 
 
   add_to_move_generation_stack:        1226
                      play_move:        1132
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1048
-z79) +wSa4 +bBc6 
+z79) +wSa4  +bBc6  
 
 
   add_to_move_generation_stack:        1356
                      play_move:        1251
  is_white_king_square_attacked:         109
  is_black_king_square_attacked:        1164
-z80) +wSa4 +bBc5 
+z80) +wSa4  +bBc5  
 
 
   add_to_move_generation_stack:        1392
                      play_move:        1294
  is_white_king_square_attacked:         119
  is_black_king_square_attacked:        1196
-z81) +wSa4 +bBc4 
+z81) +wSa4  +bBc4  
 
 
   add_to_move_generation_stack:        1407
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
-z82) +wSa4 +bBc3 
+z82) +wSa4  +bBc3  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z83) +wSa4 +bBc2 
+z83) +wSa4  +bBc2  
 
 
   add_to_move_generation_stack:        1130
                      play_move:        1031
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:         951
-z84) +wSa4 +bBd7 
+z84) +wSa4  +bBd7  
 
 
   add_to_move_generation_stack:        1227
                      play_move:        1128
  is_white_king_square_attacked:         100
  is_black_king_square_attacked:        1048
-z85) +wSa4 +bBd6 
+z85) +wSa4  +bBd6  
 
 
   add_to_move_generation_stack:        1447
                      play_move:        1345
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1247
-z86) +wSa4 +bBd5 
+z86) +wSa4  +bBd5  
 
 
   add_to_move_generation_stack:        1535
                      play_move:        1422
  is_white_king_square_attacked:         129
  is_black_king_square_attacked:        1317
-z87) +wSa4 +bBd4 
+z87) +wSa4  +bBd4  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z88) +wSa4 +bBd3 
+z88) +wSa4  +bBd3  
 
 
   add_to_move_generation_stack:        1407
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
-z89) +wSa4 +bBd2 
+z89) +wSa4  +bBd2  
 
 
   add_to_move_generation_stack:        1221
                      play_move:        1122
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1038
-z90) +wSa4 +bBe7 
+z90) +wSa4  +bBe7  
 
 
   add_to_move_generation_stack:        1214
                      play_move:        1119
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1035
-z91) +wSa4 +bBe6 
+z91) +wSa4  +bBe6  
 
 
   add_to_move_generation_stack:        1408
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
-z92) +wSa4 +bBe5 
+z92) +wSa4  +bBe5  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z93) +wSa4 +bBe4 
+z93) +wSa4  +bBe4  
 
 
   add_to_move_generation_stack:        1535
                      play_move:        1422
  is_white_king_square_attacked:         129
  is_black_king_square_attacked:        1317
-z94) +wSa4 +bBe3 
+z94) +wSa4  +bBe3  
 
 
   add_to_move_generation_stack:        1415
                      play_move:        1323
  is_white_king_square_attacked:         119
  is_black_king_square_attacked:        1225
-z95) +wSa4 +bBe2 
+z95) +wSa4  +bBe2  
 
 
   add_to_move_generation_stack:        1264
                      play_move:        1172
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1088
-z96) +wSa4 +bBf7 
+z96) +wSa4  +bBf7  
 
 
   add_to_move_generation_stack:        1174
                      play_move:        1075
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         991
-z97) +wSa4 +bBf6 
+z97) +wSa4  +bBf6  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z98) +wSa4 +bBf5 
+z98) +wSa4  +bBf5  
 
 
   add_to_move_generation_stack:        1408
                      play_move:        1301
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1203
-z99) +wSa4 +bBf4 
+z99) +wSa4  +bBf4  
 
 
   add_to_move_generation_stack:        1467
                      play_move:        1368
  is_white_king_square_attacked:         120
  is_black_king_square_attacked:        1270
-z100) +wSa4 +bBf3 
+z100) +wSa4  +bBf3  
 
 
   add_to_move_generation_stack:        1384
                      play_move:        1288
  is_white_king_square_attacked:         113
  is_black_king_square_attacked:        1197
-z101) +wSa4 +bBf2 
+z101) +wSa4  +bBf2  
 
 
   add_to_move_generation_stack:        1121
                      play_move:        1072
  is_white_king_square_attacked:          97
  is_black_king_square_attacked:         988
-z102) +wSa4 +bBg7 
+z102) +wSa4  +bBg7  
 
 the side to play can capture the king
   add_to_move_generation_stack:           0
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-z103) +wSa4 +bBg6 
+z103) +wSa4  +bBg6  
 
 
   add_to_move_generation_stack:        1174
                      play_move:        1075
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:         991
-z104) +wSa4 +bBg5 
+z104) +wSa4  +bBg5  
 
 
   add_to_move_generation_stack:        1237
                      play_move:        1142
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1058
-z105) +wSa4 +bBg4 
+z105) +wSa4  +bBg4  
 
 
   add_to_move_generation_stack:        1268
                      play_move:        1172
  is_white_king_square_attacked:         104
  is_black_king_square_attacked:        1088
-z106) +wSa4 +bBg3 
+z106) +wSa4  +bBg3  
 
 
   add_to_move_generation_stack:        1193
@@ -1339,30 +1339,6 @@ there is no solution, but 4.51 gave 1.Qb2#
 solution finished. 
 
 
-
-      White or Black maximummer?
-
-+---a---b---c---d---e---f---g---h---+
-|                                   |
-8  -K   .   .   .   .   .   .   .   8
-|                                   |
-7   .   .   .   .   .   .   .   .   7
-|                                   |
-6   .   .   .   .   .   .   .   .   6
-|                                   |
-5   .   .   .   .   .   .   .   .   5
-|                                   |
-4   .   .   .   .   .   .   .   .   4
-|                                   |
-3   .   .   .   .   .   .   .   .   3
-|                                   |
-2   .   .   .   .   .   .   .   .   2
-|                                   |
-1   K   .   .   .   .   .   .   .   1
-|                                   |
-+---a---b---c---d---e---f---g---h---+
-  white 3a[#]d | 4hh[#]       1 + 1
-              Maximummer
 Can't decide whether condition applies to White or Black
 
 problem ignored
@@ -2366,7 +2342,7 @@ a)
                      play_move:          47
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          48
-b) nPf7 
+b) nPf7  
 
    1.nPf7*e8-a8=nB # !
 
@@ -2375,7 +2351,7 @@ b) nPf7
                      play_move:          60
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          61
-c) nhPf7 
+c) nhPf7  
 
    1.nhPf7*e8-a8=nhQ=wh # !
 

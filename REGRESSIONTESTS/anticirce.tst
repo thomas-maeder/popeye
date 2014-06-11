@@ -1,3 +1,4 @@
+both sides need a king
 
             Anticirce Cage
 
@@ -22,7 +23,6 @@
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
             AntiCirce Cage
-both sides need a king
 
    1.Be5-a1 !
 
@@ -90,7 +90,7 @@ a)
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) AntiCirce Take&Make
+b) AntiCirce Take&Make  
 
    1.d4-d5 !
 
@@ -139,7 +139,7 @@ a)
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
-b) AntiCirce Take&Make
+b) AntiCirce Take&Make  
 
 
   add_to_move_generation_stack:           3
@@ -622,7 +622,7 @@ a)
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) Circe Einstein
-   AntiCirce ReversalEinstein
+   AntiCirce ReversalEinstein  
 
    1.Bd3*f5[wBf5->Sb1][+bPf7] x !
 

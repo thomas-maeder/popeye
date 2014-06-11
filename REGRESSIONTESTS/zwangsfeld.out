@@ -83,7 +83,12 @@ Probleemblad V-VI 1996, Utrecht-M\"unchen, 6. Platz
 
 NullStellung
 
-a) sKd3-->b6
+
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+a) sKd3-->b6  
 
   1.Kb6-c6 c7-c8=T +   2.Kc6-d7 Tc8-d8 #
 
@@ -91,7 +96,7 @@ a) sKd3-->b6
                      play_move:         971
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:         944
-b) SchwarzesKonsequentesZwangsfeld b3
+b) SchwarzesKonsequentesZwangsfeld b3  
 
   1.Kd3-d4 c7-c8=L   2.Kd4-c4 Lc8-e6 #
 
@@ -99,7 +104,7 @@ b) SchwarzesKonsequentesZwangsfeld b3
                      play_move:        1235
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1204
-c) SchwarzesKonsequentesZwangsfeld g6
+c) SchwarzesKonsequentesZwangsfeld g6  
 
   1.Kd3-e4 c7-c8=S   2.Ke4-f5 Sc8-e7 #
 
@@ -107,7 +112,7 @@ c) SchwarzesKonsequentesZwangsfeld g6
                      play_move:        1565
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1534
-+d) wBc7-->b7
++d) wBc7-->b7  
 
   1.Kd3-e4 b7-b8=D   2.Ke4-f5 Db8-b1 #
 

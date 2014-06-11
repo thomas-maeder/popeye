@@ -14,16 +14,6 @@
 
 static move_effect_journal_index_type last_horizon;
 
-static void WriteTwinNumber(void)
-{
-  if (twin_number-twin_a<='z'-'a')
-    sprintf(GlobalStr, "%c) ", 'a'+twin_number-twin_a);
-  else
-    sprintf(GlobalStr, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
-
-  StdString(GlobalStr);
-}
-
 static boolean find_removal(move_effect_journal_index_type top,
                             square on)
 {
@@ -204,6 +194,19 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   StdString("  ");
 }
 
+static void WriteTwinLetter(void)
+{
+  if (twin_is_continued)
+    StdChar('+');
+
+  if (twin_number-twin_a<='z'-'a')
+    sprintf(GlobalStr, "%c) ", 'a'+twin_number-twin_a);
+  else
+    sprintf(GlobalStr, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+
+  StdString(GlobalStr);
+}
+
 static void WriteTwinning(void)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
@@ -212,77 +215,67 @@ static void WriteTwinning(void)
 
   assert(base<=top);
 
-  if (!twin_is_duplex && twin_number>=twin_a)
+  for (curr = base; curr!=top; ++curr)
   {
-    if (twin_is_continued)
-      StdChar('+');
+    move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-    WriteTwinNumber();
-
-    for (curr = base; curr!=top; ++curr)
+    switch (entry->type)
     {
-      move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+      case move_effect_piece_creation:
+        WritePieceCreation(curr);
+        break;
 
-      switch (entry->type)
-      {
-        case move_effect_piece_creation:
-          WritePieceCreation(curr);
-          break;
+      case move_effect_piece_removal:
+        WritePieceRemoval(curr);
+        break;
 
-        case move_effect_piece_removal:
-          WritePieceRemoval(curr);
-          break;
+      case move_effect_piece_movement:
+        WritePieceMovement(curr);
+        break;
 
-        case move_effect_piece_movement:
-          WritePieceMovement(curr);
-          break;
+      case move_effect_piece_exchange:
+        WritePieceExchange(curr);
+        break;
 
-        case move_effect_piece_exchange:
-          WritePieceExchange(curr);
-          break;
+      case move_effect_board_transformation:
+        WriteBoardTransformation(curr);
+        break;
 
-        case move_effect_board_transformation:
-          WriteBoardTransformation(curr);
-          break;
+      case move_effect_twinning_shift:
+        WriteShift(curr);
+        break;
 
-        case move_effect_twinning_shift:
-          WriteShift(curr);
-          break;
+      case move_effect_input_condition:
+        WriteConditions(&WriteCondition);
+        StdString("  ");
+        break;
 
-        case move_effect_input_condition:
-          WriteConditions(&WriteCondition);
-          StdString("  ");
-          break;
+      case move_effect_input_stipulation:
+      case move_effect_input_sstipulation:
+        WriteStipulation(curr);
+        break;
 
-        case move_effect_input_stipulation:
-        case move_effect_input_sstipulation:
-          WriteStipulation(curr);
-          break;
+      case move_effect_twinning_polish:
+        WritePolish(curr);
+        break;
 
-        case move_effect_twinning_polish:
-          WritePolish(curr);
-          break;
+      case move_effect_twinning_substitute:
+        WriteSubstitute(curr);
+        break;
 
-        case move_effect_twinning_substitute:
-          WriteSubstitute(curr);
-          break;
+      case move_effect_king_square_movement:
+        /* the search for royals leaves its traces in the twinning ply */
+      case move_effect_remember_volcanic:
+        /* Forsberg twinning */
+        break;
 
-        case move_effect_king_square_movement:
-          /* the search for royals leaves its traces in the twinning ply */
-        case move_effect_remember_volcanic:
-          /* Forsberg twinning */
-          break;
-
-        default:
-          assert(0);
-          break;
-      }
+      default:
+        assert(0);
+        break;
     }
-
-    Message(NewLine);
-
-    last_horizon = top;
   }
+
+  last_horizon = top;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -304,7 +297,36 @@ void output_plaintext_write_twinning(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteTwinning();
+  switch (twin_stage)
+  {
+    case twin_original_position_no_twins:
+      break;
+
+    case twin_zeroposition:
+      Message(NewLine);
+      StdString(TokenTab[ZeroPosition]);
+      Message(NewLine);
+      Message(NewLine);
+      break;
+
+    case twin_initial:
+      Message(NewLine);
+      WriteTwinLetter();
+      WriteTwinning();
+      Message(NewLine);
+      break;
+
+    case twin_regular:
+    case twin_last:
+      WriteTwinLetter();
+      WriteTwinning();
+      Message(NewLine);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   pipe_solve_delegate(si);
 

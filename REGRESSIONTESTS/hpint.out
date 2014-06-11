@@ -197,7 +197,7 @@ a)
                      play_move:        4762
  is_white_king_square_attacked:        1265
  is_black_king_square_attacked:         892
-b) wKa6-->g2
+b) wKa6-->g2  
 
 0 moegliche Stellungen in 1+0
 1 moegliche Stellungen in 2+0
@@ -328,6 +328,8 @@ Loesung beendet.
 Loesung beendet. 
 
 
+Es fehlt ein weisser oder schwarzer Koenig
+
 
            Theodor Steudel
          Problemkiste 2/1994
@@ -353,8 +355,6 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-=4                      2 + 2
-Es fehlt ein weisser oder schwarzer Koenig
-
 
 0 moegliche Stellungen in 1+0
 4 moegliche Stellungen in 2+0
@@ -634,7 +634,7 @@ a)
                      play_move:      660848
  is_white_king_square_attacked:      231353
  is_black_king_square_attacked:      272690
-b) ser-h=9
+b) ser-h=9  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 1+2
@@ -701,7 +701,7 @@ a)
                      play_move:      890351
  is_white_king_square_attacked:      303718
  is_black_king_square_attacked:      393718
-b) ser-h=14
+b) ser-h=14  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 1+2
@@ -768,7 +768,7 @@ a)
                      play_move:       32187
  is_white_king_square_attacked:        7397
  is_black_king_square_attacked:       10049
-b) ser-h=9
+b) ser-h=9  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 1+2
@@ -827,7 +827,7 @@ a)
                      play_move:       21538
  is_white_king_square_attacked:        4553
  is_black_king_square_attacked:       10068
-b) sBa2-->b3
+b) sBa2-->b3  
 
 0 moegliche Stellungen in 1+1
 1 moegliche Stellungen in 1+2
@@ -884,7 +884,7 @@ a)
                      play_move:     1037328
  is_white_king_square_attacked:      205856
  is_black_king_square_attacked:      220333
-b) ser-=6
+b) ser-=6  
 
 0 moegliche Stellungen in 1+0
 10 moegliche Stellungen in 2+0
@@ -940,7 +940,7 @@ a)
                      play_move:       54166
  is_white_king_square_attacked:        9158
  is_black_king_square_attacked:       11598
-b) ser-=4
+b) ser-=4  
 
 0 moegliche Stellungen in 1+0
 4 moegliche Stellungen in 2+0
@@ -991,7 +991,7 @@ a)
                      play_move:        2926
  is_white_king_square_attacked:         307
  is_black_king_square_attacked:        1696
-b) ser-=2
+b) ser-=2  
 
 0 moegliche Stellungen in 1+0
   1.c7*d8=S   2.f7*e8=S =
@@ -1511,7 +1511,7 @@ a)
                      play_move:        7964
  is_white_king_square_attacked:         239
  is_black_king_square_attacked:        4234
-b) sBc7-->d6
+b) sBc7-->d6  
 
 7 moegliche Stellungen in 1+1
 7 moegliche Stellungen in 1+2
@@ -1563,7 +1563,7 @@ a)
                      play_move:         382
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:          63
-b) h=2
+b) h=2  
 
 0 moegliche Stellungen in 1+1
   1.Sc6-e7 Tb5*d5   2.Se7-f5 Td5*f5 =
@@ -1611,7 +1611,7 @@ a)
                      play_move:        1343
  is_white_king_square_attacked:          56
  is_black_king_square_attacked:         321
-b) h=2   -sBh4
+b) h=2  -sBh4  
 
 0 moegliche Stellungen in 1+1
   1.h2-h1=S b7-b8=L   2.Sh1-g3 Lb8*g3 =
@@ -1742,7 +1742,7 @@ a)
                      play_move:       21704
  is_white_king_square_attacked:        1089
  is_black_king_square_attacked:        3340
-b) h=4
+b) h=4  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -1794,7 +1794,7 @@ a)
                      play_move:        1946
  is_white_king_square_attacked:         176
  is_black_king_square_attacked:         332
-b) h=4  sBg6-->e6
+b) h=4  sBg6-->e6  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -1844,7 +1844,7 @@ a)
                      play_move:          42
  is_white_king_square_attacked:           7
  is_black_king_square_attacked:          13
-b) h=2
+b) h=2  
 
 0 moegliche Stellungen in 1+1
   1.g7-g5 g2-g4   2.h5*g4 Sf1-g3 =
@@ -1974,7 +1974,7 @@ a)
                      play_move:         186
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:          33
-b) h=6  sKa1-->h1
+b) h=6  sKa1-->h1  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2030,7 +2030,7 @@ a)
                      play_move:         171
  is_white_king_square_attacked:          18
  is_black_king_square_attacked:          27
-b) h=6
+b) h=6  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2086,7 +2086,7 @@ a)
                      play_move:         171
  is_white_king_square_attacked:          18
  is_black_king_square_attacked:          27
-b) h=6
+b) h=6  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2142,7 +2142,7 @@ a)
                      play_move:          97
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:          18
-b) h=6
+b) h=6  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2247,7 +2247,7 @@ a)
                      play_move:      112957
  is_white_king_square_attacked:        3116
  is_black_king_square_attacked:       13433
-b) h=7
+b) h=7  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2301,7 +2301,7 @@ a)
                      play_move:        6347
  is_white_king_square_attacked:         214
  is_black_king_square_attacked:         327
-b) h=3
+b) h=3  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2518,7 +2518,7 @@ a)
                      play_move:       31399
  is_white_king_square_attacked:        2036
  is_black_king_square_attacked:        4532
-b) sSf6-->h1
+b) sSf6-->h1  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2889,7 +2889,7 @@ a)
                      play_move:       15539
  is_white_king_square_attacked:        1075
  is_black_king_square_attacked:        3831
-b) sKh2-->h1
+b) sKh2-->h1  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -2903,7 +2903,7 @@ b) sKh2-->h1
                      play_move:       16520
  is_white_king_square_attacked:        1080
  is_black_king_square_attacked:        4156
-c) wKg4-->f1  wBf2-->a2
+c) wKg4-->f1  wBf2-->a2  
 
 0 moegliche Stellungen in 1+1
 0 moegliche Stellungen in 2+2
@@ -3708,7 +3708,7 @@ a)
                      play_move:      937837
  is_white_king_square_attacked:       20096
  is_black_king_square_attacked:      327004
-b) sBc2-->b2
+b) sBc2-->b2  
 
 0 moegliche Stellungen in 1+1
 60 moegliche Stellungen in 2+2
@@ -3800,7 +3800,7 @@ a)
                      play_move:       15189
  is_white_king_square_attacked:          29
  is_black_king_square_attacked:       14889
-b) wTe1 
+b) wTe1  
 
 0 moegliche Stellungen in 1+1
 1 moegliche Stellungen in 2+2
@@ -3853,7 +3853,7 @@ a)
                      play_move:       10236
  is_white_king_square_attacked:         772
  is_black_king_square_attacked:        5315
-b) wKe5-->b3
+b) wKe5-->b3  
 
 0 moegliche Stellungen in 1+1
 1 moegliche Stellungen in 1+2
@@ -4523,7 +4523,7 @@ a)
                      play_move:        2359
  is_white_king_square_attacked:         366
  is_black_king_square_attacked:         405
-b) sKa8-->b8
+b) sKa8-->b8  
 
 0 moegliche Stellungen in 1+0
 0 moegliche Stellungen in 2+0
@@ -4988,7 +4988,7 @@ a)
                      play_move:     1471777
  is_white_king_square_attacked:       11379
  is_black_king_square_attacked:     1319512
-b) wBd6-->g6
+b) wBd6-->g6  
 
 0 moegliche Stellungen in 1+1
 1 moegliche Stellungen in 2+2
@@ -5038,7 +5038,7 @@ a)
                      play_move:        1981
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:        1791
-b) sSa2 
+b) sSa2  
 
   1.c4-c3 Ke2-d1 =
   1.c4-c3 Dh1-d1 =
@@ -5047,7 +5047,7 @@ b) sSa2
                      play_move:        1566
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:        1484
-c) sLa2 
+c) sLa2  
 
   1.c4-c3 Ke2-d1 =
   1.c4-c3 Dh1-d1 =
@@ -5056,7 +5056,7 @@ c) sLa2
                      play_move:        2047
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:        1885
-d) sTa2 
+d) sTa2  
 
   1.c4-c3 Ke2-d1 =
   1.c4-c3 Dh1-d1 =
@@ -5065,7 +5065,7 @@ d) sTa2
                      play_move:        1891
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:        1701
-e) sDa2 
+e) sDa2  
 
   1.c4-c3 Ke2-d1 =
   1.c4-c3 Dh1-d1 =

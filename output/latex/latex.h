@@ -21,9 +21,18 @@ void LaTeXEndDiagram(void);
 void LaTexOpenSolution(void);
 void LaTeXFlushSolution(void);
 
+void LaTeXActivateSolutionBuffer(void);
+void LaTeXDeactivateSolutionBuffer(void);
+
+
 char *ParseLaTeXPieces(char *tok);
 
 void LaTeXStr(char const *line);
 char *LaTeXWalk(piece_walk_type walk);
+
+/* Instrument the solving machinery with slices that write the solution in
+ * LaTeX
+ */
+void output_latex_instrument_solving(slice_index si);
 
 #endif

@@ -1,4 +1,5 @@
 #include "solving/machinery/solvers.h"
+#include "solving/machinery/twin.h"
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
@@ -225,6 +226,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   solving_impose_starter(result,slices[stipulation_root_hook].starter);
 
   goal_prerequisite_guards_initialse_solving(result);
+
+  if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
+    pipe_append(result,alloc_pipe(STOutputPlainTextPositionWriter));
 
   insert_temporary_hacks(result);
 

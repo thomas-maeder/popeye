@@ -36,7 +36,7 @@ typedef enum
   RebirthOutside                                    = 12,
   SetAndCheck                                       = 13,
   KamikazeAndSomeCond                               = 14,
-  Unused                                            = 15,
+  ZeroPositionNoTwin                                = 15,
   TwoMummerCond                                     = 16,
   KingCapture                                       = 17,
   MonoAndBiChrom                                    = 18,

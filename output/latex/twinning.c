@@ -269,102 +269,113 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   strcat(twinning,GlobalStr);
 }
 
+static void WriteTwinLetterToSolutionBuffer(void)
+{
+  if (twin_is_continued)
+    fputc('+',TextualSolutionBuffer);
+
+  if (twin_number-twin_a<='z'-'a')
+    sprintf(GlobalStr, "%c) ", 'a'+twin_number-twin_a);
+  else
+    sprintf(GlobalStr, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+
+  fputs(GlobalStr,TextualSolutionBuffer);
+  fflush(TextualSolutionBuffer);
+}
+
 static void WriteTwinning(void)
 {
-  if (LaTeXFile!=0)
+  move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1]-2; /* reduce by 2 king square movements*/
+  move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
+  move_effect_journal_index_type curr;
+  boolean written_on_last_entry = false;
+
+  assert(base<=top);
+
+  if (base<top)
   {
-    move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1]-2; /* reduce by 2 king square movements*/
-    move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
-    move_effect_journal_index_type curr;
-    boolean written_on_last_entry = false;
+    if (twin_is_continued)
+      strcat(twinning, "+");
 
-    assert(base<=top);
+    BeginTwinning();
 
-    if (!twin_is_duplex && twin_number>=twin_a && base<top)
+    for (curr = base; curr!=top; ++curr)
     {
-      if (twin_is_continued)
-        strcat(twinning, "+");
-
-      BeginTwinning();
-
-      for (curr = base; curr!=top; ++curr)
+      if (written_on_last_entry)
       {
-        if (written_on_last_entry)
-        {
-          strcat(twinning, ", ");
-          written_on_last_entry = false;
-        }
-
-        switch (move_effect_journal[curr].type)
-        {
-          case move_effect_piece_creation:
-            WritePieceCreation(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_piece_removal:
-            if (WritePieceRemoval(curr))
-              written_on_last_entry = true;
-            break;
-
-          case move_effect_piece_movement:
-            WritePieceMovement(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_piece_exchange:
-            WritePieceExchange(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_board_transformation:
-            WriteBoardTransformation(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_twinning_shift:
-            WriteShift(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_input_condition:
-            WriteConditions(&WriteCondition);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_input_stipulation:
-          case move_effect_input_sstipulation:
-            WriteStipulation(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_twinning_polish:
-            WritePolish(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_twinning_substitute:
-            WriteSubstitute(curr);
-            written_on_last_entry = true;
-            break;
-
-          case move_effect_king_square_movement:
-            /* the search for royals leaves its traces in the twinning ply */
-          case move_effect_remember_volcanic:
-            /* Forsberg twinning */
-            break;
-
-          default:
-            assert(0);
-            break;
-        }
+        strcat(twinning, ", ");
+        written_on_last_entry = false;
       }
 
-      EndTwinning();
+      switch (move_effect_journal[curr].type)
+      {
+        case move_effect_piece_creation:
+          WritePieceCreation(curr);
+          written_on_last_entry = true;
+          break;
 
-      last_horizon = top;
+        case move_effect_piece_removal:
+          if (WritePieceRemoval(curr))
+            written_on_last_entry = true;
+          break;
+
+        case move_effect_piece_movement:
+          WritePieceMovement(curr);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_piece_exchange:
+          WritePieceExchange(curr);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_board_transformation:
+          WriteBoardTransformation(curr);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_twinning_shift:
+          WriteShift(curr);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_input_condition:
+          WriteConditions(&WriteCondition);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_input_stipulation:
+        case move_effect_input_sstipulation:
+          WriteStipulation(curr);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_twinning_polish:
+          WritePolish(curr);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_twinning_substitute:
+          WriteSubstitute(curr);
+          written_on_last_entry = true;
+          break;
+
+        case move_effect_king_square_movement:
+          /* the search for royals leaves its traces in the twinning ply */
+        case move_effect_remember_volcanic:
+          /* Forsberg twinning */
+          break;
+
+        default:
+          assert(0);
+          break;
+      }
     }
+
+    EndTwinning();
   }
+
+  last_horizon = top;
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -386,9 +397,81 @@ void output_latex_write_twinning(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteTwinning();
+  switch (twin_stage)
+  {
+    case twin_original_position_no_twins:
+      if (twin_duplex_type!=twin_is_duplex)
+      {
+        LaTeXBeginDiagram();
+        LaTexOpenSolution();
+      }
 
-  pipe_solve_delegate(si);
+      LaTeXActivateSolutionBuffer();
+      pipe_solve_delegate(si);
+      LaTeXDeactivateSolutionBuffer();
+
+      if (twin_duplex_type!=twin_has_duplex)
+      {
+        LaTeXFlushSolution();
+        LaTeXFlushTwinning();
+        LaTeXEndDiagram();
+      }
+      break;
+
+    case twin_zeroposition:
+      LaTeXBeginDiagram();
+      LaTexOpenSolution();
+      pipe_solve_delegate(si);
+      break;
+
+    case twin_initial:
+      if (twin_duplex_type!=twin_is_duplex)
+      {
+        LaTeXBeginDiagram();
+        LaTexOpenSolution();
+        WriteTwinning();
+      }
+
+      LaTeXActivateSolutionBuffer();
+      if (twin_duplex_type!=twin_is_duplex)
+        WriteTwinLetterToSolutionBuffer();
+      pipe_solve_delegate(si);
+      LaTeXDeactivateSolutionBuffer();
+      break;
+
+    case twin_regular:
+      if (twin_duplex_type!=twin_is_duplex)
+        WriteTwinning();
+
+      LaTeXActivateSolutionBuffer();
+      if (twin_duplex_type!=twin_is_duplex)
+        WriteTwinLetterToSolutionBuffer();
+      pipe_solve_delegate(si);
+      LaTeXDeactivateSolutionBuffer();
+      break;
+
+    case twin_last:
+      if (twin_duplex_type!=twin_is_duplex)
+        WriteTwinning();
+
+      LaTeXActivateSolutionBuffer();
+      if (twin_duplex_type!=twin_is_duplex)
+        WriteTwinLetterToSolutionBuffer();
+      pipe_solve_delegate(si);
+      LaTeXDeactivateSolutionBuffer();
+
+      if (twin_duplex_type!=twin_has_duplex)
+      {
+        LaTeXFlushSolution();
+        LaTeXFlushTwinning();
+        LaTeXEndDiagram();
+      }
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

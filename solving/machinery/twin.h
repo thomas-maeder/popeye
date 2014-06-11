@@ -16,17 +16,28 @@ extern twin_id_type twin_id;
 /* is the current twin a continued twin? */
 extern boolean twin_is_continued;
 
-/* is this (virtual) twin the duplex of a twin?
- * NB: halfduplex doesn't count as duplex here
- */
-extern boolean twin_is_duplex;
+typedef enum
+{
+  twin_original_position_no_twins,
+  twin_zeroposition,
+  twin_initial,
+  twin_regular,
+  twin_last
+} twin_stage_type;
+extern twin_stage_type twin_stage;
+
+typedef enum
+{
+  twin_no_duplex,
+  twin_has_duplex,
+  twin_is_duplex
+} twin_duplex_type_type;
+extern twin_duplex_type_type twin_duplex_type;
 
 enum
 {
-  twin_number_original_position_no_twins = 0,
-  twin_zeroposition,
-  twin_a = 1,
-  twin_b = 2
+  twin_a,
+  twin_b,
   /* etc. */
 };
 extern unsigned int twin_number;

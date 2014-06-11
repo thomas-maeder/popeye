@@ -1,4 +1,3 @@
-Popeye Linux-3.7.10-1.32-default-x86_64-64Bit v4.68 (1024 MB)
 
            Stephen EMmerson
              Unpublished
@@ -27,6 +26,11 @@ Popeye Linux-3.7.10-1.32-default-x86_64-64Bit v4.68 (1024 MB)
 
 zeroposition
 
+
+  add_to_move_generation_stack:           0
+                     play_move:           0
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
 a) B ==> M  
 
   1.Rg4-g1[Ia5] Qb2-d4[Ic7]   2.Rg1-e1[Ia7] Qd4-d5[Ia8] #
@@ -52,6 +56,6 @@ b) Q ==> EA
                      play_move:        1151
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        1075
-solution finished. Time = 0.060 s
+solution finished. 
 
 
