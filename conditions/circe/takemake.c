@@ -28,8 +28,14 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
   square const sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
   piece_walk_type const pi_capturing = get_walk_of_piece_on_square(sq_capture);
   Flags const flags_capturing = being_solved.spec[sq_capture];
-  move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-  move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+
+  /* we need to do this for this module to work in both Circe and Anticirce:
+   * normally (i.e. unless e.g. mirror is selected), the capturee's walk
+   * determines the squares reachable by the make part of moves, independently
+   * of whether the reborn piece is the capturer or the capturee.
+   */
   Side const relevant_side = (trait[context->relevant_ply]==context->relevant_side
                               ? advers(context->relevant_side)
                               : context->relevant_side);
