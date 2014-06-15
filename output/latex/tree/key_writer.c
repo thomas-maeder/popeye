@@ -1,7 +1,6 @@
 #include "output/latex/tree/key_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "output/latex/latex.h"
 #include "output/plaintext/message.h"
 #include "platform/beep.h"
 #include "solving/pipe.h"
@@ -12,7 +11,7 @@
 /* Allocate a STOutputLaTeXKeyWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_key_writer(void)
+slice_index alloc_output_latex_tree_key_writer(FILE *file)
 {
   slice_index result;
 
@@ -20,6 +19,7 @@ slice_index alloc_output_latex_tree_key_writer(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXKeyWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +46,7 @@ void output_latex_tree_key_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fputs(" !",LaTeXFile);
+  fputs(" !",slices[si].u.writer.file);
 
   pipe_solve_delegate(si);
 

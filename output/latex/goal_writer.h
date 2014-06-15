@@ -4,6 +4,8 @@
 #include "stipulation/goals/goals.h"
 #include "solving/machinery/solve.h"
 
+#include <stdio.h>
+
 /* This module provides the STOutputLaTeXGoalWriter slice type.
  * Slices of this type write the goal at the end of a variation
  */
@@ -12,7 +14,7 @@
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_goal_writer_slice(Goal goal);
+slice_index alloc_output_latex_goal_writer_slice(Goal goal, FILE *file);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

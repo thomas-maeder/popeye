@@ -29,8 +29,9 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 
 
   {
+    FILE *file = st->param;
     Goal const goal = { no_goal, initsquare };
-    pipe_append(slices[si].prev,alloc_output_latex_line_writer_slice(goal));
+    pipe_append(slices[si].prev,alloc_output_latex_line_writer_slice(goal,file));
   }
 
   TraceFunctionExit(__func__);
@@ -40,6 +41,8 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 static void instrument_goal_reached_tester(slice_index si,
                                            stip_structure_traversal *st)
 {
+  FILE *file = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -48,12 +51,13 @@ static void instrument_goal_reached_tester(slice_index si,
 
   {
     Goal const goal = slices[si].u.goal_handler.goal;
-    slice_index const prototype = alloc_output_latex_line_writer_slice(goal);
+    slice_index const prototype = alloc_output_latex_line_writer_slice(goal,file);
     help_branch_insert_slices(si,&prototype,1);
   }
 
   {
-    slice_index const prototype = alloc_output_latex_goal_writer_slice(slices[si].u.goal_handler.goal);
+    slice_index const prototype = alloc_output_latex_goal_writer_slice(slices[si].u.goal_handler.goal,
+                                                                       file);
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -232,7 +236,7 @@ enum
  * LaTeX line mode output.
  * @param si identifies slice where to start
  */
-void solving_insert_output_latex_line_slices(slice_index si)
+void solving_insert_output_latex_line_slices(slice_index si, FILE *file)
 {
   stip_structure_traversal st;
 
@@ -241,7 +245,7 @@ void solving_insert_output_latex_line_slices(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,file);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
                                                 &stip_traverse_structure_children_pipe);

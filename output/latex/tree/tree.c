@@ -31,11 +31,12 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   {
+    FILE * const file = st->param;
     slice_index const prototypes[] =
     {
-      alloc_output_latex_tree_zugzwang_writer_slice(),
-      alloc_output_latex_tree_threat_writer_slice(),
-      alloc_output_latex_tree_move_writer_slice()
+      alloc_output_latex_tree_zugzwang_writer_slice(file),
+      alloc_output_latex_tree_threat_writer_slice(file),
+      alloc_output_latex_tree_move_writer_slice(file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,nr_prototypes,si);
@@ -54,10 +55,11 @@ static void insert_writer_for_move_in_parent(slice_index si,
 
   if (st->level==structure_traversal_level_nested)
   {
+    FILE * const file = st->param;
     slice_index const prototypes[] =
     {
-      alloc_output_latex_tree_move_writer_slice(),
-      alloc_output_latex_tree_check_writer_slice()
+      alloc_output_latex_tree_move_writer_slice(file),
+      alloc_output_latex_tree_check_writer_slice(file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
@@ -78,10 +80,11 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_defense
       || st->context==stip_traversal_context_attack)
   {
+    FILE * const file = st->param;
     slice_index const prototypes[] =
     {
-      alloc_output_latex_tree_move_writer_slice(),
-      alloc_output_latex_tree_check_writer_slice()
+      alloc_output_latex_tree_move_writer_slice(file),
+      alloc_output_latex_tree_check_writer_slice(file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
@@ -101,7 +104,9 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].u.goal_handler.goal.type!=no_goal)
   {
-    slice_index const prototype = alloc_output_latex_goal_writer_slice(slices[si].u.goal_handler.goal);
+    FILE *file = st->param;
+    slice_index const prototype = alloc_output_latex_goal_writer_slice(slices[si].u.goal_handler.goal,
+                                                                       file);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -130,7 +135,7 @@ enum
 /* Insert the writer slices
  * @param si identifies slice where to start
  */
-static void insert_regular_writer_slices(slice_index si)
+static void insert_regular_writer_slices(slice_index si, FILE *file)
 {
   stip_structure_traversal st;
 
@@ -138,7 +143,7 @@ static void insert_regular_writer_slices(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,file);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
                                                 &stip_traverse_structure_children_pipe);
@@ -157,11 +162,13 @@ static void insert_regular_writer_slices(slice_index si)
 static void substitute_try_writer(slice_index si,
                                           stip_structure_traversal *st)
 {
+  FILE *file = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_substitute(si,alloc_output_latex_tree_try_writer());
+  pipe_substitute(si,alloc_output_latex_tree_try_writer(file));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -175,7 +182,8 @@ static void insert_refutation_writer(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_output_latex_tree_refutation_writer_slice();
+    FILE *file = st->param;
+    slice_index const prototype = alloc_output_latex_tree_refutation_writer_slice(file);
     defense_branch_insert_slices(si,&prototype,1);
   }
 
@@ -198,7 +206,7 @@ enum
   = sizeof try_writer_inserters / sizeof try_writer_inserters[0]
 };
 
-static void insert_try_writers(slice_index si)
+static void insert_try_writers(slice_index si, FILE *file)
 {
   stip_structure_traversal st;
 
@@ -206,7 +214,7 @@ static void insert_try_writers(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,file);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
                                                 &stip_traverse_structure_children_pipe);
@@ -222,6 +230,12 @@ static void insert_try_writers(slice_index si)
   TraceFunctionResultEnd();
 }
 
+typedef struct
+{
+    boolean is_postkey_play;
+    FILE *file;
+} insertion_state_type;
+
 static void insert_end_of_solution_writer(slice_index si,
                                           stip_structure_traversal *st)
 {
@@ -233,7 +247,8 @@ static void insert_end_of_solution_writer(slice_index si,
 
   if (st->level==structure_traversal_level_top)
   {
-    slice_index const prototype = alloc_output_latex_tree_end_of_solution_writer_slice();
+    insertion_state_type *state = st->param;
+    slice_index const prototype = alloc_output_latex_tree_end_of_solution_writer_slice(state->file);
     slice_insertion_insert(si,&prototype,1);
   }
 
@@ -243,16 +258,16 @@ static void insert_end_of_solution_writer(slice_index si,
 
 static void remember_postkey_play(slice_index si, stip_structure_traversal *st)
 {
-  boolean * const is_postkey_play = st->param;
-  boolean const save_is_postkey_play = *is_postkey_play;
+  insertion_state_type * const state = st->param;
+  boolean const save_is_postkey_play = state->is_postkey_play;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *is_postkey_play = st->level==structure_traversal_level_top;
+  state->is_postkey_play = st->level==structure_traversal_level_top;
   stip_traverse_structure_children_pipe(si,st);
-  *is_postkey_play = save_is_postkey_play;
+  state->is_postkey_play = save_is_postkey_play;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -268,7 +283,8 @@ static void insert_key_writer(slice_index si, stip_structure_traversal *st)
 
   if (!*is_postkey_play)
   {
-    slice_index const prototype = alloc_output_latex_tree_key_writer();
+    insertion_state_type *state = st->param;
+    slice_index const prototype = alloc_output_latex_tree_key_writer(state->file);
     defense_branch_insert_slices(si,&prototype,1);
   }
 
@@ -288,9 +304,10 @@ static void insert_postkey_writers(slice_index si, stip_structure_traversal *st)
 
   if (*is_postkey_play && st->context==stip_traversal_context_defense)
   {
+    FILE * const file = st->param;
     slice_index const prototypes[] =
     {
-      alloc_output_latex_tree_check_writer_slice()
+      alloc_output_latex_tree_check_writer_slice(file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     defense_branch_insert_slices(si,prototypes,nr_prototypes);
@@ -315,7 +332,8 @@ static void insert_refuting_variation_writer(slice_index si,
     stip_traverse_structure_children_pipe(si,st);
   else if (*is_postkey_play)
   {
-    slice_index const prototype = alloc_output_latex_tree_refuting_variation_writer_slice();
+    insertion_state_type *state = st->param;
+    slice_index const prototype = alloc_output_latex_tree_refuting_variation_writer_slice(state->file);
     attack_branch_insert_slices(si,&prototype,1);
   }
 
@@ -331,7 +349,8 @@ static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
 
   if (st->context==stip_traversal_context_defense)
   {
-    slice_index const prototype = alloc_output_latex_tree_key_writer();
+    insertion_state_type *state = st->param;
+    slice_index const prototype = alloc_output_latex_tree_key_writer(state->file);
     defense_branch_insert_slices_behind_proxy(slices[si].next2,
                                               &prototype,1,
                                               si);
@@ -380,16 +399,17 @@ enum
 /* Insert the writer slices
  * @param si identifies slice where to start
  */
-static void insert_root_writer_slices(slice_index si)
+static void insert_root_writer_slices(slice_index si, FILE *file)
 {
   stip_structure_traversal st;
-  boolean is_postkey_play = false;
+
+  insertion_state_type state = { false, file };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,&is_postkey_play);
+  stip_structure_traversal_init(&st,&state);
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_testing_pipe,
                                                 &stip_traverse_structure_children_pipe);
@@ -548,7 +568,9 @@ static void optimise_leaf_slices(slice_index si)
  * @param si identifies slice where to start
  * @param is_setplay is si part of set play?
  */
-void solving_insert_output_latex_tree_slices(slice_index si, boolean is_setplay)
+void solving_insert_output_latex_tree_slices(slice_index si,
+                                             boolean is_setplay,
+                                             FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -556,10 +578,10 @@ void solving_insert_output_latex_tree_slices(slice_index si, boolean is_setplay)
 
   TraceStipulation(si);
 
-  insert_regular_writer_slices(si);
-  insert_root_writer_slices(si);
+  insert_regular_writer_slices(si,file);
+  insert_root_writer_slices(si,file);
   if (!is_setplay && OptFlag[soltout]) /* this includes OptFlag[solessais] */
-    insert_try_writers(si);
+    insert_try_writers(si,file);
   optimise_leaf_slices(si);
 
   TraceFunctionExit(__func__);

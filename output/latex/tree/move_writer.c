@@ -11,7 +11,7 @@
 /* Allocate a STOutputLaTeXMoveWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_move_writer_slice(void)
+slice_index alloc_output_latex_tree_move_writer_slice(FILE *file)
 {
   slice_index result;
 
@@ -19,6 +19,7 @@ slice_index alloc_output_latex_tree_move_writer_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXMoveWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -57,11 +58,11 @@ void output_latex_tree_move_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(LaTeXFile,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
+  fprintf(slices[si].u.writer.file,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
   if (move_depth%2==1)
-    fputs("..",LaTeXFile);
+    fputs("..",slices[si].u.writer.file);
 
-  output_latex_write_move(LaTeXFile);
+  output_latex_write_move(slices[si].u.writer.file);
 
   pipe_solve_delegate(si);
 

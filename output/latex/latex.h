@@ -8,14 +8,12 @@
 
 #include <stdio.h>
 
-extern boolean LaTeXout;
-
 extern FILE *LaTeXFile;
 
 boolean LaTeXSetup(void);
 void LaTeXShutdown(void);
 
-void LaTeXBeginDiagram(void);
+void LaTeXBeginDiagram(FILE *file);
 void LaTeXEndDiagram(FILE *file);
 
 void LaTexOpenSolution(FILE *file);
@@ -37,6 +35,6 @@ void WriteUserInputElement(FILE *file, char const *name, char const *value);
 /* Instrument the solving machinery with slices that write the solution in
  * LaTeX
  */
-void output_latex_instrument_solving(slice_index si);
+void output_latex_instrument_solving(slice_index si, FILE *file);
 
 #endif

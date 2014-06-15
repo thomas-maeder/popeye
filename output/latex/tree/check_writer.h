@@ -4,10 +4,12 @@
 #include "solving/machinery/solve.h"
 #include "stipulation/stipulation.h"
 
+#include <stdio.h>
+
 /* Allocate a STOutputLaTeXTreeCheckWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_check_writer_slice(void);
+slice_index alloc_output_latex_tree_check_writer_slice(FILE *file);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

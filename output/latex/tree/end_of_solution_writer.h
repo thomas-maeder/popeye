@@ -3,10 +3,12 @@
 
 #include "solving/machinery/solve.h"
 
+#include <stdio.h>
+
 /* Allocate a STOutputLaTeXEndOfSolutionWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_end_of_solution_writer_slice(void);
+slice_index alloc_output_latex_tree_end_of_solution_writer_slice(FILE *file);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

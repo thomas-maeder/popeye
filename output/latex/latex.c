@@ -28,8 +28,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-boolean LaTeXout;
-
 static char filename[LINESIZE];    /* This array contains the input as is */
 
 FILE *LaTeXFile;
@@ -239,8 +237,6 @@ boolean LaTeXSetup(void)
   {
     strcpy(filename,InputLine);
     WriteIntro(LaTeXFile);
-    fclose(LaTeXFile);
-    LaTeXFile = NULL;
     result = true;
   }
 
@@ -255,8 +251,6 @@ void LaTeXShutdown(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  LaTeXFile = fopen(filename,"a");
-
   if (LaTeXFile!=0)
   {
     WriteCommand(LaTeXFile,"putsol");
@@ -264,49 +258,6 @@ void LaTeXShutdown(void)
     fclose(LaTeXFile);
     LaTeXFile = NULL;
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static boolean Open(void)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(LaTeXFile==NULL);
-
-  if (filename[0]==0)
-    result = false;
-  else
-  {
-    LaTeXFile = fopen(filename,"a");
-    if (LaTeXFile==NULL)
-    {
-      IoErrorMsg(WrOpenError,0);
-      result = false;
-    }
-    else
-      result = true;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static void Close(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  assert(LaTeXFile!=NULL);
-
-  fclose(LaTeXFile);
-  LaTeXFile = NULL;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -355,8 +306,6 @@ void LaTeXEndDiagram(FILE *file)
 
   WriteFixElement(file,"end","diagram",0);
   WriteCommand(file,"hfill");
-
-  Close();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1055,29 +1004,26 @@ void WriteSquareFrames(FILE *file)
   TraceFunctionResultEnd();
 }
 
-void LaTeXBeginDiagram(void)
+void LaTeXBeginDiagram(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (Open())
-  {
-    WriteFixElement(LaTeXFile,"begin","diagram",0);
-    WriteAuthor(LaTeXFile);
-    WriteSource(LaTeXFile);
-    WriteAward(LaTeXFile);
-    WriteDedication(LaTeXFile);
-    LaTeXWriteOptions();
-    WritePieces(LaTeXFile);
-    WriteFairyPieces(LaTeXFile);
-    WriteStipulation(LaTeXFile);
-    WriteGrid(LaTeXFile);
+  WriteFixElement(file,"begin","diagram",0);
+  WriteAuthor(file);
+  WriteSource(file);
+  WriteAward(file);
+  WriteDedication(file);
+  LaTeXWriteOptions();
+  WritePieces(file);
+  WriteFairyPieces(file);
+  WriteStipulation(file);
+  WriteGrid(file);
 
-    if (WriteConditions(LaTeXFile,&WriteCondition))
-      CloseElement(LaTeXFile);
+  if (WriteConditions(LaTeXFile,&WriteCondition))
+    CloseElement(file);
 
-    WriteSquareFrames(LaTeXFile);
-  }
+  WriteSquareFrames(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1318,22 +1264,24 @@ void output_latex_write_move(FILE *file)
 
 static void visit_output_mode_selector(slice_index si, stip_structure_traversal *st)
 {
+  FILE * const file = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (slices[si].u.output_mode_selector.mode==output_mode_line)
-    solving_insert_output_latex_line_slices(si);
+    solving_insert_output_latex_line_slices(si,file);
   else
   {
     boolean const is_setplay = st->level==structure_traversal_level_setplay;
-    solving_insert_output_latex_tree_slices(si,is_setplay);
+    solving_insert_output_latex_tree_slices(si,is_setplay,file);
   }
 
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STOutputLaTeXTwinningWriter)
+        alloc_output_latex_twinning_writer(file)
     };
     enum
     {
@@ -1349,7 +1297,7 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
 /* Instrument the solving machinery with slices that write the solution in
  * LaTeX
  */
-void output_latex_instrument_solving(slice_index si)
+void output_latex_instrument_solving(slice_index si, FILE *file)
 {
   stip_structure_traversal st;
 
@@ -1359,7 +1307,7 @@ void output_latex_instrument_solving(slice_index si)
 
   TraceStipulation(si);
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,file);
   stip_structure_traversal_override_single(&st,
                                            STOutputModeSelector,
                                            &visit_output_mode_selector);

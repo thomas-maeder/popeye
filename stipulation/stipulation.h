@@ -10,6 +10,7 @@
 
 #include <limits.h>
 #include <stddef.h>
+#include <stdio.h>
 
 /* This module provides generic declarations and functionality about
  * stipulations */
@@ -92,6 +93,17 @@ typedef struct
         {
           struct circe_variant_type const * variant;
         } circe_handler;
+
+        struct
+        {
+            FILE *file;
+        } writer;
+
+        struct
+        {
+            Goal goal;
+            FILE *file;
+        } goal_writer;
     } u;
 } Slice;
 

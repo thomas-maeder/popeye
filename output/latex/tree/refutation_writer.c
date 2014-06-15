@@ -2,17 +2,13 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/machinery/solve.h"
-#include "output/latex/latex.h"
-#include "output/latex/tree/tree.h"
-#include "output/latex/tree/check_writer.h"
-#include "output/plaintext/message.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
 /* Allocate a STOutputLaTeXRefutationWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_refutation_writer_slice(void)
+slice_index alloc_output_latex_tree_refutation_writer_slice(FILE *file)
 {
   slice_index result;
 
@@ -20,6 +16,7 @@ slice_index alloc_output_latex_tree_refutation_writer_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXRefutationWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +43,7 @@ void output_latex_tree_refutation_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fputs(" !",LaTeXFile);
+  fputs(" !",slices[si].u.writer.file);
 
   pipe_solve_delegate(si);
 

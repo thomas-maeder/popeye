@@ -1,5 +1,4 @@
 #include "output/latex/line/line_writer.h"
-#include "output/latex/latex.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
@@ -170,7 +169,7 @@ static void output_latex_line_write_line(FILE *file, goal_type goal)
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_line_writer_slice(Goal goal)
+slice_index alloc_output_latex_line_writer_slice(Goal goal, FILE *file)
 {
   slice_index result;
 
@@ -179,7 +178,8 @@ slice_index alloc_output_latex_line_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXLineLineWriter);
-  slices[result].u.goal_handler.goal = goal;
+  slices[result].u.goal_writer.goal = goal;
+  slices[result].u.goal_writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -206,9 +206,10 @@ void output_latex_line_line_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_latex_line_write_line(LaTeXFile,slices[si].u.goal_handler.goal.type);
+  output_latex_line_write_line(slices[si].u.goal_writer.file,
+                               slices[si].u.goal_writer.goal.type);
   pipe_solve_delegate(si);
-  fputs("\n",LaTeXFile);
+  fputs("\n",slices[si].u.goal_writer.file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

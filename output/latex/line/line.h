@@ -3,10 +3,12 @@
 
 #include "stipulation/stipulation.h"
 
+#include <stdio.h>
+
 /* Instrument the stipulation structure with slices that implement
  * LaTeX line mode output.
  * @param si identifies slice where to start
  */
-void solving_insert_output_latex_line_slices(slice_index si);
+void solving_insert_output_latex_line_slices(slice_index si, FILE *file);
 
 #endif

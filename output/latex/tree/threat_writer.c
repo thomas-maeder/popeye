@@ -1,5 +1,4 @@
 #include "output/latex/tree/threat_writer.h"
-#include "output/latex/latex.h"
 #include "output/plaintext/message.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -11,7 +10,7 @@
 /* Allocate a STOutputLaTeXThreatWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_threat_writer_slice(void)
+slice_index alloc_output_latex_tree_threat_writer_slice(FILE *file)
 {
   slice_index result;
 
@@ -19,6 +18,7 @@ slice_index alloc_output_latex_tree_threat_writer_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXThreatWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -47,8 +47,8 @@ void output_latex_tree_threat_writer_solve(slice_index si)
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
   {
-    fputs(" ",LaTeXFile);
-    Message2(LaTeXFile,Threat);
+    fputs(" ",slices[si].u.writer.file);
+    Message2(slices[si].u.writer.file,Threat);
   }
 
   pipe_solve_delegate(si);

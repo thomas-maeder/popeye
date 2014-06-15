@@ -596,11 +596,9 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         case LaTeXToken:
-          if (LaTeXout)
-            LaTeXShutdown();
-
+          LaTeXShutdown();
           ReadToEndOfLine();
-          LaTeXout = LaTeXSetup();
+          LaTeXSetup();
 
           tok = ParseLaTeXPieces(ReadNextTokStr());
           break;

@@ -3,10 +3,12 @@
 
 #include "solving/machinery/solve.h"
 
+#include <stdio.h>
+
 /* Allocate a STOutputLaTeXTryWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_try_writer(void);
+slice_index alloc_output_latex_tree_try_writer(FILE *file);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't

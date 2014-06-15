@@ -11,7 +11,9 @@
  * @param si identifies slice where to start
  * @param is_setplay is si part of set play?
  */
-void solving_insert_output_latex_tree_slices(slice_index si, boolean is_setplay);
+void solving_insert_output_latex_tree_slices(slice_index si,
+                                             boolean is_setplay,
+                                             FILE *file);
 
 /* Write a possibly pending move decoration
  */

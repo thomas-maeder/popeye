@@ -1,6 +1,5 @@
 #include "output/latex/tree/zugzwang_writer.h"
 #include "output/plaintext/message.h"
-#include "output/latex/latex.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
@@ -12,7 +11,7 @@
 /* Allocate a STOutputLaTeXZugzwangWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_zugzwang_writer_slice(void)
+slice_index alloc_output_latex_tree_zugzwang_writer_slice(FILE *file)
 {
   slice_index result;
 
@@ -20,6 +19,7 @@ slice_index alloc_output_latex_tree_zugzwang_writer_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXZugzwangWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -49,7 +49,7 @@ void output_latex_tree_zugzwang_writer_solve(slice_index si)
   if (parent_ply[nbply]==ply_retro_move)
     /* option postkey is set - write "threat:" or "zugzwang" on a new line
      */
-    Message2(LaTeXFile,NewLine);
+    Message2(slices[si].u.writer.file,NewLine);
 
   pipe_solve_delegate(si);
 
@@ -58,8 +58,8 @@ void output_latex_tree_zugzwang_writer_solve(slice_index si)
   if (solve_nr_remaining>=next_move_has_solution
       && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
   {
-    fputs(" ",LaTeXFile);
-    Message2(LaTeXFile,Zugzwang);
+    fputs(" ",slices[si].u.writer.file);
+    Message2(slices[si].u.writer.file,Zugzwang);
   }
 
   TraceFunctionExit(__func__);

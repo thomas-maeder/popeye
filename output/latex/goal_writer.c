@@ -1,7 +1,6 @@
 #include "output/latex/goal_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "output/latex/latex.h"
 #include "output/plaintext/tree/tree.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -44,7 +43,7 @@ static char const *latex_goal_end_marker[nr_goals] =
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_goal_writer_slice(Goal goal)
+slice_index alloc_output_latex_goal_writer_slice(Goal goal, FILE *file)
 {
   slice_index result;
 
@@ -53,7 +52,8 @@ slice_index alloc_output_latex_goal_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXGoalWriter);
-  slices[result].u.goal_handler.goal = goal;
+  slices[result].u.goal_writer.goal = goal;
+  slices[result].u.goal_writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,15 +76,13 @@ slice_index alloc_output_latex_goal_writer_slice(Goal goal)
  */
 void output_latex_goal_writer_solve(slice_index si)
 {
-  Goal const goal = slices[si].u.goal_handler.goal;
+  Goal const goal = slices[si].u.goal_writer.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(LaTeXFile!=0);
-
-  fprintf(LaTeXFile,latex_goal_end_marker[goal.type]);
+  fprintf(slices[si].u.goal_writer.file,latex_goal_end_marker[goal.type]);
 
   pipe_solve_delegate(si);
 

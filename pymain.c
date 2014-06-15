@@ -185,7 +185,6 @@ int main(int argc, char *argv[])
           OSTYPE,guessPlatformBitness(),VERSION);
 
   hash_max_number_storable_positions = ULONG_MAX;
-  LaTeXout = false;
   flag_regression = false;
 
   initMaxmem();
@@ -219,8 +218,7 @@ int main(int argc, char *argv[])
     CloseInput();
   }
 
-  if (LaTeXout)
-    LaTeXShutdown();
+  LaTeXShutdown();
 
   return 0;
 }

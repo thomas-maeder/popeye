@@ -2,14 +2,13 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
-#include "output/latex/latex.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
 /* Allocate a STOutputLaTeXTreeEndOfSolutionWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_end_of_solution_writer_slice(void)
+slice_index alloc_output_latex_tree_end_of_solution_writer_slice(FILE *file)
 {
   slice_index result;
 
@@ -17,6 +16,7 @@ slice_index alloc_output_latex_tree_end_of_solution_writer_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTreeEndOfSolutionWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -51,7 +51,7 @@ void output_latex_tree_end_of_solution_writer_solve(slice_index si)
   if (move_has_solved())
   {
     TraceText("has solved\n");
-    fputs("\n",LaTeXFile);
+    fputs("\n",slices[si].u.writer.file);
   }
 
   TraceFunctionExit(__func__);

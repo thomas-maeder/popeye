@@ -76,8 +76,8 @@ void solving_insert_output_slices(slice_index si)
 
   output_plaintext_instrument_solving(si);
 
-  if (LaTeXout)
-    output_latex_instrument_solving(si);
+  if (LaTeXFile!=0)
+    output_latex_instrument_solving(si,LaTeXFile);
 
   {
     slice_index const prototypes[] =

@@ -1,10 +1,8 @@
 #include "output/latex/tree/refuting_variation_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "stipulation/branch.h"
 #include "solving/machinery/solve.h"
 #include "solving/ply.h"
-#include "output/latex/latex.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -13,7 +11,7 @@
 /* Allocate a STOutputLaTeXTreeRefutingVariationWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_refuting_variation_writer_slice(void)
+slice_index alloc_output_latex_tree_refuting_variation_writer_slice(FILE *file)
 {
   slice_index result;
 
@@ -21,6 +19,7 @@ slice_index alloc_output_latex_tree_refuting_variation_writer_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTreeRefutingVariationWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -73,7 +72,7 @@ void output_latex_tree_refuting_variation_writer_solve(slice_index si)
   if (solve_result>MOVE_HAS_SOLVED_LENGTH())
   {
     unsigned int const move_depth = depth(nbply)+output_plaintext_nr_move_inversions;
-    write_refuting_varation(LaTeXFile,move_depth);
+    write_refuting_varation(slices[si].u.writer.file,move_depth);
   }
 
   TraceFunctionExit(__func__);

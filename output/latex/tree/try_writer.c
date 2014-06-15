@@ -2,17 +2,14 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/battle_play/try.h"
-#include "solving/trivial_end_filter.h"
-#include "output/latex/latex.h"
 #include "output/latex/tree/key_writer.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
-#include "debugging/assert.h"
 
 /* Allocate a STOutputLaTeXTryWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_latex_tree_try_writer(void)
+slice_index alloc_output_latex_tree_try_writer(FILE *file)
 {
   slice_index result;
 
@@ -20,6 +17,7 @@ slice_index alloc_output_latex_tree_try_writer(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTryWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -48,7 +46,7 @@ void output_latex_tree_try_writer_solve(slice_index si)
 
   if (table_length(refutations)>0)
   {
-    fputs(" ?",LaTeXFile);
+    fputs(" ?",slices[si].u.writer.file);
     pipe_solve_delegate(si);
   }
   else

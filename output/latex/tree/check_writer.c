@@ -1,15 +1,13 @@
 #include "output/latex/tree/check_writer.h"
 #include "solving/check.h"
 #include "stipulation/pipe.h"
-#include "output/latex/latex.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
 /* Allocate a STOutputLaTeXTreeCheckWriter slice.
  * @return index of allocated slice
  */
-slice_index
-alloc_output_latex_tree_check_writer_slice(void)
+slice_index alloc_output_latex_tree_check_writer_slice(FILE *file)
 {
   slice_index result;
 
@@ -17,6 +15,7 @@ alloc_output_latex_tree_check_writer_slice(void)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTreeCheckWriter);
+  slices[result].u.writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -44,7 +43,7 @@ void output_latex_tree_check_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_in_check(slices[si].starter))
-    fputs(" +",LaTeXFile);
+    fputs(" +",slices[si].u.writer.file);
 
   pipe_solve_delegate(si);
 
