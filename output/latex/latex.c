@@ -311,16 +311,27 @@ void LaTeXEndDiagram(FILE *file)
   TraceFunctionResultEnd();
 }
 
-static void WriteCondition(FILE *file, char const CondLine[], boolean is_first)
+static void WriteCondition(FILE *file, char const CondLine[], condition_rank rank)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (is_first)
-    OpenGeneratedElementOneLine(file,"condition");
-  else
-    WriteChrtschnbrr(file,"newline");
-  LaTeXStr(file,CondLine);
+  switch (rank)
+  {
+    case condition_first:
+      OpenGeneratedElementOneLine(file,"condition");
+      LaTeXStr(file,CondLine);
+      break;
+
+    case condition_subsequent:
+      WriteChrtschnbrr(file,"newline");
+      LaTeXStr(file,CondLine);
+      break;
+
+    case condition_end:
+      CloseElement(file);
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1019,9 +1030,7 @@ void LaTeXBeginDiagram(FILE *file)
   WriteFairyPieces(file);
   WriteStipulation(file);
   WriteGrid(file);
-
-  if (WriteConditions(LaTeXFile,&WriteCondition))
-    CloseElement(file);
+  WriteConditions(LaTeXFile,&WriteCondition);
 
   WriteSquareFrames(file);
 

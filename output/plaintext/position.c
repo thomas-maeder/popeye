@@ -70,11 +70,6 @@ static boolean is_square_occupied_by_imitator(position const *pos, square s)
   return result;
 }
 
-static void WriteCondition(FILE* file, char const CondLine[], boolean is_first)
-{
-  CenterLine(file,CondLine);
-}
-
 static void WriteCastlingMutuallyExclusive(FILE *file)
 {
   /* no need to test in [Black] - information is redundant */
@@ -472,6 +467,12 @@ static void WriteMeta(FILE *file)
   MultiCenter(file,ActOrigin);
   MultiCenter(file,ActAward);
   MultiCenter(file,ActTitle);
+}
+
+static void WriteCondition(FILE* file, char const CondLine[], condition_rank rank)
+{
+  if (rank!=condition_end)
+    CenterLine(file,CondLine);
 }
 
 static void WriteCaptions(FILE *file, position const *pos)

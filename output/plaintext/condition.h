@@ -7,6 +7,13 @@
 
 void WriteBGLNumber(char* a, long int b);
 
+typedef enum
+{
+  condition_first,
+  condition_subsequent,
+  condition_end
+} condition_rank;
+
 /* Type of function writing a single condition to a file
  * @param file where to write to
  * @param CondLine textual representation to be written
@@ -14,13 +21,14 @@ void WriteBGLNumber(char* a, long int b);
  */
 typedef void (*condition_writer_type)(FILE *file,
                                       char const CondLine[],
-                                      boolean is_first);
+                                      condition_rank rank);
 
 /* Write conditions to a file
  * @param file where to write to
  * @param WriteCondition single condition writer
- * @return true iff >=1 condition has been written
+ * @note invokes WriteCondition once per active condition, and once more with
+ *       rank==condition_end if at least one condition is active
  */
-boolean WriteConditions(FILE *file, condition_writer_type WriteCondition);
+void WriteConditions(FILE *file, condition_writer_type WriteCondition);
 
 #endif

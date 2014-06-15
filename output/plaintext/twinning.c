@@ -39,12 +39,21 @@ static boolean find_creation(move_effect_journal_index_type curr,
   return false;
 }
 
-static void WriteCondition(FILE *file, char const CondLine[], boolean is_first)
+static void WriteCondition(FILE *file, char const CondLine[], condition_rank rank)
 {
-  if (is_first)
-    fputs(CondLine,file);
-  else
-    fprintf(file,"\n   %s",CondLine);
+  switch (rank)
+  {
+    case condition_first:
+      fputs(CondLine,file);
+      break;
+
+    case condition_subsequent:
+      fprintf(file,"\n   %s",CondLine);
+      break;
+
+    case condition_end:
+      break;
+  }
 }
 
 static void WritePieceCreation(FILE *file, move_effect_journal_index_type curr)

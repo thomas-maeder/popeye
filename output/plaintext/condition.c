@@ -335,28 +335,27 @@ static boolean anything_to_write(Cond cond)
 /* Write conditions to a file
  * @param file where to write to
  * @param WriteCondition single condition writer
- * @return true iff >=1 condition has been written
  */
-boolean WriteConditions(FILE *file, condition_writer_type WriteCondition)
+void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 {
   Cond cond;
-  boolean result = false;
+  condition_rank rank = condition_first;
 
   if (ExtraCondFlag[maxi])
   {
     char CondLine[256] = { '\0' };
     unsigned int written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
     written = append_mummer_strictness(mummer_strictness_default_side,&CondLine,written);
-    (*WriteCondition)(file,CondLine,!result);
-    result = true;
+    (*WriteCondition)(file,CondLine,!rank);
+    rank = true;
   }
 
   if (ExtraCondFlag[ultraschachzwang])
   {
     char CondLine[256] = { '\0' };
     append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[ultraschachzwang]);
-    (*WriteCondition)(file,CondLine,!result);
-    result = true;
+    (*WriteCondition)(file,CondLine,!rank);
+    rank = true;
   }
 
   for (cond = 0; cond<CondCount; ++cond)
@@ -776,10 +775,11 @@ boolean WriteConditions(FILE *file, condition_writer_type WriteCondition)
           break;
       }
 
-      (*WriteCondition)(file,CondLine,!result);
+      (*WriteCondition)(file,CondLine,rank);
 
-      result = true;
+      rank = condition_subsequent;
     }
 
-  return result;
+  if (rank==condition_subsequent)
+    (*WriteCondition)(file,"",condition_end);
 }

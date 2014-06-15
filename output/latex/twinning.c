@@ -93,14 +93,21 @@ static boolean find_creation(move_effect_journal_index_type curr,
   return false;
 }
 
-static void WriteCondition(FILE *file, char const CondLine[], boolean is_first)
+static void WriteCondition(FILE *file, char const CondLine[], condition_rank rank)
 {
-  if (is_first)
-    strcat(twinning,CondLine);
-  else
+  switch (rank)
   {
-    strcat(twinning, ", ");
-    strcat(twinning,CondLine);
+    case condition_first:
+      strcat(twinning,CondLine);
+      break;
+
+    case condition_subsequent:
+      strcat(twinning, ", ");
+      strcat(twinning,CondLine);
+      break;
+
+    case condition_end:
+      break;
   }
 }
 
