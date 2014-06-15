@@ -250,25 +250,37 @@ static void WritePieceCounts(FILE *file, position const *pos, unsigned int inden
 {
   unsigned piece_per_colour[nr_colours] = { 0 };
 
-  unsigned int const pieceCntWidth = (indentation>nr_files_on_board*fileWidth
-                                      ? 1
-                                      : nr_files_on_board*fileWidth-indentation+1);
-
   DoPieceCounts(pos,piece_per_colour);
 
+  if (piece_per_colour[colour_neutral]>0)
   {
-    /* first print into a character buffer to be able to right-adjust */
-    char PieCnts[20];
-    if (piece_per_colour[colour_neutral]>0)
-      sprintf(PieCnts, "%d + %d + %dn",
-              piece_per_colour[colour_white],
-              piece_per_colour[colour_black],
-              piece_per_colour[colour_neutral]);
-    else
-      sprintf(PieCnts, "%d + %d",
-              piece_per_colour[colour_white],
-              piece_per_colour[colour_black]);
-    fprintf(file,"  %*s",pieceCntWidth,PieCnts);
+    char dummy;
+    int const nr_chars = snprintf(&dummy,1,"%d + %d + %dn",
+                                  piece_per_colour[colour_white],
+                                  piece_per_colour[colour_black],
+                                  piece_per_colour[colour_neutral]);
+    int const gap = (nr_files_on_board*fileWidth+3>indentation+nr_chars
+                     ? nr_files_on_board*fileWidth-indentation-nr_chars+3
+                     : 1);
+    fprintf(file,"%*s%d + %d + %dn",
+            gap," ",
+            piece_per_colour[colour_white],
+            piece_per_colour[colour_black],
+            piece_per_colour[colour_neutral]);
+  }
+  else
+  {
+    char dummy;
+    int const nr_chars = snprintf(&dummy,1,"%d + %d",
+                                  piece_per_colour[colour_white],
+                                  piece_per_colour[colour_black]);
+    int const gap = (nr_files_on_board*fileWidth+3>indentation+nr_chars
+                     ? nr_files_on_board*fileWidth-indentation-nr_chars+3
+                     : 1);
+    fprintf(file,"%*s%d + %d",
+            gap," ",
+            piece_per_colour[colour_white],
+            piece_per_colour[colour_black]);
   }
 }
 
