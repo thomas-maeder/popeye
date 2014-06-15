@@ -22,6 +22,7 @@
 #include "debugging/assert.h"
 
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -30,28 +31,47 @@ enum
   fileWidth = 4
 };
 
-static void CenterLine(FILE *file, char const *s)
+static void CenterLine(FILE *file, char const *format, ...)
 {
-  /* TODO move into one module per platform */
-#if defined(ATARI)
-#   if defined(__TURBOC__)
-  fprintf(file, "%s\n", s);
-#   else    /* not __TURBOC__ */
-  fprintf(file, "%*s\n", (36+strlen(s))/2, s);
-#   endif   /* __TURBOC__ */
-#else   /* not ATARI */
-  fprintf(file, "%*s\n", (38+(int)strlen(s))/2, s);
-#endif  /* ATARI */
+  int nr_chars;
+
+  {
+    char dummy;
+    va_list args;
+    va_start(args,format);
+    nr_chars = vsnprintf(&dummy,1,format,args);
+    va_end(args);
+  }
+
+  {
+    int const indentation = (fileWidth*nr_files_on_board>nr_chars
+                             ? 3+(fileWidth*nr_files_on_board-nr_chars)/2
+                             : 1);
+    fprintf(file,"%*s",indentation," ");
+
+    {
+      va_list args;
+      va_start(args,format);
+      vfprintf(file,format,args);
+      va_end(args);
+    }
+  }
+
+  fputc('\n',file);
 }
 
-static void MultiCenter(FILE *file, char *s) {
-  char *p;
+static void MultiCenter(FILE *file, char *s)
+{
+  char *start_of_line = s;
+  char *end_of_line = strchr(start_of_line,'\n');
 
-  while ((p=strchr(s,'\n'))) {
-    *p= '\0';
-    CenterLine(file,s);
-    *p= '\n';
-    s= p + 1;
+  while (end_of_line)
+  {
+    *end_of_line = '\0';
+    CenterLine(file,"%s",start_of_line);
+    *end_of_line = '\n';
+    start_of_line = end_of_line+1;
+    end_of_line = strchr(start_of_line,'\n');
   }
 }
 
@@ -139,8 +159,8 @@ static void WriteGrid(FILE *file)
          column++, square += dir_right)
     {
       char g = (GridNum(square))%100;
-      HLine[4*column+3]= g>9 ? (g/10)+'0' : ' ';
-      HLine[4*column+4]= (g%10)+'0';
+      HLine[fileWidth*column+3]= g>9 ? (g/10)+'0' : ' ';
+      HLine[fileWidth*column+4]= (g%10)+'0';
     }
 
     fputs(HLine,file);
@@ -183,7 +203,7 @@ static void WriteNonRoyalAttributedPieces(FILE *file, position const *pos)
       {
         char ListSpec[256];
         CollectPiecesWithAttribute(pos,ListSpec,sp);
-        CenterLine(file,ListSpec);
+        CenterLine(file,"%s",ListSpec);
       }
     }
 }
@@ -220,7 +240,7 @@ static void WriteRoyalPiecePositions(FILE *file, position const *pos)
   char ListSpec[256];
 
   if (CollectRoyalPiecePositions(pos,ListSpec)>0)
-    CenterLine(file,ListSpec);
+    CenterLine(file,"%s",ListSpec);
 }
 
 static void DoPieceCounts(position const *pos,
@@ -284,29 +304,30 @@ static void WritePieceCounts(FILE *file, position const *pos, unsigned int inden
   }
 }
 
-static int WriteStipulationOptions(FILE *file, position const *pos)
+static int WriteStipulation(FILE *file)
 {
-  char StipOptStr[300];
+  return fprintf(file,"  %s",AlphaStip);
+}
+
+static int WriteOptions(FILE *file, position const *pos)
+{
+  int result = 0;
 
   if (OptFlag[solmenaces])
   {
-    sprintf(StipOptStr, "/%u", get_max_threat_length());
+    result += fprintf(file, "/%u", get_max_threat_length());
     if (OptFlag[solflights])
-      sprintf(StipOptStr+strlen(StipOptStr), "/%d", get_max_flights());
+      result += fprintf(file, "/%d", get_max_flights());
   }
   else if (OptFlag[solflights])
-    sprintf(StipOptStr, "//%d", get_max_flights());
-  else
-    StipOptStr[0] = 0;
+    result += fprintf(file, "//%d", get_max_flights());
 
   if (OptFlag[nontrivial])
-    sprintf(StipOptStr+strlen(StipOptStr),
-            ";%d,%u",
-            max_nr_nontrivial,get_min_length_nontrivial());
+    result += fprintf(file,";%d,%u",
+                      max_nr_nontrivial,
+                      get_min_length_nontrivial());
 
-  fprintf(file,"  %s%s",AlphaStip,StipOptStr);
-
-  return strlen(StipOptStr)+strlen(AlphaStip)+2;
+  return result;
 }
 
 static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
@@ -484,12 +505,12 @@ static void WriteMeta(FILE *file)
 static void WriteCondition(FILE* file, char const CondLine[], condition_rank rank)
 {
   if (rank!=condition_end)
-    CenterLine(file,CondLine);
+    CenterLine(file,"%s",CondLine);
 }
 
 static void WriteCaptions(FILE *file, position const *pos)
 {
-  WritePieceCounts(file,pos,WriteStipulationOptions(file,pos));
+  WritePieceCounts(file,pos,WriteStipulation(file)+WriteOptions(file,pos));
   fputc('\n',file);
 
   WriteRoyalPiecePositions(file,pos);
@@ -498,12 +519,12 @@ static void WriteCaptions(FILE *file, position const *pos)
   WriteCastlingMutuallyExclusive(file);
 
   if (OptFlag[halfduplex])
-    CenterLine(file,OptString[UserLanguage][halfduplex]);
+    CenterLine(file,"%s",OptString[UserLanguage][halfduplex]);
   else if (OptFlag[duplex])
-    CenterLine(file,OptString[UserLanguage][duplex]);
+    CenterLine(file,"%s",OptString[UserLanguage][duplex]);
 
   if (OptFlag[quodlibet])
-    CenterLine(file,OptString[UserLanguage][quodlibet]);
+    CenterLine(file,"%s",OptString[UserLanguage][quodlibet]);
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid(file);
@@ -511,16 +532,13 @@ static void WriteCaptions(FILE *file, position const *pos)
 
 void WritePositionAtoB(FILE *file, Side starter)
 {
-  char InitialLine[40];
-
   WriteMeta(file);
   WriteBoard(file,&proofgames_start_position);
   WritePieceCounts(file,&proofgames_start_position,0);
   fputc('\n',file);
 
-  sprintf(InitialLine,"=> (%s ->)",ColourString[UserLanguage][starter]);
   fputc('\n',file);
-  CenterLine(file,InitialLine);
+  CenterLine(file,"=> (%s ->)",ColourString[UserLanguage][starter]);
   fputc('\n',file);
 
   WriteBoard(file,&proofgames_target_position);
