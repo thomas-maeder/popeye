@@ -105,7 +105,7 @@ reported P.Raican (orig. M.Caillaud??)
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3[+wPa2]   3.b2-b4 Sg8-e7 dia
 
   add_to_move_generation_stack:      137715
-                     play_move:      140512
+                     play_move:      140518
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -143,8 +143,8 @@ reported P.Raican (orig. M.Caillaud??)
 
   add_to_move_generation_stack:     5714103
                      play_move:     5715111
- is_white_king_square_attacked:      279187
- is_black_king_square_attacked:      173771
+ is_white_king_square_attacked:      279190
+ is_black_king_square_attacked:      173775
 solution finished. 
 
 

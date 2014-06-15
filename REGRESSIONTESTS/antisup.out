@@ -31,8 +31,8 @@
 
   add_to_move_generation_stack:          84
                      play_move:         223
- is_white_king_square_attacked:         220
- is_black_king_square_attacked:         228
+ is_white_king_square_attacked:         222
+ is_black_king_square_attacked:         232
 Loesung beendet. 
 
 
@@ -244,7 +244,7 @@ a)
                      play_move:          88
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) Verschiebung a1 ==> a2
+b) Verschiebung a1 ==> a2  
 
    1.c7*b8=D[wDb8->a1] x !
 
@@ -802,7 +802,7 @@ a)
                      play_move:         198
  is_white_king_square_attacked:          67
  is_black_king_square_attacked:         194
-b) AntiCirce Super  Cheylan
+b) AntiCirce Super Cheylan  
 
    1.Kd6*c6[wKc6->c7] = !
 

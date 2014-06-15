@@ -28,7 +28,7 @@ versions <= 4.61 didn't support castling in Circe Parrain
 
   add_to_move_generation_stack:        1387
                      play_move:        1298
- is_white_king_square_attacked:         171
+ is_white_king_square_attacked:         173
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -212,8 +212,8 @@ strange "cages" were selected for neutral pieces
 
   add_to_move_generation_stack:         749
                      play_move:         141
- is_white_king_square_attacked:          21
- is_black_king_square_attacked:         126
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:         136
 solving interrupted. 
 
 
@@ -287,8 +287,8 @@ a)
 
   add_to_move_generation_stack:     2393145
                      play_move:     2145718
- is_white_king_square_attacked:      185502
- is_black_king_square_attacked:     2119549
+ is_white_king_square_attacked:      185505
+ is_black_king_square_attacked:     2119551
 b) bBe8-->h8  
 
   1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
@@ -296,8 +296,8 @@ b) bBe8-->h8
 
   add_to_move_generation_stack:     4065413
                      play_move:     3663288
- is_white_king_square_attacked:      309625
- is_black_king_square_attacked:     3605673
+ is_white_king_square_attacked:      309631
+ is_black_king_square_attacked:     3605677
 solution finished. 
 
 
@@ -461,8 +461,8 @@ Sentinelle insertion would occur before rebirth, which caused
 
   add_to_move_generation_stack:        3274
                      play_move:        2342
- is_white_king_square_attacked:         289
- is_black_king_square_attacked:        2208
+ is_white_king_square_attacked:         291
+ is_black_king_square_attacked:        2209
 solution finished. 
 
 
@@ -612,8 +612,8 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
 
   add_to_move_generation_stack:         495
                      play_move:         157
- is_white_king_square_attacked:          74
- is_black_king_square_attacked:          93
+ is_white_king_square_attacked:          75
+ is_black_king_square_attacked:          95
 solution finished. 
 
 
@@ -647,8 +647,8 @@ solution finished.
 
   add_to_move_generation_stack:        6399
                      play_move:        6254
- is_white_king_square_attacked:         157
- is_black_king_square_attacked:         127
+ is_white_king_square_attacked:         159
+ is_black_king_square_attacked:         130
 solution finished. 
 
 
@@ -752,8 +752,8 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
 
   add_to_move_generation_stack:     1058816
                      play_move:      671147
- is_white_king_square_attacked:       85491
- is_black_king_square_attacked:      667121
+ is_white_king_square_attacked:       85497
+ is_black_king_square_attacked:      667124
 solution finished. 
 
 
@@ -789,8 +789,8 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
 
   add_to_move_generation_stack:         279
                      play_move:         300
- is_white_king_square_attacked:          95
- is_black_king_square_attacked:         211
+ is_white_king_square_attacked:          99
+ is_black_king_square_attacked:         213
 solution finished. 
 
 
@@ -1024,8 +1024,8 @@ Popeye 4.61 didn't support option maxsolutions in helpself stipulations
 
   add_to_move_generation_stack:       47737
                      play_move:       33926
- is_white_king_square_attacked:       33564
- is_black_king_square_attacked:       12786
+ is_white_king_square_attacked:       33567
+ is_black_king_square_attacked:       12792
 solving interrupted. 
 
 
@@ -1169,9 +1169,9 @@ Until 4.61, pieces reborn on magic squares did not change
   1.Kh8-g8 + Kg1-f2 z
 
   add_to_move_generation_stack:          30
-                     play_move:          13
- is_white_king_square_attacked:           9
- is_black_king_square_attacked:           9
+                     play_move:          16
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          13
 solution finished. 
 
 
@@ -1240,8 +1240,8 @@ sttipulations with logically connected goals
 
   add_to_move_generation_stack:        8233
                      play_move:        3837
- is_white_king_square_attacked:        1612
- is_black_king_square_attacked:        3456
+ is_white_king_square_attacked:        1620
+ is_black_king_square_attacked:        3462
 solution finished. 
 
 
@@ -1275,7 +1275,7 @@ both sides need a king
   add_to_move_generation_stack:         316
                      play_move:         316
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         153
+ is_black_king_square_attacked:         154
 solution finished. 
 
 
@@ -1319,8 +1319,8 @@ movenumbers and nested series branches; until 4.61, Popeye produced
 
   add_to_move_generation_stack:      235771
                      play_move:      250400
- is_white_king_square_attacked:      221287
- is_black_king_square_attacked:      216339
+ is_white_king_square_attacked:      221301
+ is_black_king_square_attacked:      216341
 solution finished. 
 
 

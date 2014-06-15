@@ -12,7 +12,7 @@
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_goal_writer_slice(Goal goal);
+slice_index alloc_output_plaintext_goal_writer_slice(Goal goal);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

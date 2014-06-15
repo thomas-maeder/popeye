@@ -72,8 +72,8 @@ solution finished.
 
   add_to_move_generation_stack:      457976
                      play_move:      423977
- is_white_king_square_attacked:       46114
- is_black_king_square_attacked:      398818
+ is_white_king_square_attacked:       46117
+ is_black_king_square_attacked:      398821
 solution finished. 
 
 
@@ -107,16 +107,16 @@ a)
 
   add_to_move_generation_stack:       68848
                      play_move:       60000
- is_white_king_square_attacked:        2868
- is_black_king_square_attacked:       59445
-b) Patrouille
+ is_white_king_square_attacked:        2870
+ is_black_king_square_attacked:       59447
+b) Patrouille  
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 #
 
   add_to_move_generation_stack:      135127
                      play_move:      102643
- is_white_king_square_attacked:        3031
- is_black_king_square_attacked:      101485
+ is_white_king_square_attacked:        3033
+ is_black_king_square_attacked:      101487
 solution finished. 
 
 
@@ -149,8 +149,8 @@ solution finished.
 
   add_to_move_generation_stack:      130726
                      play_move:      107902
- is_white_king_square_attacked:        7904
- is_black_king_square_attacked:      107518
+ is_white_king_square_attacked:        7908
+ is_black_king_square_attacked:      107520
 solution finished. 
 
 
@@ -183,16 +183,16 @@ a)
 
   add_to_move_generation_stack:       70285
                      play_move:       31660
- is_white_king_square_attacked:        8453
- is_black_king_square_attacked:       31304
-b) Lortap
+ is_white_king_square_attacked:        8455
+ is_black_king_square_attacked:       31305
+b) Lortap  
 
   1.Bd4-c3 Bh7-f5   2.Re4-c4 Rf8-d8 #
 
   add_to_move_generation_stack:      242673
                      play_move:      163551
- is_white_king_square_attacked:       18374
- is_black_king_square_attacked:      163082
+ is_white_king_square_attacked:       18376
+ is_black_king_square_attacked:      163083
 solution finished. 
 
 
@@ -225,24 +225,24 @@ a)
 
   add_to_move_generation_stack:       33085
                      play_move:       16732
- is_white_king_square_attacked:        4326
- is_black_king_square_attacked:       16437
-b) Lortap
+ is_white_king_square_attacked:        4328
+ is_black_king_square_attacked:       16438
+b) Lortap  
 
   1.Kd5-e5 Sd6-c4   2.Ke5-d6 Bb5*c6 #
 
   add_to_move_generation_stack:       64577
                      play_move:       46244
- is_white_king_square_attacked:        3924
- is_black_king_square_attacked:       46004
-c) Patrouille
+ is_white_king_square_attacked:        3926
+ is_black_king_square_attacked:       46005
+c) Patrouille  
 
   1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 #
 
   add_to_move_generation_stack:       73338
                      play_move:       56832
- is_white_king_square_attacked:        2981
- is_black_king_square_attacked:       56526
+ is_white_king_square_attacked:        2983
+ is_black_king_square_attacked:       56527
 solution finished. 
 
 
@@ -276,8 +276,8 @@ solution finished.
 
   add_to_move_generation_stack:      157738
                      play_move:       95570
- is_white_king_square_attacked:       10653
- is_black_king_square_attacked:       95314
+ is_white_king_square_attacked:       10656
+ is_black_king_square_attacked:       95316
 solution finished. 
 
 
@@ -356,7 +356,7 @@ solution finished.
 
   add_to_move_generation_stack:         314
                      play_move:         381
- is_white_king_square_attacked:          35
+ is_white_king_square_attacked:          36
  is_black_king_square_attacked:         294
 solution finished. 
 
@@ -434,8 +434,8 @@ solution finished.
 
   add_to_move_generation_stack:         440
                      play_move:         432
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          11
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:          14
 solution finished. 
 
 
@@ -469,7 +469,7 @@ solution finished.
 
   add_to_move_generation_stack:          90
                      play_move:          84
- is_white_king_square_attacked:          15
+ is_white_king_square_attacked:          17
  is_black_king_square_attacked:          84
 solution finished. 
 

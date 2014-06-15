@@ -27,7 +27,7 @@
 
   add_to_move_generation_stack:     1072737
                      play_move:      961646
- is_white_king_square_attacked:      228804
+ is_white_king_square_attacked:      228812
  is_black_king_square_attacked:      961646
 solution finished. 
 
@@ -61,7 +61,7 @@ solution finished.
 
   add_to_move_generation_stack:     7065926
                      play_move:     6540588
- is_white_king_square_attacked:     1616349
+ is_white_king_square_attacked:     1616362
  is_black_king_square_attacked:     6540588
 solution finished. 
 
@@ -167,7 +167,7 @@ solution finished.
   add_to_move_generation_stack:         222
                      play_move:         134
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         118
+ is_black_king_square_attacked:         122
 solution finished. 
 
 
@@ -202,7 +202,7 @@ solution finished.
   add_to_move_generation_stack:       44710
                      play_move:       22386
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       21299
+ is_black_king_square_attacked:       21303
 solution finished. 
 
 

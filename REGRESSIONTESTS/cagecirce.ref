@@ -27,8 +27,8 @@ knights can't be captured - there is no cage
 
   add_to_move_generation_stack:     8218292
                      play_move:     2078557
- is_white_king_square_attacked:     1135804
- is_black_king_square_attacked:     1215722
+ is_white_king_square_attacked:     1135807
+ is_black_king_square_attacked:     1215724
 solution finished. 
 
 
@@ -61,9 +61,9 @@ knights can't be captured - g1 is occupied
   1.b2-b1=B Sa8-c7   2.Bb1-g6 Sh8*g6[+bBd8] +   3.Ke7-d7 Sg6-e7 =
 
   add_to_move_generation_stack:     6384019
-                     play_move:     2244403
- is_white_king_square_attacked:      933930
- is_black_king_square_attacked:     1037937
+                     play_move:     2244404
+ is_white_king_square_attacked:      933933
+ is_black_king_square_attacked:     1037939
 solution finished. 
 
 

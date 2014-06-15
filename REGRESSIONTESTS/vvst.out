@@ -29,7 +29,7 @@
 
   add_to_move_generation_stack:       12954
                      play_move:        3848
- is_white_king_square_attacked:        3764
+ is_white_king_square_attacked:        3771
  is_black_king_square_attacked:        3614
 Loesung beendet. 
 
@@ -65,7 +65,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:        1746
                      play_move:        1691
- is_white_king_square_attacked:         643
+ is_white_king_square_attacked:         649
  is_black_king_square_attacked:        1793
 Loesung beendet. 
 
@@ -101,7 +101,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:       10009
                      play_move:        4554
- is_white_king_square_attacked:        4496
+ is_white_king_square_attacked:        4504
  is_black_king_square_attacked:        4746
 Loesung beendet. 
 
@@ -137,8 +137,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      104706
                      play_move:       35620
- is_white_king_square_attacked:       33544
- is_black_king_square_attacked:       33715
+ is_white_king_square_attacked:       33548
+ is_black_king_square_attacked:       33718
 Loesung beendet. 
 
 
@@ -179,8 +179,8 @@ S. 100, Lsg. zu Nr. 100, Das Vielvaeterproblem, 1989
 
   add_to_move_generation_stack:        8320
                      play_move:        3774
- is_white_king_square_attacked:        3778
- is_black_king_square_attacked:        1451
+ is_white_king_square_attacked:        3782
+ is_black_king_square_attacked:        1458
 Loesung beendet. 
 
 
@@ -222,7 +222,7 @@ Loesung beendet.
   add_to_move_generation_stack:        6643
                      play_move:        2732
  is_white_king_square_attacked:         849
- is_black_king_square_attacked:        2702
+ is_black_king_square_attacked:        2711
 Loesung beendet. 
 
 
@@ -276,8 +276,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1284020
                      play_move:      340167
- is_white_king_square_attacked:       89154
- is_black_king_square_attacked:      260126
+ is_white_king_square_attacked:       89171
+ is_black_king_square_attacked:      260161
 Loesung beendet. 
 
 
@@ -315,8 +315,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        1008
                      play_move:          90
- is_white_king_square_attacked:          87
- is_black_king_square_attacked:          26
+ is_white_king_square_attacked:          92
+ is_black_king_square_attacked:          35
 Loesung beendet. 
 
 
@@ -351,7 +351,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:         511
                      play_move:         488
- is_white_king_square_attacked:          99
+ is_white_king_square_attacked:         103
  is_black_king_square_attacked:         488
 Loesung beendet. 
 

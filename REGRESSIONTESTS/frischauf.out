@@ -67,8 +67,8 @@ Frischauf-Circe mit Angabe von Retro-Information
 
   add_to_move_generation_stack:       54868
                      play_move:       22187
- is_white_king_square_attacked:        7085
- is_black_king_square_attacked:       21903
+ is_white_king_square_attacked:        7087
+ is_black_king_square_attacked:       21904
 Loesung beendet. 
 
 

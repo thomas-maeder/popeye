@@ -132,7 +132,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:         286
                      play_move:         286
- is_white_king_square_attacked:           3
+ is_white_king_square_attacked:           4
  is_black_king_square_attacked:         286
 Loesung beendet. 
 
@@ -166,7 +166,7 @@ Seite der Bauern entscheidet welchen umzuwandeln -> Ta1 kann nicht schlagen
 
   add_to_move_generation_stack:          87
                      play_move:          78
- is_white_king_square_attacked:          11
+ is_white_king_square_attacked:          12
  is_black_king_square_attacked:          78
 Loesung beendet. 
 

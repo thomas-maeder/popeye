@@ -59,7 +59,7 @@ the side to play can capture the king
 
   add_to_move_generation_stack:          21
                      play_move:          18
- is_white_king_square_attacked:           5
+ is_white_king_square_attacked:           6
  is_black_king_square_attacked:          19
 solution finished. 
 
@@ -92,8 +92,8 @@ solution finished.
 
   add_to_move_generation_stack:           9
                      play_move:           5
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:           5
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           6
 solution finished. 
 
 
@@ -125,8 +125,8 @@ solution finished.
 
   add_to_move_generation_stack:         384
                      play_move:         192
- is_white_king_square_attacked:          51
- is_black_king_square_attacked:         168
+ is_white_king_square_attacked:          52
+ is_black_king_square_attacked:         170
 solution finished. 
 
 
@@ -158,8 +158,8 @@ solution finished.
 
   add_to_move_generation_stack:       15132
                      play_move:       12053
- is_white_king_square_attacked:        9827
- is_black_king_square_attacked:        5808
+ is_white_king_square_attacked:        9829
+ is_black_king_square_attacked:        5809
 solution finished. 
 
 
@@ -191,8 +191,8 @@ solution finished.
 
   add_to_move_generation_stack:       99152
                      play_move:       37763
- is_white_king_square_attacked:       31333
- is_black_king_square_attacked:        6584
+ is_white_king_square_attacked:       31335
+ is_black_king_square_attacked:        6585
 solution finished. 
 
 
@@ -224,8 +224,8 @@ solution finished.
 
   add_to_move_generation_stack:       11919
                      play_move:       10485
- is_white_king_square_attacked:        9129
- is_black_king_square_attacked:        2754
+ is_white_king_square_attacked:        9130
+ is_black_king_square_attacked:        2756
 solution finished. 
 
 
@@ -291,7 +291,7 @@ hr#2 - don't write long solutions because Black must mate immediately
   add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:          18
- is_black_king_square_attacked:           4
+ is_black_king_square_attacked:           5
 solution finished. 
 
 

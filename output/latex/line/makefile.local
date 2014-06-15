@@ -1,0 +1,8 @@
+# -*- Makefile -*-
+#
+
+SRC_CFILES = line.c line_writer.c
+
+INCLUDES = line.h line_writer.h
+
+include makefile.rules $(CURRPWD)depend

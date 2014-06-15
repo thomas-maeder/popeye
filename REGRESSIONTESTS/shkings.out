@@ -115,16 +115,16 @@ a)
 
   add_to_move_generation_stack:      248155
                      play_move:      232631
- is_white_king_square_attacked:       14421
- is_black_king_square_attacked:      231707
-b) wSg5-->g3
+ is_white_king_square_attacked:       14423
+ is_black_king_square_attacked:      231708
+b) wSg5-->g3  
 
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 #
 
   add_to_move_generation_stack:      274024
                      play_move:      252489
- is_white_king_square_attacked:       16832
- is_black_king_square_attacked:      251219
+ is_white_king_square_attacked:       16834
+ is_black_king_square_attacked:      251220
 Loesung beendet. 
 
 
@@ -201,7 +201,7 @@ a)
                      play_move:        8551
  is_white_king_square_attacked:         926
  is_black_king_square_attacked:        8438
-b) s#3
+b) s#3  
 
    1.0-0 + !
       1...Kf3-g2

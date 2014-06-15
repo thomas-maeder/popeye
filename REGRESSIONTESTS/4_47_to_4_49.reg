@@ -146,7 +146,7 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 
   add_to_move_generation_stack:         222
                      play_move:         192
- is_white_king_square_attacked:          98
+ is_white_king_square_attacked:          99
  is_black_king_square_attacked:         121
 solution finished. 
 
@@ -185,8 +185,8 @@ solution finished.
 
   add_to_move_generation_stack:         478
                      play_move:         523
- is_white_king_square_attacked:         143
- is_black_king_square_attacked:         399
+ is_white_king_square_attacked:         148
+ is_black_king_square_attacked:         402
 solution finished. 
 
 
@@ -254,8 +254,8 @@ solution finished.
 
   add_to_move_generation_stack:          60
                      play_move:          15
- is_white_king_square_attacked:           4
- is_black_king_square_attacked:           6
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           7
 solution finished. 
 
 
@@ -289,7 +289,7 @@ solution finished.
   add_to_move_generation_stack:         164
                      play_move:         146
  is_white_king_square_attacked:          56
- is_black_king_square_attacked:          23
+ is_black_king_square_attacked:          24
 solution finished. 
 
 
@@ -323,7 +323,7 @@ solution finished.
 
   add_to_move_generation_stack:          85
                      play_move:          75
- is_white_king_square_attacked:          17
+ is_white_king_square_attacked:          19
  is_black_king_square_attacked:          76
 solving interrupted. 
 
@@ -361,8 +361,8 @@ solving interrupted.
 
   add_to_move_generation_stack:         800
                      play_move:         513
- is_white_king_square_attacked:         135
- is_black_king_square_attacked:         446
+ is_white_king_square_attacked:         141
+ is_black_king_square_attacked:         449
 solving interrupted. 
 
 
@@ -431,7 +431,7 @@ solution finished.
 
   add_to_move_generation_stack:         455
                      play_move:         488
- is_white_king_square_attacked:          11
+ is_white_king_square_attacked:          13
  is_black_king_square_attacked:         312
 solution finished. 
 
@@ -465,7 +465,7 @@ intelligent mode bug: did not find mates ...
 
   add_to_move_generation_stack:          74
                      play_move:          74
- is_white_king_square_attacked:           5
+ is_white_king_square_attacked:           7
  is_black_king_square_attacked:          32
 solution finished. 
 
@@ -499,7 +499,7 @@ option start in intelligent mode
 
   add_to_move_generation_stack:       68306
                      play_move:       68306
- is_white_king_square_attacked:        4111
+ is_white_king_square_attacked:        4119
  is_black_king_square_attacked:        4605
 solution finished. 
 

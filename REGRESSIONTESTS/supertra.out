@@ -560,9 +560,9 @@ a)
 
   add_to_move_generation_stack:     6163583
                      play_move:     4466945
- is_white_king_square_attacked:      176253
- is_black_king_square_attacked:     4131582
-b) sBa2-->b2
+ is_white_king_square_attacked:      176255
+ is_black_king_square_attacked:     4131584
+b) sBa2-->b2  
 
   1.Kg7-f8 Kd5-c6   2.Th8-g8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
   1.Kg7-f8 Kd5-c5   2.Th8-g8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
@@ -572,8 +572,8 @@ b) sBa2-->b2
 
   add_to_move_generation_stack:     6320382
                      play_move:     4526979
- is_white_king_square_attacked:      170482
- is_black_king_square_attacked:     4189185
+ is_white_king_square_attacked:      170496
+ is_black_king_square_attacked:     4189195
 Loesung beendet. 
 
 

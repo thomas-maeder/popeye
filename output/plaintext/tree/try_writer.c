@@ -3,6 +3,7 @@
 #include "stipulation/pipe.h"
 #include "solving/battle_play/try.h"
 #include "solving/trivial_end_filter.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -10,17 +11,17 @@
 
 #include "debugging/assert.h"
 
-/* Allocate a STTryWriter defender slice.
+/* Allocate a STOutputPlainTextTryWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_try_writer(void)
+slice_index alloc_output_plaintext_tree_try_writer(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STTryWriter);
+  result = alloc_pipe(STOutputPlainTextTryWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -41,7 +42,7 @@ slice_index alloc_try_writer(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void try_writer_solve(slice_index si)
+void output_plaintext_tree_try_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -49,11 +50,13 @@ void try_writer_solve(slice_index si)
 
   if (table_length(refutations)>0)
   {
-    StdString(" ?");
+    fprintf(stdout," ?");
+    if (TraceFile)
+      fprintf(TraceFile," ?");
     pipe_solve_delegate(si);
   }
   else
-    key_writer_solve(si);
+    output_plaintext_tree_key_writer_solve(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

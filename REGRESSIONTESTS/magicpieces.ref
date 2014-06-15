@@ -725,8 +725,8 @@ an example for castling with a recolored rook
 
   add_to_move_generation_stack:          37
                      play_move:          20
- is_white_king_square_attacked:           5
- is_black_king_square_attacked:          20
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:          21
 solution finished. 
 
 

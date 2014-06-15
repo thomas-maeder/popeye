@@ -96,7 +96,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:      970372
                      play_move:      811718
- is_white_king_square_attacked:      110722
+ is_white_king_square_attacked:      110728
  is_black_king_square_attacked:      811718
 Loesung beendet. 
 
@@ -134,8 +134,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        3206
                      play_move:        1134
- is_white_king_square_attacked:         518
- is_black_king_square_attacked:        1064
+ is_white_king_square_attacked:         521
+ is_black_king_square_attacked:        1066
 Loesung beendet. 
 
 

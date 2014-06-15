@@ -31,7 +31,7 @@ also solves as patrol condition
   add_to_move_generation_stack:       60529
                      play_move:       34779
  is_white_king_square_attacked:       25441
- is_black_king_square_attacked:       20349
+ is_black_king_square_attacked:       20355
 solution finished. 
 
 

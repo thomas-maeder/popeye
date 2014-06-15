@@ -93,16 +93,16 @@ a)
 
   add_to_move_generation_stack:     1023364
                      play_move:      390884
- is_white_king_square_attacked:      173569
- is_black_king_square_attacked:      362317
+ is_white_king_square_attacked:      173571
+ is_black_king_square_attacked:      362318
 b) wRe3  
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 =
 
   add_to_move_generation_stack:     1052061
                      play_move:      449754
- is_white_king_square_attacked:      182020
- is_black_king_square_attacked:      420617
+ is_white_king_square_attacked:      182022
+ is_black_king_square_attacked:      420618
 solution finished. 
 
 
@@ -138,8 +138,8 @@ Sake, Portoroz 2002, 5eme Recommand\'e
 
   add_to_move_generation_stack:      618803
                      play_move:      220263
- is_white_king_square_attacked:       75396
- is_black_king_square_attacked:      219358
+ is_white_king_square_attacked:       75400
+ is_black_king_square_attacked:      219360
 solution finished. 
 
 

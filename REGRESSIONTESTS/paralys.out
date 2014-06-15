@@ -143,8 +143,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       17207
                      play_move:       18125
- is_white_king_square_attacked:        1283
- is_black_king_square_attacked:       17973
+ is_white_king_square_attacked:        1287
+ is_black_king_square_attacked:       17975
 Loesung beendet. 
 
 

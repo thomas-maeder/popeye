@@ -104,8 +104,8 @@ solution finished.
 
   add_to_move_generation_stack:     7230355
                      play_move:     6048084
- is_white_king_square_attacked:      704015
- is_black_king_square_attacked:     5748728
+ is_white_king_square_attacked:      704019
+ is_black_king_square_attacked:     5748731
 solution finished. 
 
 
@@ -225,8 +225,8 @@ ddlkl
 
   add_to_move_generation_stack:      811070
                      play_move:      602719
- is_white_king_square_attacked:       69848
- is_black_king_square_attacked:      600423
+ is_white_king_square_attacked:       69860
+ is_black_king_square_attacked:      600431
 solving interrupted. 
 
 
@@ -300,16 +300,16 @@ a)
 
   add_to_move_generation_stack:      376629
                      play_move:      339920
- is_white_king_square_attacked:       17391
- is_black_king_square_attacked:      331043
-b) PolishType
+ is_white_king_square_attacked:       17394
+ is_black_king_square_attacked:      331045
+b) PolishType  
 
   1.Kb1-a2 Kh1-g2   2.Ba1-b1 Kg2-d5   3.Ka2-a1 Bg1-d4 #
 
   add_to_move_generation_stack:      334970
                      play_move:      301384
- is_white_king_square_attacked:       16483
- is_black_king_square_attacked:      293410
+ is_white_king_square_attacked:       16486
+ is_black_king_square_attacked:      293412
 solution finished. 
 
 
@@ -343,8 +343,8 @@ solution finished.
 
   add_to_move_generation_stack:      252499
                      play_move:      218213
- is_white_king_square_attacked:       14519
- is_black_king_square_attacked:      212506
+ is_white_king_square_attacked:       14522
+ is_black_king_square_attacked:      212508
 solution finished. 
 
 
@@ -379,7 +379,7 @@ solution finished.
 
   add_to_move_generation_stack:      870337
                      play_move:      844164
- is_white_king_square_attacked:      455306
+ is_white_king_square_attacked:      455319
  is_black_king_square_attacked:      844164
 solution finished. 
 

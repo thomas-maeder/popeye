@@ -35,7 +35,7 @@ a)
                      play_move:        1611
  is_white_king_square_attacked:         813
  is_black_king_square_attacked:         985
-b) wSTc7 sSTa8 
+b) wSTc7  sSTa8  
 
    1.STc7-b6 ! Drohung:
           2.e6-e7 Drohung:
@@ -103,8 +103,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1288032
                      play_move:     1127963
- is_white_king_square_attacked:      250521
- is_black_king_square_attacked:      928010
+ is_white_king_square_attacked:      250533
+ is_black_king_square_attacked:      928040
 Loesung beendet. 
 
 
@@ -141,8 +141,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      531459
                      play_move:      507243
- is_white_king_square_attacked:       50652
- is_black_king_square_attacked:      497392
+ is_white_king_square_attacked:       50667
+ is_black_king_square_attacked:      497402
 Loesung beendet. 
 
 

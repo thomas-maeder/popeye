@@ -29,8 +29,8 @@
 
   add_to_move_generation_stack:       43200
                      play_move:       17548
- is_white_king_square_attacked:        9656
- is_black_king_square_attacked:       14274
+ is_white_king_square_attacked:        9660
+ is_black_king_square_attacked:       14276
 Loesung beendet. 
 
 
@@ -310,7 +310,7 @@ Loesung beendet.
   add_to_move_generation_stack:       10791
                      play_move:        3737
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        3690
+ is_black_king_square_attacked:        3691
 Loesung beendet. 
 
 
@@ -351,7 +351,7 @@ a)
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           7
-b) =1
+b) =1  
 
    1.g7-g8=D = !
 
@@ -360,7 +360,7 @@ b) =1
                      play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          15
-c) #1
+c) #1  
 
    1.g7-g8=T # !
 

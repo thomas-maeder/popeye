@@ -19,7 +19,7 @@ output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  input/plaintext/token.h input/plaintext/language.h \
  solving/machinery/twin.h solving/move_effect_journal.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/ply.h solving/castling_rights.h position/pieceid.h \
+ solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/pipe.h
 
 output/output.h:
@@ -94,9 +94,9 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 solving/castling_rights.h:
+
+solving/ply.h:
 
 position/pieceid.h:
 

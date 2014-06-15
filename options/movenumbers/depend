@@ -5,17 +5,20 @@ options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/pipe.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/trace.h options/movenumbers.h \
+ solving/pipe.h options/movenumbers.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h \
  options/options.h output/output.h output/plaintext/plaintext.h \
- output/plaintext/message.h input/plaintext/language.h debugging/assert.h
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h output/plaintext/message.h input/plaintext/language.h \
+ debugging/assert.h
 
 options/movenumbers/restart_guard_intelligent.h:
 
@@ -45,6 +48,10 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -67,8 +74,6 @@ solving/has_solution_type.enum.h:
 
 solving/pipe.h:
 
-debugging/trace.h:
-
 options/movenumbers.h:
 
 optimisations/intelligent/moves_left.h:
@@ -80,6 +85,14 @@ options/options.h:
 output/output.h:
 
 output/plaintext/plaintext.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
 
 output/plaintext/message.h:
 

@@ -28,7 +28,7 @@ Popeye finds two different double-grasshopper moves to d2 (via
 
   add_to_move_generation_stack:        1002
                      play_move:         598
- is_white_king_square_attacked:         126
+ is_white_king_square_attacked:         128
  is_black_king_square_attacked:         598
 solution finished. 
 

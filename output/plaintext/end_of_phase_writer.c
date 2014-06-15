@@ -1,21 +1,22 @@
 #include "output/plaintext/end_of_phase_writer.h"
 #include "stipulation/stipulation.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/message.h"
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-/* Allocate a STEndOfPhaseWriter slice.
+/* Allocate a STOutputPlainTextEndOfPhaseWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_end_of_phase_writer_slice(void)
+slice_index alloc_output_plaintext_end_of_phase_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STEndOfPhaseWriter);
+  result = alloc_pipe(STOutputPlainTextEndOfPhaseWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,7 +37,7 @@ slice_index alloc_end_of_phase_writer_slice(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void end_of_phase_writer_solve(slice_index si)
+void output_plaintext_end_of_phase_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -44,7 +45,9 @@ void end_of_phase_writer_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  Message(NewLine);
+  Message2(stdout,NewLine);
+  if (TraceFile)
+    Message2(TraceFile,NewLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

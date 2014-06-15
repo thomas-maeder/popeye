@@ -1,21 +1,22 @@
 #include "output/plaintext/tree/move_writer.h"
+#include "output/plaintext/plaintext.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-/* Allocate a STMoveWriter defender slice.
+/* Allocate a STOutputPlainTextMoveWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_move_writer_slice(void)
+slice_index alloc_output_plaintext_tree_move_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STMoveWriter);
+  result = alloc_pipe(STOutputPlainTextMoveWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -36,13 +37,15 @@ slice_index alloc_move_writer_slice(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void move_writer_solve(slice_index si)
+void output_plaintext_tree_move_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_plaintext_tree_write_move();
+  output_plaintext_tree_write_move(stdout);
+  if (TraceFile)
+    output_plaintext_tree_write_move(TraceFile);
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

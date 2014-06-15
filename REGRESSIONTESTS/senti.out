@@ -81,8 +81,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       33228
                      play_move:       29025
- is_white_king_square_attacked:        2220
- is_black_king_square_attacked:       28852
+ is_white_king_square_attacked:        2223
+ is_black_king_square_attacked:       28854
 Loesung beendet. 
 
 
@@ -232,7 +232,7 @@ a)
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) Sentinelles  PionNeutre
+b) Sentinelles  PionNeutre  
 
    1.nSa2-c1[+nBa2] !
 

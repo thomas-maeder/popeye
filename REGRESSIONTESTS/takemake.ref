@@ -31,8 +31,8 @@
 
   add_to_move_generation_stack:       70167
                      play_move:       59264
- is_white_king_square_attacked:        8779
- is_black_king_square_attacked:       58881
+ is_white_king_square_attacked:        8783
+ is_black_king_square_attacked:       58883
 solution finished. 
 
 
@@ -71,16 +71,16 @@ a)
 
   add_to_move_generation_stack:     5260698
                      play_move:     2688657
- is_white_king_square_attacked:      352298
- is_black_king_square_attacked:     2686595
-b) bPd2-->g5
+ is_white_king_square_attacked:      352300
+ is_black_king_square_attacked:     2686596
+b) bPd2-->g5  
 
   1.Sg3-f5 + Be6*f5-g3 +   2.Rf8-f4 Rd4*f4-f5 #
 
   add_to_move_generation_stack:     4231704
                      play_move:     2272266
- is_white_king_square_attacked:      285201
- is_black_king_square_attacked:     2270347
+ is_white_king_square_attacked:      285203
+ is_black_king_square_attacked:     2270348
 solution finished. 
 
 
@@ -116,32 +116,32 @@ a)
 
   add_to_move_generation_stack:        3068
                      play_move:        2644
- is_white_king_square_attacked:         118
- is_black_king_square_attacked:        2626
-b) wSf3 
+ is_white_king_square_attacked:         119
+ is_black_king_square_attacked:        2627
+b) wSf3  
 
   1...h2-h3   2.Kf2*f3-h4 g2-g3 #
 
   add_to_move_generation_stack:        3126
                      play_move:        2494
- is_white_king_square_attacked:         187
- is_black_king_square_attacked:        2476
-+c) wKg6-->g7
+ is_white_king_square_attacked:         188
+ is_black_king_square_attacked:        2477
++c) wKg6-->g7  
 
   1...g2-g4   2.Kf2*f3-g5 h2-h4 #
 
   add_to_move_generation_stack:        3414
                      play_move:        2634
- is_white_king_square_attacked:         167
- is_black_king_square_attacked:        2616
-+d) wBf3 
+ is_white_king_square_attacked:         168
+ is_black_king_square_attacked:        2617
++d) wBf3  
 
   1...h2-h4   2.Kf2*f3-h5 g2-g4 #
 
   add_to_move_generation_stack:        3190
                      play_move:        2690
- is_white_king_square_attacked:          99
- is_black_king_square_attacked:        2672
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:        2673
 solution finished. 
 
 

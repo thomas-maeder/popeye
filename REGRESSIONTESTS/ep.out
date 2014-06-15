@@ -386,7 +386,7 @@ a)
                      play_move:        1757
  is_white_king_square_attacked:         216
  is_black_king_square_attacked:        1725
-b) sBc7-->e7
+b) sBc7-->e7  
 
    1.Te1-a1 ? Zugzwang.
       1...d5-d4
@@ -588,8 +588,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       51931
                      play_move:       30512
- is_white_king_square_attacked:        9570
- is_black_king_square_attacked:       29871
+ is_white_king_square_attacked:        9572
+ is_black_king_square_attacked:       29872
 Loesung beendet. 
 
 
@@ -624,8 +624,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        2842
                      play_move:        4250
- is_white_king_square_attacked:         391
- is_black_king_square_attacked:        1589
+ is_white_king_square_attacked:         393
+ is_black_king_square_attacked:        1591
 Loesung beendet. 
 
 
@@ -666,8 +666,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        8851
                      play_move:        8340
- is_white_king_square_attacked:        1844
- is_black_king_square_attacked:        7870
+ is_white_king_square_attacked:        1857
+ is_black_king_square_attacked:        7874
 Loesung beendet. 
 
 
@@ -739,7 +739,7 @@ N.Y. State Chess Association, 16.8.1894
   add_to_move_generation_stack:      210748
                      play_move:      147615
  is_white_king_square_attacked:      112348
- is_black_king_square_attacked:       44543
+ is_black_king_square_attacked:       44573
 Loesung beendet. 
 
 
@@ -836,7 +836,7 @@ Loesung beendet.
   add_to_move_generation_stack:    54691965
                      play_move:    29802865
  is_white_king_square_attacked:    29354977
- is_black_king_square_attacked:     6774318
+ is_black_king_square_attacked:     6774366
 Loesung beendet. 
 
 

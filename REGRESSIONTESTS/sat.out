@@ -493,7 +493,7 @@ a)
                      play_move:        3239
  is_white_king_square_attacked:       11468
  is_black_king_square_attacked:        2745
-b) wSh4 
+b) wSh4  
 
    1.Sh4-f5 ! Zugzwang.
       1...f4-f3
@@ -544,9 +544,9 @@ Loesung beendet.
   1.e6-e5 Tg8-a8   2.La2-g8 + Ta8*g8 #
   1.e6-e5 Tg8-b8   2.e4-e3 Tb8*b2 #
 
-  add_to_move_generation_stack:        4361
+  add_to_move_generation_stack:        4365
                      play_move:        1695
- is_white_king_square_attacked:         105
+ is_white_king_square_attacked:         109
  is_black_king_square_attacked:        1765
 Loesung beendet. 
 

@@ -30,9 +30,9 @@ static void write_history_recursive(ply ply)
     write_history_recursive(parent_ply[ply]);
 
   printf(" %u:",ply);
-  WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
+  WriteSquare(stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
   printf("-");
-  WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
+  WriteSquare(stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
 }
 
 void move_generator_write_history(void)

@@ -132,7 +132,7 @@ solution finished.
 
   add_to_move_generation_stack:         286
                      play_move:         286
- is_white_king_square_attacked:           3
+ is_white_king_square_attacked:           4
  is_black_king_square_attacked:         286
 solution finished. 
 
@@ -166,7 +166,7 @@ pawn's side selects which pawn to promote -> Ra1 can't capture
 
   add_to_move_generation_stack:          87
                      play_move:          78
- is_white_king_square_attacked:          11
+ is_white_king_square_attacked:          12
  is_black_king_square_attacked:          78
 solution finished. 
 

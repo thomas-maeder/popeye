@@ -462,24 +462,34 @@
     ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinningWriter),                        \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
-    ENUMERATOR(STEndOfPhaseWriter), /* write the end of a phase */      \
-    ENUMERATOR(STEndOfSolutionWriter), /* write the end of a solution */  \
-    ENUMERATOR(STThreatWriter), /* writes "threat:" */ \
-    ENUMERATOR(STMoveWriter), /* writes moves */ \
-    ENUMERATOR(STKeyWriter), /* write battle play keys */               \
-    ENUMERATOR(STTryWriter), /* write "but" */                          \
-    ENUMERATOR(STZugzwangWriter), /* writes zugzwang if appropriate */  \
+    ENUMERATOR(STOutputPlainTextEndOfPhaseWriter), /* write the end of a phase */      \
+    ENUMERATOR(STOutputPlainTextTreeEndOfSolutionWriter), /* write the end of a solution */  \
+    ENUMERATOR(STOutputLaTeXTreeEndOfSolutionWriter), /* write the end of a solution */  \
+    ENUMERATOR(STOutputPlainTextThreatWriter), /* writes "threat:" */ \
+    ENUMERATOR(STOutputLaTeXThreatWriter), /* writes "threat:" */ \
+    ENUMERATOR(STOutputPlainTextMoveWriter), /* writes moves */ \
+    ENUMERATOR(STOutputLaTeXMoveWriter), /* writes moves */ \
+    ENUMERATOR(STOutputPlainTextKeyWriter), /* write battle play keys */               \
+    ENUMERATOR(STOutputLaTeXKeyWriter), /* write battle play keys */               \
+    ENUMERATOR(STOutputPlainTextTryWriter), /* write "but" */                          \
+    ENUMERATOR(STOutputLaTeXTryWriter), /* write "but" */                          \
+    ENUMERATOR(STOutputPlainTextZugzwangWriter), /* writes zugzwang if appropriate */  \
+    ENUMERATOR(STOutputLaTeXZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STTrivialEndFilter), /* don't write trivial variations */  \
-    ENUMERATOR(STRefutingVariationWriter), /* writes refuting variations */ \
-    ENUMERATOR(STRefutationsIntroWriter), /* write "But" */  \
-    ENUMERATOR(STRefutationWriter), /* writes refutations */  \
+    ENUMERATOR(STOutputPlaintextTreeRefutingVariationWriter), /* writes refuting variations */ \
+    ENUMERATOR(STOutputLaTeXTreeRefutingVariationWriter), /* writes refuting variations */ \
+    ENUMERATOR(STOutputPlainTextRefutationsIntroWriter), /* write "But" */  \
+    ENUMERATOR(STOutputPlainTextRefutationWriter), /* writes refutations */  \
+    ENUMERATOR(STOutputLaTeXRefutationWriter), /* writes refutations */  \
     ENUMERATOR(STOutputPlaintextTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
+    ENUMERATOR(STOutputLaTeXTreeCheckWriter), /* plain text output, tree mode: write checks by the previous move */  \
     ENUMERATOR(STOutputPlaintextLineLineWriter), /* plain text output, line mode: write a line */  \
-    ENUMERATOR(STOutputPlaintextGoalWriter), /* plain text output, tree mode: write the reached goal */  \
+    ENUMERATOR(STOutputPlaintextGoalWriter), /* plain text output: write the reached goal */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
     ENUMERATOR(STOutputLaTeXTwinningWriter),                            \
     ENUMERATOR(STOutputLaTeXLineLineWriter), /* LaTeX output, line mode: write a line */  \
+    ENUMERATOR(STOutputLaTeXGoalWriter), /* LaTeX output: write the reached goal */  \
     /* square observation tester slices */                              \
     ENUMERATOR(STIsSquareObservedFork),                                 \
     ENUMERATOR(STTestingIfSquareIsObserved),                            \

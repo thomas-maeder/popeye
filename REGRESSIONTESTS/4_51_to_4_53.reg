@@ -32,8 +32,8 @@ piece is of the same colour as the king to be mated
 
   add_to_move_generation_stack:       76524
                      play_move:       65793
- is_white_king_square_attacked:        2789
- is_black_king_square_attacked:       65436
+ is_white_king_square_attacked:        2795
+ is_black_king_square_attacked:       65439
 solution finished. 
 
 
@@ -67,7 +67,7 @@ caused all kinds of trouble, including this shortie not being solved.
   1.f2-f4 e7-e5 dia
 
   add_to_move_generation_stack:          40
-                     play_move:          42
+                     play_move:          43
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished. 
@@ -148,8 +148,8 @@ solution finished.
 
   add_to_move_generation_stack:          42
                      play_move:          42
- is_white_king_square_attacked:           2
- is_black_king_square_attacked:           4
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           6
 solution finished. 
 
 
@@ -182,8 +182,8 @@ solution finished.
 
   add_to_move_generation_stack:          42
                      play_move:          42
- is_white_king_square_attacked:           2
- is_black_king_square_attacked:           4
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           6
 solution finished. 
 
 
@@ -240,7 +240,7 @@ fairy pieces only allowed in proof games since releases >4.51
   add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           4
+ is_black_king_square_attacked:           5
 solution finished. 
 
 
@@ -273,8 +273,8 @@ White's first move
 
   add_to_move_generation_stack:       12003
                      play_move:        6369
- is_white_king_square_attacked:        5920
- is_black_king_square_attacked:        1588
+ is_white_king_square_attacked:        5921
+ is_black_king_square_attacked:        1590
 solution finished. 
 
 
@@ -1382,8 +1382,8 @@ option WhiteToPlay not applicable in help play
 
   add_to_move_generation_stack:          34
                      play_move:          34
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          39
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          43
 solution finished. 
 
 
@@ -1682,8 +1682,8 @@ solution finished.
 
   add_to_move_generation_stack:     1917494
                      play_move:      492093
- is_white_king_square_attacked:      266347
- is_black_king_square_attacked:      278579
+ is_white_king_square_attacked:      266351
+ is_black_king_square_attacked:      278581
 solution finished. 
 
 
@@ -1743,8 +1743,8 @@ never generates the same solution twice (but some solutions
 
   add_to_move_generation_stack:       28339
                      play_move:       13256
- is_white_king_square_attacked:        2894
- is_black_king_square_attacked:        5970
+ is_white_king_square_attacked:        2896
+ is_black_king_square_attacked:        5974
 solution finished. 
 
 
@@ -1802,7 +1802,7 @@ promote to bishop (no cage for queen) even if there was a cage
 
   add_to_move_generation_stack:        1829
                      play_move:         910
- is_white_king_square_attacked:         824
+ is_white_king_square_attacked:         825
  is_black_king_square_attacked:           1
 solution finished. 
 
@@ -1979,8 +1979,8 @@ solving interrupted.
 
   add_to_move_generation_stack:       66703
                      play_move:       40216
- is_white_king_square_attacked:       36357
- is_black_king_square_attacked:        9873
+ is_white_king_square_attacked:       36361
+ is_black_king_square_attacked:        9879
 solution finished. 
 
 
@@ -2013,8 +2013,8 @@ solution finished.
 
   add_to_move_generation_stack:       52700
                      play_move:       27882
- is_white_king_square_attacked:       19626
- is_black_king_square_attacked:       14827
+ is_white_king_square_attacked:       19628
+ is_black_king_square_attacked:       14829
 solution finished. 
 
 
@@ -2091,7 +2091,7 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
 
   add_to_move_generation_stack:       11839
                      play_move:        6607
- is_white_king_square_attacked:        2159
+ is_white_king_square_attacked:        2184
  is_black_king_square_attacked:        6180
 solving interrupted. 
 
@@ -2232,8 +2232,8 @@ issue 2886962: 4.51 didn't allow a reborn rook
 
   add_to_move_generation_stack:          25
                      play_move:          25
- is_white_king_square_attacked:           5
- is_black_king_square_attacked:           2
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:           3
 solution finished. 
 
 
@@ -2266,8 +2266,8 @@ feature request 2813613: proof games and Cavalier Majeur
 
   add_to_move_generation_stack:     6999963
                      play_move:     6999963
- is_white_king_square_attacked:       15723
- is_black_king_square_attacked:      357929
+ is_white_king_square_attacked:       15725
+ is_black_king_square_attacked:      357932
 solution finished. 
 
 
@@ -2300,8 +2300,8 @@ feature request 2813613: proof games and Leofamily
 
   add_to_move_generation_stack:        8532
                      play_move:        8532
- is_white_king_square_attacked:          21
- is_black_king_square_attacked:         364
+ is_white_king_square_attacked:          22
+ is_black_king_square_attacked:         366
 solution finished. 
 
 
@@ -2395,8 +2395,8 @@ ghostchess bug; 4.51 didn't find a solution here
 
   add_to_move_generation_stack:        4060
                      play_move:        2248
- is_white_king_square_attacked:         607
- is_black_king_square_attacked:        2232
+ is_white_king_square_attacked:         608
+ is_black_king_square_attacked:        2233
 solution finished. 
 
 

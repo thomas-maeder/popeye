@@ -1085,7 +1085,7 @@ solution finished.
   add_to_move_generation_stack:           8
                      play_move:          14
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          29
+ is_black_king_square_attacked:          43
 solution finished. 
 
 
@@ -1143,7 +1143,7 @@ a)
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) +bPf2 
+b) +bPf2  
 
    1.nROd1-e3 !
 
@@ -1205,7 +1205,7 @@ a)
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) +bPf2 
+b) +bPf2  
 
    1.nRPd1-g4 !
 
@@ -1216,7 +1216,7 @@ b) +bPf2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-+c) +bPg4 
++c) +bPg4  
 
    1.nRPd1*g4 !
 
@@ -1286,7 +1286,7 @@ a)
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) +bPf2 
+b) +bPf2  
 
    1.nRAd1-e3 !
 
@@ -1313,7 +1313,7 @@ b) +bPf2
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-+c) +bPg4 
++c) +bPg4  
 
    1.nRAd1*g4 !
 
@@ -1375,7 +1375,7 @@ a)
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) +bPf2 
+b) +bPf2  
 
    1.nRNd1-b2 !
 
@@ -1396,7 +1396,7 @@ b) +bPf2
                      play_move:           7
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-+c) +bPf6 
++c) +bPf6  
 
    1.nRNd1*f6 !
 
@@ -1446,7 +1446,7 @@ a)
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) +bPf2 
+b) +bPf2  
 
    1.nLSd1*f2-g4 !
 
@@ -1457,7 +1457,7 @@ b) +bPf2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-+c) +bPg4 
++c) +bPg4  
 
    1.nLSd1*f2-h1 !
 

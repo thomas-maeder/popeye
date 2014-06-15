@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
     initMaxtime();
 
     if (!dimensionHashtable())
-      pyfputs("Couldn't allocate the requested amount of memory\n",stdout);
+      fprintf(stdout,"Couldn't allocate the requested amount of memory\n");
 
     /* start timer to be able to display a reasonable time if the user
      * aborts execution before the timer is started for the first
@@ -211,10 +211,8 @@ int main(int argc, char *argv[])
 
     InitCheckDir();
 
-    /* Don't use StdString() - possible trace file is not yet opened
-     */
-    pyfputs(versionString,stdout);
-    pyfputs(maxmemString(),stdout);
+    fprintf(stdout,"%s",versionString);
+    fprintf(stdout,"%s",maxmemString());
 
     iterate_problems();
 

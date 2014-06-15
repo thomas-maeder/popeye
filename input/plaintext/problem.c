@@ -3,6 +3,7 @@
 #include "input/plaintext/condition.h"
 #include "input/plaintext/option.h"
 #include "input/plaintext/twin.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
 #include "options/maxsolutions/maxsolutions.h"
@@ -91,6 +92,22 @@ static void ReadBeginSpec(void)
   }
 }
 
+static void write_problem_footer(FILE *file)
+{
+  if (max_solutions_reached()
+      || was_max_nr_solutions_per_target_position_reached()
+      || has_short_solution_been_found_in_problem()
+      || hasMaxtimeElapsed())
+    fprintf(file,GetMsgString(InterMessage));
+  else
+    fprintf(file,GetMsgString(FinishProblem));
+
+  fprintf(file," ");
+  PrintTime(file);
+  fprintf(file,"\n\n\n");
+  fflush(file);
+}
+
 /* Iterate over the problems read from standard input or the input
  * file indicated in the command line options
  */
@@ -118,17 +135,9 @@ void iterate_problems(void)
 
     prev_token = iterate_twins();
 
-    if (max_solutions_reached()
-        || was_max_nr_solutions_per_target_position_reached()
-        || has_short_solution_been_found_in_problem()
-        || hasMaxtimeElapsed())
-      StdString(GetMsgString(InterMessage));
-    else
-      StdString(GetMsgString(FinishProblem));
-
-    StdString(" ");
-    PrintTime();
-    StdString("\n\n\n");
+    write_problem_footer(stdout);
+    if (TraceFile)
+      write_problem_footer(TraceFile);
 
     undo_move_effects();
     finply();

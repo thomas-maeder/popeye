@@ -3,8 +3,13 @@
 
 #include "utilities/boolean.h"
 
+#include <stdio.h>
+
 void WriteBGLNumber(char* a, long int b);
 
-boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first));
+boolean WriteConditions(FILE *file,
+                        void (*WriteCondition)(FILE *file,
+                                               char const CondLine[],
+                                               boolean is_first));
 
 #endif

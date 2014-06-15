@@ -103,8 +103,8 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
 
   add_to_move_generation_stack:      320127
                      play_move:      299735
- is_white_king_square_attacked:       88344
- is_black_king_square_attacked:      525607
+ is_white_king_square_attacked:       88350
+ is_black_king_square_attacked:      525613
 solution finished. 
 
 
@@ -150,8 +150,8 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
 
   add_to_move_generation_stack:   120497824
                      play_move:   116198342
- is_white_king_square_attacked:    20505227
- is_black_king_square_attacked:   214354633
+ is_white_king_square_attacked:    20505230
+ is_black_king_square_attacked:   214354647
 solution finished. 
 
 
@@ -186,7 +186,7 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
 
   add_to_move_generation_stack:        9932
                      play_move:        9906
- is_white_king_square_attacked:        3406
+ is_white_king_square_attacked:        3409
  is_black_king_square_attacked:       17676
 solution finished. 
 
@@ -258,8 +258,8 @@ Good Companions 4th Quick Composing Tourney (GC4QCT) announcement
 
   add_to_move_generation_stack:       14621
                      play_move:       13793
- is_white_king_square_attacked:        1898
- is_black_king_square_attacked:       26251
+ is_white_king_square_attacked:        1902
+ is_black_king_square_attacked:       26253
 solution finished. 
 
 

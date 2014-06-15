@@ -3,6 +3,7 @@
 
 #include "position/position.h"
 #include "input/plaintext/twin.h"
+#include "output/plaintext/plaintext.h"
 #include "utilities/boolean.h"
 
 #include <stdio.h>
@@ -10,7 +11,6 @@
 extern boolean LaTeXout;
 
 extern FILE *LaTeXFile;
-extern FILE *TextualSolutionBuffer;
 
 boolean LaTeXSetup(void);
 void LaTeXShutdown(void);
@@ -19,16 +19,18 @@ void LaTeXBeginDiagram(void);
 void LaTeXEndDiagram(void);
 
 void LaTexOpenSolution(void);
-void LaTeXFlushSolution(void);
-
-void LaTeXActivateSolutionBuffer(void);
-void LaTeXDeactivateSolutionBuffer(void);
-
+void LaTexCloseSolution(void);
 
 char *ParseLaTeXPieces(char *tok);
 
-void LaTeXStr(char const *line);
+void LaTeXStr(FILE *file, char const *line);
 char *LaTeXWalk(piece_walk_type walk);
+
+void output_latex_write_piece_exchange(output_plaintext_move_context_type *context,
+                                       move_effect_journal_index_type curr);
+void output_latex_write_castling(FILE *file,
+                                 move_effect_journal_index_type movement);
+void output_latex_write_move(void);
 
 /* Instrument the solving machinery with slices that write the solution in
  * LaTeX

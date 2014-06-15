@@ -9,14 +9,14 @@
 #include <ctype.h>
 #include <string.h>
 
-boolean WriteSpec(Flags sp, piece_walk_type p, boolean printcolours)
+boolean WriteSpec(FILE *file, Flags sp, piece_walk_type p, boolean printcolours)
 {
   boolean ret = false;
   piece_flag_type spname;
 
   if (is_piece_neutral(sp))
   {
-    StdChar(tolower(ColourString[UserLanguage][colour_neutral][0]));
+    fputc(tolower(ColourString[UserLanguage][colour_neutral][0]),file);
     ret = true;
   }
   else if (printcolours)
@@ -24,16 +24,16 @@ boolean WriteSpec(Flags sp, piece_walk_type p, boolean printcolours)
     if (areColorsSwapped)
     {
       if (TSTFLAG(sp,White))
-        StdChar(tolower(ColourString[UserLanguage][colour_black][0]));
+        fputc(tolower(ColourString[UserLanguage][colour_black][0]),file);
       if (TSTFLAG(sp,Black))
-        StdChar(tolower(ColourString[UserLanguage][colour_white][0]));
+        fputc(tolower(ColourString[UserLanguage][colour_white][0]),file);
     }
     else
     {
       if (TSTFLAG(sp,White))
-        StdChar(tolower(ColourString[UserLanguage][colour_white][0]));
+        fputc(tolower(ColourString[UserLanguage][colour_white][0]),file);
       if (TSTFLAG(sp,Black))
-        StdChar(tolower(ColourString[UserLanguage][colour_black][0]));
+        fputc(tolower(ColourString[UserLanguage][colour_black][0]),file);
     }
   }
 
@@ -44,39 +44,39 @@ boolean WriteSpec(Flags sp, piece_walk_type p, boolean printcolours)
         && (spname!=Royal || !is_king(p))
         && TSTFLAG(sp, spname))
     {
-      StdChar(tolower(PieSpString[UserLanguage][spname-nr_sides][0]));
+      fputc(tolower(PieSpString[UserLanguage][spname-nr_sides][0]),file);
       ret = true;
     }
 
   return ret;
 }
 
-void WritePiece(piece_walk_type p)
+void WritePiece(FILE *file, piece_walk_type p)
 {
   if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];
-    StdChar(toupper(PieceTab[p][0]));
+    fputc(toupper(PieceTab[p][0]),file);
     if (p1!=' ')
-      StdChar(toupper(p1));
+      fputc(toupper(p1),file);
   }
   else
   {
     unsigned int const i = p-Hunter0;
     assert(i<max_nr_hunter_walks);
-    WritePiece(huntertypes[i].away);
-    StdChar('/');
-    WritePiece(huntertypes[i].home);
+    WritePiece(file,huntertypes[i].away);
+    fputc('/',file);
+    WritePiece(file,huntertypes[i].home);
   }
 }
 
-void WriteSquare(square i)
+void WriteSquare(FILE *file, square i)
 {
-  StdChar('a' - nr_files_on_board + i%onerow);
+  fputc('a' - nr_files_on_board + i%onerow,file);
   if (isBoardReflected)
-    StdChar('8' + nr_rows_on_board - i/onerow);
+    fputc('8' + nr_rows_on_board - i/onerow,file);
   else
-    StdChar('1' - nr_rows_on_board + i/onerow);
+    fputc('1' - nr_rows_on_board + i/onerow,file);
 }
 
 void AppendSquare(char *List, square s)

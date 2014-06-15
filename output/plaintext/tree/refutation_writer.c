@@ -9,22 +9,29 @@
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-/* Allocate a STRefutationsIntroWriter slice.
+/* Allocate a STOutputPlainTextRefutationsIntroWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_refutations_intro_writer_slice(void)
+slice_index alloc_output_plaintext_tree_refutations_intro_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRefutationsIntroWriter);
+  result = alloc_pipe(STOutputPlainTextRefutationsIntroWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+static void write_refutations_intro(FILE *file)
+{
+  Message2(file,NewLine);
+  fprintf(file,"%*c",4,' ');
+  Message2(file,But);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -40,16 +47,15 @@ slice_index alloc_refutations_intro_writer_slice(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void refutations_intro_writer_solve(slice_index si)
+void output_plaintext_tree_refutations_intro_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  Message(NewLine);
-  sprintf(GlobalStr,"%*c",4,' ');
-  StdString(GlobalStr);
-  Message(But);
+  write_refutations_intro(stdout);
+  if (TraceFile)
+    write_refutations_intro(TraceFile);
 
   pipe_solve_delegate(si);
 
@@ -57,17 +63,17 @@ void refutations_intro_writer_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-/* Allocate a STRefutationWriter slice.
+/* Allocate a STOutputPlainTextRefutationWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_refutation_writer_slice(void)
+slice_index alloc_output_plaintext_tree_refutation_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRefutationWriter);
+  result = alloc_pipe(STOutputPlainTextRefutationWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -88,13 +94,15 @@ slice_index alloc_refutation_writer_slice(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void refutation_writer_solve(slice_index si)
+void output_plaintext_tree_refutation_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  StdString(" !");
+  fprintf(stdout," !");
+  if (TraceFile)
+    fprintf(TraceFile," !");
 
   pipe_solve_delegate(si);
 

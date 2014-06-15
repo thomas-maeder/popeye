@@ -39,117 +39,120 @@ static boolean find_creation(move_effect_journal_index_type curr,
   return false;
 }
 
-static void WriteCondition(char const CondLine[], boolean is_first)
+static void WriteCondition(FILE *file, char const CondLine[], boolean is_first)
 {
   if (is_first)
-    StdString(CondLine);
+    fprintf(file,"%s",CondLine);
   else
-  {
-    StdString("\n   ");
-    StdString(CondLine);
-  }
+    fprintf(file,"\n   %s",CondLine);
 }
 
-static void WritePieceCreation(move_effect_journal_index_type curr)
+static void WritePieceCreation(FILE *file, move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
   if (!find_removal(curr,entry->u.piece_addition.on))
-    StdChar('+');
+    fputc('+',file);
 
-  WriteSpec(entry->u.piece_addition.flags,
+  WriteSpec(file,
+            entry->u.piece_addition.flags,
             entry->u.piece_addition.walk,
             true);
-  WritePiece(entry->u.piece_addition.walk);
-  WriteSquare(entry->u.piece_addition.on);
-  StdString("  ");
+  WritePiece(file,entry->u.piece_addition.walk);
+  WriteSquare(file,entry->u.piece_addition.on);
+  fprintf(file,"%s","  ");
 }
 
-static void WritePieceRemoval(move_effect_journal_index_type curr)
+static void WritePieceRemoval(FILE *file, move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
   if (!find_creation(curr+1,entry->u.piece_removal.on))
   {
-    StdString("-");
-    WriteSpec(entry->u.piece_removal.flags,
+    fprintf(file,"%s","-");
+    WriteSpec(file,
+              entry->u.piece_removal.flags,
               entry->u.piece_removal.walk,
               true);
-    WritePiece(entry->u.piece_removal.walk);
-    WriteSquare(entry->u.piece_removal.on);
-    StdString("  ");
+    WritePiece(file,entry->u.piece_removal.walk);
+    WriteSquare(file,entry->u.piece_removal.on);
+    fprintf(file,"%s","  ");
   }
 }
 
-static void WritePieceMovement(move_effect_journal_index_type curr)
+static void WritePieceMovement(FILE *file, move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WriteSpec(entry->u.piece_movement.movingspec,
+  WriteSpec(file,
+            entry->u.piece_movement.movingspec,
             entry->u.piece_movement.moving,
             true);
-  WritePiece(entry->u.piece_movement.moving);
-  WriteSquare(entry->u.piece_movement.from);
-  StdString("-->");
-  WriteSquare(entry->u.piece_movement.to);
-  StdString("  ");
+  WritePiece(file,entry->u.piece_movement.moving);
+  WriteSquare(file,entry->u.piece_movement.from);
+  fprintf(file,"%s","-->");
+  WriteSquare(file,entry->u.piece_movement.to);
+  fprintf(file,"%s","  ");
 }
 
-static void WritePieceExchange(move_effect_journal_index_type curr)
+static void WritePieceExchange(FILE *file, move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WriteSpec(entry->u.piece_exchange.fromflags,
+  WriteSpec(file,
+            entry->u.piece_exchange.fromflags,
             get_walk_of_piece_on_square(entry->u.piece_exchange.to),
             true);
-  WritePiece(get_walk_of_piece_on_square(entry->u.piece_exchange.to));
-  WriteSquare(entry->u.piece_exchange.from);
-  StdString("<-->");
-  WriteSpec(entry->u.piece_exchange.toflags,
+  WritePiece(file,get_walk_of_piece_on_square(entry->u.piece_exchange.to));
+  WriteSquare(file,entry->u.piece_exchange.from);
+  fprintf(file,"%s","<-->");
+  WriteSpec(file,
+            entry->u.piece_exchange.toflags,
             get_walk_of_piece_on_square(entry->u.piece_exchange.from),
             true);
-  WritePiece(get_walk_of_piece_on_square(entry->u.piece_exchange.from));
-  WriteSquare(entry->u.piece_exchange.to);
-  StdString("  ");
+  WritePiece(file,get_walk_of_piece_on_square(entry->u.piece_exchange.from));
+  WriteSquare(file,entry->u.piece_exchange.to);
+  fprintf(file,"%s","  ");
 }
 
-static void WriteBoardTransformation(move_effect_journal_index_type curr)
+static void WriteBoardTransformation(FILE *file,
+                                     move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
   switch (entry->u.board_transformation.transformation)
   {
     case rot90:
-      StdString(TwinningTab[TwinningRotate]);
-      StdString(" 90");
+      fprintf(file,"%s",TwinningTab[TwinningRotate]);
+      fprintf(file,"%s"," 90");
       break;
     case rot180:
-      StdString(TwinningTab[TwinningRotate]);
-      StdString(" 180");
+      fprintf(file,"%s",TwinningTab[TwinningRotate]);
+      fprintf(file,"%s"," 180");
       break;
     case rot270:
-      StdString(TwinningTab[TwinningRotate]);
-      StdString(" 270");
+      fprintf(file,"%s",TwinningTab[TwinningRotate]);
+      fprintf(file,"%s"," 270");
       break;
     case mirra1h1:
-      StdString(TwinningTab[TwinningMirror]);
-      StdString(" ");
-      StdString(TwinningMirrorTab[TwinningMirrora1h1]);
+      fprintf(file,"%s",TwinningTab[TwinningMirror]);
+      fprintf(file,"%s"," ");
+      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora1h1]);
       break;
     case mirra1a8:
-      StdString(TwinningTab[TwinningMirror]);
-      StdString(" ");
-      StdString(TwinningMirrorTab[TwinningMirrora1a8]);
+      fprintf(file,"%s",TwinningTab[TwinningMirror]);
+      fprintf(file,"%s"," ");
+      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora1a8]);
       break;
     case mirra1h8:
-      StdString(TwinningTab[TwinningMirror]);
-      StdString(" ");
-      StdString(TwinningMirrorTab[TwinningMirrora1h8]);
+      fprintf(file,"%s",TwinningTab[TwinningMirror]);
+      fprintf(file,"%s"," ");
+      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora1h8]);
       break;
     case mirra8h1:
-      StdString(TwinningTab[TwinningMirror]);
-      StdString(" ");
-      StdString(TwinningMirrorTab[TwinningMirrora8h1]);
+      fprintf(file,"%s",TwinningTab[TwinningMirror]);
+      fprintf(file,"%s"," ");
+      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora8h1]);
       break;
 
     default:
@@ -157,57 +160,55 @@ static void WriteBoardTransformation(move_effect_journal_index_type curr)
       break;
   }
 
-  StdString("  ");
+  fprintf(file,"%s","  ");
 }
 
-static void WriteShift(move_effect_journal_index_type curr)
+static void WriteShift(FILE *file, move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  StdString(TwinningTab[TwinningShift]);
-  StdString(" ");
-  WriteSquare(entry->u.twinning_shift.from);
-  StdString(" ==> ");
-  WriteSquare(entry->u.twinning_shift.to);
-  StdString("  ");
+  fprintf(file,"%s",TwinningTab[TwinningShift]);
+  fprintf(file,"%s"," ");
+  WriteSquare(file,entry->u.twinning_shift.from);
+  fprintf(file,"%s"," ==> ");
+  WriteSquare(file,entry->u.twinning_shift.to);
+  fprintf(file,"%s","  ");
 }
 
-static void WriteStipulation(move_effect_journal_index_type curr)
+static void WriteStipulation(FILE *file, move_effect_journal_index_type curr)
 {
-  StdString(AlphaStip);
-  StdString("  ");
+  fprintf(file,"%s",AlphaStip);
+  fprintf(file,"%s","  ");
 }
 
-static void WritePolish(move_effect_journal_index_type curr)
+static void WritePolish(FILE *file, move_effect_journal_index_type curr)
 {
-  StdString(TwinningTab[TwinningPolish]);
-  StdString("  ");
+  fprintf(file,"%s",TwinningTab[TwinningPolish]);
+  fprintf(file,"%s","  ");
 }
 
-static void WriteSubstitute(move_effect_journal_index_type curr)
+static void WriteSubstitute(FILE *file, move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WritePiece(entry->u.piece_change.from);
-  StdString(" ==> ");
-  WritePiece(entry->u.piece_change.to);
-  StdString("  ");
+  WritePiece(file,entry->u.piece_change.from);
+  fprintf(file,"%s"," ==> ");
+  WritePiece(file,entry->u.piece_change.to);
+  fprintf(file,"%s","  ");
 }
 
-static void WriteTwinLetter(void)
+static void WriteTwinLetter(FILE *file)
 {
   if (twin_is_continued)
-    StdChar('+');
+    fputc('+',file);
 
   if (twin_number-twin_a<='z'-'a')
-    sprintf(GlobalStr, "%c) ", 'a'+twin_number-twin_a);
+    fprintf(file,"%c) ", 'a'+twin_number-twin_a);
   else
-    sprintf(GlobalStr, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
-
-  StdString(GlobalStr);
+    fprintf(file,"z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
-static void WriteTwinning(void)
+static void WriteTwinning(FILE *file)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
   move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
@@ -222,45 +223,45 @@ static void WriteTwinning(void)
     switch (entry->type)
     {
       case move_effect_piece_creation:
-        WritePieceCreation(curr);
+        WritePieceCreation(file,curr);
         break;
 
       case move_effect_piece_removal:
-        WritePieceRemoval(curr);
+        WritePieceRemoval(file,curr);
         break;
 
       case move_effect_piece_movement:
-        WritePieceMovement(curr);
+        WritePieceMovement(file,curr);
         break;
 
       case move_effect_piece_exchange:
-        WritePieceExchange(curr);
+        WritePieceExchange(file,curr);
         break;
 
       case move_effect_board_transformation:
-        WriteBoardTransformation(curr);
+        WriteBoardTransformation(file,curr);
         break;
 
       case move_effect_twinning_shift:
-        WriteShift(curr);
+        WriteShift(file,curr);
         break;
 
       case move_effect_input_condition:
-        WriteConditions(&WriteCondition);
-        StdString("  ");
+        WriteConditions(file,&WriteCondition);
+        fprintf(file,"%s","  ");
         break;
 
       case move_effect_input_stipulation:
       case move_effect_input_sstipulation:
-        WriteStipulation(curr);
+        WriteStipulation(file,curr);
         break;
 
       case move_effect_twinning_polish:
-        WritePolish(curr);
+        WritePolish(file,curr);
         break;
 
       case move_effect_twinning_substitute:
-        WriteSubstitute(curr);
+        WriteSubstitute(file,curr);
         break;
 
       case move_effect_king_square_movement:
@@ -276,6 +277,40 @@ static void WriteTwinning(void)
   }
 
   last_horizon = top;
+}
+
+static void WriteIntro(FILE *file)
+{
+  switch (twin_stage)
+  {
+    case twin_original_position_no_twins:
+      break;
+
+    case twin_zeroposition:
+      Message2(file,NewLine);
+      fprintf(file,"%s",TokenTab[ZeroPosition]);
+      Message2(file,NewLine);
+      Message2(file,NewLine);
+      break;
+
+    case twin_initial:
+      Message2(file,NewLine);
+      WriteTwinLetter(file);
+      WriteTwinning(file);
+      Message2(file,NewLine);
+      break;
+
+    case twin_regular:
+    case twin_last:
+      WriteTwinLetter(file);
+      WriteTwinning(file);
+      Message2(file,NewLine);
+      break;
+
+    default:
+      assert(0);
+      break;
+  }
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -297,36 +332,8 @@ void output_plaintext_write_twinning(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (twin_stage)
-  {
-    case twin_original_position_no_twins:
-      break;
-
-    case twin_zeroposition:
-      Message(NewLine);
-      StdString(TokenTab[ZeroPosition]);
-      Message(NewLine);
-      Message(NewLine);
-      break;
-
-    case twin_initial:
-      Message(NewLine);
-      WriteTwinLetter();
-      WriteTwinning();
-      Message(NewLine);
-      break;
-
-    case twin_regular:
-    case twin_last:
-      WriteTwinLetter();
-      WriteTwinning();
-      Message(NewLine);
-      break;
-
-    default:
-      assert(0);
-      break;
-  }
+  if (TraceFile)
+    WriteIntro(TraceFile);
 
   pipe_solve_delegate(si);
 

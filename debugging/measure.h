@@ -34,10 +34,8 @@
 #define WRITE_COUNTER(name)                       \
   {                                               \
     extern COUNTER_TYPE counter##name;            \
-    enum { bufsize = 50 };                        \
-    char buf[bufsize];                                          \
-    snprintf(buf,bufsize,"%30s:%12lu\n",#name,counter##name);   \
-    StdString(buf);                                             \
+    fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
+    if (TraceFile) fprintf(TraceFile,"%30s:%12lu\n",#name,counter##name);   \
     counter##name = 0;                                          \
   }
 

@@ -5,9 +5,11 @@
 #include "pieces/pieces.h"
 #include "utilities/boolean.h"
 
-boolean WriteSpec(Flags pspec, piece_walk_type p, boolean printcolours);
-void WritePiece(piece_walk_type p);
-void WriteSquare(square s);
+#include <stdio.h>
+
+boolean WriteSpec(FILE *file, Flags pspec, piece_walk_type p, boolean printcolours);
+void WritePiece(FILE *file, piece_walk_type p);
+void WriteSquare(FILE *file, square s);
 
 void AppendSquare(char *List, square s);
 

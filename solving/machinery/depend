@@ -1030,6 +1030,13 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  output/plaintext/tree/zugzwang_writer.h \
  output/plaintext/tree/exclusive.h stipulation/pipe.h \
  output/plaintext/twinning.h output/latex/twinning.h \
+ output/latex/line/line_writer.h output/latex/goal_writer.h \
+ output/latex/tree/end_of_solution_writer.h \
+ output/latex/tree/check_writer.h output/latex/tree/key_writer.h \
+ output/latex/tree/move_writer.h output/latex/tree/refutation_writer.h \
+ output/latex/tree/refuting_variation_writer.h \
+ output/latex/tree/threat_writer.h output/latex/tree/try_writer.h \
+ output/latex/tree/zugzwang_writer.h \
  pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/paralysing/mate_filter.h \
  pieces/attributes/paralysing/stalemate_special.h \
@@ -1536,6 +1543,28 @@ stipulation/pipe.h:
 output/plaintext/twinning.h:
 
 output/latex/twinning.h:
+
+output/latex/line/line_writer.h:
+
+output/latex/goal_writer.h:
+
+output/latex/tree/end_of_solution_writer.h:
+
+output/latex/tree/check_writer.h:
+
+output/latex/tree/key_writer.h:
+
+output/latex/tree/move_writer.h:
+
+output/latex/tree/refutation_writer.h:
+
+output/latex/tree/refuting_variation_writer.h:
+
+output/latex/tree/threat_writer.h:
+
+output/latex/tree/try_writer.h:
+
+output/latex/tree/zugzwang_writer.h:
 
 pieces/attributes/paralysing/paralysing.h:
 

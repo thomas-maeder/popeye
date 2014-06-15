@@ -28,7 +28,7 @@
 
   add_to_move_generation_stack:        3246
                      play_move:        1510
- is_white_king_square_attacked:         666
+ is_white_king_square_attacked:         672
  is_black_king_square_attacked:        1351
 solution finished. 
 
@@ -64,8 +64,8 @@ solution finished.
 
   add_to_move_generation_stack:    50234926
                      play_move:    36586520
- is_white_king_square_attacked:     2626182
- is_black_king_square_attacked:    36401700
+ is_white_king_square_attacked:     2626188
+ is_black_king_square_attacked:    36401704
 solution finished. 
 
 

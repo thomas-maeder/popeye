@@ -135,7 +135,7 @@ Popeye 4.61 and 4.63 stopped after 1.Kh4 because of the stalemate
   add_to_move_generation_stack:        4415
                      play_move:        2380
  is_white_king_square_attacked:        2380
- is_black_king_square_attacked:        1594
+ is_black_king_square_attacked:        1596
 solution finished. 
 
 
@@ -168,10 +168,10 @@ there may be non-orthodox mating moves in Backhome
   1.Kd6-e5   2.Bh4*f6   3.Bf6-h4   4.Ke5-d6 #
   1.Kd6-e5   2.Ke5*f6   3.Kf6-e5   4.Ke5-d6 #
 
-  add_to_move_generation_stack:        5628
-                     play_move:         422
- is_white_king_square_attacked:         171
- is_black_king_square_attacked:         340
+  add_to_move_generation_stack:        5702
+                     play_move:         427
+ is_white_king_square_attacked:         176
+ is_black_king_square_attacked:         349
 solution finished. 
 
 
@@ -325,7 +325,7 @@ solution finished.
   add_to_move_generation_stack:        2332
                      play_move:        1274
  is_white_king_square_attacked:         103
- is_black_king_square_attacked:         750
+ is_black_king_square_attacked:         754
 solution finished. 
 
 
@@ -363,7 +363,7 @@ a)
                      play_move:          14
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:           0
-b) ser-za72
+b) ser-za72  
 
 
   add_to_move_generation_stack:         281
@@ -512,8 +512,8 @@ Popeye 4.63 and 4.65 only printed the first solution
 
   add_to_move_generation_stack:         406
                      play_move:         430
- is_white_king_square_attacked:          48
- is_black_king_square_attacked:         230
+ is_white_king_square_attacked:          56
+ is_black_king_square_attacked:         234
 solution finished. 
 
 

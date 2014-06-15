@@ -235,7 +235,7 @@ at least 1 wormhole must be empty for check on a wormhole ...
   add_to_move_generation_stack:           5
                      play_move:           4
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           7
+ is_black_king_square_attacked:           8
 solution finished. 
 
 

@@ -29,8 +29,8 @@
 
   add_to_move_generation_stack:     1003648
                      play_move:      791936
- is_white_king_square_attacked:      104544
- is_black_king_square_attacked:      787856
+ is_white_king_square_attacked:      104548
+ is_black_king_square_attacked:      787860
 solution finished. 
 
 
@@ -66,16 +66,16 @@ a)
 
   add_to_move_generation_stack:       42991
                      play_move:       27357
- is_white_king_square_attacked:        6779
- is_black_king_square_attacked:       26926
-b) bKd8-->h3
+ is_white_king_square_attacked:        6781
+ is_black_king_square_attacked:       26927
+b) bKd8-->h3  
 
   1.g4-g3 Se5-g4=b   2.Re2-e5=w Re5-h5 #
 
   add_to_move_generation_stack:       34367
                      play_move:       23511
- is_white_king_square_attacked:        6010
- is_black_king_square_attacked:       23048
+ is_white_king_square_attacked:        6012
+ is_black_king_square_attacked:       23049
 solution finished. 
 
 

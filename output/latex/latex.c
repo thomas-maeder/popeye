@@ -1,7 +1,8 @@
 #include "output/latex/latex.h"
 #include "output/latex/twinning.h"
+#include "output/latex/line/line.h"
+#include "output/latex/tree/tree.h"
 #include "output/output.h"
-#include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/pieces.h"
@@ -18,6 +19,7 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/pipe.h"
 #include "conditions/grid.h"
+#include "conditions/singlebox/type1.h"
 #include "platform/maxtime.h"
 #include "debugging/assert.h"
 
@@ -31,8 +33,6 @@ boolean LaTeXout;
 static char filename[LINESIZE];    /* This array contains the input as is */
 
 FILE *LaTeXFile;
-static FILE *TextualSolutionBufferPrivate;
-FILE *TextualSolutionBuffer;
 
 static char *LaTeXPiecesAbbr[nr_piece_walks];
 static char *LaTeXPiecesFull[nr_piece_walks];
@@ -112,68 +112,53 @@ char *ParseLaTeXPieces(char *tok)
   return tok;
 }
 
-void LaTeXStr(char const *line)
+void LaTeXStr(FILE *file, char const *line)
 {
-  while (*line) {
-    switch (*line) {
+  while (*line)
+  {
+    switch (*line)
+    {
     case '#':
-      fprintf(LaTeXFile, "\\%c", *line);
-      break;
     case '&':
-      fprintf(LaTeXFile, "\\%c", *line);
-      break;
     case '%':
-      if (*(line+1) == '%') {
-        /* it's introducing a comment */
-        fprintf(LaTeXFile, "%%");
-        line++;
-      }
-      else {
-        fprintf(LaTeXFile, "\\%%");
-      }
+      fprintf(file,"\\%c", *line);
       break;
-    case '0':
-      if (strncmp(line, "0-0-0", 5) == 0) {
-        fprintf(LaTeXFile, "{\\OOO}");
-        line += 4;
-      }
-      else if (strncmp(line, "0-0", 3) == 0) {
-        fprintf(LaTeXFile, "{\\OO}");
-        line += 2;
-      }
-      else {
-        fprintf(LaTeXFile, "%c", *line);
-      }
-      break;
+
     case '-':
-      if (*(line+1) == '>') {   /* convert -> to \ra   FCO */
-        fprintf(LaTeXFile, "{\\ra}");
-        line++;
-      } else {  /* ordinary minus */
-        fprintf(LaTeXFile, "%c", *line);
+      if (*(line+1) == '>')   /* convert -> to \ra   FCO */
+      {
+        fprintf(file,"%s", "{\\ra}");
+        ++line;
       }
+      else   /* ordinary minus */
+        fprintf(file, "%c", *line);
       break;
+
     case '<':
       if (*(line+1)=='-' && *(line+2)=='-' && *(line+3)=='>')   /* convert -> to \lra  */
       {
-        fprintf(LaTeXFile, "{\\lra}");
+        fprintf(file,"%s", "{\\lra}");
         line += 3;
-      } else {  /* ordinary less than */
-        fprintf(LaTeXFile, "%c", *line);
       }
+      else  /* ordinary less than */
+        fprintf(file, "%c", *line);
       break;
 
     default:
-      fprintf(LaTeXFile, "%c", *line);
-      fflush(LaTeXFile);         /* non-buffered output  FCO */
+      fprintf(file, "%c", *line);
+      fflush(file);         /* non-buffered output  FCO */
       break;
     }
-    line++;
+
+    ++line;
   }
 }
 
 static void WriteIntro(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   fprintf(LaTeXFile, "\\documentclass{article}%%");
   if (!flag_regression)
     fprintf(LaTeXFile, "%s", versionString);
@@ -183,15 +168,23 @@ static void WriteIntro(void)
     fprintf(LaTeXFile, "\\usepackage{german}\n");
   }
   fprintf(LaTeXFile, "\n\\begin{document}\n\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 boolean LaTeXSetup(void)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   LaTeXFile = fopen(InputLine,"w");
   if (LaTeXFile==NULL)
   {
     IoErrorMsg(WrOpenError,0);
-    return false;
+    result = false;
   }
   else
   {
@@ -199,12 +192,20 @@ boolean LaTeXSetup(void)
     WriteIntro();
     fclose(LaTeXFile);
     LaTeXFile = NULL;
-    return true;
+    result = true;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 void LaTeXShutdown(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   LaTeXFile = fopen(filename,"a");
 
   if (LaTeXFile!=0)
@@ -213,99 +214,85 @@ void LaTeXShutdown(void)
     fclose(LaTeXFile);
     LaTeXFile = NULL;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean Open(void)
 {
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   assert(LaTeXFile==NULL);
 
   if (filename[0]==0)
-    return false;
+    result = false;
   else
   {
     LaTeXFile = fopen(filename,"a");
     if (LaTeXFile==NULL)
     {
       IoErrorMsg(WrOpenError,0);
-      return false;
+      result = false;
     }
     else
-      return true;
+      result = true;
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static void Close(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   assert(LaTeXFile!=NULL);
 
   fclose(LaTeXFile);
   LaTeXFile = NULL;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void LaTexOpenSolution(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   assert(LaTeXFile!=NULL);
-  assert(TextualSolutionBufferPrivate==NULL);
 
   fprintf(LaTeXFile, " \\solution{%%\n");
 
-  assert(TextualSolutionBufferPrivate==NULL);
-  TextualSolutionBufferPrivate = tmpfile();
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-void LaTexCloseSolutionBuffer(void)
+void LaTexCloseSolution(void)
 {
-  assert(TextualSolutionBufferPrivate!=NULL);
-
-  fclose(TextualSolutionBufferPrivate);
-  TextualSolutionBufferPrivate = NULL;
-}
-
-void LaTeXActivateSolutionBuffer(void)
-{
-  TextualSolutionBuffer = TextualSolutionBufferPrivate;
-}
-
-void LaTeXDeactivateSolutionBuffer(void)
-{
-  TextualSolutionBuffer = NULL;
-}
-
-void LaTeXFlushSolution(void)
-{
-  char line[256];
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   assert(LaTeXFile!=NULL);
 
-  /* solution */
-  rewind(TextualSolutionBufferPrivate);
-  while (fgets(line, (sizeof line)-1, TextualSolutionBufferPrivate))
-  {
-    if (strlen(line)>1 && line[1]==')')
-      /* twin */
-      fprintf(LaTeXFile, "%c)", line[0]);
-    else if (strlen(line)>2 && line[2]==')')
-    {
-      if (line[0] == '+')        /* twin (continued) */
-        fprintf(LaTeXFile, "%c)", line[1]);
-      else
-        fprintf(LaTeXFile, "%c%c)", line[0], line[1]);
-    }
-    else if (strlen(line)>3 && line[3]==')')
-      /* continued twinning and >z */
-      fprintf(LaTeXFile, "%c%c)", line[1], line[2]);
+  fprintf(LaTeXFile, " }%%\n");
 
-    if (strchr(line, '.'))   /* line containing a move */
-      LaTeXStr(line);
-  }
-
-  fprintf(LaTeXFile, "\n }%%\n");
-
-  LaTexCloseSolutionBuffer();
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void LaTeXEndDiagram(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   assert(LaTeXFile!=NULL);
 
   if (!(OptFlag[solmenaces]
@@ -325,19 +312,31 @@ void LaTeXEndDiagram(void)
   fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
 
   Close();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-static void WriteCondition(char const CondLine[], boolean is_first)
+static void WriteCondition(FILE *file, char const CondLine[], boolean is_first)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (is_first)
-    fprintf(LaTeXFile, " \\condition{");
+    fprintf(file,"%s", " \\condition{");
   else
-    fprintf(LaTeXFile, "{\\newline}\n   ");
-  LaTeXStr(CondLine);
+    fprintf(file,"%s", "{\\newline}\n   ");
+  LaTeXStr(file,CondLine);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteAuthor(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (strlen(ActAuthor)>0)
   {
     char TeXAuthor[256];
@@ -358,8 +357,9 @@ static void WriteAuthor(void)
       if (endcp!=0)
         *endcp = '\0';
 
-      sprintf(GlobalStr, " \\author{%s}%%%%\n", TeXAuthor);
-      LaTeXStr(GlobalStr);
+      sprintf(GlobalStr," \\author{%s}", TeXAuthor);
+      LaTeXStr(LaTeXFile,GlobalStr);
+      fprintf(LaTeXFile,"%s","%\n");
 
       if (endcp!=0)
         *endcp = '\n';
@@ -389,18 +389,24 @@ static void WriteAuthor(void)
           *cp3= '\0';
           sprintf(GlobalStr, "%s, %s", cp3+1, cp1);
         }
-        LaTeXStr(GlobalStr);
+        LaTeXStr(LaTeXFile,GlobalStr);
         *cp3= *cp2= '\n';
 
         cp1= cp2+1;
       }
-      fprintf(LaTeXFile, "}%%\n");
+      fprintf(LaTeXFile,"%s","}%\n");
     }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteSource(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   /* format: [diagram number,] source [issue number,] [date] */
   if (ActOrigin[0] != '\0') {
     char *source= ActOrigin;
@@ -492,16 +498,22 @@ static void WriteSource(void)
     /* source name or complete source if not interpretable */
     while (*(date-1) == ' ')
       date--;
-    sprintf(GlobalStr,
-            " \\source{%.*s}%%%%\n", (int)(date-source), source);
-    LaTeXStr(GlobalStr);
+    sprintf(GlobalStr," \\source{%.*s}",(int)(date-source),source);
+    LaTeXStr(LaTeXFile,GlobalStr);
+    fprintf(LaTeXFile,"%s","%\n");
 
     *eol= '\n';
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteAward(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (ActAward[0] != '\0')
   {
     char *tour= strchr(ActAward, ',');
@@ -517,21 +529,34 @@ static void WriteAward(void)
       fprintf(LaTeXFile, " \\award{%s}%%\n", ActAward);
     *eol= '\n';
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteDedication(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (ActTitle[0] != '\0')
   {
-    sprintf(GlobalStr, "\\dedication{%s}%%%%\n", ActTitle);
-    LaTeXStr(GlobalStr);
+    sprintf(GlobalStr, "\\dedication{%s}", ActTitle);
+    LaTeXStr(LaTeXFile,GlobalStr);
+    fprintf(LaTeXFile,"%s","%\n");
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WritePieces(void)
 {
   square const *bnp;
   boolean piece_found = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   fprintf(LaTeXFile, " \\pieces{");
 
@@ -555,11 +580,17 @@ static void WritePieces(void)
   }
 
   fprintf(LaTeXFile, "}%%\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static boolean FindFairyWalks(boolean side_has_piece[nr_piece_walks][nr_sides+1])
 {
   boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   {
     piece_walk_type p;
@@ -593,12 +624,20 @@ static boolean FindFairyWalks(boolean side_has_piece[nr_piece_walks][nr_sides+1]
     }
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
 static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_sides],
                                    char ListSpec[nr_piece_flags-nr_sides][256])
 {
+  boolean result = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   {
     piece_flag_type sp;
     for (sp= nr_sides; sp<nr_piece_flags; ++sp)
@@ -629,17 +668,26 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
           && !(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
           && !(sp==Beamtet && CondFlag[beamten]))
-        return true;
-
-    return false;
+      {
+        result = true;
+        break;
+      }
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 static boolean FindHoles(char HolesSqList[256])
 {
   boolean result = false;
-
   square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (bnp = boardnum; *bnp; bnp++)
   {
     if (is_square_blocked(*bnp))
@@ -658,14 +706,20 @@ static boolean FindHoles(char HolesSqList[256])
     fprintf(LaTeXFile," \\fieldframe{%s}%%\n",HolesSqList);
   }
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
   return result;
 }
 
 static void WriteFairyWalks(boolean side_has_walk[nr_piece_walks][nr_sides+1])
 {
   boolean fairy_walk_written = false;
-
   piece_walk_type p;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (p = Bishop+1; p<nr_piece_walks; ++p)
     if (side_has_walk[p][White] || side_has_walk[p][Black] || side_has_walk[p][nr_sides])
     {
@@ -694,6 +748,9 @@ static void WriteFairyWalks(boolean side_has_walk[nr_piece_walks][nr_sides+1])
       fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
       fairy_walk_written = true;
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WritePiecesWithSpecs(boolean remark_written,
@@ -701,6 +758,10 @@ static void WritePiecesWithSpecs(boolean remark_written,
                                  char ListSpec[nr_piece_flags-nr_sides][256])
 {
   piece_flag_type sp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (sp = nr_sides; sp<nr_piece_flags; ++sp)
     if (SpecCount[sp-nr_sides]>0)
     {
@@ -709,14 +770,23 @@ static void WritePiecesWithSpecs(boolean remark_written,
       fprintf(LaTeXFile, "%s\n", ListSpec[sp-nr_sides]);
       remark_written = true;
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteHoles(boolean remark_written,
                        char const HolesSqList[256])
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (remark_written)
     fprintf(LaTeXFile,"{\\newline}\n    ");
   fprintf(LaTeXFile,"%s %s%%\n",CondString[UserLanguage][holes],HolesSqList);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteFairyPieces(void)
@@ -730,6 +800,9 @@ static void WriteFairyPieces(void)
 
   char HolesSqList[256] = "";
   boolean const hole_found = FindHoles(HolesSqList);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   if (fairy_walk_found || hole_found || piece_with_specs_found)
   {
@@ -746,23 +819,35 @@ static void WriteFairyPieces(void)
 
     fprintf(LaTeXFile,"}%%\n");
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteStipulation(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   fprintf(LaTeXFile, " \\stipulation{");
-  LaTeXStr(ActStip);
+  LaTeXStr(LaTeXFile,ActStip);
   if (OptFlag[solapparent])
     fprintf(LaTeXFile, "*");
   if (OptFlag[whitetoplay])
     fprintf(LaTeXFile," %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
-  fprintf(LaTeXFile, "}%%\n");
+  fprintf(LaTeXFile,"%s","}%\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteGridOrthogonalLines(void)
 {
   unsigned int i;
   boolean line_written = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   for (i = 1; i<nr_files_on_board; i++)
     if (GridNum(square_a1+dir_right*(i-1))!=GridNum(square_a1+dir_right*i))
@@ -792,13 +877,19 @@ static void WriteGridOrthogonalLines(void)
 
   if (line_written)
     fprintf(LaTeXFile, "}%%\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteGridIrregular(void)
 {
   boolean line_written = false;
-
   square const *bnp;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   for (bnp = boardnum; *bnp; bnp++)
   {
     unsigned int const file = *bnp%onerow - nr_of_slack_files_left_of_board;
@@ -831,10 +922,16 @@ static void WriteGridIrregular(void)
 
   if (line_written)
     fprintf(LaTeXFile, "}%%\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void WriteGrid(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[gridchess] && !OptFlag[suppressgrid])
     switch (grid_type)
     {
@@ -863,10 +960,16 @@ static void WriteGrid(void)
         WriteGridIrregular();
         break;
     }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void WriteSquareFrames(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (CondFlag[magicsquare])
   {
     char MagicSqList[256] = "";
@@ -885,10 +988,16 @@ void WriteSquareFrames(void)
 
     fprintf(LaTeXFile," \\fieldframe{%s}%%\n", MagicSqList);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void LaTeXBeginDiagram(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   if (Open())
   {
     fprintf(LaTeXFile, "\\begin{diagram}%%\n");
@@ -903,11 +1012,247 @@ void LaTeXBeginDiagram(void)
     WriteStipulation();
     WriteGrid();
 
-    if (WriteConditions(&WriteCondition))
-      fprintf(LaTeXFile, "}%%\n");
+    if (WriteConditions(LaTeXFile,&WriteCondition))
+      fprintf(LaTeXFile,"}%%\n");
 
     WriteSquareFrames();
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void write_transfer(output_plaintext_move_context_type *context,
+                           move_effect_journal_index_type removal,
+                           move_effect_journal_index_type addition)
+{
+  output_plaintext_next_context(context,removal,"[","]");
+
+  output_plaintext_write_complete_piece(context->file,
+                                        move_effect_journal[removal].u.piece_removal.flags,
+                                        move_effect_journal[removal].u.piece_removal.walk,
+                                        move_effect_journal[removal].u.piece_removal.on);
+
+  fprintf(context->file,"{\\ra}");
+
+  if (move_effect_journal[removal].u.piece_removal.flags
+      !=move_effect_journal[addition].u.piece_addition.flags
+      || (TSTFLAG(move_effect_journal[addition].u.piece_addition.flags,Royal)
+          && is_king(move_effect_journal[removal].u.piece_removal.walk)
+          && !is_king(move_effect_journal[addition].u.piece_addition.walk)))
+  {
+    WriteSpec(context->file,
+              move_effect_journal[addition].u.piece_addition.flags,
+              move_effect_journal[addition].u.piece_addition.walk,
+              false);
+    WritePiece(context->file,move_effect_journal[addition].u.piece_addition.walk);
+  }
+  else if (move_effect_journal[removal].u.piece_removal.walk
+           !=move_effect_journal[addition].u.piece_addition.walk)
+    WritePiece(context->file,move_effect_journal[addition].u.piece_addition.walk);
+
+  WriteSquare(context->file,move_effect_journal[addition].u.piece_addition.on);
+}
+
+void output_latex_write_piece_readdition(output_plaintext_move_context_type *context,
+                                         move_effect_journal_index_type curr)
+{
+  if (move_effect_journal[curr].reason==move_effect_reason_volcanic_remember)
+    fprintf(context->file,"->v");
+  else
+  {
+    PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
+    move_effect_journal_index_type const removal = output_plaintext_find_piece_removal(context,
+                                                                                       curr,
+                                                                                       id_added);
+    if (removal==move_effect_journal_index_null)
+      output_plaintext_write_piece_creation(context,curr);
+    else
+      write_transfer(context,removal,curr);
+  }
+}
+
+void output_latex_write_castling(FILE *file,
+                                 move_effect_journal_index_type movement)
+{
+  if (CondFlag[castlingchess])
+  {
+    WritePiece(file,move_effect_journal[movement].u.piece_movement.moving);
+    WriteSquare(file,move_effect_journal[movement].u.piece_movement.from);
+    fputc('-',file);
+    WriteSquare(file,move_effect_journal[movement].u.piece_movement.to);
+  }
+  else
+  {
+    square const to = move_effect_journal[movement].u.piece_movement.to;
+    if (to==square_g1 || to==square_g8)
+      fprintf(file,"%s","{\\OO}");
+    else
+      fprintf(file,"%s","{\\OOO}");
+  }
+}
+
+static void write_exchange(FILE *file, move_effect_journal_index_type movement)
+{
+  WritePiece(file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.from));
+  WriteSquare(file,move_effect_journal[movement].u.piece_exchange.to);
+  fprintf(file,"%s","{\\lra}");
+  WritePiece(file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.to));
+  WriteSquare(file,move_effect_journal[movement].u.piece_exchange.from);
+}
+
+void output_latex_write_regular_move(FILE *file,
+                                     output_plaintext_move_context_type *context)
+{
+  move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  move_effect_type const capture_type = move_effect_journal[capture].type;
+  move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+  move_effect_type const movement_type = move_effect_journal[movement].type;
+
+  assert(capture_type==move_effect_no_piece_removal
+         || capture_type==move_effect_piece_removal
+         || capture_type==move_effect_none);
+
+  output_plaintext_context_open(file,context,base,"","");
+
+  if (capture_type==move_effect_piece_removal)
+  {
+    assert(move_effect_journal[movement].type==move_effect_piece_movement);
+    assert(move_effect_journal[movement].reason==move_effect_reason_moving_piece_movement);
+    output_plaintext_write_capture(file,context,capture,movement);
+  }
+  else if (capture_type==move_effect_no_piece_removal)
+  {
+    assert(movement_type==move_effect_piece_movement
+           || movement_type==move_effect_piece_exchange
+           || movement_type==move_effect_none);
+    if (movement_type==move_effect_piece_movement)
+    {
+      move_effect_reason_type const movement_reason = move_effect_journal[movement].reason;
+
+      assert(movement_reason==move_effect_reason_moving_piece_movement
+             || movement_reason==move_effect_reason_castling_king_movement);
+
+      if (movement_reason==move_effect_reason_moving_piece_movement)
+        output_plaintext_write_no_capture(file,context,movement);
+      else
+        output_latex_write_castling(file,movement);
+    }
+    else if (movement_type==move_effect_piece_exchange)
+    {
+      assert(move_effect_journal[movement].reason==move_effect_reason_exchange_castling_exchange
+             || move_effect_journal[movement].reason==move_effect_reason_messigny_exchange);
+      write_exchange(file,movement);
+    }
+  }
+}
+
+void output_latex_write_piece_exchange(output_plaintext_move_context_type *context,
+                                       move_effect_journal_index_type curr)
+{
+  switch (move_effect_journal[curr].reason)
+  {
+    case move_effect_reason_exchange_castling_exchange:
+    case move_effect_reason_messigny_exchange:
+      /* already dealt with */
+      assert(0);
+      break;
+
+    case move_effect_reason_oscillating_kings:
+      output_plaintext_next_context(context,curr,"[","]");
+      WritePiece(context->file,
+                 get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
+      WriteSquare(context->file,move_effect_journal[curr].u.piece_exchange.to);
+      fprintf(context->file,"\\lra");
+      WritePiece(context->file,
+                 get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.to));
+      WriteSquare(context->file,move_effect_journal[curr].u.piece_exchange.from);
+      break;
+
+    default:
+      write_exchange(context->file,curr);
+      break;
+  }
+}
+
+static void write_other_effects(FILE *FILE, output_plaintext_move_context_type *context)
+{
+  move_effect_journal_index_type const top = move_effect_journal_base[nbply+1];
+  move_effect_journal_index_type curr = move_effect_journal_base[nbply];
+
+  for (curr += move_effect_journal_index_offset_other_effects; curr!=top; ++curr)
+  {
+    switch (move_effect_journal[curr].type)
+    {
+      case move_effect_flags_change:
+        output_plaintext_write_flags_change(context,curr);
+        break;
+
+      case move_effect_side_change:
+        output_plaintext_write_side_change(context,curr);
+        break;
+
+      case move_effect_piece_change:
+        output_plaintext_write_piece_change(context,curr);
+        break;
+
+      case move_effect_piece_movement:
+        output_plaintext_write_piece_movement(context,curr);
+        break;
+
+      case move_effect_piece_creation:
+        output_plaintext_write_piece_creation(context,curr);
+        break;
+
+      case move_effect_piece_readdition:
+        output_latex_write_piece_readdition(context,curr);
+        break;
+
+      case move_effect_piece_removal:
+        output_plaintext_write_piece_removal(context,curr);
+        break;
+
+      case move_effect_piece_exchange:
+        output_latex_write_piece_exchange(context,curr);
+        break;
+
+      case move_effect_imitator_addition:
+        output_plaintext_write_imitator_addition(context);
+        break;
+
+      case move_effect_imitator_movement:
+        output_plaintext_write_imitator_movement(context,curr);
+        break;
+
+      case move_effect_half_neutral_deneutralisation:
+        output_plaintext_write_half_neutral_deneutralisation(context,curr);
+        break;
+
+      case move_effect_half_neutral_neutralisation:
+        output_plaintext_write_half_neutral_neutralisation(context,curr);
+        break;
+
+      case move_effect_bgl_adjustment:
+        output_plaintext_write_bgl_status(context,curr);
+        break;
+
+      default:
+        break;
+    }
+  }
+}
+
+void output_latex_write_move(void)
+{
+  output_plaintext_move_context_type context;
+
+  if (CondFlag[singlebox] && SingleBoxType==ConditionType3)
+    output_plaintext_write_singlebox_type3_promotion(LaTeXFile);
+
+  output_latex_write_regular_move(LaTeXFile,&context);
+  write_other_effects(LaTeXFile,&context);
+  output_plaintext_context_close(&context);
 }
 
 static void visit_output_mode_selector(slice_index si, stip_structure_traversal *st)
@@ -915,6 +1260,14 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  if (slices[si].u.output_mode_selector.mode==output_mode_line)
+    solving_insert_output_latex_line_slices(si);
+  else
+  {
+    boolean const is_setplay = st->level==structure_traversal_level_setplay;
+    solving_insert_output_latex_tree_slices(si,is_setplay);
+  }
 
   {
     slice_index const prototypes[] =

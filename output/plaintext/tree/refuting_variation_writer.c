@@ -10,17 +10,17 @@
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-/* Allocate a STRefutingVariationWriter slice.
+/* Allocate a STOutputPlaintextTreeRefutingVariationWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_refuting_variation_writer_slice(void)
+slice_index alloc_output_plaintext_tree_refuting_variation_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STRefutingVariationWriter);
+  result = alloc_pipe(STOutputPlaintextTreeRefutingVariationWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -42,6 +42,13 @@ static unsigned int depth(ply p)
     return depth(parent_ply[p])+1;
 }
 
+static void write_refuting_varation(FILE *file, unsigned move_depth)
+{
+  Message2(file,NewLine);
+  fprintf(file,"%*c",4*move_depth,' ');
+  Message2(file,Refutation);
+}
+
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -55,7 +62,7 @@ static unsigned int depth(ply p)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void refuting_variation_writer_solve(slice_index si)
+void output_plaintext_tree_refuting_variation_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -66,10 +73,9 @@ void refuting_variation_writer_solve(slice_index si)
   if (solve_result>MOVE_HAS_SOLVED_LENGTH())
   {
     unsigned int const move_depth = depth(nbply)+output_plaintext_nr_move_inversions;
-    Message(NewLine);
-    sprintf(GlobalStr,"%*c",4*move_depth,' ');
-    StdString(GlobalStr);
-    Message(Refutation);
+    write_refuting_varation(stdout,move_depth);
+    if (TraceFile)
+      write_refuting_varation(TraceFile,move_depth);
   }
 
   TraceFunctionExit(__func__);

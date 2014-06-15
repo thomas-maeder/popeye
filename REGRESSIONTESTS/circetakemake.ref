@@ -87,9 +87,9 @@ a)
 
   add_to_move_generation_stack:    97284892
                      play_move:    47841825
- is_white_king_square_attacked:    46969431
- is_black_king_square_attacked:    35574707
-b) bBf6 
+ is_white_king_square_attacked:    46969433
+ is_black_king_square_attacked:    35574767
+b) bBf6  
 
  58  (Ke3*d2[+bSb3] )
  59  (Ke3*d2[+bSf3] )
@@ -141,8 +141,8 @@ b) bBf6
 
   add_to_move_generation_stack:    38210356
                      play_move:    19926821
- is_white_king_square_attacked:    19552386
- is_black_king_square_attacked:    14239055
+ is_white_king_square_attacked:    19552388
+ is_black_king_square_attacked:    14239104
 solution finished. 
 
 
@@ -236,8 +236,8 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 1st-4th prize e.ae.
 
   add_to_move_generation_stack:      915316
                      play_move:      332526
- is_white_king_square_attacked:      101914
- is_black_king_square_attacked:      331302
+ is_white_king_square_attacked:      101977
+ is_black_king_square_attacked:      331304
 solution finished. 
 
 
@@ -348,9 +348,9 @@ a)
 
   add_to_move_generation_stack:     3009928
                      play_move:     1217551
- is_white_king_square_attacked:     1213070
- is_black_king_square_attacked:      343274
-b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
+ is_white_king_square_attacked:     1213071
+ is_black_king_square_attacked:      343350
+b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5  
 
  75  (Sc2-a1 )
  76  (Sc2*e1[+bBd2] )
@@ -483,8 +483,8 @@ b) wSg8-->c2  wBf5-->d7  bKg5-->g4  wRc5-->f5
 
   add_to_move_generation_stack:     5034107
                      play_move:     1522886
- is_white_king_square_attacked:     1513961
- is_black_king_square_attacked:      880304
+ is_white_king_square_attacked:     1513962
+ is_black_king_square_attacked:      880433
 solution finished. 
 
 
@@ -559,9 +559,9 @@ a)
 
   add_to_move_generation_stack:    88904235
                      play_move:    32404008
- is_white_king_square_attacked:    31652102
- is_black_king_square_attacked:    15965415
-b)  -bSg1
+ is_white_king_square_attacked:    31652104
+ is_black_king_square_attacked:    15965457
+b) -bSg1  
 
  40  (Kf1-g2 )
  41  (Kf1-e2 )
@@ -605,8 +605,8 @@ b)  -bSg1
 
   add_to_move_generation_stack:    83491288
                      play_move:    29984715
- is_white_king_square_attacked:    29273471
- is_black_king_square_attacked:    14927785
+ is_white_king_square_attacked:    29273473
+ is_black_king_square_attacked:    14927826
 solution finished. 
 
 
@@ -677,9 +677,9 @@ a)
 
   add_to_move_generation_stack:       88285
                      play_move:       59532
- is_white_king_square_attacked:       11459
- is_black_king_square_attacked:       58488
-b) bKa7-->c6
+ is_white_king_square_attacked:       11496
+ is_black_king_square_attacked:       58489
+b) bKa7-->c6  
 
  36  (Sc1*e2[+wPe3] )
  37  (Sc1*e2[+wPe4] )
@@ -722,8 +722,8 @@ b) bKa7-->c6
 
   add_to_move_generation_stack:      154035
                      play_move:       90770
- is_white_king_square_attacked:       17418
- is_black_king_square_attacked:       89788
+ is_white_king_square_attacked:       17457
+ is_black_king_square_attacked:       89789
 solution finished. 
 
 
@@ -800,9 +800,9 @@ a)
 
   add_to_move_generation_stack:     2283158
                      play_move:     1336628
- is_white_king_square_attacked:      239961
- is_black_king_square_attacked:     1264147
-b) bRe8-->e7
+ is_white_king_square_attacked:      240005
+ is_black_king_square_attacked:     1264149
+b) bRe8-->e7  
 
  42  (Sd4-b3 )
  43  (Sd4-c2 )
@@ -847,8 +847,8 @@ b) bRe8-->e7
 
   add_to_move_generation_stack:     2069973
                      play_move:     1210507
- is_white_king_square_attacked:      224650
- is_black_king_square_attacked:     1144220
+ is_white_king_square_attacked:      224692
+ is_black_king_square_attacked:     1144222
 solution finished. 
 
 
@@ -990,8 +990,8 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, 7th prize
 
   add_to_move_generation_stack:     5516542
                      play_move:     2546930
- is_white_king_square_attacked:     2537848
- is_black_king_square_attacked:     1774112
+ is_white_king_square_attacked:     2537850
+ is_black_king_square_attacked:     1774223
 solution finished. 
 
 
@@ -1058,8 +1058,8 @@ WCCC Kobe 2012, 3rd Bulgarian Wine Tourney, Special prize
 
   add_to_move_generation_stack:     2111141
                      play_move:      827416
- is_white_king_square_attacked:      235622
- is_black_king_square_attacked:      812003
+ is_white_king_square_attacked:      235628
+ is_black_king_square_attacked:      812040
 solution finished. 
 
 
@@ -1095,8 +1095,8 @@ WCCC Kobe 2012, Tzuica Tourney, 3rd HM
 
   add_to_move_generation_stack:      467308
                      play_move:      190956
- is_white_king_square_attacked:      189625
- is_black_king_square_attacked:      105354
+ is_white_king_square_attacked:      189628
+ is_black_king_square_attacked:      105360
 solution finished. 
 
 

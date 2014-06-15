@@ -101,24 +101,24 @@ boolean read_restart_number(char const *optionValue)
   return result;
 }
 
-static void WriteMoveNbr(slice_index si)
+static void WriteMoveNbr(FILE *file, slice_index si)
 {
   if (MoveNbr[nbply]>=RestartNbr[nbply])
   {
-    sprintf(GlobalStr,"\n%3u  (", MoveNbr[nbply]);
-    StdString(GlobalStr);
-    output_plaintext_write_move();
+    fprintf(file,"\n%3u  (", MoveNbr[nbply]);
+    output_plaintext_write_move(file);
     if (is_in_check(slices[si].starter))
-      StdString(" +");
-    StdChar(' ');
+      fprintf(file," +");
+    fprintf(file," ");
 
     if (!flag_regression)
     {
-      StdString("   ");
-      PrintTime();
+      fprintf(file,"   ");
+      PrintTime(file);
     }
 
-    StdString(")");
+    fprintf(file,")");
+    fflush(file);
   }
 }
 
@@ -141,7 +141,9 @@ void restart_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteMoveNbr(si);
+  WriteMoveNbr(stdout,si);
+  if (TraceFile)
+    WriteMoveNbr(TraceFile,si);
 
   ++MoveNbr[nbply];
 

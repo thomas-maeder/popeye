@@ -55,7 +55,10 @@ void TraceSetMaxLevel(trace_level tl)
 void TraceEOL(void)
 {
   if (level<=max_level)
+  {
     fprintf(stdout,"\n");
+    fflush(stdout);
+  }
 }
 
 void TraceFunctionEntry(char const *name)
@@ -135,7 +138,10 @@ void TraceFunctionResultImpl(char const *format, size_t value)
 void TraceFunctionResultEnd(void)
 {
   if (level<=max_level)
+  {
     fprintf(stdout,"\n");
+    fflush(stdout);
+  }
 
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level] += snprintf(entries[level]+entry_cursor[level],
@@ -221,7 +227,7 @@ void TraceSquareImpl(char const *prefix, square s)
     if (s==initsquare)
       printf("initsquare");
     else
-      WriteSquare(s);
+      WriteSquare(stdout,s);
     fflush(stdout);
   }
 
@@ -313,7 +319,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
     else if (p==Invalid)
       printf("Invalid");
     else
-      WritePiece(p);
+      WritePiece(stdout,p);
     fflush(stdout);
   }
 }
@@ -323,7 +329,7 @@ static void TraceCurrentMove(void)
   if (level<=max_level)
   {
     fprintf(stdout," #%lu %lu ",level,move_counter++);
-    output_plaintext_write_move();
+    output_plaintext_write_move(stdout);
     fprintf(stdout," CURRMOVE_OF_PLY(nbply):%d",CURRMOVE_OF_PLY(nbply));
     fprintf(stdout," current_ply:%d\n",nbply);
     fflush(stdout);
@@ -353,9 +359,9 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
       if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
-        WriteSpec(being_solved.spec[*bnp],being_solved.board[*bnp],true);
-        WritePiece(get_walk_of_piece_on_square(*bnp));
-        WriteSquare(*bnp);
+        WriteSpec(stdout,being_solved.spec[*bnp],being_solved.board[*bnp],true);
+        WritePiece(stdout,get_walk_of_piece_on_square(*bnp));
+        WriteSquare(stdout,*bnp);
         fprintf(stdout," ");
       }
 

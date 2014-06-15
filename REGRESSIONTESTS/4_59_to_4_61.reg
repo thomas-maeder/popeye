@@ -32,8 +32,8 @@ a white piece that prevents a guarding piece from giving check
 
   add_to_move_generation_stack:     1375055
                      play_move:     1403390
- is_white_king_square_attacked:       37992
- is_black_king_square_attacked:      141357
+ is_white_king_square_attacked:       38004
+ is_black_king_square_attacked:      141363
 solution finished. 
 
 
@@ -71,8 +71,8 @@ the one that would give check without it
 
   add_to_move_generation_stack:     1372630
                      play_move:     1401944
- is_white_king_square_attacked:       37801
- is_black_king_square_attacked:      141281
+ is_white_king_square_attacked:       37813
+ is_black_king_square_attacked:      141287
 solution finished. 
 
 
@@ -105,7 +105,7 @@ don't miss double checks with promoted front piece ...
   add_to_move_generation_stack:       10119
                      play_move:       10498
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         939
+ is_black_king_square_attacked:         941
 solution finished. 
 
 
@@ -138,7 +138,7 @@ solution finished.
   add_to_move_generation_stack:       42224
                      play_move:       42219
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        3666
+ is_black_king_square_attacked:        3668
 solution finished. 
 
 
@@ -176,17 +176,17 @@ a)
 
   1.Qh2*c7[+bPg1=R][+bPh2] Rg1-g8   2.Qc7*h2[+bPg3][+bPc7] Qc4-h4[+wPc4] #
 
-  add_to_move_generation_stack:      397434
+  add_to_move_generation_stack:      397469
                      play_move:       13974
- is_white_king_square_attacked:       13889
+ is_white_king_square_attacked:       13890
  is_black_king_square_attacked:           0
-b) bQc4-->g5
+b) bQc4-->g5  
 
   1.Qh2*c7[+bPe1=S][+bPh2] Qg5-a5[+wPg5]   2.Qc7*h2[+bPe5][+bPc7] Qa5-d2[+wPa5] #
 
   add_to_move_generation_stack:      538228
                      play_move:       15213
- is_white_king_square_attacked:       15007
+ is_white_king_square_attacked:       15008
  is_black_king_square_attacked:           0
 solution finished. 
 
@@ -278,8 +278,8 @@ solution finished.
 
   add_to_move_generation_stack:     1212372
                      play_move:     1308643
- is_white_king_square_attacked:      744307
- is_black_king_square_attacked:      732842
+ is_white_king_square_attacked:      744335
+ is_black_king_square_attacked:      732847
 solution finished. 
 
 

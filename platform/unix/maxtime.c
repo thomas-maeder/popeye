@@ -19,8 +19,9 @@
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
 {
-  sprintf(GlobalStr, GetMsgString(Abort), sig, MakeTimeString());
-  StdString(GlobalStr);
+  fprintf(stdout, GetMsgString(Abort));
+  FormatTime(stdout);
+  fputc('\n',stdout);
   exit(1);
 }
 
@@ -82,28 +83,28 @@ static piece_walk_type find_promotion(ply ply, square sq_arrival)
   return result;
 }
 
-static void ReDrawPly(ply curr_ply)
+static void ReDrawPly(FILE *file, ply curr_ply)
 {
   ply const parent = parent_ply[curr_ply];
 
   if (parent>ply_retro_move)
-    ReDrawPly(parent);
+    ReDrawPly(file,parent);
 
   {
     move_effect_journal_index_type const top = move_effect_journal_base[curr_ply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     piece_walk_type const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
     piece_walk_type const promotee = find_promotion(curr_ply,move_effect_journal[movement].u.piece_movement.to);
-    WritePiece(pi_moving);
-    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].departure);
-    StdChar('-');
-    WriteSquare(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].arrival);
+    WritePiece(file,pi_moving);
+    WriteSquare(file,move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].departure);
+    fputc('-',file);
+    WriteSquare(file,move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].arrival);
     if (promotee!=Empty)
     {
-      StdChar('=');
-      WritePiece(promotee);
+      fputc('=',file);
+      WritePiece(file,promotee);
     }
-    StdString("   ");
+    fprintf(file,"   ");
   }
 }
 
@@ -117,13 +118,13 @@ static void ReDrawBoard(int sig)
      TLi
   */
 
-  WriteBoard(&being_solved);
+  WriteBoard(stdout,&being_solved);
 
   /* and write (some information about) the sequences of moves that
      lead to this position.
   */
-  ReDrawPly(nbply);
-  StdChar('\n');
+  ReDrawPly(stdout,nbply);
+  fputc('\n',stdout);
 
   signal(sig,&ReDrawBoard);
 }

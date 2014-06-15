@@ -265,7 +265,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:          74
                      play_move:          74
- is_white_king_square_attacked:           5
+ is_white_king_square_attacked:           7
  is_black_king_square_attacked:          32
 Loesung beendet. 
 
@@ -299,7 +299,7 @@ Loesung beendet.
   add_to_move_generation_stack:          15
                      play_move:          15
  is_white_king_square_attacked:           6
- is_black_king_square_attacked:          15
+ is_black_king_square_attacked:          16
 Loesung beendet. 
 
 
@@ -336,7 +336,7 @@ Loesung beendet.
   add_to_move_generation_stack:       24019
                      play_move:       17807
  is_white_king_square_attacked:        3239
- is_black_king_square_attacked:       17460
+ is_black_king_square_attacked:       17463
 Loesung beendet. 
 
 
@@ -370,7 +370,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:         742
                      play_move:         324
- is_white_king_square_attacked:          97
+ is_white_king_square_attacked:          99
  is_black_king_square_attacked:         324
 Loesung beendet. 
 
@@ -444,7 +444,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:         222
                      play_move:         192
- is_white_king_square_attacked:          98
+ is_white_king_square_attacked:          99
  is_black_king_square_attacked:         121
 Loesung beendet. 
 
@@ -475,7 +475,7 @@ zweimal eine Anzuginversion (-)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[#]d & - 4hh[#] & 4ad[#] & - 4hh[=] 8 + 10
+  weiss 3a[#]d & - 4hh[#] & 4ad[#] & - 4hh[=]   8 + 10
 
    1.e7-e8=S ! Drohung:
           2.Se8*c7 #
@@ -493,8 +493,8 @@ zweimal eine Anzuginversion (-)
 
   add_to_move_generation_stack:       13049
                      play_move:        8968
- is_white_king_square_attacked:        5255
- is_black_king_square_attacked:        6524
+ is_white_king_square_attacked:        5259
+ is_black_king_square_attacked:        6526
 Loesung beendet. 
 
 
@@ -581,7 +581,7 @@ und Einschraenkung kein wAngriff zum Matt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[>1a[#]d]d{!1a[#]d} 9 + 8
+  weiss 3a[>1a[#]d]d{!1a[#]d}   9 + 8
               AntiCirce
 
    1.b6-b7 ! Zugzwang.
@@ -637,7 +637,7 @@ UND
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[2hh[#]&1h[#]h] 9 + 12
+  schwarz 2hh[2hh[#]&1h[#]h]   9 + 12
 
 a) 
 
@@ -646,17 +646,17 @@ a)
 
   add_to_move_generation_stack:       61254
                      play_move:       58582
- is_white_king_square_attacked:       58186
- is_black_king_square_attacked:       10395
-b) sBf2<-->wBh4
+ is_white_king_square_attacked:       58189
+ is_black_king_square_attacked:       10397
+b) sBf2<-->wBh4  
 
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 #
   1.h2*g1=L f2-f4   2.e4*f3 ep. #
 
   add_to_move_generation_stack:       21770
                      play_move:       18866
- is_white_king_square_attacked:       18673
- is_black_king_square_attacked:        6272
+ is_white_king_square_attacked:       18676
+ is_black_king_square_attacked:        6274
 Loesung beendet. 
 
 
@@ -690,7 +690,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[1h[#]h&2hh[#]] 9 + 12
+  schwarz 2hh[1h[#]h&2hh[#]]   9 + 12
 
 a) 
 
@@ -699,17 +699,17 @@ a)
 
   add_to_move_generation_stack:      194412
                      play_move:      139426
- is_white_king_square_attacked:       35246
- is_black_king_square_attacked:      133105
-b) sBf2<-->wBh4
+ is_white_king_square_attacked:       35249
+ is_black_king_square_attacked:      133107
+b) sBf2<-->wBh4  
 
   1.h2*g1=L f2-f4   2.e4*f3 ep. #
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 #
 
   add_to_move_generation_stack:      183336
                      play_move:      117954
- is_white_king_square_attacked:       26098
- is_black_king_square_attacked:      117768
+ is_white_king_square_attacked:       26101
+ is_black_king_square_attacked:      117770
 Loesung beendet. 
 
 
@@ -930,7 +930,7 @@ unloesbar, weil Schwarz schlagen muss
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[>1a[x]d]h{!1a[x]d} 4 + 3
+  weiss 3h[>1a[x]d]h{!1a[x]d}   4 + 3
 
   1.g3*f4 x
 
@@ -1128,8 +1128,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    11163433
                      play_move:     9634363
- is_white_king_square_attacked:      499130
- is_black_king_square_attacked:     9633969
+ is_white_king_square_attacked:      499133
+ is_black_king_square_attacked:     9633971
 Loesung beendet. 
 
 
@@ -1236,7 +1236,7 @@ a)
                      play_move:          16
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          17
-b) weiss 3:3a[#]d 
+b) weiss 3:3a[#]d   
 
    1.d7-d8=T + !
       1...Sb7*d8[+wTa1]
@@ -1247,7 +1247,7 @@ b) weiss 3:3a[#]d
                      play_move:         102
  is_white_king_square_attacked:          25
  is_black_king_square_attacked:          91
-c) weiss 5:5a[#]d 
+c) weiss 5:5a[#]d   
 
    1.d7-d8=L ! Zugzwang.
       1...Sb7*d8[+wLc1]
@@ -1260,7 +1260,7 @@ c) weiss 5:5a[#]d
                      play_move:        1636
  is_white_king_square_attacked:         720
  is_black_king_square_attacked:        1106
-d) weiss 7:7a[#]d 
+d) weiss 7:7a[#]d   
 
    1.d7-d8=S ! Drohung:
           2.Sd8-e6 Drohung:
@@ -1320,8 +1320,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:         215
                      play_move:         205
- is_white_king_square_attacked:          92
- is_black_king_square_attacked:         200
+ is_white_king_square_attacked:          93
+ is_black_king_square_attacked:         201
 Loesung beendet. 
 
 
@@ -1381,8 +1381,8 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 
   add_to_move_generation_stack:      207544
                      play_move:      153532
- is_white_king_square_attacked:       99905
- is_black_king_square_attacked:      153508
+ is_white_king_square_attacked:      100059
+ is_black_king_square_attacked:      153522
 Loesung beendet. 
 
 
@@ -1417,8 +1417,8 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
   add_to_move_generation_stack:      414343
                      play_move:      413939
- is_white_king_square_attacked:       29487
- is_black_king_square_attacked:       39377
+ is_white_king_square_attacked:       29495
+ is_black_king_square_attacked:       39383
 Loesung beendet. 
 
 
@@ -1452,8 +1452,8 @@ h#8 1.0;1.1;...
 
   add_to_move_generation_stack:     2792745
                      play_move:     2792745
- is_white_king_square_attacked:      154076
- is_black_king_square_attacked:      271897
+ is_white_king_square_attacked:      154084
+ is_black_king_square_attacked:      271903
 Loesung beendet. 
 
 
@@ -1487,8 +1487,8 @@ Ziel nach den weissen Zuegen
 
   add_to_move_generation_stack:       39944
                      play_move:       22573
- is_white_king_square_attacked:       17330
- is_black_king_square_attacked:       16161
+ is_white_king_square_attacked:       17333
+ is_black_king_square_attacked:       16163
 Loesung beendet. 
 
 
@@ -1521,7 +1521,7 @@ Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
   add_to_move_generation_stack:         756
                      play_move:         512
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         502
+ is_black_king_square_attacked:         503
 Loesung beendet. 
 
 
@@ -1653,7 +1653,7 @@ Loesung beendet.
   add_to_move_generation_stack:   440625415
                      play_move:   171289682
  is_white_king_square_attacked:   171289682
- is_black_king_square_attacked:   106158539
+ is_black_king_square_attacked:   106158609
 Loesung beendet. 
 
 

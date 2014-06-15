@@ -30,7 +30,7 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
 
   {
     Goal const goal = { no_goal, initsquare };
-    pipe_append(slices[si].prev,alloc_line_writer_slice(goal));
+    pipe_append(slices[si].prev,alloc_output_plaintext_line_writer_slice(goal));
   }
 
   TraceFunctionExit(__func__);
@@ -48,12 +48,12 @@ static void instrument_goal_reached_tester(slice_index si,
 
   {
     Goal const goal = slices[si].u.goal_handler.goal;
-    slice_index const prototype = alloc_line_writer_slice(goal);
+    slice_index const prototype = alloc_output_plaintext_line_writer_slice(goal);
     help_branch_insert_slices(si,&prototype,1);
   }
 
   {
-    slice_index const prototype = alloc_goal_writer_slice(slices[si].u.goal_handler.goal);
+    slice_index const prototype = alloc_output_plaintext_goal_writer_slice(slices[si].u.goal_handler.goal);
     help_branch_insert_slices(si,&prototype,1);
   }
 
@@ -116,7 +116,7 @@ static void min_distance_to_goal_goal(slice_index si,
   TraceFunctionResultEnd();
 }
 
-structure_traversers_visitor const min_distance_to_goal_finders[] =
+static structure_traversers_visitor const min_distance_to_goal_finders[] =
 {
   { STAttackAdapter,     &min_distance_to_goal_battle },
   { STDefenseAdapter,    &min_distance_to_goal_battle },

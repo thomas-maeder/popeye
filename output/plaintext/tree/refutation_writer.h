@@ -3,10 +3,10 @@
 
 #include "solving/machinery/solve.h"
 
-/* Allocate a STRefutationsIntroWriter slice.
+/* Allocate a STOutputPlainTextRefutationsIntroWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_refutations_intro_writer_slice(void);
+slice_index alloc_output_plaintext_tree_refutations_intro_writer_slice(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -21,12 +21,12 @@ slice_index alloc_refutations_intro_writer_slice(void);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void refutations_intro_writer_solve(slice_index si);
+void output_plaintext_tree_refutations_intro_writer_solve(slice_index si);
 
-/* Allocate a STRefutationWriter slice.
+/* Allocate a STOutputPlainTextRefutationWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_refutation_writer_slice(void);
+slice_index alloc_output_plaintext_tree_refutation_writer_slice(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -41,6 +41,6 @@ slice_index alloc_refutation_writer_slice(void);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void refutation_writer_solve(slice_index si);
+void output_plaintext_tree_refutation_writer_solve(slice_index si);
 
 #endif

@@ -1,4 +1,5 @@
 #include "output/plaintext/tree/threat_writer.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/message.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -7,17 +8,17 @@
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-/* Allocate a STThreatWriter defender slice.
+/* Allocate a STOutputPlainTextThreatWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_threat_writer_slice(void)
+slice_index alloc_output_plaintext_tree_threat_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STThreatWriter);
+  result = alloc_pipe(STOutputPlainTextThreatWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -38,7 +39,7 @@ slice_index alloc_threat_writer_slice(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void threat_writer_solve(slice_index si)
+void output_plaintext_tree_threat_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -46,8 +47,13 @@ void threat_writer_solve(slice_index si)
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
   {
-    StdChar(' ');
-    Message(Threat);
+    fputc(' ',stdout);
+    Message2(stdout,Threat);
+    if (TraceFile)
+    {
+      fputc(' ',TraceFile);
+      Message2(TraceFile,Threat);
+    }
   }
 
   pipe_solve_delegate(si);

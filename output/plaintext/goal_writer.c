@@ -1,6 +1,7 @@
 #include "output/plaintext/goal_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -17,7 +18,7 @@
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_goal_writer_slice(Goal goal)
+slice_index alloc_output_plaintext_goal_writer_slice(Goal goal)
 {
   slice_index result;
 
@@ -55,7 +56,10 @@ void output_plaintext_goal_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  StdString(goal_end_marker[goal.type]);
+  fprintf(stdout,"%s",goal_end_marker[goal.type]);
+  if (TraceFile)
+    fprintf(TraceFile,"%s",goal_end_marker[goal.type]);
+
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

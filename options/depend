@@ -406,8 +406,10 @@ options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \
  stipulation/slice_insertion.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/check.h solving/ply.h \
  solving/pipe.h options/movenumbers/restart_guard_intelligent.h \
- output/output.h output/plaintext/plaintext.h output/plaintext/message.h \
- input/plaintext/language.h debugging/assert.h
+ output/output.h output/plaintext/plaintext.h \
+ solving/move_effect_journal.h solving/castling_rights.h \
+ position/pieceid.h output/plaintext/message.h input/plaintext/language.h \
+ debugging/assert.h
 
 options/movenumbers.h:
 
@@ -478,6 +480,12 @@ options/movenumbers/restart_guard_intelligent.h:
 output/output.h:
 
 output/plaintext/plaintext.h:
+
+solving/move_effect_journal.h:
+
+solving/castling_rights.h:
+
+position/pieceid.h:
 
 output/plaintext/message.h:
 

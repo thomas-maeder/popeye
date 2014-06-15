@@ -31,7 +31,7 @@
   add_to_move_generation_stack:        7245
                      play_move:        2601
  is_white_king_square_attacked:        3257
- is_black_king_square_attacked:        1711
+ is_black_king_square_attacked:        1720
 solution finished. 
 
 
@@ -148,7 +148,7 @@ solution finished.
 
   add_to_move_generation_stack:       21038
                      play_move:       20559
- is_white_king_square_attacked:        6103
+ is_white_king_square_attacked:        6111
  is_black_king_square_attacked:       22911
 solution finished. 
 
@@ -185,16 +185,16 @@ a)
 
   add_to_move_generation_stack:     5632996
                      play_move:     5200733
- is_white_king_square_attacked:      764424
- is_black_king_square_attacked:     5282886
-b) ExchangeCastling
+ is_white_king_square_attacked:      764427
+ is_black_king_square_attacked:     5282888
+b) ExchangeCastling  
 
   1.Ba4-d1 + Kg4-f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 #
 
   add_to_move_generation_stack:     8579204
                      play_move:     7419433
- is_white_king_square_attacked:      450454
- is_black_king_square_attacked:     7340058
+ is_white_king_square_attacked:      450457
+ is_black_king_square_attacked:     7340060
 solution finished. 
 
 
@@ -234,16 +234,16 @@ a)
 
   add_to_move_generation_stack:    12457136
                      play_move:    11501132
- is_white_king_square_attacked:     1653344
- is_black_king_square_attacked:    11772490
-b) ExchangeCastling
+ is_white_king_square_attacked:     1653347
+ is_black_king_square_attacked:    11772492
+b) ExchangeCastling  
 
   1.Ba4-d1 + Kg4*f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 #
 
   add_to_move_generation_stack:    19264287
                      play_move:    16343651
- is_white_king_square_attacked:      779558
- is_black_king_square_attacked:    16210714
+ is_white_king_square_attacked:      779561
+ is_black_king_square_attacked:    16210716
 solution finished. 
 
 

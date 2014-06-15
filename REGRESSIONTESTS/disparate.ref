@@ -35,7 +35,7 @@ a)
                      play_move:         461
  is_white_king_square_attacked:         125
  is_black_king_square_attacked:         353
-b) =3
+b) =3  
 
    1.Kd7-c6 ! threat:
           2.Kc6-b6 threat:
@@ -88,8 +88,8 @@ solution finished.
 
   add_to_move_generation_stack:         162
                      play_move:         157
- is_white_king_square_attacked:          80
- is_black_king_square_attacked:         148
+ is_white_king_square_attacked:          81
+ is_black_king_square_attacked:         149
 solution finished. 
 
 
@@ -124,8 +124,8 @@ solution finished.
 
   add_to_move_generation_stack:   164155180
                      play_move:    78379400
- is_white_king_square_attacked:    40404464
- is_black_king_square_attacked:    70002445
+ is_white_king_square_attacked:    40404470
+ is_black_king_square_attacked:    70002449
 solution finished. 
 
 
@@ -161,8 +161,8 @@ solution finished.
 
   add_to_move_generation_stack:    17383152
                      play_move:     6877771
- is_white_king_square_attacked:     6703728
- is_black_king_square_attacked:     3975553
+ is_white_king_square_attacked:     6703732
+ is_black_king_square_attacked:     3975559
 solution finished. 
 
 

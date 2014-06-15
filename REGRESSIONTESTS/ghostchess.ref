@@ -32,7 +32,7 @@
   add_to_move_generation_stack:    43391994
                      play_move:    24135771
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:    22011929
+ is_black_king_square_attacked:    22011935
 solution finished. 
 
 
@@ -70,16 +70,16 @@ a)
 
   add_to_move_generation_stack:       56507
                      play_move:       31830
- is_white_king_square_attacked:        7911
- is_black_king_square_attacked:       31188
+ is_white_king_square_attacked:        7913
+ is_black_king_square_attacked:       31189
 b) bPd5-->f4  
 
   1.Qb6-f2 Ra3-e3 +   2.Ke4*e3 Bb8-a7 #
 
   add_to_move_generation_stack:       58247
                      play_move:       30117
- is_white_king_square_attacked:        7791
- is_black_king_square_attacked:       29519
+ is_white_king_square_attacked:        7793
+ is_black_king_square_attacked:       29520
 solution finished. 
 
 
@@ -115,7 +115,7 @@ Jubil\'e Feenschach-50, feenschach 1999, 3\`eme Recommand\'e
 
   add_to_move_generation_stack:       13473
                      play_move:        6467
- is_white_king_square_attacked:        1631
+ is_white_king_square_attacked:        1639
  is_black_king_square_attacked:        6467
 solution finished. 
 
@@ -153,7 +153,7 @@ solution finished.
   add_to_move_generation_stack:       24091
                      play_move:        8919
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        8765
+ is_black_king_square_attacked:        8767
 solution finished. 
 
 
@@ -191,7 +191,7 @@ a)
   add_to_move_generation_stack:       21661
                      play_move:        9836
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        9643
+ is_black_king_square_attacked:        9644
 b) bSc7-->d7  
 
   1.Kc8-d8 Re6-e8 +   2.Kd8*e8 Be4-g6 #
@@ -199,7 +199,7 @@ b) bSc7-->d7
   add_to_move_generation_stack:       22293
                      play_move:       10100
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        9897
+ is_black_king_square_attacked:        9898
 solution finished. 
 
 
@@ -237,7 +237,7 @@ a)
   add_to_move_generation_stack:       18063
                      play_move:       11006
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       10823
+ is_black_king_square_attacked:       10824
 b) wPf5-->h7  
 
   1.Bf7-g8 Rg7-e7 +   2.Bf8*e7 h7*g8=Q #
@@ -245,7 +245,7 @@ b) wPf5-->h7
   add_to_move_generation_stack:       29989
                      play_move:       21792
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       21570
+ is_black_king_square_attacked:       21571
 solution finished. 
 
 
@@ -284,7 +284,7 @@ a)
   add_to_move_generation_stack:    36945618
                      play_move:    12586349
  is_white_king_square_attacked:    12586349
- is_black_king_square_attacked:     7939924
+ is_black_king_square_attacked:     7939930
 b) -bPg7  
 
   1.Rf8-f5   2.Qa6*d3   3.Qd3*d5[+buPd3]   4.Rf5*e5   5.Re5-e7[+buSe5]   6.Qd5*c6[+buPd5] + uSe5*c6 #
@@ -292,7 +292,7 @@ b) -bPg7
   add_to_move_generation_stack:    40255627
                      play_move:    13577057
  is_white_king_square_attacked:    13577057
- is_black_king_square_attacked:     9101117
+ is_black_king_square_attacked:     9101123
 solution finished. 
 
 
@@ -329,7 +329,7 @@ solution finished.
   add_to_move_generation_stack:      359087
                      play_move:      131008
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      130460
+ is_black_king_square_attacked:      130462
 solution finished. 
 
 
@@ -366,16 +366,16 @@ a)
 
   add_to_move_generation_stack:      187672
                      play_move:       80111
- is_white_king_square_attacked:       22712
- is_black_king_square_attacked:       79671
+ is_white_king_square_attacked:       22714
+ is_black_king_square_attacked:       79672
 b) wKa7-->d8  
 
   1.Qe1*e4 Sc3-a4 +   2.Qe4-c2[+wuSe4] uSe4-d6 #
 
   add_to_move_generation_stack:      185785
                      play_move:       86626
- is_white_king_square_attacked:       22590
- is_black_king_square_attacked:       86186
+ is_white_king_square_attacked:       22592
+ is_black_king_square_attacked:       86187
 solution finished. 
 
 
@@ -410,8 +410,8 @@ solution finished.
 
   add_to_move_generation_stack:        9163
                      play_move:        6755
- is_white_king_square_attacked:        1939
- is_black_king_square_attacked:        6560
+ is_white_king_square_attacked:        1941
+ is_black_king_square_attacked:        6561
 solution finished. 
 
 
@@ -484,7 +484,7 @@ solution finished.
 
   add_to_move_generation_stack:         971
                      play_move:         538
- is_white_king_square_attacked:         122
+ is_white_king_square_attacked:         130
  is_black_king_square_attacked:         538
 solution finished. 
 
@@ -520,8 +520,8 @@ solution finished.
 
   add_to_move_generation_stack:     2651731
                      play_move:     2012957
- is_white_king_square_attacked:      727123
- is_black_king_square_attacked:     1393033
+ is_white_king_square_attacked:      727128
+ is_black_king_square_attacked:     1393037
 solution finished. 
 
 
@@ -1036,8 +1036,8 @@ Problemesis 2002, 2\`eme Mention d'Honneur
 
   add_to_move_generation_stack:     3927844
                      play_move:     2014301
- is_white_king_square_attacked:      556694
- is_black_king_square_attacked:     1966540
+ is_white_king_square_attacked:      556699
+ is_black_king_square_attacked:     1966544
 solution finished. 
 
 
@@ -1073,8 +1073,8 @@ solution finished.
 
   add_to_move_generation_stack:      400534
                      play_move:      208208
- is_white_king_square_attacked:       59133
- is_black_king_square_attacked:      205076
+ is_white_king_square_attacked:       59137
+ is_black_king_square_attacked:      205080
 solution finished. 
 
 
@@ -1209,7 +1209,7 @@ a)
 
   add_to_move_generation_stack:        2978
                      play_move:        2483
- is_white_king_square_attacked:        1244
+ is_white_king_square_attacked:        1256
  is_black_king_square_attacked:        2483
 b) wKc2-->d8  
 
@@ -1217,7 +1217,7 @@ b) wKc2-->d8
 
   add_to_move_generation_stack:        3750
                      play_move:        3035
- is_white_king_square_attacked:        1422
+ is_white_king_square_attacked:        1434
  is_black_king_square_attacked:        3035
 solution finished. 
 
@@ -1255,8 +1255,8 @@ Jacques Rotenberg & Christian Poisson
 
   add_to_move_generation_stack:      223742
                      play_move:      121841
- is_white_king_square_attacked:       31341
- is_black_king_square_attacked:      120642
+ is_white_king_square_attacked:       31345
+ is_black_king_square_attacked:      120644
 solution finished. 
 
 
@@ -1294,7 +1294,7 @@ a)
   add_to_move_generation_stack:       57830
                      play_move:       29021
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       28574
+ is_black_king_square_attacked:       28575
 b) nBc1-->d2  
 
   1.nBd2-c3 nSe2-c1 +   2.nRe1*c1 nRc1-a1[+nuSc1] #
@@ -1302,7 +1302,7 @@ b) nBc1-->d2
   add_to_move_generation_stack:       73954
                      play_move:       36528
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       35940
+ is_black_king_square_attacked:       35941
 solution finished. 
 
 

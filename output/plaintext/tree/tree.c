@@ -8,8 +8,6 @@
 #include "solving/trivial_end_filter.h"
 #include "solving/ply.h"
 #include "output/plaintext/plaintext.h"
-#include "output/plaintext/end_of_phase_writer.h"
-#include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/goal_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
@@ -41,9 +39,9 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-      alloc_zugzwang_writer_slice(),
-      alloc_threat_writer_slice(),
-      alloc_move_writer_slice()
+      alloc_output_plaintext_tree_zugzwang_writer_slice(),
+      alloc_output_plaintext_tree_threat_writer_slice(),
+      alloc_output_plaintext_tree_move_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,nr_prototypes,si);
@@ -64,7 +62,7 @@ static void insert_writer_for_move_in_parent(slice_index si,
   {
     slice_index const prototypes[] =
     {
-      alloc_move_writer_slice(),
+      alloc_output_plaintext_tree_move_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -88,7 +86,7 @@ static void insert_move_writer(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-      alloc_move_writer_slice(),
+      alloc_output_plaintext_tree_move_writer_slice(),
       alloc_output_plaintext_tree_check_writer_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -115,7 +113,7 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
 
   if (slices[si].u.goal_handler.goal.type!=no_goal)
   {
-    slice_index const prototype = alloc_goal_writer_slice(slices[si].u.goal_handler.goal);
+    slice_index const prototype = alloc_output_plaintext_goal_writer_slice(slices[si].u.goal_handler.goal);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -196,7 +194,7 @@ static void substitute_try_writer(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_substitute(si,alloc_try_writer());
+  pipe_substitute(si,alloc_output_plaintext_tree_try_writer());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -210,7 +208,7 @@ static void insert_refutation_intro_writer(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_refutations_intro_writer_slice();
+    slice_index const prototype = alloc_output_plaintext_tree_refutations_intro_writer_slice();
     defense_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
   }
 
@@ -228,7 +226,7 @@ static void insert_refutation_writer(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_index const prototype = alloc_refutation_writer_slice();
+    slice_index const prototype = alloc_output_plaintext_tree_refutation_writer_slice();
     defense_branch_insert_slices(si,&prototype,1);
   }
 
@@ -240,9 +238,9 @@ static void insert_refutation_writer(slice_index si,
 
 static structure_traversers_visitor const try_writer_inserters[] =
 {
-  { STKeyWriter,              &substitute_try_writer                 },
+  { STOutputPlainTextKeyWriter,              &substitute_try_writer                 },
   { STRefutationsSolver,      &insert_refutation_intro_writer        },
-  { STRefutationsIntroWriter, &insert_refutation_writer              },
+  { STOutputPlainTextRefutationsIntroWriter, &insert_refutation_writer              },
   { STEndOfBranchGoal,        &stip_traverse_structure_children_pipe }
 };
 
@@ -287,7 +285,7 @@ static void insert_end_of_solution_writer(slice_index si,
 
   if (st->level==structure_traversal_level_top)
   {
-    slice_index const prototype = alloc_end_of_solution_writer_slice();
+    slice_index const prototype = alloc_output_plaintext_end_of_solution_writer_slice();
     slice_insertion_insert(si,&prototype,1);
   }
 
@@ -322,7 +320,7 @@ static void insert_key_writer(slice_index si, stip_structure_traversal *st)
 
   if (!*is_postkey_play)
   {
-    slice_index const prototype = alloc_key_writer();
+    slice_index const prototype = alloc_output_plaintext_tree_key_writer();
     defense_branch_insert_slices(si,&prototype,1);
   }
 
@@ -369,7 +367,7 @@ static void insert_refuting_variation_writer(slice_index si,
     stip_traverse_structure_children_pipe(si,st);
   else if (*is_postkey_play)
   {
-    slice_index const prototype = alloc_refuting_variation_writer_slice();
+    slice_index const prototype = alloc_output_plaintext_tree_refuting_variation_writer_slice();
     attack_branch_insert_slices(si,&prototype,1);
   }
 
@@ -385,7 +383,7 @@ static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
 
   if (st->context==stip_traversal_context_defense)
   {
-    slice_index const prototype = alloc_key_writer();
+    slice_index const prototype = alloc_output_plaintext_tree_key_writer();
     defense_branch_insert_slices_behind_proxy(slices[si].next2,
                                               &prototype,1,
                                               si);
@@ -558,8 +556,8 @@ static void remove_continuation_writer_if_unused(slice_index si,
 static structure_traversers_visitor const goal_writer_slice_inserters[] =
 {
   { STGoalReachedTester,              &remember_goal                        },
-  { STKeyWriter,                      &remember_key_writer                  },
-  { STMoveWriter,                     &remove_continuation_writer_if_unused },
+  { STOutputPlainTextKeyWriter,                      &remember_key_writer                  },
+  { STOutputPlainTextMoveWriter,                     &remove_continuation_writer_if_unused },
   { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
 };
 
@@ -632,21 +630,18 @@ static unsigned int measure_move_depth(ply curr_ply)
 
 /* Write a move
  */
-void output_plaintext_tree_write_move(void)
+void output_plaintext_tree_write_move(FILE *file)
 {
   unsigned int const move_depth = measure_move_depth(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  Message(NewLine);
-
-  sprintf(GlobalStr,"%*c%3u.",4*move_depth,' ',move_depth/2+1);
-  StdString(GlobalStr);
+  fprintf(file,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
   if (move_depth%2==1)
-    StdString("..");
+    fprintf(file,"..");
 
-  output_plaintext_write_move();
+  output_plaintext_write_move(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

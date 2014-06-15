@@ -34,7 +34,7 @@ a)
                      play_move:          31
  is_white_king_square_attacked:          31
  is_black_king_square_attacked:          11
-b) s=1
+b) s=1  
 
 
   add_to_move_generation_stack:          32
@@ -76,8 +76,8 @@ Den Teilnehmern in Andernach 1991 gewidmet
 
   add_to_move_generation_stack:     8161954
                      play_move:     8208372
- is_white_king_square_attacked:     4632756
- is_black_king_square_attacked:     4784649
+ is_white_king_square_attacked:     4632768
+ is_black_king_square_attacked:     4784659
 Loesung beendet. 
 
 
@@ -111,8 +111,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1521742
                      play_move:     1774732
- is_white_king_square_attacked:     1771841
- is_black_king_square_attacked:      427920
+ is_white_king_square_attacked:     1771846
+ is_black_king_square_attacked:      427924
 Loesung beendet. 
 
 
@@ -149,8 +149,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      117730
                      play_move:      117332
- is_white_king_square_attacked:       58727
- is_black_king_square_attacked:       70477
+ is_white_king_square_attacked:       58734
+ is_black_king_square_attacked:       70484
 Loesung beendet. 
 
 
@@ -186,7 +186,7 @@ Loesung beendet.
   add_to_move_generation_stack:      198121
                      play_move:      148878
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      158114
+ is_black_king_square_attacked:      158127
 Loesung beendet. 
 
 
@@ -222,7 +222,7 @@ Loesung beendet.
   add_to_move_generation_stack:        7036
                      play_move:        3174
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        3948
+ is_black_king_square_attacked:        3955
 Loesung beendet. 
 
 
@@ -258,8 +258,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      229860
                      play_move:      223208
- is_white_king_square_attacked:      199201
- is_black_king_square_attacked:       39354
+ is_white_king_square_attacked:      199217
+ is_black_king_square_attacked:       39369
 Loesung beendet. 
 
 

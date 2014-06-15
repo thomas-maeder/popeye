@@ -63,7 +63,7 @@ Thomas Maeder, Popeye test problem for promotion into black king
   add_to_move_generation_stack:          22
                      play_move:           8
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           7
+ is_black_king_square_attacked:           8
 Loesung beendet. 
 
 
@@ -97,7 +97,7 @@ Thomas Maeder, Popeye test problem for promotion of berolina pawn into king
   add_to_move_generation_stack:          43
                      play_move:           8
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           7
+ is_black_king_square_attacked:           8
 Loesung beendet. 
 
 
@@ -130,7 +130,7 @@ Thomas Maeder, Popeye test problem for correct initialization of castling possib
 
   add_to_move_generation_stack:          19
                      play_move:           4
- is_white_king_square_attacked:           4
+ is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -204,8 +204,8 @@ Janez Nastran, 203 Sahovska misel 6/2005
 
   add_to_move_generation_stack:      517186
                      play_move:      382878
- is_white_king_square_attacked:       54381
- is_black_king_square_attacked:      364697
+ is_white_king_square_attacked:       54428
+ is_black_king_square_attacked:      364703
 Loesung beendet. 
 
 
@@ -280,7 +280,7 @@ Janez Nastran, 204 Sahovska misel 6/2005
 
   add_to_move_generation_stack:      245488
                      play_move:      199261
- is_white_king_square_attacked:        7958
+ is_white_king_square_attacked:        7968
  is_black_king_square_attacked:      156421
 Loesung beendet. 
 
@@ -320,8 +320,8 @@ Janez Nastran, 205 Sahovska misel 6/2005
 
   add_to_move_generation_stack:    11202630
                      play_move:     9959813
- is_white_king_square_attacked:     1511851
- is_black_king_square_attacked:     8728419
+ is_white_king_square_attacked:     1511862
+ is_black_king_square_attacked:     8728423
 Loesung beendet. 
 
 
@@ -398,8 +398,8 @@ Marko Klasinc, 206 Sahovska misel 6/2005
 
   add_to_move_generation_stack:      980902
                      play_move:      919300
- is_white_king_square_attacked:       17702
- is_black_king_square_attacked:      101649
+ is_white_king_square_attacked:       17749
+ is_black_king_square_attacked:      101651
 Loesung beendet. 
 
 
@@ -431,8 +431,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    98330240
                      play_move:    98330248
- is_white_king_square_attacked:     2612225
- is_black_king_square_attacked:     5751373
+ is_white_king_square_attacked:     2612229
+ is_black_king_square_attacked:     5751378
 Loesung beendet. 
 
 

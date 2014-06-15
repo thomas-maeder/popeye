@@ -3,10 +3,10 @@
 
 #include "solving/machinery/solve.h"
 
-/* Allocate a STEndOfPhaseWriter slice.
+/* Allocate a STOutputPlainTextEndOfPhaseWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_end_of_phase_writer_slice(void);
+slice_index alloc_output_plaintext_end_of_phase_writer_slice(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -21,6 +21,6 @@ slice_index alloc_end_of_phase_writer_slice(void);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void end_of_phase_writer_solve(slice_index si);
+void output_plaintext_end_of_phase_writer_solve(slice_index si);
 
 #endif

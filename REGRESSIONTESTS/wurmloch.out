@@ -27,8 +27,8 @@
 
   add_to_move_generation_stack:    12223451
                      play_move:    11962725
- is_white_king_square_attacked:     1411104
- is_black_king_square_attacked:    10921252
+ is_white_king_square_attacked:     1411109
+ is_black_king_square_attacked:    10921256
 Loesung beendet. 
 
 
@@ -61,8 +61,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      679772
                      play_move:      772120
- is_white_king_square_attacked:      162208
- is_black_king_square_attacked:      635190
+ is_white_king_square_attacked:      162213
+ is_black_king_square_attacked:      635194
 Loesung beendet. 
 
 
@@ -96,8 +96,8 @@ Wilfried Neef & Hans-Peter Reich & Stefan H\"oning
 
   add_to_move_generation_stack:       54985
                      play_move:       46031
- is_white_king_square_attacked:        4712
- is_black_king_square_attacked:       45758
+ is_white_king_square_attacked:        4716
+ is_black_king_square_attacked:       45760
 Loesung beendet. 
 
 
@@ -337,8 +337,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:   106250292
                      play_move:   104267526
- is_white_king_square_attacked:     2176443
- is_black_king_square_attacked:     6106060
+ is_white_king_square_attacked:     2176447
+ is_black_king_square_attacked:     6106064
 Loesung beendet. 
 
 

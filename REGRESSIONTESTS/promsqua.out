@@ -32,16 +32,16 @@ a)
 
   add_to_move_generation_stack:          62
                      play_move:          65
- is_white_king_square_attacked:          31
+ is_white_king_square_attacked:          32
  is_black_king_square_attacked:          65
-b) h=2
+b) h=2  
 
   1.a3-a2=S b2-b4=L   2.Sa2-c3 Kc4*c3 =
 
   add_to_move_generation_stack:         302
                      play_move:         204
- is_white_king_square_attacked:         175
- is_black_king_square_attacked:         151
+ is_white_king_square_attacked:         177
+ is_black_king_square_attacked:         152
 Loesung beendet. 
 
 
@@ -75,8 +75,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        1501
                      play_move:        1388
- is_white_king_square_attacked:         935
- is_black_king_square_attacked:         714
+ is_white_king_square_attacked:         938
+ is_black_king_square_attacked:         716
 Loesung beendet. 
 
 
@@ -110,8 +110,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        2310
                      play_move:        1719
- is_white_king_square_attacked:        1465
- is_black_king_square_attacked:        1103
+ is_white_king_square_attacked:        1468
+ is_black_king_square_attacked:        1106
 Loesung beendet. 
 
 

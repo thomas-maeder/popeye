@@ -30,17 +30,17 @@ a)
 
   add_to_move_generation_stack:       52075
                      play_move:       32717
- is_white_king_square_attacked:        5514
- is_black_king_square_attacked:       32534
-b) bPf6-->d6
+ is_white_king_square_attacked:        5516
+ is_black_king_square_attacked:       32535
+b) bPf6-->d6  
 
   1.Sd7-c5 + Ke4-e3   2.Ke6-d5 Qb4-e4 #
   1.Sd7-e5 + Ke4-c3   2.Ke6-d5 Qb4-c4 #
 
   add_to_move_generation_stack:       62445
                      play_move:       41204
- is_white_king_square_attacked:        6181
- is_black_king_square_attacked:       40957
+ is_white_king_square_attacked:        6185
+ is_black_king_square_attacked:       40959
 solution finished. 
 
 
@@ -75,7 +75,7 @@ Face to face Batumi Ty announcement 2013
 
   add_to_move_generation_stack:         790
                      play_move:         679
- is_white_king_square_attacked:          53
+ is_white_king_square_attacked:          55
  is_black_king_square_attacked:         679
 solution finished. 
 
@@ -111,8 +111,8 @@ Face to face Batumi Ty announcement 2013
 
   add_to_move_generation_stack:          36
                      play_move:          17
- is_white_king_square_attacked:          17
- is_black_king_square_attacked:           3
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:           4
 solution finished. 
 
 
@@ -148,7 +148,7 @@ a)
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) +bSd2 
+b) +bSd2  
 
    1.d1-f2 !
 

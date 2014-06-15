@@ -31,7 +31,7 @@ a)
                      play_move:       16679
  is_white_king_square_attacked:        2234
  is_black_king_square_attacked:       44307
-b) #1
+b) #1  
 
    1.Ra1-h1[+bKh3] # !
 
@@ -74,15 +74,15 @@ a)
 
   add_to_move_generation_stack:       82373
                      play_move:       22801
- is_white_king_square_attacked:        2898
+ is_white_king_square_attacked:        2899
  is_black_king_square_attacked:       53046
-b) RepublicanChess    Type2
+b) RepublicanChess    Type2  
 
   1.Ra1-h1[+wKh3] + Kh3-h4[+bKh2] #
 
   add_to_move_generation_stack:       82373
                      play_move:       22801
- is_white_king_square_attacked:        2898
+ is_white_king_square_attacked:        2899
  is_black_king_square_attacked:       53046
 solution finished. 
 
@@ -289,7 +289,7 @@ solution finished.
   add_to_move_generation_stack:     4173128
                      play_move:     1109691
  is_white_king_square_attacked:     3276152
- is_black_king_square_attacked:     2439173
+ is_black_king_square_attacked:     2439177
 solution finished. 
 
 

@@ -992,8 +992,8 @@ static unsigned int HashRateLevel = 0;
 void IncHashRateLevel(void)
 {
   ++HashRateLevel;
-  StdString("  ");
-  PrintTime();
+  fprintf(stdout,"  ");
+  PrintTime(stdout);
   logIntArg(HashRateLevel);
   Message(IncrementHashRateLevel);
   HashStats(0, "\n");
@@ -1003,8 +1003,8 @@ void DecHashRateLevel(void)
 {
   if (HashRateLevel>0)
     --HashRateLevel;
-  StdString("  ");
-  PrintTime();
+  fprintf(stdout,"  ");
+  PrintTime(stdout);
   logIntArg(HashRateLevel);
   Message(DecrementHashRateLevel);
   HashStats(0, "\n");
@@ -1028,39 +1028,34 @@ void HashStats(unsigned int level, char *trailer)
 {
 #if defined(HASHRATE)
   int pos=dhtKeyCount(pyhash);
-  char rate[60];
 
   if (level<=HashRateLevel)
   {
-    StdString("  ");
+    fprintf(stdout,"  ");
     pos= dhtKeyCount(pyhash);
     logIntArg(pos);
-    Message(HashedPositions);
+    Message2(stdout,HashedPositions);
     if (use_all > 0)
     {
       if (use_all < 10000)
-        sprintf(rate, " %ld/%ld = %ld%%",
+        fprintf(stdout,), " %ld/%ld = %ld%%",
                 use_pos, use_all, (use_pos*100) / use_all);
       else
-        sprintf(rate, " %ld/%ld = %ld%%",
+        fprintf(stdout,, " %ld/%ld = %ld%%",
                 use_pos, use_all, use_pos / (use_all/100));
     }
     else
-      sprintf(rate, " -");
-    StdString(rate);
+      fprintf(stdout," -");
     if (HashRateLevel > 3)
     {
       unsigned long msec;
       unsigned long Seconds;
       StopTimer(&Seconds,&msec);
       if (Seconds > 0)
-      {
-        sprintf(rate, ", %lu pos/s", use_all/Seconds);
-        StdString(rate);
-      }
+        fprintf(stdout, ", %lu pos/s", use_all/Seconds);
     }
     if (trailer)
-      StdString(trailer);
+      StdString2(stdout,trailer);
   }
 #endif /*HASHRATE*/
 }
@@ -1639,10 +1634,7 @@ static void inithash(slice_index si)
 
   assert(pyhash==0);
 
-  ifTESTHASH(
-      sprintf(GlobalStr, "calling inithash\n");
-      StdString(GlobalStr)
-      );
+  ifTESTHASH(fprintf(stdout,"calling inithash\n"));
 
 #if defined(__unix) && defined(TESTHASH)
   OldBreak= sbrk(0);
@@ -1752,17 +1744,12 @@ static void closehash(void)
   assert(pyhash!=0);
 
 #if defined(TESTHASH)
-  sprintf(GlobalStr, "calling closehash\n");
-  StdString(GlobalStr);
+  fprintf(stdout, "calling closehash\n");
 
 #if defined(HASHRATE)
-  sprintf(GlobalStr, "%ld enquiries out of %ld successful. ",
-          use_pos, use_all);
-  StdString(GlobalStr);
-  if (use_all) {
-    sprintf(GlobalStr, "Makes %.1f%%\n", (100.0 * use_pos) / use_all);
-    StdString(GlobalStr);
-  }
+  fprintf(stdout, "%ld enquiries out of %ld successful. ",use_pos,use_all);
+  if (use_all)
+    fprintf(stdout,"Makes %.1f%%\n",(100.0 * use_pos) / use_all);
 #endif
 #if defined(__unix)
   {
@@ -1775,14 +1762,13 @@ static void closehash(void)
     if (HashCount>0)
     {
       unsigned long const BytePerPos = (HashMem*100)/HashCount;
-      sprintf(GlobalStr,
+      fprintf(stdout,
               "Memory for hash-table: %ld, "
               "gives %ld.%02ld bytes per position\n",
               HashMem, BytePerPos/100, BytePerPos%100);
     }
     else
-      sprintf(GlobalStr, "Nothing in hashtable\n");
-    StdString(GlobalStr);
+      fprintf(stdout, "Nothing in hashtable\n");
   }
 #endif /*__unix*/
 #endif /*TESTHASH*/

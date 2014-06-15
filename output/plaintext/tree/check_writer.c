@@ -1,7 +1,7 @@
 #include "output/plaintext/tree/check_writer.h"
 #include "solving/check.h"
 #include "stipulation/pipe.h"
-#include "output/plaintext/tree/tree.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -45,7 +45,11 @@ void output_plaintext_tree_check_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_in_check(slices[si].starter))
-    StdString(" +");
+  {
+    fprintf(stdout," +");
+    if (TraceFile)
+      fprintf(TraceFile," +");
+  }
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

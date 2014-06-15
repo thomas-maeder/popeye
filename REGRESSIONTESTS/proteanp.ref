@@ -29,7 +29,7 @@
   add_to_move_generation_stack:      839017
                      play_move:      793474
  is_white_king_square_attacked:      762701
- is_black_king_square_attacked:      622010
+ is_black_king_square_attacked:      622063
 solution finished. 
 
 
@@ -65,15 +65,15 @@ a)
   add_to_move_generation_stack:          37
                      play_move:          18
  is_white_king_square_attacked:          22
- is_black_king_square_attacked:          15
-b)  -bRa1
+ is_black_king_square_attacked:          19
+b) -bRa1  
 
   1.PPa2-a1=R   2.0-0-0
 
   add_to_move_generation_stack:          35
                      play_move:          20
  is_white_king_square_attacked:          22
- is_black_king_square_attacked:          22
+ is_black_king_square_attacked:          24
 solution finished. 
 
 

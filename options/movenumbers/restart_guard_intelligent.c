@@ -57,18 +57,17 @@ static boolean is_length_ruled_out_by_option_restart(void)
   return result;
 }
 
-static void print_nr_potential_target_positions(void)
+static void print_nr_potential_target_positions(FILE *file)
 {
-  StdString("\n");
-  sprintf(GlobalStr,"%lu %s %u+%u",
+  fprintf(file,"\n");
+  fprintf(file,"%lu %s %u+%u",
           nr_potential_target_positions,GetMsgString(PotentialMates),
           MovesLeft[White],MovesLeft[Black]);
-  StdString(GlobalStr);
   if (!flag_regression)
   {
-    StdString("  (");
-    PrintTime();
-    StdString(")");
+    fprintf(file,"  (");
+    PrintTime(file);
+    fprintf(file,")");
   }
 }
 
@@ -98,7 +97,11 @@ void restart_guard_intelligent_solve(slice_index si)
     nr_potential_target_positions = 0;
     pipe_solve_delegate(si);
     if (!hasMaxtimeElapsed())
-      print_nr_potential_target_positions();
+    {
+      print_nr_potential_target_positions(stdout);
+      if (TraceFile)
+        print_nr_potential_target_positions(TraceFile);
+    }
   }
 
   TraceFunctionExit(__func__);

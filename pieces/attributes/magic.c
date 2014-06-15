@@ -710,16 +710,14 @@ static void WriteMagicViews(int ply)
   int i;
   for (i= magictop[ply-1]; i < magictop[ply]; i++)
   {
-    char buf[10];
-    WriteSquare(magicviews[i].pos_viewed);
-    StdChar(' ');
-    WriteSquare(magicviews[i].viewedid);
-    StdChar(' ');
-    WriteSquare(magicviews[i].magicpieceid);
-    StdChar(' ');
-    sprintf(buf, "%i", magicviews[i].line_identifier);
-    StdString(buf);
-    StdChar('\n');
+    WriteSquare(stdout,magicviews[i].pos_viewed);
+    fputc(' ',stdout);
+    WriteSquare(stdout,magicviews[i].viewedid);
+    fputc(' ',stdout);
+    WriteSquare(stdout,magicviews[i].magicpieceid);
+    fputc(' ',stdout);
+    fprintf(stdout, "%i", magicviews[i].line_identifier);
+    fputc('\n',stdout);
   }
 }
 #endif

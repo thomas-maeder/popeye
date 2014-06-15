@@ -35,7 +35,7 @@ a)
                      play_move:         928
  is_white_king_square_attacked:         284
  is_black_king_square_attacked:         930
-b) =2
+b) =2  
 
    1.b6*a7[wPa7->b6] = !
 
@@ -82,7 +82,7 @@ solution finished.
 
   add_to_move_generation_stack:       17082
                      play_move:       15224
- is_white_king_square_attacked:       14431
+ is_white_king_square_attacked:       14434
  is_black_king_square_attacked:        6750
 solution finished. 
 
@@ -121,7 +121,7 @@ solution finished.
 
   add_to_move_generation_stack:        3456
                      play_move:        2840
- is_white_king_square_attacked:        1162
+ is_white_king_square_attacked:        1163
  is_black_king_square_attacked:        2630
 solution finished. 
 
@@ -159,8 +159,8 @@ solution finished.
 
   add_to_move_generation_stack:          84
                      play_move:         223
- is_white_king_square_attacked:         220
- is_black_king_square_attacked:         228
+ is_white_king_square_attacked:         222
+ is_black_king_square_attacked:         232
 solution finished. 
 
 
@@ -372,7 +372,7 @@ a)
                      play_move:          88
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) shift a1 ==> a2
+b) shift a1 ==> a2  
 
    1.c7*b8=Q[wQb8->a1] x !
 
@@ -930,7 +930,7 @@ a)
                      play_move:         198
  is_white_king_square_attacked:          67
  is_black_king_square_attacked:         194
-b) AntiCirce Super Cheylan
+b) AntiCirce Super Cheylan  
 
    1.Kd6*c6[wKc6->c7] = !
 

@@ -34,6 +34,4 @@ void output_end_of_intro(slice_index si);
  */
 void solving_insert_output_slices(slice_index si);
 
-boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first));
-
 #endif

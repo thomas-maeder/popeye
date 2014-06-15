@@ -30,9 +30,9 @@
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 #
 
   add_to_move_generation_stack:      233174
-                     play_move:      215680
- is_white_king_square_attacked:       67888
- is_black_king_square_attacked:       82154
+                     play_move:      215682
+ is_white_king_square_attacked:       67891
+ is_black_king_square_attacked:       82157
 Loesung beendet. 
 
 
@@ -173,17 +173,17 @@ a)
 
   add_to_move_generation_stack:       94051
                      play_move:       67556
- is_white_king_square_attacked:        8431
- is_black_king_square_attacked:       67039
+ is_white_king_square_attacked:        8433
+ is_black_king_square_attacked:       67040
 b) Circe
-   Isardam
+   Isardam  
 
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 #
 
   add_to_move_generation_stack:       93487
-                     play_move:       90572
- is_white_king_square_attacked:        6496
- is_black_king_square_attacked:       53544
+                     play_move:       90573
+ is_white_king_square_attacked:        6498
+ is_black_king_square_attacked:       53545
 Loesung beendet. 
 
 
@@ -218,17 +218,17 @@ a)
   1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 #
 
   add_to_move_generation_stack:      123758
-                     play_move:      185665
- is_white_king_square_attacked:        5696
- is_black_king_square_attacked:       90289
-b) sKc6-->b7
+                     play_move:      185668
+ is_white_king_square_attacked:        5698
+ is_black_king_square_attacked:       90290
+b) sKc6-->b7  
 
   1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 #
 
   add_to_move_generation_stack:       35631
-                     play_move:       58613
- is_white_king_square_attacked:        1335
- is_black_king_square_attacked:       28130
+                     play_move:       58614
+ is_white_king_square_attacked:        1337
+ is_black_king_square_attacked:       28131
 Loesung beendet. 
 
 

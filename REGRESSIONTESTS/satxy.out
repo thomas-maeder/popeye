@@ -26,10 +26,10 @@
 
   1.Kf1-g1   2.Kg1-h2   3.Kh2-h3   4.Kh3-h4   5.Kh4-h5   6.Kh5-h6   7.Kh6-h7   8.Kh7-g8   9.Kg8-f8  10.Kf8-e8  11.Ke8-d8  12.Kd8-c8  13.Kc8-b8  14.Kb8-a7  15.Ka7-a6  16.Ka6-a5  17.Ka5-a4  18.Ka4-a3  19.Ka3*a2  20.Ka2-b1  21.Kb1-c1  22.Kc1-d1 #
 
-  add_to_move_generation_stack:       23532
+  add_to_move_generation_stack:       23577
                      play_move:        3122
  is_white_king_square_attacked:       19000
- is_black_king_square_attacked:        5593
+ is_black_king_square_attacked:        5657
 Loesung beendet. 
 
 

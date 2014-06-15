@@ -78,8 +78,8 @@ a)
   add_to_move_generation_stack:         145
                      play_move:          91
  is_white_king_square_attacked:          26
- is_black_king_square_attacked:          98
-b) wBb7-->d7
+ is_black_king_square_attacked:         106
+b) wBb7-->d7  
 
   1.d7-d8=D   2.Dd8-a8 #
   1.d7-d8=D   2.Dd8-c8 #
@@ -94,8 +94,8 @@ b) wBb7-->d7
   add_to_move_generation_stack:         150
                      play_move:          95
  is_white_king_square_attacked:          27
- is_black_king_square_attacked:         103
-c) wBb7-->f7
+ is_black_king_square_attacked:         112
+c) wBb7-->f7  
 
   1.f7-f8=D   2.Df8-a8 #
   1.f7-f8=D   2.Df8-c8 #
@@ -110,7 +110,7 @@ c) wBb7-->f7
   add_to_move_generation_stack:         130
                      play_move:          85
  is_white_king_square_attacked:          26
- is_black_king_square_attacked:          93
+ is_black_king_square_attacked:         102
 Loesung beendet. 
 
 

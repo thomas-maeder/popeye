@@ -59,7 +59,7 @@ solution finished.
   add_to_move_generation_stack:          76
                      play_move:          74
  is_white_king_square_attacked:          20
- is_black_king_square_attacked:          74
+ is_black_king_square_attacked:          75
 solution finished. 
 
 

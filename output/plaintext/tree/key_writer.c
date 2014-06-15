@@ -1,6 +1,7 @@
 #include "output/plaintext/tree/key_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/message.h"
 #include "platform/beep.h"
 #include "solving/pipe.h"
@@ -9,17 +10,17 @@
 
 #include "debugging/assert.h"
 
-/* Allocate a STKeyWriter defender slice.
+/* Allocate a STOutputPlainTextKeyWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_key_writer(void)
+slice_index alloc_output_plaintext_tree_key_writer(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STKeyWriter);
+  result = alloc_pipe(STOutputPlainTextKeyWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -40,13 +41,15 @@ slice_index alloc_key_writer(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void key_writer_solve(slice_index si)
+void output_plaintext_tree_key_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  StdString(" !");
+  fprintf(stdout," !");
+  if (TraceFile)
+    fprintf(TraceFile," !");
   if (OptFlag[beep])
     produce_beep();
 

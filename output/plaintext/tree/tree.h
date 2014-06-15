@@ -4,6 +4,8 @@
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 
+#include <stdio.h>
+
 /* Instrument the stipulation structure with slices that implement
  * plaintext tree mode output.
  * @param si identifies slice where to start
@@ -17,6 +19,6 @@ void output_plaintext_tree_write_pending_move_decoration(void);
 
 /* Write a move in battle play
  */
-void output_plaintext_tree_write_move(void);
+void output_plaintext_tree_write_move(FILE *file);
 
 #endif

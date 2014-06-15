@@ -36,7 +36,7 @@ But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
   add_to_move_generation_stack:       19236
                      play_move:       19480
  is_white_king_square_attacked:        5339
- is_black_king_square_attacked:       16944
+ is_black_king_square_attacked:       16948
 solution finished. 
 
 
@@ -123,7 +123,7 @@ a)
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) bKg2 
+b) bKg2  
 
    1.Rd1-a1 !
 
@@ -180,7 +180,7 @@ b) bKg2
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          26
-c) bKe3 
+c) bKe3  
 
    1.Rd1-a1 !
 

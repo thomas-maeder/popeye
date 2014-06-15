@@ -30,8 +30,8 @@
 
   add_to_move_generation_stack:     1012924
                      play_move:      993483
- is_white_king_square_attacked:      765690
- is_black_king_square_attacked:      951827
+ is_white_king_square_attacked:      765700
+ is_black_king_square_attacked:      951837
 Loesung beendet. 
 
 
@@ -120,8 +120,8 @@ Hans Burbach zum 75. Geburtstag gewidmet
 
   add_to_move_generation_stack:      569425
                      play_move:      357657
- is_white_king_square_attacked:       34120
- is_black_king_square_attacked:      349890
+ is_white_king_square_attacked:       34124
+ is_black_king_square_attacked:      349892
 Loesung beendet. 
 
 
@@ -203,16 +203,16 @@ a)
 
   add_to_move_generation_stack:     2818727
                      play_move:     1492942
- is_white_king_square_attacked:      483658
- is_black_king_square_attacked:     1091138
-b) sLh1-->g8
+ is_white_king_square_attacked:      483660
+ is_black_king_square_attacked:     1091139
+b) sLh1-->g8  
 
   1.Df5-f2 + e2-e3   2.Tf7-f3 Sg6-f4 #
 
   add_to_move_generation_stack:     2017188
                      play_move:     1034769
- is_white_king_square_attacked:      394364
- is_black_king_square_attacked:      705696
+ is_white_king_square_attacked:      394366
+ is_black_king_square_attacked:      705697
 Loesung beendet. 
 
 
@@ -249,16 +249,16 @@ a)
 
   add_to_move_generation_stack:       40466
                      play_move:       32445
- is_white_king_square_attacked:        3612
- is_black_king_square_attacked:       31601
-b) wKf1-->g2
+ is_white_king_square_attacked:        3614
+ is_black_king_square_attacked:       31602
+b) wKf1-->g2  
 
   1.h2-h1=T e6*f7   2.Th1-f1 f7*g8=D #
 
   add_to_move_generation_stack:       44654
                      play_move:       36609
- is_white_king_square_attacked:        3838
- is_black_king_square_attacked:       35729
+ is_white_king_square_attacked:        3840
+ is_black_king_square_attacked:       35730
 Loesung beendet. 
 
 
@@ -293,8 +293,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      919720
                      play_move:      439533
- is_white_king_square_attacked:      287058
- is_black_king_square_attacked:      224273
+ is_white_king_square_attacked:      287060
+ is_black_king_square_attacked:      224274
 Loesung beendet. 
 
 
@@ -330,8 +330,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      105504
                      play_move:       93294
- is_white_king_square_attacked:       10244
- is_black_king_square_attacked:       90748
+ is_white_king_square_attacked:       10248
+ is_black_king_square_attacked:       90750
 Loesung beendet. 
 
 
@@ -368,16 +368,16 @@ a)
 
   add_to_move_generation_stack:     2008944
                      play_move:     1335212
- is_white_king_square_attacked:      205301
- is_black_king_square_attacked:     1191125
-b)  -wLe1
+ is_white_king_square_attacked:      205303
+ is_black_king_square_attacked:     1191126
+b) -wLe1  
 
   1.a2-a1=D Lh5-e2   2.Da1-h1 Sf5-h6 #
 
   add_to_move_generation_stack:     1560362
                      play_move:     1029472
- is_white_king_square_attacked:      121584
- is_black_king_square_attacked:      956702
+ is_white_king_square_attacked:      121586
+ is_black_king_square_attacked:      956703
 Loesung beendet. 
 
 
@@ -412,8 +412,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1603989
                      play_move:     1290853
- is_white_king_square_attacked:      312097
- is_black_king_square_attacked:     1038254
+ is_white_king_square_attacked:      312099
+ is_black_king_square_attacked:     1038255
 Loesung beendet. 
 
 
@@ -448,8 +448,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       65529
                      play_move:       27071
- is_white_king_square_attacked:        5877
- is_black_king_square_attacked:       23881
+ is_white_king_square_attacked:        5879
+ is_black_king_square_attacked:       23882
 Loesung beendet. 
 
 
@@ -497,7 +497,7 @@ a)
                      play_move:        7622
  is_white_king_square_attacked:        1621
  is_black_king_square_attacked:        7577
-b) wKa5-->c3
+b) wKa5-->c3  
 
    1.Kc3-d2 !
       1...h6-h5
@@ -982,8 +982,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2564925
                      play_move:     2060889
- is_white_king_square_attacked:      478821
- is_black_king_square_attacked:     1681684
+ is_white_king_square_attacked:      478825
+ is_black_king_square_attacked:     1681686
 Loesung beendet. 
 
 
@@ -1120,16 +1120,16 @@ a)
 
   add_to_move_generation_stack:       23673
                      play_move:       20149
- is_white_king_square_attacked:        3352
- is_black_king_square_attacked:       20143
-b) sKf2-->d5
+ is_white_king_square_attacked:        3354
+ is_black_king_square_attacked:       20144
+b) sKf2-->d5  
 
   1.d2-d1=L a7-a8=S   2.Ld1-b3 Sa8-b6 #
 
   add_to_move_generation_stack:       32505
                      play_move:       25438
- is_white_king_square_attacked:        4631
- is_black_king_square_attacked:       25425
+ is_white_king_square_attacked:        4633
+ is_black_king_square_attacked:       25426
 Loesung beendet. 
 
 
@@ -1165,7 +1165,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:       33941
                      play_move:       27288
- is_white_king_square_attacked:       11155
+ is_white_king_square_attacked:       11163
  is_black_king_square_attacked:       28902
 Loesung beendet. 
 
@@ -1248,7 +1248,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1155066
                      play_move:      383104
- is_white_king_square_attacked:      477162
+ is_white_king_square_attacked:      477172
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -1283,7 +1283,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:      610595
                      play_move:      152683
- is_white_king_square_attacked:      181180
+ is_white_king_square_attacked:      181190
  is_black_king_square_attacked:           0
 Loesung beendet. 
 
@@ -1319,7 +1319,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:      329349
                      play_move:       71629
- is_white_king_square_attacked:       79541
+ is_white_king_square_attacked:       79557
  is_black_king_square_attacked:       76142
 Loesung beendet. 
 
@@ -1414,7 +1414,7 @@ Loesung beendet.
   add_to_move_generation_stack:      117379
                      play_move:       47869
  is_white_king_square_attacked:       55107
- is_black_king_square_attacked:       53865
+ is_black_king_square_attacked:       53873
 Loesung beendet. 
 
 
@@ -1449,8 +1449,8 @@ A134 (Version), Problemkiste 102, 12/1995
 
   add_to_move_generation_stack:      478918
                      play_move:      473622
- is_white_king_square_attacked:      278215
- is_black_king_square_attacked:      469709
+ is_white_king_square_attacked:      278220
+ is_black_king_square_attacked:      469713
 Loesung beendet. 
 
 
@@ -1485,7 +1485,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:       12954
                      play_move:        3848
- is_white_king_square_attacked:        3764
+ is_white_king_square_attacked:        3771
  is_black_king_square_attacked:        3614
 Loesung beendet. 
 
@@ -1521,7 +1521,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:        1746
                      play_move:        1691
- is_white_king_square_attacked:         643
+ is_white_king_square_attacked:         649
  is_black_king_square_attacked:        1793
 Loesung beendet. 
 
@@ -1557,7 +1557,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:       10009
                      play_move:        4554
- is_white_king_square_attacked:        4496
+ is_white_king_square_attacked:        4504
  is_black_king_square_attacked:        4746
 Loesung beendet. 
 
@@ -1593,8 +1593,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      104706
                      play_move:       35620
- is_white_king_square_attacked:       33544
- is_black_king_square_attacked:       33715
+ is_white_king_square_attacked:       33548
+ is_black_king_square_attacked:       33718
 Loesung beendet. 
 
 
@@ -1695,16 +1695,16 @@ a)
 
   add_to_move_generation_stack:      190413
                      play_move:       29328
- is_white_king_square_attacked:       28804
- is_black_king_square_attacked:       28096
-b) wBc2-->c3
+ is_white_king_square_attacked:       28806
+ is_black_king_square_attacked:       28097
+b) wBc2-->c3  
 
   1.Kf2-e1 f7-f8=T   2.d2-d1=S Tf8-f2 =
 
   add_to_move_generation_stack:      147616
                      play_move:       23390
- is_white_king_square_attacked:       23070
- is_black_king_square_attacked:       22355
+ is_white_king_square_attacked:       23072
+ is_black_king_square_attacked:       22356
 Loesung beendet. 
 
 
@@ -1742,17 +1742,17 @@ a)
 
   add_to_move_generation_stack:      156156
                      play_move:      136382
- is_white_king_square_attacked:       15773
- is_black_king_square_attacked:      136300
-b) Verschiebung b1 ==> a1
+ is_white_king_square_attacked:       15777
+ is_black_king_square_attacked:      136302
+b) Verschiebung b1 ==> a1  
 
   1.d2-d1=T Ta1*d1[+sTa8]   2.b2-b1=L Td1*b1[+sLc8] #
   1.Kb7-b6 Ta1-c1   2.La6-b7 Tc1-c6 #
 
   add_to_move_generation_stack:       80996
                      play_move:       72341
- is_white_king_square_attacked:        9741
- is_black_king_square_attacked:       72292
+ is_white_king_square_attacked:        9745
+ is_black_king_square_attacked:       72294
 Loesung beendet. 
 
 
@@ -1789,8 +1789,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       28789
                      play_move:       14930
- is_white_king_square_attacked:        3435
- is_black_king_square_attacked:       14916
+ is_white_king_square_attacked:        3441
+ is_black_king_square_attacked:       14919
 Loesung beendet. 
 
 
@@ -2275,8 +2275,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       12021
                      play_move:        4044
- is_white_king_square_attacked:        3089
- is_black_king_square_attacked:        3911
+ is_white_king_square_attacked:        3093
+ is_black_king_square_attacked:        3913
 Loesung beendet. 
 
 
@@ -2355,8 +2355,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      100274
                      play_move:       24555
- is_white_king_square_attacked:       23983
- is_black_king_square_attacked:       23622
+ is_white_king_square_attacked:       23986
+ is_black_king_square_attacked:       23624
 Loesung beendet. 
 
 
@@ -2391,8 +2391,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1586190
                      play_move:      362058
- is_white_king_square_attacked:      355561
- is_black_king_square_attacked:      351207
+ is_white_king_square_attacked:      355565
+ is_black_king_square_attacked:      351210
 Loesung beendet. 
 
 
@@ -2429,8 +2429,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       36758
                      play_move:       28670
- is_white_king_square_attacked:       13449
- is_black_king_square_attacked:       21465
+ is_white_king_square_attacked:       13452
+ is_black_king_square_attacked:       21468
 Loesung beendet. 
 
 
@@ -2563,16 +2563,16 @@ a)
 
   add_to_move_generation_stack:       10276
                      play_move:        3671
- is_white_king_square_attacked:        3389
- is_black_king_square_attacked:        3540
-b) wKa6-->a7
+ is_white_king_square_attacked:        3392
+ is_black_king_square_attacked:        3543
+b) wKa6-->a7  
 
   1.h3-h2 Ka7-a6   2.h2-h1=L Ka6-a7   3.Lh1-a8 Ka7*a8 x
 
   add_to_move_generation_stack:        6466
                      play_move:        2484
- is_white_king_square_attacked:        2247
- is_black_king_square_attacked:        2376
+ is_white_king_square_attacked:        2250
+ is_black_king_square_attacked:        2379
 Loesung beendet. 
 
 
@@ -2701,7 +2701,7 @@ a)
                      play_move:        2448
  is_white_king_square_attacked:        1139
  is_black_king_square_attacked:        2012
-b) sGb3-->d1
+b) sGb3-->d1  
 
    1.Sg4-e3 ! Drohung:
           2.Se6-g5 #
@@ -2716,7 +2716,7 @@ b) sGb3-->d1
                      play_move:        2340
  is_white_king_square_attacked:        1094
  is_black_king_square_attacked:        1937
-c) sGb3-->g8
+c) sGb3-->g8  
 
    1.Sg4-e3 ? Drohung:
           2.Se6-g5 #
@@ -2731,7 +2731,7 @@ c) sGb3-->g8
                      play_move:        2404
  is_white_king_square_attacked:        1155
  is_black_king_square_attacked:        1955
-d) sGb3-->h5
+d) sGb3-->h5  
 
    1.Sg4-e3 ! Drohung:
           2.Se6-g5 #
@@ -2783,7 +2783,7 @@ Loesung beendet.
   add_to_move_generation_stack:       70777
                      play_move:       41654
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       41658
+ is_black_king_square_attacked:       41662
 Loesung beendet. 
 
 
@@ -3174,8 +3174,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    28320506
                      play_move:     3362972
- is_white_king_square_attacked:     3326531
- is_black_king_square_attacked:     3172735
+ is_white_king_square_attacked:     3326550
+ is_black_king_square_attacked:     3172737
 Loesung beendet. 
 
 
@@ -3703,8 +3703,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       78857
                      play_move:       62140
- is_white_king_square_attacked:       36512
- is_black_king_square_attacked:       59866
+ is_white_king_square_attacked:       36515
+ is_black_king_square_attacked:       59868
 Loesung beendet. 
 
 
@@ -3739,7 +3739,7 @@ Loesung beendet.
   add_to_move_generation_stack:         974
                      play_move:         330
  is_white_king_square_attacked:         407
- is_black_king_square_attacked:         413
+ is_black_king_square_attacked:         416
 Loesung beendet. 
 
 
@@ -3774,7 +3774,7 @@ Loesung beendet.
   add_to_move_generation_stack:        5983
                      play_move:        2195
  is_white_king_square_attacked:        3351
- is_black_king_square_attacked:        3081
+ is_black_king_square_attacked:        3090
 Loesung beendet. 
 
 
@@ -3810,7 +3810,7 @@ Loesung beendet.
   add_to_move_generation_stack:        6272
                      play_move:        6195
  is_white_king_square_attacked:        7745
- is_black_king_square_attacked:        9377
+ is_black_king_square_attacked:        9388
 Loesung beendet. 
 
 
@@ -3849,7 +3849,7 @@ Loesung beendet.
   add_to_move_generation_stack:      112599
                      play_move:       87514
  is_white_king_square_attacked:       95640
- is_black_king_square_attacked:      114213
+ is_black_king_square_attacked:      114278
 Loesung beendet. 
 
 
@@ -3885,7 +3885,7 @@ Loesung beendet.
   add_to_move_generation_stack:        9382
                      play_move:        3989
  is_white_king_square_attacked:        6233
- is_black_king_square_attacked:        5946
+ is_black_king_square_attacked:        5957
 Loesung beendet. 
 
 
@@ -3928,8 +3928,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      745725
                      play_move:      690339
- is_white_king_square_attacked:      252566
- is_black_king_square_attacked:      684506
+ is_white_king_square_attacked:      252579
+ is_black_king_square_attacked:      684509
 Loesung beendet. 
 
 
@@ -3967,8 +3967,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2089404
                      play_move:     2052162
- is_white_king_square_attacked:     1643164
- is_black_king_square_attacked:     1998510
+ is_white_king_square_attacked:     1643169
+ is_black_king_square_attacked:     1998515
 Loesung beendet. 
 
 
@@ -4034,7 +4034,7 @@ Loesung beendet.
   add_to_move_generation_stack:       40583
                      play_move:       15516
  is_white_king_square_attacked:       16940
- is_black_king_square_attacked:       14513
+ is_black_king_square_attacked:       14516
 Loesung beendet. 
 
 
@@ -4070,16 +4070,16 @@ a)
 
   add_to_move_generation_stack:       80046
                      play_move:       14536
- is_white_king_square_attacked:       14411
- is_black_king_square_attacked:       13562
-b) sKh4-->g3
+ is_white_king_square_attacked:       14413
+ is_black_king_square_attacked:       13563
+b) sKh4-->g3  
 
   1.Kg3-g2 h7-h8=T   2.h2-h1=L Th8*h3 =
 
   add_to_move_generation_stack:      105064
                      play_move:       17847
- is_white_king_square_attacked:       17571
- is_black_king_square_attacked:       16684
+ is_white_king_square_attacked:       17573
+ is_black_king_square_attacked:       16685
 Loesung beendet. 
 
 
@@ -4115,24 +4115,24 @@ a)
 
   add_to_move_generation_stack:       16774
                      play_move:       13095
- is_white_king_square_attacked:        4438
- is_black_king_square_attacked:       13046
-b) wBa2-->b2
+ is_white_king_square_attacked:        4440
+ is_black_king_square_attacked:       13047
+b) wBa2-->b2  
 
   1.Kc4-c5 Kc2-c3   2.Th6-c6 b2-b4 #
 
   add_to_move_generation_stack:       16313
                      play_move:       10866
- is_white_king_square_attacked:        3790
- is_black_king_square_attacked:       10819
-c) sTh6-->h5
+ is_white_king_square_attacked:        3792
+ is_black_king_square_attacked:       10820
+c) sTh6-->h5  
 
   1.Kc4-b4 Kc2-b2   2.Th5-b5 a2-a3 #
 
   add_to_move_generation_stack:       15940
                      play_move:       12573
- is_white_king_square_attacked:        4247
- is_black_king_square_attacked:       12524
+ is_white_king_square_attacked:        4249
+ is_black_king_square_attacked:       12525
 Loesung beendet. 
 
 
@@ -4168,16 +4168,16 @@ a)
 
   add_to_move_generation_stack:       16387
                      play_move:       13187
- is_white_king_square_attacked:        2800
- is_black_king_square_attacked:       13176
-b) Drehung 270
+ is_white_king_square_attacked:        2802
+ is_black_king_square_attacked:       13177
+b) Drehung 270  
 
   1.Kg7-f6 e6-e7   2.Th7-f7 e7-e8=S #
 
   add_to_move_generation_stack:       14933
                      play_move:       13774
- is_white_king_square_attacked:        2798
- is_black_king_square_attacked:       13763
+ is_white_king_square_attacked:        2800
+ is_black_king_square_attacked:       13764
 Loesung beendet. 
 
 
@@ -4212,8 +4212,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       14378
                      play_move:       12526
- is_white_king_square_attacked:        2901
- is_black_king_square_attacked:       12483
+ is_white_king_square_attacked:        2905
+ is_black_king_square_attacked:       12485
 Loesung beendet. 
 
 
@@ -4248,7 +4248,7 @@ Loesung beendet.
   add_to_move_generation_stack:       27467
                      play_move:       12275
  is_white_king_square_attacked:       17500
- is_black_king_square_attacked:       17511
+ is_black_king_square_attacked:       17517
 Loesung beendet. 
 
 
@@ -4283,8 +4283,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    43405761
                      play_move:     5031978
- is_white_king_square_attacked:     3971218
- is_black_king_square_attacked:     4017640
+ is_white_king_square_attacked:     3971221
+ is_black_king_square_attacked:     4017642
 Loesung beendet. 
 
 
@@ -4321,8 +4321,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       56036
                      play_move:       46037
- is_white_king_square_attacked:       28659
- is_black_king_square_attacked:       27214
+ is_white_king_square_attacked:       28662
+ is_black_king_square_attacked:       27217
 Loesung beendet. 
 
 
@@ -4359,8 +4359,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       71161
                      play_move:       40729
- is_white_king_square_attacked:       28124
- is_black_king_square_attacked:       23264
+ is_white_king_square_attacked:       28127
+ is_black_king_square_attacked:       23267
 Loesung beendet. 
 
 
@@ -4409,9 +4409,9 @@ a)
 
   add_to_move_generation_stack:     1854400
                      play_move:      670436
- is_white_king_square_attacked:      186950
- is_black_king_square_attacked:      670119
-b) wKa8-->h8
+ is_white_king_square_attacked:      186986
+ is_black_king_square_attacked:      670143
+b) wKa8-->h8  
 
   1.Kd3-d4 Kh8-g7   2.RLc4-g8 f7*g8=RL   3.Kd4-e5 b7-b8=RL #
   1.RLc4-c2 b7-b8=RL   2.RLc2-e8 f7*e8=RL   3.Kd3-e4 RLe8-b3 #
@@ -4429,8 +4429,8 @@ b) wKa8-->h8
 
   add_to_move_generation_stack:     2247683
                      play_move:      811887
- is_white_king_square_attacked:      219505
- is_black_king_square_attacked:      811080
+ is_white_king_square_attacked:      219544
+ is_black_king_square_attacked:      811106
 Loesung beendet. 
 
 
@@ -4464,8 +4464,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    22046925
                      play_move:     2895520
- is_white_king_square_attacked:     2881270
- is_black_king_square_attacked:     2732922
+ is_white_king_square_attacked:     2881273
+ is_black_king_square_attacked:     2732924
 Loesung beendet. 
 
 
@@ -4499,8 +4499,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    42186786
                      play_move:     5183265
- is_white_king_square_attacked:     5154819
- is_black_king_square_attacked:     4884586
+ is_white_king_square_attacked:     5154822
+ is_black_king_square_attacked:     4884588
 Loesung beendet. 
 
 
@@ -4535,8 +4535,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      743389
                      play_move:      120358
- is_white_king_square_attacked:      118658
- is_black_king_square_attacked:      115201
+ is_white_king_square_attacked:      118661
+ is_black_king_square_attacked:      115203
 Loesung beendet. 
 
 
@@ -4570,8 +4570,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:    33941119
                      play_move:     4396669
- is_white_king_square_attacked:     4369990
- is_black_king_square_attacked:     4167809
+ is_white_king_square_attacked:     4369993
+ is_black_king_square_attacked:     4167811
 Loesung beendet. 
 
 
@@ -4613,7 +4613,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:        3052
                      play_move:        1313
- is_white_king_square_attacked:         344
+ is_white_king_square_attacked:         352
  is_black_king_square_attacked:        1308
 Loesung beendet. 
 
@@ -4656,8 +4656,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      101177
                      play_move:       40010
- is_white_king_square_attacked:       40022
- is_black_king_square_attacked:       39840
+ is_white_king_square_attacked:       40033
+ is_black_king_square_attacked:       39844
 Loesung beendet. 
 
 
@@ -4703,8 +4703,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1825830
                      play_move:     1828535
- is_white_king_square_attacked:      867073
- is_black_king_square_attacked:     1802015
+ is_white_king_square_attacked:      867089
+ is_black_king_square_attacked:     1802019
 Loesung beendet. 
 
 
@@ -4750,8 +4750,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     5559190
                      play_move:     5522139
- is_white_king_square_attacked:     2553594
- is_black_king_square_attacked:     5449388
+ is_white_king_square_attacked:     2553610
+ is_black_king_square_attacked:     5449392
 Loesung beendet. 
 
 
@@ -4796,8 +4796,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2101226
                      play_move:     2045414
- is_white_king_square_attacked:      938672
- is_black_king_square_attacked:     2028942
+ is_white_king_square_attacked:      938687
+ is_black_king_square_attacked:     2028946
 Loesung beendet. 
 
 
@@ -4847,8 +4847,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      893150
                      play_move:      129331
- is_white_king_square_attacked:      109354
- is_black_king_square_attacked:      106832
+ is_white_king_square_attacked:      109370
+ is_black_king_square_attacked:      106833
 Loesung beendet. 
 
 

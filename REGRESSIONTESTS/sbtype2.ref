@@ -82,7 +82,7 @@ solution finished.
 
   add_to_move_generation_stack:          14
                      play_move:          14
- is_white_king_square_attacked:           3
+ is_white_king_square_attacked:           4
  is_black_king_square_attacked:          14
 solution finished. 
 
@@ -118,7 +118,7 @@ capturing side selects which pawn to promote -> Ra1 can capture
 
   add_to_move_generation_stack:          68
                      play_move:          64
- is_white_king_square_attacked:          10
+ is_white_king_square_attacked:          13
  is_black_king_square_attacked:          64
 solution finished. 
 

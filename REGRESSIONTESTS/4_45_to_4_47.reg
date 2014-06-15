@@ -28,8 +28,8 @@ from 4.41 to 4.45, pawns could "make" back to their base line
 
   add_to_move_generation_stack:    43793686
                      play_move:    15348329
- is_white_king_square_attacked:     7649350
- is_black_king_square_attacked:    13596553
+ is_white_king_square_attacked:     7649354
+ is_black_king_square_attacked:    13596556
 solution finished. 
 
 

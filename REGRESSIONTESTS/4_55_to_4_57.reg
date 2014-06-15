@@ -46,8 +46,8 @@ solution (which is a short solution in 1->ser-h#3)
 
   add_to_move_generation_stack:        3876
                      play_move:        2365
- is_white_king_square_attacked:         607
- is_black_king_square_attacked:        2356
+ is_white_king_square_attacked:         609
+ is_black_king_square_attacked:        2372
 solving interrupted. 
 
 
@@ -80,7 +80,7 @@ solving interrupted.
   add_to_move_generation_stack:          20
                      play_move:          20
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:           2
+ is_black_king_square_attacked:           3
 solution finished. 
 
 
@@ -113,7 +113,7 @@ solution finished.
   add_to_move_generation_stack:          20
                      play_move:          20
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:           2
+ is_black_king_square_attacked:           3
 solution finished. 
 
 
@@ -146,7 +146,7 @@ solution finished.
   add_to_move_generation_stack:          20
                      play_move:          20
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:           2
+ is_black_king_square_attacked:           3
 solution finished. 
 
 
@@ -308,7 +308,7 @@ a)
 
   add_to_move_generation_stack:         516
                      play_move:         496
- is_white_king_square_attacked:         462
+ is_white_king_square_attacked:         463
  is_black_king_square_attacked:          67
 b) +wSd4  
 
@@ -360,7 +360,7 @@ b) ser-s##!1
   add_to_move_generation_stack:         706
                      play_move:         682
  is_white_king_square_attacked:         104
- is_black_king_square_attacked:         657
+ is_black_king_square_attacked:         658
 solution finished. 
 
 
@@ -609,8 +609,8 @@ solution finished.
 
   add_to_move_generation_stack:         224
                      play_move:         224
- is_white_king_square_attacked:          14
- is_black_king_square_attacked:          18
+ is_white_king_square_attacked:          19
+ is_black_king_square_attacked:          26
 solution finished. 
 
 
@@ -671,8 +671,8 @@ solution finished.
 
   add_to_move_generation_stack:         224
                      play_move:         224
- is_white_king_square_attacked:          18
- is_black_king_square_attacked:          14
+ is_white_king_square_attacked:          26
+ is_black_king_square_attacked:          19
 solution finished. 
 
 
@@ -707,7 +707,7 @@ solution finished.
   add_to_move_generation_stack:          68
                      play_move:          68
  is_white_king_square_attacked:          69
- is_black_king_square_attacked:          26
+ is_black_king_square_attacked:          28
 solution finished. 
 
 
@@ -868,7 +868,7 @@ checks weren't indicated on the move reaching a goal
   add_to_move_generation_stack:          17
                      play_move:          17
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           4
+ is_black_king_square_attacked:           6
 solution finished. 
 
 
@@ -900,7 +900,7 @@ only example so far of a help stipulation with option stoponshort
 
   add_to_move_generation_stack:         187
                      play_move:         158
- is_white_king_square_attacked:         150
+ is_white_king_square_attacked:         151
  is_black_king_square_attacked:           0
 solving interrupted. 
 
@@ -934,7 +934,7 @@ only example so far of a series stipulation with option stoponshort
   add_to_move_generation_stack:          10
                      play_move:          10
  is_white_king_square_attacked:           8
- is_black_king_square_attacked:          10
+ is_black_king_square_attacked:          11
 solving interrupted. 
 
 
@@ -1076,8 +1076,8 @@ solution finished.
 
   add_to_move_generation_stack:       53540
                      play_move:       53540
- is_white_king_square_attacked:        2674
- is_black_king_square_attacked:        2985
+ is_white_king_square_attacked:        2704
+ is_black_king_square_attacked:        3015
 solving interrupted. 
 
 
@@ -1148,7 +1148,7 @@ solution finished.
   add_to_move_generation_stack:         255
                      play_move:         197
  is_white_king_square_attacked:         196
- is_black_king_square_attacked:          81
+ is_black_king_square_attacked:          83
 solution finished. 
 
 
@@ -1183,7 +1183,7 @@ solution finished.
   add_to_move_generation_stack:          96
                      play_move:          76
  is_white_king_square_attacked:          77
- is_black_king_square_attacked:          17
+ is_black_king_square_attacked:          19
 solution finished. 
 
 
@@ -1217,7 +1217,7 @@ solution finished.
 
   add_to_move_generation_stack:          75
                      play_move:          68
- is_white_king_square_attacked:          13
+ is_white_king_square_attacked:          15
  is_black_king_square_attacked:          69
 solution finished. 
 
@@ -1253,7 +1253,7 @@ solution finished.
   add_to_move_generation_stack:          87
                      play_move:          69
  is_white_king_square_attacked:          70
- is_black_king_square_attacked:          15
+ is_black_king_square_attacked:          17
 solution finished. 
 
 
@@ -1288,7 +1288,7 @@ solution finished.
   add_to_move_generation_stack:         326
                      play_move:         254
  is_white_king_square_attacked:         239
- is_black_king_square_attacked:         116
+ is_black_king_square_attacked:         118
 solution finished. 
 
 
@@ -1323,7 +1323,7 @@ solution finished.
   add_to_move_generation_stack:          87
                      play_move:          69
  is_white_king_square_attacked:          70
- is_black_king_square_attacked:          15
+ is_black_king_square_attacked:          17
 solution finished. 
 
 
@@ -1358,8 +1358,8 @@ Popeye didn't find a solution since at least 4.37
 
   add_to_move_generation_stack:       55983
                      play_move:       55983
- is_white_king_square_attacked:       20970
- is_black_king_square_attacked:       34578
+ is_white_king_square_attacked:       21009
+ is_black_king_square_attacked:       34581
 solution finished. 
 
 

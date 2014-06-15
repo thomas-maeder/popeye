@@ -32,7 +32,7 @@ a)
                      play_move:        9429
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) bMOd4-->d5
+b) bMOd4-->d5  
 
   1.MOd5-b4 GFd6-b8   2.MOb4-c2 GFb8-a2   3.MOc2-a1 GFa2-b2 =
   1.MOd5-e7 GFd6-c7   2.MOe7-g6 GFc7-g8   3.MOg6-h8 GFg8-g7 =
@@ -78,7 +78,7 @@ a)
                      play_move:       16195
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) bOAf4-->b6
+b) bOAf4-->b6  
 
   1.OAb6-a4 GFd2-f5   2.OAa4-e2 GFf5-g8   3.OAe2-h8 GFg8-g7 =
   1.OAb6-f8 GFd2-b8   2.OAf8-c2 GFb8-a2   3.OAc2-a1 GFa2-b2 =
@@ -125,7 +125,7 @@ a)
                      play_move:        4798
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) bTHd3-->d4
+b) bTHd3-->d4  
 
   1...  ...  2.THd4-a7 OAd7-c5   3.THa7-a3 OAc5-b3   4.THa3-b2 OAb3-a1 ==
 
@@ -172,8 +172,8 @@ a)
   add_to_move_generation_stack:       39908
                      play_move:        8334
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         574
-b) brGEg7-->a4
+ is_black_king_square_attacked:         578
+b) brGEg7-->a4  
 
   1...OAd2-g8   2.rGEa4-c2 OAg8-e7   3.rGEc2-g2 OAe7-h1 ==
   1...OAd2-c4   2.rGEa4-c6 OAc4-b6   3.rGEc6-b7 OAb6-a8 ==
@@ -181,7 +181,7 @@ b) brGEg7-->a4
   add_to_move_generation_stack:       28719
                      play_move:        5972
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         418
+ is_black_king_square_attacked:         422
 solution finished. 
 
 

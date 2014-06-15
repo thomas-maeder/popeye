@@ -108,7 +108,7 @@ used to take several minutes in releases 4.37 to 4.43
   add_to_move_generation_stack:       22624
                      play_move:       22624
  is_white_king_square_attacked:       15622
- is_black_king_square_attacked:       13885
+ is_black_king_square_attacked:       13897
 solution finished. 
 
 
@@ -164,7 +164,7 @@ solution finished.
   add_to_move_generation_stack:       11004
                      play_move:       11004
  is_white_king_square_attacked:        6306
- is_black_king_square_attacked:        5426
+ is_black_king_square_attacked:        5437
 solution finished. 
 
 
@@ -221,7 +221,7 @@ Test for StopOnShortSolutions in proof games and a=>b
   add_to_move_generation_stack:       11004
                      play_move:       11004
  is_white_king_square_attacked:        6306
- is_black_king_square_attacked:        5426
+ is_black_king_square_attacked:        5437
 solving interrupted. 
 
 

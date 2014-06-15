@@ -332,7 +332,10 @@ static boolean anything_to_write(Cond cond)
   }
 }
 
-boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is_first))
+boolean WriteConditions(FILE *file,
+                        void (*WriteCondition)(FILE *file,
+                                               char const CondLine[],
+                                               boolean is_first))
 {
   Cond cond;
   boolean result = false;
@@ -342,7 +345,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
     char CondLine[256] = { '\0' };
     unsigned int written = append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[maxi]);
     written = append_mummer_strictness(mummer_strictness_default_side,&CondLine,written);
-    (*WriteCondition)(CondLine,!result);
+    (*WriteCondition)(file,CondLine,!result);
     result = true;
   }
 
@@ -350,7 +353,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
   {
     char CondLine[256] = { '\0' };
     append_to_CondLine(&CondLine,0,"%s", ExtraCondTab[ultraschachzwang]);
-    (*WriteCondition)(CondLine,!result);
+    (*WriteCondition)(file,CondLine,!result);
     result = true;
   }
 
@@ -771,7 +774,7 @@ boolean WriteConditions(void (*WriteCondition)(char const CondLine[], boolean is
           break;
       }
 
-      (*WriteCondition)(CondLine,!result);
+      (*WriteCondition)(file,CondLine,!result);
 
       result = true;
     }

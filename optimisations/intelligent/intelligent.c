@@ -392,7 +392,7 @@ static void GenerateBlackKing(void)
         for (s = 0; s!=maxsquare+4; ++s)
         {
           if (nr_reasons_for_staying_empty[s]>0)
-            WriteSquare(s);
+            WriteSquare(stdout,s);
           assert(nr_reasons_for_staying_empty[s]==0);
         }
       }

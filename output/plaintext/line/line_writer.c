@@ -25,7 +25,8 @@
  * Slices of this type write lines in line mode.
  */
 
-static void write_line_intro(unsigned int *next_move_number,
+static void write_line_intro(FILE *file,
+                             unsigned int *next_move_number,
                              Side *numbered_side)
 {
   TraceFunctionEntry(__func__);
@@ -34,19 +35,19 @@ static void write_line_intro(unsigned int *next_move_number,
   if (OptFlag[beep])
     produce_beep();
 
-  Message(NewLine);
+  Message2(file,NewLine);
 
   TraceValue("%u\n",output_plaintext_nr_move_inversions);
   switch (output_plaintext_nr_move_inversions)
   {
     case 2:
-      StdString("  1...  ...");
+      fprintf(file,"  1...  ...");
       *next_move_number = 2;
       *numbered_side = trait[nbply];
       break;
 
     case 1:
-      StdString("  1...");
+      fprintf(file,"  1...");
       *next_move_number = 2;
       *numbered_side = advers(trait[nbply]);
       break;
@@ -70,7 +71,8 @@ static void write_line_intro(unsigned int *next_move_number,
   TraceFunctionResultEnd();
 }
 
-static void write_move_number_if_necessary(unsigned int *next_move_number,
+static void write_move_number_if_necessary(FILE *file,
+                                           unsigned int *next_move_number,
                                            Side const *numbered_side)
 {
   TraceFunctionEntry(__func__);
@@ -80,9 +82,7 @@ static void write_move_number_if_necessary(unsigned int *next_move_number,
 
   if (trait[nbply]==*numbered_side)
   {
-    sprintf(GlobalStr,"%3u.",*next_move_number);
-    StdString(GlobalStr);
-
+    fprintf(file,"%3u.",*next_move_number);
     ++*next_move_number;
   }
 
@@ -90,7 +90,7 @@ static void write_move_number_if_necessary(unsigned int *next_move_number,
   TraceFunctionResultEnd();
 }
 
-static void write_potential_check(void)
+static void write_potential_check(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -99,20 +99,21 @@ static void write_potential_check(void)
   TraceEnumerator(Side,trait[nbply],"\n");
 
   if (is_in_check(advers(trait[nbply])))
-    StdString(" +");
+    fprintf(file," +");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void write_ply_history(unsigned int *next_move_number,
+static void write_ply_history(FILE *file,
+                              unsigned int *next_move_number,
                               Side *numbered_side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (parent_ply[nbply]==ply_retro_move)
-    write_line_intro(next_move_number,numbered_side);
+    write_line_intro(file,next_move_number,numbered_side);
   else
   {
     ply const child_nbply = nbply;
@@ -125,15 +126,15 @@ static void write_ply_history(unsigned int *next_move_number,
 
     nbply = parent_ply[nbply];
 
-    write_ply_history(next_move_number,numbered_side);
+    write_ply_history(file,next_move_number,numbered_side);
 
     if (encore())
     {
       /* not a dummy move ply */
-      write_move_number_if_necessary(next_move_number,numbered_side);
-      output_plaintext_write_move();
-      write_potential_check();
-      StdChar(' ');
+      write_move_number_if_necessary(file,next_move_number,numbered_side);
+      output_plaintext_write_move(file);
+      write_potential_check(file);
+      fputc(' ',file);
     }
 
     if (is_end_of_intro_series[nbply])
@@ -154,7 +155,7 @@ static void write_ply_history(unsigned int *next_move_number,
 /* Write a move
  * @param goal goal reached by that line
  */
-void output_plaintext_line_write_line(goal_type goal)
+void output_plaintext_line_write_line(FILE *file, goal_type goal)
 {
   unsigned int next_movenumber = 0;
   Side numbered_side = no_side;
@@ -163,12 +164,12 @@ void output_plaintext_line_write_line(goal_type goal)
   TraceFunctionParam("%u",goal);
   TraceFunctionParamListEnd();
 
-  write_ply_history(&next_movenumber,&numbered_side);
+  write_ply_history(file,&next_movenumber,&numbered_side);
 
-  write_move_number_if_necessary(&next_movenumber,&numbered_side);
-  output_plaintext_write_move();
+  write_move_number_if_necessary(file,&next_movenumber,&numbered_side);
+  output_plaintext_write_move(file);
   if (!output_plaintext_goal_writer_replaces_check_writer(goal))
-    write_potential_check();
+    write_potential_check(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -178,7 +179,7 @@ void output_plaintext_line_write_line(goal_type goal)
  * @param goal goal to be reached at end of line
  * @return index of allocated slice
  */
-slice_index alloc_line_writer_slice(Goal goal)
+slice_index alloc_output_plaintext_line_writer_slice(Goal goal)
 {
   slice_index result;
 
@@ -218,7 +219,9 @@ void output_plaintext_line_line_writer_solve(slice_index si)
   se_start_pos();
 #endif
 
-  output_plaintext_line_write_line(slices[si].u.goal_handler.goal.type);
+  output_plaintext_line_write_line(stdout,slices[si].u.goal_handler.goal.type);
+  if (TraceFile!=0)
+    output_plaintext_line_write_line(TraceFile,slices[si].u.goal_handler.goal.type);
   pipe_solve_delegate(si);
 
 #ifdef _SE_DECORATE_SOLUTION_

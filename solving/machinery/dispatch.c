@@ -197,6 +197,17 @@
 #include "output/plaintext/tree/exclusive.h"
 #include "output/plaintext/twinning.h"
 #include "output/latex/twinning.h"
+#include "output/latex/line/line_writer.h"
+#include "output/latex/goal_writer.h"
+#include "output/latex/tree/end_of_solution_writer.h"
+#include "output/latex/tree/check_writer.h"
+#include "output/latex/tree/key_writer.h"
+#include "output/latex/tree/move_writer.h"
+#include "output/latex/tree/refutation_writer.h"
+#include "output/latex/tree/refuting_variation_writer.h"
+#include "output/latex/tree/threat_writer.h"
+#include "output/latex/tree/try_writer.h"
+#include "output/latex/tree/zugzwang_writer.h"
 #include "pieces/attributes/paralysing/paralysing.h"
 #include "pieces/attributes/paralysing/mate_filter.h"
 #include "pieces/attributes/paralysing/stalemate_special.h"
@@ -321,20 +332,20 @@ void dispatch(slice_index si)
       threat_defeated_tester_solve(si);
       break;
 
-    case STThreatWriter:
-      threat_writer_solve(si);
+    case STOutputPlainTextThreatWriter:
+      output_plaintext_tree_threat_writer_solve(si);
       break;
 
-    case STZugzwangWriter:
-      zugzwang_writer_solve(si);
+    case STOutputPlainTextZugzwangWriter:
+      output_plaintext_tree_zugzwang_writer_solve(si);
       break;
 
-    case STKeyWriter:
-      key_writer_solve(si);
+    case STOutputPlainTextKeyWriter:
+      output_plaintext_tree_key_writer_solve(si);
       break;
 
-    case STTryWriter:
-      try_writer_solve(si);
+    case STOutputPlainTextTryWriter:
+      output_plaintext_tree_try_writer_solve(si);
       break;
 
     case STRefutationsAllocator:
@@ -345,8 +356,8 @@ void dispatch(slice_index si)
       refutations_solver_solve(si);
       break;
 
-    case STRefutationsIntroWriter:
-      refutations_intro_writer_solve(si);
+    case STOutputPlainTextRefutationsIntroWriter:
+      output_plaintext_tree_refutations_intro_writer_solve(si);
       break;
 
     case STRefutationsAvoider:
@@ -357,12 +368,12 @@ void dispatch(slice_index si)
       refutations_filter_solve(si);
       break;
 
-    case STRefutingVariationWriter:
-      refuting_variation_writer_solve(si);
+    case STOutputPlaintextTreeRefutingVariationWriter:
+      output_plaintext_tree_refuting_variation_writer_solve(si);
       break;
 
-    case STMoveWriter:
-      move_writer_solve(si);
+    case STOutputPlainTextMoveWriter:
+      output_plaintext_tree_move_writer_solve(si);
       break;
 
     case STTrivialEndFilter:
@@ -589,8 +600,8 @@ void dispatch(slice_index si)
       output_plaintext_tree_check_writer_solve(si);
       break;
 
-    case STRefutationWriter:
-      refutation_writer_solve(si);
+    case STOutputPlainTextRefutationWriter:
+      output_plaintext_tree_refutation_writer_solve(si);
       break;
 
     case STDoubleMateFilter:
@@ -647,6 +658,54 @@ void dispatch(slice_index si)
 
     case STOutputPlaintextLineLineWriter:
       output_plaintext_line_line_writer_solve(si);
+      break;
+
+    case STOutputLaTeXGoalWriter:
+      output_latex_goal_writer_solve(si);
+      break;
+
+    case STOutputLaTeXLineLineWriter:
+      output_latex_line_line_writer_solve(si);
+      break;
+
+    case STOutputLaTeXTwinningWriter:
+      output_latex_write_twinning(si);
+      break;
+
+    case STOutputLaTeXTreeEndOfSolutionWriter:
+      output_latex_tree_end_of_solution_writer_solve(si);
+      break;
+
+    case STOutputLaTeXKeyWriter:
+      output_latex_tree_key_writer_solve(si);
+      break;
+
+    case STOutputLaTeXMoveWriter:
+      output_latex_tree_move_writer_solve(si);
+      break;
+
+    case STOutputLaTeXRefutationWriter:
+      output_latex_tree_refutation_writer_solve(si);
+      break;
+
+    case STOutputLaTeXThreatWriter:
+      output_latex_tree_threat_writer_solve(si);
+      break;
+
+    case STOutputLaTeXTreeCheckWriter:
+      output_latex_tree_check_writer_solve(si);
+      break;
+
+    case STOutputLaTeXTreeRefutingVariationWriter:
+      output_latex_tree_refuting_variation_writer_solve(si);
+      break;
+
+    case STOutputLaTeXTryWriter:
+      output_latex_tree_try_writer_solve(si);
+      break;
+
+    case STOutputLaTeXZugzwangWriter:
+      output_latex_tree_zugzwang_writer_solve(si);
       break;
 
     case STBGLEnforcer:
@@ -1231,10 +1290,6 @@ void dispatch(slice_index si)
       stoponshortsolutions_initialiser_solve(si);
       break;
 
-    case STOutputLaTeXTwinningWriter:
-      output_latex_write_twinning(si);
-      break;
-
     case STOutputPlaintextTwinningWriter:
       output_plaintext_write_twinning(si);
       break;
@@ -1251,8 +1306,8 @@ void dispatch(slice_index si)
       illegal_selfcheck_writer_solve(si);
       break;
 
-    case STEndOfPhaseWriter:
-      end_of_phase_writer_solve(si);
+    case STOutputPlainTextEndOfPhaseWriter:
+      output_plaintext_end_of_phase_writer_solve(si);
       break;
 
     case STOutputPlaintextMoveInversionCounter:
@@ -1524,8 +1579,8 @@ void dispatch(slice_index si)
       max_nr_nontrivial_guard_solve(si);
       break;
 
-    case STEndOfSolutionWriter:
-      end_of_solution_writer_solve(si);
+    case STOutputPlainTextTreeEndOfSolutionWriter:
+      output_plaintext_end_of_solution_writer_solve(si);
       break;
 
     case STKillerMoveFinalDefenseMove:

@@ -178,7 +178,7 @@ don't ignore the longest move just because of self-check if it reaches
 
   add_to_move_generation_stack:         703
                      play_move:         427
- is_white_king_square_attacked:         414
+ is_white_king_square_attacked:         415
  is_black_king_square_attacked:          97
 solution finished. 
 

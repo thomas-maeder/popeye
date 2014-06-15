@@ -30,7 +30,7 @@ both sides need a king
   add_to_move_generation_stack:        1640
                      play_move:        1652
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        1665
+ is_black_king_square_attacked:        1677
 solution finished. 
 
 

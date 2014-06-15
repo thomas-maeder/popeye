@@ -30,28 +30,26 @@ enum
   fileWidth = 4
 };
 
-static void CenterLine(char const *s)
+static void CenterLine(FILE *file, char const *s)
 {
   /* TODO move into one module per platform */
 #if defined(ATARI)
 #   if defined(__TURBOC__)
-  sprintf(GlobalStr, "%s\n", s);
+  fprintf(file, "%s\n", s);
 #   else    /* not __TURBOC__ */
-  sprintf(GlobalStr, "%*s\n", (36+strlen(s))/2, s);
+  fprintf(file, "%*s\n", (36+strlen(s))/2, s);
 #   endif   /* __TURBOC__ */
 #else   /* not ATARI */
-  /* sprintf(GlobalStr, "%*s\n", (36+(int)strlen(s))/2, s); */
-  sprintf(GlobalStr, "%*s\n", (38+(int)strlen(s))/2, s);
+  fprintf(file, "%*s\n", (38+(int)strlen(s))/2, s);
 #endif  /* ATARI */
-  StdString(GlobalStr);
 }
 
-static void MultiCenter(char *s) {
+static void MultiCenter(FILE *file, char *s) {
   char *p;
 
   while ((p=strchr(s,'\n'))) {
     *p= '\0';
-    CenterLine(s);
+    CenterLine(file,s);
     *p= '\n';
     s= p + 1;
   }
@@ -72,68 +70,68 @@ static boolean is_square_occupied_by_imitator(position const *pos, square s)
   return result;
 }
 
-static void WriteCondition(char const CondLine[], boolean is_first)
+static void WriteCondition(FILE* file, char const CondLine[], boolean is_first)
 {
-  CenterLine(CondLine);
+  CenterLine(file,CondLine);
 }
 
-static void WriteCastlingMutuallyExclusive(void)
+static void WriteCastlingMutuallyExclusive(FILE *file)
 {
   /* no need to test in [Black] - information is redundant */
   if (castling_mutual_exclusive[White][queenside_castling-min_castling]!=0
       || castling_mutual_exclusive[White][kingside_castling-min_castling]!=0)
   {
-    StdString(OptString[UserLanguage][mutuallyexclusivecastling]);
+    fprintf(file,"%s",OptString[UserLanguage][mutuallyexclusivecastling]);
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &ra_cancastle))
     {
-      StdChar(' ');
-      WriteSquare(square_a1);
-      WriteSquare(square_a8);
+      fputc(' ',file);
+      WriteSquare(file,square_a1);
+      WriteSquare(file,square_a8);
     }
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &rh_cancastle))
     {
-      StdChar(' ');
-      WriteSquare(square_a1);
-      WriteSquare(square_h8);
+      fputc(' ',file);
+      WriteSquare(file,square_a1);
+      WriteSquare(file,square_h8);
     }
 
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
          &ra_cancastle))
     {
-      StdChar(' ');
-      WriteSquare(square_h1);
-      WriteSquare(square_a8);
+      fputc(' ',file);
+      WriteSquare(file,square_h1);
+      WriteSquare(file,square_a8);
     }
 
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
          &rh_cancastle))
     {
-      StdChar(' ');
-      WriteSquare(square_h1);
-      WriteSquare(square_h8);
+      fputc(' ',file);
+      WriteSquare(file,square_h1);
+      WriteSquare(file,square_h8);
     }
 
-    StdChar('\n');
+    fputc('\n',file);
   }
 }
 
-static void WriteGrid(void)
+static void WriteGrid(FILE *file)
 {
   square square, square_a;
-  int row, file;
+  int row, column;
   char    HLine[40];
 
   static char BorderL[]="+---a---b---c---d---e---f---g---h---+\n";
   static char HorizL[]="%c                                   %c\n";
   static char BlankL[]="|                                   |\n";
 
-  StdChar('\n');
-  StdString(BorderL);
-  StdString(BlankL);
+  fputc('\n',file);
+  fprintf(file,"%s",BorderL);
+  fprintf(file,"%s",BlankL);
 
   for (row=0, square_a = square_a8;
        row<nr_rows_on_board;
@@ -141,20 +139,20 @@ static void WriteGrid(void)
     char const *digits="87654321";
     sprintf(HLine, HorizL, digits[row], digits[row]);
 
-    for (file=0, square= square_a;
-         file<nr_files_on_board;
-         file++, square += dir_right)
+    for (column=0, square= square_a;
+         column<nr_files_on_board;
+         column++, square += dir_right)
     {
       char g = (GridNum(square))%100;
-      HLine[4*file+3]= g>9 ? (g/10)+'0' : ' ';
-      HLine[4*file+4]= (g%10)+'0';
+      HLine[4*column+3]= g>9 ? (g/10)+'0' : ' ';
+      HLine[4*column+4]= (g%10)+'0';
     }
 
-    StdString(HLine);
-    StdString(BlankL);
+    fprintf(file,"%s",HLine);
+    fprintf(file,"%s",BlankL);
   }
 
-  StdString(BorderL);
+  fprintf(file,"%s",BorderL);
 }
 
 static void CollectPiecesWithAttribute(position const *pos,
@@ -168,16 +166,16 @@ static void CollectPiecesWithAttribute(position const *pos,
 
   for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
   {
-    unsigned int file;
+    unsigned int column;
     square square = square_a;
 
-    for (file = 1; file <= nr_files_on_board; ++file, square += dir_right)
+    for (column = 1; column <= nr_files_on_board; ++column, square += dir_right)
       if (TSTFLAG(pos->spec[square],sp))
         AppendSquare(ListSpec,square);
   }
 }
 
-static void WriteNonRoyalAttributedPieces(position const *pos)
+static void WriteNonRoyalAttributedPieces(FILE *file, position const *pos)
 {
   piece_flag_type sp;
 
@@ -190,7 +188,7 @@ static void WriteNonRoyalAttributedPieces(position const *pos)
       {
         char ListSpec[256];
         CollectPiecesWithAttribute(pos,ListSpec,sp);
-        CenterLine(ListSpec);
+        CenterLine(file,ListSpec);
       }
     }
 }
@@ -207,10 +205,10 @@ static unsigned int CollectRoyalPiecePositions(position const *pos,
 
   for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
-    unsigned int file;
+    unsigned int column;
     square square = square_a;
 
-    for (file = 0; file!=nr_files_on_board; ++file, square += dir_right)
+    for (column = 0; column!=nr_files_on_board; ++column, square += dir_right)
       if (TSTFLAG(pos->spec[square],Royal)
           && !is_king(pos->board[square]))
       {
@@ -222,12 +220,12 @@ static unsigned int CollectRoyalPiecePositions(position const *pos,
   return result;
 }
 
-static void WriteRoyalPiecePositions(position const *pos)
+static void WriteRoyalPiecePositions(FILE *file, position const *pos)
 {
   char ListSpec[256];
 
   if (CollectRoyalPiecePositions(pos,ListSpec)>0)
-    CenterLine(ListSpec);
+    CenterLine(file,ListSpec);
 }
 
 static void DoPieceCounts(position const *pos,
@@ -238,10 +236,10 @@ static void DoPieceCounts(position const *pos,
 
   for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
-    unsigned int file;
+    unsigned int column;
     square square = square_a;
 
-    for (file = 0; file!=nr_files_on_board; ++file, square += dir_right)
+    for (column = 0; column!=nr_files_on_board; ++column, square += dir_right)
     {
       if (is_piece_neutral(pos->spec[square]))
         ++piece_per_colour[colour_neutral];
@@ -253,26 +251,33 @@ static void DoPieceCounts(position const *pos,
   }
 }
 
-static void WritePieceCounts(position const *pos, unsigned int indentation)
+static void WritePieceCounts(FILE *file, position const *pos, unsigned int indentation)
 {
   unsigned piece_per_colour[nr_colours] = { 0 };
-  char PieCnts[20];
 
   unsigned int const pieceCntWidth = (indentation>nr_files_on_board*fileWidth
                                       ? 1
-                                     : nr_files_on_board*fileWidth-indentation+1);
+                                      : nr_files_on_board*fileWidth-indentation+1);
 
   DoPieceCounts(pos,piece_per_colour);
 
-  if (piece_per_colour[colour_neutral]>0)
-    sprintf(PieCnts, "%d + %d + %dn", piece_per_colour[colour_white], piece_per_colour[colour_black], piece_per_colour[colour_neutral]);
-  else
-    sprintf(PieCnts, "%d + %d", piece_per_colour[colour_white], piece_per_colour[colour_black]);
-  sprintf(GlobalStr, "  %*s", pieceCntWidth, PieCnts);
-  StdString(GlobalStr);
+  {
+    /* first print into a character buffer to be able to right-adjust */
+    char PieCnts[20];
+    if (piece_per_colour[colour_neutral]>0)
+      sprintf(PieCnts, "%d + %d + %dn",
+              piece_per_colour[colour_white],
+              piece_per_colour[colour_black],
+              piece_per_colour[colour_neutral]);
+    else
+      sprintf(PieCnts, "%d + %d",
+              piece_per_colour[colour_white],
+              piece_per_colour[colour_black]);
+    fprintf(file,"  %*s",pieceCntWidth,PieCnts);
+  }
 }
 
-static int WriteStipulationOptions(position const *pos)
+static int WriteStipulationOptions(FILE *file, position const *pos)
 {
   char StipOptStr[300];
 
@@ -292,9 +297,7 @@ static int WriteStipulationOptions(position const *pos)
             ";%d,%u",
             max_nr_nontrivial,get_min_length_nontrivial());
 
-  StdString("  ");
-  StdString(AlphaStip);
-  StdString(StipOptStr);
+  fprintf(file,"  %s%s",AlphaStip,StipOptStr);
 
   return strlen(StipOptStr)+strlen(AlphaStip)+2;
 }
@@ -314,14 +317,14 @@ static char *WriteWalkRtoL(char *pos, piece_walk_type walk)
   return pos;
 }
 
-static void WriteRegularCells(position const *pos, square square_a)
+static void WriteRegularCells(FILE *file, position const *pos, square square_a)
 {
-  unsigned int file;
+  unsigned int column;
   square square;
 
-  for (file = 0,  square = square_a;
-       file!=nr_files_on_board;
-       ++file, square += dir_right)
+  for (column = 0,  square = square_a;
+      column!=nr_files_on_board;
+       ++column, square += dir_right)
   {
     char cell[fileWidth+1];
     char *pos_in_cell = cell + (sizeof cell)/2;
@@ -361,18 +364,18 @@ static void WriteRegularCells(position const *pos, square square_a)
         pos_in_cell[0] = '-';
     }
 
-    StdString(cell);
+    fprintf(file,"%s",cell);
   }
 }
 
-static void WriteBaseCells(position const *pos, square square_a)
+static void WriteBaseCells(FILE *file, position const *pos, square square_a)
 {
-  unsigned int file;
+  unsigned int column;
   square square;
 
-  for (file = 0, square = square_a;
-       file!=nr_files_on_board;
-       ++file, square += dir_right)
+  for (column = 0, square = square_a;
+      column!=nr_files_on_board;
+       ++column, square += dir_right)
   {
     piece_walk_type const walk = pos->board[square];
 
@@ -398,135 +401,129 @@ static void WriteBaseCells(position const *pos, square square_a)
       WriteWalkRtoL(pos_in_cell,huntertypes[hunterIndex].home);
     }
 
-    StdString(cell);
+    fprintf(file,"%s",cell);
   }
 }
 
-static void WriteBorder(void)
+static void WriteBorder(FILE *file)
 {
-  unsigned int file;
+  unsigned int column;
   char letter;
 
   assert(nr_files_on_board <= 'z'-'a');
 
-  StdString("+--");
+  fprintf(file,"%s","+--");
 
-  for (file = 0, letter = 'a'; file!=nr_files_on_board; ++file, ++letter)
+  for (column = 0, letter = 'a'; column!=nr_files_on_board; ++column, ++letter)
   {
     char cell[fileWidth+1];
     snprintf(cell, sizeof cell, "-%c--", letter);
-    StdString(cell);
+    fprintf(file,"%s",cell);
   }
 
-  StdString("-+\n");
+  fprintf(file,"%s","-+\n");
 }
 
-static void WriteBlankLine(void)
+static void WriteBlankLine(FILE *file)
 {
-  unsigned int file;
+  unsigned int column;
 
-  StdString("| ");
-  StdString(" ");
+  fprintf(file,"%s","| ");
+  fprintf(file,"%s"," ");
 
-  for (file = 0; file!=nr_files_on_board; ++file)
-    StdString("    ");
+  for (column = 0; column!=nr_files_on_board; ++column)
+    fprintf(file,"%s","    ");
 
-  StdString(" |\n");
+  fprintf(file,"%s"," |\n");
 }
 
-void WriteBoard(position const *pos)
+void WriteBoard(FILE *file, position const *pos)
 {
   unsigned int row;
   square square_a;
 
   assert(nr_rows_on_board<10);
 
-  StdChar('\n');
-  WriteBorder();
-  WriteBlankLine();
+  fputc('\n',file);
+  WriteBorder(file);
+  WriteBlankLine(file);
 
   for (row = 0, square_a = square_a8;
        row!=nr_rows_on_board;
        ++row, square_a += dir_down)
   {
-    char border[4];
+    fprintf(file,"%d ",nr_rows_on_board-row);
+    WriteRegularCells(file,pos,square_a);
+    fprintf(file,"  %d", nr_rows_on_board-row);
+    fputc('\n',file);
 
-    snprintf(border, sizeof border, "%d ", nr_rows_on_board-row);
-    StdString(border);
-
-    WriteRegularCells(pos,square_a);
-
-    snprintf(border, sizeof border, "  %d", nr_rows_on_board-row);
-    StdString(border);
-    StdChar('\n');
-
-    StdString("| ");
-    WriteBaseCells(pos,square_a);
-    StdString("  |\n");
+    fprintf(file,"%s","| ");
+    WriteBaseCells(file,pos,square_a);
+    fprintf(file,"%s","  |\n");
   }
 
-  WriteBorder();
+  WriteBorder(file);
 }
 
-static void WriteMeta(void)
+static void WriteMeta(FILE *file)
 {
-  StdChar('\n');
-  MultiCenter(ActAuthor);
-  MultiCenter(ActOrigin);
-  MultiCenter(ActAward);
-  MultiCenter(ActTitle);
+  fprintf(file,"%s","\n");
+  MultiCenter(file,ActAuthor);
+  MultiCenter(file,ActOrigin);
+  MultiCenter(file,ActAward);
+  MultiCenter(file,ActTitle);
 }
 
-static void WriteCaptions(position const *pos)
+static void WriteCaptions(FILE *file, position const *pos)
 {
-  WritePieceCounts(pos,WriteStipulationOptions(pos));
-  StdChar('\n');
+  WritePieceCounts(file,pos,WriteStipulationOptions(file,pos));
+  fputc('\n',file);
 
-  WriteRoyalPiecePositions(pos);
-  WriteNonRoyalAttributedPieces(pos);
-  WriteConditions(&WriteCondition);
-  WriteCastlingMutuallyExclusive();
+  WriteRoyalPiecePositions(file,pos);
+  WriteNonRoyalAttributedPieces(file,pos);
+  WriteConditions(file,&WriteCondition);
+  WriteCastlingMutuallyExclusive(file);
 
   if (OptFlag[halfduplex])
-    CenterLine(OptString[UserLanguage][halfduplex]);
+    CenterLine(file,OptString[UserLanguage][halfduplex]);
   else if (OptFlag[duplex])
-    CenterLine(OptString[UserLanguage][duplex]);
+    CenterLine(file,OptString[UserLanguage][duplex]);
 
   if (OptFlag[quodlibet])
-    CenterLine(OptString[UserLanguage][quodlibet]);
+    CenterLine(file,OptString[UserLanguage][quodlibet]);
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
-    WriteGrid();
+    WriteGrid(file);
 }
 
-void WritePositionAtoB(Side starter)
+void WritePositionAtoB(FILE *file, Side starter)
 {
   char InitialLine[40];
 
-  WriteMeta();
-  WriteBoard(&proofgames_start_position);
-  WritePieceCounts(&proofgames_start_position,0);
-  StdChar('\n');
+  WriteMeta(file);
+  WriteBoard(file,&proofgames_start_position);
+  WritePieceCounts(file,&proofgames_start_position,0);
+  fputc('\n',file);
 
   sprintf(InitialLine,"=> (%s ->)",ColourString[UserLanguage][starter]);
-  StdChar('\n');
-  CenterLine(InitialLine);
-  StdChar('\n');
+  fputc('\n',file);
+  CenterLine(file,InitialLine);
+  fputc('\n',file);
 
-  WriteBoard(&proofgames_target_position);
-  WriteCaptions(&proofgames_target_position);
+  WriteBoard(file,&proofgames_target_position);
+  WriteCaptions(file,&proofgames_target_position);
 }
 
-void WritePositionProofGame(void)
+void WritePositionProofGame(FILE *file)
 {
-  WriteMeta();
-  WriteBoard(&proofgames_target_position);
-  WriteCaptions(&proofgames_target_position);
+  WriteMeta(file);
+  WriteBoard(file,&proofgames_target_position);
+  WriteCaptions(file,&proofgames_target_position);
 }
 
-void WritePositionRegular(void)
+void WritePositionRegular(FILE *file)
 {
-  WriteMeta();
-  WriteBoard(&being_solved);
-  WriteCaptions(&being_solved);
+  WriteMeta(file);
+  WriteBoard(file,&being_solved);
+  WriteCaptions(file,&being_solved);
 }

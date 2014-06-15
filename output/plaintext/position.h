@@ -3,10 +3,12 @@
 
 #include "position/position.h"
 
-void WriteBoard(position const *pos);
+#include <stdio.h>
 
-void WritePositionRegular(void);
-void WritePositionProofGame(void);
-void WritePositionAtoB(Side starter);
+void WriteBoard(FILE *file, position const *pos);
+
+void WritePositionRegular(FILE *file);
+void WritePositionProofGame(FILE *file);
+void WritePositionAtoB(FILE *file, Side starter);
 
 #endif

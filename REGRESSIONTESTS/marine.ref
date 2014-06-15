@@ -265,8 +265,8 @@ added white pa2 against many cooks with triton pinning from a1
 
   add_to_move_generation_stack:    47944896
                      play_move:    31440951
- is_white_king_square_attacked:    13338110
- is_black_king_square_attacked:    28419957
+ is_white_king_square_attacked:    13338113
+ is_black_king_square_attacked:    28419959
 solution finished. 
 
 
@@ -301,16 +301,16 @@ a)
 
   add_to_move_generation_stack:      502004
                      play_move:      374056
- is_white_king_square_attacked:       25207
- is_black_king_square_attacked:      373084
-b) wPOd1-->a4
+ is_white_king_square_attacked:       25209
+ is_black_king_square_attacked:      373085
+b) wPOd1-->a4  
 
   1.SIf4-b4 Bh1-d5   2.POe5*d5-c5 POa4*b4-c4 #
 
   add_to_move_generation_stack:      501016
                      play_move:      369250
- is_white_king_square_attacked:       24828
- is_black_king_square_attacked:      368304
+ is_white_king_square_attacked:       24830
+ is_black_king_square_attacked:      368305
 solution finished. 
 
 
@@ -423,8 +423,8 @@ solution finished.
 
   add_to_move_generation_stack:      908790
                      play_move:      877784
- is_white_king_square_attacked:       39355
- is_black_king_square_attacked:      862233
+ is_white_king_square_attacked:       39358
+ is_black_king_square_attacked:      862235
 solution finished. 
 
 
@@ -458,8 +458,8 @@ solution finished.
 
   add_to_move_generation_stack:   259892176
                      play_move:    50606596
- is_white_king_square_attacked:    48075030
- is_black_king_square_attacked:     2531850
+ is_white_king_square_attacked:    48075033
+ is_black_king_square_attacked:     2531852
 solution finished. 
 
 
@@ -506,7 +506,7 @@ a)
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) LosingChess
-   MarineChess
+   MarineChess  
 
    1.d7-d8=K !
 
@@ -524,7 +524,7 @@ b) LosingChess
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 c) LosingChess
-   UltramarineChess
+   UltramarineChess  
 
    1.d7-d8=SI !
 
@@ -581,7 +581,7 @@ a)
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 b) Circe
-   MarineChess
+   MarineChess  
 
    1.d4-d5 !
 
@@ -624,8 +624,8 @@ solution finished.
 
   add_to_move_generation_stack:      177670
                      play_move:      177670
- is_white_king_square_attacked:        8928
- is_black_king_square_attacked:         404
+ is_white_king_square_attacked:        8930
+ is_black_king_square_attacked:         406
 solution finished. 
 
 
@@ -663,7 +663,7 @@ a)
                      play_move:          38
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          39
-b) UltramarineChess  wPOe1 
+b) UltramarineChess  wPOe1  
 
    1.0-0 # !
 
@@ -741,8 +741,8 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
   add_to_move_generation_stack:    32744616
                      play_move:    32745939
- is_white_king_square_attacked:     2513309
- is_black_king_square_attacked:      168494
+ is_white_king_square_attacked:     2513312
+ is_black_king_square_attacked:      168497
 solution finished. 
 
 
@@ -872,7 +872,7 @@ solution finished.
 
   add_to_move_generation_stack:    29467747
                      play_move:    24006685
- is_white_king_square_attacked:     8105039
+ is_white_king_square_attacked:     8105072
  is_black_king_square_attacked:    24006685
 solution finished. 
 

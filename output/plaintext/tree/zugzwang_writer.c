@@ -4,22 +4,23 @@
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/ply.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-/* Allocate a STZugzwangWriter slice.
+/* Allocate a STOutputPlainTextZugzwangWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_zugzwang_writer_slice(void)
+slice_index alloc_output_plaintext_tree_zugzwang_writer_slice(void)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STZugzwangWriter);
+  result = alloc_pipe(STOutputPlainTextZugzwangWriter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -40,16 +41,20 @@ slice_index alloc_zugzwang_writer_slice(void)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void zugzwang_writer_solve(slice_index si)
+void output_plaintext_tree_zugzwang_writer_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (parent_ply[nbply]==ply_retro_move)
+  {
     /* option postkey is set - write "threat:" or "zugzwang" on a new line
      */
-    Message(NewLine);
+    Message2(stdout,NewLine);
+    if (TraceFile)
+      Message2(TraceFile,NewLine);
+  }
 
   pipe_solve_delegate(si);
 
@@ -58,8 +63,13 @@ void zugzwang_writer_solve(slice_index si)
   if (solve_nr_remaining>=next_move_has_solution
       && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
   {
-    StdChar(' ');
-    Message(Zugzwang);
+    fputc(' ',stdout);
+    Message2(stdout,Zugzwang);
+    if (TraceFile)
+    {
+      fputc(' ',TraceFile);
+      Message2(TraceFile,Zugzwang);
+    }
   }
 
   TraceFunctionExit(__func__);

@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.199 2014/06/10 21:12:32 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.200 2014/06/15 08:41:27 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -237,7 +237,8 @@ NESTEDSRCDIRS = . platform $(PLATFORMS) $(TOOLCHAINS) scripts \
     options/stoponshortsolutions \
     options/movenumbers \
     input input/plaintext \
-    output output/latex output/plaintext output/plaintext/tree output/plaintext/line \
+    output output/latex output/latex/tree output/latex/line \
+    output/plaintext output/plaintext/tree output/plaintext/line \
     utilities debugging
 
 # TODO avoid mentioning solving solving/battle_play twice
@@ -285,7 +286,7 @@ NESTEDLIBDIRS = \
     optimisations/goals/castling optimisations/goals/enpassant \
     optimisations/goals/chess81 optimisations/goals/capture \
     optimisations/goals/target \
-    output output/latex output/latex/line \
+    output output/latex output/latex/line output/latex/tree \
     output/plaintext output/plaintext/tree output/plaintext/line \
     position \
     platform platform/$(PLATFORM) \

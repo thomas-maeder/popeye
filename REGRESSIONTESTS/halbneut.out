@@ -166,7 +166,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:       13327
                      play_move:       11695
- is_white_king_square_attacked:        2404
+ is_white_king_square_attacked:        2548
  is_black_king_square_attacked:       11695
 Loesung beendet. 
 
@@ -201,8 +201,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       52100
                      play_move:       42926
- is_white_king_square_attacked:       17270
- is_black_king_square_attacked:       38052
+ is_white_king_square_attacked:       17272
+ is_black_king_square_attacked:       38053
 Loesung beendet. 
 
 
@@ -667,16 +667,16 @@ a)
 
   add_to_move_generation_stack:       64453
                      play_move:       53283
- is_white_king_square_attacked:        3617
- is_black_king_square_attacked:       53031
-b) sKd5-->a6
+ is_white_king_square_attacked:        3619
+ is_black_king_square_attacked:       53032
+b) sKd5-->a6  
 
   1.hTd1-d3=nh La3-c5   2.hLf1-e2=nh nhTd3-a3=wh #
 
   add_to_move_generation_stack:       74116
                      play_move:       66408
- is_white_king_square_attacked:        3181
- is_black_king_square_attacked:       66058
+ is_white_king_square_attacked:        3183
+ is_black_king_square_attacked:       66059
 Loesung beendet. 
 
 
@@ -713,16 +713,16 @@ a)
 
   add_to_move_generation_stack:      103010
                      play_move:       89175
- is_white_king_square_attacked:        5423
- is_black_king_square_attacked:       88700
-b) sKb2-->c3
+ is_white_king_square_attacked:        5425
+ is_black_king_square_attacked:       88701
+b) sKb2-->c3  
 
   1.hLf8-e7=nh Kd5-e4   2.hTe8*e7=nh[+nhLc1] + nhTe7-c7=wh #
 
   add_to_move_generation_stack:       80645
                      play_move:       63503
- is_white_king_square_attacked:        8666
- is_black_king_square_attacked:       63108
+ is_white_king_square_attacked:        8668
+ is_black_king_square_attacked:       63109
 Loesung beendet. 
 
 
@@ -844,7 +844,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:        6512
                      play_move:        5042
- is_white_king_square_attacked:         448
+ is_white_king_square_attacked:         450
  is_black_king_square_attacked:        1575
 Loesung beendet. 
 
@@ -881,8 +881,8 @@ nur die letzten 2 Zuege < 1 min mit Athlon 2400
 
   add_to_move_generation_stack:    42015260
                      play_move:    16718727
- is_white_king_square_attacked:    16650139
- is_black_king_square_attacked:     8731097
+ is_white_king_square_attacked:    16650140
+ is_black_king_square_attacked:     8731099
 Loesung beendet. 
 
 

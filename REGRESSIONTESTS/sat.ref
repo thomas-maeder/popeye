@@ -493,7 +493,7 @@ a)
                      play_move:        3239
  is_white_king_square_attacked:       11468
  is_black_king_square_attacked:        2745
-b) wSh4 
+b) wSh4  
 
    1.Sh4-f5 ! zugzwang.
       1...f4-f3
@@ -544,9 +544,9 @@ solution finished.
   1.e6-e5 Rg8-a8   2.Ba2-g8 + Ra8*g8 #
   1.e6-e5 Rg8-b8   2.e4-e3 Rb8*b2 #
 
-  add_to_move_generation_stack:        4361
+  add_to_move_generation_stack:        4365
                      play_move:        1695
- is_white_king_square_attacked:         105
+ is_white_king_square_attacked:         109
  is_black_king_square_attacked:        1765
 solution finished. 
 
@@ -793,9 +793,9 @@ solution finished.
   1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-h7 #
   1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-b8 #
 
-  add_to_move_generation_stack:       36274
+  add_to_move_generation_stack:       36808
                      play_move:       29886
- is_white_king_square_attacked:        2584
+ is_white_king_square_attacked:        3296
  is_black_king_square_attacked:       34317
 solution finished. 
 

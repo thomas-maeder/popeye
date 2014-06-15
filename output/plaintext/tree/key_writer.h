@@ -3,10 +3,10 @@
 
 #include "solving/machinery/solve.h"
 
-/* Allocate a STKeyWriter defender slice.
+/* Allocate a STOutputPlainTextKeyWriter defender slice.
  * @return index of allocated slice
  */
-slice_index alloc_key_writer(void);
+slice_index alloc_output_plaintext_tree_key_writer(void);
 
 /* Try to defend after an attacking move
  * When invoked with some n, the function assumes that the key doesn't
@@ -17,6 +17,6 @@ slice_index alloc_key_writer(void);
  *                       return value is maximum number of moves
  *                       (incl. defense) needed
  *         n+2 refuted - >acceptable number of refutations found */
-void key_writer_solve(slice_index si);
+void output_plaintext_tree_key_writer_solve(slice_index si);
 
 #endif

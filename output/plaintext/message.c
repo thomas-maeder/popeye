@@ -16,7 +16,6 @@
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
-#include "output/latex/latex.h"
 #include "platform/pytime.h"
 
 typedef unsigned int UnInt;
@@ -89,11 +88,27 @@ void Message(message_id_t id)
 {
   DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
   if (id<StringCnt)
-    sprintf(GlobalStr, GetMsgString(id), AdditionalArg);
+    fprintf(stdout,GetMsgString(id), AdditionalArg);
   else
-    sprintf(GlobalStr, GetMsgString(InternalError), id);
+    fprintf(stdout,GetMsgString(InternalError), id);
+  if (TraceFile)
+  {
+    if (id<StringCnt)
+      fprintf(TraceFile,GetMsgString(id), AdditionalArg);
+    else
+      fprintf(TraceFile,GetMsgString(InternalError), id);
+  }
   AdditionalArg= NULL;
-  StdString(GlobalStr);
+}
+
+void Message2(FILE *file, message_id_t id)
+{
+  DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
+  if (id<StringCnt)
+    fprintf(file,GetMsgString(id),AdditionalArg);
+  else
+    fprintf(file,GetMsgString(InternalError),id);
+  AdditionalArg = NULL;
 }
 
 void ErrorMsg(message_id_t id)
@@ -138,14 +153,10 @@ static void pyfputc(char c, FILE *f)
     fputc(c,TraceFile);
     fflush(TraceFile);
   }
-  if (TextualSolutionBuffer) {
-    fputc(c,TextualSolutionBuffer);
-    fflush(TextualSolutionBuffer);
-  }
 #endif
 }
 
-void pyfputs(char const *s, FILE *f)
+static void pyfputs(char const *s, FILE *f)
 {
 #if !defined(QUIET)
   fputs(s,f);
@@ -153,10 +164,6 @@ void pyfputs(char const *s, FILE *f)
   if (TraceFile) {
     fputs(s,TraceFile);
     fflush(TraceFile);
-  }
-  if (TextualSolutionBuffer) {
-    fputs(s,TextualSolutionBuffer);
-    fflush(TextualSolutionBuffer);
   }
 #endif
 }
@@ -178,57 +185,43 @@ void IoErrorMsg(message_id_t n, int val)
   ErrChar('\n');
 }
 
-char *MakeTimeString(void)
+void FormatTime(FILE *file)
 {
   unsigned long msec;
-  unsigned long Seconds;
-  unsigned long Minutes;
-  unsigned long Hours;
+  unsigned long secs;
+  StopTimer(&secs,&msec);
 
-  static char TmString[32];
+  {
+    unsigned long const Hours = secs/3600;
+    unsigned long const Minutes = (secs%3600)/60;
+    unsigned long const Seconds = (secs%60);
 
-  StopTimer(&Seconds,&msec);
-  Hours= Seconds/3600;
-  Minutes= (Seconds%3600)/60;
-  Seconds= (Seconds%60);
-  if (Hours>0)
-  {
-    sprintf(TmString,"%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
-  }
-  else if (Minutes>0)
-  {
-    if (msec==MSEC_NOT_SUPPORTED)
-      sprintf(TmString,"%lu:%02lu m:s", Minutes, Seconds);
+    if (Hours>0)
+      fprintf(file,"%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
+    else if (Minutes>0)
+    {
+      if (msec==MSEC_NOT_SUPPORTED)
+        fprintf(file,"%lu:%02lu m:s", Minutes, Seconds);
+      else
+        fprintf(file,"%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
+    }
     else
-      sprintf(TmString,"%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
+    {
+      if (msec==MSEC_NOT_SUPPORTED)
+        fprintf(file,"%lu s", Seconds);
+      else
+        fprintf(file,"%lu.%03lu s", Seconds, msec);
+    }
   }
-  else
+}
+
+void PrintTime(FILE *file)
+{
+  if (!flag_regression)
   {
-    if (msec==MSEC_NOT_SUPPORTED)
-      sprintf(TmString,"%lu s", Seconds);
-    else
-      sprintf(TmString,"%lu.%03lu s", Seconds, msec);
+    fprintf(file,GetMsgString(TimeString));
+    FormatTime(file);
   }
-
-  return TmString;
-}
-
-void PrintTime()
-{
-  if (!flag_regression) {
-    StdString(GetMsgString(TimeString));
-    StdString(MakeTimeString());
-  }
-}
-
-void StdChar(char c)
-{
-  pyfputc(c, stdout);
-}
-
-void StdString(char const *s)
-{
-  pyfputs(s, stdout);
 }
 
 void ErrString(char const *s)
