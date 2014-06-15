@@ -2,7 +2,6 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/battle_play/try.h"
-#include "solving/trivial_end_filter.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/message.h"

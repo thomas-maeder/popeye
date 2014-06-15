@@ -326,11 +326,11 @@ output/plaintext/tree/try_writer$(OBJ_SUFFIX): output/plaintext/tree/try_writer.
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/battle_play/try.h utilities/table.h solving/trivial_end_filter.h \
- output/plaintext/plaintext.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- output/plaintext/tree/key_writer.h output/plaintext/message.h \
- input/plaintext/language.h solving/pipe.h debugging/assert.h
+ solving/battle_play/try.h utilities/table.h output/plaintext/plaintext.h \
+ solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/pieceid.h output/plaintext/tree/key_writer.h \
+ output/plaintext/message.h input/plaintext/language.h solving/pipe.h \
+ debugging/assert.h
 
 output/plaintext/tree/try_writer.h:
 
@@ -383,8 +383,6 @@ stipulation/traversal.h:
 solving/battle_play/try.h:
 
 utilities/table.h:
-
-solving/trivial_end_filter.h:
 
 output/plaintext/plaintext.h:
 
