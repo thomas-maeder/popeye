@@ -106,7 +106,7 @@ static void store_solution(void)
 
   if (!alloc_room_for_solution())
   {
-    fprintf(stderr, "Cannot (re)allocate enough memory\n");
+    fputs("Cannot (re)allocate enough memory\n",stderr);
     exit(EXIT_FAILURE);
   }
 

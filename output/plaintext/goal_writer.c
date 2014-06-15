@@ -56,9 +56,9 @@ void output_plaintext_goal_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(stdout,"%s",goal_end_marker[goal.type]);
+  fputs(goal_end_marker[goal.type],stdout);
   if (TraceFile)
-    fprintf(TraceFile,"%s",goal_end_marker[goal.type]);
+    fputs(goal_end_marker[goal.type],TraceFile);
 
   pipe_solve_delegate(si);
 

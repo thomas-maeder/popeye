@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
     initMaxtime();
 
     if (!dimensionHashtable())
-      fprintf(stdout,"Couldn't allocate the requested amount of memory\n");
+      fputs("Couldn't allocate the requested amount of memory\n",stdout);
 
     /* start timer to be able to display a reasonable time if the user
      * aborts execution before the timer is started for the first
@@ -211,8 +211,8 @@ int main(int argc, char *argv[])
 
     InitCheckDir();
 
-    fprintf(stdout,"%s",versionString);
-    fprintf(stdout,"%s",maxmemString());
+    fputs(versionString,stdout);
+    fputs(maxmemString(),stdout);
 
     iterate_problems();
 

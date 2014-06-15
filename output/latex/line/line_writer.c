@@ -32,13 +32,13 @@ static void write_line_intro(FILE *file,
   switch (output_plaintext_nr_move_inversions)
   {
     case 2:
-      fprintf(file,"  1...  ...");
+      fputs("  1...  ...",file);
       *next_move_number = 2;
       *numbered_side = trait[nbply];
       break;
 
     case 1:
-      fprintf(file,"  1...");
+      fputs("  1...",file);
       *next_move_number = 2;
       *numbered_side = advers(trait[nbply]);
       break;
@@ -90,7 +90,7 @@ static void write_potential_check(FILE *file)
   TraceEnumerator(Side,trait[nbply],"\n");
 
   if (is_in_check(advers(trait[nbply])))
-    fprintf(file," +");
+    fputs(" +",file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -123,9 +123,9 @@ static void write_ply_history(FILE *file,
     {
       /* not a dummy move ply */
       write_move_number_if_necessary(file,next_move_number,numbered_side);
-      output_latex_write_move();
+      output_latex_write_move(file);
       write_potential_check(file);
-      fprintf(file," ");
+      fputs(" ",file);
     }
 
     if (is_end_of_intro_series[nbply])
@@ -158,7 +158,7 @@ static void output_latex_line_write_line(FILE *file, goal_type goal)
   write_ply_history(file,&next_movenumber,&numbered_side);
 
   write_move_number_if_necessary(file,&next_movenumber,&numbered_side);
-  output_latex_write_move();
+  output_latex_write_move(file);
   if (!output_plaintext_goal_writer_replaces_check_writer(goal))
     write_potential_check(file);
 
@@ -208,7 +208,7 @@ void output_latex_line_line_writer_solve(slice_index si)
 
   output_latex_line_write_line(LaTeXFile,slices[si].u.goal_handler.goal.type);
   pipe_solve_delegate(si);
-  fprintf(LaTeXFile,"\n");
+  fputs("\n",LaTeXFile);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

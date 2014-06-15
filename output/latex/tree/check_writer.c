@@ -44,7 +44,7 @@ void output_latex_tree_check_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_in_check(slices[si].starter))
-    fprintf(LaTeXFile," +");
+    fputs(" +",LaTeXFile);
 
   pipe_solve_delegate(si);
 

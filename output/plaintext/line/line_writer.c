@@ -41,13 +41,13 @@ static void write_line_intro(FILE *file,
   switch (output_plaintext_nr_move_inversions)
   {
     case 2:
-      fprintf(file,"  1...  ...");
+      fputs("  1...  ...",file);
       *next_move_number = 2;
       *numbered_side = trait[nbply];
       break;
 
     case 1:
-      fprintf(file,"  1...");
+      fputs("  1...",file);
       *next_move_number = 2;
       *numbered_side = advers(trait[nbply]);
       break;
@@ -99,7 +99,7 @@ static void write_potential_check(FILE *file)
   TraceEnumerator(Side,trait[nbply],"\n");
 
   if (is_in_check(advers(trait[nbply])))
-    fprintf(file," +");
+    fputs(" +",file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

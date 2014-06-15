@@ -50,9 +50,9 @@ void output_plaintext_tree_try_writer_solve(slice_index si)
 
   if (table_length(refutations)>0)
   {
-    fprintf(stdout," ?");
+    fputs(" ?",stdout);
     if (TraceFile)
-      fprintf(TraceFile," ?");
+      fputs(" ?",TraceFile);
     pipe_solve_delegate(si);
   }
   else

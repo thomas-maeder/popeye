@@ -46,7 +46,7 @@ void output_latex_tree_key_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(LaTeXFile," !");
+  fputs(" !",LaTeXFile);
 
   pipe_solve_delegate(si);
 

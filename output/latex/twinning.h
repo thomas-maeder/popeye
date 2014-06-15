@@ -3,9 +3,11 @@
 
 #include "stipulation/stipulation.h"
 
+#include <stdio.h>
+
 void LaTeXWriteOptions(void);
 
-void LaTeXFlushTwinning(void);
+void LaTeXFlushTwinning(FILE *file);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

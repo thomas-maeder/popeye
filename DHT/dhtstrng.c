@@ -59,7 +59,7 @@ static void	FreeString(dhtValue v)
 }
 static void	DumpString(dhtConstValue v, FILE *f)
 {
-	fprintf(f, "%s", (char *)v);
+	fputs((char *)v,f);
 	return;
 }
 

@@ -104,7 +104,7 @@ static void ReDrawPly(FILE *file, ply curr_ply)
       fputc('=',file);
       WritePiece(file,promotee);
     }
-    fprintf(file,"   ");
+    fputs("   ",file);
   }
 }
 

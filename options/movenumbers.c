@@ -32,22 +32,22 @@ static void write_history_recursive(ply ply)
   if (ply>ply_retro_move)
   {
     write_history_recursive(parent_ply[ply]);
-    printf(":");
+    fputs(":",stdout);
   }
 
-  printf("%u",MoveNbr[ply]-1);
+  fprintf(stdout,"%u",MoveNbr[ply]-1);
 }
 
 void move_numbers_write_history(void)
 {
   if (restart_deep)
   {
-    printf("\nuse option start ");
+    fputs("\nuse option start ",stdout);
     write_history_recursive(nbply-1);
-    printf(" to replay\n");
+    fputs(" to replay\n",stdout);
   }
   else
-    printf("\nuse option start 1:1 to get replay information\n");
+    fputs("\nuse option start 1:1 to get replay information\n",stdout);
 }
 
 /* Reset the restart number setting.
@@ -108,16 +108,16 @@ static void WriteMoveNbr(FILE *file, slice_index si)
     fprintf(file,"\n%3u  (", MoveNbr[nbply]);
     output_plaintext_write_move(file);
     if (is_in_check(slices[si].starter))
-      fprintf(file," +");
-    fprintf(file," ");
+      fputs(" +",file);
+    fputs(" ",file);
 
     if (!flag_regression)
     {
-      fprintf(file,"   ");
+      fputs("   ",file);
       PrintTime(file);
     }
 
-    fprintf(file,")");
+    fputs(")",file);
     fflush(file);
   }
 }

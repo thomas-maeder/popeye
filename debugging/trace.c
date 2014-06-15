@@ -42,7 +42,7 @@ void TraceCallStack(FILE *file)
 {
   unsigned int i;
   for (i = 0; i<level; ++i)
-    fprintf(file,"%s",entries[i]);
+    fputs(entries[i],file);
   fflush(file);
 }
 #endif
@@ -56,7 +56,7 @@ void TraceEOL(void)
 {
   if (level<=max_level)
   {
-    fprintf(stdout,"\n");
+    fputs("\n",stdout);
     fflush(stdout);
   }
 }
@@ -85,7 +85,7 @@ void TraceFunctionEntry(char const *name)
 void TraceFunctionParamListEnd(void)
 {
   if (level<=max_level)
-    fprintf(stdout,"\n");
+    fputs("\n",stdout);
 
 #if defined(DOTRACECALLSTACK)
   entry_cursor[level-1] += snprintf(entries[level-1]+entry_cursor[level-1],
@@ -139,7 +139,7 @@ void TraceFunctionResultEnd(void)
 {
   if (level<=max_level)
   {
-    fprintf(stdout,"\n");
+    fputs("\n",stdout);
     fflush(stdout);
   }
 
@@ -222,10 +222,10 @@ void TraceSquareImpl(char const *prefix, square s)
 {
   if (level<=max_level)
   {
-    fprintf(stdout,"%s",prefix);
+    fputs(prefix,stdout);
 
     if (s==initsquare)
-      printf("initsquare");
+      fputs("initsquare",stdout);
     else
       WriteSquare(stdout,s);
     fflush(stdout);
@@ -313,11 +313,11 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
 
   if (level<=max_level)
   {
-    fprintf(stdout,"%s",prefix);
+    fputs(prefix,stdout);
     if (p==Empty)
-      printf("Empty");
+      fputs("Empty",stdout);
     else if (p==Invalid)
-      printf("Invalid");
+      fputs("Invalid",stdout);
     else
       WritePiece(stdout,p);
     fflush(stdout);
@@ -346,7 +346,7 @@ void TraceCurrentHashBuffer(void)
     fprintf(stdout," #%lu nbply:%u Leng:%u ",level,nbply,hb->cmv.Leng);
     for (i = 0; i<hb->cmv.Leng; ++i)
       fprintf(stdout,"%02x ",(unsigned int)hb->cmv.Data[i]);
-    fprintf(stdout,"\n");
+    fputs("\n",stdout);
     fflush(stdout);
   }
 }
@@ -362,10 +362,10 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
         WriteSpec(stdout,being_solved.spec[*bnp],being_solved.board[*bnp],true);
         WritePiece(stdout,get_walk_of_piece_on_square(*bnp));
         WriteSquare(stdout,*bnp);
-        fprintf(stdout," ");
+        fputs(" ",stdout);
       }
 
-    fprintf(stdout,"\n");
+    fputs("\n",stdout);
     fflush(stdout);
   }
 }
@@ -401,7 +401,7 @@ static void trace_branch(slice_index si, stip_structure_traversal *st)
   trace_common(si,st);
   fprintf(stdout,"%2u/",slices[si].u.branch.length);
   fprintf(stdout,"%2u ",slices[si].u.branch.min_length);
-  fprintf(stdout,"\n");
+  fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
 }
@@ -409,7 +409,7 @@ static void trace_branch(slice_index si, stip_structure_traversal *st)
 static void trace_pipe(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"\n");
+  fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
 }
@@ -418,7 +418,7 @@ static void trace_fork(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
   trace_link("fork:",slices[si].next2,"");
-  fprintf(stdout,"\n");
+  fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
 }
@@ -426,14 +426,14 @@ static void trace_fork(slice_index si, stip_structure_traversal *st)
 static void trace_leaf(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"\n");
+  fputs("\n",stdout);
 }
 
 static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
   trace_link("base:",slices[si].u.derived_pipe.base,"");
-  fprintf(stdout,"\n");
+  fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
 }
@@ -443,7 +443,7 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
   trace_common(si,st);
   trace_link("fork:",slices[si].next2,"");
   fprintf(stdout,"goal:%u ",slices[si].u.goal_handler.goal.type);
-  fprintf(stdout,"\n");
+  fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
 }
@@ -506,7 +506,7 @@ static void trace_if_then_else(slice_index si, stip_structure_traversal *st)
   trace_common(si,st);
   trace_link("next2:",slices[si].next2,"");
   trace_link("condition:",slices[si].u.if_then_else.condition,"");
-  fprintf(stdout,"\n");
+  fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
 }
@@ -549,7 +549,7 @@ void TraceStipulation(slice_index si)
     {
       trace_level const save_max_level = max_level;
       max_level = 0; /* avoid tracing during traversal */
-      fprintf(stdout,"stipulation structure:\n");
+      fputs("stipulation structure:\n",stdout);
       stip_traverse_structure(si,&st);
       max_level = save_max_level;
     }

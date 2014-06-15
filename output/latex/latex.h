@@ -16,10 +16,10 @@ boolean LaTeXSetup(void);
 void LaTeXShutdown(void);
 
 void LaTeXBeginDiagram(void);
-void LaTeXEndDiagram(void);
+void LaTeXEndDiagram(FILE *file);
 
-void LaTexOpenSolution(void);
-void LaTexCloseSolution(void);
+void LaTexOpenSolution(FILE *file);
+void LaTexCloseSolution(FILE *file);
 
 char *ParseLaTeXPieces(char *tok);
 
@@ -30,7 +30,9 @@ void output_latex_write_piece_exchange(output_plaintext_move_context_type *conte
                                        move_effect_journal_index_type curr);
 void output_latex_write_castling(FILE *file,
                                  move_effect_journal_index_type movement);
-void output_latex_write_move(void);
+void output_latex_write_move(FILE *file);
+
+void WriteUserInputElement(FILE *file, char const *name, char const *value);
 
 /* Instrument the solving machinery with slices that write the solution in
  * LaTeX

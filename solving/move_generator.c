@@ -29,17 +29,17 @@ static void write_history_recursive(ply ply)
   if (parent_ply[ply]>ply_retro_move)
     write_history_recursive(parent_ply[ply]);
 
-  printf(" %u:",ply);
+  fprintf(stdout," %u:",ply);
   WriteSquare(stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
-  printf("-");
+  fputs("-",stdout);
   WriteSquare(stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
 }
 
 void move_generator_write_history(void)
 {
-  printf("\n");
+  fputs("\n",stdout);
   write_history_recursive(nbply-1);
-  printf("\n");
+  fputs("\n",stdout);
 }
 
 static slice_index const slice_rank_order[] =

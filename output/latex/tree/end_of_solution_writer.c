@@ -51,7 +51,7 @@ void output_latex_tree_end_of_solution_writer_solve(slice_index si)
   if (move_has_solved())
   {
     TraceText("has solved\n");
-    fprintf(LaTeXFile,"\n");
+    fputs("\n",LaTeXFile);
   }
 
   TraceFunctionExit(__func__);

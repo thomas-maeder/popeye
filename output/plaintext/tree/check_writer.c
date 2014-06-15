@@ -46,9 +46,9 @@ void output_plaintext_tree_check_writer_solve(slice_index si)
 
   if (is_in_check(slices[si].starter))
   {
-    fprintf(stdout," +");
+    fputs(" +",stdout);
     if (TraceFile)
-      fprintf(TraceFile," +");
+      fputs(" +",TraceFile);
   }
   pipe_solve_delegate(si);
 

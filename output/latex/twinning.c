@@ -39,20 +39,16 @@ void LaTeXWriteOptions(void)
   }
 }
 
-void LaTeXFlushTwinning(void)
+void LaTeXFlushTwinning(FILE *file)
 {
-  if (LaTeXFile!=0)
+  if (twinning[0]!='\0')
   {
-    if (twinning[0]!='\0')
-    {
-      fprintf(LaTeXFile, " \\twins{");
-      /* remove the last "{\\newline} */
-      twinning[strlen(twinning)-10]= '\0';
-      LaTeXStr(LaTeXFile,twinning);
-      fprintf(LaTeXFile,"%s","}%\n");
+    /* remove the last "{\\newline} */
+    twinning[strlen(twinning)-10]= '\0';
 
-      twinning[0] = 0;
-    }
+    WriteUserInputElement(file,"twins",twinning);
+
+    twinning[0] = 0;
   }
 }
 
@@ -269,12 +265,12 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   strcat(twinning,GlobalStr);
 }
 
-static void WriteTwinLetterToSolution(void)
+static void WriteTwinLetterToSolution(FILE *file)
 {
   if (twin_number-twin_a<='z'-'a')
-    fprintf(LaTeXFile, "%c)", 'a'+twin_number-twin_a);
+    fprintf(file, "%c)", 'a'+twin_number-twin_a);
   else
-    fprintf(LaTeXFile, "z%u)", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    fprintf(file, "z%u)", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
 static void WriteTwinning(void)
@@ -334,7 +330,7 @@ static void WriteTwinning(void)
           break;
 
         case move_effect_input_condition:
-          WriteConditions(LaTeXFile,&WriteCondition);
+          WriteConditions(0,&WriteCondition);
           written_on_last_entry = true;
           break;
 
@@ -397,22 +393,22 @@ void output_latex_write_twinning(slice_index si)
       if (twin_duplex_type!=twin_is_duplex)
       {
         LaTeXBeginDiagram();
-        LaTexOpenSolution();
+        LaTexOpenSolution(LaTeXFile);
       }
 
       pipe_solve_delegate(si);
 
       if (twin_duplex_type!=twin_has_duplex)
       {
-        LaTexCloseSolution();
-        LaTeXFlushTwinning();
-        LaTeXEndDiagram();
+        LaTexCloseSolution(LaTeXFile);
+        LaTeXFlushTwinning(LaTeXFile);
+        LaTeXEndDiagram(LaTeXFile);
       }
       break;
 
     case twin_zeroposition:
       LaTeXBeginDiagram();
-      LaTexOpenSolution();
+      LaTexOpenSolution(LaTeXFile);
       pipe_solve_delegate(si);
       break;
 
@@ -420,12 +416,12 @@ void output_latex_write_twinning(slice_index si)
       if (twin_duplex_type!=twin_is_duplex)
       {
         LaTeXBeginDiagram();
-        LaTexOpenSolution();
+        LaTexOpenSolution(LaTeXFile);
         WriteTwinning();
       }
 
       if (twin_duplex_type!=twin_is_duplex)
-        WriteTwinLetterToSolution();
+        WriteTwinLetterToSolution(LaTeXFile);
       pipe_solve_delegate(si);
       break;
 
@@ -434,7 +430,7 @@ void output_latex_write_twinning(slice_index si)
         WriteTwinning();
 
       if (twin_duplex_type!=twin_is_duplex)
-        WriteTwinLetterToSolution();
+        WriteTwinLetterToSolution(LaTeXFile);
       pipe_solve_delegate(si);
       break;
 
@@ -443,13 +439,13 @@ void output_latex_write_twinning(slice_index si)
         WriteTwinning();
 
       if (twin_duplex_type!=twin_is_duplex)
-        WriteTwinLetterToSolution();
+        WriteTwinLetterToSolution(LaTeXFile);
       pipe_solve_delegate(si);
       if (twin_duplex_type!=twin_has_duplex)
       {
-        LaTexCloseSolution();
-        LaTeXFlushTwinning();
-        LaTeXEndDiagram();
+        LaTexCloseSolution(LaTeXFile);
+        LaTeXFlushTwinning(LaTeXFile);
+        LaTeXEndDiagram(LaTeXFile);
       }
       break;
 

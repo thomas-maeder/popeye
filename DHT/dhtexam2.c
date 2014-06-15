@@ -72,7 +72,7 @@ int main(int argc, char *argv[]) {
 
 	if ((ht=dhtCreate(dhtMemoryValue, dhtCopy,
 			dhtSimpleValue, dhtNoCopy)) == dhtNilHashTable) {
-	    fprintf(stderr, "Sorry, no space for HashTables\n");
+	    fputs("Sorry, no space for HashTables\n",stderr);
 	    exit(3);
 	}
 

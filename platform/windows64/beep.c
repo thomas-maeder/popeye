@@ -8,7 +8,7 @@ void produce_beep(void)
 {
   while (nr_beeps>0)
   {
-	fprintf(stderr,"\a");
+	fputs("\a",stderr);
 	--nr_beeps;
   }
 

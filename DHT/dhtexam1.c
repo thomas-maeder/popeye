@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
 #endif /*FXF*/
 
 	/*
-	fprintf(stderr, "MallocInfo before first malloc\n");
+	fputs("MallocInfo before first malloc\n",stderr);
 	fDumpMallinfo(stderr);
 	*/
 #if defined(USE_MEMVAL)
@@ -139,12 +139,12 @@ int main(int argc, char *argv[]) {
 	dhtRegisterValue(dhtSimpleValue, 0, &dhtSimpleProcs);
 #endif
 	if ((NameToInet=dhtCreate(dhtMemoryValue, dhtCopy, dhtSimpleValue, dhtNoCopy)) == NilHashTable) {
-		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		fputs("Sorry, no space for more HashTables\n",stderr);
 		exit(5);
 	}
 
 	if ((InetToName=CreateHashTable(dhtSimpleValue, dhtNoCopy, dhtMemoryValue, dhtCopy)) == NilHashTable) {
-		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		fputs("Sorry, no space for more HashTables\n",stderr);
 		exit(7);
 	}
 #else
@@ -154,23 +154,23 @@ int main(int argc, char *argv[]) {
 #endif
 	if ((NameToInet=dhtCreate(dhtStringValue, dhtCopy,
 			dhtSimpleValue, dhtNoCopy)) == dhtNilHashTable) {
-		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		fputs("Sorry, no space for more HashTables\n",stderr);
 		exit(5);
 	}
 
 	if ((InetToName=dhtCreate(dhtSimpleValue, dhtNoCopy,
 			dhtStringValue, dhtCopy)) == dhtNilHashTable) {
-		fprintf(stderr, "Sorry, no space for more HashTables\n");
+		fputs("Sorry, no space for more HashTables\n",stderr);
 		exit(7);
 	}
 #endif /*USE_MEMVAL*/
 
 	/*
-	fprintf(stderr, "MallocInfo after creating the HashTables\n");
+	fputs("MallocInfo after creating the HashTables\n",stderr);
 	fDumpMallinfo(stderr);
 	*/
 #if defined(FXF)
-	fprintf(stderr, "fxf-Info after creation of hash tables\n");
+	fputs("fxf-Info after creation of hash tables\n",stderr);
 	fxfInfo(stderr);
 #endif /*FXF*/
 
@@ -205,7 +205,7 @@ int main(int argc, char *argv[]) {
 		dhtEnterElement(InetToName, (dhtValue)InetAddr, (dhtValue)HostName);
 	}
 #if defined(FXF)
-	fprintf(stderr, "fxf-Info after filling the hash tables\n");
+	fputs("fxf-Info after filling the hash tables\n",stderr);
 	fxfInfo(stderr);
 #endif /*FXF*/
 
@@ -216,11 +216,11 @@ int main(int argc, char *argv[]) {
 	printf(" done\n");
 
 	/*
-	fprintf(stderr, "MallocInfo after filling the HashTables\n");
+	fputs("MallocInfo after filling the HashTables\n",stderr);
 	fDumpMallinfo(stderr);
 	*/
 
-	fprintf(stderr, "Testing if we get alle entries from NameToInet via GetFirst and GetNext...\n"); 
+	fputs("Testing if we get alle entries from NameToInet via GetFirst and GetNext...\n",stderr); 
 	he= dhtGetFirstElement(NameToInet);
 	i= 0;
 	while (he) {
@@ -229,7 +229,7 @@ int main(int argc, char *argv[]) {
 	}
 	fprintf(stderr, "Got %d entries\n", i);
 
-	fprintf(stderr, "Testing if we get alle entries from InetToName via GetFirst and GetNext...\n"); 
+	fputs("Testing if we get alle entries from InetToName via GetFirst and GetNext...\n",stderr); 
 	he= dhtGetFirstElement(InetToName);
 	i= 0;
 	while (he) {
@@ -263,11 +263,11 @@ int main(int argc, char *argv[]) {
 		while (hhe) {
 			dhtElement *he1= dhtLookupElement(InetToName, hhe->Data);
 			if (strcmp((char *)he1->Data, (char *)hhe->Key) != 0) {
-				fprintf(stdout, "\nSorry, Mismatch\n");
+				fputs("\nSorry, Mismatch\n",stdout);
 				exit(1);
 			}
 			if (he1->Key != hhe->Data) {
-				fprintf(stdout, "\nSorry, Mismatch\n");
+				fputs("\nSorry, Mismatch\n",stdout);
 				exit(2);
 			}
 			i=i+1;
@@ -281,14 +281,14 @@ int main(int argc, char *argv[]) {
 		/*he= GetNextHashElement(NameToInet);*/
 	}
 #if defined(FXF)
-	fprintf(stderr, "fxf-Info after emptying the hash tables\n");
+	fputs("fxf-Info after emptying the hash tables\n",stderr);
 	fxfInfo(stderr);
 #endif /*FXF*/
 	printf("Dumping the hashtables after removing ..."); fflush(stdout);
 	dhtDump(NameToInet,stderr);
 	dhtDump(InetToName,stderr);
 	/*
-	fprintf(stderr, "MallocInfo after emptying the HashTables\n");
+	fputs("MallocInfo after emptying the HashTables\n",stderr);
 	fDumpMallinfo(stderr);
 	*/
 
@@ -297,12 +297,12 @@ int main(int argc, char *argv[]) {
 	dhtDestroy(InetToName);
 
 #if defined(FXF)
-	fprintf(stderr, "fxf-Info after destroying the hash tables\n");
+	fputs("fxf-Info after destroying the hash tables\n",stderr);
 	fxfInfo(stderr);
 #endif /*FXF*/
 
 	/*
-	fprintf(stderr, "MallocInfo after emptying the HashTables\n");
+	fputs("MallocInfo after emptying the HashTables\n",stderr);
 	fDumpMallinfo(stderr);
 	*/
 	exit(0);

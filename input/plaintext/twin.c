@@ -76,7 +76,7 @@ static char *ParseTwinningMove(int indexx)
   if (is_square_empty(sq1))
   {
     WriteSquare(stderr,sq1);
-    fprintf(stderr,": ");
+    fputs(": ",stderr);
     ErrorMsg(NothingToRemove);
     return ReadNextTokStr();
   }
@@ -224,7 +224,7 @@ static char *ParseTwinningRemove(void)
     else
     {
       WriteSquare(stderr,sq);
-      fprintf(stderr,": ");
+      fputs(": ",stderr);
       Message2(stderr,NothingToRemove);
     }
 

@@ -112,6 +112,58 @@ char *ParseLaTeXPieces(char *tok)
   return tok;
 }
 
+static void WriteFixElement(FILE *file,
+                            char const *name, char const *value,
+                            unsigned int indentation)
+{
+  fprintf(file,"%*c%s{%s}%%\n",indentation+1,'\\',name,value);
+}
+
+void WriteUserInputElement(FILE *file, char const *name, char const *value)
+{
+  fprintf(file," \\%s{",name);
+  LaTeXStr(file,value);
+  fputs("}%\n",file);
+}
+
+static void WriteUserInputSubElement(FILE *file,
+                                     char const *name,
+                                     unsigned value_length, char const *value)
+{
+  fprintf(file," \\%s{%.*s}%%\n",name,value_length,value);
+}
+
+static void WriteGeneratedElement(FILE *file,
+                                  char const *name, char const *value)
+{
+  fprintf(file," \\%s{%s}%%\n",name,value);
+}
+
+static void OpenGeneratedElementOneLine(FILE *file, char const *name)
+{
+  fprintf(file," \\%s{",name);
+}
+
+static void CloseElementOneLine(FILE *file)
+{
+  fputs("}",file);
+}
+
+static void CloseElement(FILE *file)
+{
+  fputs(" }%\n",file);
+}
+
+static void WriteCommand(FILE *file, char const *name)
+{
+  fprintf(file,"\\%s%%\n",name);
+}
+
+static void WriteChrtschnbrr(FILE *file, char const *name)
+{
+  fprintf(file,"{\\%s}",name);
+}
+
 void LaTeXStr(FILE *file, char const *line)
 {
   while (*line)
@@ -127,25 +179,25 @@ void LaTeXStr(FILE *file, char const *line)
     case '-':
       if (*(line+1) == '>')   /* convert -> to \ra   FCO */
       {
-        fprintf(file,"%s", "{\\ra}");
+        WriteChrtschnbrr(file,"ra");
         ++line;
       }
       else   /* ordinary minus */
-        fprintf(file, "%c", *line);
+        fputc(*line,file);
       break;
 
     case '<':
       if (*(line+1)=='-' && *(line+2)=='-' && *(line+3)=='>')   /* convert -> to \lra  */
       {
-        fprintf(file,"%s", "{\\lra}");
+        WriteChrtschnbrr(file,"lra");
         line += 3;
       }
       else  /* ordinary less than */
-        fprintf(file, "%c", *line);
+        fputc(*line,file);
       break;
 
     default:
-      fprintf(file, "%c", *line);
+      fputc(*line,file);
       fflush(file);         /* non-buffered output  FCO */
       break;
     }
@@ -154,20 +206,17 @@ void LaTeXStr(FILE *file, char const *line)
   }
 }
 
-static void WriteIntro(void)
+static void WriteIntro(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  fprintf(LaTeXFile, "\\documentclass{article}%%");
-  if (!flag_regression)
-    fprintf(LaTeXFile, "%s", versionString);
-  fprintf(LaTeXFile, "\n");
-  fprintf(LaTeXFile, "\\usepackage{diagram}\n");
-  if (UserLanguage == German) {
-    fprintf(LaTeXFile, "\\usepackage{german}\n");
-  }
-  fprintf(LaTeXFile, "\n\\begin{document}\n\n");
+  WriteFixElement(file,"documentclass","article",0);
+  WriteFixElement(file,"usepackage","diagram",0);
+  if (UserLanguage==German)
+    WriteFixElement(file,"usepackage","german",0);
+  fputs("\n",file);
+  WriteFixElement(file,"begin","document",0);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -189,7 +238,7 @@ boolean LaTeXSetup(void)
   else
   {
     strcpy(filename,InputLine);
-    WriteIntro();
+    WriteIntro(LaTeXFile);
     fclose(LaTeXFile);
     LaTeXFile = NULL;
     result = true;
@@ -210,7 +259,8 @@ void LaTeXShutdown(void)
 
   if (LaTeXFile!=0)
   {
-    fprintf(LaTeXFile, "\n\\putsol\n\n\\end{document}\n");
+    WriteCommand(LaTeXFile,"putsol");
+    WriteFixElement(LaTeXFile,"end","document",0);
     fclose(LaTeXFile);
     LaTeXFile = NULL;
   }
@@ -262,38 +312,32 @@ static void Close(void)
   TraceFunctionResultEnd();
 }
 
-void LaTexOpenSolution(void)
+void LaTexOpenSolution(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(LaTeXFile!=NULL);
-
-  fprintf(LaTeXFile, " \\solution{%%\n");
+  OpenGeneratedElementOneLine(file,"solution");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void LaTexCloseSolution(void)
+void LaTexCloseSolution(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(LaTeXFile!=NULL);
-
-  fprintf(LaTeXFile, " }%%\n");
+  fputs(" }%\n",file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-void LaTeXEndDiagram(void)
+void LaTeXEndDiagram(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  assert(LaTeXFile!=NULL);
 
   if (!(OptFlag[solmenaces]
         || OptFlag[solflights]
@@ -303,13 +347,14 @@ void LaTeXEndDiagram(void)
         || has_short_solution_been_found_in_problem()
         || hasMaxtimeElapsed()))
   {
-    fprintf(LaTeXFile, " \\Co+%%");
+    fputs(" \\Co+%",file);
     if (!flag_regression)
-      fprintf(LaTeXFile, "%s", versionString);
-    fprintf(LaTeXFile, "\n");
+      fputs(versionString,file);
+    fputs("\n",file);
   }
 
-  fprintf(LaTeXFile, "\\end{diagram}\n\\hfill\n");
+  WriteFixElement(file,"end","diagram",0);
+  WriteCommand(file,"hfill");
 
   Close();
 
@@ -323,16 +368,16 @@ static void WriteCondition(FILE *file, char const CondLine[], boolean is_first)
   TraceFunctionParamListEnd();
 
   if (is_first)
-    fprintf(file,"%s", " \\condition{");
+    OpenGeneratedElementOneLine(file,"condition");
   else
-    fprintf(file,"%s", "{\\newline}\n   ");
+    WriteChrtschnbrr(file,"newline");
   LaTeXStr(file,CondLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WriteAuthor(void)
+static void WriteAuthor(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -357,9 +402,7 @@ static void WriteAuthor(void)
       if (endcp!=0)
         *endcp = '\0';
 
-      sprintf(GlobalStr," \\author{%s}", TeXAuthor);
-      LaTeXStr(LaTeXFile,GlobalStr);
-      fprintf(LaTeXFile,"%s","%\n");
+      WriteUserInputElement(file,"author",TeXAuthor);
 
       if (endcp!=0)
         *endcp = '\n';
@@ -371,12 +414,12 @@ static void WriteAuthor(void)
       /* reverse first and surnames */
       char *cp1, *cp2, *cp3;
 
-      fprintf(LaTeXFile, " \\author{");
+      OpenGeneratedElementOneLine(file,"author");
       cp1= TeXAuthor;
       while ((cp2=strchr(cp1, '\n'))) {
         *cp2= '\0';
         if (cp1 != TeXAuthor)
-          fprintf(LaTeXFile, "; ");
+          fputs("; ",file);
         cp3= cp2;
         while (cp3 > cp1 && *cp3 != ' ')
           cp3--;
@@ -389,12 +432,12 @@ static void WriteAuthor(void)
           *cp3= '\0';
           sprintf(GlobalStr, "%s, %s", cp3+1, cp1);
         }
-        LaTeXStr(LaTeXFile,GlobalStr);
+        LaTeXStr(file,GlobalStr);
         *cp3= *cp2= '\n';
 
         cp1= cp2+1;
       }
-      fprintf(LaTeXFile,"%s","}%\n");
+      CloseElement(file);
     }
   }
 
@@ -402,13 +445,14 @@ static void WriteAuthor(void)
   TraceFunctionResultEnd();
 }
 
-static void WriteSource(void)
+static void WriteSource(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   /* format: [diagram number,] source [issue number,] [date] */
-  if (ActOrigin[0] != '\0') {
+  if (ActOrigin[0] != '\0')
+  {
     char *source= ActOrigin;
     char *date, *eol, *tmp;
 
@@ -416,16 +460,18 @@ static void WriteSource(void)
     while (strchr(CharChar, *source))
       source++;
 
-    if (*source == ',') {
+    if (*source == ',')
+    {
       *source= '\0';
-      fprintf(LaTeXFile, " \\sourcenr{%s}%%\n", ActOrigin);
-      *source= ',';
-      while (*(++source) == ' ')
-        ;
+      WriteUserInputElement(file,"sourcenr",ActOrigin);
+      *source = ',';
+      do
+      {
+        ++source;
+      } while (*source==' ');
     }
-    else {
-      source= ActOrigin;
-    }
+    else
+      source = ActOrigin;
 
     /* date */
     /* supported formats: year
@@ -442,23 +488,29 @@ static void WriteSource(void)
       date--;
     }
 
-    if (date != eol) {
+    if (date != eol)
+    {
       /* sucessfully parsed a year */
-      fprintf(LaTeXFile, " \\year{%s}%%\n", date);
+      WriteUserInputElement(file,"year",date);
 
       /* parse month(s) now */
       /* while (*(date-1) == ' ') date--; */
-      switch (*(date-1)) {
+      switch (*(date-1))
+      {
       case '/':
         /* format is either month/year or month-month/year */
-        date--;
+        --date;
         while (*(date-1) == ' ')
           date--;
-        tmp= date;
+        tmp = date;
         while (strchr("0123456789-", *(date-1)))
           date--;
-        fprintf(LaTeXFile, " \\month%s{%.*s}%%\n",
-                strchr(date, '-') ? "s" : "", (int)(tmp-date), date);
+
+        if (strchr(date,'-'))
+          fprintf(file, " \\months{%.*s}%%\n",(int)(tmp-date), date);
+        else
+          fprintf(file, " \\month{%.*s}%%\n",(int)(tmp-date), date);
+
         break;
 
       case '.':
@@ -469,15 +521,13 @@ static void WriteSource(void)
         tmp= date;
         while (strchr("0123456789", *(date-1)))
           date--;
-        fprintf(LaTeXFile, " \\month{%.*s}%%\n",
-                (int)(tmp-date), date);
+        fprintf(file, " \\month{%.*s}%%\n", (int)(tmp-date), date);
         /* now parse day(s) */
         while (*(--date) == ' ');
         tmp= date;
         while (strchr("0123456789-.", *(date-1)))
           date--;
-        fprintf(LaTeXFile, " \\day{%.*s}%%\n",
-                (int)(tmp-date), date);
+        fprintf(file, " \\day{%.*s}%%\n", (int)(tmp-date), date);
         break;
       }
     } /* month(s), day(s) */
@@ -490,8 +540,7 @@ static void WriteSource(void)
       tmp= --date;
       while (*(date-1) != ' ')
         date--;
-      fprintf(LaTeXFile, " \\issue{%.*s}%%\n",
-              (int)(tmp-date), date);
+      fprintf(file, " \\issue{%.*s}%%\n", (int)(tmp-date), date);
     } /* issue */
 
     /* default */
@@ -499,8 +548,8 @@ static void WriteSource(void)
     while (*(date-1) == ' ')
       date--;
     sprintf(GlobalStr," \\source{%.*s}",(int)(date-source),source);
-    LaTeXStr(LaTeXFile,GlobalStr);
-    fprintf(LaTeXFile,"%s","%\n");
+    LaTeXStr(file,GlobalStr);
+    fputs("%\n",file);
 
     *eol= '\n';
   }
@@ -509,48 +558,46 @@ static void WriteSource(void)
   TraceFunctionResultEnd();
 }
 
-static void WriteAward(void)
+static void WriteAward(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (ActAward[0] != '\0')
   {
-    char *tour= strchr(ActAward, ',');
-    char *eol= strchr(ActAward, '\n');
-    *eol= '\0';
+    char *tour = strchr(ActAward, ',');
+    char *eol = strchr(ActAward, '\n');
+    *eol = '\0';
     if (tour)
     {
-      fprintf(LaTeXFile,
-              " \\award{%.*s}%%\n", (int)(tour-ActAward), ActAward);
-      while (*(++tour) == ' ');
-      fprintf(LaTeXFile, " \\tournament{%s}%%\n", tour);
+      WriteUserInputSubElement(file,"award",tour-ActAward,ActAward);
+      do
+      {
+        ++tour;
+      } while (*tour==' ');
+      WriteUserInputElement(file,"tournament",tour);
     } else
-      fprintf(LaTeXFile, " \\award{%s}%%\n", ActAward);
-    *eol= '\n';
+      WriteUserInputElement(file,"award",ActAward);
+    *eol = '\n';
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WriteDedication(void)
+static void WriteDedication(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (ActTitle[0] != '\0')
-  {
-    sprintf(GlobalStr, "\\dedication{%s}", ActTitle);
-    LaTeXStr(LaTeXFile,GlobalStr);
-    fprintf(LaTeXFile,"%s","%\n");
-  }
+    WriteUserInputElement(file,"dedication",ActTitle);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WritePieces(void)
+static void WritePieces(FILE *file)
 {
   square const *bnp;
   boolean piece_found = false;
@@ -558,7 +605,7 @@ static void WritePieces(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  fprintf(LaTeXFile, " \\pieces{");
+  OpenGeneratedElementOneLine(file,"pieces");
 
   for (bnp = boardnum; *bnp; bnp++)
   {
@@ -567,11 +614,11 @@ static void WritePieces(void)
       piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
 
       if (piece_found)
-        fprintf(LaTeXFile, ", ");
+        fputs(", ",file);
       else
         piece_found = true;
 
-      fprintf(LaTeXFile,"%c%s%c%c",
+      fprintf(file,"%c%s%c%c",
               is_piece_neutral(being_solved.spec[*bnp]) ? 'n' : TSTFLAG(being_solved.spec[*bnp],White) ? 'w' : 's',
               LaTeXWalk(p),
               *bnp%onerow-200%onerow+'a',
@@ -579,13 +626,13 @@ static void WritePieces(void)
     }
   }
 
-  fprintf(LaTeXFile, "}%%\n");
+  CloseElement(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static boolean FindFairyWalks(boolean side_has_piece[nr_piece_walks][nr_sides+1])
+static boolean FindFairyWalks(boolean colour_has_piece[nr_piece_walks][nr_colours])
 {
   boolean result = false;
 
@@ -596,9 +643,9 @@ static boolean FindFairyWalks(boolean side_has_piece[nr_piece_walks][nr_sides+1]
     piece_walk_type p;
     for (p = Empty; p < nr_piece_walks; ++p)
     {
-      side_has_piece[p][White] = false;
-      side_has_piece[p][Black] = false;
-      side_has_piece[p][nr_sides] = false;
+      colour_has_piece[p][colour_white] = false;
+      colour_has_piece[p][colour_black] = false;
+      colour_has_piece[p][colour_neutral] = false;
     }
   }
 
@@ -614,11 +661,11 @@ static boolean FindFairyWalks(boolean side_has_piece[nr_piece_walks][nr_sides+1]
           result = true;
 
           if (is_piece_neutral(being_solved.spec[*bnp]))
-            side_has_piece[p][nr_sides] = true;
+            colour_has_piece[p][colour_neutral] = true;
           else if (TSTFLAG(being_solved.spec[*bnp], White))
-            side_has_piece[p][White] = true;
+            colour_has_piece[p][colour_white] = true;
           else
-            side_has_piece[p][Black] = true;
+            colour_has_piece[p][colour_black] = true;
         }
       }
     }
@@ -700,19 +747,24 @@ static boolean FindHoles(char HolesSqList[256])
     }
   }
 
-  if (result)
-  {
-    fprintf(LaTeXFile," \\nofields{%s}%%\n",HolesSqList);
-    fprintf(LaTeXFile," \\fieldframe{%s}%%\n",HolesSqList);
-  }
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-static void WriteFairyWalks(boolean side_has_walk[nr_piece_walks][nr_sides+1])
+static void WriteFairyWalk(FILE *file, Colour colour, piece_walk_type w)
+{
+  char const colour_short[] = { 'w', 'b', 'n' };
+  fprintf(file,
+          "\\%c%s =%s",
+          colour_short[colour],
+          LaTeXPiecesAbbr[w],
+          LaTeXPiecesFull[w]);
+}
+
+static void WriteFairyWalks(FILE *file,
+                            boolean side_has_walk[nr_piece_walks][nr_colours])
 {
   boolean fairy_walk_written = false;
   piece_walk_type p;
@@ -721,13 +773,15 @@ static void WriteFairyWalks(boolean side_has_walk[nr_piece_walks][nr_sides+1])
   TraceFunctionParamListEnd();
 
   for (p = Bishop+1; p<nr_piece_walks; ++p)
-    if (side_has_walk[p][White] || side_has_walk[p][Black] || side_has_walk[p][nr_sides])
+    if (side_has_walk[p][colour_white]
+        || side_has_walk[p][colour_black]
+        || side_has_walk[p][colour_neutral])
     {
       piece_walk_type q;
       for (q = Bishop+1; q<p; q++)
-        if ((side_has_walk[q][White]
-             || side_has_walk[q][Black]
-             || side_has_walk[q][nr_sides])
+        if ((side_has_walk[q][colour_white]
+             || side_has_walk[q][colour_black]
+             || side_has_walk[q][colour_neutral])
             && LaTeXPiecesAbbr[p][0]==LaTeXPiecesAbbr[q][0]
             && LaTeXPiecesAbbr[p][1]==LaTeXPiecesAbbr[q][1])
           fprintf(stderr,
@@ -737,15 +791,15 @@ static void WriteFairyWalks(boolean side_has_walk[nr_piece_walks][nr_sides+1])
                   LaTeXPiecesFull[q]);
 
       if (fairy_walk_written)
-        fprintf(LaTeXFile, "{\\newline}\n    ");
-      fprintf(LaTeXFile, "\\mbox{");
-      if (side_has_walk[p][White])
-        fprintf(LaTeXFile, "\\w%s ",LaTeXPiecesAbbr[p]);
-      if (side_has_walk[p][ Black])
-        fprintf(LaTeXFile, "\\s%s ",LaTeXPiecesAbbr[p]);
-      if (side_has_walk[p][nr_sides])
-        fprintf(LaTeXFile, "\\n%s ",LaTeXPiecesAbbr[p]);
-      fprintf(LaTeXFile, "=%s}", LaTeXPiecesFull[p]);
+        WriteChrtschnbrr(file,"newline");
+      OpenGeneratedElementOneLine(file,"mbox");
+      {
+        Colour c;
+        for (c = 0; c!=nr_colours; ++c)
+          if (side_has_walk[p][c])
+            WriteFairyWalk(file,c,p);
+      }
+      CloseElementOneLine(file);
       fairy_walk_written = true;
     }
 
@@ -753,7 +807,8 @@ static void WriteFairyWalks(boolean side_has_walk[nr_piece_walks][nr_sides+1])
   TraceFunctionResultEnd();
 }
 
-static void WritePiecesWithSpecs(boolean remark_written,
+static void WritePiecesWithSpecs(FILE *file,
+                                 boolean remark_written,
                                  unsigned int const SpecCount[nr_piece_flags-nr_sides],
                                  char ListSpec[nr_piece_flags-nr_sides][256])
 {
@@ -766,8 +821,8 @@ static void WritePiecesWithSpecs(boolean remark_written,
     if (SpecCount[sp-nr_sides]>0)
     {
       if (remark_written)
-        fprintf(LaTeXFile, "{\\newline}\n    ");
-      fprintf(LaTeXFile, "%s\n", ListSpec[sp-nr_sides]);
+        fputs("{\\newline}\n    ",file);
+      fprintf(file, "%s\n", ListSpec[sp-nr_sides]);
       remark_written = true;
     }
 
@@ -775,24 +830,25 @@ static void WritePiecesWithSpecs(boolean remark_written,
   TraceFunctionResultEnd();
 }
 
-static void WriteHoles(boolean remark_written,
+static void WriteHoles(FILE *file,
+                       boolean remark_written,
                        char const HolesSqList[256])
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   if (remark_written)
-    fprintf(LaTeXFile,"{\\newline}\n    ");
-  fprintf(LaTeXFile,"%s %s%%\n",CondString[UserLanguage][holes],HolesSqList);
+    fputs("{\\newline}\n    ",file);
+  fprintf(file,"%s %s%%\n",CondString[UserLanguage][holes],HolesSqList);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WriteFairyPieces(void)
+static void WriteFairyPieces(FILE *file)
 {
-  boolean side_has_walk[nr_piece_walks][nr_sides+1];
-  boolean const fairy_walk_found = FindFairyWalks(side_has_walk);
+  boolean colour_has_walk[nr_piece_walks][nr_colours];
+  boolean const fairy_walk_found = FindFairyWalks(colour_has_walk);
 
   unsigned int SpecCount[nr_piece_flags-nr_sides] = { 0 };
   char ListSpec[nr_piece_flags-nr_sides][256];
@@ -806,42 +862,48 @@ static void WriteFairyPieces(void)
 
   if (fairy_walk_found || hole_found || piece_with_specs_found)
   {
-    fprintf(LaTeXFile," \\remark{");
+    if (hole_found)
+    {
+      WriteGeneratedElement(file,"nofields",HolesSqList);
+      WriteGeneratedElement(file,"fieldframe",HolesSqList);
+    }
+
+    OpenGeneratedElementOneLine(file,"remark");
 
     if (fairy_walk_found)
-      WriteFairyWalks(side_has_walk);
+      WriteFairyWalks(file,colour_has_walk);
 
     if (piece_with_specs_found)
-      WritePiecesWithSpecs(fairy_walk_found,SpecCount,ListSpec);
+      WritePiecesWithSpecs(file,fairy_walk_found,SpecCount,ListSpec);
 
     if (hole_found)
-      WriteHoles(fairy_walk_found || piece_with_specs_found, HolesSqList);
+      WriteHoles(file, fairy_walk_found || piece_with_specs_found, HolesSqList);
 
-    fprintf(LaTeXFile,"}%%\n");
+    CloseElement(file);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WriteStipulation(void)
+static void WriteStipulation(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  fprintf(LaTeXFile, " \\stipulation{");
-  LaTeXStr(LaTeXFile,ActStip);
+  OpenGeneratedElementOneLine(file,"stipulation");
+  LaTeXStr(file,ActStip);
   if (OptFlag[solapparent])
-    fprintf(LaTeXFile, "*");
+    fputs("*",file);
   if (OptFlag[whitetoplay])
-    fprintf(LaTeXFile," %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
-  fprintf(LaTeXFile,"%s","}%\n");
+    fprintf(file," %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
+  CloseElement(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WriteGridOrthogonalLines(void)
+static void WriteGridOrthogonalLines(FILE *file)
 {
   unsigned int i;
   boolean line_written = false;
@@ -853,36 +915,36 @@ static void WriteGridOrthogonalLines(void)
     if (GridNum(square_a1+dir_right*(i-1))!=GridNum(square_a1+dir_right*i))
     {
       if (line_written)
-        fprintf(LaTeXFile, ", ");
+        fputs(", ",file);
       else
       {
-        fprintf(LaTeXFile, " \\gridlines{");
+        OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(LaTeXFile, " v%u08", i);
+      fprintf(file, " v%u08", i);
     }
 
   for (i = 1; i<nr_rows_on_board; i++)
     if (GridNum(square_a1+dir_up*(i-1))!=GridNum(square_a1+dir_up*i))
     {
       if (line_written)
-        fprintf(LaTeXFile, ", ");
+        fputs(", ",file);
       else
       {
-        fprintf(LaTeXFile, " \\gridlines{");
+        OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(LaTeXFile, " h0%u8", i);
+      fprintf(file, " h0%u8", i);
     }
 
   if (line_written)
-    fprintf(LaTeXFile, "}%%\n");
+    CloseElement(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WriteGridIrregular(void)
+static void WriteGridIrregular(FILE *file)
 {
   boolean line_written = false;
   square const *bnp;
@@ -892,42 +954,42 @@ static void WriteGridIrregular(void)
 
   for (bnp = boardnum; *bnp; bnp++)
   {
-    unsigned int const file = *bnp%onerow - nr_of_slack_files_left_of_board;
+    unsigned int const column = *bnp%onerow - nr_of_slack_files_left_of_board;
     unsigned int const row = *bnp/onerow - nr_of_slack_rows_below_board;
 
-    if (file>0 && GridLegal(*bnp+dir_left,*bnp))
+    if (column>0 && GridLegal(*bnp+dir_left,*bnp))
     {
       if (line_written)
-        fprintf(LaTeXFile, ", ");
+        fputs(", ",file);
       else
       {
-        fprintf(LaTeXFile, " \\gridlines{");
+        OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(LaTeXFile," v%d%d1",file,row);
+      fprintf(file," v%d%d1",column,row);
     }
 
     if (row>0 && GridLegal(*bnp+dir_down,*bnp))
     {
       if (line_written)
-        fprintf(LaTeXFile, ", ");
+        fputs(", ",file);
       else
       {
-        fprintf(LaTeXFile, " \\gridlines{");
+        OpenGeneratedElementOneLine(file,"gridlines");
         line_written = true;
       }
-      fprintf(LaTeXFile," h%d%d1",file,row);
+      fprintf(file," h%d%d1",column,row);
     }
   }
 
   if (line_written)
-    fprintf(LaTeXFile, "}%%\n");
+    CloseElement(file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void WriteGrid(void)
+static void WriteGrid(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -936,28 +998,28 @@ static void WriteGrid(void)
     switch (grid_type)
     {
       case grid_normal:
-        fprintf(LaTeXFile," \\stdgrid%%\n");
+        WriteCommand(file,"stdgrid");
         break;
 
       case grid_vertical_shift:
-        fprintf(LaTeXFile," \\gridlines{h018, h038, h058, h078, v208, v408, v608}%%\n");
+        WriteGeneratedElement(file,"gridlines","h018, h038, h058, h078, v208, v408, v608");
         break;
 
       case grid_horizontal_shift:
-        fprintf(LaTeXFile, " \\gridlines{h028, h048, h068, v108, v308, v508, v708}%%\n");
+        WriteGeneratedElement(file,"gridlines","h028, h048, h068, v108, v308, v508, v708");
         break;
 
       case grid_diagonal_shift:
-        fprintf(LaTeXFile," \\gridlines{h018, h038, h058, h078, v108, v308, v508, v708}%%\n");
+        WriteGeneratedElement(file,"gridlines","h018, h038, h058, h078, v108, v308, v508, v708");
         break;
 
       case grid_orthogonal_lines:
-        WriteGridOrthogonalLines();
+        WriteGridOrthogonalLines(file);
         break;
 
       /* of course, WriteGridIrregular() could cover the above cases as well */
       case grid_irregular:
-        WriteGridIrregular();
+        WriteGridIrregular(file);
         break;
     }
 
@@ -965,7 +1027,7 @@ static void WriteGrid(void)
   TraceFunctionResultEnd();
 }
 
-void WriteSquareFrames(void)
+void WriteSquareFrames(FILE *file)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -986,7 +1048,7 @@ void WriteSquareFrames(void)
         AppendSquare(MagicSqList,*bnp);
       }
 
-    fprintf(LaTeXFile," \\fieldframe{%s}%%\n", MagicSqList);
+    WriteGeneratedElement(file,"fieldframe",MagicSqList);
   }
 
   TraceFunctionExit(__func__);
@@ -1000,22 +1062,21 @@ void LaTeXBeginDiagram(void)
 
   if (Open())
   {
-    fprintf(LaTeXFile, "\\begin{diagram}%%\n");
-
-    WriteAuthor();
-    WriteSource();
-    WriteAward();
-    WriteDedication();
+    WriteFixElement(LaTeXFile,"begin","diagram",0);
+    WriteAuthor(LaTeXFile);
+    WriteSource(LaTeXFile);
+    WriteAward(LaTeXFile);
+    WriteDedication(LaTeXFile);
     LaTeXWriteOptions();
-    WritePieces();
-    WriteFairyPieces();
-    WriteStipulation();
-    WriteGrid();
+    WritePieces(LaTeXFile);
+    WriteFairyPieces(LaTeXFile);
+    WriteStipulation(LaTeXFile);
+    WriteGrid(LaTeXFile);
 
     if (WriteConditions(LaTeXFile,&WriteCondition))
-      fprintf(LaTeXFile,"}%%\n");
+      CloseElement(LaTeXFile);
 
-    WriteSquareFrames();
+    WriteSquareFrames(LaTeXFile);
   }
 
   TraceFunctionExit(__func__);
@@ -1033,7 +1094,7 @@ static void write_transfer(output_plaintext_move_context_type *context,
                                         move_effect_journal[removal].u.piece_removal.walk,
                                         move_effect_journal[removal].u.piece_removal.on);
 
-  fprintf(context->file,"{\\ra}");
+  fputs("{\\ra}",context->file);
 
   if (move_effect_journal[removal].u.piece_removal.flags
       !=move_effect_journal[addition].u.piece_addition.flags
@@ -1058,7 +1119,7 @@ void output_latex_write_piece_readdition(output_plaintext_move_context_type *con
                                          move_effect_journal_index_type curr)
 {
   if (move_effect_journal[curr].reason==move_effect_reason_volcanic_remember)
-    fprintf(context->file,"->v");
+    fputs("->v",context->file);
   else
   {
     PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
@@ -1086,9 +1147,9 @@ void output_latex_write_castling(FILE *file,
   {
     square const to = move_effect_journal[movement].u.piece_movement.to;
     if (to==square_g1 || to==square_g8)
-      fprintf(file,"%s","{\\OO}");
+      fputs("{\\OO}",file);
     else
-      fprintf(file,"%s","{\\OOO}");
+      fputs("{\\OOO}",file);
   }
 }
 
@@ -1096,7 +1157,7 @@ static void write_exchange(FILE *file, move_effect_journal_index_type movement)
 {
   WritePiece(file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.from));
   WriteSquare(file,move_effect_journal[movement].u.piece_exchange.to);
-  fprintf(file,"%s","{\\lra}");
+  fputs("{\\lra}",file);
   WritePiece(file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.to));
   WriteSquare(file,move_effect_journal[movement].u.piece_exchange.from);
 }
@@ -1164,7 +1225,7 @@ void output_latex_write_piece_exchange(output_plaintext_move_context_type *conte
       WritePiece(context->file,
                  get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
       WriteSquare(context->file,move_effect_journal[curr].u.piece_exchange.to);
-      fprintf(context->file,"\\lra");
+      fputs("\\lra",context->file);
       WritePiece(context->file,
                  get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.to));
       WriteSquare(context->file,move_effect_journal[curr].u.piece_exchange.from);
@@ -1243,15 +1304,15 @@ static void write_other_effects(FILE *FILE, output_plaintext_move_context_type *
   }
 }
 
-void output_latex_write_move(void)
+void output_latex_write_move(FILE *file)
 {
   output_plaintext_move_context_type context;
 
   if (CondFlag[singlebox] && SingleBoxType==ConditionType3)
-    output_plaintext_write_singlebox_type3_promotion(LaTeXFile);
+    output_plaintext_write_singlebox_type3_promotion(file);
 
-  output_latex_write_regular_move(LaTeXFile,&context);
-  write_other_effects(LaTeXFile,&context);
+  output_latex_write_regular_move(file,&context);
+  write_other_effects(file,&context);
   output_plaintext_context_close(&context);
 }
 

@@ -858,7 +858,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   if (dhtIsOverloaded(ht))
   {
     /*
-      fprintf(stderr, "Dumping Hash-Table before expansion\n");
+      fputs("Dumping Hash-Table before expansion\n",stderr);
       fDumpHashTable(ht, stderr);
     */
     TraceValue("expanding hash table %p\n",ht);
@@ -870,7 +870,7 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
       return dhtNilElement;
     }
     /*
-      fprintf(stderr, "Dumping Hash-Table after expansion\n");
+      fputs("Dumping Hash-Table after expansion\n",stderr);
       fDumpHashTable(ht, stderr);
     */
   }

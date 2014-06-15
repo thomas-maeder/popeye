@@ -36,7 +36,7 @@ void output_plaintext_context_open(FILE *file,
                                    char const *opening_sequence,
                                    char const *closing_sequence)
 {
-  fprintf(file,"%s",opening_sequence);
+  fputs(opening_sequence,file);
 
   context->start = start;
   context->closing_sequence = closing_sequence;
@@ -118,7 +118,7 @@ void output_plaintext_write_capture(FILE *file,
   else if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
   {
     WriteSquare(file,move_effect_journal[movement].u.piece_movement.to);
-    fprintf(file," ep.");
+    fputs(" ep.",file);
   }
   else
   {
@@ -151,9 +151,9 @@ void output_plaintext_write_castling(FILE *file,
   {
     square const to = move_effect_journal[movement].u.piece_movement.to;
     if (to==square_g1 || to==square_g8)
-      fprintf(file,"0-0");
+      fputs("0-0",file);
     else
-      fprintf(file,"0-0-0");
+      fputs("0-0-0",file);
   }
 }
 
@@ -161,7 +161,7 @@ static void write_exchange(FILE *file, move_effect_journal_index_type movement)
 {
   WritePiece(file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.from));
   WriteSquare(file,move_effect_journal[movement].u.piece_exchange.to);
-  fprintf(file,"<->");
+  fputs("<->",file);
   WritePiece(file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.to));
   WriteSquare(file,move_effect_journal[movement].u.piece_exchange.from);
 }
@@ -170,7 +170,7 @@ static void write_singlebox_promotion(FILE *file,
                                       move_effect_journal_index_type curr)
 {
   WriteSquare(file,move_effect_journal[curr].u.piece_change.on);
-  fprintf(file,"=");
+  fputs("=",file);
   WritePiece(file,move_effect_journal[curr].u.piece_change.to);
 }
 
@@ -294,7 +294,7 @@ void output_plaintext_write_flags_change(output_plaintext_move_context_type *con
       {
         output_plaintext_next_context(context,curr,"[","]");
         WriteSquare(context->file,move_effect_journal[curr].u.flags_change.on);
-        fprintf(context->file,"=");
+        fputs("=",context->file);
         WriteSpec(context->file,
                   move_effect_journal[curr].u.flags_change.to,
                   being_solved.board[move_effect_journal[curr].u.flags_change.on],
@@ -500,7 +500,7 @@ static void write_transfer(output_plaintext_move_context_type *context,
                        move_effect_journal[removal].u.piece_removal.walk,
                        move_effect_journal[removal].u.piece_removal.on);
 
-  fprintf(context->file,"->");
+  fputs("->",context->file);
 
   if (move_effect_journal[removal].u.piece_removal.flags
       !=move_effect_journal[addition].u.piece_addition.flags
@@ -535,7 +535,7 @@ void output_plaintext_write_piece_readdition(output_plaintext_move_context_type 
                                              move_effect_journal_index_type curr)
 {
   if (move_effect_journal[curr].reason==move_effect_reason_volcanic_remember)
-    fprintf(context->file,"->v");
+    fputs("->v",context->file);
   else
   {
     PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
@@ -603,7 +603,7 @@ void output_plaintext_write_piece_exchange(output_plaintext_move_context_type *c
       WritePiece(context->file,
                  get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
       WriteSquare(context->file,move_effect_journal[curr].u.piece_exchange.to);
-      fprintf(context->file,"<->");
+      fputs("<->",context->file);
       WritePiece(context->file,
                  get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.to));
       WriteSquare(context->file,move_effect_journal[curr].u.piece_exchange.from);
@@ -626,12 +626,12 @@ void output_plaintext_write_half_neutral_deneutralisation(output_plaintext_move_
 void output_plaintext_write_half_neutral_neutralisation(output_plaintext_move_context_type *context,
                                                         move_effect_journal_index_type curr)
 {
-  fprintf(context->file,"=nh");
+  fputs("=nh",context->file);
 }
 
 void output_plaintext_write_imitator_addition(output_plaintext_move_context_type *context)
 {
-  fprintf(context->file,"=I");
+  fputs("=I",context->file);
 }
 
 void output_plaintext_write_imitator_movement(output_plaintext_move_context_type *context,
@@ -640,7 +640,7 @@ void output_plaintext_write_imitator_movement(output_plaintext_move_context_type
   unsigned int const nr_moved = move_effect_journal[curr].u.imitator_movement.nr_moved;
   unsigned int icount;
 
-  fprintf(context->file,"[I");
+  fputs("[I",context->file);
 
   for (icount = 0; icount<nr_moved; ++icount)
   {
@@ -671,7 +671,7 @@ void output_plaintext_write_bgl_status(output_plaintext_move_context_type *conte
     output_plaintext_next_context(context,curr," (",")");
     WriteBGLNumber(buf,BGL_values[White]);
     fprintf(context->file,buf);
-    fprintf(context->file,"/");
+    fputs("/",context->file);
     WriteBGLNumber(buf,BGL_values[Black]);
     fprintf(context->file,buf);
   }

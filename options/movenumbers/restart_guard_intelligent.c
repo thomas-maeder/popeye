@@ -59,15 +59,15 @@ static boolean is_length_ruled_out_by_option_restart(void)
 
 static void print_nr_potential_target_positions(FILE *file)
 {
-  fprintf(file,"\n");
+  fputs("\n",file);
   fprintf(file,"%lu %s %u+%u",
           nr_potential_target_positions,GetMsgString(PotentialMates),
           MovesLeft[White],MovesLeft[Black]);
   if (!flag_regression)
   {
-    fprintf(file,"  (");
+    fputs("  (",file);
     PrintTime(file);
-    fprintf(file,")");
+    fputs(")",file);
   }
 }
 

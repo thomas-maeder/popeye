@@ -102,9 +102,9 @@ static void write_problem_footer(FILE *file)
   else
     fprintf(file,GetMsgString(FinishProblem));
 
-  fprintf(file," ");
+  fputs(" ",file);
   PrintTime(file);
-  fprintf(file,"\n\n\n");
+  fputs("\n\n\n",file);
   fflush(file);
 }
 

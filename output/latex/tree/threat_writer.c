@@ -47,7 +47,7 @@ void output_latex_tree_threat_writer_solve(slice_index si)
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
   {
-    fprintf(LaTeXFile," ");
+    fputs(" ",LaTeXFile);
     Message2(LaTeXFile,Threat);
   }
 

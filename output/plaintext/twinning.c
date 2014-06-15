@@ -42,7 +42,7 @@ static boolean find_creation(move_effect_journal_index_type curr,
 static void WriteCondition(FILE *file, char const CondLine[], boolean is_first)
 {
   if (is_first)
-    fprintf(file,"%s",CondLine);
+    fputs(CondLine,file);
   else
     fprintf(file,"\n   %s",CondLine);
 }
@@ -60,7 +60,7 @@ static void WritePieceCreation(FILE *file, move_effect_journal_index_type curr)
             true);
   WritePiece(file,entry->u.piece_addition.walk);
   WriteSquare(file,entry->u.piece_addition.on);
-  fprintf(file,"%s","  ");
+  fputs("  ",file);
 }
 
 static void WritePieceRemoval(FILE *file, move_effect_journal_index_type curr)
@@ -69,14 +69,14 @@ static void WritePieceRemoval(FILE *file, move_effect_journal_index_type curr)
 
   if (!find_creation(curr+1,entry->u.piece_removal.on))
   {
-    fprintf(file,"%s","-");
+    fputs("-",file);
     WriteSpec(file,
               entry->u.piece_removal.flags,
               entry->u.piece_removal.walk,
               true);
     WritePiece(file,entry->u.piece_removal.walk);
     WriteSquare(file,entry->u.piece_removal.on);
-    fprintf(file,"%s","  ");
+    fputs("  ",file);
   }
 }
 
@@ -90,9 +90,9 @@ static void WritePieceMovement(FILE *file, move_effect_journal_index_type curr)
             true);
   WritePiece(file,entry->u.piece_movement.moving);
   WriteSquare(file,entry->u.piece_movement.from);
-  fprintf(file,"%s","-->");
+  fputs("-->",file);
   WriteSquare(file,entry->u.piece_movement.to);
-  fprintf(file,"%s","  ");
+  fputs("  ",file);
 }
 
 static void WritePieceExchange(FILE *file, move_effect_journal_index_type curr)
@@ -105,14 +105,14 @@ static void WritePieceExchange(FILE *file, move_effect_journal_index_type curr)
             true);
   WritePiece(file,get_walk_of_piece_on_square(entry->u.piece_exchange.to));
   WriteSquare(file,entry->u.piece_exchange.from);
-  fprintf(file,"%s","<-->");
+  fputs("<-->",file);
   WriteSpec(file,
             entry->u.piece_exchange.toflags,
             get_walk_of_piece_on_square(entry->u.piece_exchange.from),
             true);
   WritePiece(file,get_walk_of_piece_on_square(entry->u.piece_exchange.from));
   WriteSquare(file,entry->u.piece_exchange.to);
-  fprintf(file,"%s","  ");
+  fputs("  ",file);
 }
 
 static void WriteBoardTransformation(FILE *file,
@@ -123,36 +123,36 @@ static void WriteBoardTransformation(FILE *file,
   switch (entry->u.board_transformation.transformation)
   {
     case rot90:
-      fprintf(file,"%s",TwinningTab[TwinningRotate]);
-      fprintf(file,"%s"," 90");
+      fputs(TwinningTab[TwinningRotate],file);
+      fputs(" 90",file);
       break;
     case rot180:
-      fprintf(file,"%s",TwinningTab[TwinningRotate]);
-      fprintf(file,"%s"," 180");
+      fputs(TwinningTab[TwinningRotate],file);
+      fputs(" 180",file);
       break;
     case rot270:
-      fprintf(file,"%s",TwinningTab[TwinningRotate]);
-      fprintf(file,"%s"," 270");
+      fputs(TwinningTab[TwinningRotate],file);
+      fputs(" 270",file);
       break;
     case mirra1h1:
-      fprintf(file,"%s",TwinningTab[TwinningMirror]);
-      fprintf(file,"%s"," ");
-      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora1h1]);
+      fputs(TwinningTab[TwinningMirror],file);
+      fputs(" ",file);
+      fputs(TwinningMirrorTab[TwinningMirrora1h1],file);
       break;
     case mirra1a8:
-      fprintf(file,"%s",TwinningTab[TwinningMirror]);
-      fprintf(file,"%s"," ");
-      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora1a8]);
+      fputs(TwinningTab[TwinningMirror],file);
+      fputs(" ",file);
+      fputs(TwinningMirrorTab[TwinningMirrora1a8],file);
       break;
     case mirra1h8:
-      fprintf(file,"%s",TwinningTab[TwinningMirror]);
-      fprintf(file,"%s"," ");
-      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora1h8]);
+      fputs(TwinningTab[TwinningMirror],file);
+      fputs(" ",file);
+      fputs(TwinningMirrorTab[TwinningMirrora1h8],file);
       break;
     case mirra8h1:
-      fprintf(file,"%s",TwinningTab[TwinningMirror]);
-      fprintf(file,"%s"," ");
-      fprintf(file,"%s",TwinningMirrorTab[TwinningMirrora8h1]);
+      fputs(TwinningTab[TwinningMirror],file);
+      fputs(" ",file);
+      fputs(TwinningMirrorTab[TwinningMirrora8h1],file);
       break;
 
     default:
@@ -160,31 +160,31 @@ static void WriteBoardTransformation(FILE *file,
       break;
   }
 
-  fprintf(file,"%s","  ");
+  fputs("  ",file);
 }
 
 static void WriteShift(FILE *file, move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  fprintf(file,"%s",TwinningTab[TwinningShift]);
-  fprintf(file,"%s"," ");
+  fputs(TwinningTab[TwinningShift],file);
+  fputs(" ",file);
   WriteSquare(file,entry->u.twinning_shift.from);
-  fprintf(file,"%s"," ==> ");
+  fputs(" ==> ",file);
   WriteSquare(file,entry->u.twinning_shift.to);
-  fprintf(file,"%s","  ");
+  fputs("  ",file);
 }
 
 static void WriteStipulation(FILE *file, move_effect_journal_index_type curr)
 {
-  fprintf(file,"%s",AlphaStip);
-  fprintf(file,"%s","  ");
+  fputs(AlphaStip,file);
+  fputs("  ",file);
 }
 
 static void WritePolish(FILE *file, move_effect_journal_index_type curr)
 {
-  fprintf(file,"%s",TwinningTab[TwinningPolish]);
-  fprintf(file,"%s","  ");
+  fputs(TwinningTab[TwinningPolish],file);
+  fputs("  ",file);
 }
 
 static void WriteSubstitute(FILE *file, move_effect_journal_index_type curr)
@@ -192,9 +192,9 @@ static void WriteSubstitute(FILE *file, move_effect_journal_index_type curr)
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
   WritePiece(file,entry->u.piece_change.from);
-  fprintf(file,"%s"," ==> ");
+  fputs(" ==> ",file);
   WritePiece(file,entry->u.piece_change.to);
-  fprintf(file,"%s","  ");
+  fputs("  ",file);
 }
 
 static void WriteTwinLetter(FILE *file)
@@ -248,7 +248,7 @@ static void WriteTwinning(FILE *file)
 
       case move_effect_input_condition:
         WriteConditions(file,&WriteCondition);
-        fprintf(file,"%s","  ");
+        fputs("  ",file);
         break;
 
       case move_effect_input_stipulation:
@@ -288,7 +288,7 @@ static void WriteIntro(FILE *file)
 
     case twin_zeroposition:
       Message2(file,NewLine);
-      fprintf(file,"%s",TokenTab[ZeroPosition]);
+      fputs(TokenTab[ZeroPosition],file);
       Message2(file,NewLine);
       Message2(file,NewLine);
       break;

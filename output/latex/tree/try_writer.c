@@ -48,7 +48,7 @@ void output_latex_tree_try_writer_solve(slice_index si)
 
   if (table_length(refutations)>0)
   {
-    fprintf(LaTeXFile," ?");
+    fputs(" ?",LaTeXFile);
     pipe_solve_delegate(si);
   }
   else

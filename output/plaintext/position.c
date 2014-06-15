@@ -81,7 +81,7 @@ static void WriteCastlingMutuallyExclusive(FILE *file)
   if (castling_mutual_exclusive[White][queenside_castling-min_castling]!=0
       || castling_mutual_exclusive[White][kingside_castling-min_castling]!=0)
   {
-    fprintf(file,"%s",OptString[UserLanguage][mutuallyexclusivecastling]);
+    fputs(OptString[UserLanguage][mutuallyexclusivecastling],file);
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &ra_cancastle))
@@ -130,8 +130,8 @@ static void WriteGrid(FILE *file)
   static char BlankL[]="|                                   |\n";
 
   fputc('\n',file);
-  fprintf(file,"%s",BorderL);
-  fprintf(file,"%s",BlankL);
+  fputs(BorderL,file);
+  fputs(BlankL,file);
 
   for (row=0, square_a = square_a8;
        row<nr_rows_on_board;
@@ -148,11 +148,11 @@ static void WriteGrid(FILE *file)
       HLine[4*column+4]= (g%10)+'0';
     }
 
-    fprintf(file,"%s",HLine);
-    fprintf(file,"%s",BlankL);
+    fputs(HLine,file);
+    fputs(BlankL,file);
   }
 
-  fprintf(file,"%s",BorderL);
+  fputs(BorderL,file);
 }
 
 static void CollectPiecesWithAttribute(position const *pos,
@@ -364,7 +364,7 @@ static void WriteRegularCells(FILE *file, position const *pos, square square_a)
         pos_in_cell[0] = '-';
     }
 
-    fprintf(file,"%s",cell);
+    fputs(cell,file);
   }
 }
 
@@ -401,7 +401,7 @@ static void WriteBaseCells(FILE *file, position const *pos, square square_a)
       WriteWalkRtoL(pos_in_cell,huntertypes[hunterIndex].home);
     }
 
-    fprintf(file,"%s",cell);
+    fputs(cell,file);
   }
 }
 
@@ -412,29 +412,29 @@ static void WriteBorder(FILE *file)
 
   assert(nr_files_on_board <= 'z'-'a');
 
-  fprintf(file,"%s","+--");
+  fputs("+--",file);
 
   for (column = 0, letter = 'a'; column!=nr_files_on_board; ++column, ++letter)
   {
     char cell[fileWidth+1];
     snprintf(cell, sizeof cell, "-%c--", letter);
-    fprintf(file,"%s",cell);
+    fputs(cell,file);
   }
 
-  fprintf(file,"%s","-+\n");
+  fputs("-+\n",file);
 }
 
 static void WriteBlankLine(FILE *file)
 {
   unsigned int column;
 
-  fprintf(file,"%s","| ");
-  fprintf(file,"%s"," ");
+  fputs("| ",file);
+  fputs(" ",file);
 
   for (column = 0; column!=nr_files_on_board; ++column)
-    fprintf(file,"%s","    ");
+    fputs("    ",file);
 
-  fprintf(file,"%s"," |\n");
+  fputs(" |\n",file);
 }
 
 void WriteBoard(FILE *file, position const *pos)
@@ -457,9 +457,9 @@ void WriteBoard(FILE *file, position const *pos)
     fprintf(file,"  %d", nr_rows_on_board-row);
     fputc('\n',file);
 
-    fprintf(file,"%s","| ");
+    fputs("| ",file);
     WriteBaseCells(file,pos,square_a);
-    fprintf(file,"%s","  |\n");
+    fputs("  |\n",file);
   }
 
   WriteBorder(file);
@@ -467,7 +467,7 @@ void WriteBoard(FILE *file, position const *pos)
 
 static void WriteMeta(FILE *file)
 {
-  fprintf(file,"%s","\n");
+  fputs("\n",file);
   MultiCenter(file,ActAuthor);
   MultiCenter(file,ActOrigin);
   MultiCenter(file,ActAward);

@@ -16,12 +16,12 @@
  */
 static void write_generation_info(FILE *dest, char const *argv0)
 {
-  fprintf(dest,"/******** IMPORTANT INFORMATION ****************\n");
+  fputs("/******** IMPORTANT INFORMATION ****************\n",dest);
   fprintf(dest,
           "This file is generated using the program %s -- DON'T CHANGE.\n",
           argv0);
   fprintf(dest,"%s was compiled from %s.\n",argv0,__FILE__);
-  fprintf(dest,"***********************************************/\n");
+  fputs("***********************************************/\n",dest);
 }
 
 /* Write board initialiser to output file
@@ -34,19 +34,19 @@ static void dump_board_initialiser_to_stream(FILE *dest, echiquier const board)
   size_t const nr_squares = maxsquare+4;
   unsigned int column = 0;
 
-  fprintf(dest,"  { /* board */\n    ");
+  fputs("  { /* board */\n    ",dest);
   for (i = 0; i+1<nr_squares; ++i)
   {
     fprintf(dest,"%2d,",board[i]);
     ++column;
     if (column==onerow)
     {
-      fprintf(dest,"\n    ");
+      fputs("\n    ",dest);
       column = 0;
     }
   }
   fprintf(dest,"%2d\n",board[i]);
-  fprintf(dest,"  }");
+  fputs("  }",dest);
 }
 
 /* Write piece specs initialiser to output file
@@ -59,19 +59,19 @@ static void dump_spec_initialiser_to_stream(FILE *dest, Flags const spec[])
   size_t const nr_squares = maxsquare+4;
   unsigned int column = 0;
 
-  fprintf(dest,"  { /* spec */\n    ");
+  fputs("  { /* spec */\n    ",dest);
   for (i = 0; i+1<nr_squares; ++i)
   {
     fprintf(dest,"%lu,",spec[i]);
     ++column;
     if (column==onerow)
     {
-      fprintf(dest,"\n    ");
+      fputs("\n    ",dest);
       column = 0;
     }
   }
   fprintf(dest,"%lu\n",spec[i]);
-  fprintf(dest,"  }");
+  fputs("  }",dest);
 }
 
 /* Write king square initialisers to output file
@@ -95,7 +95,7 @@ static void dump_imitator_initialisers_to_stream(FILE *dest,
 {
   unsigned int i;
   fprintf(dest,"  %u, ",inum);
-  fprintf(dest,"{ ");
+  fputs("{ ",dest);
   for (i = 0; i+1<maxinum; ++i)
     fprintf(dest,"%u,",isquare[i]);
   fprintf(dest,"%u } /* imitators */",isquare[i]);
@@ -110,35 +110,35 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
   piece_walk_type p;
   unsigned int column = 0;
 
-  fprintf(dest,"  { /* numbers of pieces */\n");
-  fprintf(dest,"    { /* White */\n      ");
+  fputs("  { /* numbers of pieces */\n",dest);
+  fputs("    { /* White */\n      ",dest);
   for (p = 0; p<nr_piece_walks-1; ++p)
   {
     fprintf(dest,"%u,",pos->number_of_pieces[White][p]);
     ++column;
     if (column==20)
     {
-      fprintf(dest,"\n      ");
+      fputs("\n      ",dest);
       column = 0;
     }
   }
   fprintf(dest,"%u\n",pos->number_of_pieces[White][p]);
-  fprintf(dest,"    },\n");
+  fputs("    },\n",dest);
   column = 0;
-  fprintf(dest,"    { /* Black */\n      ");
+  fputs("    { /* Black */\n      ",dest);
   for (p = 0; p<nr_piece_walks-1; ++p)
   {
     fprintf(dest,"%u,",pos->number_of_pieces[Black][p]);
     ++column;
     if (column==20)
     {
-      fprintf(dest,"\n      ");
+      fputs("\n      ",dest);
       column = 0;
     }
   }
   fprintf(dest,"%u\n",pos->number_of_pieces[Black][p]);
-  fprintf(dest,"    }\n");
-  fprintf(dest,"  }");
+  fputs("    }\n",dest);
+  fputs("  }",dest);
 }
 
 /* Write position initialiser to output file
@@ -148,18 +148,18 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
 static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
 {
   fprintf(dest,"#include \"position/position.h\"\n");
-  fprintf(dest,"position const game_array =\n");
-  fprintf(dest,"{\n");
+  fputs("position const game_array =\n",dest);
+  fputs("{\n",dest);
   dump_board_initialiser_to_stream(dest,pos->board);
-  fprintf(dest,",\n");
+  fputs(",\n",dest);
   dump_spec_initialiser_to_stream(dest,pos->spec);
-  fprintf(dest,",\n");
+  fputs(",\n",dest);
   dump_royal_initialisers_to_stream(dest,pos->king_square[White],pos->king_square[Black]);
-  fprintf(dest,",\n");
+  fputs(",\n",dest);
   dump_imitator_initialisers_to_stream(dest,pos->number_of_imitators,pos->isquare);
-  fprintf(dest,",\n");
+  fputs(",\n",dest);
   dump_nr_piece_initialisers_to_stream(dest,pos);
-  fprintf(dest,"\n};\n");
+  fputs("\n};\n",dest);
 }
 
 /* Write position initialiser to output file (yet to be opened);

@@ -639,7 +639,7 @@ void output_plaintext_tree_write_move(FILE *file)
 
   fprintf(file,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
   if (move_depth%2==1)
-    fprintf(file,"..");
+    fputs("..",file);
 
   output_plaintext_write_move(file);
 

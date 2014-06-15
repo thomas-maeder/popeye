@@ -47,9 +47,9 @@ void output_plaintext_tree_key_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(stdout," !");
+  fputs(" !",stdout);
   if (TraceFile)
-    fprintf(TraceFile," !");
+    fputs(" !",TraceFile);
   if (OptFlag[beep])
     produce_beep();
 

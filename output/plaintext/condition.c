@@ -332,10 +332,12 @@ static boolean anything_to_write(Cond cond)
   }
 }
 
-boolean WriteConditions(FILE *file,
-                        void (*WriteCondition)(FILE *file,
-                                               char const CondLine[],
-                                               boolean is_first))
+/* Write conditions to a file
+ * @param file where to write to
+ * @param WriteCondition single condition writer
+ * @return true iff >=1 condition has been written
+ */
+boolean WriteConditions(FILE *file, condition_writer_type WriteCondition)
 {
   Cond cond;
   boolean result = false;

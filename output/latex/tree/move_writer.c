@@ -59,9 +59,9 @@ void output_latex_tree_move_writer_solve(slice_index si)
 
   fprintf(LaTeXFile,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
   if (move_depth%2==1)
-    fprintf(LaTeXFile,"..");
+    fputs("..",LaTeXFile);
 
-  output_latex_write_move();
+  output_latex_write_move(LaTeXFile);
 
   pipe_solve_delegate(si);
 

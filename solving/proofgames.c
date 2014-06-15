@@ -838,9 +838,9 @@ static void OfficerMovesFromTo(piece_walk_type p,
       break;
 
     default:
-      fprintf(stderr,"error in PieceMovesFromTo - piece:");
+      fputs("error in PieceMovesFromTo - piece:",stderr);
       WritePiece(stderr,p);
-      fprintf(stderr,"\n");
+      fputs("\n",stderr);
       break;
   }
 }

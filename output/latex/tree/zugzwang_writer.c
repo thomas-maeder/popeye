@@ -58,7 +58,7 @@ void output_latex_tree_zugzwang_writer_solve(slice_index si)
   if (solve_nr_remaining>=next_move_has_solution
       && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
   {
-    fprintf(LaTeXFile," ");
+    fputs(" ",LaTeXFile);
     Message2(LaTeXFile,Zugzwang);
   }
 
