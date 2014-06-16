@@ -10,6 +10,7 @@
 #include "solving/legal_move_counter.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -211,6 +212,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 void backhome_initialise_solving(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   {
@@ -243,6 +245,8 @@ void backhome_initialise_solving(slice_index si)
 
   stip_instrument_check_validation(si,nr_sides,STBackhomeExistanceTester);
   stip_instrument_check_validation(si,nr_sides,STBackhomeRemoveIllegalMoves);
+
+  solving_instrument_check_testing(si,STKingCapturedObservationGuard);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

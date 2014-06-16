@@ -11,6 +11,7 @@
 #include "stipulation/slice_insertion.h"
 #include "solving/temporary_hacks.h"
 #include "solving/machinery/twin.h"
+#include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
@@ -80,6 +81,34 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
   TraceFunctionResultEnd();
   return result;
 }
+
+static boolean king_captured_observation_guard_is_in_check(slice_index si,
+                                                           Side side_king_attacked)
+{
+   boolean result;
+   static twin_id_type has_detected_king_capture;
+
+   TraceFunctionEntry(__func__);
+   TraceFunctionParam("%u",si);
+   TraceEnumerator(Side,side_king_attacked,"");
+   TraceFunctionParamListEnd();
+
+   if (being_solved.king_square[side_king_attacked]==initsquare
+       && has_detected_king_capture!=twin_id)
+   {
+     Message(KingCaptureDetected);
+     has_detected_king_capture = twin_id;
+     result = false;
+   }
+   else
+     result = is_square_observed(EVALUATE(check));
+
+   TraceFunctionExit(__func__);
+   TraceFunctionResult("%u",result);
+   TraceFunctionResultEnd();
+   return result;
+}
+
 
 DEFINE_COUNTER(is_white_king_square_attacked)
 DEFINE_COUNTER(is_black_king_square_attacked)
@@ -163,6 +192,10 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
       result = antikings_check_tester_is_in_check(si,side_in_check);
       break;
 
+    case STKingCapturedObservationGuard:
+      result = king_captured_observation_guard_is_in_check(si,side_in_check);
+      break;
+
     case STKingSquareObservationTester:
       result = king_square_observation_tester_is_in_check(si,side_in_check);
       break;
@@ -208,6 +241,7 @@ static slice_index const slice_rank_order[] =
     STStrictSATCheckTester,
     STKingSquareObservationTesterPlyInitialiser,
     STAntikingsCheckTester,
+    STKingCapturedObservationGuard,
     STKingSquareObservationTester,
     STExtinctionAllPieceObservationTester,
     STCirceAssassinAllPieceObservationTester,
@@ -274,6 +308,8 @@ void solving_instrument_check_testing(slice_index si, slice_type type)
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&type);

@@ -141,6 +141,7 @@ typedef enum
   CantDecideOnSideWhichConditionAppliesTo           = 117,
   NoCageImmuneWithoutCage                           = 118,
   ExclusiveRefutedUndecidable                       = 119,
+  KingCaptureDetected                               = 120,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

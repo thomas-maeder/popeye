@@ -312,6 +312,7 @@
     ENUMERATOR(STStrictSATCheckTester),                                 \
     ENUMERATOR(STKingSquareObservationTesterPlyInitialiser),            \
     ENUMERATOR(STAntikingsCheckTester),                                 \
+    ENUMERATOR(STKingCapturedObservationGuard),                         \
     ENUMERATOR(STKingSquareObservationTester),                          \
     ENUMERATOR(STBGLEnforcer),                                          \
     ENUMERATOR(STBGLAdjuster),                                          \

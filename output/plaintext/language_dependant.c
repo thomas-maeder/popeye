@@ -1809,7 +1809,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*116*/ "ButEstFin et Quodlibet incompatibles\n",
     /*117*/ "Il ne peut pas etre decide si une condition s'applique aux Blancs ou aux Noirs\n",
     /*118*/ "ImmunCage seulement avec CirceCage\n",
-    /*119*/ "On ne peut pas decider si ce coup est refute\n"
+    /*119*/ "On ne peut pas decider si ce coup est refute\n",
+    /*120*/ "Capture de roi detectee - elements feeriques probablement incompatibles\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -1931,7 +1932,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*116*/ "ZielIstEnde und Quodlibet nicht kompatibel\n",
     /*117*/ "Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt\n",
     /*118*/ "KaefigImmunSchach nur mit KaefigCirce\n",
-    /*119*/ "Kann nicht entscheiden, ob dieser Zug widerlegt wird\n"
+    /*119*/ "Kann nicht entscheiden, ob dieser Zug widerlegt wird\n",
+    /*120*/ "Schlag eines Koenigs detektiert - Maerchenelemente scheinen unvereinbar\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -2053,7 +2055,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*116*/ "GoalIsEnd and Quodlibet are incompatible\n",
     /*117*/ "Can't decide whether condition applies to White or Black\n",
     /*118*/ "CageImmunChess only with CageCirce\n",
-    /*119*/ "Can't decide whether this move is refuted\n"
+    /*119*/ "Can't decide whether this move is refuted\n",
+    /*120*/ "King capture detected - fairy elements seem incompatible"
   }
 };
 

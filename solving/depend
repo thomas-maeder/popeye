@@ -2023,6 +2023,7 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/machinery/twin.h \
+ output/plaintext/message.h input/plaintext/language.h \
  debugging/measure.h debugging/assert.h
 
 solving/check.h:
@@ -2108,6 +2109,10 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/machinery/twin.h:
+
+output/plaintext/message.h:
+
+input/plaintext/language.h:
 
 debugging/measure.h:
 

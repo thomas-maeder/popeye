@@ -127,10 +127,10 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  solving/post_move_iteration.h solving/ply.h \
  solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h output/plaintext/language_dependant.h \
- input/plaintext/twin.h input/plaintext/token.h input/plaintext/line.h \
- conditions/mummer.h conditions/anticirce/anticirce.h \
- conditions/circe/circe.h stipulation/slice_insertion.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ input/plaintext/twin.h input/plaintext/token.h conditions/mummer.h \
+ conditions/anticirce/anticirce.h conditions/circe/circe.h \
+ stipulation/slice_insertion.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
@@ -237,8 +237,6 @@ output/plaintext/language_dependant.h:
 input/plaintext/twin.h:
 
 input/plaintext/token.h:
-
-input/plaintext/line.h:
 
 conditions/mummer.h:
 
@@ -5502,7 +5500,7 @@ conditions/backhome$(OBJ_SUFFIX): conditions/backhome.c conditions/backhome.h \
  stipulation/slice_insertion.h solving/move_generator.h solving/ply.h \
  solving/observation.h solving/temporary_hacks.h \
  solving/legal_move_counter.h solving/pipe.h solving/fork.h \
- debugging/assert.h
+ solving/check.h debugging/assert.h
 
 conditions/backhome.h:
 
@@ -5583,6 +5581,8 @@ solving/legal_move_counter.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/check.h:
 
 debugging/assert.h:
 conditions/vogtlaender$(OBJ_SUFFIX): conditions/vogtlaender.c \
