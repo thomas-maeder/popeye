@@ -638,7 +638,7 @@ static boolean FindFairyWalks(boolean colour_has_piece[nr_piece_walks][nr_colour
 }
 
 static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_sides],
-                                   char ListSpec[nr_piece_flags-nr_sides][256])
+                                   char ListSpec[nr_piece_flags-nr_sides][4*nr_files_on_board*nr_rows_on_board])
 {
   boolean result = false;
 
@@ -687,7 +687,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
   return result;
 }
 
-static boolean FindHoles(char HolesSqList[256])
+static boolean FindHoles(char HolesSqList[4*nr_files_on_board*nr_rows_on_board])
 {
   boolean result = false;
   square const *bnp;
@@ -696,7 +696,6 @@ static boolean FindHoles(char HolesSqList[256])
   TraceFunctionParamListEnd();
 
   for (bnp = boardnum; *bnp; bnp++)
-  {
     if (is_square_blocked(*bnp))
     {
       if (result)
@@ -705,7 +704,6 @@ static boolean FindHoles(char HolesSqList[256])
         result = true;
       AppendSquare(HolesSqList,*bnp);
     }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -770,7 +768,7 @@ static void WriteFairyWalks(FILE *file,
 static void WritePiecesWithSpecs(FILE *file,
                                  boolean remark_written,
                                  unsigned int const SpecCount[nr_piece_flags-nr_sides],
-                                 char ListSpec[nr_piece_flags-nr_sides][256])
+                                 char ListSpec[nr_piece_flags-nr_sides][4*nr_files_on_board*nr_rows_on_board])
 {
   piece_flag_type sp;
 
@@ -811,23 +809,23 @@ static void WriteFairyPieces(FILE *file)
   boolean const fairy_walk_found = FindFairyWalks(colour_has_walk);
 
   unsigned int SpecCount[nr_piece_flags-nr_sides] = { 0 };
-  char ListSpec[nr_piece_flags-nr_sides][256];
+  char ListSpec[nr_piece_flags-nr_sides][4*nr_files_on_board*nr_rows_on_board];
   boolean const piece_with_specs_found = FindPiecesWithSpecs(SpecCount,ListSpec);
 
-  char HolesSqList[256] = "";
+  char HolesSqList[4*nr_files_on_board*nr_rows_on_board] = "";
   boolean const hole_found = FindHoles(HolesSqList);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  if (hole_found)
+  {
+    WriteGeneratedElement(file,"nofields",HolesSqList);
+    WriteGeneratedElement(file,"fieldframe",HolesSqList);
+  }
+
   if (fairy_walk_found || hole_found || piece_with_specs_found)
   {
-    if (hole_found)
-    {
-      WriteGeneratedElement(file,"nofields",HolesSqList);
-      WriteGeneratedElement(file,"fieldframe",HolesSqList);
-    }
-
     OpenGeneratedElementOneLine(file,"remark");
 
     if (fairy_walk_found)
