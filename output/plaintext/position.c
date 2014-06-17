@@ -170,24 +170,25 @@ static void WriteGrid(FILE *file)
   fputs(BorderL,file);
 }
 
-static void CollectPiecesWithAttribute(position const *pos,
-                                       char ListSpec[256],
-                                       piece_flag_type sp)
+static void WritePiecesWithAttribute(FILE *file,
+                                     position const *pos,
+                                     piece_flag_type sp)
 {
+  char squares[3*nr_rows_on_board*nr_files_on_board+1];
   square square_a = square_a8;
   unsigned int row;
-
-  strcpy(ListSpec,PieSpString[UserLanguage][sp-nr_sides]);
 
   for (row = 1; row<=nr_rows_on_board; ++row, square_a += dir_down)
   {
     unsigned int column;
     square square = square_a;
 
-    for (column = 1; column <= nr_files_on_board; ++column, square += dir_right)
+    for (column = 1; column<=nr_files_on_board; ++column, square += dir_right)
       if (TSTFLAG(pos->spec[square],sp))
-        AppendSquare(ListSpec,square);
+        AppendSquare(squares,square);
   }
+
+  CenterLine(file,"%s%s",PieSpString[UserLanguage][sp-nr_sides],squares);
 }
 
 static void WriteNonRoyalAttributedPieces(FILE *file, position const *pos)
@@ -200,23 +201,17 @@ static void WriteNonRoyalAttributedPieces(FILE *file, position const *pos)
       if (!(sp==Patrol && CondFlag[patrouille])
           && !(sp==Volage && CondFlag[volage])
           && !(sp==Beamtet && CondFlag[beamten]))
-      {
-        char ListSpec[256];
-        CollectPiecesWithAttribute(pos,ListSpec,sp);
-        CenterLine(file,"%s",ListSpec);
-      }
+        WritePiecesWithAttribute(file,pos,sp);
     }
 }
 
-static unsigned int CollectRoyalPiecePositions(position const *pos,
-                                               char ListSpec[256])
+static void WriteRoyalPiecePositions(FILE *file, position const *pos)
 {
-  unsigned int result = 0;
+  char squares[3*nr_rows_on_board*nr_files_on_board+1];
+  unsigned int nr_royals = 0;
 
   square square_a = square_a8;
   unsigned int row;
-
-  strcpy(ListSpec,PieSpString[UserLanguage][Royal-nr_sides]);
 
   for (row = 0; row!=nr_rows_on_board; ++row, square_a += dir_down)
   {
@@ -227,20 +222,13 @@ static unsigned int CollectRoyalPiecePositions(position const *pos,
       if (TSTFLAG(pos->spec[square],Royal)
           && !is_king(pos->board[square]))
       {
-        AppendSquare(ListSpec,square);
-        ++result;
+        AppendSquare(squares,square);
+        ++nr_royals;
       }
   }
 
-  return result;
-}
-
-static void WriteRoyalPiecePositions(FILE *file, position const *pos)
-{
-  char ListSpec[256];
-
-  if (CollectRoyalPiecePositions(pos,ListSpec)>0)
-    CenterLine(file,"%s",ListSpec);
+  if (nr_royals>0)
+    CenterLine(file,"%s%s",squares,PieSpString[UserLanguage][Royal-nr_sides]);
 }
 
 static void DoPieceCounts(position const *pos,
