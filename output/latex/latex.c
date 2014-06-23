@@ -157,7 +157,7 @@ static void WriteCommand(FILE *file, char const *name)
   fprintf(file,"\\%s%%\n",name);
 }
 
-static void WriteChrtschnbrr(FILE *file, char const *name)
+static void WriteInBraces(FILE *file, char const *name)
 {
   fprintf(file,"{\\%s}",name);
 }
@@ -177,7 +177,7 @@ void LaTeXStr(FILE *file, char const *line)
     case '-':
       if (*(line+1) == '>')   /* convert -> to \ra   FCO */
       {
-        WriteChrtschnbrr(file,"ra");
+        WriteInBraces(file,"ra");
         ++line;
       }
       else   /* ordinary minus */
@@ -187,7 +187,7 @@ void LaTeXStr(FILE *file, char const *line)
     case '<':
       if (*(line+1)=='-' && *(line+2)=='-' && *(line+3)=='>')   /* convert -> to \lra  */
       {
-        WriteChrtschnbrr(file,"lra");
+        WriteInBraces(file,"lra");
         line += 3;
       }
       else  /* ordinary less than */
@@ -324,7 +324,7 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
       break;
 
     case condition_subsequent:
-      WriteChrtschnbrr(file,"newline");
+      WriteInBraces(file,"newline");
       LaTeXStr(file,CondLine);
       break;
 
@@ -359,44 +359,54 @@ static void WriteAuthor(FILE *file)
         endcp = cp;
         cp = strchr(TeXAuthor,'\n');
       }
+
       if (endcp!=0)
         *endcp = '\0';
 
       WriteUserInputElement(file,"author",TeXAuthor);
-
-      if (endcp!=0)
-        *endcp = '\n';
-      while ((cp=strchr(TeXAuthor, ';')))
-        *cp= '\n';
     }
     else
     {
       /* reverse first and surnames */
-      char *cp1, *cp2, *cp3;
+      char *cp1 = TeXAuthor;
+      char *cp2 = strchr(cp1,'\n');
 
       OpenGeneratedElementOneLine(file,"author");
-      cp1= TeXAuthor;
-      while ((cp2=strchr(cp1, '\n'))) {
+
+      while (cp2)
+      {
+        char *cp3 = cp2;
         *cp2= '\0';
-        if (cp1 != TeXAuthor)
+
+        if (cp1!=TeXAuthor)
           fputs("; ",file);
-        cp3= cp2;
-        while (cp3 > cp1 && *cp3 != ' ')
-          cp3--;
+
+        while (cp3>cp1 && *cp3!=' ')
+          --cp3;
+
         /* wrong LaTeX output if the authors surname only given */
-        if (cp3 == cp1) {
+        if (cp3 == cp1)
+        {
           /* we got only the surname ! */
-          sprintf(GlobalStr, "%s, ", cp3);
-        } else {
-          /* we got firstname and surname */
-          *cp3= '\0';
-          sprintf(GlobalStr, "%s, %s", cp3+1, cp1);
+          LaTeXStr(file,cp3);
+          fputs(", ",file);
         }
-        LaTeXStr(file,GlobalStr);
-        *cp3= *cp2= '\n';
+        else
+        {
+          /* we got firstname and surname */
+          *cp3 = '\0';
+          LaTeXStr(file,cp3+1);
+          fputs(", ",file);
+          LaTeXStr(file,cp1);
+        }
+
+        *cp3 = '\n';
+        *cp2 = '\n';
 
         cp1= cp2+1;
+        cp2 = strchr(cp1,'\n');
       }
+
       CloseElement(file);
     }
   }
@@ -441,12 +451,11 @@ static void WriteSource(FILE *file)
     **            day.-day. month. year
     */
     /* year */
-    eol= date= strchr(source, '\n');
-    *eol= '\0';
+    eol = date= strchr(source, '\n');
+    *eol = '\0';
 
-    while (strchr("0123456789-", *(date-1))) {
+    while (strchr("0123456789-", *(date-1)))
       date--;
-    }
 
     if (date != eol)
     {
@@ -495,7 +504,8 @@ static void WriteSource(FILE *file)
     /* issue number */
     while (*(date-1) == ' ')
       date--;
-    if (*(date-1) == ',') {
+    if (*(date-1) == ',')
+    {
       /* issue number found */
       tmp= --date;
       while (*(date-1) != ' ')
@@ -507,9 +517,15 @@ static void WriteSource(FILE *file)
     /* source name or complete source if not interpretable */
     while (*(date-1) == ' ')
       date--;
-    sprintf(GlobalStr," \\source{%.*s}",(int)(date-source),source);
-    LaTeXStr(file,GlobalStr);
-    fputs("%\n",file);
+
+    fputs(" \\source{",file);
+    {
+      char const save = *date;
+      *date = '\0';
+      LaTeXStr(file,source);
+      *date = save;
+    }
+    fputs("}%\n",file);
 
     *eol= '\n';
   }
@@ -749,7 +765,7 @@ static void WriteFairyWalks(FILE *file,
                   LaTeXPiecesFull[q]);
 
       if (fairy_walk_written)
-        WriteChrtschnbrr(file,"newline");
+        WriteInBraces(file,"newline");
       OpenGeneratedElementOneLine(file,"mbox");
       {
         Colour c;

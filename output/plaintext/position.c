@@ -34,13 +34,15 @@ enum
 static void CenterLine(FILE *file, char const *format, ...)
 {
   int nr_chars;
+  va_list args;
+  va_list args2;
+  va_start(args,format);
+  va_copy(args2,args);
 
   {
     char dummy;
-    va_list args;
-    va_start(args,format);
-    nr_chars = vsnprintf(&dummy,1,format,args);
-    va_end(args);
+    nr_chars = vsnprintf(&dummy,1,format,args2);
+    va_end(args2);
   }
 
   {
@@ -48,13 +50,8 @@ static void CenterLine(FILE *file, char const *format, ...)
                              ? 3+(fileWidth*nr_files_on_board-nr_chars)/2
                              : 1);
     fprintf(file,"%*s",indentation," ");
-
-    {
-      va_list args;
-      va_start(args,format);
-      vfprintf(file,format,args);
-      va_end(args);
-    }
+    vfprintf(file,format,args);
+    va_end(args);
   }
 
   fputc('\n',file);
@@ -174,7 +171,7 @@ static void WritePiecesWithAttribute(FILE *file,
                                      position const *pos,
                                      piece_flag_type sp)
 {
-  char squares[3*nr_rows_on_board*nr_files_on_board+1];
+  char squares[3*nr_rows_on_board*nr_files_on_board+1] = "";
   square square_a = square_a8;
   unsigned int row;
 
@@ -207,7 +204,7 @@ static void WriteNonRoyalAttributedPieces(FILE *file, position const *pos)
 
 static void WriteRoyalPiecePositions(FILE *file, position const *pos)
 {
-  char squares[3*nr_rows_on_board*nr_files_on_board+1];
+  char squares[3*nr_rows_on_board*nr_files_on_board+1] = "";
   unsigned int nr_royals = 0;
 
   square square_a = square_a8;
@@ -228,7 +225,7 @@ static void WriteRoyalPiecePositions(FILE *file, position const *pos)
   }
 
   if (nr_royals>0)
-    CenterLine(file,"%s%s",squares,PieSpString[UserLanguage][Royal-nr_sides]);
+    CenterLine(file,"%s%s",PieSpString[UserLanguage][Royal-nr_sides],squares);
 }
 
 static void DoPieceCounts(position const *pos,

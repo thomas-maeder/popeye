@@ -151,18 +151,13 @@ boolean InitMsgTab(Language l);
 char const *GetMsgString (message_id_t id);
 
 void VerifieMsg(message_id_t id);
-void ErrorMsg(message_id_t id);
-void Message(message_id_t id);
-void Message2(FILE *file, message_id_t id);
+void ErrorMsg(message_id_t id, ...);
+void Message(message_id_t id, ...);
+void Message2(FILE *file, message_id_t id, ...);
 void FtlMsg(message_id_t id);
 void IoErrorMsg(message_id_t n, int val);
 
 void PrintTime(FILE *file);
-
-void ErrString(char const *s);
-void logChrArg(char arg);
-void logStrArg(char *arg);
-void logIntArg(int arg);
-void logLngArg(long arg);
+void FormatTime(FILE *file);
 
 #endif  /* PYMSG_H */

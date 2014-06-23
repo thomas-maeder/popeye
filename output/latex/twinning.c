@@ -55,12 +55,11 @@ void LaTeXFlushTwinning(FILE *file)
 
 static void BeginTwinning(void)
 {
+  int const len = strlen(twinning);
   if (twin_number-twin_a<='z'-'a')
-    sprintf(GlobalStr, "%c) ", 'a'+twin_number-twin_a);
+    sprintf(twinning+len, "%c) ", 'a'+twin_number-twin_a);
   else
-    sprintf(GlobalStr, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
-
-  strcat(twinning,GlobalStr);
+    sprintf(twinning+len, "z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
 static void EndTwinning(void)
@@ -114,20 +113,21 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
 static void WritePieceCreation(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+  int const len = strlen(twinning);
 
-  sprintf(GlobalStr,
+  sprintf(twinning+len,
           "%s\\%c%s %c%c",
           find_removal(curr,entry->u.piece_addition.on) ? "" : "+",
           is_piece_neutral(entry->u.piece_addition.flags) ? 'n' : (TSTFLAG(entry->u.piece_addition.flags, White) ? 'w' : 's'),
           LaTeXWalk(entry->u.piece_addition.walk),
           'a'-nr_of_slack_files_left_of_board+entry->u.piece_addition.on%onerow,
           '1'-nr_of_slack_rows_below_board+entry->u.piece_addition.on/onerow);
-  strcat(twinning, GlobalStr);
 }
 
 static boolean WritePieceRemoval(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+  int len = strlen(twinning);
 
   if (find_creation(curr+1,entry->u.piece_removal.on))
     return false;
@@ -137,10 +137,10 @@ static boolean WritePieceRemoval(move_effect_journal_index_type curr)
     strcat(twinning,
            is_piece_neutral(entry->u.piece_removal.flags) ? "\\n" : (TSTFLAG(entry->u.piece_removal.flags, White) ? "\\w" : "\\s"));
     strcat(twinning,LaTeXWalk(entry->u.piece_removal.walk));
-    sprintf(GlobalStr, " %c%c",
+    len = strlen(twinning);
+    sprintf(twinning+len, " %c%c",
             'a'-nr_files_on_board+entry->u.piece_removal.on%onerow,
             '1'-nr_rows_on_board+entry->u.piece_removal.on/onerow);
-    strcat(twinning,GlobalStr);
     return true;
   }
 }
@@ -148,80 +148,71 @@ static boolean WritePieceRemoval(move_effect_journal_index_type curr)
 static void WritePieceMovement(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+  int len = strlen(twinning);
 
-  sprintf(GlobalStr,
+  sprintf(twinning+len,
           "\\%c%s %c%c",
           is_piece_neutral(entry->u.piece_movement.movingspec) ? 'n' : (TSTFLAG(entry->u.piece_movement.movingspec, White) ? 'w' : 's'),
           LaTeXWalk(entry->u.piece_movement.moving),
           'a'-nr_of_slack_files_left_of_board+entry->u.piece_movement.from%onerow,
           '1'-nr_of_slack_rows_below_board+entry->u.piece_movement.from/onerow);
-  strcat(twinning, GlobalStr);
 
   strcat(twinning, "{\\ra}");
 
-  sprintf(GlobalStr, "%c%c",
+  len = strlen(twinning);
+  sprintf(twinning+len, "%c%c",
           'a'-nr_files_on_board+entry->u.piece_movement.to%onerow,
           '1'-nr_rows_on_board+entry->u.piece_movement.to/onerow);
-  strcat(twinning, GlobalStr);
 }
 
 static void WritePieceExchange(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+  int len = strlen(twinning);
 
-  sprintf(GlobalStr,
-          "\\%c%s %c%c",
+  sprintf(twinning+len,"\\%c%s %c%c",
           is_piece_neutral(entry->u.piece_exchange.fromflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.fromflags, White) ? 'w' : 's'),
           LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.to)),
           'a'-nr_of_slack_files_left_of_board+entry->u.piece_exchange.from%onerow,
           '1'-nr_of_slack_rows_below_board+entry->u.piece_exchange.from/onerow);
-  strcat(twinning, GlobalStr);
 
   strcat(twinning, "{\\lra}");
 
-  sprintf(GlobalStr, "\\%c%s ",
+  len = strlen(twinning);
+  sprintf(twinning+len, "\\%c%s %c%c",
           is_piece_neutral(entry->u.piece_exchange.toflags) ? 'n' : (TSTFLAG(entry->u.piece_exchange.toflags, White) ? 'w' : 's'),
-          LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.from)));
-  strcat(twinning, GlobalStr);
-  sprintf(GlobalStr, "%c%c",
+          LaTeXWalk(get_walk_of_piece_on_square(entry->u.piece_exchange.from)),
           'a'-nr_files_on_board+entry->u.piece_exchange.to%onerow,
           '1'-nr_rows_on_board+entry->u.piece_exchange.to/onerow);
-  strcat(twinning, GlobalStr);
 }
 
 static void WriteBoardTransformation(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+  int const len = strlen(twinning);
 
   switch (entry->u.board_transformation.transformation)
   {
     case rot90:
-      sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], "90");
-      strcat(twinning, GlobalStr);
+      sprintf(twinning+len, "%s $%s^\\circ$", TwinningTab[TwinningRotate], "90");
       break;
     case rot180:
-      sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], "180");
-      strcat(twinning, GlobalStr);
+      sprintf(twinning+len, "%s $%s^\\circ$", TwinningTab[TwinningRotate], "180");
       break;
     case rot270:
-      sprintf(GlobalStr, "%s $%s^\\circ$", TwinningTab[TwinningRotate], "270");
-      strcat(twinning, GlobalStr);
+      sprintf(twinning+len, "%s $%s^\\circ$", TwinningTab[TwinningRotate], "270");
       break;
     case mirra1h1:
-      sprintf(GlobalStr, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h1]);
-      strcat(twinning, GlobalStr);
+      sprintf(twinning+len, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h1]);
       break;
     case mirra1a8:
-      sprintf(GlobalStr, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1a8]);
-      strcat(twinning, GlobalStr);
+      sprintf(twinning+len, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1a8]);
       break;
     case mirra1h8:
-      sprintf(GlobalStr, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h8]);
-      strcat(twinning, GlobalStr);
+      sprintf(twinning+len, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora1h8]);
       break;
     case mirra8h1:
-      sprintf(GlobalStr, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora8h1]);
-      strcat(twinning, GlobalStr);
+      sprintf(twinning+len, "%s %s", TwinningTab[TwinningMirror], TwinningMirrorTab[TwinningMirrora8h1]);
       break;
 
     default:
@@ -233,14 +224,14 @@ static void WriteBoardTransformation(move_effect_journal_index_type curr)
 static void WriteShift(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+  int const len = strlen(twinning);
 
-  sprintf(GlobalStr, "%s %c%c$\\Rightarrow$%c%c",
+  sprintf(twinning+len, "%s %c%c$\\Rightarrow$%c%c",
           TwinningTab[TwinningShift],
           'a'-nr_files_on_board+entry->u.twinning_shift.from%onerow,
           '1'-nr_rows_on_board+entry->u.twinning_shift.from/onerow,
           'a'-nr_files_on_board+entry->u.twinning_shift.to%onerow,
           '1'-nr_rows_on_board+entry->u.twinning_shift.to/onerow);
-  strcat(twinning, GlobalStr);
 }
 
 static void WriteStipulation(move_effect_journal_index_type curr)
@@ -266,11 +257,11 @@ static void WritePolish(move_effect_journal_index_type curr)
 static void WriteSubstitute(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
+  int const len = strlen(twinning);
 
-  sprintf(GlobalStr,"{\\w%s} $\\Rightarrow$ \\w%s",
+  sprintf(twinning+len,"{\\w%s} $\\Rightarrow$ \\w%s",
           LaTeXWalk(entry->u.piece_change.from),
           LaTeXWalk(entry->u.piece_change.to));
-  strcat(twinning,GlobalStr);
 }
 
 static void WriteTwinLetterToSolution(FILE *file)

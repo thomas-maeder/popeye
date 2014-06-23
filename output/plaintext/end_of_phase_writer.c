@@ -45,9 +45,7 @@ void output_plaintext_end_of_phase_writer_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  Message2(stdout,NewLine);
-  if (TraceFile)
-    Message2(TraceFile,NewLine);
+  Message(NewLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

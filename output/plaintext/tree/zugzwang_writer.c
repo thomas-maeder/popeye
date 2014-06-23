@@ -48,13 +48,9 @@ void output_plaintext_tree_zugzwang_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (parent_ply[nbply]==ply_retro_move)
-  {
     /* option postkey is set - write "threat:" or "zugzwang" on a new line
      */
-    Message2(stdout,NewLine);
-    if (TraceFile)
-      Message2(TraceFile,NewLine);
-  }
+    Message(NewLine);
 
   pipe_solve_delegate(si);
 

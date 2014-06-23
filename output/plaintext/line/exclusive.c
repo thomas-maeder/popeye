@@ -70,9 +70,7 @@ void exclusive_chess_undecidable_writer_line_solve(slice_index si)
       fputc(' ',stdout);
       if (TraceFile!=0)
         fputc(' ',TraceFile);
-      Message2(stdout,ChecklessUndecidable);
-      if (TraceFile!=0)
-        Message2(TraceFile,ChecklessUndecidable);
+      Message(ChecklessUndecidable);
     }
   }
 

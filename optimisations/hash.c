@@ -994,8 +994,7 @@ void IncHashRateLevel(void)
   ++HashRateLevel;
   fputs("  ",stdout);
   PrintTime(stdout);
-  logIntArg(HashRateLevel);
-  Message(IncrementHashRateLevel);
+  Message(IncrementHashRateLevel,HashRateLevel);
   HashStats(0, "\n");
 }
 
@@ -1005,8 +1004,7 @@ void DecHashRateLevel(void)
     --HashRateLevel;
   fputs("  ",stdout);
   PrintTime(stdout);
-  logIntArg(HashRateLevel);
-  Message(DecrementHashRateLevel);
+  Message(DecrementHashRateLevel,HashRateLevel);
   HashStats(0, "\n");
 }
 
@@ -1033,8 +1031,7 @@ void HashStats(unsigned int level, char *trailer)
   {
     fputs("  ",stdout);
     pos= dhtKeyCount(pyhash);
-    logIntArg(pos);
-    Message2(stdout,HashedPositions);
+    Message2(stdout,HashedPositions,pos);
     if (use_all > 0)
     {
       if (use_all < 10000)

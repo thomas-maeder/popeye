@@ -12,12 +12,15 @@
 #include <stdio.h>
 #include <string.h>
 
-static move_effect_journal_index_type last_horizon;
+/* remember how far we written the twinning
+ * for a continued twin, this is where we start writing
+ */
+static move_effect_journal_index_type water_line;
 
 static boolean find_removal(move_effect_journal_index_type top,
                             square on)
 {
-  move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
+  move_effect_journal_index_type const base = twin_is_continued ? water_line : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
   for (curr = base; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_removal
@@ -220,7 +223,7 @@ static void WriteTwinLetter(FILE *file)
 static void WriteTwinning(FILE *file)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
-  move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
+  move_effect_journal_index_type const base = twin_is_continued ? water_line : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
 
   assert(base<=top);
@@ -284,8 +287,6 @@ static void WriteTwinning(FILE *file)
         break;
     }
   }
-
-  last_horizon = top;
 }
 
 static void WriteIntro(FILE *file)
@@ -341,8 +342,11 @@ void output_plaintext_write_twinning(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  WriteIntro(stdout);
   if (TraceFile)
     WriteIntro(TraceFile);
+
+  water_line = move_effect_journal_base[ply_twinning+1];
 
   pipe_solve_delegate(si);
 

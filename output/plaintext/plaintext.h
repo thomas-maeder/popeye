@@ -7,8 +7,6 @@
 
 #include <stdio.h>
 
-extern char GlobalStr[];
-
 extern FILE *TraceFile;
 
 extern char versionString[100];

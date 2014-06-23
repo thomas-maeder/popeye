@@ -26,8 +26,6 @@
 
 #include <stdlib.h>
 
-char GlobalStr[4000];
-
 FILE *TraceFile;
 
 void output_plaintext_context_open(FILE *file,

@@ -441,8 +441,6 @@ static char *ParseForsyth(void)
   char *tok = ReadNextCaseSensitiveTokStr();
   square sq = square_a8;
 
-  sprintf(GlobalStr, "  %s  \n", tok);
-
   while (sq && *tok)
      if (isdigit((int)*tok))
      {

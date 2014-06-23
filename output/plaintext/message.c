@@ -1,3 +1,4 @@
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,40 +32,12 @@ static char const * const *ActualMsgTab;
 
 static message_id_t StringCnt;
 
-static char *AdditionalArg;
 /* This is used to record an argument which is used
  * in a message-string. There are only message strings
  * that contain at most one format specifier.  Therefore
  * one pointer is sufficient.
  * Three small routines are provided to assign a value:
  */
-
-void logStrArg(char *arg)
-{
-  AdditionalArg= arg;
-}
-
-void logIntArg(int arg)
-{
-  static char IntBuffer[10];
-  sprintf(IntBuffer, "%d", arg);
-  AdditionalArg= IntBuffer;
-}
-
-void logLngArg(long arg)
-{
-  static char LngBuffer[16];
-  sprintf(LngBuffer, "%ld", arg);
-  AdditionalArg= LngBuffer;
-}
-
-void logChrArg(char arg)
-{
-  static char CharBuffer[2];
-  CharBuffer[0]= arg;
-  CharBuffer[1]= '\0';
-  AdditionalArg= CharBuffer;
-}
 
 boolean InitMsgTab(Language l)
 {
@@ -84,53 +57,82 @@ char const *GetMsgString(message_id_t id)
 #       define DBG(x)
 #endif
 
-void Message(message_id_t id)
+static void vMessage(FILE *file, message_id_t id, va_list args)
 {
-  DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
   if (id<StringCnt)
-    fprintf(stdout,GetMsgString(id), AdditionalArg);
-  else
-    fprintf(stdout,GetMsgString(InternalError), id);
-  if (TraceFile)
-  {
-    if (id<StringCnt)
-      fprintf(TraceFile,GetMsgString(id), AdditionalArg);
-    else
-      fprintf(TraceFile,GetMsgString(InternalError), id);
-  }
-  AdditionalArg= NULL;
-}
-
-void Message2(FILE *file, message_id_t id)
-{
-  DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
-  if (id<StringCnt)
-    fprintf(file,GetMsgString(id),AdditionalArg);
+    vfprintf(file,GetMsgString(id),args);
   else
     fprintf(file,GetMsgString(InternalError),id);
-  AdditionalArg = NULL;
 }
 
-void ErrorMsg(message_id_t id)
+void Message(message_id_t id, ...)
+{
+  va_list args;
+  DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
+
+  va_start(args,id);
+
+  if (TraceFile)
+  {
+    va_list args2;
+    va_copy(args2,args);
+    vMessage(stdout,id,args);
+    vMessage(TraceFile,id,args2);
+    va_end(args2);
+  }
+  else
+    vMessage(stdout,id,args);
+
+  va_end(args);
+}
+
+void Message2(FILE *file, message_id_t id, ...)
+{
+  va_list args;
+  DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
+  va_start(args,id);
+  vMessage(file,id,args);
+  va_end(args);
+}
+
+void ErrorMsg(message_id_t id, ...)
 {
   DBG((stderr, "ErrorMsg(%d) = %s\n", id, GetMsgString(id)));
+#if !defined(QUIET)
   if (id<StringCnt)
-    sprintf(GlobalStr, GetMsgString(id), AdditionalArg);
+  {
+    va_list args;
+    va_start(args,id);
+    if (TraceFile)
+    {
+      va_list args2;
+      va_copy(args2,args);
+      vMessage(stderr,id,args);
+      vMessage(TraceFile,id,args2);
+      va_end(args2);
+    }
+    else
+      vMessage(stderr,id,args);
+    va_end(args);
+  }
   else
-    sprintf(GlobalStr, GetMsgString(InternalError), id);
-  AdditionalArg= NULL;
-  ErrString(GlobalStr);
+  {
+    fprintf(stderr,GetMsgString(InternalError),id);
+    if (TraceFile)
+      fprintf(TraceFile,GetMsgString(InternalError),id);
+  }
+
+  fflush(stderr);
+
+  if (TraceFile)
+    fflush(TraceFile);
+#endif
 }
 
 void FtlMsg(message_id_t id)
 {
-  char *SaveArg= 0;
-  if (AdditionalArg)
-    SaveArg= AdditionalArg;
   ErrorMsg(ErrFatal);
   ErrorMsg(NewLine);
-  if (SaveArg)
-    AdditionalArg= SaveArg;
   ErrorMsg(id);
   ErrorMsg(NewLine);
   exit(id);
@@ -156,18 +158,6 @@ static void pyfputc(char c, FILE *f)
 #endif
 }
 
-static void pyfputs(char const *s, FILE *f)
-{
-#if !defined(QUIET)
-  fputs(s,f);
-  fflush(f);
-  if (TraceFile) {
-    fputs(s,TraceFile);
-    fflush(TraceFile);
-  }
-#endif
-}
-
 static void ErrChar(char c)
 {
   pyfputc(c, stderr);
@@ -176,12 +166,10 @@ static void ErrChar(char c)
 void IoErrorMsg(message_id_t n, int val)
 {
   fflush(stdout);
-  ErrorMsg(InputError);
-  logIntArg(val);
+  ErrorMsg(InputError,val);
   ErrorMsg(n);
   ErrChar('\n');
-  logStrArg(InputLine);
-  ErrorMsg(OffendingItem);
+  ErrorMsg(OffendingItem,InputLine);
   ErrChar('\n');
 }
 
@@ -222,9 +210,4 @@ void PrintTime(FILE *file)
     fprintf(file,GetMsgString(TimeString));
     FormatTime(file);
   }
-}
-
-void ErrString(char const *s)
-{
-  pyfputs(s, stderr);
 }

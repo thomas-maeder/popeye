@@ -54,9 +54,7 @@ void ohneschach_detect_undecidable_goal_solve(slice_index si)
     fputc(' ',stdout);
     if (TraceFile)
       fputc(' ',TraceFile);
-    Message2(stdout,ChecklessUndecidable);
-    if (TraceFile)
-      Message2(TraceFile,ChecklessUndecidable);
+    Message(ChecklessUndecidable);
   }
   else
     pipe_solve_delegate(si);
