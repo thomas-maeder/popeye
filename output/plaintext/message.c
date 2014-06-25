@@ -14,6 +14,7 @@
 #define PYMSG
 
 #include "output/plaintext/message.h"
+#include "output/plaintext/protocol.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
@@ -53,33 +54,27 @@ boolean InitMsgTab(Language l)
 #       define DBG(x)
 #endif
 
+void Message(message_id_t id, ...)
+{
+  DBG((stderr, "Mesage(%d) = %s\n", id, ActualMsgTab[id]));
+
+  if (id<StringCnt)
+  {
+    va_list args;
+    va_start(args,id);
+    protocol_vprintf(ActualMsgTab[id],args);
+    va_end(args);
+  }
+  else
+    Message(InternalError,id);
+}
+
 static void vMessage(FILE *file, message_id_t id, va_list args)
 {
   if (id<StringCnt)
     vfprintf(file,ActualMsgTab[id],args);
   else
     fprintf(file,ActualMsgTab[InternalError],id);
-}
-
-void Message(message_id_t id, ...)
-{
-  va_list args;
-  DBG((stderr, "Mesage(%d) = %s\n", id, ActualMsgTab[id]));
-
-  va_start(args,id);
-
-  if (TraceFile)
-  {
-    va_list args2;
-    va_copy(args2,args);
-    vMessage(stdout,id,args);
-    vMessage(TraceFile,id,args2);
-    va_end(args2);
-  }
-  else
-    vMessage(stdout,id,args);
-
-  va_end(args);
 }
 
 void Message2(FILE *file, message_id_t id, ...)

@@ -1353,11 +1353,11 @@ solving/pipe.h:
 debugging/assert.h:
 output/plaintext/message$(OBJ_SUFFIX): output/plaintext/message.c \
  output/plaintext/message.h input/plaintext/language.h \
- utilities/boolean.h output/output.h output/mode.h output/mode.enum.h \
- stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
- utilities/bitmask.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/plaintext/plaintext.h \
+ utilities/boolean.h output/plaintext/protocol.h output/output.h \
+ output/mode.h output/mode.enum.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
+ position/side.enum.h pieces/pieces.h output/plaintext/plaintext.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/castling_rights.h \
  solving/ply.h position/pieceid.h output/plaintext/language_dependant.h \
@@ -1382,6 +1382,8 @@ output/plaintext/message.h:
 input/plaintext/language.h:
 
 utilities/boolean.h:
+
+output/plaintext/protocol.h:
 
 output/output.h:
 
@@ -1488,3 +1490,54 @@ output/plaintext/stdio$(OBJ_SUFFIX): output/plaintext/stdio.c \
 output/plaintext/stdio.h:
 
 utilities/boolean.h:
+output/plaintext/protocol$(OBJ_SUFFIX): output/plaintext/protocol.c \
+ output/plaintext/protocol.h output/plaintext/plaintext.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/castling_rights.h \
+ solving/ply.h position/pieceid.h
+
+output/plaintext/protocol.h:
+
+output/plaintext/plaintext.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/castling_rights.h:
+
+solving/ply.h:
+
+position/pieceid.h:
