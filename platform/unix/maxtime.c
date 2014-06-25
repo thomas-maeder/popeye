@@ -19,9 +19,7 @@
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
 {
-  fprintf(stdout, GetMsgString(Abort));
-  FormatTime(stdout);
-  fputc('\n',stdout);
+  ReportAborted(sig);
   exit(1);
 }
 

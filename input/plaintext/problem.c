@@ -98,9 +98,9 @@ static void write_problem_footer(FILE *file)
       || was_max_nr_solutions_per_target_position_reached()
       || has_short_solution_been_found_in_problem()
       || hasMaxtimeElapsed())
-    fprintf(file,GetMsgString(InterMessage));
+    Message2(file,InterMessage);
   else
-    fprintf(file,GetMsgString(FinishProblem));
+    Message2(file,FinishProblem);
 
   fputs(" ",file);
   PrintTime(file);

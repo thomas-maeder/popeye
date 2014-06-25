@@ -2,11 +2,11 @@
 #include "output/plaintext/condition.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/position.h"
-#include "output/plaintext/message.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/line/line.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/end_of_phase_writer.h"
+#include "output/plaintext/language_dependant.h"
 #include "conditions/conditions.h"
 #include "conditions/republican.h"
 #include "conditions/bgl.h"
@@ -305,12 +305,6 @@ void output_plaintext_write_flags_change(output_plaintext_move_context_type *con
   }
 }
 
-static char side_shortcut(Side side)
-{
-  message_id_t const side_name_id = side==White ? WhiteColor : BlackColor;
-  return GetMsgString(side_name_id)[0];
-}
-
 void output_plaintext_write_side_change(output_plaintext_move_context_type *context,
                                         move_effect_journal_index_type curr)
 {
@@ -321,7 +315,7 @@ void output_plaintext_write_side_change(output_plaintext_move_context_type *cont
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
       fputc('=',context->file);
-      fputc(side_shortcut(move_effect_journal[curr].u.side_change.to),
+      fputc(ColourTab[move_effect_journal[curr].u.side_change.to][0],
             context->file);
       break;
 
@@ -331,7 +325,7 @@ void output_plaintext_write_side_change(output_plaintext_move_context_type *cont
       output_plaintext_next_context(context,curr,"[","]");
       WriteSquare(context->file,move_effect_journal[curr].u.side_change.on);
       fputc('=',context->file);
-      fputc(side_shortcut(move_effect_journal[curr].u.side_change.to),
+      fputc(ColourTab[move_effect_journal[curr].u.side_change.to][0],
             context->file);
       break;
 
@@ -617,7 +611,8 @@ void output_plaintext_write_half_neutral_deneutralisation(output_plaintext_move_
                                                           move_effect_journal_index_type curr)
 {
   fputc('=',context->file);
-  fputc(side_shortcut(move_effect_journal[curr].u.half_neutral_phase_change.side),context->file);
+  fputc(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0],
+        context->file);
   fputc('h',context->file);
 }
 

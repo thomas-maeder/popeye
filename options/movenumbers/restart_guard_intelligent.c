@@ -60,8 +60,8 @@ static boolean is_length_ruled_out_by_option_restart(void)
 static void print_nr_potential_target_positions(FILE *file)
 {
   fputs("\n",file);
-  fprintf(file,GetMsgString(PotentialMates),
-          nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
+  Message2(file,PotentialMates,
+           nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
   if (!flag_regression)
   {
     fputs("  (",file);

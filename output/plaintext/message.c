@@ -41,14 +41,9 @@ static message_id_t StringCnt;
 
 boolean InitMsgTab(Language l)
 {
-  StringCnt= MsgCount;
-  ActualMsgTab= MessageTabs[l];
+  StringCnt = MsgCount;
+  ActualMsgTab = MessageTabs[l];
   return true;
-}
-
-char const *GetMsgString(message_id_t id)
-{
-  return ActualMsgTab[id];
 }
 
 #if defined(DEBUG)
@@ -60,15 +55,15 @@ char const *GetMsgString(message_id_t id)
 static void vMessage(FILE *file, message_id_t id, va_list args)
 {
   if (id<StringCnt)
-    vfprintf(file,GetMsgString(id),args);
+    vfprintf(file,ActualMsgTab[id],args);
   else
-    fprintf(file,GetMsgString(InternalError),id);
+    fprintf(file,ActualMsgTab[InternalError],id);
 }
 
 void Message(message_id_t id, ...)
 {
   va_list args;
-  DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
+  DBG((stderr, "Mesage(%d) = %s\n", id, ActualMsgTab[id]));
 
   va_start(args,id);
 
@@ -89,7 +84,7 @@ void Message(message_id_t id, ...)
 void Message2(FILE *file, message_id_t id, ...)
 {
   va_list args;
-  DBG((stderr, "Mesage(%d) = %s\n", id, GetMsgString(id)));
+  DBG((stderr, "Mesage(%d) = %s\n", id, ActualMsgTab[id]));
   va_start(args,id);
   vMessage(file,id,args);
   va_end(args);
@@ -97,7 +92,7 @@ void Message2(FILE *file, message_id_t id, ...)
 
 void ErrorMsg(message_id_t id, ...)
 {
-  DBG((stderr, "ErrorMsg(%d) = %s\n", id, GetMsgString(id)));
+  DBG((stderr, "ErrorMsg(%d) = %s\n", id, ActualMsgTab[id]));
 #if !defined(QUIET)
   if (id<StringCnt)
   {
@@ -117,9 +112,9 @@ void ErrorMsg(message_id_t id, ...)
   }
   else
   {
-    fprintf(stderr,GetMsgString(InternalError),id);
+    fprintf(stderr,ActualMsgTab[InternalError],id);
     if (TraceFile)
-      fprintf(TraceFile,GetMsgString(InternalError),id);
+      fprintf(TraceFile,ActualMsgTab[InternalError],id);
   }
 
   fflush(stderr);
@@ -151,7 +146,8 @@ static void pyfputc(char c, FILE *f)
 #if !defined(QUIET)
   fputc(c,f);
   fflush(f);
-  if (TraceFile) {
+  if (TraceFile)
+  {
     fputc(c,TraceFile);
     fflush(TraceFile);
   }
@@ -207,7 +203,24 @@ void PrintTime(FILE *file)
 {
   if (!flag_regression)
   {
-    fprintf(file,GetMsgString(TimeString));
+    fprintf(file,ActualMsgTab[TimeString]);
     FormatTime(file);
+  }
+}
+
+void ReportAborted(int signal)
+{
+  fputc('\n',stdout);
+
+  fprintf(stderr,ActualMsgTab[Abort],signal);
+  FormatTime(stderr);
+  fputc('\n',stderr);
+
+  if (TraceFile)
+  {
+    fputc('\n',TraceFile);
+    fprintf(TraceFile,ActualMsgTab[Abort],signal);
+    FormatTime(TraceFile);
+    fputc('\n',TraceFile);
   }
 }
