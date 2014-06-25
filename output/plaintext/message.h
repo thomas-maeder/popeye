@@ -153,7 +153,7 @@ void Message2(FILE *file, message_id_t id, ...);
 void FtlMsg(message_id_t id);
 void IoErrorMsg(message_id_t n, int val);
 
-void PrintTime(FILE *file);
+void PrintTime(FILE *file, char const *header, char const *trail);
 void ReportAborted(int signal);
 
 #endif  /* PYMSG_H */

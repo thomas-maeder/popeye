@@ -251,41 +251,42 @@ static void DoPieceCounts(position const *pos,
   }
 }
 
-static void WritePieceCounts(FILE *file, position const *pos, unsigned int indentation)
+static void WriteRightAligned(FILE *file, int width,
+                              char const *format, ...)
+{
+  va_list args;
+  va_list args2;
+
+  va_start(args,format);
+  va_copy(args2,args);
+
+  {
+    int const nr_chars = vsnprintf(0,0,format,args);
+    int const gap = width>nr_chars ? width-nr_chars : 1;
+    fprintf(file,"%*c",gap,' ');
+  }
+
+  vfprintf(file,format,args2);
+
+  va_end(args2);
+  va_end(args);
+}
+
+static void WritePieceCounts(FILE *file,
+                             position const *pos,
+                             unsigned int indentation)
 {
   unsigned piece_per_colour[nr_colours] = { 0 };
 
   DoPieceCounts(pos,piece_per_colour);
 
-  if (piece_per_colour[colour_neutral]>0)
   {
-    char dummy;
-    int const nr_chars = snprintf(&dummy,1,"%d + %d + %dn",
-                                  piece_per_colour[colour_white],
-                                  piece_per_colour[colour_black],
-                                  piece_per_colour[colour_neutral]);
-    int const gap = (nr_files_on_board*fileWidth+3>indentation+nr_chars
-                     ? nr_files_on_board*fileWidth-indentation-nr_chars+3
-                     : 1);
-    fprintf(file,"%*s%d + %d + %dn",
-            gap," ",
-            piece_per_colour[colour_white],
-            piece_per_colour[colour_black],
-            piece_per_colour[colour_neutral]);
-  }
-  else
-  {
-    char dummy;
-    int const nr_chars = snprintf(&dummy,1,"%d + %d",
-                                  piece_per_colour[colour_white],
-                                  piece_per_colour[colour_black]);
-    int const gap = (nr_files_on_board*fileWidth+3>indentation+nr_chars
-                     ? nr_files_on_board*fileWidth-indentation-nr_chars+3
-                     : 1);
-    fprintf(file,"%*s%d + %d",
-            gap," ",
-            piece_per_colour[colour_white],
-            piece_per_colour[colour_black]);
+    char const *format = piece_per_colour[colour_neutral]>0 ? "%d + %d + %dn" : "%d + %d";
+    int const width = nr_files_on_board*fileWidth+3-indentation;
+    WriteRightAligned(file,width,format,
+                      piece_per_colour[colour_white],
+                      piece_per_colour[colour_black],
+                      piece_per_colour[colour_neutral]);
   }
 }
 

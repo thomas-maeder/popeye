@@ -62,12 +62,7 @@ static void print_nr_potential_target_positions(FILE *file)
   fputs("\n",file);
   Message2(file,PotentialMates,
            nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
-  if (!flag_regression)
-  {
-    fputs("  (",file);
-    PrintTime(file);
-    fputs(")",file);
-  }
+  PrintTime(file,"  (",")");
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

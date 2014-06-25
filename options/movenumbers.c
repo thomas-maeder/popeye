@@ -110,13 +110,7 @@ static void WriteMoveNbr(FILE *file, slice_index si)
     if (is_in_check(slices[si].starter))
       fputs(" +",file);
     fputs(" ",file);
-
-    if (!flag_regression)
-    {
-      fputs("   ",file);
-      PrintTime(file);
-    }
-
+    PrintTime(file,"   ","");
     fputs(")",file);
     fflush(file);
   }

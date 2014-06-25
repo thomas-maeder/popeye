@@ -200,11 +200,15 @@ static void FormatTime(FILE *file)
   }
 }
 
-void PrintTime(FILE *file)
+void PrintTime(FILE *file, char const *header, char const *trail)
 {
-  assert(!flag_regression);
-  fprintf(file,ActualMsgTab[TimeString]);
-  FormatTime(file);
+  if (!flag_regression)
+  {
+    fprintf(file,"%s",header);
+    fprintf(file,ActualMsgTab[TimeString]);
+    FormatTime(file);
+    fprintf(file,"%s",trail);
+  }
 }
 
 void ReportAborted(int signal)
