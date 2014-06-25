@@ -154,7 +154,6 @@ void FtlMsg(message_id_t id);
 void IoErrorMsg(message_id_t n, int val);
 
 void PrintTime(FILE *file);
-void FormatTime(FILE *file);
 void ReportAborted(int signal);
 
 #endif  /* PYMSG_H */

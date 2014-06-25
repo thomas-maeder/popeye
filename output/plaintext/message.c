@@ -18,6 +18,7 @@
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
 #include "platform/pytime.h"
+#include "debugging/assert.h"
 
 typedef unsigned int UnInt;
 typedef unsigned char UnChar;
@@ -169,7 +170,7 @@ void IoErrorMsg(message_id_t n, int val)
   ErrChar('\n');
 }
 
-void FormatTime(FILE *file)
+static void FormatTime(FILE *file)
 {
   unsigned long msec;
   unsigned long secs;
@@ -201,20 +202,17 @@ void FormatTime(FILE *file)
 
 void PrintTime(FILE *file)
 {
-  if (!flag_regression)
-  {
-    fprintf(file,ActualMsgTab[TimeString]);
-    FormatTime(file);
-  }
+  assert(!flag_regression);
+  fprintf(file,ActualMsgTab[TimeString]);
+  FormatTime(file);
 }
 
 void ReportAborted(int signal)
 {
   fputc('\n',stdout);
-
-  fprintf(stderr,ActualMsgTab[Abort],signal);
-  FormatTime(stderr);
-  fputc('\n',stderr);
+  fprintf(stdout,ActualMsgTab[Abort],signal);
+  FormatTime(stdout);
+  fputc('\n',stdout);
 
   if (TraceFile)
   {
