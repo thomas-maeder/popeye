@@ -4,6 +4,7 @@
 /* this module is intended as a stand-in for <stdio.h>
  * it #includes <stdio.h> and provides some stdio related functions */
 
+#include <stdarg.h>
 #include <stdio.h>
 
 /* Like fprintf(), but writes right-aligned into a space of the indicated
@@ -16,6 +17,8 @@
  */
 int fprintf_r(FILE *file, int width, char const *format, ...);
 
+int vfprintf_r(FILE *file, int width, char const *format, va_list args);
+
 /* like fprintf(), but writes centered into a space of the indicated width
  * format and argument strings shouldn't contain line breaks (except maybe at
  * the end) or the output will look "interesting".
@@ -24,6 +27,8 @@ int fprintf_r(FILE *file, int width, char const *format, ...);
  * which conversion run was the cause.
  */
 int fprintf_c(FILE *file, int width, char const *format, ...);
+
+int vfprintf_c(FILE *file, int width, char const *format, va_list args);
 
 /* write a series of centered lines using fprintf_c()
  * @param lines string consisting of >=1 lines separated by \n

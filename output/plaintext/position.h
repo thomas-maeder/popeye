@@ -5,10 +5,10 @@
 
 #include <stdio.h>
 
-void WriteBoard(FILE *file, position const *pos);
+void WriteBoard(position const *pos);
 
-void WritePositionRegular(FILE *file);
-void WritePositionProofGame(FILE *file);
-void WritePositionAtoB(FILE *file, Side starter);
+void WritePositionRegular(void);
+void WritePositionProofGame(void);
+void WritePositionAtoB(Side starter);
 
 #endif

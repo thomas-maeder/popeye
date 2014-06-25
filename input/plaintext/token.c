@@ -1,7 +1,7 @@
 #include "input/plaintext/token.h"
 #include "output/output.h"
 #include "output/plaintext/message.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "utilities/boolean.h"
 
 #include <ctype.h>
@@ -327,11 +327,8 @@ void ReadRemark(void)
   if (LastChar != '\n')
   {
     ReadToEndOfLine();
-    if (TraceFile!=NULL)
-    {
-      fputs(InputLine, TraceFile);
-      fflush(TraceFile);
-    }
+    protocol_printf("%s",InputLine);
     Message(NewLine);
+    protocol_flush();
   }
 }

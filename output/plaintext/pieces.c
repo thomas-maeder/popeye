@@ -1,6 +1,7 @@
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
+#include "output/plaintext/protocol.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/classification.h"
 #include "pieces/walks/hunters.h"
@@ -51,6 +52,48 @@ boolean WriteSpec(FILE *file, Flags sp, piece_walk_type p, boolean printcolours)
   return ret;
 }
 
+boolean WriteSpec1(Flags sp, piece_walk_type p, boolean printcolours)
+{
+  boolean ret = false;
+  piece_flag_type spname;
+
+  if (is_piece_neutral(sp))
+  {
+    protocol_putchar(tolower(ColourString[UserLanguage][colour_neutral][0]));
+    ret = true;
+  }
+  else if (printcolours)
+  {
+    if (areColorsSwapped)
+    {
+      if (TSTFLAG(sp,White))
+        protocol_putchar(tolower(ColourString[UserLanguage][colour_black][0]));
+      if (TSTFLAG(sp,Black))
+        protocol_putchar(tolower(ColourString[UserLanguage][colour_white][0]));
+    }
+    else
+    {
+      if (TSTFLAG(sp,White))
+        protocol_putchar(tolower(ColourString[UserLanguage][colour_white][0]));
+      if (TSTFLAG(sp,Black))
+        protocol_putchar(tolower(ColourString[UserLanguage][colour_black][0]));
+    }
+  }
+
+  for (spname = nr_sides; spname<nr_piece_flags; ++spname)
+    if ((spname!=Volage || !CondFlag[volage])
+        && (spname!=Patrol || !CondFlag[patrouille])
+        && (spname!=Beamtet || !CondFlag[beamten])
+        && (spname!=Royal || !is_king(p))
+        && TSTFLAG(sp, spname))
+    {
+      protocol_putchar(tolower(PieSpString[UserLanguage][spname-nr_sides][0]));
+      ret = true;
+    }
+
+  return ret;
+}
+
 void WritePiece(FILE *file, piece_walk_type p)
 {
   if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
@@ -68,6 +111,34 @@ void WritePiece(FILE *file, piece_walk_type p)
     fputc('/',file);
     WritePiece(file,huntertypes[i].home);
   }
+}
+
+void WritePiece1(piece_walk_type p)
+{
+  if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
+  {
+    char const p1 = PieceTab[p][1];
+    protocol_putchar(toupper(PieceTab[p][0]));
+    if (p1!=' ')
+      protocol_putchar(toupper(p1));
+  }
+  else
+  {
+    unsigned int const i = p-Hunter0;
+    assert(i<max_nr_hunter_walks);
+    WritePiece1(huntertypes[i].away);
+    protocol_putchar('/');
+    WritePiece1(huntertypes[i].home);
+  }
+}
+
+void WriteSquare1(square i)
+{
+  protocol_putchar('a' - nr_files_on_board + i%onerow);
+  if (isBoardReflected)
+    protocol_putchar('8' + nr_rows_on_board - i/onerow);
+  else
+    protocol_putchar('1' - nr_rows_on_board + i/onerow);
 }
 
 void WriteSquare(FILE *file, square i)

@@ -1,5 +1,4 @@
 #include "input/plaintext/pieces.h"
-#include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/message.h"
@@ -60,13 +59,6 @@ square SquareNum(char a, char b)
     return initsquare;
 }
 
-static void signal_overwritten_square(FILE *file, square Square)
-{
-  WriteSquare(file,Square);
-  fputc(' ',file);
-  Message2(file,OverwritePiece);
-}
-
 static char *ParseSquareList(char *tok,
                              piece_walk_type Name,
                              Flags Spec,
@@ -86,9 +78,8 @@ static char *ParseSquareList(char *tok,
       {
         if (type==piece_addition_initial)
         {
-          signal_overwritten_square(stdout,Square);
-          if (TraceFile)
-            signal_overwritten_square(TraceFile,Square);
+          WriteSquare1(Square);
+          Message(OverwritePiece);
 
           underworld_make_space(nr_ghosts);
           underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(Square);

@@ -3,7 +3,7 @@
 #include "input/plaintext/condition.h"
 #include "input/plaintext/option.h"
 #include "input/plaintext/twin.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
 #include "options/maxsolutions/maxsolutions.h"
@@ -92,19 +92,21 @@ static void ReadBeginSpec(void)
   }
 }
 
-static void write_problem_footer(FILE *file)
+static void write_problem_footer(void)
 {
   if (max_solutions_reached()
       || was_max_nr_solutions_per_target_position_reached()
       || has_short_solution_been_found_in_problem()
       || hasMaxtimeElapsed())
-    Message2(file,InterMessage);
+    Message(InterMessage);
   else
-    Message2(file,FinishProblem);
+    Message(FinishProblem);
 
-  PrintTime(file," ","");
-  fputs("\n\n\n",file);
-  fflush(file);
+  PrintTime1(" ","");
+  Message(NewLine);
+  Message(NewLine);
+  Message(NewLine);
+  protocol_flush();
 }
 
 /* Iterate over the problems read from standard input or the input
@@ -134,9 +136,7 @@ void iterate_problems(void)
 
     prev_token = iterate_twins();
 
-    write_problem_footer(stdout);
-    if (TraceFile)
-      write_problem_footer(TraceFile);
+    write_problem_footer();
 
     undo_move_effects();
     finply();

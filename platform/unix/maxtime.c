@@ -14,6 +14,7 @@
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/position.h"
 #include "output/plaintext/pieces.h"
+#include "output/plaintext/protocol.h"
 #include "pieces/pieces.h"
 
 /* default signal handler: */
@@ -81,28 +82,28 @@ static piece_walk_type find_promotion(ply ply, square sq_arrival)
   return result;
 }
 
-static void ReDrawPly(FILE *file, ply curr_ply)
+static void ReDrawPly(ply curr_ply)
 {
   ply const parent = parent_ply[curr_ply];
 
   if (parent>ply_retro_move)
-    ReDrawPly(file,parent);
+    ReDrawPly(parent);
 
   {
     move_effect_journal_index_type const top = move_effect_journal_base[curr_ply];
     move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
     piece_walk_type const pi_moving = move_effect_journal[movement].u.piece_movement.moving;
     piece_walk_type const promotee = find_promotion(curr_ply,move_effect_journal[movement].u.piece_movement.to);
-    WritePiece(file,pi_moving);
-    WriteSquare(file,move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].departure);
-    fputc('-',file);
-    WriteSquare(file,move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].arrival);
+    WritePiece1(pi_moving);
+    WriteSquare1(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].departure);
+    protocol_putchar('-');
+    WriteSquare1(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].arrival);
     if (promotee!=Empty)
     {
-      fputc('=',file);
-      WritePiece(file,promotee);
+      protocol_putchar('=');
+      WritePiece1(promotee);
     }
-    fputs("   ",file);
+    protocol_printf("%s","   ");
   }
 }
 
@@ -116,12 +117,12 @@ static void ReDrawBoard(int sig)
      TLi
   */
 
-  WriteBoard(stdout,&being_solved);
+  WriteBoard(&being_solved);
 
   /* and write (some information about) the sequences of moves that
      lead to this position.
   */
-  ReDrawPly(stdout,nbply);
+  ReDrawPly(nbply);
   fputc('\n',stdout);
 
   signal(sig,&ReDrawBoard);

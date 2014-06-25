@@ -2,6 +2,7 @@
 #include "output/plaintext/condition.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/position.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/line/line.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -837,20 +838,20 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void write_position(FILE *file, slice_index si)
+static void write_position(slice_index si)
 {
   switch (find_unique_goal(si).type)
   {
     case goal_atob:
-      WritePositionAtoB(file,slices[si].starter);
+      WritePositionAtoB(slices[si].starter);
       break;
 
     case goal_proofgame:
-      WritePositionProofGame(file);
+      WritePositionProofGame();
       break;
 
     default:
-      WritePositionRegular(file);
+      WritePositionRegular();
       break;
   }
 }
@@ -879,9 +880,7 @@ void output_plaintext_write_position(slice_index si)
     case twin_original_position_no_twins:
     case twin_zeroposition:
     case twin_initial:
-      write_position(stdout,si);
-      if (TraceFile)
-        write_position(TraceFile,si);
+      write_position(si);
       break;
 
     case twin_regular:

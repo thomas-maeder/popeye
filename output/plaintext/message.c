@@ -137,22 +137,16 @@ void VerifieMsg(message_id_t id)
   ErrorMsg(NewLine);
 }
 
-static void pyfputc(char c, FILE *f)
+static void ErrChar(char c)
 {
 #if !defined(QUIET)
-  fputc(c,f);
-  fflush(f);
+  fputc(c,stderr);
   if (TraceFile)
   {
     fputc(c,TraceFile);
     fflush(TraceFile);
   }
 #endif
-}
-
-static void ErrChar(char c)
-{
-  pyfputc(c, stderr);
 }
 
 void IoErrorMsg(message_id_t n, int val)
@@ -206,18 +200,51 @@ void PrintTime(FILE *file, char const *header, char const *trail)
   }
 }
 
+static void FormatTime1(void)
+{
+  unsigned long msec;
+  unsigned long secs;
+  StopTimer(&secs,&msec);
+
+  {
+    unsigned long const Hours = secs/3600;
+    unsigned long const Minutes = (secs%3600)/60;
+    unsigned long const Seconds = (secs%60);
+
+    if (Hours>0)
+      protocol_printf("%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
+    else if (Minutes>0)
+    {
+      if (msec==MSEC_NOT_SUPPORTED)
+        protocol_printf("%lu:%02lu m:s", Minutes, Seconds);
+      else
+        protocol_printf("%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
+    }
+    else
+    {
+      if (msec==MSEC_NOT_SUPPORTED)
+        protocol_printf("%lu s", Seconds);
+      else
+        protocol_printf("%lu.%03lu s", Seconds, msec);
+    }
+  }
+}
+
+void PrintTime1(char const *header, char const *trail)
+{
+  if (!flag_regression)
+  {
+    protocol_printf("%s",header);
+    protocol_printf(ActualMsgTab[TimeString]);
+    FormatTime1();
+    protocol_printf("%s",trail);
+  }
+}
+
 void ReportAborted(int signal)
 {
-  fputc('\n',stdout);
-  fprintf(stdout,ActualMsgTab[Abort],signal);
-  FormatTime(stdout);
-  fputc('\n',stdout);
-
-  if (TraceFile)
-  {
-    fputc('\n',TraceFile);
-    fprintf(TraceFile,ActualMsgTab[Abort],signal);
-    FormatTime(TraceFile);
-    fputc('\n',TraceFile);
-  }
+  protocol_putchar('\n');
+  protocol_printf(ActualMsgTab[Abort],signal);
+  FormatTime1();
+  protocol_putchar('\n');
 }

@@ -1,24 +1,13 @@
 #include "output/plaintext/stdio.h"
 #include "utilities/boolean.h"
 
-#include <stdarg.h>
 #include <string.h>
 
-/* Like fprintf(), but writes right-aligned into a space of the indicated
- * width.
- * format and argument strings shouldn't contain line breaks (except maybe at
- * the end) or the output will look "interesting".
- * fprintf_r() performs two conversion runs, the first for measuring and the
- * second for writing. If the return value is <0, the caller can't determine
- * which conversion run was the cause.
- */
-int fprintf_r(FILE *file, int width, char const *format, ...)
+int vfprintf_r(FILE *file, int width, char const *format, va_list args)
 {
   int result;
-  va_list args;
   va_list args2;
 
-  va_start(args,format);
   va_copy(args2,args);
 
   {
@@ -34,25 +23,35 @@ int fprintf_r(FILE *file, int width, char const *format, ...)
   }
 
   va_end(args2);
+
+  return result;
+}
+
+/* Like fprintf(), but writes right-aligned into a space of the indicated
+ * width.
+ * format and argument strings shouldn't contain line breaks (except maybe at
+ * the end) or the output will look "interesting".
+ * fprintf_r() performs two conversion runs, the first for measuring and the
+ * second for writing. If the return value is <0, the caller can't determine
+ * which conversion run was the cause.
+ */
+int fprintf_r(FILE *file, int width, char const *format, ...)
+{
+  int result;
+  va_list args;
+
+  va_start(args,format);
+  result = vfprintf_r(file,width,format,args);
   va_end(args);
 
   return result;
 }
 
-/* like fprintf(), but writes centered into a space of the indicated width
- * format and argument strings shouldn't contain line breaks (except maybe at
- * the end) or the output will look "interesting".
- * fprintf_c() performs two conversion runs, the first for measuring and the
- * second for writing. If the return value is <0, the caller can't determine
- * which conversion run was the cause.
- */
-int fprintf_c(FILE *file, int width, char const *format, ...)
+int vfprintf_c(FILE *file, int width, char const *format, va_list args)
 {
   int result;
-  va_list args;
   va_list args2;
 
-  va_start(args,format);
   va_copy(args2,args);
 
   {
@@ -69,6 +68,24 @@ int fprintf_c(FILE *file, int width, char const *format, ...)
   }
 
   va_end(args2);
+
+  return result;
+}
+
+/* like fprintf(), but writes centered into a space of the indicated width
+ * format and argument strings shouldn't contain line breaks (except maybe at
+ * the end) or the output will look "interesting".
+ * fprintf_c() performs two conversion runs, the first for measuring and the
+ * second for writing. If the return value is <0, the caller can't determine
+ * which conversion run was the cause.
+ */
+int fprintf_c(FILE *file, int width, char const *format, ...)
+{
+  int result;
+  va_list args;
+
+  va_start(args,format);
+  result = vfprintf_c(file,width,format,args);
   va_end(args);
 
   return result;
