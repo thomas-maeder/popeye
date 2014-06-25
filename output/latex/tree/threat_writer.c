@@ -46,10 +46,7 @@ void output_latex_tree_threat_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
-  {
-    fputs(" ",slices[si].u.writer.file);
     Message2(slices[si].u.writer.file,Threat);
-  }
 
   pipe_solve_delegate(si);
 

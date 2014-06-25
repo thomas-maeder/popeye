@@ -659,15 +659,14 @@ output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
- output/plaintext/plaintext.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
  output/plaintext/message.h input/plaintext/language.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- solving/battle_play/threat.h utilities/table.h solving/pipe.h
+ solving/battle_play/threat.h solving/ply.h utilities/table.h \
+ solving/pipe.h
 
 output/plaintext/tree/threat_writer.h:
 
@@ -701,16 +700,6 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-output/plaintext/plaintext.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
 output/plaintext/message.h:
 
 input/plaintext/language.h:
@@ -733,6 +722,8 @@ stipulation/traversal.h:
 
 solving/battle_play/threat.h:
 
+solving/ply.h:
+
 utilities/table.h:
 
 solving/pipe.h:
@@ -750,10 +741,8 @@ output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/ply.h output/plaintext/plaintext.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h \
- output/plaintext/tree/check_writer.h output/plaintext/message.h \
- input/plaintext/language.h solving/pipe.h
+ solving/ply.h output/plaintext/tree/check_writer.h \
+ output/plaintext/message.h input/plaintext/language.h solving/pipe.h
 
 output/plaintext/tree/zugzwang_writer.h:
 
@@ -808,14 +797,6 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/ply.h:
-
-output/plaintext/plaintext.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
 
 output/plaintext/tree/check_writer.h:
 

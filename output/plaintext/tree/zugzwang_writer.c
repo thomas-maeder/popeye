@@ -4,7 +4,6 @@
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/ply.h"
-#include "output/plaintext/plaintext.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -58,15 +57,7 @@ void output_plaintext_tree_zugzwang_writer_solve(slice_index si)
    * self play variation */
   if (solve_nr_remaining>=next_move_has_solution
       && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-  {
-    fputc(' ',stdout);
-    Message2(stdout,Zugzwang);
-    if (TraceFile)
-    {
-      fputc(' ',TraceFile);
-      Message2(TraceFile,Zugzwang);
-    }
-  }
+    Message(Zugzwang);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

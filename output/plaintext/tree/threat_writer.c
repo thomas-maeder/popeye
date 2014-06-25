@@ -1,5 +1,4 @@
 #include "output/plaintext/tree/threat_writer.h"
-#include "output/plaintext/plaintext.h"
 #include "output/plaintext/message.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
@@ -46,15 +45,7 @@ void output_plaintext_tree_threat_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
-  {
-    fputc(' ',stdout);
-    Message2(stdout,Threat);
-    if (TraceFile)
-    {
-      fputc(' ',TraceFile);
-      Message2(TraceFile,Threat);
-    }
-  }
+    Message(Threat);
 
   pipe_solve_delegate(si);
 

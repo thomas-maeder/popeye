@@ -57,10 +57,7 @@ void output_latex_tree_zugzwang_writer_solve(slice_index si)
    * self play variation */
   if (solve_nr_remaining>=next_move_has_solution
       && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-  {
-    fputs(" ",slices[si].u.writer.file);
     Message2(slices[si].u.writer.file,Zugzwang);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
