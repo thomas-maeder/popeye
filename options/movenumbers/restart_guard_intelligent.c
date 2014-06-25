@@ -59,7 +59,7 @@ static boolean is_length_ruled_out_by_option_restart(void)
 
 static void print_nr_potential_target_positions(void)
 {
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
   Message(PotentialMates,
           nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
   PrintTime1("  (",")");

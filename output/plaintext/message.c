@@ -243,8 +243,8 @@ void PrintTime1(char const *header, char const *trail)
 
 void ReportAborted(int signal)
 {
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
   protocol_printf(ActualMsgTab[Abort],signal);
   FormatTime1();
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
 }

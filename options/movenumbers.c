@@ -110,9 +110,9 @@ static void WriteMoveNbr(slice_index si)
     output_plaintext_write_move();
     if (is_in_check(slices[si].starter))
       protocol_printf("%s"," +");
-    protocol_putchar(' ');
+    protocol_fputc(' ',stdout);
     PrintTime1("   ","");
-    protocol_putchar(')');
+    protocol_fputc(')',stdout);
     protocol_flush();
   }
 }

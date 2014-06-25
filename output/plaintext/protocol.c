@@ -35,9 +35,9 @@ boolean protocol_open(char const *filename)
  * If a trace file is active, output goes to the trace file as well
  * @return the result of writing to standard output
  */
-int protocol_putchar(int c)
+int protocol_fputc(int c, FILE *regular)
 {
-  int const result = putchar(c);
+  int const result = fputc(c,regular);
 
   if (TraceFile!=0)
     fputc(c,TraceFile);

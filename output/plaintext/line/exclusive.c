@@ -51,7 +51,7 @@ void exclusive_chess_undecidable_writer_line_solve(slice_index si)
   if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
   {
     output_plaintext_line_write_line(goal_mate);
-    protocol_putchar(' ');
+    protocol_fputc(' ',stdout);
     Message(ExclusiveRefutedUndecidable);
     solve_result = previous_move_is_illegal;
   }
@@ -63,7 +63,7 @@ void exclusive_chess_undecidable_writer_line_solve(slice_index si)
         && exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]<2
         && table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])+exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]>1)
     {
-      protocol_putchar(' ');
+      protocol_fputc(' ',stdout);
       Message(ChecklessUndecidable);
     }
   }

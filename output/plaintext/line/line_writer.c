@@ -131,7 +131,7 @@ static void write_ply_history(unsigned int *next_move_number,
       write_move_number_if_necessary(next_move_number,numbered_side);
       output_plaintext_write_move();
       write_potential_check();
-      protocol_putchar(' ');
+      protocol_fputc(' ',stdout);
     }
 
     if (is_end_of_intro_series[nbply])

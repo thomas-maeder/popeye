@@ -58,7 +58,7 @@ static void WriteCastlingMutuallyExclusive(void)
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &ra_cancastle))
     {
-      protocol_putchar(' ');
+      protocol_fputc(' ',stdout);
       WriteSquare1(square_a1);
       WriteSquare1(square_a8);
     }
@@ -66,7 +66,7 @@ static void WriteCastlingMutuallyExclusive(void)
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &rh_cancastle))
     {
-      protocol_putchar(' ');
+      protocol_fputc(' ',stdout);
       WriteSquare1(square_a1);
       WriteSquare1(square_h8);
     }
@@ -74,7 +74,7 @@ static void WriteCastlingMutuallyExclusive(void)
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
          &ra_cancastle))
     {
-      protocol_putchar(' ');
+      protocol_fputc(' ',stdout);
       WriteSquare1(square_h1);
       WriteSquare1(square_a8);
     }
@@ -82,12 +82,12 @@ static void WriteCastlingMutuallyExclusive(void)
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
          &rh_cancastle))
     {
-      protocol_putchar(' ');
+      protocol_fputc(' ',stdout);
       WriteSquare1(square_h1);
       WriteSquare1(square_h8);
     }
 
-    protocol_putchar('\n');
+    protocol_fputc('\n',stdout);
   }
 }
 
@@ -101,7 +101,7 @@ static void WriteGrid(void)
   static char HorizL[]="%c                                   %c\n";
   static char BlankL[]="|                                   |\n";
 
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
   protocol_printf("%s",BorderL);
   protocol_printf("%s",BlankL);
 
@@ -393,7 +393,7 @@ void WriteBoard(position const *pos)
 
   assert(nr_rows_on_board<10);
 
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
   WriteBorder();
   WriteBlankLine();
 
@@ -404,7 +404,7 @@ void WriteBoard(position const *pos)
     protocol_printf("%d ",nr_rows_on_board-row);
     WriteRegularCells(pos,square_a);
     protocol_printf("  %d", nr_rows_on_board-row);
-    protocol_putchar('\n');
+    protocol_fputc('\n',stdout);
 
     protocol_printf("%s","| ");
     WriteBaseCells(pos,square_a);
@@ -432,7 +432,7 @@ static void WriteCondition(FILE* dummy, char const CondLine[], condition_rank ra
 static void WriteCaptions(position const *pos)
 {
   WritePieceCounts(pos,WriteStipulation()+WriteOptions(pos));
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
 
   WriteRoyalPiecePositions(pos);
   WriteNonRoyalAttributedPieces(pos);
@@ -456,11 +456,11 @@ void WritePositionAtoB(Side starter)
   WriteMeta();
   WriteBoard(&proofgames_start_position);
   WritePieceCounts(&proofgames_start_position,0);
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
 
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
   protocol_printf_c(board_width,"=> (%s ->)\n",ColourString[UserLanguage][starter]);
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
 
   WriteBoard(&proofgames_target_position);
   WriteCaptions(&proofgames_target_position);

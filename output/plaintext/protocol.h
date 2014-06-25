@@ -4,6 +4,7 @@
 #include "utilities/boolean.h"
 
 #include <stdarg.h>
+#include <stdio.h>
 
 /* Open a new protocol file
  * @param filename name of protocol file
@@ -16,7 +17,7 @@ boolean protocol_open(char const *filename);
  * If a trace file is active, output goes to the trace file as well
  * @return the result of writing to standard output
  */
-int protocol_putchar(int c);
+int protocol_fputc(int c, FILE *regular);
 
 /* like vprintf().
  * If a trace file is active, output goes to the trace file as well

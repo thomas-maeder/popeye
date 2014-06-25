@@ -64,7 +64,7 @@ static void WritePieceCreation(move_effect_journal_index_type curr)
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
   if (!find_removal(curr,entry->u.piece_addition.on))
-    protocol_putchar('+');
+    protocol_fputc('+',stdout);
 
   WriteSpec1(entry->u.piece_addition.flags,
              entry->u.piece_addition.walk,
@@ -206,7 +206,7 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 static void WriteTwinLetter(void)
 {
   if (twin_is_continued)
-    protocol_putchar('+');
+    protocol_fputc('+',stdout);
 
   if (twin_number-twin_a<='z'-'a')
     protocol_printf("%c) ", 'a'+twin_number-twin_a);

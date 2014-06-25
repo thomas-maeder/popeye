@@ -32,16 +32,16 @@ slice_index alloc_exclusive_chess_undecidable_writer_tree_slice(void)
 static void SignalExclusiveRefutedUndecidable(void)
 {
   output_plaintext_tree_write_move();
-  protocol_putchar(' ');
+  protocol_fputc(' ',stdout);
   Message(ExclusiveRefutedUndecidable);
-  protocol_putchar('\n');
+  protocol_fputc('\n',stdout);
   solve_result = previous_move_is_illegal;
 }
 
 static void SignalCheclessUndecidable(void)
 {
   output_plaintext_tree_write_move();
-  protocol_putchar(' ');
+  protocol_fputc(' ',stdout);
   Message(ChecklessUndecidable);
 }
 

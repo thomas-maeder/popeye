@@ -92,7 +92,7 @@ static void write_departure(move_effect_journal_index_type movement)
   else
   {
     write_departing_piece(phantom_movement);
-    protocol_putchar('-');
+    protocol_fputc('-',stdout);
     WriteSquare1(move_effect_journal[movement].u.piece_movement.from);
   }
 }
@@ -104,7 +104,7 @@ static void write_capture(output_plaintext_move_context_type *context,
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
   write_departure(movement);
-  protocol_putchar('*');
+  protocol_fputc('*',stdout);
   if (sq_capture==move_effect_journal[movement].u.piece_movement.to)
     WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
   else if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
@@ -115,7 +115,7 @@ static void write_capture(output_plaintext_move_context_type *context,
   else
   {
     WriteSquare1(sq_capture);
-    protocol_putchar('-');
+    protocol_fputc('-',stdout);
     WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
   }
 }
@@ -124,7 +124,7 @@ static void write_no_capture(output_plaintext_move_context_type *context,
                              move_effect_journal_index_type movement)
 {
   write_departure(movement);
-  protocol_putchar('-');
+  protocol_fputc('-',stdout);
   WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
 }
 
@@ -135,7 +135,7 @@ static void write_castling(output_plaintext_move_context_type *context,
   {
     WritePiece1(move_effect_journal[movement].u.piece_movement.moving);
     WriteSquare1(move_effect_journal[movement].u.piece_movement.from);
-    protocol_putchar('-');
+    protocol_fputc('-',stdout);
     WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
   }
   else
@@ -160,7 +160,7 @@ static void write_exchange(move_effect_journal_index_type movement)
 static void write_singlebox_promotion(move_effect_journal_index_type curr)
 {
   WriteSquare1(move_effect_journal[curr].u.piece_change.on);
-  protocol_putchar('=');
+  protocol_fputc('=',stdout);
   WritePiece1(move_effect_journal[curr].u.piece_change.to);
 }
 
@@ -268,7 +268,7 @@ static void write_flags_change(output_plaintext_move_context_type *context,
   switch (move_effect_journal[curr].reason)
   {
     case move_effect_reason_pawn_promotion:
-      protocol_putchar('=');
+      protocol_fputc('=',stdout);
       WriteSpec1(move_effect_journal[curr].u.flags_change.to,
                  find_piece_walk(context,curr,move_effect_journal[curr].u.flags_change.on),
                  false);
@@ -281,7 +281,7 @@ static void write_flags_change(output_plaintext_move_context_type *context,
       {
         next_context(context,curr,"[","]");
         WriteSquare1(move_effect_journal[curr].u.flags_change.on);
-        protocol_putchar('=');
+        protocol_fputc('=',stdout);
         WriteSpec1(move_effect_journal[curr].u.flags_change.to,
                    being_solved.board[move_effect_journal[curr].u.flags_change.on],
                    false);
@@ -302,8 +302,8 @@ static void write_side_change(output_plaintext_move_context_type *context,
     case move_effect_reason_volage_side_change:
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
-      protocol_putchar('=');
-      protocol_putchar(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]));
+      protocol_fputc('=',stdout);
+      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]));
       break;
 
     case move_effect_reason_magic_piece:
@@ -311,8 +311,8 @@ static void write_side_change(output_plaintext_move_context_type *context,
     case move_effect_reason_hurdle_colour_changing:
       next_context(context,curr,"[","]");
       WriteSquare1(move_effect_journal[curr].u.side_change.on);
-      protocol_putchar('=');
-      protocol_putchar(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]));
+      protocol_fputc('=',stdout);
+      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]));
       break;
 
     default:
@@ -366,7 +366,7 @@ static void write_piece_change(output_plaintext_move_context_type *context,
       {
         square const on = move_effect_journal[curr].u.piece_change.on;
         Flags const flags = find_piece_flags(context,curr,on);
-        protocol_putchar('=');
+        protocol_fputc('=',stdout);
         WriteSpec1(flags,move_effect_journal[curr].u.piece_change.to,false);
         WritePiece1(move_effect_journal[curr].u.piece_change.to);
       }
@@ -382,7 +382,7 @@ static void write_piece_change(output_plaintext_move_context_type *context,
       next_context(context,curr,"[","]");
 
       WriteSquare1(move_effect_journal[curr].u.piece_change.on);
-      protocol_putchar('=');
+      protocol_fputc('=',stdout);
 
       {
         Flags flags;
@@ -402,7 +402,7 @@ static void write_piece_change(output_plaintext_move_context_type *context,
     case move_effect_reason_einstein_chess:
     case move_effect_reason_football_chess_substitution:
     case move_effect_reason_king_transmutation:
-      protocol_putchar('=');
+      protocol_fputc('=',stdout);
       WritePiece1(move_effect_journal[curr].u.piece_change.to);
       break;
 
@@ -429,11 +429,11 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
     case move_effect_reason_castling_partner_movement:
       if (CondFlag[castlingchess])
       {
-        protocol_putchar('/');
+        protocol_fputc('/',stdout);
         write_complete_piece(move_effect_journal[curr].u.piece_movement.movingspec,
                                               move_effect_journal[curr].u.piece_movement.moving,
                                               move_effect_journal[curr].u.piece_movement.from);
-        protocol_putchar('-');
+        protocol_fputc('-',stdout);
         WriteSquare1(move_effect_journal[curr].u.piece_movement.to);
       }
       else
@@ -588,9 +588,9 @@ static void write_piece_exchange(output_plaintext_move_context_type *context,
 static void write_half_neutral_deneutralisation(output_plaintext_move_context_type *context,
                                                 move_effect_journal_index_type curr)
 {
-  protocol_putchar('=');
-  protocol_putchar(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]));
-  protocol_putchar('h');
+  protocol_fputc('=',stdout);
+  protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]));
+  protocol_fputc('h',stdout);
 }
 
 static void write_half_neutral_neutralisation(output_plaintext_move_context_type *context,
@@ -616,10 +616,10 @@ static void write_imitator_movement(output_plaintext_move_context_type *context,
   {
     WriteSquare1(being_solved.isquare[icount]);
     if (icount+1<nr_moved)
-      protocol_putchar(',');
+      protocol_fputc(',',stdout);
   }
 
-  protocol_putchar(']');
+  protocol_fputc(']',stdout);
 }
 
 static void write_bgl_status(output_plaintext_move_context_type *context,
@@ -641,7 +641,7 @@ static void write_bgl_status(output_plaintext_move_context_type *context,
     next_context(context,curr," (",")");
     WriteBGLNumber(buf,BGL_values[White]);
     protocol_printf("%s",buf);
-    protocol_putchar('/');
+    protocol_fputc('/',stdout);
     WriteBGLNumber(buf,BGL_values[Black]);
     protocol_printf("%s",buf);
   }
