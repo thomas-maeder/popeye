@@ -102,8 +102,7 @@ static void write_problem_footer(FILE *file)
   else
     Message2(file,FinishProblem);
 
-  fputs(" ",file);
-  PrintTime(file);
+  PrintTime(file," ","");
   fputs("\n\n\n",file);
   fflush(file);
 }
