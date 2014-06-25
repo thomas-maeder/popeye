@@ -24,6 +24,7 @@
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
+#include <ctype.h>
 #include <stdlib.h>
 
 FILE *TraceFile;
@@ -315,7 +316,7 @@ void output_plaintext_write_side_change(output_plaintext_move_context_type *cont
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
       fputc('=',context->file);
-      fputc(ColourTab[move_effect_journal[curr].u.side_change.to][0],
+      fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),
             context->file);
       break;
 
@@ -325,7 +326,7 @@ void output_plaintext_write_side_change(output_plaintext_move_context_type *cont
       output_plaintext_next_context(context,curr,"[","]");
       WriteSquare(context->file,move_effect_journal[curr].u.side_change.on);
       fputc('=',context->file);
-      fputc(ColourTab[move_effect_journal[curr].u.side_change.to][0],
+      fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),
             context->file);
       break;
 
@@ -611,7 +612,7 @@ void output_plaintext_write_half_neutral_deneutralisation(output_plaintext_move_
                                                           move_effect_journal_index_type curr)
 {
   fputc('=',context->file);
-  fputc(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0],
+  fputc(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]),
         context->file);
   fputc('h',context->file);
 }

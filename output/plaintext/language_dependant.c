@@ -1193,21 +1193,21 @@ char const * const ColourString[LanguageCount][nr_colours] =
 {
   {
      /* French */
-    "blanc",
-    "noir",
-    "neutre"
+    "Blanc",
+    "Noir",
+    "Neutre"
   },
   {
     /* German */
-    "weiss",
-    "schwarz",
-    "neutral"
+    "Weiss",
+    "Schwarz",
+    "Neutral"
   },
   {
     /* English */
-    "white",
-    "black",
-    "neutral"
+    "White",
+    "Black",
+    "Neutral"
   }
 };
 
