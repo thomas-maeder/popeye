@@ -924,13 +924,14 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  output/plaintext/message.h output/plaintext/condition.h \
- output/plaintext/pieces.h output/output.h input/plaintext/problem.h \
- input/plaintext/stipulation.h options/maxthreatlength.h \
- options/maxflightsquares.h options/nontrivial.h conditions/grid.h \
- conditions/imitator.h pieces/attributes/neutral/neutral.h \
- pieces/walks/classification.h pieces/walks/hunters.h \
- solving/observation.h solving/temporary_hacks.h solving/castling.h \
- solving/move_generator.h solving/proofgames.h debugging/assert.h
+ output/plaintext/pieces.h output/plaintext/stdio.h output/output.h \
+ input/plaintext/problem.h input/plaintext/stipulation.h \
+ options/maxthreatlength.h options/maxflightsquares.h \
+ options/nontrivial.h conditions/grid.h conditions/imitator.h \
+ pieces/attributes/neutral/neutral.h pieces/walks/classification.h \
+ pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
+ solving/castling.h solving/move_generator.h solving/proofgames.h \
+ debugging/assert.h
 
 output/plaintext/position.h:
 
@@ -1037,6 +1038,8 @@ output/plaintext/message.h:
 output/plaintext/condition.h:
 
 output/plaintext/pieces.h:
+
+output/plaintext/stdio.h:
 
 output/output.h:
 
@@ -1372,7 +1375,7 @@ output/plaintext/message$(OBJ_SUFFIX): output/plaintext/message.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- platform/pytime.h
+ platform/pytime.h debugging/assert.h
 
 output/plaintext/message.h:
 
@@ -1477,3 +1480,11 @@ conditions/circe/relevant_side.h:
 conditions/sentinelles.h:
 
 platform/pytime.h:
+
+debugging/assert.h:
+output/plaintext/stdio$(OBJ_SUFFIX): output/plaintext/stdio.c \
+ output/plaintext/stdio.h utilities/boolean.h
+
+output/plaintext/stdio.h:
+
+utilities/boolean.h:

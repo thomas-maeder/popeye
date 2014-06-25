@@ -4,6 +4,7 @@
 #include "output/plaintext/condition.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/message.h"
+#include "output/plaintext/stdio.h"
 #include "output/output.h"
 #include "input/plaintext/problem.h"
 #include "input/plaintext/stipulation.h"
@@ -22,55 +23,14 @@
 #include "debugging/assert.h"
 
 #include <ctype.h>
-#include <stdarg.h>
-#include <stdio.h>
 #include <string.h>
 
 enum
 {
-  fileWidth = 4
+  fileWidth = 4,
+  border_width = 5,
+  board_width = fileWidth*nr_files_on_board + border_width
 };
-
-static void CenterLine(FILE *file, char const *format, ...)
-{
-  int nr_chars;
-  va_list args;
-  va_list args2;
-  va_start(args,format);
-  va_copy(args2,args);
-
-  {
-    char dummy;
-    nr_chars = vsnprintf(&dummy,1,format,args2);
-    va_end(args2);
-  }
-
-  {
-    int const indentation = (fileWidth*nr_files_on_board>nr_chars
-                             ? 3+(fileWidth*nr_files_on_board-nr_chars)/2
-                             : 1);
-    fprintf(file,"%*s",indentation," ");
-    vfprintf(file,format,args);
-    va_end(args);
-  }
-
-  fputc('\n',file);
-}
-
-static void MultiCenter(FILE *file, char *s)
-{
-  char *start_of_line = s;
-  char *end_of_line = strchr(start_of_line,'\n');
-
-  while (end_of_line)
-  {
-    *end_of_line = '\0';
-    CenterLine(file,"%s",start_of_line);
-    *end_of_line = '\n';
-    start_of_line = end_of_line+1;
-    end_of_line = strchr(start_of_line,'\n');
-  }
-}
 
 static boolean is_square_occupied_by_imitator(position const *pos, square s)
 {
@@ -185,7 +145,7 @@ static void WritePiecesWithAttribute(FILE *file,
         AppendSquare(squares,square);
   }
 
-  CenterLine(file,"%s%s",PieSpString[UserLanguage][sp-nr_sides],squares);
+  fprintf_c(file,board_width,"%s%s\n",PieSpString[UserLanguage][sp-nr_sides],squares);
 }
 
 static void WriteNonRoyalAttributedPieces(FILE *file, position const *pos)
@@ -225,7 +185,7 @@ static void WriteRoyalPiecePositions(FILE *file, position const *pos)
   }
 
   if (nr_royals>0)
-    CenterLine(file,"%s%s",PieSpString[UserLanguage][Royal-nr_sides],squares);
+    fprintf_c(file,board_width,"%s%s\n",PieSpString[UserLanguage][Royal-nr_sides],squares);
 }
 
 static void DoPieceCounts(position const *pos,
@@ -251,27 +211,6 @@ static void DoPieceCounts(position const *pos,
   }
 }
 
-static void WriteRightAligned(FILE *file, int width,
-                              char const *format, ...)
-{
-  va_list args;
-  va_list args2;
-
-  va_start(args,format);
-  va_copy(args2,args);
-
-  {
-    int const nr_chars = vsnprintf(0,0,format,args);
-    int const gap = width>nr_chars ? width-nr_chars : 1;
-    fprintf(file,"%*c",gap,' ');
-  }
-
-  vfprintf(file,format,args2);
-
-  va_end(args2);
-  va_end(args);
-}
-
 static void WritePieceCounts(FILE *file,
                              position const *pos,
                              unsigned int indentation)
@@ -283,10 +222,10 @@ static void WritePieceCounts(FILE *file,
   {
     char const *format = piece_per_colour[colour_neutral]>0 ? "%d + %d + %dn" : "%d + %d";
     int const width = nr_files_on_board*fileWidth+3-indentation;
-    WriteRightAligned(file,width,format,
-                      piece_per_colour[colour_white],
-                      piece_per_colour[colour_black],
-                      piece_per_colour[colour_neutral]);
+    fprintf_r(file,width,format,
+              piece_per_colour[colour_white],
+              piece_per_colour[colour_black],
+              piece_per_colour[colour_neutral]);
   }
 }
 
@@ -482,16 +421,16 @@ void WriteBoard(FILE *file, position const *pos)
 static void WriteMeta(FILE *file)
 {
   fputs("\n",file);
-  MultiCenter(file,ActAuthor);
-  MultiCenter(file,ActOrigin);
-  MultiCenter(file,ActAward);
-  MultiCenter(file,ActTitle);
+  fputs_c_multi(file,board_width,ActAuthor);
+  fputs_c_multi(file,board_width,ActOrigin);
+  fputs_c_multi(file,board_width,ActAward);
+  fputs_c_multi(file,board_width,ActTitle);
 }
 
 static void WriteCondition(FILE* file, char const CondLine[], condition_rank rank)
 {
   if (rank!=condition_end)
-    CenterLine(file,"%s",CondLine);
+    fprintf_c(file,board_width,"%s\n",CondLine);
 }
 
 static void WriteCaptions(FILE *file, position const *pos)
@@ -505,12 +444,12 @@ static void WriteCaptions(FILE *file, position const *pos)
   WriteCastlingMutuallyExclusive(file);
 
   if (OptFlag[halfduplex])
-    CenterLine(file,"%s",OptString[UserLanguage][halfduplex]);
+    fprintf_c(file,board_width,"%s\n",OptString[UserLanguage][halfduplex]);
   else if (OptFlag[duplex])
-    CenterLine(file,"%s",OptString[UserLanguage][duplex]);
+    fprintf_c(file,board_width,"%s\n",OptString[UserLanguage][duplex]);
 
   if (OptFlag[quodlibet])
-    CenterLine(file,"%s",OptString[UserLanguage][quodlibet]);
+    fprintf_c(file,board_width,"%s\n",OptString[UserLanguage][quodlibet]);
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid(file);
@@ -524,7 +463,7 @@ void WritePositionAtoB(FILE *file, Side starter)
   fputc('\n',file);
 
   fputc('\n',file);
-  CenterLine(file,"=> (%s ->)",ColourString[UserLanguage][starter]);
+  fprintf_c(file,board_width,"=> (%s ->)\n",ColourString[UserLanguage][starter]);
   fputc('\n',file);
 
   WriteBoard(file,&proofgames_target_position);
