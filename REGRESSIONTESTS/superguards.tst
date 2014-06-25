@@ -32,7 +32,7 @@ a)
   add_to_move_generation_stack:           4
                      play_move:           3
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          10
+ is_black_king_square_attacked:           7
 b) bSc1  
 
   4  (Ra1*a3 + )
@@ -45,7 +45,7 @@ b) bSc1
   add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          13
-solution finished. 
+ is_black_king_square_attacked:           9
+solution finished.
 
 

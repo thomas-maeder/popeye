@@ -30,7 +30,7 @@ short play after key in reflex stipulations was missed
                      play_move:          54
  is_white_king_square_attacked:          53
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -64,7 +64,7 @@ losing chess proof games produced error message
                      play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 input-error:wrong integer
@@ -113,7 +113,7 @@ erroneous maxflight numbers weren't completely ignored
                      play_move:        6368
  is_white_king_square_attacked:        1230
  is_black_king_square_attacked:        4093
-solution finished. 
+solution finished.
 
 
 
@@ -146,9 +146,9 @@ make sure that e.p. key in #1 really captures the opposite pawn (issue 2029421)
 
   add_to_move_generation_stack:         222
                      play_move:         192
- is_white_king_square_attacked:          99
+ is_white_king_square_attacked:          98
  is_black_king_square_attacked:         121
-solution finished. 
+solution finished.
 
 
 
@@ -176,7 +176,7 @@ solution finished.
   h#2                         1 + 4
            Circe Turncoats
          BlackTransmutedKing
-            NoBlackCapture
+           NoBlackCapture
       WhiteSuperTransmutingKing
 
   1.Ka7-b8 Ka5-b5   2.c7-c6 + Kb5*c6=P[+bPc7=w] #
@@ -185,9 +185,9 @@ solution finished.
 
   add_to_move_generation_stack:         478
                      play_move:         523
- is_white_king_square_attacked:         148
- is_black_king_square_attacked:         402
-solution finished. 
+ is_white_king_square_attacked:         143
+ is_black_king_square_attacked:         399
+solution finished.
 
 
 WhiteToPlay not applicable - ignored
@@ -221,11 +221,11 @@ option WhiteToPlay not applicable in help play
                      play_move:          26
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          27
-solution finished. 
+solution finished.
 
 
 
-     Use reborn piece for contact
+    Use reborn piece for contact
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -254,9 +254,9 @@ solution finished.
 
   add_to_move_generation_stack:          60
                      play_move:          15
- is_white_king_square_attacked:           5
- is_black_king_square_attacked:           7
-solution finished. 
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:           6
+solution finished.
 
 
 
@@ -289,8 +289,8 @@ solution finished.
   add_to_move_generation_stack:         164
                      play_move:         146
  is_white_king_square_attacked:          56
- is_black_king_square_attacked:          24
-solution finished. 
+ is_black_king_square_attacked:          23
+solution finished.
 
 
 
@@ -323,9 +323,9 @@ solution finished.
 
   add_to_move_generation_stack:          85
                      play_move:          75
- is_white_king_square_attacked:          19
+ is_white_king_square_attacked:          17
  is_black_king_square_attacked:          76
-solving interrupted. 
+solving interrupted.
 
 
 
@@ -361,9 +361,9 @@ solving interrupted.
 
   add_to_move_generation_stack:         800
                      play_move:         513
- is_white_king_square_attacked:         141
- is_black_king_square_attacked:         449
-solving interrupted. 
+ is_white_king_square_attacked:         135
+ is_black_king_square_attacked:         446
+solving interrupted.
 
 
 
@@ -401,7 +401,7 @@ cf. http://www.matplus.net/pub/start.php?px=1233603851&app=forum&act=posts&fid=i
                      play_move:           4
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           5
-solution finished. 
+solution finished.
 
 
 
@@ -431,9 +431,9 @@ solution finished.
 
   add_to_move_generation_stack:         455
                      play_move:         488
- is_white_king_square_attacked:          13
+ is_white_king_square_attacked:          11
  is_black_king_square_attacked:         312
-solution finished. 
+solution finished.
 
 
 intelligent mode bug: did not find mates ...
@@ -465,9 +465,9 @@ intelligent mode bug: did not find mates ...
 
   add_to_move_generation_stack:          74
                      play_move:          74
- is_white_king_square_attacked:           7
+ is_white_king_square_attacked:           5
  is_black_king_square_attacked:          32
-solution finished. 
+solution finished.
 
 
 option start in intelligent mode
@@ -499,9 +499,9 @@ option start in intelligent mode
 
   add_to_move_generation_stack:       68306
                      play_move:       68306
- is_white_king_square_attacked:        4119
+ is_white_king_square_attacked:        4111
  is_black_king_square_attacked:        4605
-solution finished. 
+solution finished.
 
 
 This should have no solution.
@@ -536,7 +536,7 @@ bogus solutions.
                      play_move:         156
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           3
-solution finished. 
+solution finished.
 
 
 duplex didn't work in a=>b or proof games
@@ -587,7 +587,7 @@ duplex didn't work in a=>b or proof games
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                     1 + 1
               Circe PWC
-                Duplex
+               Duplex
 
   1.Ra8*a7[+wRa8] a=>b
 
@@ -597,6 +597,6 @@ duplex didn't work in a=>b or proof games
                      play_move:          22
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

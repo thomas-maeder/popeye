@@ -2,7 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/battle_play/try.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/tree/key_writer.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -49,9 +49,7 @@ void output_plaintext_tree_try_writer_solve(slice_index si)
 
   if (table_length(refutations)>0)
   {
-    fputs(" ?",stdout);
-    if (TraceFile)
-      fputs(" ?",TraceFile);
+    protocol_printf("%s"," ?");
     pipe_solve_delegate(si);
   }
   else

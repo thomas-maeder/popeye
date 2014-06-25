@@ -1,5 +1,5 @@
 
-           Didier Innocenti
+          Didier Innocenti
     3406, Problemkiste 92, 4/1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -22,15 +22,15 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         4 + 6
-           Duellantenschach
+          Duellantenschach
 
   1.a2-a1=S h7-h8=L   2.c2-c1=T g7-g8=D +   3.Kc3-c2 Dg8-g6 #
 
   add_to_move_generation_stack:     1808321
                      play_move:      977459
- is_white_king_square_attacked:      238658
- is_black_king_square_attacked:      815324
-Loesung beendet. 
+ is_white_king_square_attacked:      238655
+ is_black_king_square_attacked:      815322
+Loesung beendet.
 
 
 
@@ -59,7 +59,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                        12 + 10
-           Duellantenschach
+          Duellantenschach
 
    1.Df8-g7 ! Zugzwang.
       1...e2*f1=D +
@@ -99,7 +99,7 @@ Loesung beendet.
                      play_move:       32918
  is_white_king_square_attacked:        7489
  is_black_king_square_attacked:       26528
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -126,19 +126,19 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#7                     3 + 8
-           Duellantenschach
+          Duellantenschach
 
   1.c2-c1=S   2.a2-a1=L   3.c3-c2   4.c2*b1=T   5.e2-e1=D   6.De1-e7   7.De7-a3 Td1*d2 #
 
   add_to_move_generation_stack:      323133
                      play_move:      253275
- is_white_king_square_attacked:       95924
+ is_white_king_square_attacked:       95917
  is_black_king_square_attacked:      242269
-Loesung beendet. 
+Loesung beendet.
 
 
 
-          C. G. S. Narayanan
+         C. G. S. Narayanan
  F1013, The Problemist 12/22, 7/1988
 
 +---a---b---c---d---e---f---g---h---+
@@ -161,7 +161,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                          4 + 5
-      SchwarzerVerfolgungszueger
+     SchwarzerVerfolgungszueger
 
 a) 
 
@@ -193,7 +193,7 @@ b) -sBh6
                      play_move:      127640
  is_white_king_square_attacked:       18128
  is_black_king_square_attacked:      121655
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -220,8 +220,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#3                         5 + 6
-      SchwarzerVerfolgungszueger
-       WeisserVerfolgungszueger
+     SchwarzerVerfolgungszueger
+      WeisserVerfolgungszueger
 
    1.Le1*c3 !
       1...Ta1-e1
@@ -235,11 +235,11 @@ Loesung beendet.
                      play_move:       27940
  is_white_king_square_attacked:       17341
  is_black_king_square_attacked:       18531
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Heinz Zander
+            Heinz Zander
     3142, Problemkiste 85, 2/1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -262,8 +262,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#5                         4 + 4
-      SchwarzerVerfolgungszueger
-       WeisserVerfolgungszueger
+     SchwarzerVerfolgungszueger
+      WeisserVerfolgungszueger
 
    1.Se5*c6 !
       1...De6-e5
@@ -281,11 +281,11 @@ Loesung beendet.
                      play_move:      358798
  is_white_king_square_attacked:      239595
  is_black_king_square_attacked:      242418
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Per Grevlund
+            Per Grevlund
      Lob, 28. feenschach-TT 1973
 
 +---a---b---c---d---e---f---g---h---+
@@ -308,8 +308,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #6                          3 + 6
-      SchwarzerVerfolgungszueger
-       WeisserVerfolgungszueger
+     SchwarzerVerfolgungszueger
+      WeisserVerfolgungszueger
 
    1.Le4*h7 !
       1...Lb7-e4
@@ -338,6 +338,6 @@ Loesung beendet.
                      play_move:     5181284
  is_white_king_square_attacked:     1071016
  is_black_king_square_attacked:     4288696
-Loesung beendet. 
+Loesung beendet.
 
 

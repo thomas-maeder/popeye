@@ -30,7 +30,7 @@
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 HurdleColourChanging only allowed with certain hoppers
@@ -55,7 +55,7 @@ HurdleColourChanging only allowed with certain hoppers
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
-         HurdleColourChanging
+        HurdleColourChanging
 
    1.RPd1-d5 !
 
@@ -66,7 +66,7 @@ HurdleColourChanging only allowed with certain hoppers
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -109,7 +109,7 @@ solution finished.
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -194,7 +194,7 @@ solution finished.
                      play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -269,7 +269,7 @@ solution finished.
                      play_move:          22
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -324,7 +324,7 @@ solution finished.
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -375,7 +375,7 @@ solution finished.
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -446,7 +446,7 @@ solution finished.
                      play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -483,7 +483,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -540,7 +540,7 @@ solution finished.
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -577,7 +577,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -634,7 +634,7 @@ solution finished.
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -691,7 +691,7 @@ solution finished.
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -742,7 +742,7 @@ solution finished.
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -881,7 +881,7 @@ solution finished.
                      play_move:          54
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -948,7 +948,7 @@ solution finished.
                      play_move:          18
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1033,7 +1033,7 @@ solution finished.
                      play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1085,8 +1085,8 @@ solution finished.
   add_to_move_generation_stack:           8
                      play_move:          14
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          43
-solution finished. 
+ is_black_king_square_attacked:          29
+solution finished.
 
 
 
@@ -1172,7 +1172,7 @@ b) +bPf2
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1229,7 +1229,7 @@ b) +bPf2
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1342,7 +1342,7 @@ b) +bPf2
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1413,7 +1413,7 @@ b) +bPf2
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1466,7 +1466,7 @@ b) +bPf2
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1553,6 +1553,6 @@ solution finished.
                      play_move:          28
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

@@ -4,7 +4,7 @@
 #include "stipulation/branch.h"
 #include "solving/machinery/solve.h"
 #include "solving/ply.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -42,11 +42,11 @@ static unsigned int depth(ply p)
     return depth(parent_ply[p])+1;
 }
 
-static void write_refuting_varation(FILE *file, unsigned move_depth)
+static void write_refuting_varation(unsigned move_depth)
 {
-  Message2(file,NewLine);
-  fprintf(file,"%*c",4*move_depth,' ');
-  Message2(file,Refutation);
+  Message(NewLine);
+  protocol_printf("%*c",4*move_depth,' ');
+  Message(Refutation);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -73,9 +73,7 @@ void output_plaintext_tree_refuting_variation_writer_solve(slice_index si)
   if (solve_result>MOVE_HAS_SOLVED_LENGTH())
   {
     unsigned int const move_depth = depth(nbply)+output_plaintext_nr_move_inversions;
-    write_refuting_varation(stdout,move_depth);
-    if (TraceFile)
-      write_refuting_varation(TraceFile,move_depth);
+    write_refuting_varation(move_depth);
   }
 
   TraceFunctionExit(__func__);

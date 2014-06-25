@@ -22,19 +22,19 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         1 + 1
-              AnnanChess
+             AnnanChess
 
 
   add_to_move_generation_stack:          14
                      play_move:          14
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          14
-solution finished. 
+solution finished.
 
 
 
                1885404
-              1 solution
+             1 solution
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -62,9 +62,9 @@ solution finished.
 
   add_to_move_generation_stack:         474
                      play_move:         176
- is_white_king_square_attacked:          67
+ is_white_king_square_attacked:          66
  is_black_king_square_attacked:         176
-solution finished. 
+solution finished.
 
 
 
@@ -99,7 +99,7 @@ solution finished.
                      play_move:           8
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -137,9 +137,9 @@ solution finished.
 
   add_to_move_generation_stack:           8
                      play_move:          10
- is_white_king_square_attacked:          14
+ is_white_king_square_attacked:          10
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -165,7 +165,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                     1 + 1 + 1n
-              Patrouille
+             Patrouille
 
    1.Ba3*b2 x !
 
@@ -176,7 +176,7 @@ solution finished.
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -205,6 +205,6 @@ solution finished.
                      play_move:        1676
  is_white_king_square_attacked:         830
  is_black_king_square_attacked:         395
-solution finished. 
+solution finished.
 
 

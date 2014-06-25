@@ -1,5 +1,5 @@
 
-       I.Richardson, R.Turnbull
+      I.Richardson, R.Turnbull
       Variant Chess Autumn 1999
 
 +---a---b---c---d---e---f---g---h---+
@@ -63,11 +63,11 @@
                      play_move:        4481
  is_white_king_square_attacked:         775
  is_black_king_square_attacked:        4442
-Loesung beendet. 
+Loesung beendet.
 
 
 
-               C.Lytton
+              C.Lytton
       Variant Chess Autumn 1999
 
 +---a---b---c---d---e---f---g---h---+
@@ -96,14 +96,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      970372
                      play_move:      811718
- is_white_king_square_attacked:      110728
+ is_white_king_square_attacked:      110722
  is_black_king_square_attacked:      811718
-Loesung beendet. 
+Loesung beendet.
 
 
 
-               P.Fayers
-         HM Variant Chess 1TT
+              P.Fayers
+        HM Variant Chess 1TT
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -125,7 +125,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         1 + 1
-           Koeniglich a2 d2
+          Koeniglich a2 d2
        ActuatedRevolvingCentre
 
   1...kSa2-c3   2.kSd2-e4 kSc3-e4 =
@@ -134,8 +134,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:        3206
                      play_move:        1134
- is_white_king_square_attacked:         521
- is_black_king_square_attacked:        1066
-Loesung beendet. 
+ is_white_king_square_attacked:         518
+ is_black_king_square_attacked:        1064
+Loesung beendet.
 
 

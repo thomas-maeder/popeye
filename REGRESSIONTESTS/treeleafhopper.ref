@@ -1,5 +1,5 @@
 
-              Peter Wong
+             Peter Wong
            feenschach 1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -41,11 +41,11 @@ b) bMOd4-->d5
                      play_move:        8282
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-              Peter Wong
+             Peter Wong
            feenschach 1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -87,11 +87,11 @@ b) bOAf4-->b6
                      play_move:       14318
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-              Peter Wong
+             Peter Wong
            feenschach 1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -135,11 +135,11 @@ b) bTHd3-->d4
                      play_move:        7256
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-              Peter Wong
+             Peter Wong
            feenschach 1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -162,7 +162,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h==2.5                      1 + 1
-               Royal g7
+              Royal g7
 
 a) 
 
@@ -172,7 +172,7 @@ a)
   add_to_move_generation_stack:       39908
                      play_move:        8334
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         578
+ is_black_king_square_attacked:         574
 b) brGEg7-->a4  
 
   1...OAd2-g8   2.rGEa4-c2 OAg8-e7   3.rGEc2-g2 OAe7-h1 ==
@@ -181,13 +181,13 @@ b) brGEg7-->a4
   add_to_move_generation_stack:       28719
                      play_move:        5972
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         422
-solution finished. 
+ is_black_king_square_attacked:         418
+solution finished.
 
 
 
-           Stephen Emmerson
-               Original
+          Stephen Emmerson
+              Original
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -218,12 +218,12 @@ solution finished.
                      play_move:          63
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-           Stephen Emmerson
-               Original
+          Stephen Emmerson
+              Original
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -254,6 +254,6 @@ solution finished.
                      play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

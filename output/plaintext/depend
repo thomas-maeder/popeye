@@ -407,10 +407,8 @@ output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- conditions/ohneschach.h solving/ply.h output/plaintext/plaintext.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h output/plaintext/message.h input/plaintext/language.h \
- solving/pipe.h
+ conditions/ohneschach.h solving/ply.h output/plaintext/message.h \
+ input/plaintext/language.h solving/pipe.h
 
 output/plaintext/ohneschach_detect_undecidable_goal.h:
 
@@ -468,14 +466,6 @@ conditions/ohneschach.h:
 
 solving/ply.h:
 
-output/plaintext/plaintext.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-position/pieceid.h:
-
 output/plaintext/message.h:
 
 input/plaintext/language.h:
@@ -493,10 +483,9 @@ output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- output/plaintext/plaintext.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- output/plaintext/tree/tree.h output/plaintext/message.h \
- input/plaintext/language.h solving/pipe.h debugging/assert.h
+ output/plaintext/protocol.h output/plaintext/tree/tree.h \
+ output/plaintext/message.h input/plaintext/language.h solving/pipe.h \
+ debugging/assert.h
 
 output/plaintext/goal_writer.h:
 
@@ -546,15 +535,7 @@ stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
 
-output/plaintext/plaintext.h:
-
-solving/move_effect_journal.h:
-
-solving/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
+output/plaintext/protocol.h:
 
 output/plaintext/tree/tree.h:
 

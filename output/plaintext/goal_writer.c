@@ -1,7 +1,7 @@
 #include "output/plaintext/goal_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -56,9 +56,7 @@ void output_plaintext_goal_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fputs(goal_end_marker[goal.type],stdout);
-  if (TraceFile)
-    fputs(goal_end_marker[goal.type],TraceFile);
+  protocol_printf("%s",goal_end_marker[goal.type]);
 
   pipe_solve_delegate(si);
 

@@ -28,9 +28,9 @@ versions <= 4.61 didn't support castling in Circe Parrain
 
   add_to_move_generation_stack:        1387
                      play_move:        1298
- is_white_king_square_attacked:         173
+ is_white_king_square_attacked:         171
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -56,7 +56,7 @@ versions <= 4.61 didn't properly disable castling when a king was added
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   exact-ser-002               3 + 0
-             RoyalDynasty
+            RoyalDynasty
 
   1.a7-a8=Q   2.0-0
   1.a7-a8=S   2.0-0
@@ -67,7 +67,7 @@ versions <= 4.61 didn't properly disable castling when a king was added
                      play_move:          24
  is_white_king_square_attacked:          33
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -100,7 +100,7 @@ recent Popeye versions didn't find this any more
                      play_move:         176
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:         142
-solution finished. 
+solution finished.
 
 
 both sides need a king
@@ -171,7 +171,7 @@ b) Q ==> CA
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -197,7 +197,7 @@ strange "cages" were selected for neutral pieces
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   pser-h~1               1 + 1 + 1n
-              Circe Cage
+             Circe Cage
 
   1.nPg5-g4 + Kf3-e2
   1.nPg5-g4 + Kf3-g2
@@ -212,9 +212,9 @@ strange "cages" were selected for neutral pieces
 
   add_to_move_generation_stack:         749
                      play_move:         141
- is_white_king_square_attacked:          31
- is_black_king_square_attacked:         136
-solving interrupted. 
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:         126
+solving interrupted.
 
 
 
@@ -250,12 +250,12 @@ all Popeye versions have wrongly detected a White check in the diagram
                      play_move:          62
  is_white_king_square_attacked:          35
  is_black_king_square_attacked:          54
-solution finished. 
+solution finished.
 
 
 
     Lev Grolman & Oleg Rabinovich
-   F1006 StrateGems 52 October 2010
+  F1006 StrateGems 52 October 2010
 bug in Eiffel Chess with neutral pieces; the cook wasn't found and
 checks were indicated after Black's 3rd moves
 
@@ -287,8 +287,8 @@ a)
 
   add_to_move_generation_stack:     2393145
                      play_move:     2145718
- is_white_king_square_attacked:      185505
- is_black_king_square_attacked:     2119551
+ is_white_king_square_attacked:      185502
+ is_black_king_square_attacked:     2119549
 b) bBe8-->h8  
 
   1.Kh7-h6 Ke7-e6   2.Bh8-f6 nRg8-h8   3.Qg6-g8 Ke6*f6 #
@@ -296,13 +296,13 @@ b) bBe8-->h8
 
   add_to_move_generation_stack:     4065413
                      play_move:     3663288
- is_white_king_square_attacked:      309631
- is_black_king_square_attacked:     3605677
-solution finished. 
+ is_white_king_square_attacked:      309625
+ is_black_king_square_attacked:     3605673
+solution finished.
 
 
 
-            issue 2925255:
+           issue 2925255:
 Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
 
 +---a---b---c---d---e---f---g---h---+
@@ -332,7 +332,7 @@ Popeye <=4.53 gives 1.Rb1# (i.e. doesn't see 1.-nRb6! nor 1.-nRa1)
                      play_move:          41
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          41
-solution finished. 
+solution finished.
 
 
 
@@ -384,7 +384,7 @@ b) wuSa3-->g5
                      play_move:          88
  is_white_king_square_attacked:          22
  is_black_king_square_attacked:          91
-solution finished. 
+solution finished.
 
 
 
@@ -427,7 +427,7 @@ b) +wSa8
                      play_move:          69
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          43
-solution finished. 
+solution finished.
 
 
 
@@ -454,16 +454,16 @@ Sentinelle insertion would occur before rebirth, which caused
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                    2 + 1 + 1n
-          Circe Equipollents
+         Circe Equipollents
      Sentinelles  PionAdvers 2/2
 
   1.nKd5*c6[+wPb7] b7-b8=R   2.nKc6-c7[+wPc6] nKc7-c8[+bPc7] #
 
   add_to_move_generation_stack:        3274
                      play_move:        2342
- is_white_king_square_attacked:         291
- is_black_king_square_attacked:        2209
-solution finished. 
+ is_white_king_square_attacked:         289
+ is_black_king_square_attacked:        2208
+solution finished.
 
 
 
@@ -491,7 +491,7 @@ Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
               AntiCirce
-            AndernachChess
+           AndernachChess
 
    1.Sa1*c2[wSc2->b1=b] !
 
@@ -502,7 +502,7 @@ Until 4.61, the first move used to be written 1.Sa1*c2=bS[bSc2->b1]
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -541,7 +541,7 @@ Until 4.61, the first used to be 1.Sa1*c2=bS[bSc2->b1]
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -579,7 +579,7 @@ Apply magic square recoloring to the final arrival square
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -612,9 +612,9 @@ king exchange (e.g. 1.Kh8<->Kf7   2.Sf8-h7 Kh8<->Kf7 x)
 
   add_to_move_generation_stack:         495
                      play_move:         157
- is_white_king_square_attacked:          75
- is_black_king_square_attacked:          95
-solution finished. 
+ is_white_king_square_attacked:          74
+ is_black_king_square_attacked:          93
+solution finished.
 
 
 
@@ -641,15 +641,15 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   dia2.5                    16 + 16
               AntiCirce
-              NorskSjakk
+             NorskSjakk
 
   1.e2-e3 a7-a6   2.Bf1-c4=R Ra8-a7=B   3.Sg1-e2=Q dia
 
   add_to_move_generation_stack:        6399
                      play_move:        6254
- is_white_king_square_attacked:         159
- is_black_king_square_attacked:         130
-solution finished. 
+ is_white_king_square_attacked:         157
+ is_black_king_square_attacked:         127
+solution finished.
 
 
 
@@ -676,14 +676,14 @@ Until 4.61, 1.Sg6 was given as a solution (Bug #3515750)
 +---a---b---c---d---e---f---g---h---+
   =1                          1 + 4
                Isardam
-            Take&MakeChess
+           Take&MakeChess
 
 
   add_to_move_generation_stack:          64
                      play_move:          16
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          16
-solution finished. 
+solution finished.
 
 
 
@@ -710,19 +710,19 @@ Until 4.61, 1.a7 was given as a solution (Bug #3515750)
 +---a---b---c---d---e---f---g---h---+
   #1                         4 + 10
                Isardam
-            Take&MakeChess
+           Take&MakeChess
 
 
   add_to_move_generation_stack:          13
                      play_move:          15
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          11
-solution finished. 
+solution finished.
 
 
 
 Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
-      shown twice (Bug #3390612)
+     shown twice (Bug #3390612)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -744,7 +744,7 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                    2 + 8 + 3n
-            Take&MakeChess
+           Take&MakeChess
 
   1.Se6-f4 nCAh7-e6   2.Ba2-d5 nZh8*e6-h7 #
   1.Se6-g5 nROf8-e6   2.Ba2-d5 nCAh7*e6-f8 #
@@ -752,9 +752,9 @@ Until 4.61, the 2nd solution wasn't shown and the 3rd solution was
 
   add_to_move_generation_stack:     1058816
                      play_move:      671147
- is_white_king_square_attacked:       85497
- is_black_king_square_attacked:      667124
-solution finished. 
+ is_white_king_square_attacked:       85491
+ is_black_king_square_attacked:      667121
+solution finished.
 
 
 
@@ -780,8 +780,8 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         1 + 4
-               Royal f1
-            NoWhiteCapture
+              Royal f1
+           NoWhiteCapture
       WhiteSuperTransmutingKing
 
   1.e2-e1=Q Kh1-h2   2.Qe1-e5 + Kh2-h1=Q #
@@ -789,9 +789,9 @@ Until 4.61, the second solution was given as 1.h3-h2 Kh1-g2 #
 
   add_to_move_generation_stack:         279
                      play_move:         300
- is_white_king_square_attacked:          99
- is_black_king_square_attacked:         213
-solution finished. 
+ is_white_king_square_attacked:          95
+ is_black_king_square_attacked:         211
+solution finished.
 
 
 
@@ -817,7 +817,7 @@ Until 4.61, Popeye crashed (Bug #3585629)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=1                         2 + 2
-        WhiteMaximummer  ultra
+       WhiteMaximummer  ultra
               AntiCirce
 
 
@@ -825,13 +825,13 @@ Until 4.61, Popeye crashed (Bug #3585629)
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          12
-solution finished. 
+solution finished.
 
 
 both sides need a king
 
 Until 4.61, a=>b stipulations weren't correctly solved
-     if there were neutral pieces
+    if there were neutral pieces
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -885,7 +885,7 @@ Until 4.61, a=>b stipulations weren't correctly solved
                      play_move:         194
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -913,19 +913,19 @@ f*g7[S->h5] S*g7[P->f6] f*g7[S->h5] ...
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 4
              Circe Super
-            ExclusiveChess
+           ExclusiveChess
 
 
   add_to_move_generation_stack:      100954
                      play_move:      238133
  is_white_king_square_attacked:      212972
  is_black_king_square_attacked:       45701
-solution finished. 
+solution finished.
 
 
 
 Until 4.61, Popeye would produce spurious en passant captures
-      on a6 and a5 after 1.a7-a4
+     on a6 and a5 after 1.a7-a4
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -947,7 +947,7 @@ Until 4.61, Popeye would produce spurious en passant captures
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hep1                        8 + 5
-              AnnanChess
+             AnnanChess
 
   1.BPb7-d5 b5*c6 ep.
 
@@ -955,7 +955,7 @@ Until 4.61, Popeye would produce spurious en passant captures
                      play_move:          50
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -981,7 +981,7 @@ Until 4.61, Popeye would generate the castling move twice
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   001                         3 + 0
-              AnnanChess
+             AnnanChess
 
    1.0-0-0 !
 
@@ -990,7 +990,7 @@ Until 4.61, Popeye would generate the castling move twice
                      play_move:           1
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1024,9 +1024,9 @@ Popeye 4.61 didn't support option maxsolutions in helpself stipulations
 
   add_to_move_generation_stack:       47737
                      play_move:       33926
- is_white_king_square_attacked:       33567
- is_black_king_square_attacked:       12792
-solving interrupted. 
+ is_white_king_square_attacked:       33564
+ is_black_king_square_attacked:       12786
+solving interrupted.
 
 
 
@@ -1060,12 +1060,12 @@ solving interrupted.
                      play_move:          59
  is_white_king_square_attacked:          58
  is_black_king_square_attacked:           0
-solving interrupted. 
+solving interrupted.
 
 
 
 Until 4.61, pieces' neutrality wasn't preserved in
-        ActuatedRevolvingBoard
+       ActuatedRevolvingBoard
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1087,7 +1087,7 @@ Until 4.61, pieces' neutrality wasn't preserved in
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hze81                  0 + 0 + 1n
-        ActuatedRevolvingBoard
+       ActuatedRevolvingBoard
 
   1.nPh2-h1=nQ nQa1-a5 z
   1.nPh2-h1=nR nRa1-a5 z
@@ -1096,7 +1096,7 @@ Until 4.61, pieces' neutrality wasn't preserved in
                      play_move:          48
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1122,7 +1122,7 @@ Until 4.61, Circe rebirths weren't considered in Koeko
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-          Circe RexInclusive
+         Circe RexInclusive
                 KoeKo
 
    1.CAa6*d7[+bKe8] !
@@ -1132,12 +1132,12 @@ Until 4.61, Circe rebirths weren't considered in Koeko
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
-solution finished. 
+solution finished.
 
 
 
 Until 4.61, pieces reborn on magic squares did not change
-           color (bug #31).
+          color (bug #31).
 1.Rh1*h3[bRh3->a8=w] Kg1-f2 doesn't solve because of self check
 
 +---a---b---c---d---e---f---g---h---+
@@ -1169,10 +1169,10 @@ Until 4.61, pieces reborn on magic squares did not change
   1.Kh8-g8 + Kg1-f2 z
 
   add_to_move_generation_stack:          30
-                     play_move:          16
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          13
-solution finished. 
+                     play_move:          13
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:           9
+solution finished.
 
 
 
@@ -1199,14 +1199,14 @@ Until 4.61, Patrouille and paralysing pieces didn't go well together
 +---a---b---c---d---e---f---g---h---+
   +1                          2 + 2
             Paralysing h2
-              Patrouille
+             Patrouille
 
 
   add_to_move_generation_stack:           2
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
-solution finished. 
+solution finished.
 
 
 
@@ -1240,9 +1240,9 @@ sttipulations with logically connected goals
 
   add_to_move_generation_stack:        8233
                      play_move:        3837
- is_white_king_square_attacked:        1620
- is_black_king_square_attacked:        3462
-solution finished. 
+ is_white_king_square_attacked:        1612
+ is_black_king_square_attacked:        3456
+solution finished.
 
 
 both sides need a king
@@ -1275,8 +1275,8 @@ both sides need a king
   add_to_move_generation_stack:         316
                      play_move:         316
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         154
-solution finished. 
+ is_black_king_square_attacked:         153
+solution finished.
 
 
 
@@ -1319,9 +1319,9 @@ movenumbers and nested series branches; until 4.61, Popeye produced
 
   add_to_move_generation_stack:      235771
                      play_move:      250400
- is_white_king_square_attacked:      221301
- is_black_king_square_attacked:      216341
-solution finished. 
+ is_white_king_square_attacked:      221287
+ is_black_king_square_attacked:      216339
+solution finished.
 
 
 
@@ -1379,7 +1379,7 @@ Popeye 4.51 to 4.61 would produce the move to c5 twice
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1405,8 +1405,8 @@ Up to 4.61, Popeye wouldn't play 1.b7-b8=B[h1=b]
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          8 + 0
-               Magic a8
-          SingleBox    Type1
+              Magic a8
+         SingleBox    Type1
 
 a) 
 
@@ -1441,7 +1441,7 @@ c) wBa8
                      play_move:          27
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solving interrupted. 
+solving interrupted.
 
 
 
@@ -1468,7 +1468,7 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
 +---a---b---c---d---e---f---g---h---+
   +1                          9 + 1
              Magic a7 e6
-          SingleBox    Type1
+         SingleBox    Type1
 
    1.mPe6-e7 + !
 
@@ -1479,7 +1479,7 @@ Until 4.61, Popeye didn't find 1.Pe6-e7 +  (threatens 2.Pe7*d8=R[bRh7])
                      play_move:          51
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          48
-solution finished. 
+solution finished.
 
 
 input-error:cannot recognize the stipulation
@@ -1490,6 +1490,6 @@ input-error:command not known
 offending item: NoBoard
 input-error:no stipulation specified
 offending item: end
-solution finished. 
+solution finished.
 
 

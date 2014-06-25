@@ -1,6 +1,6 @@
 
-              P.A.Petkov
-       The Problemist July 1996
+             P.A.Petkov
+      The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -67,12 +67,12 @@
                      play_move:        1059
  is_white_king_square_attacked:          90
  is_black_king_square_attacked:        1062
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              P.A.Petkov
-       The Problemist July 1996
+             P.A.Petkov
+      The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -94,7 +94,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 2
-            HalbNeutral h2
+           HalbNeutral h2
 
       1...hBh2-h1=hS=nh
           2.Dg5-h5 #
@@ -110,12 +110,12 @@ Loesung beendet.
                      play_move:        1627
  is_white_king_square_attacked:         306
  is_black_king_square_attacked:        1629
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              P.A.Petkov
-       The Problemist July 1996
+             P.A.Petkov
+      The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -137,7 +137,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#6                2 + 1 + 1n
-            HalbNeutral d7
+           HalbNeutral d7
 
   1.nhBd7-d5=sh   2.hBd5-d4=nh   3.nhBd4-d3=sh   4.hBd3-d2=nh   5.nhBd2-d1=nhD=sh   6.hDd1-h5=nh nhDh5-a5=wh #
   1.nhBd7-d5=sh   2.hBd5-d4=nh   3.nhBd4-d3=sh   4.hBd3-d2=nh   5.nhBd2-d1=nhD=sh   6.hDd1-f3=nh nhDf3-b3=wh #
@@ -166,14 +166,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       13327
                      play_move:       11695
- is_white_king_square_attacked:        2548
+ is_white_king_square_attacked:        2404
  is_black_king_square_attacked:       11695
-Loesung beendet. 
+Loesung beendet.
 
 
 
         P.A.Petkov (corr. SE)
-     (v) The Problemist July 1996
+    (v) The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -195,19 +195,19 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         2 + 4
-         HalbNeutral b7 g7 g2
+        HalbNeutral b7 g7 g2
 
   1.hBg2-g1=hL=nh hBb7-b8=hT=nh +   2.nhTb8-g8=sh nhLg1-d4=wh =
 
   add_to_move_generation_stack:       52100
                      play_move:       42926
- is_white_king_square_attacked:       17272
- is_black_king_square_attacked:       38053
-Loesung beendet. 
+ is_white_king_square_attacked:       17270
+ is_black_king_square_attacked:       38052
+Loesung beendet.
 
 
 
-              P.A.Petkov
+             P.A.Petkov
          The Problemist 1989
 
 +---a---b---c---d---e---f---g---h---+
@@ -230,7 +230,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 3
-            HalbNeutral c5
+           HalbNeutral c5
 
    1.Kh2-g2 ! Zugzwang.
       1...hTc5-c1=nh
@@ -261,12 +261,12 @@ Loesung beendet.
                      play_move:        3726
  is_white_king_square_attacked:         473
  is_black_king_square_attacked:        3729
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              P.A.Petkov
-       The Problemist July 1996
+             P.A.Petkov
+      The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -288,7 +288,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                     8 + 8 + 1n
-            HalbNeutral d5
+           HalbNeutral d5
 
    1.Se5-d3 ! Drohung:
           2.Dg7-d4 #
@@ -308,11 +308,11 @@ Loesung beendet.
                      play_move:        8608
  is_white_king_square_attacked:         506
  is_black_king_square_attacked:        8611
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              P.A.Petkov
+             P.A.Petkov
          The Problemist 1989
 
 +---a---b---c---d---e---f---g---h---+
@@ -335,7 +335,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          8 + 4
-            HalbNeutral a7
+           HalbNeutral a7
 
    1.Sf5-d4 ? Drohung:
           2.d6-d7 Drohung:
@@ -500,12 +500,12 @@ Loesung beendet.
                      play_move:       65868
  is_white_king_square_attacked:        7143
  is_black_king_square_attacked:       64006
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              P.A.Petkov
-       The Problemist July 1996
+             P.A.Petkov
+      The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -632,12 +632,12 @@ Loesung beendet.
                      play_move:        7490
  is_white_king_square_attacked:         704
  is_black_king_square_attacked:        7451
-Loesung beendet. 
+Loesung beendet.
 
 
 
         P.A.Petkov (corr. SE)
-     (v) The Problemist July 1996
+    (v) The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -667,22 +667,22 @@ a)
 
   add_to_move_generation_stack:       64453
                      play_move:       53283
- is_white_king_square_attacked:        3619
- is_black_king_square_attacked:       53032
+ is_white_king_square_attacked:        3617
+ is_black_king_square_attacked:       53031
 b) sKd5-->a6  
 
   1.hTd1-d3=nh La3-c5   2.hLf1-e2=nh nhTd3-a3=wh #
 
   add_to_move_generation_stack:       74116
                      play_move:       66408
- is_white_king_square_attacked:        3183
- is_black_king_square_attacked:       66059
-Loesung beendet. 
+ is_white_king_square_attacked:        3181
+ is_black_king_square_attacked:       66058
+Loesung beendet.
 
 
 
         P.A.Petkov (corr. SE)
-     (v) The Problemist July 1996
+    (v) The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -713,22 +713,22 @@ a)
 
   add_to_move_generation_stack:      103010
                      play_move:       89175
- is_white_king_square_attacked:        5425
- is_black_king_square_attacked:       88701
+ is_white_king_square_attacked:        5423
+ is_black_king_square_attacked:       88700
 b) sKb2-->c3  
 
   1.hLf8-e7=nh Kd5-e4   2.hTe8*e7=nh[+nhLc1] + nhTe7-c7=wh #
 
   add_to_move_generation_stack:       80645
                      play_move:       63503
- is_white_king_square_attacked:        8668
- is_black_king_square_attacked:       63109
-Loesung beendet. 
+ is_white_king_square_attacked:        8666
+ is_black_king_square_attacked:       63108
+Loesung beendet.
 
 
 
-              P.A.Petkov
-       The Problemist July 1996
+             P.A.Petkov
+      The Problemist July 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -750,7 +750,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 3
-            HalbNeutral b8
+           HalbNeutral b8
 
    1.Db4-d4 + ?
     Aber
@@ -809,7 +809,7 @@ Loesung beendet.
                      play_move:        4747
  is_white_king_square_attacked:         836
  is_black_king_square_attacked:        4695
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -837,20 +837,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                    3 + 0 + 1n
-            HalbNeutral e1
+           HalbNeutral e1
 
   1...Lf1-h3   2.nSe3-g4 0-0=nh #
   1...Lf1-d3   2.nSe3-c4 hKe1-d1=nh #
 
   add_to_move_generation_stack:        6512
                      play_move:        5042
- is_white_king_square_attacked:         450
+ is_white_king_square_attacked:         448
  is_black_king_square_attacked:        1575
-Loesung beendet. 
+Loesung beendet.
 
 
 
-          V.Crisan & E.Huber
+         V.Crisan & E.Huber
          1 Pl Andernach 2004
 nur die letzten 2 Zuege < 1 min mit Athlon 2400
 
@@ -881,8 +881,8 @@ nur die letzten 2 Zuege < 1 min mit Athlon 2400
 
   add_to_move_generation_stack:    42015260
                      play_move:    16718727
- is_white_king_square_attacked:    16650140
- is_black_king_square_attacked:     8731099
-Loesung beendet. 
+ is_white_king_square_attacked:    16650139
+ is_black_king_square_attacked:     8731097
+Loesung beendet.
 
 

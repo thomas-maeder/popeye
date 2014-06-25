@@ -1,5 +1,5 @@
 
-             J.J. Burbach
+            J.J. Burbach
     2056, Problemkiste 56, 5/1988
 
 +---a---b---c---d---e---f---g---h---+
@@ -27,13 +27,13 @@
 
   add_to_move_generation_stack:      164359
                      play_move:      111132
- is_white_king_square_attacked:       63583
- is_black_king_square_attacked:      111110
-Loesung beendet. 
+ is_white_king_square_attacked:       63574
+ is_black_king_square_attacked:      111109
+Loesung beendet.
 
 
 
-             J.J. Burbach
+            J.J. Burbach
     2256, Problemkiste 64, 8/1989
 
 +---a---b---c---d---e---f---g---h---+
@@ -61,14 +61,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:         102
                      play_move:          29
- is_white_king_square_attacked:          15
- is_black_king_square_attacked:          29
-Loesung beendet. 
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          28
+Loesung beendet.
 
 
 
-             M. Rittirsch
-    2286, Problemkiste 65, 10/1989
+            M. Rittirsch
+   2286, Problemkiste 65, 10/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -98,22 +98,22 @@ a)
 
   add_to_move_generation_stack:         746
                      play_move:         732
- is_white_king_square_attacked:         465
- is_black_king_square_attacked:         733
+ is_white_king_square_attacked:         459
+ is_black_king_square_attacked:         732
 b) wTb1-->g1  
 
   1.Kh7-h6   2.Kh6-h5   3.Kh5-h4   4.Kh4-h3   5.Kh3-h2   6.Kh2*g1[+wTa1] 0-0-0 +
 
   add_to_move_generation_stack:         136
                      play_move:         121
- is_white_king_square_attacked:          50
- is_black_king_square_attacked:         122
-Loesung beendet. 
+ is_white_king_square_attacked:          44
+ is_black_king_square_attacked:         121
+Loesung beendet.
 
 
 
-             M. Rittirsch
-    S.77, Problemkiste 66, 12/1989
+            M. Rittirsch
+   S.77, Problemkiste 66, 12/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -140,14 +140,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:         280
                      play_move:          64
- is_white_king_square_attacked:          53
- is_black_king_square_attacked:          54
-Loesung beendet. 
+ is_white_king_square_attacked:          51
+ is_black_king_square_attacked:          53
+Loesung beendet.
 
 
 
-             M. Rittirsch
-    2323, Problemkiste 66, 12/1989
+            M. Rittirsch
+   2323, Problemkiste 66, 12/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -178,13 +178,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:         165
                      play_move:         122
- is_white_king_square_attacked:          35
- is_black_king_square_attacked:         111
-Loesung beendet. 
+ is_white_king_square_attacked:          32
+ is_black_king_square_attacked:         106
+Loesung beendet.
 
 
 
-            B. Schwarzkopf
+           B. Schwarzkopf
     2360, Problemkiste 67, 2/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -213,13 +213,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:        4452
                      play_move:        1529
- is_white_king_square_attacked:         567
+ is_white_king_square_attacked:         561
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             J.J. Burbach
+            J.J. Burbach
     2382, Problemkiste 67, 2/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -255,12 +255,12 @@ Loesung beendet.
                      play_move:      396864
  is_white_king_square_attacked:      376850
  is_black_king_square_attacked:       28554
-Loesung beendet. 
+Loesung beendet.
 
 
 
                A. Rein
-   1 S.112, Problemkiste 68, 4/1990
+  1 S.112, Problemkiste 68, 4/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -287,14 +287,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:        1618
                      play_move:         345
- is_white_king_square_attacked:         206
- is_black_king_square_attacked:         323
-Loesung beendet. 
+ is_white_king_square_attacked:         203
+ is_black_king_square_attacked:         322
+Loesung beendet.
 
 
 
                A. Rein
-   2 S.112, Problemkiste 68, 4/1990
+  2 S.112, Problemkiste 68, 4/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -322,13 +322,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      254010
                      play_move:      225563
- is_white_king_square_attacked:       49987
- is_black_king_square_attacked:      225525
-Loesung beendet. 
+ is_white_king_square_attacked:       49975
+ is_black_king_square_attacked:      225523
+Loesung beendet.
 
 
 
-            B. Schwarzkopf
+           B. Schwarzkopf
     2389, Problemkiste 68, 4/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -356,14 +356,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:        8136
                      play_move:        1890
- is_white_king_square_attacked:         815
+ is_white_king_square_attacked:         812
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              T. Steudel
-   F S.122, Problemkiste 69, 6/1990
+             T. Steudel
+  F S.122, Problemkiste 69, 6/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -392,21 +392,21 @@ a)
 
   add_to_move_generation_stack:      144769
                      play_move:       67496
- is_white_king_square_attacked:       13413
- is_black_king_square_attacked:       67482
+ is_white_king_square_attacked:       13409
+ is_black_king_square_attacked:       67481
 b) sBd4-->h3  
 
   1.Lg1-b6   2.g2-g1=L   3.Lg1-c5   4.Tf4-d4 0-0
 
   add_to_move_generation_stack:      209216
                      play_move:      108545
- is_white_king_square_attacked:       24497
- is_black_king_square_attacked:      108453
-Loesung beendet. 
+ is_white_king_square_attacked:       24493
+ is_black_king_square_attacked:      108452
+Loesung beendet.
 
 
 
-             M. Rittirsch
+            M. Rittirsch
     2468, Problemkiste 69, 6/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -435,15 +435,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:        4298
                      play_move:        4281
- is_white_king_square_attacked:        3249
- is_black_king_square_attacked:        4282
-Loesung beendet. 
+ is_white_king_square_attacked:        3235
+ is_black_king_square_attacked:        4281
+Loesung beendet.
 
 
 
-             J.J. Burbach
+            J.J. Burbach
     2478, Problemkiste 70, 8/1990
-        (ErB z. 60. Geb. gew.)
+       (ErB z. 60. Geb. gew.)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -480,7 +480,7 @@ a) wTh4-->g1
 
   add_to_move_generation_stack:       10543
                      play_move:        9333
- is_white_king_square_attacked:        5916
+ is_white_king_square_attacked:        5910
  is_black_king_square_attacked:           0
 b) -wSd1  +wDb1  
 
@@ -488,13 +488,13 @@ b) -wSd1  +wDb1
 
   add_to_move_generation_stack:       11597
                      play_move:        9664
- is_white_king_square_attacked:        5867
+ is_white_king_square_attacked:        5861
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             M. Rittirsch
+            M. Rittirsch
     2481, Problemkiste 70, 8/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -523,9 +523,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:        8042
                      play_move:        8121
- is_white_king_square_attacked:        2962
- is_black_king_square_attacked:        8122
-Loesung beendet. 
+ is_white_king_square_attacked:        2953
+ is_black_king_square_attacked:        8121
+Loesung beendet.
 
 
 
@@ -558,13 +558,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:        4466
                      play_move:        4451
- is_white_king_square_attacked:        2653
- is_black_king_square_attacked:        4452
-Loesung beendet. 
+ is_white_king_square_attacked:        2638
+ is_black_king_square_attacked:        4451
+Loesung beendet.
 
 
 
-             J.J. Burbach
+            J.J. Burbach
     2517, Problemkiste 70, 8/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -655,12 +655,12 @@ Loesung beendet.
                      play_move:         854
  is_white_king_square_attacked:         526
  is_black_king_square_attacked:         557
-Loesung beendet. 
+Loesung beendet.
 
 
 
               H.P. Suwe
-    2520, Problemkiste 71, 10/1990
+   2520, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -690,22 +690,22 @@ a)
 
   add_to_move_generation_stack:         266
                      play_move:         252
- is_white_king_square_attacked:         112
- is_black_king_square_attacked:         253
+ is_white_king_square_attacked:         107
+ is_black_king_square_attacked:         252
 b) wTe4-->h6  
 
   1.Kh1-g2   2.Kg2-g3   3.Kg3-f4   4.Kf4-g5   5.Kg5*h6[+wTa1] 0-0-0
 
   add_to_move_generation_stack:         166
                      play_move:         148
- is_white_king_square_attacked:          47
- is_black_king_square_attacked:         149
-Loesung beendet. 
+ is_white_king_square_attacked:          42
+ is_black_king_square_attacked:         148
+Loesung beendet.
 
 
 
-              J. Kubecka
-    2542, Problemkiste 71, 10/1990
+             J. Kubecka
+   2542, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -736,13 +736,13 @@ Loesung beendet.
   add_to_move_generation_stack:        7209
                      play_move:        4368
  is_white_king_square_attacked:        4654
- is_black_king_square_attacked:        4061
-Loesung beendet. 
+ is_black_king_square_attacked:        4045
+Loesung beendet.
 
 
 
-             Erich Bartel
-    4604, feenschach 75, 9-10/1985
+            Erich Bartel
+   4604, feenschach 75, 9-10/1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -772,13 +772,13 @@ Loesung beendet.
                      play_move:       14251
  is_white_king_square_attacked:       14251
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Stefan Klebes
-   4698, feenschach 76, 8. 11. 1985
-     Albert H. Kniest in memoriam
+  4698, feenschach 76, 8. 11. 1985
+    Albert H. Kniest in memoriam
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -807,8 +807,8 @@ Loesung beendet.
   add_to_move_generation_stack:        9286
                      play_move:        7716
  is_white_king_square_attacked:        2283
- is_black_king_square_attacked:        7093
-Loesung beendet. 
+ is_black_king_square_attacked:        7077
+Loesung beendet.
 
 
 
@@ -843,14 +843,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       18514
                      play_move:       18693
- is_white_king_square_attacked:        3191
- is_black_king_square_attacked:       18697
-Loesung beendet. 
+ is_white_king_square_attacked:        3167
+ is_black_king_square_attacked:       18693
+Loesung beendet.
 
 
 
-            Waleri Nebotow
-    4039, Problemkiste 104, 4/1996
+           Waleri Nebotow
+   4039, Problemkiste 104, 4/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -872,8 +872,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   1->ser-#4                   5 + 5
-            EinsteinSchach
-                Duplex
+           EinsteinSchach
+               Duplex
 
   1.e7-e6   1.h5-h6   2.h6*g7=S   3.Sg7*e6=L   4.Le6*f7=T #
 
@@ -881,14 +881,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      428163
                      play_move:      345576
- is_white_king_square_attacked:      218343
- is_black_king_square_attacked:      220149
-Loesung beendet. 
+ is_white_king_square_attacked:      218339
+ is_black_king_square_attacked:      220145
+Loesung beendet.
 
 
 
             Vlaicu Crisan
-     3067, Probleemblad 9-10/1996
+    3067, Probleemblad 9-10/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -919,30 +919,30 @@ a)
 
   add_to_move_generation_stack:       27984
                      play_move:       23886
- is_white_king_square_attacked:       19656
- is_black_king_square_attacked:       18758
+ is_white_king_square_attacked:       19654
+ is_black_king_square_attacked:       18756
 b) sKd2-->c2  
 
   1.Ta8*a7=w[+wBa2]   2.Lb8*a7=w[+wTa1]   1.La7-d4   2.Ld4-c3   3.Ta1-c1 #
 
   add_to_move_generation_stack:       38221
                      play_move:       29459
- is_white_king_square_attacked:       23526
- is_black_king_square_attacked:       23051
+ is_white_king_square_attacked:       23524
+ is_black_king_square_attacked:       23049
 c) sKd2-->a1  
 
   1.Lb8*a7=w[+wBa2]   2.Sc8*a7=w[+wLc1]   1.Sa7-b5   2.Sb5-c3   3.Lc1-b2 #
 
   add_to_move_generation_stack:       21772
                      play_move:       21783
- is_white_king_square_attacked:       18034
- is_black_king_square_attacked:       17053
-Loesung beendet. 
+ is_white_king_square_attacked:       18032
+ is_black_king_square_attacked:       17051
+Loesung beendet.
 
 
 
             Horst B"acker
-    3137, Problemkiste-85, 12/1992
+   3137, Problemkiste-85, 12/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1026,11 +1026,11 @@ d) exact-#4
                      play_move:       21463
  is_white_king_square_attacked:       13875
  is_black_king_square_attacked:        8929
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Hilmar Ebert
+            Hilmar Ebert
            feenschach 1991
              hg gewidmet
 
@@ -1103,11 +1103,11 @@ d) exact-#4
                      play_move:      182223
  is_white_king_square_attacked:      108551
  is_black_king_square_attacked:       97664
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             K. Hannemann
+            K. Hannemann
   Dagens Nybeder 1933 (Vers. Ebert)
 
 +---a---b---c---d---e---f---g---h---+
@@ -1187,13 +1187,13 @@ d) exact-#4
                      play_move:       39716
  is_white_king_square_attacked:       23505
  is_black_king_square_attacked:       20507
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Dieter Werner
   5. PK-TT, Problemkiste 62, 4/1989
-           Abt. B, 1. Platz
+          Abt. B, 1. Platz
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1273,12 +1273,12 @@ Loesung beendet.
                      play_move:     3336087
  is_white_king_square_attacked:     3010054
  is_black_king_square_attacked:      326085
-Loesung beendet. 
+Loesung beendet.
 
 
 
-   Norbert Geissler & Dieter Werner
-     2419, Problemkiste-68 4/1990
+  Norbert Geissler & Dieter Werner
+    2419, Problemkiste-68 4/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1305,10 +1305,10 @@ Loesung beendet.
   1.g2-g1=CA   2.CAg1-d2   3.g3-g2   4.g2-g1=CA CAf5-e2 =
 
   add_to_move_generation_stack:       25924
-                     play_move:       24296
- is_white_king_square_attacked:        4959
+                     play_move:       24291
+ is_white_king_square_attacked:        4955
  is_black_king_square_attacked:        8669
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1342,8 +1342,8 @@ Loesung beendet.
   add_to_move_generation_stack:       66379
                      play_move:       52472
  is_white_king_square_attacked:       12565
- is_black_king_square_attacked:       53598
-Loesung beendet. 
+ is_black_king_square_attacked:       53595
+Loesung beendet.
 
 
 
@@ -1377,12 +1377,12 @@ Loesung beendet.
   add_to_move_generation_stack:        2170
                      play_move:        2173
  is_white_king_square_attacked:        2173
- is_black_king_square_attacked:        4262
-Loesung beendet. 
+ is_black_king_square_attacked:        4252
+Loesung beendet.
 
 
 
-             Rudolf Queck
+            Rudolf Queck
     2421, Problemkiste-68, 4/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -1405,7 +1405,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-s#8                     2 + 4
-             Gitterschach
+            Gitterschach
 
   1.Ke8-d7   2.Kd7-e6   3.Ke6-d5   4.Kd5-e4   5.Ge5-e3   6.Ke4-d3   7.Kd3-e2   8.Ke2-d1 Gh6-d2 #
 
@@ -1413,12 +1413,12 @@ Loesung beendet.
                      play_move:       21414
  is_white_king_square_attacked:       21414
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Gy"orgy Bakcsi
-     5103, feenschach-83,4-6/1987
+           Gy"orgy Bakcsi
+    5103, feenschach-83,4-6/1987
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1449,13 +1449,13 @@ Loesung beendet.
   add_to_move_generation_stack:      686070
                      play_move:      169435
  is_white_king_square_attacked:      169435
- is_black_king_square_attacked:       95370
-Loesung beendet. 
+ is_black_king_square_attacked:       95354
+Loesung beendet.
 
 
 
-           Heinz Winterberg
-       feenschach-39,VII-X/1977
+          Heinz Winterberg
+      feenschach-39,VII-X/1977
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1477,20 +1477,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-s==6                    2 + 2
-             HaanerSchach
+            HaanerSchach
 
   1.Kc8-c7   2.Kc7-c6   3.Kc6-b5   4.Kb5-a5   5.Ka5-a6   6.b6-b7 + Ka8-b8 ==
 
   add_to_move_generation_stack:      171706
                      play_move:       76373
  is_white_king_square_attacked:       24175
- is_black_king_square_attacked:       80700
-Loesung beendet. 
+ is_black_king_square_attacked:       80694
+Loesung beendet.
 
 
 
             Peter R"osler
-     5989, feenschach-98, 12/1990
+    5989, feenschach-98, 12/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1522,7 +1522,7 @@ Loesung beendet.
                      play_move:         380
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1563,12 +1563,12 @@ Loesung beendet.
                      play_move:        3310
  is_white_king_square_attacked:        2412
  is_black_king_square_attacked:         909
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Romeo Bedoni
-        894, feenschach V/1973
+            Romeo Bedoni
+       894, feenschach V/1973
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1619,7 +1619,7 @@ Loesung beendet.
                      play_move:        9066
  is_white_king_square_attacked:        9014
  is_black_king_square_attacked:         936
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1659,7 +1659,7 @@ a)
   add_to_move_generation_stack:         950
                      play_move:         252
  is_white_king_square_attacked:         243
- is_black_king_square_attacked:         183
+ is_black_king_square_attacked:         163
 b) sKa4-->e8  
 
   1.nBb7-b8=nS   2.nSb8*d7[+sTa8]   3.nSd7-b6   4.nSb6*a8 %
@@ -1667,7 +1667,7 @@ b) sKa4-->e8
   add_to_move_generation_stack:         834
                      play_move:         210
  is_white_king_square_attacked:         204
- is_black_king_square_attacked:         126
+ is_black_king_square_attacked:         122
 c) sTd7-->b2  
 
   1.nBb7-b8=nL   2.nLb8-d6   3.nLd6-f8   4.Kg8*f8 %
@@ -1676,7 +1676,7 @@ c) sTd7-->b2
   add_to_move_generation_stack:        2853
                      play_move:         543
  is_white_king_square_attacked:         498
- is_black_king_square_attacked:         406
+ is_black_king_square_attacked:         398
 d) sTd7-->f8  
 
   1.Kg8-g7   2.nBb7-b8=nT   3.nTb8*f8[+sTh8]   4.nTf8*h8 %
@@ -1684,8 +1684,8 @@ d) sTd7-->f8
   add_to_move_generation_stack:         809
                      play_move:         183
  is_white_king_square_attacked:         139
- is_black_king_square_attacked:          64
-Loesung beendet. 
+ is_black_king_square_attacked:          60
+Loesung beendet.
 
 
 
@@ -1719,8 +1719,8 @@ Loesung beendet.
   add_to_move_generation_stack:         856
                      play_move:         715
  is_white_king_square_attacked:         576
- is_black_king_square_attacked:         524
-Loesung beendet. 
+ is_black_king_square_attacked:         515
+Loesung beendet.
 
 
 
@@ -1754,12 +1754,12 @@ Loesung beendet.
   add_to_move_generation_stack:        7413
                      play_move:        6890
  is_white_king_square_attacked:        6356
- is_black_king_square_attacked:        5039
-Loesung beendet. 
+ is_black_king_square_attacked:        5018
+Loesung beendet.
 
 
 
-             M. Tomasevic
+            M. Tomasevic
     2357, Problemkiste 67, 2/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -1788,12 +1788,12 @@ Loesung beendet.
   add_to_move_generation_stack:       50950
                      play_move:       38327
  is_white_king_square_attacked:       32153
- is_black_king_square_attacked:       35175
-Loesung beendet. 
+ is_black_king_square_attacked:       35168
+Loesung beendet.
 
 
 
-             Heinz Zander
+            Heinz Zander
     2384, Problemkiste 67, 2/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -1822,13 +1822,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      346762
                      play_move:      381612
- is_white_king_square_attacked:       44930
+ is_white_king_square_attacked:       44921
  is_black_king_square_attacked:      119799
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            G"uenter Gla"s
+           G"uenter Gla"s
     2386, Problemkiste 67, 2/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -1858,8 +1858,8 @@ Loesung beendet.
   add_to_move_generation_stack:        5599
                      play_move:        6749
  is_white_king_square_attacked:        1620
- is_black_king_square_attacked:        1861
-Loesung beendet. 
+ is_black_king_square_attacked:        1849
+Loesung beendet.
 
 
 
@@ -1897,14 +1897,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       26260
                      play_move:       14935
- is_white_king_square_attacked:        9078
+ is_white_king_square_attacked:        9057
  is_black_king_square_attacked:       14069
-Loesung beendet. 
+Loesung beendet.
 
 
 
           Christian Poisson
-    2522, Problemkiste 71, 10/1990
+   2522, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1932,14 +1932,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       43040
                      play_move:       14168
- is_white_king_square_attacked:        7915
- is_black_king_square_attacked:       11324
-Loesung beendet. 
+ is_white_king_square_attacked:        7914
+ is_black_king_square_attacked:       11303
+Loesung beendet.
 
 
 
           Christian Poisson
-    2524, Problemkiste 71, 10/1990
+   2524, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1968,13 +1968,13 @@ Loesung beendet.
   add_to_move_generation_stack:         902
                      play_move:         712
  is_white_king_square_attacked:         712
- is_black_king_square_attacked:         384
-Loesung beendet. 
+ is_black_king_square_attacked:         371
+Loesung beendet.
 
 
 
           Christian Poisson
-    2525, Problemkiste 71, 10/1990
+   2525, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2004,13 +2004,13 @@ Loesung beendet.
   add_to_move_generation_stack:        1351
                      play_move:        1354
  is_white_king_square_attacked:        1352
- is_black_king_square_attacked:        2107
-Loesung beendet. 
+ is_black_king_square_attacked:        2081
+Loesung beendet.
 
 
 
           Christian Poisson
-    2526, Problemkiste 71, 10/1990
+   2526, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2039,13 +2039,13 @@ Loesung beendet.
   add_to_move_generation_stack:        8754
                      play_move:        8038
  is_white_king_square_attacked:        8038
- is_black_king_square_attacked:        5417
-Loesung beendet. 
+ is_black_king_square_attacked:        5392
+Loesung beendet.
 
 
 
-             Erich Bartel
-    2527, Problemkiste 71, 10/1990
+            Erich Bartel
+   2527, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2074,8 +2074,8 @@ Loesung beendet.
   add_to_move_generation_stack:        2391
                      play_move:        1685
  is_white_king_square_attacked:        1267
- is_black_king_square_attacked:        1684
-Loesung beendet. 
+ is_black_king_square_attacked:        1678
+Loesung beendet.
 
 
 
@@ -2111,7 +2111,7 @@ a)
   add_to_move_generation_stack:       48604
                      play_move:       26098
  is_white_king_square_attacked:       14274
- is_black_king_square_attacked:       25141
+ is_black_king_square_attacked:       25134
 b) Circe Spiegel  
 
   1.d2-d4   2.d4-d5   3.d5-d6   4.d6-d7   5.d7-d8=D   6.Dd8*h4[+sBh2]   7.Dh4*h2   8.Dh2-h6 =
@@ -2119,13 +2119,13 @@ b) Circe Spiegel
   add_to_move_generation_stack:       49899
                      play_move:       26196
  is_white_king_square_attacked:       14329
- is_black_king_square_attacked:       25249
-Loesung beendet. 
+ is_black_king_square_attacked:       25242
+Loesung beendet.
 
 
 
           Bernd Schwarzkopf
-    2529, Problemkiste 71, 10/1990
+   2529, Problemkiste 71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2197,12 +2197,12 @@ Loesung beendet.
                      play_move:         274
  is_white_king_square_attacked:          70
  is_black_king_square_attacked:         264
-Loesung beendet. 
+Loesung beendet.
 
 
 
           M. & R. Tomasevic
-   2715, Problemkiste 74/75, 5/1991
+  2715, Problemkiste 74/75, 5/1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2230,13 +2230,13 @@ Loesung beendet.
   add_to_move_generation_stack:      253672
                      play_move:      135328
  is_white_king_square_attacked:       89182
- is_black_king_square_attacked:      118345
-Loesung beendet. 
+ is_black_king_square_attacked:      118281
+Loesung beendet.
 
 
 
             B. Koludrovic
-   2722, Problemkiste 74/75, 5/1991
+  2722, Problemkiste 74/75, 5/1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2264,13 +2264,13 @@ Loesung beendet.
   add_to_move_generation_stack:       69041
                      play_move:       62815
  is_white_king_square_attacked:       62815
- is_black_king_square_attacked:       40205
-Loesung beendet. 
+ is_black_king_square_attacked:       40177
+Loesung beendet.
 
 
 
             B. Koludrovic
-   2723, Problemkiste 74/75, 5/1991
+  2723, Problemkiste 74/75, 5/1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2298,12 +2298,12 @@ Loesung beendet.
   add_to_move_generation_stack:       71817
                      play_move:       65966
  is_white_king_square_attacked:       65966
- is_black_king_square_attacked:       43632
-Loesung beendet. 
+ is_black_king_square_attacked:       43603
+Loesung beendet.
 
 
 
-           Norbert Geissler
+          Norbert Geissler
            Theodor Steudel
     3167, Problemkiste 86, 4/1993
 
@@ -2327,20 +2327,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#10                    2 + 2
-          Circe Platzwechsel
+         Circe Platzwechsel
 
   1.h7-h5   2.h5*g4[+wZh5]   3.g4-g3   4.g3-g2   5.g2-g1=S   6.Sg1-e2   7.Se2-g3   8.Sg3*h5[+wZg3]   9.Sh5-f6  10.Sf6-h7 Zg3-e6 #
 
   add_to_move_generation_stack:      163500
                      play_move:      160320
- is_white_king_square_attacked:       38656
+ is_white_king_square_attacked:       38646
  is_black_king_square_attacked:      160320
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Holger Helledie
-  1), Problemkiste 67, 2/1990, S. 92
+ 1), Problemkiste 67, 2/1990, S. 92
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2369,14 +2369,14 @@ Loesung beendet.
   add_to_move_generation_stack:        4863
                      play_move:        2804
  is_white_king_square_attacked:        2175
- is_black_king_square_attacked:        2684
-Loesung beendet. 
+ is_black_king_square_attacked:        2676
+Loesung beendet.
 
 
 
            Holger Helledie
-             Erich Bartel
-  2), Problemkiste 67, 2/1990, S. 92
+            Erich Bartel
+ 2), Problemkiste 67, 2/1990, S. 92
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2405,13 +2405,13 @@ Loesung beendet.
   add_to_move_generation_stack:       24399
                      play_move:       20574
  is_white_king_square_attacked:       19376
- is_black_king_square_attacked:       17596
-Loesung beendet. 
+ is_black_king_square_attacked:       17589
+Loesung beendet.
 
 
 
            Holger Helledie
-  3), Problemkiste 67, 2/1990, S. 92
+ 3), Problemkiste 67, 2/1990, S. 92
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2440,13 +2440,13 @@ Loesung beendet.
   add_to_move_generation_stack:       71425
                      play_move:       55101
  is_white_king_square_attacked:       46869
- is_black_king_square_attacked:       49141
-Loesung beendet. 
+ is_black_king_square_attacked:       49128
+Loesung beendet.
 
 
 
-             Erich Bartel
-  4), Problemkiste 67, 2/1990, S. 92
+            Erich Bartel
+ 4), Problemkiste 67, 2/1990, S. 92
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2475,13 +2475,13 @@ Loesung beendet.
   add_to_move_generation_stack:      271906
                      play_move:      135168
  is_white_king_square_attacked:       94253
- is_black_king_square_attacked:      128805
-Loesung beendet. 
+ is_black_king_square_attacked:      128798
+Loesung beendet.
 
 
 
-             Erich Bartel
-  5), Problemkiste 67, 2/1990, S. 93
+            Erich Bartel
+ 5), Problemkiste 67, 2/1990, S. 93
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2510,13 +2510,13 @@ Loesung beendet.
   add_to_move_generation_stack:       78283
                      play_move:       57741
  is_white_king_square_attacked:       36872
- is_black_king_square_attacked:       53756
-Loesung beendet. 
+ is_black_king_square_attacked:       53750
+Loesung beendet.
 
 
 
-             Erich Bartel
-  6), Problemkiste 67, 2/1990, S. 93
+            Erich Bartel
+ 6), Problemkiste 67, 2/1990, S. 93
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2545,13 +2545,13 @@ Loesung beendet.
   add_to_move_generation_stack:        6580
                      play_move:        5699
  is_white_king_square_attacked:        4709
- is_black_king_square_attacked:        5522
-Loesung beendet. 
+ is_black_king_square_attacked:        5511
+Loesung beendet.
 
 
 
-             Erich Bartel
-  A), Problemkiste 67, 2/1990, S. 94
+            Erich Bartel
+ A), Problemkiste 67, 2/1990, S. 94
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2579,13 +2579,13 @@ Loesung beendet.
   add_to_move_generation_stack:         146
                      play_move:         149
  is_white_king_square_attacked:         146
- is_black_king_square_attacked:         245
-Loesung beendet. 
+ is_black_king_square_attacked:         240
+Loesung beendet.
 
 
 
-             Erich Bartel
-  B), Problemkiste 67, 2/1990, S. 94
+            Erich Bartel
+ B), Problemkiste 67, 2/1990, S. 94
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2613,8 +2613,8 @@ Loesung beendet.
   add_to_move_generation_stack:        7625
                      play_move:        7628
  is_white_king_square_attacked:        7625
- is_black_king_square_attacked:       14276
-Loesung beendet. 
+ is_black_king_square_attacked:       14264
+Loesung beendet.
 
 
 
@@ -2646,9 +2646,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:       14563
                      play_move:        6390
- is_white_king_square_attacked:        2472
+ is_white_king_square_attacked:        2466
  is_black_king_square_attacked:        6319
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -2683,13 +2683,13 @@ Loesung beendet.
   add_to_move_generation_stack:       20449
                      play_move:       20446
  is_white_king_square_attacked:       12929
- is_black_king_square_attacked:       15706
-Loesung beendet. 
+ is_black_king_square_attacked:       15689
+Loesung beendet.
 
 
 
             Juraj L"orinc
-        3121, Ph\'enix 73 1999
+       3121, Ph\'enix 73 1999
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2711,7 +2711,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h##5                        3 + 3
-           Koeniglich d3 b2
+          Koeniglich d3 b2
 
   1...kELd3-a1   2.ELb1-c3 ELa4-d3 +   3.ELc3-b1 ELd2-a3   4.ELb1-d4 ELa3-b1   5.ELc4-d2 + ELb1-c3 ##
 
@@ -2719,9 +2719,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:      216996
                      play_move:      150100
- is_white_king_square_attacked:      121555
- is_black_king_square_attacked:       28651
-Loesung beendet. 
+ is_white_king_square_attacked:      121546
+ is_black_king_square_attacked:       28643
+Loesung beendet.
 
 
 
@@ -2752,9 +2752,9 @@ Hilfsreflexmatt - nicht 1.Kc2 wegen 2.Dxa5#
 
   add_to_move_generation_stack:       20670
                      play_move:       11213
- is_white_king_square_attacked:        9891
- is_black_king_square_attacked:        4613
-Loesung beendet. 
+ is_white_king_square_attacked:        9890
+ is_black_king_square_attacked:        4611
+Loesung beendet.
 
 
 
@@ -2813,13 +2813,13 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 
   add_to_move_generation_stack:      207544
                      play_move:      153532
- is_white_king_square_attacked:      100059
- is_black_king_square_attacked:      153522
-Loesung beendet. 
+ is_white_king_square_attacked:       99905
+ is_black_king_square_attacked:      153508
+Loesung beendet.
 
 
 
-     wegen exact nicht 1.Kf1/Kh3#
+    wegen exact nicht 1.Kf1/Kh3#
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2846,9 +2846,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         215
                      play_move:         205
- is_white_king_square_attacked:          93
- is_black_king_square_attacked:         201
-Loesung beendet. 
+ is_white_king_square_attacked:          92
+ is_black_king_square_attacked:         200
+Loesung beendet.
 
 
 
@@ -2899,7 +2899,7 @@ Loesung beendet.
                      play_move:        2734
  is_white_king_square_attacked:        2704
  is_black_king_square_attacked:        1538
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -2933,11 +2933,11 @@ sofortiges forciertes Reflexmatt durch Weiss
                      play_move:          12
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:          13
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Peter Harris
+            Peter Harris
         The Problemist v/2009
 
 +---a---b---c---d---e---f---g---h---+
@@ -2960,8 +2960,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-hs#5                    5 + 3
-          Circe Platzwechsel
-                Duplex
+         Circe Platzwechsel
+               Duplex
 
 a) 
 
@@ -2971,8 +2971,8 @@ a)
 
   add_to_move_generation_stack:    10640332
                      play_move:     4858222
- is_white_king_square_attacked:     3760692
- is_black_king_square_attacked:     4011496
+ is_white_king_square_attacked:     3760686
+ is_black_king_square_attacked:     4011490
 b) ser-s#6  
 
   1.e5-e6   2.e6-e7   3.e7-e8=S   4.Se8-d6   5.Sd6*e4[+sDd6]   6.Se4-g3 + Dd6*g3[+wSd6] #
@@ -2981,8 +2981,8 @@ b) ser-s#6
 
   add_to_move_generation_stack:    14843346
                      play_move:     4120656
- is_white_king_square_attacked:     3586261
- is_black_king_square_attacked:     3178953
-Loesung beendet. 
+ is_white_king_square_attacked:     3586255
+ is_black_king_square_attacked:     3178947
+Loesung beendet.
 
 

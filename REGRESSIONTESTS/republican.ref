@@ -21,7 +21,7 @@ Type1: RepublicanChess is suspended when a side inserts the king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         2 + 2
-       RepublicanChess    Type1
+      RepublicanChess    Type1
 
 a) 
 
@@ -40,7 +40,7 @@ b) #1
                      play_move:         876
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:        2351
-solution finished. 
+solution finished.
 
 
 
@@ -66,7 +66,7 @@ Type2 ist Vorgabe; RepublicanerSchach wird nicht suspendiert
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         2 + 3
-       RepublicanChess    Type2
+      RepublicanChess    Type2
 
 a) 
 
@@ -74,7 +74,7 @@ a)
 
   add_to_move_generation_stack:       82373
                      play_move:       22801
- is_white_king_square_attacked:        2899
+ is_white_king_square_attacked:        2898
  is_black_king_square_attacked:       53046
 b) RepublicanChess    Type2  
 
@@ -82,13 +82,13 @@ b) RepublicanChess    Type2
 
   add_to_move_generation_stack:       82373
                      play_move:       22801
- is_white_king_square_attacked:        2899
+ is_white_king_square_attacked:        2898
  is_black_king_square_attacked:       53046
-solution finished. 
+solution finished.
 
 
 
-      Johan Christoffel van Gool
+     Johan Christoffel van Gool
    Probleemblad III-IV/1989, p. 38
 
 +---a---b---c---d---e---f---g---h---+
@@ -111,7 +111,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 9
-       RepublicanChess    Type1
+      RepublicanChess    Type1
 
    1.Ra7*a6 ? threat:
           2.Ra6*a1[+bKa5] #
@@ -152,11 +152,11 @@ solution finished.
                      play_move:        5646
  is_white_king_square_attacked:        3715
  is_black_king_square_attacked:       15312
-solution finished. 
+solution finished.
 
 
 
-      Johan Christoffel van Gool
+     Johan Christoffel van Gool
    Probleemblad III-IV/1989, p. 38
 
 +---a---b---c---d---e---f---g---h---+
@@ -179,7 +179,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          5 + 7
-       RepublicanChess    Type1
+      RepublicanChess    Type1
 
    1.Se3-f5 ? threat:
           2.Sf5*d6[+bKe8] #
@@ -202,11 +202,11 @@ solution finished.
                      play_move:       14000
  is_white_king_square_attacked:        9275
  is_black_king_square_attacked:       33296
-solution finished. 
+solution finished.
 
 
 
-             Gerard Smits
+            Gerard Smits
    Probleemblad III-IV/1989, p. 38
 
 +---a---b---c---d---e---f---g---h---+
@@ -229,7 +229,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
-       RepublicanChess    Type1
+      RepublicanChess    Type1
 
    1.Ba8-d5 ! zugzwang.
       1...d7-d6
@@ -252,11 +252,11 @@ solution finished.
                      play_move:       11490
  is_white_king_square_attacked:        1760
  is_black_king_square_attacked:       37492
-solution finished. 
+solution finished.
 
 
 
-      Eric Huber & Vlaicu Crisan
+     Eric Huber & Vlaicu Crisan
              Quartz 2002
 
 +---a---b---c---d---e---f---g---h---+
@@ -279,7 +279,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hs#2                        2 + 3
-       RepublicanChess    Type2
+      RepublicanChess    Type2
 
   1.Rb2-g2 Rd1-d6   2.Rg2-g8[+bKd8] + Rd6-d7[+wKf8] #
   1.Rb2-e2 Rd1-d6   2.Re2-e8[+bKh8] + Rd6-f6[+wKf8] #
@@ -289,13 +289,13 @@ solution finished.
   add_to_move_generation_stack:     4173128
                      play_move:     1109691
  is_white_king_square_attacked:     3276152
- is_black_king_square_attacked:     2439177
-solution finished. 
+ is_black_king_square_attacked:     2439173
+solution finished.
 
 
 
           Christian Poisson
-     409 Pat a Mat 25 - Juli 1999
+    409 Pat a Mat 25 - Juli 1999
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -317,7 +317,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 4
-       RepublicanChess    Type2
+      RepublicanChess    Type2
 
    1.a5-a6 ! zugzwang.
       1...Ba8-c6
@@ -336,7 +336,7 @@ solution finished.
                      play_move:        9348
  is_white_king_square_attacked:        4546
  is_black_king_square_attacked:       28392
-solution finished. 
+solution finished.
 
 
 
@@ -363,8 +363,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   semi-r#2                    5 + 1
-             Chameleon d1
-       RepublicanChess    Type2
+            Chameleon d1
+      RepublicanChess    Type2
 
    1.Qh3-f1 ? zugzwang.
       1...cBd1-h5=cR
@@ -541,6 +541,6 @@ solution finished.
                      play_move:     2544791
  is_white_king_square_attacked:    10030769
  is_black_king_square_attacked:     3363404
-solution finished. 
+solution finished.
 
 

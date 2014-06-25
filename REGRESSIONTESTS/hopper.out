@@ -1,7 +1,7 @@
 
-            C. C. L. Sells
+           C. C. L. Sells
     Probl\`eme (La Cl\'e) 11/1969
-                cooked
+               cooked
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -66,14 +66,14 @@
 
   add_to_move_generation_stack:     6304728
                      play_move:     5857020
- is_white_king_square_attacked:      399053
- is_black_king_square_attacked:     5802773
-Loesung beendet. 
+ is_white_king_square_attacked:      399004
+ is_black_king_square_attacked:     5802763
+Loesung beendet.
 
 
 
          Nikolai Wasjutschko
-            Europa-Rochade
+           Europa-Rochade
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -103,22 +103,22 @@ a)
 
   add_to_move_generation_stack:       23264
                      play_move:       18675
- is_white_king_square_attacked:        3805
- is_black_king_square_attacked:       18529
+ is_white_king_square_attacked:        3801
+ is_black_king_square_attacked:       18527
 b) -sTd2  
 
   1.Se6*f4 f2-f3   2.Sf4-e6 f3-f4 #
 
   add_to_move_generation_stack:        8438
                      play_move:        6673
- is_white_king_square_attacked:        1311
- is_black_king_square_attacked:        6593
-Loesung beendet. 
+ is_white_king_square_attacked:        1309
+ is_black_king_square_attacked:        6592
+Loesung beendet.
 
 
 
          Nikolai Wasjutschko
-            Europa-Rochade
+           Europa-Rochade
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -152,9 +152,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:      853996
                      play_move:      768567
- is_white_king_square_attacked:       56298
+ is_white_king_square_attacked:       56258
  is_black_king_square_attacked:      768567
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -186,16 +186,16 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2016542
                      play_move:     1216584
- is_white_king_square_attacked:      781069
+ is_white_king_square_attacked:      781055
  is_black_king_square_attacked:     1175810
-Loesung beendet. 
+Loesung beendet.
 
 
 
 bernd ellinghoven & Gruber & Hans Peter Rehm
 Dawson Memorial Quick Composing Tourney
 Bournemouth PCCC--Tagung Turnierbl"atter, 1989
-               1. Preis
+              1. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -240,12 +240,12 @@ Bournemouth PCCC--Tagung Turnierbl"atter, 1989
                      play_move:       27393
  is_white_king_square_attacked:        1007
  is_black_king_square_attacked:       27396
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Norbert Geissler
-      Original f"ur Problemkiste
+          Norbert Geissler
+     Original f"ur Problemkiste
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -277,13 +277,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:    15699039
                      play_move:    14130232
- is_white_king_square_attacked:     1576118
- is_black_king_square_attacked:    12909523
-Loesung beendet. 
+ is_white_king_square_attacked:     1576108
+ is_black_king_square_attacked:    12909519
+Loesung beendet.
 
 
 
-           Vaclav Kotesovec
+          Vaclav Kotesovec
   6617, \v{S}achov\'e umeni, 2/1984
 
 +---a---b---c---d---e---f---g---h---+
@@ -354,12 +354,12 @@ Loesung beendet.
                      play_move:       11399
  is_white_king_square_attacked:         694
  is_black_king_square_attacked:       11278
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           George P. Jellis
-       288, Chessics 9, 10/1980
+          George P. Jellis
+      288, Chessics 9, 10/1980
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -386,14 +386,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      223190
                      play_move:      191302
- is_white_king_square_attacked:       18709
- is_black_king_square_attacked:      182820
-Loesung beendet. 
+ is_white_king_square_attacked:       18706
+ is_black_king_square_attacked:      182818
+Loesung beendet.
 
 
 
-              Peter Wong
-         Die Schwalbe 10/1994
+             Peter Wong
+        Die Schwalbe 10/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -423,7 +423,7 @@ a)
   add_to_move_generation_stack:      254659
                      play_move:      194246
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      178186
+ is_black_king_square_attacked:      178183
 b) wKGf7-->c7  
 
   1.Kd5-e4 KGc7-c4   2.Ke4-f3 Sc6-d4 +   3.Kf3-g2 KGc4-e4   4.Kg2-h1 Sd4-f3 #
@@ -431,7 +431,7 @@ b) wKGf7-->c7
   add_to_move_generation_stack:      344468
                      play_move:      263980
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      242932
+ is_black_king_square_attacked:      242929
 +c) wSc6-->d7  
 
   1.Kd5-e6 KGc7-e7   2.Ke6-f7 KGe7-g7   3.Kf7-g8 Sd7-f6 +   4.Kg8-h8 KGg7-e5 #
@@ -439,7 +439,7 @@ b) wKGf7-->c7
   add_to_move_generation_stack:      381680
                      play_move:      296225
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      271602
+ is_black_king_square_attacked:      271599
 +d) wSd7-->d6  
 
   1.Kd5-d4 KGc7-f4   2.Kd4-c3 Sd6-e4 +   3.Kc3-b2 KGf4-d4   4.Kb2-a1 Se4-c3 #
@@ -447,7 +447,7 @@ b) wKGf7-->c7
   add_to_move_generation_stack:      386708
                      play_move:      297543
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      271955
+ is_black_king_square_attacked:      271952
 +e) h=4  wKGc7-->e6  
 
   1.Kd5-e5 Sd6-f7 +   2.Ke5-f6 KGe6-g6   3.Kf6-g7 Sf7-g5   4.Kg7-h8 KGg6-g4 =
@@ -455,7 +455,7 @@ b) wKGf7-->c7
   add_to_move_generation_stack:     1349319
                      play_move:      465466
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      440817
+ is_black_king_square_attacked:      440814
 +f) wKGe6-->a2  
 
   1.Kd5-d4 Sd6-c4   2.Kd4-c3 Sc4-d2   3.Kc3-b2 KGa2-c2   4.Kb2-a1 KGc2-e2 =
@@ -463,7 +463,7 @@ b) wKGf7-->c7
   add_to_move_generation_stack:      249837
                      play_move:       93992
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       86122
+ is_black_king_square_attacked:       86119
 +g) wSd6-->b3  
 
   1.Kd5-e4 KGa2-d5   2.Ke4-f3 Sb3-d4 +   3.Kf3-g2 KGd5-d2   4.Kg2-h1 Sd4-e2 =
@@ -471,7 +471,7 @@ b) wKGf7-->c7
   add_to_move_generation_stack:      762381
                      play_move:      275052
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      259972
+ is_black_king_square_attacked:      259969
 +h) wKGa2-->a5  
 
   1.Kd5-c6 Sb3-c5   2.Kc6-b6 KGa5-c7   3.Kb6-a7 Sc5-d7   4.Ka7-a8 KGc7-e7 =
@@ -479,8 +479,8 @@ b) wKGf7-->c7
   add_to_move_generation_stack:      360558
                      play_move:      127873
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      120346
-Loesung beendet. 
+ is_black_king_square_attacked:      120343
+Loesung beendet.
 
 
 
@@ -618,7 +618,7 @@ Loesung beendet.
                      play_move:       21585
  is_white_king_square_attacked:        1230
  is_black_king_square_attacked:       21445
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -645,7 +645,7 @@ Preis, Andernach-Grashoppers-Tourney 2000
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                        7 + 12
- SprungbockFarbeWechselnd a8 g7 a4 g1
+SprungbockFarbeWechselnd a8 g7 a4 g1
 
    1.Dg2-d2 + ?
     Aber
@@ -686,12 +686,12 @@ Preis, Andernach-Grashoppers-Tourney 2000
                      play_move:       35957
  is_white_king_square_attacked:       35843
  is_black_king_square_attacked:       19524
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
-        USA-GB 2002?, 1. Platz
+           David L. Brown
+       USA-GB 2002?, 1. Platz
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -721,22 +721,22 @@ a)
 
   add_to_move_generation_stack:     1656499
                      play_move:     1268267
- is_white_king_square_attacked:       98459
- is_black_king_square_attacked:     1252907
+ is_white_king_square_attacked:       98456
+ is_black_king_square_attacked:     1252905
 b) sLe3  
 
   1.Le3-f4 sGf3-f5[f4=w] +   2.sGa4-g4[f4=s] sGf5-f3[f4=w] +   3.sGg4-e4[f4=s] Sf2-g4 #
 
   add_to_move_generation_stack:     1415089
                      play_move:     1100806
- is_white_king_square_attacked:       83176
- is_black_king_square_attacked:     1085007
-Loesung beendet. 
+ is_white_king_square_attacked:       83173
+ is_black_king_square_attacked:     1085005
+Loesung beendet.
 
 
 
            Newmann Guttman
-             Dan Meinking
+            Dan Meinking
 ehrende Erw"ahnung, Andernach-Grashoppers-Tourney 2000
 
 +---a---b---c---d---e---f---g---h---+
@@ -767,22 +767,22 @@ a)
 
   add_to_move_generation_stack:       22807
                      play_move:       16105
- is_white_king_square_attacked:        1445
- is_black_king_square_attacked:       16006
+ is_white_king_square_attacked:        1443
+ is_black_king_square_attacked:       16005
 b) sBd4-->g6  
 
   1.sGe7-c5[d6=s] sGg1-b6[c5=w] +   2.Ke6-f5 sGc5-e7[d6=w] #
 
   add_to_move_generation_stack:       21506
                      play_move:       15487
- is_white_king_square_attacked:        1350
- is_black_king_square_attacked:       15387
-Loesung beendet. 
+ is_white_king_square_attacked:        1348
+ is_black_king_square_attacked:       15386
+Loesung beendet.
 
 
 
-              Danny Dunn
-              Mike Prcic
+             Danny Dunn
+             Mike Prcic
 Lob, Andernach-Grashoppers-Tourney 2000
 
 +---a---b---c---d---e---f---g---h---+
@@ -820,11 +820,11 @@ Lob, Andernach-Grashoppers-Tourney 2000
                      play_move:       27543
  is_white_king_square_attacked:       27544
  is_black_king_square_attacked:       23670
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              Mike Prcic
+             Mike Prcic
             Gianni Donati
 Lob, Andernach-Grashoppers-Tourney 2000
 
@@ -856,8 +856,8 @@ a)
 
   add_to_move_generation_stack:       59115
                      play_move:       46825
- is_white_king_square_attacked:        7670
- is_black_king_square_attacked:       46537
+ is_white_king_square_attacked:        7668
+ is_black_king_square_attacked:       46536
 b) sSc2  sSd4  
 
   1.sGc1-c3[c2=w] Sc2-e3   2.sGc3-e5[d4=w] Sd4-b5 #
@@ -865,8 +865,8 @@ b) sSc2  sSd4
 
   add_to_move_generation_stack:       32850
                      play_move:       25564
- is_white_king_square_attacked:        4227
- is_black_king_square_attacked:       25383
+ is_white_king_square_attacked:        4223
+ is_black_king_square_attacked:       25381
 c) sTc2  sTd4  
 
   1.sGc1-c3[c2=w] Tc2-a2   2.sGc3-e5[d4=w] Ta2-a6 #
@@ -877,9 +877,9 @@ c) sTc2  sTd4
 
   add_to_move_generation_stack:       52703
                      play_move:       42595
- is_white_king_square_attacked:        6797
- is_black_king_square_attacked:       42368
-Loesung beendet. 
+ is_white_king_square_attacked:        6787
+ is_black_king_square_attacked:       42363
+Loesung beendet.
 
 
 
@@ -906,7 +906,7 @@ Lob, Andernach-Grashoppers-Tourney 2000
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 5
-    SprungbockFarbeWechselnd h5 a2
+   SprungbockFarbeWechselnd h5 a2
 
    1.Lb7-c6 ? Zugzwang.
       1...sGa2-e6[d5=w]
@@ -925,7 +925,7 @@ Lob, Andernach-Grashoppers-Tourney 2000
                      play_move:         337
  is_white_king_square_attacked:          81
  is_black_king_square_attacked:         337
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1005,12 +1005,12 @@ Paralysierend d7 h7 b6 h6 b5 a4 h4 a2 h2 a1 c1 e1 g1
                      play_move:        9279
  is_white_king_square_attacked:        7890
  is_black_king_square_attacked:        1644
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Gabriel Nedeianu
-       715, harmonie 67, 9/2001
+          Gabriel Nedeianu
+      715, harmonie 67, 9/2001
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1039,22 +1039,22 @@ a)
 
   add_to_move_generation_stack:       53258
                      play_move:       39801
- is_white_king_square_attacked:        3626
- is_black_king_square_attacked:       39582
+ is_white_king_square_attacked:        3624
+ is_black_king_square_attacked:       39581
 b) Drehung 270  
 
   1.KAh6*e6 Ka4-b3   2.g6-g5 DEb4-b2 #
 
   add_to_move_generation_stack:       35994
                      play_move:       26932
- is_white_king_square_attacked:        2325
- is_black_king_square_attacked:       26749
-Loesung beendet. 
+ is_white_king_square_attacked:        2323
+ is_black_king_square_attacked:       26748
+Loesung beendet.
 
 
 
-           Gabriel Nedeianu
-       765, harmonie 69, 3/2002
+          Gabriel Nedeianu
+      765, harmonie 69, 3/2002
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1083,16 +1083,16 @@ a)
 
   add_to_move_generation_stack:       40346
                      play_move:       33446
- is_white_king_square_attacked:        3778
- is_black_king_square_attacked:       33265
+ is_white_king_square_attacked:        3776
+ is_black_king_square_attacked:       33264
 b) wDEf3-->g5  
 
   1.Ze2*h4 DEg5*g7   2.e3-e2 Sh3-g5 #
 
   add_to_move_generation_stack:       51845
                      play_move:       42398
- is_white_king_square_attacked:        4781
- is_black_king_square_attacked:       42173
-Loesung beendet. 
+ is_white_king_square_attacked:        4779
+ is_black_king_square_attacked:       42172
+Loesung beendet.
 
 

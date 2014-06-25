@@ -46,7 +46,7 @@
                      play_move:        2905
  is_white_king_square_attacked:         246
  is_black_king_square_attacked:        2908
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -81,13 +81,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:       33228
                      play_move:       29025
- is_white_king_square_attacked:        2223
- is_black_king_square_attacked:       28854
-Loesung beendet. 
+ is_white_king_square_attacked:        2220
+ is_black_king_square_attacked:       28852
+Loesung beendet.
 
 
 
-    Reto Aschwanden, Thomas Maeder
+   Reto Aschwanden, Thomas Maeder
 Andernach TT 2000, 4. ehrende Erwähnung
 
 +---a---b---c---d---e---f---g---h---+
@@ -185,11 +185,11 @@ Andernach TT 2000, 4. ehrende Erwähnung
                      play_move:       27031
  is_white_king_square_attacked:        1324
  is_black_king_square_attacked:       27022
-Loesung beendet. 
+Loesung beendet.
 
 
 
-   Test fuer Sentinelles PionNeutre
+  Test fuer Sentinelles PionNeutre
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -251,6 +251,6 @@ b) Sentinelles  PionNeutre
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 

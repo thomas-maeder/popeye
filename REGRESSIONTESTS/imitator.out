@@ -1,6 +1,6 @@
 
           Rene-Jean Millour
-   Spezialpreis, Europe Echecs 1966
+  Spezialpreis, Europe Echecs 1966
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -47,12 +47,12 @@
                      play_move:         524
  is_white_king_square_attacked:         109
  is_black_king_square_attacked:         527
-Loesung beendet. 
+Loesung beendet.
 
 
 
             J. A. Verdejo
-    4606, feenschach 74, 9-10/1985
+   4606, feenschach 74, 9-10/1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -80,14 +80,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:        9593
                      play_move:        1192
- is_white_king_square_attacked:         865
+ is_white_king_square_attacked:         839
  is_black_king_square_attacked:        1192
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Vaclav Kotesovec
-     3. Preis, Rex Multiplex 1986
+          Vaclav Kotesovec
+    3. Preis, Rex Multiplex 1986
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -176,12 +176,12 @@ Loesung beendet.
                      play_move:        1092
  is_white_king_square_attacked:         136
  is_black_king_square_attacked:        1078
-Loesung beendet. 
+Loesung beendet.
 
 
 
              Neal Turner
-  F1325, The Problemist 14/5, 9/1992
+ F1325, The Problemist 14/5, 9/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -230,7 +230,7 @@ Loesung beendet.
                      play_move:       31346
  is_white_king_square_attacked:        9913
  is_black_king_square_attacked:       22996
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -266,37 +266,37 @@ a)
 
   add_to_move_generation_stack:       18906
                      play_move:        5898
- is_white_king_square_attacked:        2686
- is_black_king_square_attacked:        5773
+ is_white_king_square_attacked:        2682
+ is_black_king_square_attacked:        5771
 b) wKf5-->g5  
 
   1.Kb6-c7[If6] b7-b8[If7]=L +   2.Kc7-c8[If8] Lb8-d6[Ih6] =
 
   add_to_move_generation_stack:       21674
                      play_move:        6531
- is_white_king_square_attacked:        2966
- is_black_king_square_attacked:        6419
+ is_white_king_square_attacked:        2964
+ is_black_king_square_attacked:        6418
 c) Imitator c5  
 
   1.Kb6-a6[Ib5] b7-b8[Ib6]=T   2.Ka6-a7[Ib7] Tb8-b2[Ib1] =
 
   add_to_move_generation_stack:       20739
                      play_move:        6165
- is_white_king_square_attacked:        2810
- is_black_king_square_attacked:        6025
+ is_white_king_square_attacked:        2808
+ is_black_king_square_attacked:        6024
 d) Imitator a7  
 
   1.Kb6-c5[Ib6] b7-b8[Ib7]=D   2.Kc5-d5[Ic7] Db8-b4[Ic3] =
 
   add_to_move_generation_stack:        7247
                      play_move:        1886
- is_white_king_square_attacked:         882
- is_black_king_square_attacked:        1836
-Loesung beendet. 
+ is_white_king_square_attacked:         880
+ is_black_king_square_attacked:        1835
+Loesung beendet.
 
 
 
-              Peter Kahl
+             Peter Kahl
         6323, feenschach 1963
      nebenloesig - eigentlich #6
 
@@ -329,12 +329,12 @@ Loesung beendet.
                      play_move:        4014
  is_white_king_square_attacked:        1848
  is_black_king_square_attacked:        3215
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Rene J. Millour
-     1. Preis, Thema Danicum 1984
+    1. Preis, Thema Danicum 1984
      Verbesserung (+wBe3, +sBh4)
 
 +---a---b---c---d---e---f---g---h---+
@@ -407,7 +407,7 @@ Loesung beendet.
                      play_move:      127953
  is_white_king_square_attacked:       51154
  is_black_king_square_attacked:       84047
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -467,12 +467,12 @@ Loesung beendet.
                      play_move:        8457
  is_white_king_square_attacked:        8242
  is_black_king_square_attacked:        2204
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Rene J. Millour
-     4. Preis, diagrammes 1980-81
+    4. Preis, diagrammes 1980-81
              Neufassung 
     (weiss   th8 bh7a4 kh3 sd1f1)
  (schwarz dg8 bg7h6c2 kg6 tg5h5 sh2)
@@ -507,9 +507,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:       11531
                      play_move:        4712
- is_white_king_square_attacked:        3037
- is_black_king_square_attacked:        2392
-Loesung beendet. 
+ is_white_king_square_attacked:        3025
+ is_black_king_square_attacked:        2384
+Loesung beendet.
 
 
 
@@ -594,11 +594,11 @@ Loesung beendet.
                      play_move:      352764
  is_white_king_square_attacked:      321980
  is_black_king_square_attacked:       39051
-Loesung beendet. 
+Loesung beendet.
 
 
 
-          Wolfgang A. Bruder
+         Wolfgang A. Bruder
     1840, Rochade Europa, 12/2002
 
 +---a---b---c---d---e---f---g---h---+
@@ -623,7 +623,7 @@ Loesung beendet.
   s#5                         4 + 5
             Chamaeleon c6
              Imitator d5
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
    1.MAe6-d4[Ic3] ! Zugzwang.
       1...Nd8-h6[Ig1]
@@ -662,7 +662,7 @@ Loesung beendet.
                      play_move:      106693
  is_white_king_square_attacked:       48388
  is_black_king_square_attacked:       80304
-Loesung beendet. 
+Loesung beendet.
 
 
 test-beispiel f\"ur issue 1870463
@@ -689,7 +689,7 @@ test-beispiel f\"ur issue 1870463
 +---a---b---c---d---e---f---g---h---+
   h~1                         3 + 6
              Imitator f4
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
 a) 
 
@@ -701,8 +701,8 @@ a)
 
   add_to_move_generation_stack:          18
                      play_move:          11
- is_white_king_square_attacked:          17
- is_black_king_square_attacked:          16
+ is_white_king_square_attacked:          12
+ is_black_king_square_attacked:          11
 b) SchwarzerLaengstzueger  
 
   1.0-0-0 Ka5-b4
@@ -712,9 +712,9 @@ b) SchwarzerLaengstzueger
 
   add_to_move_generation_stack:          17
                      play_move:          10
- is_white_king_square_attacked:          15
- is_black_king_square_attacked:          14
-Loesung beendet. 
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          10
+Loesung beendet.
 
 
 
@@ -749,11 +749,11 @@ Loesung beendet.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-       Test fuer Koenigshuepfer
+      Test fuer Koenigshuepfer
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -786,11 +786,11 @@ Loesung beendet.
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-         Test fuer Equihopper
+        Test fuer Equihopper
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -821,11 +821,11 @@ Loesung beendet.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-     Test fuer Nonstop-Equihopper
+    Test fuer Nonstop-Equihopper
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -856,11 +856,11 @@ Loesung beendet.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Test fuer Elch
+           Test fuer Elch
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -893,7 +893,7 @@ Loesung beendet.
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -928,6 +928,6 @@ Loesung beendet.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 

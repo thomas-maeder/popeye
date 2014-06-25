@@ -8,6 +8,7 @@
 #include "solving/trivial_end_filter.h"
 #include "solving/ply.h"
 #include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/goal_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
@@ -630,18 +631,18 @@ static unsigned int measure_move_depth(ply curr_ply)
 
 /* Write a move
  */
-void output_plaintext_tree_write_move(FILE *file)
+void output_plaintext_tree_write_move(void)
 {
   unsigned int const move_depth = measure_move_depth(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  fprintf(file,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
+  protocol_printf("\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
   if (move_depth%2==1)
-    fputs("..",file);
+    protocol_printf("%s","..");
 
-  output_plaintext_write_move(file);
+  output_plaintext_write_move();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

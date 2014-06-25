@@ -1,6 +1,6 @@
 
-              S.Emmerson
-               Original
+             S.Emmerson
+              Original
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -27,8 +27,8 @@
 
   add_to_move_generation_stack:       14460
                      play_move:       14461
- is_white_king_square_attacked:        2330
- is_black_king_square_attacked:       13573
-solution finished. 
+ is_white_king_square_attacked:        2327
+ is_black_king_square_attacked:       13571
+solution finished.
 
 

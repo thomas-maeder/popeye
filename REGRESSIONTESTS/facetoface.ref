@@ -22,7 +22,7 @@ Face to face Batumi Ty announcement 2013
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
-              FaceToFace
+             FaceToFace
 
 a) 
 
@@ -30,8 +30,8 @@ a)
 
   add_to_move_generation_stack:       52075
                      play_move:       32717
- is_white_king_square_attacked:        5516
- is_black_king_square_attacked:       32535
+ is_white_king_square_attacked:        5514
+ is_black_king_square_attacked:       32534
 b) bPf6-->d6  
 
   1.Sd7-c5 + Ke4-e3   2.Ke6-d5 Qb4-e4 #
@@ -39,9 +39,9 @@ b) bPf6-->d6
 
   add_to_move_generation_stack:       62445
                      play_move:       41204
- is_white_king_square_attacked:        6185
- is_black_king_square_attacked:       40959
-solution finished. 
+ is_white_king_square_attacked:        6181
+ is_black_king_square_attacked:       40957
+solution finished.
 
 
 
@@ -68,16 +68,16 @@ Face to face Batumi Ty announcement 2013
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 4
-              FaceToFace
+             FaceToFace
 
   1.Sf5*e3 d2-d4 #
   1.Sf5-g3 e3-d4 #
 
   add_to_move_generation_stack:         790
                      play_move:         679
- is_white_king_square_attacked:          55
+ is_white_king_square_attacked:          53
  is_black_king_square_attacked:         679
-solution finished. 
+solution finished.
 
 
 
@@ -104,16 +104,16 @@ Face to face Batumi Ty announcement 2013
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hep1                        3 + 4
-              FaceToFace
-              HalfDuplex
+             FaceToFace
+             HalfDuplex
 
   1.d2-d4 + Be4*d3 ep.
 
   add_to_move_generation_stack:          36
                      play_move:          17
- is_white_king_square_attacked:          18
- is_black_king_square_attacked:           4
-solution finished. 
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:           3
+solution finished.
 
 
 
@@ -139,7 +139,7 @@ pawns don't move from their base line unless confronted
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
-              FaceToFace
+             FaceToFace
 
 a) 
 
@@ -163,7 +163,7 @@ b) +bSd2
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -188,8 +188,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-              BackToBack
-                Duplex
+             BackToBack
+               Duplex
 
    1.Bd5*d4 !
 
@@ -245,7 +245,7 @@ solution finished.
                      play_move:          24
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -270,7 +270,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hep1                        1 + 1
-             CheekToCheek
+            CheekToCheek
 
   1.e7-e5 Sd5*e6 ep.
 
@@ -278,7 +278,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -305,8 +305,8 @@ demonstration of combination of Face to Face and Transmuting Kings
 +---a---b---c---d---e---f---g---h---+
   ~1                          2 + 1
            TransmutedKings
-              FaceToFace
-                Duplex
+             FaceToFace
+               Duplex
 
    1.Ke3-c2 !
 
@@ -330,6 +330,6 @@ the side to play can capture the king
                      play_move:           8
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

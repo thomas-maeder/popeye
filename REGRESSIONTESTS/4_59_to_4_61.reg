@@ -32,9 +32,9 @@ a white piece that prevents a guarding piece from giving check
 
   add_to_move_generation_stack:     1375055
                      play_move:     1403390
- is_white_king_square_attacked:       38004
- is_black_king_square_attacked:      141363
-solution finished. 
+ is_white_king_square_attacked:       37992
+ is_black_king_square_attacked:      141357
+solution finished.
 
 
 
@@ -71,9 +71,9 @@ the one that would give check without it
 
   add_to_move_generation_stack:     1372630
                      play_move:     1401944
- is_white_king_square_attacked:       37813
- is_black_king_square_attacked:      141287
-solution finished. 
+ is_white_king_square_attacked:       37801
+ is_black_king_square_attacked:      141281
+solution finished.
 
 
 
@@ -105,8 +105,8 @@ don't miss double checks with promoted front piece ...
   add_to_move_generation_stack:       10119
                      play_move:       10498
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         941
-solution finished. 
+ is_black_king_square_attacked:         939
+solution finished.
 
 
 
@@ -138,14 +138,14 @@ solution finished.
   add_to_move_generation_stack:       42224
                      play_move:       42219
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        3668
-solution finished. 
+ is_black_king_square_attacked:        3666
+solution finished.
 
 
 
-             Peter Harris
-      feenschach 188 2011, 10340
-    Ultramaximummer bug since 4.59
+            Peter Harris
+     feenschach 188 2011, 10340
+   Ultramaximummer bug since 4.59
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -168,17 +168,17 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   hs#2                        2 + 2
              Circe Super
-        BlackMaximummer  ultra
-        WhiteMaximummer  ultra
+       BlackMaximummer  ultra
+       WhiteMaximummer  ultra
        Sentinelles  PionAdvers
 
 a) 
 
   1.Qh2*c7[+bPg1=R][+bPh2] Rg1-g8   2.Qc7*h2[+bPg3][+bPc7] Qc4-h4[+wPc4] #
 
-  add_to_move_generation_stack:      397469
+  add_to_move_generation_stack:      397434
                      play_move:       13974
- is_white_king_square_attacked:       13890
+ is_white_king_square_attacked:       13889
  is_black_king_square_attacked:           0
 b) bQc4-->g5  
 
@@ -186,9 +186,9 @@ b) bQc4-->g5
 
   add_to_move_generation_stack:      538228
                      play_move:       15213
- is_white_king_square_attacked:       15008
+ is_white_king_square_attacked:       15007
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -222,7 +222,7 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           2
-solution finished. 
+solution finished.
 
 
 
@@ -272,14 +272,14 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   pser-a=>b28                 1 + 2
-           VogtlaenderChess
+          VogtlaenderChess
 
   1.Ka8-b7   2.Kb7-c6   3.Kc6-d5   4.Kd5-e4   5.Ke4-f5   6.Kf5-g6   7.Kg6-h7   8.Kh7-h8 + Ke7-f6   9.Kh8-g8  10.Kg8-f8  11.Kf8-e8  12.Ke8-d7  13.Kd7-c6  14.Kc6-c5 + d6-d5  15.Kc5-c4 + d5-d4  16.Kc4-b3  17.Kb3-a2  18.Ka2*a1  19.Ka1-b2  20.Kb2-c3 + d4-d3  21.Kc3-d2  22.Kd2-e2 + d3-d2  23.Ke2-f3  24.Kf3-g4  25.Kg4-h5  26.Kh5-h6  27.Kh6-h7  28.Kh7-h8 a=>b
 
   add_to_move_generation_stack:     1212372
                      play_move:     1308643
- is_white_king_square_attacked:      744335
- is_black_king_square_attacked:      732847
-solution finished. 
+ is_white_king_square_attacked:      744307
+ is_black_king_square_attacked:      732842
+solution finished.
 
 

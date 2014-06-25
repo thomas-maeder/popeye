@@ -28,7 +28,7 @@ Seite der latenten Bauern entscheidet welchen umzuwandeln -> f2*e1 w"are Selbsts
                      play_move:         151
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:         149
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -61,7 +61,7 @@ Seite der latenten Bauern entscheidet welchen umzuwandeln -> f7*e8 w"are Selbsts
                      play_move:          23
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:          22
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -100,7 +100,7 @@ Loesung beendet.
                      play_move:          15
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          16
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -132,9 +132,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         286
                      play_move:         286
- is_white_king_square_attacked:           4
+ is_white_king_square_attacked:           3
  is_black_king_square_attacked:         286
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -166,9 +166,9 @@ Seite der Bauern entscheidet welchen umzuwandeln -> Ta1 kann nicht schlagen
 
   add_to_move_generation_stack:          87
                      play_move:          78
- is_white_king_square_attacked:          12
+ is_white_king_square_attacked:          11
  is_black_king_square_attacked:          78
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -205,7 +205,7 @@ Loesung beendet.
                      play_move:         187
  is_white_king_square_attacked:          24
  is_black_king_square_attacked:         188
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -262,7 +262,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
                      play_move:        7038
  is_white_king_square_attacked:         896
  is_black_king_square_attacked:        6905
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -336,6 +336,6 @@ Loesung beendet.
                      play_move:      240258
  is_white_king_square_attacked:       16280
  is_black_king_square_attacked:      222892
-Loesung beendet. 
+Loesung beendet.
 
 

@@ -21,7 +21,7 @@ no check if pawn can't promote due to single box type 1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          9 + 3
-          SingleBox    Type1
+         SingleBox    Type1
 
    1.Bb8-d6 = !
 
@@ -30,7 +30,7 @@ no check if pawn can't promote due to single box type 1
                      play_move:         620
  is_white_king_square_attacked:          47
  is_black_king_square_attacked:         213
-solution finished. 
+solution finished.
 
 
 
@@ -56,7 +56,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   r=1                        3 + 10
-          SingleBox    Type1
+         SingleBox    Type1
 
    1.Kb1-a1 !
       1...Bh1-e4 =
@@ -66,7 +66,7 @@ solution finished.
                      play_move:        1952
  is_white_king_square_attacked:        1017
  is_black_king_square_attacked:         621
-solution finished. 
+solution finished.
 
 
 
@@ -92,7 +92,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          4 + 1
-          SingleBox    Type1
+         SingleBox    Type1
 
    1.a7-a8=Q # !
 
@@ -101,7 +101,7 @@ solution finished.
                      play_move:          11
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           7
-solution finished. 
+solution finished.
 
 
 
@@ -127,15 +127,15 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 4
-          SingleBox    Type1
+         SingleBox    Type1
 
   1.d2-d1=R Sg5-f3 #
 
   add_to_move_generation_stack:         175
                      play_move:         171
- is_white_king_square_attacked:          39
+ is_white_king_square_attacked:          38
  is_black_king_square_attacked:         109
-solution finished. 
+solution finished.
 
 
 Example 2
@@ -162,7 +162,7 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                          6 + 6
-          SingleBox    Type1
+         SingleBox    Type1
 
    1.Sf5-g7 ! threat:
           2.Sg7-e6 +
@@ -224,12 +224,12 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                      play_move:     1025153
  is_white_king_square_attacked:      535862
  is_black_king_square_attacked:      302182
-solution finished. 
+solution finished.
 
 
 Example 1
 
-     F. Luppi, Schachzeitung 1862
+    F. Luppi, Schachzeitung 1862
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -251,7 +251,7 @@ Example 1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #6                          6 + 5
-          SingleBox    Type1
+         SingleBox    Type1
 
    1.Qd3-h3 + !
       1...Rh1*h3
@@ -332,7 +332,7 @@ Example 1
                      play_move:     7190573
  is_white_king_square_attacked:     4946008
  is_black_king_square_attacked:      785000
-solution finished. 
+solution finished.
 
 
 
@@ -358,7 +358,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          9 + 9
-          SingleBox    Type1
+         SingleBox    Type1
 
    1.Rc5-d5 + ?
     but
@@ -392,6 +392,6 @@ solution finished.
                      play_move:      592043
  is_white_king_square_attacked:       68979
  is_black_king_square_attacked:      280121
-solution finished. 
+solution finished.
 
 

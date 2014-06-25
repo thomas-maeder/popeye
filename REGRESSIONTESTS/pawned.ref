@@ -1,6 +1,6 @@
 
-            Fernand Joseph
-          Horizon, Oct. 2009
+           Fernand Joseph
+         Horizon, Oct. 2009
             Gryphon = B+P
 
 +---a---b---c---d---e---f---g---h---+
@@ -28,15 +28,15 @@
 
   add_to_move_generation_stack:     8893441
                      play_move:     2772548
- is_white_king_square_attacked:     1432621
- is_black_king_square_attacked:     2443993
-solution finished. 
+ is_white_king_square_attacked:     1432618
+ is_black_king_square_attacked:     2443991
+solution finished.
 
 
 
              T.R. Dawson
      Deutsche Schachzeitung 1911
-              Ship = R+P
+             Ship = R+P
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -71,13 +71,13 @@ solution finished.
                      play_move:         996
  is_white_king_square_attacked:         130
  is_black_king_square_attacked:         999
-solution finished. 
+solution finished.
 
 
 
              T.R. Dawson
         Reading Observer 1912
-             Dragon = S+P
+            Dragon = S+P
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -116,6 +116,6 @@ solution finished.
                      play_move:        1305
  is_white_king_square_attacked:         187
  is_black_king_square_attacked:        1308
-solution finished. 
+solution finished.
 
 

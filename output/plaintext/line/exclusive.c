@@ -3,7 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "conditions/exclusive.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
@@ -50,12 +50,8 @@ void exclusive_chess_undecidable_writer_line_solve(slice_index si)
 
   if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
   {
-    output_plaintext_line_write_line(stdout,goal_mate);
-    if (TraceFile!=0)
-      output_plaintext_line_write_line(TraceFile,goal_mate);
-    fputc(' ',stdout);
-    if (TraceFile!=0)
-      fputc(' ',TraceFile);
+    output_plaintext_line_write_line(goal_mate);
+    protocol_putchar(' ');
     Message(ExclusiveRefutedUndecidable);
     solve_result = previous_move_is_illegal;
   }
@@ -67,9 +63,7 @@ void exclusive_chess_undecidable_writer_line_solve(slice_index si)
         && exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]<2
         && table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])+exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]>1)
     {
-      fputc(' ',stdout);
-      if (TraceFile!=0)
-        fputc(' ',TraceFile);
+      protocol_putchar(' ');
       Message(ChecklessUndecidable);
     }
   }

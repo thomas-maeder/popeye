@@ -2,7 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/machinery/solve.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/tree/tree.h"
 #include "output/plaintext/tree/check_writer.h"
 #include "output/plaintext/message.h"
@@ -27,11 +27,11 @@ slice_index alloc_output_plaintext_tree_refutations_intro_writer_slice(void)
   return result;
 }
 
-static void write_refutations_intro(FILE *file)
+static void write_refutations_intro(void)
 {
-  Message2(file,NewLine);
-  fprintf(file,"%*c",4,' ');
-  Message2(file,But);
+  Message(NewLine);
+  protocol_printf("%*c",4,' ');
+  Message(But);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -53,9 +53,7 @@ void output_plaintext_tree_refutations_intro_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  write_refutations_intro(stdout);
-  if (TraceFile)
-    write_refutations_intro(TraceFile);
+  write_refutations_intro();
 
   pipe_solve_delegate(si);
 
@@ -100,10 +98,7 @@ void output_plaintext_tree_refutation_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fputs(" !",stdout);
-  if (TraceFile)
-    fputs(" !",TraceFile);
-
+  protocol_printf("%s"," !");
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

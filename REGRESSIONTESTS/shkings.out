@@ -1,5 +1,5 @@
 
-             Mario Albasi
+            Mario Albasi
          The Problemist 2000
 
 +---a---b---c---d---e---f---g---h---+
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         12 + 5
-        TransmutierendeKoenige
+       TransmutierendeKoenige
             SchutzKoenige
 
    1.Kf2-e3 + !
@@ -80,12 +80,12 @@
                      play_move:       13739
  is_white_king_square_attacked:        1268
  is_black_king_square_attacked:       13346
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Mario Albasi
-               Original
+            Mario Albasi
+              Original
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -115,22 +115,22 @@ a)
 
   add_to_move_generation_stack:      248155
                      play_move:      232631
- is_white_king_square_attacked:       14423
- is_black_king_square_attacked:      231708
+ is_white_king_square_attacked:       14421
+ is_black_king_square_attacked:      231707
 b) wSg5-->g3  
 
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 #
 
   add_to_move_generation_stack:      274024
                      play_move:      252489
- is_white_king_square_attacked:       16834
- is_black_king_square_attacked:      251220
-Loesung beendet. 
+ is_white_king_square_attacked:       16832
+ is_black_king_square_attacked:      251219
+Loesung beendet.
 
 
 
-             Mario Albasi
-               Original
+            Mario Albasi
+              Original
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -227,6 +227,6 @@ b) s#3
                      play_move:      238570
  is_white_king_square_attacked:      241188
  is_black_king_square_attacked:      131052
-Loesung beendet. 
+Loesung beendet.
 
 

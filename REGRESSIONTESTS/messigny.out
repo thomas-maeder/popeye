@@ -1,5 +1,5 @@
 
-            Bruno Kampmann
+           Bruno Kampmann
             Messigny 1999
         1. ehrende Erw"ahnung
 
@@ -23,7 +23,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 7
-            MessignySchach
+           MessignySchach
 
   1.Tc2-g2 a7-a8=T   2.Tg2-g5 Ta8<->Tg5 #
   1.Da6-d3 a7-a8=D   2.Dd3*g6 + Da8<->Dg6 #
@@ -32,9 +32,9 @@
 
   add_to_move_generation_stack:      341114
                      play_move:      340402
- is_white_king_square_attacked:       31189
- is_black_king_square_attacked:      339636
-Loesung beendet. 
+ is_white_king_square_attacked:       31181
+ is_black_king_square_attacked:      339632
+Loesung beendet.
 
 
 
@@ -62,7 +62,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         6 + 7
-            MessignySchach
+           MessignySchach
 
   1.a2-a1=S g7-g8=S   2.Sa1-b3 Sg8<->Sb3 #
   1.a2-a1=T g7-g8=T   2.Sh5-g7 Tg8<->Ta1 #
@@ -71,15 +71,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1019002
                      play_move:      983165
- is_white_king_square_attacked:       27960
- is_black_king_square_attacked:      981817
-Loesung beendet. 
+ is_white_king_square_attacked:       27952
+ is_black_king_square_attacked:      981813
+Loesung beendet.
 
 
 
            Michel Caillaud
             Messigny 1999
-                1. Lob
+               1. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -101,22 +101,22 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         5 + 5
-            MessignySchach
+           MessignySchach
 
   1.d5-d4 Kd3-e4   2.h2-h1=L + Lg1<->Lh1   3.Lg1-e3 Ke4<->Ka8 #
   1.e5-e4 + Kd3-d4   2.a2-a1=L + Lb1<->La1   3.Lb1-d3 Kd4<->Ka8 #
 
   add_to_move_generation_stack:    38303463
                      play_move:    34385367
- is_white_king_square_attacked:     1175702
- is_black_king_square_attacked:    34141661
-Loesung beendet. 
+ is_white_king_square_attacked:     1175696
+ is_black_king_square_attacked:    34141657
+Loesung beendet.
 
 
 
-            Bruno Kampmann
+           Bruno Kampmann
             Messigny 1999
-                2. Lob
+               2. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -138,21 +138,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 2
-            MessignySchach
+           MessignySchach
 
   1.Td7-d8 Te8*d8   2.Kg7<->Ke5 Kg7-f8   3.Ke5-f6 Kf8<->Kf6 #
   1.Kg7-h7 Ke5-f6   2.Kh7<->Kf6 + Kh7-h8   3.Td7-h7 + Kh8<->Kf6 #
 
   add_to_move_generation_stack:     4860711
                      play_move:     3441262
- is_white_king_square_attacked:      393241
- is_black_king_square_attacked:     3399234
-Loesung beendet. 
+ is_white_king_square_attacked:      393235
+ is_black_king_square_attacked:     3399230
+Loesung beendet.
 
 
 
           Bernd Ellinghoven
-            Torsten Lin\ss
+           Torsten Lin\ss
            Hans Peter Rehm
             Messigny 1998
 
@@ -227,11 +227,11 @@ Loesung beendet.
                      play_move:      221245
  is_white_king_square_attacked:      203239
  is_black_king_square_attacked:       33841
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Bruno Kampmann
+           Bruno Kampmann
             Messigny 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -275,7 +275,7 @@ Loesung beendet.
                      play_move:       21030
  is_white_king_square_attacked:       20959
  is_black_king_square_attacked:        1059
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -302,7 +302,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 7
-            MessignySchach
+           MessignySchach
 
    1.a6*b7 ! Drohung:
           2.Kc8<->Kh6 #
@@ -336,7 +336,7 @@ Loesung beendet.
                      play_move:       27285
  is_white_king_square_attacked:        1624
  is_black_king_square_attacked:       27209
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -363,7 +363,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   r#2                        9 + 11
-            MessignySchach
+           MessignySchach
 
    1.Sf6-g8 ! Drohung:
           2.Kh6-h7
@@ -389,7 +389,7 @@ Loesung beendet.
                      play_move:     1318902
  is_white_king_square_attacked:     1282313
  is_black_king_square_attacked:      105798
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -416,7 +416,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          6 + 5
-            MessignySchach
+           MessignySchach
 
    1.Lc8-d7 ! Drohung:
           2.De8-h8 #
@@ -434,7 +434,7 @@ Loesung beendet.
                      play_move:        9194
  is_white_king_square_attacked:         519
  is_black_king_square_attacked:        9198
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -461,7 +461,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         11 + 9
-            MessignySchach
+           MessignySchach
 
       1...Dd1-f3
           2.Lb2-d4 #
@@ -530,7 +530,7 @@ Loesung beendet.
                      play_move:       36230
  is_white_king_square_attacked:        1910
  is_black_king_square_attacked:       36212
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -558,7 +558,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         8 + 13
-            MessignySchach
+           MessignySchach
 
    1.Kg7-h8 ! Drohung:
           2.Df8-c8 #
@@ -578,14 +578,14 @@ Loesung beendet.
                      play_move:       22838
  is_white_king_square_attacked:        1863
  is_black_king_square_attacked:       22842
-Loesung beendet. 
+Loesung beendet.
 
 
 
           Bernd Ellinghoven
-            Torsten Lin\ss
+           Torsten Lin\ss
            Hans Peter Rehm
-        Messigny 1998, Version
+       Messigny 1998, Version
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -630,6 +630,6 @@ Loesung beendet.
                      play_move:      101895
  is_white_king_square_attacked:      101627
  is_black_king_square_attacked:        5385
-Loesung beendet. 
+Loesung beendet.
 
 

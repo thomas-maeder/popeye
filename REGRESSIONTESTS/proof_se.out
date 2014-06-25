@@ -28,13 +28,13 @@
   add_to_move_generation_stack:         386
                      play_move:         386
  is_white_king_square_attacked:          13
- is_black_king_square_attacked:          23
-Loesung beendet. 
+ is_black_king_square_attacked:          18
+Loesung beendet.
 
 
 
              Ulrich Ring
-  Retros Mailing Liste, Oktober 1996
+ Retros Mailing Liste, Oktober 1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -62,12 +62,12 @@ Loesung beendet.
   add_to_move_generation_stack:         494
                      play_move:         506
  is_white_king_square_attacked:          11
- is_black_king_square_attacked:          27
-Loesung beendet. 
+ is_black_king_square_attacked:          19
+Loesung beendet.
 
 
 
-  Timothy Luffingham & Gianni Donati
+ Timothy Luffingham & Gianni Donati
    Retros Mailing Liste, Juni 1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -96,8 +96,8 @@ Loesung beendet.
   add_to_move_generation_stack:         289
                      play_move:         301
  is_white_king_square_attacked:           7
- is_black_king_square_attacked:          19
-Loesung beendet. 
+ is_black_king_square_attacked:          13
+Loesung beendet.
 
 
 
@@ -130,8 +130,8 @@ Loesung beendet.
   add_to_move_generation_stack:         651
                      play_move:         651
  is_white_king_square_attacked:          23
- is_black_king_square_attacked:          37
-Loesung beendet. 
+ is_black_king_square_attacked:          30
+Loesung beendet.
 
 
 
@@ -164,8 +164,8 @@ Loesung beendet.
   add_to_move_generation_stack:        1164
                      play_move:        1182
  is_white_king_square_attacked:          72
- is_black_king_square_attacked:          88
-Loesung beendet. 
+ is_black_king_square_attacked:          80
+Loesung beendet.
 
 
 
@@ -198,12 +198,12 @@ Loesung beendet.
   add_to_move_generation_stack:       60373
                      play_move:       60373
  is_white_king_square_attacked:        7796
- is_black_king_square_attacked:        7816
-Loesung beendet. 
+ is_black_king_square_attacked:        7806
+Loesung beendet.
 
 
 
-          Timothy Luffingham
+         Timothy Luffingham
    Retros Mailing Liste, Juni 1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -232,12 +232,12 @@ Loesung beendet.
   add_to_move_generation_stack:       18012
                      play_move:       18012
  is_white_king_square_attacked:        1672
- is_black_king_square_attacked:        1690
-Loesung beendet. 
+ is_black_king_square_attacked:        1681
+Loesung beendet.
 
 
 
-          Timothy Luffingham
+         Timothy Luffingham
    Retros Mailing Liste, Juni 1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -266,12 +266,12 @@ Loesung beendet.
   add_to_move_generation_stack:       34438
                      play_move:       35911
  is_white_king_square_attacked:        5323
- is_black_king_square_attacked:        5347
-Loesung beendet. 
+ is_black_king_square_attacked:        5335
+Loesung beendet.
 
 
 
-   Norbert Geissler & Gianni Donati
+  Norbert Geissler & Gianni Donati
    Retros Mailing Liste, Juni 1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -300,12 +300,12 @@ Loesung beendet.
   add_to_move_generation_stack:        9484
                      play_move:        9937
  is_white_king_square_attacked:        1104
- is_black_king_square_attacked:        1132
-Loesung beendet. 
+ is_black_king_square_attacked:        1118
+Loesung beendet.
 
 
 
-   Norbert Geissler & Gianni Donati
+  Norbert Geissler & Gianni Donati
    Retros Mailing Liste, Juni 1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -334,8 +334,8 @@ Loesung beendet.
   add_to_move_generation_stack:        2534
                      play_move:        2615
  is_white_king_square_attacked:         159
- is_black_king_square_attacked:         187
-Loesung beendet. 
+ is_black_king_square_attacked:         173
+Loesung beendet.
 
 
 
@@ -368,7 +368,7 @@ Loesung beendet.
   add_to_move_generation_stack:       50002
                      play_move:       50002
  is_white_king_square_attacked:        4711
- is_black_king_square_attacked:        4699
-Loesung beendet. 
+ is_black_king_square_attacked:        4689
+Loesung beendet.
 
 

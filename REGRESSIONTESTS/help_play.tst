@@ -27,7 +27,7 @@ the side to play can capture the king
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 
@@ -59,13 +59,13 @@ the side to play can capture the king
 
   add_to_move_generation_stack:          21
                      play_move:          18
- is_white_king_square_attacked:           6
+ is_white_king_square_attacked:           5
  is_black_king_square_attacked:          19
-solution finished. 
+solution finished.
 
 
 
-        hep1 (help-en passant)
+       hep1 (help-en passant)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -92,13 +92,13 @@ solution finished.
 
   add_to_move_generation_stack:           9
                      play_move:           5
- is_white_king_square_attacked:           4
- is_black_king_square_attacked:           6
-solution finished. 
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           5
+solution finished.
 
 
 
-                h001.5
+               h001.5
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -125,9 +125,9 @@ solution finished.
 
   add_to_move_generation_stack:         384
                      play_move:         192
- is_white_king_square_attacked:          52
- is_black_king_square_attacked:         170
-solution finished. 
+ is_white_king_square_attacked:          51
+ is_black_king_square_attacked:         168
+solution finished.
 
 
 
@@ -158,13 +158,13 @@ solution finished.
 
   add_to_move_generation_stack:       15132
                      play_move:       12053
- is_white_king_square_attacked:        9829
- is_black_king_square_attacked:        5809
-solution finished. 
+ is_white_king_square_attacked:        9827
+ is_black_king_square_attacked:        5808
+solution finished.
 
 
 
-                 h##2
+                h##2
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -191,13 +191,13 @@ solution finished.
 
   add_to_move_generation_stack:       99152
                      play_move:       37763
- is_white_king_square_attacked:       31335
- is_black_king_square_attacked:        6585
-solution finished. 
+ is_white_king_square_attacked:       31333
+ is_black_king_square_attacked:        6584
+solution finished.
 
 
 
-     not 1.Qb2+ because of exact-
+    not 1.Qb2+ because of exact-
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -224,9 +224,9 @@ solution finished.
 
   add_to_move_generation_stack:       11919
                      play_move:       10485
- is_white_king_square_attacked:        9130
- is_black_king_square_attacked:        2756
-solution finished. 
+ is_white_king_square_attacked:        9129
+ is_black_king_square_attacked:        2754
+solution finished.
 
 
 
@@ -259,7 +259,7 @@ hr#1.5 - don't write long solutions because Black must mate immediately
                      play_move:          10
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:           2
-solution finished. 
+solution finished.
 
 
 
@@ -291,8 +291,8 @@ hr#2 - don't write long solutions because Black must mate immediately
   add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:          18
- is_black_king_square_attacked:           5
-solution finished. 
+ is_black_king_square_attacked:           4
+solution finished.
 
 
 
@@ -325,7 +325,7 @@ stop solving when the goal is reached
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -358,7 +358,7 @@ solution finished.
                      play_move:          63
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          64
-solution finished. 
+solution finished.
 
 
 PostKeyPlay not applicable - ignored
@@ -401,6 +401,6 @@ b) hs#2
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

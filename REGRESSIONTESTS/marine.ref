@@ -1,5 +1,5 @@
 
-           Rom\'eo B\'edoni
+          Rom\'eo B\'edoni
            feenschach 1972
 
 +---a---b---c---d---e---f---g---h---+
@@ -39,12 +39,12 @@
                      play_move:        3832
  is_white_king_square_attacked:         321
  is_black_king_square_attacked:        3835
-solution finished. 
+solution finished.
 
 
 
            Ronald Turnbull
-    The Problemist Supplement 2001
+   The Problemist Supplement 2001
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -115,7 +115,7 @@ solution finished.
                      play_move:        6311
  is_white_king_square_attacked:         613
  is_black_king_square_attacked:        6314
-solution finished. 
+solution finished.
 
 
 
@@ -175,11 +175,11 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 3rd HM
                      play_move:       11113
  is_white_king_square_attacked:         497
  is_black_king_square_attacked:       11116
-solution finished. 
+solution finished.
 
 
 
-              James Quah
+             James Quah
 JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
 
 +---a---b---c---d---e---f---g---h---+
@@ -232,12 +232,12 @@ JT Mark Ridley 40, The Problemist Supplement 2001-03, 5th Comm
                      play_move:      370411
  is_white_king_square_attacked:       63688
  is_black_king_square_attacked:      320003
-solution finished. 
+solution finished.
 
 
 added white pa2 against many cooks with triton pinning from a1
 
-           Rom\'eo B\'edoni
+          Rom\'eo B\'edoni
          diagrammes 1991 (v)
 
 +---a---b---c---d---e---f---g---h---+
@@ -265,13 +265,13 @@ added white pa2 against many cooks with triton pinning from a1
 
   add_to_move_generation_stack:    47944896
                      play_move:    31440951
- is_white_king_square_attacked:    13338113
- is_black_king_square_attacked:    28419959
-solution finished. 
+ is_white_king_square_attacked:    13338110
+ is_black_king_square_attacked:    28419957
+solution finished.
 
 
 
-            Giuseppe Brogi
+           Giuseppe Brogi
            feenschach 1971
 
 +---a---b---c---d---e---f---g---h---+
@@ -301,21 +301,21 @@ a)
 
   add_to_move_generation_stack:      502004
                      play_move:      374056
- is_white_king_square_attacked:       25209
- is_black_king_square_attacked:      373085
+ is_white_king_square_attacked:       25207
+ is_black_king_square_attacked:      373084
 b) wPOd1-->a4  
 
   1.SIf4-b4 Bh1-d5   2.POe5*d5-c5 POa4*b4-c4 #
 
   add_to_move_generation_stack:      501016
                      play_move:      369250
- is_white_king_square_attacked:       24830
- is_black_king_square_attacked:      368305
-solution finished. 
+ is_white_king_square_attacked:       24828
+ is_black_king_square_attacked:      368304
+solution finished.
 
 
 
-           Rom\'eo B\'edoni
+          Rom\'eo B\'edoni
            feenschach 1972
 
 +---a---b---c---d---e---f---g---h---+
@@ -348,11 +348,11 @@ solution finished.
                      play_move:         258
  is_white_king_square_attacked:          41
  is_black_king_square_attacked:         261
-solution finished. 
+solution finished.
 
 
 
-           Rom\'eo B\'edoni
+          Rom\'eo B\'edoni
             Ph\'enix 1992
 why does WinChloe only give 2.POb8==, but not 2.POb7?
 
@@ -377,9 +377,9 @@ why does WinChloe only give 2.POb8==, but not 2.POb7?
 +---a---b---c---d---e---f---g---h---+
   ==2                         2 + 2
                 Circe
-         Madrasi RexInclusive
+        Madrasi RexInclusive
            WhiteMaximummer
-              HalfDuplex
+             HalfDuplex
 
    1.MPa7*b6-c5[+wMPb2] ! zugzwang.
       1...MPb2-b4
@@ -391,11 +391,11 @@ why does WinChloe only give 2.POb8==, but not 2.POb7?
                      play_move:          41
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:          33
-solution finished. 
+solution finished.
 
 
 
-           Rom\'eo B\'edoni
+          Rom\'eo B\'edoni
            diagrammes 1991
 
 +---a---b---c---d---e---f---g---h---+
@@ -423,13 +423,13 @@ solution finished.
 
   add_to_move_generation_stack:      908790
                      play_move:      877784
- is_white_king_square_attacked:       39358
- is_black_king_square_attacked:      862235
-solution finished. 
+ is_white_king_square_attacked:       39355
+ is_black_king_square_attacked:      862233
+solution finished.
 
 
 
-           Rom\'eo B\'edoni
+          Rom\'eo B\'edoni
            diagrammes 1991
 
 +---a---b---c---d---e---f---g---h---+
@@ -452,15 +452,15 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h==3                        5 + 5
-         Madrasi RexInclusive
+        Madrasi RexInclusive
 
   1.MPe2-e1=ND MPf7-f8=ND   2.NDe1-c3 NDf8*c5-b4   3.MPf2-f1=SI MPg7-g8=TR ==
 
   add_to_move_generation_stack:   259892176
                      play_move:    50606596
- is_white_king_square_attacked:    48075033
- is_black_king_square_attacked:     2531852
-solution finished. 
+ is_white_king_square_attacked:    48075030
+ is_black_king_square_attacked:     2531850
+solution finished.
 
 
 
@@ -541,7 +541,7 @@ c) LosingChess
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -592,7 +592,7 @@ b) Circe
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -624,9 +624,9 @@ solution finished.
 
   add_to_move_generation_stack:      177670
                      play_move:      177670
- is_white_king_square_attacked:        8930
- is_black_king_square_attacked:         406
-solution finished. 
+ is_white_king_square_attacked:        8928
+ is_black_king_square_attacked:         404
+solution finished.
 
 
 
@@ -672,7 +672,7 @@ b) UltramarineChess  wPOe1
                      play_move:          38
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:          39
-solution finished. 
+solution finished.
 
 
 
@@ -707,12 +707,12 @@ solution finished.
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 (only first 6 half-moves)
 
-             Peter Fayers
+            Peter Fayers
 JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 
 +---a---b---c---d---e---f---g---h---+
@@ -735,20 +735,20 @@ JT Mark Ridley 40, The Problemist Suplement 2001-03, 2nd prize
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia3                      16 + 14
-           UltramarineChess
+          UltramarineChess
 
   1.MPf2-f4 MPe7-e5   2.MPf4*e5-d6 MSb8-c6   3.MPd6*c7-b8=MS SId8-b6 dia
 
   add_to_move_generation_stack:    32744616
                      play_move:    32745939
- is_white_king_square_attacked:     2513312
- is_black_king_square_attacked:      168497
-solution finished. 
+ is_white_king_square_attacked:     2513309
+ is_black_king_square_attacked:      168494
+solution finished.
 
 
 
 Michel Caillaud, Henri Nouguier & Uri Avner
-     Port-de-Bouc 1982, 2nd prize
+    Port-de-Bouc 1982, 2nd prize
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -770,7 +770,7 @@ Michel Caillaud, Henri Nouguier & Uri Avner
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#3                         9 + 8
-              Maximummer
+             Maximummer
              MarineChess
 
    1.MHg2-f2 !
@@ -838,11 +838,11 @@ Michel Caillaud, Henri Nouguier & Uri Avner
                      play_move:       26614
  is_white_king_square_attacked:       10534
  is_black_king_square_attacked:       20131
-solution finished. 
+solution finished.
 
 
 
-            Daniel Joffart
+           Daniel Joffart
           Port-de-Bouc 1982
 
 +---a---b---c---d---e---f---g---h---+
@@ -872,8 +872,8 @@ solution finished.
 
   add_to_move_generation_stack:    29467747
                      play_move:    24006685
- is_white_king_square_attacked:     8105072
+ is_white_king_square_attacked:     8105039
  is_black_king_square_attacked:    24006685
-solution finished. 
+solution finished.
 
 

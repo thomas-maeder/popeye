@@ -23,7 +23,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          9 + 9
-      Magic a8 b7 e6 f6 h6 e2 g1
+     Magic a8 b7 e6 f6 h6 e2 g1
 
       1...mPe2-e1=mQ[b1=w][e3=w][g3=w]
           2.mPb7-b8=mS #
@@ -80,15 +80,15 @@
                      play_move:       14662
  is_white_king_square_attacked:        1182
  is_black_king_square_attacked:       14654
-solution finished. 
+solution finished.
 
 
 <<< 3(K)2(Q)1/B1rP1(P)1(P)/2(p)p1s2/1R6/P1k(p)1(b)1(s)/4P1(S)1/(R)2(B)2b(b)/(b)1(S)(R)1(R)2/ NullScheme
 >>>
 
-            Peter Gvozdjak
+           Peter Gvozdjak
            Reto Aschwanden
-           idee & form 2002
+          idee & form 2002
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -378,15 +378,15 @@ Magic d8 g8 f7 h7 c6 d4 f4 h4 g3 a2 d2 h2 a1 c1 d1 f1
                      play_move:       69417
  is_white_king_square_attacked:        2518
  is_black_king_square_attacked:       68936
-solution finished. 
+solution finished.
 
 
 <<< 7(B)/4P1(P)1/3Rp1s1/2r5/R1p2(Q)(p)(R)/(S)P1(P)1(P)(r)(q)/1k(B)(K)(b)1(s)1/2(S)1(R)3/ NullScheme
 >>>
 
-            Peter Gvozdjak
+           Peter Gvozdjak
            Reto Aschwanden
-            Pat a Mat 2007
+           Pat a Mat 2007
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -546,13 +546,13 @@ b) wPe6
                      play_move:       24383
  is_white_king_square_attacked:         968
  is_black_king_square_attacked:       24390
-solution finished. 
+solution finished.
 
 
 <<< (R)4(B)2/1(.LI)(p)1(P)p2/1sP1sPS1/.LIp5p/(.li)(k)5p/p(.li)5(.li)/(p)1(.LI)K2(.LI)b/3b4/ Lion1
 >>>
 
-            Peter Gvozdjak
+           Peter Gvozdjak
            Reto Aschwanden
           Probleemblad 2003
 
@@ -625,7 +625,7 @@ Magic a8 f8 b7 c7 e7 a4 b4 b3 h3 a2 c2 g2
                      play_move:       30638
  is_white_king_square_attacked:        1387
  is_black_king_square_attacked:       30522
-solution finished. 
+solution finished.
 
 
 
@@ -693,7 +693,7 @@ problem ignored
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -719,15 +719,15 @@ an example for castling with a recolored rook
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h001                        2 + 3
-               Magic d1
+              Magic d1
 
   1.mGd1-d4[a1=w] 0-0-0 +
 
   add_to_move_generation_stack:          37
                      play_move:          20
- is_white_king_square_attacked:           6
- is_black_king_square_attacked:          21
-solution finished. 
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          20
+solution finished.
 
 
 
@@ -825,7 +825,7 @@ an example for cross-eyed magic pieces
                      play_move:          32
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -851,7 +851,7 @@ and another one (2 views -> no recoloring, 3 views -> recoloring)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 3
-               Magic d7
+              Magic d7
              PromOnly RO
 
    1.mPd7-d8=mRO[b3=w] !
@@ -863,7 +863,7 @@ and another one (2 views -> no recoloring, 3 views -> recoloring)
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -901,6 +901,6 @@ and another one (2 views -> no recoloring, 1 view -> recoloring)
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

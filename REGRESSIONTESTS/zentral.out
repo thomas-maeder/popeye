@@ -1,5 +1,5 @@
 
-            Maryan Kerhuel
+           Maryan Kerhuel
             Ph\'enix 1995
 
 +---a---b---c---d---e---f---g---h---+
@@ -30,21 +30,21 @@ a)
 
   add_to_move_generation_stack:       11041
                      play_move:        8818
- is_white_king_square_attacked:        6335
- is_black_king_square_attacked:        8818
+ is_white_king_square_attacked:        6319
+ is_black_king_square_attacked:        8817
 b) ser-hze519  
 
   1.Kf1-g1   2.Kg1-h2   3.Kh2-h3   4.Kh3-h4   5.Kh4-h5   6.Kh5-g6   7.h7-h5   8.h5-h4   9.Kg6-h5  10.h4-h3  11.Kh5-h4  12.h3-h2  13.Kh4-h3  14.h2-h1=T  15.Kh3-h2  16.Th1-e1  17.Kh2-g1  18.Kg1-f1  19.Te1-e5 f4*e5 z
 
   add_to_move_generation_stack:       20483
                      play_move:       15687
- is_white_king_square_attacked:       11118
- is_black_king_square_attacked:       15688
-Loesung beendet. 
+ is_white_king_square_attacked:       11099
+ is_black_king_square_attacked:       15687
+Loesung beendet.
 
 
 
-            Maryan Kerhuel
+           Maryan Kerhuel
             Ph\'enix 1995
 
 +---a---b---c---d---e---f---g---h---+
@@ -73,13 +73,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:        6542
                      play_move:        2730
- is_white_king_square_attacked:        1518
+ is_white_king_square_attacked:        1510
  is_black_king_square_attacked:        2716
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Maryan Kerhuel
+           Maryan Kerhuel
             Ph\'enix 1995
 
 +---a---b---c---d---e---f---g---h---+
@@ -108,9 +108,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:      356187
                      play_move:      179574
- is_white_king_square_attacked:       89291
- is_black_king_square_attacked:      137306
-Loesung beendet. 
+ is_white_king_square_attacked:       89290
+ is_black_king_square_attacked:      137294
+Loesung beendet.
 
 
 
@@ -143,13 +143,13 @@ Jacques Rotenberg / Christian Poisson
 
   add_to_move_generation_stack:      625117
                      play_move:      241278
- is_white_king_square_attacked:      128926
- is_black_king_square_attacked:      171431
-Loesung beendet. 
+ is_white_king_square_attacked:      128925
+ is_black_king_square_attacked:      171414
+Loesung beendet.
 
 
 
-           Didier Innocenti
+          Didier Innocenti
             Ph\'enix 2000
 
 +---a---b---c---d---e---f---g---h---+
@@ -181,7 +181,7 @@ a)
   add_to_move_generation_stack:       27264
                      play_move:       24482
  is_white_king_square_attacked:       24482
- is_black_king_square_attacked:       18939
+ is_black_king_square_attacked:       18916
 b) wBa3-->a5  
 
   1.Ke5-d4   2.Kd4-c4   3.Kc4-b3   4.Kb3-a4   5.a5-a6   6.Ka4-a5   7.a6-a7   8.Ka5-a4   9.Ka4-b3  10.Kb3-c4  11.Kc4-d4  12.Kd4-e5  13.Ke5-e6  14.Ke6-f7  15.Kf7-e8  16.Ke8-d8  17.Kd8-c8  18.Kc8-b8  19.Kb8*a8  20.Ka8-b8  21.a7-a8=S  22.Sa8-c7  23.Sc7*d5 z
@@ -189,7 +189,7 @@ b) wBa3-->a5
   add_to_move_generation_stack:       15551
                      play_move:       14113
  is_white_king_square_attacked:       14113
- is_black_king_square_attacked:       10932
-Loesung beendet. 
+ is_black_king_square_attacked:       10909
+Loesung beendet.
 
 

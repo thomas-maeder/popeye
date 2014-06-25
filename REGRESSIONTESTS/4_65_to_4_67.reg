@@ -54,7 +54,7 @@ Until 4.65, holes were counted as pieces. Since Popeye can only deal with
                      play_move:          33
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -102,7 +102,7 @@ solution finished.
                      play_move:           8
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -128,15 +128,15 @@ Popeye 4.61 and 4.63 stopped after 1.Kh4 because of the stalemate
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-s#2                     3 + 1
-              KobulKings
+             KobulKings
 
   1.Sg6-h4   2.Sh4-g2 Kh3*g2[h1=rS] #
 
   add_to_move_generation_stack:        4415
                      play_move:        2380
  is_white_king_square_attacked:        2380
- is_black_king_square_attacked:        1596
-solution finished. 
+ is_black_king_square_attacked:        1594
+solution finished.
 
 
 
@@ -162,17 +162,17 @@ there may be non-orthodox mating moves in Backhome
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   exact-ser-#4                3 + 4
-               BackHome
+              BackHome
 
   1.Kd6-e5   2.Bh4*f6   3.Ke5-d6   4.Bf6-h4 #
   1.Kd6-e5   2.Bh4*f6   3.Bf6-h4   4.Ke5-d6 #
   1.Kd6-e5   2.Ke5*f6   3.Kf6-e5   4.Ke5-d6 #
 
-  add_to_move_generation_stack:        5702
-                     play_move:         427
- is_white_king_square_attacked:         176
- is_black_king_square_attacked:         349
-solution finished. 
+  add_to_move_generation_stack:        5628
+                     play_move:         422
+ is_white_king_square_attacked:         171
+ is_black_king_square_attacked:         340
+solution finished.
 
 
 
@@ -206,12 +206,12 @@ there may be non-orthodox mating moves in Immune Chess
                      play_move:          44
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          32
-solution finished. 
+solution finished.
 
 
 
-             Neal Turnier
-         Julia's Fairies 2014
+            Neal Turnier
+        Julia's Fairies 2014
         SAT with royal pieces
 
 +---a---b---c---d---e---f---g---h---+
@@ -255,7 +255,7 @@ solution finished.
                      play_move:        6388
  is_white_king_square_attacked:        8695
  is_black_king_square_attacked:       10639
-solution finished. 
+solution finished.
 
 
 
@@ -290,7 +290,7 @@ since 4.51, we generated duplicate moves in Echecks Plus
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -317,7 +317,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-s#2                     3 + 3
-             RoyalDynasty
+            RoyalDynasty
 
   1.Ke1-f2   2.Kf2-g2 + f3*g2 #
   1.Ke1-f1   2.Kf1-g2 + f3*g2 #
@@ -325,8 +325,8 @@ solution finished.
   add_to_move_generation_stack:        2332
                      play_move:        1274
  is_white_king_square_attacked:         103
- is_black_king_square_attacked:         754
-solution finished. 
+ is_black_king_square_attacked:         750
+solution finished.
 
 
 
@@ -370,7 +370,7 @@ b) ser-za72
                      play_move:          13
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -397,7 +397,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s+1                         2 + 3
               MarsCirce
-          BlackSynchronMover
+         BlackSynchronMover
 
    1.a5-a2*b3 !
       1...Sb8-c6 +
@@ -407,7 +407,7 @@ solution finished.
                      play_move:          24
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -433,7 +433,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-                Volage
+               Volage
               MarsCirce
 
    1.a5-a2*b3=b x !
@@ -443,7 +443,7 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -478,7 +478,7 @@ just to make sure - returning to a6 would be illegal
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -512,8 +512,8 @@ Popeye 4.63 and 4.65 only printed the first solution
 
   add_to_move_generation_stack:         406
                      play_move:         430
- is_white_king_square_attacked:          56
- is_black_king_square_attacked:         234
-solution finished. 
+ is_white_king_square_attacked:          48
+ is_black_king_square_attacked:         230
+solution finished.
 
 

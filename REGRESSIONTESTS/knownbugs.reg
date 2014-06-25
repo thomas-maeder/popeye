@@ -1,11 +1,11 @@
 
-            Maryan Kerhuel
+           Maryan Kerhuel
       Ph\'enix 32 1995, p. 2838
   Unsolvable! The author's solution
 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQc8 5.rBf3
 leaves the rB in check from the bK reflecting the nQ!
 But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
-    from the bK reflecting the rB!
+   from the bK reflecting the rB!
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -27,7 +27,7 @@ But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#5                 1 + 2 + 1n
-               Royal c8
+              Royal c8
               AntiCirce
          BlackReflectiveKing
 
@@ -36,8 +36,8 @@ But 1.rBg4 2.rBd1 3.nSPb8=nQ 4.nQe5 5.rBf3 leaves the rB in check
   add_to_move_generation_stack:       19236
                      play_move:       19480
  is_white_king_square_attacked:        5339
- is_black_king_square_attacked:       16948
-solution finished. 
+ is_black_king_square_attacked:       16944
+solution finished.
 
 
 
@@ -64,7 +64,7 @@ Behaviour of wP (capture: annanised by wS; check: not annanised) is inconsistent
 +---a---b---c---d---e---f---g---h---+
   ~1                          3 + 3
               MarsCirce
-              AnnanChess
+             AnnanChess
 
 a) 
 
@@ -237,6 +237,6 @@ c) bKe3
                      play_move:          25
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          26
-solution finished. 
+solution finished.
 
 

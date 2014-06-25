@@ -28,9 +28,9 @@
 
   add_to_move_generation_stack:        1011
                      play_move:         559
- is_white_king_square_attacked:         246
+ is_white_king_square_attacked:         241
  is_black_king_square_attacked:         506
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -57,21 +57,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-=7                      2 + 2
-              Ohneschlag
-           UWnur D S T L KN
-              HalbDuplex
+             Ohneschlag
+          UWnur D S T L KN
+             HalbDuplex
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=KN   6.KNa1-a5   7.KNa5-b7 =
 
   add_to_move_generation_stack:        4609
                      play_move:        2821
- is_white_king_square_attacked:        2558
+ is_white_king_square_attacked:        2552
  is_black_king_square_attacked:        1203
-Loesung beendet. 
+Loesung beendet.
 
 
 
-          Wilfried Pfughaupt
+         Wilfried Pfughaupt
 2693b, FEENSCHACH (Blatt 220), VII-VIII/1955
 
 +---a---b---c---d---e---f---g---h---+
@@ -94,7 +94,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#9                         2 + 2
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
                UWnur D
 
       1...a7-a5
@@ -119,6 +119,6 @@ Loesung beendet.
                      play_move:     9416917
  is_white_king_square_attacked:     3995714
  is_black_king_square_attacked:     7712654
-Loesung beendet. 
+Loesung beendet.
 
 

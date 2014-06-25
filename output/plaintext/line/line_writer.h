@@ -4,8 +4,6 @@
 #include "stipulation/goals/goals.h"
 #include "solving/machinery/solve.h"
 
-#include <stdio.h>
-
 /* This module provides the STOutputPlaintextLineLineWriter slice type.
  * Slices of this type write solutions in line mode.
  */
@@ -13,7 +11,7 @@
 /* Write a move
  * @param goal goal reached by that line
  */
-void output_plaintext_line_write_line(FILE *file, goal_type goal);
+void output_plaintext_line_write_line(goal_type goal);
 
 /* Allocate a STOutputPlaintextLineLineWriter slice.
  * @param goal goal to be reached at end of line

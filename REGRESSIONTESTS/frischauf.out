@@ -32,7 +32,7 @@
                      play_move:         239
  is_white_king_square_attacked:         195
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -60,15 +60,15 @@ Frischauf-Circe mit Angabe von Retro-Information
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 7
-             Frischauf a8
+            Frischauf a8
            Circe Frischauf
 
   1.Lb7-g2 fLa8-f3   2.Lg2*f3[+wfLf8] fLf8-h6 #
 
   add_to_move_generation_stack:       54868
                      play_move:       22187
- is_white_king_square_attacked:        7087
- is_black_king_square_attacked:       21904
-Loesung beendet. 
+ is_white_king_square_attacked:        7085
+ is_black_king_square_attacked:       21903
+Loesung beendet.
 
 

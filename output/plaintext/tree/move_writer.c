@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/move_writer.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
@@ -43,9 +43,7 @@ void output_plaintext_tree_move_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_plaintext_tree_write_move(stdout);
-  if (TraceFile)
-    output_plaintext_tree_write_move(TraceFile);
+  output_plaintext_tree_write_move();
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

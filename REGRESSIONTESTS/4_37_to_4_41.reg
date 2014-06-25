@@ -1,6 +1,6 @@
 
           reported V.Crisan
-          Incorrect: 1.Rh5# 
+         Incorrect: 1.Rh5# 
            Correct: No sol
             Fixed in 4.41
 
@@ -32,12 +32,12 @@
                      play_move:          86
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:          55
-solution finished. 
+solution finished.
 
 
 
              reported SE
-            Incorrect: Ma8
+           Incorrect: Ma8
             Correct: MAa8
             Fixed in 4.41
 
@@ -71,13 +71,13 @@ solution finished.
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
 reported P.Raican (orig. M.Caillaud??)
-       Incorrect: No sol found 
-            Correct: 1 sol
+      Incorrect: No sol found 
+           Correct: 1 sol
             Fixed in 4.41
 
 +---a---b---c---d---e---f---g---h---+
@@ -100,21 +100,21 @@ reported P.Raican (orig. M.Caillaud??)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia3                      15 + 16
-            Circe Assassin
+           Circe Assassin
 
   1.a2-a3 e7-e6   2.Ra1-a2 Bf8*a3[+wPa2]   3.b2-b4 Sg8-e7 dia
 
   add_to_move_generation_stack:      137715
-                     play_move:      140518
+                     play_move:      140512
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
 reported P.Raican (orig. M.Caillaud??)
-       Incorrect: No sol found 
-            Correct: 1 sol
+      Incorrect: No sol found 
+           Correct: 1 sol
             Fixed in 4.41
 
 +---a---b---c---d---e---f---g---h---+
@@ -143,15 +143,15 @@ reported P.Raican (orig. M.Caillaud??)
 
   add_to_move_generation_stack:     5714103
                      play_move:     5715111
- is_white_king_square_attacked:      279190
- is_black_king_square_attacked:      173775
-solution finished. 
+ is_white_king_square_attacked:      279187
+ is_black_king_square_attacked:      173771
+solution finished.
 
 
 
        Incorrect: No sol found
-            Correct: 1 sol
-           Fixed after 4.41
+           Correct: 1 sol
+          Fixed after 4.41
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -173,8 +173,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                         1 + 1
-            MonochromChess
-        WhiteMaximummer  ultra
+           MonochromChess
+       WhiteMaximummer  ultra
 
   1...Bg7-a1 #
 
@@ -182,7 +182,7 @@ solution finished.
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
-solution finished. 
+solution finished.
 
 
 
@@ -242,6 +242,6 @@ moves in Maximummer+Imitator problems
                      play_move:       36659
  is_white_king_square_attacked:       14411
  is_black_king_square_attacked:       29776
-solution finished. 
+solution finished.
 
 

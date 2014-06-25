@@ -1,7 +1,7 @@
 
            Theodor Steudel
        Problemkiste 57, 7/1988
-      7, 4. PK-Kompositionsthema
+     7, 4. PK-Kompositionsthema
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -58,7 +58,7 @@
                      play_move:        7993
  is_white_king_square_attacked:        5180
  is_black_king_square_attacked:        3432
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -145,13 +145,13 @@ Loesung beendet.
                      play_move:      147041
  is_white_king_square_attacked:      122595
  is_black_king_square_attacked:       24714
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
        Problemkiste 57, 7/1988
-      6, 4. PK-Kompositionsthema
+     6, 4. PK-Kompositionsthema
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -190,13 +190,13 @@ Loesung beendet.
                      play_move:        5778
  is_white_king_square_attacked:        3419
  is_black_king_square_attacked:        2488
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
        Problemkiste 57, 7/1988
-      9, 4. PK-Kompositionsthema
+     9, 4. PK-Kompositionsthema
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -235,7 +235,7 @@ Loesung beendet.
                      play_move:      723185
  is_white_king_square_attacked:      586749
  is_black_king_square_attacked:      162916
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -305,7 +305,7 @@ Loesung beendet.
                      play_move:      711213
  is_white_king_square_attacked:      581650
  is_black_king_square_attacked:      151965
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -337,15 +337,15 @@ Loesung beendet.
   1.Lg5-f6 Tg1-g7   2.Lf6-c3 Lc5-b4   3.e7-e5 d5*e6 ep. #
 
   add_to_move_generation_stack:     1960552
-                     play_move:     1993456
- is_white_king_square_attacked:       32038
- is_black_king_square_attacked:      889680
-Loesung beendet. 
+                     play_move:     1993453
+ is_white_king_square_attacked:       32035
+ is_black_king_square_attacked:      889678
+Loesung beendet.
 
 
 
-           Norbert Geissler
-        7302, Springaren, 1992
+          Norbert Geissler
+       7302, Springaren, 1992
         6. ehrende Erwaehnung
 
 +---a---b---c---d---e---f---g---h---+
@@ -373,16 +373,16 @@ Loesung beendet.
   1.c4*d3 ep. + Kc2-b1   2.e7-e5 f5*e6 ep. #
 
   add_to_move_generation_stack:       46333
-                     play_move:       50645
- is_white_king_square_attacked:        1099
- is_black_king_square_attacked:       29542
-Loesung beendet. 
+                     play_move:       50643
+ is_white_king_square_attacked:        1097
+ is_black_king_square_attacked:       29541
+Loesung beendet.
 
 
 
-             Heinz Zander
+            Heinz Zander
        Problemkiste-85, 2/1993
-          NL, eigentlich h#3
+         NL, eigentlich h#3
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -404,20 +404,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 2
-               NeuKoeko
+              NeuKoeko
 
   1.Ke4-f3 Sf4-d5   2.Kf3-f4 Ke6-f5 #
 
   add_to_move_generation_stack:        4195
                      play_move:        4555
- is_white_king_square_attacked:         102
- is_black_king_square_attacked:        2612
-Loesung beendet. 
+ is_white_king_square_attacked:         100
+ is_black_king_square_attacked:        2611
+Loesung beendet.
 
 
 
-             Heinz Zander
-         Problemkiste-85/1993
+            Heinz Zander
+        Problemkiste-85/1993
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -439,7 +439,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 5
-               NeuKoeko
+              NeuKoeko
 
    1.La2-b1 ! Drohung:
           2.Kc8-b8 #
@@ -451,12 +451,12 @@ Loesung beendet.
                      play_move:         627
  is_white_king_square_attacked:          28
  is_black_king_square_attacked:         202
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Kjell Widlert
-    2374b, Problemkiste 69, 6/1990
+   2374b, Problemkiste 69, 6/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -483,15 +483,15 @@ Loesung beendet.
   1.g2-g1=T   2.Tg1-d1   3.e2-e1=L   4.Td1-a1   5.b2-b1=L Th4-h2 #
 
   add_to_move_generation_stack:      241616
-                     play_move:      255763
- is_white_king_square_attacked:        9734
+                     play_move:      255761
+ is_white_king_square_attacked:        9729
  is_black_king_square_attacked:       80764
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Rudolf Queck
-      Original f"ur Die Schwalbe
+            Rudolf Queck
+     Original f"ur Die Schwalbe
 Michael Barth und Sven Trommler gewidmet
 
 +---a---b---c---d---e---f---g---h---+
@@ -546,13 +546,13 @@ Michael Barth und Sven Trommler gewidmet
                      play_move:     1422589
  is_white_king_square_attacked:      455077
  is_black_king_square_attacked:      247104
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Kjell Widlert
     Lob, RQu-80-Jubil"aumsturnier
-       Problemkiste 72, 12/1990
+      Problemkiste 72, 12/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -574,7 +574,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#9                         2 + 3
-             Gitterschach
+            Gitterschach
 
   1.Kc3-b2 Kg5-f4   2.Kb2-c2 Kf4-e5   3.Kc2-d3 Ke5-d6   4.Kd3-e4 Kd6-e6   5.Ke4-f5 Ke6-f7   6.Kf5-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 #
   1.Kc3-d2 Kg5-f4   2.Kd2-e3 Kf4-e5   3.Ke3-f2 Ke5-d6   4.Kf2-g3 Kd6-e6   5.Kg3-f4 Ke6-f7   6.Kf4-g5 Kf7*g6   7.Kg5-h4 Kg6-f5   8.Kh4-h5 Kf5-g5   9.g7-g6 g2-g4 #
@@ -585,16 +585,16 @@ Loesung beendet.
 
   add_to_move_generation_stack:      645756
                      play_move:      348460
- is_white_king_square_attacked:      146396
- is_black_king_square_attacked:      203423
-Loesung beendet. 
+ is_white_king_square_attacked:      146342
+ is_black_king_square_attacked:      203375
+Loesung beendet.
 
 
 
-             Rudolf Queck
+            Rudolf Queck
              Hans Gruber
-   4687, feenschach 76, 8. 11. 1985
-     Albert H. Kniest in memoriam
+  4687, feenschach 76, 8. 11. 1985
+    Albert H. Kniest in memoriam
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -616,8 +616,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =6                          1 + 2
-             Gitterschach
-        SchwarzerLaengstzueger
+            Gitterschach
+       SchwarzerLaengstzueger
 
    1.Sd1-e3 !
       1...Ge2-e4
@@ -648,12 +648,12 @@ Loesung beendet.
                      play_move:       17506
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:       15355
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Kjell Widlert
-  F1312, The Problemist 14/4, 7/1992
+ F1312, The Problemist 14/4, 7/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -675,8 +675,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#6                         2 + 5
-             Gitterschach
-        SchwarzerLaengstzueger
+            Gitterschach
+       SchwarzerLaengstzueger
 
    1.Kb5-b4 !
       1...Dd8-d1
@@ -696,12 +696,12 @@ Loesung beendet.
                      play_move:     1355488
  is_white_king_square_attacked:      339754
  is_black_king_square_attacked:     1174092
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Maryan Kerhuel
-       Problemkiste-72, 12/1990
+           Maryan Kerhuel
+      Problemkiste-72, 12/1990
            Lob, 17, RQu-80
 
 +---a---b---c---d---e---f---g---h---+
@@ -724,20 +724,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#19                     2 + 6
-             Gitterschach
+            Gitterschach
 
   1.Kd3-c2   2.Kc2-b3   3.Ge3-a3   4.Kb3-c4   5.Kc4-c5   6.Kc5-b6   7.Kb6-c7   8.Kc7-d6   9.Kd6-e6  10.Ke6-f7  11.Kf7-g6  12.Kg6-f5  13.Kf5*f4  14.Kf4-g3  15.Kg3-f2  16.Kf2-e3  17.Ke3-d3  18.Ga3-e3  19.Kd3-e2 #
 
   add_to_move_generation_stack:      256166
                      play_move:      156828
  is_white_king_square_attacked:      118256
- is_black_king_square_attacked:      135635
-Loesung beendet. 
+ is_black_king_square_attacked:      135617
+Loesung beendet.
 
 
 
            Torsten Lin"s &
-            Markus Manhart
+           Markus Manhart
       2. ehr. Erw., RQu-80 1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -760,20 +760,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 8
-             Gitterschach
+            Gitterschach
 
   1.Ke2-d3 Lb5*c4   2.Le4-b7 Lc4-b5 #
   1.Ke2-e3 Te5*e4   2.Tc4-c7 Te4-e5 #
 
   add_to_move_generation_stack:      101363
                      play_move:       37350
- is_white_king_square_attacked:       11142
- is_black_king_square_attacked:       37027
-Loesung beendet. 
+ is_white_king_square_attacked:       11138
+ is_black_king_square_attacked:       37025
+Loesung beendet.
 
 
 
-        Anatolij V. Stjopovski
+       Anatolij V. Stjopovski
             Mat Plus 2009
 
 +---a---b---c---d---e---f---g---h---+
@@ -843,7 +843,7 @@ b) sBf3-->e4
                      play_move:      469532
  is_white_king_square_attacked:       73190
  is_black_king_square_attacked:      253722
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -870,14 +870,14 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=10                    4 + 2
-               NeuKoeko
+              NeuKoeko
 
   1.Ka8*b8   2.Kb8-c8   3.Kc8-d7   4.Kd7-e6   5.Ke6-d5   6.Kd5-c5   7.Kc5-b6   8.Gb7-b5   9.Kb6-b7  10.Kb7-a8 Kd6-c7 =
 
   add_to_move_generation_stack:        9364
-                     play_move:        6323
- is_white_king_square_attacked:        1594
+                     play_move:        6319
+ is_white_king_square_attacked:        1584
  is_black_king_square_attacked:        3058
-Loesung beendet. 
+Loesung beendet.
 
 

@@ -1,6 +1,6 @@
 
-           Norbert Geissler
-    5735, Problemkiste 142, 8/2002
+          Norbert Geissler
+   5735, Problemkiste 142, 8/2002
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -29,8 +29,8 @@
 
   add_to_move_generation_stack:       45628
                      play_move:       24895
- is_white_king_square_attacked:        9268
- is_black_king_square_attacked:       22873
-Loesung beendet. 
+ is_white_king_square_attacked:        9265
+ is_black_king_square_attacked:       22871
+Loesung beendet.
 
 

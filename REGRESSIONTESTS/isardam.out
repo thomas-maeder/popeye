@@ -1,5 +1,5 @@
 
-         Fritz von Meyenfeldt
+        Fritz von Meyenfeldt
          The Problemist 1989
 
 +---a---b---c---d---e---f---g---h---+
@@ -23,22 +23,22 @@
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
                Isardam
-                Duplex
+               Duplex
 
   1.Kf7-e7 Dc1-c7 +   2.Db3-f7 Kc8-d8 #
 
   1.Kc8-d7 Db3-h3 +   2.Dc1-c8 Kf7-e7 #
 
   add_to_move_generation_stack:      233174
-                     play_move:      215682
- is_white_king_square_attacked:       67891
- is_black_king_square_attacked:       82157
-Loesung beendet. 
+                     play_move:      215680
+ is_white_king_square_attacked:       67888
+ is_black_king_square_attacked:       82154
+Loesung beendet.
 
 
 
-           Stephen Emmerson
-    E, The Problemist 1/1997, S. 7
+          Stephen Emmerson
+   E, The Problemist 1/1997, S. 7
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -82,11 +82,11 @@ Loesung beendet.
                      play_move:        9881
  is_white_king_square_attacked:         390
  is_black_king_square_attacked:        3793
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Stephen Emmerson
+          Stephen Emmerson
 Ausschreibungsoriginal, Kingston 1997
   The Problemist Supplement ix/1997
 
@@ -137,11 +137,11 @@ Ausschreibungsoriginal, Kingston 1997
                      play_move:        2785
  is_white_king_square_attacked:         137
  is_black_king_square_attacked:        1318
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Stephen Emmerson
+          Stephen Emmerson
           Unver"offentlicht
 
 +---a---b---c---d---e---f---g---h---+
@@ -173,23 +173,23 @@ a)
 
   add_to_move_generation_stack:       94051
                      play_move:       67556
- is_white_king_square_attacked:        8433
- is_black_king_square_attacked:       67040
+ is_white_king_square_attacked:        8431
+ is_black_king_square_attacked:       67039
 b) Circe
    Isardam  
 
   1.Ke8-f8 Ka3-b3   2.De4-b1 + Da7-f7 #
 
   add_to_move_generation_stack:       93487
-                     play_move:       90573
- is_white_king_square_attacked:        6498
- is_black_king_square_attacked:       53545
-Loesung beendet. 
+                     play_move:       90572
+ is_white_king_square_attacked:        6496
+ is_black_king_square_attacked:       53544
+Loesung beendet.
 
 
 
            Ronald Turnbull
-    F, The Problemist 1/1997, S. 7
+   F, The Problemist 1/1997, S. 7
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -218,23 +218,23 @@ a)
   1.Dd4-d8 + Kf8-e7   2.La8-b7 Ke7-d6 #
 
   add_to_move_generation_stack:      123758
-                     play_move:      185668
- is_white_king_square_attacked:        5698
- is_black_king_square_attacked:       90290
+                     play_move:      185665
+ is_white_king_square_attacked:        5696
+ is_black_king_square_attacked:       90289
 b) sKc6-->b7  
 
   1.Dd4-d5 Kf8-e8   2.Kb7-c8 Ke8-d7 #
 
   add_to_move_generation_stack:       35631
-                     play_move:       58614
- is_white_king_square_attacked:        1337
- is_black_king_square_attacked:       28131
-Loesung beendet. 
+                     play_move:       58613
+ is_white_king_square_attacked:        1335
+ is_black_king_square_attacked:       28130
+Loesung beendet.
 
 
 
-           Stephen Emmerson
-    A, The Problemist 1/1997, S. 6
+          Stephen Emmerson
+   A, The Problemist 1/1997, S. 6
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -271,12 +271,12 @@ Loesung beendet.
                      play_move:        1477
  is_white_king_square_attacked:         110
  is_black_king_square_attacked:         903
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Ronald Turnbull
-    B, The Problemist 1/1997, S. 6
+   B, The Problemist 1/1997, S. 6
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -323,12 +323,12 @@ Loesung beendet.
                      play_move:        2428
  is_white_king_square_attacked:         155
  is_black_king_square_attacked:        1722
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Ronald Turnbull
-    C, The Problemist 1/1997, S. 6
+   C, The Problemist 1/1997, S. 6
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -364,12 +364,12 @@ Loesung beendet.
                      play_move:       11620
  is_white_king_square_attacked:         413
  is_black_king_square_attacked:        5234
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Ronald Turnbull
-    D, The Problemist 1/1997, S. 6
+   D, The Problemist 1/1997, S. 6
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -404,12 +404,12 @@ Loesung beendet.
                      play_move:        3414
  is_white_king_square_attacked:         193
  is_black_king_square_attacked:        1763
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Stephen Emmerson
-    H, The Problemist 1/1997, S. 7
+          Stephen Emmerson
+   H, The Problemist 1/1997, S. 7
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -458,12 +458,12 @@ Loesung beendet.
                      play_move:      235843
  is_white_king_square_attacked:       73426
  is_black_king_square_attacked:        8413
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Stephen Emmerson
-    J, The Problemist 1/1997, S. 7
+          Stephen Emmerson
+   J, The Problemist 1/1997, S. 7
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -509,12 +509,12 @@ Loesung beendet.
                      play_move:       38501
  is_white_king_square_attacked:        1515
  is_black_king_square_attacked:       20786
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Ronald Turnbull
-    K, The Problemist 1/1997, S. 7
+   K, The Problemist 1/1997, S. 7
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -552,11 +552,11 @@ Loesung beendet.
                      play_move:       28233
  is_white_king_square_attacked:        1109
  is_black_king_square_attacked:       11694
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Stephen Emmerson
+          Stephen Emmerson
 Ausschreibungsoriginal, Kingston 1997
 The Problemist ix/1997 (early version)
 
@@ -596,11 +596,11 @@ The Problemist ix/1997 (early version)
                      play_move:       54446
  is_white_king_square_attacked:        1270
  is_black_king_square_attacked:       20317
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Stephen Emmerson
+          Stephen Emmerson
            Ronald Turnbull
 The Problemist i/1998 (Position Reflected)
 
@@ -656,11 +656,11 @@ The Problemist i/1998 (Position Reflected)
                      play_move:       10972
  is_white_king_square_attacked:         232
  is_black_king_square_attacked:        3872
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Stephen Emmerson
+          Stephen Emmerson
            Ronald Turnbull
      Variant Chess Winter 1997/8
 
@@ -698,7 +698,7 @@ Loesung beendet.
                      play_move:       10136
  is_white_king_square_attacked:         110
  is_black_king_square_attacked:        3377
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -732,7 +732,7 @@ Loesung beendet.
                      play_move:         263
  is_white_king_square_attacked:         102
  is_black_king_square_attacked:          38
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -765,6 +765,6 @@ illegale Beobachtung nach Doppelschritt vermeiden
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 

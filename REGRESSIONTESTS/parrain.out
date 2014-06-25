@@ -1,6 +1,6 @@
 
-            Claus Wedekind
-     216, harmonie 44, 31.12.1994
+           Claus Wedekind
+    216, harmonie 44, 31.12.1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -30,13 +30,13 @@
   add_to_move_generation_stack:        9210
                      play_move:        7469
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        7426
-Loesung beendet. 
+ is_black_king_square_attacked:        7424
+Loesung beendet.
 
 
 
-            Claus Wedekind
-     217, harmonie 44, 31.12.1994
+           Claus Wedekind
+    217, harmonie 44, 31.12.1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -65,8 +65,8 @@ Loesung beendet.
   add_to_move_generation_stack:     2320928
                      play_move:     1889357
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:     1816524
-Loesung beendet. 
+ is_black_king_square_attacked:     1816521
+Loesung beendet.
 
 
 
@@ -102,13 +102,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:         442
                      play_move:         384
- is_white_king_square_attacked:          96
+ is_white_king_square_attacked:          91
  is_black_king_square_attacked:         384
-Loesung beendet. 
+Loesung beendet.
 
 
 
-      Theodor Tauber & Uri Avner
+     Theodor Tauber & Uri Avner
        1.- 2. Preis, Bonn 1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -172,11 +172,11 @@ Loesung beendet.
                      play_move:        9836
  is_white_king_square_attacked:         715
  is_black_king_square_attacked:        9839
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Henry Tanner
+            Henry Tanner
        1.- 2. Preis, Bonn 1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -222,11 +222,11 @@ Loesung beendet.
                      play_move:        2689
  is_white_king_square_attacked:         285
  is_black_king_square_attacked:        2692
-Loesung beendet. 
+Loesung beendet.
 
 
 
-   Jerome Auclair & Michel Caillaud
+  Jerome Auclair & Michel Caillaud
          3. Preis, Bonn 1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -265,7 +265,7 @@ Loesung beendet.
                      play_move:        4634
  is_white_king_square_attacked:         373
  is_black_king_square_attacked:        4637
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -352,7 +352,7 @@ Loesung beendet.
                      play_move:       16791
  is_white_king_square_attacked:         612
  is_black_king_square_attacked:       16677
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -399,12 +399,12 @@ Loesung beendet.
                      play_move:       20194
  is_white_king_square_attacked:        1088
  is_black_king_square_attacked:       20197
-Loesung beendet. 
+Loesung beendet.
 
 
 
    Reto Aschwanden & Torsten Lin"s
-            Lob, Bonn 1992
+           Lob, Bonn 1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -464,6 +464,6 @@ Loesung beendet.
                      play_move:       15187
  is_white_king_square_attacked:         956
  is_black_king_square_attacked:       15136
-Loesung beendet. 
+Loesung beendet.
 
 

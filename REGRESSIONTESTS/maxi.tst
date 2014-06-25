@@ -1,6 +1,6 @@
 
 White king is not in check on b7 even if nBc8*bKb7 is not the longest
-              white move
+             white move
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -23,7 +23,7 @@ White king is not in check on b7 even if nBc8*bKb7 is not the longest
 +---a---b---c---d---e---f---g---h---+
   #1                     1 + 2 + 1n
            WhiteMaximummer
-             BrunnerChess
+            BrunnerChess
 
    1.Ka6*b7 # !
 
@@ -32,12 +32,12 @@ White king is not in check on b7 even if nBc8*bKb7 is not the longest
                      play_move:          43
  is_white_king_square_attacked:          17
  is_black_king_square_attacked:          22
-solution finished. 
+solution finished.
 
 
 
 White king is not in check on d5 even if c6-d5 is shorter than the
-         longest move of wBc6
+        longest move of wBc6
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -69,7 +69,7 @@ White king is not in check on d5 even if c6-d5 is shorter than the
                      play_move:          22
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -96,7 +96,7 @@ So the only cage is a1, but that is self-check.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 3
-              Circe Cage
+             Circe Cage
            BlackMaximummer
            WhiteMaximummer
 
@@ -109,7 +109,7 @@ So the only cage is a1, but that is self-check.
                      play_move:          64
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          63
-solution finished. 
+solution finished.
 
 
 
@@ -145,12 +145,12 @@ White Maximummer doesn't cause the test for the legality of 1.Ke1-f1
                      play_move:           4
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
 don't ignore the longest move just because of self-check if it reaches
-               the goal
+              the goal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -178,9 +178,9 @@ don't ignore the longest move just because of self-check if it reaches
 
   add_to_move_generation_stack:         703
                      play_move:         427
- is_white_king_square_attacked:         415
+ is_white_king_square_attacked:         414
  is_black_king_square_attacked:          97
-solution finished. 
+solution finished.
 
 
 
@@ -207,7 +207,7 @@ solution finished.
   h~1                         8 + 1
            BlackMaximummer
            WhiteMaximummer
-          SingleBox    Type3
+         SingleBox    Type3
 
   1.b7*c6 [h8=B]Bh8-a1
   1.b7*a6 [h8=R]Rh8-h1
@@ -217,6 +217,6 @@ solution finished.
                      play_move:          20
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

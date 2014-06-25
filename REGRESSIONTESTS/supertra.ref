@@ -1,6 +1,6 @@
 
-             Karol Mlynka
-     2nd HM Brabec-60 C 26.5.1998
+            Karol Mlynka
+    2nd HM Brabec-60 C 26.5.1998
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -80,12 +80,12 @@
                      play_move:       22277
  is_white_king_square_attacked:        2591
  is_black_king_square_attacked:       20470
-solution finished. 
+solution finished.
 
 
 
-             Karol Mlynka
-      Comm Brabec-60 C 26.5.1998
+            Karol Mlynka
+     Comm Brabec-60 C 26.5.1998
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -264,12 +264,12 @@ solution finished.
                      play_move:       29140
  is_white_king_square_attacked:        4267
  is_black_king_square_attacked:       27453
-solution finished. 
+solution finished.
 
 
 
-             Karol Mlynka
-           478 Cyclone 2000
+            Karol Mlynka
+          478 Cyclone 2000
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -347,13 +347,13 @@ solution finished.
                      play_move:       13288
  is_white_king_square_attacked:        1592
  is_black_king_square_attacked:       12091
-solution finished. 
+solution finished.
 
 
 
        Karol Mlynka (Slovakia)
 2nd Comm 9th TT Chess Composition Microweb C 17.6.2002
-                No. 39
+               No. 39
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -522,7 +522,7 @@ solution finished.
                      play_move:       94245
  is_white_king_square_attacked:        6482
  is_black_king_square_attacked:       92086
-solution finished. 
+solution finished.
 
 
 
@@ -558,8 +558,8 @@ a)
 
   add_to_move_generation_stack:     6163583
                      play_move:     4466945
- is_white_king_square_attacked:      176255
- is_black_king_square_attacked:     4131584
+ is_white_king_square_attacked:      176253
+ is_black_king_square_attacked:     4131582
 b) bPa2-->b2  
 
   1.Kg7-f8 Kd5-c6   2.Rh8-g8 Kc6-b6   3.b2-b1=Q + Kb6-f6=Q #
@@ -570,8 +570,8 @@ b) bPa2-->b2
 
   add_to_move_generation_stack:     6320382
                      play_move:     4526979
- is_white_king_square_attacked:      170496
- is_black_king_square_attacked:     4189195
-solution finished. 
+ is_white_king_square_attacked:      170482
+ is_black_king_square_attacked:     4189185
+solution finished.
 
 

@@ -27,11 +27,11 @@ the side to play can capture the king
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 
-                  #1
+                 #1
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -61,7 +61,7 @@ solution finished.
                      play_move:           4
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           5
-solution finished. 
+solution finished.
 
 
 
@@ -95,11 +95,11 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-                 #1.5
+                #1.5
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -136,7 +136,7 @@ solution finished.
                      play_move:          48
  is_white_king_square_attacked:          10
  is_black_king_square_attacked:          50
-solution finished. 
+solution finished.
 
 
 
@@ -179,11 +179,11 @@ solution finished.
                      play_move:          58
  is_white_king_square_attacked:          12
  is_black_king_square_attacked:          60
-solution finished. 
+solution finished.
 
 
 
-        #2 with short solution
+       #2 with short solution
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -216,7 +216,7 @@ solution finished.
                      play_move:          44
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:          47
-solution finished. 
+solution finished.
 
 
 
@@ -253,11 +253,11 @@ solution finished.
                      play_move:         567
  is_white_king_square_attacked:         490
  is_black_king_square_attacked:         107
-solution finished. 
+solution finished.
 
 
 
-       ##!2 with short solution
+      ##!2 with short solution
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -287,7 +287,7 @@ solution finished.
                      play_move:         236
  is_white_king_square_attacked:         212
  is_black_king_square_attacked:          44
-solution finished. 
+solution finished.
 
 
 
@@ -323,7 +323,7 @@ solution finished.
                      play_move:         764
  is_white_king_square_attacked:         295
  is_black_king_square_attacked:         484
-solution finished. 
+solution finished.
 
 
 
@@ -361,7 +361,7 @@ solution finished.
                      play_move:          57
  is_white_king_square_attacked:          19
  is_black_king_square_attacked:          60
-solution finished. 
+solution finished.
 
 
 
@@ -400,7 +400,7 @@ solution finished.
                      play_move:         160
  is_white_king_square_attacked:          46
  is_black_king_square_attacked:         162
-solution finished. 
+solution finished.
 
 
 
@@ -437,11 +437,11 @@ the side to play can capture the king
                      play_move:          53
  is_white_king_square_attacked:          25
  is_black_king_square_attacked:          56
-solution finished. 
+solution finished.
 
 
 
-                 #2.5
+                #2.5
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -488,7 +488,7 @@ solution finished.
                      play_move:         233
  is_white_king_square_attacked:          58
  is_black_king_square_attacked:         211
-solution finished. 
+solution finished.
 
 
 
@@ -549,7 +549,7 @@ solution finished.
                      play_move:        2379
  is_white_king_square_attacked:        1408
  is_black_king_square_attacked:        1082
-solution finished. 
+solution finished.
 
 
 
@@ -582,7 +582,7 @@ solution finished.
                      play_move:          21
  is_white_king_square_attacked:          22
  is_black_king_square_attacked:           5
-solution finished. 
+solution finished.
 
 
 
@@ -617,7 +617,7 @@ solution finished.
                      play_move:          73
  is_white_king_square_attacked:          73
  is_black_king_square_attacked:          25
-solution finished. 
+solution finished.
 
 
 
@@ -653,11 +653,11 @@ s#1 with incomplete set play (not given)
                      play_move:          71
  is_white_king_square_attacked:          69
  is_black_king_square_attacked:          29
-solution finished. 
+solution finished.
 
 
 
-      s#1 with complete set play
+     s#1 with complete set play
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -690,11 +690,11 @@ solution finished.
                      play_move:         123
  is_white_king_square_attacked:         124
  is_black_king_square_attacked:          38
-solution finished. 
+solution finished.
 
 
 
-            s#1 with tries
+           s#1 with tries
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -749,7 +749,7 @@ solution finished.
                      play_move:         221
  is_white_king_square_attacked:         197
  is_black_king_square_attacked:         125
-solution finished. 
+solution finished.
 
 
 
@@ -784,11 +784,11 @@ solution finished.
                      play_move:         545
  is_white_king_square_attacked:         102
  is_black_king_square_attacked:         511
-solution finished. 
+solution finished.
 
 
 
-        sep1 (self-en passant)
+       sep1 (self-en passant)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -819,7 +819,7 @@ solution finished.
                      play_move:          18
  is_white_king_square_attacked:          11
  is_black_king_square_attacked:          10
-solution finished. 
+solution finished.
 
 
 
@@ -855,7 +855,7 @@ solution finished.
                      play_move:         176
  is_white_king_square_attacked:         178
  is_black_king_square_attacked:          79
-solution finished. 
+solution finished.
 
 
 
@@ -892,7 +892,7 @@ solution finished.
                      play_move:        1532
  is_white_king_square_attacked:        1533
  is_black_king_square_attacked:         859
-solution finished. 
+solution finished.
 
 
 
@@ -927,11 +927,11 @@ solution finished.
                      play_move:         361
  is_white_king_square_attacked:         361
  is_black_king_square_attacked:         180
-solution finished. 
+solution finished.
 
 
 
-       s#=2 with short solution
+      s#=2 with short solution
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -963,7 +963,7 @@ solution finished.
                      play_move:        1360
  is_white_king_square_attacked:         970
  is_black_king_square_attacked:         677
-solution finished. 
+solution finished.
 
 
 
@@ -1006,11 +1006,11 @@ solution finished.
                      play_move:        1659
  is_white_king_square_attacked:        1662
  is_black_king_square_attacked:         852
-solution finished. 
+solution finished.
 
 
 
-   s#2 with complete short set play
+  s#2 with complete short set play
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1045,11 +1045,11 @@ solution finished.
                      play_move:         428
  is_white_king_square_attacked:         430
  is_black_king_square_attacked:         155
-solution finished. 
+solution finished.
 
 
 
-   exact s#2 with refutation by s#1
+  exact s#2 with refutation by s#1
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1109,7 +1109,7 @@ solution finished.
                      play_move:        2010
  is_white_king_square_attacked:        1997
  is_black_king_square_attacked:         931
-solution finished. 
+solution finished.
 
 
 
@@ -1142,7 +1142,7 @@ solution finished.
                      play_move:           4
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           2
-solution finished. 
+solution finished.
 
 
 
@@ -1177,7 +1177,7 @@ solution finished.
                      play_move:          21
  is_white_king_square_attacked:          21
  is_black_king_square_attacked:           7
-solution finished. 
+solution finished.
 
 
 
@@ -1214,11 +1214,11 @@ solution finished.
                      play_move:          19
  is_white_king_square_attacked:          20
  is_black_king_square_attacked:           5
-solution finished. 
+solution finished.
 
 
 
-   r#1, but White must deliver mate
+  r#1, but White must deliver mate
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1247,7 +1247,7 @@ solution finished.
                      play_move:           7
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           8
-solution finished. 
+solution finished.
 
 
 
@@ -1283,7 +1283,7 @@ solution finished.
                      play_move:          45
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:          10
-solution finished. 
+solution finished.
 
 
 
@@ -1316,7 +1316,7 @@ solution finished.
                      play_move:           5
  is_white_king_square_attacked:           6
  is_black_king_square_attacked:           2
-solution finished. 
+solution finished.
 
 
 
@@ -1353,7 +1353,7 @@ solution finished.
                      play_move:         244
  is_white_king_square_attacked:         197
  is_black_king_square_attacked:          77
-solution finished. 
+solution finished.
 
 
 
@@ -1390,7 +1390,7 @@ r#2 with short set play and short solution
                      play_move:          24
  is_white_king_square_attacked:          25
  is_black_king_square_attacked:           6
-solution finished. 
+solution finished.
 
 
 
@@ -1427,7 +1427,7 @@ exact r#2 that would have a solution in 1
                      play_move:         597
  is_white_king_square_attacked:         556
  is_black_king_square_attacked:         170
-solution finished. 
+solution finished.
 
 
 
@@ -1460,7 +1460,7 @@ r#2, but White must deliver mate immediately
                      play_move:           7
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           8
-solution finished. 
+solution finished.
 
 
 
@@ -1498,7 +1498,7 @@ solution finished.
                      play_move:         757
  is_white_king_square_attacked:         695
  is_black_king_square_attacked:         143
-solution finished. 
+solution finished.
 
 
 
@@ -1552,8 +1552,8 @@ solution finished.
   add_to_move_generation_stack:        8466
                      play_move:        6252
  is_white_king_square_attacked:        5550
- is_black_king_square_attacked:        1197
-solution finished. 
+ is_black_king_square_attacked:        1181
+solution finished.
 
 
 
@@ -1586,7 +1586,7 @@ r#3, but White must deliver mate immediately
                      play_move:           7
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           8
-solution finished. 
+solution finished.
 
 
 
@@ -1618,7 +1618,7 @@ a r#2 solution does not solve an exact r#3
                      play_move:         470
  is_white_king_square_attacked:         453
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1665,11 +1665,11 @@ would have to deliver mate (issue 2843251)
                      play_move:         349
  is_white_king_square_attacked:         329
  is_black_king_square_attacked:          78
-solution finished. 
+solution finished.
 
 
 
-              semi-r#0.5
+             semi-r#0.5
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1698,11 +1698,11 @@ solution finished.
                      play_move:           4
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           2
-solution finished. 
+solution finished.
 
 
 
-               semi-r#1
+              semi-r#1
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1733,11 +1733,11 @@ solution finished.
                      play_move:          59
  is_white_king_square_attacked:          59
  is_black_king_square_attacked:          10
-solution finished. 
+solution finished.
 
 
 
-        semi-r##! with setplay
+       semi-r##! with setplay
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1767,7 +1767,7 @@ the side to play can capture the king
                      play_move:         185
  is_white_king_square_attacked:          49
  is_black_king_square_attacked:         148
-solution finished. 
+solution finished.
 
 
 
@@ -1802,11 +1802,11 @@ semi-r#2 with short solution; White needn't deliver mate immediately
                      play_move:         160
  is_white_king_square_attacked:         148
  is_black_king_square_attacked:          30
-solution finished. 
+solution finished.
 
 
 
-  #3.5 with restricted threat length
+ #3.5 with restricted threat length
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1858,13 +1858,13 @@ solution finished.
                      play_move:       15662
  is_white_king_square_attacked:        8665
  is_black_king_square_attacked:        8372
-solution finished. 
+solution finished.
 
 
 
-           Didier Innocenti
+          Didier Innocenti
             Ph\'enix 2001
-       no variations, but tries
+      no variations, but tries
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1886,8 +1886,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   r#2                         4 + 4
-             Uncapturable
-              GhostChess
+            Uncapturable
+             GhostChess
 
    1.Kd1*c2 !
 
@@ -1905,6 +1905,6 @@ solution finished.
                      play_move:       22184
  is_white_king_square_attacked:       19454
  is_black_king_square_attacked:        7494
-solution finished. 
+solution finished.
 
 

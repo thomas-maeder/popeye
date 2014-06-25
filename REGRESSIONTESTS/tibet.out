@@ -1,5 +1,5 @@
 
-           Norbert Geissler
+          Norbert Geissler
     3386, Problemkiste 92, 4/1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -24,7 +24,7 @@
   h#2                         1 + 2
                 Circe
              TibetSchach
-        TransmutierendeKoenige
+       TransmutierendeKoenige
 
   1.d2-d1=D d7-d8=T   2.Dd1-c2 Td8-d1 #
   1.d2-d1=S d7-d8=L   2.Sd1-b2 Ld8-g5 #
@@ -32,12 +32,12 @@
   add_to_move_generation_stack:       10057
                      play_move:        4093
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        4065
-Loesung beendet. 
+ is_black_king_square_attacked:        4063
+Loesung beendet.
 
 
 
-            W. A. Kriwenko
+           W. A. Kriwenko
     3128, Problemkiste 85, 2/1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -68,21 +68,21 @@ a)
 
   add_to_move_generation_stack:      319263
                      play_move:      134156
- is_white_king_square_attacked:       61875
- is_black_king_square_attacked:      126789
+ is_white_king_square_attacked:       61872
+ is_black_king_square_attacked:      126787
 b) wKd7-->f6  
 
   1.a3-a2 c7-c8=S   2.a2-a1=T Sc8-a7   3.Ta1*a7=w Ta7-g7 =
 
   add_to_move_generation_stack:      208047
                      play_move:      114824
- is_white_king_square_attacked:       47676
- is_black_king_square_attacked:      105298
-Loesung beendet. 
+ is_white_king_square_attacked:       47673
+ is_black_king_square_attacked:      105296
+Loesung beendet.
 
 
 
-             Erich Bartel
+            Erich Bartel
     3129, Problemkiste 85, 2/1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -113,21 +113,21 @@ a)
 
   add_to_move_generation_stack:      322631
                      play_move:      145242
- is_white_king_square_attacked:       62681
- is_black_king_square_attacked:      133807
+ is_white_king_square_attacked:       62679
+ is_black_king_square_attacked:      133805
 b) wKf4-->f6  
 
   1...f7-f8=S   2.b2-b1=L Sf8-h7   3.Lb1*h7=w Lh7-g6 =
 
   add_to_move_generation_stack:      206313
                      play_move:       99431
- is_white_king_square_attacked:       42047
- is_black_king_square_attacked:       90841
-Loesung beendet. 
+ is_white_king_square_attacked:       42045
+ is_black_king_square_attacked:       90839
+Loesung beendet.
 
 
 
-           Norbert Geissler
+          Norbert Geissler
       3212, Problemkiste 7/1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -157,16 +157,16 @@ Loesung beendet.
 
   add_to_move_generation_stack:      407920
                      play_move:      162924
- is_white_king_square_attacked:       77279
- is_black_king_square_attacked:      150003
-Loesung beendet. 
+ is_white_king_square_attacked:       77275
+ is_black_king_square_attacked:      149999
+Loesung beendet.
 
 
 
              Udo Degener
             Torsten Lin"s
        feenschach 101, 11/1991
- 3. ehr. Erw., 46. feenschach-TT 1991
+3. ehr. Erw., 46. feenschach-TT 1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -196,16 +196,16 @@ a)
 
   add_to_move_generation_stack:        9246
                      play_move:        6943
- is_white_king_square_attacked:         822
- is_black_king_square_attacked:        6688
+ is_white_king_square_attacked:         820
+ is_black_king_square_attacked:        6687
 b) sKf3-->f1  
 
   1.Ta3*d3=w c2-c4   2.La6*c4=w Td3-g3 #
 
   add_to_move_generation_stack:        5011
                      play_move:        4972
- is_white_king_square_attacked:         403
- is_black_king_square_attacked:        4765
-Loesung beendet. 
+ is_white_king_square_attacked:         401
+ is_black_king_square_attacked:        4764
+Loesung beendet.
 
 

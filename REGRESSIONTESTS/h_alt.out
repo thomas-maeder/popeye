@@ -28,9 +28,9 @@
 
   add_to_move_generation_stack:       32483
                      play_move:       19989
- is_white_king_square_attacked:       17391
- is_black_king_square_attacked:        8354
-Loesung beendet. 
+ is_white_king_square_attacked:       17386
+ is_black_king_square_attacked:        8350
+Loesung beendet.
 
 
 
@@ -63,9 +63,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:       38310
                      play_move:       23374
- is_white_king_square_attacked:       20466
- is_black_king_square_attacked:       10294
-Loesung beendet. 
+ is_white_king_square_attacked:       20461
+ is_black_king_square_attacked:       10290
+Loesung beendet.
 
 
 
@@ -98,9 +98,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:        5307
                      play_move:        3280
- is_white_king_square_attacked:        1441
- is_black_king_square_attacked:        2687
-Loesung beendet. 
+ is_white_king_square_attacked:        1438
+ is_black_king_square_attacked:        2685
+Loesung beendet.
 
 
 
@@ -133,9 +133,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:        4226
                      play_move:        2909
- is_white_king_square_attacked:        2397
- is_black_king_square_attacked:        1063
-Loesung beendet. 
+ is_white_king_square_attacked:        2392
+ is_black_king_square_attacked:        1059
+Loesung beendet.
 
 
 
@@ -168,9 +168,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:        5664
                      play_move:        3623
- is_white_king_square_attacked:        3162
- is_black_king_square_attacked:        1235
-Loesung beendet. 
+ is_white_king_square_attacked:        3157
+ is_black_king_square_attacked:        1231
+Loesung beendet.
 
 
 
@@ -204,15 +204,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:        2001
                      play_move:         610
- is_white_king_square_attacked:         470
+ is_white_king_square_attacked:         459
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Louis Azemard
-            Manuel Mu\~noz
-     spez. ehr. Erw., RIFACE 1991
+           Manuel Mu\~noz
+    spez. ehr. Erw., RIFACE 1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -242,7 +242,7 @@ a)
 
   add_to_move_generation_stack:       12083
                      play_move:        7725
- is_white_king_square_attacked:        5487
+ is_white_king_square_attacked:        5474
  is_black_king_square_attacked:        4802
 b) sBh5-->d7  ser-reci-h(#)=7  
 
@@ -251,8 +251,8 @@ b) sBh5-->d7  ser-reci-h(#)=7
 
   add_to_move_generation_stack:        7985
                      play_move:        5778
- is_white_king_square_attacked:        3517
+ is_white_king_square_attacked:        3504
  is_black_king_square_attacked:        4470
-Loesung beendet. 
+Loesung beendet.
 
 

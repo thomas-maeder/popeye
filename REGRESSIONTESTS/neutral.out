@@ -1,6 +1,6 @@
 
            Henning M"uller
- F1031, The Problemist #12/23, 9/1988
+F1031, The Problemist #12/23, 9/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -29,13 +29,13 @@
 
   add_to_move_generation_stack:      384103
                      play_move:      366842
- is_white_king_square_attacked:      175231
- is_black_king_square_attacked:      334371
-Loesung beendet. 
+ is_white_king_square_attacked:      175226
+ is_black_king_square_attacked:      334367
+Loesung beendet.
 
 
 
-             Thomas Brand
+            Thomas Brand
      1110, Problemkiste III/1985
 
 +---a---b---c---d---e---f---g---h---+
@@ -69,12 +69,12 @@ Loesung beendet.
                      play_move:        1099
  is_white_king_square_attacked:         424
  is_black_king_square_attacked:        1101
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Stefan H"oning
-   5701, feenschach 93, XI-XII/1989
+           Stefan H"oning
+  5701, feenschach 93, XI-XII/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -103,22 +103,22 @@ a)
 
   add_to_move_generation_stack:       43028
                      play_move:       39880
- is_white_king_square_attacked:       23632
- is_black_king_square_attacked:       39136
+ is_white_king_square_attacked:       23630
+ is_black_king_square_attacked:       39135
 b) nBc3-->c2  
 
   1.nBc2-c1=nT nTc1-c3   2.nTc3-b3 nBa2*b3 #
 
   add_to_move_generation_stack:       69901
                      play_move:       65460
- is_white_king_square_attacked:       40714
- is_black_king_square_attacked:       64559
-Loesung beendet. 
+ is_white_king_square_attacked:       40712
+ is_black_king_square_attacked:       64558
+Loesung beendet.
 
 
 
             Torsten Lin"s
-             Testoriginal
+            Testoriginal
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -140,7 +140,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#2                 1 + 1 + 2n
-            Kamikaze a7 b7
+           Kamikaze a7 b7
                 Circe
 
 a) 
@@ -150,7 +150,7 @@ a)
   add_to_move_generation_stack:         405
                      play_move:         422
  is_white_king_square_attacked:          70
- is_black_king_square_attacked:         423
+ is_black_king_square_attacked:         422
 b) sKh3-->d2  
 
   1.nkBa7-a8=nkD   2.nkBb7*a8=nkS[nkSa8->b1][+nkDd8] #
@@ -158,8 +158,8 @@ b) sKh3-->d2
   add_to_move_generation_stack:         404
                      play_move:         421
  is_white_king_square_attacked:          75
- is_black_king_square_attacked:         421
-Loesung beendet. 
+ is_black_king_square_attacked:         420
+Loesung beendet.
 
 
 
@@ -186,7 +186,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#4                    1 + 1 + 4n
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
    1.nBe7-e8=nL ! Zugzwang.
       1...nLe8-a4
@@ -202,11 +202,11 @@ Loesung beendet.
                      play_move:      314050
  is_white_king_square_attacked:       83495
  is_black_king_square_attacked:      252636
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Romeo Bedoni
+            Romeo Bedoni
  51) Problemkiste-79, 2/1992, S. 120
 
 +---a---b---c---d---e---f---g---h---+
@@ -229,19 +229,19 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                    1 + 1 + 4n
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
   1...nSBf2-f8=nS   2.nSBb4-b1=nL nSBe2-e8=nT   3.nLb1-g6 nSBa3*f8=nD #
 
   add_to_move_generation_stack:      276980
                      play_move:      207686
- is_white_king_square_attacked:       25246
- is_black_king_square_attacked:      204142
-Loesung beendet. 
+ is_white_king_square_attacked:       25244
+ is_black_king_square_attacked:      204140
+Loesung beendet.
 
 
 
-             Romeo Bedoni
+            Romeo Bedoni
  40) Problemkiste-79, 2/1992, S. 120
 
 +---a---b---c---d---e---f---g---h---+
@@ -264,8 +264,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#4                 1 + 1 + 4n
-          Circe Platzwechsel
-          WeisserSchlagzwang
+         Circe Platzwechsel
+         WeisserSchlagzwang
 
   1.nBBa7-b8=nL   2.nBBb7*b8=nD[+nLb7]   3.nBf7-f8=nT   4.nBg7*f8=nS[+nTg7] #
   1.nBBb7-c8=nT   2.nBBa7-b8=nL   3.nTc8-e8   4.nBf7*e8=nD[+nTf7] #
@@ -273,12 +273,12 @@ Loesung beendet.
   add_to_move_generation_stack:       55410
                      play_move:       25701
  is_white_king_square_attacked:        9413
- is_black_king_square_attacked:       22761
-Loesung beendet. 
+ is_black_king_square_attacked:       22755
+Loesung beendet.
 
 
 
-             Romeo Bedoni
+            Romeo Bedoni
  38) Problemkiste-79, 2/1992, S. 120
 
 +---a---b---c---d---e---f---g---h---+
@@ -301,7 +301,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                     1 + 1 + 4n
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
    1.nBh7-h8=nS !
       1...nSh8-g6
@@ -316,7 +316,7 @@ Loesung beendet.
                      play_move:      183020
  is_white_king_square_attacked:       29534
  is_black_king_square_attacked:      171165
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -343,7 +343,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                     1 + 1 + 4n
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
    1.nBBd7-e8=nT !
       1...nTe8-a8
@@ -358,7 +358,7 @@ Loesung beendet.
                      play_move:     1038659
  is_white_king_square_attacked:      155392
  is_black_king_square_attacked:      987606
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -385,7 +385,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                     1 + 1 + 4n
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
 
    1.nBc7-c8=nT + !
       1...nTc8-h8
@@ -400,12 +400,12 @@ Loesung beendet.
                      play_move:      288155
  is_white_king_square_attacked:       43843
  is_black_king_square_attacked:      271259
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
- 1. heterodoxer Preis, Andernach 1992
+1. heterodoxer Preis, Andernach 1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -434,29 +434,29 @@ a)
 
   add_to_move_generation_stack:     1181349
                      play_move:      874906
- is_white_king_square_attacked:       88999
- is_black_king_square_attacked:      873647
+ is_white_king_square_attacked:       88997
+ is_black_king_square_attacked:      873646
 b) sLe3-->f6  
 
   1.Kd5-e5 Se2-d4   2.nSBh4-h1=nL nSBb4-b8=nL #
 
   add_to_move_generation_stack:     1027539
                      play_move:      753089
- is_white_king_square_attacked:       78228
- is_black_king_square_attacked:      751940
+ is_white_king_square_attacked:       78226
+ is_black_king_square_attacked:      751939
 c) sKd5-->g6  
 
   1.Kg6-h6 Se2-g3   2.nSBb4-b1=nL nSBf2-f8=nL #
 
   add_to_move_generation_stack:     1231539
                      play_move:      895663
- is_white_king_square_attacked:       95165
- is_black_king_square_attacked:      894334
-Loesung beendet. 
+ is_white_king_square_attacked:       95163
+ is_black_king_square_attacked:      894333
+Loesung beendet.
 
 
 
-             Geoff Foster
+            Geoff Foster
          Pat a Mat 2009, Lob
 
 +---a---b---c---d---e---f---g---h---+
@@ -489,8 +489,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:  1096548666
                      play_move:   424151635
- is_white_king_square_attacked:   326489868
- is_black_king_square_attacked:   249729342
-Loesung beendet. 
+ is_white_king_square_attacked:   326489850
+ is_black_king_square_attacked:   249729322
+Loesung beendet.
 
 

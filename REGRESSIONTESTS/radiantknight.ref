@@ -27,14 +27,14 @@
 
   add_to_move_generation_stack:     1072737
                      play_move:      961646
- is_white_king_square_attacked:      228812
+ is_white_king_square_attacked:      228804
  is_black_king_square_attacked:      961646
-solution finished. 
+solution finished.
 
 
 
              C.J.Feather
-        Le Minotaure June 1971
+       Le Minotaure June 1971
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -61,14 +61,14 @@ solution finished.
 
   add_to_move_generation_stack:     7065926
                      play_move:     6540588
- is_white_king_square_attacked:     1616362
+ is_white_king_square_attacked:     1616349
  is_black_king_square_attacked:     6540588
-solution finished. 
+solution finished.
 
 
 
              C.J.Feather
-     The Problemist November 1974
+    The Problemist November 1974
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -132,7 +132,7 @@ solution finished.
                      play_move:        6015
  is_white_king_square_attacked:         416
  is_black_king_square_attacked:        5934
-solution finished. 
+solution finished.
 
 
 
@@ -159,7 +159,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=5                         1 + 2
-               Royal f1
+              Royal f1
            BlackMaximummer
 
   1.RKb4-e7 g2-g4   2.rRKf1-h7 g4-g5   3.rRKh7-f3 g5-g6   4.rRKf3-d7 g6-g7   5.rRKd7-g4 g7-g8=RK =
@@ -167,12 +167,12 @@ solution finished.
   add_to_move_generation_stack:         222
                      play_move:         134
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         122
-solution finished. 
+ is_black_king_square_attacked:         118
+solution finished.
 
 
 
-              S.Emmerson
+             S.Emmerson
              Unpublished
 
 +---a---b---c---d---e---f---g---h---+
@@ -195,14 +195,14 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=5                         1 + 3
-               Royal f1
+              Royal f1
 
   1.h7-h5 c2-c4   2.h5-h4 c4-c5   3.h4-h3 c5-c6   4.h3-h2 c6-c7   5.h2-h1=RK c7-c8=RK =
 
   add_to_move_generation_stack:       44710
                      play_move:       22386
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       21303
-solution finished. 
+ is_black_king_square_attacked:       21299
+solution finished.
 
 

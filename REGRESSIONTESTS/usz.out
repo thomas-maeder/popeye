@@ -41,7 +41,7 @@ b) s=1
                      play_move:          31
  is_white_king_square_attacked:          33
  is_black_king_square_attacked:           9
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -69,20 +69,20 @@ Den Teilnehmern in Andernach 1991 gewidmet
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#6                         3 + 3
-           UltraSchachZwang
+          UltraSchachZwang
 
   1.a2*b1=D + Kc1-d2   2.e2-e1=L + Kd2-e3   3.Le1-f2 + Ke3-e2   4.Db1-f1 + Ke2-f3   5.Lf2-g1 + Kf3-g3   6.Df1-g2 + Lh3*g2 #
   1.a2*b1=T + Kc1-c2   2.e2-e1=S + Kc2-d2   3.Se1-f3 + Kd2-e2   4.Sf3-g1 + Ke2-f2   5.Tb1-b2 + Kf2-g3   6.Tb2-g2 + Lh3*g2 #
 
   add_to_move_generation_stack:     8161954
                      play_move:     8208372
- is_white_king_square_attacked:     4632768
- is_black_king_square_attacked:     4784659
-Loesung beendet. 
+ is_white_king_square_attacked:     4632756
+ is_black_king_square_attacked:     4784649
+Loesung beendet.
 
 
 
-      b.ellinghoven, Bo Lindgren
+     b.ellinghoven, Bo Lindgren
                 f-114
 
 +---a---b---c---d---e---f---g---h---+
@@ -111,13 +111,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1521742
                      play_move:     1774732
- is_white_king_square_attacked:     1771846
- is_black_king_square_attacked:      427924
-Loesung beendet. 
+ is_white_king_square_attacked:     1771841
+ is_black_king_square_attacked:      427920
+Loesung beendet.
 
 
 
-             C.P.Sydenham
+            C.P.Sydenham
          4 Pl Andernach 1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -140,8 +140,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         3 + 4
-           UltraSchachZwang
-                Duplex
+          UltraSchachZwang
+               Duplex
 
   1.Da5-c5 + Kc8-d7   2.Dc5-d4 + Kd7-e6   3.Dd4-e3 + Ke6-f5   4.De3-f2 + Lb6*f2 #
 
@@ -149,14 +149,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      117730
                      play_move:      117332
- is_white_king_square_attacked:       58734
- is_black_king_square_attacked:       70484
-Loesung beendet. 
+ is_white_king_square_attacked:       58727
+ is_black_king_square_attacked:       70477
+Loesung beendet.
 
 
 
-              S.Emmerson
-    The Problemist F1912A iii/2000
+             S.Emmerson
+   The Problemist F1912A iii/2000
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -186,13 +186,13 @@ Loesung beendet.
   add_to_move_generation_stack:      198121
                      play_move:      148878
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      158127
-Loesung beendet. 
+ is_black_king_square_attacked:      158114
+Loesung beendet.
 
 
 
-              S.Emmerson
-          Variant Chess 1998
+             S.Emmerson
+         Variant Chess 1998
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -222,12 +222,12 @@ Loesung beendet.
   add_to_move_generation_stack:        7036
                      play_move:        3174
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        3955
-Loesung beendet. 
+ is_black_king_square_attacked:        3948
+Loesung beendet.
 
 
 
-              S.Emmerson
+             S.Emmerson
        The Problemist vii/2000
          (after T.Wakashima)
 
@@ -251,16 +251,16 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#16                        4 + 3
-           UltraSchachZwang
-        TransmutierendeKoenige
+          UltraSchachZwang
+       TransmutierendeKoenige
 
   1.ELf3-g7 + Kf1-h2   2.ELg7-f1 + Kh2-f3   3.ELf1-h2 + g2-g4   4.ELf6-g2 + Kf3-h4   5.ELg2-f5 + Kh4-f3   6.ELf5-g3 + Kf3-h4   7.ELh2-f3 + Kh4-g2   8.ELg3-f5 + Kg2-h5   9.ELf5-g2 + g4-g5  10.ELg2-f4 + g5-g6  11.ELf3-g5 + Kh5-f6  12.ELf4-h5 + Kf6-g4  13.ELg5-h7 + Kg4-f7  14.ELh7-g4 + g6-g7  15.ELg4-h6 + Kf7-h8  16.ELh6-g4 + g7-g8=T #
 
   add_to_move_generation_stack:      229860
                      play_move:      223208
- is_white_king_square_attacked:      199217
- is_black_king_square_attacked:       39369
-Loesung beendet. 
+ is_white_king_square_attacked:      199201
+ is_black_king_square_attacked:       39354
+Loesung beendet.
 
 
 test case for stalemate in Ultraschachzwang
@@ -286,7 +286,7 @@ test case for stalemate in Ultraschachzwang
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          1 + 1
-           UltraSchachZwang
+          UltraSchachZwang
 
    1.Ka1-b2 = !
 
@@ -295,6 +295,6 @@ test case for stalemate in Ultraschachzwang
                      play_move:          16
  is_white_king_square_attacked:          16
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 

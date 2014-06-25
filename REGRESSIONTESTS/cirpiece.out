@@ -104,12 +104,12 @@ d) Circe Chamaeleon D->T->L->S->D
                      play_move:        9860
  is_white_king_square_attacked:         514
  is_black_king_square_attacked:        9863
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Michel Olausson
-              5968, f-98
+             5968, f-98
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -131,7 +131,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-           Circe Chamaeleon
+          Circe Chamaeleon
 
 a) 
 
@@ -139,17 +139,17 @@ a)
 
   add_to_move_generation_stack:        3251
                      play_move:        2193
- is_white_king_square_attacked:         518
- is_black_king_square_attacked:        2132
+ is_white_king_square_attacked:         516
+ is_black_king_square_attacked:        2131
 b) nBBc2  wKa5-->d1  
 
   1.nBBc2-b1=nL b7-b8=D   2.nLb1-a2 Db8-b3 #
 
   add_to_move_generation_stack:       17511
                      play_move:       14331
- is_white_king_square_attacked:        1773
- is_black_king_square_attacked:       14211
-Loesung beendet. 
+ is_white_king_square_attacked:        1771
+ is_black_king_square_attacked:       14210
+Loesung beendet.
 
 
 
@@ -176,7 +176,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#3                     2 + 2
-           Circe Chamaeleon
+          Circe Chamaeleon
 
 a) 
 
@@ -184,7 +184,7 @@ a)
 
   add_to_move_generation_stack:        1921
                      play_move:         927
- is_white_king_square_attacked:         291
+ is_white_king_square_attacked:         288
  is_black_king_square_attacked:         927
 b) sSb8-->c8  
 
@@ -192,9 +192,9 @@ b) sSb8-->c8
 
   add_to_move_generation_stack:        2925
                      play_move:        1381
- is_white_king_square_attacked:         417
+ is_white_king_square_attacked:         414
  is_black_king_square_attacked:        1381
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -222,7 +222,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#4                     4 + 2
-           Circe Chamaeleon
+          Circe Chamaeleon
 
   1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c8   4.Tc8-h8 Sg1-f3 #
   1.f2-f1=T   2.Tf1*c1[+wTa1]   3.Tc1-c7   4.Tc7-h7 Sg1-f3 #
@@ -232,13 +232,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:       20164
                      play_move:       14181
- is_white_king_square_attacked:        3165
+ is_white_king_square_attacked:        3145
  is_black_king_square_attacked:       14181
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Vladimir Nebotov
+          Vladimir Nebotov
           Phenix-18, 9/1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -274,11 +274,11 @@ Loesung beendet.
                      play_move:         333
  is_white_king_square_attacked:         109
  is_black_king_square_attacked:         336
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Vladimir Nebotov
+          Vladimir Nebotov
           Phenix-18, 9/1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -310,13 +310,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:        4995
                      play_move:        4633
- is_white_king_square_attacked:         694
- is_black_king_square_attacked:        4417
-Loesung beendet. 
+ is_white_king_square_attacked:         686
+ is_black_king_square_attacked:        4413
+Loesung beendet.
 
 
 
-           Vladimir Nebotov
+          Vladimir Nebotov
           Phenix-18, 9/1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -340,7 +340,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 5
              Circe Clone
-                Duplex
+               Duplex
 
   1.Dd7-e6 f5*e6[+sBe7]   2.Tf6*h6[+wTa1] Ta1-a8 #
 
@@ -348,9 +348,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:       39651
                      play_move:       19265
- is_white_king_square_attacked:       10787
- is_black_king_square_attacked:       14279
-Loesung beendet. 
+ is_white_king_square_attacked:       10784
+ is_black_king_square_attacked:       14276
+Loesung beendet.
 
 
 
@@ -385,21 +385,21 @@ a)
 
   add_to_move_generation_stack:       90711
                      play_move:       37700
- is_white_king_square_attacked:       10212
- is_black_king_square_attacked:       37293
+ is_white_king_square_attacked:       10210
+ is_black_king_square_attacked:       37292
 b) wSg5-->e4  
 
   1.Te8*e6[+wTh1] Th1*h6[+sTh8]   2.Te6*e4[+wTh1] Th1-h5 #
 
   add_to_move_generation_stack:      133390
                      play_move:       61679
- is_white_king_square_attacked:       15128
- is_black_king_square_attacked:       61112
-Loesung beendet. 
+ is_white_king_square_attacked:       15126
+ is_black_king_square_attacked:       61111
+Loesung beendet.
 
 
 
-           Vladimir Nebotov
+          Vladimir Nebotov
           Phenix-18, 9/1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -434,6 +434,6 @@ Loesung beendet.
                      play_move:        1895
  is_white_king_square_attacked:        1896
  is_black_king_square_attacked:        1128
-Loesung beendet. 
+Loesung beendet.
 
 

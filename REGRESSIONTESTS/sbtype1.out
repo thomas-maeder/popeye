@@ -30,11 +30,11 @@ Kein Schach falls Bauer wegen NurPartiesatz Typ 1 nicht umwandeln kann
                      play_move:         620
  is_white_king_square_attacked:          47
  is_black_king_square_attacked:         213
-Loesung beendet. 
+Loesung beendet.
 
 
 
-          Vertauschte Farben
+         Vertauschte Farben
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -66,7 +66,7 @@ Loesung beendet.
                      play_move:        1952
  is_white_king_square_attacked:        1017
  is_black_king_square_attacked:         621
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -101,11 +101,11 @@ Loesung beendet.
                      play_move:          11
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           7
-Loesung beendet. 
+Loesung beendet.
 
 
 
-   Kann nicht in Springer umwandeln
+  Kann nicht in Springer umwandeln
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -133,9 +133,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         175
                      play_move:         171
- is_white_king_square_attacked:          39
+ is_white_king_square_attacked:          38
  is_black_king_square_attacked:         109
-Loesung beendet. 
+Loesung beendet.
 
 
 Beispiel 2
@@ -224,12 +224,12 @@ N. Sardotsch, Italian Ty. 1878, 1st Pr. (v TM 8.8.01)
                      play_move:     1025153
  is_white_king_square_attacked:      535862
  is_black_king_square_attacked:      302182
-Loesung beendet. 
+Loesung beendet.
 
 
 Beispiel 1
 
-     F. Luppi, Schachzeitung 1862
+    F. Luppi, Schachzeitung 1862
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -332,7 +332,7 @@ Beispiel 1
                      play_move:     7190573
  is_white_king_square_attacked:     4946008
  is_black_king_square_attacked:      785000
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -392,6 +392,6 @@ Loesung beendet.
                      play_move:      592043
  is_white_king_square_attacked:       68979
  is_black_king_square_attacked:      280121
-Loesung beendet. 
+Loesung beendet.
 
 

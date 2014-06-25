@@ -1,5 +1,5 @@
 
-               R.Bedoni
+              R.Bedoni
              phenix 2004
 
 +---a---b---c---d---e---f---g---h---+
@@ -55,11 +55,11 @@ b) =3
                      play_move:         802
  is_white_king_square_attacked:         438
  is_black_king_square_attacked:         680
-solution finished. 
+solution finished.
 
 
 
-              S.Emmerson
+             S.Emmerson
              unpublished
 
 +---a---b---c---d---e---f---g---h---+
@@ -88,13 +88,13 @@ solution finished.
 
   add_to_move_generation_stack:         162
                      play_move:         157
- is_white_king_square_attacked:          81
- is_black_king_square_attacked:         149
-solution finished. 
+ is_white_king_square_attacked:          80
+ is_black_king_square_attacked:         148
+solution finished.
 
 
 
-               R.Bedoni
+              R.Bedoni
              phenix 2004
 
 +---a---b---c---d---e---f---g---h---+
@@ -124,13 +124,13 @@ solution finished.
 
   add_to_move_generation_stack:   164155180
                      play_move:    78379400
- is_white_king_square_attacked:    40404470
- is_black_king_square_attacked:    70002449
-solution finished. 
+ is_white_king_square_attacked:    40404464
+ is_black_king_square_attacked:    70002445
+solution finished.
 
 
 
-             Petko Petkov
+            Petko Petkov
              Phenix 2008
        dedicated R.Bedoni - 80
 
@@ -161,8 +161,8 @@ solution finished.
 
   add_to_move_generation_stack:    17383152
                      play_move:     6877771
- is_white_king_square_attacked:     6703732
- is_black_king_square_attacked:     3975559
-solution finished. 
+ is_white_king_square_attacked:     6703728
+ is_black_king_square_attacked:     3975553
+solution finished.
 
 

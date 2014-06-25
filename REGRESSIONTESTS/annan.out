@@ -1,6 +1,6 @@
 
-              M.Hanazawa
-           Chessics #4 1977
+             M.Hanazawa
+          Chessics #4 1977
 NL, selbst mit Vorschlag +wBb6 in Chessics #8
 
 +---a---b---c---d---e---f---g---h---+
@@ -70,13 +70,13 @@ NL, selbst mit Vorschlag +wBb6 in Chessics #8
                      play_move:        2416
  is_white_king_square_attacked:         289
  is_black_king_square_attacked:        2429
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              M.Hanazawa
-           Chessics #4 1977
-      original Teil (b) +sLd5 NL
+             M.Hanazawa
+          Chessics #4 1977
+     original Teil (b) +sLd5 NL
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -104,14 +104,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     7230355
                      play_move:     6048084
- is_white_king_square_attacked:      704019
- is_black_king_square_attacked:     5748731
-Loesung beendet. 
+ is_white_king_square_attacked:      704015
+ is_black_king_square_attacked:     5748728
+Loesung beendet.
 
 
 
-              M.Hanazawa
-           Chessics #4 1977
+             M.Hanazawa
+          Chessics #4 1977
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -145,12 +145,12 @@ Loesung beendet.
                      play_move:         505
  is_white_king_square_attacked:         506
  is_black_king_square_attacked:         307
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              M.Hanazawa
-           Chessics #4 1977
+             M.Hanazawa
+          Chessics #4 1977
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -187,14 +187,14 @@ Loesung beendet.
                      play_move:        5234
  is_white_king_square_attacked:        5236
  is_black_king_square_attacked:        3602
-Loesung beendet. 
+Loesung beendet.
 
 
 ddlkl
 
-              M.Hanazawa
-           Chessics #4 1977
-                  NL
+             M.Hanazawa
+          Chessics #4 1977
+                 NL
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -225,14 +225,14 @@ ddlkl
 
   add_to_move_generation_stack:      811070
                      play_move:      602719
- is_white_king_square_attacked:       69860
- is_black_king_square_attacked:      600431
-Bearbeitung abgebrochen. 
+ is_white_king_square_attacked:       69848
+ is_black_king_square_attacked:      600423
+Bearbeitung abgebrochen.
 
 
 
              G.P.Jelliss
-           Chessics #4 1977
+          Chessics #4 1977
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -265,11 +265,11 @@ Bearbeitung abgebrochen.
                      play_move:         472
  is_white_king_square_attacked:          83
  is_black_king_square_attacked:         475
-Loesung beendet. 
+Loesung beendet.
 
 
 
-       G.P.Jelliss / S.Emmerson
+      G.P.Jelliss / S.Emmerson
 Chessics #4 1977 / The Problemist, Mai 2007
 
 +---a---b---c---d---e---f---g---h---+
@@ -300,22 +300,22 @@ a)
 
   add_to_move_generation_stack:      376629
                      play_move:      339920
- is_white_king_square_attacked:       17394
- is_black_king_square_attacked:      331045
+ is_white_king_square_attacked:       17391
+ is_black_king_square_attacked:      331043
 b) Farbwechsel  
 
   1.Kb1-a2 Kh1-g2   2.La1-b1 Kg2-d5   3.Ka2-a1 Lg1-d4 #
 
   add_to_move_generation_stack:      334970
                      play_move:      301384
- is_white_king_square_attacked:       16486
- is_black_king_square_attacked:      293412
-Loesung beendet. 
+ is_white_king_square_attacked:       16483
+ is_black_king_square_attacked:      293410
+Loesung beendet.
 
 
 
-              S.Emmerson
-       The Problemist, Mai 2007
+             S.Emmerson
+      The Problemist, Mai 2007
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -343,15 +343,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:      252499
                      play_move:      218213
- is_white_king_square_attacked:       14522
- is_black_king_square_attacked:      212508
-Loesung beendet. 
+ is_white_king_square_attacked:       14519
+ is_black_king_square_attacked:      212506
+Loesung beendet.
 
 
 
            Michel Caillaud
-           Torquay QT, 2007
-          Ehrende Erw"ahnung
+          Torquay QT, 2007
+         Ehrende Erw"ahnung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -379,8 +379,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      870337
                      play_move:      844164
- is_white_king_square_attacked:      455319
+ is_white_king_square_attacked:      455306
  is_black_king_square_attacked:      844164
-Loesung beendet. 
+Loesung beendet.
 
 

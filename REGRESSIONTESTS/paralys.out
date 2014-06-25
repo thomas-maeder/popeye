@@ -109,12 +109,12 @@
                      play_move:        4226
  is_white_king_square_attacked:         430
  is_black_king_square_attacked:        4179
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Marco Bonavoglia
- 3. ehr. Erw., 41. feenschach-TT 1984
+          Marco Bonavoglia
+3. ehr. Erw., 41. feenschach-TT 1984
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -143,14 +143,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       17207
                      play_move:       18125
- is_white_king_square_attacked:        1287
- is_black_king_square_attacked:       17975
-Loesung beendet. 
+ is_white_king_square_attacked:        1283
+ is_black_king_square_attacked:       17973
+Loesung beendet.
 
 
 
           Claude Wiedenhoff
-   1. Preis, 41. feenschach-TT 1984
+  1. Preis, 41. feenschach-TT 1984
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -172,7 +172,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 7
-     Paralysierend h8 e7 c6 c4 a3
+    Paralysierend h8 e7 c6 c4 a3
 
    1.pSc4-e3 ! Drohung:
           2.Tb4-d4 #
@@ -194,12 +194,12 @@ Loesung beendet.
                      play_move:        2098
  is_white_king_square_attacked:         174
  is_black_king_square_attacked:        2101
-Loesung beendet. 
+Loesung beendet.
 
 
 
-    Theodor Tauber & Shlomo Seider
- 5. ehr. Erw., 41. feenschach-TT 1984
+   Theodor Tauber & Shlomo Seider
+5. ehr. Erw., 41. feenschach-TT 1984
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -250,12 +250,12 @@ Paralysierend f8 c6 b4 a3 b3 b2 g2 d1 h1
                      play_move:        3065
  is_white_king_square_attacked:         194
  is_black_king_square_attacked:        3035
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Sholomo Seider
-     F1361, The Problemist 1/1993
+           Sholomo Seider
+    F1361, The Problemist 1/1993
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -316,7 +316,7 @@ b) Circe Platzwechsel
                      play_move:        2511
  is_white_king_square_attacked:         155
  is_black_king_square_attacked:        2514
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -342,7 +342,7 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =1                          2 + 2
-           Paralysierend a7
+          Paralysierend a7
 
    1.pKa7-b7 = !
 
@@ -351,7 +351,7 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
                      play_move:          29
  is_white_king_square_attacked:          31
  is_black_king_square_attacked:          29
-Loesung beendet. 
+Loesung beendet.
 
 
 Es fehlt ein weisser oder schwarzer Koenig
@@ -379,7 +379,7 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   !=1                         2 + 3
-           Paralysierend h3
+          Paralysierend h3
 
    1.Kc2-d3 != !
 
@@ -388,6 +388,6 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
                      play_move:          16
  is_white_king_square_attacked:          15
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 

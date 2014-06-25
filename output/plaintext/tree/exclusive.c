@@ -1,5 +1,5 @@
 #include "output/plaintext/tree/exclusive.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "conditions/exclusive.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
@@ -29,20 +29,20 @@ slice_index alloc_exclusive_chess_undecidable_writer_tree_slice(void)
   return result;
 }
 
-static void SignalExclusiveRefutedUndecidable(FILE *file)
+static void SignalExclusiveRefutedUndecidable(void)
 {
-  output_plaintext_tree_write_move(file);
-  fputc(' ',file);
-  Message2(file,ExclusiveRefutedUndecidable);
-  fputc('\n',file);
+  output_plaintext_tree_write_move();
+  protocol_putchar(' ');
+  Message(ExclusiveRefutedUndecidable);
+  protocol_putchar('\n');
   solve_result = previous_move_is_illegal;
 }
 
-static void SignalCheclessUndecidable(FILE *file)
+static void SignalCheclessUndecidable(void)
 {
-  output_plaintext_tree_write_move(file);
-  fputc(' ',file);
-  Message2(file,ChecklessUndecidable);
+  output_plaintext_tree_write_move();
+  protocol_putchar(' ');
+  Message(ChecklessUndecidable);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -65,11 +65,7 @@ void exclusive_chess_undecidable_writer_tree_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
-  {
-    SignalExclusiveRefutedUndecidable(stdout);
-    if (TraceFile)
-      SignalExclusiveRefutedUndecidable(TraceFile);
-  }
+    SignalExclusiveRefutedUndecidable();
   else
   {
     pipe_solve_delegate(si);
@@ -77,11 +73,7 @@ void exclusive_chess_undecidable_writer_tree_solve(slice_index si)
     if (solve_result==previous_move_has_solved
         && exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]<2
         && table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])+exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]>1)
-    {
-      SignalCheclessUndecidable(stdout);
-      if (TraceFile)
-        SignalCheclessUndecidable(TraceFile);
-    }
+      SignalCheclessUndecidable();
   }
 
   TraceFunctionExit(__func__);

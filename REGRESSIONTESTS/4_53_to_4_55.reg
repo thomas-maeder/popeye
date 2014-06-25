@@ -1,7 +1,7 @@
 
-            issue 2922860:
+           issue 2922860:
 Popeye finds two different double-grasshopper moves to d2 (via
-              b2 and f4)
+             b2 and f4)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -28,8 +28,8 @@ Popeye finds two different double-grasshopper moves to d2 (via
 
   add_to_move_generation_stack:        1002
                      play_move:         598
- is_white_king_square_attacked:         128
+ is_white_king_square_attacked:         126
  is_black_king_square_attacked:         598
-solution finished. 
+solution finished.
 
 

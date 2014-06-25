@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 7
-                Lortap
+               Lortap
 
    1.Sd7-e5 ! zugzwang.
       1...Sa1*c2
@@ -41,7 +41,7 @@
                      play_move:        1292
  is_white_king_square_attacked:         177
  is_black_king_square_attacked:        1295
-solution finished. 
+solution finished.
 
 
 
@@ -66,15 +66,15 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         2 + 2
-                Lortap
+               Lortap
 
   1...g2-g4   2.Ke4-f3 Kd6-e5   3.Kf3*g4 Ke5-f4 +   4.Kg4-h3 Kf4-g3 #
 
   add_to_move_generation_stack:      457976
                      play_move:      423977
- is_white_king_square_attacked:       46117
- is_black_king_square_attacked:      398821
-solution finished. 
+ is_white_king_square_attacked:       46114
+ is_black_king_square_attacked:      398818
+solution finished.
 
 
 
@@ -99,7 +99,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         5 + 6
-                Lortap
+               Lortap
 
 a) 
 
@@ -107,17 +107,17 @@ a)
 
   add_to_move_generation_stack:       68848
                      play_move:       60000
- is_white_king_square_attacked:        2870
- is_black_king_square_attacked:       59447
+ is_white_king_square_attacked:        2868
+ is_black_king_square_attacked:       59445
 b) Patrouille  
 
   1...Bf8-g7   2.Ke6-e7 e5*d6 +   3.Ke7-d8 Bg7-f6 #
 
   add_to_move_generation_stack:      135127
                      play_move:      102643
- is_white_king_square_attacked:        3033
- is_black_king_square_attacked:      101487
-solution finished. 
+ is_white_king_square_attacked:        3031
+ is_black_king_square_attacked:      101485
+solution finished.
 
 
 
@@ -142,16 +142,16 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 4
-                Lortap
+               Lortap
 
   1.Ka4-a5 Se3-d5   2.Sb4-c6 Rf4-a4 #
   1.Rc5-c3 Rf4-f6   2.Rc3-b3 Rf6-a6 #
 
   add_to_move_generation_stack:      130726
                      play_move:      107902
- is_white_king_square_attacked:        7908
- is_black_king_square_attacked:      107520
-solution finished. 
+ is_white_king_square_attacked:        7904
+ is_black_king_square_attacked:      107518
+solution finished.
 
 
 
@@ -183,17 +183,17 @@ a)
 
   add_to_move_generation_stack:       70285
                      play_move:       31660
- is_white_king_square_attacked:        8455
- is_black_king_square_attacked:       31305
+ is_white_king_square_attacked:        8453
+ is_black_king_square_attacked:       31304
 b) Lortap  
 
   1.Bd4-c3 Bh7-f5   2.Re4-c4 Rf8-d8 #
 
   add_to_move_generation_stack:      242673
                      play_move:      163551
- is_white_king_square_attacked:       18376
- is_black_king_square_attacked:      163083
-solution finished. 
+ is_white_king_square_attacked:       18374
+ is_black_king_square_attacked:      163082
+solution finished.
 
 
 
@@ -225,25 +225,25 @@ a)
 
   add_to_move_generation_stack:       33085
                      play_move:       16732
- is_white_king_square_attacked:        4328
- is_black_king_square_attacked:       16438
+ is_white_king_square_attacked:        4326
+ is_black_king_square_attacked:       16437
 b) Lortap  
 
   1.Kd5-e5 Sd6-c4   2.Ke5-d6 Bb5*c6 #
 
   add_to_move_generation_stack:       64577
                      play_move:       46244
- is_white_king_square_attacked:        3926
- is_black_king_square_attacked:       46005
+ is_white_king_square_attacked:        3924
+ is_black_king_square_attacked:       46004
 c) Patrouille  
 
   1.Re6-e5 Bb5*c6   2.Kd5*d6 Kd8-d7 #
 
   add_to_move_generation_stack:       73338
                      play_move:       56832
- is_white_king_square_attacked:        2983
- is_black_king_square_attacked:       56527
-solution finished. 
+ is_white_king_square_attacked:        2981
+ is_black_king_square_attacked:       56526
+solution finished.
 
 
 
@@ -268,7 +268,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         8 + 1
-                Lortap
+               Lortap
 
   1...Ra5-a4 +   2.Kd4*e5 Rd3-d1 #
 
@@ -276,9 +276,9 @@ solution finished.
 
   add_to_move_generation_stack:      157738
                      play_move:       95570
- is_white_king_square_attacked:       10656
- is_black_king_square_attacked:       95316
-solution finished. 
+ is_white_king_square_attacked:       10653
+ is_black_king_square_attacked:       95314
+solution finished.
 
 
 
@@ -304,7 +304,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   s#4                         3 + 3
            BlackMaximummer
-                Lortap
+               Lortap
 
    1.Ka6-a7 ! threat:
           2.Ka7-b8 zugzwang.
@@ -324,7 +324,7 @@ solution finished.
                      play_move:      119454
  is_white_king_square_attacked:       26153
  is_black_king_square_attacked:      108322
-solution finished. 
+solution finished.
 
 
 
@@ -350,15 +350,15 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1                         3 + 2
               AntiCirce
-                Lortap
+               Lortap
 
   1.Ba8-f3 Kd3-d2 #
 
   add_to_move_generation_stack:         314
                      play_move:         381
- is_white_king_square_attacked:          36
+ is_white_king_square_attacked:          35
  is_black_king_square_attacked:         294
-solution finished. 
+solution finished.
 
 
 
@@ -384,7 +384,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
               AntiCirce
-                Lortap
+               Lortap
 
    1.Kd3-d2 + !
       1...Ke1-f1
@@ -403,7 +403,7 @@ solution finished.
                      play_move:        3543
  is_white_king_square_attacked:         380
  is_black_king_square_attacked:        2779
-solution finished. 
+solution finished.
 
 
 
@@ -428,15 +428,15 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia3.0                    15 + 16
-                Lortap
+               Lortap
 
   1.e2-e4 d7-d5   2.Bf1-a6 Bc8-d7   3.Sg1-e2 d5*e4 dia
 
   add_to_move_generation_stack:         440
                      play_move:         432
- is_white_king_square_attacked:          14
- is_black_king_square_attacked:          14
-solution finished. 
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          11
+solution finished.
 
 
 
@@ -462,15 +462,15 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#1                         1 + 2
            TransmutedKings
-                Lortap
+               Lortap
 
   1.f2-f1=Q Kd3-e2 #
   1.f2-f1=R Kd3-e2 #
 
   add_to_move_generation_stack:          90
                      play_move:          84
- is_white_king_square_attacked:          17
+ is_white_king_square_attacked:          15
  is_black_king_square_attacked:          84
-solution finished. 
+solution finished.
 
 

@@ -32,7 +32,7 @@ king is transfered when castling, rook isn't
                      play_move:           2
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -58,7 +58,7 @@ pawns are promoted before and after transfer
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          2 + 0
-          Wormholes d1 a4 f8
+         Wormholes d1 a4 f8
 
    1.a3-a4[wPa4->d1] !
 
@@ -91,11 +91,11 @@ pawns are promoted before and after transfer
                      play_move:          13
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-      neutral pawns are promoted
+     neutral pawns are promoted
 even if transfered to the "wrong" promotion row
 
 +---a---b---c---d---e---f---g---h---+
@@ -133,7 +133,7 @@ even if transfered to the "wrong" promotion row
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -159,7 +159,7 @@ pawns in wormholes on 1st rank can do single step
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hzd21                       2 + 2
-          Wormholes d1 d4 f8
+         Wormholes d1 d4 f8
 
   1.f8-f7 d1-d2 z
   1.f8*e7 d1-d2 z
@@ -168,7 +168,7 @@ pawns in wormholes on 1st rank can do single step
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -194,7 +194,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-003                     2 + 0
-          Wormholes e1 h1 f8
+         Wormholes e1 h1 f8
 
   1.Re6-e1[wRe1->h1]   2.Ke7-f8[wKf8->e1]   3.0-0
 
@@ -202,7 +202,7 @@ solution finished.
                      play_move:         492
  is_white_king_square_attacked:         494
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -235,8 +235,8 @@ at least 1 wormhole must be empty for check on a wormhole ...
   add_to_move_generation_stack:           5
                      play_move:           4
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           8
-solution finished. 
+ is_black_king_square_attacked:           7
+solution finished.
 
 
 
@@ -263,7 +263,7 @@ unless the checking piece occupies a wormhole itself
 +---a---b---c---d---e---f---g---h---+
   +1                          1 + 2
                 Circe
-          Wormholes d7 f7 e8
+         Wormholes d7 f7 e8
 
    1.c6*d7[wPd7->f7][+bPd7] + !
 
@@ -272,7 +272,7 @@ unless the checking piece occupies a wormhole itself
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
-solution finished. 
+solution finished.
 
 
 
@@ -308,7 +308,7 @@ paralysis on wormhole even if all wormholes are blocked
                      play_move:          35
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:          36
-solution finished. 
+solution finished.
 
 
 
@@ -334,7 +334,7 @@ support on wormhole even if all wormholes are blocked
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          3 + 1
-              Patrouille
+             Patrouille
            Wormholes h4 a6
 
    1.Sd7-b8 # !
@@ -344,7 +344,7 @@ support on wormhole even if all wormholes are blocked
                      play_move:          37
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          38
-solution finished. 
+solution finished.
 
 
 
@@ -380,7 +380,7 @@ the length of a move is determined by the wormhole a pices moves on
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -415,11 +415,11 @@ en passant capture of pawn transfered to wormhole
                      play_move:          10
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          10
-solution finished. 
+solution finished.
 
 
 
-        ep capture to wormhole
+       ep capture to wormhole
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -451,7 +451,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -477,7 +477,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-          Wormholes e2 f3 e4
+         Wormholes e2 f3 e4
 
    1.e2-e3 !
 
@@ -490,7 +490,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -531,7 +531,7 @@ promotions are not illegal null moves
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -566,6 +566,6 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

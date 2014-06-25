@@ -1,6 +1,6 @@
 
            Ronald Turnbull
-   1, Variant Chess 31, Spring/1999
+  1, Variant Chess 31, Spring/1999
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -51,12 +51,12 @@ b) wSTc7  sSTa8
                      play_move:        5391
  is_white_king_square_attacked:        1292
  is_black_king_square_attacked:        4612
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Ian Richardson
-   2, Variant Chess 31, Spring/1999
+           Ian Richardson
+  2, Variant Chess 31, Spring/1999
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -103,14 +103,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1288032
                      play_move:     1127963
- is_white_king_square_attacked:      250533
- is_black_king_square_attacked:      928040
-Loesung beendet. 
+ is_white_king_square_attacked:      250521
+ is_black_king_square_attacked:      928010
+Loesung beendet.
 
 
 
-            Ian Richardson
-   3, Variant Chess 31, Spring/1999
+           Ian Richardson
+  3, Variant Chess 31, Spring/1999
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -141,8 +141,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:      531459
                      play_move:      507243
- is_white_king_square_attacked:       50667
- is_black_king_square_attacked:      497402
-Loesung beendet. 
+ is_white_king_square_attacked:       50652
+ is_black_king_square_attacked:      497392
+Loesung beendet.
 
 

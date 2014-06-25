@@ -1,6 +1,6 @@
 
-            David L. Brown
-  F1309, The Problemist 14/4, 7/1992
+           David L. Brown
+ F1309, The Problemist 14/4, 7/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -47,12 +47,12 @@
                      play_move:       23244
  is_white_king_square_attacked:         764
  is_black_king_square_attacked:       23247
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
-  F1157, The Problemist 13/9, 5/1990
+           David L. Brown
+ F1157, The Problemist 13/9, 5/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -81,17 +81,17 @@ a)
 
   add_to_move_generation_stack:       42323
                      play_move:       34024
- is_white_king_square_attacked:        2950
- is_black_king_square_attacked:       33818
+ is_white_king_square_attacked:        2948
+ is_black_king_square_attacked:       33817
 b) sLe3-->d3  
 
   1.d2-d1=S g7-g8=T   2.Sd1-e3 Tg8-g4 #
 
   add_to_move_generation_stack:       30892
                      play_move:       24903
- is_white_king_square_attacked:        2439
- is_black_king_square_attacked:       24720
-Loesung beendet. 
+ is_white_king_square_attacked:        2437
+ is_black_king_square_attacked:       24719
+Loesung beendet.
 
 
 
@@ -137,12 +137,12 @@ Loesung beendet.
                      play_move:        3345
  is_white_king_square_attacked:         206
  is_black_king_square_attacked:        3348
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Kjell Widlert
-      1418, Phenix-19/20,12/1992
+     1418, Phenix-19/20,12/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -170,14 +170,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      325657
                      play_move:      225107
- is_white_king_square_attacked:       20824
- is_black_king_square_attacked:      224463
-Loesung beendet. 
+ is_white_king_square_attacked:       20820
+ is_black_king_square_attacked:      224461
+Loesung beendet.
 
 
 
-            David L. Brown
-              USPB, 1993
+           David L. Brown
+             USPB, 1993
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -349,14 +349,14 @@ Loesung beendet.
                      play_move:       28461
  is_white_king_square_attacked:        1872
  is_black_king_square_attacked:       28214
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Hans Peter Rehm
           Bernd Ellinghoven
              Hans Gruber
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 Preis (#n), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -406,12 +406,12 @@ Preis (#n), David L. Brown 50-JT 1998
                      play_move:      142632
  is_white_king_square_attacked:       45801
  is_black_king_square_attacked:      107573
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Juraj L"oring
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 ehrende Erw"ahnung (#n), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -449,12 +449,12 @@ ehrende Erw"ahnung (#n), David L. Brown 50-JT 1998
                      play_move:        5540
  is_white_king_square_attacked:         344
  is_black_king_square_attacked:        5543
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Juraj L"oring
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 1. Preis (h#), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -484,22 +484,22 @@ a)
 
   add_to_move_generation_stack:      191564
                      play_move:      163631
- is_white_king_square_attacked:       11976
- is_black_king_square_attacked:      162909
+ is_white_king_square_attacked:       11974
+ is_black_king_square_attacked:      162908
 b) sKe1-->a7  
 
   1.Og5-e3 + Og3*g7   2.Th3-g3 Oe7-c5 #
 
   add_to_move_generation_stack:      165357
                      play_move:      151819
- is_white_king_square_attacked:        9654
- is_black_king_square_attacked:      151127
-Loesung beendet. 
+ is_white_king_square_attacked:        9652
+ is_black_king_square_attacked:      151126
+Loesung beendet.
 
 
 
-           Marcel Tribowski
-       StrateGems 4, 10-12/1998
+          Marcel Tribowski
+      StrateGems 4, 10-12/1998
 2. Preis (h#), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -530,14 +530,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      308487
                      play_move:      263550
- is_white_king_square_attacked:       26195
- is_black_king_square_attacked:      263156
-Loesung beendet. 
+ is_white_king_square_attacked:       26187
+ is_black_king_square_attacked:      263152
+Loesung beendet.
 
 
 
             Juraj L"orinc
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 1. ehrende Erw"ahnung (h#), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -566,14 +566,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       88206
                      play_move:       79936
- is_white_king_square_attacked:        9520
- is_black_king_square_attacked:       79596
-Loesung beendet. 
+ is_white_king_square_attacked:        9516
+ is_black_king_square_attacked:       79594
+Loesung beendet.
 
 
 
           Henryk Grudzinski
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 2. ehrende Erw"ahnung (h#), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -603,22 +603,22 @@ a)
 
   add_to_move_generation_stack:      570275
                      play_move:      416816
- is_white_king_square_attacked:       44852
- is_black_king_square_attacked:      415939
+ is_white_king_square_attacked:       44850
+ is_black_king_square_attacked:      415938
 b) wOf1-->a6  
 
   1.Te5-b5 Og4-h5   2.Lf5-c8 Oh5-c5 #
 
   add_to_move_generation_stack:      317143
                      play_move:      238748
- is_white_king_square_attacked:       28438
- is_black_king_square_attacked:      238108
-Loesung beendet. 
+ is_white_king_square_attacked:       28436
+ is_black_king_square_attacked:      238107
+Loesung beendet.
 
 
 
             Torsten Lin"s
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 1. Lob (h#), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -647,14 +647,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       25128
                      play_move:       23345
- is_white_king_square_attacked:        4089
- is_black_king_square_attacked:       23188
-Loesung beendet. 
+ is_white_king_square_attacked:        4085
+ is_black_king_square_attacked:       23186
+Loesung beendet.
 
 
 
            Daniel Meinking
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 2. Lob (h#), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -683,14 +683,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       28746
                      play_move:       27696
- is_white_king_square_attacked:         916
- is_black_king_square_attacked:       27539
-Loesung beendet. 
+ is_white_king_square_attacked:         912
+ is_black_king_square_attacked:       27537
+Loesung beendet.
 
 
 
            Daniel Meinking
-       StrateGems 4, 10-12/1998
+      StrateGems 4, 10-12/1998
 3. Lob (h#), David L. Brown 50-JT 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -719,15 +719,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:      500513
                      play_move:      471261
- is_white_king_square_attacked:       18744
- is_black_king_square_attacked:      460615
-Loesung beendet. 
+ is_white_king_square_attacked:       18738
+ is_black_king_square_attacked:      460611
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
               USPB 1992
-               3. Preis
+              3. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -771,11 +771,11 @@ Loesung beendet.
                      play_move:        7173
  is_white_king_square_attacked:         529
  is_black_king_square_attacked:        7176
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
            springaren 1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -821,11 +821,11 @@ Loesung beendet.
                      play_move:       10491
  is_white_king_square_attacked:         780
  is_black_king_square_attacked:       10494
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
           Die Schwalbe 1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -866,11 +866,11 @@ Loesung beendet.
                      play_move:        5333
  is_white_king_square_attacked:         459
  is_black_king_square_attacked:        5336
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
          The Problemist 1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -913,11 +913,11 @@ Loesung beendet.
                      play_move:       15376
  is_white_king_square_attacked:         785
  is_black_king_square_attacked:       15379
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
            springaren 1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -954,11 +954,11 @@ Loesung beendet.
                      play_move:        5026
  is_white_king_square_attacked:         461
  is_black_king_square_attacked:        5029
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
           Die Schwalbe 1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -1003,12 +1003,12 @@ Loesung beendet.
                      play_move:       10001
  is_white_king_square_attacked:         778
  is_black_king_square_attacked:       10004
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
-       Canadian Chess Chat 1983
+           David L. Brown
+      Canadian Chess Chat 1983
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1047,12 +1047,12 @@ Loesung beendet.
                      play_move:        5730
  is_white_king_square_attacked:         323
  is_black_king_square_attacked:        5733
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
-       Canadian Chess Chat 1983
+           David L. Brown
+      Canadian Chess Chat 1983
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1172,11 +1172,11 @@ Loesung beendet.
                      play_move:       24650
  is_white_king_square_attacked:        1293
  is_black_king_square_attacked:       24425
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
               USPB 1995
 
 +---a---b---c---d---e---f---g---h---+
@@ -1223,11 +1223,11 @@ Loesung beendet.
                      play_move:        1966
  is_white_king_square_attacked:         221
  is_black_king_square_attacked:        1969
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
      British Chess Magazine 1973
 
 +---a---b---c---d---e---f---g---h---+
@@ -1256,12 +1256,12 @@ Loesung beendet.
   add_to_move_generation_stack:        7978
                      play_move:        7848
  is_white_king_square_attacked:        7118
- is_black_king_square_attacked:        4740
-Loesung beendet. 
+ is_black_king_square_attacked:        4705
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
          The Problemist 1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -1291,23 +1291,23 @@ a)
 
   add_to_move_generation_stack:       42323
                      play_move:       34024
- is_white_king_square_attacked:        2950
- is_black_king_square_attacked:       33818
+ is_white_king_square_attacked:        2948
+ is_black_king_square_attacked:       33817
 b) sLe3-->d3  
 
   1.d2-d1=S g7-g8=T   2.Sd1-e3 Tg8-g4 #
 
   add_to_move_generation_stack:       30892
                      play_move:       24903
- is_white_king_square_attacked:        2439
- is_black_king_square_attacked:       24720
-Loesung beendet. 
+ is_white_king_square_attacked:        2437
+ is_black_king_square_attacked:       24719
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
           Die Schwalbe 1972
-             Verbesserung
+            Verbesserung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1334,13 +1334,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      317225
                      play_move:      246304
- is_white_king_square_attacked:       30953
- is_black_king_square_attacked:      245510
-Loesung beendet. 
+ is_white_king_square_attacked:       30951
+ is_black_king_square_attacked:      245509
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
            Daniel Meinking
          The Problemist 1995
 
@@ -1370,16 +1370,16 @@ Loesung beendet.
 
   add_to_move_generation_stack:      242370
                      play_move:      230503
- is_white_king_square_attacked:       19533
- is_black_king_square_attacked:      223392
-Loesung beendet. 
+ is_white_king_square_attacked:       19527
+ is_black_king_square_attacked:      223388
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
          The Problemist 1973
         1. ehrende Erw"ahnung
-             Verbesserung
+            Verbesserung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1440,15 +1440,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:    12622084
                      play_move:    10362625
- is_white_king_square_attacked:      580812
- is_black_king_square_attacked:    10266282
-Loesung beendet. 
+ is_white_king_square_attacked:      580775
+ is_black_king_square_attacked:    10266280
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
      British Chess Magazine 1974
-             Verbesserung
+            Verbesserung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1475,13 +1475,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:       22366
                      play_move:       17543
- is_white_king_square_attacked:        1420
- is_black_king_square_attacked:       17357
-Loesung beendet. 
+ is_white_king_square_attacked:        1418
+ is_black_king_square_attacked:       17356
+Loesung beendet.
 
 
 
-            David L. Brown
+           David L. Brown
      British Chess Magazine 1972
 
 +---a---b---c---d---e---f---g---h---+
@@ -1525,11 +1525,11 @@ Loesung beendet.
                      play_move:        2028
  is_white_king_square_attacked:         152
  is_black_king_square_attacked:        2031
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Juraj Lorinc
+            Juraj Lorinc
        1979, Ph\'enix 28, 1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -1571,6 +1571,6 @@ Loesung beendet.
                      play_move:       16865
  is_white_king_square_attacked:        4760
  is_black_king_square_attacked:       14483
-Loesung beendet. 
+Loesung beendet.
 
 

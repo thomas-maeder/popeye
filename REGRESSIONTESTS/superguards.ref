@@ -1,5 +1,5 @@
 
-            K. Seetharaman
+           K. Seetharaman
         The Problemist I/2013
 
 +---a---b---c---d---e---f---g---h---+
@@ -50,11 +50,11 @@
                      play_move:         924
  is_white_king_square_attacked:          97
  is_black_king_square_attacked:         927
-solution finished. 
+solution finished.
 
 
 
-           C.G.S. Narayanan
+          C.G.S. Narayanan
         The Problemist I/2013
 
 +---a---b---c---d---e---f---g---h---+
@@ -84,13 +84,13 @@ solution finished.
 
   add_to_move_generation_stack:      350670
                      play_move:      293001
- is_white_king_square_attacked:       20781
- is_black_king_square_attacked:      292341
-solution finished. 
+ is_white_king_square_attacked:       20777
+ is_black_king_square_attacked:      292339
+solution finished.
 
 
 
-           C.G.S. Narayanan
+          C.G.S. Narayanan
       juliasfairies.com XI/2012
 
 +---a---b---c---d---e---f---g---h---+
@@ -114,7 +114,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 3
              SuperGuards
-                Duplex
+               Duplex
 
   1.Ka5-a4 Kc5*b6   2.Ka4*b4 Kb6-c6   3.Kb4-a5 Kc6-b5 #
 
@@ -122,9 +122,9 @@ solution finished.
 
   add_to_move_generation_stack:       25931
                      play_move:       23546
- is_white_king_square_attacked:       13566
- is_black_king_square_attacked:       10854
-solution finished. 
+ is_white_king_square_attacked:       13561
+ is_black_king_square_attacked:       10849
+solution finished.
 
 
 
@@ -158,13 +158,13 @@ solution finished.
 
   add_to_move_generation_stack:      490967
                      play_move:      457001
- is_white_king_square_attacked:       10926
- is_black_king_square_attacked:      456224
-solution finished. 
+ is_white_king_square_attacked:       10922
+ is_black_king_square_attacked:      456222
+solution finished.
 
 
 
-           C.G.S. Narayanan
+          C.G.S. Narayanan
       juliasfairies.com XI/2012
 
 +---a---b---c---d---e---f---g---h---+
@@ -205,7 +205,7 @@ solution finished.
                      play_move:        3251
  is_white_king_square_attacked:         209
  is_black_king_square_attacked:        3254
-solution finished. 
+solution finished.
 
 
 
@@ -239,8 +239,8 @@ S.K. Balasubramanian & K. Seetharaman
 
   add_to_move_generation_stack:       20603
                      play_move:       18344
- is_white_king_square_attacked:        1027
- is_black_king_square_attacked:       18195
-solution finished. 
+ is_white_king_square_attacked:        1023
+ is_black_king_square_attacked:       18193
+solution finished.
 
 

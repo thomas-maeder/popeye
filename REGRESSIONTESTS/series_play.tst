@@ -27,7 +27,7 @@ the side to play can capture the king
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 
@@ -59,7 +59,7 @@ no ser-##2 solution because of stalemate after 1.Kh2-h3
                      play_move:          19
  is_white_king_square_attacked:          19
  is_black_king_square_attacked:           4
-solution finished. 
+solution finished.
 
 
 
@@ -90,9 +90,9 @@ solution finished.
 
   add_to_move_generation_stack:        2250
                      play_move:        1914
- is_white_king_square_attacked:        1362
+ is_white_king_square_attacked:        1360
  is_black_king_square_attacked:        1023
-solution finished. 
+solution finished.
 
 
 
@@ -124,12 +124,12 @@ solution finished.
   add_to_move_generation_stack:         862
                      play_move:         407
  is_white_king_square_attacked:         467
- is_black_king_square_attacked:         371
-solution finished. 
+ is_black_king_square_attacked:         368
+solution finished.
 
 
 
-     not 1.Qb2+ because of exact-
+    not 1.Qb2+ because of exact-
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -157,14 +157,14 @@ solution finished.
   add_to_move_generation_stack:        1198
                      play_move:        1048
  is_white_king_square_attacked:         698
- is_black_king_square_attacked:         486
-solution finished. 
+ is_black_king_square_attacked:         484
+solution finished.
 
 
 both sides need a king
 SetPlay not applicable - ignored
 
-   set play not applicable in ser-#
+  set play not applicable in ser-#
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -192,7 +192,7 @@ SetPlay not applicable - ignored
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -224,8 +224,8 @@ no solution in 2 - Black has to deliver mate immediately
   add_to_move_generation_stack:          18
                      play_move:          18
  is_white_king_square_attacked:          18
- is_black_king_square_attacked:           5
-solution finished. 
+ is_black_king_square_attacked:           4
+solution finished.
 
 
 
@@ -257,7 +257,7 @@ stop solving when the goal is reached
   add_to_move_generation_stack:          11
                      play_move:          11
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          12
-solution finished. 
+ is_black_king_square_attacked:          11
+solution finished.
 
 

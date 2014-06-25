@@ -1,5 +1,5 @@
 
-            M. Tomasevi\'c
+           M. Tomasevi\'c
            feenschach 1982
 
 +---a---b---c---d---e---f---g---h---+
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-                Duplex
+               Duplex
 
 a) 
 
@@ -32,8 +32,8 @@ a)
 
   add_to_move_generation_stack:       17716
                      play_move:       10897
- is_white_king_square_attacked:        7085
- is_black_king_square_attacked:        6311
+ is_white_king_square_attacked:        7082
+ is_black_king_square_attacked:        6308
 b) h=2  
 
   1.Ka6-a7 e7-e8=D   2.Ka7-a8 De8*f7 =
@@ -42,9 +42,9 @@ b) h=2
 
   add_to_move_generation_stack:      140319
                      play_move:       72065
- is_white_king_square_attacked:       55964
- is_black_king_square_attacked:       38610
-Loesung beendet. 
+ is_white_king_square_attacked:       55961
+ is_black_king_square_attacked:       38607
+Loesung beendet.
 
 
 
@@ -71,7 +71,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-                Duplex
+               Duplex
 
 a) 
 
@@ -81,8 +81,8 @@ a)
 
   add_to_move_generation_stack:      290628
                      play_move:      125998
- is_white_king_square_attacked:       89502
- is_black_king_square_attacked:       80085
+ is_white_king_square_attacked:       89499
+ is_black_king_square_attacked:       80082
 b) h=2  
 
   1.Kb5-a4 Dg7-c3   2.Da6-c6 + Kd7*c6 =
@@ -91,14 +91,14 @@ b) h=2
 
   add_to_move_generation_stack:      959044
                      play_move:      402870
- is_white_king_square_attacked:      282935
- is_black_king_square_attacked:      258980
-Loesung beendet. 
+ is_white_king_square_attacked:      282932
+ is_black_king_square_attacked:      258977
+Loesung beendet.
 
 
 
-           Matti Myllyniemi
-      1. Preis, O. Kaila JT 1967
+          Matti Myllyniemi
+     1. Preis, O. Kaila JT 1967
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -137,8 +137,8 @@ b) h#2
 
   add_to_move_generation_stack:         995
                      play_move:         817
- is_white_king_square_attacked:         244
- is_black_king_square_attacked:         789
+ is_white_king_square_attacked:         242
+ is_black_king_square_attacked:         788
 c) s#2  
 
    1.e7-e8=L ! Zugzwang.
@@ -157,14 +157,14 @@ d) h=2
 
   add_to_move_generation_stack:        6041
                      play_move:        4604
- is_white_king_square_attacked:        1987
- is_black_king_square_attacked:        3616
-Loesung beendet. 
+ is_white_king_square_attacked:        1985
+ is_black_king_square_attacked:        3615
+Loesung beendet.
 
 
 
              W. Barsukow
-      2188, Ph\'enix 36, 12/1995
+     2188, Ph\'enix 36, 12/1995
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -193,31 +193,31 @@ a)
 
   add_to_move_generation_stack:        1705
                      play_move:        1651
- is_white_king_square_attacked:          41
- is_black_king_square_attacked:         175
+ is_white_king_square_attacked:          39
+ is_black_king_square_attacked:         174
 b) sKh7-->a6  
 
   1.Te6-b6 Ld5-c6   2.Ld2-f4 Td4-a4 #
 
   add_to_move_generation_stack:        3105
                      play_move:        3033
- is_white_king_square_attacked:          86
- is_black_king_square_attacked:         346
+ is_white_king_square_attacked:          84
+ is_black_king_square_attacked:         345
 c) sKh7-->f1  
 
   1.f3-f2 Ld5-f3   2.Ld2-e3 Td4-d1 #
 
   add_to_move_generation_stack:        2492
                      play_move:        2386
- is_white_king_square_attacked:          47
- is_black_king_square_attacked:         312
-Loesung beendet. 
+ is_white_king_square_attacked:          45
+ is_black_king_square_attacked:         311
+Loesung beendet.
 
 
 
             Torsten Lin"s
     5001, Die Schwalbe 91, 2/1985
-            3. Preis (h#2)
+           3. Preis (h#2)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -246,22 +246,22 @@ a)
 
   add_to_move_generation_stack:        1930
                      play_move:        1890
- is_white_king_square_attacked:          38
- is_black_king_square_attacked:         349
+ is_white_king_square_attacked:          36
+ is_black_king_square_attacked:         348
 b) sSd6<-->sKe5  
 
   1.Se3-g4 Lf2-b6   2.Tc4-c6 Tb4-d4 #
 
   add_to_move_generation_stack:        1731
                      play_move:        1694
- is_white_king_square_attacked:          34
- is_black_king_square_attacked:         177
-Loesung beendet. 
+ is_white_king_square_attacked:          32
+ is_black_king_square_attacked:         176
+Loesung beendet.
 
 
 
-          L\'aszl\'o Lindner
-         Weihnachtskarte 1948
+         L\'aszl\'o Lindner
+        Weihnachtskarte 1948
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -290,85 +290,85 @@ a)
 
   add_to_move_generation_stack:       15556
                      play_move:       15290
- is_white_king_square_attacked:         361
- is_black_king_square_attacked:        1549
+ is_white_king_square_attacked:         359
+ is_black_king_square_attacked:        1548
 b) -sTc8  
 
   1.La2-d5 Tb4-c4 +   2.Kc7-d6 Sg7*e8 #
 
   add_to_move_generation_stack:        8227
                      play_move:        8058
- is_white_king_square_attacked:         216
- is_black_king_square_attacked:         879
+ is_white_king_square_attacked:         214
+ is_black_king_square_attacked:         878
 +c) -sLa2  
 
   1.Kc7-d8 Tb4-d4   2.Dc3-c8 Sg7-e6 #
 
   add_to_move_generation_stack:        6265
                      play_move:        6017
- is_white_king_square_attacked:         178
- is_black_king_square_attacked:         818
+ is_white_king_square_attacked:         176
+ is_black_king_square_attacked:         817
 +d) -sSe8  
 
   1.Kc7-d8 Tb4-h4   2.Dc3-c7 Th4*h8 #
 
   add_to_move_generation_stack:        4994
                      play_move:        4780
- is_white_king_square_attacked:         145
- is_black_king_square_attacked:         696
+ is_white_king_square_attacked:         143
+ is_black_king_square_attacked:         695
 +e) -sDc3  
 
   1.Kc7-d6 Sg7-e6   2.Lh8-d4 Tb4*d4 #
 
   add_to_move_generation_stack:         722
                      play_move:         671
- is_white_king_square_attacked:          41
- is_black_king_square_attacked:         149
+ is_white_king_square_attacked:          39
+ is_black_king_square_attacked:         148
 +f) -sLh8  
 
   1.Kc7-d6 Sg7-e6   2.Kd6-d5 Tb4-d4 #
 
   add_to_move_generation_stack:         531
                      play_move:         505
- is_white_king_square_attacked:          33
- is_black_king_square_attacked:          69
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:          68
 +g) -wBb5  
 
   1.Kc7-c8 Sg7-e8   2.Kc8-d8 Tb4-b8 #
 
   add_to_move_generation_stack:         238
                      play_move:         236
- is_white_king_square_attacked:          19
- is_black_king_square_attacked:          24
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          23
 +h) -wSg7  
 
   1.Kc7-d8 Kf5-g6   2.Kd8-e8 Tb4-b8 #
 
   add_to_move_generation_stack:         135
                      play_move:         135
- is_white_king_square_attacked:          14
- is_black_king_square_attacked:          18
+ is_white_king_square_attacked:          12
+ is_black_king_square_attacked:          17
 +i) -sBe7  
 
   1.Kc7-d8 Kf5-f6   2.Kd8-e8 Tb4-b8 #
 
   add_to_move_generation_stack:          88
                      play_move:          88
- is_white_king_square_attacked:          12
- is_black_king_square_attacked:          15
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          14
 +j) -sBd7  
 
   1.Kc7-d8 Kf5-e6   2.Kd8-e8 Tb4-b8 #
 
   add_to_move_generation_stack:          76
                      play_move:          76
- is_white_king_square_attacked:          12
- is_black_king_square_attacked:          14
-Loesung beendet. 
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          13
+Loesung beendet.
 
 
 
-            Gideon Husserl
+           Gideon Husserl
           Die Schwalbe 1973
 
 +---a---b---c---d---e---f---g---h---+
@@ -398,7 +398,7 @@ a)
 
   add_to_move_generation_stack:        3167
                      play_move:        3123
- is_white_king_square_attacked:         195
+ is_white_king_square_attacked:         191
  is_black_king_square_attacked:         326
 b) -sTa2  
 
@@ -406,7 +406,7 @@ b) -sTa2
 
   add_to_move_generation_stack:         780
                      play_move:         767
- is_white_king_square_attacked:          67
+ is_white_king_square_attacked:          63
  is_black_king_square_attacked:         133
 +c) -sBa6  
 
@@ -414,7 +414,7 @@ b) -sTa2
 
   add_to_move_generation_stack:         703
                      play_move:         690
- is_white_king_square_attacked:          64
+ is_white_king_square_attacked:          60
  is_black_king_square_attacked:         127
 +d) -wLg3  
 
@@ -422,9 +422,9 @@ b) -sTa2
 
   add_to_move_generation_stack:         113
                      play_move:         116
- is_white_king_square_attacked:          20
+ is_white_king_square_attacked:          16
  is_black_king_square_attacked:          21
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -459,39 +459,39 @@ a)
 
   add_to_move_generation_stack:      135248
                      play_move:       91190
- is_white_king_square_attacked:       25728
- is_black_king_square_attacked:       90351
+ is_white_king_square_attacked:       25726
+ is_black_king_square_attacked:       90350
 b) Drehung 90  
 
   1.Lf7*d5 b7-b8=D   2.Ld5-f7 Db8*d8[+sTh8] #
 
   add_to_move_generation_stack:      177368
                      play_move:      162105
- is_white_king_square_attacked:       29845
- is_black_king_square_attacked:      162084
+ is_white_king_square_attacked:       29843
+ is_black_king_square_attacked:      162083
 c) Drehung 180  
 
   1.Lf1-c4 g7-g8=L   2.Lc4*g8[+wLf1] Sd4-c6 #
 
   add_to_move_generation_stack:       83045
                      play_move:       57463
- is_white_king_square_attacked:       15549
- is_black_king_square_attacked:       56793
+ is_white_king_square_attacked:       15547
+ is_black_king_square_attacked:       56792
 d) Drehung 270  
 
   1.Dh3-c8 b7*c8=T[+sDd8]   2.Dd8*c8[+wTh1] Th1*e1[+sTh8] #
 
   add_to_move_generation_stack:       95656
                      play_move:       65902
- is_white_king_square_attacked:       18579
- is_black_king_square_attacked:       65120
-Loesung beendet. 
+ is_white_king_square_attacked:       18577
+ is_black_king_square_attacked:       65119
+Loesung beendet.
 
 
 
            Michel Caillaud
-             MAT 3-4/1982
-               1. Preis
+            MAT 3-4/1982
+              1. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -596,12 +596,12 @@ b) Circe
                      play_move:        4183
  is_white_king_square_attacked:         814
  is_black_king_square_attacked:        4186
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Peter Gvozdj\'ak
- 3. Preis, Osmo-Kaila-Memorial 1992-?
+          Peter Gvozdj\'ak
+3. Preis, Osmo-Kaila-Memorial 1992-?
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -662,14 +662,14 @@ b) s#2
                      play_move:        6715
  is_white_king_square_attacked:        6723
  is_black_king_square_attacked:        3902
-Loesung beendet. 
+Loesung beendet.
 
 
 
           Johan C. van Gool
-          D. van der Scheuer
+         D. van der Scheuer
           Probleemblad 1982
-               2. Preis
+              2. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -726,13 +726,13 @@ b) wBe5-->c5
                      play_move:        2052
  is_white_king_square_attacked:         475
  is_black_king_square_attacked:        2055
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Peter Gvozdj\'ak
+          Peter Gvozdj\'ak
              Pravda 1989
-               4. Preis
+              4. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -789,13 +789,13 @@ b) =2
                      play_move:        3410
  is_white_king_square_attacked:        1367
  is_black_king_square_attacked:        3411
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Shlomo Seider
-            Theodor Tauber
-      4002v, feenschach 68, 1983
+           Theodor Tauber
+     4002v, feenschach 68, 1983
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -817,7 +817,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 14
-          Circe Platzwechsel
+         Circe Platzwechsel
 
 a) 
 
@@ -861,12 +861,12 @@ b) Circe
                      play_move:       10975
  is_white_king_square_attacked:         779
  is_black_king_square_attacked:       10979
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
-    6658, feenschach 111, 1-9/1994
+   6658, feenschach 111, 1-9/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -936,13 +936,13 @@ c) Circe Clone
                      play_move:        4561
  is_white_king_square_attacked:         336
  is_black_king_square_attacked:        4565
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
      3097, USPB 96/97, 7-10/1994
-                4. Lob
+               4. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1002,12 +1002,12 @@ b) AndernachSchach
                      play_move:        7434
  is_white_king_square_attacked:         397
  is_black_king_square_attacked:        7438
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
-  2634, Probleemblad 52/5, 9-10/1994
+ 2634, Probleemblad 52/5, 9-10/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1071,7 +1071,7 @@ b) Circe Clone
                      play_move:        6026
  is_white_king_square_attacked:         531
  is_black_king_square_attacked:        6030
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1132,12 +1132,12 @@ b) Circe Clone
                      play_move:        8007
  is_white_king_square_attacked:         528
  is_black_king_square_attacked:        8011
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
-     7959, springaren 59, 12/1994
+    7959, springaren 59, 12/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1199,12 +1199,12 @@ b) Circe Clone
                      play_move:        2671
  is_white_king_square_attacked:         261
  is_black_king_square_attacked:        2675
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
-   3183, diagrammes 111, 10-12/1994
+  3183, diagrammes 111, 10-12/1994
         3. ehrende Erw"ahnung
 
 +---a---b---c---d---e---f---g---h---+
@@ -1267,12 +1267,12 @@ b) Circe Chamaeleon
                      play_move:        6019
  is_white_king_square_attacked:         334
  is_black_king_square_attacked:        6023
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
-     Der Schachkiebitz 10, 9/1995
+    Der Schachkiebitz 10, 9/1995
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1324,7 +1324,7 @@ b) Circe Equipollents
                      play_move:        1004
  is_white_king_square_attacked:         200
  is_black_king_square_attacked:        1008
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1409,7 +1409,7 @@ c) Circe Clone
                      play_move:        2580
  is_white_king_square_attacked:         196
  is_black_king_square_attacked:        2584
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1475,7 +1475,7 @@ b) sTc4<-->sBd3
                      play_move:        5618
  is_white_king_square_attacked:         589
  is_black_king_square_attacked:        5622
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1541,12 +1541,12 @@ b) wKg8-->e8
                      play_move:        5101
  is_white_king_square_attacked:         584
  is_black_king_square_attacked:        5105
-Loesung beendet. 
+Loesung beendet.
 
 
 
              H. Forsberg
-      1. Preis, W. Pauly-MT 1935
+     1. Preis, W. Pauly-MT 1935
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1575,41 +1575,41 @@ a)
 
   add_to_move_generation_stack:         251
                      play_move:         250
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          39
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          38
 b) sTa6  
 
   1.Ta6-b6 Tb4-b1   2.Tb6-b3 Tb1-a1 #
 
   add_to_move_generation_stack:         610
                      play_move:         593
- is_white_king_square_attacked:          27
- is_black_king_square_attacked:          51
+ is_white_king_square_attacked:          25
+ is_black_king_square_attacked:          50
 c) sLa6  
 
   1.La6-c4 Sd3-e1   2.Lc4-a2 Se1-c2 #
 
   add_to_move_generation_stack:          82
                      play_move:          77
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          23
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          22
 d) sSa6  
 
   1.Sa6-c5 Sd3-c1   2.Sc5-a4 Tb4-b3 #
 
   add_to_move_generation_stack:         102
                      play_move:          95
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          28
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          27
 e) sBa6  
 
   1.a6-a5 Tb4-b3 +   2.Ka3-a4 Sd3-c5 #
 
   add_to_move_generation_stack:          61
                      play_move:          57
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          18
-Loesung beendet. 
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          17
+Loesung beendet.
 
 
 
@@ -1643,25 +1643,25 @@ a)
 
   add_to_move_generation_stack:      759594
                      play_move:      486433
- is_white_king_square_attacked:      112587
- is_black_king_square_attacked:      474383
+ is_white_king_square_attacked:      112585
+ is_black_king_square_attacked:      474382
 b) sTe6  
 
   1.Te6-g6 Lh5*g6   2.a2-a1=L Lg6-b1 =
 
   add_to_move_generation_stack:     1378103
                      play_move:      873208
- is_white_king_square_attacked:      236234
- is_black_king_square_attacked:      832683
+ is_white_king_square_attacked:      236232
+ is_black_king_square_attacked:      832682
 c) nTe6  
 
   1.nTe6*e1 nTe1-a1   2.b2-b1=S Sf1-d2 =
 
   add_to_move_generation_stack:     1973699
                      play_move:     1268148
- is_white_king_square_attacked:      321225
- is_black_king_square_attacked:     1209437
-Loesung beendet. 
+ is_white_king_square_attacked:      321223
+ is_black_king_square_attacked:     1209436
+Loesung beendet.
 
 
 
@@ -1695,21 +1695,21 @@ a)
 
   add_to_move_generation_stack:        3772
                      play_move:        2139
- is_white_king_square_attacked:         503
- is_black_king_square_attacked:        2044
+ is_white_king_square_attacked:         501
+ is_black_king_square_attacked:        2043
 b) Farbwechsel  
 
   1.Ld2-c1 Kb6-a6   2.Lc1-a3 Sb7-c5 #
 
   add_to_move_generation_stack:        3205
                      play_move:        2146
- is_white_king_square_attacked:         437
- is_black_king_square_attacked:        2039
-Loesung beendet. 
+ is_white_king_square_attacked:         435
+ is_black_king_square_attacked:        2038
+Loesung beendet.
 
 
 
-           Matti Mylliniemi
+          Matti Mylliniemi
          The Problemist 1983
 
 +---a---b---c---d---e---f---g---h---+
@@ -1732,7 +1732,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         9 + 7
-                Duplex
+               Duplex
 
 a) 
 
@@ -1742,8 +1742,8 @@ a)
 
   add_to_move_generation_stack:      416684
                      play_move:      228520
- is_white_king_square_attacked:      171210
- is_black_king_square_attacked:      122947
+ is_white_king_square_attacked:      171207
+ is_black_king_square_attacked:      122944
 b) Farbwechsel  
 
   1.b2-b1=L e7-e8=S   2.Lb1-g6 Se8*f6 #
@@ -1752,14 +1752,14 @@ b) Farbwechsel
 
   add_to_move_generation_stack:      526948
                      play_move:      275556
- is_white_king_square_attacked:      203704
- is_black_king_square_attacked:      141103
-Loesung beendet. 
+ is_white_king_square_attacked:      203701
+ is_black_king_square_attacked:      141100
+Loesung beendet.
 
 
 
             Torsten Lin"s
-            Dieter M"uller
+           Dieter M"uller
        harmonie 31, 31.12.1990
 2. Preis, 3. harmonie-TT 1990, Abt. 2
 
@@ -1790,23 +1790,23 @@ a)
 
   add_to_move_generation_stack:      483998
                      play_move:      377735
- is_white_king_square_attacked:       40180
- is_black_king_square_attacked:      376909
+ is_white_king_square_attacked:       40178
+ is_black_king_square_attacked:      376908
 b) N ==> G  
 
   1.Gf4-a4 Gf8*a3   2.Kb3*a3 f7-f8=G #
 
   add_to_move_generation_stack:      101399
                      play_move:       90151
- is_white_king_square_attacked:        5325
- is_black_king_square_attacked:       89805
-Loesung beendet. 
+ is_white_king_square_attacked:        5323
+ is_black_king_square_attacked:       89804
+Loesung beendet.
 
 
 
-           Matti Myllyniemi
+          Matti Myllyniemi
          The Problemist 1983
-                6. Lob
+               6. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1828,7 +1828,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         9 + 7
-                Duplex
+               Duplex
 
 a) 
 
@@ -1838,8 +1838,8 @@ a)
 
   add_to_move_generation_stack:      416684
                      play_move:      228520
- is_white_king_square_attacked:      171210
- is_black_king_square_attacked:      122947
+ is_white_king_square_attacked:      171207
+ is_black_king_square_attacked:      122944
 b) Farbwechsel  
 
   1.b2-b1=L e7-e8=S   2.Lb1-g6 Se8*f6 #
@@ -1848,14 +1848,14 @@ b) Farbwechsel
 
   add_to_move_generation_stack:      526948
                      play_move:      275556
- is_white_king_square_attacked:      203704
- is_black_king_square_attacked:      141103
-Loesung beendet. 
+ is_white_king_square_attacked:      203701
+ is_black_king_square_attacked:      141100
+Loesung beendet.
 
 
 
-        Marjan Kova\v{c}evi\'c
-        Fadil Abdurahmanovi\'c
+       Marjan Kova\v{c}evi\'c
+       Fadil Abdurahmanovi\'c
          The Problemist 1988
 
 +---a---b---c---d---e---f---g---h---+
@@ -1888,8 +1888,8 @@ a)
 
   add_to_move_generation_stack:       90531
                      play_move:       92783
- is_white_king_square_attacked:        2274
- is_black_king_square_attacked:        7730
+ is_white_king_square_attacked:        2266
+ is_black_king_square_attacked:        7726
 b) Drehung 180  
 
   1.Ke4-f3 d2-d3   2.Le5-g3 De8-e4 #
@@ -1899,15 +1899,15 @@ b) Drehung 180
 
   add_to_move_generation_stack:       11403
                      play_move:       11728
- is_white_king_square_attacked:         416
- is_black_king_square_attacked:        1137
-Loesung beendet. 
+ is_white_king_square_attacked:         408
+ is_black_king_square_attacked:        1133
+Loesung beendet.
 
 
 
         Fadil Abdurahmanov\'c
-         Magyar Sakkelet 1979
-               3. Preis
+        Magyar Sakkelet 1979
+              3. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1936,41 +1936,41 @@ a)
 
   add_to_move_generation_stack:        1691
                      play_move:        1755
- is_white_king_square_attacked:          42
- is_black_king_square_attacked:         129
+ is_white_king_square_attacked:          40
+ is_black_king_square_attacked:         128
 b) -wBe7  +wSe8  
 
   1.Kf5-g5 d7-d8=D +   2.Kg5-h6 Dd8-h4 #
 
   add_to_move_generation_stack:         182
                      play_move:         183
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          50
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          49
 c) -wBe7  +wLe8  
 
   1.Tb6-f6 d7-d8=D   2.Kf5-e6 Dd8-d7 #
 
   add_to_move_generation_stack:        1047
                      play_move:        1068
- is_white_king_square_attacked:          29
- is_black_king_square_attacked:         109
+ is_white_king_square_attacked:          27
+ is_black_king_square_attacked:         108
 d) -wBe7  +wTe8  
 
   1.Kf5-f6 d7-d8=D +   2.Kf6-f7 Dd8-e7 #
 
   add_to_move_generation_stack:        1537
                      play_move:        1512
- is_white_king_square_attacked:          36
- is_black_king_square_attacked:         128
+ is_white_king_square_attacked:          34
+ is_black_king_square_attacked:         127
 e) -wBe7  +wDe8  
 
   1.Kf5-f6 De8-g8   2.Kf6-e7 d7-d8=D #
 
   add_to_move_generation_stack:       30695
                      play_move:       31630
- is_white_king_square_attacked:         520
- is_black_king_square_attacked:        1897
-Loesung beendet. 
+ is_white_king_square_attacked:         518
+ is_black_king_square_attacked:        1896
+Loesung beendet.
 
 
 
@@ -2004,30 +2004,30 @@ a)
 
   add_to_move_generation_stack:         189
                      play_move:         187
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          32
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          31
 b) T ==> L  
 
   1.Lc3-d4 Lf5-d3   2.Ld4-f2 Lc5-b4 #
 
   add_to_move_generation_stack:         116
                      play_move:         115
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          28
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          27
 c) T ==> S  
 
   1.Sc3-b1 Sf5-g3   2.Sb1-d2 Sc5-d3 #
 
   add_to_move_generation_stack:          88
                      play_move:          87
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          23
-Loesung beendet. 
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          22
+Loesung beendet.
 
 
 
              H. Forsberg
-      1. Preis, Pauly-GT 1934/35
+     1. Preis, Pauly-GT 1934/35
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2056,41 +2056,41 @@ a)
 
   add_to_move_generation_stack:         251
                      play_move:         250
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          39
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          38
 b) sTa6  
 
   1.Ta6-b6 Tb4-b1   2.Tb6-b3 Tb1-a1 #
 
   add_to_move_generation_stack:         610
                      play_move:         593
- is_white_king_square_attacked:          27
- is_black_king_square_attacked:          51
+ is_white_king_square_attacked:          25
+ is_black_king_square_attacked:          50
 c) sLa6  
 
   1.La6-c4 Sd3-e1   2.Lc4-a2 Se1-c2 #
 
   add_to_move_generation_stack:          82
                      play_move:          77
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          23
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          22
 d) sSa6  
 
   1.Sa6-c5 Sd3-c1   2.Sc5-a4 Tb4-b3 #
 
   add_to_move_generation_stack:         102
                      play_move:          95
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          28
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          27
 e) sBa6  
 
   1.a6-a5 Tb4-b3 +   2.Ka3-a4 Sd3-c5 #
 
   add_to_move_generation_stack:          61
                      play_move:          57
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          18
-Loesung beendet. 
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          17
+Loesung beendet.
 
 
 
@@ -2124,53 +2124,53 @@ a)
 
   add_to_move_generation_stack:       89503
                      play_move:       87292
- is_white_king_square_attacked:        2182
- is_black_king_square_attacked:        7660
+ is_white_king_square_attacked:        2180
+ is_black_king_square_attacked:        7659
 b) -sSc7  
 
   1.Da8-a6 g2-g4   2.Da6-d3 Ld7*c6 #
 
   add_to_move_generation_stack:       65041
                      play_move:       62955
- is_white_king_square_attacked:        1810
- is_black_king_square_attacked:        6694
+ is_white_king_square_attacked:        1808
+ is_black_king_square_attacked:        6693
 +c) -sDa8  
 
   1.Th8-e8 Sh3-f4   2.Te8-e5 d4-d5 #
 
   add_to_move_generation_stack:       37325
                      play_move:       35597
- is_white_king_square_attacked:        1330
- is_black_king_square_attacked:        4768
+ is_white_king_square_attacked:        1328
+ is_black_king_square_attacked:        4767
 +d) -sTh8  
 
   1.f7-f5 Ld7-e6   2.f5-f4 Sh3-f2 #
 
   add_to_move_generation_stack:       15378
                      play_move:       13903
- is_white_king_square_attacked:         836
- is_black_king_square_attacked:        3813
+ is_white_king_square_attacked:         834
+ is_black_king_square_attacked:        3812
 +e) -sBf7  
 
   1.Lg6-f7 Ld7-e8   2.Lf7-d5 Le8-g6 #
 
   add_to_move_generation_stack:        9985
                      play_move:        8985
- is_white_king_square_attacked:         519
- is_black_king_square_attacked:        2450
+ is_white_king_square_attacked:         517
+ is_black_king_square_attacked:        2449
 +f) -sLg6  
 
   1.c6-c5 Ta4-a5   2.c5*d4 Ld7-f5 #
 
   add_to_move_generation_stack:        2536
                      play_move:        1939
- is_white_king_square_attacked:         211
- is_black_king_square_attacked:        1188
-Loesung beendet. 
+ is_white_king_square_attacked:         209
+ is_black_king_square_attacked:        1187
+Loesung beendet.
 
 
 
-        Fadil Abdurahmanovi\'c
+       Fadil Abdurahmanovi\'c
            feenschach 1985
 
 +---a---b---c---d---e---f---g---h---+
@@ -2200,53 +2200,53 @@ a)
 
   add_to_move_generation_stack:         182
                      play_move:         196
- is_white_king_square_attacked:          14
- is_black_king_square_attacked:          53
+ is_white_king_square_attacked:          12
+ is_black_king_square_attacked:          52
 b) sKh4<-->wLc6  
 
   1.Kc6-d7 Kb8-b7   2.Ta6-e6 Tf8-d8 #
 
   add_to_move_generation_stack:         276
                      play_move:         304
- is_white_king_square_attacked:          15
- is_black_king_square_attacked:          58
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          57
 +c) wLh4<-->wTf8  
 
   1.Kc6-b5 Kb8-b7   2.Ta6-a5 Th4-b4 #
 
   add_to_move_generation_stack:         194
                      play_move:         213
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          37
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          36
 +d) wTh4<-->sKc6  
 
   1.Ta6-a3 Tc6-g6   2.Ta3-h3 Lf8-e7 #
 
   add_to_move_generation_stack:         509
                      play_move:         513
- is_white_king_square_attacked:          23
- is_black_king_square_attacked:          86
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:          85
 +e) sKh4<-->wLf8  
 
   1.Ta6-a7 Lh4-f6   2.Ta7-f7 Tc6-c8 #
 
   add_to_move_generation_stack:         103
                      play_move:         112
- is_white_king_square_attacked:          11
- is_black_king_square_attacked:          26
+ is_white_king_square_attacked:           9
+ is_black_king_square_attacked:          25
 +f) wLh4<-->wTc6  
 
   1.Kf8-e7 Th4-e4 +   2.Ke7-d8 Te4-e8 #
 
   add_to_move_generation_stack:          83
                      play_move:          90
- is_white_king_square_attacked:          10
- is_black_king_square_attacked:          30
-Loesung beendet. 
+ is_white_king_square_attacked:           8
+ is_black_king_square_attacked:          29
+Loesung beendet.
 
 
 
-        Fadil Abdurahmanovi\'c
+       Fadil Abdurahmanovi\'c
              Bilten 1961
 
 +---a---b---c---d---e---f---g---h---+
@@ -2276,64 +2276,64 @@ a)
 
   add_to_move_generation_stack:         900
                      play_move:         962
- is_white_king_square_attacked:          26
- is_black_king_square_attacked:         133
+ is_white_king_square_attacked:          24
+ is_black_king_square_attacked:         132
 b) sBa6-->b6  
 
   1.Ke5-d6 Th8-d8 +   2.Kd6-c6 Da2-c4 #
 
   add_to_move_generation_stack:        1159
                      play_move:        1231
- is_white_king_square_attacked:          30
- is_black_king_square_attacked:         176
+ is_white_king_square_attacked:          28
+ is_black_king_square_attacked:         175
 c) sBa6-->c6  
 
   1.Ke5-d6 Da2*a8   2.Kd6-c7 Da8-d8 #
 
   add_to_move_generation_stack:        1317
                      play_move:        1399
- is_white_king_square_attacked:          34
- is_black_king_square_attacked:         218
+ is_white_king_square_attacked:          32
+ is_black_king_square_attacked:         217
 d) sBa6-->d6  
 
   1.Sg5-f7 Da2*f7   2.La1-d4 Th8-h5 #
 
   add_to_move_generation_stack:       20607
                      play_move:       22756
- is_white_king_square_attacked:         524
- is_black_king_square_attacked:        2036
+ is_white_king_square_attacked:         522
+ is_black_king_square_attacked:        2035
 e) sBa6-->e6  
 
   1.Ke5-f5 Th8-h5   2.e6-e5 Da2-f7 #
 
   add_to_move_generation_stack:        1385
                      play_move:        1451
- is_white_king_square_attacked:          37
- is_black_king_square_attacked:         252
+ is_white_king_square_attacked:          35
+ is_black_king_square_attacked:         251
 f) sBa6-->f6  
 
   1.Ta8-a4 Th8-d8   2.Ta4-f4 Da2-d5 #
 
   add_to_move_generation_stack:        4873
                      play_move:        5202
- is_white_king_square_attacked:         143
- is_black_king_square_attacked:         581
+ is_white_king_square_attacked:         141
+ is_black_king_square_attacked:         580
 g) sBa6-->g6  
 
   1.Ke5-f6 Da2*a8   2.Kf6-g7 Da8-f8 #
 
   add_to_move_generation_stack:        2123
                      play_move:        2310
- is_white_king_square_attacked:          54
- is_black_king_square_attacked:         235
+ is_white_king_square_attacked:          52
+ is_black_king_square_attacked:         234
 h) sBa6-->h6  
 
   1.Ke5-f6 Th8-f8 +   2.Kf6-g7 Da2-g8 #
 
   add_to_move_generation_stack:        1341
                      play_move:        1427
- is_white_king_square_attacked:          34
- is_black_king_square_attacked:         195
-Loesung beendet. 
+ is_white_king_square_attacked:          32
+ is_black_king_square_attacked:         194
+Loesung beendet.
 
 

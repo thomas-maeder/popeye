@@ -1,5 +1,5 @@
 
-           avoid self-check
+          avoid self-check
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -21,7 +21,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          3 + 5
-          SingleBox    Type2
+         SingleBox    Type2
 
    1.Sh4*f3[h1=S] + !
 
@@ -50,11 +50,11 @@
                      play_move:          14
  is_white_king_square_attacked:          14
  is_black_king_square_attacked:          15
-solution finished. 
+solution finished.
 
 
 
-           avoid self-check
+          avoid self-check
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -76,15 +76,15 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h+1                         9 + 4
-          SingleBox    Type2
+         SingleBox    Type2
 
   1.g5*f4[a8=S] Rg6*g1 +
 
   add_to_move_generation_stack:          14
                      play_move:          14
- is_white_king_square_attacked:           4
+ is_white_king_square_attacked:           3
  is_black_king_square_attacked:          14
-solution finished. 
+solution finished.
 
 
 
@@ -110,7 +110,7 @@ capturing side selects which pawn to promote -> Ra1 can capture
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1                        15 + 3
-          SingleBox    Type2
+         SingleBox    Type2
 
   1.Ra1*a2[h8=R] Bc8-d7 #
   1.Ra1*b1[h8=R] Bc8-d7 #
@@ -118,9 +118,9 @@ capturing side selects which pawn to promote -> Ra1 can capture
 
   add_to_move_generation_stack:          68
                      play_move:          64
- is_white_king_square_attacked:          13
+ is_white_king_square_attacked:          10
  is_black_king_square_attacked:          64
-solution finished. 
+solution finished.
 
 
 
@@ -146,7 +146,7 @@ don't get confused with >1 latent pawn
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 12
-          SingleBox    Type2
+         SingleBox    Type2
 
    1.Sc4-e3 + !
       1...Sf1*e3[e8=S]
@@ -157,7 +157,7 @@ don't get confused with >1 latent pawn
                      play_move:        5884
  is_white_king_square_attacked:         372
  is_black_king_square_attacked:        5497
-solution finished. 
+solution finished.
 
 
 
@@ -183,7 +183,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         10 + 9
-          SingleBox    Type2
+         SingleBox    Type2
 
    1.d7-d8 ! zugzwang.
       1...Qf2*g1[d8=B]
@@ -214,7 +214,7 @@ B. G. Laws, Jamaica Gleaner, 24 Dec. 1887 (v TM 18.8.01)
                      play_move:        3912
  is_white_king_square_attacked:         718
  is_black_king_square_attacked:        3899
-solution finished. 
+solution finished.
 
 
 
@@ -240,7 +240,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                        11 + 11
-          SingleBox    Type2
+         SingleBox    Type2
 
    1.Qh1*e4 + ?
     but
@@ -288,7 +288,7 @@ solution finished.
                      play_move:      151118
  is_white_king_square_attacked:       31933
  is_black_king_square_attacked:      120446
-solution finished. 
+solution finished.
 
 
 
@@ -314,7 +314,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 12
-          SingleBox    Type2
+         SingleBox    Type2
 
    1.Qg1-d4 + !
       1...c5*d4[e8=Q]
@@ -329,6 +329,6 @@ solution finished.
                      play_move:        3537
  is_white_king_square_attacked:         383
  is_black_king_square_attacked:        3097
-solution finished. 
+solution finished.
 
 

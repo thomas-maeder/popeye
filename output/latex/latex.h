@@ -23,9 +23,6 @@ char *ParseLaTeXPieces(char *tok);
 
 void LaTeXStr(FILE *file, char const *line);
 char *LaTeXWalk(piece_walk_type walk);
-
-void output_latex_write_piece_exchange(output_plaintext_move_context_type *context,
-                                       move_effect_journal_index_type curr);
 void output_latex_write_castling(FILE *file,
                                  move_effect_journal_index_type movement);
 void output_latex_write_move(FILE *file);

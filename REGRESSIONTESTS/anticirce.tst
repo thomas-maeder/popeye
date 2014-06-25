@@ -1,6 +1,6 @@
 both sides need a king
 
-            Anticirce Cage
+           Anticirce Cage
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,7 +22,7 @@ both sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
-            AntiCirce Cage
+           AntiCirce Cage
 
    1.Be5-a1 !
 
@@ -51,7 +51,7 @@ both sides need a king
                      play_move:          73
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -77,7 +77,7 @@ similarities between Take&Make and Anticirce Take&Make
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-            Take&MakeChess
+           Take&MakeChess
 
 a) 
 
@@ -101,7 +101,7 @@ b) AntiCirce Take&Make
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -127,8 +127,8 @@ difference between Take&Make and Anticirce Take&Make
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   +1                          1 + 2
-               Royal e5
-            Take&MakeChess
+              Royal e5
+           Take&MakeChess
 
 a) 
 
@@ -146,7 +146,7 @@ b) AntiCirce Take&Make
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
-solution finished. 
+solution finished.
 
 
 
@@ -177,9 +177,9 @@ solution finished.
 
   add_to_move_generation_stack:           9
                      play_move:           2
- is_white_king_square_attacked:           4
+ is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -212,7 +212,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -237,7 +237,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-ze72                    1 + 2
-   AntiCirce Equipollents Parachute
+  AntiCirce Equipollents Parachute
 
   1.a6*b7[wPb7->c8=S]   2.Sc8-e7[+bSc8] z
 
@@ -245,7 +245,7 @@ solution finished.
                      play_move:           6
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -282,7 +282,7 @@ solution finished.
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -307,7 +307,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-          AntiCirce Couscous
+         AntiCirce Couscous
 
    1.a3*b4[wPb4->b8=Q] x !
 
@@ -322,7 +322,7 @@ solution finished.
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -356,7 +356,7 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -381,7 +381,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-            AntiCirce Rank
+           AntiCirce Rank
 
    1.Sb1*c3[wSc3->g3] x !
 
@@ -390,7 +390,7 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -550,7 +550,7 @@ solution finished.
                      play_move:          64
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -584,7 +584,7 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -609,8 +609,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-        Circe ReversalEinstein
-          AntiCirce Einstein
+       Circe ReversalEinstein
+         AntiCirce Einstein
 
 a) 
 
@@ -631,7 +631,7 @@ b) Circe Einstein
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -793,7 +793,7 @@ solution finished.
                      play_move:          65
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -818,8 +818,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          6 + 6
-            AntiCirce Rank
-                Duplex
+           AntiCirce Rank
+               Duplex
 
    1.Sc3*e4[wSe4->g4] x !
 
@@ -851,7 +851,7 @@ solution finished.
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -885,7 +885,7 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -911,7 +911,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
                 Circe
-                Volage
+               Volage
               AntiCirce
 
    1.c4*d5[wPd5->d2=b][+bQd8=w] x !
@@ -921,7 +921,7 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -954,7 +954,7 @@ solution finished.
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -994,7 +994,7 @@ solution finished.
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1019,7 +1019,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   x1                          1 + 1
-        AntiCirce RexExclusive
+       AntiCirce RexExclusive
 
    1.Ka1*a2 x !
 
@@ -1028,6 +1028,6 @@ solution finished.
                      play_move:           1
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

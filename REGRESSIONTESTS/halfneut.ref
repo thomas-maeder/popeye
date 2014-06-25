@@ -1,5 +1,5 @@
 
-          V.Crisan & E.Huber
+         V.Crisan & E.Huber
          1 Pl Andernach 2004
 last 2 moves only < 1 min on Athlon 2400
 
@@ -30,8 +30,8 @@ last 2 moves only < 1 min on Athlon 2400
 
   add_to_move_generation_stack:    42015260
                      play_move:    16718727
- is_white_king_square_attacked:    16650140
- is_black_king_square_attacked:     8731099
-solution finished. 
+ is_white_king_square_attacked:    16650139
+ is_black_king_square_attacked:     8731097
+solution finished.
 
 

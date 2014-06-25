@@ -22,8 +22,8 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                         9 + 10
-             Uncapturable
-             HauntedChess
+            Uncapturable
+            HauntedChess
 
    1.Qg7-c3 ! threat:
           2.Qc3*d2 +
@@ -56,7 +56,7 @@ Sake, Portoroz 2002, 1er Mention d'Honneur
                      play_move:      116468
  is_white_king_square_attacked:       53777
  is_black_king_square_attacked:       68356
-solution finished. 
+solution finished.
 
 
 if we did not remove the Be3, it would be transferred to the underworld!
@@ -84,8 +84,8 @@ Sake, Portoroz 2002, 3eme Recommand\'e
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         4 + 5
-             Uncapturable
-             HauntedChess
+            Uncapturable
+            HauntedChess
 
 a) 
 
@@ -93,17 +93,17 @@ a)
 
   add_to_move_generation_stack:     1023364
                      play_move:      390884
- is_white_king_square_attacked:      173571
- is_black_king_square_attacked:      362318
+ is_white_king_square_attacked:      173569
+ is_black_king_square_attacked:      362317
 b) wRe3  
 
   1.Qf1*f7 Re3*e6   2.Kd5*e6 Rb5*c5 =
 
   add_to_move_generation_stack:     1052061
                      play_move:      449754
- is_white_king_square_attacked:      182022
- is_black_king_square_attacked:      420618
-solution finished. 
+ is_white_king_square_attacked:      182020
+ is_black_king_square_attacked:      420617
+solution finished.
 
 
 
@@ -130,17 +130,17 @@ Sake, Portoroz 2002, 5eme Recommand\'e
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         8 + 4
-             Uncapturable
-             HauntedChess
+            Uncapturable
+            HauntedChess
 
   1.Qf5*g4 Ra7-a6   2.Ke4-f5 Ba4-c2 #
   1.Sf6*d5 Ba4-d1   2.Ke4-f4 Ra7-a4 #
 
   add_to_move_generation_stack:      618803
                      play_move:      220263
- is_white_king_square_attacked:       75400
- is_black_king_square_attacked:      219360
-solution finished. 
+ is_white_king_square_attacked:       75396
+ is_black_king_square_attacked:      219358
+solution finished.
 
 
 
@@ -167,8 +167,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          6 + 8
-             Uncapturable
-             HauntedChess
+            Uncapturable
+            HauntedChess
 
    1.Sb5-d6 ! threat:
           2.Bc5-b4 +
@@ -193,7 +193,7 @@ solution finished.
                      play_move:       77401
  is_white_king_square_attacked:       30345
  is_black_king_square_attacked:       51686
-solution finished. 
+solution finished.
 
 
 
@@ -220,8 +220,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          6 + 9
-             Uncapturable
-             HauntedChess
+            Uncapturable
+            HauntedChess
 
    1.b2-b3 ! threat:
           2.Rc6-d6 +
@@ -248,12 +248,12 @@ solution finished.
                      play_move:      146511
  is_white_king_square_attacked:       58585
  is_black_king_square_attacked:       99628
-solution finished. 
+solution finished.
 
 
 b1 already occupied - old piece goes to the underworld.
 
-      pre-filling the underworld
+     pre-filling the underworld
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -275,8 +275,8 @@ b1 already occupied - old piece goes to the underworld.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 0
-             Uncapturable
-             HauntedChess
+            Uncapturable
+            HauntedChess
 
    1.Sb1-d2[+buRb1] !
 
@@ -289,6 +289,6 @@ b1 already occupied - old piece goes to the underworld.
                      play_move:           3
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 

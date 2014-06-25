@@ -1,6 +1,6 @@
 
             Petko Petkov 
-        feenschach 2001 (v) SE
+       feenschach 2001 (v) SE
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 4
-                Masand
+               Masand
 
   1.Ra1-f1 Ra3-f3   2.Bg3-f4 Rf3-f2[f1=w][f4=w] #
   1.Ra1-e1 Ra3-e3   2.Bg3-e5 Re3-e2[e1=w][e5=w] #
@@ -32,9 +32,9 @@
 
   add_to_move_generation_stack:       17227
                      play_move:       10106
- is_white_king_square_attacked:       10127
- is_black_king_square_attacked:       13061
-solution finished. 
+ is_white_king_square_attacked:       10117
+ is_black_king_square_attacked:       13056
+solution finished.
 
 
 
@@ -61,7 +61,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#6;0,1                     5 + 1
-                Masand
+               Masand
 
    1.Rg1-g6 !
       1...Kh8-h7
@@ -81,7 +81,7 @@ solution finished.
                      play_move:    17835094
  is_white_king_square_attacked:    28026602
  is_black_king_square_attacked:    17897590
-solution finished. 
+solution finished.
 
 
 
@@ -108,7 +108,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 8
-                Masand
+               Masand
 
    1.h7-h8=R ! threat:
           2.Rh8*h5[d5=w] #
@@ -126,7 +126,7 @@ solution finished.
                      play_move:        4887
  is_white_king_square_attacked:        4697
  is_black_king_square_attacked:        5461
-solution finished. 
+solution finished.
 
 
 
@@ -153,7 +153,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         12 + 6
-                Masand
+               Masand
 
    1.Re1-e4[e8=b] + ?
     but
@@ -247,12 +247,12 @@ solution finished.
                      play_move:       13100
  is_white_king_square_attacked:       13130
  is_black_king_square_attacked:       13739
-solution finished. 
+solution finished.
 
 
 
             Petko Petkov 
-        feenschach 2001 (v) SE
+       feenschach 2001 (v) SE
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -274,7 +274,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          9 + 5
-                Masand
+               Masand
 
       1...Sh4-f3[g1=b] +
           2.Qg3-f4[f3=w][e4=w][f5=b][b8=w] #
@@ -353,11 +353,11 @@ solution finished.
                      play_move:        5894
  is_white_king_square_attacked:        5926
  is_black_king_square_attacked:        7071
-solution finished. 
+solution finished.
 
 
 
-             Petko Petkov
+            Petko Petkov
            feenschach 2001
 
 +---a---b---c---d---e---f---g---h---+
@@ -380,7 +380,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
-                Masand
+               Masand
 
    1.Bb8-c7 ! threat:
           2.Qe4-e8[f7=w] #
@@ -394,7 +394,7 @@ solution finished.
                      play_move:        1760
  is_white_king_square_attacked:        1761
  is_black_king_square_attacked:        2162
-solution finished. 
+solution finished.
 
 
 
@@ -421,7 +421,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         6 + 12
-                Masand
+               Masand
 
    1.Qe2-e6[g4=w][b6=w][f6=b][f7=w] + ?
     but
@@ -464,6 +464,6 @@ solution finished.
                      play_move:        6053
  is_white_king_square_attacked:        6068
  is_black_king_square_attacked:        6678
-solution finished. 
+solution finished.
 
 

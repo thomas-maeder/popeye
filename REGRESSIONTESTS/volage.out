@@ -1,5 +1,5 @@
 
-              A. Simonet
+             A. Simonet
     1224, diagrammes 55, 1-2/1982
 
 +---a---b---c---d---e---f---g---h---+
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         9 + 18
-                Volage
+               Volage
 
    1.Dc8-c6 ! Zugzwang.
       1...Sf1-h2=w
@@ -77,11 +77,11 @@
                      play_move:       13039
  is_white_king_square_attacked:         804
  is_black_king_square_attacked:       13042
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Yves Cheylan
+            Yves Cheylan
      British Chess Magazine 1979
 
 +---a---b---c---d---e---f---g---h---+
@@ -159,12 +159,12 @@ Loesung beendet.
                      play_move:        2661
  is_white_king_square_attacked:         329
  is_black_king_square_attacked:        2538
-Loesung beendet. 
+Loesung beendet.
 
 
 
           Claude Wiedenhoff
-    1373, diagrammes 62, 9/10*1983
+   1373, diagrammes 62, 9/10*1983
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -186,7 +186,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        12 + 10
-                Volage
+               Volage
 
    1.Lf3-e2 ! Drohung:
           2.f2-f4 #
@@ -204,12 +204,12 @@ Loesung beendet.
                      play_move:        7701
  is_white_king_square_attacked:         418
  is_black_king_square_attacked:        7704
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Norbert Geissler
-    2529, Problemkiste-71, 10/1990
+          Norbert Geissler
+   2529, Problemkiste-71, 10/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -231,7 +231,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         0 + 3
-                Volage
+               Volage
 
   1.d2-d1=D=w Dd1-d6   2.e2-e1=D=w De1-b4 #
   1.e2-e1=D=w De1-e3   2.d2-d1=D=w Dd1-b3 #
@@ -239,12 +239,12 @@ Loesung beendet.
   add_to_move_generation_stack:       28919
                      play_move:        9727
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        9651
-Loesung beendet. 
+ is_black_king_square_attacked:        9649
+Loesung beendet.
 
 
 
-             Erich Bartel
+            Erich Bartel
     2887, Problemkiste-79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
@@ -268,21 +268,21 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   ser-h=3                     3 + 3
             Circe Spiegel
-                Volage
+               Volage
 
   1.a2-a1=S=w   2.b2*a1=D[+wSb8]   3.Da1-a2=w Da2-g8 =
   1.b2-b1=L=w   2.a2*b1=T[+wLc8]   3.Tb1-b8=w Lc8-e6 =
 
   add_to_move_generation_stack:       82040
                      play_move:       32065
- is_white_king_square_attacked:       12500
+ is_white_king_square_attacked:       12494
  is_black_king_square_attacked:       30441
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Heinz Winterberg
-   2693, Problemkiste-74/75, 5/1991
+          Heinz Winterberg
+  2693, Problemkiste-74/75, 5/1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -305,7 +305,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#2                         6 + 5
                 Circe
-                Volage
+               Volage
 
    1.b6*a7[+sSb8] ! Drohung:
           2.c7*b8=D
@@ -332,6 +332,6 @@ Loesung beendet.
                      play_move:        5841
  is_white_king_square_attacked:        5844
  is_black_king_square_attacked:        2082
-Loesung beendet. 
+Loesung beendet.
 
 

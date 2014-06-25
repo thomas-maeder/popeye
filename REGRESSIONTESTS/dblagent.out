@@ -1,6 +1,6 @@
 
-         P.Monreal & F.Calvet
-               BCM 1978
+        P.Monreal & F.Calvet
+              BCM 1978
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,7 +22,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 4
-        Circe Spiegel Turncoat
+       Circe Spiegel Turncoat
 
    1.Le3-d4 ! Drohung:
           2.Ld4-b2 #
@@ -43,12 +43,12 @@
                      play_move:        6723
  is_white_king_square_attacked:         481
  is_black_king_square_attacked:        6726
-Loesung beendet. 
+Loesung beendet.
 
 
 
-               R.Bedoni
-               BCM 1979
+              R.Bedoni
+              BCM 1979
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -70,21 +70,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#10                     1 + 2
-        Circe Spiegel Turncoat
-              OhneSchach
+       Circe Spiegel Turncoat
+             OhneSchach
 
   1.Kb1-c2   2.Kc2-d3   3.Kd3*e3[+sBe2=w]   4.Ke3-d4   5.e2-e4   6.e4-e5   7.e5-e6   8.e6-e7   9.e7-e8=D  10.De8-a4 #
 
   add_to_move_generation_stack:        9542
                      play_move:        9300
  is_white_king_square_attacked:       11687
- is_black_king_square_attacked:       14295
-Loesung beendet. 
+ is_black_king_square_attacked:       14286
+Loesung beendet.
 
 
 
-         P.Monreal & R.Bedoni
-               BCM 1979
+        P.Monreal & R.Bedoni
+              BCM 1979
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -106,7 +106,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 4
-            Circe Turncoat
+           Circe Turncoat
 
    1.Le4-g6 ! Drohung:
           2.Tb5-h5 #
@@ -122,6 +122,6 @@ Loesung beendet.
                      play_move:        2681
  is_white_king_square_attacked:         209
  is_black_king_square_attacked:        2684
-Loesung beendet. 
+Loesung beendet.
 
 

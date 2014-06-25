@@ -10,6 +10,7 @@
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 #include "debugging/trace.h"
 
@@ -101,18 +102,18 @@ boolean read_restart_number(char const *optionValue)
   return result;
 }
 
-static void WriteMoveNbr(FILE *file, slice_index si)
+static void WriteMoveNbr(slice_index si)
 {
   if (MoveNbr[nbply]>=RestartNbr[nbply])
   {
-    fprintf(file,"\n%3u  (", MoveNbr[nbply]);
-    output_plaintext_write_move(file);
+    protocol_printf("\n%3u  (", MoveNbr[nbply]);
+    output_plaintext_write_move();
     if (is_in_check(slices[si].starter))
-      fputs(" +",file);
-    fputs(" ",file);
-    PrintTime(file,"   ","");
-    fputs(")",file);
-    fflush(file);
+      protocol_printf("%s"," +");
+    protocol_putchar(' ');
+    PrintTime1("   ","");
+    protocol_putchar(')');
+    protocol_flush();
   }
 }
 
@@ -135,9 +136,7 @@ void restart_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteMoveNbr(stdout,si);
-  if (TraceFile)
-    WriteMoveNbr(TraceFile,si);
+  WriteMoveNbr(si);
 
   ++MoveNbr[nbply];
 

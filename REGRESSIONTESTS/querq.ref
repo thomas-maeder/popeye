@@ -1,5 +1,5 @@
 
-              S.Emmerson
+             S.Emmerson
       Variant Chess Spring 1998
 
 +---a---b---c---d---e---f---g---h---+
@@ -29,8 +29,8 @@
 
   add_to_move_generation_stack:        2588
                      play_move:        1702
- is_white_king_square_attacked:         282
- is_black_king_square_attacked:        1681
-solution finished. 
+ is_white_king_square_attacked:         278
+ is_black_king_square_attacked:        1679
+solution finished.
 
 

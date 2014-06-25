@@ -9,7 +9,7 @@
 #include "platform/maxtime.h"
 #include "options/options.h"
 #include "output/output.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 
 #include "debugging/assert.h"
@@ -57,12 +57,12 @@ static boolean is_length_ruled_out_by_option_restart(void)
   return result;
 }
 
-static void print_nr_potential_target_positions(FILE *file)
+static void print_nr_potential_target_positions(void)
 {
-  fputs("\n",file);
-  Message2(file,PotentialMates,
-           nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
-  PrintTime(file,"  (",")");
+  protocol_putchar('\n');
+  Message(PotentialMates,
+          nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
+  PrintTime1("  (",")");
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -91,11 +91,7 @@ void restart_guard_intelligent_solve(slice_index si)
     nr_potential_target_positions = 0;
     pipe_solve_delegate(si);
     if (!hasMaxtimeElapsed())
-    {
-      print_nr_potential_target_positions(stdout);
-      if (TraceFile)
-        print_nr_potential_target_positions(TraceFile);
-    }
+      print_nr_potential_target_positions();
   }
 
   TraceFunctionExit(__func__);

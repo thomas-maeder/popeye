@@ -1,4 +1,5 @@
 #include "output/latex/line/line_writer.h"
+#include "output/latex/latex.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"

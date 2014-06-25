@@ -3,7 +3,6 @@
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
 #include "conditions/ohneschach.h"
-#include "output/plaintext/plaintext.h"
 #include "output/plaintext/message.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -51,9 +50,6 @@ void ohneschach_detect_undecidable_goal_solve(slice_index si)
   {
     ohneschach_undecidable_goal_detected[nbply+1] = false;
     solve_result = previous_move_is_illegal;
-    fputc(' ',stdout);
-    if (TraceFile)
-      fputc(' ',TraceFile);
     Message(ChecklessUndecidable);
   }
   else

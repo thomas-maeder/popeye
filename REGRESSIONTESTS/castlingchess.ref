@@ -31,8 +31,8 @@
   add_to_move_generation_stack:        7245
                      play_move:        2601
  is_white_king_square_attacked:        3257
- is_black_king_square_attacked:        1720
-solution finished. 
+ is_black_king_square_attacked:        1711
+solution finished.
 
 
 
@@ -73,7 +73,7 @@ solution finished.
                      play_move:        7657
  is_white_king_square_attacked:        7076
  is_black_king_square_attacked:        2096
-solution finished. 
+solution finished.
 
 
 
@@ -115,12 +115,12 @@ solution finished.
                      play_move:        1086
  is_white_king_square_attacked:        1148
  is_black_king_square_attacked:         446
-solution finished. 
+solution finished.
 
 
 
-         ?? Nils Adrian Bakke
-              ?? (v. SE)
+        ?? Nils Adrian Bakke
+             ?? (v. SE)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -148,14 +148,14 @@ solution finished.
 
   add_to_move_generation_stack:       21038
                      play_move:       20559
- is_white_king_square_attacked:        6111
+ is_white_king_square_attacked:        6103
  is_black_king_square_attacked:       22911
-solution finished. 
+solution finished.
 
 
 
           Nils Adrian Bakke
-        The Problemist xi/2011
+       The Problemist xi/2011
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -185,17 +185,17 @@ a)
 
   add_to_move_generation_stack:     5632996
                      play_move:     5200733
- is_white_king_square_attacked:      764427
- is_black_king_square_attacked:     5282888
+ is_white_king_square_attacked:      764424
+ is_black_king_square_attacked:     5282886
 b) ExchangeCastling  
 
   1.Ba4-d1 + Kg4-f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 #
 
   add_to_move_generation_stack:     8579204
                      play_move:     7419433
- is_white_king_square_attacked:      450457
- is_black_king_square_attacked:     7340060
-solution finished. 
+ is_white_king_square_attacked:      450454
+ is_black_king_square_attacked:     7340058
+solution finished.
 
 
 only parts c) and d) supported by Popeye
@@ -204,7 +204,7 @@ twin cond cell
 twin
 
           Nils Adrian Bakke
-       The Problemist July 2012
+      The Problemist July 2012
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -234,16 +234,16 @@ a)
 
   add_to_move_generation_stack:    12457136
                      play_move:    11501132
- is_white_king_square_attacked:     1653347
- is_black_king_square_attacked:    11772492
+ is_white_king_square_attacked:     1653344
+ is_black_king_square_attacked:    11772490
 b) ExchangeCastling  
 
   1.Ba4-d1 + Kg4*f4   2.Bd1-h5 Kf4-g3   3.Bh5<->Ke8 Sg6-f4 #
 
   add_to_move_generation_stack:    19264287
                      play_move:    16343651
- is_white_king_square_attacked:      779561
- is_black_king_square_attacked:    16210716
-solution finished. 
+ is_white_king_square_attacked:      779558
+ is_black_king_square_attacked:    16210714
+solution finished.
 
 

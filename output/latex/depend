@@ -30,8 +30,8 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  options/stoponshortsolutions/stoponshortsolutions.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  pieces/walks/classification.h pieces/attributes/neutral/neutral.h \
- stipulation/pipe.h conditions/grid.h conditions/singlebox/type1.h \
- platform/maxtime.h debugging/assert.h
+ stipulation/pipe.h conditions/bgl.h conditions/grid.h \
+ conditions/singlebox/type1.h platform/maxtime.h debugging/assert.h
 
 output/latex/latex.h:
 
@@ -164,6 +164,8 @@ pieces/walks/classification.h:
 pieces/attributes/neutral/neutral.h:
 
 stipulation/pipe.h:
+
+conditions/bgl.h:
 
 conditions/grid.h:
 

@@ -1,5 +1,5 @@
 
-             Rochade Test
+            Rochade Test
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,7 +22,7 @@
 +---a---b---c---d---e---f---g---h---+
   ser-002                     2 + 2
            AntiCirce Super
-                Duplex
+               Duplex
 
   1.Ta5*a8[wTa8->a1]   2.0-0-0
   1.Ta5*a8[wTa8->h1]   2.0-0
@@ -31,9 +31,9 @@
 
   add_to_move_generation_stack:          84
                      play_move:         223
- is_white_king_square_attacked:         222
- is_black_king_square_attacked:         232
-Loesung beendet. 
+ is_white_king_square_attacked:         220
+ is_black_king_square_attacked:         228
+Loesung beendet.
 
 
 
@@ -763,11 +763,11 @@ b) Verschiebung a1 ==> a2
                      play_move:         256
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Typ Cheylan Test
+          Typ Cheylan Test
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -811,6 +811,6 @@ b) AntiCirce Super Cheylan
                      play_move:         194
  is_white_king_square_attacked:          66
  is_black_king_square_attacked:         190
-Loesung beendet. 
+Loesung beendet.
 
 

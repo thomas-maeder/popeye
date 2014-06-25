@@ -1,5 +1,5 @@
 
-  Hans-Peter Reich & J\"org Kuhlmann
+ Hans-Peter Reich & J\"org Kuhlmann
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -27,9 +27,9 @@
 
   add_to_move_generation_stack:    12223451
                      play_move:    11962725
- is_white_king_square_attacked:     1411109
- is_black_king_square_attacked:    10921256
-Loesung beendet. 
+ is_white_king_square_attacked:     1411104
+ is_black_king_square_attacked:    10921252
+Loesung beendet.
 
 
 
@@ -61,9 +61,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:      679772
                      play_move:      772120
- is_white_king_square_attacked:      162213
- is_black_king_square_attacked:      635194
-Loesung beendet. 
+ is_white_king_square_attacked:      162208
+ is_black_king_square_attacked:      635190
+Loesung beendet.
 
 
 
@@ -96,9 +96,9 @@ Wilfried Neef & Hans-Peter Reich & Stefan H\"oning
 
   add_to_move_generation_stack:       54985
                      play_move:       46031
- is_white_king_square_attacked:        4716
- is_black_king_square_attacked:       45760
-Loesung beendet. 
+ is_white_king_square_attacked:        4712
+ is_black_king_square_attacked:       45758
+Loesung beendet.
 
 
 
@@ -233,12 +233,12 @@ Loesung beendet.
                      play_move:       25827
  is_white_king_square_attacked:        7422
  is_black_king_square_attacked:       20540
-Loesung beendet. 
+Loesung beendet.
 
 
 
 Thomas Maeder & Bruno Stucker & Kjell Widlert
-       Andernach 2013, 3. Preis
+      Andernach 2013, 3. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -260,7 +260,7 @@ Thomas Maeder & Bruno Stucker & Kjell Widlert
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 4
-      Wurmloecher f2 d4 c5 d6 a7
+     Wurmloecher f2 d4 c5 d6 a7
 
       1...f3-f2[sBf2->d4]
           2.Se6-c5[wSc5->d6] #
@@ -305,11 +305,11 @@ Thomas Maeder & Bruno Stucker & Kjell Widlert
                      play_move:       11058
  is_white_king_square_attacked:        1187
  is_black_king_square_attacked:       11014
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Bernd Gr\"afrath
+          Bernd Gr\"afrath
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -337,8 +337,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:   106250292
                      play_move:   104267526
- is_white_king_square_attacked:     2176447
- is_black_king_square_attacked:     6106064
-Loesung beendet. 
+ is_white_king_square_attacked:     2176443
+ is_black_king_square_attacked:     6106060
+Loesung beendet.
 
 

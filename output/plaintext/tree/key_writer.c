@@ -1,7 +1,7 @@
 #include "output/plaintext/tree/key_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 #include "platform/beep.h"
 #include "solving/pipe.h"
@@ -47,9 +47,8 @@ void output_plaintext_tree_key_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fputs(" !",stdout);
-  if (TraceFile)
-    fputs(" !",TraceFile);
+  protocol_printf("%s"," !");
+
   if (OptFlag[beep])
     produce_beep();
 

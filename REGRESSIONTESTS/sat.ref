@@ -1,5 +1,5 @@
 
-              Ivan Skoba
+             Ivan Skoba
 2-3 m. Klub Pongracz SP CR 2003 (SAT #61)
 
 +---a---b---c---d---e---f---g---h---+
@@ -204,12 +204,12 @@
                      play_move:     2751014
  is_white_king_square_attacked:    13998689
  is_black_king_square_attacked:     5018878
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
-       Umenie 64 2002 (SAT #51)
+         Ladislav Salai sr.
+      Umenie 64 2002 (SAT #51)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -231,7 +231,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         7 + 9
-            AndernachChess
+           AndernachChess
                  SAT
 
   1.e3-e2 c3-c4   2.Bg1*a7=w c4-c5 #
@@ -242,12 +242,12 @@ solution finished.
                      play_move:       14502
  is_white_king_square_attacked:         458
  is_black_king_square_attacked:        2612
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
-  Z. c. u. Kutna Hora 1999 (SAT #49)
+         Ladislav Salai sr.
+ Z. c. u. Kutna Hora 1999 (SAT #49)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -277,12 +277,12 @@ solution finished.
                      play_move:       40634
  is_white_king_square_attacked:      150086
  is_black_king_square_attacked:         141
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
- C. u. Sachova skladba 2000 (SAT #46)
+         Ladislav Salai sr.
+C. u. Sachova skladba 2000 (SAT #46)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -338,11 +338,11 @@ solution finished.
                      play_move:       21375
  is_white_king_square_attacked:        6382
  is_black_king_square_attacked:       38555
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
+         Ladislav Salai sr.
   Sachmatnaja poezija 2001 (SAT #2)
 
 +---a---b---c---d---e---f---g---h---+
@@ -412,11 +412,11 @@ solution finished.
                      play_move:        2430
  is_white_king_square_attacked:         236
  is_black_king_square_attacked:        6205
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
+         Ladislav Salai sr.
     Sachova skladba 1998 (SAT #1)
 
 +---a---b---c---d---e---f---g---h---+
@@ -450,12 +450,12 @@ solution finished.
                      play_move:         114
  is_white_king_square_attacked:          37
  is_black_king_square_attacked:         185
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
-       Umenie 64 2001 (SAT #40)
+         Ladislav Salai sr.
+      Umenie 64 2001 (SAT #40)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -510,11 +510,11 @@ b) wSh4
                      play_move:         600
  is_white_king_square_attacked:        2432
  is_black_king_square_attacked:         227
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
+         Ladislav Salai sr.
   The Problemist 2001 (v) (SAT #34)
 
 +---a---b---c---d---e---f---g---h---+
@@ -544,15 +544,15 @@ solution finished.
   1.e6-e5 Rg8-a8   2.Ba2-g8 + Ra8*g8 #
   1.e6-e5 Rg8-b8   2.e4-e3 Rb8*b2 #
 
-  add_to_move_generation_stack:        4365
+  add_to_move_generation_stack:        4361
                      play_move:        1695
- is_white_king_square_attacked:         109
+ is_white_king_square_attacked:         105
  is_black_king_square_attacked:        1765
-solution finished. 
+solution finished.
 
 
 
-          Ladislav Salai sr.
+         Ladislav Salai sr.
  The Problemist 2004 (corr) / SAT #1
 
 +---a---b---c---d---e---f---g---h---+
@@ -673,12 +673,12 @@ solution finished.
                      play_move:       13129
  is_white_king_square_attacked:       27969
  is_black_king_square_attacked:       18323
-solution finished. 
+solution finished.
 
 
 
-            Ladislav Salai
-        feenschach III/IV 2001
+           Ladislav Salai
+       feenschach III/IV 2001
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -793,10 +793,10 @@ solution finished.
   1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-h7 #
   1.Sg8-f6 Rh6-h8   2.Qb8-c7 Rh8-b8 #
 
-  add_to_move_generation_stack:       36808
+  add_to_move_generation_stack:       36274
                      play_move:       29886
- is_white_king_square_attacked:        3296
+ is_white_king_square_attacked:        2584
  is_black_king_square_attacked:       34317
-solution finished. 
+solution finished.
 
 

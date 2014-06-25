@@ -1,5 +1,5 @@
 
-              S.Emmerson
+             S.Emmerson
              Unpublished
 
 +---a---b---c---d---e---f---g---h---+
@@ -49,12 +49,12 @@
   add_to_move_generation_stack:        3246
                      play_move:        1492
  is_white_king_square_attacked:        1359
- is_black_king_square_attacked:        1540
-solution finished. 
+ is_black_king_square_attacked:        1524
+solution finished.
 
 
 
-               B.Ostruh
+              B.Ostruh
       The Problemist I-III 1976
 
 +---a---b---c---d---e---f---g---h---+
@@ -84,13 +84,13 @@ solution finished.
   add_to_move_generation_stack:        4773
                      play_move:        2650
  is_white_king_square_attacked:        2602
- is_black_king_square_attacked:        2651
-solution finished. 
+ is_black_king_square_attacked:        2638
+solution finished.
 
 
 
-              Th.Steudel
-         feenschach IV-V 1976
+             Th.Steudel
+        feenschach IV-V 1976
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -113,14 +113,14 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ser-#7                      2 + 2
               GridChess
-              HalfDuplex
+             HalfDuplex
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=Q   6.Qa1-a4   7.Qa4-c6 #
 
   add_to_move_generation_stack:         879
                      play_move:         603
- is_white_king_square_attacked:         520
+ is_white_king_square_attacked:         514
  is_black_king_square_attacked:         443
-solution finished. 
+solution finished.
 
 

@@ -25,7 +25,7 @@ solution (which is a short solution in 1->ser-h#3)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   1->ser-h#3                 4 + 11
-            AndernachChess
+           AndernachChess
 
  12  (Rh1-h4 )
   1.Rh1-h4   1.Be4*d3=w   2.Rc4*h4=w Bd3-c4 #
@@ -46,13 +46,13 @@ solution (which is a short solution in 1->ser-h#3)
 
   add_to_move_generation_stack:        3876
                      play_move:        2365
- is_white_king_square_attacked:         609
- is_black_king_square_attacked:        2372
-solving interrupted. 
+ is_white_king_square_attacked:         607
+ is_black_king_square_attacked:        2356
+solving interrupted.
 
 
 
- 4.55 crashed on stipulation ser-dia1
+4.55 crashed on stipulation ser-dia1
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -80,8 +80,8 @@ solving interrupted.
   add_to_move_generation_stack:          20
                      play_move:          20
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:           3
-solution finished. 
+ is_black_king_square_attacked:           2
+solution finished.
 
 
 
@@ -113,8 +113,8 @@ solution finished.
   add_to_move_generation_stack:          20
                      play_move:          20
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:           3
-solution finished. 
+ is_black_king_square_attacked:           2
+solution finished.
 
 
 
@@ -146,8 +146,8 @@ solution finished.
   add_to_move_generation_stack:          20
                      play_move:          20
  is_white_king_square_attacked:           1
- is_black_king_square_attacked:           3
-solution finished. 
+ is_black_king_square_attacked:           2
+solution finished.
 
 
 
@@ -199,7 +199,7 @@ b) +bRa5
                      play_move:           8
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 
@@ -275,7 +275,7 @@ b) +wSb4
                      play_move:           7
  is_white_king_square_attacked:           8
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 
@@ -308,7 +308,7 @@ a)
 
   add_to_move_generation_stack:         516
                      play_move:         496
- is_white_king_square_attacked:         463
+ is_white_king_square_attacked:         462
  is_black_king_square_attacked:          67
 b) +wSd4  
 
@@ -317,7 +317,7 @@ b) +wSd4
                      play_move:          48
  is_white_king_square_attacked:          45
  is_black_king_square_attacked:          24
-solution finished. 
+solution finished.
 
 
 
@@ -360,8 +360,8 @@ b) ser-s##!1
   add_to_move_generation_stack:         706
                      play_move:         682
  is_white_king_square_attacked:         104
- is_black_king_square_attacked:         658
-solution finished. 
+ is_black_king_square_attacked:         657
+solution finished.
 
 
 Option  StopOnShortSolutions  not supported with direct play.
@@ -371,7 +371,7 @@ Option  StopOnShortSolutions  not supported with direct play.
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -417,7 +417,7 @@ f) ser-h#5
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 try play not applicable
@@ -451,7 +451,7 @@ option Try not applicable in postkey battle play
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 Option "Threat" not applicable or indicated maximum threat length too big
@@ -539,7 +539,7 @@ h) ser-h#8
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -573,7 +573,7 @@ don't output reflexmates if variations are not asked for
                      play_move:           9
  is_white_king_square_attacked:           9
  is_black_king_square_attacked:           3
-solution finished. 
+solution finished.
 
 
 
@@ -609,13 +609,13 @@ solution finished.
 
   add_to_move_generation_stack:         224
                      play_move:         224
- is_white_king_square_attacked:          19
- is_black_king_square_attacked:          26
-solution finished. 
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:          18
+solution finished.
 
 
 
-  only example so far of ser-ha=>bN*
+ only example so far of ser-ha=>bN*
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -671,9 +671,9 @@ solution finished.
 
   add_to_move_generation_stack:         224
                      play_move:         224
- is_white_king_square_attacked:          26
- is_black_king_square_attacked:          19
-solution finished. 
+ is_white_king_square_attacked:          18
+ is_black_king_square_attacked:          14
+solution finished.
 
 
 
@@ -707,8 +707,8 @@ solution finished.
   add_to_move_generation_stack:          68
                      play_move:          68
  is_white_king_square_attacked:          69
- is_black_king_square_attacked:          28
-solution finished. 
+ is_black_king_square_attacked:          26
+solution finished.
 
 
 
@@ -741,7 +741,7 @@ since 4.43, h##! with neutral king weren't solved correctly
                      play_move:         386
  is_white_king_square_attacked:         353
  is_black_king_square_attacked:          43
-solution finished. 
+solution finished.
 
 
 
@@ -774,7 +774,7 @@ only example of double mate with neutral king
                      play_move:          51
  is_white_king_square_attacked:          32
  is_black_king_square_attacked:          19
-solution finished. 
+solution finished.
 
 
 
@@ -811,7 +811,7 @@ checks weren't indicated on the move reaching a goal
                      play_move:          37
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          33
-solution finished. 
+solution finished.
 
 
 
@@ -868,8 +868,8 @@ checks weren't indicated on the move reaching a goal
   add_to_move_generation_stack:          17
                      play_move:          17
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           6
-solution finished. 
+ is_black_king_square_attacked:           4
+solution finished.
 
 
 
@@ -900,9 +900,9 @@ only example so far of a help stipulation with option stoponshort
 
   add_to_move_generation_stack:         187
                      play_move:         158
- is_white_king_square_attacked:         151
+ is_white_king_square_attacked:         150
  is_black_king_square_attacked:           0
-solving interrupted. 
+solving interrupted.
 
 
 
@@ -934,8 +934,8 @@ only example so far of a series stipulation with option stoponshort
   add_to_move_generation_stack:          10
                      play_move:          10
  is_white_king_square_attacked:           8
- is_black_king_square_attacked:          11
-solving interrupted. 
+ is_black_king_square_attacked:          10
+solving interrupted.
 
 
 both sides need a king
@@ -974,7 +974,7 @@ earlier versions didn't stop solving after 1.h2-h3 z !
                      play_move:           4
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces.
@@ -1007,7 +1007,7 @@ earlier versions would crash or produce incorrect output
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1041,7 +1041,7 @@ Popeye hasn't found the solution since version 4.51
                      play_move:          40
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          34
-solution finished. 
+solution finished.
 
 
 
@@ -1076,14 +1076,14 @@ solution finished.
 
   add_to_move_generation_stack:       53540
                      play_move:       53540
- is_white_king_square_attacked:        2704
- is_black_king_square_attacked:        3015
-solving interrupted. 
+ is_white_king_square_attacked:        2674
+ is_black_king_square_attacked:        2985
+solving interrupted.
 
 
 
 so far, uncapturable pieces were only supported correctly
-     in ghost chess (bug 3015407)
+    in ghost chess (bug 3015407)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1114,7 +1114,7 @@ so far, uncapturable pieces were only supported correctly
                      play_move:           2
  is_white_king_square_attacked:           2
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1148,8 +1148,8 @@ solution finished.
   add_to_move_generation_stack:         255
                      play_move:         197
  is_white_king_square_attacked:         196
- is_black_king_square_attacked:          83
-solution finished. 
+ is_black_king_square_attacked:          81
+solution finished.
 
 
 
@@ -1183,8 +1183,8 @@ solution finished.
   add_to_move_generation_stack:          96
                      play_move:          76
  is_white_king_square_attacked:          77
- is_black_king_square_attacked:          19
-solution finished. 
+ is_black_king_square_attacked:          17
+solution finished.
 
 
 
@@ -1217,9 +1217,9 @@ solution finished.
 
   add_to_move_generation_stack:          75
                      play_move:          68
- is_white_king_square_attacked:          15
+ is_white_king_square_attacked:          13
  is_black_king_square_attacked:          69
-solution finished. 
+solution finished.
 
 
 
@@ -1253,12 +1253,12 @@ solution finished.
   add_to_move_generation_stack:          87
                      play_move:          69
  is_white_king_square_attacked:          70
- is_black_king_square_attacked:          17
-solution finished. 
+ is_black_king_square_attacked:          15
+solution finished.
 
 
 
-      only example of phser-s#N*
+     only example of phser-s#N*
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1288,12 +1288,12 @@ solution finished.
   add_to_move_generation_stack:         326
                      play_move:         254
  is_white_king_square_attacked:         239
- is_black_king_square_attacked:         118
-solution finished. 
+ is_black_king_square_attacked:         116
+solution finished.
 
 
 
-       only example of ser-r#2*
+      only example of ser-r#2*
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1323,8 +1323,8 @@ solution finished.
   add_to_move_generation_stack:          87
                      play_move:          69
  is_white_king_square_attacked:          70
- is_black_king_square_attacked:          17
-solution finished. 
+ is_black_king_square_attacked:          15
+solution finished.
 
 
 
@@ -1358,8 +1358,8 @@ Popeye didn't find a solution since at least 4.37
 
   add_to_move_generation_stack:       55983
                      play_move:       55983
- is_white_king_square_attacked:       21009
- is_black_king_square_attacked:       34581
-solution finished. 
+ is_white_king_square_attacked:       20970
+ is_black_king_square_attacked:       34578
+solution finished.
 
 

@@ -1,6 +1,6 @@
 
-           Stephen Emmerson
-               Original
+          Stephen Emmerson
+              Original
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,19 +22,19 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=6                     2 + 2
-           ProvocationChess
+          ProvocationChess
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=Q   6.Qa1-a7 b6*a7 =
 
   add_to_move_generation_stack:        3246
                      play_move:        1510
- is_white_king_square_attacked:         672
+ is_white_king_square_attacked:         666
  is_black_king_square_attacked:        1351
-solution finished. 
+solution finished.
 
 
 
-           Abdelaziz Onkoud
+          Abdelaziz Onkoud
         The Problemist v/2009
 
 +---a---b---c---d---e---f---g---h---+
@@ -57,15 +57,15 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 6
-           ProvocationChess
+          ProvocationChess
 
   1.Qf3-g4 Bb8-a7   2.Kf4-f3 Ba7-d4   3.Be5-g3 Rf1-f2 #
   1.Be5-d4 Rf1-g1   2.Kf4-e5 Rg1-g6   3.Qf3-f5 Bb8-d6 #
 
   add_to_move_generation_stack:    50234926
                      play_move:    36586520
- is_white_king_square_attacked:     2626188
- is_black_king_square_attacked:    36401704
-solution finished. 
+ is_white_king_square_attacked:     2626182
+ is_black_king_square_attacked:    36401700
+solution finished.
 
 

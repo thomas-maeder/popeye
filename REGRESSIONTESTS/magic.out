@@ -1,6 +1,6 @@
 
-           Ruud Beugelsdijk
-    4624, feenschach 74, 9-10/1985
+          Ruud Beugelsdijk
+   4624, feenschach 74, 9-10/1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -31,14 +31,14 @@
 
   add_to_move_generation_stack:       42804
                      play_move:       15412
- is_white_king_square_attacked:        6967
+ is_white_king_square_attacked:        6955
  is_black_king_square_attacked:       13709
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Kjell Widlert
-      feenschach 77, 8. 11. 1985
+     feenschach 77, 8. 11. 1985
 1. Preis, Albert H. Kniest Jubil"aumsturnier
 
 +---a---b---c---d---e---f---g---h---+
@@ -67,14 +67,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       79821
                      play_move:       69422
- is_white_king_square_attacked:       14925
- is_black_king_square_attacked:       56417
-Loesung beendet. 
+ is_white_king_square_attacked:       14921
+ is_black_king_square_attacked:       56414
+Loesung beendet.
 
 
 
             Kjell Widlert
-      feenschach 77, 8. 11. 1985
+     feenschach 77, 8. 11. 1985
 2. ehr. Erw., Albert H. Kniest Jubil"aumsturnier
 
 +---a---b---c---d---e---f---g---h---+
@@ -114,13 +114,13 @@ Loesung beendet.
                      play_move:       18650
  is_white_king_square_attacked:        8115
  is_black_king_square_attacked:       13421
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Oswaldo Faria
-           Petro Dalla Rosa
-      feenschach 77, 8. 11. 1985
+          Petro Dalla Rosa
+     feenschach 77, 8. 11. 1985
 3. ehr. Erw., Albert H. Kniest Jubil"aumsturnier
 
 +---a---b---c---d---e---f---g---h---+
@@ -143,8 +143,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s=6                         2 + 2
-        SchwarzerLaengstzueger
-      MagischeFelder a3 h3 a6 h6
+       SchwarzerLaengstzueger
+     MagischeFelder a3 h3 a6 h6
 
    1.Kh1-h2 !
       1...Df1-a6=w
@@ -164,12 +164,12 @@ Loesung beendet.
                      play_move:      123683
  is_white_king_square_attacked:       75717
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            J. T. Sanderse
-      feenschach 77, 8. 11. 1985
+           J. T. Sanderse
+     feenschach 77, 8. 11. 1985
 4. ehr. Erw., Albert H. Kniest Jubil"aumsturnier
 
 +---a---b---c---d---e---f---g---h---+
@@ -198,14 +198,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      775412
                      play_move:      633535
- is_white_king_square_attacked:      142937
- is_black_king_square_attacked:      523840
-Loesung beendet. 
+ is_white_king_square_attacked:      142933
+ is_black_king_square_attacked:      523837
+Loesung beendet.
 
 
 
           Achim Sch"oneberg
-      feenschach 77, 8. 11. 1985
+     feenschach 77, 8. 11. 1985
 Lob, Albert H. Kniest Jubil"aumsturnier
 
 +---a---b---c---d---e---f---g---h---+
@@ -228,7 +228,7 @@ Lob, Albert H. Kniest Jubil"aumsturnier
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#4                         4 + 1
-        SchwarzerLaengstzueger
+       SchwarzerLaengstzueger
           MagischeFelder f6
 
    1.Lg7-f6=s !
@@ -245,7 +245,7 @@ Lob, Albert H. Kniest Jubil"aumsturnier
                      play_move:      629726
  is_white_king_square_attacked:      255780
  is_black_king_square_attacked:      520952
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -272,8 +272,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   r#2                       12 + 10
-         Madrasi RexInklusive
-         MagischeFelder g4 f8
+        Madrasi RexInklusive
+        MagischeFelder g4 f8
 
    1.De3-c5 ? Drohung:
           2.f7-f8=S=s
@@ -776,12 +776,12 @@ Loesung beendet.
                      play_move:      412929
  is_white_king_square_attacked:      360801
  is_black_king_square_attacked:       58306
-Loesung beendet. 
+Loesung beendet.
 
 
 
-   Oswaldo Faria & Petro Dalla Rosa
-   3. ehr. Erw., AHK-Jubilaeum 1985
+  Oswaldo Faria & Petro Dalla Rosa
+  3. ehr. Erw., AHK-Jubilaeum 1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -803,8 +803,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s=6                         2 + 2
-        SchwarzerLaengstzueger
-      MagischeFelder a3 h3 a6 h6
+       SchwarzerLaengstzueger
+     MagischeFelder a3 h3 a6 h6
 
    1.Kh1-h2 !
       1...Df1-a6=w
@@ -824,12 +824,12 @@ Loesung beendet.
                      play_move:      123683
  is_white_king_square_attacked:       75717
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Kjell Widlert
-      2. ehr. Erw, AHK-Jub. 1985
+     2. ehr. Erw, AHK-Jub. 1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -868,12 +868,12 @@ Loesung beendet.
                      play_move:       18650
  is_white_king_square_attacked:        8115
  is_black_king_square_attacked:       13421
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Kjell Widlert
-          Lob, AHK-Jub. 1985
+         Lob, AHK-Jub. 1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -895,7 +895,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                         11 + 1
-         MagischeFelder e1 f3
+        MagischeFelder e1 f3
 
    1.Sd4-f3=s !
       1...Sf3-d2
@@ -1004,7 +1004,7 @@ Loesung beendet.
                      play_move:      108794
  is_white_king_square_attacked:       68029
  is_black_king_square_attacked:       54393
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1048,11 +1048,11 @@ Loesung beendet.
                      play_move:        4707
  is_white_king_square_attacked:        3926
  is_black_king_square_attacked:        1878
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            J. T. Sanderse
+           J. T. Sanderse
             AHK-Jub. 1985
 
 +---a---b---c---d---e---f---g---h---+
@@ -1075,8 +1075,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 7
-         MagischeFelder g1 b8
-                Duplex
+        MagischeFelder g1 b8
+               Duplex
 
   1.g2-g1=D=w b7-b8=T=s   2.Tb8-g8 Dg1-h2 #
 
@@ -1084,8 +1084,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       15423
                      play_move:       15043
- is_white_king_square_attacked:        6186
- is_black_king_square_attacked:       11550
-Loesung beendet. 
+ is_white_king_square_attacked:        6183
+ is_black_king_square_attacked:       11547
+Loesung beendet.
 
 

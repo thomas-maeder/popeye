@@ -2,7 +2,7 @@ In bicolores, 4.47 didn't detect some battery mates where the rear
 piece is of the same colour as the king to be mated
 
  bernd ellinghoven & Hans Peter Rehm
-   Andernach 2009 (example problem)
+  Andernach 2009 (example problem)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -32,9 +32,9 @@ piece is of the same colour as the king to be mated
 
   add_to_move_generation_stack:       76524
                      play_move:       65793
- is_white_king_square_attacked:        2795
- is_black_king_square_attacked:       65439
-solution finished. 
+ is_white_king_square_attacked:        2789
+ is_black_king_square_attacked:       65436
+solution finished.
 
 
 the functions checking for check in extinction chess changed
@@ -67,10 +67,10 @@ caused all kinds of trouble, including this shortie not being solved.
   1.f2-f4 e7-e5 dia
 
   add_to_move_generation_stack:          40
-                     play_move:          43
+                     play_move:          42
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 Test: avoid duplicate king moves (e.g. to f5)
@@ -139,7 +139,7 @@ Test: avoid duplicate king moves (e.g. to f5)
                      play_move:          27
  is_white_king_square_attacked:          27
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -148,9 +148,9 @@ solution finished.
 
   add_to_move_generation_stack:          42
                      play_move:          42
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:           6
-solution finished. 
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           4
+solution finished.
 
 
 
@@ -182,9 +182,9 @@ solution finished.
 
   add_to_move_generation_stack:          42
                      play_move:          42
- is_white_king_square_attacked:           3
- is_black_king_square_attacked:           6
-solution finished. 
+ is_white_king_square_attacked:           2
+ is_black_king_square_attacked:           4
+solution finished.
 
 
 
@@ -209,8 +209,8 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          3 + 2
-        Circe Mirror Turncoats
-          SingleBox    Type1
+       Circe Mirror Turncoats
+         SingleBox    Type1
 
 a) 
 
@@ -230,7 +230,7 @@ b) -wQc1
                      play_move:          33
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          21
-solution finished. 
+solution finished.
 
 
 fairy pieces only allowed in proof games since releases >4.51
@@ -240,8 +240,8 @@ fairy pieces only allowed in proof games since releases >4.51
   add_to_move_generation_stack:           4
                      play_move:           4
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:           5
-solution finished. 
+ is_black_king_square_attacked:           4
+solution finished.
 
 
 4.51 didn't find the solution because White could deliver mate after
@@ -273,9 +273,9 @@ White's first move
 
   add_to_move_generation_stack:       12003
                      play_move:        6369
- is_white_king_square_attacked:        5921
- is_black_king_square_attacked:        1590
-solution finished. 
+ is_white_king_square_attacked:        5920
+ is_black_king_square_attacked:        1588
+solution finished.
 
 
 
@@ -1226,7 +1226,7 @@ z106) +wSa4  +bBg3
                      play_move:        1125
  is_white_king_square_attacked:         101
  is_black_king_square_attacked:        1041
-solution finished. 
+solution finished.
 
 
 
@@ -1265,7 +1265,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           4
-solution finished. 
+solution finished.
 
 
 
@@ -1303,7 +1303,7 @@ solution finished.
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           4
-solution finished. 
+solution finished.
 
 
 
@@ -1336,7 +1336,7 @@ there is no solution, but 4.51 gave 1.Qb2#
                      play_move:           5
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 Can't decide whether condition applies to White or Black
@@ -1347,7 +1347,7 @@ problem ignored
                      play_move:           0
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 WhiteToPlay not applicable - ignored
@@ -1382,13 +1382,13 @@ option WhiteToPlay not applicable in help play
 
   add_to_move_generation_stack:          34
                      play_move:          34
- is_white_king_square_attacked:          17
- is_black_king_square_attacked:          43
-solution finished. 
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          39
+solution finished.
 
 
 
-    castling rules in Losing Chess
+   castling rules in Losing Chess
 if wK could castle after having moved, we'd have 8 solutions
 
 +---a---b---c---d---e---f---g---h---+
@@ -1438,7 +1438,7 @@ if wK could castle after having moved, we'd have 8 solutions
                      play_move:     6180547
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1464,7 +1464,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-              Circe Cage
+             Circe Cage
 
    1.h2-h4 !
 
@@ -1477,7 +1477,7 @@ solution finished.
                      play_move:          66
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1503,7 +1503,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-              Circe Cage
+             Circe Cage
 
    1.c6-c7 !
 
@@ -1514,7 +1514,7 @@ solution finished.
                      play_move:          64
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1540,7 +1540,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
-              Circe Cage
+             Circe Cage
 
    1.c6-c7 !
 
@@ -1553,11 +1553,11 @@ solution finished.
                      play_move:          87
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-        cage for promoted pawn
+       cage for promoted pawn
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1579,7 +1579,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          2 + 1
-              Circe Cage
+             Circe Cage
 
    1.g2-g4 !
 
@@ -1598,7 +1598,7 @@ solution finished.
                      play_move:          89
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1624,7 +1624,7 @@ cage for promoted pawn, capturer part of cage
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          3 + 1
-              Circe Cage
+             Circe Cage
 
    1.e2-e4 !
 
@@ -1649,7 +1649,7 @@ cage for promoted pawn, capturer part of cage
                      play_move:          90
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1675,22 +1675,22 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 4
-              Circe Cage
+             Circe Cage
 
   1.Ke4*f3[+wRh1] g1*h2   2.g5-g4 0-0 #
   1.Ke4*f3[+wRh1] Sc3-e2   2.Kf3-g2 Rh1*h2[+bRf3] #
 
   add_to_move_generation_stack:     1917494
                      play_move:      492093
- is_white_king_square_attacked:      266351
- is_black_king_square_attacked:      278581
-solution finished. 
+ is_white_king_square_attacked:      266347
+ is_black_king_square_attacked:      278579
+solution finished.
 
 
 
 in a=>b or proof games, the intelligent machinery
 never generates the same solution twice (but some solutions
-      may look very similar ...)
+     may look very similar ...)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1736,16 +1736,16 @@ never generates the same solution twice (but some solutions
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1.5                   16 + 16
-              Circe Cage
+             Circe Cage
 
   1.Qb3*d5[+bPc2] Ke8-d7   2.Qd5-f3 a=>b
   1.Qb3*d5[+bPf3] Ke8-d7   2.Qd5*f3[+bPc2] a=>b
 
   add_to_move_generation_stack:       28339
                      play_move:       13256
- is_white_king_square_attacked:        2896
- is_black_king_square_attacked:        5974
-solution finished. 
+ is_white_king_square_attacked:        2894
+ is_black_king_square_attacked:        5970
+solution finished.
 
 
 
@@ -1796,15 +1796,15 @@ promote to bishop (no cage for queen) even if there was a cage
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b0.5                   15 + 16
-              Circe Cage
+             Circe Cage
 
   1.e2*d1=B a=>b
 
   add_to_move_generation_stack:        1829
                      play_move:         910
- is_white_king_square_attacked:         825
+ is_white_king_square_attacked:         824
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 
@@ -1830,7 +1830,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 1
-              Circe Cage
+             Circe Cage
 
    1.Ke8-f7 !
 
@@ -1845,7 +1845,7 @@ solution finished.
                      play_move:           5
  is_white_king_square_attacked:           5
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -1871,8 +1871,8 @@ consider previous cage after advancing type of promotee
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ~1                        16 + 16
-              Circe Cage
-              HalfDuplex
+             Circe Cage
+             HalfDuplex
 
    1.e2*d1=Q[+wQf1] + !
 
@@ -1947,7 +1947,7 @@ consider previous cage after advancing type of promotee
                      play_move:         855
  is_white_king_square_attacked:         786
  is_black_king_square_attacked:          34
-solving interrupted. 
+solving interrupted.
 
 
 
@@ -1979,14 +1979,14 @@ solving interrupted.
 
   add_to_move_generation_stack:       66703
                      play_move:       40216
- is_white_king_square_attacked:       36361
- is_black_king_square_attacked:        9879
-solution finished. 
+ is_white_king_square_attacked:       36357
+ is_black_king_square_attacked:        9873
+solution finished.
 
 
 
      helpreflexmate in N.5 moves
-    (not 2.Kc2 because of 3.Q*a5#)
+   (not 2.Kc2 because of 3.Q*a5#)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2013,9 +2013,9 @@ solution finished.
 
   add_to_move_generation_stack:       52700
                      play_move:       27882
- is_white_king_square_attacked:       19628
- is_black_king_square_attacked:       14829
-solution finished. 
+ is_white_king_square_attacked:       19626
+ is_black_king_square_attacked:       14827
+solution finished.
 
 
 
@@ -2049,7 +2049,7 @@ solution finished.
                      play_move:         821
  is_white_king_square_attacked:          79
  is_black_king_square_attacked:         783
-solution finished. 
+solution finished.
 
 
 
@@ -2076,7 +2076,7 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=10                    4 + 2
-             Circe Strict
+            Circe Strict
 
   1.Bc2-b1 Bg6-c2 =
   1.Bc2-f5   2.Bf5-b1 Bg6-c2 =
@@ -2091,9 +2091,9 @@ and 1.Kc1-b1 2.Kb1-a1 3.Bc2-b1 Bg6-c2 =
 
   add_to_move_generation_stack:       11839
                      play_move:        6607
- is_white_king_square_attacked:        2184
+ is_white_king_square_attacked:        2159
  is_black_king_square_attacked:        6180
-solving interrupted. 
+solving interrupted.
 
 
 
@@ -2140,7 +2140,7 @@ White would have to deliver mate after the key
                      play_move:         349
  is_white_king_square_attacked:         329
  is_black_king_square_attacked:          78
-solution finished. 
+solution finished.
 
 
 
@@ -2175,7 +2175,7 @@ issue 2903930: countermate used to only work in help play
                      play_move:         545
  is_white_king_square_attacked:         102
  is_black_king_square_attacked:         511
-solution finished. 
+solution finished.
 
 
 
@@ -2232,9 +2232,9 @@ issue 2886962: 4.51 didn't allow a reborn rook
 
   add_to_move_generation_stack:          25
                      play_move:          25
- is_white_king_square_attacked:           6
- is_black_king_square_attacked:           3
-solution finished. 
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           2
+solution finished.
 
 
 
@@ -2260,15 +2260,15 @@ feature request 2813613: proof games and Cavalier Majeur
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   dia2.5                    16 + 16
-            CavalierMajeur
+           CavalierMajeur
 
   1.Nb1-a3 Ng8-f6   2.Na3-e5 Nf6-b4   3.a2-a3 dia
 
   add_to_move_generation_stack:     6999963
                      play_move:     6999963
- is_white_king_square_attacked:       15725
- is_black_king_square_attacked:      357932
-solution finished. 
+ is_white_king_square_attacked:       15723
+ is_black_king_square_attacked:      357929
+solution finished.
 
 
 
@@ -2300,13 +2300,13 @@ feature request 2813613: proof games and Leofamily
 
   add_to_move_generation_stack:        8532
                      play_move:        8532
- is_white_king_square_attacked:          22
- is_black_king_square_attacked:         366
-solution finished. 
+ is_white_king_square_attacked:          21
+ is_black_king_square_attacked:         364
+solution finished.
 
 
 
-            issue 2907112:
+           issue 2907112:
 up to release 4.51, Popeye gave no solution for twins b) and c)
 
 +---a---b---c---d---e---f---g---h---+
@@ -2329,7 +2329,7 @@ up to release 4.51, Popeye gave no solution for twins b) and c)
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          2 + 3
-            Take&MakeChess
+           Take&MakeChess
 
 a) 
 
@@ -2362,7 +2362,7 @@ c) nhPf7
                      play_move:          47
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          48
-solution finished. 
+solution finished.
 
 
 
@@ -2388,15 +2388,15 @@ ghostchess bug; 4.51 didn't find a solution here
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#1.5                  1 + 4 + 2n
-             Uncapturable
-              GhostChess
+            Uncapturable
+             GhostChess
 
   1...nPc7*d8=nS   2.Kb6-a5 nSd8-c6[+nuBd8] #
 
   add_to_move_generation_stack:        4060
                      play_move:        2248
- is_white_king_square_attacked:         608
- is_black_king_square_attacked:        2233
-solution finished. 
+ is_white_king_square_attacked:         607
+ is_black_king_square_attacked:        2232
+solution finished.
 
 

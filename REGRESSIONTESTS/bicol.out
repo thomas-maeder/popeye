@@ -1,5 +1,5 @@
 
-             Erich Bartel
+            Erich Bartel
       159, CfT-22, 15. 12. 1970
 
 +---a---b---c---d---e---f---g---h---+
@@ -23,7 +23,7 @@
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
               Bicolores
-                Duplex
+               Duplex
 
   1.Kd3-d2 Kf1-g1   2.Kd2-e1 Lh8-c3 #
 
@@ -31,14 +31,14 @@
 
   add_to_move_generation_stack:       32275
                      play_move:       28674
- is_white_king_square_attacked:       16015
- is_black_king_square_attacked:       15011
-Loesung beendet. 
+ is_white_king_square_attacked:       16012
+ is_black_king_square_attacked:       15008
+Loesung beendet.
 
 
 
           Hansj"org Schiegl
-       110, CfT-16, 10. 9. 1970
+      110, CfT-16, 10. 9. 1970
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -66,9 +66,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:       43917
                      play_move:       35117
- is_white_king_square_attacked:        4267
- is_black_king_square_attacked:       34825
-Loesung beendet. 
+ is_white_king_square_attacked:        4265
+ is_black_king_square_attacked:       34824
+Loesung beendet.
 
 
 
@@ -96,7 +96,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
               Bicolores
-                Duplex
+               Duplex
 
   1.Kg2-h1 Kg4-f3   2.Le5-h2 Sh3-f2 #
 
@@ -104,14 +104,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       20906
                      play_move:       18441
- is_white_king_square_attacked:       11035
- is_black_king_square_attacked:        9131
-Loesung beendet. 
+ is_white_king_square_attacked:       11032
+ is_black_king_square_attacked:        9128
+Loesung beendet.
 
 
 
-             Erich Bartel
-       150, CfT-21, 7. 12. 1970
+            Erich Bartel
+      150, CfT-21, 7. 12. 1970
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -134,7 +134,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
               Bicolores
-                Duplex
+               Duplex
 
   1.Sf5-d4 Kf1-f2   2.Sd4-b3 Sg2-e3 #
 
@@ -142,14 +142,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:        8538
                      play_move:        7467
- is_white_king_square_attacked:        4279
- is_black_king_square_attacked:        4061
-Loesung beendet. 
+ is_white_king_square_attacked:        4276
+ is_black_king_square_attacked:        4058
+Loesung beendet.
 
 
 
-             Erich Bartel
-       330, KddB?, 22. 11. 1970
+            Erich Bartel
+      330, KddB?, 22. 11. 1970
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -172,7 +172,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
               Bicolores
-                Duplex
+               Duplex
 
   1.c2-c1=T h7-h8=T   2.Tc1-c3 Th8-h4 #
 
@@ -180,14 +180,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       21728
                      play_move:       20369
- is_white_king_square_attacked:       11809
- is_black_king_square_attacked:       10829
-Loesung beendet. 
+ is_white_king_square_attacked:       11806
+ is_black_king_square_attacked:       10826
+Loesung beendet.
 
 
 
-             Romeo Bedoni
- 47), Problemkiste-79, 2/1992, S. 120
+            Romeo Bedoni
+47), Problemkiste-79, 2/1992, S. 120
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -216,14 +216,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       25963
                      play_move:       18869
- is_white_king_square_attacked:        2771
- is_black_king_square_attacked:       18699
-Loesung beendet. 
+ is_white_king_square_attacked:        2769
+ is_black_king_square_attacked:       18698
+Loesung beendet.
 
 
 
  bernd ellinghoven & Hans Peter Rehm
-   Andernach 2009 (example problem)
+  Andernach 2009 (example problem)
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -253,8 +253,8 @@ Loesung beendet.
 
   add_to_move_generation_stack:       76524
                      play_move:       65793
- is_white_king_square_attacked:        2795
- is_black_king_square_attacked:       65439
-Loesung beendet. 
+ is_white_king_square_attacked:        2789
+ is_black_king_square_attacked:       65436
+Loesung beendet.
 
 

@@ -1,5 +1,5 @@
 
-             Karol Mlynka
+            Karol Mlynka
         Brabec-60 C 26.5.1998
             2. Ehr. Erw. 
 
@@ -23,7 +23,7 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        11 + 14
-  WeisserSuperTransmutierenderKoenig
+ WeisserSuperTransmutierenderKoenig
 
       1...Sc2-a1 +
           2.Ke4*c6=L #
@@ -81,11 +81,11 @@
                      play_move:       22277
  is_white_king_square_attacked:        2591
  is_black_king_square_attacked:       20470
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Karol Mlynka
+            Karol Mlynka
         Brabec-60 C 26.5.1998
                  Lob
 
@@ -109,7 +109,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          7 + 6
-  WeisserSuperTransmutierenderKoenig
+ WeisserSuperTransmutierenderKoenig
 
       1...La2*b3 +
           2.Kd5*f3=L #
@@ -266,11 +266,11 @@ Loesung beendet.
                      play_move:       29140
  is_white_king_square_attacked:        4267
  is_black_king_square_attacked:       27453
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Karol Mlynka
+            Karol Mlynka
           478, Cyclone 2000
 
 +---a---b---c---d---e---f---g---h---+
@@ -293,7 +293,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         6 + 11
-  WeisserSuperTransmutierenderKoenig
+ WeisserSuperTransmutierenderKoenig
 
       1...Lb3-a2 +
           2.Kb5-e8=G #
@@ -349,7 +349,7 @@ Loesung beendet.
                      play_move:       13288
  is_white_king_square_attacked:        1592
  is_black_king_square_attacked:       12091
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -377,7 +377,7 @@ Nr. 39, 9. TT Chess Composition Microweb C 17.6.2002
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 11
-  WeisserSuperTransmutierenderKoenig
+ WeisserSuperTransmutierenderKoenig
 
    1.Sc2-e1 + ?
     Aber
@@ -524,13 +524,13 @@ Nr. 39, 9. TT Chess Composition Microweb C 17.6.2002
                      play_move:       94245
  is_white_king_square_attacked:        6482
  is_black_king_square_attacked:       92086
-Loesung beendet. 
+Loesung beendet.
 
 
 
        Karol Mlynka (Slovakia)
 Nr. F14, 11. TT Chess Composition Microweb 28.2.2003
-                2. Lob
+               2. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -552,7 +552,7 @@ Nr. F14, 11. TT Chess Composition Microweb 28.2.2003
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         1 + 4
-  WeisserSuperTransmutierenderKoenig
+ WeisserSuperTransmutierenderKoenig
 
 a) 
 
@@ -560,8 +560,8 @@ a)
 
   add_to_move_generation_stack:     6163583
                      play_move:     4466945
- is_white_king_square_attacked:      176255
- is_black_king_square_attacked:     4131584
+ is_white_king_square_attacked:      176253
+ is_black_king_square_attacked:     4131582
 b) sBa2-->b2  
 
   1.Kg7-f8 Kd5-c6   2.Th8-g8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
@@ -572,8 +572,8 @@ b) sBa2-->b2
 
   add_to_move_generation_stack:     6320382
                      play_move:     4526979
- is_white_king_square_attacked:      170496
- is_black_king_square_attacked:     4189195
-Loesung beendet. 
+ is_white_king_square_attacked:      170482
+ is_black_king_square_attacked:     4189185
+Loesung beendet.
 
 

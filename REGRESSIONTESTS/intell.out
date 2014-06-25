@@ -1,8 +1,8 @@
 
-            Harald Grubert
-            Dieter M"uller
+           Harald Grubert
+           Dieter M"uller
             Torsten Lin"s
-      10, harmonie 29, 30.6.1990
+     10, harmonie 29, 30.6.1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -31,22 +31,22 @@ a)
 
   add_to_move_generation_stack:       11200
                      play_move:       11163
- is_white_king_square_attacked:         309
- is_black_king_square_attacked:         819
+ is_white_king_square_attacked:         305
+ is_black_king_square_attacked:         816
 b) sBc2  
 
   1.c2-c1=L d4-d5   2.Lc1-b2 Kf3-e3   3.Lb2-f6 Sc6-e7 +   4.Kf5-e5 f2-f4 #
 
   add_to_move_generation_stack:       22461
                      play_move:       22742
- is_white_king_square_attacked:         608
- is_black_king_square_attacked:        1329
-Loesung beendet. 
+ is_white_king_square_attacked:         604
+ is_black_king_square_attacked:        1326
+Loesung beendet.
 
 
 
             Torsten Lin"s
-        2679, IMR 29, 7-9/1988
+       2679, IMR 29, 7-9/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -73,14 +73,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      104104
                      play_move:      104112
- is_white_king_square_attacked:        7201
- is_black_king_square_attacked:        8069
-Loesung beendet. 
+ is_white_king_square_attacked:        7197
+ is_black_king_square_attacked:        8066
+Loesung beendet.
 
 
 
-              Hans Moser
-    9486, Die Schwalbe 163, 2/1997
+             Hans Moser
+   9486, Die Schwalbe 163, 2/1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -109,17 +109,17 @@ a)
 
   add_to_move_generation_stack:        7853
                      play_move:        7832
- is_white_king_square_attacked:         418
- is_black_king_square_attacked:         414
+ is_white_king_square_attacked:         414
+ is_black_king_square_attacked:         411
 b) sLb2-->b8  
 
   1.Kf4-e3 Se4-g5   2.Td4-g4 Kc8-d7   3.Lb8-g3 Kd7-e6   4.Ke3-f4 Lc3-d2 #
 
   add_to_move_generation_stack:       31345
                      play_move:       31294
- is_white_king_square_attacked:        1696
- is_black_king_square_attacked:        1601
-Loesung beendet. 
+ is_white_king_square_attacked:        1692
+ is_black_king_square_attacked:        1598
+Loesung beendet.
 
 
 
@@ -151,14 +151,14 @@ harmonie 23, 31.12.1988 (Neujahrsgru"s)
 
   add_to_move_generation_stack:      162909
                      play_move:      163391
- is_white_king_square_attacked:        4555
- is_black_king_square_attacked:       13110
-Loesung beendet. 
+ is_white_king_square_attacked:        4549
+ is_black_king_square_attacked:       13105
+Loesung beendet.
 
 
 
-        Fadil Abdurahmanovi\'c
-    9487, Die Schwalbe 163, 2/1997
+       Fadil Abdurahmanovi\'c
+   9487, Die Schwalbe 163, 2/1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -185,14 +185,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       50892
                      play_move:       51697
- is_white_king_square_attacked:        3536
- is_black_king_square_attacked:        4673
-Loesung beendet. 
+ is_white_king_square_attacked:        3531
+ is_black_king_square_attacked:        4669
+Loesung beendet.
 
 
 
           Christian Poisson
-    9488, Die Schwalbe 163, 2/1997
+   9488, Die Schwalbe 163, 2/1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -219,14 +219,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      244113
                      play_move:      253635
- is_white_king_square_attacked:       13240
- is_black_king_square_attacked:        9093
-Loesung beendet. 
+ is_white_king_square_attacked:       13234
+ is_black_king_square_attacked:        9088
+Loesung beendet.
 
 
 
-            Torsten Lin"s,
-      620, Europa-Rochade 6/1988
+           Torsten Lin"s,
+     620, Europa-Rochade 6/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -255,22 +255,22 @@ a)
 
   add_to_move_generation_stack:        3676
                      play_move:        3739
- is_white_king_square_attacked:          54
- is_black_king_square_attacked:         475
+ is_white_king_square_attacked:          49
+ is_black_king_square_attacked:         471
 b) sKh4-->e1  
 
   1.Ke1-f2 h2-h4   2.Kf2-g3 h4-h5   3.Kg3-h4 h5-h6   4.Kh4-h5 h6-h7   5.Kh5-h6 h7-h8=D #
 
   add_to_move_generation_stack:       10202
                      play_move:       10259
- is_white_king_square_attacked:         358
- is_black_king_square_attacked:        1270
-Loesung beendet. 
+ is_white_king_square_attacked:         353
+ is_black_king_square_attacked:        1266
+Loesung beendet.
 
 
 
             Torsten Lin"s
-         10896, Schach 1/1986
+        10896, Schach 1/1986
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -297,14 +297,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      132121
                      play_move:      132121
- is_white_king_square_attacked:        8917
- is_black_king_square_attacked:       14653
-Loesung beendet. 
+ is_white_king_square_attacked:        8911
+ is_black_king_square_attacked:       14648
+Loesung beendet.
 
 
 
             Torsten Lin"s
-   2706, Problemkiste 74/75, 5/1991
+  2706, Problemkiste 74/75, 5/1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -333,17 +333,17 @@ a)
 
   add_to_move_generation_stack:        1149
                      play_move:        1121
- is_white_king_square_attacked:          44
- is_black_king_square_attacked:         143
+ is_white_king_square_attacked:          40
+ is_black_king_square_attacked:         140
 b) sLa7-->a8  
 
   1.La8-e4 Kb5-a5   2.Dd1-d5 + Ka5-a4   3.Kc3-d4 Ka4-b4   4.Le4-d3 e2-e3 #
 
   add_to_move_generation_stack:        1018
                      play_move:        1011
- is_white_king_square_attacked:          90
- is_black_king_square_attacked:          90
-Loesung beendet. 
+ is_white_king_square_attacked:          86
+ is_black_king_square_attacked:          87
+Loesung beendet.
 
 
 
@@ -375,15 +375,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:      508757
                      play_move:      511898
- is_white_king_square_attacked:       27444
- is_black_king_square_attacked:       24142
-Loesung beendet. 
+ is_white_king_square_attacked:       27438
+ is_black_king_square_attacked:       24137
+Loesung beendet.
 
 
 
             Torsten Lin"s
         12117, Schach 11/1989
-                3. Lob
+               3. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -412,25 +412,25 @@ a)
 
   add_to_move_generation_stack:         858
                      play_move:         852
- is_white_king_square_attacked:          56
- is_black_king_square_attacked:          91
+ is_white_king_square_attacked:          52
+ is_black_king_square_attacked:          88
 b) sBd6-->d5  
 
   1.Lc3-e5 Ka6-a5   2.Kc5-d4 Ka5-b5   3.Ld1-c2 Kb5-b4   4.Lc2-d3 e2-e3 #
 
   add_to_move_generation_stack:         295
                      play_move:         292
- is_white_king_square_attacked:          37
- is_black_king_square_attacked:          52
-Loesung beendet. 
+ is_white_king_square_attacked:          33
+ is_black_king_square_attacked:          49
+Loesung beendet.
 
 
 
              Udo Degener
             Torsten Lin"s
  H1222, The Problemist 12/19, 1/1988
-               2. Preis
-          FIDE-Album 1986-88
+              2. Preis
+         FIDE-Album 1986-88
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -458,14 +458,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     3271490
                      play_move:     3288277
- is_white_king_square_attacked:      134943
- is_black_king_square_attacked:      125170
-Loesung beendet. 
+ is_white_king_square_attacked:      134937
+ is_black_king_square_attacked:      125164
+Loesung beendet.
 
 
 
             Torsten Lin"s
-    6409, Thema Danicum 79, 7/1995
+   6409, Thema Danicum 79, 7/1995
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -494,17 +494,17 @@ a)
 
   add_to_move_generation_stack:      790591
                      play_move:      820373
- is_white_king_square_attacked:       36436
- is_black_king_square_attacked:       32819
+ is_white_king_square_attacked:       36433
+ is_black_king_square_attacked:       32817
 b) sBa4-->c2  
 
   1.Sg4-f2 Lf3-h5   2.Lc8-d7 Lh5-f7   3.Ld7-a4 Te6-e3 #
 
   add_to_move_generation_stack:      656261
                      play_move:      687304
- is_white_king_square_attacked:       29798
- is_black_king_square_attacked:       29835
-Loesung beendet. 
+ is_white_king_square_attacked:       29795
+ is_black_king_square_attacked:       29833
+Loesung beendet.
 
 
 
@@ -539,24 +539,24 @@ a)
 
   add_to_move_generation_stack:      289774
                      play_move:      328535
- is_white_king_square_attacked:        9592
- is_black_king_square_attacked:        8229
+ is_white_king_square_attacked:        9589
+ is_black_king_square_attacked:        8227
 b) sKf6-->f7  
 
   1.Te2-e6 Te1*e6   2.Tg5-g7 Te6-h6   3.Ld7-e6 Lc8*e6 #
 
   add_to_move_generation_stack:      201431
                      play_move:      223337
- is_white_king_square_attacked:        5396
- is_black_king_square_attacked:        8293
-Loesung beendet. 
+ is_white_king_square_attacked:        5393
+ is_black_king_square_attacked:        8291
+Loesung beendet.
 
 
 
             Rolf Wiehagen
             Torsten Lin"s
       8, harmonie 29, 30.6.1990
-                1. Lob
+               1. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -585,30 +585,30 @@ a)
 
   add_to_move_generation_stack:        9379
                      play_move:        9391
- is_white_king_square_attacked:         328
- is_black_king_square_attacked:         470
+ is_white_king_square_attacked:         325
+ is_black_king_square_attacked:         468
 b) sSe6-->c4  
 
   1.Ke5-f4 Lh5-g6   2.Sc4-e5 + Kd3-d2   3.Tg1-g3 e2-e3 #
 
   add_to_move_generation_stack:        7782
                      play_move:        7797
- is_white_king_square_attacked:         300
- is_black_king_square_attacked:         380
+ is_white_king_square_attacked:         297
+ is_black_king_square_attacked:         378
 c) sKe5-->b1  
 
   1.Tg1-g2 e2-e3   2.Tg2-a2 Lh5-g6   3.b3-b2 Kd3-d2 #
 
   add_to_move_generation_stack:       71655
                      play_move:       71917
- is_white_king_square_attacked:        3977
- is_black_king_square_attacked:        2925
-Loesung beendet. 
+ is_white_king_square_attacked:        3974
+ is_black_king_square_attacked:        2923
+Loesung beendet.
 
 
 
             Torsten Lin"s
-    7984, Die Schwalbe 139, 2/1993
+   7984, Die Schwalbe 139, 2/1993
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -637,24 +637,24 @@ a)
 
   add_to_move_generation_stack:      731083
                      play_move:      729321
- is_white_king_square_attacked:       16353
- is_black_king_square_attacked:       38566
+ is_white_king_square_attacked:       16350
+ is_black_king_square_attacked:       38564
 b) sSb3-->c1  
 
   1.Tg2-a2 Th2*a2   2.Lg7-b2 Sg4-f2 +   3.Kd3-c2 Ta2*b2 #
 
   add_to_move_generation_stack:      669171
                      play_move:      667785
- is_white_king_square_attacked:       15357
- is_black_king_square_attacked:       36043
-Loesung beendet. 
+ is_white_king_square_attacked:       15354
+ is_black_king_square_attacked:       36041
+Loesung beendet.
 
 
 
             Torsten Lin"s
             Rolf Wiehagen
             Schach 3/1990
-               3. Preis
+              3. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -683,23 +683,23 @@ a)
 
   add_to_move_generation_stack:      430449
                      play_move:      508622
- is_white_king_square_attacked:       13864
- is_black_king_square_attacked:       54521
+ is_white_king_square_attacked:       13861
+ is_black_king_square_attacked:       54519
 b) sSg2-->f3  
 
   1.Tb1-g1 g3-g4   2.Tg1*g4 Ta1-g1   3.Sh6-f5 Tg1*g4 #
 
   add_to_move_generation_stack:      446917
                      play_move:      526227
- is_white_king_square_attacked:       15984
- is_black_king_square_attacked:       60958
-Loesung beendet. 
+ is_white_king_square_attacked:       15981
+ is_black_king_square_attacked:       60956
+Loesung beendet.
 
 
 
             Torsten Lin"s
      6488, springaren 37, 6/1989
-               3. Preis
+              3. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -728,23 +728,23 @@ a)
 
   add_to_move_generation_stack:       75715
                      play_move:       78515
- is_white_king_square_attacked:        2069
- is_black_king_square_attacked:        4779
+ is_white_king_square_attacked:        2066
+ is_black_king_square_attacked:        4777
 b) sSg5-->b2  
 
   1.Le7-g5 Ld8*g5   2.Tf8-c8 Tg8*c8   3.Tc2-c1 Tc8*c1 #
 
   add_to_move_generation_stack:      154002
                      play_move:      160106
- is_white_king_square_attacked:        6469
- is_black_king_square_attacked:        7399
-Loesung beendet. 
+ is_white_king_square_attacked:        6466
+ is_black_king_square_attacked:        7397
+Loesung beendet.
 
 
 
             Torsten Lin"s
-         11757, Schach 9/1988
-               3. Preis
+        11757, Schach 9/1988
+              3. Preis
 Karlheinz Siehndel zum 50. Geburtstag gewidmet
 
 +---a---b---c---d---e---f---g---h---+
@@ -774,23 +774,23 @@ a)
 
   add_to_move_generation_stack:        2090
                      play_move:        2086
- is_white_king_square_attacked:          95
- is_black_king_square_attacked:         121
+ is_white_king_square_attacked:          92
+ is_black_king_square_attacked:         119
 b) sKc6-->d5  
 
   1.Db3-c4 Ka1-b2   2.c7-c5 Se1-g2   3.Se4-d6 Sg2-f4 #
 
   add_to_move_generation_stack:        7114
                      play_move:        7088
- is_white_king_square_attacked:         280
- is_black_king_square_attacked:         459
-Loesung beendet. 
+ is_white_king_square_attacked:         277
+ is_black_king_square_attacked:         457
+Loesung beendet.
 
 
 
             Torsten Lin"s
     5274, feenschach 86, 1-3/1988
-               1. Preis
+              1. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -819,21 +819,21 @@ a)
 
   add_to_move_generation_stack:      421644
                      play_move:      421009
- is_white_king_square_attacked:        8489
- is_black_king_square_attacked:       18908
+ is_white_king_square_attacked:        8486
+ is_black_king_square_attacked:       18906
 b) sBg3-->g2  
 
   1.Sg4-f2 Td5-a5   2.Dc6-e4 Ta5*a3   3.d7-d5 Lb3-d1 #
 
   add_to_move_generation_stack:       66630
                      play_move:       68645
- is_white_king_square_attacked:        1371
- is_black_king_square_attacked:        3329
-Loesung beendet. 
+ is_white_king_square_attacked:        1368
+ is_black_king_square_attacked:        3327
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
 ehrende Erw?hnung, 1. SAXA-Turnier 1988
 
@@ -864,22 +864,22 @@ a)
 
   add_to_move_generation_stack:     3499332
                      play_move:     3497582
- is_white_king_square_attacked:       76939
- is_black_king_square_attacked:      152813
+ is_white_king_square_attacked:       76936
+ is_black_king_square_attacked:      152811
 b) sBd6-->h6  
 
   1.Tb2-f2 Te5-a5   2.Sa3-b5 Sg7-f5 +   3.Kd4-e5 Ta5*b5 #
 
   add_to_move_generation_stack:     2428560
                      play_move:     2427154
- is_white_king_square_attacked:       54905
- is_black_king_square_attacked:      108709
-Loesung beendet. 
+ is_white_king_square_attacked:       54902
+ is_black_king_square_attacked:      108707
+Loesung beendet.
 
 
 
             Torsten Lin"s
-        1135, LCdE 308, 4/1983
+       1135, LCdE 308, 4/1983
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -906,14 +906,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:        1080
                      play_move:        1072
- is_white_king_square_attacked:          51
- is_black_king_square_attacked:         142
-Loesung beendet. 
+ is_white_king_square_attacked:          48
+ is_black_king_square_attacked:         140
+Loesung beendet.
 
 
 
             Torsten Lin"s
-     4164, Themes-64 11, 7-9/1983
+    4164, Themes-64 11, 7-9/1983
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -940,14 +940,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:         118
                      play_move:         112
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          32
-Loesung beendet. 
+ is_white_king_square_attacked:          10
+ is_black_king_square_attacked:          30
+Loesung beendet.
 
 
 
             Torsten Lin"s
-   4238, Sinf. Sc. 77-78, 7-12/1984
+  4238, Sinf. Sc. 77-78, 7-12/1984
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -974,9 +974,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         239
                      play_move:         236
- is_white_king_square_attacked:          14
- is_black_king_square_attacked:          58
-Loesung beendet. 
+ is_white_king_square_attacked:          11
+ is_black_king_square_attacked:          56
+Loesung beendet.
 
 
 
@@ -1008,9 +1008,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2815510
                      play_move:     2815513
- is_white_king_square_attacked:      143311
- is_black_king_square_attacked:      516853
-Loesung beendet. 
+ is_white_king_square_attacked:      143304
+ is_black_king_square_attacked:      516847
+Loesung beendet.
 
 
 
@@ -1051,22 +1051,22 @@ a) sLe5-->g8
 
   add_to_move_generation_stack:      290162
                      play_move:      289908
- is_white_king_square_attacked:       15477
- is_black_king_square_attacked:       15059
+ is_white_king_square_attacked:       15473
+ is_black_king_square_attacked:       15056
 b) wLh7-->a7  
 
   1.Le5-h2 La7-b8 +   2.Kd6-c5 Lb8-g3   3.Df6-c6 Lg3-f2   4.Lh2-d6 e3-e4 #
 
   add_to_move_generation_stack:       87021
                      play_move:       86565
- is_white_king_square_attacked:        4308
- is_black_king_square_attacked:        4728
-Loesung beendet. 
+ is_white_king_square_attacked:        4304
+ is_black_king_square_attacked:        4725
+Loesung beendet.
 
 
 
            Michel Caillaud
-       1. Preis, Szachisty 1993
+      1. Preis, Szachisty 1993
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1095,14 +1095,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       28919
                      play_move:       28951
- is_white_king_square_attacked:        1284
- is_black_king_square_attacked:        2057
-Loesung beendet. 
+ is_white_king_square_attacked:        1277
+ is_black_king_square_attacked:        2051
+Loesung beendet.
 
 
 
         S. K. Balasubramanian
- H2030, The Problemist 15/12, 11/1996
+H2030, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1131,22 +1131,22 @@ a)
 
   add_to_move_generation_stack:       46344
                      play_move:       46144
- is_white_king_square_attacked:         799
- is_black_king_square_attacked:        1425
+ is_white_king_square_attacked:         796
+ is_black_king_square_attacked:        1423
 b) sBd4-->f4  
 
   1.Tg5-d5 Tg2-g6   2.Lf6-d4 Ld1-g4   3.Ke4-e5 Tg6-e6 #
 
   add_to_move_generation_stack:      374313
                      play_move:      373781
- is_white_king_square_attacked:        7602
- is_black_king_square_attacked:        9677
-Loesung beendet. 
+ is_white_king_square_attacked:        7599
+ is_black_king_square_attacked:        9675
+Loesung beendet.
 
 
 
-           Arp\'ad Moln\'ar
- H2021, The Problemist 15/12, 11/1996
+          Arp\'ad Moln\'ar
+H2021, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1174,14 +1174,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       89734
                      play_move:       97988
- is_white_king_square_attacked:        3403
- is_black_king_square_attacked:        5319
-Loesung beendet. 
+ is_white_king_square_attacked:        3397
+ is_black_king_square_attacked:        5315
+Loesung beendet.
 
 
 
-           Marco Bonavoglia
- H2032, The Problemist 15/12, 11/1996
+          Marco Bonavoglia
+H2032, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1210,14 +1210,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     3228572
                      play_move:     3639806
- is_white_king_square_attacked:      170598
- is_black_king_square_attacked:      547851
-Loesung beendet. 
+ is_white_king_square_attacked:      170593
+ is_black_king_square_attacked:      547847
+Loesung beendet.
 
 
 
-             Almiro Zarur
- H2033, The Problemist 15/12, 11/1996
+            Almiro Zarur
+H2033, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1245,14 +1245,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2586393
                      play_move:     2596885
- is_white_king_square_attacked:      156670
- is_black_king_square_attacked:      158737
-Loesung beendet. 
+ is_white_king_square_attacked:      156664
+ is_black_king_square_attacked:      158733
+Loesung beendet.
 
 
 
          Vladimir Bryukhanov
- H2037, The Problemist 15/12, 11/1996
+H2037, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1279,14 +1279,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       65253
                      play_move:       65253
- is_white_king_square_attacked:       10308
- is_black_king_square_attacked:        6836
-Loesung beendet. 
+ is_white_king_square_attacked:       10302
+ is_black_king_square_attacked:        6831
+Loesung beendet.
 
 
 
            Daniel Meinking
- H2034, The Problemist 15/12, 11/1996
+H2034, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1315,22 +1315,22 @@ a)
 
   add_to_move_generation_stack:      261068
                      play_move:      256973
- is_white_king_square_attacked:       21228
- is_black_king_square_attacked:       17401
+ is_white_king_square_attacked:       21225
+ is_black_king_square_attacked:       17398
 b) Verschiebung a1 ==> e1  
 
   1...Lh5-e8   2.Kh2*g3 Kf8-f7   3.Kg3-h4 g4-g5 +   4.Kh4-h5 Kf7-f6 #
 
   add_to_move_generation_stack:       46551
                      play_move:       44946
- is_white_king_square_attacked:        3611
- is_black_king_square_attacked:        5308
-Loesung beendet. 
+ is_white_king_square_attacked:        3608
+ is_black_king_square_attacked:        5305
+Loesung beendet.
 
 
 
               J. Pogats
- H2035, The Problemist 15/12, 11/1996
+H2035, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1361,8 +1361,8 @@ a)
 
   add_to_move_generation_stack:        1883
                      play_move:        1855
- is_white_king_square_attacked:         126
- is_black_king_square_attacked:         235
+ is_white_king_square_attacked:         114
+ is_black_king_square_attacked:         226
 b) wSb2-->f8  
 
   1.Ld5-g2 Ke5-f5   2.Ke3-f3 Sf6-g4   3.Lh8-e5 Sf8-e6   4.Le5-g3 Se6-d4 #
@@ -1371,14 +1371,14 @@ b) wSb2-->f8
 
   add_to_move_generation_stack:        2225
                      play_move:        2196
- is_white_king_square_attacked:         126
- is_black_king_square_attacked:         251
-Loesung beendet. 
+ is_white_king_square_attacked:         114
+ is_black_king_square_attacked:         242
+Loesung beendet.
 
 
 
-           Vaclav Kotesovec
- H2036, The Problemist 15/12, 11/1996
+          Vaclav Kotesovec
+H2036, The Problemist 15/12, 11/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1406,13 +1406,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:       28090
                      play_move:       28090
- is_white_king_square_attacked:        1962
- is_black_king_square_attacked:        1827
-Loesung beendet. 
+ is_white_king_square_attacked:        1952
+ is_black_king_square_attacked:        1819
+Loesung beendet.
 
 
 
-          Daniel de Irezabal
+         Daniel de Irezabal
  H2021, The Problemist 15/11, 9/1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -1441,13 +1441,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1177539
                      play_move:     1190394
- is_white_king_square_attacked:       72887
- is_black_king_square_attacked:      131736
-Loesung beendet. 
+ is_white_king_square_attacked:       72875
+ is_black_king_square_attacked:      131726
+Loesung beendet.
 
 
 
-           Christer Jonsson
+          Christer Jonsson
  H2020, The Problemist 15/11, 9/1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -1475,13 +1475,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:     5948682
                      play_move:     5938930
- is_white_king_square_attacked:      596056
- is_black_king_square_attacked:      549955
-Loesung beendet. 
+ is_white_king_square_attacked:      596051
+ is_black_king_square_attacked:      549950
+Loesung beendet.
 
 
 
-             Uwe Mehlhorn
+            Uwe Mehlhorn
             Torsten Lin"s
      1205, Europa-Rochade 4/1995
            1.Lob (1994/95)
@@ -1506,8 +1506,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#10                        2 + 2
-        SchwarzerLaengstzueger
-         WeisserLaengstzueger
+       SchwarzerLaengstzueger
+        WeisserLaengstzueger
 
   1...  ...  2.Sg4-f6 + Kd5-c4   3.Sf6-e8 Se7-d5   4.Se8-c7 Sd5-c3 +   5.Ka4-a3 Sc3-b1 +   6.Ka3-b2 Sb1-c3   7.Sc7-b5 Sc3-d1 +   8.Kb2-a1 Sd1-e3   9.Sb5-a3 + Kc4-b3  10.Sa3-b1 Se3-c2 #
 
@@ -1515,14 +1515,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      840118
                      play_move:      555659
- is_white_king_square_attacked:      191740
- is_black_king_square_attacked:      171492
-Loesung beendet. 
+ is_white_king_square_attacked:      191722
+ is_black_king_square_attacked:      171475
+Loesung beendet.
 
 
 
         Pantelis G. Martoudis
-      960, Probleemblad 3-4/1985
+     960, Probleemblad 3-4/1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1551,9 +1551,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:     3849483
                      play_move:     3870912
- is_white_king_square_attacked:      185218
- is_black_king_square_attacked:      243828
-Loesung beendet. 
+ is_white_king_square_attacked:      185209
+ is_black_king_square_attacked:      243822
+Loesung beendet.
 
 
 
@@ -1587,31 +1587,31 @@ a)
 
   add_to_move_generation_stack:      992744
                      play_move:      989345
- is_white_king_square_attacked:       52075
- is_black_king_square_attacked:       64952
+ is_white_king_square_attacked:       52072
+ is_black_king_square_attacked:       64950
 b) -sSf1  
 
   1.Ke4-d3 g2*f3   2.Dh2-a2 Ld8-g5   3.Da2-c4 0-0-0 #
 
   add_to_move_generation_stack:      810627
                      play_move:      807982
- is_white_king_square_attacked:       44866
- is_black_king_square_attacked:       56086
+ is_white_king_square_attacked:       44863
+ is_black_king_square_attacked:       56084
 +c) -sDh2  
 
   1.Ke4-e3 0-0-0   2.Tg3-g5 g2*f3   3.Lh4-f2 Ld8*g5 #
 
   add_to_move_generation_stack:      596604
                      play_move:      599773
- is_white_king_square_attacked:       35478
- is_black_king_square_attacked:       38324
-Loesung beendet. 
+ is_white_king_square_attacked:       35475
+ is_black_king_square_attacked:       38322
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-         11543, Schach 1/1988
+        11543, Schach 1/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1640,17 +1640,17 @@ a)
 
   add_to_move_generation_stack:       13737
                      play_move:       14095
- is_white_king_square_attacked:         322
- is_black_king_square_attacked:         956
+ is_white_king_square_attacked:         319
+ is_black_king_square_attacked:         954
 b) wTf1  
 
   1.0-0-0 Se3-c4   2.Db2-b8 Tf1-c1   3.Sa5-b7 Sc4-b6 #
 
   add_to_move_generation_stack:      322828
                      play_move:      334536
- is_white_king_square_attacked:        7204
- is_black_king_square_attacked:       20920
-Loesung beendet. 
+ is_white_king_square_attacked:        7201
+ is_black_king_square_attacked:       20918
+Loesung beendet.
 
 
 
@@ -1684,14 +1684,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       18525
                      play_move:       18609
- is_white_king_square_attacked:        1394
- is_black_king_square_attacked:        1192
-Loesung beendet. 
+ is_white_king_square_attacked:        1390
+ is_black_king_square_attacked:        1189
+Loesung beendet.
 
 
 
             Torsten Lin"s
-       Problemkiste 77, 10/1991
+      Problemkiste 77, 10/1991
 nach H. Ebert, 2741, Problemkiste 74/75, 5/1991
 
 +---a---b---c---d---e---f---g---h---+
@@ -1719,9 +1719,9 @@ nach H. Ebert, 2741, Problemkiste 74/75, 5/1991
 
   add_to_move_generation_stack:       10733
                      play_move:       11594
- is_white_king_square_attacked:        1134
- is_black_king_square_attacked:         599
-Loesung beendet. 
+ is_white_king_square_attacked:        1130
+ is_black_king_square_attacked:         596
+Loesung beendet.
 
 
 
@@ -1755,23 +1755,23 @@ a)
 
   add_to_move_generation_stack:         280
                      play_move:         273
- is_white_king_square_attacked:          33
- is_black_king_square_attacked:          59
+ is_white_king_square_attacked:          29
+ is_black_king_square_attacked:          56
 b) wBd2-->d4  
 
   1.Lh7-e4 c4-c5   2.Le4-c6 Kc3-d3   3.Kf7-e6 f4-f5 +   4.Ke6-d5 e3-e4 #
 
   add_to_move_generation_stack:         299
                      play_move:         292
- is_white_king_square_attacked:          29
- is_black_king_square_attacked:          52
-Loesung beendet. 
+ is_white_king_square_attacked:          25
+ is_black_king_square_attacked:          49
+Loesung beendet.
 
 
 
             Rolf Wiehagen
             Torsten Lin"s
-  H1953, The Problemist 15/7, 1/1996
+ H1953, The Problemist 15/7, 1/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1800,24 +1800,24 @@ a)
 
   add_to_move_generation_stack:      411850
                      play_move:      399493
- is_white_king_square_attacked:       14454
- is_black_king_square_attacked:       66543
+ is_white_king_square_attacked:       14451
+ is_black_king_square_attacked:       66541
 b) sKf5-->d4  
 
   1.Sd6-f5 Tg4-h4   2.De4-g4 Ld3-e4   3.Kd4*e4 Th4*g4 #
 
   add_to_move_generation_stack:      648620
                      play_move:      638498
- is_white_king_square_attacked:       25589
- is_black_king_square_attacked:       78165
-Loesung beendet. 
+ is_white_king_square_attacked:       25586
+ is_black_king_square_attacked:       78163
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-         12067, Schach 9/1989
-               1. Preis
+        12067, Schach 9/1989
+              1. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1846,23 +1846,23 @@ a)
 
   add_to_move_generation_stack:       24145
                      play_move:       25534
- is_white_king_square_attacked:         802
- is_black_king_square_attacked:        2409
+ is_white_king_square_attacked:         799
+ is_black_king_square_attacked:        2407
 b) wBb4-->c2  
 
   1.Kd5-e4 Th1-f1   2.Se3-d5 Tf1-f4 +   3.Ke4-e3 La3-c1 #
 
   add_to_move_generation_stack:       71497
                      play_move:       74880
- is_white_king_square_attacked:        2352
- is_black_king_square_attacked:        4443
-Loesung beendet. 
+ is_white_king_square_attacked:        2349
+ is_black_king_square_attacked:        4441
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-      11397, Schach-Echo 10/1989
+     11397, Schach-Echo 10/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1891,17 +1891,17 @@ a)
 
   add_to_move_generation_stack:       25855
                      play_move:       25140
- is_white_king_square_attacked:         700
- is_black_king_square_attacked:        2218
+ is_white_king_square_attacked:         697
+ is_black_king_square_attacked:        2216
 b) sKc4-->f4  
 
   1.g7-g5 Se8-g7   2.Tf8-d8 Tg8*d8   3.Sd7-e5 Td8-d4 #
 
   add_to_move_generation_stack:      266842
                      play_move:      264606
- is_white_king_square_attacked:        7614
- is_black_king_square_attacked:       16112
-Loesung beendet. 
+ is_white_king_square_attacked:        7611
+ is_black_king_square_attacked:       16110
+Loesung beendet.
 
 
 
@@ -1938,24 +1938,24 @@ a)
 
   add_to_move_generation_stack:        9893
                      play_move:        9832
- is_white_king_square_attacked:         373
- is_black_king_square_attacked:         850
+ is_white_king_square_attacked:         370
+ is_black_king_square_attacked:         848
 b) Farbwechsel  Spiegelung a1<-->a8  
 
   1.Le4-b1 Lf5-c2   2.Se6-g5 Lc2-d1   3.Lb1-g6 Te2-h2 #
 
   add_to_move_generation_stack:         357
                      play_move:         357
- is_white_king_square_attacked:          19
- is_black_king_square_attacked:          43
-Loesung beendet. 
+ is_white_king_square_attacked:          16
+ is_black_king_square_attacked:          41
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-          13311, SSZ 12/1989
-         2. ehrende Erw?hnung
+         13311, SSZ 12/1989
+        2. ehrende Erw?hnung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1983,14 +1983,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      236557
                      play_move:      235963
- is_white_king_square_attacked:        8272
- is_black_king_square_attacked:        9898
-Loesung beendet. 
+ is_white_king_square_attacked:        8266
+ is_black_king_square_attacked:        9894
+Loesung beendet.
 
 
 
             Torsten Lin"s
-      819, Europa-Rochade 7/1990
+     819, Europa-Rochade 7/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2019,22 +2019,22 @@ a)
 
   add_to_move_generation_stack:         947
                      play_move:         941
- is_white_king_square_attacked:          37
- is_black_king_square_attacked:          67
+ is_white_king_square_attacked:          34
+ is_black_king_square_attacked:          65
 b) sBd4-->c5  
 
   1.Ke5-d6 Tb1-e1   2.Ta1-d1 Se6-f8   3.Td1-d5 Te1-e6 #
 
   add_to_move_generation_stack:         935
                      play_move:         929
- is_white_king_square_attacked:          38
- is_black_king_square_attacked:          63
-Loesung beendet. 
+ is_white_king_square_attacked:          35
+ is_black_king_square_attacked:          61
+Loesung beendet.
 
 
 
             Torsten Lin"s
-          5158, SSM 8-9/1990
+         5158, SSM 8-9/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2062,9 +2062,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         508
                      play_move:         499
- is_white_king_square_attacked:          29
- is_black_king_square_attacked:         132
-Loesung beendet. 
+ is_white_king_square_attacked:          23
+ is_black_king_square_attacked:         128
+Loesung beendet.
 
 
 
@@ -2097,17 +2097,17 @@ Das Schwalbetreffen in L"uneburg 12/1990
 
   add_to_move_generation_stack:        2401
                      play_move:        2382
- is_white_king_square_attacked:         124
- is_black_king_square_attacked:         218
-Loesung beendet. 
+ is_white_king_square_attacked:         118
+ is_black_king_square_attacked:         214
+Loesung beendet.
 
 
 
              Udo Degener
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-      36, harmonie 32, 30.4.1991
-         1. ehrende Erw?hnung
+     36, harmonie 32, 30.4.1991
+        1. ehrende Erw?hnung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2136,23 +2136,23 @@ a)
 
   add_to_move_generation_stack:     3624582
                      play_move:     3634307
- is_white_king_square_attacked:      130715
- is_black_king_square_attacked:      303294
+ is_white_king_square_attacked:      130712
+ is_black_king_square_attacked:      303292
 b) sKe3-->h2  
 
   1.Lb6-c7 Tb3-c3   2.Tg3-g1 Tc3*c7   3.Dg7-g2 Tc7-h7 #
 
   add_to_move_generation_stack:     1159572
                      play_move:     1168142
- is_white_king_square_attacked:       27047
- is_black_king_square_attacked:       29700
-Loesung beendet. 
+ is_white_king_square_attacked:       27044
+ is_black_king_square_attacked:       29698
+Loesung beendet.
 
 
 
         Alex Chatziparaskewas
            Henning M"uller
-              Hans Moser
+             Hans Moser
             Torsten Lin"s
  1. Platz, Andernach 28.-31. 5. 1991
 
@@ -2183,9 +2183,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:       80992
                      play_move:       82830
- is_white_king_square_attacked:        3883
- is_black_king_square_attacked:       10447
-Loesung beendet. 
+ is_white_king_square_attacked:        3878
+ is_black_king_square_attacked:       10443
+Loesung beendet.
 
 
 
@@ -2220,17 +2220,17 @@ a)
 
   add_to_move_generation_stack:     3119515
                      play_move:     3116660
- is_white_king_square_attacked:      107144
- is_black_king_square_attacked:      157481
+ is_white_king_square_attacked:      107141
+ is_black_king_square_attacked:      157479
 b) sKd3-->d4  
 
   1.Lc5-f8 Lf6-e7   2.Lf3-e4 Le7-b4   3.Lf8-c5 Lb4-c3 #
 
   add_to_move_generation_stack:     4623181
                      play_move:     4617483
- is_white_king_square_attacked:      200230
- is_black_king_square_attacked:      254226
-Loesung beendet. 
+ is_white_king_square_attacked:      200227
+ is_black_king_square_attacked:      254224
+Loesung beendet.
 
 
 
@@ -2264,17 +2264,17 @@ a)
 
   add_to_move_generation_stack:       24334
                      play_move:       24282
- is_white_king_square_attacked:         835
- is_black_king_square_attacked:         719
+ is_white_king_square_attacked:         832
+ is_black_king_square_attacked:         717
 b) sBe7-->g6  
 
   1.Da3-a6 Lb2-d4   2.Da6-e6 Ld4-f2   3.Sf5-g7 Lf2-h4 #
 
   add_to_move_generation_stack:      106710
                      play_move:      106623
- is_white_king_square_attacked:        3482
- is_black_king_square_attacked:        3698
-Loesung beendet. 
+ is_white_king_square_attacked:        3479
+ is_black_king_square_attacked:        3696
+Loesung beendet.
 
 
 
@@ -2307,13 +2307,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      210267
                      play_move:      220778
- is_white_king_square_attacked:        9750
- is_black_king_square_attacked:        9039
-Loesung beendet. 
+ is_white_king_square_attacked:        9744
+ is_black_king_square_attacked:        9035
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
      553, Sin. Sc. 95/96, 6/1989
                  Lob
@@ -2339,7 +2339,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         6 + 8
-                Duplex
+               Duplex
 
   1...Te6-e8   2.Ld6-e7 Sc3*e2   3.Ke3*e4 Te8*e7 #
 
@@ -2347,9 +2347,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:      157611
                      play_move:      156070
- is_white_king_square_attacked:        7287
- is_black_king_square_attacked:       12802
-Loesung beendet. 
+ is_white_king_square_attacked:        7283
+ is_black_king_square_attacked:       12798
+Loesung beendet.
 
 
 
@@ -2381,14 +2381,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:         637
                      play_move:         601
- is_white_king_square_attacked:          34
- is_black_king_square_attacked:         107
-Loesung beendet. 
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:         105
+Loesung beendet.
 
 
 
             Torsten Lin"s
-      1618, Suomen Shakki 4/1985
+     1618, Suomen Shakki 4/1985
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2415,15 +2415,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:        3910
                      play_move:        3839
- is_white_king_square_attacked:         189
- is_black_king_square_attacked:         284
-Loesung beendet. 
+ is_white_king_square_attacked:         186
+ is_black_king_square_attacked:         282
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-        1606, IMR 19, 1-3/1986
+       1606, IMR 19, 1-3/1986
           2. Lob, 2. IMR-TT
 
 +---a---b---c---d---e---f---g---h---+
@@ -2452,14 +2452,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      325624
                      play_move:      325402
- is_white_king_square_attacked:       10930
- is_black_king_square_attacked:       18820
-Loesung beendet. 
+ is_white_king_square_attacked:       10924
+ is_black_king_square_attacked:       18816
+Loesung beendet.
 
 
 
             Torsten Lin"s
-        1784, IMR 20, 4-6/1986
+       1784, IMR 20, 4-6/1986
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2486,15 +2486,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:         687
                      play_move:         684
- is_white_king_square_attacked:          26
- is_black_king_square_attacked:          62
-Loesung beendet. 
+ is_white_king_square_attacked:          23
+ is_black_king_square_attacked:          60
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-    5564, Die Schwalbe 100, 8/1986
+   5564, Die Schwalbe 100, 8/1986
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2516,7 +2516,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         4 + 6
-                Duplex
+               Duplex
 
   1...Lh4*e7   2.Tf4-f6 Lf1-e2 +   3.Kh5-h4 Le7*f6 #
 
@@ -2524,14 +2524,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       67667
                      play_move:       66280
- is_white_king_square_attacked:        3180
- is_black_king_square_attacked:        5886
-Loesung beendet. 
+ is_white_king_square_attacked:        3176
+ is_black_king_square_attacked:        5882
+Loesung beendet.
 
 
 
             Torsten Lin"s
-        1908, IMR 21, 7-9/1986
+       1908, IMR 21, 7-9/1986
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2553,7 +2553,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 3
-                Duplex
+               Duplex
 
   1.Kh6-h7 Lg3-e5   2.Kh7-h8 Kf5-g6   3.Sf6-g8 Le5*g7 #
 
@@ -2561,9 +2561,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         220
                      play_move:         219
- is_white_king_square_attacked:          25
- is_black_king_square_attacked:          45
-Loesung beendet. 
+ is_white_king_square_attacked:          19
+ is_black_king_square_attacked:          41
+Loesung beendet.
 
 
 
@@ -2595,15 +2595,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:        4181
                      play_move:        4045
- is_white_king_square_attacked:         170
- is_black_king_square_attacked:         372
-Loesung beendet. 
+ is_white_king_square_attacked:         167
+ is_black_king_square_attacked:         370
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-   \v{S}achov\'a Skladba 15, 9/1987
+  \v{S}achov\'a Skladba 15, 9/1987
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2625,7 +2625,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         5 + 7
-                Duplex
+               Duplex
 
   1...Le5-b8   2.Sg3-f5 Sb5-c7   3.Kg5-f4 Sc7-e6 #
 
@@ -2633,14 +2633,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       38281
                      play_move:       36561
- is_white_king_square_attacked:        1856
- is_black_king_square_attacked:        7301
-Loesung beendet. 
+ is_white_king_square_attacked:        1852
+ is_black_king_square_attacked:        7297
+Loesung beendet.
 
 
 
             Torsten Lin"s
-      1914, Suomen Shakki 4/1988
+     1914, Suomen Shakki 4/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2669,23 +2669,23 @@ a)
 
   add_to_move_generation_stack:        2099
                      play_move:        2085
- is_white_king_square_attacked:          52
- is_black_king_square_attacked:         135
+ is_white_king_square_attacked:          49
+ is_black_king_square_attacked:         133
 b) sKe5<-->sBf6  
 
   1.Sd4-e6 Sd1-f2   2.Tb1-g1 Ta1-f1   3.Tg1-g6 Sf2-e4 #
 
   add_to_move_generation_stack:        6712
                      play_move:        6712
- is_white_king_square_attacked:         448
- is_black_king_square_attacked:         451
-Loesung beendet. 
+ is_white_king_square_attacked:         445
+ is_black_king_square_attacked:         449
+Loesung beendet.
 
 
 
             Torsten Lin"s
-          5557, MAT 5-6/1988
-                2. Lob
+         5557, MAT 5-6/1988
+               2. Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2714,25 +2714,25 @@ a)
 
   add_to_move_generation_stack:       17124
                      play_move:       16960
- is_white_king_square_attacked:         587
- is_black_king_square_attacked:        1104
+ is_white_king_square_attacked:         584
+ is_black_king_square_attacked:        1102
 b) sBe4-->c5  
 
   1.Tf8-d8 Ld1-c2   2.Dg8-e8 Th8*e8   3.Td8-d5 Te8-e4 #
 
   add_to_move_generation_stack:       19848
                      play_move:       19721
- is_white_king_square_attacked:         655
- is_black_king_square_attacked:        1120
+ is_white_king_square_attacked:         652
+ is_black_king_square_attacked:        1118
 +c) sKd4-->a5  
 
   1.Tf8-a8 Ld1-e2   2.Dg8-b8 + Th8*b8   3.Ta8-a6 Tb8-b5 #
 
   add_to_move_generation_stack:       82128
                      play_move:       81900
- is_white_king_square_attacked:        2360
- is_black_king_square_attacked:        4382
-Loesung beendet. 
+ is_white_king_square_attacked:        2357
+ is_black_king_square_attacked:        4380
+Loesung beendet.
 
 
 
@@ -2766,23 +2766,23 @@ a)
 
   add_to_move_generation_stack:         687
                      play_move:         677
- is_white_king_square_attacked:          39
- is_black_king_square_attacked:          75
+ is_white_king_square_attacked:          36
+ is_black_king_square_attacked:          73
 b) wBf3-->f4  
 
   1.Tf8-e8 Tg8*e8   2.Lf1-c4 Te8-e5   3.Ta3-d3 Sc1-e2 #
 
   add_to_move_generation_stack:        1852
                      play_move:        1814
- is_white_king_square_attacked:          86
- is_black_king_square_attacked:         155
-Loesung beendet. 
+ is_white_king_square_attacked:          83
+ is_black_king_square_attacked:         153
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-        idee & form 19, 7/1988
+       idee & form 19, 7/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2811,22 +2811,22 @@ a)
 
   add_to_move_generation_stack:        8750
                      play_move:        8732
- is_white_king_square_attacked:         198
- is_black_king_square_attacked:         493
+ is_white_king_square_attacked:         195
+ is_black_king_square_attacked:         491
 b) sDg5-->a2  
 
   1.Le7-g5 Ld8*g5   2.Tf8-c8 Tg8*c8   3.Sc4-b2 Tc8-c1 #
 
   add_to_move_generation_stack:       39490
                      play_move:       39433
- is_white_king_square_attacked:        1271
- is_black_king_square_attacked:        2157
-Loesung beendet. 
+ is_white_king_square_attacked:        1268
+ is_black_king_square_attacked:        2155
+Loesung beendet.
 
 
 
             Torsten Lin"s
-       5279, Sakk\'elet, 8/1988
+      5279, Sakk\'elet, 8/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2854,9 +2854,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:        2062
                      play_move:        2016
- is_white_king_square_attacked:          80
- is_black_king_square_attacked:         132
-Loesung beendet. 
+ is_white_king_square_attacked:          74
+ is_black_king_square_attacked:         128
+Loesung beendet.
 
 
 
@@ -2890,25 +2890,25 @@ a)
 
   add_to_move_generation_stack:         418
                      play_move:         410
- is_white_king_square_attacked:          26
- is_black_king_square_attacked:          49
+ is_white_king_square_attacked:          23
+ is_black_king_square_attacked:          47
 b) sKd5-->e6  
 
   1.Th3-h6 Th2-h5   2.Th6-f6 Th5-d5   3.Sd6-f7 Sa8-c7 #
 
   add_to_move_generation_stack:        1678
                      play_move:        1666
- is_white_king_square_attacked:          87
- is_black_king_square_attacked:         124
-Loesung beendet. 
+ is_white_king_square_attacked:          84
+ is_black_king_square_attacked:         122
+Loesung beendet.
 
 
 
             Torsten Lin"s
-            Harald Grubert
-            Dieter M"uller
+           Harald Grubert
+           Dieter M"uller
          5678, MAT 9-10/1988
-               1. Preis
+              1. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2937,15 +2937,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:      329003
                      play_move:      342587
- is_white_king_square_attacked:        8021
- is_black_king_square_attacked:       14932
-Loesung beendet. 
+ is_white_king_square_attacked:        8012
+ is_black_king_square_attacked:       14926
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-       1671, USPB 61, 9-10/1988
+      1671, USPB 61, 9-10/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2973,15 +2973,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:      412741
                      play_move:      410845
- is_white_king_square_attacked:       11523
- is_black_king_square_attacked:       24735
-Loesung beendet. 
+ is_white_king_square_attacked:       11517
+ is_black_king_square_attacked:       24731
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-       1423, PB 46/5, 9-10/1988
+      1423, PB 46/5, 9-10/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3010,21 +3010,21 @@ a)
 
   add_to_move_generation_stack:      454458
                      play_move:      494225
- is_white_king_square_attacked:       17590
- is_black_king_square_attacked:       45572
+ is_white_king_square_attacked:       17587
+ is_black_king_square_attacked:       45570
 b) wLb3-->d5  
 
   1.Tf8-c8 Tg8*c8   2.c7-c5 Tc8*c5   3.Kg4-h5 Ld5-f3 #
 
   add_to_move_generation_stack:      586688
                      play_move:      636781
- is_white_king_square_attacked:       21888
- is_black_king_square_attacked:       56289
-Loesung beendet. 
+ is_white_king_square_attacked:       21885
+ is_black_king_square_attacked:       56287
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
         4162, ThD 52, 10/1988
 
@@ -3055,21 +3055,21 @@ a)
 
   add_to_move_generation_stack:        9420
                      play_move:        9277
- is_white_king_square_attacked:         335
- is_black_king_square_attacked:         969
+ is_white_king_square_attacked:         332
+ is_black_king_square_attacked:         967
 b) sBd4-->f4  
 
   1.Tc8-d8 Tb8*d8   2.Ld7-f5 Td8-d3   3.Tg2-g3 Sh3-f2 #
 
   add_to_move_generation_stack:       13919
                      play_move:       13674
- is_white_king_square_attacked:         434
- is_black_king_square_attacked:        1025
-Loesung beendet. 
+ is_white_king_square_attacked:         431
+ is_black_king_square_attacked:        1023
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
 7462, Ceskoslovensk\'y \v{S}ach 10/1988
 
@@ -3100,21 +3100,21 @@ a)
 
   add_to_move_generation_stack:        4390
                      play_move:        4314
- is_white_king_square_attacked:         203
- is_black_king_square_attacked:         293
+ is_white_king_square_attacked:         200
+ is_black_king_square_attacked:         291
 b) sKc5-->d4  
 
   1.Th3-h5 Th2*h5   2.g5-g4 Th5-e5   3.Sd5-c3 Sa5-c6 #
 
   add_to_move_generation_stack:        5521
                      play_move:        5413
- is_white_king_square_attacked:         252
- is_black_king_square_attacked:         341
-Loesung beendet. 
+ is_white_king_square_attacked:         249
+ is_black_king_square_attacked:         339
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
      41, idee & form 20, 10/1988
 
@@ -3145,17 +3145,17 @@ a)
 
   add_to_move_generation_stack:      177645
                      play_move:      181497
- is_white_king_square_attacked:        9643
- is_black_king_square_attacked:        5583
+ is_white_king_square_attacked:        9640
+ is_black_king_square_attacked:        5581
 b) wLe2  
 
   1.Tf1-f6 Kd2-d1   2.Lc7-a5 Le2-f3   3.Tf6-b6 Sd5-c7 #
 
   add_to_move_generation_stack:       30203
                      play_move:       31298
- is_white_king_square_attacked:        1098
- is_black_king_square_attacked:         848
-Loesung beendet. 
+ is_white_king_square_attacked:        1095
+ is_black_king_square_attacked:         846
+Loesung beendet.
 
 
 
@@ -3189,21 +3189,21 @@ a)
 
   add_to_move_generation_stack:       18450
                      play_move:       18945
- is_white_king_square_attacked:         822
- is_black_king_square_attacked:        2473
+ is_white_king_square_attacked:         819
+ is_black_king_square_attacked:        2471
 b) wBe5-->b3  
 
   1.Le1-a5 Ld5*b7   2.Tf1-d1 Tg1*d1   3.La5-b6 Td1-d5 #
 
   add_to_move_generation_stack:       28832
                      play_move:       29718
- is_white_king_square_attacked:        1178
- is_black_king_square_attacked:        3555
-Loesung beendet. 
+ is_white_king_square_attacked:        1175
+ is_black_king_square_attacked:        3553
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
       3468, Gaz. Cz. 28.12.1988
 
@@ -3234,23 +3234,23 @@ a)
 
   add_to_move_generation_stack:       56855
                      play_move:       56682
- is_white_king_square_attacked:        1126
- is_black_king_square_attacked:        2302
+ is_white_king_square_attacked:        1123
+ is_black_king_square_attacked:        2300
 b) sKd3-->b5  
 
   1.Dh6-c6 b2-b3   2.h7-h5 Th8*h5   3.La3-b4 Sd5-c7 #
 
   add_to_move_generation_stack:      162888
                      play_move:      162445
- is_white_king_square_attacked:        2507
- is_black_king_square_attacked:       10256
-Loesung beendet. 
+ is_white_king_square_attacked:        2504
+ is_black_king_square_attacked:       10254
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-    1778, Bul. Prob. 50, 7-12/1988
+   1778, Bul. Prob. 50, 7-12/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3279,23 +3279,23 @@ a)
 
   add_to_move_generation_stack:     6621622
                      play_move:     6617867
- is_white_king_square_attacked:      163415
- is_black_king_square_attacked:      393075
+ is_white_king_square_attacked:      163412
+ is_black_king_square_attacked:      393073
 b) wBe2-->e3  
 
   1.Dh4-h6 Th3*h6   2.Tg6-d6 Th6*d6   3.d5-d4 Td6*d4 #
 
   add_to_move_generation_stack:     9041868
                      play_move:     9038743
- is_white_king_square_attacked:      233221
- is_black_king_square_attacked:      566274
-Loesung beendet. 
+ is_white_king_square_attacked:      233218
+ is_black_king_square_attacked:      566272
+Loesung beendet.
 
 
 
-            Harald Grubert
+           Harald Grubert
             Torsten Lin"s
-     2150, Bol. UBP 61, 9-12/1988
+    2150, Bol. UBP 61, 9-12/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3324,23 +3324,23 @@ a)
 
   add_to_move_generation_stack:       19105
                      play_move:       19020
- is_white_king_square_attacked:         771
- is_black_king_square_attacked:         778
+ is_white_king_square_attacked:         768
+ is_black_king_square_attacked:         776
 b) sSf8-->f6  
 
   1.Kd7-e7 Kd1-e1   2.Le6-d7 Ld2-b4 +   3.Ke7-e6 Sb7-d8 #
 
   add_to_move_generation_stack:       24280
                      play_move:       24204
- is_white_king_square_attacked:         843
- is_black_king_square_attacked:        1230
-Loesung beendet. 
+ is_white_king_square_attacked:         840
+ is_black_king_square_attacked:        1228
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-     2150, Bol. UBP 61, 9-12/1988
+    2150, Bol. UBP 61, 9-12/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3369,23 +3369,23 @@ a)
 
   add_to_move_generation_stack:        1981
                      play_move:        2025
- is_white_king_square_attacked:          56
- is_black_king_square_attacked:         175
+ is_white_king_square_attacked:          53
+ is_black_king_square_attacked:         173
 b) sKc4-->d3  
 
   1.Th6-h4 Th7*h4   2.e4-e3 Th4-c4   3.Sc3-e2 Sf7-e5 #
 
   add_to_move_generation_stack:        2507
                      play_move:        2554
- is_white_king_square_attacked:          76
- is_black_king_square_attacked:         220
-Loesung beendet. 
+ is_white_king_square_attacked:          73
+ is_black_king_square_attacked:         218
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-        springaren 35, 12/1988
+       springaren 35, 12/1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3414,23 +3414,23 @@ a)
 
   add_to_move_generation_stack:        6493
                      play_move:        6429
- is_white_king_square_attacked:         279
- is_black_king_square_attacked:         197
+ is_white_king_square_attacked:         276
+ is_black_king_square_attacked:         195
 b) sKd5-->a4  
 
   1.Tf8-a8 Se1-c2   2.Dg8-b8 Th8*b8   3.Ta8-a5 Tb8-b4 #
 
   add_to_move_generation_stack:       19475
                      play_move:       19417
- is_white_king_square_attacked:         474
- is_black_king_square_attacked:        1130
-Loesung beendet. 
+ is_white_king_square_attacked:         471
+ is_black_king_square_attacked:        1128
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-     5574, Al Hamishmar 27.1.1989
+    5574, Al Hamishmar 27.1.1989
    8.Lob, Israel Ring Tourney 1989
 
 +---a---b---c---d---e---f---g---h---+
@@ -3460,23 +3460,23 @@ a)
 
   add_to_move_generation_stack:      363062
                      play_move:      366421
- is_white_king_square_attacked:       14335
- is_black_king_square_attacked:       18194
+ is_white_king_square_attacked:       14332
+ is_black_king_square_attacked:       18192
 b) wLc2  
 
   1.Db2-b1 Lc2-h7   2.Db1-g6 Le1-f2 +   3.Kd4-e4 Lh7*g6 #
 
   add_to_move_generation_stack:      345980
                      play_move:      345990
- is_white_king_square_attacked:       13522
- is_black_king_square_attacked:       20855
-Loesung beendet. 
+ is_white_king_square_attacked:       13519
+ is_black_king_square_attacked:       20853
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
-  H1310, The Problemist 13/1, 1/1989
+ H1310, The Problemist 13/1, 1/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3498,7 +3498,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         4 + 7
-                Duplex
+               Duplex
 
   1...La8*h1   2.Sb6-d7 e2-e4   3.Kd6-c6 e4-e5 #
 
@@ -3506,16 +3506,16 @@ Loesung beendet.
 
   add_to_move_generation_stack:       22087
                      play_move:       21945
- is_white_king_square_attacked:         990
- is_black_king_square_attacked:        1473
-Loesung beendet. 
+ is_white_king_square_attacked:         986
+ is_black_king_square_attacked:        1469
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
        1483, PB 47/1, 1-2/1989
-         3. ehrende Erw?hnung
+        3. ehrende Erw?hnung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3544,22 +3544,22 @@ a)
 
   add_to_move_generation_stack:       26384
                      play_move:       26465
- is_white_king_square_attacked:         947
- is_black_king_square_attacked:        1682
+ is_white_king_square_attacked:         944
+ is_black_king_square_attacked:        1680
 b) wKc7-->e7  
 
   1.g4-g3 Lf1*h3   2.Kb4-c4 Lh3-f5   3.Kc4-d5 Lf5-e6 #
 
   add_to_move_generation_stack:        4999
                      play_move:        5021
- is_white_king_square_attacked:         163
- is_black_king_square_attacked:         291
-Loesung beendet. 
+ is_white_king_square_attacked:         160
+ is_black_king_square_attacked:         289
+Loesung beendet.
 
 
 
             Wolfgang Berg
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
           Chess Life 2/1989
 
@@ -3590,21 +3590,21 @@ a)
 
   add_to_move_generation_stack:       68214
                      play_move:       71361
- is_white_king_square_attacked:        2257
- is_black_king_square_attacked:        4241
+ is_white_king_square_attacked:        2254
+ is_black_king_square_attacked:        4239
 b) sBe3-->g5  
 
   1.Lc4-d5 Lb3*d5   2.Te5-e3 Ld5-f3   3.e7-e5 Td6-f6 #
 
   add_to_move_generation_stack:      140736
                      play_move:      148696
- is_white_king_square_attacked:        5154
- is_black_king_square_attacked:        5967
-Loesung beendet. 
+ is_white_king_square_attacked:        5151
+ is_black_king_square_attacked:        5965
+Loesung beendet.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
             Torsten Lin"s
     Gorkowskaja Prawda 4-5.3.1989
 2. ehrende Erw?hnung, Seletzki-GT 1989
@@ -3635,16 +3635,16 @@ Loesung beendet.
 
   add_to_move_generation_stack:      809505
                      play_move:      808981
- is_white_king_square_attacked:       21376
- is_black_king_square_attacked:       37126
-Loesung beendet. 
+ is_white_king_square_attacked:       21370
+ is_black_king_square_attacked:       37122
+Loesung beendet.
 
 
 
-            Harald Grubert
+           Harald Grubert
             Torsten Lin"s
-    6555, Die Schwalbe 116, 4/1989
-         1. ehrende Erw?hnung
+   6555, Die Schwalbe 116, 4/1989
+        1. ehrende Erw?hnung
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3672,14 +3672,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       89924
                      play_move:       89487
- is_white_king_square_attacked:        3768
- is_black_king_square_attacked:        2902
-Loesung beendet. 
+ is_white_king_square_attacked:        3762
+ is_black_king_square_attacked:        2898
+Loesung beendet.
 
 
 
             Torsten Lin"s
-        1795, IMR 20, 4-6/1986
+       1795, IMR 20, 4-6/1986
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3706,9 +3706,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         733
                      play_move:         733
- is_white_king_square_attacked:          39
+ is_white_king_square_attacked:          33
  is_black_king_square_attacked:          56
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -3741,15 +3741,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:       13395
                      play_move:       13395
- is_white_king_square_attacked:         366
+ is_white_king_square_attacked:         357
  is_black_king_square_attacked:         372
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Torsten Lin"s
-    1970, Problemkiste 53, 11/1987
-         Hans Gruber gewidmet
+   1970, Problemkiste 53, 11/1987
+        Hans Gruber gewidmet
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3771,7 +3771,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#6                     7 + 7
-                Duplex
+               Duplex
 
   1.Lf8-h6   2.Lh6-e3   3.Ke5-f4   4.Kf4-g5   5.Kg5-h6   6.Le3-g5 Tb1-h1 #
 
@@ -3779,9 +3779,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2520881
                      play_move:     2518777
- is_white_king_square_attacked:      351872
+ is_white_king_square_attacked:      351860
  is_black_king_square_attacked:      501464
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -3813,13 +3813,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      439277
                      play_move:      439277
- is_white_king_square_attacked:       32954
+ is_white_king_square_attacked:       32946
  is_black_king_square_attacked:       32973
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              Toma Garai
+             Toma Garai
         3334, diagrammes 1995
              1.-2. Preis
 
@@ -3849,14 +3849,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     4021116
                      play_move:     4008630
- is_white_king_square_attacked:       87626
- is_black_king_square_attacked:      318693
-Loesung beendet. 
+ is_white_king_square_attacked:       87620
+ is_black_king_square_attacked:      318689
+Loesung beendet.
 
 
 
-            Zdravko Maslar
-      9647, Schach-Echo, VI/1978
+           Zdravko Maslar
+     9647, Schach-Echo, VI/1978
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3883,13 +3883,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      112663
                      play_move:      112663
- is_white_king_square_attacked:       25084
- is_black_king_square_attacked:       11975
-Loesung beendet. 
+ is_white_king_square_attacked:       25076
+ is_black_king_square_attacked:       11968
+Loesung beendet.
 
 
 
-           Norbert Geissler
+          Norbert Geissler
      7356, Die Schwalbe, VI/1991
 
 +---a---b---c---d---e---f---g---h---+
@@ -3917,14 +3917,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1447537
                      play_move:     1469122
- is_white_king_square_attacked:      101717
- is_black_king_square_attacked:       69143
-Loesung beendet. 
+ is_white_king_square_attacked:      101710
+ is_black_king_square_attacked:       69137
+Loesung beendet.
 
 
 
           Imre Sztankovszky
-           FEENSCHACH, 1952
+          FEENSCHACH, 1952
       3. Thematurnier, 1. Preis
 
 +---a---b---c---d---e---f---g---h---+
@@ -3952,14 +3952,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       98069
                      play_move:       99587
- is_white_king_square_attacked:        8221
- is_black_king_square_attacked:        2884
-Loesung beendet. 
+ is_white_king_square_attacked:        8216
+ is_black_king_square_attacked:        2880
+Loesung beendet.
 
 
 
              Imre Telkes
- Deutsche M"archenschachzeitung, 1932
+Deutsche M"archenschachzeitung, 1932
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3986,9 +3986,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1016017
                      play_move:     1211879
- is_white_king_square_attacked:       27280
- is_black_king_square_attacked:       58191
-Loesung beendet. 
+ is_white_king_square_attacked:       27277
+ is_black_king_square_attacked:       58189
+Loesung beendet.
 
 
 
@@ -4020,14 +4020,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       64854
                      play_move:       65115
- is_white_king_square_attacked:        4819
- is_black_king_square_attacked:        3899
-Loesung beendet. 
+ is_white_king_square_attacked:        4814
+ is_black_king_square_attacked:        3895
+Loesung beendet.
 
 
 
-             Sandor Boros
-        Magyar Sakkvilag, 1943
+            Sandor Boros
+       Magyar Sakkvilag, 1943
         3. ehrende Erw"ahnung
 
 +---a---b---c---d---e---f---g---h---+
@@ -4055,13 +4055,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      648860
                      play_move:      659080
- is_white_king_square_attacked:       47676
- is_black_king_square_attacked:       40116
-Loesung beendet. 
+ is_white_king_square_attacked:       47672
+ is_black_king_square_attacked:       40113
+Loesung beendet.
 
 
 
-           Norbert Geissler
+          Norbert Geissler
           Problemkiste 1993
 
 +---a---b---c---d---e---f---g---h---+
@@ -4089,13 +4089,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:     3326376
                      play_move:     3556975
- is_white_king_square_attacked:       80759
- is_black_king_square_attacked:      439391
-Loesung beendet. 
+ is_white_king_square_attacked:       80752
+ is_black_king_square_attacked:      439385
+Loesung beendet.
 
 
 
-             John Niemann
+            John Niemann
            Schachmatt 1948
 
 +---a---b---c---d---e---f---g---h---+
@@ -4123,13 +4123,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:      373447
                      play_move:      373720
- is_white_king_square_attacked:       40892
- is_black_king_square_attacked:       83584
-Loesung beendet. 
+ is_white_king_square_attacked:       40883
+ is_black_king_square_attacked:       83576
+Loesung beendet.
 
 
 
-              Kurt Ewald
+             Kurt Ewald
       feenschach, November 1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -4157,14 +4157,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2073106
                      play_move:     2077656
- is_white_king_square_attacked:      116700
- is_black_king_square_attacked:      113663
-Loesung beendet. 
+ is_white_king_square_attacked:      116696
+ is_black_king_square_attacked:      113660
+Loesung beendet.
 
 
 
-              Er. Bartel
-       212, Jugendschach 9/1981
+             Er. Bartel
+      212, Jugendschach 9/1981
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4186,7 +4186,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#6                      2 + 2
-                Duplex
+               Duplex
 
   1.Kf1-e2   2.Ke2-d3   3.Kd3-c4   4.Kc4-b5   5.Kb5-a6   6.Tb7-a7 #
 
@@ -4195,12 +4195,12 @@ Loesung beendet.
   add_to_move_generation_stack:         214
                      play_move:         214
  is_white_king_square_attacked:          16
- is_black_king_square_attacked:          56
-Loesung beendet. 
+ is_black_king_square_attacked:          46
+Loesung beendet.
 
 
 
-            J. Kube\v{c}ka
+           J. Kube\v{c}ka
         Jugendschach 68, 1988
 
 +---a---b---c---d---e---f---g---h---+
@@ -4223,7 +4223,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#7                      2 + 2
-                Duplex
+               Duplex
 
   1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4*c3   6.Kc3-c4   7.Tc2-a2 #
 
@@ -4256,14 +4256,14 @@ Loesung beendet.
   add_to_move_generation_stack:        5315
                      play_move:        5302
  is_white_king_square_attacked:         679
- is_black_king_square_attacked:        1309
-Bearbeitung abgebrochen. 
+ is_black_king_square_attacked:        1157
+Bearbeitung abgebrochen.
 
 
 h#8 1.0;1.1;...; 7x8-Brett
 
     Rolf Wiehagen & Torsten Lin"s
-      feenschach 138 p. 394, Lob
+     feenschach 138 p. 394, Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4341,8 +4341,8 @@ g) sLe5-->g3
 
   add_to_move_generation_stack:       21881
                      play_move:       21881
- is_white_king_square_attacked:        1341
- is_black_king_square_attacked:        1622
+ is_white_king_square_attacked:        1334
+ is_black_king_square_attacked:        1616
 h) sLe5-->f6  
 
 
@@ -4378,6 +4378,6 @@ l) sBd7-->d5
                      play_move:           0
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 

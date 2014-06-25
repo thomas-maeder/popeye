@@ -1,6 +1,6 @@
 
-     Geoff Foster & Arno T"ungler
- WCCC 2010, CapZug Tourney, 1st prize
+    Geoff Foster & Arno T"ungler
+WCCC 2010, CapZug Tourney, 1st prize
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -30,13 +30,13 @@
 
   add_to_move_generation_stack:    31545583
                      play_move:     9330803
- is_white_king_square_attacked:     4560445
- is_black_king_square_attacked:     9198489
-solution finished. 
+ is_white_king_square_attacked:     4560437
+ is_black_king_square_attacked:     9198477
+solution finished.
 
 
 
-    Cornel Pacurar & Arno T"ungler
+   Cornel Pacurar & Arno T"ungler
 WCCC 2010, CapZug Tourney, 1st commendation
 
 +---a---b---c---d---e---f---g---h---+
@@ -67,14 +67,14 @@ WCCC 2010, CapZug Tourney, 1st commendation
 
   add_to_move_generation_stack:      569374
                      play_move:      263021
- is_white_king_square_attacked:      117048
- is_black_king_square_attacked:      230993
-solution finished. 
+ is_white_king_square_attacked:      117037
+ is_black_king_square_attacked:      230981
+solution finished.
 
 
 
             Arno T"ungler
-                  ??
+                 ??
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -101,14 +101,14 @@ solution finished.
 
   add_to_move_generation_stack:    27514642
                      play_move:     6650041
- is_white_king_square_attacked:     5976447
- is_black_king_square_attacked:     5857691
-solution finished. 
+ is_white_king_square_attacked:     5976443
+ is_black_king_square_attacked:     5857687
+solution finished.
 
 
 
-             Dan Meinking
-                  ??
+            Dan Meinking
+                 ??
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -145,14 +145,14 @@ solution finished.
 
   add_to_move_generation_stack:   416362117
                      play_move:   155701636
- is_white_king_square_attacked:   142164941
- is_black_king_square_attacked:   113305869
-solution finished. 
+ is_white_king_square_attacked:   142164926
+ is_black_king_square_attacked:   113305864
+solution finished.
 
 
 
             Arno Tuengler
-                  ??
+                 ??
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -190,12 +190,12 @@ solution finished.
                      play_move:        5610
  is_white_king_square_attacked:        5213
  is_black_king_square_attacked:        5380
-solution finished. 
+solution finished.
 
 
 
             Arno Tuengler
-                  ??
+                 ??
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -216,15 +216,15 @@ solution finished.
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  black 8s[1a[/1d[+]a{!+}]d]   2 + 2
+  black 8s[1a[/1d[+]a{!+}]d]  2 + 2
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=B   6.Ba1-e5   7.Be5-b8   8.Bb8-a7 Kc8-c7
 
   add_to_move_generation_stack:      112328
                      play_move:       32257
- is_white_king_square_attacked:       28229
- is_black_king_square_attacked:       24566
-solution finished. 
+ is_white_king_square_attacked:       28221
+ is_black_king_square_attacked:       24565
+solution finished.
 
 
 
@@ -256,13 +256,13 @@ The Problemist Fairy Chess Supplement 1930 (v)
 
   add_to_move_generation_stack:     2721372
                      play_move:     1707299
- is_white_king_square_attacked:     1642403
- is_black_king_square_attacked:      910095
-solution finished. 
+ is_white_king_square_attacked:     1642401
+ is_black_king_square_attacked:      910092
+solution finished.
 
 
 
-           Albert H. Kniest
+          Albert H. Kniest
            feenschach 1965
 
 +---a---b---c---d---e---f---g---h---+
@@ -290,8 +290,8 @@ solution finished.
 
   add_to_move_generation_stack:     1225662
                      play_move:      360257
- is_white_king_square_attacked:      324963
- is_black_king_square_attacked:      317555
-solution finished. 
+ is_white_king_square_attacked:      324960
+ is_black_king_square_attacked:      317551
+solution finished.
 
 

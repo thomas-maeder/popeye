@@ -1,7 +1,7 @@
 
-            J"org Kuhlmann
+           J"org Kuhlmann
           Achim Sch"oneberg
-     4216, feenschach 71, 11/1984
+    4216, feenschach 71, 11/1984
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -23,20 +23,20 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         2 + 2
-           Beamtet a8 b8 a6
+          Beamtet a8 b8 a6
                 Circe
 
   1.bSa8-c7 bTa6-b6   2.bKb8-a8 Kd5-c6   3.bSc7-d5 bTb6-a6   4.bSd5-b6 Kc6*b6[+sbSb8] #
 
   add_to_move_generation_stack:       58649
                      play_move:       54109
- is_white_king_square_attacked:        7986
- is_black_king_square_attacked:       49833
-Loesung beendet. 
+ is_white_king_square_attacked:        7982
+ is_black_king_square_attacked:       49830
+Loesung beendet.
 
 
 
-            J"org Kuhlmann
+           J"org Kuhlmann
           Achim Sch"oneberg
       i, feenschach 71, 11/1984
 
@@ -60,20 +60,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-           Beamtet a6 f6 f3
+          Beamtet a6 f6 f3
 
   1.bDa6-a1 bTf6-a6   2.bDa1-f6 + bTa6-a1 #
 
   add_to_move_generation_stack:        5620
                      play_move:        5219
- is_white_king_square_attacked:         696
- is_black_king_square_attacked:        5099
-Loesung beendet. 
+ is_white_king_square_attacked:         694
+ is_black_king_square_attacked:        5098
+Loesung beendet.
 
 
 
           Achim Sch"oneberg
-      ii, feenschach 71, 11/1984
+     ii, feenschach 71, 11/1984
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -101,15 +101,15 @@ Loesung beendet.
 
   add_to_move_generation_stack:          40
                      play_move:          37
- is_white_king_square_attacked:          19
- is_black_king_square_attacked:          38
-Loesung beendet. 
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          37
+Loesung beendet.
 
 
 
-            J"org Kuhlmann
-      iv, feenschach 71, 11/1984
-       G"unter B"using gewidmet
+           J"org Kuhlmann
+     iv, feenschach 71, 11/1984
+      G"unter B"using gewidmet
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -139,12 +139,12 @@ Loesung beendet.
   add_to_move_generation_stack:        9895
                      play_move:        8642
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:        8002
-Loesung beendet. 
+ is_black_king_square_attacked:        7998
+Loesung beendet.
 
 
 
-            J"org Kuhlmann
+           J"org Kuhlmann
           Achim Sch"oneberg
       v, feenschach 71, 11/1984
 
@@ -168,7 +168,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         6 + 5
-        Beamtet e7 b6 a5 d3 e2
+       Beamtet e7 b6 a5 d3 e2
 
 a) 
 
@@ -176,22 +176,22 @@ a)
 
   add_to_move_generation_stack:       14736
                      play_move:       13278
- is_white_king_square_attacked:         491
- is_black_king_square_attacked:       13196
+ is_white_king_square_attacked:         489
+ is_black_king_square_attacked:       13195
 b) wbSa5-->c5  
 
   1.bBe2-e1=bD bBe7-e8=bS   2.bDe1-e7 bSe8-c7 #
 
   add_to_move_generation_stack:       14119
                      play_move:       13727
- is_white_king_square_attacked:         303
- is_black_king_square_attacked:       13637
-Loesung beendet. 
+ is_white_king_square_attacked:         301
+ is_black_king_square_attacked:       13636
+Loesung beendet.
 
 
 
-            Claus Wedekind
-     234, harmonie 45, 16.12.1995
+           Claus Wedekind
+    234, harmonie 45, 16.12.1995
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -235,13 +235,13 @@ Loesung beendet.
                      play_move:        2623
  is_white_king_square_attacked:         320
  is_black_king_square_attacked:        2627
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            J"org Kuhlmann
+           J"org Kuhlmann
           Achim Sch"oneberg
-      vi, feenschach 71, 11/1984
+     vi, feenschach 71, 11/1984
          Verbesserung 3/1999
 
 +---a---b---c---d---e---f---g---h---+
@@ -264,7 +264,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #7//1                       6 + 4
-  Beamtet b8 b7 a6 b6 a5 e5 g4 e3 c2
+ Beamtet b8 b7 a6 b6 a5 e5 g4 e3 c2
                 Circe
 
   1  (Lg2-f1 + )
@@ -312,12 +312,12 @@ Loesung beendet.
   add_to_move_generation_stack:    12258238
                      play_move:    10370597
  is_white_king_square_attacked:     6146974
- is_black_king_square_attacked:     4496226
-Loesung beendet. 
+ is_black_king_square_attacked:     4496199
+Loesung beendet.
 
 
 
-            J"org Kuhlmann
+           J"org Kuhlmann
           Achim Sch"oneberg
      iii, feenschach 71, 11/1984
            G"unter B"using
@@ -354,7 +354,7 @@ Loesung beendet.
   add_to_move_generation_stack:      283862
                      play_move:      238341
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:      186550
-Loesung beendet. 
+ is_black_king_square_attacked:      186540
+Loesung beendet.
 
 

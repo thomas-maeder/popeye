@@ -1,5 +1,5 @@
 
-      double check with promotee
+     double check with promotee
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -26,13 +26,13 @@
 
   add_to_move_generation_stack:       34585
                      play_move:       35413
- is_white_king_square_attacked:        1369
- is_black_king_square_attacked:        2432
-solution finished. 
+ is_white_king_square_attacked:        1367
+ is_black_king_square_attacked:        2430
+solution finished.
 
 
 
-     double check by pawn capture
+    double check by pawn capture
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -59,9 +59,9 @@ solution finished.
 
   add_to_move_generation_stack:         103
                      play_move:         103
- is_white_king_square_attacked:           5
- is_black_king_square_attacked:          34
-solution finished. 
+ is_white_king_square_attacked:           4
+ is_black_king_square_attacked:          33
+solution finished.
 
 
 
@@ -92,9 +92,9 @@ double check by en passant capture from above
 
   add_to_move_generation_stack:         278
                      play_move:         269
- is_white_king_square_attacked:          14
- is_black_king_square_attacked:          43
-solution finished. 
+ is_white_king_square_attacked:          13
+ is_black_king_square_attacked:          42
+solution finished.
 
 
 
@@ -125,9 +125,9 @@ double check by en passant capture from below
 
   add_to_move_generation_stack:         720
                      play_move:         647
- is_white_king_square_attacked:          41
- is_black_king_square_attacked:         122
-solution finished. 
+ is_white_king_square_attacked:          40
+ is_black_king_square_attacked:         121
+solution finished.
 
 
 
@@ -159,8 +159,8 @@ interception of a defending pawn by a piece that doesn't guard
   add_to_move_generation_stack:         110
                      play_move:          99
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:          64
-solution finished. 
+ is_black_king_square_attacked:          63
+solution finished.
 
 
 
@@ -193,7 +193,7 @@ guard with check -> selfpin with check -> selfpin with guard by s
                      play_move:         106
  is_white_king_square_attacked:          13
  is_black_king_square_attacked:          90
-solution finished. 
+solution finished.
 
 
 
@@ -226,12 +226,12 @@ guard with check -> selfpin with check -> selfpin with guard by b
                      play_move:          23
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:          21
-solution finished. 
+solution finished.
 
 
 
 in mate stipulations, it makes sense to pin a queen or rook by a
-            guarding queen
+           guarding queen
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -260,6 +260,6 @@ in mate stipulations, it makes sense to pin a queen or rook by a
                      play_move:          21
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:          17
-solution finished. 
+solution finished.
 
 

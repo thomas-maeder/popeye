@@ -1,5 +1,5 @@
 
-              S.Emmerson
+             S.Emmerson
              Unpublished
 
 +---a---b---c---d---e---f---g---h---+
@@ -48,11 +48,11 @@ b) =2
                      play_move:        1757
  is_white_king_square_attacked:         841
  is_black_king_square_attacked:        1606
-solution finished. 
+solution finished.
 
 
 
-              S.Emmerson
+             S.Emmerson
              Unpublished
 
 +---a---b---c---d---e---f---g---h---+
@@ -76,21 +76,21 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ser-#4                      2 + 2
            AntiCirce Super
-              HalfDuplex
+             HalfDuplex
 
   1.a7*b6[bPb6->e1=Q]   2.Ka8-a7   3.Ka7-b6   4.Qe1-e8 #
 
   add_to_move_generation_stack:       17082
                      play_move:       15224
- is_white_king_square_attacked:       14434
+ is_white_king_square_attacked:       14431
  is_black_king_square_attacked:        6750
-solution finished. 
+solution finished.
 
 
 
-              S.Emmerson
+             S.Emmerson
              Unpublished
-             set allowed?
+            set allowed?
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -121,9 +121,9 @@ solution finished.
 
   add_to_move_generation_stack:        3456
                      play_move:        2840
- is_white_king_square_attacked:        1163
+ is_white_king_square_attacked:        1162
  is_black_king_square_attacked:        2630
-solution finished. 
+solution finished.
 
 
 
@@ -150,7 +150,7 @@ solution finished.
 +---a---b---c---d---e---f---g---h---+
   ser-002                     2 + 2
            AntiCirce Super
-                Duplex
+               Duplex
 
   1.Ra5*a8[wRa8->a1]   2.0-0-0
   1.Ra5*a8[wRa8->h1]   2.0-0
@@ -159,13 +159,13 @@ solution finished.
 
   add_to_move_generation_stack:          84
                      play_move:         223
- is_white_king_square_attacked:         222
- is_black_king_square_attacked:         232
-solution finished. 
+ is_white_king_square_attacked:         220
+ is_black_king_square_attacked:         228
+solution finished.
 
 
 
-            test promotion
+           test promotion
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -891,11 +891,11 @@ b) shift a1 ==> a2
                      play_move:         256
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
-             test cheylan
+            test cheylan
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -939,6 +939,6 @@ b) AntiCirce Super Cheylan
                      play_move:         194
  is_white_king_square_attacked:          66
  is_black_king_square_attacked:         190
-solution finished. 
+solution finished.
 
 

@@ -29,7 +29,7 @@
                      play_move:          46
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:          47
-Loesung beendet. 
+Loesung beendet.
 
 
 6 Halbzuege sVerteidigung-wAngriff...
@@ -86,7 +86,7 @@ Loesung beendet.
                      play_move:       15662
  is_white_king_square_attacked:        8665
  is_black_king_square_attacked:        8372
-Loesung beendet. 
+Loesung beendet.
 
 
 1 schwarzer Verteidigungszug zum Matt
@@ -120,7 +120,7 @@ Loesung beendet.
                      play_move:          75
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:          51
-Loesung beendet. 
+Loesung beendet.
 
 
 1 schwarzer Verteidigungszug zum Matt
@@ -154,7 +154,7 @@ Loesung beendet.
                      play_move:          75
  is_white_king_square_attacked:          76
  is_black_king_square_attacked:          51
-Loesung beendet. 
+Loesung beendet.
 
 
 1 weisser Angriffszug zum Ziel Zielfeld a7 (d.h. forderung za71)
@@ -188,7 +188,7 @@ Loesung beendet.
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 3 Halbzuege wAngriff-sVerteidigung-wAngriff mit Ziel matt
@@ -233,7 +233,7 @@ Loesung beendet.
                      play_move:        6983
  is_white_king_square_attacked:         785
  is_black_king_square_attacked:        6986
-Loesung beendet. 
+Loesung beendet.
 
 
 2 Halbzuege sHilfszug+wHilfszug mit Ziel matt (d.h. forderung h#1)
@@ -265,9 +265,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:          74
                      play_move:          74
- is_white_king_square_attacked:           7
+ is_white_king_square_attacked:           5
  is_black_king_square_attacked:          32
-Loesung beendet. 
+Loesung beendet.
 
 
 2 wSerienzuege mit Ziel matt (d.h. forderung ser-#2)
@@ -299,13 +299,13 @@ Loesung beendet.
   add_to_move_generation_stack:          15
                      play_move:          15
  is_white_king_square_attacked:           6
- is_black_king_square_attacked:          16
-Loesung beendet. 
+ is_black_king_square_attacked:          15
+Loesung beendet.
 
 
 4 wSerienzuge mit Ziel matt (d.h. forderung ser-#4)
 
-            Manfred Seidel
+           Manfred Seidel
         Europa-Rochade 6/1991
            PK-76, S.53, 1)
 
@@ -336,8 +336,8 @@ Loesung beendet.
   add_to_move_generation_stack:       24019
                      play_move:       17807
  is_white_king_square_attacked:        3239
- is_black_king_square_attacked:       17463
-Loesung beendet. 
+ is_black_king_square_attacked:       17460
+Loesung beendet.
 
 
 1 sSerienzug mit Ziel 1 wHilfszug mit Ziel matt
@@ -370,9 +370,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         742
                      play_move:         324
- is_white_king_square_attacked:          99
+ is_white_king_square_attacked:          97
  is_black_king_square_attacked:         324
-Loesung beendet. 
+Loesung beendet.
 
 
 Negationsoperator mit Fortsetzung:
@@ -410,7 +410,7 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
                      play_move:         722
  is_white_king_square_attacked:          44
  is_black_king_square_attacked:         713
-Loesung beendet. 
+Loesung beendet.
 
 
 2 Halbzuege sHilfszug+wHilfszug zum Matt und 1 sHilfszug zum Matt
@@ -444,17 +444,17 @@ Loesung beendet.
 
   add_to_move_generation_stack:         222
                      play_move:         192
- is_white_king_square_attacked:          99
+ is_white_king_square_attacked:          98
  is_black_king_square_attacked:         121
-Loesung beendet. 
+Loesung beendet.
 
 
 AND-Verknuepfung statt Vierlinge
 da der Anzug zwischen den Teilen variiert, brauchen wir
 zweimal eine Anzuginversion (-)
 
-           Matti Myllyniemi
-      1. Preis, O. Kaila JT 1967
+          Matti Myllyniemi
+     1. Preis, O. Kaila JT 1967
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -475,7 +475,7 @@ zweimal eine Anzuginversion (-)
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[#]d & - 4hh[#] & 4ad[#] & - 4hh[=]   8 + 10
+  weiss 3a[#]d & - 4hh[#] & 4ad[#] & - 4hh[=] 8 + 10
 
    1.e7-e8=S ! Drohung:
           2.Se8*c7 #
@@ -493,15 +493,15 @@ zweimal eine Anzuginversion (-)
 
   add_to_move_generation_stack:       13049
                      play_move:        8968
- is_white_king_square_attacked:        5259
- is_black_king_square_attacked:        6526
-Loesung beendet. 
+ is_white_king_square_attacked:        5255
+ is_black_king_square_attacked:        6524
+Loesung beendet.
 
 
 eigentlich semi-r#2
 
-           Stephen Emmerson
-    H, The Problemist 1/1997, S. 7
+          Stephen Emmerson
+   H, The Problemist 1/1997, S. 7
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -550,7 +550,7 @@ eigentlich semi-r#2
                      play_move:      235843
  is_white_king_square_attacked:       73426
  is_black_king_square_attacked:        8413
-Loesung beendet. 
+Loesung beendet.
 
 
 3 Halbzuege wAngriff-sVerteidigung-wAngriff
@@ -558,9 +558,9 @@ mit Ziel 1 sAngriff zum Matt
 und Einschraenkung kein wAngriff zum Matt
 (d.h. forderung r#2)
 
-            Jukka Tuovinen
+           Jukka Tuovinen
 3. ehr. Erw., 11. diagrammes-TT 1993, Abt. A
-   diagrammes spezial #13, 7-9/1993
+  diagrammes spezial #13, 7-9/1993
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -581,7 +581,7 @@ und Einschraenkung kein wAngriff zum Matt
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3a[>1a[#]d]d{!1a[#]d}   9 + 8
+  weiss 3a[>1a[#]d]d{!1a[#]d} 9 + 8
               AntiCirce
 
    1.b6-b7 ! Zugzwang.
@@ -606,7 +606,7 @@ und Einschraenkung kein wAngriff zum Matt
                      play_move:        8882
  is_white_king_square_attacked:        6818
  is_black_king_square_attacked:        1045
-Loesung beendet. 
+Loesung beendet.
 
 
 2 Halbzuege sHilfszug+wHilfszug mit Ziel
@@ -615,8 +615,8 @@ UND
 1 s(Hilfs)zug zum Matt
 (d.h. reci-h#2)
 
-           Norbert Geissler
-    3588, Problemkiste 96, 12/1994
+          Norbert Geissler
+   3588, Problemkiste 96, 12/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -637,7 +637,7 @@ UND
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[2hh[#]&1h[#]h]   9 + 12
+  schwarz 2hh[2hh[#]&1h[#]h] 9 + 12
 
 a) 
 
@@ -646,8 +646,8 @@ a)
 
   add_to_move_generation_stack:       61254
                      play_move:       58582
- is_white_king_square_attacked:       58189
- is_black_king_square_attacked:       10397
+ is_white_king_square_attacked:       58186
+ is_black_king_square_attacked:       10395
 b) sBf2<-->wBh4  
 
   1.h2*g1=L f2-f4   2.0-0 Th5-g5 #
@@ -655,9 +655,9 @@ b) sBf2<-->wBh4
 
   add_to_move_generation_stack:       21770
                      play_move:       18866
- is_white_king_square_attacked:       18676
- is_black_king_square_attacked:        6274
-Loesung beendet. 
+ is_white_king_square_attacked:       18673
+ is_black_king_square_attacked:        6272
+Loesung beendet.
 
 
 2 Halbzuege sHilfszug+wHilfszug mit Ziel
@@ -668,8 +668,8 @@ UND
 (allerdings werden die beiden Operanden von & in der weniger
 effizienten Reihenfolge ausgewertet)
 
-           Norbert Geissler
-    3588, Problemkiste 96, 12/1994
+          Norbert Geissler
+   3588, Problemkiste 96, 12/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -690,7 +690,7 @@ effizienten Reihenfolge ausgewertet)
 1   .   .   .   .   .   .   T   L   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  schwarz 2hh[1h[#]h&2hh[#]]   9 + 12
+  schwarz 2hh[1h[#]h&2hh[#]] 9 + 12
 
 a) 
 
@@ -699,8 +699,8 @@ a)
 
   add_to_move_generation_stack:      194412
                      play_move:      139426
- is_white_king_square_attacked:       35249
- is_black_king_square_attacked:      133107
+ is_white_king_square_attacked:       35246
+ is_black_king_square_attacked:      133105
 b) sBf2<-->wBh4  
 
   1.h2*g1=L f2-f4   2.e4*f3 ep. #
@@ -708,9 +708,9 @@ b) sBf2<-->wBh4
 
   add_to_move_generation_stack:      183336
                      play_move:      117954
- is_white_king_square_attacked:       26101
- is_black_king_square_attacked:      117770
-Loesung beendet. 
+ is_white_king_square_attacked:       26098
+ is_black_king_square_attacked:      117768
+Loesung beendet.
 
 
 3 Halbzuege s+w+sHilfszug mit Ziel
@@ -751,7 +751,7 @@ wAngriffszug zum Schlag
                      play_move:          23
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 4 Halbzuege s+w+sHilfszug mit Ziel Schlag
@@ -788,7 +788,7 @@ Loesung beendet.
                      play_move:          17
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 4 Halbzuege s+w+sHilfszug mit Ziel Schlag
@@ -825,7 +825,7 @@ wobei Schwarz nicht schlaegt
                      play_move:          12
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 3 Halbzuege w+s+wHilfszug mit Ziel
@@ -863,7 +863,7 @@ wobei Weiss schlagen muss, wenn er kann
                      play_move:          11
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 exakt 3 Halbzuege w+s+wHilfszug mit Ziel
@@ -900,7 +900,7 @@ wobei Weiss schlagen muss, wenn er kann
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 3 Halbzuege w+s+wHilfszug mit Ziel
@@ -930,7 +930,7 @@ unloesbar, weil Schwarz schlagen muss
 1   .   .   .   .   .   .   .   .   1
 |                                   |
 +---a---b---c---d---e---f---g---h---+
-  weiss 3h[>1a[x]d]h{!1a[x]d}   4 + 3
+  weiss 3h[>1a[x]d]h{!1a[x]d} 4 + 3
 
   1.g3*f4 x
 
@@ -938,7 +938,7 @@ unloesbar, weil Schwarz schlagen muss
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 2 Halbzuege s+sSerienzug mit Ziel
@@ -976,7 +976,7 @@ wAngriffszug zum Schlag
                      play_move:          14
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 exact 2 Halbzuege s+sSerienzug mit Ziel
@@ -1011,7 +1011,7 @@ wAngriffszug zum Schlag
                      play_move:           8
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 2 Halbzuege w+wSerienzug mit Ziel
@@ -1052,7 +1052,7 @@ Schwarz nicht schlaegt
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 2 Halbzuege w+wSerienzug mit Ziel
@@ -1092,7 +1092,7 @@ keine lange Loesung, weil Schwarz nach 1.g2-g3 schlagen muss
                      play_move:           9
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 2 Halbzuege wSerienzug+wSerienzug zu
@@ -1128,17 +1128,17 @@ Loesung beendet.
 
   add_to_move_generation_stack:    11163433
                      play_move:     9634363
- is_white_king_square_attacked:      499133
- is_black_king_square_attacked:     9633971
-Loesung beendet. 
+ is_white_king_square_attacked:      499130
+ is_black_king_square_attacked:     9633969
+Loesung beendet.
 
 
 1 vorgeschalteter Verteidigungszug statt Zwillingsbildung
 eigentlich: sKg4 s#2 b) g4->e3
 
-           Valentin Rudenko
+          Valentin Rudenko
            Viktor Cepiznij
-  1. WCCT 1972-75, Abt. F2, 6. Platz
+ 1. WCCT 1972-75, Abt. F2, 6. Platz
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1198,12 +1198,12 @@ eigentlich: sKg4 s#2 b) g4->e3
                      play_move:       31087
  is_white_king_square_attacked:       31098
  is_black_king_square_attacked:       19158
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Horst B"acker
-    3137, Problemkiste-85, 12/1992
+   3137, Problemkiste-85, 12/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1288,12 +1288,12 @@ d) weiss 7:7a[#]d
                      play_move:       23668
  is_white_king_square_attacked:       15208
  is_black_king_square_attacked:        9924
-Loesung beendet. 
+Loesung beendet.
 
 
 
           exact 3 Halbzuege
-     wegen exact nicht 1.Kf1/Kh3#
+    wegen exact nicht 1.Kf1/Kh3#
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1320,9 +1320,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:         215
                      play_move:         205
- is_white_king_square_attacked:          93
- is_black_king_square_attacked:         201
-Loesung beendet. 
+ is_white_king_square_attacked:          92
+ is_black_king_square_attacked:         200
+Loesung beendet.
 
 
 
@@ -1381,16 +1381,16 @@ zudem darf die Loesung mit 1.La8 wegen start nicht erscheinen
 
   add_to_move_generation_stack:      207544
                      play_move:      153532
- is_white_king_square_attacked:      100059
- is_black_king_square_attacked:      153522
-Loesung beendet. 
+ is_white_king_square_attacked:       99905
+ is_black_king_square_attacked:      153508
+Loesung beendet.
 
 
 h#8 1.0;1.1;...; 7x8-Brett
 gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
     Rolf Wiehagen & Torsten Lin"s
-      feenschach 138 p. 394, Lob
+     feenschach 138 p. 394, Lob
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1417,14 +1417,14 @@ gleiches Problem mit viel komplexerer Eingabe in intell.inp
 
   add_to_move_generation_stack:      414343
                      play_move:      413939
- is_white_king_square_attacked:       29495
- is_black_king_square_attacked:       39383
-Loesung beendet. 
+ is_white_king_square_attacked:       29487
+ is_black_king_square_attacked:       39377
+Loesung beendet.
 
 
 h#8 1.0;1.1;...
 
-           Reinhardt Fiebig
+          Reinhardt Fiebig
         feenschach 138 p. 394
 
 +---a---b---c---d---e---f---g---h---+
@@ -1452,9 +1452,9 @@ h#8 1.0;1.1;...
 
   add_to_move_generation_stack:     2792745
                      play_move:     2792745
- is_white_king_square_attacked:      154084
- is_black_king_square_attacked:      271903
-Loesung beendet. 
+ is_white_king_square_attacked:      154076
+ is_black_king_square_attacked:      271897
+Loesung beendet.
 
 
 Hilfsspiel mit einem Ziel nach den schwarzen und einem anderen
@@ -1487,9 +1487,9 @@ Ziel nach den weissen Zuegen
 
   add_to_move_generation_stack:       39944
                      play_move:       22573
- is_white_king_square_attacked:       17333
- is_black_king_square_attacked:       16163
-Loesung beendet. 
+ is_white_king_square_attacked:       17330
+ is_black_king_square_attacked:       16161
+Loesung beendet.
 
 
 Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
@@ -1521,14 +1521,14 @@ Ziel und Einschraenkung (1.a7xb8=D??) nach dem selben Zug
   add_to_move_generation_stack:         756
                      play_move:         512
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:         503
-Loesung beendet. 
+ is_black_king_square_attacked:         502
+Loesung beendet.
 
 
 
               Nils Hoeg
      Skakschwadet 1907, 1. Preis
-   eigentlich: s#2 option quodlibet
+  eigentlich: s#2 option quodlibet
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1571,7 +1571,7 @@ Loesung beendet.
                      play_move:        3564
  is_white_king_square_attacked:        2387
  is_black_king_square_attacked:        2204
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1614,12 +1614,12 @@ Beispiel fuer eine unnegierte Einschraenkung:
                      play_move:         167
  is_white_king_square_attacked:          54
  is_black_king_square_attacked:         152
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Nicolas Dupont
-     Beispel fuer "Direkt-Selbst"
+           Nicolas Dupont
+    Beispel fuer "Direkt-Selbst"
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1653,7 +1653,7 @@ Loesung beendet.
   add_to_move_generation_stack:   440625415
                      play_move:   171289682
  is_white_king_square_attacked:   171289682
- is_black_king_square_attacked:   106158609
-Loesung beendet. 
+ is_black_king_square_attacked:   106158539
+Loesung beendet.
 
 

@@ -1,6 +1,6 @@
 
              Gerd Rinder
-    4248, Problemkiste 109, 2/1997
+   4248, Problemkiste 109, 2/1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -22,21 +22,21 @@
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#6                         2 + 2
-              OhneSchach
-            ExklusivSchach
+             OhneSchach
+           ExklusivSchach
 
   1...a2-a4   2.g7-g5 a4-a5   3.g5-g4 a5-a6   4.g4-g3 a6-a7   5.g3-g2 a7-a8=D   6.g2-g1=D Da8-a6 #
   1...a2-a4   2.g7-g5 a4-a5   3.g5-g4 a5-a6   4.g4-g3 a6-a7   5.g3-g2 a7-a8=T   6.g2-g1=T Ta8-f8 #
 
   add_to_move_generation_stack:     1012924
                      play_move:      993483
- is_white_king_square_attacked:      765700
- is_black_king_square_attacked:      951837
-Loesung beendet. 
+ is_white_king_square_attacked:      765690
+ is_black_king_square_attacked:      951827
+Loesung beendet.
 
 
 
-           Rom\'eo B\'edoni
+          Rom\'eo B\'edoni
     6758, feenschach 113, 11/1994
 
 +---a---b---c---d---e---f---g---h---+
@@ -59,7 +59,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                         5 + 12
-            ExklusivSchach
+           ExklusivSchach
 
    1.a6-a7 ! Drohung:
           2.a7-a8=S Drohung:
@@ -84,7 +84,7 @@ Loesung beendet.
                      play_move:       49271
  is_white_king_square_attacked:        4730
  is_black_king_square_attacked:       47281
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -112,22 +112,22 @@ Hans Burbach zum 75. Geburtstag gewidmet
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 7
-           Circe Chamaeleon
-            ExklusivSchach
+          Circe Chamaeleon
+           ExklusivSchach
 
   1.Tb1-b7 Ka8*b7[+sDd8]   2.Lf2-g1 f7-f8=T #
   1.Lf2-a7 Ka8*a7[+sTh8]   2.Tb1-d1 f7-f8=D #
 
   add_to_move_generation_stack:      569425
                      play_move:      357657
- is_white_king_square_attacked:       34124
- is_black_king_square_attacked:      349892
-Loesung beendet. 
+ is_white_king_square_attacked:       34120
+ is_black_king_square_attacked:      349890
+Loesung beendet.
 
 
 
-             Hans Burbach
-  3063, Probleemblad 54/5, 9-10/1996
+            Hans Burbach
+ 3063, Probleemblad 54/5, 9-10/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -149,7 +149,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 6
-            ExklusivSchach
+           ExklusivSchach
 
    1.c6-c7 ! Zugzwang.
       1...Kc1-d1
@@ -168,11 +168,11 @@ Loesung beendet.
                      play_move:        3992
  is_white_king_square_attacked:         728
  is_black_king_square_attacked:        3828
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Yves Cheylan
+            Yves Cheylan
   2959, Probleemblad 54/2, 3-4/1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -195,7 +195,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                        5 + 11
-            ExklusivSchach
+           ExklusivSchach
 
 a) 
 
@@ -203,17 +203,17 @@ a)
 
   add_to_move_generation_stack:     2818727
                      play_move:     1492942
- is_white_king_square_attacked:      483660
- is_black_king_square_attacked:     1091139
+ is_white_king_square_attacked:      483658
+ is_black_king_square_attacked:     1091138
 b) sLh1-->g8  
 
   1.Df5-f2 + e2-e3   2.Tf7-f3 Sg6-f4 #
 
   add_to_move_generation_stack:     2017188
                      play_move:     1034769
- is_white_king_square_attacked:      394366
- is_black_king_square_attacked:      705697
-Loesung beendet. 
+ is_white_king_square_attacked:      394364
+ is_black_king_square_attacked:      705696
+Loesung beendet.
 
 
 
@@ -241,7 +241,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 5
-            ExklusivSchach
+           ExklusivSchach
 
 a) 
 
@@ -249,21 +249,21 @@ a)
 
   add_to_move_generation_stack:       40466
                      play_move:       32445
- is_white_king_square_attacked:        3614
- is_black_king_square_attacked:       31602
+ is_white_king_square_attacked:        3612
+ is_black_king_square_attacked:       31601
 b) wKf1-->g2  
 
   1.h2-h1=T e6*f7   2.Th1-f1 f7*g8=D #
 
   add_to_move_generation_stack:       44654
                      play_move:       36609
- is_white_king_square_attacked:        3840
- is_black_king_square_attacked:       35730
-Loesung beendet. 
+ is_white_king_square_attacked:        3838
+ is_black_king_square_attacked:       35729
+Loesung beendet.
 
 
 
-             Yves Cheylan
+            Yves Cheylan
      Probleemblad 54/2, 3-4/1996
       Lob, 162. Probleemblad-TT
 
@@ -287,19 +287,19 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 7
-            ExklusivSchach
+           ExklusivSchach
 
   1.Tg1-g5 Tc1-c4   2.Lf1*c4 0-0-0 #
 
   add_to_move_generation_stack:      919720
                      play_move:      439533
- is_white_king_square_attacked:      287060
- is_black_king_square_attacked:      224274
-Loesung beendet. 
+ is_white_king_square_attacked:      287058
+ is_black_king_square_attacked:      224273
+Loesung beendet.
 
 
 
-            Romeo B\'edoni
+           Romeo B\'edoni
      Probleemblad 54/2, 3-4/1996
       Lob, 162. Probleemblad-TT
 
@@ -323,16 +323,16 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 3
-            ExklusivSchach
+           ExklusivSchach
 
   1.c2-c1=T h7-h8=S   2.Tc1*c6 d7-d8=D #
   1.c2-c1=L d7-d8=S   2.Lc1*h6 h7-h8=D #
 
   add_to_move_generation_stack:      105504
                      play_move:       93294
- is_white_king_square_attacked:       10248
- is_black_king_square_attacked:       90750
-Loesung beendet. 
+ is_white_king_square_attacked:       10244
+ is_black_king_square_attacked:       90748
+Loesung beendet.
 
 
 
@@ -360,7 +360,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         5 + 7
-            ExklusivSchach
+           ExklusivSchach
 
 a) 
 
@@ -368,17 +368,17 @@ a)
 
   add_to_move_generation_stack:     2008944
                      play_move:     1335212
- is_white_king_square_attacked:      205303
- is_black_king_square_attacked:     1191126
+ is_white_king_square_attacked:      205301
+ is_black_king_square_attacked:     1191125
 b) -wLe1  
 
   1.a2-a1=D Lh5-e2   2.Da1-h1 Sf5-h6 #
 
   add_to_move_generation_stack:     1560362
                      play_move:     1029472
- is_white_king_square_attacked:      121586
- is_black_king_square_attacked:      956703
-Loesung beendet. 
+ is_white_king_square_attacked:      121584
+ is_black_king_square_attacked:      956702
+Loesung beendet.
 
 
 
@@ -406,21 +406,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 8
-            ExklusivSchach
+           ExklusivSchach
 
   1.b2-b1=L b7-b8=S   2.a2-a1=T g7*f8=D #
 
   add_to_move_generation_stack:     1603989
                      play_move:     1290853
- is_white_king_square_attacked:      312099
- is_black_king_square_attacked:     1038255
-Loesung beendet. 
+ is_white_king_square_attacked:      312097
+ is_black_king_square_attacked:     1038254
+Loesung beendet.
 
 
 
-             Yves Cheylan
+            Yves Cheylan
      Probleemblad 54/2, 3-4/1996
-    3. Preis, 162. Probleemblad-TT
+   3. Preis, 162. Probleemblad-TT
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -442,15 +442,15 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         6 + 6
-            ExklusivSchach
+           ExklusivSchach
 
   1.d4*e3 ep. Kd1-e1   2.Dd6-h2 Tc2-d2 #
 
   add_to_move_generation_stack:       65529
                      play_move:       27071
- is_white_king_square_attacked:        5879
- is_black_king_square_attacked:       23882
-Loesung beendet. 
+ is_white_king_square_attacked:        5877
+ is_black_king_square_attacked:       23881
+Loesung beendet.
 
 
 
@@ -478,7 +478,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #5                          8 + 5
-            ExklusivSchach
+           ExklusivSchach
 
 a) 
 
@@ -514,11 +514,11 @@ b) wKa5-->c3
                      play_move:       11262
  is_white_king_square_attacked:        2484
  is_black_king_square_attacked:       11247
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Romeo B\'edoni
+           Romeo B\'edoni
      Probleemblad 54/2, 3-4/1996
 2. ehrende Erw"ahnung, 162. Probleemblad-TT
 
@@ -542,7 +542,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                          7 + 3
-            ExklusivSchach
+           ExklusivSchach
 
    1.c6-c7 ! Drohung:
           2.c7-c8=S Drohung:
@@ -565,13 +565,13 @@ Loesung beendet.
                      play_move:       11445
  is_white_king_square_attacked:        1483
  is_black_king_square_attacked:       11045
-Loesung beendet. 
+Loesung beendet.
 
 
 
              J. Tuovinen
      Probleemblad 54/2, 3-4/1996
-    2. Preis, 162. Probleemblad-TT
+   2. Preis, 162. Probleemblad-TT
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -593,7 +593,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3                         10 + 8
-            ExklusivSchach
+           ExklusivSchach
 
    1.Td6-g6 ! Drohung:
           2.a7-a8=L Drohung:
@@ -617,13 +617,13 @@ Loesung beendet.
                      play_move:       79412
  is_white_king_square_attacked:       17191
  is_black_king_square_attacked:       72273
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Jasper van Atten
+          Jasper van Atten
      Probleemblad 54/2, 3-4/1996
-    1. Preis, 162. Probleemblad-TT
+   1. Preis, 162. Probleemblad-TT
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -645,7 +645,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #4                         7 + 15
-            ExklusivSchach
+           ExklusivSchach
 
    1.Le6-c8 ! Drohung:
           2.Lc8-d7 #
@@ -671,11 +671,11 @@ Loesung beendet.
                      play_move:      882778
  is_white_king_square_attacked:      142326
  is_black_king_square_attacked:      782367
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Yves Cheylan
+            Yves Cheylan
      Probleemblad 54/2, 3-4/1996
       Lob, 162. Probleemblad-TT
 
@@ -699,7 +699,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                         9 + 10
-            ExklusivSchach
+           ExklusivSchach
 
    1.Sg6-h4 ! Drohung:
           2.Df6-d8 #
@@ -713,7 +713,7 @@ Loesung beendet.
                      play_move:       16553
  is_white_king_square_attacked:        4244
  is_black_king_square_attacked:       13819
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -741,7 +741,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 9
-            ExklusivSchach
+           ExklusivSchach
 
    1.Le7*d6 ! Drohung:
           2.f7-f8=D #
@@ -757,7 +757,7 @@ Loesung beendet.
                      play_move:       27003
  is_white_king_square_attacked:        6032
  is_black_king_square_attacked:       22281
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -785,7 +785,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          9 + 7
-            ExklusivSchach
+           ExklusivSchach
 
    1.Db5-d7 ! Drohung:
           2.Dd7-a4 #
@@ -799,7 +799,7 @@ Loesung beendet.
                      play_move:       13761
  is_white_king_square_attacked:        5059
  is_black_king_square_attacked:        9836
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -827,7 +827,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 7
-            ExklusivSchach
+           ExklusivSchach
 
    1.La1-g7 ? Drohung:
           2.Lg7-e5 #
@@ -860,11 +860,11 @@ Loesung beendet.
                      play_move:        2934
  is_white_king_square_attacked:         508
  is_black_king_square_attacked:        2947
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Yves Cheylan
+            Yves Cheylan
      Probleemblad 54/2, 3-4/1996
 1. ehrende Erw"ahnung, 162. Probleemblad-TT
 
@@ -888,7 +888,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        13 + 10
-            ExklusivSchach
+           ExklusivSchach
 
    1.f5-f6 ! Drohung:
           2.Se4-f2 #
@@ -902,13 +902,13 @@ Loesung beendet.
                      play_move:       37887
  is_white_king_square_attacked:       21059
  is_black_king_square_attacked:       20037
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Yves Cheylan
+            Yves Cheylan
      Probleemblad 54/2, 3-4/1996
-    1. Preis, 162. Probleemblad-TT
+   1. Preis, 162. Probleemblad-TT
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -930,7 +930,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                        10 + 12
-            ExklusivSchach
+           ExklusivSchach
 
    1.Tf4-f7 ! Drohung:
           2.Tg5-g1 #
@@ -948,12 +948,12 @@ Loesung beendet.
                      play_move:       37822
  is_white_king_square_attacked:       25731
  is_black_king_square_attacked:       15685
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Yves Cheylan
-    3508, diagrammes 117, 4-6/1996
+            Yves Cheylan
+   3508, diagrammes 117, 4-6/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -975,21 +975,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         4 + 9
-            ExklusivSchach
+           ExklusivSchach
 
   1.e5-e4 f4*g5   2.Dd4*h8 + e7-e8=T #
   1.Sg5-f7 f4*e5   2.Sf7*h8 e7-e8=D #
 
   add_to_move_generation_stack:     2564925
                      play_move:     2060889
- is_white_king_square_attacked:      478825
- is_black_king_square_attacked:     1681686
-Loesung beendet. 
+ is_white_king_square_attacked:      478821
+ is_black_king_square_attacked:     1681684
+Loesung beendet.
 
 
 
            Hans Peter Rehm
-               BCM 1971
+              BCM 1971
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1011,7 +1011,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 7
-              OhneSchach
+             OhneSchach
 
    1.Dg6-d6 ! Drohung:
           2.Dd6-b4 #
@@ -1033,7 +1033,7 @@ Loesung beendet.
                      play_move:       45695
  is_white_king_square_attacked:       11135
  is_black_king_square_attacked:       38449
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1060,7 +1060,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 8
-              OhneSchach
+             OhneSchach
 
    1.Te8-e5 ! Drohung:
           2.Te5-d5 #
@@ -1083,13 +1083,13 @@ Loesung beendet.
                      play_move:       46083
  is_white_king_square_attacked:        3832
  is_black_king_square_attacked:       45189
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
             Bernhard Rehm
-           Albert H. Kniest
+          Albert H. Kniest
 69, Diagramme und Figuren 6, 15.10.1963
 
 +---a---b---c---d---e---f---g---h---+
@@ -1112,7 +1112,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
+             OhneSchach
 
 a) 
 
@@ -1120,21 +1120,21 @@ a)
 
   add_to_move_generation_stack:       23673
                      play_move:       20149
- is_white_king_square_attacked:        3354
- is_black_king_square_attacked:       20144
+ is_white_king_square_attacked:        3352
+ is_black_king_square_attacked:       20143
 b) sKf2-->d5  
 
   1.d2-d1=L a7-a8=S   2.Ld1-b3 Sa8-b6 #
 
   add_to_move_generation_stack:       32505
                      play_move:       25438
- is_white_king_square_attacked:        4633
- is_black_king_square_attacked:       25426
-Loesung beendet. 
+ is_white_king_square_attacked:        4631
+ is_black_king_square_attacked:       25425
+Loesung beendet.
 
 
 
-             Hilmar Ebert
+            Hilmar Ebert
              Hans Gruber
      BuS231, feenschach 51, 1980
 
@@ -1158,22 +1158,22 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#4                     2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Kc7-c6   2.Kc6-b5   3.Kb5-b4   4.Nc5-a6 Nc8-f2 #
   1.Kc7-d7   2.Kd7-e6   3.Nc5-d7   4.Nd7-f8 Nc8-a4 #
 
   add_to_move_generation_stack:       33941
                      play_move:       27288
- is_white_king_square_attacked:       11163
+ is_white_king_square_attacked:       11155
  is_black_king_square_attacked:       28902
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Stefan Klebes
     5561, feenschach 91, 5-8/1989
-      G\"unter B\"using gewidmet
+     G\"unter B\"using gewidmet
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1195,8 +1195,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#5                         1 + 9
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
    1.Ke7-e6 !
       1...Lc6-h1
@@ -1214,12 +1214,12 @@ Loesung beendet.
                      play_move:        3820
  is_white_king_square_attacked:        4216
  is_black_king_square_attacked:        3399
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
-           Albert H. Kniest
+          Albert H. Kniest
 143, Frankfurter Notizen 18, 15.6.1965
 
 +---a---b---c---d---e---f---g---h---+
@@ -1242,19 +1242,19 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=10                    1 + 3
-              OhneSchach
+             OhneSchach
 
   1.e7-e5   2.e5-e4   3.e4-e3   4.e3-e2   5.e2-e1=S   6.Se1-f3   7.Sf3-d2   8.Sd2-b1   9.a2-a1=T  10.a3-a2 Kc1-d1 =
 
   add_to_move_generation_stack:     1155066
                      play_move:      383104
- is_white_king_square_attacked:      477172
+ is_white_king_square_attacked:      477162
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Albert H. Kniest
+          Albert H. Kniest
 118, Frankfurter Notizen 17, 7.6.1965
 
 +---a---b---c---d---e---f---g---h---+
@@ -1277,20 +1277,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=10                    1 + 2
-              OhneSchach
+             OhneSchach
 
   1.b7-b5   2.b5-b4   3.b4-b3   4.b3-b2   5.b2-b1=L   6.a2-a1=T   7.Ta1-a7   8.Lb1-e4   9.Le4-a8  10.Ta7-b7 Kf1-g2 =
 
   add_to_move_generation_stack:      610595
                      play_move:      152683
- is_white_king_square_attacked:      181190
+ is_white_king_square_attacked:      181180
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
-             Erich Bartel
+            Erich Bartel
 119, Frankfurter Notizen 17, 7.6.1965
 
 +---a---b---c---d---e---f---g---h---+
@@ -1313,21 +1313,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=16                    2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Kh7-g6   2.Kg6-f5   3.Kf5-e4   4.Ke4-d4   5.Kd4-c3   6.Kc3-b4   7.Kb4*b5   8.Kb5-a6   9.b6-b5  10.b5-b4  11.b4-b3  12.b3-b2  13.b2-b1=L  14.Lb1-e4  15.Le4-a8  16.Ka6-b7 Kd6-d5 =
 
   add_to_move_generation_stack:      329349
                      play_move:       71629
- is_white_king_square_attacked:       79557
+ is_white_king_square_attacked:       79541
  is_black_king_square_attacked:       76142
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Andr\'e Minost
+           Andr\'e Minost
              Hans Gruber
-    4113, Problemkiste 106, 8/1996
+   4113, Problemkiste 106, 8/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1349,8 +1349,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#4                         3 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
    1.Kd5-c6 !
       1...Dg7-g1
@@ -1379,7 +1379,7 @@ Loesung beendet.
                      play_move:      328323
  is_white_king_square_attacked:      335253
  is_black_king_square_attacked:      203662
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -1407,15 +1407,15 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-=9                      2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Kb3-c4   2.Kc4-d4   3.c3-c4   4.c4-c5   5.c5-c6   6.c6-c7   7.c7-c8=D   8.Dc8-c3   9.Dc3-d2 =
 
   add_to_move_generation_stack:      117379
                      play_move:       47869
  is_white_king_square_attacked:       55107
- is_black_king_square_attacked:       53873
-Loesung beendet. 
+ is_black_king_square_attacked:       53865
+Loesung beendet.
 
 
 
@@ -1442,16 +1442,16 @@ A134 (Version), Problemkiste 102, 12/1995
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#5                         2 + 2
-            CavalierMajeur
-              OhneSchach
+           CavalierMajeur
+             OhneSchach
 
   1.g7-g5 b2-b4   2.g5-g4 b4-b5   3.g4-g3 b5-b6   4.g3-g2 b6-b7   5.g2-g1=N b7-b8=N #
 
   add_to_move_generation_stack:      478918
                      play_move:      473622
- is_white_king_square_attacked:      278220
- is_black_king_square_attacked:      469713
-Loesung beendet. 
+ is_white_king_square_attacked:      278215
+ is_black_king_square_attacked:      469709
+Loesung beendet.
 
 
 
@@ -1479,20 +1479,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=7                     2 + 2
-              OhneSchach
+             OhneSchach
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-c7 Kc8*c7 =
 
   add_to_move_generation_stack:       12954
                      play_move:        3848
- is_white_king_square_attacked:        3771
+ is_white_king_square_attacked:        3764
  is_black_king_square_attacked:        3614
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             Erich Bartel
-     727, Jugendschach 33, 8/1982
+            Erich Bartel
+    727, Jugendschach 33, 8/1982
            97, VVP 12/1989
 
 +---a---b---c---d---e---f---g---h---+
@@ -1515,20 +1515,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h#6                     2 + 2
-              OhneSchach
+             OhneSchach
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=D   6.Da1-a7 b6-b7 #
 
   add_to_move_generation_stack:        1746
                      play_move:        1691
- is_white_king_square_attacked:         649
+ is_white_king_square_attacked:         643
  is_black_king_square_attacked:        1793
-Loesung beendet. 
+Loesung beendet.
 
 
 
              Jan Kubecka
-           222, VVP 12/1989
+          222, VVP 12/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1550,21 +1550,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-h=8                     2 + 2
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
   1.a7-a5   2.a5-a4   3.a4-a3   4.a3-a2   5.a2-a1=L   6.La1-e5   7.Le5-b8   8.Lb8-a7 Kc8-c7 =
 
   add_to_move_generation_stack:       10009
                      play_move:        4554
- is_white_king_square_attacked:        4504
+ is_white_king_square_attacked:        4496
  is_black_king_square_attacked:        4746
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
-           226, VVP 12/1989
+          226, VVP 12/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1587,22 +1587,22 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=4                         2 + 2
                 Circe
-              OhneSchach
+             OhneSchach
 
   1.a7-a6 Kc8-d7   2.Ka8-b7 Kd7-d6   3.Kb7*b6[+wBb2] b2-b3   4.Kb6-a5 Kd6-c5 =
 
   add_to_move_generation_stack:      104706
                      play_move:       35620
- is_white_king_square_attacked:       33548
- is_black_king_square_attacked:       33718
-Loesung beendet. 
+ is_white_king_square_attacked:       33544
+ is_black_king_square_attacked:       33715
+Loesung beendet.
 
 
 
            G"unter B"using
-       4724, feenschach 76 1985
+      4724, feenschach 76 1985
         7. ehrende Erw"ahnung
-     Albert H. Kniest in memoriam
+    Albert H. Kniest in memoriam
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1624,8 +1624,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s=11                       1 + 11
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
       1...Te6-e1 =
 
@@ -1657,14 +1657,14 @@ Loesung beendet.
                      play_move:       41068
  is_white_king_square_attacked:       45252
  is_black_king_square_attacked:       40551
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
-   4707, feenschach 76, 8. 11. 1985
+  4707, feenschach 76, 8. 11. 1985
                  Lob
-     Albert H. Kniest in memoriam
+    Albert H. Kniest in memoriam
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1686,8 +1686,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         4 + 2
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
 a) 
 
@@ -1695,22 +1695,22 @@ a)
 
   add_to_move_generation_stack:      190413
                      play_move:       29328
- is_white_king_square_attacked:       28806
- is_black_king_square_attacked:       28097
+ is_white_king_square_attacked:       28804
+ is_black_king_square_attacked:       28096
 b) wBc2-->c3  
 
   1.Kf2-e1 f7-f8=T   2.d2-d1=S Tf8-f2 =
 
   add_to_move_generation_stack:      147616
                      play_move:       23390
- is_white_king_square_attacked:       23072
- is_black_king_square_attacked:       22356
-Loesung beendet. 
+ is_white_king_square_attacked:       23070
+ is_black_king_square_attacked:       22355
+Loesung beendet.
 
 
 
             Arno T"ungler
-      2028V, feenschach 37, 1977
+     2028V, feenschach 37, 1977
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1733,7 +1733,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#2                         3 + 6
                 Circe
-              OhneSchach
+             OhneSchach
 
 a) 
 
@@ -1742,8 +1742,8 @@ a)
 
   add_to_move_generation_stack:      156156
                      play_move:      136382
- is_white_king_square_attacked:       15777
- is_black_king_square_attacked:      136302
+ is_white_king_square_attacked:       15773
+ is_black_king_square_attacked:      136300
 b) Verschiebung b1 ==> a1  
 
   1.d2-d1=T Ta1*d1[+sTa8]   2.b2-b1=L Td1*b1[+sLc8] #
@@ -1751,14 +1751,14 @@ b) Verschiebung b1 ==> a1
 
   add_to_move_generation_stack:       80996
                      play_move:       72341
- is_white_king_square_attacked:        9745
- is_black_king_square_attacked:       72294
-Loesung beendet. 
+ is_white_king_square_attacked:        9741
+ is_black_king_square_attacked:       72292
+Loesung beendet.
 
 
 
            Manfred Nieroba
-   4752, feenschach 76, 8. 11. 1985
+  4752, feenschach 76, 8. 11. 1985
            AHK in memoriam
 
 +---a---b---c---d---e---f---g---h---+
@@ -1781,7 +1781,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Ta4-a5 Kb1-b2   2.Ta5-b5 Ta1-a4 #
   1.Kb4-c3 Kb1-c1   2.Ta4-c4 Ta1-a3 #
@@ -1789,14 +1789,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       28789
                      play_move:       14930
- is_white_king_square_attacked:        3441
- is_black_king_square_attacked:       14919
-Loesung beendet. 
+ is_white_king_square_attacked:        3435
+ is_black_king_square_attacked:       14916
+Loesung beendet.
 
 
 
-           Albert H. Kniest
-        Schachmatt 11. 5. 1947
+          Albert H. Kniest
+       Schachmatt 11. 5. 1947
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1818,8 +1818,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#2                         1 + 2
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
       1...Df8-a3 #
 
@@ -1833,12 +1833,12 @@ Loesung beendet.
                      play_move:         191
  is_white_king_square_attacked:         197
  is_black_king_square_attacked:         113
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Albert H. Kniest
-        Schachmatt 11. 5. 1947
+          Albert H. Kniest
+       Schachmatt 11. 5. 1947
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1860,8 +1860,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#3                         1 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
    1.Ka8-a7 !
       1...Dd5-h1
@@ -1875,12 +1875,12 @@ Loesung beendet.
                      play_move:         398
  is_white_king_square_attacked:         423
  is_black_king_square_attacked:         269
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Albert H. Kniest
-        Schachmatt 11. 5. 1947
+          Albert H. Kniest
+       Schachmatt 11. 5. 1947
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1902,8 +1902,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#10                        1 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
       1...Th5-a5 #
 
@@ -1933,12 +1933,12 @@ Loesung beendet.
                      play_move:       14142
  is_white_king_square_attacked:       14968
  is_black_king_square_attacked:       12217
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Albert H. Kniest
-         Schachmatt 11.5.1947
+          Albert H. Kniest
+        Schachmatt 11.5.1947
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -1960,8 +1960,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#10                        1 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
       1...Db3-g8
           2.Kd2-c2
@@ -2009,12 +2009,12 @@ Loesung beendet.
                      play_move:      101964
  is_white_king_square_attacked:      108330
  is_black_king_square_attacked:       86662
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Albert H. Kniest
-        Schachmatt 11. 5. 1947
+          Albert H. Kniest
+       Schachmatt 11. 5. 1947
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2036,8 +2036,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#10                        1 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
       1...Ta1-e1 #
 
@@ -2067,12 +2067,12 @@ Loesung beendet.
                      play_move:        4664
  is_white_king_square_attacked:        5134
  is_black_king_square_attacked:        3263
-Loesung beendet. 
+Loesung beendet.
 
 
 
-           Albert H. Kniest
-        Schachmatt 11. 5. 1947
+          Albert H. Kniest
+       Schachmatt 11. 5. 1947
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2094,8 +2094,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#4                         1 + 4
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
    1.Kg5-f5 !
       1...g7-g5
@@ -2111,12 +2111,12 @@ Loesung beendet.
                      play_move:        6950
  is_white_king_square_attacked:        7401
  is_black_king_square_attacked:        5820
-Loesung beendet. 
+Loesung beendet.
 
 
 
               H. Stapff
-     1820, Schachmatt 1. 12. 1950
+    1820, Schachmatt 1. 12. 1950
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2138,8 +2138,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#19                        1 + 7
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
       1...Tc1-c8 #
 
@@ -2187,12 +2187,12 @@ Loesung beendet.
                      play_move:      226434
  is_white_king_square_attacked:      268901
  is_black_king_square_attacked:      212448
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
- (23), p. 321, feenschach 68, 12/1983
+(23), p. 321, feenschach 68, 12/1983
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2214,8 +2214,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =5                          2 + 1
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
    1.Kf7-e7 !
       1...Kb8-a7
@@ -2240,11 +2240,11 @@ Loesung beendet.
                      play_move:      100220
  is_white_king_square_attacked:       78218
  is_black_king_square_attacked:       99639
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Markus Manhart
+           Markus Manhart
    4897, feenschach 80, 10-11/1986
 
 +---a---b---c---d---e---f---g---h---+
@@ -2267,17 +2267,17 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         2 + 2
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
   1.h3-h2 g7-g8=D   2.h2-h1=S Dg8-g3 =
   1.h3-h2 g7-g8=T   2.h2-h1=L Tg8-g2 =
 
   add_to_move_generation_stack:       12021
                      play_move:        4044
- is_white_king_square_attacked:        3093
- is_black_king_square_attacked:        3913
-Loesung beendet. 
+ is_white_king_square_attacked:        3089
+ is_black_king_square_attacked:        3911
+Loesung beendet.
 
 
 
@@ -2304,7 +2304,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   =4                          3 + 1
-              OhneSchach
+             OhneSchach
 
    1.g7-g8=L !
       1...Ke8-f8
@@ -2321,7 +2321,7 @@ Loesung beendet.
                      play_move:       46573
  is_white_king_square_attacked:       39658
  is_black_king_square_attacked:       45806
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -2348,16 +2348,16 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         3 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
   1.b2-b1=T c6-c7   2.Tb1-b8 c7-c8=D   3.h2-h1=S a7*b8=L =
 
   add_to_move_generation_stack:      100274
                      play_move:       24555
- is_white_king_square_attacked:       23986
- is_black_king_square_attacked:       23624
-Loesung beendet. 
+ is_white_king_square_attacked:       23983
+ is_black_king_square_attacked:       23622
+Loesung beendet.
 
 
 
@@ -2384,21 +2384,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=4                         3 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
   1.Ke7-d6 d7-d8=L   2.a2-a1=S b5-b6   3.c2-c1=T b6-b7   4.Tc1-c8 b7*c8=D =
 
   add_to_move_generation_stack:     1586190
                      play_move:      362058
- is_white_king_square_attacked:      355565
- is_black_king_square_attacked:      351210
-Loesung beendet. 
+ is_white_king_square_attacked:      355561
+ is_black_king_square_attacked:      351207
+Loesung beendet.
 
 
 
-             Paul L"oschl
-   2697, Problemkiste 74/75, 5/1991
+            Paul L"oschl
+  2697, Problemkiste 74/75, 5/1991
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2420,8 +2420,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 3
-              OhneSchach
-                Duplex
+             OhneSchach
+               Duplex
 
   1.f2-f1=D f7-f8=S   2.Df1-b5 Sf8-e6 #
 
@@ -2429,13 +2429,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:       36758
                      play_move:       28670
- is_white_king_square_attacked:       13452
- is_black_king_square_attacked:       21468
-Loesung beendet. 
+ is_white_king_square_attacked:       13449
+ is_black_king_square_attacked:       21465
+Loesung beendet.
 
 
 
-           Albert H. Kniest
+          Albert H. Kniest
    Diagramme und Figuren, 1.6.1963
 
 +---a---b---c---d---e---f---g---h---+
@@ -2458,8 +2458,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   s#5                         2 + 2
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
       1...Te4*a4 #
 
@@ -2481,11 +2481,11 @@ Loesung beendet.
                      play_move:        2507
  is_white_king_square_attacked:        2640
  is_black_king_square_attacked:        2091
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             J.J. Burbach
+            J.J. Burbach
     1034, Problemkiste 25, 2/1985
 
 +---a---b---c---d---e---f---g---h---+
@@ -2508,7 +2508,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          8 + 5
-              OhneSchach
+             OhneSchach
 
    1.Tg2-g1 ? Drohung:
           2.Tg1-d1 #
@@ -2528,7 +2528,7 @@ Loesung beendet.
                      play_move:        9975
  is_white_king_square_attacked:        2263
  is_black_king_square_attacked:        9414
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -2555,7 +2555,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   hx3                         1 + 2
-              OhneSchach
+             OhneSchach
 
 a) 
 
@@ -2563,21 +2563,21 @@ a)
 
   add_to_move_generation_stack:       10276
                      play_move:        3671
- is_white_king_square_attacked:        3392
- is_black_king_square_attacked:        3543
+ is_white_king_square_attacked:        3389
+ is_black_king_square_attacked:        3540
 b) wKa6-->a7  
 
   1.h3-h2 Ka7-a6   2.h2-h1=L Ka6-a7   3.Lh1-a8 Ka7*a8 x
 
   add_to_move_generation_stack:        6466
                      play_move:        2484
- is_white_king_square_attacked:        2250
- is_black_king_square_attacked:        2379
-Loesung beendet. 
+ is_white_king_square_attacked:        2247
+ is_black_king_square_attacked:        2376
+Loesung beendet.
 
 
 
-             J.J. Burbach
+            J.J. Burbach
     1544, Problemkiste 39, 7/1986
 
 +---a---b---c---d---e---f---g---h---+
@@ -2600,8 +2600,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          4 + 4
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
    1.Kd5-c4 ? Drohung:
           2.Sd4-f3 #
@@ -2657,12 +2657,12 @@ Loesung beendet.
                      play_move:       14423
  is_white_king_square_attacked:        1156
  is_black_king_square_attacked:       13984
-Loesung beendet. 
+Loesung beendet.
 
 
 
-             J.J. Burbach
-    1614, Problemkiste 41, 10/1986
+            J.J. Burbach
+   1614, Problemkiste 41, 10/1986
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2684,7 +2684,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          3 + 3
-              OhneSchach
+             OhneSchach
 
 a) 
 
@@ -2746,12 +2746,12 @@ d) sGb3-->h5
                      play_move:        2259
  is_white_king_square_attacked:        1083
  is_black_king_square_attacked:        1840
-Loesung beendet. 
+Loesung beendet.
 
 
 
    Erich Bartel & Albert H. Kniest
-  60, Frankfurter Notizen, 15.5.1965
+ 60, Frankfurter Notizen, 15.5.1965
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2773,7 +2773,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Sf4-h3 g2*h3   2.Kh5-h4 Dg8-g4 #
   1.Sf4-g6 Dg8-g7   2.Sg6-h4 g2-g4 #
@@ -2783,13 +2783,13 @@ Loesung beendet.
   add_to_move_generation_stack:       70777
                      play_move:       41654
  is_white_king_square_attacked:           0
- is_black_king_square_attacked:       41662
-Loesung beendet. 
+ is_black_king_square_attacked:       41658
+Loesung beendet.
 
 
 
-             J.J. Burbach
-    2302, Problemkiste 65, 10/1989
+            J.J. Burbach
+   2302, Problemkiste 65, 10/1989
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -2811,8 +2811,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          2 + 3
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
    1.Kd1-e2 ? Zugzwang.
       1...Sb1-d2
@@ -2901,11 +2901,11 @@ Loesung beendet.
                      play_move:        5678
  is_white_king_square_attacked:         442
  is_black_king_square_attacked:        5581
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Hermann Stapff
+           Hermann Stapff
    1813, Schachmatt 145, 1.12.1950
      1. Preis im 6. Thematurnier
 
@@ -2929,7 +2929,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          9 + 9
-              OhneSchach
+             OhneSchach
 
    1.Tf7-f1 ? Drohung:
           2.Lg8-b3 #
@@ -3053,12 +3053,12 @@ Loesung beendet.
                      play_move:      396481
  is_white_king_square_attacked:       85752
  is_black_king_square_attacked:      333840
-Loesung beendet. 
+Loesung beendet.
 
 
 
                A. Rein
-      G, Problemkiste 68, 4/1990
+     G, Problemkiste 68, 4/1990
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3080,7 +3080,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ze42                        2 + 1
-              OhneSchach
+             OhneSchach
 
    1.Se4-c3 ? Drohung:
           2.Sc3-e4 z
@@ -3125,12 +3125,12 @@ Loesung beendet.
                      play_move:        1168
  is_white_king_square_attacked:        1043
  is_black_king_square_attacked:           0
-Loesung beendet. 
+Loesung beendet.
 
 
 
-            Josef Kutscher
-      84, Die Schwalbe, XII/1969
+           Josef Kutscher
+     84, Die Schwalbe, XII/1969
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3152,7 +3152,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         3 + 3
-              OhneSchach
+             OhneSchach
 
   1  (e2-e1=D )
   2  (e2-e1=S )
@@ -3174,13 +3174,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:    28320506
                      play_move:     3362972
- is_white_king_square_attacked:     3326550
- is_black_king_square_attacked:     3172737
-Loesung beendet. 
+ is_white_king_square_attacked:     3326531
+ is_black_king_square_attacked:     3172735
+Loesung beendet.
 
 
 
-             J.J. Burbach
+            J.J. Burbach
     2762, Problemkiste 76, 8/1991
 
 +---a---b---c---d---e---f---g---h---+
@@ -3203,7 +3203,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   002                        12 + 4
-              OhneSchach
+             OhneSchach
 
    1.Sb3-d2 ? Drohung:
           2.0-0-0
@@ -3669,12 +3669,12 @@ Loesung beendet.
                      play_move:        5930
  is_white_king_square_attacked:        7278
  is_black_king_square_attacked:        1981
-Loesung beendet. 
+Loesung beendet.
 
 
 
             Dieter Werner
-     43), Problemkiste 79, 2/1992
+    43), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3696,21 +3696,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         2 + 4
-         WeisserLaengstzueger
-              OhneSchach
+        WeisserLaengstzueger
+             OhneSchach
 
   1.f2-f1=L Kc2-d1   2.a2-a1=S c7-c8=D   3.g2-g1=T Dc8-h3 #
 
   add_to_move_generation_stack:       78857
                      play_move:       62140
- is_white_king_square_attacked:       36515
- is_black_king_square_attacked:       59868
-Loesung beendet. 
+ is_white_king_square_attacked:       36512
+ is_black_king_square_attacked:       59866
+Loesung beendet.
 
 
 
-             Erich Bartel
-    K147), Problemkiste 93, 6/1994
+            Erich Bartel
+   K147), Problemkiste 93, 6/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3732,20 +3732,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-=4                      1 + 2
-              OhneSchach
+             OhneSchach
 
   1.Kh1-g2   2.Kg2-f3   3.Kf3-e4   4.Ke4-d5 =
 
   add_to_move_generation_stack:         974
                      play_move:         330
  is_white_king_square_attacked:         407
- is_black_king_square_attacked:         416
-Loesung beendet. 
+ is_black_king_square_attacked:         413
+Loesung beendet.
 
 
 
-             Erich Bartel
-    K148), Problemkiste 93, 6/1994
+            Erich Bartel
+   K148), Problemkiste 93, 6/1994
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3767,19 +3767,19 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-=10                     1 + 3
-              OhneSchach
+             OhneSchach
 
   1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4-c3   6.Kc3-b2   7.Kb2*a2   8.Ka2-b3   9.Kb3-c4  10.Kc4-d5 =
 
   add_to_move_generation_stack:        5983
                      play_move:        2195
  is_white_king_square_attacked:        3351
- is_black_king_square_attacked:        3090
-Loesung beendet. 
+ is_black_king_square_attacked:        3081
+Loesung beendet.
 
 
 
-             Erich Bartel
+            Erich Bartel
     K36), Problemkiste 97, 2/1995
 
 +---a---b---c---d---e---f---g---h---+
@@ -3803,20 +3803,20 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   ser-#12                     2 + 2
                 Circe
-              OhneSchach
+             OhneSchach
 
   1.Kg8-h7   2.Kh7-g6   3.Kg6-f5   4.Kf5-e4   5.Ke4-d3   6.Kd3*c3[+sLf8]   7.Kc3-b4   8.c2-c4   9.c4-c5  10.c5-c6  11.c6-c7  12.c7-c8=S #
 
   add_to_move_generation_stack:        6272
                      play_move:        6195
  is_white_king_square_attacked:        7745
- is_black_king_square_attacked:        9388
-Loesung beendet. 
+ is_black_king_square_attacked:        9377
+Loesung beendet.
 
 
 
            Theodor Steudel
-    K132), Problemkiste 99, 6/1995
+   K132), Problemkiste 99, 6/1995
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3838,7 +3838,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#14                     2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-c6  11.Kc6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-d5 #
   1.Kf8-e8   2.h2-h4   3.h4-h5   4.h5-h6   5.h6-h7   6.h7-h8=S   7.Sh8-g6   8.Sg6-e7   9.Ke8-d7  10.Kd7-c6  11.Kc6-d5  12.Kd5-e4  13.Ke4-f4  14.Se7-g8 #
@@ -3849,13 +3849,13 @@ Loesung beendet.
   add_to_move_generation_stack:      112599
                      play_move:       87514
  is_white_king_square_attacked:       95640
- is_black_king_square_attacked:      114278
-Loesung beendet. 
+ is_black_king_square_attacked:      114213
+Loesung beendet.
 
 
 
-             Erich Bartel
-    K133), Problemkiste 99, 6/1995
+            Erich Bartel
+   K133), Problemkiste 99, 6/1995
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3878,19 +3878,19 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   ser-=12                     1 + 3
             Circe Spiegel
-              OhneSchach
+             OhneSchach
 
   1.Kh8-g7   2.Kg7-f6   3.Kf6-e5   4.Ke5-d4   5.Kd4*c3[+sTa1]   6.Kc3-c4   7.Kc4-b5   8.Kb5*a5[+sBa2]   9.Ka5-b4  10.Kb4-c3  11.Kc3-d2  12.Kd2-d1 =
 
   add_to_move_generation_stack:        9382
                      play_move:        3989
  is_white_king_square_attacked:        6233
- is_black_king_square_attacked:        5957
-Loesung beendet. 
+ is_black_king_square_attacked:        5946
+Loesung beendet.
 
 
 
-             Erich Bartel
+            Erich Bartel
       790, Die Welt, 16.02.1966
 
 +---a---b---c---d---e---f---g---h---+
@@ -3913,7 +3913,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#4                         2 + 2
-              OhneSchach
+             OhneSchach
 
   1  (f2-f1=D + )
   2  (f2-f1=S )
@@ -3928,17 +3928,17 @@ Loesung beendet.
 
   add_to_move_generation_stack:      745725
                      play_move:      690339
- is_white_king_square_attacked:      252579
- is_black_king_square_attacked:      684509
-Loesung beendet. 
+ is_white_king_square_attacked:      252566
+ is_black_king_square_attacked:      684506
+Loesung beendet.
 
 
 
-           Norbert Geissler
+          Norbert Geissler
              Gerd Rinder
            Theodor Steudel
-              Gerd Wilts
-    4249, Problemkiste 109, 2/1997
+             Gerd Wilts
+   4249, Problemkiste 109, 2/1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -3960,20 +3960,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#6                         2 + 2
-              OhneSchach
-            ExklusivSchach
+             OhneSchach
+           ExklusivSchach
 
   1...f2-f4   2.a7-a5 f4-f5   3.a5-a4 f5-f6   4.a4-a3 f6-f7   5.a3-a2 f7-f8=D   6.a2-a1=D Df8-b4 #
 
   add_to_move_generation_stack:     2089404
                      play_move:     2052162
- is_white_king_square_attacked:     1643169
- is_black_king_square_attacked:     1998515
-Loesung beendet. 
+ is_white_king_square_attacked:     1643164
+ is_black_king_square_attacked:     1998510
+Loesung beendet.
 
 
 
-             Erich Bartel
+            Erich Bartel
    K693), Problemkiste 111, 6/1997
 
 +---a---b---c---d---e---f---g---h---+
@@ -3997,8 +3997,8 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   s#13                        1 + 2
                 Circe
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
   1  (Kh8-g7 )
   2  (Kh8-h7 )
@@ -4034,13 +4034,13 @@ Loesung beendet.
   add_to_move_generation_stack:       40583
                      play_move:       15516
  is_white_king_square_attacked:       16940
- is_black_king_square_attacked:       14516
-Loesung beendet. 
+ is_black_king_square_attacked:       14513
+Loesung beendet.
 
 
 
-             Erich Bartel
-    4395, Problemkiste 111, 6/1997
+            Erich Bartel
+   4395, Problemkiste 111, 6/1997
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4062,7 +4062,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=2                         4 + 3
-              OhneSchach
+             OhneSchach
 
 a) 
 
@@ -4070,22 +4070,22 @@ a)
 
   add_to_move_generation_stack:       80046
                      play_move:       14536
- is_white_king_square_attacked:       14413
- is_black_king_square_attacked:       13563
+ is_white_king_square_attacked:       14411
+ is_black_king_square_attacked:       13562
 b) sKh4-->g3  
 
   1.Kg3-g2 h7-h8=T   2.h2-h1=L Th8*h3 =
 
   add_to_move_generation_stack:      105064
                      play_move:       17847
- is_white_king_square_attacked:       17573
- is_black_king_square_attacked:       16685
-Loesung beendet. 
+ is_white_king_square_attacked:       17571
+ is_black_king_square_attacked:       16684
+Loesung beendet.
 
 
 
            Wenelin Alaikow
-         723, DuF, 30.01.1965
+        723, DuF, 30.01.1965
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4107,7 +4107,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
+             OhneSchach
 
 a) 
 
@@ -4115,25 +4115,25 @@ a)
 
   add_to_move_generation_stack:       16774
                      play_move:       13095
- is_white_king_square_attacked:        4440
- is_black_king_square_attacked:       13047
+ is_white_king_square_attacked:        4438
+ is_black_king_square_attacked:       13046
 b) wBa2-->b2  
 
   1.Kc4-c5 Kc2-c3   2.Th6-c6 b2-b4 #
 
   add_to_move_generation_stack:       16313
                      play_move:       10866
- is_white_king_square_attacked:        3792
- is_black_king_square_attacked:       10820
+ is_white_king_square_attacked:        3790
+ is_black_king_square_attacked:       10819
 c) sTh6-->h5  
 
   1.Kc4-b4 Kc2-b2   2.Th5-b5 a2-a3 #
 
   add_to_move_generation_stack:       15940
                      play_move:       12573
- is_white_king_square_attacked:        4249
- is_black_king_square_attacked:       12525
-Loesung beendet. 
+ is_white_king_square_attacked:        4247
+ is_black_king_square_attacked:       12524
+Loesung beendet.
 
 
 
@@ -4160,7 +4160,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
+             OhneSchach
 
 a) 
 
@@ -4168,21 +4168,21 @@ a)
 
   add_to_move_generation_stack:       16387
                      play_move:       13187
- is_white_king_square_attacked:        2802
- is_black_king_square_attacked:       13177
+ is_white_king_square_attacked:        2800
+ is_black_king_square_attacked:       13176
 b) Drehung 270  
 
   1.Kg7-f6 e6-e7   2.Th7-f7 e7-e8=S #
 
   add_to_move_generation_stack:       14933
                      play_move:       13774
- is_white_king_square_attacked:        2800
- is_black_king_square_attacked:       13764
-Loesung beendet. 
+ is_white_king_square_attacked:        2798
+ is_black_king_square_attacked:       13763
+Loesung beendet.
 
 
 
-           Didier Innocenti
+          Didier Innocenti
    4145, Problemkiste 107, 10/1996
 
 +---a---b---c---d---e---f---g---h---+
@@ -4205,20 +4205,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Kc4-d5 e2-e3   2.Tc6-c5 e3-e4 #
   1.Kc4-d4 Kf5-f4   2.Tc6-c4 e2-e3 #
 
   add_to_move_generation_stack:       14378
                      play_move:       12526
- is_white_king_square_attacked:        2905
- is_black_king_square_attacked:       12485
-Loesung beendet. 
+ is_white_king_square_attacked:        2901
+ is_black_king_square_attacked:       12483
+Loesung beendet.
 
 
 
-             Boris Bursac
+            Boris Bursac
    K219, Problemkiste 101, 10/1995
 
 +---a---b---c---d---e---f---g---h---+
@@ -4241,20 +4241,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-=7                      2 + 2
-              OhneSchach
+             OhneSchach
 
   1.Ke4-d5   2.e2-e4   3.e4-e5   4.e5-e6   5.e6-e7   6.e7-e8=D   7.De8-b5 =
 
   add_to_move_generation_stack:       27467
                      play_move:       12275
  is_white_king_square_attacked:       17500
- is_black_king_square_attacked:       17517
-Loesung beendet. 
+ is_black_king_square_attacked:       17511
+Loesung beendet.
 
 
 
-             Romeo Bedoni
-     27), Problemkiste 79, 2/1992
+            Romeo Bedoni
+    27), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4276,21 +4276,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                    3 + 1 + 2n
-              Ohneschlag
-              OhneSchach
+             Ohneschlag
+             OhneSchach
 
   1.nBd2-d1=nT e7-e8=S   2.nTd1-d2 h7-h8=D   3.nBc2-c1=nL Dh8-b2 =
 
   add_to_move_generation_stack:    43405761
                      play_move:     5031978
- is_white_king_square_attacked:     3971221
- is_black_king_square_attacked:     4017642
-Loesung beendet. 
+ is_white_king_square_attacked:     3971218
+ is_black_king_square_attacked:     4017640
+Loesung beendet.
 
 
 
-             Erich Bartel
-          Jugendschach, 1981
+            Erich Bartel
+         Jugendschach, 1981
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4312,8 +4312,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
-                Duplex
+             OhneSchach
+               Duplex
 
   1.Lf3-a8 Ng2-e1   2.Ka6-b7 Kc5-d5 #
 
@@ -4321,13 +4321,13 @@ Loesung beendet.
 
   add_to_move_generation_stack:       56036
                      play_move:       46037
- is_white_king_square_attacked:       28662
- is_black_king_square_attacked:       27217
-Loesung beendet. 
+ is_white_king_square_attacked:       28659
+ is_black_king_square_attacked:       27214
+Loesung beendet.
 
 
 
-             Erich Bartel
+            Erich Bartel
      Diagramme und Figuren, 1964
 
 +---a---b---c---d---e---f---g---h---+
@@ -4350,8 +4350,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#2                         2 + 2
-              OhneSchach
-                Duplex
+             OhneSchach
+               Duplex
 
   1.Nh4-b1 g7-g8=N   2.Ke2-d2 Ke4-f3 #
 
@@ -4359,14 +4359,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:       71161
                      play_move:       40729
- is_white_king_square_attacked:       28127
- is_black_king_square_attacked:       23267
-Loesung beendet. 
+ is_white_king_square_attacked:       28124
+ is_black_king_square_attacked:       23264
+Loesung beendet.
 
 
 
             Adam J. Sobey
-   2710, Problemkiste 74/75, 5/1991
+  2710, Problemkiste 74/75, 5/1991
  Erich Bartel & Hans Gruber gewidmet
 
 +---a---b---c---d---e---f---g---h---+
@@ -4389,8 +4389,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#3                         3 + 2
-              OhneSchach
-               UWnur RL
+             OhneSchach
+              UWnur RL
 
 a) 
 
@@ -4409,8 +4409,8 @@ a)
 
   add_to_move_generation_stack:     1854400
                      play_move:      670436
- is_white_king_square_attacked:      186986
- is_black_king_square_attacked:      670143
+ is_white_king_square_attacked:      186950
+ is_black_king_square_attacked:      670119
 b) wKa8-->h8  
 
   1.Kd3-d4 Kh8-g7   2.RLc4-g8 f7*g8=RL   3.Kd4-e5 b7-b8=RL #
@@ -4429,14 +4429,14 @@ b) wKa8-->h8
 
   add_to_move_generation_stack:     2247683
                      play_move:      811887
- is_white_king_square_attacked:      219544
- is_black_king_square_attacked:      811106
-Loesung beendet. 
+ is_white_king_square_attacked:      219505
+ is_black_king_square_attacked:      811080
+Loesung beendet.
 
 
 
            Theodor Steudel
-     23), Problemkiste 79, 2/1992
+    23), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4458,20 +4458,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         3 + 3
-              OhneSchach
+             OhneSchach
 
   1.BBc2-b1=T f7-f8=S   2.Tb1-b2 b7-b8=D   3.a2-a1=L Db8-g3 =
 
   add_to_move_generation_stack:    22046925
                      play_move:     2895520
- is_white_king_square_attacked:     2881273
- is_black_king_square_attacked:     2732924
-Loesung beendet. 
+ is_white_king_square_attacked:     2881270
+ is_black_king_square_attacked:     2732922
+Loesung beendet.
 
 
 
            Theodor Steudel
-     24), Problemkiste 79, 2/1992
+    24), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4493,20 +4493,20 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         3 + 3
-              OhneSchach
+             OhneSchach
 
   1.BBc2-b1=T g7-g8=D   2.Tb1-b2 Dg8-g3   3.a2-a1=L BBh7-g8=S =
 
   add_to_move_generation_stack:    42186786
                      play_move:     5183265
- is_white_king_square_attacked:     5154822
- is_black_king_square_attacked:     4884588
-Loesung beendet. 
+ is_white_king_square_attacked:     5154819
+ is_black_king_square_attacked:     4884586
+Loesung beendet.
 
 
 
            Theodor Steudel
-     25), Problemkiste 79, 2/1992
+    25), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4528,21 +4528,21 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         3 + 3
-        SchwarzerLaengstzueger
-              OhneSchach
+       SchwarzerLaengstzueger
+             OhneSchach
 
   1.BBc2-b1=T Ke3-d4   2.Tb1-b8 c7-c8=D   3.a2-a1=S a7*b8=L =
 
   add_to_move_generation_stack:      743389
                      play_move:      120358
- is_white_king_square_attacked:      118661
- is_black_king_square_attacked:      115203
-Loesung beendet. 
+ is_white_king_square_attacked:      118658
+ is_black_king_square_attacked:      115201
+Loesung beendet.
 
 
 
            Theodor Steudel
-     26), Problemkiste 79, 2/1992
+    26), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4564,19 +4564,19 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=3                         3 + 3
-              OhneSchach
+             OhneSchach
 
   1.f2-f1=T f7-f8=D   2.Tf1-f5 Df8*f5   3.h2-h1=S BBg7-h8=L =
 
   add_to_move_generation_stack:    33941119
                      play_move:     4396669
- is_white_king_square_attacked:     4369993
- is_black_king_square_attacked:     4167811
-Loesung beendet. 
+ is_white_king_square_attacked:     4369990
+ is_black_king_square_attacked:     4167809
+Loesung beendet.
 
 
 
-             Zdenek Oliva
+            Zdenek Oliva
    K592), Problemkiste 110, 4/1997
 
 +---a---b---c---d---e---f---g---h---+
@@ -4600,7 +4600,7 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h#1                         1 + 3
             Koeniglich d3
-              OhneSchach
+             OhneSchach
 
   1.Kd5-e6 kDd3-g6 #
   1.Kd5-c6 kDd3-a6 #
@@ -4613,14 +4613,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:        3052
                      play_move:        1313
- is_white_king_square_attacked:         352
+ is_white_king_square_attacked:         344
  is_black_king_square_attacked:        1308
-Loesung beendet. 
+Loesung beendet.
 
 
 
            Theodor Steudel
-    C22, Problemkiste 108, 12/1996
+   C22, Problemkiste 108, 12/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4642,9 +4642,9 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h=5                         2 + 3
-           Koeniglich g4 b3
-            CavalierMajeur
-              OhneSchach
+          Koeniglich g4 b3
+           CavalierMajeur
+             OhneSchach
 
   1  (c2-c1=D )
   2  (c2-c1=T )
@@ -4656,14 +4656,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:      101177
                      play_move:       40010
- is_white_king_square_attacked:       40033
- is_black_king_square_attacked:       39844
-Loesung beendet. 
+ is_white_king_square_attacked:       40022
+ is_black_king_square_attacked:       39840
+Loesung beendet.
 
 
 
            Theodor Steudel
-    C42, Problemkiste 108, 12/1996
+   C42, Problemkiste 108, 12/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4685,8 +4685,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#5                         2 + 3
-            CavalierMajeur
-              OhneSchach
+           CavalierMajeur
+             OhneSchach
 
   1  (Kd2-c1 )
   2  (Kd2-e1 )
@@ -4703,14 +4703,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     1825830
                      play_move:     1828535
- is_white_king_square_attacked:      867089
- is_black_king_square_attacked:     1802019
-Loesung beendet. 
+ is_white_king_square_attacked:      867073
+ is_black_king_square_attacked:     1802015
+Loesung beendet.
 
 
 
-  Theodor Steudel & Norbert Geissler
-    C46, Problemkiste 108, 12/1996
+ Theodor Steudel & Norbert Geissler
+   C46, Problemkiste 108, 12/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4732,8 +4732,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#5                         2 + 3
-            CavalierMajeur
-              OhneSchach
+           CavalierMajeur
+             OhneSchach
 
   1  (Ke2-d1 )
   2  (Ke2-f1 )
@@ -4750,14 +4750,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     5559190
                      play_move:     5522139
- is_white_king_square_attacked:     2553610
- is_black_king_square_attacked:     5449392
-Loesung beendet. 
+ is_white_king_square_attacked:     2553594
+ is_black_king_square_attacked:     5449388
+Loesung beendet.
 
 
 
-           Theodor Steudel 
-    C47, Problemkiste 108, 12/1996
+          Theodor Steudel 
+   C47, Problemkiste 108, 12/1996
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4779,8 +4779,8 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#5                         3 + 2
-            CavalierMajeur
-              OhneSchach
+           CavalierMajeur
+             OhneSchach
 
   1  (Ke2-d1 )
   2  (Ke2-f1 )
@@ -4796,14 +4796,14 @@ Loesung beendet.
 
   add_to_move_generation_stack:     2101226
                      play_move:     2045414
- is_white_king_square_attacked:      938687
- is_black_king_square_attacked:     2028946
-Loesung beendet. 
+ is_white_king_square_attacked:      938672
+ is_black_king_square_attacked:     2028942
+Loesung beendet.
 
 
 
           Herbert H. Birkle
-     17), Problemkiste 79, 2/1992
+    17), Problemkiste 79, 2/1992
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -4826,8 +4826,8 @@ Loesung beendet.
 +---a---b---c---d---e---f---g---h---+
   h=2                    2 + 2 + 2n
               Volage h2
-          Circe Platzwechsel
-              OhneSchach
+         Circe Platzwechsel
+             OhneSchach
 
   1  (nBg2-g1=nD )
   2  (nBg2-g1=nS )
@@ -4847,9 +4847,9 @@ Loesung beendet.
 
   add_to_move_generation_stack:      893150
                      play_move:      129331
- is_white_king_square_attacked:      109370
- is_black_king_square_attacked:      106833
-Loesung beendet. 
+ is_white_king_square_attacked:      109354
+ is_black_king_square_attacked:      106832
+Loesung beendet.
 
 
 Ohneschach-Anomalie !
@@ -4877,7 +4877,7 @@ Ohneschach-Anomalie !
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #1                          5 + 3
-              OhneSchach
+             OhneSchach
 
    1.Td8-e8 # !
 
@@ -4888,6 +4888,6 @@ Ohneschach-Anomalie !
                      play_move:       95620
  is_white_king_square_attacked:       33847
  is_black_king_square_attacked:       75724
-Loesung beendet. 
+Loesung beendet.
 
 
