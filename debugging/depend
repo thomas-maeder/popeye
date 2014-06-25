@@ -52,12 +52,7 @@ debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h \
  DHT/dhtbcmem.h solving/machinery/solve.h solving/machinery/dispatch.h \
  debugging/trace.h solving/ply.h output/plaintext/plaintext.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h debugging/assert.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
- stipulation/slice_structural_type.enum.h \
- stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h
+ position/pieceid.h debugging/assert.h
 
 debugging/measure.h:
 
@@ -106,22 +101,6 @@ solving/castling_rights.h:
 position/pieceid.h:
 
 debugging/assert.h:
-
-stipulation/move.h:
-
-stipulation/structure_traversal.h:
-
-stipulation/slice.h:
-
-stipulation/slice_structural_type.h:
-
-stipulation/slice_structural_type.enum.h:
-
-stipulation/slice_functional_type.h:
-
-stipulation/slice_functional_type.enum.h:
-
-stipulation/traversal.h:
 debugging/trace$(OBJ_SUFFIX): debugging/trace.c debugging/trace.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \

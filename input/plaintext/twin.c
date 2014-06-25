@@ -9,7 +9,7 @@
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
-#include "output/plaintext/plaintext.h"
+#include "output/plaintext/protocol.h"
 #include "output/plaintext/twinning.h"
 #include "output/plaintext/message.h"
 #include "output/latex/latex.h"
@@ -464,10 +464,6 @@ Token ReadInitialTwin(slice_index root_slice_hook)
   char *tok;
   boolean more_input = true;
 
-  /* open mode for protocol and/or TeX file; overwrite existing file(s)
-   * if we are doing a regression test */
-  char const *open_mode = flag_regression ? "w" : "a";
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
@@ -573,19 +569,9 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         case TraceToken:
-          if (TraceFile!=NULL)
-            fclose(TraceFile);
-
           ReadToEndOfLine();
-          TraceFile = fopen(InputLine,open_mode);
-          if (TraceFile==NULL)
+          if (!protocol_open(InputLine))
             IoErrorMsg(WrOpenError,0);
-          else if (!flag_regression)
-          {
-            fputs(versionString,TraceFile);
-            fputs(maxmemString(),TraceFile);
-            fflush(TraceFile);
-          }
           tok = ReadNextTokStr();
           break;
 

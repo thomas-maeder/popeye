@@ -778,7 +778,8 @@ solving/goals/proofgame$(OBJ_SUFFIX): solving/goals/proofgame.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/proofgames.h \
- solving/pipe.h debugging/assert.h
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h solving/pipe.h debugging/assert.h
 
 solving/goals/proofgame.h:
 
@@ -813,6 +814,14 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 solving/proofgames.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 solving/pipe.h:
 

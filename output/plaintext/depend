@@ -1476,17 +1476,18 @@ output/plaintext/stdio.h:
 
 utilities/boolean.h:
 output/plaintext/protocol$(OBJ_SUFFIX): output/plaintext/protocol.c \
- output/plaintext/protocol.h output/plaintext/stdio.h \
+ output/plaintext/protocol.h utilities/boolean.h output/plaintext/stdio.h \
  output/plaintext/plaintext.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
+ stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
+ position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h
+ solving/ply.h position/pieceid.h output/output.h
 
 output/plaintext/protocol.h:
+
+utilities/boolean.h:
 
 output/plaintext/stdio.h:
 
@@ -1499,8 +1500,6 @@ stipulation/goals/goals.h:
 position/board.h:
 
 utilities/bitmask.h:
-
-utilities/boolean.h:
 
 stipulation/slice_type.h:
 
@@ -1529,3 +1528,5 @@ solving/castling_rights.h:
 solving/ply.h:
 
 position/pieceid.h:
+
+output/output.h:

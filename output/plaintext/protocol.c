@@ -1,8 +1,35 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/stdio.h"
 #include "output/plaintext/plaintext.h"
+#include "output/output.h"
 
 #include <stdio.h>
+
+/* Open a new protocol file
+ * @param filename name of protocol file
+ * @return true iff the new file could be successfully opened
+ * @note the previous protocol file (if any) is closed
+ */
+boolean protocol_open(char const *filename)
+{
+  char const *open_mode = flag_regression ? "w" : "a";
+  boolean result = true;
+
+  if (TraceFile!=NULL)
+    fclose(TraceFile);
+
+  TraceFile = fopen(filename,open_mode);
+  if (TraceFile==NULL)
+    result = false;
+  else if (!flag_regression)
+  {
+    fputs(versionString,TraceFile);
+    fputs(maxmemString(),TraceFile);
+    fflush(TraceFile);
+  }
+
+  return result;
+}
 
 /* like putchar().
  * If a trace file is active, output goes to the trace file as well

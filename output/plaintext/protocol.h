@@ -1,7 +1,16 @@
 #if !defined(OUTPUT_PLAINTEXT_PROTOCOL_H)
 #define OUTPUT_PLAINTEXT_PROTOCOL_H
 
+#include "utilities/boolean.h"
+
 #include <stdarg.h>
+
+/* Open a new protocol file
+ * @param filename name of protocol file
+ * @return true iff the new file could be successfully opened
+ * @note the previous protocol file (if any) is closed
+ */
+boolean protocol_open(char const *filename);
 
 /* like putchar().
  * If a trace file is active, output goes to the trace file as well
