@@ -83,17 +83,17 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 }
 
 static boolean king_captured_observation_guard_is_in_check(slice_index si,
-                                                           Side side_king_attacked)
+                                                           Side side_in_check)
 {
    boolean result;
    static twin_id_type has_detected_king_capture;
 
    TraceFunctionEntry(__func__);
    TraceFunctionParam("%u",si);
-   TraceEnumerator(Side,side_king_attacked,"");
+   TraceEnumerator(Side,side_in_check,"");
    TraceFunctionParamListEnd();
 
-   if (being_solved.king_square[side_king_attacked]==initsquare
+   if (being_solved.king_square[side_in_check]==initsquare
        && has_detected_king_capture!=twin_id)
    {
      Message(KingCaptureDetected);
@@ -101,7 +101,7 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
      result = false;
    }
    else
-     result = is_square_observed(EVALUATE(check));
+     result = is_in_check_recursive(slices[si].next1,side_in_check);
 
    TraceFunctionExit(__func__);
    TraceFunctionResult("%u",result);
