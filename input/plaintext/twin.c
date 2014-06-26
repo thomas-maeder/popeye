@@ -567,11 +567,15 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         case TraceToken:
+        {
+          char const *open_mode = flag_regression ? "w" : "a";
+          char const *format = flag_regression ? "" : "%s %s";
           ReadToEndOfLine();
-          if (!protocol_open(InputLine))
+          if (!protocol_open(InputLine,open_mode,format,versionString,maxmemString()))
             output_plaintext_input_error_message(WrOpenError,0);
           tok = ReadNextTokStr();
           break;
+        }
 
         case LaTeXPieces:
           tok = ParseLaTeXPieces(ReadNextTokStr());

@@ -1,22 +1,23 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/stdio.h"
-#include "output/plaintext/plaintext.h"
-#include "output/output.h"
-#include "platform/maxmem.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 
 static FILE *TraceFile;
 
 /* Open a new protocol file
  * @param filename name of protocol file
+ * @param open_mode open mode for the file to be opened
+ * @param format printf() format string for the intro to be written to the file
+ * @param ... values to be converted into the file according to format
  * @return true iff the new file could be successfully opened
  * @note the previous protocol file (if any) is closed
  */
-boolean protocol_open(char const *filename)
+boolean protocol_open(char const *filename, char const *open_mode,
+                      char const *format, ...)
 {
-  char const *open_mode = flag_regression ? "w" : "a";
-  boolean result = true;
+  boolean result;
 
   if (TraceFile!=NULL)
     fclose(TraceFile);
@@ -24,11 +25,14 @@ boolean protocol_open(char const *filename)
   TraceFile = fopen(filename,open_mode);
   if (TraceFile==NULL)
     result = false;
-  else if (!flag_regression)
+  else
   {
-    fputs(versionString,TraceFile);
-    fputs(maxmemString(),TraceFile);
+    va_list args;
+    va_start(args,format);
+    vfprintf(TraceFile,format,args);
+    va_end(args);
     fflush(TraceFile);
+    result = true;
   }
 
   return result;

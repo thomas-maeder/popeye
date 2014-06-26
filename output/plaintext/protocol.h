@@ -8,10 +8,14 @@
 
 /* Open a new protocol file
  * @param filename name of protocol file
+ * @param open_mode open mode for the file to be opened
+ * @param format printf() format string for the intro to be written to the file
+ * @param ... values to be converted into the file according to format
  * @return true iff the new file could be successfully opened
  * @note the previous protocol file (if any) is closed
  */
-boolean protocol_open(char const *filename);
+boolean protocol_open(char const *filename, char const *open_mode,
+                      char const *format, ...);
 
 /* like putchar().
  * If a trace file is active, output goes to the trace file as well
