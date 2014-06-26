@@ -16,6 +16,11 @@
 #       define DBG(x)
 #endif
 
+/* Issue a message text
+ * @param id identifies the message
+ * @param ... additional parameters according the printf() like conversion
+ *            specifiers in message id
+ */
 void output_plaintext_message(message_id_t id, ...)
 {
   DBG((stderr, "Mesage(%d) = %s\n", id, output_message_get(id)));
@@ -31,6 +36,11 @@ void output_plaintext_message(message_id_t id, ...)
     output_plaintext_message(InternalError,id);
 }
 
+/* Report an error
+ * @param id identifies the diagnostic message
+ * @param ... additional parameters according the printf() like conversion
+ *            specifiers in message id
+ */
 void output_plaintext_error_message(message_id_t id, ...)
 {
   DBG((stderr, "ErrorMsg(%d) = %s\n", id, output_message_get(id)));
@@ -49,6 +59,10 @@ void output_plaintext_error_message(message_id_t id, ...)
 #endif
 }
 
+/* Issue a fatal message
+ * @param id identifies the message
+ * @note terminates the program with exit status code id
+ */
 void output_plaintext_fatal_message(message_id_t id)
 {
   output_plaintext_error_message(ErrFatal);
@@ -58,6 +72,9 @@ void output_plaintext_fatal_message(message_id_t id)
   exit(id);
 }
 
+/* Report a verification error that causes the current problem to be ignored
+ * @param id identiifes the diagnostic message
+ */
 void output_plaintext_verifie_message(message_id_t id)
 {
   output_plaintext_error_message(id);
@@ -66,22 +83,22 @@ void output_plaintext_verifie_message(message_id_t id)
   output_plaintext_error_message(NewLine);
 }
 
-static void ErrChar(char c)
+/* Issue an input error message
+ * @param id identifies the diagnostic message
+ * @param val additional parameter according to the printf() conversion
+ *            specifier in message id
+ */
+void output_plaintext_input_error_message(message_id_t n, int val)
 {
 #if !defined(QUIET)
-  protocol_fputc(c,stderr);
-  protocol_fflush(stderr);
-#endif
-}
-
-void output_plaintext_io_error_message(message_id_t n, int val)
-{
   protocol_fflush(stdout);
   output_plaintext_error_message(InputError,val);
   output_plaintext_error_message(n);
-  ErrChar('\n');
+  protocol_fputc('\n',stderr);
   output_plaintext_error_message(OffendingItem,InputLine);
-  ErrChar('\n');
+  protocol_fputc('\n',stderr);
+  protocol_fflush(stderr);
+#endif
 }
 
 static void format_time(void)
@@ -114,6 +131,11 @@ static void format_time(void)
   }
 }
 
+/* Issue a solving time indication
+ * @param header text printed before the time
+ * @param trail text printed after the time
+ * @note nothing is issued if we are in regression testing mode
+ */
 void output_plaintext_print_time(char const *header, char const *trail)
 {
   if (!flag_regression)
@@ -125,6 +147,10 @@ void output_plaintext_print_time(char const *header, char const *trail)
   }
 }
 
+/* Issue a message that the program is being aborted
+ * @param signal identifies the aborting signal
+ * @note can be used inside a signal handler; does *not* terminate the program
+ */
 void output_plaintext_report_aborted(int signal)
 {
   protocol_fputc('\n',stdout);

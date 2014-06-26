@@ -5,13 +5,49 @@
 
 #include <stdio.h>
 
+/* Report a verification error that causes the current problem to be ignored
+ * @param id identiifes the diagnostic message
+ */
 void output_plaintext_verifie_message(message_id_t id);
-void output_plaintext_error_message(message_id_t id, ...);
-void output_plaintext_message(message_id_t id, ...);
-void output_plaintext_fatal_message(message_id_t id);
-void output_plaintext_io_error_message(message_id_t n, int val);
 
+/* Report an error
+ * @param id identifies the diagnostic message
+ * @param ... additional parameters according the printf() like conversion
+ *            specifiers in message id
+ */
+void output_plaintext_error_message(message_id_t id, ...);
+
+/* Issue a message text
+ * @param id identifies the message
+ * @param ... additional parameters according the printf() like conversion
+ *            specifiers in message id
+ */
+void output_plaintext_message(message_id_t id, ...);
+
+/* Issue a fatal message
+ * @param id identifies the message
+ * @note terminates the program with exit status code id
+ */
+void output_plaintext_fatal_message(message_id_t id);
+
+/* Issue an input error message
+ * @param id identifies the diagnostic message
+ * @param val additional parameter according to the printf() conversion
+ *            specifier in message id
+ */
+void output_plaintext_input_error_message(message_id_t n, int val);
+
+/* Issue a solving time indication
+ * @param header text printed before the time
+ * @param trail text printed after the time
+ * @note nothing is issued if we are in regression testing mode
+ */
 void output_plaintext_print_time(char const *header, char const *trail);
+
+/* Issue a message that the program is being aborted
+ * @param signal identifies the aborting signal
+ * @note can be used inside a signal handler; does *not* terminate the program
+ */
 void output_plaintext_report_aborted(int signal);
 
 #endif

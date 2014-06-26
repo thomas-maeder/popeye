@@ -204,7 +204,7 @@ char *ReadNextCaseSensitiveTokStr(void)
   }
   else
   {
-    output_plaintext_io_error_message(WrongChar,LastChar);
+    output_plaintext_input_error_message(WrongChar,LastChar);
     LastChar = TokenLine[0]= ' ';
     TokenLine[1] = '\0';
     return TokenLine;
@@ -246,7 +246,7 @@ char *ReadNextTokStr(void)
   }
   else
   {
-    output_plaintext_io_error_message(WrongChar,LastChar);
+    output_plaintext_input_error_message(WrongChar,LastChar);
     LastChar = TokenLine[0]= ' ';
     TokenLine[1] = '\0';
     return TokenLine;

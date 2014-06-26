@@ -83,12 +83,12 @@ static void ReadBeginSpec(void)
         PieceTab= PieNamString[UserLanguage];
         PieSpTab= PieSpString[UserLanguage];
         ColourTab= ColourString[UserLanguage];
-        InitMsgTab(UserLanguage);
+        output_message_initialise_language(UserLanguage);
         return;
       }
     }
 
-    output_plaintext_io_error_message(NoBegOfProblem, 0);
+    output_plaintext_input_error_message(NoBegOfProblem, 0);
   }
 }
 

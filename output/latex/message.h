@@ -5,6 +5,11 @@
 
 #include <stdio.h>
 
+/* Issue a message text
+ * @param id identifies the message
+ * @param ... additional parameters according the printf() like conversion
+ *            specifiers in message id
+ */
 void output_latex_message(FILE *file, message_id_t id, ...);
 
 #endif

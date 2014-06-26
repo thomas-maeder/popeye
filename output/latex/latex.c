@@ -231,7 +231,7 @@ boolean LaTeXSetup(void)
   LaTeXFile = fopen(InputLine,"w");
   if (LaTeXFile==NULL)
   {
-    output_plaintext_io_error_message(WrOpenError,0);
+    output_plaintext_input_error_message(WrOpenError,0);
     result = false;
   }
   else

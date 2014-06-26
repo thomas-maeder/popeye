@@ -141,8 +141,15 @@ typedef enum
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;
 
-void InitMsgTab(Language l);
+/* Initialise message for a language
+ * @param language the language
+ */
+void output_message_initialise_language(Language language);
 
+/* Retrieve the message for a specific id in the current language
+ * @param id identifies the message to be retrieved
+ * @return the message
+ */
 char const *output_message_get(message_id_t id);
 
 #endif

@@ -1,14 +1,9 @@
 #include "optimisations/hash.h"
-#include "stipulation/structure_traversal.h"
 #include "solving/moves_traversal.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "input/plaintext/problem.h"
-#include "input/plaintext/token.h"
-#include "input/plaintext/language.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
-#include "output/plaintext/plaintext.h"
-#include "output/plaintext/message.h"
 #include "output/latex/latex.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
@@ -188,11 +183,6 @@ int main(int argc, char *argv[])
   flag_regression = false;
 
   initMaxmem();
-
-  /* Initialize message table with default language.
-   * This default setting is hopefully overriden later by ReadBeginSpec().
-   */
-  InitMsgTab(LanguageDefault);
 
   idx_end_of_options = parseCommandlineOptions(argc,argv);
 

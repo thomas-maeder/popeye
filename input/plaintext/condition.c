@@ -77,7 +77,7 @@ static char *ParsePieceWalkAndSquareLastCapture(char *tok)
   }
   else
   {
-    output_plaintext_io_error_message(WrongPieceName,0);
+    output_plaintext_input_error_message(WrongPieceName,0);
     tok = ReadNextTokStr();
   }
 
@@ -206,7 +206,7 @@ static boolean handle_chameleon_reborn_piece(twin_id_type *is_explicit,
 
   if (to==Empty)
   {
-    output_plaintext_io_error_message(WrongPieceName,0);
+    output_plaintext_input_error_message(WrongPieceName,0);
     result = false;
   }
   else
@@ -253,7 +253,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
       break;
     else if (index>CirceVariantCount)
     {
-      output_plaintext_io_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq,0);
       break;
     }
     else
@@ -272,17 +272,17 @@ static char *ParseCirceVariants(circe_variant_type *variant)
 
         case CirceVariantMirror:
           if (!circe_override_relevant_side_overrider(variant,circe_relevant_side_overrider_mirror))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantDiametral:
           if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_diametral))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantVerticalMirror:
           if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_verticalmirror))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantAssassin:
@@ -291,17 +291,17 @@ static char *ParseCirceVariants(circe_variant_type *variant)
 
         case CirceVariantClone:
           if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_clone))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantEinstein:
           if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_einstein))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantReverseEinstein:
           if (!circe_override_reborn_walk_adapter(variant,circe_reborn_walk_adapter_reversaleinstein))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantChameleon:
@@ -310,7 +310,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
                                         &variant->chameleon_is_walk_squence_explicit,
                                         &variant->chameleon_walk_sequence);
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantTurncoats:
@@ -330,7 +330,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_equipollents))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantParrain:
@@ -340,7 +340,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
             variant->is_promotion_possible = true;
           }
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantContraParrain:
@@ -351,7 +351,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
             variant->is_promotion_possible = true;
           }
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantCage:
@@ -361,45 +361,45 @@ static char *ParseCirceVariants(circe_variant_type *variant)
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
           }
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantRank:
           if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_rank)
               || !circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_rank)
               || !circe_override_relevant_side_overrider(variant,circe_relevant_side_overrider_rank))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantFile:
           if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_file))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantSymmetry:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_symmetry))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantDiagramm:
           if (!circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_diagram))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantPWC:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_pwc))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantAntipodes:
           if (circe_override_determine_rebirth_square(variant,circe_determine_rebirth_square_antipodes))
             variant->is_promotion_possible = true;
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantSuper:
@@ -409,7 +409,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
           }
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantTakeAndMake:
@@ -419,7 +419,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
             variant->rebirth_reason = move_effect_reason_rebirth_choice;
           }
           else
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantApril:
@@ -427,7 +427,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
           unsigned int nr_walks_read;
           tok = ReadWalks(tok,&variant->is_walk_affected,&nr_walks_read);
           if (nr_walks_read==0)
-            output_plaintext_io_error_message(WrongPieceName,0);
+            output_plaintext_input_error_message(WrongPieceName,0);
           else
           {
             variant->is_restricted_to_walks = true;
@@ -439,7 +439,7 @@ static char *ParseCirceVariants(circe_variant_type *variant)
 
         case CirceVariantFrischauf:
           if (!circe_override_rebirth_square_adapter(variant,circe_rebirth_square_adapter_frischauf))
-            output_plaintext_io_error_message(NonsenseCombination,0);
+            output_plaintext_input_error_message(NonsenseCombination,0);
           break;
 
         case CirceVariantCalvet:
@@ -482,7 +482,7 @@ char *ReadSquares(SquareListContext context)
   if (l%2==1)
   {
     if (context!=ReadGrid)
-      output_plaintext_io_error_message(WrongSquareList, 0);
+      output_plaintext_input_error_message(WrongSquareList, 0);
     currentgridnum = 0;
     return tok;
   }
@@ -499,7 +499,7 @@ char *ReadSquares(SquareListContext context)
       }
       if (nr_squares_read!=0)
       {
-        output_plaintext_io_error_message(WrongSquareList,0);
+        output_plaintext_input_error_message(WrongSquareList,0);
         return tok;
       }
     }
@@ -586,7 +586,7 @@ static char *ParseKobulSides(boolean (*variant)[nr_sides])
     KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
 
     if (type>KobulVariantCount)
-      output_plaintext_io_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq,0);
     else if (type==KobulWhiteOnly)
       (*variant)[Black] = false;
     else if (type==KobulBlackOnly)
@@ -645,7 +645,7 @@ static char *ParseSentinellesVariants(void)
     SentinellesVariantType const type = GetUniqIndex(SentinellesVariantCount,SentinellesVariantTypeTab,tok);
 
     if (type>SentinellesVariantCount)
-      output_plaintext_io_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq,0);
     else if (type==SentinellesVariantPionAdverse)
     {
       sentinelles_pawn_mode = sentinelles_pawn_adverse;
@@ -693,7 +693,7 @@ static char *ParseGridVariant(void)
     if (type==GridVariantCount)
       break;
     else if (type>GridVariantCount)
-      output_plaintext_io_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq,0);
     else if (type==GridVariantShiftRank)
     {
       square const *bnp;
@@ -749,7 +749,7 @@ static char *ParseGridVariant(void)
         }
         else
         {
-          output_plaintext_io_error_message(CondNotUniq, 0);
+          output_plaintext_input_error_message(CondNotUniq, 0);
           return tok;
         }
       }
@@ -846,7 +846,7 @@ static char *ParseKoekoVariant(void)
     /* nothing */
   }
   else if (type>1)
-    output_plaintext_io_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq,0);
   else
   {
     piece_walk_type tmp_piece;
@@ -884,7 +884,7 @@ static char *ParseKoekoVariant(void)
         *nocontactfunc_parsed= noantelopecontact;
         break;
       default:
-        output_plaintext_io_error_message(WrongPieceName,0);
+        output_plaintext_input_error_message(WrongPieceName,0);
         break;
     }
   }
@@ -904,7 +904,7 @@ static char *ParseLetteredType(ConditionLetteredVariantType *variant, ConditionL
    /* nothing */
   }
   else if (type_read>ConditionLetteredVariantTypeCount)
-    output_plaintext_io_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq,0);
   else
   {
     ConditionLetteredVariantType type;
@@ -933,7 +933,7 @@ static char *ParseNumberedType(ConditionNumberedVariantType *variant,
     /* nothing */
   }
   else if (type_read>ConditionNumberedVariantTypeCount)
-    output_plaintext_io_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq,0);
   else
   {
     ConditionNumberedVariantType type;
@@ -960,7 +960,7 @@ static char *ParseAnticirceVariant(anticirce_type_type *variant)
     return tok;
   else if (type>anticirce_type_count)
   {
-    output_plaintext_io_error_message(CondNotUniq,0);
+    output_plaintext_input_error_message(CondNotUniq,0);
     return tok;
   }
   else if (type==anticirce_type_cheylan || type==anticirce_type_calvet)
@@ -1040,7 +1040,7 @@ char *ParseCond(void)
       ExtraCond const extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
       if (extra>ExtraCondCount)
       {
-        output_plaintext_io_error_message(CondNotUniq,0);
+        output_plaintext_input_error_message(CondNotUniq,0);
         tok = ReadNextTokStr();
         break;
       }
@@ -1073,7 +1073,7 @@ char *ParseCond(void)
 
     if (indexx>CondCount)
     {
-      output_plaintext_io_error_message(CondNotUniq,0);
+      output_plaintext_input_error_message(CondNotUniq,0);
       tok = ReadNextTokStr();
       continue;
     }
@@ -1614,7 +1614,7 @@ char *ParseCond(void)
         if (nr_walks_read==0)
         {
           CondFlag[promotiononly] = false;
-          output_plaintext_io_error_message(WrongPieceName,0);
+          output_plaintext_input_error_message(WrongPieceName,0);
         }
         break;
       }
@@ -1636,7 +1636,7 @@ char *ParseCond(void)
         if (nr_walks_read==0)
         {
           CondFlag[april] = false;
-          output_plaintext_io_error_message(WrongPieceName,0);
+          output_plaintext_input_error_message(WrongPieceName,0);
         }
         else
         {
@@ -1743,7 +1743,7 @@ char *ParseCond(void)
   }
 
   if (CondCnt==0)
-    output_plaintext_io_error_message(UnrecCondition,0);
+    output_plaintext_input_error_message(UnrecCondition,0);
 
   if (CondFlag[black_oscillatingKs] && OscillatingKings[White]==ConditionTypeC
       && CondFlag[white_oscillatingKs] && OscillatingKings[White]==ConditionTypeC)

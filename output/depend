@@ -122,7 +122,8 @@ output/message$(OBJ_SUFFIX): output/message.c output/plaintext/message.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h conditions/sentinelles.h
+ conditions/circe/relevant_side.h conditions/sentinelles.h \
+ debugging/assert.h
 
 output/plaintext/message.h:
 
@@ -223,3 +224,5 @@ conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 
 conditions/sentinelles.h:
+
+debugging/assert.h:

@@ -149,7 +149,7 @@ char *ParsePieceName(char *tok, piece_walk_type *name)
     tok = PrsPieShortcut(len_token%2==1,tok,&home);
     *name = hunter_make_type(away,home);
     if (*name==Invalid)
-      output_plaintext_io_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
+      output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
   }
   else
   {
@@ -194,7 +194,7 @@ static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type
       return btok;
     else
     {
-      output_plaintext_io_error_message(WrongPieceName,0);
+      output_plaintext_input_error_message(WrongPieceName,0);
       tok = ReadNextTokStr();
     }
   }
@@ -208,12 +208,12 @@ Flags ParseColour(char *tok, boolean colour_is_mandatory)
   if (colour==nr_colours)
   {
     if (colour_is_mandatory)
-      output_plaintext_io_error_message(NoColourSpec,0);
+      output_plaintext_input_error_message(NoColourSpec,0);
     return 0;
   }
   else if (colour>nr_colours)
   {
-    output_plaintext_io_error_message(PieSpecNotUniq,0);
+    output_plaintext_input_error_message(PieSpecNotUniq,0);
     return 0;
   }
   else if (colour==colour_neutral)
@@ -235,7 +235,7 @@ char *ParsePieceFlags(Flags *flags)
       if (ps==nr_piece_flags-nr_sides)
         break;
       else if (ps>nr_piece_flags-nr_sides)
-        output_plaintext_io_error_message(PieSpecNotUniq,0);
+        output_plaintext_input_error_message(PieSpecNotUniq,0);
       else
         SETFLAG(*flags,ps+nr_sides);
     }

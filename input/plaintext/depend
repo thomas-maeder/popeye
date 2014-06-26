@@ -684,7 +684,7 @@ input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h
  pieces/pieces.h output/mode.h output/mode.enum.h \
  input/plaintext/pieces.h position/position.h position/color.h \
  position/color.enum.h pieces/walks/vectors.h output/output.h \
- output/plaintext/message.h input/plaintext/language.h output/message.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
  conditions/imitator.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
@@ -758,9 +758,9 @@ output/output.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 conditions/imitator.h:
 
