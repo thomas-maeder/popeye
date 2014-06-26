@@ -19,8 +19,8 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h solving/observation.h \
  solving/temporary_hacks.h output/output.h output/plaintext/message.h \
- input/plaintext/language.h conditions/annan.h conditions/bgl.h \
- conditions/facetoface.h conditions/koeko/contact_grid.h \
+ input/plaintext/language.h output/message.h conditions/annan.h \
+ conditions/bgl.h conditions/facetoface.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
  conditions/exclusive.h utilities/table.h conditions/republican.h \
  conditions/blackchecks.h conditions/extinction.h conditions/madrasi.h \
@@ -105,7 +105,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/goals/remove_non_reachers.h \
  optimisations/detect_retraction.h optimisations/observation.h \
- debugging/assert.h debugging/measure.h
+ debugging/assert.h debugging/measure.h output/plaintext/protocol.h
 
 solving/machinery/solvers.h:
 
@@ -200,6 +200,8 @@ output/output.h:
 output/plaintext/message.h:
 
 input/plaintext/language.h:
+
+output/message.h:
 
 conditions/annan.h:
 
@@ -552,6 +554,8 @@ optimisations/observation.h:
 debugging/assert.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -560,7 +564,7 @@ solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- debugging/measure.h debugging/assert.h
+ debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 solving/machinery/solve.h:
 
@@ -597,6 +601,8 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 debugging/assert.h:
 solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
@@ -638,10 +644,10 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/killer_move/killer_move.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- output/plaintext/message.h input/plaintext/language.h solving/castling.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/moves_traversal.h solving/proofgames.h \
- solving/king_capture_avoider.h \
+ output/plaintext/message.h input/plaintext/language.h output/message.h \
+ solving/castling.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/moves_traversal.h \
+ solving/proofgames.h solving/king_capture_avoider.h \
  solving/find_square_observer_tracking_back_from_target.h \
  solving/machinery/solvers.h debugging/assert.h
 
@@ -811,6 +817,8 @@ output/plaintext/message.h:
 
 input/plaintext/language.h:
 
+output/message.h:
+
 solving/castling.h:
 
 solving/has_solution_type.h:
@@ -842,7 +850,7 @@ solving/machinery/intro$(OBJ_SUFFIX): solving/machinery/intro.c \
  solving/battle_play/attack_adapter.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/battle_play/defense_adapter.h solving/help_play/adapter.h \
- debugging/assert.h debugging/measure.h
+ debugging/assert.h debugging/measure.h output/plaintext/protocol.h
 
 solving/machinery/intro.h:
 
@@ -901,6 +909,8 @@ solving/help_play/adapter.h:
 debugging/assert.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/machinery/dispatch.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1078,7 +1088,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/kiss.h solving/goals/notcheck.h solving/goals/proofgame.h \
  solving/goals/steingewinn.h solving/goals/target.h \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
- solving/pipe.h debugging/measure.h debugging/assert.h
+ solving/pipe.h debugging/measure.h output/plaintext/protocol.h \
+ debugging/assert.h
 
 solving/machinery/dispatch.h:
 
@@ -1725,5 +1736,7 @@ solving/goals/reached_tester.h:
 solving/pipe.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 debugging/assert.h:

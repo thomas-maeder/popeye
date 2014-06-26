@@ -1044,7 +1044,7 @@ static void move_effect_journal_do_imitator_addition(move_effect_reason_type rea
   entry->u.imitator_addition.to = to;
 
   if (being_solved.number_of_imitators==maxinum)
-    FtlMsg(ManyImitators);
+    output_plaintext_fatal_message(ManyImitators);
 
   being_solved.isquare[being_solved.number_of_imitators] = to;
   ++being_solved.number_of_imitators;
@@ -1073,7 +1073,7 @@ void redo_imitator_addition(move_effect_journal_entry_type const *entry)
   TraceFunctionParamListEnd();
 
   if (being_solved.number_of_imitators==maxinum)
-    FtlMsg(ManyImitators);
+    output_plaintext_fatal_message(ManyImitators);
 
   being_solved.isquare[being_solved.number_of_imitators] = to;
   ++being_solved.number_of_imitators;

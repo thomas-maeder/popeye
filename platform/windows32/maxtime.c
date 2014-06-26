@@ -90,7 +90,7 @@ static void setupNewTimer(maxtime_type seconds)
                                TIME_PERIODIC|TIME_CALLBACK_FUNCTION);
   if (current_timer==no_timer)
   {
-    VerifieMsg(NoMaxTime);
+    output_plaintext_verifie_message(NoMaxTime);
     nr_periods = 0;
     periods_counter = 1;
   }
@@ -137,7 +137,7 @@ void setMaxtime(maxtime_type seconds)
   }
   else if (timer_resolutionMS==MM_timers_not_available)
   {
-    VerifieMsg(NoMaxTime);
+    output_plaintext_verifie_message(NoMaxTime);
     nr_periods = 0;
     periods_counter = 1;
   }

@@ -127,7 +127,7 @@ output/plaintext/line/line_writer$(OBJ_SUFFIX): output/plaintext/line/line_write
  output/plaintext/line/end_of_intro_series_marker.h solving/ply.h \
  output/plaintext/plaintext.h solving/move_effect_journal.h \
  solving/castling_rights.h position/pieceid.h output/plaintext/message.h \
- input/plaintext/language.h solving/has_solution_type.h \
+ input/plaintext/language.h output/message.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -188,6 +188,8 @@ position/pieceid.h:
 output/plaintext/message.h:
 
 input/plaintext/language.h:
+
+output/message.h:
 
 solving/has_solution_type.h:
 
@@ -306,7 +308,8 @@ output/plaintext/line/exclusive$(OBJ_SUFFIX): output/plaintext/line/exclusive.c 
  position/color.h position/color.enum.h pieces/walks/vectors.h \
  solving/ply.h output/plaintext/protocol.h \
  output/plaintext/line/line_writer.h output/plaintext/message.h \
- input/plaintext/language.h solving/pipe.h debugging/assert.h
+ input/plaintext/language.h output/message.h solving/pipe.h \
+ debugging/assert.h
 
 output/plaintext/line/exclusive.h:
 
@@ -381,6 +384,8 @@ output/plaintext/line/line_writer.h:
 output/plaintext/message.h:
 
 input/plaintext/language.h:
+
+output/message.h:
 
 solving/pipe.h:
 

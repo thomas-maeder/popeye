@@ -99,7 +99,7 @@ char *ParseGoal(char *tok, slice_index proxy)
   gic = detectGoalType(tok);
   if (gic-goalInputConfig==nr_goals)
   {
-    IoErrorMsg(UnrecStip, 0);
+    output_plaintext_io_error_message(UnrecStip, 0);
     tok = 0;
   }
   else
@@ -117,7 +117,7 @@ char *ParseGoal(char *tok, slice_index proxy)
 
         if (goal.target==initsquare)
         {
-          IoErrorMsg(MissngSquareList, 0);
+          output_plaintext_io_error_message(MissngSquareList, 0);
           tok = 0;
         }
         else
@@ -240,7 +240,7 @@ char *ParseGoal(char *tok, slice_index proxy)
 
           if (goal.target==initsquare)
           {
-            IoErrorMsg(MissngSquareList, 0);
+            output_plaintext_io_error_message(MissngSquareList, 0);
             tok = 0;
           }
           else

@@ -52,7 +52,7 @@ static void ReadMutuallyExclusiveCastling(void)
     }
   }
 
-  ErrorMsg(MissngSquareList);
+  output_plaintext_error_message(MissngSquareList);
 }
 
 char *ParseOpt(slice_index root_slice_hook)
@@ -68,7 +68,7 @@ char *ParseOpt(slice_index root_slice_hook)
   {
     if (indexx>OptCount)
     {
-      IoErrorMsg(OptNotUniq,0);
+      output_plaintext_io_error_message(OptNotUniq,0);
       continue;
     }
     OptFlag[indexx]= true;
@@ -95,7 +95,7 @@ char *ParseOpt(slice_index root_slice_hook)
         if (*end!=0 || value==0 || value>maxtimeMaximumSeconds())
         {
           OptFlag[maxtime]= false;
-          IoErrorMsg(WrongInt, 0);
+          output_plaintext_io_error_message(WrongInt, 0);
           return ReadNextTokStr();
         }
         else
@@ -112,7 +112,7 @@ char *ParseOpt(slice_index root_slice_hook)
         if (!read_max_solutions(tok))
         {
           OptFlag[maxsols] = false;
-          IoErrorMsg(WrongInt,0);
+          output_plaintext_io_error_message(WrongInt,0);
           return ReadNextTokStr();
         }
         break;
@@ -129,7 +129,7 @@ char *ParseOpt(slice_index root_slice_hook)
         if (!read_restart_number(tok))
         {
           OptFlag[restart] = false;
-          IoErrorMsg(WrongInt,0);
+          output_plaintext_io_error_message(WrongInt,0);
           return ReadNextTokStr();
         }
         OptFlag[movenbr]= true;
@@ -145,7 +145,7 @@ char *ParseOpt(slice_index root_slice_hook)
         else
         {
           OptFlag[solmenaces] = false;
-          IoErrorMsg(WrongInt,0);
+          output_plaintext_io_error_message(WrongInt,0);
           return ReadNextTokStr();
         }
         break;
@@ -155,7 +155,7 @@ char *ParseOpt(slice_index root_slice_hook)
         if (!read_max_flights(tok))
         {
           OptFlag[solflights] = false;
-          IoErrorMsg(WrongInt,0);
+          output_plaintext_io_error_message(WrongInt,0);
           return ReadNextTokStr();
         }
         break;
@@ -165,7 +165,7 @@ char *ParseOpt(slice_index root_slice_hook)
         if (!read_max_nr_refutations(tok))
         {
           OptFlag[soltout] = false;
-          IoErrorMsg(WrongInt,0);
+          output_plaintext_io_error_message(WrongInt,0);
           return ReadNextTokStr();
         }
         break;
@@ -189,14 +189,14 @@ char *ParseOpt(slice_index root_slice_hook)
           else
           {
             OptFlag[nontrivial] = false;
-            IoErrorMsg(WrongInt, 0);
+            output_plaintext_io_error_message(WrongInt, 0);
             return ReadNextTokStr();
           }
         }
         else
         {
           OptFlag[nontrivial] = false;
-          IoErrorMsg(WrongInt, 0);
+          output_plaintext_io_error_message(WrongInt, 0);
           return ReadNextTokStr();
         }
         break;
@@ -223,7 +223,7 @@ char *ParseOpt(slice_index root_slice_hook)
   }
 
   if (OptCnt==0)
-    IoErrorMsg(UnrecOption,0);
+    output_plaintext_io_error_message(UnrecOption,0);
 
   return tok;
 }

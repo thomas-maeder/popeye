@@ -45,7 +45,7 @@ void output_plaintext_end_of_phase_writer_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  Message(NewLine);
+  output_plaintext_message(NewLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -116,12 +116,12 @@ boolean republican_verifie_position(slice_index si)
 
   if (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction])
   {
-    VerifieMsg(IncompatibleRoyalSettings);
+    output_plaintext_verifie_message(IncompatibleRoyalSettings);
     result = false;
   }
   else if (CondFlag[masand]) /* TODO what else should we prohibit here? */
   {
-    VerifieMsg(NoRepublicanWithConditionsDependingOnCheck);
+    output_plaintext_verifie_message(NoRepublicanWithConditionsDependingOnCheck);
     result = false;
   }
   else
@@ -129,7 +129,7 @@ boolean republican_verifie_position(slice_index si)
     Goal const goal = find_unique_goal(si);
     if (goal.type==no_goal)
     {
-      VerifieMsg(StipNotSupported);
+      output_plaintext_verifie_message(StipNotSupported);
       result = false;
     }
     else

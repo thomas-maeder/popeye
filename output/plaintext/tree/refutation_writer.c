@@ -29,9 +29,9 @@ slice_index alloc_output_plaintext_tree_refutations_intro_writer_slice(void)
 
 static void write_refutations_intro(void)
 {
-  Message(NewLine);
+  output_plaintext_message(NewLine);
   protocol_fprintf(stdout,"%*c",4,' ');
-  Message(But);
+  output_plaintext_message(But);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

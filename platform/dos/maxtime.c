@@ -17,7 +17,7 @@ void setMaxtime(maxtime_type seconds)
   }
   else
   {
-    VerifieMsg(NoMaxTime);
+    output_plaintext_verifie_message(NoMaxTime);
     periods_counter = 1;
     nr_periods = 0;
   }

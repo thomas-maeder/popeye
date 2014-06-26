@@ -245,7 +245,7 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
   else if (!locate_unique_royal(White,&(*new_king_square)[White])
            || !locate_unique_royal(Black,&(*new_king_square)[Black]))
   {
-    VerifieMsg(OneKing);
+    output_plaintext_verifie_message(OneKing);
     result = false;
   }
 
@@ -262,7 +262,7 @@ static boolean proofgame_restore_start(slice_index stipulation_root)
   switch (find_unique_goal(stipulation_root).type)
   {
     case no_goal:
-      VerifieMsg(MultipleGoalsWithProofGameNotAcceptable);
+      output_plaintext_verifie_message(MultipleGoalsWithProofGameNotAcceptable);
       break;
 
     case goal_proofgame:
@@ -383,7 +383,7 @@ void initialise_piece_flags(void)
         {
           /* relies on imitators already having been implemented */
           CLRFLAG(being_solved.spec[*bnp],ColourChange);
-          ErrorMsg(ColourChangeRestricted);
+          output_plaintext_error_message(ColourChangeRestricted);
         }
       }
   }
@@ -655,14 +655,14 @@ static boolean verify_position(slice_index si)
 
   if (get_max_nr_moves(si) >= maxply-2)
   {
-    VerifieMsg(BigNumMoves);
+    output_plaintext_verifie_message(BigNumMoves);
     return false;
   }
 
   if (circe_variant.relevant_capture==circe_relevant_capture_lastmove
       && stip_ends_in(si,goal_steingewinn))
   {
-    VerifieMsg(PercentAndParrain);
+    output_plaintext_verifie_message(PercentAndParrain);
     return false;
   }
 
@@ -676,7 +676,7 @@ static boolean verify_position(slice_index si)
        || TSTFLAG(some_pieces_flags,Royal))
       && (CondFlag[dynasty] || CondFlag[losingchess] || CondFlag[extinction]))
   {
-    VerifieMsg(IncompatibleRoyalSettings);
+    output_plaintext_verifie_message(IncompatibleRoyalSettings);
     return false;
   }
 
@@ -686,7 +686,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[nocapture]
         || CondFlag[anticirce])
     {
-      VerifieMsg(TakeMakeAndFairy);
+      output_plaintext_verifie_message(TakeMakeAndFairy);
       return false;
     }
   }
@@ -715,12 +715,12 @@ static boolean verify_position(slice_index si)
 
         if (TSTFLAG(some_pieces_flags,Magic) && !magic_is_piece_supported(p))
         {
-          VerifieMsg(MagicAndFairyPieces);
+          output_plaintext_verifie_message(MagicAndFairyPieces);
           return false;
         }
         if (CondFlag[einstein])
         {
-          VerifieMsg(EinsteinAndFairyPieces);
+          output_plaintext_verifie_message(EinsteinAndFairyPieces);
           return false;
         }
       }
@@ -751,7 +751,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[haanerchess]
         || CondFlag[sting])
     {
-      VerifieMsg(ImitWFairy);
+      output_plaintext_verifie_message(ImitWFairy);
       return false;
     }
     disable_orthodox_mating_move_optimisation(nr_sides);
@@ -763,7 +763,7 @@ static boolean verify_position(slice_index si)
     for (p = Queen; p<=Bishop; p++)
       if (being_solved.number_of_pieces[White][p]+being_solved.number_of_pieces[Black][p]!=0)
       {
-        VerifieMsg(LeoFamAndOrtho);
+        output_plaintext_verifie_message(LeoFamAndOrtho);
         return false;
       }
   }
@@ -775,7 +775,7 @@ static boolean verify_position(slice_index si)
   {
     if (piece_walk_may_exist[Dummy])
     {
-      VerifieMsg(CirceAndDummy);
+      output_plaintext_verifie_message(CirceAndDummy);
       return false;
     }
     if (is_piece_neutral(some_pieces_flags)
@@ -792,7 +792,7 @@ static boolean verify_position(slice_index si)
     Side const restricted_side = findRestrictedSide(si);
     if (restricted_side==no_side)
     {
-      VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
+      output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
       return false;
     }
     else
@@ -811,45 +811,45 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[blmax] && !mummer_set_length_measurer(Black,&maximummer_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whmax] && !mummer_set_length_measurer(White,&maximummer_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blmin] && !mummer_set_length_measurer(Black,&minimummer_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whmin] && !mummer_set_length_measurer(White,&minimummer_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blcapt] && !mummer_set_length_measurer(Black,&must_capture_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whcapt] && !mummer_set_length_measurer(White,&must_capture_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blfollow] && !mummer_set_length_measurer(Black,&follow_my_leader_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whfollow] && !mummer_set_length_measurer(White,&follow_my_leader_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
@@ -857,46 +857,46 @@ static boolean verify_position(slice_index si)
       && !(mummer_set_length_measurer(Black,&duellists_measure_length)
            && mummer_set_length_measurer(White,&duellists_measure_length)))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blackalphabetic]
       && !mummer_set_length_measurer(Black,&alphabetic_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whitealphabetic]
       && !mummer_set_length_measurer(White,&alphabetic_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blacksynchron]
       && !mummer_set_length_measurer(Black,&synchronous_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whitesynchron]
       && !mummer_set_length_measurer(White,&synchronous_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blackantisynchron]
       && !mummer_set_length_measurer(Black,&antisynchronous_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whiteantisynchron]
       && !mummer_set_length_measurer(White,&antisynchronous_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
@@ -904,46 +904,46 @@ static boolean verify_position(slice_index si)
   if (CondFlag[blsupertrans_king]
       && !mummer_set_length_measurer(Black,&len_supertransmuting_kings))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whsupertrans_king]
       && !mummer_set_length_measurer(White,&len_supertransmuting_kings))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blforsqu]
       && !mummer_set_length_measurer(Black,&forced_squares_measure_length))
   {
-    VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
+    output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
     return false;
   }
   if (CondFlag[whforsqu]
       && !mummer_set_length_measurer(White,&forced_squares_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[blconforsqu]
       && !mummer_set_length_measurer(Black,&forced_squares_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
   if (CondFlag[whconforsqu]
       && !mummer_set_length_measurer(White,&forced_squares_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
   if (CondFlag[schwarzschacher]
       && !mummer_set_length_measurer(Black,&blackchecks_measure_length))
   {
-    VerifieMsg(TwoMummerCond);
+    output_plaintext_verifie_message(TwoMummerCond);
     return false;
   }
 
@@ -953,7 +953,7 @@ static boolean verify_position(slice_index si)
     Side const restricted_side = findRestrictedSide(si);
     if (restricted_side==no_side)
     {
-      VerifieMsg(CantDecideOnSideWhichConditionAppliesTo);
+      output_plaintext_verifie_message(CantDecideOnSideWhichConditionAppliesTo);
       return false;
     }
     else
@@ -969,7 +969,7 @@ static boolean verify_position(slice_index si)
   {
     if (being_solved.number_of_pieces[White][Knight] + being_solved.number_of_pieces[Black][Knight] > 0)
     {
-      VerifieMsg(CavMajAndKnight);
+      output_plaintext_verifie_message(CavMajAndKnight);
       return false;
     }
     piece_walk_may_exist_fairy = true;
@@ -983,13 +983,13 @@ static boolean verify_position(slice_index si)
 
   if (being_solved.king_square[White]==initsquare && being_solved.number_of_pieces[White][King]==0 && !OptFlag[sansrb])
   {
-    ErrorMsg(MissingKing);
-    ErrorMsg(NewLine);
+    output_plaintext_error_message(MissingKing);
+    output_plaintext_error_message(NewLine);
   }
   else if (being_solved.king_square[Black]==initsquare && being_solved.number_of_pieces[Black][King]==0 && !OptFlag[sansrn])
   {
-    ErrorMsg(MissingKing);
-    ErrorMsg(NewLine);
+    output_plaintext_error_message(MissingKing);
+    output_plaintext_error_message(NewLine);
   }
 
   if (circe_variant.is_rex_inclusive)
@@ -1008,7 +1008,7 @@ static boolean verify_position(slice_index si)
               && being_solved.king_square[Black]!=initsquare
               && get_walk_of_piece_on_square(being_solved.king_square[Black])!=standard_walks[King]))
       {
-        VerifieMsg(RoyalPWCRexCirce);
+        output_plaintext_verifie_message(RoyalPWCRexCirce);
         return false;
       }
     }
@@ -1025,7 +1025,7 @@ static boolean verify_position(slice_index si)
   {
     if (is_piece_neutral(some_pieces_flags))
     {
-      VerifieMsg(TooFairyForNeutral);
+      output_plaintext_verifie_message(TooFairyForNeutral);
       return false;
     }
   }
@@ -1039,7 +1039,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[monochro] && CondFlag[bichro])
   {
-    VerifieMsg(MonoAndBiChrom);
+    output_plaintext_verifie_message(MonoAndBiChrom);
     return false;
   }
 
@@ -1053,7 +1053,7 @@ static boolean verify_position(slice_index si)
       && CondFlag[circe]
       && is_piece_neutral(some_pieces_flags))
   {
-    VerifieMsg(TooFairyForNeutral);
+    output_plaintext_verifie_message(TooFairyForNeutral);
     return false;
   }
 
@@ -1067,7 +1067,7 @@ static boolean verify_position(slice_index si)
        || circe_variant.determine_rebirth_square==circe_determine_rebirth_square_cage)
       && (CondFlag[koeko] || CondFlag[newkoeko] || CondFlag[antikoeko]))
   {
-    VerifieMsg(SuperCirceAndOthers);
+    output_plaintext_verifie_message(SuperCirceAndOthers);
     return false;
   }
 
@@ -1078,7 +1078,7 @@ static boolean verify_position(slice_index si)
     if (anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_super) numsuper++;
     if (numsuper>1)
     {
-      VerifieMsg(SuperCirceAndOthers);
+      output_plaintext_verifie_message(SuperCirceAndOthers);
       return false;
     }
   }
@@ -1095,7 +1095,7 @@ static boolean verify_position(slice_index si)
 
   if (CondFlag[isardam]+CondFlag[madras]+CondFlag[eiffel]>1)
   {
-    VerifieMsg(IsardamAndMadrasi);
+    output_plaintext_verifie_message(IsardamAndMadrasi);
     return false;
   }
 
@@ -1114,7 +1114,7 @@ static boolean verify_position(slice_index si)
   {
     if ((CondFlag[mars]||CondFlag[antimars])+CondFlag[plus]+CondFlag[phantom]>1)
     {
-      VerifieMsg(MarsCirceAndOthers);
+      output_plaintext_verifie_message(MarsCirceAndOthers);
       return false;
     }
     else if ((CondFlag[whvault_king] && vaulting_kings_transmuting[White])
@@ -1124,7 +1124,7 @@ static boolean verify_position(slice_index si)
              || CondFlag[bicolores]
              || CondFlag[sting])
     {
-      VerifieMsg(MarsCirceAndOthers);
+      output_plaintext_verifie_message(MarsCirceAndOthers);
       return false;
     }
     else
@@ -1136,7 +1136,7 @@ static boolean verify_position(slice_index si)
       || (CondFlag[phantom] && !marscirce_is_variant_consistent(&phantom_variant))
       || (CondFlag[geneva] && !geneva_is_variant_consistent(&geneva_variant)))
   {
-    VerifieMsg(NonsenseCombination);
+    output_plaintext_verifie_message(NonsenseCombination);
     return false;
   }
 
@@ -1144,7 +1144,7 @@ static boolean verify_position(slice_index si)
   {
     if ( CondFlag[imitators]|| TSTFLAG(some_pieces_flags,Paralysing))
     {
-      VerifieMsg(MadrasiParaAndOthers);
+      output_plaintext_verifie_message(MadrasiParaAndOthers);
       return false;
     }
   }
@@ -1154,20 +1154,20 @@ static boolean verify_position(slice_index si)
     if (is_piece_neutral(some_pieces_flags) /* Neutrals not implemented */
         || CondFlag[bicolores])             /* others? */
     {
-      VerifieMsg(AssassinandOthers);
+      output_plaintext_verifie_message(AssassinandOthers);
       return false;
     }
   }
 
   if (circe_variant.is_rex_inclusive && immune_variant.is_rex_inclusive)
   {
-    VerifieMsg(RexCirceImmun);
+    output_plaintext_verifie_message(RexCirceImmun);
     return false;
   }
 
   if (immune_variant.is_rex_inclusive && CondFlag[anticirce])
   {
-    VerifieMsg(SomeCondAndAntiCirce);
+    output_plaintext_verifie_message(SomeCondAndAntiCirce);
     return false;
   }
 
@@ -1181,7 +1181,7 @@ static boolean verify_position(slice_index si)
         || CondFlag[geneva]
         || TSTFLAG(some_pieces_flags, Kamikaze))
     {
-      VerifieMsg(SomeCondAndAntiCirce);
+      output_plaintext_verifie_message(SomeCondAndAntiCirce);
       return false;
     }
   }
@@ -1189,7 +1189,7 @@ static boolean verify_position(slice_index si)
   if ((CondFlag[white_oscillatingKs] || CondFlag[black_oscillatingKs])
       && (OptFlag[sansrb] || OptFlag[sansrn]))
   {
-    VerifieMsg(MissingKing);
+    output_plaintext_verifie_message(MissingKing);
     return false;
   }
 
@@ -1197,7 +1197,7 @@ static boolean verify_position(slice_index si)
   {
     if (is_piece_neutral(some_pieces_flags))
     {
-      VerifieMsg(TooFairyForNeutral);
+      output_plaintext_verifie_message(TooFairyForNeutral);
       return false;
     }
   }
@@ -1206,7 +1206,7 @@ static boolean verify_position(slice_index si)
   {
     if (is_piece_neutral(some_pieces_flags))
     {
-      VerifieMsg(TooFairyForNeutral);
+      output_plaintext_verifie_message(TooFairyForNeutral);
       return false;
     }
   }
@@ -1241,7 +1241,7 @@ static boolean verify_position(slice_index si)
           || piece_walk_may_exist[DoubleRookHopper]
           || piece_walk_may_exist[DoubleBishopper]))
   {
-    VerifieMsg(SomePiecesAndHeffa);
+    output_plaintext_verifie_message(SomePiecesAndHeffa);
     return false;
   }
 
@@ -1252,7 +1252,7 @@ static boolean verify_position(slice_index si)
         || TSTFLAG(some_pieces_flags,Kamikaze)
         || (CondFlag[ghostchess] && CondFlag[hauntedchess]))
     {
-      VerifieMsg(GhostHauntedChessAndCirceKamikazeHaanIncompatible);
+      output_plaintext_verifie_message(GhostHauntedChessAndCirceKamikazeHaanIncompatible);
       return false;
     }
   }
@@ -1406,7 +1406,7 @@ static boolean verify_position(slice_index si)
     disable_orthodox_mating_move_optimisation(nr_sides);
     if (CondFlag[haanerchess])
     {
-      VerifieMsg(KamikazeAndHaaner);
+      output_plaintext_verifie_message(KamikazeAndHaaner);
       return false;
     }
     if (CondFlag[circe]) {
@@ -1414,7 +1414,7 @@ static boolean verify_position(slice_index si)
          taken piece could be reborn on the same square! */
       if (piece_walk_may_exist_fairy || CondFlag[volage])
       {
-        VerifieMsg(KamikazeAndSomeCond);
+        output_plaintext_verifie_message(KamikazeAndSomeCond);
         return false;
       }
     }
@@ -1425,7 +1425,7 @@ static boolean verify_position(slice_index si)
   {
     if (piece_walk_may_exist_fairy)
     {
-      VerifieMsg(SingleBoxAndFairyPieces);
+      output_plaintext_verifie_message(SingleBoxAndFairyPieces);
       return false;
     }
   }
@@ -1446,34 +1446,34 @@ static boolean verify_position(slice_index si)
           && (get_walk_of_piece_on_square(being_solved.king_square[Black])!=King
               || CondFlag[sting])))
   {
-    VerifieMsg(TransmRoyalPieces);
+    output_plaintext_verifie_message(TransmRoyalPieces);
     return false;
   }
 
   if ((piece_walk_may_exist[Orphan] || piece_walk_may_exist[Friend])
       && is_piece_neutral(some_pieces_flags))
   {
-    VerifieMsg(TooFairyForNeutral);
+    output_plaintext_verifie_message(TooFairyForNeutral);
     return false;
   }
 
   if (((CondFlag[isardam] && isardam_variant==ConditionTypeA) || CondFlag[brunner])
       && CondFlag[vogt])
   {
-    VerifieMsg(VogtlanderandIsardam);
+    output_plaintext_verifie_message(VogtlanderandIsardam);
     return false;
   }
 
   if ((CondFlag[chamchess] || CondFlag[linechamchess])
       && TSTFLAG(some_pieces_flags, Chameleon))
   {
-    VerifieMsg(ChameleonPiecesAndChess);
+    output_plaintext_verifie_message(ChameleonPiecesAndChess);
     return false;
   }
 
   if (CondFlag[platzwechselrochade] && CondFlag[haanerchess])
   {
-    VerifieMsg(NonsenseCombination);
+    output_plaintext_verifie_message(NonsenseCombination);
     return false;
   }
 
@@ -1488,7 +1488,7 @@ static boolean verify_position(slice_index si)
   {
     if (CondFlag[masand] || TSTFLAG(some_pieces_flags, Magic))
     {
-      VerifieMsg(AnnanChessAndConditionRecoloringPieces);
+      output_plaintext_verifie_message(AnnanChessAndConditionRecoloringPieces);
       return false;
     }
     else
@@ -1501,7 +1501,7 @@ static boolean verify_position(slice_index si)
         || stip_ends_in(si,goal_check)
         || stip_ends_in(si,goal_mate_or_stale))
     {
-      VerifieMsg(LosingChessNotInCheckOrMateStipulations);
+      output_plaintext_verifie_message(LosingChessNotInCheckOrMateStipulations);
       return false;
     }
 
@@ -1509,7 +1509,7 @@ static boolean verify_position(slice_index si)
     if (!(mummer_set_length_measurer(Black,&must_capture_measure_length)
           && mummer_set_length_measurer(White,&must_capture_measure_length)))
     {
-      VerifieMsg(TwoMummerCond);
+      output_plaintext_verifie_message(TwoMummerCond);
       return false;
     }
   }

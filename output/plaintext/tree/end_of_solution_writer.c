@@ -47,7 +47,7 @@ void output_plaintext_end_of_solution_writer_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (move_has_solved())
-    Message(NewLine);
+    output_plaintext_message(NewLine);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

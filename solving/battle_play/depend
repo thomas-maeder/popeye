@@ -183,7 +183,7 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  stipulation/proxy.h stipulation/boolean/true.h \
  stipulation/boolean/false.h stipulation/battle_play/branch.h \
  solving/pipe.h output/plaintext/message.h input/plaintext/language.h \
- debugging/assert.h
+ output/message.h debugging/assert.h
 
 solving/battle_play/try.h:
 
@@ -260,6 +260,8 @@ solving/pipe.h:
 output/plaintext/message.h:
 
 input/plaintext/language.h:
+
+output/message.h:
 
 debugging/assert.h:
 solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \

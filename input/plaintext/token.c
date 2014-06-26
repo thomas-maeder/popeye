@@ -188,7 +188,7 @@ char *ReadNextCaseSensitiveTokStr(void)
     } while (strchr(TokenChar,LastChar));
 
     if (p >= (InputLine+sizeof(InputLine)))
-      FtlMsg(InpLineOverflow);
+      output_plaintext_fatal_message(InpLineOverflow);
 
     *t = '\0';
     *p = '\0';
@@ -204,7 +204,7 @@ char *ReadNextCaseSensitiveTokStr(void)
   }
   else
   {
-    IoErrorMsg(WrongChar,LastChar);
+    output_plaintext_io_error_message(WrongChar,LastChar);
     LastChar = TokenLine[0]= ' ';
     TokenLine[1] = '\0';
     return TokenLine;
@@ -229,7 +229,7 @@ char *ReadNextTokStr(void)
     } while (strchr(TokenChar,LastChar));
 
     if (p >= (InputLine+sizeof(InputLine)))
-      FtlMsg(InpLineOverflow);
+      output_plaintext_fatal_message(InpLineOverflow);
 
     *t = '\0';
     *p = '\0';
@@ -246,7 +246,7 @@ char *ReadNextTokStr(void)
   }
   else
   {
-    IoErrorMsg(WrongChar,LastChar);
+    output_plaintext_io_error_message(WrongChar,LastChar);
     LastChar = TokenLine[0]= ' ';
     TokenLine[1] = '\0';
     return TokenLine;
@@ -317,7 +317,7 @@ void ReadToEndOfLine(void)
   }
 
   if (p >= (InputLine + sizeof(InputLine)))
-    FtlMsg(InpLineOverflow);
+    output_plaintext_fatal_message(InpLineOverflow);
 
   *p = '\0';
 }
@@ -328,7 +328,7 @@ void ReadRemark(void)
   {
     ReadToEndOfLine();
     protocol_fprintf(stdout,"%s",InputLine);
-    Message(NewLine);
+    output_plaintext_message(NewLine);
     protocol_fflush(stdout);
   }
 }

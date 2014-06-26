@@ -60,9 +60,9 @@ static boolean is_length_ruled_out_by_option_restart(void)
 static void print_nr_potential_target_positions(void)
 {
   protocol_fputc('\n',stdout);
-  Message(PotentialMates,
+  output_plaintext_message(PotentialMates,
           nr_potential_target_positions,MovesLeft[White],MovesLeft[Black]);
-  PrintTime1("  (",")");
+  output_plaintext_print_time("  (",")");
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

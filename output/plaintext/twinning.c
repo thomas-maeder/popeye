@@ -291,24 +291,24 @@ static void WriteIntro(void)
       break;
 
     case twin_zeroposition:
-      Message(NewLine);
+      output_plaintext_message(NewLine);
       protocol_fprintf(stdout,"%s",TokenTab[ZeroPosition]);
-      Message(NewLine);
-      Message(NewLine);
+      output_plaintext_message(NewLine);
+      output_plaintext_message(NewLine);
       break;
 
     case twin_initial:
-      Message(NewLine);
+      output_plaintext_message(NewLine);
       WriteTwinLetter();
       WriteTwinning();
-      Message(NewLine);
+      output_plaintext_message(NewLine);
       break;
 
     case twin_regular:
     case twin_last:
       WriteTwinLetter();
       WriteTwinning();
-      Message(NewLine);
+      output_plaintext_message(NewLine);
       break;
 
     default:

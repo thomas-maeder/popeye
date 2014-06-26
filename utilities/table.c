@@ -274,7 +274,7 @@ void append_to_table(table t)
   TraceValue("%u\n",number_of_tables);
 
   if (current_position[number_of_tables]>=tables_stack_size)
-    ErrorMsg(TooManySol);
+    output_plaintext_error_message(TooManySol);
   else
   {
     unsigned int i;

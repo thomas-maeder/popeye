@@ -45,7 +45,7 @@ char *LaTeXWalk(piece_walk_type walk)
   {
     if (LaTeXPiecesAbbr[walk] == NULL)
     {
-      ErrorMsg(UndefLatexPiece);
+      output_plaintext_error_message(UndefLatexPiece);
       return "??";
     } else
       return LaTeXPiecesAbbr[walk];
@@ -231,7 +231,7 @@ boolean LaTeXSetup(void)
   LaTeXFile = fopen(InputLine,"w");
   if (LaTeXFile==NULL)
   {
-    IoErrorMsg(WrOpenError,0);
+    output_plaintext_io_error_message(WrOpenError,0);
     result = false;
   }
   else

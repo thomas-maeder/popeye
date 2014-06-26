@@ -23,7 +23,7 @@ output/latex/latex$(OBJ_SUFFIX): output/latex/latex.c output/latex/latex.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- output/plaintext/message.h output/plaintext/pieces.h \
+ output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  output/plaintext/condition.h input/plaintext/problem.h \
  input/plaintext/pieces.h input/plaintext/stipulation.h \
  options/maxsolutions/maxsolutions.h \
@@ -143,6 +143,8 @@ conditions/sentinelles.h:
 
 output/plaintext/message.h:
 
+output/message.h:
+
 output/plaintext/pieces.h:
 
 output/plaintext/condition.h:
@@ -197,7 +199,7 @@ output/latex/twinning$(OBJ_SUFFIX): output/latex/twinning.c output/latex/twinnin
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
- output/plaintext/message.h output/plaintext/pieces.h \
+ output/plaintext/message.h output/message.h output/plaintext/pieces.h \
  output/plaintext/condition.h input/plaintext/stipulation.h \
  pieces/attributes/neutral/neutral.h stipulation/pipe.h solving/pipe.h \
  debugging/assert.h
@@ -308,6 +310,8 @@ conditions/sentinelles.h:
 
 output/plaintext/message.h:
 
+output/message.h:
+
 output/plaintext/pieces.h:
 
 output/plaintext/condition.h:
@@ -388,3 +392,11 @@ output/plaintext/tree/tree.h:
 solving/pipe.h:
 
 debugging/assert.h:
+output/latex/message$(OBJ_SUFFIX): output/latex/message.c output/latex/message.h \
+ output/message.h input/plaintext/language.h
+
+output/latex/message.h:
+
+output/message.h:
+
+input/plaintext/language.h:

@@ -45,7 +45,7 @@ void output_plaintext_tree_threat_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
-    Message(Threat);
+    output_plaintext_message(Threat);
 
   pipe_solve_delegate(si);
 

@@ -44,9 +44,9 @@ static unsigned int depth(ply p)
 
 static void write_refuting_varation(unsigned move_depth)
 {
-  Message(NewLine);
+  output_plaintext_message(NewLine);
   protocol_fprintf(stdout,"%*c",4*move_depth,' ');
-  Message(Refutation);
+  output_plaintext_message(Refutation);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

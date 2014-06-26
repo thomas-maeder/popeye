@@ -57,7 +57,7 @@ static char *ParseTwinningMove(int indexx)
     tok = ReadNextTokStr();
     sq1= SquareNum(tok[0], tok[1]);
     if (sq1 == initsquare) {
-      ErrorMsg(WrongSquareList);
+      output_plaintext_error_message(WrongSquareList);
       return ReadNextTokStr();
     }
   }
@@ -68,7 +68,7 @@ static char *ParseTwinningMove(int indexx)
     tok = ReadNextTokStr();
     sq2= SquareNum(tok[0], tok[1]);
     if (sq2 == initsquare) {
-      ErrorMsg(WrongSquareList);
+      output_plaintext_error_message(WrongSquareList);
       return ReadNextTokStr();
     }
   }
@@ -76,8 +76,7 @@ static char *ParseTwinningMove(int indexx)
   if (is_square_empty(sq1))
   {
     WriteSquare(stderr,sq1);
-    fputs(": ",stderr);
-    ErrorMsg(NothingToRemove);
+    output_plaintext_error_message(NothingToRemove);
     return ReadNextTokStr();
   }
 
@@ -109,7 +108,7 @@ static char *ParseTwinningRotate(void)
   SquareTransformation const rotation = detect_rotation(tok);
 
   if (rotation==nr_square_transformation)
-    IoErrorMsg(UnrecRotMirr,0);
+    output_plaintext_io_error_message(UnrecRotMirr,0);
   else
     move_effect_journal_do_board_transformation(move_effect_reason_diagram_setup,
                                                 rotation);
@@ -123,7 +122,7 @@ static char *ParseTwinningMirror(void)
   TwinningMirrorType indexx = GetUniqIndex(TwinningMirrorCount,TwinningMirrorTab,tok);
 
   if (indexx>TwinningMirrorCount)
-    IoErrorMsg(OptNotUniq,0);
+    output_plaintext_io_error_message(OptNotUniq,0);
   else
   {
     switch (indexx)
@@ -149,7 +148,7 @@ static char *ParseTwinningMirror(void)
         break;
 
       default:
-        IoErrorMsg(UnrecRotMirr,0);
+        output_plaintext_io_error_message(UnrecRotMirr,0);
         break;
     }
   }
@@ -164,7 +163,7 @@ static char *ParseTwinningShift(void)
 
   if (sq1==initsquare)
   {
-    ErrorMsg(WrongSquareList);
+    output_plaintext_error_message(WrongSquareList);
     return tok;
   }
   else
@@ -174,7 +173,7 @@ static char *ParseTwinningShift(void)
 
     if (sq2==initsquare)
     {
-      ErrorMsg(WrongSquareList);
+      output_plaintext_error_message(WrongSquareList);
       return tok;
     }
     else
@@ -182,7 +181,7 @@ static char *ParseTwinningShift(void)
       if (twin_twinning_shift_validate(sq1,sq2))
         move_effect_journal_do_twinning_shift(sq1,sq2);
       else
-        ErrorMsg(PieceOutside);
+        output_plaintext_error_message(PieceOutside);
 
       return ReadNextTokStr();
     }
@@ -212,7 +211,7 @@ static char *ParseTwinningRemove(void)
       }
     }
     if (WrongList)
-      ErrorMsg(WrongSquareList);
+      output_plaintext_error_message(WrongSquareList);
   } while (WrongList);
 
   while (*tok)
@@ -224,8 +223,7 @@ static char *ParseTwinningRemove(void)
     else
     {
       WriteSquare(stderr,sq);
-      fputs(": ",stderr);
-      Message2(stderr,NothingToRemove);
+      output_plaintext_error_message(NothingToRemove);
     }
 
     tok += 2;
@@ -248,14 +246,14 @@ static char *ParseTwinningSubstitute(void)
   tok = ParseSingleWalk(tok,&p_old);
 
   if (p_old==nr_piece_walks)
-    IoErrorMsg(WrongPieceName,0);
+    output_plaintext_io_error_message(WrongPieceName,0);
   else
   {
     piece_walk_type p_new;
     tok = ParseSingleWalk(tok,&p_new);
 
     if (p_new==nr_piece_walks)
-      IoErrorMsg(WrongPieceName,0);
+      output_plaintext_io_error_message(WrongPieceName,0);
     else
       move_effect_journal_do_twinning_substitute(p_old,p_new);
   }
@@ -289,7 +287,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
       {
         case TwinningContinued:
           if (TwinningRead)
-            Message(ContinuedFirst);
+            output_plaintext_message(ContinuedFirst);
           else
             twin_is_continued = true;
           tok = ReadNextTokStr();
@@ -474,14 +472,14 @@ Token ReadInitialTwin(slice_index root_slice_hook)
     result = StringToToken(tok);
     if (result>TokenCount)
     {
-      IoErrorMsg(ComNotUniq,0);
+      output_plaintext_io_error_message(ComNotUniq,0);
       tok = ReadNextTokStr();
     }
     else
       switch (result)
       {
         case TokenCount:
-          IoErrorMsg(ComNotKnown,0);
+          output_plaintext_io_error_message(ComNotKnown,0);
           tok = ReadNextTokStr();
           break;
 
@@ -509,7 +507,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           }
           else
           {
-            IoErrorMsg(UnrecStip,0);
+            output_plaintext_io_error_message(UnrecStip,0);
             tok = ReadNextTokStr();
           }
           break;
@@ -571,7 +569,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
         case TraceToken:
           ReadToEndOfLine();
           if (!protocol_open(InputLine))
-            IoErrorMsg(WrOpenError,0);
+            output_plaintext_io_error_message(WrOpenError,0);
           tok = ReadNextTokStr();
           break;
 
@@ -607,7 +605,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         default:
-          FtlMsg(InternalError);
+          output_plaintext_fatal_message(InternalError);
           break;
       }
   }
@@ -637,7 +635,7 @@ Token ReadSubsequentTwin(slice_index root_slice_hook)
     result = StringToToken(tok);
     if (result>TokenCount)
     {
-      IoErrorMsg(ComNotUniq,0);
+      output_plaintext_io_error_message(ComNotUniq,0);
       tok = ReadNextTokStr();
     }
     else
@@ -646,7 +644,7 @@ Token ReadSubsequentTwin(slice_index root_slice_hook)
         case TwinProblem:
           if (slices[root_slice_hook].next1==no_slice)
           {
-            IoErrorMsg(NoStipulation,0);
+            output_plaintext_io_error_message(NoStipulation,0);
             tok = ReadNextTokStr();
           }
           else
@@ -657,7 +655,7 @@ Token ReadSubsequentTwin(slice_index root_slice_hook)
         case EndProblem:
           if (root_slice_hook==no_slice)
           {
-            IoErrorMsg(NoStipulation,0);
+            output_plaintext_io_error_message(NoStipulation,0);
             tok = ReadNextTokStr();
           }
           else
@@ -670,7 +668,7 @@ Token ReadSubsequentTwin(slice_index root_slice_hook)
           break;
 
         default:
-          IoErrorMsg(ComNotKnown,0);
+          output_plaintext_io_error_message(ComNotKnown,0);
           tok = ReadNextTokStr();
           break;
       }
@@ -785,23 +783,23 @@ static void complete_stipulation(slice_index stipulation_root_hook)
   TraceFunctionParamListEnd();
 
   if (OptFlag[quodlibet] && OptFlag[goal_is_end])
-    VerifieMsg(GoalIsEndAndQuodlibetIncompatible);
+    output_plaintext_verifie_message(GoalIsEndAndQuodlibetIncompatible);
   else if (OptFlag[quodlibet])
   {
     if (!transform_to_quodlibet(stipulation_root_hook))
-      Message(QuodlibetNotApplicable);
+      output_plaintext_message(QuodlibetNotApplicable);
   }
   else if (OptFlag[goal_is_end])
   {
     if (!stip_insert_goal_is_end_testers(stipulation_root_hook))
-      Message(GoalIsEndNotApplicable);
+      output_plaintext_message(GoalIsEndNotApplicable);
   }
 
   if (OptFlag[whitetoplay] && !apply_whitetoplay(stipulation_root_hook))
-    Message(WhiteToPlayNotApplicable);
+    output_plaintext_message(WhiteToPlayNotApplicable);
 
   if (OptFlag[postkeyplay] && !battle_branch_apply_postkeyplay(stipulation_root_hook))
-    Message(PostKeyPlayNotApplicable);
+    output_plaintext_message(PostKeyPlayNotApplicable);
 
   stip_detect_starter(stipulation_root_hook);
 
@@ -821,7 +819,7 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     complete_stipulation(stipulation_root_hook);
 
   if (slices[slices[stipulation_root_hook].next1].starter==no_side)
-    VerifieMsg(CantDecideWhoIsAtTheMove);
+    output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
   else
   {
     initialise_piece_flags();
@@ -839,7 +837,7 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     else
       twin_solve(stipulation_root_hook);
 
-    Message(NewLine);
+    output_plaintext_message(NewLine);
 
     WRITE_COUNTER(add_to_move_generation_stack);
     WRITE_COUNTER(play_move);
@@ -867,7 +865,7 @@ static Token solve_twins(slice_index stipulation_root_hook)
     result = ReadSubsequentTwin(stipulation_root_hook);
 
     if (slices[stipulation_root_hook].next1==no_slice)
-      IoErrorMsg(NoStipulation,0);
+      output_plaintext_io_error_message(NoStipulation,0);
     else
     {
       twin_stage = result==TwinProblem ? twin_regular : twin_last;
@@ -901,7 +899,7 @@ Token iterate_twins(void)
   end_of_twin_token = ReadInitialTwin(stipulation_root_hook);
 
   if (slices[stipulation_root_hook].next1==no_slice)
-    IoErrorMsg(NoStipulation,0);
+    output_plaintext_io_error_message(NoStipulation,0);
   else
   {
     nextply(no_side);
@@ -918,9 +916,9 @@ Token iterate_twins(void)
 
       end_of_twin_token = ReadSubsequentTwin(stipulation_root_hook);
       if (end_of_twin_token!=TwinProblem)
-        IoErrorMsg(ZeroPositionNoTwin,0);
+        output_plaintext_io_error_message(ZeroPositionNoTwin,0);
       else if (slices[stipulation_root_hook].next1==no_slice)
-        IoErrorMsg(NoStipulation,0);
+        output_plaintext_io_error_message(NoStipulation,0);
       else
       {
         twin_stage = twin_regular;

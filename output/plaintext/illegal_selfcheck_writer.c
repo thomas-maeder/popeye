@@ -46,7 +46,7 @@ void illegal_selfcheck_writer_solve(slice_index si)
   pipe_solve_delegate(si);
 
   if (solve_result==previous_move_is_illegal)
-    ErrorMsg(KingCapture);
+    output_plaintext_error_message(KingCapture);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

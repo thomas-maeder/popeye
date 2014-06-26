@@ -96,7 +96,7 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
    if (being_solved.king_square[side_in_check]==initsquare
        && has_detected_king_capture!=twin_id)
    {
-     Message(KingCaptureDetected);
+     output_plaintext_message(KingCaptureDetected);
      has_detected_king_capture = twin_id;
      result = false;
    }

@@ -1,5 +1,5 @@
 #include "output/latex/tree/zugzwang_writer.h"
-#include "output/plaintext/message.h"
+#include "output/latex/message.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
@@ -49,7 +49,7 @@ void output_latex_tree_zugzwang_writer_solve(slice_index si)
   if (parent_ply[nbply]==ply_retro_move)
     /* option postkey is set - write "threat:" or "zugzwang" on a new line
      */
-    Message2(slices[si].u.writer.file,NewLine);
+    output_latex_message(slices[si].u.writer.file,NewLine);
 
   pipe_solve_delegate(si);
 
@@ -57,7 +57,7 @@ void output_latex_tree_zugzwang_writer_solve(slice_index si)
    * self play variation */
   if (solve_nr_remaining>=next_move_has_solution
       && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-    Message2(slices[si].u.writer.file,Zugzwang);
+    output_latex_message(slices[si].u.writer.file,Zugzwang);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

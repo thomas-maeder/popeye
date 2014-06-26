@@ -254,12 +254,12 @@ slice_index build_solvers(slice_index stipulation_root_hook)
    * branch needs a selfcheck guard */
   if (OptFlag[solapparent] && !OptFlag[restart]
       && !solving_apply_setplay(result))
-    Message(SetPlayNotApplicable);
+    output_plaintext_message(SetPlayNotApplicable);
 
   /* must come before stip_insert_move_generators() because immobilise_black
    * needs a move generator */
   if (!init_intelligent_mode(result))
-    Message(IntelligentRestricted);
+    output_plaintext_message(IntelligentRestricted);
 
   /* must come here because we generate branches that have to be provided with
    * self-check guards and move generators
@@ -597,7 +597,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (OptFlag[stoponshort]
       && !solving_insert_stoponshortsolutions_filters(result))
-    Message(NoStopOnShortSolutions);
+    output_plaintext_message(NoStopOnShortSolutions);
 
   solving_remove_irrelevant_constraints(result);
 
@@ -664,7 +664,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (OptFlag[solmenaces]
       && !solving_insert_maxthreatlength_guards(result))
-    Message(ThreatOptionAndExactStipulationIncompatible);
+    output_plaintext_message(ThreatOptionAndExactStipulationIncompatible);
 
   if (CondFlag[republican])
     solving_insert_republican_king_placers(result);

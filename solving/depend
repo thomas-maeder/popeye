@@ -526,7 +526,8 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h output/plaintext/pieces.h \
  position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h debugging/measure.h debugging/assert.h
+ pieces/walks/vectors.h debugging/measure.h output/plaintext/protocol.h \
+ debugging/assert.h
 
 solving/move_generator.h:
 
@@ -625,6 +626,8 @@ position/color.enum.h:
 pieces/walks/vectors.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 debugging/assert.h:
 solving/king_move_generator$(OBJ_SUFFIX): solving/king_move_generator.c \
@@ -2023,8 +2026,8 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/machinery/twin.h \
- output/plaintext/message.h input/plaintext/language.h \
- debugging/measure.h debugging/assert.h
+ output/plaintext/message.h input/plaintext/language.h output/message.h \
+ debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 solving/check.h:
 
@@ -2114,7 +2117,11 @@ output/plaintext/message.h:
 
 input/plaintext/language.h:
 
+output/message.h:
+
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 debugging/assert.h:
 solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
@@ -2361,7 +2368,7 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
  input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/sentinelles.h \
- output/plaintext/message.h output/plaintext/pieces.h
+ output/plaintext/message.h output/message.h output/plaintext/pieces.h
 
 debugging/assert.h:
 
@@ -2512,6 +2519,8 @@ conditions/anticirce/anticirce.h:
 conditions/sentinelles.h:
 
 output/plaintext/message.h:
+
+output/message.h:
 
 output/plaintext/pieces.h:
 solving/binary$(OBJ_SUFFIX): solving/binary.c solving/binary.h \

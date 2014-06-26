@@ -16,7 +16,8 @@ options/movenumbers/restart_guard_intelligent$(OBJ_SUFFIX): \
  solving/pipe.h options/movenumbers.h \
  optimisations/intelligent/moves_left.h platform/maxtime.h \
  options/options.h output/output.h output/plaintext/protocol.h \
- output/plaintext/message.h input/plaintext/language.h debugging/assert.h
+ output/plaintext/message.h input/plaintext/language.h output/message.h \
+ debugging/assert.h
 
 options/movenumbers/restart_guard_intelligent.h:
 
@@ -87,5 +88,7 @@ output/plaintext/protocol.h:
 output/plaintext/message.h:
 
 input/plaintext/language.h:
+
+output/message.h:
 
 debugging/assert.h:

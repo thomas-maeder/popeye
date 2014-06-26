@@ -49,7 +49,7 @@ void output_plaintext_tree_zugzwang_writer_solve(slice_index si)
   if (parent_ply[nbply]==ply_retro_move)
     /* option postkey is set - write "threat:" or "zugzwang" on a new line
      */
-    Message(NewLine);
+    output_plaintext_message(NewLine);
 
   pipe_solve_delegate(si);
 
@@ -57,7 +57,7 @@ void output_plaintext_tree_zugzwang_writer_solve(slice_index si)
    * self play variation */
   if (solve_nr_remaining>=next_move_has_solution
       && solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-    Message(Zugzwang);
+    output_plaintext_message(Zugzwang);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

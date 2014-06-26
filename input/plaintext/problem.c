@@ -88,7 +88,7 @@ static void ReadBeginSpec(void)
       }
     }
 
-    IoErrorMsg(NoBegOfProblem, 0);
+    output_plaintext_io_error_message(NoBegOfProblem, 0);
   }
 }
 
@@ -98,14 +98,14 @@ static void write_problem_footer(void)
       || was_max_nr_solutions_per_target_position_reached()
       || has_short_solution_been_found_in_problem()
       || hasMaxtimeElapsed())
-    Message(InterMessage);
+    output_plaintext_message(InterMessage);
   else
-    Message(FinishProblem);
+    output_plaintext_message(FinishProblem);
 
-  PrintTime1(" ","");
-  Message(NewLine);
-  Message(NewLine);
-  Message(NewLine);
+  output_plaintext_print_time(" ","");
+  output_plaintext_message(NewLine);
+  output_plaintext_message(NewLine);
+  output_plaintext_message(NewLine);
   protocol_fflush(stdout);
 }
 

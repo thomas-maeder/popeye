@@ -34,7 +34,7 @@ static void write_line_intro(unsigned int *next_move_number,
   if (OptFlag[beep])
     produce_beep();
 
-  Message(NewLine);
+  output_plaintext_message(NewLine);
 
   TraceValue("%u\n",output_plaintext_nr_move_inversions);
   switch (output_plaintext_nr_move_inversions)

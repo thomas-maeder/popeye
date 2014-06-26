@@ -42,7 +42,7 @@ boolean exclusive_verifie_position(slice_index si)
   goal = find_unique_goal(si);
   if (goal.type==no_goal)
   {
-    VerifieMsg(StipNotSupported);
+    output_plaintext_verifie_message(StipNotSupported);
     result = false;
   }
   else

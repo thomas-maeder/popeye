@@ -992,8 +992,7 @@ static unsigned int HashRateLevel = 0;
 void IncHashRateLevel(void)
 {
   ++HashRateLevel;
-  fputs("  ",stdout);
-  PrintTime(stdout);
+  output_plaintext_print_time("  ","");
   Message(IncrementHashRateLevel,HashRateLevel);
   HashStats(0, "\n");
 }
@@ -1002,8 +1001,7 @@ void DecHashRateLevel(void)
 {
   if (HashRateLevel>0)
     --HashRateLevel;
-  fputs("  ",stdout);
-  PrintTime(stdout);
+  output_plaintext_print_time("  ","");
   Message(DecrementHashRateLevel,HashRateLevel);
   HashStats(0, "\n");
 }

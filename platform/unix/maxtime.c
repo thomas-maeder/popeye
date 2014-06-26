@@ -20,7 +20,7 @@
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
 {
-  ReportAborted(sig);
+  output_plaintext_report_aborted(sig);
   exit(1);
 }
 
@@ -187,7 +187,7 @@ void setMaxtime(maxtime_type seconds)
   }
   else
   {
-    VerifieMsg(NoMaxTime);
+    output_plaintext_verifie_message(NoMaxTime);
     periods_counter = 1;
     nr_periods = 0;
   }

@@ -1,5 +1,5 @@
 #include "output/latex/tree/threat_writer.h"
-#include "output/plaintext/message.h"
+#include "output/latex/message.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "solving/battle_play/threat.h"
@@ -46,7 +46,7 @@ void output_latex_tree_threat_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
-    Message2(slices[si].u.writer.file,Threat);
+    output_latex_message(slices[si].u.writer.file,Threat);
 
   pipe_solve_delegate(si);
 

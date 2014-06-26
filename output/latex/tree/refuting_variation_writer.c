@@ -4,7 +4,7 @@
 #include "solving/machinery/solve.h"
 #include "solving/ply.h"
 #include "output/plaintext/move_inversion_counter.h"
-#include "output/plaintext/message.h"
+#include "output/latex/message.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -43,9 +43,9 @@ static unsigned int depth(ply p)
 
 static void write_refuting_varation(FILE *file, unsigned move_depth)
 {
-  Message2(file,NewLine);
+  output_latex_message(file,NewLine);
   fprintf(file,"%*c",4*move_depth,' ');
-  Message2(file,Refutation);
+  output_latex_message(file,Refutation);
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
