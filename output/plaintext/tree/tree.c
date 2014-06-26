@@ -638,9 +638,9 @@ void output_plaintext_tree_write_move(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  protocol_printf("\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
+  protocol_fprintf(stdout,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
   if (move_depth%2==1)
-    protocol_printf("%s","..");
+    protocol_fprintf(stdout,"%s","..");
 
   output_plaintext_write_move();
 

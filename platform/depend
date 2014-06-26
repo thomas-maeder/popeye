@@ -3,7 +3,8 @@ platform/maxmem$(OBJ_SUFFIX): platform/maxmem.c platform/maxmem.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h output/mode.h output/mode.enum.h solving/ply.h
+ position/side.enum.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h
 
 platform/maxmem.h:
 
@@ -36,6 +37,10 @@ position/side.enum.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
 
 solving/ply.h:
 platform/maxtime$(OBJ_SUFFIX): platform/maxtime.c platform/maxtime_impl.h \

@@ -40,13 +40,13 @@ static void write_line_intro(unsigned int *next_move_number,
   switch (output_plaintext_nr_move_inversions)
   {
     case 2:
-      protocol_printf("%s","  1...  ...");
+      protocol_fprintf(stdout,"%s","  1...  ...");
       *next_move_number = 2;
       *numbered_side = trait[nbply];
       break;
 
     case 1:
-      protocol_printf("%s","  1...");
+      protocol_fprintf(stdout,"%s","  1...");
       *next_move_number = 2;
       *numbered_side = advers(trait[nbply]);
       break;
@@ -80,7 +80,7 @@ static void write_move_number_if_necessary(unsigned int *next_move_number,
 
   if (trait[nbply]==*numbered_side)
   {
-    protocol_printf("%3u.",*next_move_number);
+    protocol_fprintf(stdout,"%3u.",*next_move_number);
     ++*next_move_number;
   }
 
@@ -97,7 +97,7 @@ static void write_potential_check(void)
   TraceEnumerator(Side,trait[nbply],"\n");
 
   if (is_in_check(advers(trait[nbply])))
-    protocol_printf("%s"," +");
+    protocol_fprintf(stdout,"%s"," +");
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

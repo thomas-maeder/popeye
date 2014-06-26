@@ -45,7 +45,7 @@ void output_plaintext_tree_check_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_in_check(slices[si].starter))
-    protocol_printf("%s"," +");
+    protocol_fprintf(stdout,"%s"," +");
 
   pipe_solve_delegate(si);
 

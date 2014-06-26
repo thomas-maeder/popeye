@@ -59,7 +59,7 @@ boolean WriteSpec1(Flags sp, piece_walk_type p, boolean printcolours)
 
   if (is_piece_neutral(sp))
   {
-    protocol_fputc(tolower(ColourString[UserLanguage][colour_neutral][0]));
+    protocol_fputc(tolower(ColourString[UserLanguage][colour_neutral][0]),stdout);
     ret = true;
   }
   else if (printcolours)
@@ -67,16 +67,16 @@ boolean WriteSpec1(Flags sp, piece_walk_type p, boolean printcolours)
     if (areColorsSwapped)
     {
       if (TSTFLAG(sp,White))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_black][0]));
+        protocol_fputc(tolower(ColourString[UserLanguage][colour_black][0]),stdout);
       if (TSTFLAG(sp,Black))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_white][0]));
+        protocol_fputc(tolower(ColourString[UserLanguage][colour_white][0]),stdout);
     }
     else
     {
       if (TSTFLAG(sp,White))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_white][0]));
+        protocol_fputc(tolower(ColourString[UserLanguage][colour_white][0]),stdout);
       if (TSTFLAG(sp,Black))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_black][0]));
+        protocol_fputc(tolower(ColourString[UserLanguage][colour_black][0]),stdout);
     }
   }
 
@@ -87,7 +87,7 @@ boolean WriteSpec1(Flags sp, piece_walk_type p, boolean printcolours)
         && (spname!=Royal || !is_king(p))
         && TSTFLAG(sp, spname))
     {
-      protocol_fputc(tolower(PieSpString[UserLanguage][spname-nr_sides][0]));
+      protocol_fputc(tolower(PieSpString[UserLanguage][spname-nr_sides][0]),stdout);
       ret = true;
     }
 
@@ -118,9 +118,9 @@ void WritePiece1(piece_walk_type p)
   if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];
-    protocol_fputc(toupper(PieceTab[p][0]));
+    protocol_fputc(toupper(PieceTab[p][0]),stdout);
     if (p1!=' ')
-      protocol_fputc(toupper(p1));
+      protocol_fputc(toupper(p1),stdout);
   }
   else
   {
@@ -134,11 +134,11 @@ void WritePiece1(piece_walk_type p)
 
 void WriteSquare1(square i)
 {
-  protocol_fputc('a',stdout - nr_files_on_board + i%onerow);
+  protocol_fputc('a' - nr_files_on_board + i%onerow,stdout);
   if (isBoardReflected)
-    protocol_fputc('8',stdout + nr_rows_on_board - i/onerow);
+    protocol_fputc('8' + nr_rows_on_board - i/onerow,stdout);
   else
-    protocol_fputc('1',stdout - nr_rows_on_board + i/onerow);
+    protocol_fputc('1' - nr_rows_on_board + i/onerow,stdout);
 }
 
 void WriteSquare(FILE *file, square i)

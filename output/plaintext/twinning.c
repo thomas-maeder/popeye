@@ -47,11 +47,11 @@ static void WriteCondition(FILE *file, char const CondLine[], condition_rank ran
   switch (rank)
   {
     case condition_first:
-      protocol_printf("%s",CondLine);
+      protocol_fprintf(stdout,"%s",CondLine);
       break;
 
     case condition_subsequent:
-      protocol_printf("\n   %s",CondLine);
+      protocol_fprintf(stdout,"\n   %s",CondLine);
       break;
 
     case condition_end:
@@ -71,7 +71,7 @@ static void WritePieceCreation(move_effect_journal_index_type curr)
              true);
   WritePiece1(entry->u.piece_addition.walk);
   WriteSquare1(entry->u.piece_addition.on);
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WritePieceRemoval(move_effect_journal_index_type curr)
@@ -80,13 +80,13 @@ static void WritePieceRemoval(move_effect_journal_index_type curr)
 
   if (!find_creation(curr+1,entry->u.piece_removal.on))
   {
-    protocol_printf("%s","-");
+    protocol_fprintf(stdout,"%s","-");
     WriteSpec1(entry->u.piece_removal.flags,
                entry->u.piece_removal.walk,
                true);
     WritePiece1(entry->u.piece_removal.walk);
     WriteSquare1(entry->u.piece_removal.on);
-    protocol_printf("%s","  ");
+    protocol_fprintf(stdout,"%s","  ");
   }
 }
 
@@ -99,9 +99,9 @@ static void WritePieceMovement(move_effect_journal_index_type curr)
              true);
   WritePiece1(entry->u.piece_movement.moving);
   WriteSquare1(entry->u.piece_movement.from);
-  protocol_printf("%s","-->");
+  protocol_fprintf(stdout,"%s","-->");
   WriteSquare1(entry->u.piece_movement.to);
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WritePieceExchange(move_effect_journal_index_type curr)
@@ -113,13 +113,13 @@ static void WritePieceExchange(move_effect_journal_index_type curr)
              true);
   WritePiece1(get_walk_of_piece_on_square(entry->u.piece_exchange.to));
   WriteSquare1(entry->u.piece_exchange.from);
-  protocol_printf("%s","<-->");
+  protocol_fprintf(stdout,"%s","<-->");
   WriteSpec1(entry->u.piece_exchange.toflags,
              get_walk_of_piece_on_square(entry->u.piece_exchange.from),
              true);
   WritePiece1(get_walk_of_piece_on_square(entry->u.piece_exchange.from));
   WriteSquare1(entry->u.piece_exchange.to);
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WriteBoardTransformation(move_effect_journal_index_type curr)
@@ -129,36 +129,36 @@ static void WriteBoardTransformation(move_effect_journal_index_type curr)
   switch (entry->u.board_transformation.transformation)
   {
     case rot90:
-      protocol_printf("%s",TwinningTab[TwinningRotate]);
-      protocol_printf("%s"," 90");
+      protocol_fprintf(stdout,"%s",TwinningTab[TwinningRotate]);
+      protocol_fprintf(stdout,"%s"," 90");
       break;
     case rot180:
-      protocol_printf("%s",TwinningTab[TwinningRotate]);
-      protocol_printf("%s"," 180");
+      protocol_fprintf(stdout,"%s",TwinningTab[TwinningRotate]);
+      protocol_fprintf(stdout,"%s"," 180");
       break;
     case rot270:
-      protocol_printf("%s",TwinningTab[TwinningRotate]);
-      protocol_printf("%s"," 270");
+      protocol_fprintf(stdout,"%s",TwinningTab[TwinningRotate]);
+      protocol_fprintf(stdout,"%s"," 270");
       break;
     case mirra1h1:
-      protocol_printf("%s",TwinningTab[TwinningMirror]);
-      protocol_printf("%s"," ");
-      protocol_printf("%s",TwinningMirrorTab[TwinningMirrora1h1]);
+      protocol_fprintf(stdout,"%s",TwinningTab[TwinningMirror]);
+      protocol_fprintf(stdout,"%s"," ");
+      protocol_fprintf(stdout,"%s",TwinningMirrorTab[TwinningMirrora1h1]);
       break;
     case mirra1a8:
-      protocol_printf("%s",TwinningTab[TwinningMirror]);
-      protocol_printf("%s"," ");
-      protocol_printf("%s",TwinningMirrorTab[TwinningMirrora1a8]);
+      protocol_fprintf(stdout,"%s",TwinningTab[TwinningMirror]);
+      protocol_fprintf(stdout,"%s"," ");
+      protocol_fprintf(stdout,"%s",TwinningMirrorTab[TwinningMirrora1a8]);
       break;
     case mirra1h8:
-      protocol_printf("%s",TwinningTab[TwinningMirror]);
-      protocol_printf("%s"," ");
-      protocol_printf("%s",TwinningMirrorTab[TwinningMirrora1h8]);
+      protocol_fprintf(stdout,"%s",TwinningTab[TwinningMirror]);
+      protocol_fprintf(stdout,"%s"," ");
+      protocol_fprintf(stdout,"%s",TwinningMirrorTab[TwinningMirrora1h8]);
       break;
     case mirra8h1:
-      protocol_printf("%s",TwinningTab[TwinningMirror]);
-      protocol_printf("%s"," ");
-      protocol_printf("%s",TwinningMirrorTab[TwinningMirrora8h1]);
+      protocol_fprintf(stdout,"%s",TwinningTab[TwinningMirror]);
+      protocol_fprintf(stdout,"%s"," ");
+      protocol_fprintf(stdout,"%s",TwinningMirrorTab[TwinningMirrora8h1]);
       break;
 
     default:
@@ -166,31 +166,31 @@ static void WriteBoardTransformation(move_effect_journal_index_type curr)
       break;
   }
 
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WriteShift(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  protocol_printf("%s",TwinningTab[TwinningShift]);
-  protocol_printf("%s"," ");
+  protocol_fprintf(stdout,"%s",TwinningTab[TwinningShift]);
+  protocol_fprintf(stdout,"%s"," ");
   WriteSquare1(entry->u.twinning_shift.from);
-  protocol_printf("%s"," ==> ");
+  protocol_fprintf(stdout,"%s"," ==> ");
   WriteSquare1(entry->u.twinning_shift.to);
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WriteStipulation(move_effect_journal_index_type curr)
 {
-  protocol_printf("%s",AlphaStip);
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s",AlphaStip);
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WritePolish(move_effect_journal_index_type curr)
 {
-  protocol_printf("%s",TwinningTab[TwinningPolish]);
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s",TwinningTab[TwinningPolish]);
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WriteSubstitute(move_effect_journal_index_type curr)
@@ -198,9 +198,9 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
   WritePiece1(entry->u.piece_change.from);
-  protocol_printf("%s"," ==> ");
+  protocol_fprintf(stdout,"%s"," ==> ");
   WritePiece1(entry->u.piece_change.to);
-  protocol_printf("%s","  ");
+  protocol_fprintf(stdout,"%s","  ");
 }
 
 static void WriteTwinLetter(void)
@@ -209,9 +209,9 @@ static void WriteTwinLetter(void)
     protocol_fputc('+',stdout);
 
   if (twin_number-twin_a<='z'-'a')
-    protocol_printf("%c) ", 'a'+twin_number-twin_a);
+    protocol_fprintf(stdout,"%c) ", 'a'+twin_number-twin_a);
   else
-    protocol_printf("z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
+    protocol_fprintf(stdout,"z%u) ", (unsigned int)(twin_number-twin_a-('z'-'a')));
 }
 
 static void WriteTwinning(void)
@@ -254,7 +254,7 @@ static void WriteTwinning(void)
 
       case move_effect_input_condition:
         WriteConditions(0,&WriteCondition);
-        protocol_printf("%s","  ");
+        protocol_fprintf(stdout,"%s","  ");
         break;
 
       case move_effect_input_stipulation:
@@ -292,7 +292,7 @@ static void WriteIntro(void)
 
     case twin_zeroposition:
       Message(NewLine);
-      protocol_printf("%s",TokenTab[ZeroPosition]);
+      protocol_fprintf(stdout,"%s",TokenTab[ZeroPosition]);
       Message(NewLine);
       Message(NewLine);
       break;

@@ -10,8 +10,7 @@
 #if defined(DOMEASURE)
 
 #include "stipulation/stipulation.h"
-
-#include <stdio.h>
+#include "output/plaintext/protocol.h"
 
 #define COUNTER_PREFIX COUNTER_
 
@@ -34,8 +33,7 @@
 #define WRITE_COUNTER(name)                       \
   {                                               \
     extern COUNTER_TYPE counter##name;            \
-    fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
-    if (TraceFile) fprintf(TraceFile,"%30s:%12lu\n",#name,counter##name);   \
+    protocol_fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
     counter##name = 0;                                          \
   }
 

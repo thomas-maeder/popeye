@@ -62,19 +62,11 @@ void Message(message_id_t id, ...)
   {
     va_list args;
     va_start(args,id);
-    protocol_vprintf(ActualMsgTab[id],args);
+    protocol_vfprintf(stdout,ActualMsgTab[id],args);
     va_end(args);
   }
   else
     Message(InternalError,id);
-}
-
-static void vMessage(FILE *file, message_id_t id, va_list args)
-{
-  if (id<StringCnt)
-    vfprintf(file,ActualMsgTab[id],args);
-  else
-    fprintf(file,ActualMsgTab[InternalError],id);
 }
 
 void Message2(FILE *file, message_id_t id, ...)
@@ -82,7 +74,10 @@ void Message2(FILE *file, message_id_t id, ...)
   va_list args;
   DBG((stderr, "Mesage(%d) = %s\n", id, ActualMsgTab[id]));
   va_start(args,id);
-  vMessage(file,id,args);
+  if (id<StringCnt)
+    vfprintf(file,ActualMsgTab[id],args);
+  else
+    fprintf(file,ActualMsgTab[InternalError],id);
   va_end(args);
 }
 
@@ -94,29 +89,13 @@ void ErrorMsg(message_id_t id, ...)
   {
     va_list args;
     va_start(args,id);
-    if (TraceFile)
-    {
-      va_list args2;
-      va_copy(args2,args);
-      vMessage(stderr,id,args);
-      vMessage(TraceFile,id,args2);
-      va_end(args2);
-    }
-    else
-      vMessage(stderr,id,args);
+    protocol_vfprintf(stderr,ActualMsgTab[id],args);
     va_end(args);
   }
   else
-  {
-    fprintf(stderr,ActualMsgTab[InternalError],id);
-    if (TraceFile)
-      fprintf(TraceFile,ActualMsgTab[InternalError],id);
-  }
+    ErrorMsg(InternalError,id);
 
-  fflush(stderr);
-
-  if (TraceFile)
-    fflush(TraceFile);
+  protocol_fflush(stderr);
 #endif
 }
 
@@ -140,12 +119,8 @@ void VerifieMsg(message_id_t id)
 static void ErrChar(char c)
 {
 #if !defined(QUIET)
-  fputc(c,stderr);
-  if (TraceFile)
-  {
-    fputc(c,TraceFile);
-    fflush(TraceFile);
-  }
+  protocol_fputc(c,stderr);
+  protocol_fflush(stderr);
 #endif
 }
 
@@ -212,20 +187,20 @@ static void FormatTime1(void)
     unsigned long const Seconds = (secs%60);
 
     if (Hours>0)
-      protocol_printf("%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
+      protocol_fprintf(stdout,"%lu:%02lu:%02lu h:m:s",Hours,Minutes,Seconds);
     else if (Minutes>0)
     {
       if (msec==MSEC_NOT_SUPPORTED)
-        protocol_printf("%lu:%02lu m:s", Minutes, Seconds);
+        protocol_fprintf(stdout,"%lu:%02lu m:s", Minutes, Seconds);
       else
-        protocol_printf("%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
+        protocol_fprintf(stdout,"%lu:%02lu.%03lu m:s", Minutes, Seconds, msec);
     }
     else
     {
       if (msec==MSEC_NOT_SUPPORTED)
-        protocol_printf("%lu s", Seconds);
+        protocol_fprintf(stdout,"%lu s", Seconds);
       else
-        protocol_printf("%lu.%03lu s", Seconds, msec);
+        protocol_fprintf(stdout,"%lu.%03lu s", Seconds, msec);
     }
   }
 }
@@ -234,17 +209,17 @@ void PrintTime1(char const *header, char const *trail)
 {
   if (!flag_regression)
   {
-    protocol_printf("%s",header);
-    protocol_printf(ActualMsgTab[TimeString]);
+    protocol_fprintf(stdout,"%s",header);
+    protocol_fprintf(stdout,ActualMsgTab[TimeString]);
     FormatTime1();
-    protocol_printf("%s",trail);
+    protocol_fprintf(stdout,"%s",trail);
   }
 }
 
 void ReportAborted(int signal)
 {
   protocol_fputc('\n',stdout);
-  protocol_printf(ActualMsgTab[Abort],signal);
+  protocol_fprintf(stdout,ActualMsgTab[Abort],signal);
   FormatTime1();
   protocol_fputc('\n',stdout);
 }

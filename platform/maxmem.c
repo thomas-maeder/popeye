@@ -1,4 +1,4 @@
-#include "maxmem.h"
+#include "platform/maxmem.h"
 #include "optimisations/hash.h"
 
 #include <limits.h>

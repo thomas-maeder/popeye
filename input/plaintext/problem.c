@@ -106,7 +106,7 @@ static void write_problem_footer(void)
   Message(NewLine);
   Message(NewLine);
   Message(NewLine);
-  protocol_flush();
+  protocol_fflush(stdout);
 }
 
 /* Iterate over the problems read from standard input or the input

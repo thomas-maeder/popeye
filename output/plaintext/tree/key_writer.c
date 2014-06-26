@@ -47,7 +47,7 @@ void output_plaintext_tree_key_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  protocol_printf("%s"," !");
+  protocol_fprintf(stdout,"%s"," !");
 
   if (OptFlag[beep])
     produce_beep();

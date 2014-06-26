@@ -53,7 +53,7 @@ static void WriteCastlingMutuallyExclusive(void)
   if (castling_mutual_exclusive[White][queenside_castling-min_castling]!=0
       || castling_mutual_exclusive[White][kingside_castling-min_castling]!=0)
   {
-    protocol_printf("%s",OptString[UserLanguage][mutuallyexclusivecastling]);
+    protocol_fprintf(stdout,"%s",OptString[UserLanguage][mutuallyexclusivecastling]);
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &ra_cancastle))
@@ -102,8 +102,8 @@ static void WriteGrid(void)
   static char BlankL[]="|                                   |\n";
 
   protocol_fputc('\n',stdout);
-  protocol_printf("%s",BorderL);
-  protocol_printf("%s",BlankL);
+  protocol_fprintf(stdout,"%s",BorderL);
+  protocol_fprintf(stdout,"%s",BlankL);
 
   for (row=0, square_a = square_a8;
        row<nr_rows_on_board;
@@ -120,11 +120,11 @@ static void WriteGrid(void)
       HLine[fileWidth*column+4]= (g%10)+'0';
     }
 
-    protocol_printf("%s",HLine);
-    protocol_printf("%s",BlankL);
+    protocol_fprintf(stdout,"%s",HLine);
+    protocol_fprintf(stdout,"%s",BlankL);
   }
 
-  protocol_printf("%s",BorderL);
+  protocol_fprintf(stdout,"%s",BorderL);
 }
 
 static void WritePiecesWithAttribute(position const *pos, piece_flag_type sp)
@@ -143,7 +143,7 @@ static void WritePiecesWithAttribute(position const *pos, piece_flag_type sp)
         AppendSquare(squares,square);
   }
 
-  protocol_printf_c(board_width,"%s%s\n",PieSpString[UserLanguage][sp-nr_sides],squares);
+  protocol_fprintf_c(stdout,board_width,"%s%s\n",PieSpString[UserLanguage][sp-nr_sides],squares);
 }
 
 static void WriteNonRoyalAttributedPieces(position const *pos)
@@ -183,7 +183,7 @@ static void WriteRoyalPiecePositions(position const *pos)
   }
 
   if (nr_royals>0)
-    protocol_printf_c(board_width,"%s%s\n",PieSpString[UserLanguage][Royal-nr_sides],squares);
+    protocol_fprintf_c(stdout,board_width,"%s%s\n",PieSpString[UserLanguage][Royal-nr_sides],squares);
 }
 
 static void DoPieceCounts(position const *pos,
@@ -218,7 +218,7 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
   {
     char const *format = piece_per_colour[colour_neutral]>0 ? "%d + %d + %dn" : "%d + %d";
     int const width = nr_files_on_board*fileWidth+3-indentation;
-    protocol_printf_r(width,format,
+    protocol_fprintf_r(stdout,width,format,
                       piece_per_colour[colour_white],
                       piece_per_colour[colour_black],
                       piece_per_colour[colour_neutral]);
@@ -227,7 +227,7 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
 
 static int WriteStipulation(void)
 {
-  return protocol_printf("  %s",AlphaStip);
+  return protocol_fprintf(stdout,"  %s",AlphaStip);
 }
 
 static int WriteOptions(position const *pos)
@@ -236,15 +236,15 @@ static int WriteOptions(position const *pos)
 
   if (OptFlag[solmenaces])
   {
-    result += protocol_printf( "/%u", get_max_threat_length());
+    result += protocol_fprintf(stdout, "/%u", get_max_threat_length());
     if (OptFlag[solflights])
-      result += protocol_printf( "/%d", get_max_flights());
+      result += protocol_fprintf(stdout, "/%d", get_max_flights());
   }
   else if (OptFlag[solflights])
-    result += protocol_printf( "//%d", get_max_flights());
+    result += protocol_fprintf(stdout, "//%d", get_max_flights());
 
   if (OptFlag[nontrivial])
-    result += protocol_printf(";%d,%u",
+    result += protocol_fprintf(stdout,";%d,%u",
                               max_nr_nontrivial,
                               get_min_length_nontrivial());
 
@@ -313,7 +313,7 @@ static void WriteRegularCells(position const *pos, square square_a)
         pos_in_cell[0] = '-';
     }
 
-    protocol_printf("%s",cell);
+    protocol_fprintf(stdout,"%s",cell);
   }
 }
 
@@ -350,7 +350,7 @@ static void WriteBaseCells(position const *pos, square square_a)
       WriteWalkRtoL(pos_in_cell,huntertypes[hunterIndex].home);
     }
 
-    protocol_printf("%s",cell);
+    protocol_fprintf(stdout,"%s",cell);
   }
 }
 
@@ -361,29 +361,29 @@ static void WriteBorder(void)
 
   assert(nr_files_on_board <= 'z'-'a');
 
-  protocol_printf("%s","+--");
+  protocol_fprintf(stdout,"%s","+--");
 
   for (column = 0, letter = 'a'; column!=nr_files_on_board; ++column, ++letter)
   {
     char cell[fileWidth+1];
     snprintf(cell, sizeof cell, "-%c--", letter);
-    protocol_printf("%s",cell);
+    protocol_fprintf(stdout,"%s",cell);
   }
 
-  protocol_printf("%s","-+\n");
+  protocol_fprintf(stdout,"%s","-+\n");
 }
 
 static void WriteBlankLine(void)
 {
   unsigned int column;
 
-  protocol_printf("%s","| ");
-  protocol_printf("%s"," ");
+  protocol_fprintf(stdout,"%s","| ");
+  protocol_fprintf(stdout,"%s"," ");
 
   for (column = 0; column!=nr_files_on_board; ++column)
-    protocol_printf("%s","    ");
+    protocol_fprintf(stdout,"%s","    ");
 
-  protocol_printf("%s"," |\n");
+  protocol_fprintf(stdout,"%s"," |\n");
 }
 
 void WriteBoard(position const *pos)
@@ -401,14 +401,14 @@ void WriteBoard(position const *pos)
        row!=nr_rows_on_board;
        ++row, square_a += dir_down)
   {
-    protocol_printf("%d ",nr_rows_on_board-row);
+    protocol_fprintf(stdout,"%d ",nr_rows_on_board-row);
     WriteRegularCells(pos,square_a);
-    protocol_printf("  %d", nr_rows_on_board-row);
+    protocol_fprintf(stdout,"  %d", nr_rows_on_board-row);
     protocol_fputc('\n',stdout);
 
-    protocol_printf("%s","| ");
+    protocol_fprintf(stdout,"%s","| ");
     WriteBaseCells(pos,square_a);
-    protocol_printf("%s","  |\n");
+    protocol_fprintf(stdout,"%s","  |\n");
   }
 
   WriteBorder();
@@ -416,17 +416,17 @@ void WriteBoard(position const *pos)
 
 static void WriteMeta(void)
 {
-  protocol_printf("%s","\n");
-  protocol_puts_c_multi(board_width,ActAuthor);
-  protocol_puts_c_multi(board_width,ActOrigin);
-  protocol_puts_c_multi(board_width,ActAward);
-  protocol_puts_c_multi(board_width,ActTitle);
+  protocol_fprintf(stdout,"%s","\n");
+  protocol_fputs_c_multi(stdout,board_width,ActAuthor);
+  protocol_fputs_c_multi(stdout,board_width,ActOrigin);
+  protocol_fputs_c_multi(stdout,board_width,ActAward);
+  protocol_fputs_c_multi(stdout,board_width,ActTitle);
 }
 
 static void WriteCondition(FILE* dummy, char const CondLine[], condition_rank rank)
 {
   if (rank!=condition_end)
-    protocol_printf_c(board_width,"%s\n",CondLine);
+    protocol_fprintf_c(stdout,board_width,"%s\n",CondLine);
 }
 
 static void WriteCaptions(position const *pos)
@@ -440,12 +440,12 @@ static void WriteCaptions(position const *pos)
   WriteCastlingMutuallyExclusive();
 
   if (OptFlag[halfduplex])
-    protocol_printf_c(board_width,"%s\n",OptString[UserLanguage][halfduplex]);
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptString[UserLanguage][halfduplex]);
   else if (OptFlag[duplex])
-    protocol_printf_c(board_width,"%s\n",OptString[UserLanguage][duplex]);
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptString[UserLanguage][duplex]);
 
   if (OptFlag[quodlibet])
-    protocol_printf_c(board_width,"%s\n",OptString[UserLanguage][quodlibet]);
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptString[UserLanguage][quodlibet]);
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid();
@@ -459,7 +459,7 @@ void WritePositionAtoB(Side starter)
   protocol_fputc('\n',stdout);
 
   protocol_fputc('\n',stdout);
-  protocol_printf_c(board_width,"=> (%s ->)\n",ColourString[UserLanguage][starter]);
+  protocol_fprintf_c(stdout,board_width,"=> (%s ->)\n",ColourString[UserLanguage][starter]);
   protocol_fputc('\n',stdout);
 
   WriteBoard(&proofgames_target_position);

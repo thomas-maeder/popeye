@@ -327,8 +327,8 @@ void ReadRemark(void)
   if (LastChar != '\n')
   {
     ReadToEndOfLine();
-    protocol_printf("%s",InputLine);
+    protocol_fprintf(stdout,"%s",InputLine);
     Message(NewLine);
-    protocol_flush();
+    protocol_fflush(stdout);
   }
 }

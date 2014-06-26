@@ -15,32 +15,44 @@ boolean protocol_open(char const *filename);
 
 /* like putchar().
  * If a trace file is active, output goes to the trace file as well
- * @return the result of writing to standard output
+ * @return the result of writing to *regular
  */
 int protocol_fputc(int c, FILE *regular);
 
 /* like vprintf().
  * If a trace file is active, output goes to the trace file as well
- * @return the result of writing to standard output
+ * @return the result of writing to *regular
  */
-int protocol_vprintf(char const *format, va_list args);
+int protocol_vfprintf(FILE *regular, char const *format, va_list args);
 
 /* like printf().
  * If a trace file is active, output goes to the trace file as well
- * @return the result of writing to standard output
+ * @return the result of writing to *regular
  */
-int protocol_printf(char const *format, ...);
+int protocol_fprintf(FILE *regular, char const *format, ...);
 
-int protocol_printf_r(int width, char const *format, ...);
+/* like fprintf_r().
+ * If a trace file is active, output goes to the trace file as well
+ * @return the result of writing to *regular
+ */
+int protocol_fprintf_r(FILE *regular, int width, char const *format, ...);
 
-int protocol_printf_c(int width, char const *format, ...);
+/* like fprintf_c().
+ * If a trace file is active, output goes to the trace file as well
+ * @return the result of writing to *regular
+ */
+int protocol_fprintf_c(FILE *regular, int width, char const *format, ...);
 
-void protocol_puts_c_multi(int width, char const *lines);
+/* like fputs_c_multi().
+ * If a trace file is active, output goes to the trace file as well
+ * @return the result of writing to *regular
+ */
+void protocol_fputs_c_multi(FILE *regular, int width, char const *lines);
 
 /* like fflush().
  * If a trace file is active, output goes to the trace file as well
- * @return the result of writing to standard output
+ * @return the result of writing to *regular
  */
-int protocol_flush(void);
+int protocol_fflush(FILE *regular);
 
 #endif

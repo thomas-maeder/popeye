@@ -96,14 +96,14 @@ static void ReDrawPly(ply curr_ply)
     piece_walk_type const promotee = find_promotion(curr_ply,move_effect_journal[movement].u.piece_movement.to);
     WritePiece1(pi_moving);
     WriteSquare1(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].departure);
-    protocol_putchar('-');
+    protocol_fputc('-',stdout);
     WriteSquare1(move_generation_stack[CURRMOVE_OF_PLY(curr_ply)].arrival);
     if (promotee!=Empty)
     {
-      protocol_putchar('=');
+      protocol_fputc('=',stdout);
       WritePiece1(promotee);
     }
-    protocol_printf("%s","   ");
+    protocol_fprintf(stdout,"%s","   ");
   }
 }
 

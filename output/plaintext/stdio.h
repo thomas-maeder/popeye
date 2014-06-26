@@ -17,6 +17,14 @@
  */
 int fprintf_r(FILE *file, int width, char const *format, ...);
 
+/* Like vfprintf(), but writes right-aligned into a space of the indicated
+ * width.
+ * format and argument strings shouldn't contain line breaks (except maybe at
+ * the end) or the output will look "interesting".
+ * vfprintf_r() performs two conversion runs, the first for measuring and the
+ * second for writing. If the return value is <0, the caller can't determine
+ * which conversion run was the cause.
+ */
 int vfprintf_r(FILE *file, int width, char const *format, va_list args);
 
 /* like fprintf(), but writes centered into a space of the indicated width
@@ -28,6 +36,13 @@ int vfprintf_r(FILE *file, int width, char const *format, va_list args);
  */
 int fprintf_c(FILE *file, int width, char const *format, ...);
 
+/* like vfprintf(), but writes centered into a space of the indicated width
+ * format and argument strings shouldn't contain line breaks (except maybe at
+ * the end) or the output will look "interesting".
+ * vfprintf_c() performs two conversion runs, the first for measuring and the
+ * second for writing. If the return value is <0, the caller can't determine
+ * which conversion run was the cause.
+ */
 int vfprintf_c(FILE *file, int width, char const *format, va_list args);
 
 /* write a series of centered lines using fprintf_c()

@@ -30,7 +30,7 @@ slice_index alloc_output_plaintext_tree_refutations_intro_writer_slice(void)
 static void write_refutations_intro(void)
 {
   Message(NewLine);
-  protocol_printf("%*c",4,' ');
+  protocol_fprintf(stdout,"%*c",4,' ');
   Message(But);
 }
 
@@ -98,7 +98,7 @@ void output_plaintext_tree_refutation_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  protocol_printf("%s"," !");
+  protocol_fprintf(stdout,"%s"," !");
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

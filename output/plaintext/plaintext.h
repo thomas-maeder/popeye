@@ -5,10 +5,6 @@
 #include "stipulation/goals/goals.h"
 #include "solving/move_effect_journal.h"
 
-#include <stdio.h>
-
-extern FILE *TraceFile;
-
 extern char versionString[100];
 
 /* Context are used to visually group the output related to one or more effects,

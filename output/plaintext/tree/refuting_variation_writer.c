@@ -45,7 +45,7 @@ static unsigned int depth(ply p)
 static void write_refuting_varation(unsigned move_depth)
 {
   Message(NewLine);
-  protocol_printf("%*c",4*move_depth,' ');
+  protocol_fprintf(stdout,"%*c",4*move_depth,' ');
   Message(Refutation);
 }
 

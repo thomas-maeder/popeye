@@ -49,7 +49,7 @@ void output_plaintext_tree_try_writer_solve(slice_index si)
 
   if (table_length(refutations)>0)
   {
-    protocol_printf("%s"," ?");
+    protocol_fprintf(stdout,"%s"," ?");
     pipe_solve_delegate(si);
   }
   else

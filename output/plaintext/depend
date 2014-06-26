@@ -1483,7 +1483,7 @@ output/plaintext/protocol$(OBJ_SUFFIX): output/plaintext/protocol.c \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h output/output.h
+ solving/ply.h position/pieceid.h output/output.h platform/maxmem.h
 
 output/plaintext/protocol.h:
 
@@ -1530,3 +1530,5 @@ solving/ply.h:
 position/pieceid.h:
 
 output/output.h:
+
+platform/maxmem.h:

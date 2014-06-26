@@ -28,14 +28,12 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-FILE *TraceFile;
-
 static void context_open(output_plaintext_move_context_type *context,
                          move_effect_journal_index_type start,
                          char const *opening_sequence,
                          char const *closing_sequence)
 {
-  protocol_printf("%s",opening_sequence);
+  protocol_fprintf(stdout,"%s",opening_sequence);
 
   context->start = start;
   context->closing_sequence = closing_sequence;
@@ -43,7 +41,7 @@ static void context_open(output_plaintext_move_context_type *context,
 
 static void context_close(output_plaintext_move_context_type *context)
 {
-  protocol_printf("%s",context->closing_sequence);
+  protocol_fprintf(stdout,"%s",context->closing_sequence);
   context->start = move_effect_journal_index_null;
 }
 
@@ -110,7 +108,7 @@ static void write_capture(output_plaintext_move_context_type *context,
   else if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
   {
     WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
-    protocol_printf("%s"," ep.");
+    protocol_fprintf(stdout,"%s"," ep.");
   }
   else
   {
@@ -142,9 +140,9 @@ static void write_castling(output_plaintext_move_context_type *context,
   {
     square const to = move_effect_journal[movement].u.piece_movement.to;
     if (to==square_g1 || to==square_g8)
-      protocol_printf("%s","0-0");
+      protocol_fprintf(stdout,"%s","0-0");
     else
-      protocol_printf("%s","0-0-0");
+      protocol_fprintf(stdout,"%s","0-0-0");
   }
 }
 
@@ -152,7 +150,7 @@ static void write_exchange(move_effect_journal_index_type movement)
 {
   WritePiece1(get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.from));
   WriteSquare1(move_effect_journal[movement].u.piece_exchange.to);
-  protocol_printf("%s","<->");
+  protocol_fprintf(stdout,"%s","<->");
   WritePiece1(get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.to));
   WriteSquare1(move_effect_journal[movement].u.piece_exchange.from);
 }
@@ -303,7 +301,7 @@ static void write_side_change(output_plaintext_move_context_type *context,
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
       protocol_fputc('=',stdout);
-      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]));
+      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),stdout);
       break;
 
     case move_effect_reason_magic_piece:
@@ -312,7 +310,7 @@ static void write_side_change(output_plaintext_move_context_type *context,
       next_context(context,curr,"[","]");
       WriteSquare1(move_effect_journal[curr].u.side_change.on);
       protocol_fputc('=',stdout);
-      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]));
+      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),stdout);
       break;
 
     default:
@@ -475,7 +473,7 @@ static void write_transfer(output_plaintext_move_context_type *context,
                                         move_effect_journal[removal].u.piece_removal.walk,
                                         move_effect_journal[removal].u.piece_removal.on);
 
-  protocol_printf("%s","->");
+  protocol_fprintf(stdout,"%s","->");
 
   if (move_effect_journal[removal].u.piece_removal.flags
       !=move_effect_journal[addition].u.piece_addition.flags
@@ -508,7 +506,7 @@ static void write_piece_readdition(output_plaintext_move_context_type *context,
                                    move_effect_journal_index_type curr)
 {
   if (move_effect_journal[curr].reason==move_effect_reason_volcanic_remember)
-    protocol_printf("%s","->v");
+    protocol_fprintf(stdout,"%s","->v");
   else
   {
     PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
@@ -574,7 +572,7 @@ static void write_piece_exchange(output_plaintext_move_context_type *context,
       next_context(context,curr,"[","]");
       WritePiece1(get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
       WriteSquare1(move_effect_journal[curr].u.piece_exchange.to);
-      protocol_printf("%s","<->");
+      protocol_fprintf(stdout,"%s","<->");
       WritePiece1(get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.to));
       WriteSquare1(move_effect_journal[curr].u.piece_exchange.from);
       break;
@@ -589,19 +587,19 @@ static void write_half_neutral_deneutralisation(output_plaintext_move_context_ty
                                                 move_effect_journal_index_type curr)
 {
   protocol_fputc('=',stdout);
-  protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]));
+  protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]),stdout);
   protocol_fputc('h',stdout);
 }
 
 static void write_half_neutral_neutralisation(output_plaintext_move_context_type *context,
                                               move_effect_journal_index_type curr)
 {
-  protocol_printf("%s","=nh");
+  protocol_fprintf(stdout,"%s","=nh");
 }
 
 static void write_imitator_addition(output_plaintext_move_context_type *context)
 {
-  protocol_printf("=I");
+  protocol_fprintf(stdout,"=I");
 }
 
 static void write_imitator_movement(output_plaintext_move_context_type *context,
@@ -610,7 +608,7 @@ static void write_imitator_movement(output_plaintext_move_context_type *context,
   unsigned int const nr_moved = move_effect_journal[curr].u.imitator_movement.nr_moved;
   unsigned int icount;
 
-  protocol_printf("[I");
+  protocol_fprintf(stdout,"[I");
 
   for (icount = 0; icount<nr_moved; ++icount)
   {
@@ -633,17 +631,17 @@ static void write_bgl_status(output_plaintext_move_context_type *context,
     {
       next_context(context,curr," (",")");
       WriteBGLNumber(buf,BGL_values[White]);
-      protocol_printf("%s",buf);
+      protocol_fprintf(stdout,"%s",buf);
     }
   }
   else
   {
     next_context(context,curr," (",")");
     WriteBGLNumber(buf,BGL_values[White]);
-    protocol_printf("%s",buf);
+    protocol_fprintf(stdout,"%s",buf);
     protocol_fputc('/',stdout);
     WriteBGLNumber(buf,BGL_values[Black]);
-    protocol_printf("%s",buf);
+    protocol_fprintf(stdout,"%s",buf);
   }
 }
 
