@@ -236,6 +236,7 @@ static slice_index const slice_rank_order[] =
   STOhneschachStopIfCheck,
   STOhneschachStopIfCheckAndNotMate,
   STLegalDefenseCounter,
+  STOutputPlaintextLineRefutingVariationWriter,
   STCheckZigzagLanding,
   STNoShortVariations,
   STThreatEnforcer

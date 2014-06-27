@@ -184,6 +184,7 @@
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
+#include "output/plaintext/line/refuting_variation_writer.h"
 #include "output/plaintext/line/exclusive.h"
 #include "output/plaintext/tree/end_of_solution_writer.h"
 #include "output/plaintext/tree/check_writer.h"
@@ -370,6 +371,10 @@ void dispatch(slice_index si)
 
     case STOutputPlaintextTreeRefutingVariationWriter:
       output_plaintext_tree_refuting_variation_writer_solve(si);
+      break;
+
+    case STOutputPlaintextLineRefutingVariationWriter:
+      output_plaintext_line_refuting_variation_writer_solve(si);
       break;
 
     case STOutputPlainTextMoveWriter:

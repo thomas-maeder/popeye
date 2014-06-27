@@ -1,12 +1,12 @@
-#if !defined(OUTPUT_PLAINTEXT_TREE_REFUTING_VARIATION_WRITER_H)
-#define OUTPUT_PLAINTEXT_TREE_REFUTING_VARIATION_WRITER_H
+#if !defined(OUTPUT_PLAINTEXT_LINE_REFUTING_VARIATION_WRITER_H)
+#define OUTPUT_PLAINTEXT_LINE_REFUTING_VARIATION_WRITER_H
 
 #include "solving/machinery/solve.h"
 
-/* Allocate a STOutputPlaintextTreeRefutingVariationWriter slice.
+/* Allocate a STOutputPlaintextLineRefutingVariationWriter slice.
  * @return index of allocated slice
  */
-slice_index alloc_output_plaintext_tree_refuting_variation_writer_slice(void);
+slice_index alloc_output_plaintext_line_refuting_variation_writer_slice(void);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
@@ -21,6 +21,6 @@ slice_index alloc_output_plaintext_tree_refuting_variation_writer_slice(void);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_tree_refuting_variation_writer_solve(slice_index si);
+void output_plaintext_line_refuting_variation_writer_solve(slice_index si);
 
 #endif

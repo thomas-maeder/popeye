@@ -340,6 +340,7 @@ static slice_type const writer_slice_types[] =
     STOutputPlainTextTryWriter,
     STOutputPlainTextZugzwangWriter,
     STOutputPlaintextTreeRefutingVariationWriter,
+    STOutputPlaintextLineRefutingVariationWriter,
     STOutputPlainTextRefutationsIntroWriter,
     STOutputPlainTextRefutationWriter,
     STOutputPlaintextTreeCheckWriter,

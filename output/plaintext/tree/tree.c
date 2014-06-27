@@ -557,8 +557,8 @@ static void remove_continuation_writer_if_unused(slice_index si,
 static structure_traversers_visitor const goal_writer_slice_inserters[] =
 {
   { STGoalReachedTester,              &remember_goal                        },
-  { STOutputPlainTextKeyWriter,                      &remember_key_writer                  },
-  { STOutputPlainTextMoveWriter,                     &remove_continuation_writer_if_unused },
+  { STOutputPlainTextKeyWriter,       &remember_key_writer                  },
+  { STOutputPlainTextMoveWriter,      &remove_continuation_writer_if_unused },
   { STOutputPlaintextTreeCheckWriter, &remove_check_handler_if_unused       }
 };
 

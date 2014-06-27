@@ -149,6 +149,9 @@ void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pip
 void stip_traverse_structure_children_setplay_fork_setplay(slice_index si,
                                                            stip_structure_traversal *st);
 
+void stip_traverse_structure_children_binary(slice_index binary_slice,
+                                             stip_structure_traversal *st);
+
 /* Traverse operand 1 of a binary slice
  * @param binary_slice identifies the binary slice
  * @param st address of structure defining traversal

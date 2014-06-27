@@ -338,8 +338,8 @@ void stip_traverse_structure_binary_operand2(slice_index binary_slice,
   TraceFunctionResultEnd();
 }
 
-static void stip_traverse_structure_children_binary(slice_index binary_slice,
-                                                    stip_structure_traversal *st)
+void stip_traverse_structure_children_binary(slice_index binary_slice,
+                                             stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",binary_slice);

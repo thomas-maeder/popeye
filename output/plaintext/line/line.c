@@ -7,7 +7,9 @@
 #include "stipulation/branch.h"
 #include "stipulation/move.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/structure_traversal.h"
 #include "solving/trivial_end_filter.h"
+#include "stipulation/battle_play/branch.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
@@ -16,6 +18,7 @@
 #include "output/plaintext/line/exclusive.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
+#include "output/plaintext/line/refuting_variation_writer.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -228,18 +231,16 @@ enum
   nr_regular_inserters = sizeof regular_inserters / sizeof regular_inserters[0]
 };
 
-/* Instrument the stipulation structure with slices that implement
- * plaintext line mode output.
+/* Insert the writer slices
  * @param si identifies slice where to start
  */
-void solving_insert_output_plaintext_line_slices(slice_index si)
+static void insert_regular_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_function(&st,
@@ -253,6 +254,110 @@ void solving_insert_output_plaintext_line_slices(slice_index si)
                                                 &instrument_end_of_branch);
   stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
   stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void remember_postkey_play(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const is_postkey_play = st->param;
+  boolean const save_is_postkey_play = *is_postkey_play;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *is_postkey_play = st->level==structure_traversal_level_top;
+  stip_traverse_structure_children_pipe(si,st);
+  *is_postkey_play = save_is_postkey_play;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_refuting_variation_writer(slice_index si,
+                                             stip_structure_traversal *st)
+{
+  boolean const * const is_postkey_play = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (*is_postkey_play)
+  {
+    slice_index const prototype = alloc_output_plaintext_line_refuting_variation_writer_slice();
+    attack_branch_insert_slices(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static structure_traversers_visitor const root_writer_inserters[] =
+{
+  { STHelpAdapter,        &stip_structure_visitor_noop      },
+  { STAttackAdapter,      &stip_structure_visitor_noop      },
+  { STDefenseAdapter,     &remember_postkey_play            },
+  { STDummyMove,          &stip_structure_visitor_noop      },
+  { STIfThenElse,         &stip_traverse_structure_children_binary },
+  { STNotEndOfBranchGoal, &insert_refuting_variation_writer }
+};
+
+enum
+{
+  nr_root_writer_inserters = (sizeof root_writer_inserters
+                              / sizeof root_writer_inserters[0])
+};
+
+/* Insert the writer slices
+ * @param si identifies slice where to start
+ */
+static void insert_root_writer_slices(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean is_postkey_play = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&is_postkey_play);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_testing_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_conditional_pipe,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_binary,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_function(&st,
+                                                slice_function_end_of_branch,
+                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override(&st,
+                                    root_writer_inserters,
+                                    nr_root_writer_inserters);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the stipulation structure with slices that implement
+ * plaintext line mode output.
+ * @param si identifies slice where to start
+ */
+void solving_insert_output_plaintext_line_slices(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  TraceStipulation(si);
+
+  insert_regular_writer_slices(si);
+  insert_root_writer_slices(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

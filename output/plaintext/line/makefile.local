@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 #
 
-SRC_CFILES = line.c line_writer.c end_of_intro_series_marker.c exclusive.c
+SRC_CFILES = line.c line_writer.c end_of_intro_series_marker.c exclusive.c refuting_variation_writer.c
 
-INCLUDES = line.h line_writer.h end_of_intro_series_marker.h exclusive.h
+INCLUDES = line.h line_writer.h end_of_intro_series_marker.h exclusive.h refuting_variation_writer.h
 
 include makefile.rules $(CURRPWD)depend

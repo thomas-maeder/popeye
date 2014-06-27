@@ -478,6 +478,7 @@
     ENUMERATOR(STOutputLaTeXZugzwangWriter), /* writes zugzwang if appropriate */  \
     ENUMERATOR(STTrivialEndFilter), /* don't write trivial variations */  \
     ENUMERATOR(STOutputPlaintextTreeRefutingVariationWriter), /* writes refuting variations */ \
+    ENUMERATOR(STOutputPlaintextLineRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STOutputLaTeXTreeRefutingVariationWriter), /* writes refuting variations */ \
     ENUMERATOR(STOutputPlainTextRefutationsIntroWriter), /* write "But" */  \
     ENUMERATOR(STOutputPlainTextRefutationWriter), /* writes refutations */  \
