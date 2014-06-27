@@ -461,7 +461,7 @@
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STOutputPlainTextPositionWriter),                        \
     ENUMERATOR(STOutputEndOfIntro),                                     \
-    ENUMERATOR(STOutputPlaintextTwinningWriter),                        \
+    ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \
     ENUMERATOR(STOutputPlainTextEndOfPhaseWriter), /* write the end of a phase */      \
     ENUMERATOR(STOutputPlainTextTreeEndOfSolutionWriter), /* write the end of a solution */  \

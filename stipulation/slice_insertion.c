@@ -559,7 +559,7 @@ static slice_index const slice_rank_order[] =
   STTemporaryHackFork,
   STOutputPlainTextPositionWriter,
   STOutputModeSelector,
-  STOutputPlaintextTwinningWriter,
+  STOutputPlaintextTwinIntroWriter,
   STOutputLaTeXTwinningWriter,
   STOutputEndOfIntro,
   STStrictSATInitialiser,

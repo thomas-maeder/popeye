@@ -800,7 +800,7 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   {
     slice_index const prototypes[] =
     {
-        alloc_pipe(STOutputPlaintextTwinningWriter)
+        alloc_pipe(STOutputPlaintextTwinIntroWriter)
     };
     enum
     {

@@ -16,6 +16,6 @@
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_write_twinning(slice_index si);
+void output_plaintext_write_twin_intro(slice_index si);
 
 #endif

@@ -1290,8 +1290,8 @@ void dispatch(slice_index si)
       stoponshortsolutions_initialiser_solve(si);
       break;
 
-    case STOutputPlaintextTwinningWriter:
-      output_plaintext_write_twinning(si);
+    case STOutputPlaintextTwinIntroWriter:
+      output_plaintext_write_twin_intro(si);
       break;
 
     case STOutputPlainTextPositionWriter:

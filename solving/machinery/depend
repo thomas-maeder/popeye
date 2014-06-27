@@ -19,7 +19,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/pipe.h solving/observation.h \
  solving/temporary_hacks.h output/output.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h conditions/annan.h \
+ output/message.h input/plaintext/language.h conditions/annan.h \
  conditions/bgl.h conditions/facetoface.h conditions/koeko/contact_grid.h \
  conditions/koeko/koeko.h conditions/koeko/anti.h conditions/koeko/new.h \
  conditions/exclusive.h utilities/table.h conditions/republican.h \
@@ -199,9 +199,9 @@ output/output.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 conditions/annan.h:
 
@@ -644,7 +644,7 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  optimisations/count_nr_opponent_moves/move_generator.h \
  optimisations/killer_move/killer_move.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
- output/plaintext/message.h input/plaintext/language.h output/message.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
  solving/castling.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/moves_traversal.h \
  solving/proofgames.h solving/king_capture_avoider.h \
@@ -815,9 +815,9 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/castling.h:
 
