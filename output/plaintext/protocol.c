@@ -148,7 +148,6 @@ int protocol_fprintf_c(FILE *regular, int width, char const *format, ...)
 
 /* like fputs_c_multi().
  * If a trace file is active, output goes to the trace file as well
- * @return the result of writing to *regular
  */
 void protocol_fputs_c_multi(FILE *regular, int width, char const *lines)
 {
