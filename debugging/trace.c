@@ -227,7 +227,7 @@ void TraceSquareImpl(char const *prefix, square s)
     if (s==initsquare)
       fputs("initsquare",stdout);
     else
-      WriteSquare(stdout,s);
+      WriteSquare(&output_plaintext_engine,stdout,s);
     fflush(stdout);
   }
 
@@ -319,7 +319,7 @@ void TraceWalkImpl(char const *prefix, piece_walk_type p)
     else if (p==Invalid)
       fputs("Invalid",stdout);
     else
-      WritePiece(stdout,p);
+      WriteWalk(&output_plaintext_engine,stdout,p);
     fflush(stdout);
   }
 }
@@ -329,7 +329,9 @@ static void TraceCurrentMove(void)
   if (level<=max_level)
   {
     fprintf(stdout," #%lu %lu ",level,move_counter++);
-    output_plaintext_write_move(stdout);
+    output_plaintext_write_move(&output_plaintext_engine,
+                                stdout,
+                                &output_plaintext_symbol_table);
     fprintf(stdout," CURRMOVE_OF_PLY(nbply):%d",CURRMOVE_OF_PLY(nbply));
     fprintf(stdout," current_ply:%d\n",nbply);
     fflush(stdout);
@@ -359,9 +361,13 @@ void TracePosition(echiquier e, Flags flags[maxsquare+4])
     for (bnp = boardnum; *bnp!=initsquare; ++bnp)
       if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
-        WriteSpec(stdout,being_solved.spec[*bnp],being_solved.board[*bnp],true);
-        WritePiece(stdout,get_walk_of_piece_on_square(*bnp));
-        WriteSquare(stdout,*bnp);
+        WriteSpec(&output_plaintext_engine,
+                  stdout,being_solved.spec[*bnp],
+                  being_solved.board[*bnp],true);
+        WriteWalk(&output_plaintext_engine,
+                  stdout,
+                  get_walk_of_piece_on_square(*bnp));
+        WriteSquare(&output_plaintext_engine,stdout,*bnp);
         fputs(" ",stdout);
       }
 
