@@ -4,15 +4,16 @@
 #include "position/position.h"
 #include "pieces/pieces.h"
 #include "utilities/boolean.h"
+#include "output/output.h"
 
 #include <stdio.h>
 
-boolean WriteSpec(FILE *file, Flags pspec, piece_walk_type p, boolean printcolours);
-boolean WriteSpec1(Flags sp, piece_walk_type p, boolean printcolours);
-void WritePiece(FILE *file, piece_walk_type p);
-void WritePiece1(piece_walk_type p);
-void WriteSquare(FILE *file, square s);
-void WriteSquare1(square i);
+boolean WriteSpec(output_engine_type const * engine, FILE *file,
+                  Flags pspec, piece_walk_type p, boolean printcolours);
+void WriteWalk(output_engine_type const * engine, FILE *file,
+                piece_walk_type p);
+void WriteSquare(output_engine_type const * engine, FILE *file,
+                 square i);
 
 void AppendSquare(char *List, square s);
 

@@ -4,21 +4,19 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/goals/goals.h"
 #include "solving/move_effect_journal.h"
+#include "output/output.h"
 
 extern char versionString[100];
 
-/* Context are used to visually group the output related to one or more effects,
- * i.e. the flags, walk and rebirth square of a Circe rebirth ("[Sb8]").
- */
-typedef struct
-{
-    move_effect_journal_index_type start;
-    char const * closing_sequence;
-} output_plaintext_move_context_type;
+extern output_engine_type const output_plaintext_engine;
+extern output_symbol_table_type const output_plaintext_symbol_table;
+
 
 /* Write the current move
  */
-void output_plaintext_write_move(void);
+void output_plaintext_write_move(output_engine_type const *engine,
+                                 FILE *file,
+                                 output_symbol_table_type const *symbol_table);
 
 /* Determine whether a goal writer slice should replace the check writer slice
  * which would normally following the possible check deliverd by the move just

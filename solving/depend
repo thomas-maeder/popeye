@@ -524,10 +524,10 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
- conditions/circe/relevant_side.h output/plaintext/pieces.h \
- position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h debugging/measure.h output/plaintext/protocol.h \
- debugging/assert.h
+ conditions/circe/relevant_side.h output/plaintext/plaintext.h \
+ output/output.h output/plaintext/pieces.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 solving/move_generator.h:
 
@@ -614,6 +614,10 @@ conditions/circe/relevant_capture.h:
 conditions/circe/relevant_piece.h:
 
 conditions/circe/relevant_side.h:
+
+output/plaintext/plaintext.h:
+
+output/output.h:
 
 output/plaintext/pieces.h:
 
@@ -2026,7 +2030,7 @@ solving/check$(OBJ_SUFFIX): solving/check.c solving/check.h utilities/boolean.h 
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/machinery/twin.h \
- output/plaintext/message.h input/plaintext/language.h output/message.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
  debugging/measure.h output/plaintext/protocol.h debugging/assert.h
 
 solving/check.h:
@@ -2115,9 +2119,9 @@ solving/machinery/twin.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 debugging/measure.h:
 
@@ -2368,7 +2372,8 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c debugging/assert.h \
  input/plaintext/twin.h input/plaintext/token.h \
  input/plaintext/language.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/sentinelles.h \
- output/plaintext/message.h output/message.h output/plaintext/pieces.h
+ output/plaintext/message.h output/message.h output/plaintext/pieces.h \
+ output/output.h output/plaintext/plaintext.h
 
 debugging/assert.h:
 
@@ -2523,6 +2528,10 @@ output/plaintext/message.h:
 output/message.h:
 
 output/plaintext/pieces.h:
+
+output/output.h:
+
+output/plaintext/plaintext.h:
 solving/binary$(OBJ_SUFFIX): solving/binary.c solving/binary.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \

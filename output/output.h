@@ -5,7 +5,29 @@
 #include "stipulation/stipulation.h"
 #include "utilities/boolean.h"
 
+#include <stdarg.h>
+
 extern boolean flag_regression;
+
+typedef struct
+{
+    int (*fputc)(int c, FILE *regular);
+    int (*vfprintf)(FILE *regular, char const *format, va_list args);
+    int (*fprintf)(FILE *regular, char const *format, ...);
+    int (*fflush)(FILE *regular);
+} output_engine_type;
+
+typedef enum
+{
+  output_symbol_right_arrow,
+  output_symbol_left_right_arrow,
+  output_symbol_queen_side_castling,
+  output_symbol_king_side_castling,
+
+  output_nr_symbols
+} output_symbol_type;
+
+typedef char const *output_symbol_table_type[output_nr_symbols];
 
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice

@@ -8,6 +8,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/binary.h"
 #include "conditions/circe/circe.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
 #include "debugging/measure.h"
 #include "debugging/trace.h"
@@ -30,9 +31,9 @@ static void write_history_recursive(ply ply)
     write_history_recursive(parent_ply[ply]);
 
   fprintf(stdout," %u:",ply);
-  WriteSquare(stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
+  WriteSquare(&output_plaintext_engine,stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].departure);
   fputs("-",stdout);
-  WriteSquare(stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
+  WriteSquare(&output_plaintext_engine,stdout,move_generation_stack[CURRMOVE_OF_PLY(ply)].arrival);
 }
 
 void move_generator_write_history(void)

@@ -3,12 +3,16 @@
 
 #include "position/position.h"
 #include "input/plaintext/twin.h"
+#include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "utilities/boolean.h"
 
 #include <stdio.h>
 
 extern FILE *LaTeXFile;
+
+extern output_engine_type const output_latex_engine;
+extern output_symbol_table_type const output_latex_symbol_table;
 
 boolean LaTeXSetup(void);
 void LaTeXShutdown(void);
@@ -23,9 +27,6 @@ char *ParseLaTeXPieces(char *tok);
 
 void LaTeXStr(FILE *file, char const *line);
 char *LaTeXWalk(piece_walk_type walk);
-void output_latex_write_castling(FILE *file,
-                                 move_effect_journal_index_type movement);
-void output_latex_write_move(FILE *file);
 
 void WriteUserInputElement(FILE *file, char const *name, char const *value);
 

@@ -3,6 +3,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "output/plaintext/tree/tree.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "solving/pipe.h"
 #include "solving/ply.h"
@@ -62,7 +63,9 @@ void output_latex_tree_move_writer_solve(slice_index si)
   if (move_depth%2==1)
     fputs("..",slices[si].u.writer.file);
 
-  output_latex_write_move(slices[si].u.writer.file);
+  output_plaintext_write_move(&output_latex_engine,
+                              slices[si].u.writer.file,
+                              &output_latex_symbol_table);
 
   pipe_solve_delegate(si);
 

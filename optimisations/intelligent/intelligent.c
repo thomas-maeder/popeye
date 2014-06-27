@@ -33,6 +33,7 @@
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
 #include "optimisations/intelligent/piece_usage.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
 #include "platform/maxtime.h"
 #include "debugging/trace.h"
@@ -392,7 +393,7 @@ static void GenerateBlackKing(void)
         for (s = 0; s!=maxsquare+4; ++s)
         {
           if (nr_reasons_for_staying_empty[s]>0)
-            WriteSquare(stdout,s);
+            WriteSquare(&output_plaintext_engine,stdout,s);
           assert(nr_reasons_for_staying_empty[s]==0);
         }
       }

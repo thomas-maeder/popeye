@@ -129,7 +129,9 @@ static void write_ply_history(unsigned int *next_move_number,
     {
       /* not a dummy move ply */
       write_move_number_if_necessary(next_move_number,numbered_side);
-      output_plaintext_write_move();
+      output_plaintext_write_move(&output_plaintext_engine,
+                                  stdout,
+                                  &output_plaintext_symbol_table);
       write_potential_check();
       protocol_fputc(' ',stdout);
     }
@@ -164,7 +166,9 @@ void output_plaintext_line_write_line(goal_type goal)
   write_ply_history(&next_movenumber,&numbered_side);
 
   write_move_number_if_necessary(&next_movenumber,&numbered_side);
-  output_plaintext_write_move();
+  output_plaintext_write_move(&output_plaintext_engine,
+                              stdout,
+                              &output_plaintext_symbol_table);
   if (!output_plaintext_goal_writer_replaces_check_writer(goal))
     write_potential_check();
 

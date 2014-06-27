@@ -49,6 +49,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/message.h"
+#include "output/plaintext/plaintext.h"
 #include "debugging/trace.h"
 
 boolean change_moving_piece;
@@ -838,8 +839,8 @@ static void OfficerMovesFromTo(piece_walk_type p,
       break;
 
     default:
-      fputs("error in PieceMovesFromTo - piece:",stderr);
-      WritePiece(stderr,p);
+      fprintf(stderr,"error in %s - piece:",__func__);
+      WriteWalk(&output_plaintext_engine,stderr,p);
       fputs("\n",stderr);
       break;
   }

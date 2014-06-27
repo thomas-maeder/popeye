@@ -75,7 +75,7 @@ static char *ParseTwinningMove(int indexx)
 
   if (is_square_empty(sq1))
   {
-    WriteSquare(stderr,sq1);
+    WriteSquare(&output_plaintext_engine,stderr,sq1);
     output_plaintext_error_message(NothingToRemove);
     return ReadNextTokStr();
   }
@@ -222,7 +222,7 @@ static char *ParseTwinningRemove(void)
       move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,sq);
     else
     {
-      WriteSquare(stderr,sq);
+      WriteSquare(&output_plaintext_engine,stderr,sq);
       output_plaintext_error_message(NothingToRemove);
     }
 

@@ -14,7 +14,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/trivial_end_filter.h solving/ply.h output/plaintext/plaintext.h \
  solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h output/plaintext/protocol.h \
+ position/pieceid.h output/output.h output/plaintext/protocol.h \
  output/plaintext/move_inversion_counter.h output/plaintext/goal_writer.h \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
  output/plaintext/tree/end_of_solution_writer.h \
@@ -26,7 +26,7 @@ output/plaintext/tree/tree$(OBJ_SUFFIX): output/plaintext/tree/tree.c \
  output/plaintext/tree/refuting_variation_writer.h \
  output/plaintext/tree/refutation_writer.h \
  output/plaintext/tree/exclusive.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h options/options.h \
+ output/message.h input/plaintext/language.h options/options.h \
  conditions/conditions.h position/position.h position/color.h \
  position/color.enum.h pieces/walks/vectors.h debugging/assert.h
 
@@ -100,6 +100,8 @@ solving/castling_rights.h:
 
 position/pieceid.h:
 
+output/output.h:
+
 output/plaintext/protocol.h:
 
 output/plaintext/move_inversion_counter.h:
@@ -130,9 +132,9 @@ output/plaintext/tree/exclusive.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 options/options.h:
 
@@ -163,8 +165,8 @@ output/plaintext/tree/end_of_solution_writer$(OBJ_SUFFIX): \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  output/plaintext/plaintext.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
- output/plaintext/message.h input/plaintext/language.h output/message.h \
- solving/pipe.h
+ output/output.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h solving/pipe.h
 
 output/plaintext/tree/end_of_solution_writer.h:
 
@@ -228,11 +230,13 @@ solving/ply.h:
 
 position/pieceid.h:
 
+output/output.h:
+
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/pipe.h:
 output/plaintext/tree/key_writer$(OBJ_SUFFIX): output/plaintext/tree/key_writer.c \
@@ -247,9 +251,9 @@ output/plaintext/tree/key_writer$(OBJ_SUFFIX): output/plaintext/tree/key_writer.
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- output/plaintext/protocol.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h platform/beep.h \
- solving/pipe.h options/options.h debugging/assert.h
+ output/plaintext/protocol.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h platform/beep.h solving/pipe.h \
+ options/options.h debugging/assert.h
 
 output/plaintext/tree/key_writer.h:
 
@@ -303,9 +307,9 @@ output/plaintext/protocol.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 platform/beep.h:
 
@@ -328,7 +332,7 @@ output/plaintext/tree/try_writer$(OBJ_SUFFIX): output/plaintext/tree/try_writer.
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/battle_play/try.h utilities/table.h output/plaintext/protocol.h \
  output/plaintext/tree/key_writer.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h solving/pipe.h \
+ output/message.h input/plaintext/language.h solving/pipe.h \
  debugging/assert.h
 
 output/plaintext/tree/try_writer.h:
@@ -389,9 +393,9 @@ output/plaintext/tree/key_writer.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/pipe.h:
 
@@ -480,7 +484,7 @@ output/plaintext/tree/refuting_variation_writer$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  stipulation/branch.h solving/ply.h output/plaintext/protocol.h \
  output/plaintext/move_inversion_counter.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h solving/pipe.h
+ output/message.h input/plaintext/language.h solving/pipe.h
 
 output/plaintext/tree/refuting_variation_writer.h:
 
@@ -540,9 +544,9 @@ output/plaintext/move_inversion_counter.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/pipe.h:
 output/plaintext/tree/refutation_writer$(OBJ_SUFFIX): \
@@ -560,7 +564,7 @@ output/plaintext/tree/refutation_writer$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  output/plaintext/protocol.h output/plaintext/tree/tree.h \
  output/plaintext/tree/check_writer.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h solving/pipe.h
+ output/message.h input/plaintext/language.h solving/pipe.h
 
 output/plaintext/tree/refutation_writer.h:
 
@@ -618,9 +622,9 @@ output/plaintext/tree/check_writer.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/pipe.h:
 output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
@@ -631,7 +635,7 @@ output/plaintext/tree/threat_writer$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
- output/plaintext/message.h input/plaintext/language.h output/message.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -674,9 +678,9 @@ debugging/trace.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 stipulation/pipe.h:
 
@@ -716,7 +720,7 @@ output/plaintext/tree/zugzwang_writer$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/ply.h output/plaintext/tree/check_writer.h \
- output/plaintext/message.h input/plaintext/language.h output/message.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
  solving/pipe.h
 
 output/plaintext/tree/zugzwang_writer.h:
@@ -777,9 +781,9 @@ output/plaintext/tree/check_writer.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/pipe.h:
 output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
@@ -795,8 +799,8 @@ output/plaintext/tree/check_writer$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- output/plaintext/protocol.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h solving/pipe.h
+ output/plaintext/protocol.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h solving/pipe.h
 
 output/plaintext/tree/check_writer.h:
 
@@ -852,9 +856,9 @@ output/plaintext/protocol.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/pipe.h:
 output/plaintext/tree/exclusive$(OBJ_SUFFIX): output/plaintext/tree/exclusive.c \
@@ -873,9 +877,8 @@ output/plaintext/tree/exclusive$(OBJ_SUFFIX): output/plaintext/tree/exclusive.c 
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h solving/ply.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h output/plaintext/tree/move_writer.h \
- output/plaintext/tree/tree.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h solving/pipe.h \
- debugging/assert.h
+ output/plaintext/tree/tree.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h solving/pipe.h debugging/assert.h
 
 output/plaintext/tree/exclusive.h:
 
@@ -951,9 +954,9 @@ output/plaintext/tree/tree.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/pipe.h:
 

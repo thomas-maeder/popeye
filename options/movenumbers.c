@@ -107,7 +107,9 @@ static void WriteMoveNbr(slice_index si)
   if (MoveNbr[nbply]>=RestartNbr[nbply])
   {
     protocol_fprintf(stdout,"\n%3u  (", MoveNbr[nbply]);
-    output_plaintext_write_move();
+    output_plaintext_write_move(&output_plaintext_engine,
+                                stdout,
+                                &output_plaintext_symbol_table);
     if (is_in_check(slices[si].starter))
       protocol_fprintf(stdout,"%s"," +");
     protocol_fputc(' ',stdout);

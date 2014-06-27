@@ -4,6 +4,7 @@
 #include "output/plaintext/condition.h"
 #include "output/plaintext/message.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/plaintext.h"
 #include "input/plaintext/stipulation.h"
 #include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
@@ -66,11 +67,13 @@ static void WritePieceCreation(move_effect_journal_index_type curr)
   if (!find_removal(curr,entry->u.piece_addition.on))
     protocol_fputc('+',stdout);
 
-  WriteSpec1(entry->u.piece_addition.flags,
-             entry->u.piece_addition.walk,
-             true);
-  WritePiece1(entry->u.piece_addition.walk);
-  WriteSquare1(entry->u.piece_addition.on);
+  WriteSpec(&output_plaintext_engine,
+            stdout,
+            entry->u.piece_addition.flags,
+            entry->u.piece_addition.walk,
+            true);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_addition.walk);
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_addition.on);
   protocol_fprintf(stdout,"%s","  ");
 }
 
@@ -81,11 +84,13 @@ static void WritePieceRemoval(move_effect_journal_index_type curr)
   if (!find_creation(curr+1,entry->u.piece_removal.on))
   {
     protocol_fprintf(stdout,"%s","-");
-    WriteSpec1(entry->u.piece_removal.flags,
-               entry->u.piece_removal.walk,
-               true);
-    WritePiece1(entry->u.piece_removal.walk);
-    WriteSquare1(entry->u.piece_removal.on);
+    WriteSpec(&output_plaintext_engine,
+              stdout,
+              entry->u.piece_removal.flags,
+              entry->u.piece_removal.walk,
+              true);
+    WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_removal.walk);
+    WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_removal.on);
     protocol_fprintf(stdout,"%s","  ");
   }
 }
@@ -94,13 +99,15 @@ static void WritePieceMovement(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WriteSpec1(entry->u.piece_movement.movingspec,
-             entry->u.piece_movement.moving,
-             true);
-  WritePiece1(entry->u.piece_movement.moving);
-  WriteSquare1(entry->u.piece_movement.from);
+  WriteSpec(&output_plaintext_engine,
+            stdout,
+            entry->u.piece_movement.movingspec,
+            entry->u.piece_movement.moving,
+            true);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_movement.moving);
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_movement.from);
   protocol_fprintf(stdout,"%s","-->");
-  WriteSquare1(entry->u.piece_movement.to);
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_movement.to);
   protocol_fprintf(stdout,"%s","  ");
 }
 
@@ -108,17 +115,21 @@ static void WritePieceExchange(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WriteSpec1(entry->u.piece_exchange.fromflags,
-             get_walk_of_piece_on_square(entry->u.piece_exchange.to),
-             true);
-  WritePiece1(get_walk_of_piece_on_square(entry->u.piece_exchange.to));
-  WriteSquare1(entry->u.piece_exchange.from);
+  WriteSpec(&output_plaintext_engine,
+            stdout,
+            entry->u.piece_exchange.fromflags,
+            get_walk_of_piece_on_square(entry->u.piece_exchange.to),
+            true);
+  WriteWalk(&output_plaintext_engine,stdout,get_walk_of_piece_on_square(entry->u.piece_exchange.to));
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_exchange.from);
   protocol_fprintf(stdout,"%s","<-->");
-  WriteSpec1(entry->u.piece_exchange.toflags,
-             get_walk_of_piece_on_square(entry->u.piece_exchange.from),
-             true);
-  WritePiece1(get_walk_of_piece_on_square(entry->u.piece_exchange.from));
-  WriteSquare1(entry->u.piece_exchange.to);
+  WriteSpec(&output_plaintext_engine,
+            stdout,
+            entry->u.piece_exchange.toflags,
+            get_walk_of_piece_on_square(entry->u.piece_exchange.from),
+            true);
+  WriteWalk(&output_plaintext_engine,stdout,get_walk_of_piece_on_square(entry->u.piece_exchange.from));
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_exchange.to);
   protocol_fprintf(stdout,"%s","  ");
 }
 
@@ -175,9 +186,9 @@ static void WriteShift(move_effect_journal_index_type curr)
 
   protocol_fprintf(stdout,"%s",TwinningTab[TwinningShift]);
   protocol_fprintf(stdout,"%s"," ");
-  WriteSquare1(entry->u.twinning_shift.from);
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.twinning_shift.from);
   protocol_fprintf(stdout,"%s"," ==> ");
-  WriteSquare1(entry->u.twinning_shift.to);
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.twinning_shift.to);
   protocol_fprintf(stdout,"%s","  ");
 }
 
@@ -197,9 +208,9 @@ static void WriteSubstitute(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  WritePiece1(entry->u.piece_change.from);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_change.from);
   protocol_fprintf(stdout,"%s"," ==> ");
-  WritePiece1(entry->u.piece_change.to);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_change.to);
   protocol_fprintf(stdout,"%s","  ");
 }
 

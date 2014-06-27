@@ -123,7 +123,9 @@ static void write_ply_history(FILE *file,
     {
       /* not a dummy move ply */
       write_move_number_if_necessary(file,next_move_number,numbered_side);
-      output_latex_write_move(file);
+      output_plaintext_write_move(&output_latex_engine,
+                                  file,
+                                  &output_latex_symbol_table);
       write_potential_check(file);
       fputs(" ",file);
     }
@@ -158,7 +160,9 @@ static void output_latex_line_write_line(FILE *file, goal_type goal)
   write_ply_history(file,&next_movenumber,&numbered_side);
 
   write_move_number_if_necessary(file,&next_movenumber,&numbered_side);
-  output_latex_write_move(file);
+  output_plaintext_write_move(&output_latex_engine,
+                              file,
+                              &output_latex_symbol_table);
   if (!output_plaintext_goal_writer_replaces_check_writer(goal))
     write_potential_check(file);
 

@@ -78,7 +78,7 @@ static char *ParseSquareList(char *tok,
       {
         if (type==piece_addition_initial)
         {
-          WriteSquare1(Square);
+          WriteSquare(&output_plaintext_engine,stdout,Square);
           output_plaintext_message(OverwritePiece);
 
           underworld_make_space(nr_ghosts);

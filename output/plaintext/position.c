@@ -1,4 +1,5 @@
 #include "output/plaintext/position.h"
+#include "output/plaintext/plaintext.h"
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/condition.h"
@@ -59,32 +60,32 @@ static void WriteCastlingMutuallyExclusive(void)
          &ra_cancastle))
     {
       protocol_fputc(' ',stdout);
-      WriteSquare1(square_a1);
-      WriteSquare1(square_a8);
+      WriteSquare(&output_plaintext_engine,stdout,square_a1);
+      WriteSquare(&output_plaintext_engine,stdout,square_a8);
     }
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &rh_cancastle))
     {
       protocol_fputc(' ',stdout);
-      WriteSquare1(square_a1);
-      WriteSquare1(square_h8);
+      WriteSquare(&output_plaintext_engine,stdout,square_a1);
+      WriteSquare(&output_plaintext_engine,stdout,square_h8);
     }
 
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
          &ra_cancastle))
     {
       protocol_fputc(' ',stdout);
-      WriteSquare1(square_h1);
-      WriteSquare1(square_a8);
+      WriteSquare(&output_plaintext_engine,stdout,square_h1);
+      WriteSquare(&output_plaintext_engine,stdout,square_a8);
     }
 
     if ((castling_mutual_exclusive[White][kingside_castling-min_castling]
          &rh_cancastle))
     {
       protocol_fputc(' ',stdout);
-      WriteSquare1(square_h1);
-      WriteSquare1(square_h8);
+      WriteSquare(&output_plaintext_engine,stdout,square_h1);
+      WriteSquare(&output_plaintext_engine,stdout,square_h8);
     }
 
     protocol_fputc('\n',stdout);

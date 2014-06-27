@@ -28,20 +28,54 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+output_engine_type const output_plaintext_engine =
+{
+    &protocol_fputc,
+    &protocol_vfprintf,
+    &protocol_fprintf,
+    &protocol_fflush
+};
+
+output_symbol_table_type const output_plaintext_symbol_table =
+{
+    "->",
+    "<->",
+    "0-0-0",
+    "0-0"
+};
+
+/* Context are used to visually group the output related to one or more effects,
+ * i.e. the flags, walk and rebirth square of a Circe rebirth ("[Sb8]").
+ */
+typedef struct
+{
+    output_engine_type const *engine;
+    FILE *file;
+    output_symbol_table_type const *symbol_table;
+    move_effect_journal_index_type start;
+    char const * closing_sequence;
+} output_plaintext_move_context_type;
+
 static void context_open(output_plaintext_move_context_type *context,
+                         output_engine_type const *engine,
+                         FILE *file,
+                         output_symbol_table_type const *symbol_table,
                          move_effect_journal_index_type start,
                          char const *opening_sequence,
                          char const *closing_sequence)
 {
-  protocol_fprintf(stdout,"%s",opening_sequence);
-
+  context->engine = engine;
+  context->file = file;
+  context->symbol_table = symbol_table;
   context->start = start;
   context->closing_sequence = closing_sequence;
+
+  (*context->engine->fprintf)(context->file,"%s",opening_sequence);
 }
 
 static void context_close(output_plaintext_move_context_type *context)
 {
-  protocol_fprintf(stdout,"%s",context->closing_sequence);
+  (*context->engine->fprintf)(context->file,"%s",context->closing_sequence);
   context->start = move_effect_journal_index_null;
 }
 
@@ -51,7 +85,13 @@ static void next_context(output_plaintext_move_context_type *context,
                          char const *closing_sequence)
 {
   context_close(context);
-  context_open(context,start,opening_sequence,closing_sequence);
+  context_open(context,
+               context->engine,
+               context->file,
+               context->symbol_table,
+               start,
+               opening_sequence,
+               closing_sequence);
 }
 
 static move_effect_journal_index_type find_pre_move_effect(move_effect_type type,
@@ -69,29 +109,32 @@ static move_effect_journal_index_type find_pre_move_effect(move_effect_type type
   return move_effect_journal_index_null;
 }
 
-static void write_departing_piece(move_effect_journal_index_type movement)
+static void write_departing_piece(output_plaintext_move_context_type *context,
+                                  move_effect_journal_index_type movement)
 {
-  if (WriteSpec1(move_effect_journal[movement].u.piece_movement.movingspec,
+  if (WriteSpec(context->engine,context->file,
+                 move_effect_journal[movement].u.piece_movement.movingspec,
                  move_effect_journal[movement].u.piece_movement.moving,
                  false)
       || move_effect_journal[movement].u.piece_movement.moving!=Pawn)
-    WritePiece1(move_effect_journal[movement].u.piece_movement.moving);
+    WriteWalk(context->engine,context->file,move_effect_journal[movement].u.piece_movement.moving);
 
-  WriteSquare1(move_effect_journal[movement].u.piece_movement.from);
+  WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.from);
 }
 
-static void write_departure(move_effect_journal_index_type movement)
+static void write_departure(output_plaintext_move_context_type *context,
+                            move_effect_journal_index_type movement)
 {
   move_effect_journal_index_type const phantom_movement = find_pre_move_effect(move_effect_piece_movement,
                                                                                move_effect_reason_phantom_movement);
 
   if (phantom_movement==move_effect_journal_index_null)
-    write_departing_piece(movement);
+    write_departing_piece(context,movement);
   else
   {
-    write_departing_piece(phantom_movement);
-    protocol_fputc('-',stdout);
-    WriteSquare1(move_effect_journal[movement].u.piece_movement.from);
+    write_departing_piece(context,phantom_movement);
+    (*context->engine->fputc)('-',context->file);
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.from);
   }
 }
 
@@ -101,29 +144,29 @@ static void write_capture(output_plaintext_move_context_type *context,
 {
   square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
 
-  write_departure(movement);
-  protocol_fputc('*',stdout);
+  write_departure(context,movement);
+  (*context->engine->fputc)('*',context->file);
   if (sq_capture==move_effect_journal[movement].u.piece_movement.to)
-    WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
   else if (move_effect_journal[capture].reason==move_effect_reason_ep_capture)
   {
-    WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
-    protocol_fprintf(stdout,"%s"," ep.");
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
+    (*context->engine->fprintf)(context->file,"%s"," ep.");
   }
   else
   {
-    WriteSquare1(sq_capture);
-    protocol_fputc('-',stdout);
-    WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
+    WriteSquare(context->engine,context->file,sq_capture);
+    (*context->engine->fputc)('-',context->file);
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
   }
 }
 
 static void write_no_capture(output_plaintext_move_context_type *context,
                              move_effect_journal_index_type movement)
 {
-  write_departure(movement);
-  protocol_fputc('-',stdout);
-  WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
+  write_departure(context,movement);
+  (*context->engine->fputc)('-',context->file);
+  WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
 }
 
 static void write_castling(output_plaintext_move_context_type *context,
@@ -131,38 +174,40 @@ static void write_castling(output_plaintext_move_context_type *context,
 {
   if (CondFlag[castlingchess])
   {
-    WritePiece1(move_effect_journal[movement].u.piece_movement.moving);
-    WriteSquare1(move_effect_journal[movement].u.piece_movement.from);
-    protocol_fputc('-',stdout);
-    WriteSquare1(move_effect_journal[movement].u.piece_movement.to);
+    WriteWalk(context->engine,context->file,move_effect_journal[movement].u.piece_movement.moving);
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.from);
+    (*context->engine->fputc)('-',context->file);
+    WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_movement.to);
   }
   else
   {
     square const to = move_effect_journal[movement].u.piece_movement.to;
-    if (to==square_g1 || to==square_g8)
-      protocol_fprintf(stdout,"%s","0-0");
-    else
-      protocol_fprintf(stdout,"%s","0-0-0");
+    output_symbol_type const symbol = to==square_g1 || to==square_g8 ? output_symbol_king_side_castling : output_symbol_queen_side_castling;
+    (*context->engine->fprintf)(context->file,"%s",(*context->symbol_table)[symbol]);
   }
 }
 
-static void write_exchange(move_effect_journal_index_type movement)
+static void write_exchange(output_plaintext_move_context_type *context,
+                           move_effect_journal_index_type movement)
 {
-  WritePiece1(get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.from));
-  WriteSquare1(move_effect_journal[movement].u.piece_exchange.to);
-  protocol_fprintf(stdout,"%s","<->");
-  WritePiece1(get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.to));
-  WriteSquare1(move_effect_journal[movement].u.piece_exchange.from);
+  WriteWalk(context->engine,context->file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.from));
+  WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_exchange.to);
+  (*context->engine->fprintf)(context->file,"%s",(*context->symbol_table)[output_symbol_left_right_arrow]);
+  WriteWalk(context->engine,context->file,get_walk_of_piece_on_square(move_effect_journal[movement].u.piece_exchange.to));
+  WriteSquare(context->engine,context->file,move_effect_journal[movement].u.piece_exchange.from);
 }
 
-static void write_singlebox_promotion(move_effect_journal_index_type curr)
+static void write_singlebox_promotion(output_plaintext_move_context_type *context,
+                                      move_effect_journal_index_type curr)
 {
-  WriteSquare1(move_effect_journal[curr].u.piece_change.on);
-  protocol_fputc('=',stdout);
-  WritePiece1(move_effect_journal[curr].u.piece_change.to);
+  WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_change.on);
+  (*context->engine->fputc)('=',context->file);
+  WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
 }
 
-static void write_singlebox_type3_promotion(void)
+static void write_singlebox_type3_promotion(output_engine_type const *engine,
+                                            FILE *file,
+                                            output_symbol_table_type const *symbol_table)
 {
   move_effect_journal_index_type const base = move_effect_journal_base[nbply];
   move_effect_journal_index_type const sb3_prom = find_pre_move_effect(move_effect_piece_change,
@@ -171,8 +216,8 @@ static void write_singlebox_type3_promotion(void)
   if (sb3_prom!=move_effect_journal_index_null)
   {
     output_plaintext_move_context_type context;
-    context_open(&context,base,"[","]");
-    write_singlebox_promotion(sb3_prom);
+    context_open(&context,engine,file,symbol_table,base,"[","]");
+    write_singlebox_promotion(&context,sb3_prom);
     context_close(&context);
   }
 }
@@ -188,8 +233,6 @@ static void write_regular_move(output_plaintext_move_context_type *context)
   assert(capture_type==move_effect_no_piece_removal
          || capture_type==move_effect_piece_removal
          || capture_type==move_effect_none);
-
-  context_open(context,base,"","");
 
   if (capture_type==move_effect_piece_removal)
   {
@@ -218,18 +261,19 @@ static void write_regular_move(output_plaintext_move_context_type *context)
     {
       assert(move_effect_journal[movement].reason==move_effect_reason_exchange_castling_exchange
              || move_effect_journal[movement].reason==move_effect_reason_messigny_exchange);
-      write_exchange(movement);
+      write_exchange(context,movement);
     }
   }
 }
 
-static void write_complete_piece(Flags spec,
+static void write_complete_piece(output_plaintext_move_context_type *context,
+                                 Flags spec,
                                  piece_walk_type piece,
                                  square on)
 {
-  WriteSpec1(spec,piece,true);
-  WritePiece1(piece);
-  WriteSquare1(on);
+  WriteSpec(context->engine,context->file,spec,piece,true);
+  WriteWalk(context->engine,context->file,piece);
+  WriteSquare(context->engine,context->file,on);
 }
 
 static Flags find_piece_walk(output_plaintext_move_context_type const *context,
@@ -266,8 +310,9 @@ static void write_flags_change(output_plaintext_move_context_type *context,
   switch (move_effect_journal[curr].reason)
   {
     case move_effect_reason_pawn_promotion:
-      protocol_fputc('=',stdout);
-      WriteSpec1(move_effect_journal[curr].u.flags_change.to,
+      (*context->engine->fputc)('=',context->file);
+      WriteSpec(context->engine,context->file,
+                 move_effect_journal[curr].u.flags_change.to,
                  find_piece_walk(context,curr,move_effect_journal[curr].u.flags_change.on),
                  false);
       break;
@@ -278,9 +323,10 @@ static void write_flags_change(output_plaintext_move_context_type *context,
         /* otherwise the flags are written with the changed piece */
       {
         next_context(context,curr,"[","]");
-        WriteSquare1(move_effect_journal[curr].u.flags_change.on);
-        protocol_fputc('=',stdout);
-        WriteSpec1(move_effect_journal[curr].u.flags_change.to,
+        WriteSquare(context->engine,context->file,move_effect_journal[curr].u.flags_change.on);
+        (*context->engine->fputc)('=',context->file);
+        WriteSpec(context->engine,context->file,
+                   move_effect_journal[curr].u.flags_change.to,
                    being_solved.board[move_effect_journal[curr].u.flags_change.on],
                    false);
       }
@@ -300,17 +346,17 @@ static void write_side_change(output_plaintext_move_context_type *context,
     case move_effect_reason_volage_side_change:
     case move_effect_reason_magic_square:
     case move_effect_reason_circe_turncoats:
-      protocol_fputc('=',stdout);
-      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),stdout);
+      (*context->engine->fputc)('=',context->file);
+      (*context->engine->fputc)(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),context->file);
       break;
 
     case move_effect_reason_magic_piece:
     case move_effect_reason_masand:
     case move_effect_reason_hurdle_colour_changing:
       next_context(context,curr,"[","]");
-      WriteSquare1(move_effect_journal[curr].u.side_change.on);
-      protocol_fputc('=',stdout);
-      protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),stdout);
+      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.side_change.on);
+      (*context->engine->fputc)('=',context->file);
+      (*context->engine->fputc)(tolower(ColourTab[move_effect_journal[curr].u.side_change.to][0]),context->file);
       break;
 
     default:
@@ -364,23 +410,23 @@ static void write_piece_change(output_plaintext_move_context_type *context,
       {
         square const on = move_effect_journal[curr].u.piece_change.on;
         Flags const flags = find_piece_flags(context,curr,on);
-        protocol_fputc('=',stdout);
-        WriteSpec1(flags,move_effect_journal[curr].u.piece_change.to,false);
-        WritePiece1(move_effect_journal[curr].u.piece_change.to);
+        (*context->engine->fputc)('=',context->file);
+        WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_change.to,false);
+        WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
       }
       break;
 
     case move_effect_reason_singlebox_promotion:
       /* type 3 is already dealt with, so this is type 2 */
       next_context(context,curr,"[","]");
-      write_singlebox_promotion(curr);
+      write_singlebox_promotion(context,curr);
       break;
 
     case move_effect_reason_kobul_king:
       next_context(context,curr,"[","]");
 
-      WriteSquare1(move_effect_journal[curr].u.piece_change.on);
-      protocol_fputc('=',stdout);
+      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_change.on);
+      (*context->engine->fputc)('=',context->file);
 
       {
         Flags flags;
@@ -391,17 +437,17 @@ static void write_piece_change(output_plaintext_move_context_type *context,
         else
           flags = BIT(Royal);
 
-        WriteSpec1(flags,move_effect_journal[curr].u.piece_change.to,false);
+        WriteSpec(context->engine,context->file,flags,move_effect_journal[curr].u.piece_change.to,false);
       }
 
-      WritePiece1(move_effect_journal[curr].u.piece_change.to);
+      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
       break;
 
     case move_effect_reason_einstein_chess:
     case move_effect_reason_football_chess_substitution:
     case move_effect_reason_king_transmutation:
-      protocol_fputc('=',stdout);
-      WritePiece1(move_effect_journal[curr].u.piece_change.to);
+      (*context->engine->fputc)('=',context->file);
+      WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
       break;
 
     default:
@@ -427,12 +473,13 @@ static void write_piece_movement(output_plaintext_move_context_type *context,
     case move_effect_reason_castling_partner_movement:
       if (CondFlag[castlingchess])
       {
-        protocol_fputc('/',stdout);
-        write_complete_piece(move_effect_journal[curr].u.piece_movement.movingspec,
-                                              move_effect_journal[curr].u.piece_movement.moving,
-                                              move_effect_journal[curr].u.piece_movement.from);
-        protocol_fputc('-',stdout);
-        WriteSquare1(move_effect_journal[curr].u.piece_movement.to);
+        (*context->engine->fputc)('/',context->file);
+        write_complete_piece(context,
+                             move_effect_journal[curr].u.piece_movement.movingspec,
+                             move_effect_journal[curr].u.piece_movement.moving,
+                             move_effect_journal[curr].u.piece_movement.from);
+        (*context->engine->fputc)('-',context->file);
+        WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_movement.to);
       }
       else
       {
@@ -469,11 +516,12 @@ static void write_transfer(output_plaintext_move_context_type *context,
 {
   next_context(context,removal,"[","]");
 
-  write_complete_piece(move_effect_journal[removal].u.piece_removal.flags,
-                                        move_effect_journal[removal].u.piece_removal.walk,
-                                        move_effect_journal[removal].u.piece_removal.on);
+  write_complete_piece(context,
+                       move_effect_journal[removal].u.piece_removal.flags,
+                       move_effect_journal[removal].u.piece_removal.walk,
+                       move_effect_journal[removal].u.piece_removal.on);
 
-  protocol_fprintf(stdout,"%s","->");
+  (*context->engine->fprintf)(context->file,"%s",(*context->symbol_table)[output_symbol_right_arrow]);
 
   if (move_effect_journal[removal].u.piece_removal.flags
       !=move_effect_journal[addition].u.piece_addition.flags
@@ -481,23 +529,25 @@ static void write_transfer(output_plaintext_move_context_type *context,
           && is_king(move_effect_journal[removal].u.piece_removal.walk)
           && !is_king(move_effect_journal[addition].u.piece_addition.walk)))
   {
-    WriteSpec1(move_effect_journal[addition].u.piece_addition.flags,
+    WriteSpec(context->engine,context->file,
+               move_effect_journal[addition].u.piece_addition.flags,
                move_effect_journal[addition].u.piece_addition.walk,
                false);
-    WritePiece1(move_effect_journal[addition].u.piece_addition.walk);
+    WriteWalk(context->engine,context->file,move_effect_journal[addition].u.piece_addition.walk);
   }
   else if (move_effect_journal[removal].u.piece_removal.walk
            !=move_effect_journal[addition].u.piece_addition.walk)
-    WritePiece1(move_effect_journal[addition].u.piece_addition.walk);
+    WriteWalk(context->engine,context->file,move_effect_journal[addition].u.piece_addition.walk);
 
-  WriteSquare1(move_effect_journal[addition].u.piece_addition.on);
+  WriteSquare(context->engine,context->file,move_effect_journal[addition].u.piece_addition.on);
 }
 
 static void write_piece_creation(output_plaintext_move_context_type *context,
                                  move_effect_journal_index_type curr)
 {
   next_context(context,curr,"[+","]");
-  write_complete_piece(move_effect_journal[curr].u.piece_addition.flags,
+  write_complete_piece(context,
+                       move_effect_journal[curr].u.piece_addition.flags,
                        move_effect_journal[curr].u.piece_addition.walk,
                        move_effect_journal[curr].u.piece_addition.on);
 }
@@ -506,7 +556,7 @@ static void write_piece_readdition(output_plaintext_move_context_type *context,
                                    move_effect_journal_index_type curr)
 {
   if (move_effect_journal[curr].reason==move_effect_reason_volcanic_remember)
-    protocol_fprintf(stdout,"%s","->v");
+    (*context->engine->fprintf)(context->file,"%s","->v");
   else
   {
     PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
@@ -539,9 +589,10 @@ static void write_piece_removal(output_plaintext_move_context_type *context,
 
     case move_effect_reason_kamikaze_capturer:
       next_context(context,curr,"[-","]");
-      write_complete_piece(move_effect_journal[curr].u.piece_removal.flags,
-                                            move_effect_journal[curr].u.piece_removal.walk,
-                                            move_effect_journal[curr].u.piece_removal.on);
+      write_complete_piece(context,
+                           move_effect_journal[curr].u.piece_removal.flags,
+                           move_effect_journal[curr].u.piece_removal.walk,
+                           move_effect_journal[curr].u.piece_removal.on);
       break;
 
     case move_effect_reason_assassin_circe_rebirth:
@@ -570,15 +621,15 @@ static void write_piece_exchange(output_plaintext_move_context_type *context,
 
     case move_effect_reason_oscillating_kings:
       next_context(context,curr,"[","]");
-      WritePiece1(get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
-      WriteSquare1(move_effect_journal[curr].u.piece_exchange.to);
-      protocol_fprintf(stdout,"%s","<->");
-      WritePiece1(get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.to));
-      WriteSquare1(move_effect_journal[curr].u.piece_exchange.from);
+      WriteWalk(context->engine,context->file,get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.from));
+      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_exchange.to);
+      (*context->engine->fprintf)(context->file,"%s",(*context->symbol_table)[output_symbol_left_right_arrow]);
+      WriteWalk(context->engine,context->file,get_walk_of_piece_on_square(move_effect_journal[curr].u.piece_exchange.to));
+      WriteSquare(context->engine,context->file,move_effect_journal[curr].u.piece_exchange.from);
       break;
 
     default:
-      write_exchange(curr);
+      write_exchange(context,curr);
       break;
   }
 }
@@ -586,20 +637,20 @@ static void write_piece_exchange(output_plaintext_move_context_type *context,
 static void write_half_neutral_deneutralisation(output_plaintext_move_context_type *context,
                                                 move_effect_journal_index_type curr)
 {
-  protocol_fputc('=',stdout);
-  protocol_fputc(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]),stdout);
-  protocol_fputc('h',stdout);
+  (*context->engine->fputc)('=',context->file);
+  (*context->engine->fputc)(tolower(ColourTab[move_effect_journal[curr].u.half_neutral_phase_change.side][0]),context->file);
+  (*context->engine->fputc)('h',context->file);
 }
 
 static void write_half_neutral_neutralisation(output_plaintext_move_context_type *context,
                                               move_effect_journal_index_type curr)
 {
-  protocol_fprintf(stdout,"%s","=nh");
+  (*context->engine->fprintf)(context->file,"%s","=nh");
 }
 
 static void write_imitator_addition(output_plaintext_move_context_type *context)
 {
-  protocol_fprintf(stdout,"=I");
+  (*context->engine->fprintf)(context->file,"=I");
 }
 
 static void write_imitator_movement(output_plaintext_move_context_type *context,
@@ -608,16 +659,16 @@ static void write_imitator_movement(output_plaintext_move_context_type *context,
   unsigned int const nr_moved = move_effect_journal[curr].u.imitator_movement.nr_moved;
   unsigned int icount;
 
-  protocol_fprintf(stdout,"[I");
+  (*context->engine->fprintf)(context->file,"[I");
 
   for (icount = 0; icount<nr_moved; ++icount)
   {
-    WriteSquare1(being_solved.isquare[icount]);
+    WriteSquare(context->engine,context->file,being_solved.isquare[icount]);
     if (icount+1<nr_moved)
-      protocol_fputc(',',stdout);
+      (*context->engine->fputc)(',',context->file);
   }
 
-  protocol_fputc(']',stdout);
+  (*context->engine->fputc)(']',context->file);
 }
 
 static void write_bgl_status(output_plaintext_move_context_type *context,
@@ -631,17 +682,17 @@ static void write_bgl_status(output_plaintext_move_context_type *context,
     {
       next_context(context,curr," (",")");
       WriteBGLNumber(buf,BGL_values[White]);
-      protocol_fprintf(stdout,"%s",buf);
+      (*context->engine->fprintf)(context->file,"%s",buf);
     }
   }
   else
   {
     next_context(context,curr," (",")");
     WriteBGLNumber(buf,BGL_values[White]);
-    protocol_fprintf(stdout,"%s",buf);
-    protocol_fputc('/',stdout);
+    (*context->engine->fprintf)(context->file,"%s",buf);
+    (*context->engine->fputc)('/',context->file);
     WriteBGLNumber(buf,BGL_values[Black]);
-    protocol_fprintf(stdout,"%s",buf);
+    (*context->engine->fprintf)(context->file,"%s",buf);
   }
 }
 
@@ -712,7 +763,9 @@ static void write_other_effects(output_plaintext_move_context_type *context)
   }
 }
 
-void output_plaintext_write_move(void)
+void output_plaintext_write_move(output_engine_type const *engine,
+                                 FILE *file,
+                                 output_symbol_table_type const *symbol_table)
 {
   output_plaintext_move_context_type context;
 
@@ -721,8 +774,9 @@ void output_plaintext_write_move(void)
 #endif
 
   if (CondFlag[singlebox] && SingleBoxType==ConditionType3)
-    write_singlebox_type3_promotion();
+    write_singlebox_type3_promotion(engine,file,symbol_table);
 
+  context_open(&context,engine,file,symbol_table,move_effect_journal_base[nbply],"","");
   write_regular_move(&context);
   write_other_effects(&context);
   context_close(&context);

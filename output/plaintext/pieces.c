@@ -10,14 +10,15 @@
 #include <ctype.h>
 #include <string.h>
 
-boolean WriteSpec(FILE *file, Flags sp, piece_walk_type p, boolean printcolours)
+boolean WriteSpec(output_engine_type const * engine, FILE *file,
+                  Flags sp, piece_walk_type p, boolean printcolours)
 {
   boolean ret = false;
   piece_flag_type spname;
 
   if (is_piece_neutral(sp))
   {
-    fputc(tolower(ColourString[UserLanguage][colour_neutral][0]),file);
+    (*engine->fputc)(tolower(ColourString[UserLanguage][colour_neutral][0]),file);
     ret = true;
   }
   else if (printcolours)
@@ -25,16 +26,16 @@ boolean WriteSpec(FILE *file, Flags sp, piece_walk_type p, boolean printcolours)
     if (areColorsSwapped)
     {
       if (TSTFLAG(sp,White))
-        fputc(tolower(ColourString[UserLanguage][colour_black][0]),file);
+        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_black][0]),file);
       if (TSTFLAG(sp,Black))
-        fputc(tolower(ColourString[UserLanguage][colour_white][0]),file);
+        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_white][0]),file);
     }
     else
     {
       if (TSTFLAG(sp,White))
-        fputc(tolower(ColourString[UserLanguage][colour_white][0]),file);
+        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_white][0]),file);
       if (TSTFLAG(sp,Black))
-        fputc(tolower(ColourString[UserLanguage][colour_black][0]),file);
+        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_black][0]),file);
     }
   }
 
@@ -45,109 +46,38 @@ boolean WriteSpec(FILE *file, Flags sp, piece_walk_type p, boolean printcolours)
         && (spname!=Royal || !is_king(p))
         && TSTFLAG(sp, spname))
     {
-      fputc(tolower(PieSpString[UserLanguage][spname-nr_sides][0]),file);
+      (*engine->fputc)(tolower(PieSpString[UserLanguage][spname-nr_sides][0]),file);
       ret = true;
     }
 
   return ret;
 }
 
-boolean WriteSpec1(Flags sp, piece_walk_type p, boolean printcolours)
-{
-  boolean ret = false;
-  piece_flag_type spname;
-
-  if (is_piece_neutral(sp))
-  {
-    protocol_fputc(tolower(ColourString[UserLanguage][colour_neutral][0]),stdout);
-    ret = true;
-  }
-  else if (printcolours)
-  {
-    if (areColorsSwapped)
-    {
-      if (TSTFLAG(sp,White))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_black][0]),stdout);
-      if (TSTFLAG(sp,Black))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_white][0]),stdout);
-    }
-    else
-    {
-      if (TSTFLAG(sp,White))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_white][0]),stdout);
-      if (TSTFLAG(sp,Black))
-        protocol_fputc(tolower(ColourString[UserLanguage][colour_black][0]),stdout);
-    }
-  }
-
-  for (spname = nr_sides; spname<nr_piece_flags; ++spname)
-    if ((spname!=Volage || !CondFlag[volage])
-        && (spname!=Patrol || !CondFlag[patrouille])
-        && (spname!=Beamtet || !CondFlag[beamten])
-        && (spname!=Royal || !is_king(p))
-        && TSTFLAG(sp, spname))
-    {
-      protocol_fputc(tolower(PieSpString[UserLanguage][spname-nr_sides][0]),stdout);
-      ret = true;
-    }
-
-  return ret;
-}
-
-void WritePiece(FILE *file, piece_walk_type p)
+void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)
 {
   if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
   {
     char const p1 = PieceTab[p][1];
-    fputc(toupper(PieceTab[p][0]),file);
+    (*engine->fputc)(toupper(PieceTab[p][0]),file);
     if (p1!=' ')
-      fputc(toupper(p1),file);
+      (*engine->fputc)(toupper(p1),file);
   }
   else
   {
     unsigned int const i = p-Hunter0;
-    assert(i<max_nr_hunter_walks);
-    WritePiece(file,huntertypes[i].away);
-    fputc('/',file);
-    WritePiece(file,huntertypes[i].home);
+    WriteWalk(engine,file,huntertypes[i].away);
+    (*engine->fputc)('/',file);
+    WriteWalk(engine,file,huntertypes[i].home);
   }
 }
 
-void WritePiece1(piece_walk_type p)
+void WriteSquare(output_engine_type const * engine, FILE *file, square i)
 {
-  if (p<Hunter0 || p>= (Hunter0 + max_nr_hunter_walks))
-  {
-    char const p1 = PieceTab[p][1];
-    protocol_fputc(toupper(PieceTab[p][0]),stdout);
-    if (p1!=' ')
-      protocol_fputc(toupper(p1),stdout);
-  }
-  else
-  {
-    unsigned int const i = p-Hunter0;
-    assert(i<max_nr_hunter_walks);
-    WritePiece1(huntertypes[i].away);
-    protocol_fputc('/',stdout);
-    WritePiece1(huntertypes[i].home);
-  }
-}
-
-void WriteSquare1(square i)
-{
-  protocol_fputc('a' - nr_files_on_board + i%onerow,stdout);
+  (*engine->fputc)('a' - nr_files_on_board + i%onerow,file);
   if (isBoardReflected)
-    protocol_fputc('8' + nr_rows_on_board - i/onerow,stdout);
+    (*engine->fputc)('8' + nr_rows_on_board - i/onerow,file);
   else
-    protocol_fputc('1' - nr_rows_on_board + i/onerow,stdout);
-}
-
-void WriteSquare(FILE *file, square i)
-{
-  fputc('a' - nr_files_on_board + i%onerow,file);
-  if (isBoardReflected)
-    fputc('8' + nr_rows_on_board - i/onerow,file);
-  else
-    fputc('1' - nr_rows_on_board + i/onerow,file);
+    (*engine->fputc)('1' - nr_rows_on_board + i/onerow,file);
 }
 
 void AppendSquare(char *List, square s)

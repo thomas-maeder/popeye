@@ -642,7 +642,9 @@ void output_plaintext_tree_write_move(void)
   if (move_depth%2==1)
     protocol_fprintf(stdout,"%s","..");
 
-  output_plaintext_write_move();
+  output_plaintext_write_move(&output_plaintext_engine,
+                              stdout,
+                              &output_plaintext_symbol_table);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
