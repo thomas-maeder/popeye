@@ -18,15 +18,6 @@ void output_plaintext_write_move(output_engine_type const *engine,
                                  FILE *file,
                                  output_symbol_table_type const *symbol_table);
 
-/* Determine whether a goal writer slice should replace the check writer slice
- * which would normally following the possible check deliverd by the move just
- * played (i.e. if both a possible check and the symbol for the reached goal
- * should be written).
- * @param goal goal written by goal writer
- * @return true iff the check writer should be replaced by the goal writer
- */
-boolean output_plaintext_goal_writer_replaces_check_writer(goal_type goal);
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:

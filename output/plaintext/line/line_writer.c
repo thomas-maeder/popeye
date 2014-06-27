@@ -169,7 +169,7 @@ void output_plaintext_line_write_line(goal_type goal)
   output_plaintext_write_move(&output_plaintext_engine,
                               stdout,
                               &output_plaintext_symbol_table);
-  if (!output_plaintext_goal_writer_replaces_check_writer(goal))
+  if (!output_goal_preempts_check(goal))
     write_potential_check();
 
   TraceFunctionExit(__func__);

@@ -782,45 +782,6 @@ void output_plaintext_write_move(output_engine_type const *engine,
   context_close(&context);
 }
 
-/* Determine whether a goal writer slice should replace the check writer slice
- * which would normally following the possible check deliverd by the move just
- * played (i.e. if both a possible check and the symbol for the reached goal
- * should be written).
- * @param goal goal written by goal writer
- * @return true iff the check writer should be replaced by the goal writer
- */
-boolean output_plaintext_goal_writer_replaces_check_writer(goal_type goal)
-{
-  boolean result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",goal);
-  TraceFunctionParamListEnd();
-
-  switch (goal)
-  {
-    case goal_mate:
-    case goal_check:
-    case goal_doublemate:
-    case goal_countermate:
-    case goal_mate_or_stale:
-    case goal_stale:
-    case goal_dblstale:
-    case goal_autostale:
-      result = true;
-      break;
-
-    default:
-      result = false;
-      break;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void select_output_mode(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);

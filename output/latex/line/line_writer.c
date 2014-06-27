@@ -163,7 +163,7 @@ static void output_latex_line_write_line(FILE *file, goal_type goal)
   output_plaintext_write_move(&output_latex_engine,
                               file,
                               &output_latex_symbol_table);
-  if (!output_plaintext_goal_writer_replaces_check_writer(goal))
+  if (!output_goal_preempts_check(goal))
     write_potential_check(file);
 
   TraceFunctionExit(__func__);

@@ -9,11 +9,45 @@
 
 char versionString[100];
 
-#ifdef _SE_
-#include "se.h"
-#endif
-
 boolean flag_regression;
+
+/* Determine whether the symbol for a reached goal preempts the symbol for a given
+ * check (if not, both a possible check and the symbol for the reached goal
+ * should be written).
+ * @param goal goal written by goal writer
+ * @return true iff the check writer should be replaced by the goal writer
+ */
+boolean output_goal_preempts_check(goal_type goal)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",goal);
+  TraceFunctionParamListEnd();
+
+  switch (goal)
+  {
+    case goal_mate:
+    case goal_check:
+    case goal_doublemate:
+    case goal_countermate:
+    case goal_mate_or_stale:
+    case goal_stale:
+    case goal_dblstale:
+    case goal_autostale:
+      result = true;
+      break;
+
+    default:
+      result = false;
+      break;
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
 
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice

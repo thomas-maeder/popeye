@@ -29,6 +29,14 @@ typedef enum
 
 typedef char const *output_symbol_table_type[output_nr_symbols];
 
+/* Determine whether the symbol for a reached goal preempts the symbol for a given
+ * check (if not, both a possible check and the symbol for the reached goal
+ * should be written).
+ * @param goal goal written by goal writer
+ * @return true iff the check writer should be replaced by the goal writer
+ */
+boolean output_goal_preempts_check(goal_type goal);
+
 /* Allocate an STOutputModeSelector slice
  * @param mode output mode to be selected by the allocated slice
  * @return identifier of the allocated slice

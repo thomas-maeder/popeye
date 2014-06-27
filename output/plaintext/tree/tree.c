@@ -526,7 +526,7 @@ static void remove_check_handler_if_unused(slice_index si, stip_structure_traver
   stip_traverse_structure_children_pipe(si,st);
 
   if (state->goal.type!=no_goal
-      && output_plaintext_goal_writer_replaces_check_writer(state->goal.type))
+      && output_goal_preempts_check(state->goal.type))
     pipe_remove(si);
 
   TraceFunctionExit(__func__);
