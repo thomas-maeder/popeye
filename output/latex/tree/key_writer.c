@@ -1,7 +1,6 @@
 #include "output/latex/tree/key_writer.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "output/plaintext/message.h"
 #include "platform/beep.h"
 #include "solving/pipe.h"
 #include "options/options.h"

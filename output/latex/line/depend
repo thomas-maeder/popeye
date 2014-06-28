@@ -129,9 +129,8 @@ output/latex/line/line_writer$(OBJ_SUFFIX): output/latex/line/line_writer.c \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h output/plaintext/move_inversion_counter.h \
  output/plaintext/line/end_of_intro_series_marker.h \
- output/plaintext/message.h output/message.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -202,10 +201,6 @@ position/pieceid.h:
 output/plaintext/move_inversion_counter.h:
 
 output/plaintext/line/end_of_intro_series_marker.h:
-
-output/plaintext/message.h:
-
-output/message.h:
 
 solving/has_solution_type.h:
 

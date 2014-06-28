@@ -1,20 +1,31 @@
 #include "output/plaintext/message.h"
 #include "output/plaintext/protocol.h"
-#include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
 #include "platform/pytime.h"
+#include "platform/maxmem.h"
+#include "platform/platform.h"
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+boolean is_variable_output_suppressed = false;
+
 #if defined(DEBUG)
 #       define  DBG(x) fprintf x
 #else
 #       define DBG(x)
 #endif
+
+/* Suppress output that is supposed to be different in two runs with the same
+ * input, e.g. timing information
+ */
+void output_plaintext_suppress_variable(void)
+{
+  is_variable_output_suppressed = true;
+}
 
 /* Issue a message text
  * @param id identifies the message
@@ -138,12 +149,46 @@ static void format_time(void)
  */
 void output_plaintext_print_time(char const *header, char const *trail)
 {
-  if (!flag_regression)
+  if (!is_variable_output_suppressed)
   {
     protocol_fprintf(stdout,"%s",header);
     protocol_fprintf(stdout,output_message_get(TimeString));
     format_time();
     protocol_fprintf(stdout,"%s",trail);
+  }
+}
+
+#if !defined(OSTYPE)
+#  if defined(C370)
+#    define OSTYPE "MVS"
+#  elseif defined(DOS)
+#    define OSTYPE "DOS"
+#  elseif defined(ATARI)
+#    define OSTYPE "ATARI"
+#  elseif defined(_WIN98)
+#    define OSTYPE "WINDOWS98"
+#  elseif defined(_WIN16) || defined(_WIN32)
+#    define OSTYPE "WINDOWS"
+#  elseif defined(__unix)
+#    if defined(__GO32__)
+#      define OSTYPE "DOS"
+#    else
+#      define OSTYPE "UNIX"
+#    endif  /* __GO32__ */
+#  else
+#    define OSTYPE "C"
+#  endif
+#endif
+
+/* Print information about the program version, platform, maximum memory ...
+ */
+void output_plaintext_print_version_info(FILE *file)
+{
+  if (!is_variable_output_suppressed)
+  {
+    fprintf(file,"Popeye %s-%uBit v%.2f %s",
+            OSTYPE,platform_guess_bitness(),VERSION,maxmemString());
+    fflush(file);
   }
 }
 

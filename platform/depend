@@ -59,3 +59,6 @@ platform/beep.h:
 utilities/boolean.h:
 
 platform/beep_impl.h:
+platform/platform$(OBJ_SUFFIX): platform/platform.c platform/platform.h
+
+platform/platform.h:

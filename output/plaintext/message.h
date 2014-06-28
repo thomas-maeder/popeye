@@ -5,6 +5,11 @@
 
 #include <stdio.h>
 
+/* Suppress output that is supposed to be different in two runs with the same
+ * input, e.g. timing information
+ */
+void output_plaintext_suppress_variable(void);
+
 /* Report a verification error that causes the current problem to be ignored
  * @param id identiifes the diagnostic message
  */
@@ -43,6 +48,10 @@ void output_plaintext_input_error_message(message_id_t n, int val);
  * @note nothing is issued if we are in regression testing mode
  */
 void output_plaintext_print_time(char const *header, char const *trail);
+
+/* Print information about the program version, platform, maximum memory ...
+ */
+void output_plaintext_print_version_info(FILE *file);
 
 /* Issue a message that the program is being aborted
  * @param signal identifies the aborting signal

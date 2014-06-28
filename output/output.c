@@ -7,10 +7,6 @@
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
-char versionString[100];
-
-boolean flag_regression;
-
 /* Determine whether the symbol for a reached goal preempts the symbol for a given
  * check (if not, both a possible check and the symbol for the reached goal
  * should be written).

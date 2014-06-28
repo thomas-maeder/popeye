@@ -568,11 +568,16 @@ Token ReadInitialTwin(slice_index root_slice_hook)
 
         case TraceToken:
         {
-          char const *open_mode = flag_regression ? "w" : "a";
-          char const *format = flag_regression ? "" : "%s %s";
           ReadToEndOfLine();
-          if (!protocol_open(InputLine,open_mode,format,versionString,maxmemString()))
-            output_plaintext_input_error_message(WrOpenError,0);
+
+          {
+            FILE * const protocol = protocol_open(InputLine);
+            if (protocol==0)
+              output_plaintext_input_error_message(WrOpenError,0);
+            else
+              output_plaintext_print_version_info(protocol);
+          }
+
           tok = ReadNextTokStr();
           break;
         }

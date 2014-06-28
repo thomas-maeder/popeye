@@ -2,9 +2,7 @@
 #include "output/latex/twinning.h"
 #include "output/latex/line/line.h"
 #include "output/latex/tree/tree.h"
-#include "output/output.h"
 #include "output/plaintext/language_dependant.h"
-#include "output/plaintext/message.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/condition.h"
 #include "input/plaintext/problem.h"
@@ -312,8 +310,7 @@ void LaTeXEndDiagram(FILE *file)
         || hasMaxtimeElapsed()))
   {
     fputs(" \\Co+%",file);
-    if (!flag_regression)
-      fputs(versionString,file);
+    output_plaintext_print_version_info(file);
     fputs("\n",file);
   }
 

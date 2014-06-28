@@ -2,11 +2,11 @@
 #include "solving/moves_traversal.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "input/plaintext/problem.h"
-#include "output/output.h"
 #include "output/plaintext/language_dependant.h"
+#include "output/plaintext/protocol.h"
 #include "output/latex/latex.h"
-#include "platform/maxmem.h"
 #include "platform/maxtime.h"
+#include "platform/maxmem.h"
 #include "platform/pytime.h"
 #include "platform/priority.h"
 #include "debugging/trace.h"
@@ -15,24 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-/* Guess the "bitness" of the platform
- * @return 32 if we run on a 32bit platform etc.
- */
-static unsigned int guessPlatformBitness(void)
-{
-#if defined(__unix) || __APPLE__ & __MACH__
-#  if defined(ULONG_MAX) && ULONG_MAX==18446744073709551615U
-  return 64;
-#  else
-  return 32;
-#  endif
-#elif defined(_WIN64)
-  return 64;
-#elif defined(_WIN32)
-  return 32;
-#endif
-}
 
 /* assert()s below this line must remain active even in "productive"
  * executables. */
@@ -104,7 +86,8 @@ int parseCommandlineOptions(int argc, char *argv[])
     }
     else if (strcmp(argv[idx], "-regression")==0)
     {
-      flag_regression = true;
+      protocol_overwrite();
+      output_plaintext_suppress_variable();
       idx++;
       continue;
     }
@@ -140,28 +123,6 @@ int parseCommandlineOptions(int argc, char *argv[])
   return idx;
 }
 
-#if !defined(OSTYPE)
-#  if defined(C370)
-#    define OSTYPE "MVS"
-#  elseif defined(DOS)
-#    define OSTYPE "DOS"
-#  elseif defined(ATARI)
-#    define OSTYPE "ATARI"
-#  elseif defined(_WIN98)
-#    define OSTYPE "WINDOWS98"
-#  elseif defined(_WIN16) || defined(_WIN32)
-#    define OSTYPE "WINDOWS"
-#  elseif defined(__unix)
-#    if defined(__GO32__)
-#      define OSTYPE "DOS"
-#    else
-#      define OSTYPE "UNIX"
-#    endif  /* __GO32__ */
-#  else
-#    define OSTYPE "C"
-#  endif
-#endif
-
 int main(int argc, char *argv[])
 {
   int idx_end_of_options;
@@ -174,14 +135,6 @@ int main(int argc, char *argv[])
   init_slice_allocator();
   init_structure_children_visitors();
   init_moves_children_visitors();
-
-  sprintf(versionString,
-          "Popeye %s-%uBit v%.2f",
-          OSTYPE,guessPlatformBitness(),VERSION);
-
-  hash_max_number_storable_positions = ULONG_MAX;
-  flag_regression = false;
-
   initMaxmem();
 
   idx_end_of_options = parseCommandlineOptions(argc,argv);
@@ -200,8 +153,7 @@ int main(int argc, char *argv[])
 
     InitCheckDir();
 
-    fputs(versionString,stdout);
-    fputs(maxmemString(),stdout);
+    output_plaintext_print_version_info(stdout);
 
     iterate_problems();
 

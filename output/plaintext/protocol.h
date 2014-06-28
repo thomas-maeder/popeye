@@ -1,21 +1,21 @@
 #if !defined(OUTPUT_PLAINTEXT_PROTOCOL_H)
 #define OUTPUT_PLAINTEXT_PROTOCOL_H
 
-#include "utilities/boolean.h"
-
 #include <stdarg.h>
 #include <stdio.h>
 
+/* Remember for this run's proptocol (if any) to overwrite (rather than append
+ * to) a previous run's protocol (if any)
+ */
+void protocol_overwrite(void);
+
 /* Open a new protocol file
  * @param filename name of protocol file
- * @param open_mode open mode for the file to be opened
- * @param format printf() format string for the intro to be written to the file
- * @param ... values to be converted into the file according to format
- * @return true iff the new file could be successfully opened
+ * @return the opened file (for writing some intro text)
+ *         0 if it couln't be opened
  * @note the previous protocol file (if any) is closed
  */
-boolean protocol_open(char const *filename, char const *open_mode,
-                      char const *format, ...);
+FILE *protocol_open(char const *filename);
 
 /* like putchar().
  * If a trace file is active, output goes to the trace file as well

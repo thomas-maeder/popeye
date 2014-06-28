@@ -6,8 +6,6 @@
 #include "solving/move_effect_journal.h"
 #include "output/output.h"
 
-extern char versionString[100];
-
 extern output_engine_type const output_plaintext_engine;
 extern output_symbol_table_type const output_plaintext_symbol_table;
 

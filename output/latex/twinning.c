@@ -3,7 +3,6 @@
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/language_dependant.h"
-#include "output/plaintext/message.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/condition.h"
 #include "input/plaintext/stipulation.h"

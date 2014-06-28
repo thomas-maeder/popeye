@@ -4,7 +4,6 @@
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"
 #include "output/plaintext/plaintext.h"
-#include "output/plaintext/message.h"
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"

@@ -539,7 +539,6 @@ output/latex/tree/key_writer$(OBJ_SUFFIX): output/latex/tree/key_writer.c \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
- output/plaintext/message.h output/message.h input/plaintext/language.h \
  platform/beep.h solving/pipe.h options/options.h debugging/assert.h
 
 output/latex/tree/key_writer.h:
@@ -589,12 +588,6 @@ stipulation/slice_functional_type.h:
 stipulation/slice_functional_type.enum.h:
 
 stipulation/traversal.h:
-
-output/plaintext/message.h:
-
-output/message.h:
-
-input/plaintext/language.h:
 
 platform/beep.h:
 

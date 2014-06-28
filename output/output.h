@@ -7,8 +7,6 @@
 
 #include <stdarg.h>
 
-extern boolean flag_regression;
-
 typedef struct
 {
     int (*fputc)(int c, FILE *regular);

@@ -54,42 +54,51 @@ static void InitBoard(void)
   being_solved.king_square[Black] = initsquare;
 }
 
-static void ReadBeginSpec(void)
+/* iterate until we detect an input token that identifies the user's language
+ * @return the detected language
+ */
+static Language detect_user_language(void)
 {
   while (true)
   {
     char *tok = ReadNextTokStr();
-    TokenTab = TokenString[0];
-    for (UserLanguage= 0; UserLanguage<LanguageCount; UserLanguage++)
-    {
-      TokenTab= &(TokenString[UserLanguage][0]);
-      if (GetUniqIndex(TokenCount,TokenTab,tok)==BeginProblem)
-      {
-        OptTab= &OptString[UserLanguage][0];
-        CondTab= &CondString[UserLanguage][0];
-        TwinningTab= &TwinningString[UserLanguage][0];
-        TwinningMirrorTab= &TwinningMirrorString[UserLanguage][0];
-        VaultingVariantTypeTab = &VaultingVariantTypeString[UserLanguage][0];
-        ConditionLetteredVariantTypeTab = &ConditionLetteredVariantTypeString[UserLanguage][0];
-        ConditionNumberedVariantTypeTab = &ConditionNumberedVariantTypeString[UserLanguage][0];
-        AntiCirceVariantTypeTab = &AntiCirceVariantTypeString[UserLanguage][0];
-        SentinellesVariantTypeTab = &SentinellesVariantTypeString[UserLanguage][0];
-        GridVariantTypeTab = &GridVariantTypeString[UserLanguage][0];
-        KobulVariantTypeTab = &KobulVariantTypeString[UserLanguage][0];
-        KoekoVariantTypeTab = &KoekoVariantTypeString[UserLanguage][0];
-        CirceVariantTypeTab = &CirceVariantTypeString[UserLanguage][0];
-        ExtraCondTab= &ExtraCondString[UserLanguage][0];
-        mummer_strictness_tab = &mummer_strictness_string[UserLanguage][0];
-        PieceTab= PieNamString[UserLanguage];
-        PieSpTab= PieSpString[UserLanguage];
-        ColourTab= ColourString[UserLanguage];
-        output_message_initialise_language(UserLanguage);
-        return;
-      }
-    }
+
+    Language lang;
+    for (lang = 0; lang<LanguageCount; ++lang)
+      if (GetUniqIndex(TokenCount,TokenString[lang],tok)==BeginProblem)
+        return lang;
 
     output_plaintext_input_error_message(NoBegOfProblem, 0);
   }
+
+  return LanguageCount; /* avoid compiler warning */
+}
+
+static void ReadBeginSpec(void)
+{
+  UserLanguage = detect_user_language();
+
+  TokenTab = &TokenString[UserLanguage][0];
+  OptTab= &OptString[UserLanguage][0];
+  CondTab= &CondString[UserLanguage][0];
+  TwinningTab= &TwinningString[UserLanguage][0];
+  TwinningMirrorTab= &TwinningMirrorString[UserLanguage][0];
+  VaultingVariantTypeTab = &VaultingVariantTypeString[UserLanguage][0];
+  ConditionLetteredVariantTypeTab = &ConditionLetteredVariantTypeString[UserLanguage][0];
+  ConditionNumberedVariantTypeTab = &ConditionNumberedVariantTypeString[UserLanguage][0];
+  AntiCirceVariantTypeTab = &AntiCirceVariantTypeString[UserLanguage][0];
+  SentinellesVariantTypeTab = &SentinellesVariantTypeString[UserLanguage][0];
+  GridVariantTypeTab = &GridVariantTypeString[UserLanguage][0];
+  KobulVariantTypeTab = &KobulVariantTypeString[UserLanguage][0];
+  KoekoVariantTypeTab = &KoekoVariantTypeString[UserLanguage][0];
+  CirceVariantTypeTab = &CirceVariantTypeString[UserLanguage][0];
+  ExtraCondTab= &ExtraCondString[UserLanguage][0];
+  mummer_strictness_tab = &mummer_strictness_string[UserLanguage][0];
+  PieceTab= PieNamString[UserLanguage];
+  PieSpTab= PieSpString[UserLanguage];
+  ColourTab= ColourString[UserLanguage];
+
+  output_message_initialise_language(UserLanguage);
 }
 
 static void write_problem_footer(void)
@@ -114,7 +123,7 @@ static void write_problem_footer(void)
  */
 void iterate_problems(void)
 {
-  Token prev_token = BeginProblem;
+  Token prev_token;
 
   ReadBeginSpec();
 

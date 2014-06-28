@@ -116,7 +116,7 @@
 #include "platform/pytime.h"
 #endif
 
-unsigned long  hash_max_number_storable_positions;
+unsigned long hash_max_number_storable_positions = ULONG_MAX;
 
 typedef unsigned int hash_value_type;
 
