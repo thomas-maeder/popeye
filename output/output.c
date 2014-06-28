@@ -109,9 +109,7 @@ void solving_insert_output_slices(slice_index si)
   TraceStipulation(si);
 
   output_plaintext_instrument_solving(si);
-
-  if (LaTeXFile!=0)
-    output_latex_instrument_solving(si,LaTeXFile);
+  output_latex_instrument_solving(si);
 
   {
     slice_index const prototypes[] =

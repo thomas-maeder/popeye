@@ -29,8 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-FILE *LaTeXFile;
-
+static FILE *LaTeXFile;
 static char *LaTeXPiecesAbbr[nr_piece_walks];
 static char *LaTeXPiecesFull[nr_piece_walks];
 char *LaTeXStdPie[8] = { NULL, "C", "K", "B", "D", "S", "T", "L"};
@@ -1101,21 +1100,24 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
 /* Instrument the solving machinery with slices that write the solution in
  * LaTeX
  */
-void output_latex_instrument_solving(slice_index si, FILE *file)
+void output_latex_instrument_solving(slice_index si)
 {
-  stip_structure_traversal st;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(si);
+  if (LaTeXFile!=0)
+  {
+    stip_structure_traversal st;
 
-  stip_structure_traversal_init(&st,file);
-  stip_structure_traversal_override_single(&st,
-                                           STOutputModeSelector,
-                                           &visit_output_mode_selector);
-  stip_traverse_structure(si,&st);
+    TraceStipulation(si);
+
+    stip_structure_traversal_init(&st,LaTeXFile);
+    stip_structure_traversal_override_single(&st,
+                                             STOutputModeSelector,
+                                             &visit_output_mode_selector);
+    stip_traverse_structure(si,&st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

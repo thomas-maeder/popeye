@@ -9,8 +9,6 @@
 
 #include <stdio.h>
 
-extern FILE *LaTeXFile;
-
 extern output_engine_type const output_latex_engine;
 extern output_symbol_table_type const output_latex_symbol_table;
 
@@ -33,6 +31,6 @@ void WriteUserInputElement(FILE *file, char const *name, char const *value);
 /* Instrument the solving machinery with slices that write the solution in
  * LaTeX
  */
-void output_latex_instrument_solving(slice_index si, FILE *file);
+void output_latex_instrument_solving(slice_index si);
 
 #endif
