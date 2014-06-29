@@ -104,9 +104,7 @@ static boolean setupNewTimer(maxtime_type seconds)
   }
 }
 
-/* Kill previously used timer resource (if any)
- */
-static void killPreviousTimer(void)
+void resetMaxtimeTimer(void)
 {
   if (current_timer!=no_timer)
   {
@@ -116,14 +114,9 @@ static void killPreviousTimer(void)
   }
 }
 
-void resetMaxtimeTimer(void)
+boolean setMaxtimeTimer(maxtime_type seconds)
 {
-  current_timer = no_timer;
-}
-
-boolean setMaxtime(maxtime_type seconds)
-{
-  killPreviousTimer();
+  assert(current_timer==no_timer);
 
   if (seconds==no_time_set)
   {

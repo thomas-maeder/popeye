@@ -556,6 +556,7 @@ static slice_index const slice_rank_order[] =
 {
   STProxy,
   STHashOpener,
+  STMaxTimeSetter,
   STTemporaryHackFork,
   STOutputPlainTextPositionWriter,
   STOutputModeSelector,

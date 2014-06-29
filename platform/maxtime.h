@@ -30,12 +30,12 @@ void resetMaxtimeTimer(void);
  *
  * If seconds==no_time_set, sets periods_counter<nr_periods; otherwise
  * periods_counter will be assigned a value >=nr_periods after seconds
- * seconds unless setMaxtime() is called again in the meantime.
+ * seconds unless setMaxtimeTimer() is called again in the meantime.
  *
  * @param seconds number of seconds until periods_counter is to be set
  *                to a value >= nr_periods
  */
-boolean setMaxtime(maxtime_type seconds);
+boolean setMaxtimeTimer(maxtime_type seconds);
 
 /* Set the appropriate maximal solving time based on the command line
  * paramter and option maxtime value.

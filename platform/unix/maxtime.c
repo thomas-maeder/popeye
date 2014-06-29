@@ -160,7 +160,7 @@ void platform_init(void)
   signal(SIGHUP,  &ReDrawBoard);
 }
 
-boolean setMaxtime(maxtime_type seconds)
+boolean setMaxtimeTimer(maxtime_type seconds)
 {
   periods_counter = 0;
   nr_periods = 1;
@@ -173,7 +173,7 @@ boolean setMaxtime(maxtime_type seconds)
 
 #else
 
-boolean setMaxtime(maxtime_type seconds)
+boolean setMaxtimeTimer(maxtime_type seconds)
 {
   if (seconds==no_time_set)
   {

@@ -55,13 +55,13 @@ boolean dealWithMaxtime(void)
    * an option, use the smaller value.
    */
   if (maxTimeCommandLine==no_time_set)
-    result = setMaxtime(maxTimeOption);
+    result = setMaxtimeTimer(maxTimeOption);
   else if (maxTimeOption==no_time_set)
-    result = setMaxtime(maxTimeCommandLine);
+    result = setMaxtimeTimer(maxTimeCommandLine);
   else if (maxTimeCommandLine<maxTimeOption)
-    result = setMaxtime(maxTimeCommandLine);
+    result = setMaxtimeTimer(maxTimeCommandLine);
   else
-    result = setMaxtime(maxTimeOption);
+    result = setMaxtimeTimer(maxTimeOption);
 
   return result;
 }

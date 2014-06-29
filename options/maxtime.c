@@ -3,6 +3,7 @@
 #include "platform/maxtime.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
 #include "output/plaintext/message.h"
 #include "debugging/trace.h"
@@ -146,6 +147,11 @@ void solving_insert_maxtime_guards(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
+
+  {
+    slice_index const prototype = alloc_pipe(STMaxTimeSetter);
+    slice_insertion_insert(si,&prototype,1);
+  }
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_by_function(&st,
