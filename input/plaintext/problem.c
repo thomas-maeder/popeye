@@ -113,15 +113,15 @@ void iterate_problems(void)
     InitCond();
     InitOpt();
 
-    reset_max_solutions();
-    reset_was_max_nr_solutions_per_target_position_reached();
-    reset_short_solution_found_in_problem();
-
     hunters_reset();
 
     prev_token = iterate_twins();
 
     write_problem_footer();
+
+    reset_max_solutions();
+    reset_was_max_nr_solutions_per_target_position_reached();
+    reset_short_solution_found_in_problem();
 
     undo_move_effects();
     finply();

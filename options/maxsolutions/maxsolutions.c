@@ -18,7 +18,7 @@
 static unsigned int nr_solutions_found_in_phase;
 
 /* maximum number of allowed solutions found in the current phase */
-static unsigned int max_nr_solutions_per_phase;
+static unsigned int max_nr_solutions_per_phase = UINT_MAX;
 
 /* has the maximum number of allowed solutions been reached? */
 static boolean allowed_nr_solutions_reached;
