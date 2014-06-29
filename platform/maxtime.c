@@ -10,7 +10,7 @@ static maxtime_type maxTimeOption = no_time_set;
 sig_atomic_t volatile periods_counter = 0;
 
 /* number of seconds after which solving is aborted */
-sig_atomic_t volatile nr_periods = UINT_MAX;
+sig_atomic_t volatile nr_periods = INT_MAX;
 
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter
