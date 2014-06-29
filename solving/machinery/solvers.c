@@ -517,7 +517,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   solving_insert_post_move_iteration(result);
 
-  if (dealWithMaxtime())
+  if (isMaxtimeSet())
     solving_insert_maxtime_guards(result);
 
   if (CondFlag[BGL])

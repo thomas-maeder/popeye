@@ -12,20 +12,6 @@ sig_atomic_t volatile periods_counter = 0;
 /* number of seconds after which solving is aborted */
 sig_atomic_t volatile nr_periods = UINT_MAX;
 
-/* Maximum number of seconds of maxtime supported by the platform.
- * Guaranteed to be initialized after initMaxTime() has returned.
- */
-maxtime_type maxtime_maximum_seconds;
-
-/* Retrieve the maximum number of seconds supported by the platform.
- * Guaranteed to be initialized only after initMaxTime() has returned.
- * @return maximum number of seconds supported by the platform
- */
-maxtime_type maxtimeMaximumSeconds(void)
-{
-  return maxtime_maximum_seconds;
-}
-
 /* Inform the maxtime module about the value of the -maxtime command
  * line parameter
  * @param commandlineValue value of the -maxtime command line parameter
@@ -43,8 +29,14 @@ void resetOptionMaxtime(void)
   maxTimeOption = no_time_set;
 }
 
+boolean isMaxtimeSet(void)
+{
+  return maxTimeOption!=no_time_set || maxTimeCommandLine!=no_time_set;
+}
+
 /* Store the value of the option maxtime.
  * @param optionValue value of the option maxtime
+ * @return true iff the value is valid and could be set
  */
 void setOptionMaxtime(maxtime_type optionValue)
 {
@@ -57,19 +49,21 @@ void setOptionMaxtime(maxtime_type optionValue)
  */
 boolean dealWithMaxtime(void)
 {
+  boolean result;
+
   /* If a maximal time is indicated both on the command line and as
    * an option, use the smaller value.
    */
   if (maxTimeCommandLine==no_time_set)
-    setMaxtime(maxTimeOption);
+    result = setMaxtime(maxTimeOption);
   else if (maxTimeOption==no_time_set)
-    setMaxtime(maxTimeCommandLine);
+    result = setMaxtime(maxTimeCommandLine);
   else if (maxTimeCommandLine<maxTimeOption)
-    setMaxtime(maxTimeCommandLine);
+    result = setMaxtime(maxTimeCommandLine);
   else
-    setMaxtime(maxTimeOption);
+    result = setMaxtime(maxTimeOption);
 
-  return maxTimeCommandLine!=no_time_set || maxTimeOption!=no_time_set;
+  return result;
 }
 
 /* Has the set maximum time elapsed

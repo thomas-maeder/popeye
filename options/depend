@@ -11,7 +11,8 @@ options/maxtime$(OBJ_SUFFIX): options/maxtime.c options/maxtime.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
  platform/maxtime.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/pipe.h debugging/assert.h
+ stipulation/help_play/branch.h solving/pipe.h output/plaintext/message.h \
+ output/message.h input/plaintext/language.h debugging/assert.h
 
 options/maxtime.h:
 
@@ -68,6 +69,12 @@ stipulation/battle_play/branch.h:
 stipulation/help_play/branch.h:
 
 solving/pipe.h:
+
+output/plaintext/message.h:
+
+output/message.h:
+
+input/plaintext/language.h:
 
 debugging/assert.h:
 options/goal_is_end$(OBJ_SUFFIX): options/goal_is_end.c options/goal_is_end.h \

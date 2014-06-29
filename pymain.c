@@ -6,6 +6,7 @@
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/protocol.h"
 #include "output/latex/latex.h"
+#include "platform/platform.h"
 #include "platform/maxtime.h"
 #include "platform/maxmem.h"
 #include "platform/pytime.h"
@@ -140,7 +141,7 @@ int main(int argc, char *argv[])
 
   if (OpenInput(idx_end_of_options<argc ? argv[idx_end_of_options] : ""))
   {
-    initMaxtime();
+    platform_init();
 
     if (!dimensionHashtable())
       fputs("Couldn't allocate the requested amount of memory\n",stdout);

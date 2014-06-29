@@ -6,4 +6,6 @@
  */
 unsigned int platform_guess_bitness(void);
 
+void platform_init(void);
+
 #endif

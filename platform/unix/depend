@@ -5,8 +5,7 @@ platform/maxmem.h:
 
 utilities/boolean.h:
 platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_impl.h \
- platform/maxtime.h utilities/boolean.h output/plaintext/message.h \
- output/message.h input/plaintext/language.h optimisations/hash.h \
+ platform/maxtime.h utilities/boolean.h optimisations/hash.h \
  DHT/dhtbcmem.h pieces/pieces.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h stipulation/slice_type.h \
@@ -17,19 +16,14 @@ platform/unix/maxtime$(OBJ_SUFFIX): platform/unix/maxtime.c platform/maxtime_imp
  output/plaintext/plaintext.h output/output.h output/plaintext/position.h \
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h output/plaintext/pieces.h \
- output/plaintext/protocol.h
+ output/plaintext/protocol.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h
 
 platform/maxtime_impl.h:
 
 platform/maxtime.h:
 
 utilities/boolean.h:
-
-output/plaintext/message.h:
-
-output/message.h:
-
-input/plaintext/language.h:
 
 optimisations/hash.h:
 
@@ -90,6 +84,12 @@ pieces/walks/vectors.h:
 output/plaintext/pieces.h:
 
 output/plaintext/protocol.h:
+
+output/plaintext/message.h:
+
+output/message.h:
+
+input/plaintext/language.h:
 platform/unix/pytime$(OBJ_SUFFIX): platform/unix/pytime.c platform/pytime.h
 
 platform/pytime.h:
@@ -104,3 +104,6 @@ platform/beep.h:
 utilities/boolean.h:
 
 platform/beep_impl.h:
+platform/unix/tmpfile$(OBJ_SUFFIX): platform/unix/tmpfile.c platform/tmpfile.h
+
+platform/tmpfile.h:

@@ -3,6 +3,7 @@
 #include "output/plaintext/message.h"
 #include "output/plaintext/protocol.h"
 #include "utilities/boolean.h"
+#include "platform/tmpfile.h"
 
 #include <ctype.h>
 #include <stdio.h>
@@ -115,24 +116,38 @@ static char LineSpaceChar[] = " \t;.,";
 boolean OpenInput(char const *s)
 {
   if (strlen(s)==0)
+  {
     Input = stdin;
-  else
-    Input = fopen(s,"r");
-
-  if (Input==NULL)
-    return false;
+    InputOriginal = Input;
+    InputMirror = platform_tmpfile();
+    if (InputMirror==0)
+      perror("error opening temporary input mirror file");
+    else
+      return true;
+  }
   else
   {
-    InputOriginal = Input;
-    InputMirror = tmpfile();
-    return true;
+    Input = fopen(s,"r");
+
+    if (Input==NULL)
+      perror("error opening input file");
+    else
+    {
+      InputMirror = Input;
+      InputOriginal = Input;
+      return true;
+    }
   }
+
+  return false;
 }
 
 void CloseInput(void)
 {
   fclose(Input);
-  fclose(InputMirror);
+
+  if (InputMirror!=0 && InputMirror!=Input)
+    fclose(InputMirror);
 }
 
 /* advance LastChar to the next1 input character */

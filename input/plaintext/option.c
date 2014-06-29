@@ -92,7 +92,7 @@ char *ParseOpt(slice_index root_slice_hook)
         unsigned long value;
         tok = ReadNextTokStr();
         value = strtoul(tok,&end,10);
-        if (*end!=0 || value==0 || value>maxtimeMaximumSeconds())
+        if (*end!=0 || value==0 || value>UINT_MAX)
         {
           OptFlag[maxtime]= false;
           output_plaintext_input_error_message(WrongInt, 0);

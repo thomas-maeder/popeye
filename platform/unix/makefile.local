@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
 
-SRC_CFILES = maxmem.c maxtime.c pytime.c priority.c beep.c
+SRC_CFILES = maxmem.c maxtime.c pytime.c priority.c beep.c tmpfile.c
 
 INCLUDES = mac.h
 

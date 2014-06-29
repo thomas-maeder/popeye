@@ -2,6 +2,6 @@
 #
 SRC_CFILES = maxmem.c maxtime.c beep.c platform.c
 INCLUDES = maxmem.h maxtime.h maxtime_impl.h priority.h pytime.h \
-	beep.h beep_impl.h platform.h
+	beep.h beep_impl.h platform.h tmpfile.h
 
 include makefile.rules $(CURRPWD)depend

@@ -4,7 +4,7 @@ input/plaintext/token$(OBJ_SUFFIX): input/plaintext/token.c input/plaintext/toke
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/plaintext/message.h \
- output/message.h output/plaintext/protocol.h
+ output/message.h output/plaintext/protocol.h platform/tmpfile.h
 
 input/plaintext/token.h:
 
@@ -41,6 +41,8 @@ output/plaintext/message.h:
 output/message.h:
 
 output/plaintext/protocol.h:
+
+platform/tmpfile.h:
 input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  input/plaintext/pieces.h position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
@@ -1403,3 +1405,11 @@ input/plaintext/language$(OBJ_SUFFIX): input/plaintext/language.c \
  input/plaintext/language.h
 
 input/plaintext/language.h:
+input/plaintext/memory$(OBJ_SUFFIX): input/plaintext/memory.c \
+ input/plaintext/memory.h platform/maxmem.h utilities/boolean.h
+
+input/plaintext/memory.h:
+
+platform/maxmem.h:
+
+utilities/boolean.h:

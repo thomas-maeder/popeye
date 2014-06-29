@@ -1,7 +1,6 @@
 #include "platform/maxtime_impl.h"
 #include "windows.h"
 #include "utilities/boolean.h"
-#include "output/plaintext/message.h"
 
 #include "debugging/assert.h"
 #include <limits.h>
@@ -35,6 +34,10 @@ static timer_period_type timer_resolutionMS = 1000;
  * machinery is not available.
  */
 static timer_period_type const MM_timers_not_available = 0;
+
+/* we support up to UINT_MAX milliseconds (i.e. ~1 month)
+ */
+static maxtime_type const maxtime_maximum_seconds = UINT_MAX/1000;
 
 /* Calibrate timer resolution based on intended resolution and
  * capabilities indicated by Windows.
@@ -74,7 +77,7 @@ static void CALLBACK tick(unsigned int timer_id,
  * of seconds.
  * @param seconds number of seconds after which solving is aborted
  */
-static void setupNewTimer(maxtime_type seconds)
+static boolean setupNewTimer(maxtime_type seconds)
 {
   unsigned int const intended_period_lengthMS = 1000;
   unsigned int const period_lengthMS = (intended_period_lengthMS
@@ -90,12 +93,15 @@ static void setupNewTimer(maxtime_type seconds)
                                TIME_PERIODIC|TIME_CALLBACK_FUNCTION);
   if (current_timer==no_timer)
   {
-    output_plaintext_verifie_message(NoMaxTime);
     nr_periods = 0;
     periods_counter = 1;
+    return false;
   }
   else
+  {
     periods_counter = 0;
+    return true;
+  }
 }
 
 /* Kill previously used timer resource (if any)
@@ -110,23 +116,12 @@ static void killPreviousTimer(void)
   }
 }
 
-void initMaxtime(void)
+void resetMaxtimeTimer(void)
 {
-  /* Make sure that the variables we update in (something similar to)
-   * a signal are large enough to hold timer period values.
-   */
-  assert(sizeof(timer_period_type)<=sizeof(sig_atomic_t));
-  assert(sizeof(maxtime_type)<=sizeof(sig_atomic_t));
-
-  calibrate_timer_resolution();
   current_timer = no_timer;
-
-  /* we support up to UINT_MAX milliseconds (i.e. ~1 month)
-   */
-  maxtime_maximum_seconds = UINT_MAX/1000;
 }
 
-void setMaxtime(maxtime_type seconds)
+boolean setMaxtime(maxtime_type seconds)
 {
   killPreviousTimer();
 
@@ -134,13 +129,32 @@ void setMaxtime(maxtime_type seconds)
   {
     nr_periods = 1;
     periods_counter = 0;
+    return true;
   }
-  else if (timer_resolutionMS==MM_timers_not_available)
+  else if (seconds>maxtime_maximum_seconds)
   {
-    output_plaintext_verifie_message(NoMaxTime);
     nr_periods = 0;
     periods_counter = 1;
+    return false;
   }
   else
-    setupNewTimer(seconds);
+  {
+    calibrate_timer_resolution();
+
+    if (timer_resolutionMS==MM_timers_not_available)
+    {
+      nr_periods = 0;
+      periods_counter = 1;
+      return false;
+    }
+    else
+    {
+      setupNewTimer(seconds);
+      return true;
+    }
+  }
+}
+
+void platform_init(void)
+{
 }

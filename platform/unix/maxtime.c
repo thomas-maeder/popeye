@@ -1,6 +1,5 @@
 #include "platform/maxtime_impl.h"
 #include "utilities/boolean.h"
-#include "output/plaintext/message.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
@@ -15,6 +14,7 @@
 #include "output/plaintext/position.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/protocol.h"
+#include "output/plaintext/message.h"
 #include "pieces/pieces.h"
 
 /* default signal handler: */
@@ -138,7 +138,7 @@ static void solvingTimeOver(int sig)
   signal(sig,&solvingTimeOver);
 }
 
-void initMaxtime(void)
+void platform_init(void)
 {
   /* register default handler for all supported signals */
   int i;
@@ -158,39 +158,39 @@ void initMaxtime(void)
 #endif /*HASHRATE*/
   signal(SIGALRM, &solvingTimeOver);
   signal(SIGHUP,  &ReDrawBoard);
-
-  maxtime_maximum_seconds = UINT_MAX;
 }
 
-void setMaxtime(maxtime_type seconds)
+boolean setMaxtime(maxtime_type seconds)
 {
   periods_counter = 0;
   nr_periods = 1;
 
   if (seconds!=no_time_set)
     alarm(seconds);
+
+  return true;
 }
 
 #else
 
-void initMaxtime(void)
-{
-  maxtime_maximum_seconds = UINT_MAX;
-}
-
-void setMaxtime(maxtime_type seconds)
+boolean setMaxtime(maxtime_type seconds)
 {
   if (seconds==no_time_set)
   {
     periods_counter = 0;
     nr_periods = 1;
+    return true;
   }
   else
   {
-    output_plaintext_verifie_message(NoMaxTime);
     periods_counter = 1;
     nr_periods = 0;
+    return false;
   }
 }
 
 #endif /*SIGNALS*/
+
+void resetMaxtimeTimer(void)
+{
+}
