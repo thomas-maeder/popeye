@@ -16,6 +16,7 @@
 #include "output/plaintext/protocol.h"
 #include "output/plaintext/message.h"
 #include "pieces/pieces.h"
+#include "debugging/assert.h"
 
 /* default signal handler: */
 static void ReportSignalAndBailOut(int sig)
@@ -166,9 +167,21 @@ boolean setMaxtimeTimer(maxtime_type seconds)
   nr_periods = 1;
 
   if (seconds!=no_time_set)
-    alarm(seconds);
+  {
+#if !defined(NDEBUG)
+    unsigned int const last_alarm_due_time =
+#endif
+        alarm(seconds);
+
+    assert(last_alarm_due_time==0);
+  }
 
   return true;
+}
+
+void resetMaxtimeTimer(void)
+{
+  alarm(0);
 }
 
 #else
@@ -189,8 +202,8 @@ boolean setMaxtimeTimer(maxtime_type seconds)
   }
 }
 
-#endif /*SIGNALS*/
-
 void resetMaxtimeTimer(void)
 {
 }
+
+#endif /*SIGNALS*/
