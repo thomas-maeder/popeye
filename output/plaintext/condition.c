@@ -403,9 +403,9 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
           if (sentinelle_walk == BerolinaPawn)
             written += append_to_CondLine(&CondLine,written," %s","Berolina");
           if (sentinelles_pawn_mode==sentinelles_pawn_adverse)
-            written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionAdverse]);
+            written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeTab[SentinellesVariantPionAdverse]);
           if (sentinelles_pawn_mode==sentinelles_pawn_neutre)
-            written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeString[UserLanguage][SentinellesVariantPionNeutral]);
+            written += append_to_CondLine(&CondLine,written,"  %s",SentinellesVariantTypeTab[SentinellesVariantPionNeutral]);
           if (sentinelles_max_nr_pawns[Black] !=8 || sentinelles_max_nr_pawns[White] != 8)
           {
             written += append_to_CondLine(&CondLine,written," %u",sentinelles_max_nr_pawns[White]);
@@ -551,7 +551,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
         {
           square i;
           if (magic_square_type==ConditionType2)
-            written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
+            written += append_to_CondLine(&CondLine,written, " %s", ConditionNumberedVariantTypeTab[ConditionType2]);
 
           for (i= square_a1; i <= square_h8; i++) {
             if (TSTFLAG(sq_spec[i], MagicSq))
@@ -623,7 +623,7 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case isardam:
           if (isardam_variant==ConditionTypeB)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeTab[ConditionTypeB]);
           if (madrasi_is_rex_inclusive)
             written += append_to_CondLine(&CondLine,written," %s",CirceVariantTypeTab[CirceVariantRexInclusive]);
           break;
@@ -683,13 +683,13 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
             case ConditionTypeA:
               break;
             case ConditionTypeB:
-              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeTab[ConditionTypeB]);
               break;
             case ConditionTypeC:
-              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
+              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeTab[ConditionTypeC]);
               break;
             case ConditionTypeD:
-              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeD]);
+              written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeTab[ConditionTypeD]);
               break;
 
             default:
@@ -706,20 +706,20 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
                 /* nothing */
                 break;
               case grid_vertical_shift:
-                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRank]);
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeTab[GridVariantShiftRank]);
                 break;
               case grid_horizontal_shift:
-                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftFile]);
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeTab[GridVariantShiftFile]);
                 break;
               case grid_diagonal_shift:
-                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantShiftRankFile]);
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeTab[GridVariantShiftRankFile]);
                 break;
               case grid_orthogonal_lines:
-                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantOrthogonal]);
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeTab[GridVariantOrthogonal]);
                 /* to do - write lines */
                 break;
               case grid_irregular:
-                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeString[UserLanguage][GridVariantIrregular]);
+                written += append_to_CondLine(&CondLine,written,"  %s",GridVariantTypeTab[GridVariantIrregular]);
                 /* to do - write squares */
                 break;
             }
@@ -727,32 +727,32 @@ void WriteConditions(FILE *file, condition_writer_type WriteCondition)
 
         case white_oscillatingKs:
           if (OscillatingKings[White]==ConditionTypeB)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeTab[ConditionTypeB]);
           if (OscillatingKings[White]==ConditionTypeC && !CondFlag[swappingkings])
-            written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
+            written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeTab[ConditionTypeC]);
           break;
 
         case black_oscillatingKs:
           if (OscillatingKings[Black]==ConditionTypeB)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeB]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionLetteredVariantTypeTab[ConditionTypeB]);
           if (OscillatingKings[Black]==ConditionTypeC && !CondFlag[swappingkings])
-            written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeString[UserLanguage][ConditionTypeC]);
+            written += append_to_CondLine(&CondLine,written,"  %s",ConditionLetteredVariantTypeTab[ConditionTypeC]);
           break;
 
         case singlebox:
           if (SingleBoxType==ConditionType1)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeTab[ConditionType1]);
           if (SingleBoxType==ConditionType2)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeTab[ConditionType2]);
           if (SingleBoxType==ConditionType3)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType3]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeTab[ConditionType3]);
           break;
 
         case republican:
           if (RepublicanType==ConditionType1)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType1]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeTab[ConditionType1]);
           if (RepublicanType==ConditionType2)
-            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeString[UserLanguage][ConditionType2]);
+            written += append_to_CondLine(&CondLine,written,"    %s",ConditionNumberedVariantTypeTab[ConditionType2]);
           break;
 
         case SAT:

@@ -674,7 +674,7 @@ static boolean FindPiecesWithSpecs(unsigned int SpecCount[nr_piece_flags-nr_side
   {
     piece_flag_type sp;
     for (sp= nr_sides; sp<nr_piece_flags; ++sp)
-      strcpy(ListSpec[sp-nr_sides], PieSpString[UserLanguage][sp-nr_sides]);
+      strcpy(ListSpec[sp-nr_sides],PieSpTab[sp-nr_sides]);
   }
 
   {
@@ -823,7 +823,7 @@ static void WriteHoles(FILE *file,
 
   if (remark_written)
     fputs("{\\newline}\n    ",file);
-  fprintf(file,"%s %s%%\n",CondString[UserLanguage][holes],HolesSqList);
+  fprintf(file,"%s %s%%\n",CondTab[holes],HolesSqList);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -880,7 +880,7 @@ static void WriteStipulation(FILE *file)
   if (OptFlag[solapparent])
     fputs("*",file);
   if (OptFlag[whitetoplay])
-    fprintf(file," %c{\\ra}", tolower(*PieSpString[UserLanguage][White]));
+    fprintf(file," %c{\\ra}", tolower(*PieSpTab[White]));
   CloseElement(file);
 
   TraceFunctionExit(__func__);

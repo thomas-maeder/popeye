@@ -54,7 +54,7 @@ static void WriteCastlingMutuallyExclusive(void)
   if (castling_mutual_exclusive[White][queenside_castling-min_castling]!=0
       || castling_mutual_exclusive[White][kingside_castling-min_castling]!=0)
   {
-    protocol_fprintf(stdout,"%s",OptString[UserLanguage][mutuallyexclusivecastling]);
+    protocol_fprintf(stdout,"%s",OptTab[mutuallyexclusivecastling]);
 
     if ((castling_mutual_exclusive[White][queenside_castling-min_castling]
          &ra_cancastle))
@@ -144,7 +144,7 @@ static void WritePiecesWithAttribute(position const *pos, piece_flag_type sp)
         AppendSquare(squares,square);
   }
 
-  protocol_fprintf_c(stdout,board_width,"%s%s\n",PieSpString[UserLanguage][sp-nr_sides],squares);
+  protocol_fprintf_c(stdout,board_width,"%s%s\n",PieSpTab[sp-nr_sides],squares);
 }
 
 static void WriteNonRoyalAttributedPieces(position const *pos)
@@ -184,7 +184,7 @@ static void WriteRoyalPiecePositions(position const *pos)
   }
 
   if (nr_royals>0)
-    protocol_fprintf_c(stdout,board_width,"%s%s\n",PieSpString[UserLanguage][Royal-nr_sides],squares);
+    protocol_fprintf_c(stdout,board_width,"%s%s\n",PieSpTab[Royal-nr_sides],squares);
 }
 
 static void DoPieceCounts(position const *pos,
@@ -441,12 +441,12 @@ static void WriteCaptions(position const *pos)
   WriteCastlingMutuallyExclusive();
 
   if (OptFlag[halfduplex])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptString[UserLanguage][halfduplex]);
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[halfduplex]);
   else if (OptFlag[duplex])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptString[UserLanguage][duplex]);
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[duplex]);
 
   if (OptFlag[quodlibet])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptString[UserLanguage][quodlibet]);
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[quodlibet]);
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid();
@@ -460,7 +460,7 @@ void WritePositionAtoB(Side starter)
   protocol_fputc('\n',stdout);
 
   protocol_fputc('\n',stdout);
-  protocol_fprintf_c(stdout,board_width,"=> (%s ->)\n",ColourString[UserLanguage][starter]);
+  protocol_fprintf_c(stdout,board_width,"=> (%s ->)\n",ColourTab[starter]);
   protocol_fputc('\n',stdout);
 
   WriteBoard(&proofgames_target_position);

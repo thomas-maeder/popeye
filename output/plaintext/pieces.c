@@ -18,7 +18,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
 
   if (is_piece_neutral(sp))
   {
-    (*engine->fputc)(tolower(ColourString[UserLanguage][colour_neutral][0]),file);
+    (*engine->fputc)(tolower(ColourTab[colour_neutral][0]),file);
     ret = true;
   }
   else if (printcolours)
@@ -26,16 +26,16 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
     if (areColorsSwapped)
     {
       if (TSTFLAG(sp,White))
-        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_black][0]),file);
+        (*engine->fputc)(tolower(ColourTab[colour_black][0]),file);
       if (TSTFLAG(sp,Black))
-        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_white][0]),file);
+        (*engine->fputc)(tolower(ColourTab[colour_white][0]),file);
     }
     else
     {
       if (TSTFLAG(sp,White))
-        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_white][0]),file);
+        (*engine->fputc)(tolower(ColourTab[colour_white][0]),file);
       if (TSTFLAG(sp,Black))
-        (*engine->fputc)(tolower(ColourString[UserLanguage][colour_black][0]),file);
+        (*engine->fputc)(tolower(ColourTab[colour_black][0]),file);
     }
   }
 
@@ -46,7 +46,7 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
         && (spname!=Royal || !is_king(p))
         && TSTFLAG(sp, spname))
     {
-      (*engine->fputc)(tolower(PieSpString[UserLanguage][spname-nr_sides][0]),file);
+      (*engine->fputc)(tolower(PieSpTab[spname-nr_sides][0]),file);
       ret = true;
     }
 

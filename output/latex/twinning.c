@@ -242,8 +242,7 @@ static void WriteStipulation(move_effect_journal_index_type curr)
   if (OptFlag[whitetoplay])
   {
     char temp[10];        /* increased due to buffer overflow */
-    sprintf(temp, " %c{\\ra}",
-            tolower(*PieSpString[UserLanguage][White]));
+    sprintf(temp, " %c{\\ra}",tolower(*PieSpTab[White]));
     strcat(twinning, temp);
   }
 }

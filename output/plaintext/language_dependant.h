@@ -15,36 +15,17 @@
 #include "output/plaintext/message.h"
 
 typedef char PieceChar[2];
-typedef PieceChar PieTable[nr_piece_walks];
-extern PieTable PieNamString[LanguageCount];
 
 extern PieceChar *PieceTab;
 
 extern char const * const *OptTab;
-extern char const * const OptString[LanguageCount][OptCount];
-
-extern char const * const CondString[LanguageCount][CondCount];
 extern char const * const *CondTab;
-
-extern char const * const ExtraCondString[LanguageCount][ExtraCondCount];
 extern char const * const *ExtraCondTab;
-
-extern char const * const ColourString[LanguageCount][nr_colours];
 extern char const * const *ColourTab;
-
-extern char const * const PieSpString[LanguageCount][nr_piece_flags-nr_sides];
 extern char const * const *PieSpTab;
-
-extern char const * const VaultingVariantTypeString[LanguageCount][1];
 extern char const * const *VaultingVariantTypeTab;
-
-extern char const * const ConditionLetteredVariantTypeString[LanguageCount][ConditionLetteredVariantTypeCount];
 extern char const * const *ConditionLetteredVariantTypeTab;
-
-extern char const * const ConditionNumberedVariantTypeString[LanguageCount][ConditionNumberedVariantTypeCount];
 extern char const * const *ConditionNumberedVariantTypeTab;
-
-extern char const * const AntiCirceVariantTypeString[LanguageCount][anticirce_type_count];
 extern char const * const *AntiCirceVariantTypeTab;
 
 typedef enum
@@ -61,7 +42,6 @@ typedef enum
   SentinellesVariantCount
 } SentinellesVariantType;
 
-extern char const * const SentinellesVariantTypeString[LanguageCount][SentinellesVariantCount];
 extern char const * const *SentinellesVariantTypeTab;
 
 typedef enum
@@ -76,7 +56,6 @@ typedef enum
   GridVariantCount
 } GridVariantType;
 
-extern char const * const GridVariantTypeString[LanguageCount][GridVariantCount];
 extern char const * const *GridVariantTypeTab;
 
 typedef enum
@@ -87,10 +66,8 @@ typedef enum
   KobulVariantCount
 } KobulVariantType;
 
-extern char const * const KobulVariantTypeString[LanguageCount][KobulVariantCount];
 extern char const * const *KobulVariantTypeTab;
 
-extern char const * const KoekoVariantTypeString[LanguageCount][1];
 extern char const * const *KoekoVariantTypeTab;
 
 typedef enum
@@ -132,19 +109,12 @@ typedef enum
   CirceVariantCount
 } CirceVariantType;
 
-extern char const * const CirceVariantTypeString[LanguageCount][CirceVariantCount];
 extern char const * const *CirceVariantTypeTab;
-
-extern char const * const TwinningString[LanguageCount][TwinningCount];
 extern char const * const *TwinningTab;
-
-extern char const * const TwinningMirrorString[LanguageCount][TwinningMirrorCount];
 extern char const * const *TwinningMirrorTab;
-
-extern char const * const mummer_strictness_string[LanguageCount][nr_mummer_strictness];
 extern char const * const *mummer_strictness_tab;
 
-extern char const *MessageTabs[LanguageCount][MsgCount];
+void output_plaintext_select_language(Language lang);
 
 /* Make sure that we don't define ambiguous piece name shortcuts */
 void enforce_piecename_uniqueness(void);
