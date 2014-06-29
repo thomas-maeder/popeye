@@ -30,7 +30,7 @@ static boolean are_pieceids_required;
 
 /* Keep track of allocated slice indices
  */
-static boolean is_slice_index_free[max_nr_slices];
+static boolean is_slice_index_allocated[max_nr_slices];
 
 /* Make sure that there are now allocated slices that are not
  * reachable
@@ -44,29 +44,12 @@ void assert_no_leaked_slices(void)
 
   for (i = 0; i!=max_nr_slices; ++i)
   {
-    if (!is_slice_index_free[i])
+    if (is_slice_index_allocated[i])
     {
       TraceValue("leaked:%u",i);
     }
-    assert(is_slice_index_free[i]);
+    assert(!is_slice_index_allocated[i]);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Initialize the slice allocation machinery. To be called once at
- * program start
- */
-void init_slice_allocator(void)
-{
-  slice_index si;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  for (si = 0; si!=max_nr_slices; ++si)
-    is_slice_index_free[si] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -83,12 +66,12 @@ static slice_index alloc_slice(void)
   TraceFunctionParamListEnd();
 
   for (result = 0; result!=max_nr_slices; ++result)
-    if (is_slice_index_free[result])
+    if (!is_slice_index_allocated[result])
       break;
 
   assert(result<max_nr_slices);
 
-  is_slice_index_free[result] = false;
+  is_slice_index_allocated[result] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -105,8 +88,8 @@ void dealloc_slice(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(!is_slice_index_free[si]);
-  is_slice_index_free[si] = true;
+  assert(is_slice_index_allocated[si]);
+  is_slice_index_allocated[si] = false;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

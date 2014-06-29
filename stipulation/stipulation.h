@@ -116,11 +116,6 @@ enum
 
 extern Slice slices[max_nr_slices];
 
-/* Initialize the slice allocation machinery. To be called once at
- * program start
- */
-void init_slice_allocator(void);
-
 /* Dellocate a slice index
  * @param si slice index deallocated
  */
