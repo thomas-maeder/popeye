@@ -134,7 +134,6 @@ int main(int argc, char *argv[])
   initialise_slice_properties();
   init_structure_children_visitors();
   init_moves_children_visitors();
-  initMaxmem();
 
   idx_end_of_options = parseCommandlineOptions(argc,argv);
 

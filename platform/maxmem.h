@@ -3,11 +3,6 @@
 
 #include "utilities/boolean.h"
 
-/* Initialize maxmem module.
- * To be called before any other function of this module.
- */
-void initMaxmem(void);
-
 /* Interpret maxmem command line parameter value
  * @param commandLineValue value of -maxmem command line parameter
  */

@@ -19,19 +19,11 @@ static maxmem_kilos_type const nothing_requested = ULONG_MAX;
 
 /* Amount of memory requested by the user
  */
-static maxmem_kilos_type amountMemoryRequested;
+static maxmem_kilos_type amountMemoryRequested = ULONG_MAX;
 
 /* Amount of memory actually allocated, in human-readable format
  */
 static char MaxMemoryString[37];
-
-/* Initialize maxmem module.
- * To be called before any other function of this module.
- */
-void initMaxmem(void)
-{
-  amountMemoryRequested = nothing_requested;
-}
 
 /* Interpret maxmem command line parameter value
  * @param commandLineValue value of -maxmem command line parameter
