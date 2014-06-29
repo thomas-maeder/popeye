@@ -6,6 +6,7 @@
 
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static char SpaceChar[] = " \t\n\r;.,";
@@ -139,7 +140,8 @@ static void NextChar(void)
 {
   int const ch = getc(Input);
   if (ch==EOF)
-    LastChar= ' ';
+    /* premature EOF - bail out */
+    exit(1);
   else
   {
     LastChar = ch;
