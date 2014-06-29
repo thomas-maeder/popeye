@@ -2,6 +2,7 @@
 #include "solving/moves_traversal.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "input/plaintext/problem.h"
+#include "input/plaintext/memory.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/protocol.h"
 #include "output/latex/latex.h"
@@ -80,7 +81,7 @@ int parseCommandlineOptions(int argc, char *argv[])
     }
     else if (idx+1<argc && strcmp(argv[idx],"-maxmem")==0)
     {
-      readMaxmem(argv[idx+1]);
+      input_plaintext_read_requested_memory(argv[idx+1]);
       idx += 2;
       continue;
     }

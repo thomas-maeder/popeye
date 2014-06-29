@@ -180,14 +180,26 @@ void output_plaintext_print_time(char const *header, char const *trail)
 #  endif
 #endif
 
+static void format_allocated_memory(FILE *file, maxmem_kilos_type allocated)
+{
+  if (allocated>=10*one_giga)
+    fprintf(file, " (%lu GB)", allocated/one_giga);
+  else if (allocated>=10*one_mega)
+    fprintf(file, " (%lu MB)", allocated/one_mega);
+  else
+    fprintf(file, " (%lu KB)", allocated);
+}
+
 /* Print information about the program version, platform, maximum memory ...
  */
 void output_plaintext_print_version_info(FILE *file)
 {
   if (!is_variable_output_suppressed)
   {
-    fprintf(file,"Popeye %s-%uBit v%.2f %s",
-            OSTYPE,platform_guess_bitness(),VERSION,maxmemString());
+    fprintf(file,"Popeye %s-%uBit v%.2f",
+            OSTYPE,platform_guess_bitness(),VERSION);
+    format_allocated_memory(file,getAllocatedMemory());
+    fputc('\n',file);
     fflush(file);
   }
 }

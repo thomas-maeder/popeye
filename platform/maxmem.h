@@ -3,10 +3,11 @@
 
 #include "utilities/boolean.h"
 
-/* Interpret maxmem command line parameter value
- * @param commandLineValue value of -maxmem command line parameter
- */
-void readMaxmem(char const *commandLineValue);
+typedef unsigned long maxmem_kilos_type;
+
+extern maxmem_kilos_type const one_mega;
+extern maxmem_kilos_type const one_giga;
+extern maxmem_kilos_type const nothing_requested;
 
 /* Allocate memory for the hash table, based on the -maxmem command
  * line value (if any) and information retrieved from the operating
@@ -16,18 +17,21 @@ void readMaxmem(char const *commandLineValue);
  */
 boolean dimensionHashtable(void);
 
-/* Retrieve a human-readable indication of the maximal amount of
- * memory used by the hash table.
- * Only invoke after dimensionHashtable().
- * @return maximal amount of hash table memory, in human readable format
- */
-char const *maxmemString(void);
-
 /* Make a guess for a reasonable amount of memory for the hashtable.
  * Implemented separately for each platform.
  * Invoked by maxmem module; don't invoke directly.
  * @return number of kilo-bytes to be used
  */
 unsigned long guessReasonableMaxmemory(void);
+
+/* request an amount of memory
+ * @param requested number of kilo-bytes requested
+ */
+void requestMemory(maxmem_kilos_type requested);
+
+/* Retrieve amount of memory actually allocated
+ * @return amount
+ */
+maxmem_kilos_type getAllocatedMemory(void);
 
 #endif

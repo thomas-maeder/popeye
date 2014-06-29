@@ -2,62 +2,31 @@
 #include "optimisations/hash.h"
 
 #include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-typedef unsigned long maxmem_kilos_type;
-
-static maxmem_kilos_type const one_mega = 1<<10;
-static maxmem_kilos_type const one_giga = 1<<20;
+maxmem_kilos_type const one_mega = 1<<10;
+maxmem_kilos_type const one_giga = 1<<20;
 
 /* Singular value indiciating that the user made no request for a
  * maximal amount of memory to be allocated for the hash table.
  * We don't use 0 because the user may indicate -maxmem 0 to prevent a hash
  * table from being used at all.
  */
-static maxmem_kilos_type const nothing_requested = ULONG_MAX;
+maxmem_kilos_type const nothing_requested = ULONG_MAX;
 
 /* Amount of memory requested by the user
  */
 static maxmem_kilos_type amountMemoryRequested = ULONG_MAX;
 
-/* Amount of memory actually allocated, in human-readable format
+/* Amount of memory actually allocated
  */
-static char MaxMemoryString[37];
+static maxmem_kilos_type amountMemoryAllocated;
 
-/* Interpret maxmem command line parameter value
- * @param commandLineValue value of -maxmem command line parameter
+/* request an amount of memory
+ * @param requested number of kilo-bytes requested
  */
-void readMaxmem(char const *commandLineValue)
+void requestMemory(maxmem_kilos_type requested)
 {
-  char *end;
-  amountMemoryRequested = strtoul(commandLineValue,&end,10);
-  if (commandLineValue==end)
-    /* conversion failure
-     * -> set to 0 now and to default value further down */
-    amountMemoryRequested = nothing_requested;
-  else if (*end=='G')
-    amountMemoryRequested *= one_giga;
-  else if (*end=='M')
-    amountMemoryRequested *= one_mega;
-}
-
-/* Initialise string containing hash table memory actually allocated
- * in human-readable form
- * @param amountMemoryAllocated hash table memory actually allocated
- */
-static void initMaxMemoryString(maxmem_kilos_type amountMemoryAllocated)
-{
-  /* We do not issue our startup message via the language
-     dependant Msg-Tables, since there the version is
-     too easily changed, or not updated.
-  */
-  if (amountMemoryAllocated>=10*one_giga)
-    sprintf(MaxMemoryString, " (%lu GB)\n", amountMemoryAllocated/one_giga);
-  else if (amountMemoryAllocated>=10*one_mega)
-    sprintf(MaxMemoryString, " (%lu MB)\n", amountMemoryAllocated/one_mega);
-  else
-    sprintf(MaxMemoryString, " (%lu KB)\n", amountMemoryAllocated);
+  amountMemoryRequested = requested;
 }
 
 /* Allocate memory for the hash table, based on the -maxmem command
@@ -69,7 +38,6 @@ static void initMaxMemoryString(maxmem_kilos_type amountMemoryAllocated)
 boolean dimensionHashtable(void)
 {
   boolean result = true;
-  maxmem_kilos_type amountMemoryAllocated;
 
   if (amountMemoryRequested==nothing_requested)
   {
@@ -82,17 +50,14 @@ boolean dimensionHashtable(void)
     result = amountMemoryAllocated>=amountMemoryRequested;
   }
 
-  initMaxMemoryString(amountMemoryAllocated);
-
   return result;
 }
 
-/* Retrieve a human-readable indication of the maximal amount of
- * memory used by the hash table.
- * Only invoke after dimensionHashtable().
- * @return maximal amount of hash table memory, in human readable format
+/* Retrieve amount of memory actually allocated
+ * @return amount
  */
-char const *maxmemString(void)
+maxmem_kilos_type getAllocatedMemory(void)
 {
-  return MaxMemoryString;
+  return amountMemoryAllocated;
 }
+
