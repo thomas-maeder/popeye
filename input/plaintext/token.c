@@ -150,18 +150,24 @@ void CloseInput(void)
     fclose(InputMirror);
 }
 
-/* advance LastChar to the next1 input character */
+/* advance LastChar to the next input character */
 static void NextChar(void)
 {
-  int const ch = getc(Input);
-  if (ch==EOF)
+  if (feof(Input))
     /* premature EOF - bail out */
     exit(1);
   else
   {
-    LastChar = ch;
-    if (InputMirror!=Input)
-      fputc(ch,InputMirror);
+    int const ch = getc(Input);
+    if (ch==EOF)
+      /* causes end of token to be recognised if input lacks final \n */
+      LastChar = ' ';
+    else
+    {
+      LastChar = ch;
+      if (InputMirror!=Input)
+        fputc(ch,InputMirror);
+    }
   }
 }
 
