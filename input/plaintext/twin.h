@@ -33,11 +33,12 @@ typedef enum
   TwinningMirrorCount
 } TwinningMirrorType;
 
-Token ReadTwin(Token tk, slice_index root_slice_hook);
+Token ReadInitialTwin(slice_index root_slice_hook);
 
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-Token iterate_twins(void);
+Token input_plaintext_twins_iterate(Token end_of_initial_twin,
+                                    slice_index stipulation_root_hook);
 
 #endif

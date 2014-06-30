@@ -125,6 +125,50 @@ int parseCommandlineOptions(int argc, char *argv[])
   return idx;
 }
 
+/* iterate until we detect an input token that identifies the user's language
+ * @return the detected language
+ */
+static Language detect_user_language(void)
+{
+  while (true)
+  {
+    char *tok = ReadNextTokStr();
+
+    Language lang;
+    for (lang = 0; lang<LanguageCount; ++lang)
+      if (GetUniqIndex(TokenCount,TokenString[lang],tok)==BeginProblem)
+        return lang;
+
+    output_plaintext_input_error_message(NoBegOfProblem, 0);
+  }
+
+  return LanguageCount; /* avoid compiler warning */
+}
+
+/* Iterate over the problems read from standard input or the input
+ * file indicated in the command line options
+ */
+static void iterate_problems(void)
+{
+  Token prev_token;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  UserLanguage = detect_user_language();
+
+  output_plaintext_select_language(UserLanguage);
+  output_message_initialise_language(UserLanguage);
+
+  do
+  {
+    prev_token = input_plaintext_problem_handle();
+  } while (prev_token==NextProblem);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 int main(int argc, char *argv[])
 {
   int idx_end_of_options;

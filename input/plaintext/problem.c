@@ -10,8 +10,11 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "pieces/walks/hunters.h"
+#include "position/underworld.h"
 #include "solving/move_generator.h"
+#include "stipulation/proxy.h"
 #include "platform/maxtime.h"
+#include "platform/pytime.h"
 #include "debugging/assert.h"
 
 char ActAuthor[256];
@@ -54,26 +57,6 @@ static void InitBoard(void)
   being_solved.king_square[Black] = initsquare;
 }
 
-/* iterate until we detect an input token that identifies the user's language
- * @return the detected language
- */
-static Language detect_user_language(void)
-{
-  while (true)
-  {
-    char *tok = ReadNextTokStr();
-
-    Language lang;
-    for (lang = 0; lang<LanguageCount; ++lang)
-      if (GetUniqIndex(TokenCount,TokenString[lang],tok)==BeginProblem)
-        return lang;
-
-    output_plaintext_input_error_message(NoBegOfProblem, 0);
-  }
-
-  return LanguageCount; /* avoid compiler warning */
-}
-
 static void write_problem_footer(void)
 {
   if (max_solutions_reached()
@@ -91,39 +74,55 @@ static void write_problem_footer(void)
   protocol_fflush(stdout);
 }
 
-/* Iterate over the problems read from standard input or the input
- * file indicated in the command line options
+/* Handle (read, solve, write) the current problem
+ * @return the input token that ends the problem (NextProblem or EndProblem)
  */
-void iterate_problems(void)
+Token input_plaintext_problem_handle(void)
 {
-  Token prev_token;
+  Token result;
+  slice_index stipulation_root_hook;
 
-  UserLanguage = detect_user_language();
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-  output_plaintext_select_language(UserLanguage);
-  output_message_initialise_language(UserLanguage);
+  nextply(no_side);
+  assert(nbply==ply_diagram_setup);
 
-  do
+  InitMetaData();
+  InitBoard();
+  InitCond();
+  InitOpt();
+
+  stipulation_root_hook = alloc_proxy_slice();
+
+  ply_reset();
+
+  result = ReadInitialTwin(stipulation_root_hook);
+
+  if (slices[stipulation_root_hook].next1==no_slice)
+    output_plaintext_input_error_message(NoStipulation,0);
+  else
   {
-    nextply(no_side);
-    assert(nbply==ply_diagram_setup);
-
-    InitMetaData();
-    InitBoard();
-    InitCond();
-    InitOpt();
-
-    hunters_reset();
-
-    prev_token = iterate_twins();
-
+    StartTimer();
+    initialise_piece_ids();
+    result = input_plaintext_twins_iterate(result,stipulation_root_hook);
     write_problem_footer();
+  }
 
-    reset_max_solutions();
-    reset_was_max_nr_solutions_per_target_position_reached();
-    reset_short_solution_found_in_problem();
+  dealloc_slices(stipulation_root_hook);
+  assert_no_leaked_slices();
 
-    undo_move_effects();
-    finply();
-  } while (prev_token==NextProblem);
+  reset_max_solutions();
+  reset_was_max_nr_solutions_per_target_position_reached();
+  reset_short_solution_found_in_problem();
+  hunters_reset();
+  underworld_reset();
+
+  undo_move_effects();
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

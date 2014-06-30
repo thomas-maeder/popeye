@@ -1,15 +1,17 @@
 #if !defined(INPUT_PLAINTEXT_PROBLEM_H)
 #define INPUT_PLAINTEXT_PROBLEM_H
 
+#include "input/plaintext/token.h"
+
 extern char ActAuthor[256];
 extern char ActOrigin[256];
 extern char ActTitle[256];
 extern char ActAward[256];
 extern char ActStip[37];
 
-/* Iterate over the problems read from standard input or the input
- * file indicated in the command line options
+/* Handle (read, solve, write) the current problem
+ * @return the input token that ends the problem (NextProblem or EndProblem)
  */
-void iterate_problems(void);
+Token input_plaintext_problem_handle(void);
 
 #endif

@@ -19,10 +19,8 @@
 #include "options/goal_is_end.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/chameleon.h"
-#include "position/underworld.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
-#include "stipulation/proxy.h"
 #include "stipulation/move_inverter.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/help_play/branch.h"
@@ -31,7 +29,6 @@
 #include "solving/machinery/twin.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
-#include "platform/pytime.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
@@ -625,7 +622,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
   return result;
 }
 
-Token ReadSubsequentTwin(slice_index root_slice_hook)
+static Token ReadSubsequentTwin(slice_index root_slice_hook)
 {
   Token result;
   char *tok;
@@ -860,7 +857,7 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-static Token solve_twins(slice_index stipulation_root_hook)
+static Token twins_handle(slice_index stipulation_root_hook)
 {
   Token result;
 
@@ -891,70 +888,53 @@ static Token solve_twins(slice_index stipulation_root_hook)
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-Token iterate_twins(void)
+Token input_plaintext_twins_iterate(Token end_of_initial_twin,
+                                    slice_index stipulation_root_hook)
 {
-  Token end_of_twin_token;
-  slice_index stipulation_root_hook;
+  Token end_of_twins;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",end_of_initial_twin);
+  TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  stipulation_root_hook = alloc_proxy_slice();
+  nextply(no_side);
+  assert(nbply==ply_twinning);
 
-  underworld_reset();
-
-  ply_reset();
-
-  end_of_twin_token = ReadInitialTwin(stipulation_root_hook);
-
-  if (slices[stipulation_root_hook].next1==no_slice)
-    output_plaintext_input_error_message(NoStipulation,0);
-  else
+  if (end_of_initial_twin==ZeroPosition)
   {
-    nextply(no_side);
-    assert(nbply==ply_twinning);
+    twin_stage = twin_zeroposition;
+    deal_with_stipulation(stipulation_root_hook);
 
-    StartTimer();
-
-    initialise_piece_ids();
-
-    if (end_of_twin_token==ZeroPosition)
-    {
-      twin_stage = twin_zeroposition;
-      deal_with_stipulation(stipulation_root_hook);
-
-      end_of_twin_token = ReadSubsequentTwin(stipulation_root_hook);
-      if (end_of_twin_token!=TwinProblem)
-        output_plaintext_input_error_message(ZeroPositionNoTwin,0);
-      else if (slices[stipulation_root_hook].next1==no_slice)
-        output_plaintext_input_error_message(NoStipulation,0);
-      else
-      {
-        twin_stage = twin_regular;
-        end_of_twin_token = solve_twins(stipulation_root_hook);
-      }
-    }
-    else if (end_of_twin_token==TwinProblem)
-    {
-      twin_stage = twin_initial;
-      end_of_twin_token = solve_twins(stipulation_root_hook);
-    }
+    end_of_twins = ReadSubsequentTwin(stipulation_root_hook);
+    if (end_of_twins!=TwinProblem)
+      output_plaintext_input_error_message(ZeroPositionNoTwin,0);
+    else if (slices[stipulation_root_hook].next1==no_slice)
+      output_plaintext_input_error_message(NoStipulation,0);
     else
     {
-      twin_is_continued = false;
-      twin_stage = twin_original_position_no_twins;
-      deal_with_stipulation(stipulation_root_hook);
+      twin_stage = twin_regular;
+      end_of_twins = twins_handle(stipulation_root_hook);
     }
-
-    undo_move_effects();
-    finply();
-
-    dealloc_slices(stipulation_root_hook);
-    assert_no_leaked_slices();
+  }
+  else if (end_of_initial_twin==TwinProblem)
+  {
+    twin_stage = twin_initial;
+    end_of_twins = twins_handle(stipulation_root_hook);
+  }
+  else
+  {
+    twin_is_continued = false;
+    twin_stage = twin_original_position_no_twins;
+    deal_with_stipulation(stipulation_root_hook);
+    end_of_twins = end_of_initial_twin;
   }
 
+  undo_move_effects();
+  finply();
+
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",end_of_twin_token);
+  TraceFunctionResult("%u",end_of_twins);
   TraceFunctionResultEnd();
-  return end_of_twin_token;
+  return end_of_twins;
 }
