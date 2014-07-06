@@ -1,8 +1,7 @@
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
-#include "stipulation/pipe.h"
-#include "solving/temporary_hacks.h"
+#include "stipulation/binary.h"
 #include "solving/fork.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "solving/pipe.h"
@@ -11,16 +10,17 @@
 #include <stdlib.h>
 
 /* Allocate a STOpponentMovesFewMovesPrioriser slice.
+ * @param operand2 entry point into counting machinery
  * @return index of allocated slice
  */
-slice_index alloc_opponent_moves_few_moves_prioriser_slice(void)
+slice_index alloc_opponent_moves_few_moves_prioriser_slice(slice_index operand2)
 {
   slice_index result;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STOpponentMovesFewMovesPrioriser);
+  result = alloc_binary_slice(STOpponentMovesFewMovesPrioriser,no_slice,operand2);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -66,9 +66,7 @@ void opponent_moves_few_moves_prioriser_solve(slice_index si)
   /* move_generator_invert_move_order(nbply); */
 
   copyply();
-
-  fork_solve(temporary_hack_opponent_moves_counter[trait[nbply]],length_unspecified);
-
+  fork_solve(si,slack_length+2);
   finply();
 
   qsort(&move_generation_stack[base],

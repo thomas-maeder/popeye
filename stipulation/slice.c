@@ -102,7 +102,8 @@ static slice_type const fork_slice_types[] =
     STValidatingObserverFork,
     STValidatingObservationGeometryFork,
     STMoveForPieceGeneratorTwoPaths,
-    STIsSquareObservedTwoPaths
+    STIsSquareObservedTwoPaths,
+    STOpponentMovesFewMovesPrioriser
 };
 
 static void init_one_highest_structural_type(slice_type const slice_types[],
@@ -281,7 +282,8 @@ static slice_type const testing_pipe_slice_types[] =
     STMaxNrNonTrivial,
     STMaxThreatLength,
     STTrivialEndFilter,
-    STMummerOrchestrator
+    STMummerOrchestrator,
+    STOpponentMovesFewMovesPrioriser
 };
 
 static slice_type const conditional_pipe_slice_types[] =

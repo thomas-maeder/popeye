@@ -327,6 +327,9 @@ static void optimise_move_generators(slice_index si)
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_move_reordering_optimiser,
                                                 &remember_optimiser);
+  stip_structure_traversal_override_single(&st,
+                                           STOpponentMovesFewMovesPrioriser,
+                                           &remember_optimiser);
   /* ... but don't allow an optimiser to influence an unrelated generator */
   stip_structure_traversal_override_by_function(&st,
                                                 slice_function_move_generator,

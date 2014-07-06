@@ -4,9 +4,10 @@
 #include "solving/machinery/solve.h"
 
 /* Allocate a STOpponentMovesFewMovesPrioriser slice.
+ * @param operand2 entry point into counting machinery
  * @return index of allocated slice
  */
-slice_index alloc_opponent_moves_few_moves_prioriser_slice(void);
+slice_index alloc_opponent_moves_few_moves_prioriser_slice(slice_index );
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

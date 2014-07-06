@@ -8,7 +8,7 @@ conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/ply.h stipulation/goals/slice_insertion.h \
  optimisations/detect_retraction.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h stipulation/pipe.h \
+ output/message.h input/plaintext/language.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -69,9 +69,9 @@ optimisations/detect_retraction.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 stipulation/pipe.h:
 
@@ -3323,11 +3323,10 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
  position/pieceid.h position/position.h position/color.h \
  position/color.enum.h pieces/walks/vectors.h conditions/conditions.h \
- conditions/castling_chess.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h \
- pieces/walks/pawns/promotion.h stipulation/slice_insertion.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ conditions/castling_chess.h output/plaintext/message.h output/message.h \
+ input/plaintext/language.h pieces/walks/pawns/promotion.h \
+ stipulation/slice_insertion.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h stipulation/traversal.h \
@@ -3391,9 +3390,9 @@ conditions/castling_chess.h:
 
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 pieces/walks/pawns/promotion.h:
 

@@ -652,14 +652,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (OptFlag[degeneratetree])
     solving_insert_degenerate_tree_guards(result);
 
-  solving_impose_starter(result,slices[result].starter);
-  solving_optimise_with_countnropponentmoves(result);
-
-  solving_optimise_with_killer_moves(result);
-
-  if (is_piece_neutral(some_pieces_flags))
-    solving_optimise_by_detecting_retracted_moves(result);
-
   solving_insert_output_slices(result);
 
   if (OptFlag[solmenaces]
@@ -754,6 +746,14 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     cheektocheek_initialise_solving(result);
 
   goal_kiss_init_piece_id(result);
+
+  solving_impose_starter(result,slices[result].starter);
+  solving_optimise_with_countnropponentmoves(result);
+
+  solving_optimise_with_killer_moves(result);
+
+  if (is_piece_neutral(some_pieces_flags))
+    solving_optimise_by_detecting_retracted_moves(result);
 
   optimise_is_square_observed(result);
   optimise_is_in_check(result);
