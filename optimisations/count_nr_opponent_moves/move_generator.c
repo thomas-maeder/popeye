@@ -1,9 +1,10 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
+#include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
+#include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/fork_on_remaining.h"
-#include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -171,12 +172,33 @@ static void forget_optimiser(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void remove_move_generator(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const generator = branch_find_slice(STMoveGenerator,
+                                                    slices[si].next2,
+                                                    stip_traversal_context_intro);
+    assert(generator!=no_slice);
+    pipe_remove(generator);
+  }
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor const countnropponentmoves_optimisers[] =
 {
-  { STSetplayFork,       &stip_traverse_structure_children_pipe },
-  { STRefutationsSolver, &stip_traverse_structure_children_pipe },
-  { STReadyForDefense,   &remember_length                       },
-  { STMoveGenerator,     &optimise_defense_move_generator       }
+  { STSetplayFork,              &stip_traverse_structure_children_pipe },
+  { STRefutationsSolver,        &stip_traverse_structure_children_pipe },
+  { STReadyForDefense,          &remember_length                       },
+  { STMoveGenerator,            &optimise_defense_move_generator       },
+  { STOpponentMovesCounterFork, &remove_move_generator                 }
 };
 
 enum

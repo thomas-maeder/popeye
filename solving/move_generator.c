@@ -2,7 +2,6 @@
 #include "solving/temporary_hacks.h"
 #include "solving/pipe.h"
 #include "solving/single_piece_move_generator.h"
-#include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
@@ -436,26 +435,6 @@ static void insert_single_piece_move_generator(slice_index si,
   TraceFunctionResultEnd();
 }
 
-static void remove_move_generator(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children(si,st);
-
-  {
-    slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                    slices[si].next2,
-                                                    stip_traversal_context_intro);
-    assert(generator!=no_slice);
-    pipe_remove(generator);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitor const solver_inserters[] =
 {
   { STGeneratingMoves,                        &insert_move_generator                 },
@@ -464,8 +443,7 @@ static structure_traversers_visitor const solver_inserters[] =
   { STMoveLegalityTester,                     &stip_traverse_structure_children_pipe },
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator    },
   { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator    },
-  { STCastlingIntermediateMoveLegalityTester, &stip_traverse_structure_children_pipe },
-  { STOpponentMovesCounterFork,               &remove_move_generator                 }
+  { STCastlingIntermediateMoveLegalityTester, &stip_traverse_structure_children_pipe }
 };
 
 enum
