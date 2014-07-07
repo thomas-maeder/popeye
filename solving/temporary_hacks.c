@@ -222,7 +222,7 @@ static slice_index make_opponent_moves_counter_fork(Side side)
     slice_index const proxy = alloc_proxy_slice();
     slice_index const prototypes[] =
     {
-        alloc_pipe(STOpponentMovesCounter),
+        alloc_opponent_moves_counter_slice(),
         alloc_legal_attack_counter_slice()
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
