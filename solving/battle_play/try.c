@@ -498,9 +498,9 @@ static void spin_off_from_refutations_solver(slice_index si,
   }
 
   init_deep_copy(&st_nested,st,&copies);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_end_of_branch,
-                                                &skip_over_pipe);
+  stip_structure_traversal_override_by_contextual(&st_nested,
+                                                  slice_contextual_end_of_branch,
+                                                  &skip_over_pipe);
   stip_structure_traversal_override(&st_nested,
                                     to_refutation_branch_copiers,
                                     nr_to_refutation_branch_copiers);
@@ -544,12 +544,12 @@ void solving_insert_try_solvers(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&mode);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     try_solver_inserters,
                                     nr_try_solver_inserters);

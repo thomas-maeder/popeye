@@ -3,7 +3,9 @@ stipulation/slice$(OBJ_SUFFIX): stipulation/slice.c stipulation/slice.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h debugging/trace.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h debugging/trace.h \
  debugging/assert.h
 
 stipulation/slice.h:
@@ -22,6 +24,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 debugging/trace.h:
 
 debugging/assert.h:
@@ -31,7 +37,9 @@ stipulation/structure_traversal$(OBJ_SUFFIX): stipulation/structure_traversal.c 
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/testing_pipe.h \
@@ -54,6 +62,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -88,7 +100,9 @@ stipulation/branch$(OBJ_SUFFIX): stipulation/branch.c stipulation/branch.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/proxy.h stipulation/pipe.h \
@@ -113,6 +127,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -147,7 +165,9 @@ stipulation/move_played$(OBJ_SUFFIX): stipulation/move_played.c \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/pipe.h debugging/trace.h \
@@ -172,6 +192,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -204,7 +228,9 @@ stipulation/proxy$(OBJ_SUFFIX): stipulation/proxy.c stipulation/proxy.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/fork.h stipulation/branch.h \
@@ -231,6 +257,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -267,7 +297,9 @@ stipulation/constraint$(OBJ_SUFFIX): stipulation/constraint.c \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h solving/moves_traversal.h \
@@ -296,6 +328,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -346,7 +382,9 @@ stipulation/if_then_else$(OBJ_SUFFIX): stipulation/if_then_else.c \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/binary.h debugging/trace.h \
@@ -371,6 +409,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -404,7 +446,9 @@ stipulation/testing_pipe$(OBJ_SUFFIX): stipulation/testing_pipe.c \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/proxy.h \
@@ -431,6 +475,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -466,7 +514,9 @@ stipulation/conditional_pipe$(OBJ_SUFFIX): stipulation/conditional_pipe.c \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/proxy.h \
@@ -493,6 +543,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -527,7 +581,9 @@ stipulation/move_inverter$(OBJ_SUFFIX): stipulation/move_inverter.c \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/pipe.h debugging/trace.h \
@@ -552,6 +608,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -584,7 +644,9 @@ stipulation/binary$(OBJ_SUFFIX): stipulation/binary.c stipulation/binary.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/proxy.h stipulation/pipe.h \
@@ -609,6 +671,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -643,7 +709,9 @@ stipulation/pipe$(OBJ_SUFFIX): stipulation/pipe.c stipulation/pipe.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/proxy.h \
@@ -668,6 +736,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -702,7 +774,9 @@ stipulation/fork$(OBJ_SUFFIX): stipulation/fork.c stipulation/fork.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/branch.h \
@@ -728,6 +802,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -767,7 +845,9 @@ stipulation/stipulation$(OBJ_SUFFIX): stipulation/stipulation.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/pipe.h stipulation/move_inverter.h \
  stipulation/slice_insertion.h stipulation/branch.h stipulation/binary.h \
  stipulation/goals/reached_tester.h stipulation/boolean/or.h \
@@ -818,6 +898,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -872,7 +956,9 @@ stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h \
  utilities/boolean.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/pipe.h stipulation/branch.h \
@@ -905,6 +991,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -1004,13 +1094,27 @@ stipulation/slice_functional_type.enum.h:
 stipulation/slice_functional_type.enum:
 
 utilities/enumeration.h:
+stipulation/slice_contextual_type$(OBJ_SUFFIX): stipulation/slice_contextual_type.c \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ stipulation/slice_contextual_type.enum utilities/enumeration.h
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/slice_contextual_type.enum:
+
+utilities/enumeration.h:
 stipulation/slice_insertion$(OBJ_SUFFIX): stipulation/slice_insertion.c \
  stipulation/slice_insertion.h stipulation/structure_traversal.h \
  stipulation/slice.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h stipulation/if_then_else.h \
@@ -1039,6 +1143,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 

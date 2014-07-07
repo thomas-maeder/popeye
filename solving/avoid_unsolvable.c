@@ -147,9 +147,9 @@ void solving_insert_avoid_unsolvable_forks(slice_index root_slice)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_end_of_branch,
-                                                &insert_avoid_unsolvable);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_end_of_branch,
+                                                  &insert_avoid_unsolvable);
   stip_structure_traversal_override(&st,
                                     avoid_unusable_inserters,
                                     nr_avoid_unusable_inserters);

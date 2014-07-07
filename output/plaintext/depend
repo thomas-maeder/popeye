@@ -21,7 +21,9 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
@@ -130,6 +132,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
@@ -193,7 +199,9 @@ output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/pipe.h
 
 output/plaintext/end_of_phase_writer.h:
@@ -260,6 +268,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/pipe.h:
@@ -276,7 +288,9 @@ output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/pipe.h
 
@@ -332,6 +346,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/has_solution_type.h:
@@ -351,7 +369,9 @@ output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/pipe.h debugging/assert.h
 
 output/plaintext/move_inversion_counter.h:
@@ -400,6 +420,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/pipe.h:
@@ -418,7 +442,9 @@ output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  conditions/ohneschach.h solving/ply.h output/plaintext/message.h \
  output/message.h input/plaintext/language.h solving/pipe.h
@@ -469,6 +495,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/has_solution_type.h:
@@ -497,7 +527,9 @@ output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  output/plaintext/protocol.h output/plaintext/tree/tree.h \
  output/plaintext/message.h output/message.h input/plaintext/language.h \
  solving/pipe.h debugging/assert.h
@@ -548,6 +580,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 output/plaintext/protocol.h:
@@ -580,7 +616,9 @@ output/plaintext/language_dependant$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
@@ -657,6 +695,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
@@ -706,7 +748,9 @@ output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
@@ -801,6 +845,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -922,7 +970,9 @@ output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
@@ -1022,6 +1072,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
@@ -1099,7 +1153,9 @@ output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
@@ -1183,6 +1239,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
@@ -1247,7 +1307,9 @@ output/plaintext/twinning$(OBJ_SUFFIX): output/plaintext/twinning.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
  solving/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
@@ -1339,6 +1401,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
@@ -1393,7 +1459,9 @@ output/plaintext/message$(OBJ_SUFFIX): output/plaintext/message.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
@@ -1486,6 +1554,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 

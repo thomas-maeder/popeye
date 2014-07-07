@@ -3,8 +3,8 @@ solving/boolean/or$(OBJ_SUFFIX): solving/boolean/or.c solving/boolean/or.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h debugging/trace.h \
- debugging/assert.h
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h debugging/assert.h
 
 solving/boolean/or.h:
 
@@ -34,6 +34,8 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
 debugging/trace.h:
 
 debugging/assert.h:
@@ -43,14 +45,17 @@ solving/boolean/and$(OBJ_SUFFIX): solving/boolean/and.c solving/boolean/and.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/pipe.h stipulation/constraint.h solving/moves_traversal.h \
- debugging/trace.h debugging/assert.h
+ debugging/assert.h
 
 solving/boolean/and.h:
 
@@ -80,6 +85,10 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
@@ -96,6 +105,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/pipe.h:
@@ -104,22 +117,23 @@ stipulation/constraint.h:
 
 solving/moves_traversal.h:
 
-debugging/trace.h:
-
 debugging/assert.h:
 solving/boolean/not$(OBJ_SUFFIX): solving/boolean/not.c solving/boolean/not.h \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/pipe.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/trace.h debugging/assert.h
+ solving/pipe.h debugging/assert.h
 
 solving/boolean/not.h:
 
@@ -149,6 +163,10 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -163,6 +181,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/has_solution_type.h:
@@ -170,7 +192,5 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/pipe.h:
-
-debugging/trace.h:
 
 debugging/assert.h:

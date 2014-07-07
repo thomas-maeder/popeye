@@ -903,12 +903,12 @@ void output_plaintext_instrument_solving(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STOutputModeSelector,
                                            &select_output_mode);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

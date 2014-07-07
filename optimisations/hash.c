@@ -563,9 +563,9 @@ static void init_slice_properties(slice_index si)
   stip_structure_traversal_override_by_structure(&st,
                                             slice_structure_pipe,
                                             &init_slice_properties_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &init_slice_properties_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &init_slice_properties_pipe);
   stip_structure_traversal_override(&st,
                                     slice_properties_initalisers,
                                     nr_slice_properties_initalisers);
@@ -1950,12 +1950,12 @@ void solving_insert_hashing(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     hash_element_inserters,
                                     nr_hash_element_inserters);

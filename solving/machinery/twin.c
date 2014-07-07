@@ -461,9 +461,9 @@ static stip_length_type get_max_nr_moves(slice_index si)
 
   TraceStipulation(si);
   stip_moves_traversal_init(&st,&result);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_binary,
-                                            &get_max_nr_moves_binary);
+  stip_moves_traversal_override_by_contextual(&st,
+                                              slice_contextual_binary,
+                                              &get_max_nr_moves_binary);
   stip_moves_traversal_override_single(&st,STMove,&get_max_nr_moves_move);
   stip_traverse_moves(si,&st);
 
@@ -558,9 +558,9 @@ static Side findRestrictedSide(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&is_restricted);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     restricted_side_finders,
                                     nr_restricted_side_finders);

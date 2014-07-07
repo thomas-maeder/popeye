@@ -154,9 +154,9 @@ void solving_insert_continuation_solvers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&attack_played);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     continuation_solver_inserters,
                                     nr_continuation_solver_inserters);

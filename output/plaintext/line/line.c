@@ -243,15 +243,15 @@ static void insert_regular_writer_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_end_of_branch,
-                                                &instrument_end_of_branch);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_end_of_branch,
+                                                  &instrument_end_of_branch);
   stip_structure_traversal_override(&st,regular_inserters,nr_regular_inserters);
   stip_traverse_structure(si,&st);
 
@@ -324,18 +324,18 @@ static void insert_root_writer_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&is_postkey_play);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_binary,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_end_of_branch,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_binary,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_end_of_branch,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     root_writer_inserters,
                                     nr_root_writer_inserters);

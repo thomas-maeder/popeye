@@ -795,15 +795,15 @@ void help_branch_make_root_slices(slice_index adapter,
     stip_structure_traversal_override_by_structure(&st,
                                                    slice_structure_branch,
                                                    &pipe_spin_off_copy);
-    stip_structure_traversal_override_by_function(&st,
-                                                  slice_function_binary,
-                                                  &binary_make_root);
+    stip_structure_traversal_override_by_contextual(&st,
+                                                    slice_contextual_binary,
+                                                    &binary_make_root);
     stip_structure_traversal_override_by_structure(&st,
                                                    slice_structure_fork,
                                                    &fork_make_root);
-    stip_structure_traversal_override_by_function(&st,
-                                                  slice_function_conditional_pipe,
-                                                  &conditional_pipe_spin_off_copy);
+    stip_structure_traversal_override_by_contextual(&st,
+                                                    slice_contextual_conditional_pipe,
+                                                    &conditional_pipe_spin_off_copy);
     stip_structure_traversal_override_single(&st,
                                              STConstraintTester,
                                              &constraint_tester_make_root);

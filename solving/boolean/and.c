@@ -61,12 +61,12 @@ void and_enable_shortcut_logic(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(&st,STAnd,&insert_shortcut_tester);
   stip_traverse_structure(si,&st);
 

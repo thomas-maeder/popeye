@@ -267,9 +267,9 @@ void solving_optimise_with_orthodox_mating_move_generators(slice_index si)
   stip_moves_traversal_override_by_function(&st,
                                             slice_function_move_generator,
                                             &generator_swallow_goal);
-  stip_moves_traversal_override_by_function(&st,
-                                            slice_function_end_of_branch,
-                                            &optimise_final_moves_end_of_branch_non_goal);
+  stip_moves_traversal_override_by_contextual(&st,
+                                              slice_contextual_end_of_branch,
+                                              &optimise_final_moves_end_of_branch_non_goal);
   stip_moves_traversal_override(&st,
                                 final_move_optimisers,
                                 nr_final_move_optimisers);

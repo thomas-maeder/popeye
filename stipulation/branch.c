@@ -122,9 +122,9 @@ slice_index branch_find_slice(slice_type type,
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &branch_find_slice_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_binary,
-                                                &branch_find_slice_binary);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_binary,
+                                                  &branch_find_slice_binary);
   stip_traverse_structure_children_pipe(si,&st);
 
   TraceFunctionExit(__func__);
@@ -232,15 +232,15 @@ void branch_instrument_traversal_for_normal_path(stip_structure_traversal *st)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_override_by_function(st,
-                                                slice_function_end_of_branch,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(st,
+                                                  slice_contextual_end_of_branch,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override_single(st,
                                            STIfThenElse,
                                            &stip_traverse_structure_children_pipe);

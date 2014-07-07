@@ -79,6 +79,16 @@ void stip_structure_traversal_override_by_function(stip_structure_traversal *st,
                                                    slice_functional_type type,
                                                    stip_structure_visitor visitor);
 
+
+/* Override the behavior of a structure traversal at slices of a contextual type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_structure_traversal_override_by_contextual(stip_structure_traversal *st,
+                                                    slice_contextual_type type,
+                                                    stip_structure_visitor visitor);
+
 /* Initialise a structure traversal structure with default visitors
  * @param st to be initialised
  * @param type type for which to override the visitor

@@ -329,8 +329,8 @@ static void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
   TraceFunctionParam("%u",testing_pipe);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_functional_type(slices[testing_pipe].type)
-         ==slice_function_testing_pipe);
+  assert(slice_type_get_contextual_type(slices[testing_pipe].type)
+         ==slice_contextual_testing_pipe);
 
   if (slices[testing_pipe].next2!=no_slice)
   {
@@ -368,8 +368,8 @@ static void stip_traverse_moves_conditional_pipe_tester(slice_index conditional_
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_functional_type(slices[conditional_pipe].type)
-         ==slice_function_conditional_pipe);
+  assert(slice_type_get_contextual_type(slices[conditional_pipe].type)
+         ==slice_contextual_conditional_pipe);
 
   st->activity = stip_traversal_activity_testing;
   stip_traverse_moves_branch(slices[conditional_pipe].next2,st);
@@ -561,6 +561,21 @@ void stip_moves_traversal_override_by_function(stip_moves_traversal *st,
   TraceFunctionResultEnd();
 }
 
+/* Override the behavior of a moves traversal at slices of a contextual type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_moves_traversal_override_by_contextual(stip_moves_traversal *st,
+                                                 slice_contextual_type type,
+                                                 stip_moves_visitor visitor)
+{
+  slice_type i;
+  for (i = 0; i!=nr_slice_types; ++i)
+    if (slice_type_get_contextual_type(i)==type)
+      st->map.visitors[i] = visitor;
+}
+
 /* Override the behavior of a moves traversal at slices of a structural type
  * @param st to be initialised
  * @param type type for which to override the visitor
@@ -658,17 +673,17 @@ static stip_moves_visitor get_default_children_moves_visitor(slice_type type)
       break;
 
     case slice_structure_fork:
-      switch (slice_type_get_functional_type(type))
+      switch (slice_type_get_contextual_type(type))
       {
-        case slice_function_testing_pipe:
+        case slice_contextual_testing_pipe:
           result = &stip_traverse_moves_testing_pipe;
           break;
 
-        case slice_function_conditional_pipe:
+        case slice_contextual_conditional_pipe:
           result = &stip_traverse_moves_conditional_pipe;
           break;
 
-        case slice_function_binary:
+        case slice_contextual_binary:
           result = &stip_traverse_moves_binary;
           break;
 

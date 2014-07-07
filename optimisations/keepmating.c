@@ -236,15 +236,15 @@ void solving_insert_keepmating_filters(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&state);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_end_of_branch,
-                                                &keepmating_filter_inserter_end_of_branch);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &keepmating_filter_inserter_end_of_branch);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_binary,
-                                                &keepmating_filter_inserter_binary);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_end_of_branch,
+                                                  &keepmating_filter_inserter_end_of_branch);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &keepmating_filter_inserter_end_of_branch);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_binary,
+                                                  &keepmating_filter_inserter_binary);
   stip_structure_traversal_override(&st,
                                     keepmating_filter_inserters,
                                     nr_keepmating_filter_inserters);

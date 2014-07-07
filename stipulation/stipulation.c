@@ -475,9 +475,9 @@ void init_deep_copy(stip_structure_traversal *st,
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_fork,
                                                  &deep_copy_fork);
-  stip_structure_traversal_override_by_function(st,
-                                                slice_function_binary,
-                                                &deep_copy_binary);
+  stip_structure_traversal_override_by_contextual(st,
+                                                  slice_contextual_binary,
+                                                  &deep_copy_binary);
   stip_structure_traversal_override_single(st,
                                            STIfThenElse,
                                            &deep_copy_zigzag_jump);
@@ -698,21 +698,21 @@ void stip_detect_starter(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,NULL);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_binary,
-                                                &binary_detect_starter);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_binary,
+                                                  &binary_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_fork,
                                                  &fork_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_pipe,
                                                  &pipe_detect_starter);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &pipe_detect_starter);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &pipe_detect_starter);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &pipe_detect_starter);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &pipe_detect_starter);
   stip_structure_traversal_override_by_structure(&st,
                                                  slice_structure_branch,
                                                  &pipe_detect_starter);

@@ -149,6 +149,8 @@ slice_structural_type slice_type_get_structural_type(slice_type type)
 
 static slice_functional_type functional_type[nr_slice_types];
 
+static slice_contextual_type contextual_type[nr_slice_types];
+
 static slice_type const proxy_slice_types[] =
 {
     STProxy,
@@ -374,10 +376,6 @@ static void init_functional_type(void)
   init_one_type(move_generator);
   init_one_type(move_reordering_optimiser);
   init_one_type(move_removing_optimiser);
-  init_one_type(binary);
-  init_one_type(testing_pipe);
-  init_one_type(conditional_pipe);
-  init_one_type(end_of_branch);
   init_one_type(writer);
 #undef init_one_type
 }
@@ -392,9 +390,45 @@ slice_functional_type slice_type_get_functional_type(slice_type type)
   return functional_type[type];
 }
 
+static void init_one_contextual_type(slice_type const slice_types[],
+                                     unsigned int nr_slice_types,
+                                     slice_contextual_type type)
+{
+  unsigned int i;
+
+  for (i = 0; i!=nr_slice_types; ++i)
+    contextual_type[slice_types[i]] = type;
+}
+
+static void init_contextual_type(void)
+{
+  /* no Trace instrumentation here - this is used by the Trace machinery! */
+
+  /* default value is slice_function_unspecified - override for other types */
+#define init_one_type(type) init_one_contextual_type(type##_slice_types, \
+                                                     sizeof type##_slice_types / sizeof type##_slice_types[0], \
+                                                     slice_contextual_##type)
+  init_one_type(binary);
+  init_one_type(testing_pipe);
+  init_one_type(conditional_pipe);
+  init_one_type(end_of_branch);
+#undef init_one_type
+}
+
+/* Retrieve the contextual type of a slice type
+ * @param type identifies slice type of which to retrieve structural type
+ * @return contextual type of slice type type
+ */
+slice_contextual_type slice_type_get_contextual_type(slice_type type)
+{
+  assert(type<=nr_slice_types);
+  return contextual_type[type];
+}
+
 /* Initialise slice properties at start of program */
 void initialise_slice_properties(void)
 {
   init_highest_structural_type();
+  init_contextual_type();
   init_functional_type();
 }

@@ -93,6 +93,15 @@ void stip_moves_traversal_override_by_function(stip_moves_traversal *st,
                                                slice_functional_type,
                                                stip_moves_visitor visitor);
 
+/* Override the behavior of a moves traversal at slices of a contextual type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_moves_traversal_override_by_contextual(stip_moves_traversal *st,
+                                                 slice_contextual_type type,
+                                                 stip_moves_visitor visitor);
+
 /* Override the behavior of a moves traversal at slices of a structural type
  * @param st to be initialised
  * @param type type for which to override the visitor

@@ -285,12 +285,12 @@ static void insert_enforcers(slice_index si, stip_structure_traversal *st)
     stip_structure_traversal_override_single(&st_nested,
                                              STThreatDefeatedTester,
                                              &move_and_stop_copying);
-    stip_structure_traversal_override_by_function(&st_nested,
-                                                  slice_function_conditional_pipe,
-                                                  &copy_shallow);
-    stip_structure_traversal_override_by_function(&st_nested,
-                                                  slice_function_testing_pipe,
-                                                  &copy_shallow);
+    stip_structure_traversal_override_by_contextual(&st_nested,
+                                                    slice_contextual_conditional_pipe,
+                                                    &copy_shallow);
+    stip_structure_traversal_override_by_contextual(&st_nested,
+                                                    slice_contextual_testing_pipe,
+                                                    &copy_shallow);
     stip_traverse_structure(threat_start_tester,&st_nested);
 
     slices[si].next2 = copies[threat_start_tester];
@@ -356,12 +356,12 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
   stip_structure_traversal_override_single(&st_nested,
                                            STThreatEnd,
                                            &end_copying);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_conditional_pipe,
-                                                &copy_shallow);
-  stip_structure_traversal_override_by_function(&st_nested,
-                                                slice_function_testing_pipe,
-                                                &copy_shallow);
+  stip_structure_traversal_override_by_contextual(&st_nested,
+                                                  slice_contextual_conditional_pipe,
+                                                  &copy_shallow);
+  stip_structure_traversal_override_by_contextual(&st_nested,
+                                                  slice_contextual_testing_pipe,
+                                                  &copy_shallow);
   stip_traverse_structure(*threat_start,&st_nested);
 
   slices[si].next2 = alloc_proxy_slice();
@@ -478,12 +478,12 @@ void solving_insert_threat_handlers(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&threat_start);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_testing_pipe,
-                                                &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_by_function(&st,
-                                                slice_function_conditional_pipe,
-                                                &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_testing_pipe,
+                                                  &stip_traverse_structure_children_pipe);
+  stip_structure_traversal_override_by_contextual(&st,
+                                                  slice_contextual_conditional_pipe,
+                                                  &stip_traverse_structure_children_pipe);
   stip_structure_traversal_override(&st,
                                     threat_handler_inserters,
                                     nr_threat_handler_inserters);

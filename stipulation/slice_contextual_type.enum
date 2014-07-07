@@ -1,0 +1,9 @@
+#define ENUMERATION_TYPENAME slice_contextual_type
+#define ENUMERATORS                                               \
+  ENUMERATOR(slice_contextual_unspecified),                        \
+  ENUMERATOR(slice_contextual_binary),                             \
+  ENUMERATOR(slice_contextual_testing_pipe),                       \
+  ENUMERATOR(slice_contextual_conditional_pipe),                   \
+  ENUMERATOR(slice_contextual_end_of_branch),                      \
+  ENUMERATOR(nr_slice_contextual_types)
+

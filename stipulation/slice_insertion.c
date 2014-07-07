@@ -455,9 +455,9 @@ static void init_slice_insertion_traversal_common(stip_structure_traversal *st,
   stip_structure_traversal_override_by_structure(st,
                                                  slice_structure_fork,
                                                  &insert_visit_pipe);
-  stip_structure_traversal_override_by_function(st,
-                                                slice_function_binary,
-                                                &insert_visit_binary);
+  stip_structure_traversal_override_by_contextual(st,
+                                                  slice_contextual_binary,
+                                                  &insert_visit_binary);
   stip_structure_traversal_override_single(st,STProxy,&insert_beyond);
 
   TraceFunctionExit(__func__);

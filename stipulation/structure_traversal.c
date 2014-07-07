@@ -395,8 +395,8 @@ void stip_traverse_structure_end_of_branch_next_branch(slice_index end_of_branch
   TraceFunctionParam("%u",end_of_branch);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_functional_type(slices[end_of_branch].type)
-         ==slice_function_end_of_branch);
+  assert(slice_type_get_contextual_type(slices[end_of_branch].type)
+         ==slice_contextual_end_of_branch);
   if (slices[end_of_branch].next2!=no_slice)
     stip_traverse_structure_next_branch(end_of_branch,st);
 
@@ -432,8 +432,8 @@ void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pip
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_functional_type(slices[conditional_pipe].type)
-         ==slice_function_conditional_pipe);
+  assert(slice_type_get_contextual_type(slices[conditional_pipe].type)
+         ==slice_contextual_conditional_pipe);
 
   st->activity = stip_traversal_activity_testing;
   stip_traverse_structure_next_branch(conditional_pipe,st);
@@ -469,8 +469,8 @@ void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_functional_type(slices[testing_pipe].type)
-         ==slice_function_testing_pipe);
+  assert(slice_type_get_contextual_type(slices[testing_pipe].type)
+         ==slice_contextual_testing_pipe);
 
   if (slices[testing_pipe].next2!=no_slice)
   {
@@ -524,21 +524,21 @@ static stip_structure_visitor get_default_children_structure_visitor(slice_type 
           break;
 
         case slice_structure_fork:
-          switch (slice_type_get_functional_type(type))
+          switch (slice_type_get_contextual_type(type))
           {
-            case slice_function_testing_pipe:
+            case slice_contextual_testing_pipe:
               result = &stip_traverse_structure_children_testing_pipe;
               break;
 
-            case slice_function_conditional_pipe:
+            case slice_contextual_conditional_pipe:
               result = &stip_traverse_structure_children_conditional_pipe;
               break;
 
-            case slice_function_binary:
+            case slice_contextual_binary:
               result = &stip_traverse_structure_children_binary;
               break;
 
-            case slice_function_end_of_branch:
+            case slice_contextual_end_of_branch:
               result = &stip_traverse_structure_children_end_of_branch;
               break;
 
@@ -630,7 +630,7 @@ void stip_structure_traversal_override_by_structure(stip_structure_traversal *st
       st->map.visitors[i] = visitor;
 }
 
-/* Override the behavior of a structure traversal at slices of a structural type
+/* Override the behavior of a structure traversal at slices of a functional type
  * @param st to be initialised
  * @param type type for which to override the visitor
  * @param visitor overrider
@@ -642,6 +642,21 @@ void stip_structure_traversal_override_by_function(stip_structure_traversal *st,
   slice_type i;
   for (i = 0; i!=nr_slice_types; ++i)
     if (slice_type_get_functional_type(i)==type)
+      st->map.visitors[i] = visitor;
+}
+
+/* Override the behavior of a structure traversal at slices of a contextual type
+ * @param st to be initialised
+ * @param type type for which to override the visitor
+ * @param visitor overrider
+ */
+void stip_structure_traversal_override_by_contextual(stip_structure_traversal *st,
+                                                    slice_contextual_type type,
+                                                    stip_structure_visitor visitor)
+{
+  slice_type i;
+  for (i = 0; i!=nr_slice_types; ++i)
+    if (slice_type_get_contextual_type(i)==type)
       st->map.visitors[i] = visitor;
 }
 

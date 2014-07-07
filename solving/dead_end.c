@@ -179,9 +179,9 @@ void solving_optimise_dead_end_slices(slice_index si)
   TraceStipulation(si);
 
   stip_moves_traversal_init(&mt,&state);
-  stip_moves_traversal_override_by_function(&mt,
-                                            slice_function_end_of_branch,
-                                            &forget_deadend);
+  stip_moves_traversal_override_by_contextual(&mt,
+                                              slice_contextual_end_of_branch,
+                                              &forget_deadend);
   stip_moves_traversal_override(&mt,dead_end_optimisers,nr_dead_end_optimisers);
   stip_traverse_moves(si,&mt);
 

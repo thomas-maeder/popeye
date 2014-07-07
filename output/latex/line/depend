@@ -10,7 +10,9 @@ output/latex/line/line$(OBJ_SUFFIX): output/latex/line/line.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/fork.h output/output.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/branch.h stipulation/move.h \
  stipulation/help_play/branch.h solving/machinery/solve.h \
@@ -73,6 +75,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/fork.h:
@@ -134,7 +140,9 @@ output/latex/line/line_writer$(OBJ_SUFFIX): output/latex/line/line_writer.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/check.h solving/move_generator.h platform/beep.h solving/pipe.h \
  options/options.h debugging/assert.h
 
@@ -219,6 +227,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
