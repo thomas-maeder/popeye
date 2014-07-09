@@ -438,7 +438,6 @@ static void insert_single_piece_move_generator(slice_index si,
 static structure_traversers_visitor const solver_inserters[] =
 {
   { STGeneratingMoves,                        &insert_move_generator                 },
-  { STBrunnerDefenderFinder,                  &stip_traverse_structure_children_pipe },
   { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe },
   { STMoveLegalityTester,                     &stip_traverse_structure_children_pipe },
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator    },
