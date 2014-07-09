@@ -441,7 +441,6 @@ static structure_traversers_visitor const solver_inserters[] =
   { STKingCaptureLegalityTester,              &stip_traverse_structure_children_pipe },
   { STMoveLegalityTester,                     &stip_traverse_structure_children_pipe },
   { STCageCirceNonCapturingMoveFinder,        &insert_single_piece_move_generator    },
-  { STTakeMakeCirceCollectRebirthSquaresFork, &insert_single_piece_move_generator    },
   { STCastlingIntermediateMoveLegalityTester, &stip_traverse_structure_children_pipe }
 };
 
