@@ -5294,8 +5294,8 @@ conditions/take_and_make$(OBJ_SUFFIX): conditions/take_and_make.c \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/ply.h solving/move_effect_journal.h solving/castling_rights.h \
  position/pieceid.h solving/observation.h solving/temporary_hacks.h \
- solving/move_generator.h solving/single_piece_move_generator.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/move_generator.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -5363,8 +5363,6 @@ solving/observation.h:
 solving/temporary_hacks.h:
 
 solving/move_generator.h:
-
-solving/single_piece_move_generator.h:
 
 stipulation/pipe.h:
 

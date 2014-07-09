@@ -3,7 +3,6 @@
 #include "pieces/walks/classification.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
-#include "solving/single_piece_move_generator.h"
 #include "stipulation/pipe.h"
 #include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
@@ -200,43 +199,6 @@ static void insert_make_generator(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void remember_rebirth_square_collector(slice_index si,
-                                              stip_structure_traversal *st)
-{
-  boolean * const collecting_rebirth_squares = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_traverse_structure_children_pipe(si,st);
-
-  *collecting_rebirth_squares = true;
-  stip_traverse_structure_next_branch(si,st);
-  *collecting_rebirth_squares = false;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void substitute_single_piece_move_generator(slice_index si,
-                                                   stip_structure_traversal *st)
-{
-  boolean const * const collecting_rebirth_squares = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  if (*collecting_rebirth_squares)
-    pipe_substitute(si,alloc_single_piece_move_generator_slice());
-  else
-    stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 /* Instrument the solvers with Patrol Chess
  * @param si identifies the root slice of the stipulation
  */
@@ -262,12 +224,6 @@ void solving_insert_take_and_make(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STMoveLegalityTester,
                                            &stip_traverse_structure_children_pipe);
-  stip_structure_traversal_override_single(&st,
-                                           STTakeMakeCirceCollectRebirthSquaresFork,
-                                           &remember_rebirth_square_collector);
-  stip_structure_traversal_override_single(&st,
-                                           STMoveGenerator,
-                                           &substitute_single_piece_move_generator);
 
   if (CondFlag[normalp])
     stip_structure_traversal_override_single(&st,

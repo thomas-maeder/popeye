@@ -11,6 +11,7 @@
 #include "solving/post_move_iteration.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/move_generator.h"
+#include "solving/single_piece_move_generator.h"
 #include "solving/fork.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -148,6 +149,48 @@ void take_make_circe_determine_rebirth_squares_solve(slice_index si)
 
     prev_post_move_iteration_id[nbply] = post_move_iteration_id[nbply];
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void do_substitute(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_substitute(si,alloc_single_piece_move_generator_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void substitute_single_piece_move_generator(Side side)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STMoveGenerator,&do_substitute);
+  stip_traverse_structure(slices[temporary_hack_circe_take_make_rebirth_squares_finder[side]].next2,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with Circe Take&Make
+ */
+void circe_solving_instrument_takemake(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  substitute_single_piece_move_generator(White);
+  substitute_single_piece_move_generator(Black);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -533,6 +533,8 @@ void circe_initialise_solving(slice_index si,
     circe_solving_instrument_super(si,variant,interval_start);
   else if (variant->determine_rebirth_square==circe_determine_rebirth_square_cage)
     circe_solving_instrument_cage(si,variant,interval_start);
+  else if (variant->determine_rebirth_square==circe_determine_rebirth_square_take_and_make)
+    circe_solving_instrument_takemake();
 
   if (variant->relevant_capture==circe_relevant_capture_lastmove)
     circe_solving_instrument_parrain(si,variant,interval_start);
