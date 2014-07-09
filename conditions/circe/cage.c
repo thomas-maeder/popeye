@@ -23,6 +23,34 @@ static post_move_iteration_id_type prev_post_move_iteration_id_no_cage[maxply+1]
 static boolean cage_found_for_current_capture[maxply+1];
 static boolean no_cage_for_current_capture[maxply+1];
 
+static void do_substitute(slice_index si,
+                                                   stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_substitute(si,alloc_single_piece_move_generator_slice());
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void substitute_single_piece_move_generator(Side side)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STMoveGenerator,&do_substitute);
+  stip_traverse_structure(slices[temporary_hack_cagecirce_noncapture_finder[side]].next2,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument the solving machinery with Circe Cage (apart from the rebirth
  * square determination, whose instrumentation is elsewhere)
  * @param si identifies entry slice into solving machinery
@@ -38,6 +66,9 @@ void circe_solving_instrument_cage(slice_index si,
   TraceFunctionParam("%u",si);
   TraceEnumerator(slice_type,interval_start,"");
   TraceFunctionParamListEnd();
+
+  substitute_single_piece_move_generator(White);
+  substitute_single_piece_move_generator(Black);
 
   circe_instrument_solving(si,
                            interval_start,
