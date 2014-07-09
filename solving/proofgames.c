@@ -58,9 +58,9 @@ position proofgames_start_position;
 position proofgames_target_position;
 
 /* an array to store the position */
-static piece_walk_type ProofPieces[32];
-static Flags ProofSpecs[32];
-static square ProofSquares[32];
+static piece_walk_type ProofPieces[nr_squares_on_board];
+static Flags ProofSpecs[nr_squares_on_board];
+static square ProofSquares[nr_squares_on_board];
 
 static unsigned int ProofNbrAllPieces;
 static unsigned int ProofNbrPieces[nr_sides];
