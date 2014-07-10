@@ -586,6 +586,9 @@ void mummer_initialise_solving(slice_index si)
   stip_structure_traversal_override_single(&st,
                                            STMummerDeadend,
                                            &connect_solver_to_tester);
+  stip_structure_traversal_override_single(&st,
+                                           STExecutingKingCapture,
+                                           &stip_structure_visitor_noop);
 
   if (mummer_strictness[White]!=mummer_strictness_ultra
       && mummer_strictness[Black]!=mummer_strictness_ultra)
