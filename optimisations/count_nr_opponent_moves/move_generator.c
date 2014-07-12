@@ -1,10 +1,11 @@
 #include "optimisations/count_nr_opponent_moves/move_generator.h"
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
-#include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/has_solution_type.h"
 #include "solving/fork_on_remaining.h"
+#include "solving/temporary_hacks.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -89,7 +90,6 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-#include "solving/temporary_hacks.h"
 static void optimise_defense_move_generator(slice_index si,
                                             stip_structure_traversal *st)
 {
@@ -113,13 +113,17 @@ static void optimise_defense_move_generator(slice_index si,
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,3);
+    slice_index const hack = temporary_hack_opponent_moves_counter[defender];
     slice_index const operand2 = branch_find_slice(STDonePriorisingMoves,
-                                                   slices[temporary_hack_opponent_moves_counter[defender]].next2,
+                                                   slices[hack].next2,
                                                    stip_traversal_context_intro);
-    slice_index proxy_operand2 = alloc_proxy_slice();
+    slice_index const proxy_operand2 = alloc_proxy_slice();
     slice_index const prototype = alloc_opponent_moves_few_moves_prioriser_slice(proxy_operand2);
+
     stip_structure_traversal st_nested;
     stip_deep_copies_type copies;
+
+    assert(slices[hack].type==STOpponentMovesCounterFork);
 
     init_deep_copy(&st_nested,st,&copies);
     stip_structure_traversal_override_single(&st_nested,
@@ -131,7 +135,7 @@ static void optimise_defense_move_generator(slice_index si,
     pipe_link(proxy1,si);
     pipe_link(proxy2,copies[si]);
 
-    pipe_link(proxy_operand2,operand2);
+    link_to_branch(proxy_operand2,operand2);
 
     defense_branch_insert_slices(si,&prototype,1);
   }
@@ -172,33 +176,12 @@ static void forget_optimiser(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void remove_move_generator(slice_index si, stip_structure_traversal *st)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const generator = branch_find_slice(STMoveGenerator,
-                                                    slices[si].next2,
-                                                    stip_traversal_context_intro);
-    assert(generator!=no_slice);
-    pipe_remove(generator);
-  }
-
-  stip_traverse_structure_children(si,st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static structure_traversers_visitor const countnropponentmoves_optimisers[] =
 {
-  { STSetplayFork,              &stip_traverse_structure_children_pipe },
-  { STRefutationsSolver,        &stip_traverse_structure_children_pipe },
-  { STReadyForDefense,          &remember_length                       },
-  { STMoveGenerator,            &optimise_defense_move_generator       },
-  { STOpponentMovesCounterFork, &remove_move_generator                 }
+  { STSetplayFork,       &stip_traverse_structure_children_pipe },
+  { STRefutationsSolver, &stip_traverse_structure_children_pipe },
+  { STReadyForDefense,   &remember_length                       },
+  { STMoveGenerator,     &optimise_defense_move_generator       }
 };
 
 enum

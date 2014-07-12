@@ -272,7 +272,9 @@ static void remember_optimiser(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children(si,st);
+  /* if the optimiser is of a fork type, we don't want to traverse next2! */
+  stip_traverse_structure_children_pipe(si,st);
+
   *found_optimiser = si;
 
   TraceFunctionExit(__func__);
