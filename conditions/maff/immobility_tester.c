@@ -109,11 +109,8 @@ void maff_immobility_tester_king_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply]==0);
-
   /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting[nbply] = 1;
+  legal_move_count_init(1);
 
   solve(slices[si].next1);
 
@@ -122,8 +119,7 @@ void maff_immobility_tester_king_solve(slice_index si)
                   ? previous_move_has_solved
                   : next_move_has_no_solution);
 
-  /* clean up after ourselves */
-  legal_move_counter_count[nbply] = 0;
+  legal_move_count_fini();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

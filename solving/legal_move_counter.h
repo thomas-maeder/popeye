@@ -59,4 +59,8 @@ void legal_attack_counter_solve(slice_index si);
  */
 void legal_defense_counter_solve(slice_index si);
 
+
+void legal_move_count_init(unsigned int nr_interesting);
+void legal_move_count_fini(void);
+
 #endif

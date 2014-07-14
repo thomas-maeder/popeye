@@ -11,6 +11,10 @@ unsigned int legal_move_counter_count[maxply];
 /* stop the move iteration once legal_move_counter_count exceeds this number */
 unsigned int legal_move_counter_interesting[maxply];
 
+#if !defined(NDEBUG)
+static boolean is_init[maxply];
+#endif
+
 /* Allocate a STLegalAttackCounter slice.
  * @return index of allocated slice
  */
@@ -86,6 +90,8 @@ void legal_attack_counter_solve(slice_index si)
 
   ++legal_move_counter_count[parent_ply[nbply]];
 
+  assert(is_init[parent_ply[nbply]]);
+
   pipe_this_move_solves_exactly_if(legal_move_counter_count[parent_ply[nbply]]
                                    >legal_move_counter_interesting[parent_ply[nbply]]);
 
@@ -114,8 +120,42 @@ void legal_defense_counter_solve(slice_index si)
 
   ++legal_move_counter_count[parent_ply[nbply]];
 
+  assert(is_init[parent_ply[nbply]]);
+
   pipe_this_move_solves_exactly_if(legal_move_counter_count[parent_ply[nbply]]
                                    <=legal_move_counter_interesting[parent_ply[nbply]]);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void legal_move_count_init(unsigned int nr_interesting)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",nr_interesting);
+  TraceFunctionParamListEnd();
+
+  assert(legal_move_counter_count[nbply]==0);
+  legal_move_counter_interesting[nbply] = nr_interesting;
+
+#if !defined(NDEBUG)
+  is_init[nbply] = true;
+#endif
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void legal_move_count_fini(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  legal_move_counter_count[nbply] = 0;
+
+#if !defined(NDEBUG)
+  is_init[nbply] = false;
+#endif
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -113,12 +113,11 @@ void owu_immobility_tester_king_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply]==0);
-  assert(capture_counter_count==0);
+  /* stop counting once we have >0 legal king moves */
+  legal_move_count_init(0);
 
-  /* stop counting once we have >1 legal king moves */
-  legal_move_counter_interesting[nbply] = 0;
+  /* avoid concurrent counts */
+  assert(capture_counter_count==0);
 
   /* stop counting once we have >1 legal king captures */
   capture_counter_interesting = 1;
@@ -131,7 +130,8 @@ void owu_immobility_tester_king_solve(slice_index si)
 
   /* clean up after ourselves */
   capture_counter_count = 0;
-  legal_move_counter_count[nbply] = 0;
+
+  legal_move_count_fini();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

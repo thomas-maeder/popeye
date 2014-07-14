@@ -65,19 +65,15 @@ static boolean exists_legal_move_back_home(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  /* avoid concurrent counts */
-  assert(legal_move_counter_count[nbply]==0);
-
   /* stop counting once we have one legal move that goes back home */
-  legal_move_counter_interesting[nbply] = 0;
+  legal_move_count_init(0);
 
   /* the first found legal move back home refutes */
   result = (fork_solve(temporary_hack_back_home_finder[trait[nbply]],
                        length_unspecified)
             == next_move_has_no_solution);
 
-  /* clean up after ourselves */
-  legal_move_counter_count[nbply] = 0;
+  legal_move_count_fini();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

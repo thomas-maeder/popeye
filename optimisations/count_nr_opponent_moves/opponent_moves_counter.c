@@ -51,8 +51,7 @@ void opponent_moves_counter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(legal_move_counter_count[nbply]==0);
-  legal_move_counter_interesting[nbply] = UINT_MAX;
+  legal_move_count_init(UINT_MAX);
 
   pipe_solve_delegate(si);
 
@@ -65,7 +64,7 @@ void opponent_moves_counter_solve(slice_index si)
   else
     opponent_moves_few_moves_prioriser_table[move_id] = legal_move_counter_count[nbply];
 
-  legal_move_counter_count[nbply] = 0;
+  legal_move_count_fini();
 
   /* one promotion per pawn move is normally enough */
   post_move_iteration_locked[nbply] = false;
