@@ -43,43 +43,67 @@ static void TwinResetPosition(void)
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
 }
 
-static char *ParseTwinningMove(int indexx)
+static char *ParseTwinningMove(void)
 {
-  square sq1= 0, sq2= 0;
-  char *tok;
+  square sq1;
+  square sq2;
 
-  /* read the first square */
-  while (sq1 == 0)
   {
-    tok = ReadNextTokStr();
-    sq1= SquareNum(tok[0], tok[1]);
-    if (sq1 == initsquare) {
-      output_plaintext_error_message(WrongSquareList);
-      return ReadNextTokStr();
-    }
+    char const * const tok = ReadNextTokStr();
+    sq1 = SquareNum(tok[0],tok[1]);
   }
 
-  /* read the second square */
-  while (sq2 == 0)
   {
-    tok = ReadNextTokStr();
-    sq2= SquareNum(tok[0], tok[1]);
-    if (sq2 == initsquare) {
-      output_plaintext_error_message(WrongSquareList);
-      return ReadNextTokStr();
-    }
+    char const * const tok = ReadNextTokStr();
+    sq2 = SquareNum(tok[0],tok[1]);
   }
 
-  if (is_square_empty(sq1))
+  if (sq1==initsquare || sq2==initsquare)
+    output_plaintext_error_message(WrongSquareList);
+  else if (is_square_empty(sq1))
   {
     WriteSquare(&output_plaintext_engine,stderr,sq1);
     output_plaintext_error_message(NothingToRemove);
-    return ReadNextTokStr();
   }
+  else
+  {
+    if (!is_square_empty(sq2))
+      move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,sq2);
 
-  if (indexx==TwinningMove)
     move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
                                           sq1,sq2);
+  }
+
+  return ReadNextTokStr();
+}
+
+static char *ParseTwinningExchange(void)
+{
+  square sq1;
+  square sq2;
+
+  {
+    char const * const tok = ReadNextTokStr();
+    sq1 = SquareNum(tok[0],tok[1]);
+  }
+
+  {
+    char const * const tok = ReadNextTokStr();
+    sq2 = SquareNum(tok[0],tok[1]);
+  }
+
+  if (sq1==initsquare || sq2==initsquare)
+    output_plaintext_error_message(WrongSquareList);
+  else if (is_square_empty(sq1))
+  {
+    WriteSquare(&output_plaintext_engine,stderr,sq1);
+    output_plaintext_error_message(NothingToRemove);
+  }
+  else if (is_square_empty(sq2))
+  {
+    WriteSquare(&output_plaintext_engine,stderr,sq2);
+    output_plaintext_error_message(NothingToRemove);
+  }
   else
     move_effect_journal_do_piece_exchange(move_effect_reason_diagram_setup,
                                           sq1,sq2);
@@ -304,10 +328,10 @@ static char *ParseTwinning(slice_index root_slice_hook)
     switch(twinning)
     {
       case TwinningMove:
-        tok = ParseTwinningMove(twinning);
+        tok = ParseTwinningMove();
         break;
       case TwinningExchange:
-        tok = ParseTwinningMove(twinning);
+        tok = ParseTwinningExchange();
         break;
       case TwinningRotate:
         tok = ParseTwinningRotate();

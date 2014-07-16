@@ -38,4 +38,13 @@ option nowk
 twin stip ~1
 twin add black ph7
 
+next
+
+title 4.67 doesn't restore Pb3 in the change for c)
+pieces white pa3b3
+stipulation ~1
+option nobk nowk
+twin move a3 b3
+twin move a3 c3
+
 end

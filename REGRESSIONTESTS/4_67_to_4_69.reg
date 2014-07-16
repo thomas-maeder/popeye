@@ -32,14 +32,14 @@ a)
                      play_move:           4
  is_white_king_square_attacked:           1
  is_black_king_square_attacked:           2
-b) Isardam RexInclusive
+b) Isardam RexInclusive  
 
 
   add_to_move_generation_stack:           8
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           1
-solution finished. 
+solution finished.
 
 
 
@@ -75,7 +75,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) Circe
+b) Circe  
 
    1.Bh1*g2[+bPg7] !
 
@@ -84,7 +84,7 @@ b) Circe
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-+c) wKh1 
++c) wKh1  
 
    1.Kh1*g2[+bPg7] !
 
@@ -97,7 +97,7 @@ b) Circe
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
-d) wKh1 
+d) wKh1  
 
    1.Kh1*g2 !
 
@@ -110,7 +110,7 @@ d) wKh1
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -147,7 +147,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-b) Circe
+b) Circe  
 
    1.Bh1*g2[+bPg7] !
 
@@ -156,7 +156,7 @@ b) Circe
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-+c) wKh1 
++c) wKh1  
 
    1.Kh1*g2[+bPg7] !
 
@@ -169,7 +169,7 @@ b) Circe
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
-d) wKh1 
+d) wKh1  
 
    1.Kh1*g2[wKg2->e1] !
 
@@ -182,7 +182,7 @@ d) wKh1
                      play_move:           3
  is_white_king_square_attacked:           3
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -218,7 +218,7 @@ a)
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
-b) ~1
+b) ~1  
 
    1.a2-a4 !
 
@@ -229,7 +229,7 @@ b) ~1
                      play_move:           2
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           3
-c) +bPh7 
+c) +bPh7  
 
    1.a2-a3 + !
 
@@ -238,6 +238,64 @@ c) +bPh7
                      play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           2
-solution finished. 
+solution finished.
+
+
+
+4.67 doesn't restore Pb3 in the change for c)
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   P   P   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 0
+
+a) 
+
+   1.a3-a4 !
+
+   1.b3-b4 !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) -wPb3  wPa3-->b3  
+
+   1.b3-b4 !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+c) wPa3-->c3  
+
+   1.b3-b4 !
+
+   1.c3-c4 !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
 
 
