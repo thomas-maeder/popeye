@@ -117,7 +117,7 @@ a)
                      play_move:      232631
  is_white_king_square_attacked:       14421
  is_black_king_square_attacked:      231707
-b) wSg5-->g3  
+b) -sBg3  wSg5-->g3  
 
   1.Dg4-f5 Tf7-g7   2.Kh4-h3 + Sg3*f5 #
 
