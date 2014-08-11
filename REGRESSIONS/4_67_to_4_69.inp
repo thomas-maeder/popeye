@@ -47,4 +47,12 @@ option nobk nowk
 twin move a3 b3
 twin move a3 c3
 
-end
+next
+
+Author Hubert Gockel
+Origin Original 10.8.2014
+Pieces White Ka8 Rf7 Ba2 Black Kh1 qa1
+Stipulation #1
+Condition BacktoBack
+
+EndProblem

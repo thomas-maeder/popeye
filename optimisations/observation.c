@@ -347,6 +347,7 @@ static void optimise_side(slice_index si, Side side)
         || CondFlag[eiffel]
         || CondFlag[annan]
         || CondFlag[amu]
+        || CondFlag[facetoface] || CondFlag[backtoback] || CondFlag[cheektocheek]
         || CondFlag[woozles] || CondFlag[biwoozles]
         || CondFlag[heffalumps] || CondFlag[biheffalumps]
         || (CondFlag[singlebox] && SingleBoxType==ConditionType3)

@@ -299,3 +299,39 @@ c) wPa3-->c3
 solution finished.
 
 
+
+            Hubert Gockel
+         Original 10.8.2014
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   R   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   B   .   .   .   .   .   .   .   2
+|                                   |
+1  -Q   .   .   .   .   .   .  -K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          3 + 2
+             BackToBack
+
+   1.Rf7-f1 # !
+
+
+  add_to_move_generation_stack:          48
+                     play_move:          47
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          48
+solution finished.
+
+
