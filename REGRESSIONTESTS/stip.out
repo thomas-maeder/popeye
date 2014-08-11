@@ -251,10 +251,10 @@ Loesung beendet.
                               4...0-0
 
 
-  add_to_move_generation_stack:     2236631
-                     play_move:      396864
- is_white_king_square_attacked:      376850
- is_black_king_square_attacked:       28554
+  add_to_move_generation_stack:     2256004
+                     play_move:      416669
+ is_white_king_square_attacked:      396228
+ is_black_king_square_attacked:       29239
 Loesung beendet.
 
 
@@ -1269,10 +1269,10 @@ Loesung beendet.
                                   5.Sg5-h3 z
 
 
-  add_to_move_generation_stack:     6643713
-                     play_move:     3336087
- is_white_king_square_attacked:     3010054
- is_black_king_square_attacked:      326085
+  add_to_move_generation_stack:     7044779
+                     play_move:     3758103
+ is_white_king_square_attacked:     3413172
+ is_black_king_square_attacked:      344983
 Loesung beendet.
 
 

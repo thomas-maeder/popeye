@@ -64,10 +64,10 @@
                                   5.Gg7*c7 #
 
 
-  add_to_move_generation_stack:      786234
-                     play_move:      707959
- is_white_king_square_attacked:      412086
- is_black_king_square_attacked:      301570
+  add_to_move_generation_stack:      786710
+                     play_move:      708619
+ is_white_king_square_attacked:      412562
+ is_black_king_square_attacked:      301754
 Loesung beendet.
 
 
@@ -357,10 +357,10 @@ Loesung beendet.
    1.Lb6-c7 !
 
 
-  add_to_move_generation_stack:      608111
-                     play_move:      495825
- is_white_king_square_attacked:      301665
- is_black_king_square_attacked:      201189
+  add_to_move_generation_stack:      698073
+                     play_move:      564943
+ is_white_king_square_attacked:      327298
+ is_black_king_square_attacked:      246788
 Loesung beendet.
 
 

@@ -186,10 +186,10 @@ Loesung beendet.
                                   5.Kd4-e5 #
 
 
-  add_to_move_generation_stack:       17441
-                     play_move:        5778
- is_white_king_square_attacked:        3419
- is_black_king_square_attacked:        2488
+  add_to_move_generation_stack:       18295
+                     play_move:        7118
+ is_white_king_square_attacked:        4593
+ is_black_king_square_attacked:        2654
 Loesung beendet.
 
 
@@ -301,10 +301,10 @@ Loesung beendet.
                                   5.Ta8-h8 #
 
 
-  add_to_move_generation_stack:     1485658
-                     play_move:      711213
- is_white_king_square_attacked:      581650
- is_black_king_square_attacked:      151965
+  add_to_move_generation_stack:     1243756
+                     play_move:      623676
+ is_white_king_square_attacked:      507883
+ is_black_king_square_attacked:      136664
 Loesung beendet.
 
 

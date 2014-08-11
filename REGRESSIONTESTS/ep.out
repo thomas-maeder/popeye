@@ -184,9 +184,9 @@ Loesung beendet.
 
 
   add_to_move_generation_stack:     7092420
-                     play_move:     5579496
+                     play_move:     5579505
  is_white_king_square_attacked:     2505689
- is_black_king_square_attacked:     3474394
+ is_black_king_square_attacked:     3474403
 Loesung beendet.
 
 
@@ -833,10 +833,10 @@ Loesung beendet.
  47  (Se8-d6 )
  48  (Se8-f6 )
 
-  add_to_move_generation_stack:    54691965
-                     play_move:    29802865
- is_white_king_square_attacked:    29354977
- is_black_king_square_attacked:     6774318
+  add_to_move_generation_stack:    62172673
+                     play_move:    35876418
+ is_white_king_square_attacked:    35301856
+ is_black_king_square_attacked:     7447079
 Loesung beendet.
 
 

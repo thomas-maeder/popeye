@@ -45,12 +45,12 @@
                      play_move:       96305
  is_white_king_square_attacked:       95905
  is_black_king_square_attacked:       50734
-Loesung beendet. 
+Loesung beendet.
 
 
 
               Uri Avner
-          1. Preis, IRT 1981
+         1. Preis, IRT 1981
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -209,11 +209,11 @@ Loesung beendet.
                      play_move:      626399
  is_white_king_square_attacked:      625772
  is_black_king_square_attacked:      316571
-Loesung beendet. 
+Loesung beendet.
 
 
 
-              Hans Moser
+             Hans Moser
     2513, Problemkiste-70, 8/1990
 
 +---a---b---c---d---e---f---g---h---+
@@ -236,7 +236,7 @@ Loesung beendet.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   r#2                         6 + 9
-         Madrasi RexInklusive
+        Madrasi RexInklusive
 
    1.Tc4-c3 ! Drohung:
           2.Db4*b7 +
@@ -373,7 +373,7 @@ Loesung beendet.
                      play_move:       52850
  is_white_king_square_attacked:       44370
  is_black_king_square_attacked:        9354
-Loesung beendet. 
+Loesung beendet.
 
 
 
@@ -474,17 +474,17 @@ Loesung beendet.
                       3...Ld1-f3 #
 
 
-  add_to_move_generation_stack:      508833
-                     play_move:      268334
- is_white_king_square_attacked:      245511
- is_black_king_square_attacked:       73647
-Loesung beendet. 
+  add_to_move_generation_stack:      512667
+                     play_move:      272576
+ is_white_king_square_attacked:      249633
+ is_black_king_square_attacked:       73767
+Loesung beendet.
 
 
 
-             Petko Petkov
-          Die Schwalbe, 1980
-               2. Preis
+            Petko Petkov
+         Die Schwalbe, 1980
+              2. Preis
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -534,6 +534,6 @@ Loesung beendet.
                      play_move:     5640489
  is_white_king_square_attacked:     5614672
  is_black_king_square_attacked:     3404251
-Loesung beendet. 
+Loesung beendet.
 
 

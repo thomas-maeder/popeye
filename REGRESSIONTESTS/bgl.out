@@ -435,10 +435,10 @@ Loesung beendet.
                       3...f3-f2 (1.01/2) #
 
 
-  add_to_move_generation_stack:      142575
-                     play_move:       72485
- is_white_king_square_attacked:       72360
- is_black_king_square_attacked:       43334
+  add_to_move_generation_stack:      142905
+                     play_move:       72827
+ is_white_king_square_attacked:       72690
+ is_black_king_square_attacked:       43346
 Loesung beendet.
 
 
