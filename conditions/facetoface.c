@@ -40,6 +40,7 @@ static boolean enforce_possibly_confronted_observer_walk(slice_index si,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
+  TraceFunctionParam("%d",dir_confronter);
   TraceFunctionParamListEnd();
 
   TraceSquare(sq_departure);
@@ -50,6 +51,10 @@ static boolean enforce_possibly_confronted_observer_walk(slice_index si,
     walk = get_walk_of_piece_on_square(pos_confronter);
   else
     walk = get_walk_of_piece_on_square(sq_departure);
+
+  TraceWalk(walk);
+  TraceWalk(observing_walk[nbply]);
+  TraceEOL();
 
   if (walk==observing_walk[nbply])
     result = validate_observation_recursive(slices[si].next1);
