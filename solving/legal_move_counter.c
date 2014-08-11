@@ -88,9 +88,9 @@ void legal_attack_counter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++legal_move_counter_count[parent_ply[nbply]];
-
   assert(is_init[parent_ply[nbply]]);
+
+  ++legal_move_counter_count[parent_ply[nbply]];
 
   pipe_this_move_solves_exactly_if(legal_move_counter_count[parent_ply[nbply]]
                                    >legal_move_counter_interesting[parent_ply[nbply]]);
@@ -118,9 +118,9 @@ void legal_defense_counter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++legal_move_counter_count[parent_ply[nbply]];
-
   assert(is_init[parent_ply[nbply]]);
+
+  ++legal_move_counter_count[parent_ply[nbply]];
 
   pipe_this_move_solves_exactly_if(legal_move_counter_count[parent_ply[nbply]]
                                    <=legal_move_counter_interesting[parent_ply[nbply]]);
@@ -135,7 +135,9 @@ void legal_move_count_init(unsigned int nr_interesting)
   TraceFunctionParam("%u",nr_interesting);
   TraceFunctionParamListEnd();
 
+  assert(!is_init[nbply]);
   assert(legal_move_counter_count[nbply]==0);
+
   legal_move_counter_interesting[nbply] = nr_interesting;
 
 #if !defined(NDEBUG)
@@ -151,11 +153,13 @@ void legal_move_count_fini(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  legal_move_counter_count[nbply] = 0;
+  assert(is_init[nbply]);
 
 #if !defined(NDEBUG)
   is_init[nbply] = false;
 #endif
+
+  legal_move_counter_count[nbply] = 0;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
