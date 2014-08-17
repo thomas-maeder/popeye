@@ -49,6 +49,7 @@ twin move a3 c3
 
 next
 
+title observations by a piece backed by a queen weren't recognised
 Author Hubert Gockel
 Origin Original 10.8.2014
 Pieces White Ka8 Rf7 Ba2 Black Kh1 qa1
