@@ -6,17 +6,13 @@ platform/maxmem.h:
 utilities/boolean.h:
 platform/windows32/maxtime.obj: platform/windows32/maxtime.c \
  platform/maxtime_impl.h platform/maxtime.h utilities/boolean.h \
- output/plaintext/message.h input/plaintext/language.h debugging/assert.h
+ debugging/assert.h
 
 platform/maxtime_impl.h:
 
 platform/maxtime.h:
 
 utilities/boolean.h:
-
-output/plaintext/message.h:
-
-input/plaintext/language.h:
 
 debugging/assert.h:
 platform/windows32/pytime.obj: platform/windows32/pytime.c \
@@ -36,3 +32,7 @@ utilities/boolean.h:
 
 platform/beep_impl.h:
 platform/windows32/snprintf.obj: platform/windows32/snprintf.c
+platform/windows32/tmpfile.obj: platform/windows32/tmpfile.c \
+ platform/tmpfile.h
+
+platform/tmpfile.h:

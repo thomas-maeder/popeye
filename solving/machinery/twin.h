@@ -37,7 +37,7 @@ extern twin_duplex_type_type twin_duplex_type;
 enum
 {
   twin_a,
-  twin_b,
+  twin_b
   /* etc. */
 };
 extern unsigned int twin_number;
