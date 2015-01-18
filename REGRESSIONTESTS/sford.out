@@ -413,6 +413,95 @@ Konstruktionswettbewerb i&f 1985/86, 1. Platz
 Loesung beendet.
 
 
+
+             Karl Fabel
+      Rund ums Schachbrett 19??
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   L   .   .   .   .   .   K   T   8
+|                                   |
+7   .  -T   .   .   .   .   .   L   7
+|                                   |
+6   .   .   .   .   .   .   T  -L   6
+|                                   |
+5   .   .  -B   .  -B   .  -B   .   5
+|                                   |
+4   .   .   B   .  -K   .   B   .   4
+|                                   |
+3   .  -B   .   .   B   .   .  -B   3
+|                                   |
+2   .   B   .   .   B   .   .   B   2
+|                                   |
+1   .   .   .   S   .   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 1a[!#]d              13 + 8
+
+   1.Tg6-c6 + !
+
+
+  add_to_move_generation_stack:         281
+                     play_move:         276
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:         275
+Loesung beendet.
+
+
+Weiss zieht und setzt in 2 Z\"ugen nicht matt
+
+          Markus Wettstein
+         Schach-Woche 1998?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   L   L  -S   .   .   .   .   .   8
+|                                   |
+7   B   B   B   .   .   .   .  -D   7
+|                                   |
+6  -T   S   .   .   .   K   .  -B   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .   .   .  -K   .  -L   T   4
+|                                   |
+3   .   .   .  -B   B  -B   B   T   3
+|                                   |
+2   .   .  -T   .   .   B   .   B   2
+|                                   |
+1   .   .   .   .   .   S   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  weiss 3:3a[!#]d            15 + 9
+
+   1.Sf1-d2 + ?
+    Aber
+      1...Tc2*d2 !
+
+   1.b7*c8=D + ?
+    Aber
+      1...Tc2-c6 + !
+
+   1.b7*c8=S + ?
+    Aber
+      1...Tc2-c6 + !
+
+   1.b7*c8=T + ?
+    Aber
+      1...Tc2-c6 + !
+
+   1.b7*c8=L + !
+      1...Tc2-c6 +
+          2.Lc8-e6
+
+
+  add_to_move_generation_stack:        1125
+                     play_move:        1130
+ is_white_king_square_attacked:         151
+ is_black_king_square_attacked:         850
+Loesung beendet.
+
+
 2 Halbzuege sHilfszug+wHilfszug zum Matt und 1 sHilfszug zum Matt
 (d.h. forderung reci-h#1)
 

@@ -103,6 +103,25 @@ steine          weiss   ke8 df8 tf3g5 lf7h4 sc6f4 be3e4f2g3g4
 
 weiter
 
+autor Karl Fabel
+quelle Rund ums Schachbrett 19??
+steine weiss kg8 tg6h8 la8h7 sd1f1 bb2c4e2e3g4h2
+       schwarz ke4 tb7 lh6 bb3c5e5g5h3
+sforderung weiss 1a[!#]d
+option vari
+
+weiter
+
+autor Markus Wettstein
+quelle Schach-Woche 1998?
+steine weiss kf6 th3h4 la8b8 sb6f1 ba7b7c7e3f2g3h2h5
+       schwarz ke4 dh7 ta6c2 lg4 sc8 bd3f3h6
+sforderung weiss 3:3a[!#]d
+bemerkung Weiss zieht und setzt in 2 Z\"ugen nicht matt
+option vari verf
+
+weiter
+
 bemerkung 2 Halbzuege sHilfszug+wHilfszug zum Matt und 1 sHilfszug zum Matt
 bemerkung (d.h. forderung reci-h#1)
 sford schwarz 2hh[#]&1h[#]h
