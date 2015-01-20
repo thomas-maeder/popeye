@@ -36,4 +36,8 @@ void take_make_circe_collect_rebirth_squares_solve(slice_index si);
  */
 void take_make_circe_determine_rebirth_squares_solve(slice_index si);
 
+/* Instrument the solving machinery with Circe Take&Make
+ */
+void circe_solving_instrument_takemake(void);
+
 #endif

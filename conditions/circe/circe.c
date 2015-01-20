@@ -8,6 +8,7 @@
 #include "conditions/circe/parrain.h"
 #include "conditions/circe/rex_inclusive.h"
 #include "conditions/circe/super.h"
+#include "conditions/circe/takemake.h"
 #include "conditions/circe/volage.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/walks.h"
