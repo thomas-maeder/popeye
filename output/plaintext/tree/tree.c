@@ -55,11 +55,14 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
 static void insert_writer_for_move_in_parent(slice_index si,
                                              stip_structure_traversal *st)
 {
+  boolean const * const attack_played = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->level==structure_traversal_level_nested)
+  if (st->level==structure_traversal_level_nested
+      && *attack_played)
   {
     slice_index const prototypes[] =
     {
@@ -76,31 +79,47 @@ static void insert_writer_for_move_in_parent(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void do_insert_move_writer(slice_index si,
+                                  stip_structure_traversal *st)
+{
+  slice_index const prototypes[] =
+  {
+    alloc_output_plaintext_tree_move_writer_slice(),
+    alloc_output_plaintext_tree_check_writer_slice()
+  };
+  enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+  slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+
+  if (CondFlag[exclusive])
+  {
+    slice_index const prototype = alloc_exclusive_chess_undecidable_writer_tree_slice();
+    move_insert_slices(si,st->context,&prototype,1);
+  }
+}
+
 static void insert_move_writer(slice_index si, stip_structure_traversal *st)
 {
+  boolean * const attack_played = st->param;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->context==stip_traversal_context_defense
-      || st->context==stip_traversal_context_attack)
+  if (st->context==stip_traversal_context_defense && *attack_played)
   {
-    slice_index const prototypes[] =
-    {
-      alloc_output_plaintext_tree_move_writer_slice(),
-      alloc_output_plaintext_tree_check_writer_slice()
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert_contextually(si,st->context,prototypes,nr_prototypes);
+    do_insert_move_writer(si,st);
 
-    if (CondFlag[exclusive])
-    {
-      slice_index const prototype = alloc_exclusive_chess_undecidable_writer_tree_slice();
-      move_insert_slices(si,st->context,&prototype,1);
-    }
+    *attack_played = false;
+    stip_traverse_structure_children_pipe(si,st);
+    *attack_played = true;
   }
-
-  stip_traverse_structure_children_pipe(si,st);
+  else if (st->context==stip_traversal_context_attack)
+  {
+    do_insert_move_writer(si,st);
+    stip_traverse_structure_children_pipe(si,st);
+  }
+  else
+    stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -144,8 +163,27 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void insert_writer_remember_attack(slice_index si,
+                                          stip_structure_traversal *st)
+{
+  boolean * const attack_played = st->param;
+  boolean const save_attack_played = *attack_played;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *attack_played = true;
+  stip_traverse_structure_children_pipe(si,st);
+  *attack_played = save_attack_played;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static structure_traversers_visitor const regular_writer_inserters[] =
 {
+  { STReadyForAttack,    &insert_writer_remember_attack },
   { STDefenseAdapter,    &insert_writer_for_move_in_parent },
   { STHelpAdapter,       &stip_structure_visitor_noop      },
   { STMoveInverter,      &insert_move_inversion_counter    },
@@ -167,12 +205,13 @@ enum
 static void insert_regular_writer_slices(slice_index si)
 {
   stip_structure_traversal st;
+  boolean attack_played = false;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_init(&st,&attack_played);
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_testing_pipe,
                                                   &stip_traverse_structure_children_pipe);
