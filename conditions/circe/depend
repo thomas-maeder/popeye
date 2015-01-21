@@ -23,11 +23,11 @@ conditions/circe/circe$(OBJ_SUFFIX): conditions/circe/circe.c \
  conditions/circe/double_agents.h conditions/circe/frischauf.h \
  conditions/circe/glasgow.h conditions/circe/parrain.h \
  conditions/circe/rex_inclusive.h conditions/circe/super.h \
- conditions/circe/volage.h pieces/walks/walks.h \
- pieces/walks/classification.h pieces/walks/pawns/promotion.h \
- pieces/attributes/chameleon.h conditions/conditions.h stipulation/pipe.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/assert.h
+ conditions/circe/takemake.h conditions/circe/volage.h \
+ pieces/walks/walks.h pieces/walks/classification.h \
+ pieces/walks/pawns/promotion.h pieces/attributes/chameleon.h \
+ conditions/conditions.h stipulation/pipe.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/pipe.h debugging/assert.h
 
 conditions/circe/circe.h:
 
@@ -128,6 +128,8 @@ conditions/circe/parrain.h:
 conditions/circe/rex_inclusive.h:
 
 conditions/circe/super.h:
+
+conditions/circe/takemake.h:
 
 conditions/circe/volage.h:
 
