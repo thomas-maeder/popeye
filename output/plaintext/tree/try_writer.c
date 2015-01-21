@@ -47,6 +47,8 @@ void output_plaintext_tree_try_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  assert(refutations!=table_nil);
+
   if (table_length(refutations)>0)
   {
     protocol_fprintf(stdout,"%s"," ?");

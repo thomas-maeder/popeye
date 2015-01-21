@@ -279,9 +279,10 @@ static void insert_refutation_writer(slice_index si,
 static structure_traversers_visitor const try_writer_inserters[] =
 {
   { STOutputPlainTextKeyWriter,              &substitute_try_writer                 },
-  { STRefutationsSolver,      &insert_refutation_intro_writer        },
+  { STRefutationsSolver,                     &insert_refutation_intro_writer        },
   { STOutputPlainTextRefutationsIntroWriter, &insert_refutation_writer              },
-  { STEndOfBranchGoal,        &stip_traverse_structure_children_pipe }
+  { STEndOfBranchGoal,                       &stip_traverse_structure_children_pipe },
+  { STEndOfBranch,                           &stip_structure_visitor_noop           }
 };
 
 enum

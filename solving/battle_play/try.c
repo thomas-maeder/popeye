@@ -345,6 +345,19 @@ static void filter_postkey_play(slice_index si,
   TraceFunctionResultEnd();
 }
 
+static void filter_complex_sstip(slice_index si,
+                                 stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  output_plaintext_message(TryPlayNotApplicable);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void insert_refutations_allocator(slice_index si,
                                          stip_structure_traversal *st)
 {
@@ -518,6 +531,7 @@ static structure_traversers_visitor const try_solver_inserters[] =
 {
   { STOutputModeSelector, &filter_output_mode               },
   { STDefenseAdapter,     &filter_postkey_play              },
+  { STEndOfBranch,        &filter_complex_sstip             },
   { STNotEndOfBranch,     &insert_refutations_allocator     },
   { STContinuationSolver, &insert_refutations_solver        },
   { STRefutationsSolver,  &spin_off_from_refutations_solver }
