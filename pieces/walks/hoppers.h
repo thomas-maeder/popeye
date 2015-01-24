@@ -18,7 +18,19 @@ typedef struct
 
 extern hoppper_moves_auxiliary_type hoppper_moves_auxiliary[toppile+1];
 
-void push_hopper_move(vec_index_type idx_dir, square sq_hurdle);
+/* push current move, all while remembering the current hurdle and move direction
+ * @param idx_dir index into vec
+ * @param sq_hurdle hurdle for the move being pushed
+ */
+void hoppers_push_move(vec_index_type idx_dir, square sq_hurdle);
+
+/* Clear hurdle information in the moves from the current move of ply nbply
+ * down to (but not including) some base move.
+ * To be used while generating moves for walks that can do both moves using a
+ * hurdle and moves that don't
+ * @param base index of the base move
+ */
+void hoppers_clear_hurdles(numecoup base);
 
 /* Generate moves for a hopper piece
  * @param kbeg start of range of vector indices to be used

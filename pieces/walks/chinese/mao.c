@@ -30,7 +30,7 @@ static void maooa_generate_move(numvec to_passed, numvec to_arrival)
 
     if (is_square_empty(curr_generation->arrival)
         || piece_belongs_to_opponent(curr_generation->arrival))
-      push_hopper_move(0,sq_passed);
+      hoppers_push_move(0,sq_passed);
   }
 }
 

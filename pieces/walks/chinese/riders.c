@@ -15,12 +15,17 @@ void chinese_rider_generate_moves(vec_index_type kbeg, vec_index_type kend)
 
   for (k = kbeg; k<=kend; ++k)
   {
+    numecoup const base = current_move[nbply];
     square const sq_hurdle = generate_moves_on_line_segment(curr_generation->departure,k);
+
+    /* avoid accidentally "inheriting" the hurdle from some previous move */
+    hoppers_clear_hurdles(base);
+
     if (!is_square_blocked(sq_hurdle))
     {
       curr_generation->arrival = find_end_of_line(sq_hurdle,vec[k]);
       if (piece_belongs_to_opponent(curr_generation->arrival))
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
     }
   }
 }

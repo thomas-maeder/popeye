@@ -7,11 +7,28 @@
 
 hoppper_moves_auxiliary_type hoppper_moves_auxiliary[toppile+1];
 
-void push_hopper_move(vec_index_type idx_dir, square sq_hurdle)
+/* push current move, all while remembering the current hurdle and move direction
+ * @param idx_dir index into vec
+ * @param sq_hurdle hurdle for the move being pushed
+ */
+void hoppers_push_move(vec_index_type idx_dir, square sq_hurdle)
 {
   push_move();
   hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].idx_dir = idx_dir;
   hoppper_moves_auxiliary[move_generation_stack[CURRMOVE_OF_PLY(nbply)].id].sq_hurdle = sq_hurdle;
+}
+
+/* Clear hurdle information in the moves from the current move of ply nbply
+ * down to (but not including) some base move.
+ * To be used while generating moves for walks that can do both moves using a
+ * hurdle and moves that don't
+ * @param base index of the base move
+ */
+void hoppers_clear_hurdles(numecoup base)
+{
+  numecoup i;
+  for (i = current_move[nbply]; i!=base; --i)
+    hoppper_moves_auxiliary[move_generation_stack[i].id].sq_hurdle = initsquare;
 }
 
 /* Generate moves for a hopper piece
@@ -30,7 +47,7 @@ void rider_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
       curr_generation->arrival = sq_hurdle+vec[k];
       if (piece_belongs_to_opponent(curr_generation->arrival)
           || is_square_empty(curr_generation->arrival))
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
     }
   }
 }
@@ -117,7 +134,7 @@ void leaper_hoppers_generate_moves(vec_index_type kbeg, vec_index_type kend)
       curr_generation->arrival = sq_hurdle+vec[k];
       if (piece_belongs_to_opponent(curr_generation->arrival)
           || is_square_empty(curr_generation->arrival))
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
     }
   }
 }
@@ -279,12 +296,12 @@ void contra_grasshopper_generate_moves(vec_index_type kbeg, vec_index_type kend)
       curr_generation->arrival = sq_hurdle+vec[k];
       while (is_square_empty(curr_generation->arrival))
       {
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
         curr_generation->arrival += vec[k];
       }
 
       if (piece_belongs_to_opponent(curr_generation->arrival))
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
     }
   }
 
@@ -358,7 +375,7 @@ void grasshoppers_n_generate_moves(vec_index_type kbeg, vec_index_type kend,
       curr_generation->arrival = grasshoppers_n_find_target(sq_hurdle,vec[k],dist_hurdle_target);
       if (piece_belongs_to_opponent(curr_generation->arrival)
           || is_square_empty(curr_generation->arrival))
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
     }
   }
 }
@@ -441,13 +458,13 @@ void equihopper_generate_moves(void)
       if (dist_hurdle_end>dist_hurdle_dep)
       {
         curr_generation->arrival = sq_hurdle+sq_hurdle-sq_departure;
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
       }
       else if (dist_hurdle_end==dist_hurdle_dep)
       {
         curr_generation->arrival = end_of_line;
         if (piece_belongs_to_opponent(curr_generation->arrival))
-          push_hopper_move(k,sq_hurdle);
+          hoppers_push_move(k,sq_hurdle);
       }
     }
   }
@@ -459,7 +476,7 @@ void equihopper_generate_moves(void)
     if (get_walk_of_piece_on_square(sq_hurdle)>=King
         && (is_square_empty(curr_generation->arrival)
             || piece_belongs_to_opponent(curr_generation->arrival)))
-      push_hopper_move(k,sq_hurdle);
+      hoppers_push_move(k,sq_hurdle);
   }
 }
 
@@ -523,7 +540,7 @@ void nonstop_equihopper_generate_moves(void)
 
         if (is_square_empty(curr_generation->arrival)
             || piece_belongs_to_opponent(curr_generation->arrival))
-          push_hopper_move(0,sq_hurdle);
+          hoppers_push_move(0,sq_hurdle);
       }
     }
   }
@@ -713,12 +730,12 @@ void orix_generate_moves(void)
       square const sq_end_of_line = find_end_of_line(sq_hurdle,vec[k]);
       curr_generation->arrival = sq_hurdle+sq_hurdle-sq_departure;
       if (abs(sq_end_of_line-sq_hurdle) > abs(sq_hurdle-sq_departure))
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
       else if (abs(sq_end_of_line-sq_hurdle) == abs(sq_hurdle-sq_departure)
                && piece_belongs_to_opponent(sq_end_of_line))
       {
         curr_generation->arrival = sq_end_of_line;
-        push_hopper_move(k,sq_hurdle);
+        hoppers_push_move(k,sq_hurdle);
       }
     }
   }
@@ -787,7 +804,7 @@ void nonstop_orix_generate_moves(void)
 
         if (is_square_empty(curr_generation->arrival)
             || piece_belongs_to_opponent(curr_generation->arrival))
-          push_hopper_move(0,sq_hurdle);
+          hoppers_push_move(0,sq_hurdle);
       }
     }
 }
