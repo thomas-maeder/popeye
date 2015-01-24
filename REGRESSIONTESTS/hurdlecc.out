@@ -33,3 +33,54 @@
 Loesung beendet.
 
 
+Es fehlt ein weisser oder schwarzer Koenig
+
+
+Test und Dokumentation f\"ur Umwandlung in sprungbockfarbewechselnde H\"upfer
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   B   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   B   5
+|                                   |
+4   .   .   .   .   .  -G   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -G   .   2
+|                                   |
+1   . -LI   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 3
+   SprungbockFarbeWechselnd f4 b1
+
+   1.h5-h6 !
+
+   1.h7-h8=D !
+
+   1.h7-h8=S !
+
+   1.h7-h8=T !
+
+   1.h7-h8=L !
+
+   1.h7-h8=G !
+
+   1.h7-h8=G=s !
+
+   1.h7-h8=LI=s !
+
+
+  add_to_move_generation_stack:           2
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+Loesung beendet.
+
+

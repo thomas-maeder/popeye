@@ -353,9 +353,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[dynasty])
     dynasty_initialise_solving(result);
 
-  if (TSTFLAG(some_pieces_flags,ColourChange))
-    solving_insert_hurdle_colour_changers(result);
-
   solving_insert_king_oscillators(result);
 
   if (CondFlag[messigny])
@@ -493,6 +490,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
     chameleon_init_sequence_implicit(&chameleon_is_squence_explicit,
                                      &chameleon_walk_sequence);
+
+  if (TSTFLAG(some_pieces_flags,ColourChange))
+    solving_insert_hurdle_colour_changers(result);
 
   if (CondFlag[haanerchess])
     solving_insert_haan_chess(result);

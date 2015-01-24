@@ -1556,6 +1556,14 @@ void dispatch(slice_index si)
       hurdle_colour_changer_solve(si);
       break;
 
+    case STHurdleColourChangeInitialiser:
+      hurdle_colour_change_initialiser_solve(si);
+      break;
+
+    case STHurdleColourChangerChangePromoteeInto:
+      hurdle_colour_change_change_promotee_into_solve(si);
+      break;
+
     case STOscillatingKingsTypeA:
       oscillating_kings_type_a_solve(si);
       break;

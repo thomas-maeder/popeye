@@ -1,10 +1,20 @@
-anfa
-prot hurdlecc.out
-auto N.Guttman & G.Sphicas
-ford h#2
-stei
-weis kh3 sd6e2f7 bh5 
-weis sprungbockfarbewechselnd gd8g1
-schw ke6  
-schw sprungbockfarbewechselnd ge7
+anfang
+
+protokoll hurdlecc.out
+
+autor N.Guttman & G.Sphicas
+forderung h#2
+steine
+weiss kh3 sd6e2f7 bh5 
+weiss sprungbockfarbewechselnd gd8g1
+schwarz ke6  
+schwarz sprungbockfarbewechselnd ge7
+
+weiter
+
+titel Test und Dokumentation f\"ur Umwandlung in sprungbockfarbewechselnde H\"upfer
+steine weiss bh5h7 schwarz gg2 schwarz sprungbockfarb gf4 lib1
+forderung ~1
+
 ende
+

@@ -816,10 +816,10 @@ Lob, Andernach-Grashoppers-Tourney 2000
               2...sGa5-g5[f5=s] #
 
 
-  add_to_move_generation_stack:       71693
-                     play_move:       27543
- is_white_king_square_attacked:       27544
- is_black_king_square_attacked:       23670
+  add_to_move_generation_stack:       71643
+                     play_move:       27515
+ is_white_king_square_attacked:       27516
+ is_black_king_square_attacked:       23642
 Loesung beendet.
 
 

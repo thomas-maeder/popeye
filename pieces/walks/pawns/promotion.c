@@ -29,6 +29,7 @@ static slice_type const promotion_slice_rank_order[] =
     STPawnToImitatorPromoter,
     STPawnPromoter,
     STChameleonChangePromoteeInto,
+    STHurdleColourChangerChangePromoteeInto,
     STLandingAfterPawnPromotion
 };
 

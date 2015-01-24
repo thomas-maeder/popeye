@@ -273,6 +273,8 @@
     ENUMERATOR(STStrictSATUpdater), \
     ENUMERATOR(STDynastyKingSquareUpdater), \
     ENUMERATOR(STHurdleColourChanger), \
+    ENUMERATOR(STHurdleColourChangeInitialiser), \
+    ENUMERATOR(STHurdleColourChangerChangePromoteeInto), \
     ENUMERATOR(STOscillatingKingsTypeA), \
     ENUMERATOR(STOscillatingKingsTypeB), \
     ENUMERATOR(STOscillatingKingsTypeC), \

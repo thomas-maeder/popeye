@@ -564,6 +564,7 @@ static slice_index const slice_rank_order[] =
   STOutputLaTeXTwinningWriter,
   STOutputEndOfIntro,
   STStrictSATInitialiser,
+  STHurdleColourChangeInitialiser,
   STSetplayFork,
   STMoveInverter,
   STOutputPlaintextMoveInversionCounter,
