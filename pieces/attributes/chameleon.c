@@ -117,12 +117,18 @@ static void solve_nested(slice_index si)
   horizon = save_horizon;
 }
 
+static boolean is_walk_in_chameleon_sequence(piece_walk_type walk)
+{
+  return chameleon_walk_sequence[walk]!=walk;
+}
+
 static square decide_about_change(void)
 {
   square result = initsquare;
 
   square const sq_promotion = find_promotion(horizon);
   if (sq_promotion!=initsquare
+      && is_walk_in_chameleon_sequence(being_solved.board[sq_promotion])
       && !TSTFLAG(being_solved.spec[sq_promotion],Chameleon)
       && !post_move_iteration_locked[nbply])
   {

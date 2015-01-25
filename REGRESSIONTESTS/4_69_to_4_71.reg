@@ -1,0 +1,54 @@
+
+fixed promotion in the presence of HurdleColourChanging pieces
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   P   7
+|                                   |
+6  -S   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -G   .   .   4
+|                                   |
+3 -RH   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .  -G   .   2
+|                                   |
+1   . -LI   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 5
+            Chameleon a6
+    HurdleColourChanging f4 a3 b1
+        PromOnly Q S G LI RH
+ ChameleonSequence Q->R->B->S->RH->Q
+
+   1.h7-h8=Q !
+
+   1.h7-h8=Q=c !
+
+   1.h7-h8=S !
+
+   1.h7-h8=S=c !
+
+   1.h7-h8=G !
+
+   1.h7-h8=G=h !
+
+   1.h7-h8=LI=h !
+
+   1.h7-h8=RH=h !
+
+   1.h7-h8=RH=c=ch !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           9
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

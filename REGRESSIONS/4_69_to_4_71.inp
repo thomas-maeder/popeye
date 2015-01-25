@@ -1,0 +1,12 @@
+begin
+
+prot 4_69_to_4_71.reg
+
+title fixed promotion in the presence of HurdleColourChanging pieces
+pieces white ph7 black gg2 black cham sa6 black hurdlecolourchanging rha3 gf4 lib1
+stipulation ~1
+condition promonly q s g li rh
+condition ChameleonSequence Q R B S RH Q
+option nowk nobk
+
+end
