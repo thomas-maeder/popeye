@@ -31,7 +31,7 @@ enum
   stack_size = max_nr_promotions_per_ply*maxply+1
 };
 
-static square sq_promotion[stack_size];
+static boolean next_prom_to_changing[stack_size];
 static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
 
 static unsigned int stack_pointer;
@@ -79,6 +79,10 @@ void hurdle_colour_change_initialiser_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Find a promotion in the effects of the move being played since we last looked
+ * @param base start of set of effects where to look for a promotion
+ * @return index of promotion effect; base if there is none
+ */
 static move_effect_journal_index_type find_promotion(move_effect_journal_index_type base)
 {
   move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
@@ -106,25 +110,64 @@ static move_effect_journal_index_type find_promotion(move_effect_journal_index_t
   return result;
 }
 
+/* Delegate solving to the next slice, while remembering the set of effects of
+ * this move where prommotions have been considered.
+ * @param si identifies the current slice
+ */
 static void solve_nested(slice_index si)
 {
   move_effect_journal_index_type const save_horizon = horizon;
 
   horizon = move_effect_journal_base[nbply+1];
   ++stack_pointer;
+
   pipe_solve_delegate(si);
 
   --stack_pointer;
   horizon = save_horizon;
 }
 
-static void do_change(void)
+/* make the promotee of a promotion effect hurdle colour changing
+ * @param idx_promotion index of the promotion effect
+ */
+static void do_change(move_effect_journal_index_type idx_promotion)
 {
-  Flags changed = being_solved.spec[sq_promotion[stack_pointer]];
+  square const sq_prom = move_effect_journal[idx_promotion].u.piece_change.on;
+  Flags changed = being_solved.spec[sq_prom];
   SETFLAG(changed,ColourChange);
   move_effect_journal_do_flags_change(move_effect_reason_pawn_promotion,
-                                      sq_promotion[stack_pointer],
+                                      sq_prom,
                                       changed);
+}
+
+/* start or continue an iteration over leaving non-changing and changing to
+ * changing
+ * @param si identifies the current slice
+ * @param idx_promotion index of the promotion effect
+ */
+static void promote_to_both_non_changing_and_changing(slice_index si,
+                                                      move_effect_journal_index_type idx_promotion)
+{
+  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
+    next_prom_to_changing[stack_pointer] = false;
+
+  if (next_prom_to_changing[stack_pointer])
+  {
+    do_change(idx_promotion);
+    solve_nested(si);
+  }
+  else
+  {
+    solve_nested(si);
+
+    if (!post_move_iteration_locked[nbply])
+    {
+      lock_post_move_iterations();
+      next_prom_to_changing[stack_pointer] = true;
+    }
+  }
+
+  prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -147,10 +190,6 @@ void hurdle_colour_change_change_promotee_into_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
-    sq_promotion[stack_pointer] = initsquare;
-
-  if (sq_promotion[stack_pointer]==initsquare)
   {
     move_effect_journal_index_type const idx_promotion = find_promotion(horizon);
     if (idx_promotion==horizon)
@@ -159,7 +198,6 @@ void hurdle_colour_change_change_promotee_into_solve(slice_index si)
     else
     {
       piece_walk_type const walk_promotee = move_effect_journal[idx_promotion].u.piece_change.to;
-      sq_promotion[stack_pointer] = move_effect_journal[idx_promotion].u.piece_change.on;
       switch (promote_walk_into[walk_promotee])
       {
         case none:
@@ -168,26 +206,16 @@ void hurdle_colour_change_change_promotee_into_solve(slice_index si)
           break;
 
         case changing:
-          do_change();
+          do_change(idx_promotion);
           solve_nested(si);
           break;
 
         case both:
-        {
-          solve_nested(si);
-          lock_post_move_iterations();
+          promote_to_both_non_changing_and_changing(si,idx_promotion);
           break;
-        }
       }
     }
   }
-  else
-  {
-    do_change();
-    solve_nested(si);
-  }
-
-  prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
