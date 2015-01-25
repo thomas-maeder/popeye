@@ -50,11 +50,11 @@ static void insert_visit_promotion(slice_index si, stip_structure_traversal *st)
     stip_structure_traversal st_nested;
     branch_slice_insertion_state_type state_nested;
     slice_insertion_prepare_factored_order(si,
-                                                     st,
-                                                     &st_nested,&state_nested,
-                                                     promotion_slice_rank_order,
-                                                     nr_promotion_slice_rank_order_elmts,
-                                                     nr_promotion_exit_slice_types);
+                                           st,
+                                           &st_nested,&state_nested,
+                                           promotion_slice_rank_order,
+                                           nr_promotion_slice_rank_order_elmts,
+                                           nr_promotion_exit_slice_types);
     stip_traverse_structure_children_pipe(si,&st_nested);
   }
 
