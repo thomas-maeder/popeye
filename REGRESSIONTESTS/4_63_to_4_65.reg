@@ -2278,53 +2278,53 @@ added support for more hurdle colour changing piece walks
   ~1                          8 + 2
 HurdleColourChanging b8 f8 h6 h5 a4 g4 h3 f1
 
-   1.hG2f1-f6[f4=w] !
+   1.hccG2f1-f6[f4=w] !
 
-   1.hKPh3-d5[f4=w] !
+   1.hccKPh3-d5[f4=w] !
 
-   1.hCGg4-g1[g3=w] !
+   1.hccCGg4-g1[g3=w] !
 
-   1.hCGg4-g2[g3=w] !
+   1.hccCGg4-g2[g3=w] !
 
-   1.hCGg4-b4[f4=w] !
+   1.hccCGg4-b4[f4=w] !
 
-   1.hCGg4-c4[f4=w] !
+   1.hccCGg4-c4[f4=w] !
 
-   1.hCGg4-d4[f4=w] !
+   1.hccCGg4-d4[f4=w] !
 
-   1.hCGg4-e4[f4=w] !
+   1.hccCGg4-e4[f4=w] !
 
-   1.hEQh5-d3[f4=w] !
+   1.hccEQh5-d3[f4=w] !
 
-   1.hEQh5-h7[h6=b] !
+   1.hccEQh5-h7[h6=b] !
 
-   1.hEQh5-h1[h3=b] !
+   1.hccEQh5-h1[h3=b] !
 
-   1.hEQh5-f3[g4=b] !
+   1.hccEQh5-f3[g4=b] !
 
-   1.hEAh6-g5[h5=b] !
+   1.hccEAh6-g5[h5=b] !
 
-   1.hEAh6-e7[f8=b] !
+   1.hccEAh6-e7[f8=b] !
 
-   1.hEAh6-e5[f4=w] !
+   1.hccEAh6-e5[f4=w] !
 
-   1.hEAh6*g3[f4=w] !
+   1.hccEAh6*g3[f4=w] !
 
-   1.hVAb8-a7 !
+   1.hccVAb8-a7 !
 
-   1.hVAb8*g3[f4=w] !
+   1.hccVAb8*g3[f4=w] !
 
-   1.hVAb8-e5 !
+   1.hccVAb8-e5 !
 
-   1.hVAb8-d6 !
+   1.hccVAb8-d6 !
 
-   1.hVAb8-c7 !
+   1.hccVAb8-c7 !
 
-   1.hLIf8-f2[f4=w] !
+   1.hccLIf8-f2[f4=w] !
 
-   1.hLIf8-f3[f4=w] !
+   1.hccLIf8-f3[f4=w] !
 
-   1.hLIf8-a8[b8=b] !
+   1.hccLIf8-a8[b8=b] !
 
 
   add_to_move_generation_stack:          24

@@ -2351,11 +2351,11 @@ b) nPf7
                      play_move:          60
  is_white_king_square_attacked:           4
  is_black_king_square_attacked:          61
-c) nhPf7  
+c) nhnPf7  
 
-   1.nhPf7*e8-a8=nhQ=wh # !
+   1.nhnPf7*e8-a8=nhnQ=wh # !
 
-   1.nhPf7*e8-a8=nhB=wh # !
+   1.nhnPf7*e8-a8=nhnB=wh # !
 
 
   add_to_move_generation_stack:          25

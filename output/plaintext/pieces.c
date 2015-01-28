@@ -13,13 +13,12 @@
 boolean WriteSpec(output_engine_type const * engine, FILE *file,
                   Flags sp, piece_walk_type p, boolean printcolours)
 {
-  boolean ret = false;
-  piece_flag_type spname;
+  boolean result = false;
 
   if (is_piece_neutral(sp))
   {
     (*engine->fputc)(tolower(ColourTab[colour_neutral][0]),file);
-    ret = true;
+    result = true;
   }
   else if (printcolours)
   {
@@ -39,18 +38,27 @@ boolean WriteSpec(output_engine_type const * engine, FILE *file,
     }
   }
 
-  for (spname = nr_sides; spname<nr_piece_flags; ++spname)
-    if ((spname!=Volage || !CondFlag[volage])
-        && (spname!=Patrol || !CondFlag[patrouille])
-        && (spname!=Beamtet || !CondFlag[beamten])
-        && (spname!=Royal || !is_king(p))
-        && TSTFLAG(sp, spname))
-    {
-      (*engine->fputc)(tolower(PieSpTab[spname-nr_sides][0]),file);
-      ret = true;
-    }
+  {
+    piece_flag_type spname;
+    for (spname = nr_sides; spname<nr_piece_flags; ++spname)
+      if ((spname!=Volage || !CondFlag[volage])
+          && (spname!=Patrol || !CondFlag[patrouille])
+          && (spname!=Beamtet || !CondFlag[beamten])
+          && (spname!=Royal || !is_king(p))
+          && TSTFLAG(sp, spname))
+      {
+        char const *curr = PieSpTab[spname-nr_sides];
+        while (*curr!=0)
+        {
+          if (isupper(*curr))
+            (*engine->fputc)(tolower(*curr),file);
+          ++curr;
+        }
+        result = true;
+      }
+  }
 
-  return ret;
+  return result;
 }
 
 void WriteWalk(output_engine_type const * engine, FILE *file, piece_walk_type p)

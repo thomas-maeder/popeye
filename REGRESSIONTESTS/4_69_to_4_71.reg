@@ -36,13 +36,13 @@ fixed promotion in the presence of HurdleColourChanging pieces
 
    1.h7-h8=G !
 
-   1.h7-h8=G=h !
+   1.h7-h8=G=hcc !
 
-   1.h7-h8=LI=h !
+   1.h7-h8=LI=hcc !
 
-   1.h7-h8=RH=h !
+   1.h7-h8=RH=hcc !
 
-   1.h7-h8=RH=c=ch !
+   1.h7-h8=RH=c=chcc !
 
 
   add_to_move_generation_stack:           1
