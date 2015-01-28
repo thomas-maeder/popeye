@@ -18,4 +18,20 @@ option nobk set maxsolutions 1
 condition MarsCirce HaanerChess
 stipulation h==2.5
 
+next
+
+author S. K. Balasubramanian
+title 4.69 found interesting solutions because back to back R and K paralysed each other
+stipulation h#1
+pieces white ka7 rg1 rg2 black kh8 rh6
+condition backtoback madrasi
+
+next
+
+author S. K. Balasubramanian
+title 4.69 found an interesting solution
+stipulation h#0.5
+pieces white kf8 rh2 ba8 black kh8 rf2
+cond backtoback madrasi
+
 end

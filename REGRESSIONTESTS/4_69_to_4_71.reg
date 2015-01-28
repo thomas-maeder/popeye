@@ -90,3 +90,73 @@ solution finished.
 solving interrupted.
 
 
+
+        S. K. Balasubramanian
+4.69 found interesting solutions because back to back R and K paralysed each other
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .  -K   8
+|                                   |
+7   K   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -R   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   R   .   2
+|                                   |
+1   .   .   .   .   .   .   R   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         3 + 2
+               Madrasi
+             BackToBack
+
+
+  add_to_move_generation_stack:         541
+                     play_move:         405
+ is_white_king_square_attacked:          28
+ is_black_king_square_attacked:         405
+solution finished.
+
+
+
+        S. K. Balasubramanian
+ 4.69 found an interesting solution
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   B   .   .   .   .   K   .  -K   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .  -R   .   R   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#0.5                       3 + 2
+               Madrasi
+             BackToBack
+
+
+  add_to_move_generation_stack:          12
+                     play_move:          12
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:          13
+solution finished.
+
+

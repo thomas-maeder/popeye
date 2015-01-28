@@ -138,6 +138,12 @@ static void initialise_solving(slice_index si,
     stip_structure_traversal_override_single(&st,
                                              STEnforceObserverWalk,
                                              &substitute_enforce_confronted_walk);
+    stip_structure_traversal_override_single(&st,
+                                             STValidatingObserver,
+                                             &stip_structure_visitor_noop);
+    stip_structure_traversal_override_single(&st,
+                                             STValidatingObservationGeometry,
+                                             &stip_structure_visitor_noop);
     stip_traverse_structure(si,&st);
   }
 
