@@ -138,8 +138,62 @@ solution finished.
 
 
 
+           Nikola Predrag
+5th Bulgarian Wine Tourney, WCCC Bern 2014, 1st prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -P   .   .   7
+|                                   |
+6   .  -P   .   .   P   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   S   S   .   5
+|                                   |
+4   .   .   .   P  -R   .   P   .   4
+|                                   |
+3   B   .   .  -S   .  -B   .  -Q   3
+|                                   |
+2   .   .   .   .  -P  -P   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         6 + 9
+             Royal f5 d3
+              SnekChess
+
+a) 
+
+  1.e2-e1=S Sg5*f3[e1=B]   2.Re4*g4[f5=K] Sf3-e5 #
+
+  add_to_move_generation_stack:      241903
+                     play_move:      232365
+ is_white_king_square_attacked:        8448
+ is_black_king_square_attacked:      231675
+b) wPd4-->a5  
+
+  1.e2-e1=B Sg5*e4[e1=R]   2.b6*a5[f5=K] Se4-c5 #
+
+  add_to_move_generation_stack:      412473
+                     play_move:      390218
+ is_white_king_square_attacked:       13446
+ is_black_king_square_attacked:      389299
+c) wPd4-->e3  
+
+  1.e2-e1=R Sg5*h3[e1=Q]   2.Re4*e6[f5=K] Sh3-f4 #
+
+  add_to_move_generation_stack:      317585
+                     play_move:      302787
+ is_white_king_square_attacked:       10584
+ is_black_king_square_attacked:      302007
+solution finished.
+
+
+
            Pierre Tritten
-5th Bulgarian Wine Tourney, WCCC Bern 2014
+5th Bulgarian Wine Tourney, WCCC Bern 2014, 2nd prize
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -175,8 +229,280 @@ solution finished.
 
 
 
+          Christian Poisson
+5th Bulgarian Wine Tourney, WCCC Bern 2014, 3rd-4th prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .  -P   .   .   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   S  -P   .   .  -P   B   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .  -S   .   3
+|                                   |
+2   R   S   .   .   P   .   .   .   2
+|                                   |
+1   .   .   R   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                          6 + 6
+              Royal a2
+              SnekChess
+
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+      1...Sg3-f1
+          2.Sb2-d3 #
+      1...Sg3-h1
+          2.Sb2-d3 #
+      1...Sg3-h5
+          2.Sb2-d3 #
+      1...Sg3*f5[b2=B]
+          2.Rc1-c4 #
+      1...Sg3-e4
+          2.Sb2-d3 #
+
+   1.Rc1-c4 + ?
+    but
+      1...b5*c4[f5=R] !
+
+   1.Rc1-c2 ? zugzwang.
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+      1...Sg3-f1
+          2.Sb2-d3 #
+      1...Sg3-h1
+          2.Sb2-d3 #
+      1...Sg3-h5
+          2.Sb2-d3 #
+      1...Sg3*f5[b2=B]
+          2.Rc2-c4 #
+      1...Sg3-e4
+          2.Sb2-d3 #
+    but
+      1...e5-e4 !
+
+   1.Sb2-d3 + ?
+    but
+      1...Sg3*f5[d3=B] !
+
+   1.e2-e4 ! zugzwang.
+      1...Sg3-e2
+          2.Sb2-d3 #
+      1...Sg3-f1
+          2.Sb2-d3 #
+      1...Sg3-h1
+          2.Sb2-d3 #
+      1...Sg3-h5
+          2.Sb2-d3 #
+      1...Sg3*f5[b2=B]
+          2.Rc1-c4 #
+      1...Sg3*e4[a2=K]
+          2.Sa5-c6 #
+
+   1.e2-e3 ? zugzwang.
+      1...Sg3-e2
+          2.Sb2-d3 #
+      1...Sg3-f1
+          2.Sb2-d3 #
+      1...Sg3-h1
+          2.Sb2-d3 #
+      1...Sg3-h5
+          2.Sb2-d3 #
+      1...Sg3*f5[b2=B]
+          2.Rc1-c4 #
+      1...Sg3-e4
+          2.Sb2-d3 #
+    but
+      1...e5-e4 !
+
+   1.Bf5-b1 ? threat:
+          2.Sb2-d3 #
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+    but
+      1...e5-e4 !
+
+   1.Bf5-e4 ? zugzwang.
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+      1...Sg3-f1
+          2.Sb2-d3 #
+      1...Sg3-h1
+          2.Sb2-d3 #
+      1...Sg3-h5
+          2.Sb2-d3 #
+      1...Sg3-f5
+          2.Sb2-d3 #
+      1...Sg3*e4[b2=B]
+          2.Rc1-c4 #
+    but
+      1...f6-f5 !
+
+   1.Bf5-h3 ? threat:
+          2.Sb2-d3 #
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+    but
+      1...e5-e4 !
+
+   1.Bf5-h7 ? threat:
+          2.Sb2-d3 #
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+    but
+      1...e5-e4 !
+
+   1.Bf5-c8 ? threat:
+          2.Sb2-d3 #
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+    but
+      1...e5-e4 !
+
+   1.Bf5-d7 ? threat:
+          2.Sb2-d3 #
+      1...Sg3*e2[a2=K]
+          2.Sa5-c6 #
+    but
+      1...e5-e4 !
+
+
+  add_to_move_generation_stack:       13231
+                     play_move:        9058
+ is_white_king_square_attacked:         749
+ is_black_king_square_attacked:        8929
+solution finished.
+
+
+
+              Paz Einat
+5th Bulgarian Wine Tourney, WCCC Bern 2014, 3rd-4th prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   R   .   .   .   .   .   .   8
+|                                   |
+7  -P   .   .   .   .   .   .   .   7
+|                                   |
+6   S  -P  -K   .   P   R   .   .   6
+|                                   |
+5   .   .   .   .   P   .   .  -S   5
+|                                   |
+4   P   .   .  -P   .  -P  -P   .   4
+|                                   |
+3   .   .   .   .   S   .   P  -P   3
+|                                   |
+2   .   .   .   .   .  -P   .   Q   2
+|                                   |
+1   .   .   .   .   .   B   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #2                         10 + 9
+              Royal a6
+              SnekChess
+
+   1.Bf1-b5 + ?
+    but
+      1...Sh5*f6[b5=R] !
+
+   1.Qh2-h1 + ?
+    but
+      1...f4-f3 !
+
+   1.Qh2-g2 + ?
+      1...h3*g2[f6=Q]
+          2.Bf1-b5 #
+      1...h3*g2[b8=Q]
+          2.Qb8-c7 #
+          2.Qb8-a8 #
+          2.Qb8-c8 #
+    but
+      1...f4-f3 !
+
+   1.g3*f4 ? threat:
+          2.Qh2-h1 #
+      1...Sh5*f4[a6=K]
+          2.Rb8-c8 #
+      1...Sh5-g3
+          2.Bf1-b5 #
+      1...Sh5*f6[f1=R]
+          2.Rf1-c1 #
+    but
+      1...g4-g3 !
+
+   1.e6-e7 + ?
+      1...Kc6-d7
+          2.e7-e8=Q #
+    but
+      1...Sh5*f6[f1=R] !
+
+   1.Rf6*f4 ! threat:
+          2.Qh2-h1 #
+      1...Sh5*f4[f1=R]
+          2.Rf1-c1 #
+      1...Sh5*g3[a6=K]
+          2.Rb8-c8 #
+      1...Sh5-f6
+          2.Bf1-b5 #
+
+   1.Rf6-f8 ? threat:
+          2.Bf1-b5 #
+          2.Rf8-c8 #
+      1...d4-d3
+          2.Rf8-c8 #
+      1...f4*g3[a6=K]
+          2.Rb8-c8 #
+          2.Rf8-c8 #
+      1...f4*e3
+          2.Qh2-h1 #
+      1...Sh5*g3[a6=K]
+          2.Rb8-c8 #
+          2.Rf8-c8 #
+    but
+      1...d4*e3 !
+
+   1.Rf6-f7 ? threat:
+          2.Bf1-b5 #
+          2.Rf7-c7 #
+          2.Rb8-c8 #
+      1...d4-d3
+          2.Rf7-c7 #
+          2.Rb8-c8 #
+      1...f4*g3[a6=K]
+          2.Rb8-c8 #
+      1...f4*e3
+          2.Qh2-h1 #
+      1...Sh5*g3[a6=K]
+          2.Rb8-c8 #
+      1...b6-b5
+          2.Bf1*b5 #
+          2.a4*b5 #
+          2.Rf7-c7 #
+    but
+      1...d4*e3 !
+
+   1.Rb8-c8 + ?
+    but
+      1...Kc6-b7 + !
+
+
+  add_to_move_generation_stack:       16408
+                     play_move:       12192
+ is_white_king_square_attacked:        1030
+ is_black_king_square_attacked:       12076
+solution finished.
+
+
+
         Miodrag Mladenovi\'c
-5th Bulgarian Wine Tourney, WCCC Bern 2014
+5th Bulgarian Wine Tourney, WCCC Bern 2014, 5th prize
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
