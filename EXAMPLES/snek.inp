@@ -13,6 +13,17 @@ twin cont add black kh4
 
 next
 
+title generalisation to a different set of standard walks
+pieces white ba1 black trb2 ndc4f8h7 black royal msh4
+stipulation ~1
+condition snek ultramarine
+option nowk
+twin add black mpb2
+twin add black msb2
+twin cont add black poh4
+
+next
+
 author Pierre Tritten
 origin 5th Bulgarian Wine Tourney, WCCC Bern 2014
 pieces white ka3 re4 bg6 sc3

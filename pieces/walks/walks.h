@@ -14,6 +14,13 @@
 typedef piece_walk_type standard_walks_type[Bishop+1];
 extern standard_walks_type standard_walks;
 
+/* Determine the orthodox counterpart of a walk
+ * @param walk walk to be orthodoxised
+ * @return unstandardised (i.e. orthodox) counterpart (one of King..Bishop)
+ *         or the walk itself if it is not a standard walk
+ */
+piece_walk_type orthodoxise_walk(piece_walk_type walk);
+
 /* Initialise array standard_walks according to the current fairy conditions
  */
 void initalise_standard_walks(void);

@@ -68,6 +68,76 @@ solution finished.
 
 
 
+generalisation to a different set of standard walks
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   . -ND   .   .   8
+|                                   |
+7   .   .   .   .   .   .   . -ND   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   . -ND   .   .   .   . -MS   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   . -TR   .   .   .   .   .   .   2
+|                                   |
+1   B   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 5
+              Royal h4
+          UltramarineChess
+              SnekChess
+
+a) 
+
+   1.Ba1*b2[c4=TR] !
+
+   1.Ba1*b2[h7=TR] !
+
+   1.Ba1*b2[f8=TR] !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           4
+b) bMPb2  
+
+   1.Ba1*b2[h4=PO] !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+c) bMSb2  
+
+   1.Ba1*b2 !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
++d) bPOh4  
+
+   1.Ba1*b2[h4=rMS] !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           2
+solution finished.
+
+
+
            Pierre Tritten
 5th Bulgarian Wine Tourney, WCCC Bern 2014
 

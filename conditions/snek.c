@@ -1,5 +1,6 @@
 #include "conditions/snek.h"
 #include "pieces/walks/classification.h"
+#include "pieces/walks/walks.h"
 #include "position/board.h"
 #include "stipulation/move.h"
 #include "solving/pipe.h"
@@ -27,7 +28,7 @@ static piece_walk_type const snekked_walk[Bishop+1] =
 
 static void find_next_snekked(piece_walk_type walk_captured)
 {
-  piece_walk_type const to_be_snekked = snekked_walk[walk_captured];
+  piece_walk_type const to_be_snekked = standard_walks[snekked_walk[orthodoxise_walk(walk_captured)]];
 
   while (*current_snekked_pos[nbply])
     if (piece_belongs_to_opponent(*current_snekked_pos[nbply])
@@ -92,15 +93,15 @@ void snek_substitutor_solve(slice_index si)
   {
     piece_walk_type const walk_captured = move_effect_journal[capture].u.piece_removal.walk;
 
-    if (walk_captured==Pawn)
+    if (walk_captured==standard_walks[Pawn])
     {
       square const sq_royal = being_solved.king_square[side_captured];
       piece_walk_type const walk_royal = get_walk_of_piece_on_square(sq_royal);
 
-      if (!is_king(walk_royal))
+      if (walk_royal!=standard_walks[King])
         move_effect_journal_do_walk_change(move_effect_reason_snek,
                                            sq_royal,
-                                           King);
+                                           standard_walks[King]);
 
       pipe_solve_delegate(si);
     }
