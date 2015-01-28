@@ -52,6 +52,7 @@
 #include "conditions/singlebox/type1.h"
 #include "conditions/singlebox/type2.h"
 #include "conditions/singlebox/type3.h"
+#include "conditions/snek.h"
 #include "conditions/patience.h"
 #include "conditions/isardam.h"
 #include "conditions/sat.h"
@@ -1036,6 +1037,10 @@ void dispatch(slice_index si)
 
     case STKobulKingSubstitutor:
       kobul_king_substitutor_solve(si);
+      break;
+
+    case STSnekSubstitutor:
+      snek_substitutor_solve(si);
       break;
 
     case STDuellistsRememberDuellist:

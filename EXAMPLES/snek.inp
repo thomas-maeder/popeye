@@ -1,0 +1,33 @@
+begin
+
+protocol snek.ref
+
+title some Snek moves
+pieces white ba1 black rb2 bc4f8h7 black royal sh4
+stipulation ~1
+condition snek
+option nowk
+twin add black pb2
+twin add black sb2
+twin cont add black kh4
+
+next
+
+author Pierre Tritten
+origin 5th Bulgarian Wine Tourney, WCCC Bern 2014
+pieces white ka3 re4 bg6 sc3
+       black kh4 rc7 bh7 sd6 pg4
+stipulation h#2
+condition snek
+
+next
+
+author Miodrag Mladenovi\'c
+origin 5th Bulgarian Wine Tourney, WCCC Bern 2014
+pieces white kf7 rc1f6 bd1e7 sc6 pd2d3d6e2f4
+       black kd5 qg1 bf3 pb6d4g6
+stip #2
+option try set vari
+condition snek
+
+end

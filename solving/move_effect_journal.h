@@ -113,6 +113,7 @@ typedef enum
   move_effect_reason_singlebox_promotion,
   move_effect_reason_phantom_movement,
   move_effect_reason_sat_adjustment,
+  move_effect_reason_snek,
 
   move_effect_reason_diagram_setup,
   move_effect_reason_twinning

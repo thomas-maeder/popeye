@@ -385,7 +385,8 @@ static Flags find_piece_flags(output_plaintext_move_context_type const *context,
         else
           break;
 
-      default:break;
+      default:
+        break;
     }
 
   assert(0);
@@ -442,6 +443,20 @@ static void write_piece_change(output_plaintext_move_context_type *context,
 
       WriteWalk(context->engine,context->file,move_effect_journal[curr].u.piece_change.to);
       break;
+
+    case move_effect_reason_snek:
+    {
+      square const on = move_effect_journal[curr].u.piece_change.on;
+      piece_walk_type const to = move_effect_journal[curr].u.piece_change.to;
+
+      next_context(context,curr,"[","]");
+
+      WriteSquare(context->engine,context->file,on);
+      (*context->engine->fputc)('=',context->file);
+      WriteSpec(context->engine,context->file,being_solved.spec[on],to,false);
+      WriteWalk(context->engine,context->file,to);
+      break;
+    }
 
     case move_effect_reason_einstein_chess:
     case move_effect_reason_football_chess_substitution:

@@ -401,6 +401,7 @@
     ENUMERATOR(STHauntedChessGhostRememberer),                          \
     ENUMERATOR(STGhostChessGhostRememberer),                            \
     ENUMERATOR(STKobulKingSubstitutor),                                 \
+    ENUMERATOR(STSnekSubstitutor),                                      \
     ENUMERATOR(STAndernachSideChanger),                                 \
     ENUMERATOR(STAntiAndernachSideChanger),                             \
     ENUMERATOR(STChameleonPursuitSideChanger),                          \

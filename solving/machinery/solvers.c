@@ -48,6 +48,7 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/anticirce/magic_square.h"
 #include "conditions/sentinelles.h"
+#include "conditions/snek.h"
 #include "conditions/duellists.h"
 #include "conditions/haunted_chess.h"
 #include "conditions/ghost_chess.h"
@@ -397,6 +398,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (kobul_who[White] || kobul_who[Black])
     solving_insert_kobul_king_substitutors(result);
+
+  if (CondFlag[snekchess])
+    solving_insert_snek_chess(result);
 
   if (TSTFLAG(some_pieces_flags,HalfNeutral))
     solving_insert_half_neutral_recolorers(result);
