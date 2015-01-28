@@ -9,4 +9,13 @@ condition promonly q s g li rh
 condition ChameleonSequence Q R B S RH Q
 option nowk nobk
 
+next
+
+title 4.69 would produce bizarre solutions
+author Bernd Schwarzkopf
+pieces white Ke1 Rh1  black pe2f2g2h2
+option nobk set maxsolutions 1
+condition MarsCirce HaanerChess
+stipulation h==2.5
+
 end

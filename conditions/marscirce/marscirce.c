@@ -248,20 +248,24 @@ void marscirce_move_to_rebirth_square_solve(slice_index si)
 {
   numecoup const curr = CURRMOVE_OF_PLY(nbply);
   move_generation_elmt * const move_gen_top = move_generation_stack+curr;
-  square const sq_departure = move_gen_top->departure;
   numecoup const id = move_gen_top->id;
+  square const sq_capture = move_gen_top->capture;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (marscirce_rebirth_square[id]==initsquare)
+  if (marscirce_rebirth_square[id]==initsquare
+      /* marscirce_rebirth_square isn't set when castlings are generated */
+      || (min_castling<=sq_capture && sq_capture<=max_castling))
   {
     move_effect_journal_do_null_effect();
     pipe_solve_delegate(si);
   }
   else
   {
+    square const sq_departure = move_gen_top->departure;
+
     move_effect_journal_do_piece_movement(move_effect_reason_phantom_movement,
                                           sq_departure,marscirce_rebirth_square[id]);
 

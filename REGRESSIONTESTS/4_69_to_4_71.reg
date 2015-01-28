@@ -52,3 +52,41 @@ fixed promotion in the presence of HurdleColourChanging pieces
 solution finished.
 
 
+
+          Bernd Schwarzkopf
+4.69 would produce bizarre solutions
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -P  -P  -P  -P   2
+|                                   |
+1   .   .   .   .   K   .   .   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h==2.5                      2 + 4
+             HaanerChess
+              MarsCirce
+
+  1...  ...  2.f2-f1=Q Ke1-e1*f1   3.g2-g1=Q Rh1-h1*g1 ==
+
+  1...0-0 ==
+
+  add_to_move_generation_stack:         793
+                     play_move:         240
+ is_white_king_square_attacked:         192
+ is_black_king_square_attacked:           0
+solving interrupted.
+
+
