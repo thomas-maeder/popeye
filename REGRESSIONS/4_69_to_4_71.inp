@@ -36,9 +36,17 @@ cond backtoback madrasi
 
 next
 
+title Popeye hasn't found the solution since 4.65
 author Bernd Schwarzkopf
 pieces white Ke4  black Ke8  neutral Ra8h8 Pe3
 stipulation ser-h#7
 condition Koeko
+
+next
+
+title Popeye hasn't found the solution since 4.65
+Stipulation h#1.5
+Condition KoeKo
+Pieces White Rd8 Kc5 Black Kd7 Neutral Pb6
 
 end

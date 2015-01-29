@@ -162,6 +162,7 @@ solution finished.
 
 
           Bernd Schwarzkopf
+Popeye hasn't found the solution since 4.65
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -191,6 +192,40 @@ solution finished.
                      play_move:      643202
  is_white_king_square_attacked:       22721
  is_black_king_square_attacked:      211290
+solution finished.
+
+
+
+Popeye hasn't found the solution since 4.65
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   R   .   .   .   .   8
+|                                   |
+7   .   .   .  -K   .   .   .   .   7
+|                                   |
+6   .  =P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   K   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                  2 + 1 + 1n
+                KoeKo
+
+  1...Kc5-d6 +   2.Kd7-c8 nPb6-b7 #
+
+  add_to_move_generation_stack:         414
+                     play_move:         496
+ is_white_king_square_attacked:          30
+ is_black_king_square_attacked:         139
 solution finished.
 
 
