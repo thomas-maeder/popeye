@@ -509,11 +509,14 @@ static boolean compareProofPieces(void)
 
   for (i = 0; i<ProofNbrAllPieces; ++i)
   {
-    TraceWalk(ProofPieces[i]);
     TraceSquare(ProofSquares[i]);
+    TraceWalk(ProofPieces[i]);
+    TraceValue("%x",ProofSpecs[i]);
     TraceWalk(being_solved.board[ProofSquares[i]]);
+    TraceValue("%x",being_solved.spec[ProofSquares[i]]);
     TraceEOL();
-    if (ProofPieces[i] != get_walk_of_piece_on_square(ProofSquares[i]) && ProofSpecs[i]!=being_solved.spec[i])
+    if (ProofPieces[i]!=get_walk_of_piece_on_square(ProofSquares[i])
+        || ProofSpecs[i]!=(being_solved.spec[ProofSquares[i]]&PieSpMask))
     {
       result = false;
       break;
@@ -1542,7 +1545,7 @@ static void loadTargetPiecesAndSquares(void)
     if (p!=Empty && p!=Invalid)
     {
       ProofPieces[ProofNbrAllPieces] = p;
-      ProofSpecs[ProofNbrAllPieces] = proofgames_target_position.spec[square_i];
+      ProofSpecs[ProofNbrAllPieces] = proofgames_target_position.spec[square_i]&PieSpMask;
       ProofSquares[ProofNbrAllPieces] = square_i;
       ++ProofNbrAllPieces;
     }

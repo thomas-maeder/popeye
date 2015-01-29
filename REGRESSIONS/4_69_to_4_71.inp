@@ -49,4 +49,12 @@ Stipulation h#1.5
 Condition KoeKo
 Pieces White Rd8 Kc5 Black Kd7 Neutral Pb6
 
+next
+
+title 4.65-4.69 found a "solution" with swapped kings
+author Vaclav Kote\vsovec
+Pieces White Kf7 Black Kh6 NHe8
+Stipulation a=>b1
+Pieces White Kh7 Black Kf8 NHe8
+
 end

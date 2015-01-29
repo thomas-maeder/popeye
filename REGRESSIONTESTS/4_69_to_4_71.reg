@@ -229,3 +229,60 @@ Popeye hasn't found the solution since 4.65
 solution finished.
 
 
+
+         Vaclav Kote\vsovec
+4.65-4.69 found a "solution" with swapped kings
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   . -NH   .   .   .   8
+|                                   |
+7   .   .   .   .   .   K   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .  -K   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                              1 + 2
+
+            => (Black ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   . -NH  -K   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   K   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                       1 + 2
+
+
+  add_to_move_generation_stack:          29
+                     play_move:          29
+ is_white_king_square_attacked:           1
+ is_black_king_square_attacked:           5
+solution finished.
+
+
