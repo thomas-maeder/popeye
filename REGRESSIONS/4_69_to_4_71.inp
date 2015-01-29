@@ -34,4 +34,11 @@ stipulation h#0.5
 pieces white kf8 rh2 ba8 black kh8 rf2
 cond backtoback madrasi
 
+next
+
+author Bernd Schwarzkopf
+pieces white Ke4  black Ke8  neutral Ra8h8 Pe3
+stipulation ser-h#7
+condition Koeko
+
 end

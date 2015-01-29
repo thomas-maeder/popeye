@@ -102,7 +102,6 @@ static slice_type const move_slice_rank_order[] =
     STKingSquareUpdater,
     STMoveTracer,
     STBGLAdjuster,
-    STDetectMoveRetracted,
     STKoekoLegalityTester,
     STGridContactLegalityTester,
     STAntiKoekoLegalityTester,
@@ -122,6 +121,7 @@ static slice_type const move_slice_rank_order[] =
     STUltraschachzwangLegalityTester,
     STIsardamLegalityTester,
     STPatienceChessLegalityTester,
+    STDetectMoveRetracted,
     STAttackPlayed,
     STDefensePlayed,
     STHelpMovePlayed

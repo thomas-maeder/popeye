@@ -160,3 +160,37 @@ solution finished.
 solution finished.
 
 
+
+          Bernd Schwarzkopf
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  =R   .   .   .  -K   .   .  =R   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   K   .   .   .   4
+|                                   |
+3   .   .   .   .  =P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h#7                1 + 1 + 3n
+                KoeKo
+
+  1.0-0   2.nRf8-f2   3.nPe3-e2   4.nPe2-e1=nQ   5.nQe1-g1   6.nRf2-h2   7.nQg1-a7 nRh2-h8 #
+
+  add_to_move_generation_stack:      558560
+                     play_move:      643202
+ is_white_king_square_attacked:       22721
+ is_black_king_square_attacked:      211290
+solution finished.
+
+
