@@ -320,3 +320,36 @@ solution finished.
 solution finished.
 
 
+
+4.63-4.69 found a solution because wKd5 performed a castling with bRh8, thereby removing wSe5 ...
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .  -R   .   .  -K   .   .  -R   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   K   S   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1.5                       2 + 4
+             HalfDuplex
+
+
+  add_to_move_generation_stack:         163
+                     play_move:         146
+ is_white_king_square_attacked:          17
+ is_black_king_square_attacked:          39
+solution finished.
+
+

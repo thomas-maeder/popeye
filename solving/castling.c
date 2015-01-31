@@ -408,6 +408,14 @@ void castling_rights_adjuster_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Swap the white and black castling rights */
+void swap_castling_rights(void)
+{
+  castling_flag_type const white_castlings = castling_flag&wh_castlings;
+  castling_flag_type const black_castlings = castling_flag&bl_castlings;
+  castling_flag = (white_castlings<<black_castling_offset) | (black_castlings>>black_castling_offset);
+}
+
 /* Generate moves for a single piece
  * @param identifies generator slice
  */

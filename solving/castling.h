@@ -10,7 +10,7 @@
 #include "solving/move_effect_journal.h"
 #include "pieces/pieces.h"
 
-extern  castling_flag_type castling_flag;
+extern castling_flag_type castling_flag;
 extern castling_flag_type castling_mutual_exclusive[nr_sides][2];
 extern castling_flag_type castling_flags_no_castling;
 
@@ -83,6 +83,9 @@ void castling_player_solve(slice_index si);
  *            (with n denominating solve_nr_remaining)
  */
 void castling_rights_adjuster_solve(slice_index si);
+
+/* Swap the white and black castling rights */
+void swap_castling_rights(void);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

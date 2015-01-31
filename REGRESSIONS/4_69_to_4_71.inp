@@ -64,4 +64,11 @@ stipulation dia3.5
 condition anticirce symmetry
 forsyth rsbq1ksr/pppp1ppp/4p3/8/8/8/PPPPPPPP/RSBQKBSR/
 
+next
+
+title 4.63-4.69 found a solution because wKd5 performed a castling with bRh8, thereby removing wSe5 ...
+pieces white Kd5 Se5 black Ke8 Rb8h8 Pe7
+stipulation h#1.5
+option halfduplex intelligent 
+
 end
