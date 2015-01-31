@@ -92,7 +92,8 @@ static void initialise_piece_walk_caches(void)
             : Queen);
        p < nr_piece_walks;
        ++p)
-    if (promonly[p] || is_football_substitute[p])
+    if ((CondFlag[promotiononly] && promonly[p])
+        || (CondFlag[football] && is_football_substitute[p]))
       piece_walk_may_exist[p] = true;
 
   if (CondFlag[protean])
@@ -701,7 +702,9 @@ static boolean verify_position(slice_index si)
     piece_walk_type p;
     for (p = Bishop+1; p<nr_piece_walks; ++p)
     {
-      if (piece_walk_may_exist[p] || promonly[p] || is_football_substitute[p])
+      if (piece_walk_may_exist[p]
+          || (CondFlag[promotiononly] && promonly[p])
+          || (CondFlag[football] && is_football_substitute[p]))
       {
         piece_walk_may_exist_fairy = true;
         if (is_rider(p)) {}
