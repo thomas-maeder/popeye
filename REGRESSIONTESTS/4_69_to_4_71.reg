@@ -286,3 +286,37 @@ solution finished.
 solution finished.
 
 
+
+4.65-4.69 didn't solve this because of some obscure "optimisation"
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q   .  -K  -S  -R   8
+|                                   |
+7  -P  -P  -P  -P   .  -P  -P  -P   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   P   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  dia3.5                    16 + 15
+         AntiCirce Symmetry
+
+  1.d2-d4 e7-e6   2.d4-d5 Bf8-e7   3.d5-d6 Ke8-f8   4.d6*e7[wPe7->d2] dia
+
+  add_to_move_generation_stack:     4706414
+                     play_move:     4673193
+ is_white_king_square_attacked:      126691
+ is_black_king_square_attacked:      177446
+solution finished.
+
+

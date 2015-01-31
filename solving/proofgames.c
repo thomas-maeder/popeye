@@ -1201,7 +1201,8 @@ static boolean ProofFairyImpossible(void)
         return true;
     }
 
-    if (CondFlag[anticirce])
+    if (CondFlag[anticirce]
+        && anticirce_variant.determine_rebirth_square==circe_determine_rebirth_square_from_pas)
     {
       /* note, that we are in the !change_moving_piece section */
       unsigned int count= 0;

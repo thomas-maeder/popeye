@@ -57,4 +57,11 @@ Pieces White Kf7 Black Kh6 NHe8
 Stipulation a=>b1
 Pieces White Kh7 Black Kf8 NHe8
 
+next
+
+title 4.65-4.69 didn't solve this because of some obscure "optimisation"
+stipulation dia3.5
+condition anticirce symmetry
+forsyth rsbq1ksr/pppp1ppp/4p3/8/8/8/PPPPPPPP/RSBQKBSR/
+
 end
