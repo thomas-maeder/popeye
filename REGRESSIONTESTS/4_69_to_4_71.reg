@@ -486,3 +486,62 @@ LaTeXFile will not compile: undefined fairy piece
 solution finished.
 
 
+
+           Nicolas Dupont
+so far, we haven't solved this because of some obscure "optimisation"
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   Q   P   .   .   .   .   .   3
+|                                   |
+2   P   P   .   P   P   P   P   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q   .  -B  -S  -R   8
+|                                   |
+7  -P  -P  -P   .  -P   Q  -P  -P   7
+|                                   |
+6   .   .  -Q   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .  -P   .   .   .   .   4
+|                                   |
+3   .   .   P   .   .   .   .   .   3
+|                                   |
+2   P   P   .   P   P   P   P   P   2
+|                                   |
+1   R   S   B   .   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1                     16 + 15
+      BlackSuperTransmutingKing
+
+  1.Qb3*f7 + Ke8-c6=Q a=>b
+
+  add_to_move_generation_stack:          61
+                     play_move:          37
+ is_white_king_square_attacked:           3
+ is_black_king_square_attacked:           5
+solution finished.
+
+

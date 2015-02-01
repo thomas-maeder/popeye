@@ -101,4 +101,16 @@ Pieces black pe7 Neutral DGf7
 Stipulation ~1
 option nowk nobk
 
+next
+
+title so far, we haven't solved this because of some obscure "optimisation"
+author Nicolas Dupont
+pieces white ke1 qb3 ra1h1 bc1f1 sb1g1 pa2b2c3d2e2f2g2h2
+       black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b7c7d4e7f7g7h7
+Stipulation a=>b1
+option whitetoplay
+pieces white ke1 qf7 ra1h1 bc1f1 sb1g1 pa2b2c3d2e2f2g2h2
+       black qc6d8 ra8h8 bc8f8 sb8g8 pa7b7c7d4e7g7h7
+Cond blacksupertransmutingking
+
 end

@@ -1576,16 +1576,14 @@ slice_type proof_make_goal_reachable_type(void)
   TraceFunctionParamListEnd();
 
   ProofFairy = (change_moving_piece
-                || CondFlag[black_oscillatingKs]
-                || CondFlag[white_oscillatingKs]
+                || CondFlag[black_oscillatingKs] || CondFlag[white_oscillatingKs]
                 || CondFlag[republican]
                 || CondFlag[circe]
                 || CondFlag[sentinelles]
                 || CondFlag[anticirce]
                 || CondFlag[singlebox]
-                || CondFlag[blroyalsq]
-                || CondFlag[whroyalsq]
-                || TSTFLAG(some_pieces_flags, ColourChange)
+                || CondFlag[blroyalsq] || CondFlag[whroyalsq]
+                || TSTFLAG(some_pieces_flags,ColourChange)
                 || CondFlag[actrevolving]
                 || CondFlag[arc]
                 || CondFlag[annan]
@@ -1598,7 +1596,8 @@ slice_type proof_make_goal_reachable_type(void)
                 || CondFlag[football]
                 || CondFlag[kobulkings]
                 || CondFlag[wormholes]
-                || CondFlag[dynasty]);
+                || CondFlag[dynasty]
+                || CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king]);
 
   /* TODO Masand can't possibly be the only condition that doesn't
    * allow any optimisation at all.
