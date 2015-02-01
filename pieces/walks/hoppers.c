@@ -205,8 +205,9 @@ void doublehopper_generate_moves(vec_index_type vec_start,
           if (!is_square_blocked(sq_hurdle2))
           {
             curr_generation->arrival = sq_hurdle2+vec[k1];
-            if (is_square_empty(curr_generation->arrival)
-                || piece_belongs_to_opponent(curr_generation->arrival))
+            if (curr_generation->arrival!=curr_generation->departure
+                && (is_square_empty(curr_generation->arrival)
+                    || piece_belongs_to_opponent(curr_generation->arrival)))
               push_move();
           }
         }
@@ -218,7 +219,7 @@ void doublehopper_generate_moves(vec_index_type vec_start,
 }
 
 static boolean doublehopper_check(vec_index_type vec_start, vec_index_type vec_end,
-                                 validator_id evaluate)
+                                  validator_id evaluate)
 {
   boolean result = false;
   square const sq_target = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;

@@ -93,4 +93,12 @@ origin 8236, Problemkiste 209, 4/2014
 stipulation h#2.5
 pieces white kc4 pa7c7 black kd6 sa8e8
 
+next
+
+author Adrian Storisteanu
+title some recent versions allowed neutral double-grasshoppers to capture themselves
+Pieces black pe7 Neutral DGf7
+Stipulation ~1
+option nowk nobk
+
 end
