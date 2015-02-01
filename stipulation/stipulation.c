@@ -529,11 +529,12 @@ static void hack_fork_apply_setplay(slice_index si, stip_structure_traversal *st
 
 static structure_traversers_visitor setplay_appliers[] =
 {
-  { STMoveInverter,      &pipe_spin_off_copy           },
-  { STAttackAdapter,     &attack_adapter_apply_setplay },
-  { STDefenseAdapter,    &stip_structure_visitor_noop  },
-  { STHelpAdapter,       &help_adapter_apply_setplay   },
-  { STTemporaryHackFork, &hack_fork_apply_setplay      }
+  { STMoveInverter,        &pipe_spin_off_copy           },
+  { STMoveInverterSetPlay, &pipe_spin_off_copy           },
+  { STAttackAdapter,       &attack_adapter_apply_setplay },
+  { STDefenseAdapter,      &stip_structure_visitor_noop  },
+  { STHelpAdapter,         &help_adapter_apply_setplay   },
+  { STTemporaryHackFork,   &hack_fork_apply_setplay      }
 };
 
 enum
@@ -573,7 +574,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
     slice_insertion_insert(si,&set_fork,1);
   }
 
-  pipe_append(proxy,alloc_move_inverter_slice());
+  pipe_append(proxy,alloc_move_inverter_setplay_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -672,10 +673,11 @@ boolean stip_ends_in(slice_index si, goal_type goal)
 
 static structure_traversers_visitor starter_detectors[] =
 {
-  { STAttackPlayed,   &move_played_detect_starter   },
-  { STDefensePlayed,  &move_played_detect_starter   },
-  { STHelpMovePlayed, &move_played_detect_starter   },
-  { STMoveInverter,   &move_inverter_detect_starter }
+  { STAttackPlayed,        &move_played_detect_starter   },
+  { STDefensePlayed,       &move_played_detect_starter   },
+  { STHelpMovePlayed,      &move_played_detect_starter   },
+  { STMoveInverter,        &move_inverter_detect_starter },
+  { STMoveInverterSetPlay, &move_inverter_detect_starter }
 };
 
 enum
@@ -779,7 +781,8 @@ static slice_type starter_inverters[] =
   STAttackPlayed,
   STDefensePlayed,
   STHelpMovePlayed,
-  STMoveInverter
+  STMoveInverter,
+  STMoveInverterSetPlay
 };
 
 enum

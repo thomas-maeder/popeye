@@ -25,6 +25,10 @@ fixed promotion in the presence of HurdleColourChanging pieces
     HurdleColourChanging f4 a3 b1
         PromOnly Q S G LI RH
  ChameleonSequence Q->R->B->S->RH->Q
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
 
    1.h7-h8=Q !
 
@@ -85,7 +89,7 @@ solution finished.
 
   add_to_move_generation_stack:         793
                      play_move:         240
- is_white_king_square_attacked:         192
+ is_white_king_square_attacked:         194
  is_black_king_square_attacked:           0
 solving interrupted.
 
@@ -189,8 +193,8 @@ Popeye hasn't found the solution since 4.65
   1.0-0   2.nRf8-f2   3.nPe3-e2   4.nPe2-e1=nQ   5.nQe1-g1   6.nRf2-h2   7.nQg1-a7 nRh2-h8 #
 
   add_to_move_generation_stack:      558560
-                     play_move:      643202
- is_white_king_square_attacked:       22721
+                     play_move:      643203
+ is_white_king_square_attacked:       22728
  is_black_king_square_attacked:      211290
 solution finished.
 
@@ -223,9 +227,9 @@ Popeye hasn't found the solution since 4.65
   1...Kc5-d6 +   2.Kd7-c8 nPb6-b7 #
 
   add_to_move_generation_stack:         414
-                     play_move:         496
- is_white_king_square_attacked:          30
- is_black_king_square_attacked:         139
+                     play_move:         497
+ is_white_king_square_attacked:          31
+ is_black_king_square_attacked:         140
 solution finished.
 
 
@@ -277,6 +281,7 @@ solution finished.
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   a=>b1                       1 + 2
+LaTeXFile will not compile: undefined fairy piece
 
 
   add_to_move_generation_stack:          29
@@ -315,8 +320,8 @@ solution finished.
 
   add_to_move_generation_stack:     4706414
                      play_move:     4673193
- is_white_king_square_attacked:      126691
- is_black_king_square_attacked:      177446
+ is_white_king_square_attacked:      126694
+ is_black_king_square_attacked:      177450
 solution finished.
 
 
@@ -407,8 +412,43 @@ solution finished.
 
   add_to_move_generation_stack:         148
                      play_move:         148
- is_white_king_square_attacked:           5
- is_black_king_square_attacked:           3
+ is_white_king_square_attacked:           6
+ is_black_king_square_attacked:           4
+solution finished.
+
+
+
+          Norbert Geissler
+   8236, Problemkiste 209, 4/2014
+solution would start with 1.... ... because a second move inversion was detected by the LaTeX machinery
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -S   .   .   .  -S   .   .   .   8
+|                                   |
+7   P   .   P   .   .   .   .   .   7
+|                                   |
+6   .   .   .  -K   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   K   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                       3 + 3
+
+  1...c7-c8=Q   2.Sa8-c7 a7-a8=R   3.Kd6-c6 Ra8-a6 #
+
+  add_to_move_generation_stack:       96952
+                     play_move:       48624
+ is_white_king_square_attacked:       12150
+ is_black_king_square_attacked:       47252
 solution finished.
 
 

@@ -1293,6 +1293,7 @@ void dispatch(slice_index si)
       break;
 
     case STMoveInverter:
+    case STMoveInverterSetPlay:
       move_inverter_solve(si);
       break;
 
@@ -1325,6 +1326,7 @@ void dispatch(slice_index si)
       break;
 
     case STOutputPlaintextMoveInversionCounter:
+    case STOutputPlaintextMoveInversionCounterSetPlay:
       output_plaintext_move_inversion_counter_solve(si);
       break;
 

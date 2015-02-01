@@ -9,6 +9,7 @@
 #include "stipulation/help_play/branch.h"
 #include "stipulation/structure_traversal.h"
 #include "solving/trivial_end_filter.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
@@ -212,7 +213,29 @@ static void insert_move_inversion_counter(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (st->level!=structure_traversal_level_nested)
-    pipe_append(si,alloc_output_plaintext_move_inversion_counter_slice());
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounter);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_move_inversion_counter_setplay(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (st->level!=structure_traversal_level_nested)
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounterSetPlay);
+    slice_insertion_insert(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -220,10 +243,11 @@ static void insert_move_inversion_counter(slice_index si,
 
 static structure_traversers_visitor regular_inserters[] =
 {
-  { STMoveInverter,      &insert_move_inversion_counter  },
-  { STPlaySuppressor,    &instrument_suppressor          },
-  { STGoalReachedTester, &instrument_goal_reached_tester },
-  { STMove,              &instrument_move                }
+  { STMoveInverter,        &insert_move_inversion_counter         },
+  { STMoveInverterSetPlay, &insert_move_inversion_counter_setplay },
+  { STPlaySuppressor,      &instrument_suppressor                 },
+  { STGoalReachedTester,   &instrument_goal_reached_tester        },
+  { STMove,                &instrument_move                       }
 };
 
 enum

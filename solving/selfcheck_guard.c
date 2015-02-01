@@ -344,6 +344,7 @@ static structure_traversers_visitor in_branch_guards_inserters[] =
   { STGoalCheckReachedTester,          &dont_instrument_selfcheck_ignoring_goals },
   { STSelfCheckGuard,                  &remember_last_checked                    },
   { STMoveInverter,                    &invert_last_checked                      },
+  { STMoveInverterSetPlay,             &invert_last_checked                      },
   { STAttackPlayed,                    &forget_last_checked                      },
   { STDefensePlayed,                   &forget_last_checked                      },
   { STHelpMovePlayed,                  &forget_last_checked                      }
@@ -472,12 +473,13 @@ static void remember_checked_side(slice_index si,
 
 static structure_traversers_visitor adapters_guards_inserters[] =
 {
-  { STAttackAdapter,     &determine_need_for_move_inverter_instrumentation },
-  { STDefenseAdapter,    &determine_need_for_move_inverter_instrumentation },
-  { STHelpAdapter,       &determine_need_for_move_inverter_instrumentation },
-  { STSelfCheckGuard,    &remember_checked_side                            },
-  { STMoveInverter,      &instrument_move_inverter                         },
-  { STTemporaryHackFork, &stip_traverse_structure_children_pipe            }
+  { STAttackAdapter,       &determine_need_for_move_inverter_instrumentation },
+  { STDefenseAdapter,      &determine_need_for_move_inverter_instrumentation },
+  { STHelpAdapter,         &determine_need_for_move_inverter_instrumentation },
+  { STSelfCheckGuard,      &remember_checked_side                            },
+  { STMoveInverter,        &instrument_move_inverter                         },
+  { STMoveInverterSetPlay, &instrument_move_inverter                         },
+  { STTemporaryHackFork,   &stip_traverse_structure_children_pipe            }
 };
 
 enum

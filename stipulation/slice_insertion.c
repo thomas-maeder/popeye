@@ -568,9 +568,8 @@ static slice_index const slice_rank_order[] =
   STSetplayFork,
   STMoveInverter,
   STOutputPlaintextMoveInversionCounter,
-  /* in hXN.5 with set play, there are 2 move inversions in a row! */
-  STMoveInverter,
-  STOutputPlaintextMoveInversionCounter,
+  STMoveInverterSetPlay,
+  STOutputPlaintextMoveInversionCounterSetPlay,
   STIllegalSelfcheckWriter,
   STSelfCheckGuard,
   STMaxSolutionsInitialiser,

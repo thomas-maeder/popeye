@@ -157,7 +157,29 @@ static void insert_move_inversion_counter(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  pipe_append(si,alloc_output_plaintext_move_inversion_counter_slice());
+
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounter);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void insert_move_inversion_counter_setplay(slice_index si,
+                                                  stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlaintextMoveInversionCounterSetPlay);
+    slice_insertion_insert(si,&prototype,1);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -183,14 +205,15 @@ static void insert_writer_remember_attack(slice_index si,
 
 static structure_traversers_visitor const regular_writer_inserters[] =
 {
-  { STReadyForAttack,    &insert_writer_remember_attack },
-  { STDefenseAdapter,    &insert_writer_for_move_in_parent },
-  { STHelpAdapter,       &stip_structure_visitor_noop      },
-  { STMoveInverter,      &insert_move_inversion_counter    },
-  { STThreatSolver,      &insert_zugzwang_writer           },
-  { STPlaySuppressor,    &stip_structure_visitor_noop      },
-  { STMove,              &insert_move_writer               },
-  { STGoalReachedTester, &insert_goal_writer               }
+  { STReadyForAttack,      &insert_writer_remember_attack },
+  { STDefenseAdapter,      &insert_writer_for_move_in_parent      },
+  { STHelpAdapter,         &stip_structure_visitor_noop           },
+  { STMoveInverter,        &insert_move_inversion_counter         },
+  { STMoveInverterSetPlay, &insert_move_inversion_counter_setplay },
+  { STThreatSolver,        &insert_zugzwang_writer                },
+  { STPlaySuppressor,      &stip_structure_visitor_noop           },
+  { STMove,                &insert_move_writer                    },
+  { STGoalReachedTester,   &insert_goal_writer                    }
 };
 
 enum

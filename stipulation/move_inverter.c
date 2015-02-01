@@ -22,6 +22,24 @@ slice_index alloc_move_inverter_slice(void)
   return result;
 }
 
+/* Allocate a STMoveInverterSetPlay slice.
+ * @return index of allocated slice
+ */
+slice_index alloc_move_inverter_setplay_slice(void)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STMoveInverterSetPlay);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Detect starter field with the starting side if possible.
  * @param si identifies slice being traversed
  * @param st status of traversal

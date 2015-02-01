@@ -1,6 +1,7 @@
 begin
 
 prot 4_69_to_4_71.reg
+latex 4_69_to_4_71.tex
 
 title fixed promotion in the presence of HurdleColourChanging pieces
 pieces white ph7 black gg2 black cham sa6 black hurdlecolourchanging rha3 gf4 lib1
@@ -83,5 +84,13 @@ Option WhiteToPlay
 pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa2b4c2d2e2f2g2h2
        black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b5c7d7e7f7g7h7
 condition Chameleonchess
+
+next
+
+title solution would start with 1.... ... because a second move inversion was detected by the LaTeX machinery
+author Norbert Geissler
+origin 8236, Problemkiste 209, 4/2014
+stipulation h#2.5
+pieces white kc4 pa7c7 black kd6 sa8e8
 
 end
