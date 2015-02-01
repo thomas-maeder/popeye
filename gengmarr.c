@@ -141,6 +141,11 @@ static void dump_nr_piece_initialisers_to_stream(FILE *dest, position const *pos
   fputs("  }",dest);
 }
 
+static void dump_castling_rights_initialiser_to_stream(FILE *dest, position const *pos)
+{
+  fprintf(dest,"  0x%x /* castling_rights */\n",pos->castling_rights);
+}
+
 /* Write position initialiser to output file
  * @param dest destination stream (output file)
  * @param pos array of position object containing initial position
@@ -159,7 +164,9 @@ static void dump_position_initialiser_to_stream(FILE *dest, position const *pos)
   dump_imitator_initialisers_to_stream(dest,pos->number_of_imitators,pos->isquare);
   fputs(",\n",dest);
   dump_nr_piece_initialisers_to_stream(dest,pos);
-  fputs("\n};\n",dest);
+  fputs(",\n",dest);
+  dump_castling_rights_initialiser_to_stream(dest,pos);
+  fputs("};\n",dest);
 }
 
 /* Write position initialiser to output file (yet to be opened);

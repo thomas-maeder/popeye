@@ -22,7 +22,8 @@ position/position$(OBJ_SUFFIX): position/position.c position/position.h \
  position/board.h utilities/bitmask.h position/side.h \
  position/side.enum.h position/color.h position/color.enum.h \
  pieces/pieces.h utilities/boolean.h pieces/walks/vectors.h \
- pieces/attributes/neutral/neutral.h debugging/trace.h debugging/assert.h
+ position/castling_rights.h pieces/attributes/neutral/neutral.h \
+ debugging/trace.h debugging/assert.h
 
 position/position.h:
 
@@ -43,6 +44,8 @@ pieces/pieces.h:
 utilities/boolean.h:
 
 pieces/walks/vectors.h:
+
+position/castling_rights.h:
 
 pieces/attributes/neutral/neutral.h:
 
@@ -75,8 +78,9 @@ position/underworld$(OBJ_SUFFIX): position/underworld.c position/underworld.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h solving/castling_rights.h \
- solving/ply.h position/pieceid.h debugging/assert.h
+ solving/machinery/dispatch.h debugging/trace.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ debugging/assert.h
 
 position/underworld.h:
 
@@ -112,7 +116,7 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 solving/ply.h:
 

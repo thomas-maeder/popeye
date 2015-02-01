@@ -85,6 +85,8 @@ void initialise_game_array(position *pos)
   pos->number_of_imitators = 0;
   for (i = 0; i<maxinum; ++i)
     pos->isquare[i] = initsquare;
+
+  pos->castling_rights = wh_castlings|bl_castlings;
 }
 
 /* Swap the sides of all the pieces */
@@ -101,6 +103,13 @@ void swap_sides(void)
       piece_change_side(&being_solved.spec[*bnp]);
 
   areColorsSwapped = !areColorsSwapped;
+}
+
+static void swap_castling_rights(void)
+{
+  castling_rights_type const white_castlings = being_solved.castling_rights&wh_castlings;
+  castling_rights_type const black_castlings = being_solved.castling_rights&bl_castlings;
+  being_solved.castling_rights = (white_castlings<<black_castling_rights_offset) | (black_castlings>>black_castling_rights_offset);
 }
 
 /* Reflect the position at the horizontal central line */
@@ -124,6 +133,8 @@ void reflect_position(void)
     being_solved.board[*bnp] = p;
     being_solved.spec[*bnp] = sp;
   }
+
+  swap_castling_rights();
 
   isBoardReflected = !isBoardReflected;
 }

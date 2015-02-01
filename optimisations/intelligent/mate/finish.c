@@ -53,7 +53,7 @@ static boolean exists_redundant_white_piece(void)
 {
   boolean result = false;
   square const *bnp;
-  castling_flag_type const save_castling_flag = castling_flag;
+  castling_rights_type const save_castling_flag = being_solved.castling_rights;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -88,7 +88,7 @@ static boolean exists_redundant_white_piece(void)
     }
   }
 
-  castling_flag = save_castling_flag;
+  being_solved.castling_rights = save_castling_flag;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

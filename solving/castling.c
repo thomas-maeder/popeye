@@ -22,9 +22,8 @@
 
 #include "debugging/assert.h"
 
-castling_flag_type castling_flag;
-castling_flag_type castling_mutual_exclusive[nr_sides][2];
-castling_flag_type castling_flags_no_castling;
+castling_rights_type castling_mutual_exclusive[nr_sides][2];
+castling_rights_type castling_flags_no_castling;
 
 static void castle(square sq_departure, square sq_arrival,
                    square sq_partner_departure, square sq_partner_arrival)
@@ -112,7 +111,7 @@ void castling_player_solve(slice_index si)
  */
 static void do_disable_castling_right(move_effect_reason_type reason,
                                       Side side,
-                                      castling_flag_type right)
+                                      castling_rights_type right)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_disable_castling_right,reason);
 
@@ -136,7 +135,7 @@ static void do_disable_castling_right(move_effect_reason_type reason,
 void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
-  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
+  castling_rights_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -153,7 +152,7 @@ void move_effect_journal_undo_disabling_castling_right(move_effect_journal_entry
 void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
-  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
+  castling_rights_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -171,7 +170,7 @@ void move_effect_journal_redo_disabling_castling_right(move_effect_journal_entry
  */
 static void do_enable_castling_right(move_effect_reason_type reason,
                                      Side side,
-                                     castling_flag_type right)
+                                     castling_rights_type right)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_enable_castling_right,reason);
 
@@ -195,7 +194,7 @@ static void do_enable_castling_right(move_effect_reason_type reason,
 void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
-  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
+  castling_rights_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -212,7 +211,7 @@ void move_effect_journal_undo_enabling_castling_right(move_effect_journal_entry_
 void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_type const *entry)
 {
   Side const side = entry->u.castling_rights_adjustment.side;
-  castling_flag_type const right = entry->u.castling_rights_adjustment.right;
+  castling_rights_type const right = entry->u.castling_rights_adjustment.right;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -225,7 +224,7 @@ void move_effect_journal_redo_enabling_castling_right(move_effect_journal_entry_
 
 static void enable_castling_right(move_effect_reason_type reason,
                                   Side side,
-                                  castling_flag_type right)
+                                  castling_rights_type right)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -285,7 +284,7 @@ void enable_castling_rights(move_effect_reason_type reason,
 
 static void disable_castling_right(move_effect_reason_type reason,
                                    Side side,
-                                   castling_flag_type right)
+                                   castling_rights_type right)
 {
   TraceFunctionEntry(__func__);
   TraceEnumerator(Side,side,"");
@@ -406,14 +405,6 @@ void castling_rights_adjuster_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-/* Swap the white and black castling rights */
-void swap_castling_rights(void)
-{
-  castling_flag_type const white_castlings = castling_flag&wh_castlings;
-  castling_flag_type const black_castlings = castling_flag&bl_castlings;
-  castling_flag = (white_castlings<<black_castling_offset) | (black_castlings>>black_castling_offset);
 }
 
 /* Generate moves for a single piece
@@ -612,7 +603,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
   {
     case kingside_castling:
     {
-      castling_flag_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
+      castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
                                                                           castling_mutual_exclusive[slices[si].starter][kingside_castling-min_castling]);
       if (effectively_disabled)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
@@ -623,7 +614,7 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
 
     case queenside_castling:
     {
-      castling_flag_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
+      castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
                                                                           castling_mutual_exclusive[slices[si].starter][queenside_castling-min_castling]);
       if (effectively_disabled)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
@@ -732,7 +723,7 @@ void generate_castling(void)
   if (TSTCASTLINGFLAGMASK(side,castlings)>k_cancastle)
   {
     square const save_departure = curr_generation->departure;
-    castling_flag_type allowed_castlings = 0;
+    castling_rights_type allowed_castlings = 0;
 
     square const square_a = side==White ? square_a1 : square_a8;
     square const square_c = square_a+file_c;

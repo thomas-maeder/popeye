@@ -37,15 +37,15 @@ static void ReadMutuallyExclusiveCastling(void)
       square const white_castling = (white_rook_square==square_a1
                                      ? queenside_castling
                                      : kingside_castling);
-      castling_flag_type const white_flag = (white_rook_square==square_a1
-                                             ? ra_cancastle
-                                             : rh_cancastle);
+      castling_rights_type const white_flag = (white_rook_square==square_a1
+                                               ? ra_cancastle
+                                               : rh_cancastle);
       square const black_castling = (black_rook_square==square_a8
                                      ? queenside_castling
                                      : kingside_castling);
-      castling_flag_type const black_flag = (black_rook_square==square_a8
-                                             ? ra_cancastle
-                                             : rh_cancastle);
+      castling_rights_type const black_flag = (black_rook_square==square_a8
+                                               ? ra_cancastle
+                                               : rh_cancastle);
       castling_mutual_exclusive[White][white_castling-min_castling] |= black_flag;
       castling_mutual_exclusive[Black][black_castling-min_castling] |= white_flag;
       return;

@@ -534,22 +534,22 @@ char *ReadSquares(SquareListContext context)
           switch (sq)
           {
             case square_a1:
-              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(White*black_castling_offset));
+              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(White*black_castling_rights_offset));
               break;
             case square_e1:
-              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(White*black_castling_offset));
+              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(White*black_castling_rights_offset));
               break;
             case square_h1:
-              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(White*black_castling_offset));
+              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(White*black_castling_rights_offset));
               break;
             case square_a8:
-              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(Black*black_castling_offset));
+              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(Black*black_castling_rights_offset));
               break;
             case square_e8:
-              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(Black*black_castling_offset));
+              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(Black*black_castling_rights_offset));
               break;
             case square_h8:
-              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(Black*black_castling_offset));
+              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(Black*black_castling_rights_offset));
               break;
             default:
               break;

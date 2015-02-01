@@ -6,17 +6,16 @@
 
 #include "stipulation/slice_type.h"
 #include "solving/machinery/solve.h"
-#include "solving/castling_rights.h"
 #include "solving/move_effect_journal.h"
+#include "position/position.h"
 #include "pieces/pieces.h"
 
-extern castling_flag_type castling_flag;
-extern castling_flag_type castling_mutual_exclusive[nr_sides][2];
-extern castling_flag_type castling_flags_no_castling;
+extern castling_rights_type castling_mutual_exclusive[nr_sides][2];
+extern castling_rights_type castling_flags_no_castling;
 
-#define TSTCASTLINGFLAGMASK(side,mask) TSTFLAGMASK(castling_flag>>(side)*black_castling_offset,(mask))
-#define SETCASTLINGFLAGMASK(side,mask) SETFLAGMASK(castling_flag,(mask)<<((side)*black_castling_offset))
-#define CLRCASTLINGFLAGMASK(side,mask) CLRFLAGMASK(castling_flag,(mask)<<((side)*black_castling_offset))
+#define TSTCASTLINGFLAGMASK(side,mask) TSTFLAGMASK(being_solved.castling_rights>>(side)*black_castling_rights_offset,(mask))
+#define SETCASTLINGFLAGMASK(side,mask) SETFLAGMASK(being_solved.castling_rights,(mask)<<((side)*black_castling_rights_offset))
+#define CLRCASTLINGFLAGMASK(side,mask) CLRFLAGMASK(being_solved.castling_rights,(mask)<<((side)*black_castling_rights_offset))
 
 /* Undo removing a castling right
  * @param curr identifies the adjustment effect
@@ -83,9 +82,6 @@ void castling_player_solve(slice_index si);
  *            (with n denominating solve_nr_remaining)
  */
 void castling_rights_adjuster_solve(slice_index si);
-
-/* Swap the white and black castling rights */
-void swap_castling_rights(void);
 
 /* Generate moves for a single piece
  * @param identifies generator slice

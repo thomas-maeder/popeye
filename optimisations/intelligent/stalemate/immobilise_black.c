@@ -122,7 +122,7 @@ boolean intelligent_stalemate_immobilise_black(void)
 {
   boolean result = false;
   immobilisation_state_type immobilisation_state = null_state;
-  castling_flag_type const save_castling_flag = castling_flag;
+  castling_rights_type const save_castling_flag = being_solved.castling_rights;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -140,7 +140,7 @@ boolean intelligent_stalemate_immobilise_black(void)
 
   next_trouble_maker();
   current_state = 0;
-  castling_flag = save_castling_flag;
+  being_solved.castling_rights = save_castling_flag;
 
   if (immobilisation_state.worst.requirement>no_requirement)
   {

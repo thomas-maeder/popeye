@@ -178,9 +178,7 @@ void intelligent_moves_left_initialiser_solve(slice_index si)
     solving_impose_starter(si,advers(slices[si].starter));
     swap_sides();
     reflect_position();
-    swap_castling_rights();
     delegate(si);
-    swap_castling_rights();
     reflect_position();
     swap_sides();
     solving_impose_starter(si,advers(slices[si].starter));

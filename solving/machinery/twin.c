@@ -1267,12 +1267,11 @@ static boolean verify_position(slice_index si)
       || CondFlag[andernach]
       || CondFlag[antiandernach]
       || CondFlag[magicsquare]
-      || TSTFLAG(some_pieces_flags, Chameleon)
+      || TSTFLAG(some_pieces_flags,Chameleon)
       || CondFlag[einstein]
       || CondFlag[reveinstein]
       || CondFlag[antieinstein]
-      || CondFlag[volage]
-      || TSTFLAG(some_pieces_flags, Volage)
+      || CondFlag[volage] || TSTFLAG(some_pieces_flags, Volage)
       || CondFlag[degradierung]
       || CondFlag[norsk]
       || CondFlag[traitor]
@@ -1518,7 +1517,7 @@ static boolean verify_position(slice_index si)
   }
 
   /* check castling possibilities */
-  CLEARFL(castling_flag);
+  CLEARFL(being_solved.castling_rights);
 
   if ((get_walk_of_piece_on_square(square_e1)== standard_walks[King]) && TSTFLAG(being_solved.spec[square_e1], White)
       && (!CondFlag[dynasty] || being_solved.number_of_pieces[White][standard_walks[King]]==1))
@@ -1535,7 +1534,7 @@ static boolean verify_position(slice_index si)
   if ((get_walk_of_piece_on_square(square_a8)== standard_walks[Rook]) && TSTFLAG(being_solved.spec[square_a8], Black))
     SETCASTLINGFLAGMASK(Black,ra_cancastle);
 
-  castling_flag &= castling_flags_no_castling;
+  being_solved.castling_rights &= castling_flags_no_castling;
 
   /* a small hack to enable ep keys */
   trait[1] = no_side;

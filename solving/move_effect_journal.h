@@ -9,7 +9,7 @@
  */
 
 #include "solving/machinery/solve.h"
-#include "solving/castling_rights.h"
+#include "position/castling_rights.h"
 #include "solving/ply.h"
 #include "position/pieceid.h"
 #include "position/board.h"
@@ -218,7 +218,7 @@ typedef struct
         struct
         {
             Side side;
-            castling_flag_type right;
+            castling_rights_type right;
         } castling_rights_adjustment;
         struct
         {

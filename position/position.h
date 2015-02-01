@@ -6,6 +6,7 @@
 #include "position/color.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/vectors.h"
+#include "position/castling_rights.h"
 #include "utilities/boolean.h"
 
 /* Declarations of types and functions related to chess positions
@@ -46,6 +47,7 @@ typedef struct
     unsigned int number_of_imitators;    /* number of iterators */
     imarr isquare;                       /* placement of iterators */
     unsigned number_of_pieces[nr_sides][nr_piece_walks]; /* number of piece kind */
+    castling_rights_type castling_rights;
 } position;
 
 extern position being_solved;

@@ -26,7 +26,7 @@ INCLUDES = testers.h move_effect_journal.h \
            castling.h trivial_end_filter.h \
            avoid_unsolvable.h selfcheck_guard.h \
            post_move_iteration.h king_capture_avoider.h \
-           recursion_stopper.h observation.h check.h castling_rights.h \
+           recursion_stopper.h observation.h check.h \
            find_square_observer_tracking_back_from_target.h ply.h \
            proofgames.h binary.h constraint.h dead_end.h dummy_move.h \
            end_of_branch.h end_of_branch_goal.h setplay_fork.h if_then_else.h \

@@ -1315,7 +1315,7 @@ byte *CommonEncode(byte *bp,
       *bp++ = (byte)(en_passant_multistep_over[i] - square_a1);
   }
 
-  *bp++ = castling_flag;     /* Castling_Flag */
+  *bp++ = being_solved.castling_rights;     /* Castling_Flag */
 
   if (CondFlag[BGL]) {
     memcpy(bp, &BGL_values[White], sizeof BGL_values[White]);
