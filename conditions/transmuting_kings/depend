@@ -14,9 +14,12 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h stipulation/fork.h position/position.h \
- position/color.h position/color.enum.h debugging/assert.h
+ position/color.h position/color.enum.h position/castling_rights.h \
+ debugging/assert.h
 
 conditions/transmuting_kings/transmuting_kings.h:
 
@@ -78,6 +81,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/branch.h:
@@ -90,6 +97,8 @@ position/color.h:
 
 position/color.enum.h:
 
+position/castling_rights.h:
+
 debugging/assert.h:
 conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  conditions/transmuting_kings/super.c \
@@ -101,14 +110,16 @@ conditions/transmuting_kings/super$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h \
  conditions/transmuting_kings/transmuting_kings.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- solving/move_effect_journal.h solving/castling_rights.h \
+ solving/move_effect_journal.h position/castling_rights.h \
  position/pieceid.h solving/move_generator.h \
  solving/find_square_observer_tracking_back_from_target.h solving/check.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h stipulation/move.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/pipe.h position/position.h \
@@ -158,7 +169,7 @@ solving/temporary_hacks.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 position/pieceid.h:
 
@@ -181,6 +192,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -221,9 +236,11 @@ conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h position/position.h position/color.h \
- position/color.enum.h debugging/assert.h
+ position/color.enum.h position/castling_rights.h debugging/assert.h
 
 conditions/transmuting_kings/reflective_kings.h:
 
@@ -287,6 +304,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/branch.h:
@@ -296,6 +317,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/castling_rights.h:
 
 debugging/assert.h:
 conditions/transmuting_kings/vaulting_kings$(OBJ_SUFFIX): \
@@ -311,7 +334,7 @@ conditions/transmuting_kings/vaulting_kings$(OBJ_SUFFIX): \
  solving/move_generator.h solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
  position/position.h position/color.h position/color.enum.h \
- debugging/assert.h
+ position/castling_rights.h debugging/assert.h
 
 conditions/transmuting_kings/vaulting_kings.h:
 
@@ -364,5 +387,7 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/castling_rights.h:
 
 debugging/assert.h:

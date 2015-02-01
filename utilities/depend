@@ -2,14 +2,13 @@ utilities/table$(OBJ_SUFFIX): utilities/table.c utilities/table.h \
  utilities/boolean.h conditions/conditions.h position/position.h \
  position/board.h utilities/bitmask.h position/side.h \
  position/side.enum.h position/color.h position/color.enum.h \
- pieces/pieces.h pieces/walks/vectors.h output/plaintext/message.h \
- input/plaintext/language.h output/message.h \
+ pieces/pieces.h pieces/walks/vectors.h position/castling_rights.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
  solving/move_effect_journal.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h output/mode.h \
  output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- debugging/assert.h
+ solving/ply.h position/pieceid.h debugging/assert.h
 
 utilities/table.h:
 
@@ -35,11 +34,13 @@ pieces/pieces.h:
 
 pieces/walks/vectors.h:
 
+position/castling_rights.h:
+
 output/plaintext/message.h:
 
-input/plaintext/language.h:
-
 output/message.h:
+
+input/plaintext/language.h:
 
 solving/move_effect_journal.h:
 
@@ -60,8 +61,6 @@ output/mode.enum.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-solving/castling_rights.h:
 
 solving/ply.h:
 

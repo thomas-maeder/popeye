@@ -7,7 +7,8 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  stipulation/slice_type.enum.h pieces/pieces.h output/mode.h \
  output/mode.enum.h conditions/conditions.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ position/castling_rights.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -16,7 +17,7 @@ optimisations/orthodox_mating_moves/orthodox_mating_moves_generation$(OBJ_SUFFIX
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/proxy.h solving/moves_traversal.h \
  solving/fork_on_remaining.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ solving/machinery/dispatch.h debugging/trace.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  optimisations/orthodox_mating_moves/king_contact_move_generator.h \
  debugging/assert.h
@@ -57,6 +58,8 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
+position/castling_rights.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -89,8 +92,6 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/ply.h:
-
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 
 optimisations/orthodox_mating_moves/king_contact_move_generator.h:
@@ -104,13 +105,13 @@ optimisations/orthodox_mating_moves/orthodox_mating_move_generator$(OBJ_SUFFIX):
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/ply.h conditions/grid.h pieces/walks/generate_moves.h \
+ solving/machinery/dispatch.h debugging/trace.h conditions/grid.h \
+ pieces/walks/generate_moves.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
  pieces/walks/pawns/promotee_sequence.h pieces/walks/pawns/en_passant.h \
- solving/move_effect_journal.h solving/castling_rights.h \
- position/pieceid.h solving/observation.h solving/temporary_hacks.h \
- solving/castling.h solving/move_generator.h solving/has_solution_type.h \
+ solving/move_effect_journal.h solving/ply.h position/pieceid.h \
+ solving/observation.h solving/temporary_hacks.h solving/castling.h \
+ solving/move_generator.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -154,6 +155,10 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+conditions/grid.h:
+
+pieces/walks/generate_moves.h:
+
 position/position.h:
 
 position/color.h:
@@ -162,11 +167,7 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
-solving/ply.h:
-
-conditions/grid.h:
-
-pieces/walks/generate_moves.h:
+position/castling_rights.h:
 
 pieces/walks/pawns/promotee_sequence.h:
 
@@ -174,7 +175,7 @@ pieces/walks/pawns/en_passant.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+solving/ply.h:
 
 position/pieceid.h:
 
@@ -227,9 +228,8 @@ optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/ply.h solving/move_generator.h solving/has_solution_type.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
+ solving/ply.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -238,7 +238,8 @@ optimisations/orthodox_mating_moves/king_contact_move_generator$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- position/move_diff_code.h \
+ position/move_diff_code.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
  optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h \
  solving/pipe.h debugging/assert.h
 
@@ -274,17 +275,9 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
+solving/move_generator.h:
 
 solving/ply.h:
-
-solving/move_generator.h:
 
 solving/has_solution_type.h:
 
@@ -311,6 +304,16 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/traversal.h:
 
 position/move_diff_code.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
 
 optimisations/orthodox_mating_moves/orthodox_mating_move_generator.h:
 

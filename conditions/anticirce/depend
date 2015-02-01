@@ -9,9 +9,11 @@ conditions/anticirce/anticirce$(OBJ_SUFFIX): conditions/anticirce/anticirce.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -67,13 +69,17 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 solving/ply.h:
 
@@ -128,9 +134,11 @@ conditions/anticirce/cheylan$(OBJ_SUFFIX): conditions/anticirce/cheylan.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -185,13 +193,17 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 solving/ply.h:
 
@@ -230,9 +242,11 @@ conditions/anticirce/magic_square$(OBJ_SUFFIX): conditions/anticirce/magic_squar
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -288,13 +302,17 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 solving/ply.h:
 
@@ -336,9 +354,11 @@ conditions/anticirce/clone$(OBJ_SUFFIX): conditions/anticirce/clone.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -390,13 +410,17 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 solving/ply.h:
 
@@ -430,9 +454,11 @@ conditions/anticirce/couscous$(OBJ_SUFFIX): conditions/anticirce/couscous.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -484,13 +510,17 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 solving/ply.h:
 

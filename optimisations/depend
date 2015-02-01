@@ -202,7 +202,8 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  solving/has_solution_type.enum.h stipulation/proxy.h stipulation/pipe.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  stipulation/branch.h platform/maxtime.h platform/maxmem.h solving/pipe.h \
- options/options.h conditions/conditions.h
+ pieces/attributes/neutral/neutral.h options/options.h \
+ conditions/conditions.h
 
 debugging/assert.h:
 
@@ -349,6 +350,8 @@ platform/maxtime.h:
 platform/maxmem.h:
 
 solving/pipe.h:
+
+pieces/attributes/neutral/neutral.h:
 
 options/options.h:
 

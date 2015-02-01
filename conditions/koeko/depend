@@ -6,13 +6,15 @@ conditions/koeko/koeko$(OBJ_SUFFIX): conditions/koeko/koeko.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/move_effect_journal.h solving/castling_rights.h solving/ply.h \
+ position/castling_rights.h solving/move_effect_journal.h solving/ply.h \
  position/pieceid.h solving/observation.h solving/temporary_hacks.h \
  solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h
 
 conditions/koeko/koeko.h:
 
@@ -54,9 +56,9 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
-solving/move_effect_journal.h:
+position/castling_rights.h:
 
-solving/castling_rights.h:
+solving/move_effect_journal.h:
 
 solving/ply.h:
 
@@ -82,6 +84,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  conditions/koeko/contact_grid.h solving/machinery/solve.h \
@@ -91,14 +97,17 @@ conditions/koeko/contact_grid$(OBJ_SUFFIX): conditions/koeko/contact_grid.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- conditions/circe/circe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ position/castling_rights.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ solving/ply.h position/pieceid.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/grid.h solving/observation.h \
@@ -145,6 +154,8 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
+position/castling_rights.h:
+
 conditions/circe/circe.h:
 
 stipulation/structure_traversal.h:
@@ -159,13 +170,15 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
-
-solving/castling_rights.h:
 
 solving/ply.h:
 
@@ -207,13 +220,15 @@ conditions/koeko/anti$(OBJ_SUFFIX): conditions/koeko/anti.c conditions/koeko/ant
  solving/machinery/dispatch.h debugging/trace.h conditions/koeko/koeko.h \
  solving/observation.h pieces/walks/vectors.h solving/ply.h \
  solving/temporary_hacks.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h stipulation/move.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ position/castling_rights.h position/pieceid.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h
 
 conditions/koeko/anti.h:
 
@@ -259,7 +274,7 @@ solving/temporary_hacks.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 position/pieceid.h:
 
@@ -283,6 +298,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h \
  solving/machinery/solve.h stipulation/stipulation.h \
@@ -293,12 +312,14 @@ conditions/koeko/new$(OBJ_SUFFIX): conditions/koeko/new.c conditions/koeko/new.h
  solving/machinery/dispatch.h debugging/trace.h conditions/koeko/koeko.h \
  solving/observation.h pieces/walks/vectors.h solving/ply.h \
  solving/temporary_hacks.h solving/move_effect_journal.h \
- solving/castling_rights.h position/pieceid.h solving/move_generator.h \
+ position/castling_rights.h position/pieceid.h solving/move_generator.h \
  solving/pipe.h stipulation/move.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h
 
 conditions/koeko/new.h:
 
@@ -344,7 +365,7 @@ solving/temporary_hacks.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 position/pieceid.h:
 
@@ -365,5 +386,9 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:

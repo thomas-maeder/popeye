@@ -965,7 +965,7 @@ stipulation/move$(OBJ_SUFFIX): stipulation/move.c stipulation/move.h \
  stipulation/battle_play/branch.h stipulation/help_play/branch.h \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  pieces/walks/pawns/promotion.h solving/move_effect_journal.h \
- solving/castling_rights.h solving/ply.h position/pieceid.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
  stipulation/slice_insertion.h conditions/circe/circe.h \
  solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
@@ -1034,7 +1034,7 @@ pieces/walks/pawns/promotion.h:
 
 solving/move_effect_journal.h:
 
-solving/castling_rights.h:
+position/castling_rights.h:
 
 solving/ply.h:
 
