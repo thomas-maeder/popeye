@@ -17,10 +17,6 @@ extern boolean change_moving_piece;
 extern position proofgames_start_position;
 extern position proofgames_target_position;
 
-/* Encode the hash key for the current position
- */
-void ProofEncode(stip_length_type min_length, stip_length_type validity_value);
-
 /* Initialise the proof module for the current target position
  * @param si identifies start slice
  */

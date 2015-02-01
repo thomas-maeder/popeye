@@ -13,31 +13,22 @@
  **
  **************************** End of List ******************************/
 
-#include "debugging/assert.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <limits.h>
 #if defined(__TURBOC__)
 # include <mem.h>
 #endif
 #include "stipulation/stipulation.h"
-#include "DHT/dhtbcmem.h"
 #include "solving/proofgames.h"
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/pipe.h"
 #include "solving/observation.h"
-#include "optimisations/hash.h"
 #include "platform/maxtime.h"
-#include "conditions/haunted_chess.h"
 #include "position/position.h"
 #include "pieces/pieces.h"
-#include "pieces/attributes/neutral/neutral.h"
 #include "pieces/walks/walks.h"
-#include "pieces/walks/pawns/en_passant.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
+#include "debugging/assert.h"
 #include "debugging/trace.h"
 
 boolean change_moving_piece;
@@ -51,98 +42,6 @@ static Flags ProofSpecs[nr_squares_on_board];
 static square ProofSquares[nr_squares_on_board];
 
 static unsigned int ProofNbrAllPieces;
-
-static byte const black_bit = CHAR_BIT/2 - 1;
-
-static void ProofSmallEncodePiece(byte **bp,
-                                  int row, int col,
-                                  piece_walk_type p, Flags flags,
-                                  boolean *even)
-{
-  Side const side =  TSTFLAG(flags,White) ? White : Black;
-  byte encoded = p;
-  assert(!is_piece_neutral(flags));
-  if (side==Black)
-    encoded |= 1 << black_bit;
-  assert(p < 1 << black_bit);
-  if (*even)
-  {
-    **bp += encoded<<(CHAR_BIT/2);
-    ++*bp;
-  }
-  else
-    **bp = encoded;
-  *even = !*even;
-}
-
-static void ProofLargeEncodePiece(byte **bp,
-                                  int row, int col,
-                                  piece_walk_type p, Flags flags)
-{
-  **bp = p;
-  ++*bp;
-
-  **bp = flags&COLOURFLAGS;
-  ++*bp;
-}
-
-void ProofEncode(stip_length_type min_length, stip_length_type validity_value)
-{
-  HashBuffer *hb = &hashBuffers[nbply];
-  byte *position = hb->cmv.Data;
-  byte *bp = position+nr_rows_on_board;
-
-  /* clear the bits for storing the position of pieces */
-  memset(position, 0, nr_rows_on_board);
-
-  {
-    boolean even = false;
-    square a_square= square_a1;
-    unsigned int row;
-    for (row = 0; row<nr_rows_on_board; ++row, a_square += onerow)
-    {
-      square curr_square = a_square;
-      unsigned int col;
-      for (col = 0; col<nr_files_on_board; ++col, curr_square += dir_right)
-      {
-        piece_walk_type const p = get_walk_of_piece_on_square(curr_square);
-        if (p!=Empty)
-        {
-          Flags const flags = being_solved.spec[curr_square];
-          if (piece_walk_may_exist_fairy || is_piece_neutral(some_pieces_flags))
-            ProofLargeEncodePiece(&bp,row,col,p,flags);
-          else
-            ProofSmallEncodePiece(&bp,row,col,p,flags,&even);
-          position[row] |= BIT(col);
-        }
-      }
-    }
-
-    if (even)
-      ++bp;
-  }
-
-  {
-    underworld_index_type gi;
-    for (gi = 0; gi<nr_ghosts; ++gi)
-    {
-      square s = (underworld[gi].on
-                  - nr_of_slack_rows_below_board*onerow
-                  - nr_of_slack_files_left_of_board);
-      unsigned int const row = s/onerow;
-      unsigned int const col = s%onerow;
-      bp = SmallEncodePiece(bp,
-                            row,col,
-                            underworld[gi].walk,underworld[gi].flags);
-    }
-  }
-
-  /* Now the rest of the party */
-  bp = CommonEncode(bp,min_length,validity_value);
-
-  assert(bp-hb->cmv.Data<=UCHAR_MAX);
-  hb->cmv.Leng = (unsigned char)(bp-hb->cmv.Data);
-}
 
 static void override_standard_walk(square s, Side side, piece_walk_type orthodox_walk)
 {
