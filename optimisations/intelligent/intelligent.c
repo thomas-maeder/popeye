@@ -33,6 +33,7 @@
 #include "optimisations/intelligent/mate/generate_checking_moves.h"
 #include "optimisations/intelligent/mate/generate_doublechecking_moves.h"
 #include "optimisations/intelligent/piece_usage.h"
+#include "optimisations/intelligent/proof.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
 #include "platform/maxtime.h"
@@ -688,7 +689,7 @@ enum
 /* Instrument stipulation with STgoal_typereachableGuard slices
  * @param si identifies slice where to start
  */
-static void stip_insert_goalreachable_guards(slice_index si, goal_type goal)
+static void insert_goalreachable_guards(slice_index si, goal_type goal)
 {
   stip_structure_traversal st;
 
@@ -1004,7 +1005,7 @@ boolean init_intelligent_mode(slice_index si)
       {
         goal_to_be_reached = determine_goal_to_be_reached(si);
         stip_insert_intelligent_filters(si,goal_to_be_reached);
-        stip_insert_goalreachable_guards(si,goal_to_be_reached);
+        insert_goalreachable_guards(si,goal_to_be_reached);
         check_no_king_is_possible();
       }
       break;
@@ -1013,7 +1014,7 @@ boolean init_intelligent_mode(slice_index si)
       result = true;
       goal_to_be_reached = determine_goal_to_be_reached(si);
       stip_insert_intelligent_filters(si,goal_to_be_reached);
-      stip_insert_goalreachable_guards(si,goal_to_be_reached);
+      insert_goalreachable_guards(si,goal_to_be_reached);
       check_no_king_is_possible();
       break;
 
