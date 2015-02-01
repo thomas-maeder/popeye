@@ -71,4 +71,17 @@ pieces white Kd5 Se5 black Ke8 Rb8h8 Pe7
 stipulation h#1.5
 option halfduplex intelligent 
 
+
+next
+
+author Stephan Dietrich
+title 4.63-4.69 didn't find the solution because of some "optimisation"
+pieces white ke1 qd1 ra1h1 bf1 sb3b1g1 pa2b4c2d2e2f2g2h2
+       black ke8 qd8b6 ra8h8 bc8f8 sg8 pa7b5c7d7e7f7g7h7
+stipulation a=>b1.0
+Option WhiteToPlay
+pieces white ke1 qd1 ra1h1 bc1f1 sb1g1 pa2b4c2d2e2f2g2h2
+       black ke8 qd8 ra8h8 bc8f8 sb8g8 pa7b5c7d7e7f7g7h7
+condition Chameleonchess
+
 end

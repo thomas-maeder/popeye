@@ -305,7 +305,7 @@ static void ProofInitialiseKingMoves(Side side)
   TraceFunctionResultEnd();
 }
 
-void ProofInitialiseIntelligentSide(Side side)
+static void ProofInitialiseIntelligentSide(Side side)
 {
   square const square_base = side==White ? square_a1 : square_a8;
 
@@ -1564,6 +1564,17 @@ void ProofInitialise(slice_index si)
 
   loadTargetPiecesAndSquares();
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+slice_type proof_make_goal_reachable_type(void)
+{
+  slice_type result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   ProofFairy = (change_moving_piece
                 || CondFlag[black_oscillatingKs]
                 || CondFlag[white_oscillatingKs]
@@ -1588,17 +1599,6 @@ void ProofInitialise(slice_index si)
                 || CondFlag[kobulkings]
                 || CondFlag[wormholes]
                 || CondFlag[dynasty]);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-slice_type proof_make_goal_reachable_type(void)
-{
-  slice_type result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
 
   /* TODO Masand can't possibly be the only condition that doesn't
    * allow any optimisation at all.

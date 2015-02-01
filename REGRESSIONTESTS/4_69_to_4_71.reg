@@ -353,3 +353,62 @@ solution finished.
 solution finished.
 
 
+
+          Stephan Dietrich
+4.63-4.69 didn't find the solution because of some "optimisation"
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R   .  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P   .  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .  -Q   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3   .   S   .   .   .   .   .   .   3
+|                                   |
+2   P   .   P   P   P   P   P   P   2
+|                                   |
+1   R   S   .   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+                            16 + 16
+
+            => (White ->)
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S  -B  -Q  -K  -B  -S  -R   8
+|                                   |
+7  -P   .  -P  -P  -P  -P  -P  -P   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4   .   P   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   P   .   P   P   P   P   P   P   2
+|                                   |
+1   R   S   B   Q   K   B   S   R   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  a=>b1.0                   16 + 16
+           ChameleonChess
+
+  1.Sb3-c1=B Qb6-b8=S a=>b
+
+  add_to_move_generation_stack:         148
+                     play_move:         148
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:           3
+solution finished.
+
+
