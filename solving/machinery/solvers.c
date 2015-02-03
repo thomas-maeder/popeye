@@ -192,8 +192,8 @@ static void adjust_branch(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  slices[si].u.branch.length += *diff;
-  slices[si].u.branch.min_length += *diff;
+  SLICE_U(si).branch.length += *diff;
+  SLICE_U(si).branch.min_length += *diff;
 }
 
 void adjust_slack_length(slice_index si, stip_length_type to)
@@ -224,7 +224,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   result = stip_deep_copy(stipulation_root_hook);
 
-  solving_impose_starter(result,slices[stipulation_root_hook].starter);
+  solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
   goal_prerequisite_guards_initialse_solving(result);
 
@@ -751,7 +751,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   goal_kiss_init_piece_id(result);
 
-  solving_impose_starter(result,slices[result].starter);
+  solving_impose_starter(result,SLICE_STARTER(result));
   solving_optimise_with_countnropponentmoves(result);
 
   solving_optimise_with_killer_moves(result);
@@ -762,7 +762,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   optimise_is_square_observed(result);
   optimise_is_in_check(result);
 
-  solving_impose_starter(result,slices[result].starter);
+  solving_impose_starter(result,SLICE_STARTER(result));
 
   resolve_proxies(&result);
 

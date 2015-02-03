@@ -803,7 +803,7 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.output_mode_selector.mode==output_mode_line)
+  if (SLICE_U(si).output_mode_selector.mode==output_mode_line)
     solving_insert_output_plaintext_line_slices(si);
   else
   {
@@ -846,7 +846,7 @@ static void write_position(slice_index si)
   switch (find_unique_goal(si).type)
   {
     case goal_atob:
-      WritePositionAtoB(slices[si].starter);
+      WritePositionAtoB(SLICE_STARTER(si));
       break;
 
     case goal_proofgame:

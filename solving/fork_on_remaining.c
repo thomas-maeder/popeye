@@ -25,7 +25,7 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
   TraceFunctionParamListEnd();
 
   result = alloc_binary_slice(STForkOnRemaining,op1,op2);
-  slices[result].u.fork_on_remaining.threshold = threshold;
+  SLICE_U(result).fork_on_remaining.threshold = threshold;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -48,9 +48,9 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
  */
 void fork_on_remaining_solve(slice_index si)
 {
-  slice_index const op1 = slices[si].next1;
-  slice_index const op2 = slices[si].next2;
-  stip_length_type const threshold = slices[si].u.fork_on_remaining.threshold;
+  slice_index const op1 = SLICE_NEXT1(si);
+  slice_index const op2 = SLICE_NEXT2(si);
+  stip_length_type const threshold = SLICE_U(si).fork_on_remaining.threshold;
   slice_index const succ = solve_nr_remaining<=slack_length+threshold ? op2 : op1;
 
   TraceFunctionEntry(__func__);

@@ -99,7 +99,7 @@ Token input_plaintext_problem_handle(void)
 
   result = ReadInitialTwin(stipulation_root_hook);
 
-  if (slices[stipulation_root_hook].next1==no_slice)
+  if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
   else
   {

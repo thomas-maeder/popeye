@@ -182,8 +182,8 @@ slice_index alloc_output_latex_line_writer_slice(Goal goal, FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXLineLineWriter);
-  slices[result].u.goal_writer.goal = goal;
-  slices[result].u.goal_writer.file = file;
+  SLICE_U(result).goal_writer.goal = goal;
+  SLICE_U(result).goal_writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -210,10 +210,10 @@ void output_latex_line_line_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  output_latex_line_write_line(slices[si].u.goal_writer.file,
-                               slices[si].u.goal_writer.goal.type);
+  output_latex_line_write_line(SLICE_U(si).goal_writer.file,
+                               SLICE_U(si).goal_writer.goal.type);
   pipe_solve_delegate(si);
-  fputs("\n",slices[si].u.goal_writer.file);
+  fputs("\n",SLICE_U(si).goal_writer.file);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

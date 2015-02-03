@@ -30,7 +30,7 @@ void degradierung_degrader_solve(slice_index si)
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
   piece_walk_type const pi_played = move_effect_journal[movement].u.piece_movement.moving;
-  SquareFlags const double_step = slices[si].starter==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
+  SquareFlags const double_step = SLICE_STARTER(si)==White ? WhPawnDoublestepSq : BlPawnDoublestepSq;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

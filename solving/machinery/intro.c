@@ -22,7 +22,7 @@ static void link_to_intro(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children(si,st);
 
   /* make sure that the entry slices into the intro have a correct .prev value */
-  link_to_branch(si,slices[si].next1);
+  link_to_branch(si,SLICE_NEXT1(si));
 }
 
 void hack_fork_make_intro(slice_index fork, stip_structure_traversal *st)
@@ -68,7 +68,7 @@ void solving_insert_intro_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
-  assert(slices[si].type==STProxy);
+  assert(SLICE_TYPE(si)==STProxy);
 
   spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);

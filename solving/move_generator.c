@@ -109,7 +109,7 @@ static void move_generation_branch_insert_slices_impl(slice_index generating,
   TraceFunctionParam("%u",generating);
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(slices[base].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(base),&state);
   assert(state.base_rank!=no_slice_rank);
 
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
@@ -161,7 +161,7 @@ static void instrument_generating(slice_index si, stip_structure_traversal *st)
 
   {
     insertion_configuration const * config = st->param;
-    if (config->side==nr_sides || config->side==slices[si].starter)
+    if (config->side==nr_sides || config->side==SLICE_STARTER(si))
     {
       slice_index const prototype = alloc_pipe(config->type);
       move_generation_branch_insert_slices_impl(si,&prototype,1,si);
@@ -217,7 +217,7 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
                                                      proxy_standard,
                                                      proxy_alternative);
 
-    pipe_link(slices[si].prev,generator);
+    pipe_link(SLICE_PREV(si),generator);
 
     pipe_link(proxy_standard,standard);
     pipe_link(standard,si);
@@ -264,7 +264,7 @@ static boolean always_reject(numecoup n)
 void move_generation_reject_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(SLICE_NEXT1(si));
   move_generator_filter_captures(base,&always_reject);
 }
 
@@ -274,7 +274,7 @@ void move_generation_reject_captures(slice_index si)
 void move_generation_reject_non_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(SLICE_NEXT1(si));
   move_generator_filter_noncaptures(base,&always_reject);
 }
 
@@ -286,8 +286,8 @@ void generate_moves_for_piece_two_paths(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(slices[si].next1);
-  generate_moves_delegate(slices[si].next2);
+  generate_moves_delegate(SLICE_NEXT1(si));
+  generate_moves_delegate(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -325,7 +325,7 @@ void generate_moves_for_piece(square sq_departure)
 
   curr_generation->departure = sq_departure;
   move_generation_current_walk = get_walk_of_piece_on_square(sq_departure);
-  generate_moves_delegate(slices[temporary_hack_move_generator[trait[nbply]]].next2);
+  generate_moves_delegate(SLICE_NEXT2(temporary_hack_move_generator[trait[nbply]]));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -390,7 +390,7 @@ void move_generator_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(slices[si].starter);
+  nextply(SLICE_STARTER(si));
   genmove();
   pipe_solve_delegate(si);
   finply();

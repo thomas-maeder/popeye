@@ -79,7 +79,7 @@ void castling_player_solve(slice_index si)
       square const sq_partner_arrival = sq_departure+dir_right;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      solve(slices[si].next2);
+      solve(SLICE_NEXT2(si));
 
       break;
     }
@@ -90,7 +90,7 @@ void castling_player_solve(slice_index si)
       square const sq_partner_arrival = sq_departure+dir_left;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      solve(slices[si].next2);
+      solve(SLICE_NEXT2(si));
 
       break;
     }
@@ -400,7 +400,7 @@ void castling_rights_adjuster_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  adjust_castling_rights(slices[si].starter);
+  adjust_castling_rights(SLICE_STARTER(si));
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -416,7 +416,7 @@ void castling_generator_generate_castling(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(SLICE_NEXT1(si));
 
   if (is_king(move_generation_current_walk))
     generate_castling();
@@ -538,8 +538,8 @@ static void remove_castling_player(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  assert(slices[slices[si].next2].type==STProxy);
-  dealloc_slice(slices[si].next2);
+  assert(SLICE_TYPE(SLICE_NEXT2(si))==STProxy);
+  dealloc_slice(SLICE_NEXT2(si));
 
   pipe_remove(si);
 
@@ -603,22 +603,22 @@ void mutual_castling_rights_adjuster_solve(slice_index si)
   {
     case kingside_castling:
     {
-      castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
-                                                                          castling_mutual_exclusive[slices[si].starter][kingside_castling-min_castling]);
+      castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
+                                                                          castling_mutual_exclusive[SLICE_STARTER(si)][kingside_castling-min_castling]);
       if (effectively_disabled)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
-                                  advers(slices[si].starter),
+                                  advers(SLICE_STARTER(si)),
                                   effectively_disabled);
       break;
     }
 
     case queenside_castling:
     {
-      castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(slices[si].starter),
-                                                                          castling_mutual_exclusive[slices[si].starter][queenside_castling-min_castling]);
+      castling_rights_type const effectively_disabled = TSTCASTLINGFLAGMASK(advers(SLICE_STARTER(si)),
+                                                                          castling_mutual_exclusive[SLICE_STARTER(si)][queenside_castling-min_castling]);
       if (effectively_disabled)
         do_disable_castling_right(move_effect_reason_castling_king_movement,
-                                  advers(slices[si].starter),
+                                  advers(SLICE_STARTER(si)),
                                   effectively_disabled);
       break;
     }

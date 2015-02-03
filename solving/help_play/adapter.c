@@ -36,7 +36,7 @@ static void spin_off_intro(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter);
+  assert(SLICE_TYPE(adapter)==STHelpAdapter);
 
   TraceStipulation(adapter);
 
@@ -46,7 +46,7 @@ static void spin_off_intro(slice_index adapter, spin_off_state_type *state)
   }
 
   {
-    slice_index const next = slices[adapter].next1;
+    slice_index const next = SLICE_NEXT1(adapter);
     stip_structure_traversal st;
 
     stip_structure_traversal_init(&st,state);
@@ -71,10 +71,10 @@ static void spin_off_intro(slice_index adapter, spin_off_state_type *state)
     stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_intro_hook);
     stip_traverse_structure(next,&st);
 
-    pipe_link(slices[adapter].prev,next);
+    pipe_link(SLICE_PREV(adapter),next);
     link_to_branch(adapter,state->spun_off[next]);
     state->spun_off[adapter] = state->spun_off[next];
-    slices[adapter].prev = no_slice;
+    SLICE_PREV(adapter) = no_slice;
   }
 
   TraceValue("%u\n",state->spun_off[adapter]);
@@ -96,7 +96,7 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(adapter,st);
 
   if (st->level==structure_traversal_level_nested
-      && slices[adapter].u.branch.length>slack_length)
+      && SLICE_U(adapter).branch.length>slack_length)
   {
     spin_off_state_type * const state = st->param;
     spin_off_intro(adapter,state);
@@ -121,7 +121,7 @@ void help_adapter_make_intro(slice_index adapter, stip_structure_traversal *st)
  */
 void help_adapter_solve(slice_index si)
 {
-  stip_length_type const full_length = slices[si].u.branch.length;
+  stip_length_type const full_length = SLICE_U(si).branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -130,7 +130,7 @@ void help_adapter_solve(slice_index si)
   assert(solve_nr_remaining==length_unspecified);
 
   solve_nr_remaining = full_length;
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
   solve_nr_remaining = length_unspecified;
 
   if (solve_result==immobility_on_next_move)

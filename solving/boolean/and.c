@@ -25,11 +25,11 @@ void and_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
 
   if (previous_move_is_illegal<solve_result
       && solve_result<=MOVE_HAS_SOLVED_LENGTH())
-    solve(slices[si].next2);
+    solve(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -41,9 +41,9 @@ static void insert_shortcut_tester(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[slices[si].next2].tester!=no_slice);
-  pipe_append(slices[si].next1,
-              alloc_constraint_tester_slice(slices[slices[si].next2].tester));
+  assert(SLICE_TESTER(SLICE_NEXT2(si))!=no_slice);
+  pipe_append(SLICE_NEXT1(si),
+              alloc_constraint_tester_slice(SLICE_TESTER(SLICE_NEXT2(si))));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

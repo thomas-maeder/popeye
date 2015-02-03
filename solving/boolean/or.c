@@ -21,10 +21,10 @@ void or_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
 
   if (solve_result>=MOVE_HAS_NOT_SOLVED_LENGTH())
-    solve(slices[si].next2);
+    solve(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

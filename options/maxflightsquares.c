@@ -65,7 +65,7 @@ static square save_rbn;
 static boolean are_there_too_many_flights(slice_index si)
 {
   boolean result;
-  Side const fleeing = slices[si].starter;
+  Side const fleeing = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -145,7 +145,7 @@ void maxflight_guard_solve(slice_index si)
 
 static boolean are_flights_exhausted(slice_index si)
 {
-  Side const fleeing = advers(slices[si].starter);
+  Side const fleeing = advers(SLICE_STARTER(si));
   Flags const mask = BIT(fleeing)|BIT(Royal);
 
   if (!TSTFULLFLAGMASK(being_solved.spec[save_rbn],mask))
@@ -200,7 +200,7 @@ static void maxflight_guard_inserter(slice_index si,stip_structure_traversal *st
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].u.branch.length>slack_length)
+  if (SLICE_U(si).branch.length>slack_length)
   {
     slice_index const prototype = alloc_maxflight_guard_slice();
     defense_branch_insert_slices(si,&prototype,1);

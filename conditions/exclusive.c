@@ -67,7 +67,7 @@ static void remove_guard(slice_index si, stip_structure_traversal *st)
 
   {
     slice_index const guard = branch_find_slice(STSelfCheckGuard,
-                                                slices[si].next2,
+                                                SLICE_NEXT2(si),
                                                 stip_traversal_context_intro);
     assert(guard!=no_slice);
     pipe_remove(guard);
@@ -224,11 +224,11 @@ static void substitute_self_check_guard(slice_index si, stip_structure_traversal
     state->are_we_counting_goal_reaching_moves = true;
 
     {
-      slice_index const guard = branch_find_slice(STSelfCheckGuard,slices[si].next2,st->context);
+      slice_index const guard = branch_find_slice(STSelfCheckGuard,SLICE_NEXT2(si),st->context);
       if (guard!=no_slice)
       {
         slice_index const prototype = alloc_pipe(STExclusiveChessGoalReachingMoveCounterSelfCheckGuard);
-        goal_branch_insert_slices(slices[si].next2,&prototype,1);
+        goal_branch_insert_slices(SLICE_NEXT2(si),&prototype,1);
         st->traversed[guard] = slice_not_traversed;
         pipe_remove(guard);
       }
@@ -347,7 +347,7 @@ static void detect_exclusivity_and_solve_accordingly(slice_index si)
   exclusive_chess_nr_continuations_reaching_goal[nbply] = 0;
   nr_decidable_continuations_not_reaching_goal[nbply] = 0;
 
-  fork_solve(temporary_hack_exclusive_mating_move_counter[slices[si].starter],
+  fork_solve(temporary_hack_exclusive_mating_move_counter[SLICE_STARTER(si)],
              length_unspecified);
 
   TraceValue("%u",nbply);

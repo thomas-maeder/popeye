@@ -52,8 +52,8 @@ slice_index alloc_find_shortest_slice(stip_length_type length,
  */
 void find_shortest_solve(slice_index si)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
   stip_length_type const n_min = (min_length>=(length-solve_nr_remaining)+slack_length
                                   ? min_length-(length-solve_nr_remaining)
                                   : min_length);
@@ -85,8 +85,8 @@ void find_shortest_solve(slice_index si)
 static void insert_find_shortest_battle_adapter(slice_index si,
                                                 stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -123,16 +123,16 @@ static slice_index find_ready_for_move_in_loop(slice_index ready_root)
     result = branch_find_slice(STReadyForHelpMove,
                                result,
                                stip_traversal_context_help);
-  } while ((slices[result].u.branch.length-slack_length)%2
-           !=(slices[ready_root].u.branch.length-slack_length)%2);
+  } while ((SLICE_U(result).branch.length-slack_length)%2
+           !=(SLICE_U(ready_root).branch.length-slack_length)%2);
   return result;
 }
 
 static void insert_find_shortest_help_adapter(slice_index si,
                                               stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -167,7 +167,7 @@ static void insert_find_shortest_help_adapter(slice_index si,
           slice_index const proxy_root = alloc_proxy_slice();
           slice_index const proxy_loop = alloc_proxy_slice();
           pipe_set_successor(proxy_loop,ready_loop);
-          pipe_link(slices[ready_root].prev,
+          pipe_link(SLICE_PREV(ready_root),
                     alloc_fork_on_remaining_slice(proxy_root,proxy_loop,
                                                   length-1-slack_length));
           pipe_link(proxy_root,ready_root);

@@ -181,7 +181,7 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_selection[nbply])
-    init_latent_pawn_selection(slices[si].starter);
+    init_latent_pawn_selection(SLICE_STARTER(si));
 
   pipe_solve_delegate(si);
 
@@ -189,7 +189,7 @@ void singlebox_type2_latent_pawn_selector_solve(slice_index si)
   {
     if (!post_move_iteration_locked[nbply])
     {
-      advance_latent_pawn_selection(slices[si].starter);
+      advance_latent_pawn_selection(SLICE_STARTER(si));
 
       if (singlebox_type2_latent_pawn_promotions[nbply].where!=initsquare)
         lock_post_move_iterations();

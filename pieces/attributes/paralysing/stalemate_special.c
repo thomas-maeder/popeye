@@ -25,7 +25,7 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STPiecesParalysingStalemateSpecial);
-  slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
+  SLICE_U(result).goal_filter.applies_to_who = starter_or_adversary;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -49,8 +49,8 @@ alloc_paralysing_stalemate_special_slice(goal_applies_to_starter_or_adversary st
 void paralysing_stalemate_special_solve(slice_index si)
 {
   goal_applies_to_starter_or_adversary const
-    applies_to_who = slices[si].u.goal_filter.applies_to_who;
-  Side const starter = slices[si].starter;
+    applies_to_who = SLICE_U(si).goal_filter.applies_to_who;
+  Side const starter = SLICE_STARTER(si);
   Side const stalemated = (applies_to_who==goal_applies_to_starter
                            ? starter
                            : advers(starter));

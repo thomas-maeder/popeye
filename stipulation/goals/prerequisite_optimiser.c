@@ -44,7 +44,7 @@ stip_length_type
 goal_prerequisite_optimiser_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
+  slice_index const next = SLICE_NEXT1(si);
   stip_length_type const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);

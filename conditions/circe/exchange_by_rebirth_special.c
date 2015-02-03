@@ -59,7 +59,7 @@ void circe_exchange_special_solve(slice_index si)
       square const sq_diagram = GetPositionInDiagram(being_solved.spec[sq_rebirth]);
       if (sq_rebirth!=initsquare
           && GetPositionInDiagram(being_solved.spec[sq_diagram])==sq_rebirth
-          && TSTFLAG(being_solved.spec[sq_diagram],slices[si].starter)
+          && TSTFLAG(being_solved.spec[sq_diagram],SLICE_STARTER(si))
           && sq_diagram!=sq_rebirth)
         pipe_solve_delegate(si);
     }

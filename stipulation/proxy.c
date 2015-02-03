@@ -36,10 +36,10 @@ static void proxy_slice_resolve(slice_index *si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   while (*si!=no_slice
-         && slice_type_get_functional_type(slices[*si].type)==slice_function_proxy)
+         && slice_type_get_functional_type(SLICE_TYPE(*si))==slice_function_proxy)
   {
     (*is_resolved_proxy)[*si] = true;
-    *si = slices[*si].next1;
+    *si = SLICE_NEXT1(*si);
   }
 
   TraceFunctionExit(__func__);
@@ -55,8 +55,8 @@ static void binary_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  proxy_slice_resolve(&slices[si].next1,st);
-  proxy_slice_resolve(&slices[si].next2,st);
+  proxy_slice_resolve(&SLICE_NEXT1(si),st);
+  proxy_slice_resolve(&SLICE_NEXT2(si),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -68,19 +68,19 @@ static void pipe_resolve_proxies(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].next1!=no_slice)
+  if (SLICE_NEXT1(si)!=no_slice)
   {
     stip_traverse_structure_children_pipe(si,st);
-    proxy_slice_resolve(&slices[si].next1,st);
+    proxy_slice_resolve(&SLICE_NEXT1(si),st);
   }
 
-  if (slices[si].tester!=no_slice)
+  if (SLICE_TESTER(si)!=no_slice)
   {
     stip_traversal_activity_type const save_activity = st->activity;
     st->activity = stip_traversal_activity_testing;
-    stip_traverse_structure(slices[si].tester,st);
+    stip_traverse_structure(SLICE_TESTER(si),st);
     st->activity = save_activity;
-    proxy_slice_resolve(&slices[si].tester,st);
+    proxy_slice_resolve(&SLICE_TESTER(si),st);
   }
 
   TraceFunctionExit(__func__);
@@ -95,10 +95,10 @@ static void fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 
   pipe_resolve_proxies(si,st);
 
-  if (slices[si].next2!=no_slice)
+  if (SLICE_NEXT2(si)!=no_slice)
   {
     stip_traverse_structure_next_branch(si,st);
-    proxy_slice_resolve(&slices[si].next2,st);
+    proxy_slice_resolve(&SLICE_NEXT2(si),st);
   }
 
   TraceFunctionExit(__func__);
@@ -122,7 +122,7 @@ void resolve_proxies(slice_index *si)
 
   TraceStipulation(*si);
 
-  assert(slices[*si].type==STProxy);
+  assert(SLICE_TYPE(*si)==STProxy);
 
   stip_structure_traversal_init(&st,&is_resolved_proxy);
   stip_structure_traversal_override_by_structure(&st,

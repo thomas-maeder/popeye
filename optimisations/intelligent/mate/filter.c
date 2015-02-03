@@ -48,7 +48,7 @@ void impose_starter_intelligent_mate_filter(slice_index si,
   TraceFunctionParam("%u",*starter);
   TraceFunctionParamListEnd();
 
-  slices[si].starter = *starter;
+  SLICE_STARTER(si) = *starter;
   stip_traverse_structure_children_pipe(si,st);
 
   /* in duplexes, the colors swapped when looking for the "black solutions".
@@ -57,7 +57,7 @@ void impose_starter_intelligent_mate_filter(slice_index si,
    */
   *starter = Black;
   stip_traverse_structure_conditional_pipe_tester(si,st);
-  *starter = slices[si].starter;
+  *starter = SLICE_STARTER(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

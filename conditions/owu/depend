@@ -4,12 +4,10 @@ conditions/owu/immobility_tester$(OBJ_SUFFIX): conditions/owu/immobility_tester.
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/ply.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -18,7 +16,7 @@ conditions/owu/immobility_tester$(OBJ_SUFFIX): conditions/owu/immobility_tester.
  stipulation/branch.h stipulation/slice_insertion.h \
  stipulation/boolean/and.h solving/king_move_generator.h \
  solving/non_king_move_generator.h solving/legal_move_counter.h \
- solving/capture_counter.h debugging/assert.h
+ solving/ply.h solving/capture_counter.h debugging/assert.h
 
 conditions/owu/immobility_tester.h:
 
@@ -51,16 +49,6 @@ output/mode.enum.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
-solving/ply.h:
 
 solving/has_solution_type.h:
 
@@ -99,6 +87,8 @@ solving/king_move_generator.h:
 solving/non_king_move_generator.h:
 
 solving/legal_move_counter.h:
+
+solving/ply.h:
 
 solving/capture_counter.h:
 

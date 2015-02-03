@@ -51,7 +51,7 @@ static void substitute_avoid_promotion_moving(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if ((*enabled)[slices[si].starter])
+  if ((*enabled)[SLICE_STARTER(si)])
     pipe_substitute(si,alloc_pipe(STNoPromotionsRemovePromotionMoving));
 
   TraceFunctionExit(__func__);
@@ -76,7 +76,7 @@ void solving_insert_nopromotions(slice_index si)
 
   TraceStipulation(si);
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,&enabled);
   stip_structure_traversal_override_single(&st,STPawnPromoter,&substitute_avoid_promotion_moving);

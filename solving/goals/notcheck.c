@@ -26,7 +26,7 @@ void goal_notcheck_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_this_move_doesnt_solve_if(si,is_in_check(slices[si].starter));
+  pipe_this_move_doesnt_solve_if(si,is_in_check(SLICE_STARTER(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

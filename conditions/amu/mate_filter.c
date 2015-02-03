@@ -60,7 +60,7 @@ static void prepend_mate_filter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  pipe_append(slices[si].prev,alloc_amu_mate_filter_slice());
+  pipe_append(SLICE_PREV(si),alloc_amu_mate_filter_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -18,7 +18,7 @@ slice_index alloc_output_latex_tree_threat_writer_slice(FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXThreatWriter);
-  slices[result].u.writer.file = file;
+  SLICE_U(result).writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +46,7 @@ void output_latex_tree_threat_writer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (table_length(threats[parent_ply[parent_ply[nbply]]])==0)
-    output_latex_message(slices[si].u.writer.file,Threat);
+    output_latex_message(SLICE_U(si).writer.file,Threat);
 
   pipe_solve_delegate(si);
 

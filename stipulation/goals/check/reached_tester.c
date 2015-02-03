@@ -43,7 +43,7 @@ slice_index alloc_goal_check_reached_tester_slice(goal_applies_to_starter_or_adv
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STGoalCheckReachedTester);
-  slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
+  SLICE_U(result).goal_filter.applies_to_who = starter_or_adversary;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

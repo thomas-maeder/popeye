@@ -189,7 +189,7 @@ slice_index alloc_output_plaintext_line_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputPlaintextLineLineWriter);
-  slices[result].u.goal_handler.goal = goal;
+  SLICE_U(result).goal_handler.goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -220,7 +220,7 @@ void output_plaintext_line_line_writer_solve(slice_index si)
   se_start_pos();
 #endif
 
-  output_plaintext_line_write_line(slices[si].u.goal_handler.goal.type);
+  output_plaintext_line_write_line(SLICE_U(si).goal_handler.goal.type);
 
   pipe_solve_delegate(si);
 

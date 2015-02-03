@@ -22,7 +22,7 @@ static void remember_length(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->length = slices[si].u.branch.length;
+  state->length = SLICE_U(si).branch.length;
   stip_traverse_structure_children(si,st);
   state->length = save_length;
 

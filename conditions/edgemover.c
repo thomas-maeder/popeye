@@ -20,7 +20,7 @@ static boolean goes_to_the_edge(numecoup n)
 boolean edgemover_validate_observation_geometry(slice_index si)
 {
   return (goes_to_the_edge(CURRMOVE_OF_PLY(nbply))
-          && validate_observation_recursive(slices[si].next1));
+          && validate_observation_recursive(SLICE_NEXT1(si)));
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -60,7 +60,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if ((*enabled)[slices[si].starter])
+  if ((*enabled)[SLICE_STARTER(si)])
   {
     slice_index const prototype = alloc_pipe(STEdgeMoverRemoveIllegalMoves);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
@@ -84,7 +84,7 @@ void solving_insert_edgemover(slice_index si)
 
   TraceStipulation(si);
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,&enabled);
   stip_structure_traversal_override_single(&st,

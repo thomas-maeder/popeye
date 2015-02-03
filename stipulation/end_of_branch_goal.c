@@ -44,8 +44,8 @@ slice_index alloc_end_of_branch_goal(slice_index proxy_to_goal)
 stip_length_type end_of_branch_goal_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const op1 = slices[si].next1;
-  slice_index const op2 = slices[si].next2;
+  slice_index const op1 = SLICE_NEXT1(si);
+  slice_index const op2 = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

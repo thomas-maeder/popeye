@@ -52,7 +52,7 @@ alloc_goal_immobile_reached_tester_slice(goal_applies_to_starter_or_adversary st
     result = alloc_conditional_pipe(STGoalImmobileReachedTester,proxy);
     pipe_link(proxy,tester);
     link_to_branch(tester,alloc_defense_branch(1,1));
-    slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
+    SLICE_U(result).goal_filter.applies_to_who = starter_or_adversary;
   }
 
   TraceFunctionExit(__func__);
@@ -75,19 +75,19 @@ void impose_starter_goal_immobile_tester(slice_index si,
   TraceEnumerator(Side,*starter,"");
   TraceFunctionParamListEnd();
 
-  slices[si].starter = *starter;
+  SLICE_STARTER(si) = *starter;
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    Side const immobilised = (slices[si].u.goal_filter.applies_to_who
+    Side const immobilised = (SLICE_U(si).goal_filter.applies_to_who
                               ==goal_applies_to_starter
-                              ? slices[si].starter
-                              : advers(slices[si].starter));
+                              ? SLICE_STARTER(si)
+                              : advers(SLICE_STARTER(si)));
     *starter = immobilised;
     stip_traverse_structure_conditional_pipe_tester(si,st);
   }
 
-  *starter = slices[si].starter;
+  *starter = SLICE_STARTER(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

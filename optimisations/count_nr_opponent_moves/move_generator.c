@@ -67,7 +67,7 @@ static void remember_length(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->length = slices[si].u.branch.length;
+  state->length = SLICE_U(si).branch.length;
   stip_traverse_structure_children_pipe(si,st);
   state->length = save_length;
 
@@ -94,7 +94,7 @@ static void optimise_defense_move_generator(slice_index si,
                                             stip_structure_traversal *st)
 {
   instrumentation_state_type const * const state = st->param;
-  Side const defender = slices[si].starter;
+  Side const defender = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -115,7 +115,7 @@ static void optimise_defense_move_generator(slice_index si,
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,3);
     slice_index const hack = temporary_hack_opponent_moves_counter[defender];
     slice_index const operand2 = branch_find_slice(STDonePriorisingMoves,
-                                                   slices[hack].next2,
+                                                   SLICE_NEXT2(hack),
                                                    stip_traversal_context_intro);
     slice_index const proxy_operand2 = alloc_proxy_slice();
     slice_index const prototype = alloc_opponent_moves_few_moves_prioriser_slice(proxy_operand2);
@@ -123,7 +123,7 @@ static void optimise_defense_move_generator(slice_index si,
     stip_structure_traversal st_nested;
     stip_deep_copies_type copies;
 
-    assert(slices[hack].type==STOpponentMovesCounterFork);
+    assert(SLICE_TYPE(hack)==STOpponentMovesCounterFork);
 
     init_deep_copy(&st_nested,st,&copies);
     stip_structure_traversal_override_single(&st_nested,
@@ -131,7 +131,7 @@ static void optimise_defense_move_generator(slice_index si,
                                              &stop_copying);
     stip_traverse_structure(si,&st_nested);
 
-    pipe_link(slices[si].prev,fork);
+    pipe_link(SLICE_PREV(si),fork);
     pipe_link(proxy1,si);
     pipe_link(proxy2,copies[si]);
 

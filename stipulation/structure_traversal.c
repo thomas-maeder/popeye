@@ -34,11 +34,11 @@ void stip_structure_visit_slice(slice_index si,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  assert(slices[si].type<=nr_slice_types);
+  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  assert(SLICE_TYPE(si)<=nr_slice_types);
 
   {
-    stip_structure_visitor const operation = (*ops)[slices[si].type];
+    stip_structure_visitor const operation = (*ops)[SLICE_TYPE(si)];
     assert(operation!=0);
     (*operation)(si,st);
   }
@@ -141,8 +141,8 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  if (slices[pipe].next1!=no_slice)
-    switch (slices[pipe].type)
+  if (SLICE_NEXT1(pipe)!=no_slice)
+    switch (SLICE_TYPE(pipe))
     {
       case STAttackAdapter:
       {
@@ -150,7 +150,7 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
         assert(st->context==stip_traversal_context_intro);
         st->context = stip_traversal_context_attack;
         st->level = structure_traversal_level_nested;
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         st->level = save_level;
         st->context = stip_traversal_context_intro;
         break;
@@ -163,7 +163,7 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
         st->context = stip_traversal_context_defense;
         st->level = structure_traversal_level_nested;
         TraceText("STDefenseAdapter -> next1\n");
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         st->level = save_level;
         st->context = stip_traversal_context_intro;
         break;
@@ -179,7 +179,7 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
                || st->context==stip_traversal_context_help);
         st->context = stip_traversal_context_help;
         st->level = structure_traversal_level_nested;
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         st->level = save_level;
         st->context = save_context;
         break;
@@ -187,17 +187,17 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
 
       case STReadyForAttack:
         assert(st->context==stip_traversal_context_attack);
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         break;
 
       case STReadyForDefense:
         assert(st->context==stip_traversal_context_defense);
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         break;
 
       case STReadyForHelpMove:
         assert(st->context==stip_traversal_context_help);
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         break;
 
       case STAttackPlayed:
@@ -205,7 +205,7 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
       {
         stip_traversal_context_type const save_context = st->context;
         st->context = context_after_move(st->context);
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         st->context = save_context;
         break;
       }
@@ -215,7 +215,7 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
         stip_traversal_context_type const save_context = st->context;
         assert(st->context==stip_traversal_context_intro);
         st->context = stip_traversal_context_move_generation;
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         st->context = save_context;
         break;
       }
@@ -225,13 +225,13 @@ void stip_traverse_structure_children_pipe(slice_index pipe,
         stip_traversal_context_type const save_context = st->context;
         assert(st->context==stip_traversal_context_intro);
         st->context = stip_traversal_context_test_square_observation;
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         st->context = save_context;
         break;
       }
 
       default:
-        stip_traverse_structure(slices[pipe].next1,st);
+        stip_traverse_structure(SLICE_NEXT1(pipe),st);
         break;
     }
 
@@ -254,10 +254,10 @@ void stip_traverse_structure_next_branch(slice_index branch_entry,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  if (slices[branch_entry].next2!=no_slice)
+  if (SLICE_NEXT2(branch_entry)!=no_slice)
   {
     st->context = stip_traversal_context_intro;
-    stip_traverse_structure(slices[branch_entry].next2,st);
+    stip_traverse_structure(SLICE_NEXT2(branch_entry),st);
     st->context = save_context;
   }
 
@@ -314,7 +314,7 @@ void stip_traverse_structure_binary_operand1(slice_index binary_slice,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[binary_slice].next1,st);
+  stip_traverse_structure(SLICE_NEXT1(binary_slice),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -332,7 +332,7 @@ void stip_traverse_structure_binary_operand2(slice_index binary_slice,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure(slices[binary_slice].next2,st);
+  stip_traverse_structure(SLICE_NEXT2(binary_slice),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -362,7 +362,7 @@ static void stip_traverse_structure_children_zigzag_jump(slice_index jump,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_binary(jump,st);
-  stip_traverse_structure(slices[jump].u.if_then_else.condition,st);
+  stip_traverse_structure(SLICE_U(jump).if_then_else.condition,st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -377,7 +377,7 @@ static void stip_traverse_structure_children_fork(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].next2!=no_slice)
+  if (SLICE_NEXT2(si)!=no_slice)
     stip_traverse_structure_next_branch(si,st);
 
   TraceFunctionExit(__func__);
@@ -395,9 +395,9 @@ void stip_traverse_structure_end_of_branch_next_branch(slice_index end_of_branch
   TraceFunctionParam("%u",end_of_branch);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_contextual_type(slices[end_of_branch].type)
+  assert(slice_type_get_contextual_type(SLICE_TYPE(end_of_branch))
          ==slice_contextual_end_of_branch);
-  if (slices[end_of_branch].next2!=no_slice)
+  if (SLICE_NEXT2(end_of_branch)!=no_slice)
     stip_traverse_structure_next_branch(end_of_branch,st);
 
   TraceFunctionExit(__func__);
@@ -432,7 +432,7 @@ void stip_traverse_structure_conditional_pipe_tester(slice_index conditional_pip
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_contextual_type(slices[conditional_pipe].type)
+  assert(slice_type_get_contextual_type(SLICE_TYPE(conditional_pipe))
          ==slice_contextual_conditional_pipe);
 
   st->activity = stip_traversal_activity_testing;
@@ -469,14 +469,14 @@ void stip_traverse_structure_testing_pipe_tester(slice_index testing_pipe,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_contextual_type(slices[testing_pipe].type)
+  assert(slice_type_get_contextual_type(SLICE_TYPE(testing_pipe))
          ==slice_contextual_testing_pipe);
 
-  if (slices[testing_pipe].next2!=no_slice)
+  if (SLICE_NEXT2(testing_pipe)!=no_slice)
   {
     stip_traversal_activity_type const save_activity = st->activity;
     st->activity = stip_traversal_activity_testing;
-    stip_traverse_structure(slices[testing_pipe].next2,st);
+    stip_traverse_structure(SLICE_NEXT2(testing_pipe),st);
     st->activity = save_activity;
   }
 

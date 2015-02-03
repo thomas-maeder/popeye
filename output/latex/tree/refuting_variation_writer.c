@@ -19,7 +19,7 @@ slice_index alloc_output_latex_tree_refuting_variation_writer_slice(FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTreeRefutingVariationWriter);
-  slices[result].u.writer.file = file;
+  SLICE_U(result).writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -72,7 +72,7 @@ void output_latex_tree_refuting_variation_writer_solve(slice_index si)
   if (solve_result>MOVE_HAS_SOLVED_LENGTH())
   {
     unsigned int const move_depth = depth(nbply)+output_plaintext_nr_move_inversions;
-    write_refuting_varation(slices[si].u.writer.file,move_depth);
+    write_refuting_varation(SLICE_U(si).writer.file,move_depth);
   }
 
   TraceFunctionExit(__func__);

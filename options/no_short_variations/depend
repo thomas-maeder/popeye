@@ -11,6 +11,8 @@ options/no_short_variations/no_short_variations$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
  stipulation/structure_traversal.h stipulation/traversal.h \
  stipulation/pipe.h debugging/trace.h debugging/assert.h
 
@@ -54,6 +56,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/structure_traversal.h:
 
 stipulation/traversal.h:
@@ -76,7 +82,9 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/battle_play/branch.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h solving/pipe.h solving/fork.h debugging/assert.h
@@ -126,6 +134,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 

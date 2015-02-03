@@ -42,7 +42,7 @@ slice_index alloc_king_move_generator_slice(void)
  */
 void king_move_generator_solve(slice_index si)
 {
-  Side const side_at_move = slices[si].starter;
+  Side const side_at_move = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

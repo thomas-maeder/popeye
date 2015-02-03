@@ -18,7 +18,7 @@ static boolean is_move_bichrome(numecoup n)
 boolean bichrome_validate_observation_geometry(slice_index si)
 {
   return (is_move_bichrome(CURRMOVE_OF_PLY(nbply))
-          && validate_observation_recursive(slices[si].next1));
+          && validate_observation_recursive(SLICE_NEXT1(si)));
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

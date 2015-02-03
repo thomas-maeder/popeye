@@ -30,7 +30,7 @@ DEFINE_COUNTER(play_move)
 void move_counter_solve(slice_index si)
 {
   INCREMENT_COUNTER(play_move);
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
 }
 
 /* Instrument slices with move counters

@@ -145,7 +145,7 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
       replace_walk(sq_dep,pprom);
       ++being_solved.number_of_pieces[side_attacking][pprom];
 
-      result = validate_observation_recursive(slices[si].next1);
+      result = validate_observation_recursive(SLICE_NEXT1(si));
 
       --being_solved.number_of_pieces[side_attacking][pprom];
       replace_walk(sq_dep,promotee);
@@ -155,7 +155,7 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
       result = false;
   }
   else
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -226,9 +226,9 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
       ++nr_latent_promotions;
       replace_walk(where,sequence.promotee);
       if (where==curr_generation->departure)
-        generate_moves_different_walk(slices[si].next1,sequence.promotee);
+        generate_moves_different_walk(SLICE_NEXT1(si),sequence.promotee);
       else
-        generate_moves_delegate(slices[si].next1);
+        generate_moves_delegate(SLICE_NEXT1(si));
 
       for (; curr_id<current_move_id[nbply]; ++curr_id)
       {
@@ -244,7 +244,7 @@ void singleboxtype3_generate_moves_for_piece(slice_index si)
   {
     numecoup curr_id = current_move_id[nbply];
 
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
     for (; curr_id<current_move_id[nbply]; ++curr_id)
     {

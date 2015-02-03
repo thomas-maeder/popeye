@@ -113,8 +113,8 @@ static stip_length_type delegate_solve(slice_index si,
  */
 void degenerate_tree_solve(slice_index si)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
   stip_length_type const n_min = (min_length>=(length-solve_nr_remaining)+slack_length
                                   ? min_length-(length-solve_nr_remaining)
                                   : min_length);
@@ -150,15 +150,15 @@ static void degenerate_tree_inserter_attack(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->activity==stip_traversal_activity_testing
-      && slices[si].u.branch.length>=slack_length+2)
+      && SLICE_U(si).branch.length>=slack_length+2)
   {
     slice_index const finder = branch_find_slice(STFindShortest,
                                                  si,
                                                  stip_traversal_context_attack);
     if (finder!=no_slice) /* slice may already have been replaced */
     {
-      stip_length_type const length = slices[finder].u.branch.length;
-      stip_length_type const min_length = slices[finder].u.branch.min_length;
+      stip_length_type const length = SLICE_U(finder).branch.length;
+      stip_length_type const min_length = SLICE_U(finder).branch.min_length;
       pipe_substitute(finder,alloc_degenerate_tree_guard_slice(length,min_length));
     }
   }

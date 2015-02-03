@@ -186,7 +186,7 @@ boolean bgl_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (is_move_within_bounds(CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -202,7 +202,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (BGL_values[slices[si].starter]!=BGL_infinity)
+  if (BGL_values[SLICE_STARTER(si)]!=BGL_infinity)
   {
     slice_index const prototype = alloc_pipe(STBGLEnforcer);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
@@ -220,7 +220,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (BGL_values[slices[si].starter]!=BGL_infinity)
+  if (BGL_values[SLICE_STARTER(si)]!=BGL_infinity)
   {
     slice_index const prototype = alloc_pipe(STBGLAdjuster);
     move_insert_slices(si,st->context,&prototype,1);

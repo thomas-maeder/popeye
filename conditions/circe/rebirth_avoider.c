@@ -28,7 +28,7 @@ static void insert_fork(slice_index si, stip_structure_traversal *st)
   slice_index const prototype = copy_slice(state->prototype);
   slice_index const avoided = alloc_pipe(state->avoided_type);
 
-  slices[prototype].next2 = proxy;
+  SLICE_NEXT2(prototype) = proxy;
   pipe_link(proxy,avoided);
 
   assert(state->joint!=no_slice);
@@ -84,7 +84,7 @@ static void start_insertion(slice_index si, stip_structure_traversal *st)
     insertion_state_type * const state = st->param;
     stip_structure_traversal st_nested;
 
-    assert(slices[si].type==state->interval_start);
+    assert(SLICE_TYPE(si)==state->interval_start);
 
     state->joint = no_slice;
 
@@ -126,7 +126,7 @@ void circe_insert_rebirth_avoider(slice_index si,
   TraceFunctionParam("%u",si);
   TraceEnumerator(slice_type,interval_start,"");
   TraceEnumerator(slice_type,hook_type,"");
-  TraceEnumerator(slice_type,slices[prototype].type,"");
+  TraceEnumerator(slice_type,SLICE_TYPE(prototype),"");
   TraceEnumerator(slice_type,avoided_type,"");
   TraceEnumerator(slice_type,joint_type,"");
   TraceFunctionParamListEnd();

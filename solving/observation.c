@@ -62,7 +62,7 @@ static boolean enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (walk==observing_walk[nbply])
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -82,9 +82,9 @@ boolean validate_observation_recursive(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[si].type,"\n");
+  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
 
-  switch (slices[si].type)
+  switch (SLICE_TYPE(si))
   {
     case STSingleBoxType3EnforceObserverWalk:
       result = singleboxtype3_enforce_observer_walk(si);
@@ -317,7 +317,7 @@ static void insert_slice(slice_index testing,
   TraceFunctionParam("%u",prototype);
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(slices[testing].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(testing),&state);
   assert(state.base_rank!=no_slice_rank);
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   stip_traverse_structure_children_pipe(testing,&st);
@@ -424,7 +424,7 @@ static void instrument_observation_validation(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (it->side==nr_sides || it->side==slices[si].starter)
+  if (it->side==nr_sides || it->side==SLICE_STARTER(si))
     observation_validation_insert_slice(si,it->type);
 
   TraceFunctionExit(__func__);
@@ -441,7 +441,7 @@ boolean validate_observation_geometry(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(slices[temporary_hack_observation_geometry_validator[trait[nbply]]].next2);
+  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_observation_geometry_validator[trait[nbply]]));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -488,7 +488,7 @@ boolean validate_observer(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(slices[temporary_hack_observer_validator[trait[nbply]]].next2);
+  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_observer_validator[trait[nbply]]));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -535,7 +535,7 @@ boolean validate_check(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(slices[temporary_hack_check_validator[trait[nbply]]].next2);
+  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_check_validator[trait[nbply]]));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -553,7 +553,7 @@ boolean validate_observation(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(slices[temporary_hack_observation_validator[trait[nbply]]].next2);
+  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_observation_validator[trait[nbply]]));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -640,7 +640,7 @@ boolean observation_result;
  */
 boolean is_square_observed(validator_id evaluate)
 {
-  return is_square_observed_nested(slices[temporary_hack_is_square_observed[trait[nbply]]].next2,
+  return is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed[trait[nbply]]),
                                    evaluate);
 }
 
@@ -682,10 +682,10 @@ void is_square_observed_two_paths(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  is_square_observed_recursive(slices[si].next1);
+  is_square_observed_recursive(SLICE_NEXT1(si));
 
   if (!observation_result)
-    is_square_observed_recursive(slices[si].next2);
+    is_square_observed_recursive(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -743,7 +743,7 @@ static void observation_branch_insert_slices_impl(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(slices[base].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(base),&state);
   assert(state.base_rank!=no_slice_rank);
 
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
@@ -811,7 +811,7 @@ static void instrument_square_observed_testing(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (it->side==nr_sides || it->side==slices[si].starter)
+  if (it->side==nr_sides || it->side==SLICE_STARTER(si))
     is_square_observed_insert_slice(si,alloc_pipe(it->type));
 
   TraceFunctionExit(__func__);
@@ -865,7 +865,7 @@ static void insert_separator(slice_index si, stip_structure_traversal *st)
                                                      proxy_standard,
                                                      proxy_alternative);
 
-    pipe_link(slices[si].prev,generator);
+    pipe_link(SLICE_PREV(si),generator);
 
     pipe_link(proxy_standard,standard);
     pipe_link(standard,si);

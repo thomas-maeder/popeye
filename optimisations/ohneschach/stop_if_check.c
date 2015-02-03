@@ -26,7 +26,7 @@ static fate_type fate[max_nr_slices];
 void ohneschach_stop_if_check_plan_to_optimise_away_stop(slice_index stop,
                                                          boolean to_be_optimised)
 {
-  slice_index const immobility_tester = slices[stop].next2;
+  slice_index const immobility_tester = SLICE_NEXT2(stop);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stop);
@@ -55,7 +55,7 @@ void ohneschach_stop_if_check_plan_to_optimise_away_stop(slice_index stop,
 
 static void optimise_stop(slice_index stop, stip_structure_traversal *st)
 {
-  slice_index const immobility_tester = slices[stop].next2;
+  slice_index const immobility_tester = SLICE_NEXT2(stop);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stop);
@@ -71,9 +71,9 @@ static void optimise_stop(slice_index stop, stip_structure_traversal *st)
       if (fate[immobility_tester]==fate_immobility_tester_obsolete)
         dealloc_slices(immobility_tester);
 
-      if (slices[stop].tester!=no_slice && fate[slices[stop].tester]==fate_dont_know)
+      if (SLICE_TESTER(stop)!=no_slice && fate[SLICE_TESTER(stop)]==fate_dont_know)
         /* substitute unreachable tester slice */
-        pipe_substitute(slices[stop].tester,alloc_pipe(STOhneschachStopIfCheck));
+        pipe_substitute(SLICE_TESTER(stop),alloc_pipe(STOhneschachStopIfCheck));
 
       pipe_substitute(stop,alloc_pipe(STOhneschachStopIfCheck));
       break;
@@ -137,7 +137,7 @@ void ohneschach_stop_if_check_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_in_check(slices[si].starter))
+  if (is_in_check(SLICE_STARTER(si)))
     solve_result = previous_move_is_illegal;
   else
     pipe_solve_delegate(si);

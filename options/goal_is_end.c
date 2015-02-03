@@ -18,8 +18,8 @@ typedef struct
 static void remember_goal(slice_index si, stip_structure_traversal *st)
 {
   goal_is_end_one_search_state_type * const state = st->param;
-  Goal const goal = slices[si].u.goal_handler.goal;
-  Side const side = slices[si].starter;
+  Goal const goal = SLICE_U(si).goal_handler.goal;
+  Side const side = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -40,12 +40,12 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
     state->tester = si;
   }
   else if (goal.type==goal_target
-           && goal.target!=slices[state->tester].u.goal_handler.goal.target)
+           && goal.target!=SLICE_U(state->tester).goal_handler.goal.target)
   {
     TraceText("different target\n");
     state->nr_unique_goals_found = 2;
   }
-  else if (slices[state->tester].starter!=side)
+  else if (SLICE_STARTER(state->tester)!=side)
   {
     TraceText("different sides\n");
     state->nr_unique_goals_found = 2;
@@ -109,7 +109,7 @@ static void insert_goal_is_end_tester_battle(slice_index adapter,
                                              stip_structure_traversal *st)
 {
   goal_is_end_tester_insertion_state_type * const state = st->param;
-  Side const tester_side = slices[state->tester].starter;
+  Side const tester_side = SLICE_STARTER(state->tester);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
@@ -138,7 +138,7 @@ static void insert_goal_is_end_tester_attack(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  insert_goal_is_end_tester_battle(adapter,slices[adapter].starter,st);
+  insert_goal_is_end_tester_battle(adapter,SLICE_STARTER(adapter),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -151,7 +151,7 @@ static void insert_goal_is_end_tester_defense(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  insert_goal_is_end_tester_battle(adapter,advers(slices[adapter].starter),st);
+  insert_goal_is_end_tester_battle(adapter,advers(SLICE_STARTER(adapter)),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -161,9 +161,9 @@ static void insert_goal_is_end_tester_help(slice_index adapter,
                                            stip_structure_traversal *st)
 {
   goal_is_end_tester_insertion_state_type * const state = st->param;
-  unsigned int const adapter_parity = (slices[adapter].u.branch.length-slack_length)%2;
-  Side const adapter_side = slices[adapter].starter;
-  Side const tester_side = slices[state->tester].starter;
+  unsigned int const adapter_parity = (SLICE_U(adapter).branch.length-slack_length)%2;
+  Side const adapter_side = SLICE_STARTER(adapter);
+  Side const tester_side = SLICE_STARTER(state->tester);
   unsigned int const parity = adapter_side==tester_side ? adapter_parity : 1-adapter_parity;
 
   TraceFunctionEntry(__func__);
@@ -221,12 +221,12 @@ boolean stip_insert_goal_is_end_testers(slice_index root_slice)
   TraceFunctionParamListEnd();
 
   stip_detect_starter(root_slice);
-  solving_impose_starter(root_slice,slices[root_slice].starter);
+  solving_impose_starter(root_slice,SLICE_STARTER(root_slice));
 
   find_ending_goal(root_slice,&state);
 
   if (state.nr_unique_goals_found>1
-      || slices[state.tester].u.goal_handler.goal.type==no_goal)
+      || SLICE_U(state.tester).goal_handler.goal.type==no_goal)
     result = false;
   else
     result = insert_goal_is_end_testers(root_slice,state.tester);

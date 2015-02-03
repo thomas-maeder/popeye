@@ -7,12 +7,12 @@
  */
 void bicolores_try_both_sides(slice_index si)
 {
-  is_square_observed_recursive(slices[si].next1);
+  is_square_observed_recursive(SLICE_NEXT1(si));
 
   if (!observation_result)
   {
     trait[nbply] = advers(trait[nbply]);
-    is_square_observed_recursive(slices[si].next1);
+    is_square_observed_recursive(SLICE_NEXT1(si));
     trait[nbply] = advers(trait[nbply]);
   }
 }

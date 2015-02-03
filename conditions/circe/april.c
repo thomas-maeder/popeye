@@ -17,7 +17,7 @@
 static slice_index alloc_april_chess_fork(circe_variant_type const *variant)
 {
   slice_index const result = alloc_fork_slice(STAprilCaptureFork,no_slice);
-  slices[result].u.circe_handler.variant = variant;
+  SLICE_U(result).circe_handler.variant = variant;
   return result;
 }
 
@@ -63,7 +63,7 @@ void circe_solving_instrument_april(slice_index si,
 void april_chess_fork_solve(slice_index si)
 {
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-  slice_index const next = slices[si].u.circe_handler.variant->is_walk_affected[context->relevant_walk] ? slices[si].next1 : slices[si].next2;
+  slice_index const next = SLICE_U(si).circe_handler.variant->is_walk_affected[context->relevant_walk] ? SLICE_NEXT1(si) : SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

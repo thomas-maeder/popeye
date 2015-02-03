@@ -9,11 +9,14 @@ pieces/attributes/paralysing/paralysing$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h \
  pieces/attributes/paralysing/stalemate_special.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ position/castling_rights.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h stipulation/boolean/or.h \
  solving/observation.h solving/ply.h solving/temporary_hacks.h \
  solving/move_generator.h solving/has_solution_type.h \
@@ -63,6 +66,8 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
+position/castling_rights.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -78,6 +83,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
@@ -112,7 +121,9 @@ pieces/attributes/paralysing/mate_filter$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/pipe.h pieces/attributes/paralysing/paralysing.h \
  debugging/assert.h
@@ -163,6 +174,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/has_solution_type.h:
@@ -186,7 +201,9 @@ pieces/attributes/paralysing/stalemate_special$(OBJ_SUFFIX): \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  pieces/attributes/paralysing/paralysing.h solving/check.h solving/pipe.h \
  debugging/assert.h
@@ -237,6 +254,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/has_solution_type.h:
@@ -258,9 +279,9 @@ pieces/attributes/paralysing/remove_captures$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/move_generator.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/pipe.h
+ position/castling_rights.h solving/move_generator.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ solving/ply.h solving/pipe.h
 
 pieces/attributes/paralysing/remove_captures.h:
 
@@ -295,6 +316,8 @@ position/color.h:
 position/color.enum.h:
 
 pieces/walks/vectors.h:
+
+position/castling_rights.h:
 
 solving/move_generator.h:
 

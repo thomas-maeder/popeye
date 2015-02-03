@@ -33,8 +33,8 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STAttackAdapter
-         || slices[adapter].type==STDefenseAdapter);
+  assert(SLICE_TYPE(adapter)==STAttackAdapter
+         || SLICE_TYPE(adapter)==STDefenseAdapter);
 
   TraceStipulation(adapter);
 
@@ -46,7 +46,7 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
   if (branch_find_slice(STEndOfIntro,adapter,stip_traversal_context_intro)
       !=no_slice)
   {
-    slice_index const next = slices[adapter].next1;
+    slice_index const next = SLICE_NEXT1(adapter);
     stip_structure_traversal st;
 
     stip_structure_traversal_init(&st,state);
@@ -68,10 +68,10 @@ void battle_spin_off_intro(slice_index adapter, spin_off_state_type *state)
     stip_structure_traversal_override_single(&st,STEndOfIntro,&serve_as_root_hook);
     stip_traverse_structure(next,&st);
 
-    pipe_link(slices[adapter].prev,next);
+    pipe_link(SLICE_PREV(adapter),next);
     link_to_branch(adapter,state->spun_off[next]);
     state->spun_off[adapter] = state->spun_off[next];
-    slices[adapter].prev = no_slice;
+    SLICE_PREV(adapter) = no_slice;
   }
 
   TraceFunctionExit(__func__);
@@ -92,7 +92,7 @@ void attack_adapter_make_intro(slice_index adapter,
   stip_traverse_structure_children_pipe(adapter,st);
 
   if (st->level==structure_traversal_level_nested
-      && slices[adapter].u.branch.length>slack_length)
+      && SLICE_U(adapter).branch.length>slack_length)
   {
     spin_off_state_type * const state = st->param;
     battle_spin_off_intro(adapter,state);
@@ -117,7 +117,7 @@ void attack_adapter_make_intro(slice_index adapter,
  */
 void attack_adapter_solve(slice_index si)
 {
-  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const length = SLICE_U(si).branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

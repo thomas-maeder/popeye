@@ -167,7 +167,7 @@ void refutations_solver_solve(slice_index si)
   variations_result = solve_result;
 
   if (table_length(refutations)>0)
-    solve(slices[si].next2);
+    solve(SLICE_NEXT2(si));
 
   solve_result = variations_result;
 
@@ -188,7 +188,7 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STRefutationsCollector);
-  slices[result].u.refutation_collector.max_nr_refutations = max_nr_refutations;
+  SLICE_U(result).refutation_collector.max_nr_refutations = max_nr_refutations;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -211,7 +211,7 @@ slice_index alloc_refutations_collector_slice(unsigned int max_nr_refutations)
  */
 void refutations_collector_solve(slice_index si)
 {
-  unsigned int const max_nr_refutations = slices[si].u.refutation_collector.max_nr_refutations;
+  unsigned int const max_nr_refutations = SLICE_U(si).refutation_collector.max_nr_refutations;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -242,7 +242,7 @@ slice_index alloc_refutations_avoider_slice(unsigned int max_nr_refutations)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STRefutationsAvoider);
-  slices[result].u.refutation_collector.max_nr_refutations = max_nr_refutations;
+  SLICE_U(result).refutation_collector.max_nr_refutations = max_nr_refutations;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -324,7 +324,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.output_mode_selector.mode==output_mode_tree)
+  if (SLICE_U(si).output_mode_selector.mode==output_mode_tree)
     stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -401,7 +401,7 @@ static void insert_refutations_solver(slice_index si,
 
   {
     slice_index const prototype = alloc_refutations_collector_slice(user_set_max_nr_refutations);
-    defense_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
   }
 
   stip_traverse_structure_children_pipe(si,st);
@@ -421,10 +421,10 @@ static void copy_to_refutations_filter(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  assert((*copies)[slices[si].next1]!=no_slice);
+  assert((*copies)[SLICE_NEXT1(si)]!=no_slice);
 
   (*copies)[si] = alloc_refutations_filter_slice();
-  link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
+  link_to_branch((*copies)[si],(*copies)[SLICE_NEXT1(si)]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -441,11 +441,11 @@ static void copy_to_constraint_solver(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  assert((*copies)[slices[si].next1]!=no_slice);
-  assert((*copies)[slices[si].next2]!=no_slice);
+  assert((*copies)[SLICE_NEXT1(si)]!=no_slice);
+  assert((*copies)[SLICE_NEXT2(si)]!=no_slice);
 
-  (*copies)[si] = alloc_constraint_solver_slice((*copies)[slices[si].next2]);
-  link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
+  (*copies)[si] = alloc_constraint_solver_slice((*copies)[SLICE_NEXT2(si)]);
+  link_to_branch((*copies)[si],(*copies)[SLICE_NEXT1(si)]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -460,7 +460,7 @@ static void stop_copying(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   (*copies)[si] = alloc_true_slice();
-  slices[si].tester = slices[slices[slices[si].prev].tester].next1;
+  SLICE_TESTER(si) = SLICE_NEXT1(SLICE_TESTER(SLICE_PREV(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -475,7 +475,7 @@ static void skip_over_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  (*copies)[si] = (*copies)[slices[si].next1];
+  (*copies)[si] = (*copies)[SLICE_NEXT1(si)];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -519,9 +519,9 @@ static void spin_off_from_refutations_solver(slice_index si,
                                     nr_to_refutation_branch_copiers);
   stip_traverse_structure_children_pipe(si,&st_nested);
 
-  assert(copies[slices[si].next1]!=no_slice);
-  slices[si].next2 = alloc_proxy_slice();
-  link_to_branch(slices[si].next2,copies[slices[si].next1]);
+  assert(copies[SLICE_NEXT1(si)]!=no_slice);
+  SLICE_NEXT2(si) = alloc_proxy_slice();
+  link_to_branch(SLICE_NEXT2(si),copies[SLICE_NEXT1(si)]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

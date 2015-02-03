@@ -134,9 +134,9 @@ void threat_solver_solve(slice_index si)
 
   threats[nbply] = allocate_table();
 
-  if (!is_in_check(slices[si].starter))
+  if (!is_in_check(SLICE_STARTER(si)))
   {
-    solve(slices[si].next2);
+    solve(SLICE_NEXT2(si));
     threat_lengths[nbply] = solve_result-1;
   }
 
@@ -250,8 +250,8 @@ static void copy_shallow(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].next1!=no_slice)
-    link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
+  if (SLICE_NEXT1(si)!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[SLICE_NEXT1(si)]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -270,11 +270,11 @@ static void insert_enforcers(slice_index si, stip_structure_traversal *st)
     stip_structure_traversal st_nested;
 
     slice_index const * const threat_start = st->param;
-    slice_index const threat_start_tester = slices[*threat_start].tester;
+    slice_index const threat_start_tester = SLICE_TESTER(*threat_start);
 
     assert(*threat_start!=no_slice);
     assert(threat_start_tester!=no_slice);
-    assert(slices[threat_start_tester].type==STThreatStart);
+    assert(SLICE_TYPE(threat_start_tester)==STThreatStart);
 
     {
       slice_index const prototype = alloc_pipe(STThreatDefeatedTester);
@@ -293,14 +293,14 @@ static void insert_enforcers(slice_index si, stip_structure_traversal *st)
                                                     &copy_shallow);
     stip_traverse_structure(threat_start_tester,&st_nested);
 
-    slices[si].next2 = copies[threat_start_tester];
+    SLICE_NEXT2(si) = copies[threat_start_tester];
   }
 
   {
     /* if the threats are short, max_unsolvable might interfere with enforcing
      * them */
     slice_index const prototype = alloc_reset_unsolvable_slice();
-    attack_branch_insert_slices(slices[si].next2,&prototype,1);
+    attack_branch_insert_slices(SLICE_NEXT2(si),&prototype,1);
   }
 
   TraceFunctionExit(__func__);
@@ -328,7 +328,7 @@ static void insert_solver(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length>slack_length+1)
+  if (SLICE_U(si).branch.length>slack_length+1)
   {
     slice_index const prototype = alloc_testing_pipe(STThreatSolver);
     defense_branch_insert_slices(si,&prototype,1);
@@ -364,8 +364,8 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
                                                   &copy_shallow);
   stip_traverse_structure(*threat_start,&st_nested);
 
-  slices[si].next2 = alloc_proxy_slice();
-  link_to_branch(slices[si].next2,copies[*threat_start]);
+  SLICE_NEXT2(si) = alloc_proxy_slice();
+  link_to_branch(SLICE_NEXT2(si),copies[*threat_start]);
 
   {
     slice_index const prototypes[] = {
@@ -373,7 +373,7 @@ static void insert_solvers(slice_index si, stip_structure_traversal *st)
         alloc_defense_played_slice(),
         alloc_pipe(STThreatCollector)
     };
-    defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,3,si);
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),prototypes,3,si);
   }
 
   TraceFunctionExit(__func__);
@@ -419,7 +419,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.output_mode_selector.mode==output_mode_tree)
+  if (SLICE_U(si).output_mode_selector.mode==output_mode_tree)
     stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -502,7 +502,7 @@ static void end_insertion_if_too_short(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.length>slack_length+1)
+  if (SLICE_U(si).branch.length>slack_length+1)
     stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);

@@ -18,7 +18,7 @@ slice_index alloc_pipe(slice_type type)
   TraceFunctionParamListEnd();
 
   result = create_slice(type);
-  slices[result].next1 = no_slice;
+  SLICE_NEXT1(result) = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -40,16 +40,16 @@ void pipe_spin_off_copy(slice_index si, stip_structure_traversal *st)
 
   state->spun_off[si] = copy_slice(si);
 
-  if (slices[si].next1!=no_slice)
+  if (SLICE_NEXT1(si)!=no_slice)
   {
     stip_traverse_structure_children_pipe(si,st);
-    if (state->spun_off[slices[si].next1]==no_slice)
+    if (state->spun_off[SLICE_NEXT1(si)]==no_slice)
     {
       dealloc_slice(state->spun_off[si]);
       state->spun_off[si] = no_slice;
     }
     else
-      link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+      link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 
   TraceFunctionExit(__func__);
@@ -69,9 +69,9 @@ void pipe_spin_off_skip(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].next1]);
+  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
 
-  state->spun_off[si] = state->spun_off[slices[si].next1];
+  state->spun_off[si] = state->spun_off[SLICE_NEXT1(si)];
   TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
@@ -89,8 +89,8 @@ void pipe_set_successor(slice_index pipe, slice_index succ)
   TraceFunctionParam("%u",succ);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_structural_type(slices[pipe].type)!=slice_structure_leaf);
-  slices[pipe].next1 = succ;
+  assert(slice_type_get_structural_type(SLICE_TYPE(pipe))!=slice_structure_leaf);
+  SLICE_NEXT1(pipe) = succ;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -119,7 +119,7 @@ void pipe_link(slice_index pipe, slice_index succ)
  */
 void pipe_unlink(slice_index pipe)
 {
-  slice_index * const succ = &slices[pipe].next1;
+  slice_index * const succ = &SLICE_NEXT1(pipe);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
@@ -127,8 +127,8 @@ void pipe_unlink(slice_index pipe)
 
   assert(pipe!=no_slice);
 
-  if (slices[*succ].prev==pipe)
-    slices[*succ].prev = no_slice;
+  if (SLICE_PREV(*succ)==pipe)
+    SLICE_PREV(*succ) = no_slice;
 
   *succ = no_slice;
 
@@ -150,9 +150,9 @@ void pipe_substitute(slice_index replaced, slice_index substitute)
   TraceFunctionParam("%u",substitute);
   TraceFunctionParamListEnd();
 
-  slices[substitute].prev = slices[replaced].prev;
-  slices[substitute].next1 = slices[replaced].next1;
-  slices[replaced] = slices[substitute];
+  SLICE_PREV(substitute) = SLICE_PREV(replaced);
+  SLICE_NEXT1(substitute) = SLICE_NEXT1(replaced);
+  SLICE(replaced) = SLICE(substitute);
   dealloc_slice(substitute);
 
   TraceFunctionExit(__func__);
@@ -167,8 +167,8 @@ void pipe_substitute(slice_index replaced, slice_index substitute)
  */
 void pipe_append(slice_index pos, slice_index appended)
 {
-  slice_index const next = slices[pos].next1;
-  slice_index const next_prev = slices[next].prev;
+  slice_index const next = SLICE_NEXT1(pos);
+  slice_index const next_prev = SLICE_PREV(next);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pos);
@@ -194,10 +194,10 @@ void pipe_remove(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[slices[si].next1].prev==si)
-    pipe_link(slices[si].prev,slices[si].next1);
+  if (SLICE_PREV(SLICE_NEXT1(si))==si)
+    pipe_link(SLICE_PREV(si),SLICE_NEXT1(si));
   else
-    pipe_set_successor(slices[si].prev,slices[si].next1);
+    pipe_set_successor(SLICE_PREV(si),SLICE_NEXT1(si));
 
   dealloc_slice(si);
 
@@ -211,16 +211,16 @@ void pipe_remove(slice_index si)
  */
 void pipe_detect_starter(slice_index pipe, stip_structure_traversal *st)
 {
-  slice_index const next = slices[pipe].next1;
+  slice_index const next = SLICE_NEXT1(pipe);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
   TraceFunctionParamListEnd();
 
-  if (slices[pipe].starter==no_side && next!=no_slice)
+  if (SLICE_STARTER(pipe)==no_side && next!=no_slice)
   {
     stip_traverse_structure_children_pipe(pipe,st);
-    slices[pipe].starter = slices[next].starter;
+    SLICE_STARTER(pipe) = SLICE_STARTER(next);
   }
 
   TraceFunctionExit(__func__);
@@ -238,12 +238,12 @@ void stip_spin_off_testers_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].tester = copy_slice(si);
+  SLICE_TESTER(si) = copy_slice(si);
 
-  if (slices[si].next1!=no_slice)
+  if (SLICE_NEXT1(si)!=no_slice)
   {
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+    link_to_branch(SLICE_TESTER(si),SLICE_TESTER(SLICE_NEXT1(si)));
   }
 
   TraceFunctionExit(__func__);
@@ -261,12 +261,12 @@ void stip_spin_off_testers_pipe_skip(slice_index si, stip_structure_traversal *s
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].tester = alloc_proxy_slice();
+  SLICE_TESTER(si) = alloc_proxy_slice();
 
-  if (slices[si].next1!=no_slice)
+  if (SLICE_NEXT1(si)!=no_slice)
   {
     stip_traverse_structure_children_pipe(si,st);
-    link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
+    link_to_branch(SLICE_TESTER(si),SLICE_TESTER(SLICE_NEXT1(si)));
   }
 
   TraceFunctionExit(__func__);

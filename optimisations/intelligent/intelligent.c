@@ -328,7 +328,7 @@ void solve_target_position(void)
 
   reset_nr_solutions_per_target_position();
 
-  solve(slices[current_start_slice].next1);
+  solve(SLICE_NEXT1(current_start_slice));
 
   if (solve_result<=MOVE_HAS_SOLVED_LENGTH())
     solutions_found = true;
@@ -531,7 +531,7 @@ static void goal_to_be_reached_goal(slice_index si,
   TraceFunctionParamListEnd();
 
   assert(*goal==no_goal);
-  *goal = slices[si].u.goal_handler.goal.type;
+  *goal = SLICE_U(si).goal_handler.goal.type;
 
   stip_traverse_structure_children(si,st);
 
@@ -652,8 +652,8 @@ goalreachable_guards_duplicate_avoider_inserter(slice_index si,
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.goal_handler.goal.type==goal_mate
-      || slices[si].u.goal_handler.goal.type==goal_stale)
+  if (SLICE_U(si).goal_handler.goal.type==goal_mate
+      || SLICE_U(si).goal_handler.goal.type==goal_stale)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STIntelligentDuplicateAvoider),
@@ -733,11 +733,11 @@ static slice_index find_goal_tester_fork(slice_index si)
                                                         si,
                                                         stip_traversal_context_intro);
       assert(branch_goal!=no_slice);
-      result = find_goal_tester_fork(slices[branch_goal].next2);
+      result = find_goal_tester_fork(SLICE_NEXT2(branch_goal));
     }
     else
       result = branch_find_slice(STGoalReachedTester,
-                                 slices[branch_goal_fork].next2,
+                                 SLICE_NEXT2(branch_goal_fork),
                                  stip_traversal_context_intro);
   }
 
@@ -896,7 +896,7 @@ static void intelligent_mode_support_goal_tester(slice_index si,
                                                  stip_structure_traversal *st)
 {
   detector_state_type * const state = st->param;
-  goal_type const goal = slices[si].u.goal_handler.goal.type;
+  goal_type const goal = SLICE_U(si).goal_handler.goal.type;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

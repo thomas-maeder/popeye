@@ -121,7 +121,7 @@ void extinction_extincted_tester_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    Side const side_in_check = slices[si].starter;
+    Side const side_in_check = SLICE_STARTER(si);
     piece_walk_type const capturee = find_capturee();
 
     TraceWalk(capturee);

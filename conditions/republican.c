@@ -295,9 +295,9 @@ void republican_king_placer_solve(slice_index si)
 
   update_king_squares();
 
-  if (being_solved.king_square[advers(slices[si].starter)]==initsquare)
+  if (being_solved.king_square[advers(SLICE_STARTER(si))]==initsquare)
   {
-    determine_king_placement(slices[si].starter);
+    determine_king_placement(SLICE_STARTER(si));
 
     if (king_placement[nbply]==king_not_placed)
     {
@@ -306,7 +306,7 @@ void republican_king_placer_solve(slice_index si)
     }
     else
     {
-      place_king(slices[si].starter);
+      place_king(SLICE_STARTER(si));
       pipe_solve_delegate(si);
 
       if (!post_move_iteration_locked[nbply])

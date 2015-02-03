@@ -41,7 +41,7 @@ void battle_branch_insert_defense_check_zigzag(slice_index adapter)
     assert(deadend!=no_slice);
     pipe_link(condition,alloc_true_slice());
     defense_branch_insert_slices(ready,&landing_proto,1);
-    pipe_link(proxy2,slices[deadend].next1);
+    pipe_link(proxy2,SLICE_NEXT1(deadend));
     /* the dummy move is needed to make sure that the killer move mechanism
      * applies to the same play whether the attacker has delivered check or not
      * TODO only insert the dummy move if the killer move optimisation is used
@@ -74,7 +74,7 @@ static slice_index help_branch_locate_ready(slice_index si)
   result = branch_find_slice(STReadyForHelpMove,result,stip_traversal_context_help);
   assert(result!=no_slice);
 
-  while ((slices[result].u.branch.length-slack_length)%2!=0)
+  while ((SLICE_U(result).branch.length-slack_length)%2!=0)
   {
     slice_index const next = branch_find_slice(STReadyForHelpMove,
                                                result,
@@ -116,7 +116,7 @@ void help_branch_insert_check_zigzag(slice_index adapter)
     assert(ready!=no_slice);
     pipe_link(condition,alloc_true_slice());
     help_branch_insert_slices(ready,&landing_proto,1);
-    pipe_link(proxy2,slices[ready].next1);
+    pipe_link(proxy2,SLICE_NEXT1(ready));
     pipe_link(proxy1,played);
     pipe_link(ready,jump);
 

@@ -16,7 +16,7 @@ slice_index alloc_output_latex_tree_end_of_solution_writer_slice(FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTreeEndOfSolutionWriter);
-  slices[result].u.writer.file = file;
+  SLICE_U(result).writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -51,7 +51,7 @@ void output_latex_tree_end_of_solution_writer_solve(slice_index si)
   if (move_has_solved())
   {
     TraceText("has solved\n");
-    fputs("\n",slices[si].u.writer.file);
+    fputs("\n",SLICE_U(si).writer.file);
   }
 
   TraceFunctionExit(__func__);

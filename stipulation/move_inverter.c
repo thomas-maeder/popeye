@@ -51,19 +51,19 @@ void move_inverter_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].starter==no_side)
+  if (SLICE_STARTER(si)==no_side)
   {
-    slice_index const next = slices[si].next1;
+    slice_index const next = SLICE_NEXT1(si);
     Side next_starter;
     stip_traverse_structure_children_pipe(si,st);
-    next_starter = slices[next].starter;
+    next_starter = SLICE_STARTER(next);
     if (next_starter!=no_side)
-      slices[si].starter = (next_starter==no_side
+      SLICE_STARTER(si) = (next_starter==no_side
                             ? no_side
                             : advers(next_starter));
   }
 
-  TraceValue("->%u\n",slices[si].starter);
+  TraceValue("->%u\n",SLICE_STARTER(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

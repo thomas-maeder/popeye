@@ -8,7 +8,7 @@ static moves_visitor_map_type moves_children_traversers = { { 0 } };
 
 static void stip_traverse_moves_pipe(slice_index si, stip_moves_traversal *st)
 {
-  slice_index const next = slices[si].next1;
+  slice_index const next = SLICE_NEXT1(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -57,7 +57,7 @@ static void stip_traverse_moves_attack_adapter(slice_index si,
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length;
+    st->full_length = SLICE_U(si).branch.length-slack_length;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     st->context = stip_traversal_context_attack;
@@ -86,7 +86,7 @@ static void stip_traverse_moves_defense_adapter(slice_index si,
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length;
+    st->full_length = SLICE_U(si).branch.length-slack_length;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     st->context = stip_traversal_context_defense;
@@ -145,7 +145,7 @@ static void stip_traverse_moves_help_adapter(slice_index si,
   {
     assert(st->remaining==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
     assert(st->full_length==STIP_MOVES_TRAVERSAL_LENGTH_UNINITIALISED);
-    st->full_length = slices[si].u.branch.length-slack_length;
+    st->full_length = SLICE_U(si).branch.length-slack_length;
     TraceValue("->%u\n",st->full_length);
     st->remaining = st->full_length;
     st->context = stip_traversal_context_help;
@@ -171,7 +171,7 @@ static void stip_traverse_moves_setplay_fork(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_moves_pipe(si,st);
-  stip_traverse_moves_branch(slices[si].next2,st);
+  stip_traverse_moves_branch(SLICE_NEXT2(si),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -233,10 +233,10 @@ static void stip_traverse_moves_fork_on_remaining(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (st->remaining<=slices[si].u.fork_on_remaining.threshold)
-    stip_traverse_moves(slices[si].next2,st);
+  if (st->remaining<=SLICE_U(si).fork_on_remaining.threshold)
+    stip_traverse_moves(SLICE_NEXT2(si),st);
   else
-    stip_traverse_moves(slices[si].next1,st);
+    stip_traverse_moves(SLICE_NEXT1(si),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -263,7 +263,7 @@ static void stip_traverse_moves_end_of_branch(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_moves_branch(slices[si].next2,st);
+  stip_traverse_moves_branch(SLICE_NEXT2(si),st);
   stip_traverse_moves_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -282,8 +282,8 @@ void stip_traverse_moves_binary_operand1(slice_index binary_slice,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  if (slices[binary_slice].next1!=no_slice)
-    stip_traverse_moves(slices[binary_slice].next1,st);
+  if (SLICE_NEXT1(binary_slice)!=no_slice)
+    stip_traverse_moves(SLICE_NEXT1(binary_slice),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -301,8 +301,8 @@ void stip_traverse_moves_binary_operand2(slice_index binary_slice,
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  if (slices[binary_slice].next2!=no_slice)
-    stip_traverse_moves(slices[binary_slice].next2,st);
+  if (SLICE_NEXT2(binary_slice)!=no_slice)
+    stip_traverse_moves(SLICE_NEXT2(binary_slice),st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -329,14 +329,14 @@ static void stip_traverse_moves_testing_pipe_tester(slice_index testing_pipe,
   TraceFunctionParam("%u",testing_pipe);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_contextual_type(slices[testing_pipe].type)
+  assert(slice_type_get_contextual_type(SLICE_TYPE(testing_pipe))
          ==slice_contextual_testing_pipe);
 
-  if (slices[testing_pipe].next2!=no_slice)
+  if (SLICE_NEXT2(testing_pipe)!=no_slice)
   {
     stip_traversal_activity_type const save_activity = st->activity;
     st->activity = stip_traversal_activity_testing;
-    stip_traverse_moves(slices[testing_pipe].next2,st);
+    stip_traverse_moves(SLICE_NEXT2(testing_pipe),st);
     st->activity = save_activity;
   }
 
@@ -368,11 +368,11 @@ static void stip_traverse_moves_conditional_pipe_tester(slice_index conditional_
   TraceFunctionParam("%p",st);
   TraceFunctionParamListEnd();
 
-  assert(slice_type_get_contextual_type(slices[conditional_pipe].type)
+  assert(slice_type_get_contextual_type(SLICE_TYPE(conditional_pipe))
          ==slice_contextual_conditional_pipe);
 
   st->activity = stip_traversal_activity_testing;
-  stip_traverse_moves_branch(slices[conditional_pipe].next2,st);
+  stip_traverse_moves_branch(SLICE_NEXT2(conditional_pipe),st);
   st->activity = save_activity;
 
   TraceFunctionExit(__func__);
@@ -607,12 +607,12 @@ void stip_traverse_moves(slice_index root, stip_moves_traversal *st)
 
   TraceValue("%u\n",st->remaining);
 
-  TraceEnumerator(slice_type,slices[root].type,"\n");
-  assert(slices[root].type<=nr_slice_types);
+  TraceEnumerator(slice_type,SLICE_TYPE(root),"\n");
+  assert(SLICE_TYPE(root)<=nr_slice_types);
 
   if (st->remaining_watermark[root]<=st->remaining)
   {
-    stip_moves_visitor const operation = st->map.visitors[slices[root].type];
+    stip_moves_visitor const operation = st->map.visitors[SLICE_TYPE(root)];
     assert(operation!=0);
     (*operation)(root,st);
     st->remaining_watermark[root] = st->remaining+1;
@@ -643,11 +643,11 @@ void stip_traverse_moves_children(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  assert(slices[si].type<=nr_slice_types);
+  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  assert(SLICE_TYPE(si)<=nr_slice_types);
 
   {
-    slice_type const type = slices[si].type;
+    slice_type const type = SLICE_TYPE(si);
     stip_moves_visitor const operation = moves_children_traversers.visitors[type];
     assert(operation!=0);
     (*operation)(si,st);

@@ -62,7 +62,7 @@ static void remember_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *mode = slices[si].u.output_mode_selector.mode;
+  *mode = SLICE_U(si).output_mode_selector.mode;
   stip_traverse_structure_children_pipe(si,st);
   *mode = save_mode;
 
@@ -83,7 +83,7 @@ static void trivial_varation_filter_insert_self(slice_index si,
       && st->context==stip_traversal_context_attack)
   {
     slice_index const prototype = alloc_trivial_end_filter_slice();
-    attack_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+    attack_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
   }
 
   stip_traverse_structure_children(si,st);
@@ -100,9 +100,9 @@ static void connect_to_tester(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  slices[si].tester = alloc_proxy_slice();
-  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
-  slices[si].next2 = slices[si].tester;
+  SLICE_TESTER(si) = alloc_proxy_slice();
+  link_to_branch(SLICE_TESTER(si),SLICE_TESTER(SLICE_NEXT1(si)));
+  SLICE_NEXT2(si) = SLICE_TESTER(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

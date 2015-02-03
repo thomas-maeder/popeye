@@ -15,7 +15,7 @@ slice_index alloc_output_latex_tree_check_writer_slice(FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTreeCheckWriter);
-  slices[result].u.writer.file = file;
+  SLICE_U(result).writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -42,8 +42,8 @@ void output_latex_tree_check_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_in_check(slices[si].starter))
-    fputs(" +",slices[si].u.writer.file);
+  if (is_in_check(SLICE_STARTER(si)))
+    fputs(" +",SLICE_U(si).writer.file);
 
   pipe_solve_delegate(si);
 

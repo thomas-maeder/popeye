@@ -30,7 +30,7 @@ stip_length_type fork_solve(slice_index si, stip_length_type n)
 
   solve_nr_remaining = n;
 
-  solve(slices[si].next2);
+  solve(SLICE_NEXT2(si));
   result = solve_result;
 
   solve_nr_remaining = save_solve_nr_remaining;

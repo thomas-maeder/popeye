@@ -267,7 +267,7 @@ typedef struct
 static void init_slice_properties_pipe(slice_index pipe,
                                        stip_structure_traversal *st)
 {
-  slice_index const next = slices[pipe].next1;
+  slice_index const next = SLICE_NEXT1(pipe);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",pipe);
@@ -337,8 +337,8 @@ static void init_slice_properties_binary(slice_index fork,
 
   unsigned int const save_valueOffset = sis->valueOffset;
 
-  slice_index const op1 = slices[fork].next1;
-  slice_index const op2 = slices[fork].next2;
+  slice_index const op1 = SLICE_NEXT1(fork);
+  slice_index const op2 = SLICE_NEXT2(fork);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",fork);
@@ -382,8 +382,8 @@ static void init_slice_properties_attack_hashed(slice_index si,
                                                 stip_structure_traversal *st)
 {
   slice_initializer_state * const sis = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
   unsigned int const size = bit_width((length-min_length+1)/2);
   data_type const mask = (1<<size)-1;
 
@@ -428,8 +428,8 @@ static void init_slice_properties_attack_hashed(slice_index si,
 static void init_slice_property_help(slice_index si,
                                      slice_initializer_state *sis)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
   unsigned int const size = bit_width((length-min_length+1)/2+1);
   data_type const mask = (1<<size)-1;
 
@@ -471,11 +471,11 @@ static void init_slice_properties_hashed_help(slice_index si,
                                                   si,
                                                   stip_traversal_context_help);
 
-    stip_length_type const length = slices[si].u.branch.length;
+    stip_length_type const length = SLICE_U(si).branch.length;
     unsigned int const width = bit_width((length-slack_length+1)/2);
 
     if (sibling!=no_slice
-        && slices[sibling].u.branch.length>slack_length
+        && SLICE_U(sibling).branch.length>slack_length
         && get_stip_structure_traversal_state(sibling,st)==slice_not_traversed)
     {
       assert(sibling!=si);
@@ -735,7 +735,7 @@ static hash_value_type get_value_help(hashElement_union_t const *hue,
 static hash_value_type own_value_of_data_solve(hashElement_union_t const *hue,
                                                 slice_index si)
 {
-  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const length = SLICE_U(si).branch.length;
   hash_value_type result;
   hash_value_type success;
   hash_value_type nosuccess;
@@ -804,10 +804,10 @@ static hash_value_type value_of_data_from_slice(hashElement_union_t const *hue,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[si].type," ");
+  TraceEnumerator(slice_type,SLICE_TYPE(si)," ");
   TraceValue("%u\n",slice_properties[si].valueOffset);
 
-  switch (slices[si].type)
+  switch (SLICE_TYPE(si))
   {
     case STAttackHashed:
       result = own_value_of_data_solve(hue,si) << offset;
@@ -1069,8 +1069,8 @@ static unsigned int estimateNumberOfHoles(void)
   for (i = 0; i<nr_hash_slices && !result; ++i)
   {
     slice_index const si = hash_slices[i];
-    stip_length_type const length = slices[si].u.branch.length;
-    switch (slices[si].type)
+    stip_length_type const length = SLICE_U(si).branch.length;
+    switch (SLICE_TYPE(si))
     {
       case STAttackHashed:
         result += (length-slack_length)/2;
@@ -1574,12 +1574,12 @@ static void init_elements(hashElement_union_t *hue)
   for (i = 0; i!=nr_hash_slices; ++i)
   {
     slice_index const si = hash_slices[i];
-    switch (slices[si].type)
+    switch (SLICE_TYPE(si))
     {
       case STAttackHashed:
       {
-        stip_length_type const length = slices[si].u.branch.length;
-        stip_length_type const min_length = slices[si].u.branch.min_length;
+        stip_length_type const length = SLICE_U(si).branch.length;
+        stip_length_type const min_length = SLICE_U(si).branch.min_length;
         set_value_attack_nosuccess(hue,si,0);
         set_value_attack_success(hue,si,(length-min_length+1)/2);
         break;
@@ -1684,8 +1684,8 @@ static boolean is_proofgame(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
-  if (slices[si].type==STIntelligentStalemateFilter
-      || slices[si].type==STIntelligentMateFilter)
+  if (SLICE_TYPE(si)==STIntelligentStalemateFilter
+      || SLICE_TYPE(si)==STIntelligentMateFilter)
     st.context = stip_traversal_context_help;
   stip_structure_traversal_override_single(&st,
                                            STGoalProofgameReachedTester,
@@ -1879,10 +1879,10 @@ static void spin_off_tester_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].tester = alloc_pipe(STAttackHashedTester);
-  slices[slices[si].tester].u.derived_pipe.base = si;
+  SLICE_TESTER(si) = alloc_pipe(STAttackHashedTester);
+  SLICE_U(SLICE_TESTER(si)).derived_pipe.base = si;
   stip_traverse_structure_children_pipe(si,st);
-  pipe_append(slices[slices[si].prev].tester,slices[si].tester);
+  pipe_append(SLICE_TESTER(SLICE_PREV(si)),SLICE_TESTER(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1899,10 +1899,10 @@ static void spin_off_tester_help(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].tester = alloc_pipe(STHelpHashedTester);
-  slices[slices[si].tester].u.derived_pipe.base = si;
+  SLICE_TESTER(si) = alloc_pipe(STHelpHashedTester);
+  SLICE_U(SLICE_TESTER(si)).derived_pipe.base = si;
   stip_traverse_structure_children_pipe(si,st);
-  pipe_append(slices[slices[si].prev].tester,slices[si].tester);
+  pipe_append(SLICE_TESTER(SLICE_PREV(si)),SLICE_TESTER(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1922,8 +1922,8 @@ static void insert_hash_element_attack(slice_index si,
                                        stip_structure_traversal *st)
 {
   insertion_state_type const * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1949,7 +1949,7 @@ static void insert_hash_element_help(slice_index si,
                                      stip_structure_traversal *st)
 {
   insertion_state_type const * const state = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const length = SLICE_U(si).branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1957,7 +1957,7 @@ static void insert_hash_element_help(slice_index si,
 
   if (state->previous_move_slice!=no_slice && length>slack_length)
   {
-    stip_length_type min_length = slices[si].u.branch.min_length;
+    stip_length_type min_length = SLICE_U(si).branch.min_length;
     if (min_length<slack_length)
       min_length += 2;
 
@@ -2058,8 +2058,8 @@ void solving_insert_hashing(slice_index si)
   {
     slice_index const opener = alloc_pipe(STHashOpener);
     pipe_append(si,opener);
-    slices[opener].tester = alloc_proxy_slice();
-    pipe_append(slices[si].tester,slices[opener].tester);
+    SLICE_TESTER(opener) = alloc_proxy_slice();
+    pipe_append(SLICE_TESTER(si),SLICE_TESTER(opener));
   }
 
   inithash(si);
@@ -2087,7 +2087,7 @@ void attack_hashed_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert((slices[si].u.branch.length-solve_nr_remaining)%2==0);
+  assert((SLICE_U(si).branch.length-solve_nr_remaining)%2==0);
 
   pipe_solve_delegate(si);
 
@@ -2181,7 +2181,7 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
                                           stip_length_type min_length_adjusted)
 {
   stip_length_type result;
-  slice_index const base = slices[si].u.derived_pipe.base;
+  slice_index const base = SLICE_U(si).derived_pipe.base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2219,9 +2219,9 @@ stip_length_type delegate_can_attack_in_n(slice_index si,
 void attack_hashed_tester_solve(slice_index si)
 {
   dhtElement const *he;
-  slice_index const base = slices[si].u.derived_pipe.base;
-  stip_length_type const min_length = slices[base].u.branch.min_length;
-  stip_length_type const played = slices[base].u.branch.length-solve_nr_remaining;
+  slice_index const base = SLICE_U(si).derived_pipe.base;
+  stip_length_type const min_length = SLICE_U(base).branch.min_length;
+  stip_length_type const played = SLICE_U(base).branch.length-solve_nr_remaining;
   stip_length_type const min_length_adjusted = (min_length<played+slack_length-1
                                                 ? slack_length-(min_length-slack_length)%2
                                                 : min_length-played);
@@ -2232,7 +2232,7 @@ void attack_hashed_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert((solve_nr_remaining-slices[base].u.branch.length)%2==0);
+  assert((solve_nr_remaining-SLICE_U(base).branch.length)%2==0);
 
   (*encode)(min_length,validity_value);
 
@@ -2377,11 +2377,11 @@ void help_hashed_solve(slice_index si)
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   else
   {
-    if (slices[si].u.branch.min_length>slack_length+1)
+    if (SLICE_U(si).branch.min_length>slack_length+1)
     {
-      slices[si].u.branch.min_length -= 2;
+      SLICE_U(si).branch.min_length -= 2;
       pipe_solve_delegate(si);
-      slices[si].u.branch.min_length += 2;
+      SLICE_U(si).branch.min_length += 2;
     }
     else
       pipe_solve_delegate(si);
@@ -2409,7 +2409,7 @@ void help_hashed_solve(slice_index si)
  */
 void help_hashed_tester_solve(slice_index si)
 {
-  slice_index const base = slices[si].u.derived_pipe.base;
+  slice_index const base = SLICE_U(si).derived_pipe.base;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -2421,11 +2421,11 @@ void help_hashed_tester_solve(slice_index si)
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   else
   {
-    if (slices[base].u.branch.min_length>slack_length+1)
+    if (SLICE_U(base).branch.min_length>slack_length+1)
     {
-      slices[base].u.branch.min_length -= 2;
+      SLICE_U(base).branch.min_length -= 2;
       pipe_solve_delegate(si);
-      slices[base].u.branch.min_length += 2;
+      SLICE_U(base).branch.min_length += 2;
     }
     else
       pipe_solve_delegate(si);

@@ -20,7 +20,7 @@ slice_index alloc_output_latex_tree_move_writer_slice(FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXMoveWriter);
-  slices[result].u.writer.file = file;
+  SLICE_U(result).writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -59,12 +59,12 @@ void output_latex_tree_move_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(slices[si].u.writer.file,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
+  fprintf(SLICE_U(si).writer.file,"\n%*c%3u.",4*move_depth,' ',move_depth/2+1);
   if (move_depth%2==1)
-    fputs("..",slices[si].u.writer.file);
+    fputs("..",SLICE_U(si).writer.file);
 
   output_plaintext_write_move(&output_latex_engine,
-                              slices[si].u.writer.file,
+                              SLICE_U(si).writer.file,
                               &output_latex_symbol_table);
 
   pipe_solve_delegate(si);

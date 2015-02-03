@@ -76,8 +76,8 @@ static char *ParseReciGoal(char *tok,
           result = ParseGoal(tok+1,proxy_to_nonreci);
           if (result!=NULL)
           {
-            slice_index const nonreci = slices[proxy_to_nonreci].next1;
-            slices[nonreci].starter = Black;
+            slice_index const nonreci = SLICE_NEXT1(proxy_to_nonreci);
+            SLICE_STARTER(nonreci) = Black;
             alloc_reci_end(proxy_nonreci,proxy_reci,
                            proxy_to_nonreci,proxy_to_reci);
           }
@@ -95,12 +95,12 @@ static char *ParseReciGoal(char *tok,
     result = ParseGoal(tok,proxy_to_nonreci);
     if (result!=NULL)
     {
-      slice_index const nonreci_testing = slices[proxy_to_nonreci].next1;
-      slice_index const nonreci_tester = slices[nonreci_testing].next1;
+      slice_index const nonreci_testing = SLICE_NEXT1(proxy_to_nonreci);
+      slice_index const nonreci_tester = SLICE_NEXT1(nonreci_testing);
       slice_index const proxy_to_reci = stip_deep_copy(proxy_to_nonreci);
       alloc_reci_end(proxy_nonreci,proxy_reci,
                      proxy_to_nonreci,proxy_to_reci);
-      slices[nonreci_tester].starter = Black;
+      SLICE_STARTER(nonreci_tester) = Black;
     }
   }
 
@@ -124,7 +124,7 @@ static char *ParseReciEnd(char *tok, slice_index proxy)
   op2 = alloc_proxy_slice();
 
   tok = ParseReciGoal(tok,op1,op2);
-  if (slices[op1].next1!=no_slice && slices[op2].next1!=no_slice)
+  if (SLICE_NEXT1(op1)!=no_slice && SLICE_NEXT1(op2)!=no_slice)
   {
     slice_index const reci = alloc_and_slice(op1,op2);
     pipe_link(proxy,reci);
@@ -541,7 +541,7 @@ static char *ParsePlay(char *tok,
     else
     {
       result = ParsePlay(arrowpos+2,root_slice_hook,proxy_next,play_length);
-      if (result!=0 && slices[proxy_next].next1!=no_slice)
+      if (result!=0 && SLICE_NEXT1(proxy_next)!=no_slice)
       {
         /* >=1 move of starting side required */
         slice_index const branch = alloc_series_branch(2*intro_len-1,1);
@@ -556,7 +556,7 @@ static char *ParsePlay(char *tok,
   {
     /* skip over "ser-reci-h" */
     tok = ParseReciEnd(tok+10,proxy_next);
-    if (tok!=0 && slices[proxy_next].next1!=no_slice)
+    if (tok!=0 && SLICE_NEXT1(proxy_next)!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
@@ -617,10 +617,10 @@ static char *ParsePlay(char *tok,
       help_branch_set_end(proxy,help,1);
 
       {
-        slice_index const next = slices[proxy_next].next1;
+        slice_index const next = SLICE_NEXT1(proxy_next);
         assert(next!=no_slice);
-        if (slices[next].type==STGoalReachedTester
-            && slices[next].u.goal_handler.goal.type==goal_proofgame)
+        if (SLICE_TYPE(next)==STGoalReachedTester
+            && SLICE_U(next).goal_handler.goal.type==goal_proofgame)
           solving_impose_starter(proxy_next,White);
         else
           solving_impose_starter(proxy_next,Black);
@@ -741,13 +741,13 @@ static char *ParsePlay(char *tok,
                        play_length,shorten);
     if (result!=0)
     {
-      slice_index const to_goal = slices[proxy_next].next1;
+      slice_index const to_goal = SLICE_NEXT1(proxy_next);
       slice_index const nested = alloc_help_branch(1,1);
       help_branch_set_end_goal(nested,proxy_next,1);
       help_branch_set_end(proxy,nested,1);
       help_branch_insert_check_zigzag(proxy);
-      if (slices[to_goal].type==STGoalReachedTester
-          && slices[to_goal].u.goal_handler.goal.type==goal_proofgame)
+      if (SLICE_TYPE(to_goal)==STGoalReachedTester
+          && SLICE_U(to_goal).goal_handler.goal.type==goal_proofgame)
         solving_impose_starter(proxy_next,White);
       else
         solving_impose_starter(proxy_next,Black);
@@ -805,7 +805,7 @@ static char *ParsePlay(char *tok,
   {
     char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
                                      proxy_next);
-    if (tok2!=0 && slices[proxy_next].next1!=no_slice)
+    if (tok2!=0 && SLICE_NEXT1(proxy_next)!=no_slice)
     {
       stip_length_type length;
       stip_length_type min_length;
@@ -822,7 +822,7 @@ static char *ParsePlay(char *tok,
       {
         if (length==2)
         {
-          pipe_link(proxy,slices[proxy_next].next1);
+          pipe_link(proxy,SLICE_NEXT1(proxy_next));
           dealloc_slice(proxy_next);
         }
         else
@@ -974,7 +974,7 @@ char *ParseStip(slice_index root_slice_hook)
   strcpy(AlphaStip,tok);
   if (ParsePlay(tok,root_slice_hook,root_slice_hook,play_length_minimum))
   {
-    if (slices[root_slice_hook].next1!=no_slice
+    if (SLICE_NEXT1(root_slice_hook)!=no_slice
         && ActStip[0]=='\0')
       strcpy(ActStip, AlphaStip);
   }
@@ -982,7 +982,7 @@ char *ParseStip(slice_index root_slice_hook)
   tok = ReadNextTokStr();
 
   /* signal to our caller that the stipulation has changed */
-  slices[root_slice_hook].starter = no_side;
+  SLICE_STARTER(root_slice_hook) = no_side;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

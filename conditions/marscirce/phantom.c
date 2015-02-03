@@ -76,7 +76,7 @@ void phantom_avoid_duplicate_moves(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(SLICE_NEXT1(si));
 
   for (curr_from_sq_rebirth = start_moves_from_rebirth_square+1;
        curr_from_sq_rebirth<=CURRMOVE_OF_PLY(nbply);

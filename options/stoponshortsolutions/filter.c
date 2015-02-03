@@ -53,7 +53,7 @@ void stoponshortsolutions_solve(slice_index si)
   {
     pipe_solve_delegate(si);
     if (solve_result<=MOVE_HAS_SOLVED_LENGTH()
-        && solve_nr_remaining<slices[si].u.branch.length)
+        && solve_nr_remaining<SLICE_U(si).branch.length)
       short_solution_found();
   }
 

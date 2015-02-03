@@ -69,7 +69,7 @@ void kobul_king_substitutor_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   update_king_squares();
-  substitute(slices[si].starter);
+  substitute(SLICE_STARTER(si));
   pipe_solve_delegate(si);
 
   king_square_horizon = save_horizon;

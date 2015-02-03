@@ -48,9 +48,9 @@ stip_length_type doublemate_filter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (solve(slices[si].next2,slack_length)==slack_length+2)
+  if (solve(SLICE_NEXT2(si),slack_length)==slack_length+2)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
-  result = solve(slices[si].next1,n);
+  result = solve(SLICE_NEXT1(si),n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   TraceFunctionExit(__func__);

@@ -129,7 +129,7 @@ void ohneschach_stop_if_check_and_not_mate_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_in_check(slices[si].starter))
+  if (is_in_check(SLICE_STARTER(si)))
   {
     ohneschach_undecidable_goal_detected[nbply+1] = false;
 

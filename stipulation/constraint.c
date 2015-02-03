@@ -85,10 +85,10 @@ void constraint_tester_make_root(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (state->spun_off[slices[si].next1]!=no_slice)
+  if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
-    state->spun_off[si] = alloc_constraint_solver_slice(stip_deep_copy(slices[si].next2));
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    state->spun_off[si] = alloc_constraint_solver_slice(stip_deep_copy(SLICE_NEXT2(si)));
+    link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 
   TraceValue("%u\n",state->spun_off[si]);
@@ -111,10 +111,10 @@ void goal_constraint_tester_make_root(slice_index si, stip_structure_traversal *
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (state->spun_off[slices[si].next1]!=no_slice)
+  if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
-    state->spun_off[si] = alloc_goal_constraint_tester_slice(stip_deep_copy(slices[si].next2));
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    state->spun_off[si] = alloc_goal_constraint_tester_slice(stip_deep_copy(SLICE_NEXT2(si)));
+    link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 
   TraceValue("%u\n",state->spun_off[si]);
@@ -148,10 +148,10 @@ static void remove_constraint_if_irrelevant(slice_index si, stip_structure_trave
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_constraint_irrelevant(slices[si].next2))
+  if (is_constraint_irrelevant(SLICE_NEXT2(si)))
   {
     stip_traverse_structure_children_pipe(si,st);
-    dealloc_slices(slices[si].next2);
+    dealloc_slices(SLICE_NEXT2(si));
     pipe_remove(si);
   }
   else

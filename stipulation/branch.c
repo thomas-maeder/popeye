@@ -23,8 +23,8 @@ slice_index alloc_branch(slice_type type,
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].u.branch.length = length;
-  slices[result].u.branch.min_length = min_length;
+  SLICE_U(result).branch.length = length;
+  SLICE_U(result).branch.min_length = min_length;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +46,7 @@ static void branch_find_slice_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==state->to_be_found)
+  if (SLICE_TYPE(si)==state->to_be_found)
     state->result = si;
   else
     stip_traverse_structure_children_pipe(si,st);
@@ -63,7 +63,7 @@ static void branch_find_slice_binary(slice_index si, stip_structure_traversal *s
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type==state->to_be_found)
+  if (SLICE_TYPE(si)==state->to_be_found)
     state->result = si;
   else
   {
@@ -144,7 +144,7 @@ void link_to_branch(slice_index pipe, slice_index entry)
   TraceFunctionParam("%u",entry);
   TraceFunctionParamListEnd();
 
-  if (slices[entry].prev==no_slice)
+  if (SLICE_PREV(entry)==no_slice)
     pipe_link(pipe,entry);
   else
     pipe_set_successor(pipe,entry);
@@ -162,7 +162,7 @@ static void shorten_pipe(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type!=*end_type)
+  if (SLICE_TYPE(si)!=*end_type)
     stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -177,11 +177,11 @@ static void shorten_branch(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].type!=*end_type)
+  if (SLICE_TYPE(si)!=*end_type)
   {
     stip_traverse_structure_children_pipe(si,st);
-    slices[si].u.branch.length -= 2;
-    slices[si].u.branch.min_length -= 2;
+    SLICE_U(si).branch.length -= 2;
+    SLICE_U(si).branch.min_length -= 2;
   }
 
   TraceFunctionExit(__func__);

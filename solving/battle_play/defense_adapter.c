@@ -23,7 +23,7 @@ void defense_adapter_make_intro(slice_index adapter,
   stip_traverse_structure_children_pipe(adapter,st);
 
   if (st->level==structure_traversal_level_nested
-      && slices[adapter].u.branch.length>slack_length)
+      && SLICE_U(adapter).branch.length>slack_length)
   {
     spin_off_state_type * const state = st->param;
     battle_spin_off_intro(adapter,state);
@@ -48,7 +48,7 @@ void defense_adapter_make_intro(slice_index adapter,
  */
 void defense_adapter_solve(slice_index si)
 {
-  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const length = SLICE_U(si).branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

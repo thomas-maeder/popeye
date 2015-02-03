@@ -44,7 +44,7 @@ void continuation_solver_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next2);
+  solve(SLICE_NEXT2(si));
 
   if (move_has_solved())
   {
@@ -55,7 +55,7 @@ void continuation_solver_solve(slice_index si)
 
     if (solve_nr_remaining>solve_result)
       solve_nr_remaining = solve_result;
-    solve(slices[si].next1);
+    solve(SLICE_NEXT1(si));
     solve_nr_remaining = save_solve_nr_remaining;
 
     assert(solve_result==test_result);
@@ -75,7 +75,7 @@ static void insert_continuation_solvers_postkey_play(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (st->level!=structure_traversal_level_top
-      && slices[si].u.branch.length>slack_length)
+      && SLICE_U(si).branch.length>slack_length)
   {
     slice_index const prototype = alloc_continuation_solver_slice();
     slice_insertion_insert(si,&prototype,1);

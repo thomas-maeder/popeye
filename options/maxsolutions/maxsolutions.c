@@ -179,7 +179,7 @@ static void insert_counter(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_help && !*inserted)
   {
     slice_index const prototype = alloc_maxsolutions_counter_slice();
-    slice_insertion_insert(slices[si].next2,&prototype,1);
+    slice_insertion_insert(SLICE_NEXT2(si),&prototype,1);
     *inserted = true;
   }
 
@@ -200,7 +200,7 @@ static void insert_counter_at_goal(slice_index si, stip_structure_traversal *st)
   if (st->context==stip_traversal_context_help && !*inserted)
   {
     slice_index const prototype = alloc_maxsolutions_counter_slice();
-    help_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+    help_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
     *inserted = true;
   }
 
@@ -221,7 +221,7 @@ static void insert_counter_in_forced_branch(slice_index si, stip_structure_trave
   if (st->context==stip_traversal_context_help && !*inserted)
   {
     slice_index const prototype = alloc_maxsolutions_counter_slice();
-    slice_insertion_insert(slices[si].next2,&prototype,1);
+    slice_insertion_insert(SLICE_NEXT2(si),&prototype,1);
     *inserted = true;
   }
 

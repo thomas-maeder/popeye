@@ -343,7 +343,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
       {
         fpos_t const beforeStip = InputGetPosition();
 
-        slice_index const next = slices[root_slice_hook].next1;
+        slice_index const next = SLICE_NEXT1(root_slice_hook);
         pipe_unlink(root_slice_hook);
         dealloc_slices(next);
 
@@ -355,7 +355,7 @@ static char *ParseTwinning(slice_index root_slice_hook)
       {
         fpos_t const beforeStip = InputGetPosition();
 
-        slice_index const next = slices[root_slice_hook].next1;
+        slice_index const next = SLICE_NEXT1(root_slice_hook);
         pipe_unlink(root_slice_hook);
         dealloc_slices(next);
 
@@ -519,7 +519,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
           break;
 
         case StipToken:
-          if (slices[root_slice_hook].next1==no_slice)
+          if (SLICE_NEXT1(root_slice_hook)==no_slice)
           {
             fpos_t const beforeCond = InputGetPosition();
             *AlphaStip='\0';
@@ -672,7 +672,7 @@ static Token ReadSubsequentTwin(slice_index root_slice_hook)
       switch (result)
       {
         case TwinProblem:
-          if (slices[root_slice_hook].next1==no_slice)
+          if (SLICE_NEXT1(root_slice_hook)==no_slice)
           {
             output_plaintext_input_error_message(NoStipulation,0);
             tok = ReadNextTokStr();
@@ -748,7 +748,7 @@ static meaning_of_whitetoplay detect_meaning_of_whitetoplay(slice_index si)
  */
 static boolean apply_whitetoplay(slice_index proxy)
 {
-  slice_index next = slices[proxy].next1;
+  slice_index next = SLICE_NEXT1(proxy);
   boolean result = false;
   meaning_of_whitetoplay meaning;
 
@@ -760,11 +760,11 @@ static boolean apply_whitetoplay(slice_index proxy)
 
   meaning = detect_meaning_of_whitetoplay(next);
 
-  while (slices[next].type==STProxy || slices[next].type==STOutputModeSelector)
-    next = slices[next].next1;
+  while (SLICE_TYPE(next)==STProxy || SLICE_TYPE(next)==STOutputModeSelector)
+    next = SLICE_NEXT1(next);
 
-  TraceEnumerator(slice_type,slices[next].type,"\n");
-  switch (slices[next].type)
+  TraceEnumerator(slice_type,SLICE_TYPE(next),"\n");
+  switch (SLICE_TYPE(next))
   {
     case STHelpAdapter:
     {
@@ -777,7 +777,7 @@ static boolean apply_whitetoplay(slice_index proxy)
       else
       {
         stip_detect_starter(proxy);
-        solving_impose_starter(proxy,advers(slices[proxy].starter));
+        solving_impose_starter(proxy,advers(SLICE_STARTER(proxy)));
       }
       result = true;
       break;
@@ -845,10 +845,10 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  if (slices[stipulation_root_hook].starter==no_side)
+  if (SLICE_STARTER(stipulation_root_hook)==no_side)
     complete_stipulation(stipulation_root_hook);
 
-  if (slices[slices[stipulation_root_hook].next1].starter==no_side)
+  if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
     output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
   else
   {
@@ -894,7 +894,7 @@ static Token twins_handle(slice_index stipulation_root_hook)
   {
     result = ReadSubsequentTwin(stipulation_root_hook);
 
-    if (slices[stipulation_root_hook].next1==no_slice)
+    if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
       output_plaintext_input_error_message(NoStipulation,0);
     else
     {
@@ -933,7 +933,7 @@ Token input_plaintext_twins_iterate(Token end_of_initial_twin,
     end_of_twins = ReadSubsequentTwin(stipulation_root_hook);
     if (end_of_twins!=TwinProblem)
       output_plaintext_input_error_message(ZeroPositionNoTwin,0);
-    else if (slices[stipulation_root_hook].next1==no_slice)
+    else if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
       output_plaintext_input_error_message(NoStipulation,0);
     else
     {

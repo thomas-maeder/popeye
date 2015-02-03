@@ -511,7 +511,7 @@ void orthodox_mating_move_generator_solve(slice_index si)
 
   assert(solve_nr_remaining==slack_length+1);
 
-  nextply(slices[si].starter);
+  nextply(SLICE_STARTER(si));
   generate_move_reaching_goal();
   pipe_solve_delegate(si);
 

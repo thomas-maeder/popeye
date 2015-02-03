@@ -53,7 +53,7 @@ void move_player_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  play_move(slices[si].starter);
+  play_move(SLICE_STARTER(si));
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

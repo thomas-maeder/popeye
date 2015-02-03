@@ -107,7 +107,7 @@ static void insert_avoid_unsolvable(slice_index si, stip_structure_traversal *st
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const fork = alloc_avoid_unsolvable_slice(proxy1,proxy2);
-    pipe_link(slices[si].prev,fork);
+    pipe_link(SLICE_PREV(si),fork);
     pipe_append(si,proxy2);
     pipe_link(proxy1,si);
   }

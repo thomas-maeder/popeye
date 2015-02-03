@@ -99,7 +99,7 @@ void duellists_remember_duellist_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    remember_duellist(slices[si].starter,pos);
+    remember_duellist(SLICE_STARTER(si),pos);
     pipe_solve_delegate(si);
   }
 

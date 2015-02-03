@@ -36,7 +36,7 @@ void double_tibet_solve(slice_index si)
 
   if (move_effect_journal[capture].type==move_effect_piece_removal
       && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.walk)
-    andernach_assume_side(advers(slices[si].starter));
+    andernach_assume_side(advers(SLICE_STARTER(si)));
 
   pipe_solve_delegate(si);
 
@@ -83,10 +83,10 @@ void tibet_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].starter==Black
+  if (SLICE_STARTER(si)==Black
       && move_effect_journal[capture].type==move_effect_piece_removal
       && get_walk_of_piece_on_square(sq_arrival)!=move_effect_journal[capture].u.piece_removal.walk)
-    andernach_assume_side(advers(slices[si].starter));
+    andernach_assume_side(advers(SLICE_STARTER(si)));
 
   pipe_solve_delegate(si);
 

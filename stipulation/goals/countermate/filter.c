@@ -49,9 +49,9 @@ stip_length_type countermate_filter_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  if (solve(slices[si].next2,slack_length)==slack_length)
+  if (solve(SLICE_NEXT2(si),slack_length)==slack_length)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
-  result = solve(slices[si].next1,n);
+  result = solve(SLICE_NEXT1(si),n);
   CLRFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   TraceFunctionExit(__func__);

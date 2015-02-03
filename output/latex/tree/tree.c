@@ -39,7 +39,7 @@ static void insert_zugzwang_writer(slice_index si, stip_structure_traversal *st)
       alloc_output_latex_tree_move_writer_slice(file)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,nr_prototypes,si);
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),prototypes,nr_prototypes,si);
   }
 
   TraceFunctionExit(__func__);
@@ -102,10 +102,10 @@ static void insert_goal_writer(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.goal_handler.goal.type!=no_goal)
+  if (SLICE_U(si).goal_handler.goal.type!=no_goal)
   {
     FILE *file = st->param;
-    slice_index const prototype = alloc_output_latex_goal_writer_slice(slices[si].u.goal_handler.goal,
+    slice_index const prototype = alloc_output_latex_goal_writer_slice(SLICE_U(si).goal_handler.goal,
                                                                        file);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
@@ -351,7 +351,7 @@ static void insert_key_writer_goal(slice_index si, stip_structure_traversal *st)
   {
     insertion_state_type *state = st->param;
     slice_index const prototype = alloc_output_latex_tree_key_writer(state->file);
-    defense_branch_insert_slices_behind_proxy(slices[si].next2,
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),
                                               &prototype,1,
                                               si);
   }
@@ -369,7 +369,7 @@ static void get_fork_of_my_own(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   if (st->context==stip_traversal_context_defense)
-    slices[si].next2 = stip_deep_copy(slices[si].next2);
+    SLICE_NEXT2(si) = stip_deep_copy(SLICE_NEXT2(si));
 
   stip_traverse_structure_children(si,st);
 
@@ -449,7 +449,7 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
 
   assert(state->goal.type==no_goal);
 
-  state->goal = slices[si].u.goal_handler.goal;
+  state->goal = SLICE_U(si).goal_handler.goal;
   stip_traverse_structure_children(si,st);
   state->goal.type = no_goal;
 

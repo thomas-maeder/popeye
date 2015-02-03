@@ -51,7 +51,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.output_mode_selector.mode==output_mode_tree)
+  if (SLICE_U(si).output_mode_selector.mode==output_mode_tree)
     stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);

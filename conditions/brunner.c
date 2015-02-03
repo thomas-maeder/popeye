@@ -29,7 +29,7 @@ boolean brunner_validate_observation(slice_index si)
   PUSH_OBSERVATION_TARGET_AGAIN(nbply);
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -59,7 +59,7 @@ static void remove_move_generator(Side side)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMoveGenerator,&remove_first_generator);
-  stip_traverse_structure(slices[temporary_hack_brunner_check_defense_finder[side]].next2,
+  stip_traverse_structure(SLICE_NEXT2(temporary_hack_brunner_check_defense_finder[side]),
                           &st);
 
   TraceFunctionExit(__func__);

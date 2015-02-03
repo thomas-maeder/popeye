@@ -45,7 +45,7 @@ static void substitute_single_piece_move_generator(Side side)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMoveGenerator,&do_substitute);
-  stip_traverse_structure(slices[temporary_hack_cagecirce_noncapture_finder[side]].next2,&st);
+  stip_traverse_structure(SLICE_NEXT2(temporary_hack_cagecirce_noncapture_finder[side]),&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -110,7 +110,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_no_cage[nbply])
   {
     if (no_cage_for_current_capture[nbply])
-      dispatch(slices[si].next2);
+      dispatch(SLICE_NEXT2(si));
     else
     {
       pipe_dispatch_delegate(si);
@@ -182,7 +182,7 @@ void circe_cage_cage_tester_solve(slice_index si)
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
     if (rebirth<move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
       pipe_dispatch_delegate(si);
-    else if (find_non_capturing_move(rebirth,advers(slices[si].starter)))
+    else if (find_non_capturing_move(rebirth,advers(SLICE_STARTER(si))))
       solve_result = this_move_is_illegal;
     else
     {

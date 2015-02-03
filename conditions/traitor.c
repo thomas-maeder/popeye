@@ -37,7 +37,7 @@ void traitor_side_changer_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    if (slices[si].starter==Black
+    if (SLICE_STARTER(si)==Black
         && pos<=square_h4
         && !is_piece_neutral(being_solved.spec[pos]))
       move_effect_journal_do_side_change(move_effect_reason_traitor_defection,

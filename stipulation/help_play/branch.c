@@ -170,7 +170,7 @@ static void help_branch_insert_slices_impl(slice_index si,
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_help);
   move_init_slice_insertion_traversal(&st);
 
-  state.base_rank = get_slice_rank(slices[base].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(base),&state);
 
   stip_traverse_structure(si,&st);
 
@@ -195,7 +195,7 @@ void help_branch_insert_slices_nested(slice_index adapter,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter);
+  assert(SLICE_TYPE(adapter)==STHelpAdapter);
   help_branch_insert_slices_impl(adapter,prototypes,nr_prototypes,adapter);
 
   TraceFunctionExit(__func__);
@@ -254,7 +254,7 @@ static void increase_min_length_branch(slice_index si, stip_structure_traversal 
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  slices[si].u.branch.min_length += 2;
+  SLICE_U(si).branch.min_length += 2;
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
@@ -293,13 +293,13 @@ static void increase_min_length(slice_index si)
  */
 void help_branch_shorten(slice_index adapter)
 {
-  slice_index const next = slices[adapter].next1;
+  slice_index const next = SLICE_NEXT1(adapter);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter);
+  assert(SLICE_TYPE(adapter)==STHelpAdapter);
 
   {
     /* find the new spot for adapter by inserting a copy */
@@ -313,16 +313,16 @@ void help_branch_shorten(slice_index adapter)
                                                next,
                                                stip_traversal_context_help);
     assert(copy!=no_slice);
-    pipe_link(slices[adapter].prev,next);
+    pipe_link(SLICE_PREV(adapter),next);
     pipe_append(copy,adapter);
     pipe_remove(copy);
   }
 
   /* adjust the length and min_length members */
-  --slices[adapter].u.branch.length;
-  if (slices[adapter].u.branch.min_length<=0)
+  --SLICE_U(adapter).branch.length;
+  if (SLICE_U(adapter).branch.min_length<=0)
     increase_min_length(adapter);
-  --slices[adapter].u.branch.min_length;
+  --SLICE_U(adapter).branch.min_length;
   branch_shorten_slices(next,STHelpAdapter,stip_traversal_context_help);
 
   TraceFunctionExit(__func__);
@@ -386,7 +386,7 @@ static void remember_immobility(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].u.goal_filter.applies_to_who==goal_applies_to_starter)
+  if (SLICE_U(si).goal_filter.applies_to_who==goal_applies_to_starter)
     *goal_implies_immobility = true;
 
   TraceFunctionExit(__func__);
@@ -475,7 +475,7 @@ static slice_index help_branch_locate_played(slice_index si, unsigned int parity
     assert(played1!=no_slice);
     assert(played2!=no_slice);
 
-    if (slices[ready].u.branch.length%2==parity%2)
+    if (SLICE_U(ready).branch.length%2==parity%2)
       result = played1;
     else
       result = played2;
@@ -759,12 +759,12 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].next1]);
+  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
 
-  if (state->spun_off[slices[si].next1]!=no_slice)
+  if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
     state->spun_off[si] = copy_slice(si);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
 
   TraceValue("%u\n",state->spun_off[si]);
@@ -829,7 +829,7 @@ void help_make_root(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter);
+  assert(SLICE_TYPE(adapter)==STHelpAdapter);
 
   {
     slice_index const prototype = alloc_pipe(STEndOfRoot);
@@ -849,21 +849,21 @@ void help_make_root(slice_index adapter, spin_off_state_type *state)
  */
 void help_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
 {
-  stip_length_type const length = slices[adapter].u.branch.length;
-  stip_length_type min_length = slices[adapter].u.branch.min_length;
+  stip_length_type const length = SLICE_U(adapter).branch.length;
+  stip_length_type min_length = SLICE_U(adapter).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STHelpAdapter);
+  assert(SLICE_TYPE(adapter)==STHelpAdapter);
 
   if (min_length==0)
     min_length = 2;
 
   if (length>1)
   {
-    slice_index const next = slices[adapter].next1;
+    slice_index const next = SLICE_NEXT1(adapter);
     slice_index const prototypes[] =
     {
       alloc_help_adapter_slice(length-1,min_length-1),
@@ -966,7 +966,7 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
   TraceFunctionParamListEnd();
 
   {
-    slice_index const next = slices[adapter].next1;
+    slice_index const next = SLICE_NEXT1(adapter);
     slice_index const prototypes[] =
     {
       alloc_help_adapter_slice(0,0),
@@ -980,7 +980,7 @@ void series_branch_make_setplay(slice_index adapter, spin_off_state_type *state)
                                                         next,
                                                         stip_traversal_context_help);
       assert(set_adapter!=no_slice);
-      if (slices[slices[set_adapter].next1].type==STDeadEnd)
+      if (SLICE_TYPE(SLICE_NEXT1(set_adapter))==STDeadEnd)
         ; /* set play not applicable */
       else
         help_branch_make_root_slices(set_adapter,state);
@@ -1011,7 +1011,7 @@ void series_branch_insert_constraint(slice_index si, slice_index constraint)
   TraceStipulation(si);
   TraceStipulation(constraint);
 
-  assert(slices[constraint].type==STProxy);
+  assert(SLICE_TYPE(constraint)==STProxy);
 
   {
     slice_index const prototype = alloc_constraint_tester_slice(constraint);
@@ -1037,7 +1037,7 @@ void series_branch_insert_goal_constraint(slice_index si, slice_index constraint
   TraceStipulation(si);
   TraceStipulation(constraint);
 
-  assert(slices[constraint].type==STProxy);
+  assert(SLICE_TYPE(constraint)==STProxy);
 
   {
     slice_index const prototype = alloc_goal_constraint_tester_slice(constraint);

@@ -113,7 +113,7 @@ typedef boolean (*validator_id)(void);
 #include "solving/temporary_hacks.h"
 typedef slice_index validator_id;
 #define EVALUATE(key) (temporary_hack_##key##_validator[trait[nbply]])
-#define INVOKE_EVALUATE(validator) (validate_observation_recursive(slices[validator].next2))
+#define INVOKE_EVALUATE(validator) (validate_observation_recursive(SLICE_NEXT2(validator)))
 
 #define EVALUATE_OBSERVATION(evaluate,sq_departure,sq_arrival) \
   ( TSTFLAG(being_solved.spec[sq_departure],trait[nbply]) \

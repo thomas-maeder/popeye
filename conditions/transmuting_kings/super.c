@@ -85,7 +85,7 @@ static boolean generate_moves_of_supertransmuting_king(slice_index si)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
       numecoup curr_id = current_move_id[nbply];
-      generate_moves_different_walk(slices[si].next1,*ptrans);
+      generate_moves_different_walk(SLICE_NEXT1(si),*ptrans);
       for (; curr_id<current_move_id[nbply]; ++curr_id)
         supertransmutation[curr_id] = *ptrans;
       result = true;
@@ -107,7 +107,7 @@ void supertransmuting_kings_generate_moves_for_piece(slice_index si)
         && generate_moves_of_supertransmuting_king(si)))
   {
     numecoup curr_id = current_move_id[nbply];
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
     for (; curr_id<current_move_id[nbply]; ++curr_id)
       supertransmutation[curr_id] = Empty;
   }
@@ -126,7 +126,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].starter==*side)
+  if (SLICE_STARTER(si)==*side)
   {
     slice_index const prototype = alloc_pipe(STSuperTransmutingKingTransmuter);
     move_insert_slices(si,st->context,&prototype,1);
@@ -149,7 +149,7 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,&side);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);

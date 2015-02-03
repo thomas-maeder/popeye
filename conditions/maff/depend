@@ -4,10 +4,9 @@ conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_teste
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/ply.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -17,7 +16,7 @@ conditions/maff/immobility_tester$(OBJ_SUFFIX): conditions/maff/immobility_teste
  stipulation/proxy.h stipulation/branch.h stipulation/slice_insertion.h \
  stipulation/boolean/and.h solving/king_move_generator.h \
  solving/non_king_move_generator.h solving/legal_move_counter.h \
- debugging/assert.h
+ solving/ply.h debugging/assert.h
 
 conditions/maff/immobility_tester.h:
 
@@ -50,16 +49,6 @@ output/mode.enum.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
-solving/ply.h:
 
 stipulation/pipe.h:
 
@@ -98,5 +87,7 @@ solving/king_move_generator.h:
 solving/non_king_move_generator.h:
 
 solving/legal_move_counter.h:
+
+solving/ply.h:
 
 debugging/assert.h:

@@ -23,10 +23,10 @@
  */
 void goal_check_reached_tester_solve(slice_index si)
 {
-  Side const in_check = (slices[si].u.goal_filter.applies_to_who
+  Side const in_check = (SLICE_U(si).goal_filter.applies_to_who
                          ==goal_applies_to_starter
-                         ? slices[si].starter
-                         : advers(slices[si].starter));
+                         ? SLICE_STARTER(si)
+                         : advers(SLICE_STARTER(si)));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

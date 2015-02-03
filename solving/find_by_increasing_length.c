@@ -53,11 +53,11 @@ void find_by_increasing_length_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  for (solve_nr_remaining = slices[si].u.branch.min_length;
+  for (solve_nr_remaining = SLICE_U(si).branch.min_length;
        solve_nr_remaining<=save_solve_nr_remaining;
        solve_nr_remaining += 2)
   {
-    solve(slices[si].next1);
+    solve(SLICE_NEXT1(si));
     if (solve_result==MOVE_HAS_SOLVED_LENGTH()
         && solve_nr_remaining<result_intermediate)
       result_intermediate = solve_nr_remaining;

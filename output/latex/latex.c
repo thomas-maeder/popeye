@@ -1070,7 +1070,7 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.output_mode_selector.mode==output_mode_line)
+  if (SLICE_U(si).output_mode_selector.mode==output_mode_line)
     solving_insert_output_latex_line_slices(si,file);
   else
   {

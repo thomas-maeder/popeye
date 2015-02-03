@@ -50,8 +50,8 @@ static slice_index alloc_min_length_guard(stip_length_type length,
  */
 void min_length_guard_solve(slice_index si)
 {
-  slice_index const length = slices[si].u.branch.length;
-  slice_index const min_length = slices[si].u.branch.min_length;
+  slice_index const length = SLICE_U(si).branch.length;
+  slice_index const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -85,8 +85,8 @@ static void remember_defense_length(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->defense_length = slices[si].u.branch.length+delta;
-  state->defense_min_length = slices[si].u.branch.min_length+delta;
+  state->defense_length = SLICE_U(si).branch.length+delta;
+  state->defense_min_length = SLICE_U(si).branch.min_length+delta;
 
   stip_traverse_structure_children_pipe(si,st);
 
@@ -112,8 +112,8 @@ static void remember_defense_adapter_length(slice_index si,
 static void insert_intro_min_length(slice_index si,
                                     stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
-  stip_length_type const min_length = slices[si].u.branch.min_length;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  stip_length_type const min_length = SLICE_U(si).branch.min_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

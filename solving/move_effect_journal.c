@@ -1296,7 +1296,7 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
     {
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
       slice_index const root = stip->u.input_complex.root;
-      slice_index const next = slices[root].next1;
+      slice_index const next = SLICE_NEXT1(root);
       pipe_unlink(root);
       dealloc_slices(next);
 
@@ -1355,7 +1355,7 @@ static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
     {
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
       slice_index const root = stip->u.input_complex.root;
-      slice_index const next = slices[root].next1;
+      slice_index const next = SLICE_NEXT1(root);
       pipe_unlink(root);
       dealloc_slices(next);
 

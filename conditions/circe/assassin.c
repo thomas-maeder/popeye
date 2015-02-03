@@ -33,7 +33,7 @@ void circe_assassin_assassinate_solve(slice_index si)
 {
   circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
   square const sq_rebirth = context->rebirth_square;
-  Flags const mask = BIT(slices[si].starter)|BIT(Royal);
+  Flags const mask = BIT(SLICE_STARTER(si))|BIT(Royal);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

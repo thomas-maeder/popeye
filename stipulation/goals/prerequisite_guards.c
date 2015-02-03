@@ -218,15 +218,15 @@ static void insert_goal_prerequisite_guards_help(slice_index si,
         if (state->imminent_goals[goal])
           insert_goal_optimisation_help_filter(proxy1,goal);
 
-      pipe_append(slices[proxy_joint].prev,
+      pipe_append(SLICE_PREV(proxy_joint),
                   alloc_goal_prerequisite_optimiser_slice());
-      pipe_append(slices[proxy_joint].prev,alloc_dead_end_slice());
+      pipe_append(SLICE_PREV(proxy_joint),alloc_dead_end_slice());
     }
 
     if (nr_optimisable>0)
     {
       slice_set_predecessor(proxy_joint,no_slice);
-      pipe_link(proxy_joint,slices[si].next1);
+      pipe_link(proxy_joint,SLICE_NEXT1(si));
       pipe_link(si,alloc_fork_on_remaining_slice(proxy2,proxy1,1));
     }
     else

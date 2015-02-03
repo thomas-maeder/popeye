@@ -25,7 +25,7 @@ void attack_played_solve(slice_index si)
   assert(solve_nr_remaining>=next_move_has_solution);
 
   --solve_nr_remaining;
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
   ++solve_nr_remaining;
 
   if (solve_result==immobility_on_next_move) /* oops - unintentional stalemate! */
@@ -59,7 +59,7 @@ void defense_played_solve(slice_index si)
   assert(solve_nr_remaining>=next_move_has_solution);
 
   --solve_nr_remaining;
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
   ++solve_nr_remaining;
 
   ++solve_result;
@@ -86,7 +86,7 @@ void help_move_played_solve(slice_index si)
   assert(solve_nr_remaining>=next_move_has_solution);
 
   --solve_nr_remaining;
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
   ++solve_nr_remaining;
 
   ++solve_result;

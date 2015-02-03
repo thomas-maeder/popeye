@@ -170,7 +170,7 @@ void move_insert_slices(slice_index si,
   circe_init_slice_insertion_traversal(&st);
   promotion_init_slice_insertion_traversal(&st);
 
-  state.base_rank = get_slice_rank(slices[si].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(si),&state);
   stip_traverse_structure(si,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);

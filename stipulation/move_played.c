@@ -68,13 +68,13 @@ void move_played_detect_starter(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].starter==no_side)
+  if (SLICE_STARTER(si)==no_side)
   {
-    slice_index const next = slices[si].next1;
+    slice_index const next = SLICE_NEXT1(si);
     stip_traverse_structure_children_pipe(si,st);
-    slices[si].starter = (slices[next].starter==no_side
+    SLICE_STARTER(si) = (SLICE_STARTER(next)==no_side
                           ? no_side
-                          : advers(slices[next].starter));
+                          : advers(SLICE_STARTER(next)));
   }
 
   TraceFunctionExit(__func__);

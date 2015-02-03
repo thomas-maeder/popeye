@@ -23,7 +23,7 @@ slice_index alloc_if_then_else_slice(slice_index normal,
   TraceFunctionParamListEnd();
 
   result =  alloc_binary_slice(STIfThenElse,normal,exceptional);
-  slices[result].u.if_then_else.condition = condition;
+  SLICE_U(result).if_then_else.condition = condition;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -45,7 +45,7 @@ void stip_spin_off_testers_if_then_else(slice_index si,
 
   stip_spin_off_testers_binary(si,st);
 
-  slices[slices[si].tester].u.if_then_else.condition = slices[slices[si].u.if_then_else.condition].tester;
+  SLICE_U(SLICE_TESTER(si)).if_then_else.condition = SLICE_TESTER(SLICE_U(si).if_then_else.condition);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -206,7 +206,7 @@ stip_length_type dead_end_solve(slice_index si, stip_length_type n)
   if (n<=max_unsolvable || n==slack_length)
     result = n+2;
   else
-    result = solve(slices[si].next1,n);
+    result = solve(SLICE_NEXT1(si),n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

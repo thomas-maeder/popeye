@@ -13,7 +13,7 @@ static void filter_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.output_mode_selector.mode==output_mode_tree)
+  if (SLICE_U(si).output_mode_selector.mode==output_mode_tree)
     stip_traverse_structure_children_pipe(si,st);
 
   TraceFunctionExit(__func__);
@@ -28,7 +28,7 @@ static void insert_setplay_solvers_defense_adapter(slice_index si,
   TraceFunctionParamListEnd();
 
   if (st->level==structure_traversal_level_setplay
-      && slices[si].u.branch.length>slack_length)
+      && SLICE_U(si).branch.length>slack_length)
   {
     slice_index const prototypes[] =
     {
@@ -79,7 +79,7 @@ static void insert_refutations_solver(slice_index si,
     {
       nr_prototypes = sizeof prototypes / sizeof prototypes[0]
     };
-    defense_branch_insert_slices_behind_proxy(slices[si].next2,prototypes,nr_prototypes,si);
+    defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),prototypes,nr_prototypes,si);
   }
 
   TraceFunctionExit(__func__);

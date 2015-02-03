@@ -75,8 +75,8 @@ stip_length_type move_player_solve(slice_index si, stip_length_type n)
   TraceFunctionParam("%u",n);
   TraceFunctionParamListEnd();
 
-  play_move(slices[si].starter);
-  result = solve(slices[si].next1,n);
+  play_move(SLICE_STARTER(si));
+  result = solve(SLICE_NEXT1(si),n);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

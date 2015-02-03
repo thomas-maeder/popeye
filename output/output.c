@@ -58,7 +58,7 @@ slice_index alloc_output_mode_selector(output_mode mode)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputModeSelector);
-  slices[result].u.output_mode_selector.mode = mode;
+  SLICE_U(result).output_mode_selector.mode = mode;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

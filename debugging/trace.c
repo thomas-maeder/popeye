@@ -390,23 +390,23 @@ char const level_shortcuts[]   = { 'T', 'S', 'N' };
 static void trace_common(slice_index si, stip_structure_traversal *st)
 {
   fprintf(stdout,"[%4u] ",si);
-  fprintf(stdout,"%-34s ",slice_type_names[slices[si].type]);
+  fprintf(stdout,"%-34s ",slice_type_names[SLICE_TYPE(si)]);
   fprintf(stdout,
           "%c%c%c%c ",
-          Side_names[slices[si].starter][0],
+          Side_names[SLICE_STARTER(si)][0],
           level_shortcuts[st->level],
           context_shortcuts[st->context],
           st->activity==stip_traversal_activity_solving ? 'S' : 'T');
-  trace_link("",slices[si].prev,"<");
-  trace_link(">",slices[si].next1,"");
-  trace_link("(",slices[si].tester,")");
+  trace_link("",SLICE_PREV(si),"<");
+  trace_link(">",SLICE_NEXT1(si),"");
+  trace_link("(",SLICE_TESTER(si),")");
 }
 
 static void trace_branch(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"%2u/",slices[si].u.branch.length);
-  fprintf(stdout,"%2u ",slices[si].u.branch.min_length);
+  fprintf(stdout,"%2u/",SLICE_U(si).branch.length);
+  fprintf(stdout,"%2u ",SLICE_U(si).branch.min_length);
   fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
@@ -423,7 +423,7 @@ static void trace_pipe(slice_index si, stip_structure_traversal *st)
 static void trace_fork(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  trace_link("fork:",slices[si].next2,"");
+  trace_link("fork:",SLICE_NEXT2(si),"");
   fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
@@ -438,7 +438,7 @@ static void trace_leaf(slice_index si, stip_structure_traversal *st)
 static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  trace_link("base:",slices[si].u.derived_pipe.base,"");
+  trace_link("base:",SLICE_U(si).derived_pipe.base,"");
   fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
@@ -447,8 +447,8 @@ static void trace_hashed_tester(slice_index si, stip_structure_traversal *st)
 static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  trace_link("fork:",slices[si].next2,"");
-  fprintf(stdout,"goal:%u ",slices[si].u.goal_handler.goal.type);
+  trace_link("fork:",SLICE_NEXT2(si),"");
+  fprintf(stdout,"goal:%u ",SLICE_U(si).goal_handler.goal.type);
   fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
@@ -457,7 +457,7 @@ static void trace_goal_reached_tester(slice_index si, stip_structure_traversal *
 static void trace_end_of_solution_line_writer(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"goal:%u\n",slices[si].u.goal_handler.goal.type);
+  fprintf(stdout,"goal:%u\n",SLICE_U(si).goal_handler.goal.type);
 
   stip_traverse_structure_children(si,st);
 }
@@ -465,8 +465,8 @@ static void trace_end_of_solution_line_writer(slice_index si, stip_structure_tra
 static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  trace_link("fork:",slices[si].next2,"");
-  fprintf(stdout,"threshold:%u\n",slices[si].u.fork_on_remaining.threshold);
+  trace_link("fork:",SLICE_NEXT2(si),"");
+  fprintf(stdout,"threshold:%u\n",SLICE_U(si).fork_on_remaining.threshold);
 
   stip_traverse_structure_children(si,st);
 }
@@ -474,7 +474,7 @@ static void trace_fork_on_remaining(slice_index si, stip_structure_traversal *st
 static void trace_keep_mating_filter(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"mating:%s\n",Side_names[slices[si].u.keepmating_guard.mating]);
+  fprintf(stdout,"mating:%s\n",Side_names[SLICE_U(si).keepmating_guard.mating]);
 
   stip_traverse_structure_children(si,st);
 }
@@ -484,8 +484,8 @@ static void trace_output_mode_selector(slice_index si, stip_structure_traversal 
   trace_common(si,st);
   fprintf(stdout,
           " mode:%s(%u)\n",
-          output_mode_names[slices[si].u.output_mode_selector.mode],
-          slices[si].u.output_mode_selector.mode);
+          output_mode_names[SLICE_U(si).output_mode_selector.mode],
+          SLICE_U(si).output_mode_selector.mode);
 
   stip_traverse_structure_children(si,st);
 }
@@ -493,7 +493,7 @@ static void trace_output_mode_selector(slice_index si, stip_structure_traversal 
 static void trace_goal_filter(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  fprintf(stdout,"%u\n",slices[si].u.goal_filter.applies_to_who);
+  fprintf(stdout,"%u\n",SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
@@ -501,8 +501,8 @@ static void trace_goal_filter(slice_index si, stip_structure_traversal *st)
 static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  trace_link("?",slices[si].next2,"");
-  fprintf(stdout,"%u\n",slices[si].u.goal_filter.applies_to_who);
+  trace_link("?",SLICE_NEXT2(si),"");
+  fprintf(stdout,"%u\n",SLICE_U(si).goal_filter.applies_to_who);
 
   stip_traverse_structure_children(si,st);
 }
@@ -510,8 +510,8 @@ static void trace_goal_immobile_reached_tester(slice_index si, stip_structure_tr
 static void trace_if_then_else(slice_index si, stip_structure_traversal *st)
 {
   trace_common(si,st);
-  trace_link("next2:",slices[si].next2,"");
-  trace_link("condition:",slices[si].u.if_then_else.condition,"");
+  trace_link("next2:",SLICE_NEXT2(si),"");
+  trace_link("condition:",SLICE_U(si).if_then_else.condition,"");
   fputs("\n",stdout);
 
   stip_traverse_structure_children(si,st);
@@ -584,7 +584,7 @@ void TraceStipulation(slice_index si)
 void move_tracer_solve(slice_index si)
 {
   TraceCurrentMove();
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
 }
 
 /* Instrument slices with move tracers

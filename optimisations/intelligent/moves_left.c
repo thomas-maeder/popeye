@@ -36,7 +36,7 @@ static void moves_left_move(slice_index si, stip_moves_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ++MovesLeft[slices[si].starter];
+  ++MovesLeft[SLICE_STARTER(si)];
 
   TraceValue("%u",MovesLeft[White]);
   TraceValue("%u\n",MovesLeft[Black]);
@@ -109,8 +109,8 @@ static void remember_goaled_side(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->is_mated[slices[si].starter] = true;
-  state->goal = slices[si].u.goal_handler.goal.type;
+  state->is_mated[SLICE_STARTER(si)] = true;
+  state->goal = SLICE_U(si).goal_handler.goal.type;
   stip_traverse_structure_children(si,st);
 
   TraceFunctionExit(__func__);
@@ -175,13 +175,13 @@ void intelligent_moves_left_initialiser_solve(slice_index si)
   /* the mate and stalemate machineries rely on Black being (stale)mated */
   if (goaled_side(si)==White)
   {
-    solving_impose_starter(si,advers(slices[si].starter));
+    solving_impose_starter(si,advers(SLICE_STARTER(si)));
     swap_sides();
     reflect_position();
     delegate(si);
     reflect_position();
     swap_sides();
-    solving_impose_starter(si,advers(slices[si].starter));
+    solving_impose_starter(si,advers(SLICE_STARTER(si)));
   }
   else
     delegate(si);

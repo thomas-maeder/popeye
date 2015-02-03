@@ -22,7 +22,7 @@ static slice_index alloc_keepmating_filter_slice(Side mating)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STKeepMatingFilter);
-  slices[result].u.keepmating_guard.mating = mating;
+  SLICE_U(result).keepmating_guard.mating = mating;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -58,7 +58,7 @@ static boolean is_a_mating_piece_left(Side mating_side)
  */
 void keepmating_filter_solve(slice_index si)
 {
-  Side const mating = slices[si].u.keepmating_guard.mating;
+  Side const mating = SLICE_U(si).keepmating_guard.mating;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -113,7 +113,7 @@ static void keepmating_filter_inserter_goal(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->for_side[advers(slices[si].starter)] = true;
+  state->for_side[advers(SLICE_STARTER(si))] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -171,7 +171,7 @@ static void keepmating_filter_inserter_battle(slice_index si,
     slice_index const prototype = alloc_appropriate_filter(state);
     if (prototype!=no_slice)
     {
-      slices[prototype].starter = slices[si].starter;
+      SLICE_STARTER(prototype) = SLICE_STARTER(si);
       if (st->context==stip_traversal_context_attack)
         attack_branch_insert_slices(si,&prototype,1);
       else
@@ -198,7 +198,7 @@ static void keepmating_filter_inserter_help(slice_index si,
     slice_index const prototype = alloc_appropriate_filter(state);
     if (prototype!=no_slice)
     {
-      slices[prototype].starter = advers(slices[si].starter);
+      SLICE_STARTER(prototype) = advers(SLICE_STARTER(si));
       help_branch_insert_slices(si,&prototype,1);
     }
   }

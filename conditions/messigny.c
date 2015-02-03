@@ -66,7 +66,7 @@ void messigny_generate_moves_for_piece(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(SLICE_NEXT1(si));
 
   if (!(being_solved.king_square[trait[nbply]]==curr_generation->departure
       && !messigny_rex_inclusive))
@@ -127,7 +127,7 @@ void messigny_move_player_solve(slice_index si)
     move_effect_journal_do_piece_exchange(move_effect_reason_messigny_exchange,
                                           sq_arrival,sq_departure);
 
-    solve(slices[si].next2);
+    solve(SLICE_NEXT2(si));
   }
   else
     pipe_solve_delegate(si);

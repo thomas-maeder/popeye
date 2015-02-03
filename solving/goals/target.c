@@ -34,7 +34,7 @@ void goal_target_reached_tester_solve(slice_index si)
     square const sq_eventual_arrival = move_effect_journal_follow_piece_through_other_effects(nbply,moving_id,sq_arrival);
     pipe_this_move_doesnt_solve_if(si,
                                    sq_eventual_arrival
-                                   !=slices[si].u.goal_handler.goal.target);
+                                   !=SLICE_U(si).goal_handler.goal.target);
   }
 
   TraceFunctionExit(__func__);

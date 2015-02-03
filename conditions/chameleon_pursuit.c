@@ -36,7 +36,7 @@ void chameleon_pursuit_side_changer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (sq_arrival==sq_last_departure)
-    andernach_assume_side(advers(slices[si].starter));
+    andernach_assume_side(advers(SLICE_STARTER(si)));
 
   pipe_solve_delegate(si);
 

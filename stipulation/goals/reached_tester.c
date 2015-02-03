@@ -20,8 +20,8 @@ slice_index alloc_goal_reached_tester_slice(Goal goal, slice_index tester)
   TraceFunctionParamListEnd();
 
   result = alloc_conditional_pipe(STGoalReachedTester,alloc_proxy_slice());
-  slices[result].u.goal_handler.goal = goal;
-  pipe_link(slices[result].next2,tester);
+  SLICE_U(result).goal_handler.goal = goal;
+  pipe_link(SLICE_NEXT2(result),tester);
 
   pipe_link(result,alloc_true_slice());
 

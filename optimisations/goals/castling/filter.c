@@ -42,7 +42,7 @@ slice_index alloc_castling_filter_slice(void)
  */
 void castling_filter_solve(slice_index si)
 {
-  Side const starter = slices[si].starter;
+  Side const starter = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

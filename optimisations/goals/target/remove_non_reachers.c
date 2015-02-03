@@ -20,7 +20,7 @@ slice_index alloc_target_remove_non_reachers_slice(square target)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STTargetRemoveNonReachers);
-  slices[result].u.goal_handler.goal.target = target;
+  SLICE_U(result).goal_handler.goal.target = target;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -66,7 +66,7 @@ void target_remove_non_reachers_solve(slice_index si)
 
   assert(target_square==initsquare);
 
-  target_square = slices[si].u.goal_handler.goal.target;
+  target_square = SLICE_U(si).goal_handler.goal.target;
   move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&reaches_targetsquare);
 
   target_square = initsquare;

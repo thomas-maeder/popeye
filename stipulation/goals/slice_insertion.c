@@ -100,7 +100,7 @@ static void goal_branch_insert_slices_nested(slice_index si,
   TraceFunctionParamListEnd();
 
   {
-    slice_type const prototype_type = slices[prototypes[0]].type;
+    slice_type const prototype_type = SLICE_TYPE(prototypes[0]);
     unsigned int prototype_rank = get_goal_slice_rank(prototype_type);
 
     if (prototype_rank==no_goal_slice_type)
@@ -111,21 +111,21 @@ static void goal_branch_insert_slices_nested(slice_index si,
     else
       do
       {
-        slice_index const next = slices[si].next1;
-        if (slices[next].type==STProxy)
+        slice_index const next = SLICE_NEXT1(si);
+        if (SLICE_TYPE(next)==STProxy)
           si = next;
-        else if (slices[next].type==STOr
-                 || slices[next].type==STAnd)
+        else if (SLICE_TYPE(next)==STOr
+                 || SLICE_TYPE(next)==STAnd)
         {
-          goal_branch_insert_slices_nested(slices[next].next1,
+          goal_branch_insert_slices_nested(SLICE_NEXT1(next),
                                            prototypes,nr_prototypes);
-          goal_branch_insert_slices_nested(slices[next].next2,
+          goal_branch_insert_slices_nested(SLICE_NEXT2(next),
                                            prototypes,nr_prototypes);
           break;
         }
         else
         {
-          unsigned int const rank_next = get_goal_slice_rank(slices[next].type);
+          unsigned int const rank_next = get_goal_slice_rank(SLICE_TYPE(next));
           if (rank_next==no_goal_slice_type)
             break;
           else if (rank_next>prototype_rank)
@@ -139,7 +139,7 @@ static void goal_branch_insert_slices_nested(slice_index si,
           else
             si = next;
         }
-      } while (prototype_type!=slices[si].type);
+      } while (prototype_type!=SLICE_TYPE(si));
   }
 
   TraceFunctionExit(__func__);

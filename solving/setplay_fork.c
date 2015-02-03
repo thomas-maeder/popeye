@@ -23,7 +23,7 @@ void setplay_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next2);
+  solve(SLICE_NEXT2(si));
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

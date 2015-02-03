@@ -24,8 +24,8 @@ slice_index alloc_goal_target_reached_tester_system(square target)
   TraceFunctionParamListEnd();
 
   target_tester = alloc_pipe(STGoalTargetReachedTester);
-  slices[target_tester].u.goal_handler.goal.type = goal_target;
-  slices[target_tester].u.goal_handler.goal.target = target;
+  SLICE_U(target_tester).goal_handler.goal.type = goal_target;
+  SLICE_U(target_tester).goal_handler.goal.target = target;
   pipe_link(target_tester,alloc_true_slice());
 
   result = alloc_goal_reached_tester_slice(goal,target_tester);

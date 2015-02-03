@@ -78,7 +78,7 @@ static slice_index alloc_maxthreatlength_guard(slice_index threat_start)
   TraceFunctionParamListEnd();
 
   result = alloc_testing_pipe(STMaxThreatLength);
-  slices[result].next2 = threat_start;
+  SLICE_NEXT2(result) = threat_start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -109,7 +109,7 @@ void maxthreatlength_guard_solve(slice_index si)
 
   pipe_this_move_doesnt_solve_if(si,
                                  solve_nr_remaining>=n_max
-                                 && !is_in_check(slices[si].starter)
+                                 && !is_in_check(SLICE_STARTER(si))
                                  && n_max<fork_solve(si,n_max));
 
   TraceFunctionExit(__func__);
@@ -123,7 +123,7 @@ void maxthreatlength_guard_solve(slice_index si)
 static void insert_maxthreatlength_guard(slice_index si,
                                          stip_structure_traversal *st)
 {
-  stip_length_type const length = slices[si].u.branch.length;
+  stip_length_type const length = SLICE_U(si).branch.length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -205,7 +205,7 @@ boolean solving_insert_maxthreatlength_guards(slice_index si)
                                     maxthreatlength_guards_inserters,
                                     nr_maxthreatlength_guards_inserters);
   st.activity = stip_traversal_activity_testing;
-  stip_traverse_structure(slices[si].tester,&st);
+  stip_traverse_structure(SLICE_TESTER(si),&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

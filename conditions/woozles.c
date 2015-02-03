@@ -57,7 +57,7 @@ static boolean find_mutual_observer(void)
 
   ++phase[parent_ply[nbply]];
 
-  result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+  result = is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
                                      EVALUATE(observer));
 
   --phase[parent_ply[nbply]];
@@ -95,7 +95,7 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
     {
       observing_walk[nbply] = *pcheck;
       if (being_solved.number_of_pieces[side_woozle][*pcheck]>0
-          && is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+          && is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
                                        EVALUATE(observer)))
       {
         result = false;
@@ -167,7 +167,7 @@ boolean woozles_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (woozles_can_observe(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -188,7 +188,7 @@ boolean biwoozles_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (woozles_can_observe(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -467,7 +467,7 @@ boolean heffalumps_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (heffalumps_can_observe_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -488,7 +488,7 @@ boolean biheffalumps_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (heffalumps_can_observe_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

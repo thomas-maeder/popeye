@@ -24,7 +24,7 @@ alloc_paralysing_mate_filter_slice(goal_applies_to_starter_or_adversary starter_
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STPiecesParalysingMateFilter);
-  slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
+  SLICE_U(result).goal_filter.applies_to_who = starter_or_adversary;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -46,7 +46,7 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STPiecesParalysingMateFilterTester);
-  slices[result].u.goal_filter.applies_to_who = starter_or_adversary;
+  SLICE_U(result).goal_filter.applies_to_who = starter_or_adversary;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -69,10 +69,10 @@ alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter_or_adversary s
  */
 void paralysing_mate_filter_tester_solve(slice_index si)
 {
-  Side const mated = (slices[si].u.goal_filter.applies_to_who
+  Side const mated = (SLICE_U(si).goal_filter.applies_to_who
                       ==goal_applies_to_starter
-                      ? slices[si].starter
-                      : advers(slices[si].starter));
+                      ? SLICE_STARTER(si)
+                      : advers(SLICE_STARTER(si)));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -102,10 +102,10 @@ void paralysing_mate_filter_tester_solve(slice_index si)
  */
 void paralysing_mate_filter_solve(slice_index si)
 {
-  Side const mated = (slices[si].u.goal_filter.applies_to_who
+  Side const mated = (SLICE_U(si).goal_filter.applies_to_who
                       ==goal_applies_to_starter
-                      ? slices[si].starter
-                      : advers(slices[si].starter));
+                      ? SLICE_STARTER(si)
+                      : advers(SLICE_STARTER(si)));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

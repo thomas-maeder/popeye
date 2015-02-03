@@ -32,7 +32,7 @@ static void instrument_suppressor(slice_index si, stip_structure_traversal *st)
   {
     FILE *file = st->param;
     Goal const goal = { no_goal, initsquare };
-    pipe_append(slices[si].prev,alloc_output_latex_line_writer_slice(goal,file));
+    pipe_append(SLICE_PREV(si),alloc_output_latex_line_writer_slice(goal,file));
   }
 
   TraceFunctionExit(__func__);
@@ -51,13 +51,13 @@ static void instrument_goal_reached_tester(slice_index si,
   stip_traverse_structure_children(si,st);
 
   {
-    Goal const goal = slices[si].u.goal_handler.goal;
+    Goal const goal = SLICE_U(si).goal_handler.goal;
     slice_index const prototype = alloc_output_latex_line_writer_slice(goal,file);
     help_branch_insert_slices(si,&prototype,1);
   }
 
   {
-    slice_index const prototype = alloc_output_latex_goal_writer_slice(slices[si].u.goal_handler.goal,
+    slice_index const prototype = alloc_output_latex_goal_writer_slice(SLICE_U(si).goal_handler.goal,
                                                                        file);
     help_branch_insert_slices(si,&prototype,1);
   }
@@ -76,7 +76,7 @@ static void min_distance_to_goal_battle(slice_index si,
                                         stip_structure_traversal *st)
 {
   stip_length_type * const min_distance_to_goal = st->param;
-  stip_length_type const min_dist = slices[si].u.branch.length-slack_length;
+  stip_length_type const min_dist = SLICE_U(si).branch.length-slack_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -93,7 +93,7 @@ static void min_distance_to_goal_help(slice_index si,
                                         stip_structure_traversal *st)
 {
   stip_length_type * const min_distance_to_goal = st->param;
-  stip_length_type const min_dist = slices[si].u.branch.length-slack_length;
+  stip_length_type const min_dist = SLICE_U(si).branch.length-slack_length;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -165,7 +165,7 @@ static stip_length_type min_distance_to_goal(slice_index end_of_branch,
 static void instrument_end_of_branch(slice_index si,
                                      stip_structure_traversal *st)
 {
-  slice_index const fork = slices[si].next2;
+  slice_index const fork = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -177,7 +177,7 @@ static void instrument_end_of_branch(slice_index si,
     slice_index const marker
         = alloc_output_plaintext_line_end_of_intro_series_marker_slice();
     pipe_link(marker,fork);
-    slices[si].next2 = marker;
+    SLICE_NEXT2(si) = marker;
   }
 
   stip_traverse_structure_children(si,st);

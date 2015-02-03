@@ -31,7 +31,7 @@ void goal_exchange_reached_tester_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    Side const just_moved = advers(slices[si].starter);
+    Side const just_moved = advers(SLICE_STARTER(si));
     move_effect_journal_index_type const base = move_effect_journal_base[nbply];
     move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
     square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;

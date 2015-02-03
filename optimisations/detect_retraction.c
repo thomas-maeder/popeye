@@ -57,7 +57,7 @@ static void enter_branch(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.branch.min_length>slack_length+1)
+  if (SLICE_U(si).branch.min_length>slack_length+1)
     /* repeating the position may be sound tactics in branches with a
      * minimum length */
     stip_traverse_structure_children(si,st);

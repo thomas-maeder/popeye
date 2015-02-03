@@ -19,7 +19,7 @@ static void prepend_steingewinn_filter(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  pipe_append(slices[si].prev,alloc_circe_steingewinn_filter_slice());
+  pipe_append(SLICE_PREV(si),alloc_circe_steingewinn_filter_slice());
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -41,7 +41,7 @@ static void prepend_circuit_by_rebirth_filter(slice_index si,
 
     slice_index const proxy_regular = alloc_proxy_slice();
 
-    pipe_link(slices[si].prev,
+    pipe_link(SLICE_PREV(si),
               alloc_or_slice(proxy_regular,proxy_special));
 
     pipe_link(proxy_special,special);
@@ -70,7 +70,7 @@ static void prepend_exchange_by_rebirth_filter(slice_index si,
 
     slice_index const proxy_regular = alloc_proxy_slice();
 
-    pipe_link(slices[si].prev,
+    pipe_link(SLICE_PREV(si),
               alloc_or_slice(proxy_regular,proxy_special));
 
     pipe_link(proxy_special,special);

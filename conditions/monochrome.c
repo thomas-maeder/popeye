@@ -30,7 +30,7 @@ boolean monochrome_is_move_monochrome(numecoup n)
 boolean monochrome_validate_observation_geometry(slice_index si)
 {
   return (monochrome_is_move_monochrome(CURRMOVE_OF_PLY(nbply))
-          && validate_observation_recursive(slices[si].next1));
+          && validate_observation_recursive(SLICE_NEXT1(si)));
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

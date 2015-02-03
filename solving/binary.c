@@ -13,7 +13,7 @@ void binary_solve_if_then_else(slice_index si, boolean condition)
   TraceFunctionParam("%u",condition);
   TraceFunctionParamListEnd();
 
-  solve(condition ? slices[si].next2 : slices[si].next1);
+  solve(condition ? SLICE_NEXT2(si) : SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

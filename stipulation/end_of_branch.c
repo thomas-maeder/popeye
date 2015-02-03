@@ -88,8 +88,8 @@ slice_index alloc_end_of_branch_forced(slice_index proxy_to_avoided)
 stip_length_type end_of_branch_solve(slice_index si, stip_length_type n)
 {
   stip_length_type result;
-  slice_index const next = slices[si].next1;
-  slice_index const fork = slices[si].next2;
+  slice_index const next = SLICE_NEXT1(si);
+  slice_index const fork = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

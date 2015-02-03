@@ -19,7 +19,7 @@ slice_index alloc_testing_pipe(slice_type type)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(type);
-  slices[result].next2 = no_slice;
+  SLICE_NEXT2(result) = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -42,12 +42,12 @@ void stip_spin_off_testers_testing_pipe(slice_index si,
   /* don't fall back on stip_spin_off_testers_pipe - testing pipes are not
    * needed in "testing mode", so just allocate a proxy placeholder */
 
-  slices[si].tester = alloc_proxy_slice();
+  SLICE_TESTER(si) = alloc_proxy_slice();
 
   stip_traverse_structure_children(si,st);
 
-  link_to_branch(slices[si].tester,slices[slices[si].next1].tester);
-  slices[si].next2 = slices[si].tester;
+  link_to_branch(SLICE_TESTER(si),SLICE_TESTER(SLICE_NEXT1(si)));
+  SLICE_NEXT2(si) = SLICE_TESTER(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

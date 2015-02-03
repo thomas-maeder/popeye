@@ -116,6 +116,17 @@ enum
 
 extern Slice slices[max_nr_slices];
 
+/* by consequently these macros, client code doesn't depend on the actual
+ * slice implementation */
+#define SLICE(si) slices[(si)]
+#define SLICE_TYPE(si) slices[(si)].type
+#define SLICE_PREV(si) slices[(si)].prev
+#define SLICE_NEXT1(si) slices[(si)].next1
+#define SLICE_NEXT2(si) slices[(si)].next2
+#define SLICE_STARTER(si) slices[(si)].starter
+#define SLICE_TESTER(si) slices[(si)].tester
+#define SLICE_U(si) slices[(si)].u
+
 /* Dellocate a slice index
  * @param si slice index deallocated
  */

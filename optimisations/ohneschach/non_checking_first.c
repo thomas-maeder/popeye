@@ -21,8 +21,8 @@ static void optimise_guard(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (slices[si].next1!=no_slice)
-    link_to_branch((*copies)[si],(*copies)[slices[si].next1]);
+  if (SLICE_NEXT1(si)!=no_slice)
+    link_to_branch((*copies)[si],(*copies)[SLICE_NEXT1(si)]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -47,7 +47,7 @@ static void insert_optimiser(slice_index si, stip_structure_traversal *st)
                                              &optimise_guard);
     stip_traverse_structure(si,&st_nested);
 
-    pipe_link(slices[si].prev,and);
+    pipe_link(SLICE_PREV(si),and);
     pipe_link(proxy_nonchecking,copies[si]);
     pipe_link(proxy_any,si);
 

@@ -39,7 +39,7 @@ boolean madrasi_is_moving_piece_observed(square sq)
       nextply(observing_side);
       push_observation_target(sq);
       observing_walk[nbply] = p;
-      result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+      result = is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
                                          EVALUATE(observation_geometry));
       finply();
     }
@@ -74,7 +74,7 @@ static boolean is_paralysed(numecoup n)
       siblingply(observing_side);
       push_observation_target(sq_departure);
       observing_walk[nbply] = candidate;
-      result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+      result = is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
                                          EVALUATE(observation_geometry));
       finply();
     }
@@ -100,7 +100,7 @@ boolean madrasi_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (!is_paralysed(CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -118,7 +118,7 @@ void madrasi_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_paralysed(current_generation))
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

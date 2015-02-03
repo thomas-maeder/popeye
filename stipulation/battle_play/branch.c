@@ -279,10 +279,10 @@ void battle_branch_insert_slices_nested(slice_index adapter,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  assert(slices[adapter].type==STAttackAdapter
-         || slices[adapter].type==STDefenseAdapter);
+  assert(SLICE_TYPE(adapter)==STAttackAdapter
+         || SLICE_TYPE(adapter)==STDefenseAdapter);
 
-  state.base_rank = get_slice_rank(slices[adapter].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(adapter),&state);
   assert(state.base_rank!=no_slice_rank);
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   move_init_slice_insertion_traversal(&st);
@@ -340,7 +340,7 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  assert(slices[proxy].type!=STAttackPlayed);
+  assert(SLICE_TYPE(proxy)!=STAttackPlayed);
 
   state.base_rank = get_slice_rank(STAttackPlayed,&state);
   assert(state.base_rank!=no_slice_rank);
@@ -353,7 +353,7 @@ void attack_branch_insert_slices_behind_proxy(slice_index proxy,
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_attack);
   move_init_slice_insertion_traversal(&st);
 
-  state.base_rank = get_slice_rank(slices[base].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(base),&state);
   stip_traverse_structure(proxy,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
@@ -418,7 +418,7 @@ void defense_branch_insert_slices_behind_proxy(slice_index proxy,
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_defense);
   move_init_slice_insertion_traversal(&st);
 
-  state.base_rank = get_slice_rank(slices[base].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(base),&state);
   stip_traverse_structure(proxy,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
@@ -595,10 +595,10 @@ static void copy_to_setplay(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].next1]);
+  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
 
   state->spun_off[si] = copy_slice(si);
-  link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+  link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   TraceValue("%u\n",state->spun_off[si]);
 
   TraceFunctionExit(__func__);
@@ -683,14 +683,14 @@ slice_index battle_branch_make_postkeyplay(slice_index adapter)
 
   TraceStipulation(adapter);
 
-  assert(slices[adapter].type==STAttackAdapter);
+  assert(SLICE_TYPE(adapter)==STAttackAdapter);
 
   {
     slice_index const notend = branch_find_slice(STNotEndOfBranchGoal,
                                                  adapter,
                                                  stip_traversal_context_intro);
-    stip_length_type const length = slices[adapter].u.branch.length;
-    stip_length_type const min_length = slices[adapter].u.branch.min_length;
+    stip_length_type const length = SLICE_U(adapter).branch.length;
+    stip_length_type const min_length = SLICE_U(adapter).branch.min_length;
     slice_index const proto = alloc_defense_adapter_slice(length-1,
                                                           min_length-1);
     assert(notend!=no_slice);
@@ -807,12 +807,12 @@ static void fork_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  TraceValue("%u\n",state->spun_off[slices[si].next1]);
+  TraceValue("%u\n",state->spun_off[SLICE_NEXT1(si)]);
 
-  if (state->spun_off[slices[si].next1]!=no_slice)
+  if (state->spun_off[SLICE_NEXT1(si)]!=no_slice)
   {
     state->spun_off[si] = copy_slice(si);
-    link_to_branch(state->spun_off[si],state->spun_off[slices[si].next1]);
+    link_to_branch(state->spun_off[si],state->spun_off[SLICE_NEXT1(si)]);
   }
   TraceValue("%u\n",state->spun_off[si]);
 

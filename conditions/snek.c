@@ -83,7 +83,7 @@ void snek_substitutor_solve(slice_index si)
 {
   move_effect_journal_index_type const top = move_effect_journal_base[nbply];
   move_effect_journal_index_type const capture = top+move_effect_journal_index_offset_capture;
-  Side const side_captured = advers(slices[si].starter);
+  Side const side_captured = advers(SLICE_STARTER(si));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

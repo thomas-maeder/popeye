@@ -181,7 +181,7 @@ void circe_insert_slices(slice_index si,
   slice_insertion_init_traversal(&st,&state,context);
   promotion_init_slice_insertion_traversal(&st);
 
-  state.base_rank = get_slice_rank(slices[si].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(si),&state);
   stip_traverse_structure(si,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);
@@ -354,7 +354,7 @@ void circe_place_reborn_solve(slice_index si)
   assert(context->reborn_walk!=Empty);
   assert(is_square_empty(context->rebirth_square));
 
-  move_effect_journal_do_piece_readdition(slices[si].u.circe_handler.variant->rebirth_reason,
+  move_effect_journal_do_piece_readdition(SLICE_U(si).circe_handler.variant->rebirth_reason,
                                           context->rebirth_square,
                                           context->reborn_walk,
                                           context->reborn_spec);
@@ -587,7 +587,7 @@ static void start_instrumentation(slice_index si, stip_structure_traversal *st)
     instrumentation_state_type * const state = st->param;
     stip_structure_traversal st_nested;
 
-    assert(slices[si].type==state->interval_start);
+    assert(SLICE_TYPE(si)==state->interval_start);
 
     stip_structure_traversal_init_nested(&st_nested,st,state);
     stip_structure_traversal_override_single(&st_nested,STCirceDoneWithRebirth,&stip_structure_visitor_noop);
@@ -639,6 +639,6 @@ slice_index alloc_circe_handler_slice(slice_type type,
                                       circe_variant_type const *variant)
 {
   slice_index const result = alloc_pipe(type);
-  slices[result].u.circe_handler.variant = variant;
+  SLICE_U(result).circe_handler.variant = variant;
   return result;
 }

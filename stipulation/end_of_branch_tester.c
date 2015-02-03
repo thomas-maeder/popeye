@@ -60,7 +60,7 @@ static void help_insert_detour_with_tester(slice_index si,
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const proxy3 = alloc_proxy_slice();
     /* avoid writing short solutions when looking for longer ones*/
-    pipe_link(slices[si].prev,alloc_fork_on_remaining_slice(proxy1,proxy2,1));
+    pipe_link(SLICE_PREV(si),alloc_fork_on_remaining_slice(proxy1,proxy2,1));
     pipe_append(si,proxy3);
     pipe_link(proxy1,tester);
     pipe_link(proxy2,si);
@@ -82,8 +82,8 @@ static void insert_detour_with_tester(slice_index si,
 
   if (st->context==stip_traversal_context_help)
   {
-    slice_index const to_next_branch = slices[si].next2;
-    slice_index const to_next_branch_tester = slices[to_next_branch].tester;
+    slice_index const to_next_branch = SLICE_NEXT2(si);
+    slice_index const to_next_branch_tester = SLICE_TESTER(to_next_branch);
     slice_index const tester = alloc_end_of_branch_tester_slice(to_next_branch_tester);
     help_insert_detour_with_tester(si,st,tester);
   }
@@ -103,8 +103,8 @@ static void insert_detour_with_tester_goal(slice_index si,
 
   if (st->context==stip_traversal_context_help)
   {
-    slice_index const to_next_branch = slices[si].next2;
-    slice_index const to_next_branch_tester = slices[to_next_branch].tester;
+    slice_index const to_next_branch = SLICE_NEXT2(si);
+    slice_index const to_next_branch_tester = SLICE_TESTER(to_next_branch);
     slice_index const tester = alloc_end_of_branch_goal_tester_slice(to_next_branch_tester);
     help_insert_detour_with_tester(si,st,tester);
   }
@@ -126,7 +126,7 @@ static void insert_detour(slice_index si, stip_structure_traversal *st)
     slice_index const proxy1 = alloc_proxy_slice();
     slice_index const proxy2 = alloc_proxy_slice();
     slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
-    pipe_link(slices[si].prev,fork);
+    pipe_link(SLICE_PREV(si),fork);
     pipe_append(si,proxy1);
     pipe_link(proxy2,si);
   }

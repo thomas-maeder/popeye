@@ -47,7 +47,7 @@ void disparate_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (can_piece_move(current_generation))
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -65,7 +65,7 @@ boolean disparate_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   if (can_piece_move(CURRMOVE_OF_PLY(nbply)))
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
   else
     result = false;
 

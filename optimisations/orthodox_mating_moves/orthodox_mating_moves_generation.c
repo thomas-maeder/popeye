@@ -96,7 +96,7 @@ static void optimise_final_moves_move_generator(slice_index si,
 {
   final_move_optimisation_state * const state = st->param;
   final_move_optimisation_state const save_state = *state;
-  Side const starter = slices[si].starter;
+  Side const starter = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -117,7 +117,7 @@ static void optimise_final_moves_move_generator(slice_index si,
     if (st->full_length<=2)
     {
       pipe_substitute(si,generator);
-      if (CondFlag[slices[si].starter==Black ? whiteedge : blackedge]
+      if (CondFlag[SLICE_STARTER(si)==Black ? whiteedge : blackedge]
           || state->goal_to_be_reached.type==goal_doublemate)
         pipe_append(si,alloc_orthodox_mating_king_contact_generator_generator_slice());
     }
@@ -126,11 +126,11 @@ static void optimise_final_moves_move_generator(slice_index si,
       slice_index const proxy1 = alloc_proxy_slice();
       slice_index const proxy2 = alloc_proxy_slice();
       slice_index const fork = alloc_fork_on_remaining_slice(proxy1,proxy2,1);
-      pipe_link(slices[si].prev,fork);
+      pipe_link(SLICE_PREV(si),fork);
       pipe_link(proxy1,si);
       pipe_link(proxy2,generator);
-      pipe_link(generator,slices[si].next1);
-      if (CondFlag[slices[si].starter==Black ? whiteedge : blackedge]
+      pipe_link(generator,SLICE_NEXT1(si));
+      if (CondFlag[SLICE_STARTER(si)==Black ? whiteedge : blackedge]
           || state->goal_to_be_reached.type==goal_doublemate)
         pipe_append(generator,alloc_orthodox_mating_king_contact_generator_generator_slice());
     }
@@ -211,9 +211,9 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   stip_traverse_moves_children(si,st);
 
   if (!are_goals_equal(state->goal_to_be_reached,
-                       slices[si].u.goal_handler.goal))
+                       SLICE_U(si).goal_handler.goal))
   {
-    state->goal_to_be_reached = slices[si].u.goal_handler.goal;
+    state->goal_to_be_reached = SLICE_U(si).goal_handler.goal;
     ++state->nr_goals_to_be_reached;
   }
 

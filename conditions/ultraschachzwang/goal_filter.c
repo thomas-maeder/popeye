@@ -13,7 +13,7 @@
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
-  Side const starter = slices[si].starter;
+  Side const starter = SLICE_STARTER(si);
   Cond const cond = (starter==White
                      ? whiteultraschachzwang
                      : blackultraschachzwang);

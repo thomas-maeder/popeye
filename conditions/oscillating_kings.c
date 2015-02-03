@@ -76,7 +76,7 @@ void oscillating_kings_type_a_solve(slice_index si)
  */
 void oscillating_kings_type_b_solve(slice_index si)
 {
-  Side const starter = slices[si].starter;
+  Side const starter = SLICE_STARTER(si);
   move_effect_journal_index_type const save_horizon = king_square_horizon;
 
   TraceFunctionEntry(__func__);
@@ -114,7 +114,7 @@ void oscillating_kings_type_b_solve(slice_index si)
  */
 void oscillating_kings_type_c_solve(slice_index si)
 {
-  Side const starter = slices[si].starter;
+  Side const starter = SLICE_STARTER(si);
   move_effect_journal_index_type const save_horizon = king_square_horizon;
 
   TraceFunctionEntry(__func__);
@@ -136,7 +136,7 @@ void oscillating_kings_type_c_solve(slice_index si)
 
 static void instrument_move(slice_index si, stip_structure_traversal *st)
 {
-  Side const starter = slices[si].starter;
+  Side const starter = SLICE_STARTER(si);
   Cond const cond = starter==White ? white_oscillatingKs : black_oscillatingKs;
 
   TraceFunctionEntry(__func__);
@@ -176,7 +176,7 @@ void solving_insert_king_oscillators(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);

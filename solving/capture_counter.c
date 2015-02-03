@@ -54,7 +54,7 @@ void capture_counter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (TSTFLAG(move_effect_journal[capture].u.piece_removal.flags,
-              slices[si].starter))
+              SLICE_STARTER(si)))
     ++capture_counter_count;
 
   TraceValue("%u",capture_counter_count);

@@ -44,7 +44,7 @@ boolean masand_enforce_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = ((sq_observer== initsquare || sq_observer==sq_departure)
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -120,7 +120,7 @@ void masand_recolorer_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    Side const opponent = advers(slices[si].starter);
+    Side const opponent = advers(SLICE_STARTER(si));
     if (is_in_check(opponent) && observed(being_solved.king_square[opponent],pos))
       change_observed(pos);
   }

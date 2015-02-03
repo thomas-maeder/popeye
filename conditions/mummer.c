@@ -186,7 +186,7 @@ void mummer_orchestrator_solve(slice_index si)
 
   copyply();
   move_generator_invert_move_order(nbply);
-  solve(slices[si].next2);
+  solve(SLICE_NEXT2(si));
   finply();
 
   /* in some very obscure situations (cf. bug #142), we would continue with
@@ -224,7 +224,7 @@ void mummer_bookkeeper_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  current_length = (*mummer_measure_length[slices[si].starter])();
+  current_length = (*mummer_measure_length[SLICE_STARTER(si)])();
   TraceValue("%d",current_length);
   TraceValue("%d\n",mum_length[parent_ply[nbply]]);
 
@@ -274,7 +274,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (mummer_measure_length[slices[si].starter])
+  if (mummer_measure_length[SLICE_STARTER(si)])
   {
     if (state->ultra_capturing_king)
     {
@@ -302,7 +302,7 @@ static void instrument_move_generator(slice_index si, stip_structure_traversal *
     }
   }
 
-  state->current_side = slices[si].starter;
+  state->current_side = SLICE_STARTER(si);
   stip_traverse_structure_children_pipe(si,st);
   state->current_side = save_current_side;
 
@@ -321,17 +321,17 @@ static void copy_end_of_branch_goal_if_necessary(slice_index si, stip_structure_
   TraceFunctionParamListEnd();
 
   {
-    slice_index const tester = branch_find_slice(STGoalReachedTester,slices[si].next2,st->context);
+    slice_index const tester = branch_find_slice(STGoalReachedTester,SLICE_NEXT2(si),st->context);
     if (tester==no_slice
         /* avoid considering moves that lead to self-check illegal if they reach the goal: */
-        || branch_find_slice(STSelfCheckGuard,slices[tester].next2,st->context)==no_slice)
+        || branch_find_slice(STSelfCheckGuard,SLICE_NEXT2(tester),st->context)==no_slice)
       regular_deep_copy_end_of_branch_goal(si,st);
     else
     {
       /* Rely on the tests in the goal reached tester: */
       (*copies)[si] = alloc_proxy_slice();
       stip_traverse_structure_children_pipe(si,st);
-      pipe_link((*copies)[si],(*copies)[slices[si].next1]);
+      pipe_link((*copies)[si],(*copies)[SLICE_NEXT1(si)]);
     }
   }
 
@@ -363,7 +363,7 @@ static void skip_copying(slice_index si, stip_structure_traversal *st)
 
   (*copies)[si] = alloc_proxy_slice();
   stip_traverse_structure_children_pipe(si,st);
-  pipe_link((*copies)[si],(*copies)[slices[si].next1]);
+  pipe_link((*copies)[si],(*copies)[SLICE_NEXT1(si)]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -380,9 +380,9 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].next2==no_slice)
+  if (SLICE_NEXT2(si)==no_slice)
   {
-    slices[si].next2 = alloc_proxy_slice();
+    SLICE_NEXT2(si) = alloc_proxy_slice();
 
     init_deep_copy(&st_nested,st,&copies);
     stip_structure_traversal_override_single(&st_nested,
@@ -429,24 +429,24 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
                                                &copy_end_of_branch_goal_if_necessary);
     }
 
-    stip_traverse_structure(slices[si].next1,&st_nested);
+    stip_traverse_structure(SLICE_NEXT1(si),&st_nested);
 
-    link_to_branch(slices[si].next2,copies[slices[si].next1]);
+    link_to_branch(SLICE_NEXT2(si),copies[SLICE_NEXT1(si)]);
 
     {
       slice_index const prototype = alloc_pipe(STMummerBookkeeper);
       switch (st->context)
       {
         case stip_traversal_context_attack:
-          attack_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+          attack_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
           break;
 
         case stip_traversal_context_defense:
-          defense_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+          defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
           break;
 
         case stip_traversal_context_help:
-          help_branch_insert_slices_behind_proxy(slices[si].next2,&prototype,1,si);
+          help_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),&prototype,1,si);
           break;
 
         default:
@@ -458,7 +458,7 @@ static void spin_off_measuring_branch(slice_index si, stip_structure_traversal *
     if (mummer_strictness[state->current_side]!=mummer_strictness_regular)
     {
       slice_index const prototype = alloc_pipe(STUltraMummerMeasurerDeadend);
-      slice_insertion_insert_contextually(copies[slices[si].next1],st->context,&prototype,1);
+      slice_insertion_insert_contextually(copies[SLICE_NEXT1(si)],st->context,&prototype,1);
     }
   }
 
@@ -480,7 +480,7 @@ static void instrument_ultra_mummer_measurer_fork(slice_index si,
 
   stip_traverse_structure_children_pipe(si,st);
 
-  if (mummer_strictness[slices[si].starter]==mummer_strictness_ultra)
+  if (mummer_strictness[SLICE_STARTER(si)]==mummer_strictness_ultra)
   {
     state->ultra_capturing_king = true;
     stip_traverse_structure_conditional_pipe_tester(si,st);
@@ -499,8 +499,8 @@ static void connect_solver_to_tester(slice_index si, stip_structure_traversal *s
 
   if (st->activity==stip_traversal_activity_solving)
   {
-    assert(slices[slices[si].prev].tester!=no_slice);
-    slices[si].tester = slices[slices[slices[si].prev].tester].next1;
+    assert(SLICE_TESTER(SLICE_PREV(si))!=no_slice);
+    SLICE_TESTER(si) = SLICE_NEXT1(SLICE_TESTER(SLICE_PREV(si)));
   }
 
   stip_traverse_structure_children_pipe(si,st);
@@ -551,7 +551,7 @@ boolean ultra_mummer_validate_observation(slice_index si)
   result = (*mummer_measure_length[side_observing])()==mum_length[nbply];
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -572,7 +572,7 @@ void mummer_initialise_solving(slice_index si)
 
   TraceStipulation(si);
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,&state);
 

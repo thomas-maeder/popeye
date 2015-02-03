@@ -311,8 +311,8 @@
  */
 void dispatch(slice_index si)
 {
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  switch (slices[si].type)
+  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  switch (SLICE_TYPE(si))
   {
     case STThreatSolver:
       threat_solver_solve(si);

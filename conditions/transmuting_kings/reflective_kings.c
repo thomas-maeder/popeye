@@ -27,12 +27,12 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
   if (TSTFULLFLAGMASK(being_solved.spec[sq_departure],mask))
   {
     numecoup const base = CURRMOVE_OF_PLY(nbply);
-    generate_moves_different_walk(slices[si].next1,King);
+    generate_moves_different_walk(SLICE_NEXT1(si),King);
     if (generate_moves_of_transmuting_king(si))
       remove_duplicate_moves_of_single_piece(base);
   }
   else
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -52,23 +52,23 @@ boolean reflective_kings_enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (transmuting_kings_testing_transmutation[advers(trait[nbply])])
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
   else if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==sq_king)
   {
-    if (validate_observation_recursive(slices[si].next1))
+    if (validate_observation_recursive(SLICE_NEXT1(si)))
       result = true;
     else if (transmuting_kings_is_king_transmuting_as(observing_walk[nbply]))
     {
       piece_walk_type const save_walk = observing_walk[nbply];
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
-      result = validate_observation_recursive(slices[si].next1);
+      result = validate_observation_recursive(SLICE_NEXT1(si));
       observing_walk[nbply] = save_walk;
     }
     else
       result = false;
   }
   else
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

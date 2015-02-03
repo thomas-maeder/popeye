@@ -27,7 +27,7 @@ slice_index alloc_output_plaintext_goal_writer_slice(Goal goal)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputPlaintextGoalWriter);
-  slices[result].u.goal_handler.goal = goal;
+  SLICE_U(result).goal_handler.goal = goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -50,7 +50,7 @@ slice_index alloc_output_plaintext_goal_writer_slice(Goal goal)
  */
 void output_plaintext_goal_writer_solve(slice_index si)
 {
-  Goal const goal = slices[si].u.goal_handler.goal;
+  Goal const goal = SLICE_U(si).goal_handler.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

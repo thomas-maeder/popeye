@@ -97,7 +97,7 @@ void sentinelles_inserter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_sentinelle(slices[si].starter);
+  insert_sentinelle(SLICE_STARTER(si));
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

@@ -52,7 +52,7 @@ static void remember_goal(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *goal = slices[si].u.goal_handler.goal;
+  *goal = SLICE_U(si).goal_handler.goal;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -70,7 +70,7 @@ void optimise_final_defense_moves_move_generator(slice_index si,
                                                  stip_structure_traversal *st)
 {
   final_defense_moves_iteration_state const * const state = st->param;
-  Side const defender = slices[si].starter;
+  Side const defender = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -164,13 +164,13 @@ static void remember_lower_move_limit(slice_index si, stip_structure_traversal *
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  stip_traverse_structure_children_pipe(slices[si].next2,st);
+  stip_traverse_structure_children_pipe(SLICE_NEXT2(si),st);
 
   {
     final_defense_moves_iteration_state * const state = st->param;
     stip_length_type const save_lower_limit = state->lower_limit;
-    state->lower_limit = slices[si].u.fork_on_remaining.threshold;
-    stip_traverse_structure_children_pipe(slices[si].next1,st);
+    state->lower_limit = SLICE_U(si).fork_on_remaining.threshold;
+    stip_traverse_structure_children_pipe(SLICE_NEXT1(si),st);
     state->lower_limit = save_lower_limit;
   }
 
@@ -225,13 +225,13 @@ static void substitute_killermove_machinery(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].starter!=no_side);
+  assert(SLICE_STARTER(si)!=no_side);
 
   *found_optimiser = no_slice;
 
   stip_traverse_structure_children(si,st);
 
-  if (enabled[slices[si].starter]
+  if (enabled[SLICE_STARTER(si)]
       && st->activity==stip_traversal_activity_testing
       && *found_optimiser==no_slice)
   {
@@ -360,7 +360,7 @@ void solving_optimise_with_killer_moves(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
   optimise_final_defense_move_with_killer_moves(si);
   optimise_move_generators(si);
 

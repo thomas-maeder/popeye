@@ -136,8 +136,8 @@ static char *ParseStructuredStip_not(char *tok,
                                                    proxy,
                                                    stip_traversal_context_intro);
       assert(tester!=no_slice);
-      pipe_append(slices[tester].next2,alloc_not_slice());
-      slices[tester].u.goal_handler.goal.type = goal_negated;
+      pipe_append(SLICE_NEXT2(tester),alloc_not_slice());
+      SLICE_U(tester).goal_handler.goal.type = goal_negated;
     }
     else
       pipe_append(proxy,alloc_not_slice());
@@ -169,7 +169,7 @@ static char *ParseStructuredStip_move_inversion(char *tok,
   tok = ParseStructuredStip_operand(tok+1,proxy,type,level);
 
   {
-    slice_index const operand = slices[proxy].next1;
+    slice_index const operand = SLICE_NEXT1(proxy);
     if (tok!=0 && operand!=no_slice)
     {
       slice_index const prototype = alloc_move_inverter_slice();
@@ -1042,7 +1042,7 @@ static char *ParseStructuredStip_expression(char *tok,
   {
     slice_index const operand1 = alloc_proxy_slice();
     tok = ParseStructuredStip_operand(tok,operand1,type,level);
-    if (tok!=0 && slices[operand1].next1!=no_slice)
+    if (tok!=0 && SLICE_NEXT1(operand1)!=no_slice)
     {
       slice_type operator_type;
       tok = ParseStructuredStip_operator(tok,&operator_type);
@@ -1055,7 +1055,7 @@ static char *ParseStructuredStip_expression(char *tok,
           slice_index const operand2 = alloc_proxy_slice();
           expression_type type2;
           tok = ParseStructuredStip_expression(tok,operand2,&type2,level);
-          if (tok!=0 && slices[operand2].next1!=no_slice)
+          if (tok!=0 && SLICE_NEXT1(operand2)!=no_slice)
           {
             if (*type==type2)
               switch (operator_type)
@@ -1085,10 +1085,10 @@ static char *ParseStructuredStip_expression(char *tok,
       }
       else
       {
-        if (slices[slices[operand1].next1].prev==operand1)
-          pipe_link(proxy,slices[operand1].next1);
+        if (SLICE_PREV(SLICE_NEXT1(operand1))==operand1)
+          pipe_link(proxy,SLICE_NEXT1(operand1));
         else
-          pipe_set_successor(proxy,slices[operand1].next1);
+          pipe_set_successor(proxy,SLICE_NEXT1(operand1));
 
         dealloc_slice(operand1);
       }
@@ -1157,12 +1157,12 @@ char *ParseStructuredStip(slice_index root_slice_hook)
     tok = ParseStructuredStip_expression(tok,root_slice_hook,&type,0);
     if (tok==0)
       tok = ReadNextTokStr();
-    else if (slices[root_slice_hook].next1!=no_slice)
+    else if (SLICE_NEXT1(root_slice_hook)!=no_slice)
       solving_impose_starter(root_slice_hook,starter);
   }
 
   /* signal to our caller that the stipulation has changed */
-  slices[root_slice_hook].starter = no_side;
+  SLICE_STARTER(root_slice_hook) = no_side;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

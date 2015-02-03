@@ -877,7 +877,7 @@ boolean imitator_validate_observation(slice_index si)
   }
 
   if (result)
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -1183,7 +1183,7 @@ void imitator_pawn_promoter_solve(slice_index si)
                                                sq_arrival);
 
       ++stack_pointer;
-      solve(slices[si].next2);
+      solve(SLICE_NEXT2(si));
       --stack_pointer;
 
       promotion_horizon = save_horizon;

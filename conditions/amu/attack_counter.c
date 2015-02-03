@@ -46,7 +46,7 @@ boolean amu_count_observation(slice_index si)
       result = false;
   }
   else
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -89,7 +89,7 @@ static boolean is_attacked_exactly_once(square sq_departure, Side trait_ply)
 void amu_attack_counter_solve(slice_index si)
 {
   square const sq_departure = move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure;
-  Side const starter = slices[si].starter;
+  Side const starter = SLICE_STARTER(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

@@ -37,7 +37,7 @@ boolean superguards_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (is_target_unguarded(CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

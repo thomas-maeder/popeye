@@ -436,7 +436,7 @@ boolean magic_enforce_observer(slice_index si)
 
     if (TSTFLAG(being_solved.spec[sq_observer],Magic))
     {
-       if (validate_observation_recursive(slices[si].next1))
+       if (validate_observation_recursive(SLICE_NEXT1(si)))
         identify_line();
 
       result = false; /* we need all views */
@@ -445,7 +445,7 @@ boolean magic_enforce_observer(slice_index si)
       result = false;
   }
   else
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -469,7 +469,7 @@ static void PushMagicViewsByOnePiece(piece_walk_type pi_magic)
       replace_observation_target(*pos_viewed);
       observing_walk[nbply] = pi_magic;
       /* ignore return value - it's ==false */
-      is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+      is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
                                 EVALUATE(observation));
     }
 

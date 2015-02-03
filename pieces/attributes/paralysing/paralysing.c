@@ -30,7 +30,7 @@ boolean paralysing_validate_observation_geometry(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(slices[si].next1);
+  result = validate_observation_recursive(SLICE_NEXT1(si));
 
   if (result && validating_paralysis_observation_geometry)
     result = TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Paralysing);
@@ -163,7 +163,7 @@ boolean paralysing_validate_observer(slice_index si)
   result = (!TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],
                      Paralysing)
             && !is_paralysed(CURRMOVE_OF_PLY(nbply))
-            &&  validate_observation_recursive(slices[si].next1));
+            &&  validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -181,7 +181,7 @@ void paralysing_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_paralysed(current_generation))
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -196,9 +196,9 @@ static void instrument_mate(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   if (st->activity==stip_traversal_activity_testing)
-    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter));
+    pipe_append(SLICE_PREV(si),alloc_paralysing_mate_filter_tester_slice(goal_applies_to_starter));
   else
-    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
+    pipe_append(SLICE_PREV(si),alloc_paralysing_mate_filter_slice(goal_applies_to_starter));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -241,7 +241,7 @@ static void prepend_stalemate_special_starter(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
+  pipe_append(SLICE_PREV(si),
               alloc_paralysing_stalemate_special_slice(goal_applies_to_starter));
 
   TraceFunctionExit(__func__);
@@ -255,7 +255,7 @@ static void prepend_stalemate_special_other(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_append(slices[si].prev,
+  pipe_append(SLICE_PREV(si),
               alloc_paralysing_stalemate_special_slice(goal_applies_to_adversary));
 
   TraceFunctionExit(__func__);
@@ -288,7 +288,7 @@ static void instrument_doublestalemate(slice_index si,
 static void instrument_half_doublemate(slice_index si,
                                        stip_structure_traversal *st)
 {
-  goal_applies_to_starter_or_adversary const who = slices[si].u.goal_filter.applies_to_who;
+  goal_applies_to_starter_or_adversary const who = SLICE_U(si).goal_filter.applies_to_who;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -297,9 +297,9 @@ static void instrument_half_doublemate(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (st->activity==stip_traversal_activity_testing)
-    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_tester_slice(who));
+    pipe_append(SLICE_PREV(si),alloc_paralysing_mate_filter_tester_slice(who));
   else
-    pipe_append(slices[si].prev,alloc_paralysing_mate_filter_slice(who));
+    pipe_append(SLICE_PREV(si),alloc_paralysing_mate_filter_slice(who));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

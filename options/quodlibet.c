@@ -38,7 +38,7 @@ static void transform_to_quodlibet_end_of_branch(slice_index si,
   TraceFunctionParamListEnd();
 
   if (state->has_attack_ended)
-    state->to_goal = stip_deep_copy(slices[si].next2);
+    state->to_goal = stip_deep_copy(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -56,7 +56,7 @@ static void insert_direct_guards(slice_index si,
   stip_traverse_structure_children_pipe(si,st);
 
   if (st->level==structure_traversal_level_top
-      && slices[si].u.branch.length>slack_length
+      && SLICE_U(si).branch.length>slack_length
       && state->to_goal!=no_slice)
     battle_branch_insert_direct_end_of_branch_goal(si,state->to_goal);
 

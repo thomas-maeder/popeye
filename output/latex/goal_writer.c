@@ -52,8 +52,8 @@ slice_index alloc_output_latex_goal_writer_slice(Goal goal, FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXGoalWriter);
-  slices[result].u.goal_writer.goal = goal;
-  slices[result].u.goal_writer.file = file;
+  SLICE_U(result).goal_writer.goal = goal;
+  SLICE_U(result).goal_writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -76,13 +76,13 @@ slice_index alloc_output_latex_goal_writer_slice(Goal goal, FILE *file)
  */
 void output_latex_goal_writer_solve(slice_index si)
 {
-  Goal const goal = slices[si].u.goal_writer.goal;
+  Goal const goal = SLICE_U(si).goal_writer.goal;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(slices[si].u.goal_writer.file,latex_goal_end_marker[goal.type]);
+  fprintf(SLICE_U(si).goal_writer.file,latex_goal_end_marker[goal.type]);
 
   pipe_solve_delegate(si);
 

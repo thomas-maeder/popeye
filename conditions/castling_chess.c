@@ -53,7 +53,7 @@ void castling_chess_move_player_solve(slice_index si)
                                           sq_capture-offset_platzwechsel_rochade,
                                           sq_passed);
 
-    solve(slices[si].next2);
+    solve(SLICE_NEXT2(si));
   }
   else
     pipe_solve_delegate(si);
@@ -69,7 +69,7 @@ void castlingchess_generate_moves_for_piece(slice_index si)
 {
   square const sq_departure = curr_generation->departure;
 
-  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(SLICE_NEXT1(si));
 
   if (move_generation_current_walk==King && !is_in_check(trait[nbply]))
   {

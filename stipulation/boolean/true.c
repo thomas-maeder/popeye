@@ -52,7 +52,7 @@ void stip_spin_off_testers_leaf(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].tester = copy_slice(si);
+  SLICE_TESTER(si) = copy_slice(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -19,9 +19,9 @@
 void if_then_else_solve(slice_index si)
 {
   stip_length_type const save_solve_nr_remaining = MOVE_HAS_SOLVED_LENGTH();
-  slice_index const op1 = slices[si].next1;
-  slice_index const op2 = slices[si].next2;
-  slice_index const condition = slices[si].u.if_then_else.condition;
+  slice_index const op1 = SLICE_NEXT1(si);
+  slice_index const op2 = SLICE_NEXT2(si);
+  slice_index const condition = SLICE_U(si).if_then_else.condition;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

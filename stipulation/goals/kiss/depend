@@ -6,12 +6,14 @@ stipulation/goals/kiss/reached_tester$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h position/pieceid.h \
  position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h stipulation/pipe.h \
+ pieces/walks/vectors.h position/castling_rights.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
  debugging/trace.h debugging/assert.h
 
@@ -51,6 +53,8 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
+position/castling_rights.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -64,6 +68,10 @@ stipulation/slice_structural_type.enum.h:
 stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 

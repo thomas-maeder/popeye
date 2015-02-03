@@ -93,8 +93,8 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
   stip_traverse_structure_children_pipe(si,st);
 
   {
-    stip_length_type const length = slices[si].u.branch.length;
-    stip_length_type const min_length = slices[si].u.branch.min_length;
+    stip_length_type const length = SLICE_U(si).branch.length;
+    stip_length_type const min_length = SLICE_U(si).branch.min_length;
     slice_index const prototype = alloc_stoponshortsolutions_filter(length,
                                                                     min_length);
     slice_insertion_insert(si,&prototype,1);

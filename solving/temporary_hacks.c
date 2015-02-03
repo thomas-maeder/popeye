@@ -59,7 +59,7 @@ static slice_index make_mate_tester_fork(Side side)
     Goal const mate_goal = { goal_mate, initsquare };
     slice_index const mate_tester = alloc_goal_mate_reached_tester_system();
     result = alloc_goal_reached_tester_slice(mate_goal,mate_tester);
-    dealloc_slice(slices[result].next1);
+    dealloc_slice(SLICE_NEXT1(result));
     solving_impose_starter(result,side);
   }
   else
@@ -171,8 +171,8 @@ static slice_index make_cagecirce_noncapture_finder(Side side)
                                                    proxy_goal,
                                                    stip_traversal_context_intro);
       assert(tester!=no_slice);
-      pipe_append(slices[tester].next2,alloc_not_slice());
-      slices[tester].u.goal_handler.goal.type = goal_negated;
+      pipe_append(SLICE_NEXT2(tester),alloc_not_slice());
+      SLICE_U(tester).goal_handler.goal.type = goal_negated;
       help_branch_set_end_goal(help,proxy_goal,1);
       link_to_branch(proxy_branch,help);
       result = alloc_conditional_pipe(STCageCirceNonCapturingMoveFinder,proxy_branch);
@@ -553,7 +553,7 @@ void insert_temporary_hacks(slice_index root_slice)
     pipe_append(temporary_hack_observer_validator[Black],
                 temporary_hack_check_tester);
 
-    if (slices[root_slice].starter==Black)
+    if (SLICE_STARTER(root_slice)==Black)
       pipe_append(proxy,alloc_move_inverter_slice());
   }
 

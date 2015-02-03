@@ -42,7 +42,7 @@ boolean beamten_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (!is_unobserved_beamter(CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -60,7 +60,7 @@ void beamten_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_unobserved_beamter(current_generation))
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

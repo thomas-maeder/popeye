@@ -53,7 +53,7 @@ void andernach_side_changer_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   if (move_effect_journal[capture].type==move_effect_piece_removal)
-    andernach_assume_side(advers(slices[si].starter));
+    andernach_assume_side(advers(SLICE_STARTER(si)));
 
   pipe_solve_delegate(si);
 

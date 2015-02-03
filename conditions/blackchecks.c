@@ -68,7 +68,7 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].starter==Black)
+  if (SLICE_STARTER(si)==Black)
   {
     slice_index * const landing = st->param;
     slice_index const save_landing = *landing;
@@ -117,7 +117,7 @@ static void instrument_move_generator(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].starter==Black)
+  if (SLICE_STARTER(si)==Black)
   {
     slice_index const prototype = alloc_pipe(STBlackChecksNullMoveGenerator);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
@@ -202,7 +202,7 @@ void null_move_player_solve(slice_index si)
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==nullsquare)
   {
     move_effect_journal_do_null_move();
-    solve(slices[si].next2);
+    solve(SLICE_NEXT2(si));
   }
   else
     pipe_solve_delegate(si);

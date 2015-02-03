@@ -485,7 +485,7 @@ static void find_restricted_side_attack(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  (*is_restricted)[advers(slices[si].starter)] = true;
+  (*is_restricted)[advers(SLICE_STARTER(si))] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -500,7 +500,7 @@ static void find_restricted_side_defense(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  (*is_restricted)[slices[si].starter] = true;
+  (*is_restricted)[SLICE_STARTER(si)] = true;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -510,8 +510,8 @@ static void find_restricted_side_help(slice_index si,
                                       stip_structure_traversal *st)
 {
   is_restricted_type * const is_restricted = st->param;
-  stip_length_type const length = slices[si].u.branch.length;
-  Side const starter = slices[si].starter;
+  stip_length_type const length = SLICE_U(si).branch.length;
+  Side const starter = SLICE_STARTER(si);
   Side const restricted_side = length%2==1 ? advers(starter) : starter;
 
   TraceFunctionEntry(__func__);
@@ -1687,7 +1687,7 @@ static void solve_any_stipulation(slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  if (verify_position(slices[stipulation_root_hook].next1))
+  if (verify_position(SLICE_NEXT1(stipulation_root_hook)))
   {
     move_effect_journal_reset();
 
@@ -1731,7 +1731,7 @@ static void solve_any_stipulation(slice_index stipulation_root_hook)
 
 static void solve_proofgame_stipulation(slice_index stipulation_root_hook)
 {
-  slice_index const stipulation_root = slices[stipulation_root_hook].next1;
+  slice_index const stipulation_root = SLICE_NEXT1(stipulation_root_hook);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
@@ -1778,8 +1778,8 @@ void twin_solve(slice_index stipulation_root_hook)
                                                 Black,new_king_square[Black]);
     king_square_horizon = move_effect_journal_base[nbply+1];
 
-    if (stip_ends_in(slices[stipulation_root_hook].next1,goal_proofgame)
-        || stip_ends_in(slices[stipulation_root_hook].next1,goal_atob))
+    if (stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_proofgame)
+        || stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_atob))
       solve_proofgame_stipulation(stipulation_root_hook);
     else
       solve_any_stipulation(stipulation_root_hook);
@@ -1796,7 +1796,7 @@ void twin_solve(slice_index stipulation_root_hook)
  */
 void twin_solve_duplex(slice_index stipulation_root_hook)
 {
-  Side const regular_starter = slices[stipulation_root_hook].starter;
+  Side const regular_starter = SLICE_STARTER(stipulation_root_hook);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);

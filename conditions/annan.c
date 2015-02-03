@@ -69,10 +69,10 @@ void annan_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (annanises(trait[nbply],annaniser_pos,curr_generation->departure))
-    generate_moves_different_walk(slices[si].next1,
+    generate_moves_different_walk(SLICE_NEXT1(si),
                                   get_walk_of_piece_on_square(annaniser_pos));
   else
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -100,7 +100,7 @@ boolean annan_enforce_observer_walk(slice_index si)
     walk = get_walk_of_piece_on_square(sq_departure);
 
   if (walk==observing_walk[nbply])
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
   else
     result = false;
 

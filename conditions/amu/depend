@@ -10,7 +10,9 @@ conditions/amu/mate_filter$(OBJ_SUFFIX): conditions/amu/mate_filter.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/pipe.h debugging/assert.h
 
 conditions/amu/mate_filter.h:
@@ -63,6 +65,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/pipe.h:
@@ -82,10 +88,13 @@ conditions/amu/attack_counter$(OBJ_SUFFIX): conditions/amu/attack_counter.c \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/move.h position/position.h position/color.h \
- position/color.enum.h solving/pipe.h debugging/assert.h
+ position/color.enum.h position/castling_rights.h solving/pipe.h \
+ debugging/assert.h
 
 conditions/amu/attack_counter.h:
 
@@ -145,6 +154,10 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 solving/has_solution_type.h:
@@ -158,6 +171,8 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
+
+position/castling_rights.h:
 
 solving/pipe.h:
 

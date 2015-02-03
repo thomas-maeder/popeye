@@ -10,7 +10,7 @@
 void dont_try_observing_with_non_existing_walk(slice_index si)
 {
   if (being_solved.number_of_pieces[trait[nbply]][observing_walk[nbply]]>0)
-    is_square_observed_recursive(slices[si].next1);
+    is_square_observed_recursive(SLICE_NEXT1(si));
   else
     observation_result = false;
 }
@@ -18,7 +18,7 @@ void dont_try_observing_with_non_existing_walk(slice_index si)
 void dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
 {
   if (being_solved.number_of_pieces[White][observing_walk[nbply]]+being_solved.number_of_pieces[Black][observing_walk[nbply]]>0)
-    is_square_observed_recursive(slices[si].next1);
+    is_square_observed_recursive(SLICE_NEXT1(si));
   else
     observation_result = false;
 }
@@ -32,7 +32,7 @@ static boolean observation_by_bishop_tested[maxply+1];
  */
 void optimise_away_observations_by_queen_initialise(slice_index si)
 {
-  is_square_observed_recursive(slices[si].next1);
+  is_square_observed_recursive(SLICE_NEXT1(si));
   observation_by_rook_tested[nbply] = false;
   observation_by_bishop_tested[nbply] = false;
 }
@@ -45,12 +45,12 @@ void optimise_away_observations_by_queen(slice_index si)
   switch (observing_walk[nbply])
   {
     case Rook:
-      is_square_observed_recursive(slices[si].next1);
+      is_square_observed_recursive(SLICE_NEXT1(si));
       observation_by_rook_tested[nbply] = true;
       break;
 
     case Bishop:
-      is_square_observed_recursive(slices[si].next1);
+      is_square_observed_recursive(SLICE_NEXT1(si));
       observation_by_bishop_tested[nbply] = true;
       break;
 
@@ -62,7 +62,7 @@ void optimise_away_observations_by_queen(slice_index si)
         else
         {
           observing_walk[nbply] = Bishop;
-          is_square_observed_recursive(slices[si].next1);
+          is_square_observed_recursive(SLICE_NEXT1(si));
           observing_walk[nbply] = Queen;
         }
       }
@@ -71,16 +71,16 @@ void optimise_away_observations_by_queen(slice_index si)
         if (observation_by_bishop_tested[nbply])
         {
           observing_walk[nbply] = Rook;
-          is_square_observed_recursive(slices[si].next1);
+          is_square_observed_recursive(SLICE_NEXT1(si));
           observing_walk[nbply] = Queen;
         }
         else
-          is_square_observed_recursive(slices[si].next1);
+          is_square_observed_recursive(SLICE_NEXT1(si));
       }
       break;
 
     default:
-      is_square_observed_recursive(slices[si].next1);
+      is_square_observed_recursive(SLICE_NEXT1(si));
       break;
   }
 }
@@ -102,11 +102,11 @@ boolean undo_optimise_observation_by_queen(slice_index si)
   {
     piece_walk_type const save_observing_walk = observing_walk[nbply];
     observing_walk[nbply] = walk;
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
     observing_walk[nbply] = save_observing_walk;
   }
   else
-    result = validate_observation_recursive(slices[si].next1);
+    result = validate_observation_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -152,7 +152,7 @@ static void is_validation_branch_remainder_ortho(slice_index si,
                                                  stip_structure_traversal *st)
 {
   ortho_validation_trival_state_type * const state = st->param;
-  slice_type const type = slices[si].type;
+  slice_type const type = SLICE_TYPE(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -246,7 +246,7 @@ static boolean is_ortho_observation_slice_type(slice_type type)
 static void is_observation_branch_remainder_ortho(slice_index si,
                                                   stip_structure_traversal *st)
 {
-  slice_type const type = slices[si].type;
+  slice_type const type = SLICE_TYPE(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -299,7 +299,7 @@ static void insert_filter(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if (slices[si].starter==*side)
+  if (SLICE_STARTER(si)==*side)
   {
     if (CondFlag[whvault_king] || CondFlag[blvault_king]
         || (CondFlag[singlebox] && SingleBoxType==ConditionType3))
@@ -327,7 +327,7 @@ static void optimise_side(slice_index si, Side side)
   TraceFunctionParamListEnd();
 
   if (is_observation_trivially_validated(side)
-      && is_observation_branch_ortho(slices[temporary_hack_is_square_observed[side]].next2))
+      && is_observation_branch_ortho(SLICE_NEXT2(temporary_hack_is_square_observed[side])))
     stip_instrument_is_square_observed_testing(si,side,STIsSquareObservedOrtho);
   else
   {
@@ -396,10 +396,10 @@ boolean is_observation_trivially_validated(Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  result = (is_validation_branch_ortho(slices[temporary_hack_check_validator[side]].next2)
-            && is_validation_branch_ortho(slices[temporary_hack_observation_validator[side]].next2)
-            && is_validation_branch_ortho(slices[temporary_hack_observation_geometry_validator[side]].next2)
-            && is_validation_branch_ortho(slices[temporary_hack_observer_validator[side]].next2));
+  result = (is_validation_branch_ortho(SLICE_NEXT2(temporary_hack_check_validator[side]))
+            && is_validation_branch_ortho(SLICE_NEXT2(temporary_hack_observation_validator[side]))
+            && is_validation_branch_ortho(SLICE_NEXT2(temporary_hack_observation_geometry_validator[side]))
+            && is_validation_branch_ortho(SLICE_NEXT2(temporary_hack_observer_validator[side])));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

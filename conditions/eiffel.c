@@ -68,7 +68,7 @@ static boolean is_paralysed(numecoup n)
       siblingply(eiffel_side);
       push_observation_target(sq_departure);
       observing_walk[nbply] = eiffel_piece;
-      result = is_square_observed_nested(slices[temporary_hack_is_square_observed_specific[trait[nbply]]].next2,
+      result = is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
                                          EVALUATE(observation_geometry));
       finply();
     }
@@ -90,7 +90,7 @@ void eiffel_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_paralysed(current_generation))
-    generate_moves_delegate(slices[si].next1);
+    generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -108,7 +108,7 @@ boolean eiffel_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (!is_paralysed(CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(slices[si].next1));
+            && validate_observation_recursive(SLICE_NEXT1(si)));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

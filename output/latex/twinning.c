@@ -376,7 +376,7 @@ slice_index alloc_output_latex_twinning_writer(FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXTwinningWriter);
-  slices[result].u.writer.file = file;
+  SLICE_U(result).writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -399,7 +399,7 @@ slice_index alloc_output_latex_twinning_writer(FILE *file)
  */
 void output_latex_write_twinning(slice_index si)
 {
-  FILE *file = slices[si].u.writer.file;
+  FILE *file = SLICE_U(si).writer.file;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);

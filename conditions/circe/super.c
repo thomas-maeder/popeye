@@ -68,7 +68,7 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_no_rebirth[nbply])
   {
-    dispatch(slices[si].next2);
+    dispatch(SLICE_NEXT2(si));
     if (!post_move_iteration_locked[nbply])
       lock_post_move_iterations();
   }

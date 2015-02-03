@@ -165,7 +165,7 @@ void half_neutral_recolorer_solve(slice_index si)
     if (TSTFLAG(movingspec,HalfNeutral))
     {
       if (is_piece_neutral(being_solved.spec[pos]))
-        do_deneutralisation(pos,slices[si].starter);
+        do_deneutralisation(pos,SLICE_STARTER(si));
       else
         do_neutralisation(pos);
     }

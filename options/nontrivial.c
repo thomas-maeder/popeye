@@ -259,7 +259,7 @@ static void insert_nontrivial_guards(slice_index si,
     }
     {
       slice_index const prototype = alloc_max_nr_nontrivial_guard();
-      defense_branch_insert_slices(slices[si].tester,&prototype,1);
+      defense_branch_insert_slices(SLICE_TESTER(si),&prototype,1);
     }
   }
 
@@ -317,27 +317,27 @@ static void alloc_branch_from_tester(slice_index si,
 
   if (st->activity==stip_traversal_activity_solving)
   {
-    slices[si].tester = slices[slices[slices[si].next1].tester].prev;
+    SLICE_TESTER(si) = SLICE_PREV(SLICE_TESTER(SLICE_NEXT1(si)));
 
     st->activity = stip_traversal_activity_testing;
-    stip_traverse_structure(slices[si].tester,st);
+    stip_traverse_structure(SLICE_TESTER(si),st);
     st->activity = stip_traversal_activity_solving;
 
-    slices[si].next2 = slices[slices[si].tester].next2;
+    SLICE_NEXT2(si) = SLICE_NEXT2(SLICE_TESTER(si));
   }
   else
   {
     {
       slice_index const prototype = alloc_max_nr_nontrivial_counter();
-      defense_branch_insert_slices(slices[si].next1,&prototype,1);
+      defense_branch_insert_slices(SLICE_NEXT1(si),&prototype,1);
     }
 
-    slices[si].next2 = alloc_proxy_slice();
-    link_to_branch(slices[si].next2,spin_off_counting_slices(slices[si].next1,st));
+    SLICE_NEXT2(si) = alloc_proxy_slice();
+    link_to_branch(SLICE_NEXT2(si),spin_off_counting_slices(SLICE_NEXT1(si),st));
 
     {
       slice_index const prototype = alloc_reset_unsolvable_slice();
-      defense_branch_insert_slices_behind_proxy(slices[si].next2,
+      defense_branch_insert_slices_behind_proxy(SLICE_NEXT2(si),
                                                 &prototype,1,
                                                 si);
     }

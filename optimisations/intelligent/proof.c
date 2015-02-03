@@ -1075,7 +1075,7 @@ static boolean ProofImpossible(void)
  */
 void goalreachable_guard_proofgame_solve(slice_index si)
 {
-  Side const just_moved = advers(slices[si].starter);
+  Side const just_moved = advers(SLICE_STARTER(si));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1084,15 +1084,15 @@ void goalreachable_guard_proofgame_solve(slice_index si)
   assert(solve_nr_remaining>=previous_move_has_solved);
 
   --MovesLeft[just_moved];
-  TraceEnumerator(Side,slices[si].starter,"");
+  TraceEnumerator(Side,SLICE_STARTER(si),"");
   TraceEnumerator(Side,just_moved,"");
-  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   pipe_this_move_doesnt_solve_if(si,ProofImpossible());
 
   ++MovesLeft[just_moved];
-  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   TraceFunctionExit(__func__);
@@ -1114,7 +1114,7 @@ void goalreachable_guard_proofgame_solve(slice_index si)
  */
 void goalreachable_guard_proofgame_fairy_solve(slice_index si)
 {
-  Side const just_moved = advers(slices[si].starter);
+  Side const just_moved = advers(SLICE_STARTER(si));
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1123,15 +1123,15 @@ void goalreachable_guard_proofgame_fairy_solve(slice_index si)
   assert(solve_nr_remaining>=previous_move_has_solved);
 
   --MovesLeft[just_moved];
-  TraceEnumerator(Side,slices[si].starter,"");
+  TraceEnumerator(Side,SLICE_STARTER(si),"");
   TraceEnumerator(Side,just_moved,"");
-  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   pipe_this_move_doesnt_solve_if(si,ProofFairyImpossible());
 
   ++MovesLeft[just_moved];
-  TraceValue("%u",MovesLeft[slices[si].starter]);
+  TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
   TraceFunctionExit(__func__);

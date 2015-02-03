@@ -164,9 +164,9 @@ static boolean insert_before(slice_index si,
   {
     branch_slice_insertion_state_type * const state = st->param;
     slice_index const prototype = state->prototypes[0];
-    slice_type const prototype_type = slices[prototype].type;
+    slice_type const prototype_type = SLICE_TYPE(prototype);
     unsigned int const prototype_rank = get_slice_rank(prototype_type,state);
-    if (slices[si].type==slices[state->prototypes[0]].type)
+    if (SLICE_TYPE(si)==SLICE_TYPE(state->prototypes[0]))
     {
       next_insertion(si,prototype_rank,st);
       result = true;
@@ -193,7 +193,7 @@ boolean slice_insertion_insert_before(slice_index si,
                                       stip_structure_traversal *st)
 {
   branch_slice_insertion_state_type const * const state = st->param;
-  unsigned int const rank = get_slice_rank(slices[si].type,state);
+  unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
   return insert_before(si,rank,st);
 }
 
@@ -205,7 +205,7 @@ static void insert_visit_leaf(slice_index si, stip_structure_traversal *st)
 
   {
     branch_slice_insertion_state_type * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     if (rank!=no_slice_rank)
       insert_before(si,rank,st);
   }
@@ -237,7 +237,7 @@ static void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
 
   {
     branch_slice_insertion_state_type * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     if (rank==no_slice_rank)
       insert_beyond(si,st);
     else if (insert_before(si,rank,st))
@@ -263,15 +263,15 @@ static void insert_visit_binary_operands(slice_index si, stip_structure_traversa
     branch_slice_insertion_state_type * const state = st->param;
     branch_slice_insertion_state_type const save_state = *state;
 
-    if (slices[si].next1!=no_slice)
+    if (SLICE_NEXT1(si)!=no_slice)
       insert_beyond(si,st);
 
     *state = save_state;
 
-    if (slices[si].next2!=no_slice)
+    if (SLICE_NEXT2(si)!=no_slice)
     {
-      assert(slices[slices[si].next2].type==STProxy);
-      insert_beyond(slices[si].next2,st);
+      assert(SLICE_TYPE(SLICE_NEXT2(si))==STProxy);
+      insert_beyond(SLICE_NEXT2(si),st);
     }
   }
 
@@ -287,7 +287,7 @@ static void insert_visit_binary(slice_index si, stip_structure_traversal *st)
 
   {
     branch_slice_insertion_state_type * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     if (rank==no_slice_rank)
       insert_visit_binary_operands(si,st);
     else if (insert_before(si,rank,st))
@@ -312,7 +312,7 @@ static void insert_visit_setplay_fork(slice_index si,
 
   {
     branch_slice_insertion_state_type * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     if (insert_before(si,rank,st))
       ; /* nothing - work is done*/
     else
@@ -322,7 +322,7 @@ static void insert_visit_setplay_fork(slice_index si,
 
       state->base_rank = rank;
       state->prev = si;
-      start_nested_insertion_traversal(slices[si].next2,state,st);
+      start_nested_insertion_traversal(SLICE_NEXT2(si),state,st);
     }
   }
 
@@ -339,7 +339,7 @@ static void insert_visit_battle_adapter(slice_index si,
 
   {
     branch_slice_insertion_state_type * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     if (rank==no_slice_rank || !insert_before(si,rank,st))
       battle_branch_insert_slices_nested(si,
                                          state->prototypes,
@@ -359,7 +359,7 @@ static void insert_visit_help_adapter(slice_index si,
 
   {
     branch_slice_insertion_state_type * const state = st->param;
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     if (rank==no_slice_rank || !insert_before(si,rank,st))
       help_branch_insert_slices_nested(si,
                                        state->prototypes,
@@ -381,9 +381,9 @@ static void insert_return_from_factored_order(slice_index si, stip_structure_tra
   assert(state->parent!=0);
 
   {
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     slice_index const prototype = state->prototypes[0];
-    slice_type const prototype_type = slices[prototype].type;
+    slice_type const prototype_type = SLICE_TYPE(prototype);
     unsigned int const prototype_rank = get_slice_rank(prototype_type,state);
 
     if (rank>prototype_rank)
@@ -417,9 +417,9 @@ static void end_insertion(slice_index si, stip_structure_traversal *st)
   assert(state->parent==0);
 
   {
-    unsigned int const rank = get_slice_rank(slices[si].type,state);
+    unsigned int const rank = get_slice_rank(SLICE_TYPE(si),state);
     slice_index const prototype = state->prototypes[0];
-    slice_type const prototype_type = slices[prototype].type;
+    slice_type const prototype_type = SLICE_TYPE(prototype);
     unsigned int const prototype_rank = get_slice_rank(prototype_type,state);
 
     if (rank>prototype_rank)
@@ -503,7 +503,7 @@ void slice_insertion_prepare_factored_order(slice_index si,
   state_nested->base_rank = 0;
   state_nested->prev = si;
 
-  state_nested->base_rank = get_slice_rank(slices[si].type,state_nested);
+  state_nested->base_rank = get_slice_rank(SLICE_TYPE(si),state_nested);
   assert(state_nested->base_rank!=no_slice_rank);
 
   init_slice_insertion_traversal_common(st_nested,state_nested,st->context);
@@ -630,7 +630,7 @@ void slice_insertion_insert(slice_index si,
   TraceFunctionParam("%u",nr_prototypes);
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(slices[si].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(si),&state);
   assert(state.base_rank!=no_slice_rank);
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   move_init_slice_insertion_traversal(&st);

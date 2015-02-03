@@ -86,7 +86,7 @@ static void optimise_last_move_generation(slice_index si,
                                            &stop_copying);
   stip_traverse_structure(si,&st);
 
-  pipe_link(slices[si].prev,fork);
+  pipe_link(SLICE_PREV(si),fork);
   pipe_link(proxy1,si);
   pipe_link(proxy2,copies[si]);
 
@@ -119,7 +119,7 @@ static void optimise_final_moves_move_generator(slice_index si,
     slice_index const remover = make_remover(state->goal_to_be_reached);
     if (remover!=no_slice)
     {
-      assert(slices[slices[si].next1].type==STDoneGeneratingMoves);
+      assert(SLICE_TYPE(SLICE_NEXT1(si))==STDoneGeneratingMoves);
 
       if (st->full_length<=2)
         slice_insertion_insert_contextually(si,st->context,&remover,1);
@@ -203,9 +203,9 @@ static void optimise_final_moves_goal(slice_index si, stip_moves_traversal *st)
   stip_traverse_moves_children(si,st);
 
   if (!are_goals_equal(state->goal_to_be_reached,
-                       slices[si].u.goal_handler.goal))
+                       SLICE_U(si).goal_handler.goal))
   {
-    state->goal_to_be_reached = slices[si].u.goal_handler.goal;
+    state->goal_to_be_reached = SLICE_U(si).goal_handler.goal;
     ++state->nr_goals_to_be_reached;
   }
 

@@ -42,7 +42,7 @@ void magic_square_anticirce_relevant_side_adapter_solve(slice_index si)
                                                                               moving_id,
                                                                               sq_arrival);
     if (TSTFLAG(sq_spec[pos],MagicSq))
-      context->relevant_side = slices[si].starter;
+      context->relevant_side = SLICE_STARTER(si);
   }
 
   pipe_dispatch_delegate(si);

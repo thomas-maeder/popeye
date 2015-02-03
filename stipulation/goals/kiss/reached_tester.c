@@ -37,7 +37,7 @@ slice_index alloc_goal_kiss_reached_tester_system(square s)
 
 static void remember_id(slice_index si, stip_structure_traversal *st)
 {
-  Goal const goal = slices[si].u.goal_handler.goal;
+  Goal const goal = SLICE_U(si).goal_handler.goal;
   if (goal.type==goal_kiss)
     id_to_be_kissed = GetPieceId(being_solved.spec[goal.target]);
 

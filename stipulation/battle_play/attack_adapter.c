@@ -67,8 +67,8 @@ static void apply_setplay_alternate(slice_index adapter,
 
   if (state->spun_off[adapter]!=no_slice)
   {
-    stip_length_type const length = slices[adapter].u.branch.length;
-    stip_length_type const min_length = slices[adapter].u.branch.min_length;
+    stip_length_type const length = SLICE_U(adapter).branch.length;
+    stip_length_type const min_length = SLICE_U(adapter).branch.min_length;
     slice_index const nested = state->spun_off[adapter];
     state->spun_off[adapter] = alloc_defense_adapter_slice(length-1,
                                                            min_length-1);
@@ -172,7 +172,7 @@ void attack_adapter_apply_setplay(slice_index adapter,
   TraceFunctionParam("%u",adapter);
   TraceFunctionParamListEnd();
 
-  if (slices[adapter].u.branch.length>0)
+  if (SLICE_U(adapter).branch.length>0)
   {
     if (find_defense_in_normal_path(adapter,st))
       apply_setplay_alternate(adapter,st);

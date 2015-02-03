@@ -107,7 +107,7 @@ void promotion_insert_slices(slice_index si,
   TraceFunctionParamListEnd();
 
   slice_insertion_init_traversal(&st,&state,context);
-  state.base_rank = get_slice_rank(slices[si].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(si),&state);
   stip_traverse_structure(si,&st);
 
   deallocate_slice_insertion_prototypes(prototypes,nr_prototypes);

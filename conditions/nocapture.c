@@ -48,7 +48,7 @@ static void insert_remover(slice_index si, stip_structure_traversal *st)
 
   stip_traverse_structure_children(si,st);
 
-  if ((*enabled)[slices[si].starter])
+  if ((*enabled)[SLICE_STARTER(si)])
   {
     slice_index const prototype = alloc_pipe(STNocaptureRemoveCaptures);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
@@ -76,7 +76,7 @@ void solving_insert_nocapture(slice_index si)
 
   TraceStipulation(si);
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,&enabled);
   stip_structure_traversal_override_single(&st,

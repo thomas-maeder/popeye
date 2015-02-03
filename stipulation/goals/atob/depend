@@ -4,14 +4,17 @@ stipulation/goals/atob/reached_tester$(OBJ_SUFFIX): \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h stipulation/pipe.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
- stipulation/slice_functional_type.enum.h stipulation/traversal.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/goals/reached_tester.h stipulation/boolean/true.h \
- debugging/trace.h debugging/assert.h
+ debugging/assert.h
 
 stipulation/goals/atob/reached_tester.h:
 
@@ -41,6 +44,10 @@ output/mode.h:
 
 output/mode.enum.h:
 
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -55,12 +62,14 @@ stipulation/slice_functional_type.h:
 
 stipulation/slice_functional_type.enum.h:
 
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
 stipulation/traversal.h:
 
 stipulation/goals/reached_tester.h:
 
 stipulation/boolean/true.h:
-
-debugging/trace.h:
 
 debugging/assert.h:

@@ -58,7 +58,7 @@ static boolean no_king_check_tester_is_in_check(slice_index si,
   if (being_solved.king_square[side_in_check]==initsquare)
     return false;
   else
-    return is_in_check_recursive(slices[si].next1,side_in_check);
+    return is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
 }
 
 static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_index si,
@@ -73,7 +73,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 
   nextply(advers(side_in_check));
   push_observation_target(being_solved.king_square[side_in_check]);
-  result = is_in_check_recursive(slices[si].next1,side_in_check);
+  result = is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
   finply();
 
   TraceFunctionExit(__func__);
@@ -101,7 +101,7 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
      result = false;
    }
    else
-     result = is_in_check_recursive(slices[si].next1,side_in_check);
+     result = is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
 
    TraceFunctionExit(__func__);
    TraceFunctionResult("%u",result);
@@ -157,8 +157,8 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
   TraceEnumerator(Side,side_in_check,"");
   TraceFunctionParamListEnd();
 
-  TraceEnumerator(slice_type,slices[si].type,"\n");
-  switch (slices[si].type)
+  TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
+  switch (SLICE_TYPE(si))
   {
     case STNoCheckConceptCheckTester:
       result = false;
@@ -226,7 +226,7 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
  */
 boolean is_in_check(Side side_in_check)
 {
-  return is_in_check_recursive(slices[temporary_hack_check_tester].next2,
+  return is_in_check_recursive(SLICE_NEXT2(temporary_hack_check_tester),
                                side_in_check);
 }
 
@@ -272,7 +272,7 @@ static void insert_slice(slice_index testing, slice_type type)
   TraceEnumerator(slice_type,type,"");
   TraceFunctionParamListEnd();
 
-  state.base_rank = get_slice_rank(slices[testing].type,&state);
+  state.base_rank = get_slice_rank(SLICE_TYPE(testing),&state);
   assert(state.base_rank!=no_slice_rank);
   slice_insertion_init_traversal(&st,&state,stip_traversal_context_intro);
   stip_traverse_structure_children_pipe(testing,&st);

@@ -176,7 +176,7 @@ static void substitute_single_piece_move_generator(Side side)
 
   stip_structure_traversal_init(&st,0);
   stip_structure_traversal_override_single(&st,STMoveGenerator,&do_substitute);
-  stip_traverse_structure(slices[temporary_hack_circe_take_make_rebirth_squares_finder[side]].next2,&st);
+  stip_traverse_structure(SLICE_NEXT2(temporary_hack_circe_take_make_rebirth_squares_finder[side]),&st);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

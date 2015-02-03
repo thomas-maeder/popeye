@@ -43,8 +43,8 @@ slice_index alloc_min_length_optimiser_slice(stip_length_type length,
  */
 void min_length_optimiser_solve(slice_index si)
 {
-  slice_index const length = slices[si].u.branch.length;
-  slice_index const min_length = slices[si].u.branch.min_length;
+  slice_index const length = SLICE_U(si).branch.length;
+  slice_index const min_length = SLICE_U(si).branch.min_length;
   slice_index const save_max_unsolvable = max_unsolvable;
 
   TraceFunctionEntry(__func__);

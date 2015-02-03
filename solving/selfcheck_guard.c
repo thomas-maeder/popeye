@@ -54,7 +54,7 @@ void selfcheck_guard_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (is_in_check(advers(slices[si].starter)))
+  if (is_in_check(advers(SLICE_STARTER(si))))
     solve_result = previous_move_is_illegal;
   else
     pipe_solve_delegate(si);
@@ -82,7 +82,7 @@ static void insert_selfcheck_guard_branch(slice_index si,
   if (!state->is_branch_instrumented)
   {
     slice_index const prototype = alloc_selfcheck_guard_slice();
-    slices[prototype].starter = slices[si].starter;
+    SLICE_STARTER(prototype) = SLICE_STARTER(si);
     slice_insertion_insert_contextually(si,st->context,&prototype,1);
   }
 
@@ -146,18 +146,18 @@ static void insert_selfcheck_guard_goal(slice_index si,
                                         stip_structure_traversal *st)
 {
   in_branch_insertion_state_type * const state = st->param;
-  slice_index const tester = slices[si].next2;
+  slice_index const tester = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (state->last_checked!=slices[si].starter
+  if (state->last_checked!=SLICE_STARTER(si)
       && get_stip_structure_traversal_state(tester,st)==slice_not_traversed)
   {
     boolean const save_is_instrumented = state->is_branch_instrumented;
 
-    state->in_goal_tester = slices[si].u.goal_handler.goal.type;
+    state->in_goal_tester = SLICE_U(si).goal_handler.goal.type;
     state->is_branch_instrumented = false;
 
     stip_traverse_structure_next_branch(si,st);
@@ -196,10 +196,10 @@ static void instrument_negated_tester(slice_index si,
     slice_index const proxy_selfcheck = alloc_proxy_slice();
     slice_index const guard = alloc_selfcheck_guard_slice();
     slice_index const leaf_selfcheck = alloc_true_slice();
-    if (is_goal_move_oriented(slices[si].next1,st))
-      pipe_link(slices[si].prev,alloc_and_slice(proxy_not,proxy_selfcheck));
+    if (is_goal_move_oriented(SLICE_NEXT1(si),st))
+      pipe_link(SLICE_PREV(si),alloc_and_slice(proxy_not,proxy_selfcheck));
     else
-      pipe_link(slices[si].prev,alloc_and_slice(proxy_selfcheck,proxy_not));
+      pipe_link(SLICE_PREV(si),alloc_and_slice(proxy_selfcheck,proxy_not));
     pipe_link(proxy_not,si);
     pipe_link(proxy_selfcheck,guard);
     pipe_link(guard,leaf_selfcheck);
@@ -229,7 +229,7 @@ static void instrument_doublestalemate_tester(slice_index si,
     slice_index const prototype = alloc_selfcheck_guard_slice();
     /* no need to instrument the operand that tests for stalemate of the
      * starting side */
-    goal_branch_insert_slices(slices[si].next1,&prototype,1);
+    goal_branch_insert_slices(SLICE_NEXT1(si),&prototype,1);
     state->is_branch_instrumented = true;
   }
 
@@ -246,7 +246,7 @@ static void dont_instrument_selfcheck_ignoring_goals(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].u.goal_filter.applies_to_who==goal_applies_to_adversary)
+  if (SLICE_U(si).goal_filter.applies_to_who==goal_applies_to_adversary)
     state->is_branch_instrumented = true;
   else
     stip_traverse_structure_children_pipe(si,st);
@@ -284,8 +284,8 @@ static void remember_last_checked(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(slices[si].starter!=no_side);
-  state->last_checked = slices[si].starter;
+  assert(SLICE_STARTER(si)!=no_side);
+  state->last_checked = SLICE_STARTER(si);
   stip_traverse_structure_children_pipe(si,st);
   state->last_checked = save_last_checked;
 
@@ -382,7 +382,7 @@ static void instrument_immobile_reached_tester(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  insert_in_branch_guards(slices[si].next2);
+  insert_in_branch_guards(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -447,7 +447,7 @@ static void determine_need_for_move_inverter_instrumentation(slice_index si,
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_children_pipe(si,st);
-  state->guard_needed = state->last_guarded_side!=no_side && slices[si].starter!=state->last_guarded_side;
+  state->guard_needed = state->last_guarded_side!=no_side && SLICE_STARTER(si)!=state->last_guarded_side;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -463,7 +463,7 @@ static void remember_checked_side(slice_index si,
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  *side = slices[si].starter;
+  *side = SLICE_STARTER(si);
   stip_traverse_structure_children_pipe(si,st);
   *side = save_side;
 
@@ -523,11 +523,11 @@ void solving_insert_selfcheck_guards(slice_index si)
 
   TraceStipulation(si);
 
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
   insert_in_branch_guards(si);
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
   insert_guards_in_immobility_testers(si);
-  solving_impose_starter(si,slices[si].starter);
+  solving_impose_starter(si,SLICE_STARTER(si));
   instrument_move_inverters(si);
 
   TraceFunctionExit(__func__);

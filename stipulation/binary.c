@@ -20,12 +20,12 @@ slice_index alloc_binary_slice(slice_type type,
   TraceFunctionParam("%u",op2);
   TraceFunctionParamListEnd();
 
-  assert(op1==no_slice || slices[op1].type==STProxy);
-  assert(op2==no_slice || slices[op2].type==STProxy);
+  assert(op1==no_slice || SLICE_TYPE(op1)==STProxy);
+  assert(op2==no_slice || SLICE_TYPE(op2)==STProxy);
 
   result = create_slice(type);
-  slices[result].next1 = op1;
-  slices[result].next2 = op2;
+  SLICE_NEXT1(result) = op1;
+  SLICE_NEXT2(result) = op2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -48,23 +48,23 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
   TraceFunctionParamListEnd();
 
   stip_traverse_structure_binary_operand1(si,st);
-  root_op1 = state->spun_off[slices[si].next1];
+  root_op1 = state->spun_off[SLICE_NEXT1(si)];
   TraceValue("%u\n",root_op1);
 
   stip_traverse_structure_binary_operand2(si,st);
-  root_op2 = state->spun_off[slices[si].next2];
+  root_op2 = state->spun_off[SLICE_NEXT2(si)];
   TraceValue("%u\n",root_op2);
 
   if (st->context==stip_traversal_context_intro)
   {
     state->spun_off[si] = si;
-    pipe_unlink(slices[si].prev);
+    pipe_unlink(SLICE_PREV(si));
   }
   else
     state->spun_off[si] = copy_slice(si);
 
-  slices[state->spun_off[si]].next1 = root_op1;
-  slices[state->spun_off[si]].next2 = root_op2;
+  SLICE_NEXT1(state->spun_off[si]) = root_op1;
+  SLICE_NEXT2(state->spun_off[si]) = root_op2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -76,25 +76,25 @@ void binary_make_root(slice_index si, stip_structure_traversal *st)
  */
 void binary_detect_starter(slice_index si, stip_structure_traversal *st)
 {
-  slice_index const op1 = slices[si].next1;
-  slice_index const op2 = slices[si].next2;
+  slice_index const op1 = SLICE_NEXT1(si);
+  slice_index const op2 = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (slices[si].starter==no_side)
+  if (SLICE_STARTER(si)==no_side)
   {
     stip_traverse_structure(op1,st);
     stip_traverse_structure(op2,st);
 
-    if (slices[op1].starter==no_side)
-      slices[si].starter = slices[op2].starter;
+    if (SLICE_STARTER(op1)==no_side)
+      SLICE_STARTER(si) = SLICE_STARTER(op2);
     else
     {
-      assert(slices[op2].starter==no_side
-             || slices[op1].starter==slices[op2].starter);
-      slices[si].starter = slices[op1].starter;
+      assert(SLICE_STARTER(op2)==no_side
+             || SLICE_STARTER(op1)==SLICE_STARTER(op2));
+      SLICE_STARTER(si) = SLICE_STARTER(op1);
     }
   }
 
@@ -113,12 +113,12 @@ void stip_spin_off_testers_binary(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slices[si].tester = copy_slice(si);
+  SLICE_TESTER(si) = copy_slice(si);
   stip_traverse_structure_children(si,st);
-  assert(slices[slices[si].next1].tester!=no_slice);
-  assert(slices[slices[si].next2].tester!=no_slice);
-  slices[slices[si].tester].next1 = slices[slices[si].next1].tester;
-  slices[slices[si].tester].next2 = slices[slices[si].next2].tester;
+  assert(SLICE_TESTER(SLICE_NEXT1(si))!=no_slice);
+  assert(SLICE_TESTER(SLICE_NEXT2(si))!=no_slice);
+  SLICE_NEXT1(SLICE_TESTER(si)) = SLICE_TESTER(SLICE_NEXT1(si));
+  SLICE_NEXT2(SLICE_TESTER(si)) = SLICE_TESTER(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

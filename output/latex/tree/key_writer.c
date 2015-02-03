@@ -18,7 +18,7 @@ slice_index alloc_output_latex_tree_key_writer(FILE *file)
   TraceFunctionParamListEnd();
 
   result = alloc_pipe(STOutputLaTeXKeyWriter);
-  slices[result].u.writer.file = file;
+  SLICE_U(result).writer.file = file;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -45,7 +45,7 @@ void output_latex_tree_key_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fputs(" !",slices[si].u.writer.file);
+  fputs(" !",SLICE_U(si).writer.file);
 
   pipe_solve_delegate(si);
 

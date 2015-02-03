@@ -19,7 +19,7 @@ void pipe_this_move_illegal_if(slice_index si, boolean condition)
   if (condition)
     solve_result = this_move_is_illegal;
   else
-    solve(slices[si].next1);
+    solve(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -39,7 +39,7 @@ void pipe_this_move_solves_if(slice_index si, boolean condition)
   if (condition)
     solve_result = MOVE_HAS_SOLVED_LENGTH();
   else
-    solve(slices[si].next1);
+    solve(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -59,7 +59,7 @@ void pipe_this_move_doesnt_solve_if(slice_index si, boolean condition)
   if (condition)
     solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
   else
-    solve(slices[si].next1);
+    solve(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -89,7 +89,7 @@ void pipe_solve_delegate(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(slices[si].next1);
+  solve(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -104,7 +104,7 @@ void pipe_is_square_observed_delegate(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  is_square_observed_recursive(slices[si].next1);
+  is_square_observed_recursive(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -119,7 +119,7 @@ void pipe_move_generation_delegate(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(slices[si].next1);
+  generate_moves_delegate(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -135,7 +135,7 @@ void pipe_dispatch_delegate(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  dispatch(slices[si].next1);
+  dispatch(SLICE_NEXT1(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

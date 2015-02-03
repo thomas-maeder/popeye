@@ -45,7 +45,7 @@ slice_index alloc_orthodox_mating_king_contact_generator_generator_slice(void)
  */
 void orthodox_mating_king_contact_generator_solve(slice_index si)
 {
-  Side const moving = slices[si].starter;
+  Side const moving = SLICE_STARTER(si);
   Side const mated = advers(moving);
   square const sq_mated_king = being_solved.king_square[mated];
 
