@@ -878,7 +878,7 @@ boolean imitator_validate_observation(slice_index si)
   }
 
   if (result)
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -63,7 +63,7 @@ static boolean enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (walk==observing_walk[nbply])
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -442,7 +442,7 @@ boolean validate_observation_geometry(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_observation_geometry_validator[trait[nbply]]));
+  result = fork_validate_observation_recursive_delegate(temporary_hack_observation_geometry_validator[trait[nbply]]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -489,7 +489,7 @@ boolean validate_observer(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_observer_validator[trait[nbply]]));
+  result = fork_validate_observation_recursive_delegate(temporary_hack_observer_validator[trait[nbply]]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -536,7 +536,7 @@ boolean validate_check(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_check_validator[trait[nbply]]));
+  result = fork_validate_observation_recursive_delegate(temporary_hack_check_validator[trait[nbply]]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -554,7 +554,7 @@ boolean validate_observation(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(SLICE_NEXT2(temporary_hack_observation_validator[trait[nbply]]));
+  result = fork_validate_observation_recursive_delegate(temporary_hack_observation_validator[trait[nbply]]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

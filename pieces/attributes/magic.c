@@ -436,7 +436,7 @@ boolean magic_enforce_observer(slice_index si)
 
     if (TSTFLAG(being_solved.spec[sq_observer],Magic))
     {
-       if (pipe_validate_observation_recursive(si))
+       if (pipe_validate_observation_recursive_delegate(si))
         identify_line();
 
       result = false; /* we need all views */
@@ -445,7 +445,7 @@ boolean magic_enforce_observer(slice_index si)
       result = false;
   }
   else
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

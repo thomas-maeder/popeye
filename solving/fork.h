@@ -23,18 +23,25 @@
 stip_length_type fork_solve(slice_index si, stip_length_type n);
 
 /* Delegate solving to next2
- * @param si identifies the pipe
+ * @param si identifies the fork
  */
 void fork_solve_delegate(slice_index si);
 
 /* Delegate testing observation to next2
- * @param si identifies the pipe
+ * @param si identifies the fork
  */
 void fork_is_square_observed_delegate(slice_index si);
 
 /* Delegate generating to next2
- * @param si identifies the pipe
+ * @param si identifies the fork
  */
 void fork_move_generation_delegate(slice_index si);
+
+
+/* Delegate validating to next2
+ * @param si identifies the fork
+ * @return true iff the observation is valid
+ */
+boolean fork_validate_observation_recursive_delegate(slice_index si);
 
 #endif

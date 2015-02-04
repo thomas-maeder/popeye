@@ -207,7 +207,7 @@ boolean hunter_enforce_observer_direction(slice_index si)
 
   result = ((direction_validator[nbply]==0
              || (*direction_validator[nbply])(CURRMOVE_OF_PLY(nbply)))
-            && pipe_validate_observation_recursive(si));
+            && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

@@ -57,7 +57,7 @@ static boolean enforce_possibly_confronted_observer_walk(slice_index si,
   TraceEOL();
 
   if (walk==observing_walk[nbply])
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
   else
     result = false;
 

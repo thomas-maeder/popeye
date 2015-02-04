@@ -39,9 +39,9 @@ boolean patrol_validate_observation(slice_index si)
 
   if (TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Patrol))
     result = (is_mover_supported(CURRMOVE_OF_PLY(nbply))
-              && pipe_validate_observation_recursive(si));
+              && pipe_validate_observation_recursive_delegate(si));
   else
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -149,7 +149,7 @@ boolean ultrapatrol_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (is_mover_supported(CURRMOVE_OF_PLY(nbply))
-            && pipe_validate_observation_recursive(si));
+            && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

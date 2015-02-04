@@ -167,7 +167,7 @@ boolean woozles_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (woozles_can_observe(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && pipe_validate_observation_recursive(si));
+            && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -188,7 +188,7 @@ boolean biwoozles_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (woozles_can_observe(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && pipe_validate_observation_recursive(si));
+            && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -467,7 +467,7 @@ boolean heffalumps_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (heffalumps_can_observe_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && pipe_validate_observation_recursive(si));
+            && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -488,7 +488,7 @@ boolean biheffalumps_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (heffalumps_can_observe_on_line(side_woozle,CURRMOVE_OF_PLY(nbply))
-            && pipe_validate_observation_recursive(si));
+            && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

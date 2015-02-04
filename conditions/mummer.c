@@ -552,7 +552,7 @@ boolean ultra_mummer_validate_observation(slice_index si)
   result = (*mummer_measure_length[side_observing])()==mum_length[nbply];
 
   if (result)
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

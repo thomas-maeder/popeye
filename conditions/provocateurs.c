@@ -42,7 +42,7 @@ boolean provocateurs_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_piece_provoked_on(CURRMOVE_OF_PLY(nbply)))
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
   else
     result = false;
 

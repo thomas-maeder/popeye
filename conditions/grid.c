@@ -55,7 +55,7 @@ static boolean is_not_in_same_cell(numecoup n)
 boolean grid_validate_observation_geometry(slice_index si)
 {
   return (is_not_in_same_cell(CURRMOVE_OF_PLY(nbply))
-          && pipe_validate_observation_recursive(si));
+          && pipe_validate_observation_recursive_delegate(si));
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

@@ -53,23 +53,23 @@ boolean reflective_kings_enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (transmuting_kings_testing_transmutation[advers(trait[nbply])])
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
   else if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==sq_king)
   {
-    if (pipe_validate_observation_recursive(si))
+    if (pipe_validate_observation_recursive_delegate(si))
       result = true;
     else if (transmuting_kings_is_king_transmuting_as(observing_walk[nbply]))
     {
       piece_walk_type const save_walk = observing_walk[nbply];
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
-      result = pipe_validate_observation_recursive(si);
+      result = pipe_validate_observation_recursive_delegate(si);
       observing_walk[nbply] = save_walk;
     }
     else
       result = false;
   }
   else
-    result = pipe_validate_observation_recursive(si);
+    result = pipe_validate_observation_recursive_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

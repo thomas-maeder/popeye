@@ -30,7 +30,7 @@ static boolean is_mover_unsupported(numecoup n)
 boolean lortap_validate_observation(slice_index si)
 {
   return (is_mover_unsupported(CURRMOVE_OF_PLY(nbply))
-          && pipe_validate_observation_recursive(si));
+          && pipe_validate_observation_recursive_delegate(si));
 }
 
 /* Try to solve in solve_nr_remaining half-moves.

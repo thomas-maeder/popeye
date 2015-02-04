@@ -186,7 +186,7 @@ boolean bgl_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (is_move_within_bounds(CURRMOVE_OF_PLY(nbply))
-            && pipe_validate_observation_recursive(si));
+            && pipe_validate_observation_recursive_delegate(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
