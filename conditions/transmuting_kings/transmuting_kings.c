@@ -314,12 +314,12 @@ boolean transmuting_kings_enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (transmuting_kings_testing_transmutation[advers(trait[nbply])])
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
   else if (testing_with_non_transmuting_king[nbply])
   {
     assert(observing_walk[nbply]==get_walk_of_piece_on_square(sq_king));
     if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure==sq_king)
-      result = validate_observation_recursive(SLICE_NEXT1(si));
+      result = pipe_validate_observation_recursive(si);
     else
       result = false;
   }
@@ -329,7 +329,7 @@ boolean transmuting_kings_enforce_observer_walk(slice_index si)
     {
       piece_walk_type const save_walk = observing_walk[nbply];
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
-      result = validate_observation_recursive(SLICE_NEXT1(si));
+      result = pipe_validate_observation_recursive(si);
       observing_walk[nbply] = save_walk;
       is_king_transmuting_as_observing_walk[nbply] = does_transmute;
     }
@@ -340,7 +340,7 @@ boolean transmuting_kings_enforce_observer_walk(slice_index si)
     }
   }
   else
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

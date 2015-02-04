@@ -145,7 +145,7 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
       replace_walk(sq_dep,pprom);
       ++being_solved.number_of_pieces[side_attacking][pprom];
 
-      result = validate_observation_recursive(SLICE_NEXT1(si));
+      result = pipe_validate_observation_recursive(si);
 
       --being_solved.number_of_pieces[side_attacking][pprom];
       replace_walk(sq_dep,promotee);
@@ -155,7 +155,7 @@ boolean singleboxtype3_enforce_observer_walk(slice_index si)
       result = false;
   }
   else
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

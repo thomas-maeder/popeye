@@ -103,11 +103,11 @@ boolean undo_optimise_observation_by_queen(slice_index si)
   {
     piece_walk_type const save_observing_walk = observing_walk[nbply];
     observing_walk[nbply] = walk;
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
     observing_walk[nbply] = save_observing_walk;
   }
   else
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

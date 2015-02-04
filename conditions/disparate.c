@@ -66,7 +66,7 @@ boolean disparate_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   if (can_piece_move(CURRMOVE_OF_PLY(nbply)))
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
   else
     result = false;
 

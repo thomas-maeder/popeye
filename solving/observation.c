@@ -63,7 +63,7 @@ static boolean enforce_observer_walk(slice_index si)
   TraceFunctionParamListEnd();
 
   if (walk==observing_walk[nbply])
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -73,7 +73,7 @@ static boolean enforce_observer_walk(slice_index si)
 
 /* Continue validating an observation (or observer or observation geometry)
  * @param si identifies the slice with which to continue
- * @return rue iff the observation is valid
+ * @return true iff the observation is valid
  */
 boolean validate_observation_recursive(slice_index si)
 {

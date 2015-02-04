@@ -301,7 +301,7 @@ boolean mars_enforce_observer(slice_index si)
     occupy_square(context->rebirth_from,observing_walk[nbply],spec_observing);
     move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = context->rebirth_from;
 
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
 
     move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure = sq_observer;
     empty_square(context->rebirth_from);

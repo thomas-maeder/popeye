@@ -143,6 +143,26 @@ void pipe_move_generation_differnt_walk_delegate(slice_index si,
   TraceFunctionResultEnd();
 }
 
+/* Delegate validating to next1
+ * @param si identifies the pipe
+ * @return true iff the observation is valid
+ */
+boolean pipe_validate_observation_recursive(slice_index si)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result =  validate_observation_recursive(SLICE_NEXT1(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 /* Dispatch to next1. Intended to be used by pipes that can be used in different
  * contexts.
  * @param si identifies the pipe

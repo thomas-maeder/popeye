@@ -100,7 +100,7 @@ boolean backhome_existance_tester_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   exists[nbply] = exists_legal_move_back_home();
-  result = validate_observation_recursive(SLICE_NEXT1(si));
+  result = pipe_validate_observation_recursive(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -120,7 +120,7 @@ boolean back_home_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (goes_back_home_or_neednt(CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(SLICE_NEXT1(si)));
+            && pipe_validate_observation_recursive(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

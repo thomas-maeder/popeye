@@ -31,7 +31,7 @@ boolean paralysing_validate_observation_geometry(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  result = validate_observation_recursive(SLICE_NEXT1(si));
+  result = pipe_validate_observation_recursive(si);
 
   if (result && validating_paralysis_observation_geometry)
     result = TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],Paralysing);
@@ -164,7 +164,7 @@ boolean paralysing_validate_observer(slice_index si)
   result = (!TSTFLAG(being_solved.spec[move_generation_stack[CURRMOVE_OF_PLY(nbply)].departure],
                      Paralysing)
             && !is_paralysed(CURRMOVE_OF_PLY(nbply))
-            &&  validate_observation_recursive(SLICE_NEXT1(si)));
+            &&  pipe_validate_observation_recursive(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

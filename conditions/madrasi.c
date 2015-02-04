@@ -101,7 +101,7 @@ boolean madrasi_validate_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (!is_paralysed(CURRMOVE_OF_PLY(nbply))
-            && validate_observation_recursive(SLICE_NEXT1(si)));
+            && pipe_validate_observation_recursive(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

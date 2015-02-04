@@ -46,7 +46,7 @@ boolean amu_count_observation(slice_index si)
       result = false;
   }
   else
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

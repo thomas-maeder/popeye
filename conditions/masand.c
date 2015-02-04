@@ -44,7 +44,7 @@ boolean masand_enforce_observer(slice_index si)
   TraceFunctionParamListEnd();
 
   result = ((sq_observer== initsquare || sq_observer==sq_departure)
-            && validate_observation_recursive(SLICE_NEXT1(si)));
+            && pipe_validate_observation_recursive(si));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

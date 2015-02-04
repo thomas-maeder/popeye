@@ -100,7 +100,7 @@ boolean annan_enforce_observer_walk(slice_index si)
     walk = get_walk_of_piece_on_square(sq_departure);
 
   if (walk==observing_walk[nbply])
-    result = validate_observation_recursive(SLICE_NEXT1(si));
+    result = pipe_validate_observation_recursive(si);
   else
     result = false;
 

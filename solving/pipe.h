@@ -52,6 +52,12 @@ void pipe_move_generation_delegate(slice_index si);
 void pipe_move_generation_differnt_walk_delegate(slice_index si,
                                                  piece_walk_type w);
 
+/* Delegate validating to next1
+ * @param si identifies the pipe
+ * @return true iff the observation is valid
+ */
+boolean pipe_validate_observation_recursive(slice_index si);
+
 /* Dispatch to next1. Intended to be used by pipes that can be used in different
  * contexts.
  * @param si identifies the pipe
