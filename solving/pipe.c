@@ -125,6 +125,24 @@ void pipe_move_generation_delegate(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Delegate generating with different walk to next1
+ * @param si identifies the pipe
+ * @param w walk to generate for
+ */
+void pipe_move_generation_differnt_walk_delegate(slice_index si,
+                                                 piece_walk_type w)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceWalk(w);
+  TraceFunctionParamListEnd();
+
+  generate_moves_different_walk(SLICE_NEXT1(si),w);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Dispatch to next1. Intended to be used by pipes that can be used in different
  * contexts.
  * @param si identifies the pipe

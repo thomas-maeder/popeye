@@ -28,7 +28,7 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
   if (TSTFULLFLAGMASK(being_solved.spec[sq_departure],mask))
   {
     numecoup const base = CURRMOVE_OF_PLY(nbply);
-    generate_moves_different_walk(SLICE_NEXT1(si),King);
+    pipe_move_generation_differnt_walk_delegate(si,King);
     if (generate_moves_of_transmuting_king(si))
       remove_duplicate_moves_of_single_piece(base);
   }

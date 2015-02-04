@@ -5,6 +5,7 @@
  */
 
 #include "solving/machinery/solve.h"
+#include "pieces/pieces.h"
 
 /* Report illegality under some condition; go on otherwise
  * @param si identifies the pipe slice
@@ -43,6 +44,13 @@ void pipe_is_square_observed_delegate(slice_index si);
  * @param si identifies the pipe
  */
 void pipe_move_generation_delegate(slice_index si);
+
+/* Delegate generating with different walk to next1
+ * @param si identifies the pipe
+ * @param w walk to generate for
+ */
+void pipe_move_generation_differnt_walk_delegate(slice_index si,
+                                                 piece_walk_type w);
 
 /* Dispatch to next1. Intended to be used by pipes that can be used in different
  * contexts.

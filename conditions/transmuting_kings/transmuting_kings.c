@@ -97,7 +97,7 @@ boolean generate_moves_of_transmuting_king(slice_index si)
   for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
     {
-      generate_moves_different_walk(SLICE_NEXT1(si),*ptrans);
+      pipe_move_generation_differnt_walk_delegate(si,*ptrans);
       result = true;
     }
 
