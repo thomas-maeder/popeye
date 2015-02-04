@@ -14,7 +14,8 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/battle_play/branch.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h debugging/assert.h
+ solving/has_solution_type.enum.h solving/pipe.h solving/fork.h \
+ debugging/assert.h
 
 solving/battle_play/continuation.h:
 
@@ -79,6 +80,8 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
@@ -198,8 +201,8 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  solving/machinery/dispatch.h debugging/trace.h stipulation/binary.h \
  stipulation/proxy.h stipulation/boolean/true.h \
  stipulation/boolean/false.h stipulation/battle_play/branch.h \
- solving/pipe.h output/plaintext/message.h output/message.h \
- input/plaintext/language.h debugging/assert.h
+ solving/pipe.h solving/fork.h output/plaintext/message.h \
+ output/message.h input/plaintext/language.h debugging/assert.h
 
 solving/battle_play/try.h:
 
@@ -276,6 +279,8 @@ stipulation/boolean/false.h:
 stipulation/battle_play/branch.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 output/plaintext/message.h:
 

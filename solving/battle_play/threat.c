@@ -136,7 +136,7 @@ void threat_solver_solve(slice_index si)
 
   if (!is_in_check(SLICE_STARTER(si)))
   {
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
     threat_lengths[nbply] = solve_result-1;
   }
 

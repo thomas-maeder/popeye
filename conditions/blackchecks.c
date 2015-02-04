@@ -3,6 +3,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
@@ -202,7 +203,7 @@ void null_move_player_solve(slice_index si)
   if (move_generation_stack[CURRMOVE_OF_PLY(nbply)].arrival==nullsquare)
   {
     move_effect_journal_do_null_move();
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
   }
   else
     pipe_solve_delegate(si);

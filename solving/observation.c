@@ -686,7 +686,7 @@ void is_square_observed_two_paths(slice_index si)
   pipe_is_square_observed_delegate(si);
 
   if (!observation_result)
-    is_square_observed_recursive(SLICE_NEXT2(si));
+    fork_is_square_observed_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

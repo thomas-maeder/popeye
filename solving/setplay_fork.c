@@ -1,6 +1,7 @@
 #include "solving/setplay_fork.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -23,7 +24,7 @@ void setplay_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(SLICE_NEXT2(si));
+  fork_solve_delegate(si);
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);

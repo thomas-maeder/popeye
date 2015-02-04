@@ -1,6 +1,7 @@
 #include "solving/move_generator.h"
 #include "solving/temporary_hacks.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
@@ -8,9 +9,11 @@
 #include "conditions/circe/circe.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/pieces.h"
+
 #include "debugging/measure.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
+
 #include <string.h>
 #include <stdio.h>
 
@@ -287,7 +290,7 @@ void generate_moves_for_piece_two_paths(slice_index si)
   TraceFunctionParamListEnd();
 
   pipe_move_generation_delegate(si);
-  generate_moves_delegate(SLICE_NEXT2(si));
+  fork_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

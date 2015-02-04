@@ -11,10 +11,12 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/machinery/solve.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "output/plaintext/message.h"
-  #include "debugging/trace.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
+
 #include <limits.h>
 #include <stdlib.h>
 
@@ -167,7 +169,7 @@ void refutations_solver_solve(slice_index si)
   variations_result = solve_result;
 
   if (table_length(refutations)>0)
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
 
   solve_result = variations_result;
 

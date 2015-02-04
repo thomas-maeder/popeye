@@ -4,6 +4,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -45,7 +46,7 @@ void continuation_solver_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(SLICE_NEXT2(si));
+  fork_solve_delegate(si);
 
   if (move_has_solved())
   {

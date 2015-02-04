@@ -1,5 +1,7 @@
 #include "solving/boolean/and.h"
 #include "solving/has_solution_type.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "stipulation/constraint.h"
@@ -29,7 +31,7 @@ void and_solve(slice_index si)
 
   if (previous_move_is_illegal<solve_result
       && solve_result<=MOVE_HAS_SOLVED_LENGTH())
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -3,6 +3,7 @@
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -250,7 +251,7 @@ void transmuting_king_is_square_observed(slice_index si)
     {
       testing_with_non_transmuting_king[nbply] = true;
       observing_walk[nbply] = get_walk_of_piece_on_square(sq_king);
-      is_square_observed_recursive(SLICE_NEXT2(si));
+      fork_is_square_observed_delegate(si);
       testing_with_non_transmuting_king[nbply] = false;
     }
   }

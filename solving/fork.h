@@ -22,4 +22,19 @@
  */
 stip_length_type fork_solve(slice_index si, stip_length_type n);
 
+/* Delegate solving to next2
+ * @param si identifies the pipe
+ */
+void fork_solve_delegate(slice_index si);
+
+/* Delegate testing observation to next2
+ * @param si identifies the pipe
+ */
+void fork_is_square_observed_delegate(slice_index si);
+
+/* Delegate generating to next2
+ * @param si identifies the pipe
+ */
+void fork_move_generation_delegate(slice_index si);
+
 #endif

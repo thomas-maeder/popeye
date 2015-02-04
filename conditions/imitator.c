@@ -16,6 +16,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -1183,7 +1184,7 @@ void imitator_pawn_promoter_solve(slice_index si)
                                                sq_arrival);
 
       ++stack_pointer;
-      solve(SLICE_NEXT2(si));
+      fork_solve_delegate(si);
       --stack_pointer;
 
       promotion_horizon = save_horizon;

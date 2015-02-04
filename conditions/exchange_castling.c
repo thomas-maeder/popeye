@@ -6,6 +6,7 @@
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 
@@ -51,7 +52,7 @@ void exchange_castling_move_player_solve(slice_index si)
 
     castling_right_used_up[trait_ply] = true;
 
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
 
     castling_right_used_up[trait_ply] = false;
   }

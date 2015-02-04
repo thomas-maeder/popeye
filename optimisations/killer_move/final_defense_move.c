@@ -8,6 +8,7 @@
 #include "solving/fork_on_remaining.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "optimisations/killer_move/prioriser.h"
 #include "optimisations/killer_move/killer_move.h"
 #include "debugging/trace.h"
@@ -137,7 +138,7 @@ static void defend_with_killer_piece(slice_index si)
   if (TSTFLAG(being_solved.spec[killer_pos],defender))
   {
     init_single_piece_move_generator(killer_pos);
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
   }
   else
     solve_result = immobility_on_next_move;

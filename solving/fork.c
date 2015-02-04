@@ -1,5 +1,7 @@
 #include "solving/fork.h"
 #include "solving/has_solution_type.h"
+#include "solving/move_generator.h"
+#include "solving/observation.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -40,4 +42,49 @@ stip_length_type fork_solve(slice_index si, stip_length_type n)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+/* Delegate solving to next2
+ * @param si identifies the pipe
+ */
+void fork_solve_delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  solve(SLICE_NEXT2(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Delegate testing observation to next2
+ * @param si identifies the pipe
+ */
+void fork_is_square_observed_delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  is_square_observed_recursive(SLICE_NEXT2(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Delegate generating to next2
+ * @param si identifies the pipe
+ */
+void fork_move_generation_delegate(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  generate_moves_delegate(SLICE_NEXT2(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

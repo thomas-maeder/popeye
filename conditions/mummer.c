@@ -18,6 +18,7 @@
 #include "position/move_diff_code.h"
 #include "position/position.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -186,7 +187,7 @@ void mummer_orchestrator_solve(slice_index si)
 
   copyply();
   move_generator_invert_move_order(nbply);
-  solve(SLICE_NEXT2(si));
+  fork_solve_delegate(si);
   finply();
 
   /* in some very obscure situations (cf. bug #142), we would continue with

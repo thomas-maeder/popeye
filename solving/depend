@@ -549,9 +549,9 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- solving/temporary_hacks.h solving/pipe.h stipulation/slice_insertion.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/temporary_hacks.h solving/pipe.h solving/fork.h \
+ stipulation/slice_insertion.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -605,6 +605,8 @@ solving/ply.h:
 solving/temporary_hacks.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 stipulation/slice_insertion.h:
 
@@ -2923,7 +2925,7 @@ solving/end_of_branch_goal$(OBJ_SUFFIX): solving/end_of_branch_goal.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/assert.h
+ solving/pipe.h solving/fork.h debugging/assert.h
 
 solving/end_of_branch_goal.h:
 
@@ -2963,6 +2965,8 @@ solving/has_solution_type.enum.h:
 
 solving/pipe.h:
 
+solving/fork.h:
+
 debugging/assert.h:
 solving/setplay_fork$(OBJ_SUFFIX): solving/setplay_fork.c solving/setplay_fork.h \
  solving/machinery/solve.h stipulation/stipulation.h \
@@ -2972,7 +2976,7 @@ solving/setplay_fork$(OBJ_SUFFIX): solving/setplay_fork.c solving/setplay_fork.h
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h debugging/assert.h
+ solving/pipe.h solving/fork.h debugging/assert.h
 
 solving/setplay_fork.h:
 
@@ -3011,6 +3015,8 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 solving/if_then_else$(OBJ_SUFFIX): solving/if_then_else.c solving/if_then_else.h \
@@ -3544,7 +3550,8 @@ solving/fork$(OBJ_SUFFIX): solving/fork.c solving/fork.h solving/machinery/solve
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- debugging/assert.h
+ solving/move_generator.h solving/ply.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h debugging/assert.h
 
 solving/fork.h:
 
@@ -3581,6 +3588,16 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/move_generator.h:
+
+solving/ply.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 solving/end_of_branch_tester$(OBJ_SUFFIX): solving/end_of_branch_tester.c \

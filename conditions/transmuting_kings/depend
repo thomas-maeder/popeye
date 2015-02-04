@@ -10,8 +10,9 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  solving/temporary_hacks.h solving/move_generator.h \
  solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/fork.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -66,6 +67,8 @@ solving/machinery/solve.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 stipulation/proxy.h:
 

@@ -484,7 +484,7 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h solving/check.h solving/pipe.h \
+ position/pieceid.h solving/check.h solving/pipe.h solving/fork.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -542,6 +542,8 @@ position/pieceid.h:
 solving/check.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 stipulation/structure_traversal.h:
 
@@ -1508,7 +1510,7 @@ conditions/messigny$(OBJ_SUFFIX): conditions/messigny.c conditions/messigny.h \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h debugging/assert.h
+ stipulation/branch.h solving/pipe.h solving/fork.h debugging/assert.h
 
 conditions/messigny.h:
 
@@ -1585,6 +1587,8 @@ stipulation/traversal.h:
 stipulation/branch.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 conditions/actuated_revolving_centre$(OBJ_SUFFIX): \
@@ -3439,7 +3443,7 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  pieces/walks/vectors.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/move.h solving/castling.h \
  solving/move_generator.h solving/post_move_iteration.h solving/check.h \
- solving/pipe.h debugging/assert.h
+ solving/pipe.h solving/fork.h debugging/assert.h
 
 conditions/castling_chess.h:
 
@@ -3527,6 +3531,8 @@ solving/check.h:
 
 solving/pipe.h:
 
+solving/fork.h:
+
 debugging/assert.h:
 conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  solving/machinery/solve.h stipulation/stipulation.h \
@@ -3551,7 +3557,8 @@ conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
  solving/observation.h solving/temporary_hacks.h solving/move_generator.h \
  pieces/walks/angle/angles.h stipulation/pipe.h stipulation/proxy.h \
  stipulation/fork.h stipulation/branch.h stipulation/move.h \
- solving/post_move_iteration.h solving/pipe.h debugging/assert.h
+ solving/post_move_iteration.h solving/pipe.h solving/fork.h \
+ debugging/assert.h
 
 conditions/imitator.h:
 
@@ -3658,6 +3665,8 @@ stipulation/move.h:
 solving/post_move_iteration.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 conditions/football$(OBJ_SUFFIX): conditions/football.c conditions/football.h \
@@ -3783,7 +3792,7 @@ conditions/exchange_castling$(OBJ_SUFFIX): conditions/exchange_castling.c \
  pieces/walks/vectors.h position/castling_rights.h \
  solving/move_generator.h solving/ply.h solving/castling.h \
  solving/move_effect_journal.h position/pieceid.h solving/pipe.h \
- debugging/assert.h
+ solving/fork.h debugging/assert.h
 
 conditions/exchange_castling.h:
 
@@ -3842,6 +3851,8 @@ solving/move_effect_journal.h:
 position/pieceid.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 conditions/mummer$(OBJ_SUFFIX): conditions/mummer.c conditions/mummer.h \

@@ -8,6 +8,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -127,7 +128,7 @@ void messigny_move_player_solve(slice_index si)
     move_effect_journal_do_piece_exchange(move_effect_reason_messigny_exchange,
                                           sq_arrival,sq_departure);
 
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
   }
   else
     pipe_solve_delegate(si);

@@ -1,6 +1,7 @@
 #include "solving/end_of_branch_goal.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -23,7 +24,7 @@ void end_of_branch_goal_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(SLICE_NEXT2(si));
+  fork_solve_delegate(si);
 
   if (solve_result>MOVE_HAS_SOLVED_LENGTH())
     pipe_solve_delegate(si);

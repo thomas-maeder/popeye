@@ -79,7 +79,7 @@ void castling_player_solve(slice_index si)
       square const sq_partner_arrival = sq_departure+dir_right;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      solve(SLICE_NEXT2(si));
+      fork_solve_delegate(si);
 
       break;
     }
@@ -90,7 +90,7 @@ void castling_player_solve(slice_index si)
       square const sq_partner_arrival = sq_departure+dir_left;
 
       castle(sq_departure,sq_arrival,sq_partner_departure,sq_partner_arrival);
-      solve(SLICE_NEXT2(si));
+      fork_solve_delegate(si);
 
       break;
     }

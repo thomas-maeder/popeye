@@ -11,6 +11,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/check.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -53,7 +54,7 @@ void castling_chess_move_player_solve(slice_index si)
                                           sq_capture-offset_platzwechsel_rochade,
                                           sq_passed);
 
-    solve(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
   }
   else
     pipe_solve_delegate(si);
