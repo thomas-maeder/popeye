@@ -8,6 +8,7 @@
 #include "stipulation/fork.h"
 #include "solving/post_move_iteration.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -68,7 +69,7 @@ void supercirce_no_rebirth_fork_solve(slice_index si)
 
   if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id_no_rebirth[nbply])
   {
-    dispatch(SLICE_NEXT2(si));
+    fork_solve_delegate(si);
     if (!post_move_iteration_locked[nbply])
       lock_post_move_iterations();
   }

@@ -1335,7 +1335,7 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  conditions/circe/relevant_side.h conditions/circe/rex_inclusive.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/fork.h solving/post_move_iteration.h solving/pipe.h \
- debugging/assert.h
+ solving/fork.h debugging/assert.h
 
 conditions/circe/super.h:
 
@@ -1434,6 +1434,8 @@ stipulation/fork.h:
 solving/post_move_iteration.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 conditions/circe/capture_fork$(OBJ_SUFFIX): conditions/circe/capture_fork.c \

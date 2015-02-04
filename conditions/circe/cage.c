@@ -110,7 +110,7 @@ void circe_cage_no_cage_fork_solve(slice_index si)
   if (post_move_iteration_id[nbply]==prev_post_move_iteration_id_no_cage[nbply])
   {
     if (no_cage_for_current_capture[nbply])
-      dispatch(SLICE_NEXT2(si));
+      fork_solve_delegate(si);
     else
     {
       pipe_dispatch_delegate(si);
