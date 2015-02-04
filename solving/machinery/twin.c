@@ -1340,6 +1340,7 @@ static boolean verify_position(slice_index si)
     piece_walk_type p;
     piece_walk_type firstprompiece;
     unsigned int check_piece_index = 0;
+    boolean is_check_piece[nr_piece_walks] = { false };
 
     if (CondFlag[losingchess] || CondFlag[dynasty] || CondFlag[extinction])
       firstprompiece = King;
@@ -1358,6 +1359,7 @@ static boolean verify_position(slice_index si)
           if (p!=Hamster)
           {
             checkpieces[check_piece_index] = p;
+            is_check_piece[p] = true;
             check_piece_index++;
           }
         }
@@ -1367,10 +1369,13 @@ static boolean verify_position(slice_index si)
     {
       unsigned int i;
       for (i = 0; i!=nr_king_vaulters[White]; ++i)
-        if (king_vaulters[White][i]>Bishop && !piece_walk_may_exist[king_vaulters[White][i]])
+        if (king_vaulters[White][i]>Bishop
+            && !piece_walk_may_exist[king_vaulters[White][i]]
+            && !is_check_piece[king_vaulters[White][i]])
         {
           piece_walk_may_exist_fairy = true;
           checkpieces[check_piece_index] = king_vaulters[White][i];
+          is_check_piece[king_vaulters[White][i]] = true;
           check_piece_index++;
           break;
         }
@@ -1379,14 +1384,19 @@ static boolean verify_position(slice_index si)
     {
       unsigned int i;
       for (i = 0; i!=nr_king_vaulters[Black]; ++i)
-        if (king_vaulters[Black][i]>Bishop && !piece_walk_may_exist[king_vaulters[Black][i]])
+        if (king_vaulters[Black][i]>Bishop
+            && !piece_walk_may_exist[king_vaulters[Black][i]]
+            && !is_check_piece[king_vaulters[Black][i]])
         {
           piece_walk_may_exist_fairy = true;
           checkpieces[check_piece_index] = king_vaulters[Black][i];
+          is_check_piece[king_vaulters[Black][i]] = true;
           check_piece_index++;
           break;
         }
     }
+
+    checkpieces[check_piece_index] = 0;
   }
 
   {
