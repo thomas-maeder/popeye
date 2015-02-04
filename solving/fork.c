@@ -1,7 +1,6 @@
 #include "solving/fork.h"
 #include "solving/has_solution_type.h"
 #include "solving/move_generator.h"
-#include "solving/observation.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -72,6 +71,27 @@ void fork_is_square_observed_delegate(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* Delegate testing observation to next2
+ * @param si identifies the fork
+ * @return true iff the target square is observed
+ */
+boolean fork_is_square_observed_nested_delegate(slice_index si,
+                                                validator_id evaluate)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  result = is_square_observed_nested(SLICE_NEXT2(si),evaluate);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
 /* Delegate generating to next2

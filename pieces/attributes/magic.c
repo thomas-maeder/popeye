@@ -469,8 +469,8 @@ static void PushMagicViewsByOnePiece(piece_walk_type pi_magic)
       replace_observation_target(*pos_viewed);
       observing_walk[nbply] = pi_magic;
       /* ignore return value - it's ==false */
-      is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
-                                EVALUATE(observation));
+      fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
+                                              EVALUATE(observation));
     }
 
   TraceFunctionExit(__func__);

@@ -57,8 +57,8 @@ static boolean find_mutual_observer(void)
 
   ++phase[parent_ply[nbply]];
 
-  result = is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
-                                     EVALUATE(observer));
+  result = fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
+                                                   EVALUATE(observer));
 
   --phase[parent_ply[nbply]];
 
@@ -95,8 +95,8 @@ static boolean find_observer_of_observer(Side side_woozle, numecoup n)
     {
       observing_walk[nbply] = *pcheck;
       if (being_solved.number_of_pieces[side_woozle][*pcheck]>0
-          && is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
-                                       EVALUATE(observer)))
+          && fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
+                                                     EVALUATE(observer)))
       {
         result = false;
         break;

@@ -69,8 +69,8 @@ static boolean is_paralysed(numecoup n)
       siblingply(eiffel_side);
       push_observation_target(sq_departure);
       observing_walk[nbply] = eiffel_piece;
-      result = is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
-                                         EVALUATE(observation_geometry));
+      result = fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
+                                                       EVALUATE(observation_geometry));
       finply();
     }
   }

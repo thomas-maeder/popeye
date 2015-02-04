@@ -641,8 +641,8 @@ boolean observation_result;
  */
 boolean is_square_observed(validator_id evaluate)
 {
-  return is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed[trait[nbply]]),
-                                   evaluate);
+  return fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed[trait[nbply]],
+                                                 evaluate);
 }
 
 /* Perform a nested observation validation run from within an observation

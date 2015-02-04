@@ -68,8 +68,8 @@ boolean transmuting_kings_is_king_transmuting_as(piece_walk_type walk)
     siblingply(advers(side_attacking));
     push_observation_target(being_solved.king_square[side_attacking]);
     observing_walk[nbply] = walk;
-    result = is_square_observed_nested(SLICE_NEXT2(temporary_hack_is_square_observed_specific[trait[nbply]]),
-                                       EVALUATE(observation));
+    result = fork_is_square_observed_nested_delegate(temporary_hack_is_square_observed_specific[trait[nbply]],
+                                                     EVALUATE(observation));
     finply();
 
     transmuting_kings_testing_transmutation[side_attacking] = false;
