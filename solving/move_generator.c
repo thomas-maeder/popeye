@@ -264,7 +264,7 @@ static boolean always_reject(numecoup n)
 void move_generation_reject_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_delegate(SLICE_NEXT1(si));
+  pipe_move_generation_delegate(si);
   move_generator_filter_captures(base,&always_reject);
 }
 
@@ -274,7 +274,7 @@ void move_generation_reject_captures(slice_index si)
 void move_generation_reject_non_captures(slice_index si)
 {
   numecoup const base = CURRMOVE_OF_PLY(nbply);
-  generate_moves_delegate(SLICE_NEXT1(si));
+  pipe_move_generation_delegate(si);
   move_generator_filter_noncaptures(base,&always_reject);
 }
 
@@ -286,7 +286,7 @@ void generate_moves_for_piece_two_paths(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(SLICE_NEXT1(si));
+  pipe_move_generation_delegate(si);
   generate_moves_delegate(SLICE_NEXT2(si));
 
   TraceFunctionExit(__func__);

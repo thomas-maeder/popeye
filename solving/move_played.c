@@ -1,5 +1,6 @@
 #include "solving/move_played.h"
 #include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -25,7 +26,7 @@ void attack_played_solve(slice_index si)
   assert(solve_nr_remaining>=next_move_has_solution);
 
   --solve_nr_remaining;
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
   ++solve_nr_remaining;
 
   if (solve_result==immobility_on_next_move) /* oops - unintentional stalemate! */
@@ -59,7 +60,7 @@ void defense_played_solve(slice_index si)
   assert(solve_nr_remaining>=next_move_has_solution);
 
   --solve_nr_remaining;
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
   ++solve_nr_remaining;
 
   ++solve_result;
@@ -86,7 +87,7 @@ void help_move_played_solve(slice_index si)
   assert(solve_nr_remaining>=next_move_has_solution);
 
   --solve_nr_remaining;
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
   ++solve_nr_remaining;
 
   ++solve_result;

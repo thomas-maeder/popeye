@@ -1,8 +1,9 @@
 #include "solving/battle_play/continuation.h"
 #include "stipulation/slice_insertion.h"
-#include "solving/has_solution_type.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -55,7 +56,7 @@ void continuation_solver_solve(slice_index si)
 
     if (solve_nr_remaining>solve_result)
       solve_nr_remaining = solve_result;
-    solve(SLICE_NEXT1(si));
+    pipe_solve_delegate(si);
     solve_nr_remaining = save_solve_nr_remaining;
 
     assert(solve_result==test_result);

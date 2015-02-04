@@ -9,7 +9,7 @@ conditions/transmuting_kings/transmuting_kings$(OBJ_SUFFIX): \
  pieces/walks/vectors.h solving/ply.h debugging/trace.h \
  solving/temporary_hacks.h solving/move_generator.h \
  solving/machinery/solve.h \
- solving/find_square_observer_tracking_back_from_target.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -64,6 +64,8 @@ solving/move_generator.h:
 solving/machinery/solve.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/pipe.h:
 
 stipulation/proxy.h:
 
@@ -231,7 +233,7 @@ conditions/transmuting_kings/reflective_kings$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
  solving/machinery/solve.h \
- solving/find_square_observer_tracking_back_from_target.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/proxy.h stipulation/pipe.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -288,6 +290,8 @@ solving/machinery/solve.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 
+solving/pipe.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -332,7 +336,7 @@ conditions/transmuting_kings/vaulting_kings$(OBJ_SUFFIX): \
  solving/ply.h debugging/trace.h solving/temporary_hacks.h \
  conditions/transmuting_kings/transmuting_kings.h \
  solving/move_generator.h solving/machinery/solve.h \
- solving/find_square_observer_tracking_back_from_target.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  position/position.h position/color.h position/color.enum.h \
  position/castling_rights.h debugging/assert.h
 
@@ -381,6 +385,8 @@ solving/move_generator.h:
 solving/machinery/solve.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/pipe.h:
 
 position/position.h:
 

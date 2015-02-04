@@ -67,7 +67,7 @@ void exchange_castling_move_player_solve(slice_index si)
  */
 void exchange_castling_generate_moves_for_piece(slice_index si)
 {
-  generate_moves_delegate(SLICE_NEXT1(si));
+  pipe_move_generation_delegate(si);
 
   if (move_generation_current_walk==King
       && !castling_right_used_up[trait[nbply]])

@@ -11,6 +11,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/temporary_hacks.h"
 #include "solving/fork.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -181,7 +182,7 @@ void paralysing_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_paralysed(current_generation))
-    generate_moves_delegate(SLICE_NEXT1(si));
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

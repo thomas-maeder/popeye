@@ -49,12 +49,13 @@ debugging/measure$(OBJ_SUFFIX): debugging/measure.c debugging/measure.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- output/plaintext/protocol.h optimisations/hash.h DHT/dhtbcmem.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/ply.h output/plaintext/plaintext.h solving/move_effect_journal.h \
- position/castling_rights.h position/pieceid.h output/output.h \
- debugging/assert.h stipulation/move.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ output/plaintext/protocol.h solving/pipe.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h optimisations/hash.h \
+ DHT/dhtbcmem.h solving/ply.h output/plaintext/plaintext.h \
+ solving/move_effect_journal.h position/castling_rights.h \
+ position/pieceid.h output/output.h debugging/assert.h stipulation/move.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -89,15 +90,17 @@ output/mode.enum.h:
 
 output/plaintext/protocol.h:
 
-optimisations/hash.h:
-
-DHT/dhtbcmem.h:
+solving/pipe.h:
 
 solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+optimisations/hash.h:
+
+DHT/dhtbcmem.h:
 
 solving/ply.h:
 

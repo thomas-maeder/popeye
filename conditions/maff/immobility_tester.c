@@ -1,11 +1,12 @@
 #include "conditions/maff/immobility_tester.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/boolean/and.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "solving/king_move_generator.h"
 #include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
@@ -112,7 +113,7 @@ void maff_immobility_tester_king_solve(slice_index si)
   /* stop counting once we have >1 legal king moves */
   legal_move_count_init(1);
 
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
 
   /* apply the MAFF rule */
   solve_result = (legal_move_counter_count[nbply]==1

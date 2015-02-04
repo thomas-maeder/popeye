@@ -4,6 +4,7 @@
 #include "solving/move_generator.h"
 #include "solving/castling.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/pipe.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
@@ -23,7 +24,7 @@ static void generate_moves_for_possibly_confronted_piece(slice_index si,
     generate_moves_different_walk(SLICE_NEXT1(si),
                                   get_walk_of_piece_on_square(confronter_pos));
   else
-    generate_moves_delegate(SLICE_NEXT1(si));
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

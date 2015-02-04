@@ -5,9 +5,10 @@
 #include "solving/move_effect_journal.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/has_solution_type.h"
+#include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/has_solution_type.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/move.h"
 #include "stipulation/branch.h"
@@ -76,7 +77,7 @@ void phantom_avoid_duplicate_moves(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(SLICE_NEXT1(si));
+  pipe_move_generation_delegate(si);
 
   for (curr_from_sq_rebirth = start_moves_from_rebirth_square+1;
        curr_from_sq_rebirth<=CURRMOVE_OF_PLY(nbply);

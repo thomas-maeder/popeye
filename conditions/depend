@@ -785,7 +785,7 @@ conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h \
  solving/move_generator.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/observation.h solving/temporary_hacks.h \
- solving/find_square_observer_tracking_back_from_target.h
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h
 
 conditions/madrasi.h:
 
@@ -838,6 +838,8 @@ solving/observation.h:
 solving/temporary_hacks.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/pipe.h:
 conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \
  conditions/conditions.h position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
@@ -941,7 +943,7 @@ conditions/disparate$(OBJ_SUFFIX): conditions/disparate.c conditions/disparate.h
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h position/position.h position/color.h \
+ position/pieceid.h solving/pipe.h position/position.h position/color.h \
  position/color.enum.h
 
 conditions/disparate.h:
@@ -992,6 +994,8 @@ position/castling_rights.h:
 
 position/pieceid.h:
 
+solving/pipe.h:
+
 position/position.h:
 
 position/color.h:
@@ -1005,7 +1009,7 @@ conditions/eiffel$(OBJ_SUFFIX): conditions/eiffel.c conditions/eiffel.h \
  solving/move_generator.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- solving/find_square_observer_tracking_back_from_target.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  position/position.h position/color.h position/color.enum.h \
  position/castling_rights.h
 
@@ -1052,6 +1056,8 @@ pieces/walks/vectors.h:
 solving/temporary_hacks.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/pipe.h:
 
 position/position.h:
 
@@ -4487,8 +4493,8 @@ conditions/beamten$(OBJ_SUFFIX): conditions/beamten.c conditions/beamten.h \
  solving/move_generator.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h
+ solving/pipe.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h
 
 conditions/beamten.h:
 
@@ -4531,6 +4537,8 @@ solving/observation.h:
 pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
+
+solving/pipe.h:
 
 position/position.h:
 
@@ -4630,8 +4638,8 @@ conditions/central$(OBJ_SUFFIX): conditions/central.c conditions/central.h \
  solving/move_generator.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h debugging/assert.h
+ solving/pipe.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h debugging/assert.h
 
 conditions/central.h:
 
@@ -4674,6 +4682,8 @@ solving/observation.h:
 pieces/walks/vectors.h:
 
 solving/temporary_hacks.h:
+
+solving/pipe.h:
 
 position/position.h:
 
@@ -5398,7 +5408,7 @@ conditions/annan$(OBJ_SUFFIX): conditions/annan.c conditions/annan.h \
  solving/ply.h debugging/trace.h solving/temporary_hacks.h \
  solving/move_generator.h solving/machinery/solve.h solving/castling.h \
  solving/move_effect_journal.h position/pieceid.h \
- solving/find_square_observer_tracking_back_from_target.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -5467,6 +5477,8 @@ solving/move_effect_journal.h:
 position/pieceid.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/pipe.h:
 
 stipulation/pipe.h:
 
@@ -6017,7 +6029,8 @@ conditions/bicolores$(OBJ_SUFFIX): conditions/bicolores.c conditions/bicolores.h
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h solving/observation.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/machinery/solve.h
+ debugging/trace.h solving/temporary_hacks.h solving/machinery/solve.h \
+ solving/pipe.h
 
 conditions/bicolores.h:
 
@@ -6058,6 +6071,8 @@ debugging/trace.h:
 solving/temporary_hacks.h:
 
 solving/machinery/solve.h:
+
+solving/pipe.h:
 conditions/antikings$(OBJ_SUFFIX): conditions/antikings.c conditions/antikings.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
@@ -6360,7 +6375,7 @@ conditions/facetoface$(OBJ_SUFFIX): conditions/facetoface.c conditions/facetofac
  position/color.h position/color.enum.h position/castling_rights.h \
  solving/move_generator.h solving/machinery/solve.h solving/castling.h \
  solving/move_effect_journal.h position/pieceid.h \
- solving/find_square_observer_tracking_back_from_target.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
  stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -6427,6 +6442,8 @@ solving/move_effect_journal.h:
 position/pieceid.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/pipe.h:
 
 stipulation/pipe.h:
 

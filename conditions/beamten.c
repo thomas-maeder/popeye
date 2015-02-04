@@ -1,6 +1,7 @@
 #include "conditions/beamten.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
@@ -60,7 +61,7 @@ void beamten_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (!is_unobserved_beamter(current_generation))
-    generate_moves_delegate(SLICE_NEXT1(si));
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -130,7 +130,7 @@ void help_adapter_solve(slice_index si)
   assert(solve_nr_remaining==length_unspecified);
 
   solve_nr_remaining = full_length;
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
   solve_nr_remaining = length_unspecified;
 
   if (solve_result==immobility_on_next_move)

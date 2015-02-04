@@ -1,14 +1,15 @@
 #include "conditions/owu/immobility_tester.h"
 #include "stipulation/stipulation.h"
-#include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/boolean/and.h"
+#include "solving/has_solution_type.h"
 #include "solving/king_move_generator.h"
 #include "solving/non_king_move_generator.h"
 #include "solving/legal_move_counter.h"
 #include "solving/capture_counter.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -122,7 +123,7 @@ void owu_immobility_tester_king_solve(slice_index si)
   /* stop counting once we have >1 legal king captures */
   capture_counter_interesting = 1;
 
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
 
   solve_result = (legal_move_counter_count[nbply]==0 && capture_counter_count==1
                   ? previous_move_has_solved

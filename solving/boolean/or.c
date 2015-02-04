@@ -1,4 +1,5 @@
 #include "solving/boolean/or.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -21,7 +22,7 @@ void or_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
 
   if (solve_result>=MOVE_HAS_NOT_SOLVED_LENGTH())
     solve(SLICE_NEXT2(si));

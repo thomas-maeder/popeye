@@ -3,6 +3,7 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -32,7 +33,7 @@ void reflective_kings_generate_moves_for_piece(slice_index si)
       remove_duplicate_moves_of_single_piece(base);
   }
   else
-    generate_moves_delegate(SLICE_NEXT1(si));
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

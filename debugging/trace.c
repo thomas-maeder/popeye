@@ -584,7 +584,7 @@ void TraceStipulation(slice_index si)
 void move_tracer_solve(slice_index si)
 {
   TraceCurrentMove();
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
 }
 
 /* Instrument slices with move tracers

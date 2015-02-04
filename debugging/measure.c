@@ -1,5 +1,6 @@
 #include "debugging/measure.h"
 #include "stipulation/stipulation.h"
+#include "solving/pipe.h"
 #include "optimisations/hash.h"
 #include "output/plaintext/plaintext.h"
 
@@ -30,7 +31,7 @@ DEFINE_COUNTER(play_move)
 void move_counter_solve(slice_index si)
 {
   INCREMENT_COUNTER(play_move);
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
 }
 
 /* Instrument slices with move counters

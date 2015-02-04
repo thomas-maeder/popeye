@@ -2,6 +2,7 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
@@ -119,7 +120,7 @@ void transmuting_kings_generate_moves_for_piece(slice_index si)
 
   if (!(TSTFULLFLAGMASK(being_solved.spec[curr_generation->departure],mask)
         && generate_moves_of_transmuting_king(si)))
-    generate_moves_delegate(SLICE_NEXT1(si));
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -240,7 +241,7 @@ void transmuting_king_is_square_observed(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  is_square_observed_recursive(SLICE_NEXT1(si));
+  pipe_is_square_observed_delegate(si);
 
   if (!observation_result)
   {
@@ -275,7 +276,7 @@ void transmuting_king_detect_non_transmutation(slice_index si)
 
   is_king_transmuting_as_observing_walk[nbply] = dont_know;
 
-  is_square_observed_recursive(SLICE_NEXT1(si));
+  pipe_is_square_observed_delegate(si);
 
   if (!observation_result && !is_king_transmuting_as_any_walk[nbply])
     switch (is_king_transmuting_as_observing_walk[nbply])

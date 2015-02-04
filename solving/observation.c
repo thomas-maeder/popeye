@@ -41,6 +41,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/fork.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
@@ -682,7 +683,7 @@ void is_square_observed_two_paths(slice_index si)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  is_square_observed_recursive(SLICE_NEXT1(si));
+  pipe_is_square_observed_delegate(si);
 
   if (!observation_result)
     is_square_observed_recursive(SLICE_NEXT2(si));

@@ -336,7 +336,7 @@ solving/find_by_increasing_length$(OBJ_SUFFIX): solving/find_by_increasing_lengt
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/pipe.h stipulation/proxy.h stipulation/help_play/branch.h \
- debugging/assert.h
+ solving/pipe.h debugging/assert.h
 
 solving/find_by_increasing_length.h:
 
@@ -395,6 +395,8 @@ stipulation/pipe.h:
 stipulation/proxy.h:
 
 stipulation/help_play/branch.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
@@ -1963,8 +1965,8 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/fork.h solving/find_square_observer_tracking_back_from_target.h \
- stipulation/proxy.h stipulation/pipe.h stipulation/binary.h \
- debugging/assert.h
+ solving/pipe.h stipulation/proxy.h stipulation/pipe.h \
+ stipulation/binary.h debugging/assert.h
 
 solving/observation.h:
 
@@ -2138,6 +2140,8 @@ solving/fork.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 
+solving/pipe.h:
+
 stipulation/proxy.h:
 
 stipulation/pipe.h:
@@ -2291,7 +2295,8 @@ solving/find_square_observer_tracking_back_from_target$(OBJ_SUFFIX): \
  pieces/walks/skylla_charybdis.h pieces/walks/edgehog.h \
  pieces/walks/kangaroo.h pieces/walks/querquisite.h pieces/walks/ubiubi.h \
  pieces/walks/radial.h pieces/walks/orphan.h pieces/walks/friend.h \
- pieces/walks/hunters.h pieces/walks/sting.h debugging/assert.h
+ pieces/walks/hunters.h pieces/walks/sting.h solving/pipe.h \
+ debugging/assert.h
 
 solving/find_square_observer_tracking_back_from_target.h:
 
@@ -2410,6 +2415,8 @@ pieces/walks/friend.h:
 pieces/walks/hunters.h:
 
 pieces/walks/sting.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 solving/ply$(OBJ_SUFFIX): solving/ply.c solving/ply.h position/side.h \
@@ -2916,7 +2923,7 @@ solving/end_of_branch_goal$(OBJ_SUFFIX): solving/end_of_branch_goal.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- debugging/assert.h
+ solving/pipe.h debugging/assert.h
 
 solving/end_of_branch_goal.h:
 
@@ -2953,6 +2960,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 solving/setplay_fork$(OBJ_SUFFIX): solving/setplay_fork.c solving/setplay_fork.h \
@@ -3108,7 +3117,7 @@ solving/move_played$(OBJ_SUFFIX): solving/move_played.c solving/move_played.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- debugging/assert.h
+ solving/pipe.h debugging/assert.h
 
 solving/move_played.h:
 
@@ -3145,6 +3154,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 solving/move_player$(OBJ_SUFFIX): solving/move_player.c solving/move_player.h \

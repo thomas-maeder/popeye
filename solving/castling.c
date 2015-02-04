@@ -416,7 +416,7 @@ void castling_generator_generate_castling(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  generate_moves_delegate(SLICE_NEXT1(si));
+  pipe_move_generation_delegate(si);
 
   if (is_king(move_generation_current_walk))
     generate_castling();

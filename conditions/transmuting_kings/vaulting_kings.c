@@ -3,6 +3,7 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
@@ -84,7 +85,7 @@ void vaulting_kings_generate_moves_for_piece(slice_index si)
       return; /* don't generate non-vaulting moves */
   }
 
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
 }
 
 /* Determine whether a square is observed be the side at the move according to
@@ -101,11 +102,11 @@ void vaulting_king_is_square_observed(slice_index si)
   TraceFunctionParamListEnd();
 
   if (being_solved.king_square[side_observing]==initsquare)
-    solve(SLICE_NEXT1(si));
+    pipe_solve_delegate(si);
   else
   {
     is_king_vaulting[nbply] = dont_know;
-    solve(SLICE_NEXT1(si));
+    pipe_solve_delegate(si);
   }
 
   TraceFunctionExit(__func__);

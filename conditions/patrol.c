@@ -167,7 +167,7 @@ void ultrapatrol_generate_moves_for_piece(slice_index si)
   TraceFunctionParamListEnd();
 
   if (is_mover_supported(current_generation))
-    generate_moves_delegate(SLICE_NEXT1(si));
+    pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

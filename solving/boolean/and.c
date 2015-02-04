@@ -25,7 +25,7 @@ void and_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(SLICE_NEXT1(si));
+  pipe_solve_delegate(si);
 
   if (previous_move_is_illegal<solve_result
       && solve_result<=MOVE_HAS_SOLVED_LENGTH())

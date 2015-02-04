@@ -12,9 +12,9 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
- stipulation/battle_play/branch.h debugging/assert.h
+ stipulation/battle_play/branch.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/pipe.h debugging/assert.h
 
 solving/battle_play/continuation.h:
 
@@ -68,15 +68,17 @@ stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
-
 stipulation/testing_pipe.h:
 
 stipulation/pipe.h:
 
 stipulation/battle_play/branch.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+solving/pipe.h:
 
 debugging/assert.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \

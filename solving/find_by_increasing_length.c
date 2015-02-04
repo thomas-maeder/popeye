@@ -4,6 +4,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -57,7 +58,7 @@ void find_by_increasing_length_solve(slice_index si)
        solve_nr_remaining<=save_solve_nr_remaining;
        solve_nr_remaining += 2)
   {
-    solve(SLICE_NEXT1(si));
+    pipe_solve_delegate(si);
     if (solve_result==MOVE_HAS_SOLVED_LENGTH()
         && solve_nr_remaining<result_intermediate)
       result_intermediate = solve_nr_remaining;

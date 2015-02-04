@@ -3,6 +3,7 @@
 #include "conditions/singlebox/type1.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"
+#include "solving/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
@@ -10,7 +11,7 @@
 void dont_try_observing_with_non_existing_walk(slice_index si)
 {
   if (being_solved.number_of_pieces[trait[nbply]][observing_walk[nbply]]>0)
-    is_square_observed_recursive(SLICE_NEXT1(si));
+    pipe_is_square_observed_delegate(si);
   else
     observation_result = false;
 }
@@ -18,7 +19,7 @@ void dont_try_observing_with_non_existing_walk(slice_index si)
 void dont_try_observing_with_non_existing_walk_both_sides(slice_index si)
 {
   if (being_solved.number_of_pieces[White][observing_walk[nbply]]+being_solved.number_of_pieces[Black][observing_walk[nbply]]>0)
-    is_square_observed_recursive(SLICE_NEXT1(si));
+    pipe_is_square_observed_delegate(si);
   else
     observation_result = false;
 }
@@ -32,7 +33,7 @@ static boolean observation_by_bishop_tested[maxply+1];
  */
 void optimise_away_observations_by_queen_initialise(slice_index si)
 {
-  is_square_observed_recursive(SLICE_NEXT1(si));
+  pipe_is_square_observed_delegate(si);
   observation_by_rook_tested[nbply] = false;
   observation_by_bishop_tested[nbply] = false;
 }
@@ -45,12 +46,12 @@ void optimise_away_observations_by_queen(slice_index si)
   switch (observing_walk[nbply])
   {
     case Rook:
-      is_square_observed_recursive(SLICE_NEXT1(si));
+      pipe_is_square_observed_delegate(si);
       observation_by_rook_tested[nbply] = true;
       break;
 
     case Bishop:
-      is_square_observed_recursive(SLICE_NEXT1(si));
+      pipe_is_square_observed_delegate(si);
       observation_by_bishop_tested[nbply] = true;
       break;
 
@@ -62,7 +63,7 @@ void optimise_away_observations_by_queen(slice_index si)
         else
         {
           observing_walk[nbply] = Bishop;
-          is_square_observed_recursive(SLICE_NEXT1(si));
+          pipe_is_square_observed_delegate(si);
           observing_walk[nbply] = Queen;
         }
       }
@@ -71,16 +72,16 @@ void optimise_away_observations_by_queen(slice_index si)
         if (observation_by_bishop_tested[nbply])
         {
           observing_walk[nbply] = Rook;
-          is_square_observed_recursive(SLICE_NEXT1(si));
+          pipe_is_square_observed_delegate(si);
           observing_walk[nbply] = Queen;
         }
         else
-          is_square_observed_recursive(SLICE_NEXT1(si));
+          pipe_is_square_observed_delegate(si);
       }
       break;
 
     default:
-      is_square_observed_recursive(SLICE_NEXT1(si));
+      pipe_is_square_observed_delegate(si);
       break;
   }
 }

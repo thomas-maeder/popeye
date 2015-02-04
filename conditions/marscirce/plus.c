@@ -3,6 +3,7 @@
 #include "solving/move_generator.h"
 #include "solving/observation.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/pipe.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
@@ -37,7 +38,7 @@ static void try_rebirth_and_generate(slice_index si, square sq_rebirth)
     occupy_square(sq_rebirth,get_walk_of_piece_on_square(sq_departure),being_solved.spec[sq_departure]);
     empty_square(sq_departure);
 
-    generate_moves_delegate(SLICE_NEXT1(si));
+    pipe_move_generation_delegate(si);
 
     occupy_square(sq_departure,get_walk_of_piece_on_square(sq_rebirth),being_solved.spec[sq_rebirth]);
     empty_square(sq_rebirth);
@@ -101,7 +102,7 @@ static void is_square_observed_from_rebirth_square(slice_index si,
     if (is_square_empty(sq_rebirth))
     {
       occupy_square(sq_rebirth,observing_walk[nbply],spec_observing);
-      is_square_observed_recursive(SLICE_NEXT1(si));
+      pipe_is_square_observed_delegate(si);
       empty_square(sq_rebirth);
     }
 
@@ -147,7 +148,7 @@ void plus_is_square_observed(slice_index si)
   TraceValue("%u",si);
   TraceFunctionParamListEnd();
 
-  is_square_observed_recursive(SLICE_NEXT1(si));
+  pipe_is_square_observed_delegate(si);
 
   if (!observation_result)
   {

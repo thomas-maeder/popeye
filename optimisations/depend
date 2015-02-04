@@ -562,7 +562,7 @@ optimisations/observation$(OBJ_SUFFIX): optimisations/observation.c \
  position/castling_rights.h conditions/singlebox/type1.h \
  solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h \
- solving/move_generator.h stipulation/branch.h \
+ solving/move_generator.h solving/pipe.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -627,6 +627,8 @@ solving/machinery/solve.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/move_generator.h:
+
+solving/pipe.h:
 
 stipulation/branch.h:
 
