@@ -18,7 +18,7 @@ conditions/exclusive$(OBJ_SUFFIX): conditions/exclusive.c conditions/exclusive.h
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h stipulation/slice_insertion.h stipulation/move.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/temporary_hacks.h solving/fork.h solving/pipe.h \
+ solving/temporary_hacks.h solving/conditional_pipe.h solving/pipe.h \
  debugging/assert.h
 
 conditions/exclusive.h:
@@ -109,7 +109,7 @@ solving/has_solution_type.enum.h:
 
 solving/temporary_hacks.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 solving/pipe.h:
 
@@ -125,6 +125,7 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  pieces/walks/vectors.h position/castling_rights.h options/options.h \
  input/plaintext/language.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/pipe.h solving/fork.h \
+ solving/observation.h solving/ply.h solving/temporary_hacks.h \
  output/plaintext/message.h output/message.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/detect_retraction.h stipulation/pipe.h \
@@ -136,8 +137,7 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h stipulation/move.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/temporary_hacks.h \
- solving/post_move_iteration.h solving/ply.h \
+ stipulation/help_play/branch.h solving/post_move_iteration.h \
  solving/move_effect_journal.h position/pieceid.h \
  output/plaintext/language_dependant.h input/plaintext/twin.h \
  input/plaintext/token.h conditions/mummer.h \
@@ -205,6 +205,12 @@ solving/pipe.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
+
 output/plaintext/message.h:
 
 output/message.h:
@@ -241,11 +247,7 @@ stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
 
-solving/temporary_hacks.h:
-
 solving/post_move_iteration.h:
-
-solving/ply.h:
 
 solving/move_effect_journal.h:
 
@@ -485,6 +487,7 @@ conditions/blackchecks$(OBJ_SUFFIX): conditions/blackchecks.c \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
  solving/ply.h solving/move_effect_journal.h position/castling_rights.h \
  position/pieceid.h solving/check.h solving/pipe.h solving/fork.h \
+ solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -544,6 +547,12 @@ solving/check.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
 
 stipulation/structure_traversal.h:
 
@@ -1510,7 +1519,8 @@ conditions/messigny$(OBJ_SUFFIX): conditions/messigny.c conditions/messigny.h \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/pipe.h solving/fork.h debugging/assert.h
+ stipulation/branch.h solving/pipe.h solving/fork.h solving/observation.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 conditions/messigny.h:
 
@@ -1589,6 +1599,10 @@ stipulation/branch.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 conditions/actuated_revolving_centre$(OBJ_SUFFIX): \
@@ -3443,7 +3457,8 @@ conditions/castling_chess$(OBJ_SUFFIX): conditions/castling_chess.c \
  pieces/walks/vectors.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/move.h solving/castling.h \
  solving/move_generator.h solving/post_move_iteration.h solving/check.h \
- solving/pipe.h solving/fork.h debugging/assert.h
+ solving/pipe.h solving/fork.h solving/observation.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 conditions/castling_chess.h:
 
@@ -3532,6 +3547,10 @@ solving/check.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 conditions/imitator$(OBJ_SUFFIX): conditions/imitator.c conditions/imitator.h \
@@ -3792,7 +3811,8 @@ conditions/exchange_castling$(OBJ_SUFFIX): conditions/exchange_castling.c \
  pieces/walks/vectors.h position/castling_rights.h \
  solving/move_generator.h solving/ply.h solving/castling.h \
  solving/move_effect_journal.h position/pieceid.h solving/pipe.h \
- solving/fork.h debugging/assert.h
+ solving/fork.h solving/observation.h solving/temporary_hacks.h \
+ debugging/assert.h
 
 conditions/exchange_castling.h:
 
@@ -3854,6 +3874,10 @@ solving/pipe.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+solving/temporary_hacks.h:
+
 debugging/assert.h:
 conditions/mummer$(OBJ_SUFFIX): conditions/mummer.c conditions/mummer.h \
  solving/machinery/solve.h stipulation/stipulation.h \
@@ -3876,9 +3900,10 @@ conditions/mummer$(OBJ_SUFFIX): conditions/mummer.c conditions/mummer.h \
  stipulation/proxy.h stipulation/boolean/true.h stipulation/branch.h \
  stipulation/slice_insertion.h stipulation/battle_play/branch.h \
  stipulation/help_play/branch.h solving/post_move_iteration.h \
- solving/move_generator.h solving/fork.h position/move_diff_code.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h solving/pipe.h debugging/assert.h
+ solving/move_generator.h solving/conditional_pipe.h \
+ position/move_diff_code.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h solving/pipe.h \
+ solving/fork.h debugging/assert.h
 
 conditions/mummer.h:
 
@@ -3964,7 +3989,7 @@ solving/post_move_iteration.h:
 
 solving/move_generator.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 position/move_diff_code.h:
 
@@ -3977,6 +4002,8 @@ position/color.enum.h:
 position/castling_rights.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 conditions/monochrome$(OBJ_SUFFIX): conditions/monochrome.c conditions/monochrome.h \
@@ -5328,7 +5355,7 @@ conditions/ohneschach$(OBJ_SUFFIX): conditions/ohneschach.c conditions/ohneschac
  stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/slice_insertion.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/battle_play/branch.h \
- solving/recursion_stopper.h solving/check.h solving/fork.h \
+ solving/recursion_stopper.h solving/check.h solving/conditional_pipe.h \
  solving/pipe.h debugging/assert.h
 
 conditions/ohneschach.h:
@@ -5403,7 +5430,7 @@ solving/recursion_stopper.h:
 
 solving/check.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 solving/pipe.h:
 
@@ -5696,8 +5723,8 @@ conditions/brunner$(OBJ_SUFFIX): conditions/brunner.c conditions/brunner.h \
  solving/temporary_hacks.h solving/check.h solving/observation.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/machinery/solve.h solving/move_generator.h \
- solving/fork.h stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/conditional_pipe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -5753,7 +5780,7 @@ solving/machinery/solve.h:
 
 solving/move_generator.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 stipulation/structure_traversal.h:
 
@@ -5908,7 +5935,7 @@ conditions/backhome$(OBJ_SUFFIX): conditions/backhome.c conditions/backhome.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_generator.h solving/ply.h \
  solving/observation.h solving/temporary_hacks.h \
- solving/legal_move_counter.h solving/pipe.h solving/fork.h \
+ solving/legal_move_counter.h solving/pipe.h solving/conditional_pipe.h \
  solving/check.h debugging/assert.h
 
 conditions/backhome.h:
@@ -5995,7 +6022,7 @@ solving/legal_move_counter.h:
 
 solving/pipe.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 solving/check.h:
 

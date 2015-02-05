@@ -9,7 +9,7 @@
 #include "solving/observation.h"
 #include "solving/legal_move_counter.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/check.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -69,8 +69,7 @@ static boolean exists_legal_move_back_home(void)
   legal_move_count_init(0);
 
   /* the first found legal move back home refutes */
-  result = (fork_solve(temporary_hack_back_home_finder[trait[nbply]],
-                       length_unspecified)
+  result = (conditional_pipe_solve(temporary_hack_back_home_finder[trait[nbply]])
             == next_move_has_no_solution);
 
   legal_move_count_fini();

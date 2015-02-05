@@ -5,7 +5,7 @@
 #include "solving/observation.h"
 #include "solving/machinery/solve.h"
 #include "solving/move_generator.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
@@ -22,8 +22,7 @@ boolean brunner_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = (fork_solve(temporary_hack_brunner_check_defense_finder[trait[nbply]],
-                       length_unspecified)
+  result = (conditional_pipe_solve(temporary_hack_brunner_check_defense_finder[trait[nbply]])
             ==next_move_has_solution);
 
   PUSH_OBSERVATION_TARGET_AGAIN(nbply);

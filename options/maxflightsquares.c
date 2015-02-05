@@ -2,7 +2,7 @@
 #include "stipulation/pipe.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
@@ -75,7 +75,7 @@ static boolean are_there_too_many_flights(slice_index si)
   number_flights_left = max_nr_flights+1;
   save_rbn = being_solved.king_square[fleeing];
 
-  result = fork_solve(si,length_unspecified)==next_move_has_solution;
+  result = conditional_pipe_solve(si)==next_move_has_solution;
 
   save_rbn = initsquare;
 

@@ -39,7 +39,7 @@
 #include "pieces/attributes/magic.h"
 #include "solving/move_generator.h"
 #include "solving/has_solution_type.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/pipe.h"
 #include "stipulation/stipulation.h"
@@ -260,13 +260,13 @@ boolean validate_observation_recursive(slice_index si)
       break;
 
     case STValidatingObservationGeometryByPlayingMove:
-      result = (fork_solve(temporary_hack_move_legality_tester[trait[nbply]],length_unspecified)
+      result = (conditional_pipe_solve(temporary_hack_move_legality_tester[trait[nbply]])
                 ==next_move_has_solution);
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
 
     case STValidateCheckMoveByPlayingCapture:
-      result = (fork_solve(temporary_hack_king_capture_legality_tester[trait[nbply]],length_unspecified)
+      result = (conditional_pipe_solve(temporary_hack_king_capture_legality_tester[trait[nbply]])
                 ==next_move_has_solution);
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;

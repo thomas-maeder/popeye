@@ -8,7 +8,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/recursion_stopper.h"
 #include "solving/check.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -133,7 +133,7 @@ void ohneschach_stop_if_check_and_not_mate_solve(slice_index si)
   {
     ohneschach_undecidable_goal_detected[nbply+1] = false;
 
-    switch (fork_solve(si,length_unspecified))
+    switch (conditional_pipe_solve(si))
     {
       case previous_move_is_illegal:
         ohneschach_undecidable_goal_detected[nbply] = recursion_stopped;

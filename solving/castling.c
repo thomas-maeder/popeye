@@ -2,7 +2,7 @@
 #include "pieces/walks/walks.h"
 #include "solving/move_generator.h"
 #include "solving/check.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "stipulation/proxy.h"
@@ -680,8 +680,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
     curr_generation->arrival = to;
     push_move();
 
-    result = (fork_solve(temporary_hack_castling_intermediate_move_legality_tester[side],
-                         length_unspecified)
+    result = (conditional_pipe_solve(temporary_hack_castling_intermediate_move_legality_tester[side])
               ==next_move_has_solution);
 
     finply();

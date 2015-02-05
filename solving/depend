@@ -550,6 +550,7 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/temporary_hacks.h solving/pipe.h solving/fork.h \
+ solving/observation.h pieces/walks/vectors.h \
  stipulation/slice_insertion.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -565,8 +566,8 @@ solving/move_generator$(OBJ_SUFFIX): solving/move_generator.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h output/plaintext/plaintext.h \
  output/output.h output/plaintext/pieces.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- debugging/measure.h output/plaintext/protocol.h debugging/assert.h
+ position/color.h position/color.enum.h debugging/measure.h \
+ output/plaintext/protocol.h debugging/assert.h
 
 solving/move_generator.h:
 
@@ -607,6 +608,10 @@ solving/temporary_hacks.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
 
 stipulation/slice_insertion.h:
 
@@ -667,8 +672,6 @@ position/position.h:
 position/color.h:
 
 position/color.enum.h:
-
-pieces/walks/vectors.h:
 
 debugging/measure.h:
 
@@ -1285,7 +1288,7 @@ solving/castling$(OBJ_SUFFIX): solving/castling.c solving/castling.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h pieces/walks/walks.h solving/move_generator.h \
- solving/check.h solving/fork.h solving/has_solution_type.h \
+ solving/check.h solving/conditional_pipe.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
@@ -1353,7 +1356,7 @@ solving/move_generator.h:
 
 solving/check.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 solving/has_solution_type.h:
 
@@ -1966,9 +1969,10 @@ solving/observation$(OBJ_SUFFIX): solving/observation.c solving/observation.h \
  optimisations/observation.h pieces/walks/hunters.h \
  pieces/attributes/paralysing/paralysing.h pieces/attributes/magic.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h solving/find_square_observer_tracking_back_from_target.h \
- solving/pipe.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/binary.h debugging/assert.h
+ solving/conditional_pipe.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/binary.h \
+ debugging/assert.h
 
 solving/observation.h:
 
@@ -2138,7 +2142,7 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
 
@@ -2684,7 +2688,9 @@ solving/constraint$(OBJ_SUFFIX): solving/constraint.c solving/constraint.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h solving/pipe.h debugging/assert.h
+ solving/fork.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h solving/pipe.h \
+ debugging/assert.h
 
 solving/constraint.h:
 
@@ -2723,6 +2729,14 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
 
 solving/pipe.h:
 
@@ -2874,7 +2888,9 @@ solving/end_of_branch$(OBJ_SUFFIX): solving/end_of_branch.c solving/end_of_branc
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h solving/pipe.h debugging/assert.h
+ solving/fork.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h solving/pipe.h \
+ debugging/assert.h
 
 solving/end_of_branch.h:
 
@@ -2914,6 +2930,14 @@ solving/has_solution_type.enum.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -2925,7 +2949,9 @@ solving/end_of_branch_goal$(OBJ_SUFFIX): solving/end_of_branch_goal.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/fork.h debugging/assert.h
+ solving/pipe.h solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
+ debugging/assert.h
 
 solving/end_of_branch_goal.h:
 
@@ -2967,6 +2993,14 @@ solving/pipe.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
+
 debugging/assert.h:
 solving/setplay_fork$(OBJ_SUFFIX): solving/setplay_fork.c solving/setplay_fork.h \
  solving/machinery/solve.h stipulation/stipulation.h \
@@ -2976,7 +3010,9 @@ solving/setplay_fork$(OBJ_SUFFIX): solving/setplay_fork.c solving/setplay_fork.h
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/fork.h debugging/assert.h
+ solving/pipe.h solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
+ debugging/assert.h
 
 solving/setplay_fork.h:
 
@@ -3017,6 +3053,14 @@ solving/has_solution_type.enum.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 solving/if_then_else$(OBJ_SUFFIX): solving/if_then_else.c solving/if_then_else.h \
@@ -3548,10 +3592,10 @@ solving/fork$(OBJ_SUFFIX): solving/fork.c solving/fork.h solving/machinery/solve
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/move_generator.h solving/ply.h solving/observation.h \
- pieces/walks/vectors.h solving/temporary_hacks.h debugging/assert.h
+ solving/move_generator.h debugging/assert.h
 
 solving/fork.h:
 
@@ -3585,19 +3629,19 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
+
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
 solving/move_generator.h:
-
-solving/ply.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
-
-solving/temporary_hacks.h:
 
 debugging/assert.h:
 solving/end_of_branch_tester$(OBJ_SUFFIX): solving/end_of_branch_tester.c \
@@ -3678,3 +3722,47 @@ solving/machinery/dispatch.h:
 debugging/trace.h:
 
 debugging/assert.h:
+solving/conditional_pipe$(OBJ_SUFFIX): solving/conditional_pipe.c \
+ solving/conditional_pipe.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h
+
+solving/conditional_pipe.h:
+
+solving/machinery/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:

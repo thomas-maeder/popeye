@@ -9,7 +9,7 @@
 #include "stipulation/move.h"
 #include "solving/has_solution_type.h"
 #include "solving/temporary_hacks.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -347,8 +347,7 @@ static void detect_exclusivity_and_solve_accordingly(slice_index si)
   exclusive_chess_nr_continuations_reaching_goal[nbply] = 0;
   nr_decidable_continuations_not_reaching_goal[nbply] = 0;
 
-  fork_solve(temporary_hack_exclusive_mating_move_counter[SLICE_STARTER(si)],
-             length_unspecified);
+  conditional_pipe_solve(temporary_hack_exclusive_mating_move_counter[SLICE_STARTER(si)]);
 
   TraceValue("%u",nbply);
   TraceValue("%u",nr_decidable_continuations_not_reaching_goal[nbply]);

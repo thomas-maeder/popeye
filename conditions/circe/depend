@@ -726,8 +726,8 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/pipe.h stipulation/branch.h stipulation/fork.h \
  solving/temporary_hacks.h solving/single_piece_move_generator.h \
- solving/post_move_iteration.h solving/move_generator.h solving/fork.h \
- solving/pipe.h debugging/assert.h
+ solving/post_move_iteration.h solving/move_generator.h \
+ solving/conditional_pipe.h solving/pipe.h debugging/assert.h
 
 conditions/circe/cage.h:
 
@@ -837,7 +837,7 @@ solving/post_move_iteration.h:
 
 solving/move_generator.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 solving/pipe.h:
 
@@ -1335,7 +1335,8 @@ conditions/circe/super$(OBJ_SUFFIX): conditions/circe/super.c \
  conditions/circe/relevant_side.h conditions/circe/rex_inclusive.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/fork.h solving/post_move_iteration.h solving/pipe.h \
- solving/fork.h debugging/assert.h
+ solving/fork.h solving/observation.h solving/temporary_hacks.h \
+ debugging/assert.h
 
 conditions/circe/super.h:
 
@@ -1436,6 +1437,10 @@ solving/post_move_iteration.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 conditions/circe/capture_fork$(OBJ_SUFFIX): conditions/circe/capture_fork.c \
@@ -2120,7 +2125,7 @@ conditions/circe/takemake$(OBJ_SUFFIX): conditions/circe/takemake.c \
  stipulation/pipe.h stipulation/branch.h stipulation/move.h \
  solving/temporary_hacks.h solving/post_move_iteration.h \
  solving/single_piece_move_generator.h solving/move_generator.h \
- solving/fork.h solving/pipe.h debugging/assert.h
+ solving/conditional_pipe.h solving/pipe.h debugging/assert.h
 
 conditions/circe/takemake.h:
 
@@ -2228,7 +2233,7 @@ solving/single_piece_move_generator.h:
 
 solving/move_generator.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 solving/pipe.h:
 

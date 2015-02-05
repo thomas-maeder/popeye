@@ -14,7 +14,7 @@
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "position/move_diff_code.h"
 #include "position/position.h"
 #include "solving/pipe.h"
@@ -546,8 +546,7 @@ boolean ultra_mummer_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fork_solve(temporary_hack_ultra_mummer_length_measurer[side_observing],
-             length_unspecified);
+  conditional_pipe_solve(temporary_hack_ultra_mummer_length_measurer[side_observing]);
 
   result = (*mummer_measure_length[side_observing])()==mum_length[nbply];
 

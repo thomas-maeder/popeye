@@ -10,7 +10,7 @@
 #include "solving/move_generator.h"
 #include "solving/has_solution_type.h"
 #include "solving/temporary_hacks.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -136,8 +136,7 @@ boolean suffocated_by_paralysis(Side side)
 
   paralysis_suspended = true;
 
-  result = (fork_solve(temporary_hack_suffocation_by_paralysis_finder[side],
-                       length_unspecified)
+  result = (conditional_pipe_solve(temporary_hack_suffocation_by_paralysis_finder[side])
             ==next_move_has_solution);
 
   paralysis_suspended = false;

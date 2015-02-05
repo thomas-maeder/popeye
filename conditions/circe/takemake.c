@@ -12,7 +12,7 @@
 #include "solving/single_piece_move_generator.h"
 #include "solving/move_generator.h"
 #include "solving/single_piece_move_generator.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -52,8 +52,7 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
 
   init_single_piece_move_generator(sq_capture);
 
-  result = (fork_solve(temporary_hack_circe_take_make_rebirth_squares_finder[relevant_side],
-                       length_unspecified)
+  result = (conditional_pipe_solve(temporary_hack_circe_take_make_rebirth_squares_finder[relevant_side])
             ==next_move_has_solution);
 
   assert(pi_capturing!=Invalid);
