@@ -1,6 +1,6 @@
 #include "solving/constraint.h"
 #include "solving/has_solution_type.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -25,7 +25,7 @@ void constraint_solve(slice_index si)
   TraceFunctionParamListEnd();
 
 
-  switch (fork_solve(si,length_unspecified))
+  switch (conditional_pipe_solve(si))
   {
     case previous_move_has_solved:
     case next_move_has_solution:
