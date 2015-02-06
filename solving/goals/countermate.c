@@ -1,8 +1,8 @@
 #include "solving/goals/countermate.h"
 #include "solving/has_solution_type.h"
-#include "solving/fork.h"
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/pipe.h"
+#include "solving/conditional_pipe.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/goals/mate/reached_tester.h"
 #include "debugging/trace.h"
@@ -46,7 +46,7 @@ void countermate_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (fork_solve(si,slack_length)==slack_length)
+  if (conditional_pipe_solve(si)==previous_move_has_solved)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   pipe_solve_delegate(si);

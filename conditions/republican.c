@@ -7,7 +7,10 @@
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
+#include "solving/temporary_hacks.h"
+#include "solving/post_move_iteration.h"
+#include "solving/move_effect_journal.h"
 #include "output/plaintext/message.h"
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "optimisations/detect_retraction.h"
@@ -16,9 +19,6 @@
 #include "stipulation/move.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
-#include "solving/temporary_hacks.h"
-#include "solving/post_move_iteration.h"
-#include "solving/move_effect_journal.h"
 #include "output/plaintext/language_dependant.h"
 #include "debugging/trace.h"
 
@@ -56,8 +56,8 @@ static boolean is_mate_square(Side other_side)
 
     occupy_square(being_solved.king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
-    if (fork_solve(temporary_hack_mate_tester[other_side],slack_length)
-        ==slack_length)
+    if (conditional_pipe_solve(temporary_hack_mate_tester[other_side])
+        ==previous_move_has_solved)
       result = true;
 
     empty_square(being_solved.king_square[other_side]);

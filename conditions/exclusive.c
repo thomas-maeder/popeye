@@ -11,7 +11,6 @@
 #include "solving/temporary_hacks.h"
 #include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -308,13 +307,13 @@ void exclusive_chess_legality_tester_solve(slice_index si)
     if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
       solve_result = this_move_is_illegal;
     else
-      switch (fork_solve(temporary_hack_mate_tester[advers(trait[nbply])],slack_length))
+      switch (conditional_pipe_solve(temporary_hack_mate_tester[advers(trait[nbply])]))
       {
-        case previous_move_is_illegal:
+        case this_move_is_illegal:
           solve_result = this_move_is_illegal;
           break;
 
-        case previous_move_has_not_solved:
+        case next_move_has_no_solution:
           pipe_solve_delegate(si);
           break;
 

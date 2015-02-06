@@ -6,7 +6,9 @@ solving/goals/reached_tester$(OBJ_SUFFIX): solving/goals/reached_tester.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h solving/pipe.h debugging/assert.h
+ solving/fork.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h solving/pipe.h \
+ debugging/assert.h
 
 solving/goals/reached_tester.h:
 
@@ -46,6 +48,14 @@ solving/has_solution_type.enum.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -58,8 +68,10 @@ solving/goals/doublemate$(OBJ_SUFFIX): solving/goals/doublemate.c \
  solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
  solving/goals/prerequisite_guards.h solving/ply.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/fork.h stipulation/conditional_pipe.h \
- stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/pipe.h solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h \
+ stipulation/conditional_pipe.h stipulation/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -112,6 +124,12 @@ solving/pipe.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
+
 stipulation/conditional_pipe.h:
 
 stipulation/pipe.h:
@@ -145,9 +163,9 @@ solving/goals/countermate$(OBJ_SUFFIX): solving/goals/countermate.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork.h solving/goals/prerequisite_guards.h solving/ply.h \
- solving/pipe.h stipulation/conditional_pipe.h stipulation/pipe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
+ solving/goals/prerequisite_guards.h solving/ply.h solving/pipe.h \
+ solving/conditional_pipe.h stipulation/conditional_pipe.h \
+ stipulation/pipe.h stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -192,13 +210,13 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
-solving/fork.h:
-
 solving/goals/prerequisite_guards.h:
 
 solving/ply.h:
 
 solving/pipe.h:
+
+solving/conditional_pipe.h:
 
 stipulation/conditional_pipe.h:
 
@@ -608,7 +626,7 @@ solving/goals/immobile$(OBJ_SUFFIX): solving/goals/immobile.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/fork.h debugging/assert.h
+ solving/pipe.h solving/conditional_pipe.h debugging/assert.h
 
 solving/goals/immobile.h:
 
@@ -668,7 +686,7 @@ solving/has_solution_type.enum.h:
 
 solving/pipe.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 debugging/assert.h:
 solving/goals/exchange$(OBJ_SUFFIX): solving/goals/exchange.c \

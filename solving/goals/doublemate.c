@@ -2,7 +2,7 @@
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "stipulation/conditional_pipe.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "debugging/trace.h"
@@ -79,7 +79,7 @@ void doublemate_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (fork_solve(si,slack_length)==slack_length+2)
+  if (conditional_pipe_solve(si)==next_move_has_no_solution)
     SETFLAG(goal_preprequisites_met[nbply],goal_doublemate);
 
   pipe_solve_delegate(si);
