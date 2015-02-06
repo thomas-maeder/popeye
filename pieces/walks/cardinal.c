@@ -2,6 +2,7 @@
 #include "pieces/walks/angle/angles.h"
 #include "position/position.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 static void cardinal_generate_moves_recursive(square in, numvec k, int x)

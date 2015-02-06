@@ -15,6 +15,7 @@
 #include "stipulation/move.h"
 #include "solving/temporary_hacks.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "pieces/walks/classification.h"

@@ -1,6 +1,7 @@
 #include "pieces/walks/pawns/super.h"
 #include "position/position.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 

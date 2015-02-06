@@ -2,6 +2,7 @@
 #include "pieces/walks/locusts.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 static square generate_moves_on_circle_segment(square sq_base,

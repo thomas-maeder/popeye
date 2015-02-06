@@ -1,6 +1,7 @@
 #include "pieces/walks/spiral_springers.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 static void generate_zigzag(vec_index_type idx_zig, vec_index_type idx_zag)

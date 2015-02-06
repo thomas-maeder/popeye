@@ -9,6 +9,7 @@
 /* Solve the next2 part of a conditional pipe
  * @param si identifies the fork slice
  * @return one of
+ *        previous_move_has_solved
  *        previous_move_is_illegal
  *        next_move_has_no_solution
  *        next_move_has_solution

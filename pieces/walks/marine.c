@@ -6,6 +6,7 @@
 #include "pieces/walks/locusts.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"

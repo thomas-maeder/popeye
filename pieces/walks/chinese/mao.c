@@ -3,6 +3,7 @@
 #include "pieces/walks/hoppers.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 static square mao_passed(numvec to_arrival)

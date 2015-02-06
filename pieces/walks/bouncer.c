@@ -1,6 +1,7 @@
 #include "pieces/walks/bouncer.h"
 #include "solving/move_generator.h"
 #include "solving/observation.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 /* Generate moves for an Bouncer

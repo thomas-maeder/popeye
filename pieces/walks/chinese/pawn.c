@@ -1,6 +1,7 @@
 #include "pieces/walks/chinese/pawn.h"
 #include "position/position.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 /* Generate moves for a chinese pawn

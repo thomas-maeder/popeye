@@ -1,5 +1,6 @@
 #include "pieces/walks/leapers.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 /* Generate moves for a leaper piece

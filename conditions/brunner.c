@@ -6,6 +6,7 @@
 #include "solving/machinery/solve.h"
 #include "solving/move_generator.h"
 #include "solving/conditional_pipe.h"
+#include "solving/pipe.h"
 #include "stipulation/structure_traversal.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"

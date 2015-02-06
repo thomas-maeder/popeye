@@ -45,6 +45,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/proxy.h"
 #include "stipulation/pipe.h"
+#include "solving/fork.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/binary.h"
 #include "debugging/assert.h"

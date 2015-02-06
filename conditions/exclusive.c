@@ -11,6 +11,7 @@
 #include "solving/temporary_hacks.h"
 #include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"

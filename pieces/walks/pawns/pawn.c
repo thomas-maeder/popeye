@@ -6,6 +6,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "solving/move_generator.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"

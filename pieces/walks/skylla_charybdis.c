@@ -1,6 +1,7 @@
 #include "pieces/walks/skylla_charybdis.h"
 #include "pieces/walks/locusts.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 static void generate_one_move(numvec dir_arrival, numvec dir_capture)

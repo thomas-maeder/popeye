@@ -11,6 +11,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "pieces/pieces.h"

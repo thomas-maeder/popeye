@@ -1,5 +1,6 @@
 #include "pieces/walks/radial.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "position/position.h"
 #include "debugging/trace.h"
 

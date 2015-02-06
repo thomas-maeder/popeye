@@ -1,6 +1,7 @@
 #include "pieces/walks/reflecting_bishop.h"
 #include "pieces/walks/angle/angles.h"
 #include "solving/move_generator.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
 #include "position/position.h"
