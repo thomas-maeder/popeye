@@ -5,7 +5,7 @@
 #include "solving/move_effect_journal.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -136,7 +136,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   CLRCASTLINGFLAGMASK(Black,k_cancastle);
   current_state = &immobilisation_state;
 
-  fork_solve(current_start_slice,length_unspecified);
+  conditional_pipe_solve(current_start_slice);
 
   next_trouble_maker();
   current_state = 0;

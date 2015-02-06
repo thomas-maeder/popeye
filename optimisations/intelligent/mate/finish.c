@@ -3,7 +3,7 @@
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
 #include "solving/castling.h"
-#include "solving/fork.h"
+#include "solving/conditional_pipe.h"
 #include "optimisations/intelligent/intelligent.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/place_black_piece.h"
@@ -82,7 +82,7 @@ static boolean exists_redundant_white_piece(void)
         piece_walk_type const p = get_walk_of_piece_on_square(sq);
         Flags const sp = being_solved.spec[sq];
         empty_square(sq);
-        result = fork_solve(current_start_slice,slack_length)==slack_length;
+        result = conditional_pipe_solve(current_start_slice)==previous_move_has_solved;
         occupy_square(sq,p,sp);
       }
     }

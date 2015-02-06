@@ -15,12 +15,13 @@
 #include "solving/machinery/solve.h"
 #include "solving/castling.h"
 #include "solving/check.h"
+#include "solving/temporary_hacks.h"
+#include "solving/pipe.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/fork.h"
 #include "stipulation/pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
-#include "solving/temporary_hacks.h"
 #include "optimisations/intelligent/count_nr_of_moves.h"
 #include "optimisations/intelligent/guard_flights.h"
 #include "optimisations/intelligent/moves_left.h"
@@ -328,7 +329,7 @@ void solve_target_position(void)
 
   reset_nr_solutions_per_target_position();
 
-  solve(SLICE_NEXT1(current_start_slice));
+  pipe_solve_delegate(current_start_slice);
 
   if (solve_result<=MOVE_HAS_SOLVED_LENGTH())
     solutions_found = true;
