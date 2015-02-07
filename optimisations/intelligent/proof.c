@@ -8,6 +8,7 @@
 #include "solving/proofgames.h"
 #include "solving/castling.h"
 #include "solving/pipe.h"
+#include "solving/has_solution_type.enum.h"
 #include "stipulation/pipe.h"
 #include "optimisations/observation.h"
 #include "optimisations/orthodox_check_directions.h"
