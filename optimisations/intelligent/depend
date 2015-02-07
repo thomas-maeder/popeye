@@ -12,8 +12,9 @@ optimisations/intelligent/intelligent$(OBJ_SUFFIX): \
  optimisations/intelligent/piece_usage.enum.h \
  pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
  solving/observation.h solving/temporary_hacks.h solving/proofgames.h \
- solving/castling.h solving/check.h stipulation/help_play/branch.h \
- stipulation/fork.h stipulation/structure_traversal.h stipulation/slice.h \
+ solving/castling.h solving/check.h solving/pipe.h \
+ stipulation/help_play/branch.h stipulation/fork.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -98,6 +99,8 @@ solving/proofgames.h:
 solving/castling.h:
 
 solving/check.h:
+
+solving/pipe.h:
 
 stipulation/help_play/branch.h:
 
@@ -284,8 +287,8 @@ optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c 
  conditions/circe/relevant_side.h conditions/anticirce/anticirce.h \
  conditions/transmuting_kings/vaulting_kings.h solving/observation.h \
  solving/temporary_hacks.h solving/proofgames.h solving/castling.h \
- solving/pipe.h stipulation/pipe.h optimisations/observation.h \
- optimisations/orthodox_check_directions.h \
+ solving/pipe.h solving/has_solution_type.enum.h stipulation/pipe.h \
+ optimisations/observation.h optimisations/orthodox_check_directions.h \
  optimisations/intelligent/count_nr_of_moves.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
@@ -392,6 +395,8 @@ solving/proofgames.h:
 solving/castling.h:
 
 solving/pipe.h:
+
+solving/has_solution_type.enum.h:
 
 stipulation/pipe.h:
 

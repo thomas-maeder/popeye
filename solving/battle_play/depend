@@ -15,7 +15,8 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/testing_pipe.h stipulation/pipe.h \
  stipulation/battle_play/branch.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/pipe.h solving/fork.h \
- debugging/assert.h
+ solving/observation.h pieces/walks/vectors.h solving/ply.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 solving/battle_play/continuation.h:
 
@@ -83,6 +84,14 @@ solving/pipe.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
+
 debugging/assert.h:
 solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  solving/battle_play/threat.h stipulation/structure_traversal.h \
@@ -101,8 +110,9 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  solving/has_solution_type.enum.h stipulation/testing_pipe.h \
  stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
  stipulation/move_played.h stipulation/battle_play/branch.h \
- solving/avoid_unsolvable.h solving/check.h solving/fork.h solving/pipe.h \
- debugging/assert.h
+ solving/avoid_unsolvable.h solving/check.h solving/fork.h \
+ solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
+ solving/testing_pipe.h solving/pipe.h debugging/assert.h
 
 solving/battle_play/threat.h:
 
@@ -180,6 +190,14 @@ solving/check.h:
 
 solving/fork.h:
 
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/temporary_hacks.h:
+
+solving/testing_pipe.h:
+
 solving/pipe.h:
 
 debugging/assert.h:
@@ -201,8 +219,10 @@ solving/battle_play/try$(OBJ_SUFFIX): solving/battle_play/try.c \
  solving/machinery/dispatch.h debugging/trace.h stipulation/binary.h \
  stipulation/proxy.h stipulation/boolean/true.h \
  stipulation/boolean/false.h stipulation/battle_play/branch.h \
- solving/pipe.h solving/fork.h output/plaintext/message.h \
- output/message.h input/plaintext/language.h debugging/assert.h
+ solving/pipe.h solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
+ output/plaintext/message.h output/message.h input/plaintext/language.h \
+ debugging/assert.h
 
 solving/battle_play/try.h:
 
@@ -281,6 +301,14 @@ stipulation/battle_play/branch.h:
 solving/pipe.h:
 
 solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
 
 output/plaintext/message.h:
 

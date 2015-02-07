@@ -10,7 +10,7 @@ optimisations/intelligent/mate/finish$(OBJ_SUFFIX): \
  solving/castling.h solving/move_effect_journal.h \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  position/position.h position/color.h position/color.enum.h \
- pieces/walks/vectors.h solving/fork.h \
+ pieces/walks/vectors.h solving/conditional_pipe.h \
  optimisations/intelligent/intelligent.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h \
@@ -73,7 +73,7 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
 optimisations/intelligent/intelligent.h:
 

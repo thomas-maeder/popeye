@@ -263,9 +263,7 @@ options/nontrivial$(OBJ_SUFFIX): options/nontrivial.c options/nontrivial.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  stipulation/testing_pipe.h stipulation/proxy.h stipulation/branch.h \
  stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- debugging/assert.h
+ solving/pipe.h solving/testing_pipe.h solving/ply.h debugging/assert.h
 
 options/nontrivial.h:
 
@@ -335,15 +333,9 @@ solving/avoid_unsolvable.h:
 
 solving/pipe.h:
 
-solving/fork.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
+solving/testing_pipe.h:
 
 solving/ply.h:
-
-solving/temporary_hacks.h:
 
 debugging/assert.h:
 options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
@@ -361,11 +353,11 @@ options/maxthreatlength$(OBJ_SUFFIX): options/maxthreatlength.c \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h solving/fork.h solving/observation.h \
- pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- stipulation/testing_pipe.h stipulation/branch.h \
- stipulation/move_played.h stipulation/battle_play/branch.h \
- solving/check.h debugging/assert.h
+ solving/pipe.h solving/testing_pipe.h stipulation/testing_pipe.h \
+ stipulation/branch.h stipulation/move_played.h \
+ stipulation/battle_play/branch.h solving/check.h solving/fork.h \
+ solving/observation.h pieces/walks/vectors.h solving/ply.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 options/maxthreatlength.h:
 
@@ -427,15 +419,7 @@ solving/has_solution_type.enum.h:
 
 solving/pipe.h:
 
-solving/fork.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
-
-solving/ply.h:
-
-solving/temporary_hacks.h:
+solving/testing_pipe.h:
 
 stipulation/testing_pipe.h:
 
@@ -446,6 +430,16 @@ stipulation/move_played.h:
 stipulation/battle_play/branch.h:
 
 solving/check.h:
+
+solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 options/movenumbers$(OBJ_SUFFIX): options/movenumbers.c options/movenumbers.h \

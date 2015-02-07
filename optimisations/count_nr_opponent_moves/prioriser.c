@@ -2,7 +2,7 @@
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/binary.h"
-#include "solving/fork.h"
+#include "solving/testing_pipe.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -66,7 +66,7 @@ void opponent_moves_few_moves_prioriser_solve(slice_index si)
   /* move_generator_invert_move_order(nbply); */
 
   copyply();
-  fork_solve(si,slack_length+2);
+  testing_pipe_solve(si,slack_length+2);
   finply();
 
   qsort(&move_generation_stack[base],

@@ -137,7 +137,7 @@ pieces/attributes/magic$(OBJ_SUFFIX): pieces/attributes/magic.c \
  stipulation/slice_insertion.h stipulation/move.h \
  solving/move_effect_journal.h \
  solving/find_square_observer_tracking_back_from_target.h \
- solving/move_generator.h solving/pipe.h \
+ solving/move_generator.h solving/pipe.h solving/fork.h \
  optimisations/orthodox_check_directions.h output/plaintext/message.h \
  output/message.h input/plaintext/language.h debugging/assert.h
 
@@ -226,6 +226,8 @@ solving/find_square_observer_tracking_back_from_target.h:
 solving/move_generator.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 optimisations/orthodox_check_directions.h:
 

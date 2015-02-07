@@ -191,7 +191,7 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- solving/fork.h \
+ solving/testing_pipe.h \
  optimisations/count_nr_opponent_moves/opponent_moves_counter.h \
  solving/move_generator.h solving/ply.h solving/pipe.h debugging/assert.h
 
@@ -251,7 +251,7 @@ stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
-solving/fork.h:
+solving/testing_pipe.h:
 
 optimisations/count_nr_opponent_moves/opponent_moves_counter.h:
 

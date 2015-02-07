@@ -6,7 +6,7 @@
 # GNU make.
 
 # Revision info:
-# CVS: $Id: makefile.unx,v 1.201 2014/06/26 04:50:06 thomasmaeder Exp $
+# CVS: $Id: makefile.unx,v 1.202 2015/02/07 10:37:03 thomasmaeder Exp $
 
 # +++++ Warning +++++++
 
@@ -250,11 +250,6 @@ NESTEDLIBDIRS = \
     conditions/circe conditions/anticirce \
     conditions/owu conditions/maff conditions/singlebox conditions/einstein \
     conditions/transmuting_kings conditions/koeko \
-    solving solving/battle_play solving/help_play solving/boolean solving/goals \
-    pieces \
-    pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
-    pieces/attributes pieces/attributes/neutral \
-    pieces/attributes/paralysing pieces/attributes/kamikaze \
     optimisations/orthodox_mating_moves \
     optimisations/killer_move optimisations/count_nr_opponent_moves \
     options options/no_short_variations \
@@ -265,6 +260,11 @@ NESTEDLIBDIRS = \
     optimisations/intelligent/mate optimisations/intelligent/stalemate \
     optimisations \
     optimisations/ohneschach \
+    solving solving/battle_play solving/help_play solving/boolean solving/goals \
+    pieces \
+    pieces/walks pieces/walks/pawns pieces/walks/angle pieces/walks/chinese \
+    pieces/attributes pieces/attributes/neutral \
+    pieces/attributes/paralysing pieces/attributes/kamikaze \
     DHT \
     stipulation/battle_play stipulation/help_play \
     stipulation/goals \

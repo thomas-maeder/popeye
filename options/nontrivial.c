@@ -7,7 +7,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/testing_pipe.h"
 #include "solving/ply.h"
 #include "debugging/trace.h"
 
@@ -119,7 +119,7 @@ static unsigned int count_nontrivial_defenses(slice_index si)
   TraceFunctionParamListEnd();
 
   non_trivial_count[nbply+1] = 0;
-  fork_solve(si,min_length_nontrivial+slack_length+parity);
+  testing_pipe_solve(si,min_length_nontrivial+slack_length+parity);
   result = non_trivial_count[nbply+1];
 
   TraceFunctionExit(__func__);

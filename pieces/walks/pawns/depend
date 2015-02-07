@@ -22,7 +22,7 @@ pieces/walks/pawns/pawn$(OBJ_SUFFIX): pieces/walks/pawns/pawn.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h pieces/walks/pawns/pawns.h \
  pieces/walks/pawns/en_passant.h solving/move_generator.h \
- solving/find_square_observer_tracking_back_from_target.h \
+ solving/find_square_observer_tracking_back_from_target.h solving/fork.h \
  debugging/assert.h
 
 pieces/walks/pawns/pawn.h:
@@ -122,6 +122,8 @@ pieces/walks/pawns/en_passant.h:
 solving/move_generator.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 pieces/walks/pawns/pawns$(OBJ_SUFFIX): pieces/walks/pawns/pawns.c \
@@ -629,7 +631,8 @@ pieces/walks/pawns/super$(OBJ_SUFFIX): pieces/walks/pawns/super.c \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/temporary_hacks.h position/position.h \
  position/color.h position/color.enum.h position/castling_rights.h \
- solving/move_generator.h solving/machinery/solve.h debugging/assert.h
+ solving/move_generator.h solving/machinery/solve.h solving/fork.h \
+ debugging/assert.h
 
 pieces/walks/pawns/super.h:
 
@@ -680,6 +683,8 @@ position/castling_rights.h:
 solving/move_generator.h:
 
 solving/machinery/solve.h:
+
+solving/fork.h:
 
 debugging/assert.h:
 pieces/walks/pawns/combined$(OBJ_SUFFIX): pieces/walks/pawns/combined.c \

@@ -5,7 +5,7 @@
 #include "solving/machinery/solve.h"
 #include "solving/move_generator.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/testing_pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -41,7 +41,7 @@ static boolean has_short_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = fork_solve(si,solve_nr_remaining-2)<=solve_nr_remaining-2;
+  result = testing_pipe_solve(si,solve_nr_remaining-2)<=solve_nr_remaining-2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

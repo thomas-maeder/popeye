@@ -124,8 +124,10 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h position/castling_rights.h options/options.h \
  input/plaintext/language.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h solving/fork.h \
- solving/observation.h solving/ply.h solving/temporary_hacks.h \
+ solving/has_solution_type.enum.h solving/pipe.h \
+ solving/conditional_pipe.h solving/temporary_hacks.h \
+ solving/post_move_iteration.h solving/ply.h \
+ solving/move_effect_journal.h position/pieceid.h \
  output/plaintext/message.h output/message.h \
  optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h \
  optimisations/detect_retraction.h stipulation/pipe.h \
@@ -137,10 +139,8 @@ conditions/republican$(OBJ_SUFFIX): conditions/republican.c conditions/republica
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h stipulation/move.h stipulation/battle_play/branch.h \
- stipulation/help_play/branch.h solving/post_move_iteration.h \
- solving/move_effect_journal.h position/pieceid.h \
- output/plaintext/language_dependant.h input/plaintext/twin.h \
- input/plaintext/token.h conditions/mummer.h \
+ stipulation/help_play/branch.h output/plaintext/language_dependant.h \
+ input/plaintext/twin.h input/plaintext/token.h conditions/mummer.h \
  conditions/anticirce/anticirce.h conditions/circe/circe.h \
  stipulation/slice_insertion.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
@@ -203,13 +203,17 @@ solving/has_solution_type.enum.h:
 
 solving/pipe.h:
 
-solving/fork.h:
+solving/conditional_pipe.h:
 
-solving/observation.h:
+solving/temporary_hacks.h:
+
+solving/post_move_iteration.h:
 
 solving/ply.h:
 
-solving/temporary_hacks.h:
+solving/move_effect_journal.h:
+
+position/pieceid.h:
 
 output/plaintext/message.h:
 
@@ -246,12 +250,6 @@ stipulation/move.h:
 stipulation/battle_play/branch.h:
 
 stipulation/help_play/branch.h:
-
-solving/post_move_iteration.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 output/plaintext/language_dependant.h:
 
@@ -796,7 +794,8 @@ conditions/madrasi$(OBJ_SUFFIX): conditions/madrasi.c conditions/madrasi.h \
  solving/move_generator.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/observation.h solving/temporary_hacks.h \
- solving/find_square_observer_tracking_back_from_target.h solving/pipe.h
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
+ solving/fork.h
 
 conditions/madrasi.h:
 
@@ -851,6 +850,8 @@ solving/temporary_hacks.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 conditions/isardam$(OBJ_SUFFIX): conditions/isardam.c conditions/isardam.h \
  conditions/conditions.h position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
@@ -1021,8 +1022,8 @@ conditions/eiffel$(OBJ_SUFFIX): conditions/eiffel.c conditions/eiffel.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h
+ solving/fork.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h
 
 conditions/eiffel.h:
 
@@ -1069,6 +1070,8 @@ solving/temporary_hacks.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 position/position.h:
 
@@ -4856,8 +4859,8 @@ conditions/woozles$(OBJ_SUFFIX): conditions/woozles.c conditions/woozles.h \
  solving/ply.h solving/observation.h pieces/walks/vectors.h \
  solving/temporary_hacks.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h debugging/assert.h
+ solving/fork.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h debugging/assert.h
 
 conditions/woozles.h:
 
@@ -4926,6 +4929,8 @@ solving/temporary_hacks.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/pipe.h:
+
+solving/fork.h:
 
 position/position.h:
 
@@ -5723,8 +5728,9 @@ conditions/brunner$(OBJ_SUFFIX): conditions/brunner.c conditions/brunner.h \
  solving/temporary_hacks.h solving/check.h solving/observation.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
  debugging/trace.h solving/machinery/solve.h solving/move_generator.h \
- solving/conditional_pipe.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/conditional_pipe.h solving/pipe.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -5781,6 +5787,8 @@ solving/machinery/solve.h:
 solving/move_generator.h:
 
 solving/conditional_pipe.h:
+
+solving/pipe.h:
 
 stipulation/structure_traversal.h:
 

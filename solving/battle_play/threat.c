@@ -8,6 +8,7 @@
 #include "solving/avoid_unsolvable.h"
 #include "solving/check.h"
 #include "solving/fork.h"
+#include "solving/testing_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 
@@ -189,7 +190,7 @@ void threat_enforcer_solve(slice_index si)
 
     nr_threats_to_be_confirmed = table_length(threats_table);
 
-    len_test_threats = fork_solve(si,len_threat);
+    len_test_threats = testing_pipe_solve(si,len_threat);
 
     if (len_test_threats>len_threat)
       /* variation is longer than threat */

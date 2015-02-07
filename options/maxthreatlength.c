@@ -2,7 +2,7 @@
 #include "stipulation/proxy.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
-#include "solving/fork.h"
+#include "solving/testing_pipe.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/branch.h"
 #include "stipulation/move_played.h"
@@ -110,7 +110,7 @@ void maxthreatlength_guard_solve(slice_index si)
   pipe_this_move_doesnt_solve_if(si,
                                  solve_nr_remaining>=n_max
                                  && !is_in_check(SLICE_STARTER(si))
-                                 && n_max<fork_solve(si,n_max));
+                                 && n_max<testing_pipe_solve(si,n_max));
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -87,7 +87,7 @@ options/no_short_variations/no_short_variations_attacker_filter$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/battle_play/branch.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/move_generator.h \
- solving/ply.h solving/pipe.h solving/fork.h debugging/assert.h
+ solving/ply.h solving/pipe.h solving/testing_pipe.h debugging/assert.h
 
 options/no_short_variations/no_short_variations_attacker_filter.h:
 
@@ -155,6 +155,6 @@ solving/ply.h:
 
 solving/pipe.h:
 
-solving/fork.h:
+solving/testing_pipe.h:
 
 debugging/assert.h:

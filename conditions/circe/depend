@@ -727,7 +727,8 @@ conditions/circe/cage$(OBJ_SUFFIX): conditions/circe/cage.c conditions/circe/cag
  stipulation/pipe.h stipulation/branch.h stipulation/fork.h \
  solving/temporary_hacks.h solving/single_piece_move_generator.h \
  solving/post_move_iteration.h solving/move_generator.h \
- solving/conditional_pipe.h solving/pipe.h debugging/assert.h
+ solving/conditional_pipe.h solving/pipe.h solving/fork.h \
+ solving/observation.h debugging/assert.h
 
 conditions/circe/cage.h:
 
@@ -840,6 +841,10 @@ solving/move_generator.h:
 solving/conditional_pipe.h:
 
 solving/pipe.h:
+
+solving/fork.h:
+
+solving/observation.h:
 
 debugging/assert.h:
 conditions/circe/kamikaze$(OBJ_SUFFIX): conditions/circe/kamikaze.c \
