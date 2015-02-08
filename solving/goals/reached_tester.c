@@ -1,6 +1,6 @@
 #include "solving/goals/reached_tester.h"
 #include "solving/has_solution_type.h"
-#include "solving/fork.h"
+#include "solving/testing_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
@@ -24,7 +24,7 @@ void goal_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (fork_solve(si,previous_move_has_solved))
+  switch (testing_pipe_solve(si,previous_move_has_solved))
   {
     case previous_move_is_illegal:
       solve_result = previous_move_is_illegal;

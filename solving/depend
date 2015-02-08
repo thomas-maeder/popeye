@@ -3581,7 +3581,6 @@ solving/fork$(OBJ_SUFFIX): solving/fork.c solving/fork.h solving/machinery/solve
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h solving/observation.h \
  pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/move_generator.h debugging/assert.h
 
 solving/fork.h:
@@ -3623,10 +3622,6 @@ pieces/walks/vectors.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
-
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
 
 solving/move_generator.h:
 
