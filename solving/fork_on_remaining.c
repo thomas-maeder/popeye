@@ -1,6 +1,7 @@
 #include "solving/fork_on_remaining.h"
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"
+#include "solving/binary.h"
 #include "stipulation/binary.h"
 #include "debugging/trace.h"
 
@@ -48,16 +49,13 @@ slice_index alloc_fork_on_remaining_slice(slice_index op1,
  */
 void fork_on_remaining_solve(slice_index si)
 {
-  slice_index const op1 = SLICE_NEXT1(si);
-  slice_index const op2 = SLICE_NEXT2(si);
   stip_length_type const threshold = SLICE_U(si).fork_on_remaining.threshold;
-  slice_index const succ = solve_nr_remaining<=slack_length+threshold ? op2 : op1;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  solve(succ);
+  binary_solve_if_then_else(si,solve_nr_remaining<=slack_length+threshold);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

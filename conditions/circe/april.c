@@ -3,10 +3,11 @@
 #include "conditions/circe/rebirth_avoider.h"
 #include "pieces/pieces.h"
 #include "solving/has_solution_type.h"
+#include "solving/binary.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/fork.h"
-#include "debugging/trace.h"
 
+#include "debugging/trace.h"
 #include "debugging/assert.h"
 
 /* Allocate an April Chess fork slice
@@ -63,13 +64,12 @@ void circe_solving_instrument_april(slice_index si,
 void april_chess_fork_solve(slice_index si)
 {
   circe_rebirth_context_elmt_type * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
-  slice_index const next = SLICE_U(si).circe_handler.variant->is_walk_affected[context->relevant_walk] ? SLICE_NEXT1(si) : SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  dispatch(next);
+  binary_solve_if_then_else(si,!SLICE_U(si).circe_handler.variant->is_walk_affected[context->relevant_walk]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

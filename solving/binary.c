@@ -1,4 +1,6 @@
 #include "solving/binary.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -13,7 +15,10 @@ void binary_solve_if_then_else(slice_index si, boolean condition)
   TraceFunctionParam("%u",condition);
   TraceFunctionParamListEnd();
 
-  solve(condition ? SLICE_NEXT2(si) : SLICE_NEXT1(si));
+  if (condition)
+    fork_solve_delegate(si);
+  else
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

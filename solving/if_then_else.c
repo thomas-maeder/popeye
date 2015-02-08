@@ -1,5 +1,6 @@
 #include "solving/if_then_else.h"
 #include "solving/has_solution_type.h"
+#include "solving/binary.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -19,19 +20,16 @@
 void if_then_else_solve(slice_index si)
 {
   stip_length_type const save_solve_nr_remaining = MOVE_HAS_SOLVED_LENGTH();
-  slice_index const op1 = SLICE_NEXT1(si);
-  slice_index const op2 = SLICE_NEXT2(si);
-  slice_index const condition = SLICE_U(si).if_then_else.condition;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   solve_nr_remaining = previous_move_has_solved;
-  solve(condition);
+  solve(SLICE_U(si).if_then_else.condition);
   solve_nr_remaining = save_solve_nr_remaining;
 
-  solve(solve_result==previous_move_has_solved ? op2 : op1);
+  binary_solve_if_then_else(si,solve_result==previous_move_has_solved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
