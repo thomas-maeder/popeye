@@ -58,6 +58,13 @@ void pipe_move_generation_differnt_walk_delegate(slice_index si,
  */
 boolean pipe_validate_observation_recursive_delegate(slice_index si);
 
+/* Delegate testing to next1
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean pipe_is_in_check_recursive_delegate(slice_index si, Side side_in_check);
+
 /* Dispatch to next1. Intended to be used by pipes that can be used in different
  * contexts.
  * @param si identifies the pipe

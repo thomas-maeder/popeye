@@ -1,5 +1,6 @@
 #include "solving/fork.h"
 #include "solving/move_generator.h"
+#include "solving/check.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -82,6 +83,28 @@ boolean fork_validate_observation_recursive_delegate(slice_index si)
   TraceFunctionParamListEnd();
 
   result =  validate_observation_recursive(SLICE_NEXT2(si));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+/* Delegate testing to next2
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean fork_is_in_check_recursive_delegate(slice_index si, Side side_in_check)
+{
+  boolean result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceEnumerator(Side,side_in_check,"");
+  TraceFunctionParamListEnd();
+
+  result = is_in_check_recursive(SLICE_NEXT2(si),side_in_check);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

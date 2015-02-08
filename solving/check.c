@@ -11,6 +11,8 @@
 #include "stipulation/slice_insertion.h"
 #include "solving/temporary_hacks.h"
 #include "solving/machinery/twin.h"
+#include "solving/pipe.h"
+#include "solving/fork.h"
 #include "output/plaintext/message.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
@@ -58,7 +60,7 @@ static boolean no_king_check_tester_is_in_check(slice_index si,
   if (being_solved.king_square[side_in_check]==initsquare)
     return false;
   else
-    return is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
+    return pipe_is_in_check_recursive_delegate(si,side_in_check);
 }
 
 static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_index si,
@@ -73,7 +75,7 @@ static boolean king_square_observation_tester_ply_initialiser_is_in_check(slice_
 
   nextply(advers(side_in_check));
   push_observation_target(being_solved.king_square[side_in_check]);
-  result = is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
+  result = pipe_is_in_check_recursive_delegate(si,side_in_check);
   finply();
 
   TraceFunctionExit(__func__);
@@ -101,7 +103,7 @@ static boolean king_captured_observation_guard_is_in_check(slice_index si,
      result = false;
    }
    else
-     result = is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
+     result = pipe_is_in_check_recursive_delegate(si,side_in_check);
 
    TraceFunctionExit(__func__);
    TraceFunctionResult("%u",result);
@@ -226,8 +228,8 @@ boolean is_in_check_recursive(slice_index si, Side side_in_check)
  */
 boolean is_in_check(Side side_in_check)
 {
-  return is_in_check_recursive(SLICE_NEXT2(temporary_hack_check_tester),
-                               side_in_check);
+  return fork_is_in_check_recursive_delegate(temporary_hack_check_tester,
+                                             side_in_check);
 }
 
 static slice_index const slice_rank_order[] =

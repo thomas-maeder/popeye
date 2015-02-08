@@ -1,5 +1,6 @@
 #include "solving/testing_pipe.h"
 #include "solving/has_solution_type.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 
@@ -30,7 +31,7 @@ stip_length_type testing_pipe_solve(slice_index si, stip_length_type n)
 
   solve_nr_remaining = n;
 
-  solve(SLICE_NEXT2(si));
+  fork_solve_delegate(si);
   result = solve_result;
 
   solve_nr_remaining = save_solve_nr_remaining;

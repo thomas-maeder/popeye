@@ -1,5 +1,6 @@
 #include "solving/conditional_pipe.h"
 #include "solving/has_solution_type.h"
+#include "solving/fork.h"
 #include "debugging/trace.h"
 
 /* Solve the next2 part of a conditional pipe
@@ -23,7 +24,7 @@ stip_length_type conditional_pipe_solve(slice_index si)
 
   solve_nr_remaining = length_unspecified;
 
-  solve(SLICE_NEXT2(si));
+  fork_solve_delegate(si);
   result = solve_result;
 
   solve_nr_remaining = save_solve_nr_remaining;

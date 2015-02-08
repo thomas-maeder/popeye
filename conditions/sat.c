@@ -51,7 +51,7 @@ static boolean find_flights(slice_index si,
     if ((is_square_empty(being_solved.king_square[side_in_check])
          || TSTFLAG(being_solved.spec[being_solved.king_square[side_in_check]],advers(side_in_check)))
         && being_solved.king_square[side_in_check]!=being_solved.king_square[advers(side_in_check)]
-        && !is_in_check_recursive(SLICE_NEXT1(si),side_in_check))
+        && !pipe_is_in_check_recursive_delegate(si,side_in_check))
       ++nr_flights_found;
 
     pop_move();
@@ -97,14 +97,14 @@ boolean strictsat_check_tester_is_in_check(slice_index si, Side side_in_check)
   boolean result;
 
   if (strictsat_updating==side_in_check)
-    result = is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
+    result = pipe_is_in_check_recursive_delegate(si,side_in_check);
   else
   {
     unsigned int max_nr_allowed_flights = SAT_max_nr_allowed_flights[side_in_check];
 
     if (StrictSAT[side_in_check])
     {
-      if (!is_in_check_recursive(SLICE_NEXT1(si),side_in_check))
+      if (!pipe_is_in_check_recursive_delegate(si,side_in_check))
         --max_nr_allowed_flights;
     }
 
@@ -127,7 +127,7 @@ boolean satxy_check_tester_is_in_check(slice_index si, Side side_in_check)
   boolean result;
   unsigned int max_nr_allowed_flights = SAT_max_nr_allowed_flights[side_in_check];
 
-  if (!is_in_check_recursive(SLICE_NEXT1(si),side_in_check))
+  if (!pipe_is_in_check_recursive_delegate(si,side_in_check))
     --max_nr_allowed_flights;
 
   if (max_nr_allowed_flights==0)

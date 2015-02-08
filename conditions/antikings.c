@@ -1,5 +1,6 @@
 #include "conditions/antikings.h"
 #include "solving/check.h"
+#include "solving/pipe.h"
 
 /* Determine whether a side is in check
  * @param si identifies the check tester
@@ -8,7 +9,7 @@
  */
 boolean antikings_check_tester_is_in_check(slice_index si, Side side_in_check)
 {
-  return !is_in_check_recursive(SLICE_NEXT1(si),side_in_check);
+  return !pipe_is_in_check_recursive_delegate(si,side_in_check);
 }
 
 /* Instrument the solving machinery with Antikings

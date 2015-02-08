@@ -36,4 +36,11 @@ void fork_move_generation_delegate(slice_index si);
  */
 boolean fork_validate_observation_recursive_delegate(slice_index si);
 
+/* Delegate testing to next2
+ * @param si identifies the check tester
+ * @param side_in_check which side?
+ * @return true iff side_in_check is in check according to slice si
+ */
+boolean fork_is_in_check_recursive_delegate(slice_index si, Side side_in_check);
+
 #endif
