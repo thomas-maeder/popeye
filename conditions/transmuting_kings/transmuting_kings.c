@@ -90,6 +90,7 @@ boolean generate_moves_of_transmuting_king(slice_index si)
 {
   boolean result = false;
   piece_walk_type const *ptrans;
+  numecoup const save_current_move = CURRMOVE_OF_PLY(nbply);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -101,6 +102,8 @@ boolean generate_moves_of_transmuting_king(slice_index si)
       pipe_move_generation_differnt_walk_delegate(si,*ptrans);
       result = true;
     }
+
+  remove_duplicate_moves_of_single_piece(save_current_move);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -119,8 +122,12 @@ void transmuting_kings_generate_moves_for_piece(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!(TSTFULLFLAGMASK(being_solved.spec[curr_generation->departure],mask)
-        && generate_moves_of_transmuting_king(si)))
+  if (TSTFULLFLAGMASK(being_solved.spec[curr_generation->departure],mask))
+  {
+    if (!generate_moves_of_transmuting_king(si))
+      pipe_move_generation_delegate(si);
+  }
+  else
     pipe_move_generation_delegate(si);
 
   TraceFunctionExit(__func__);

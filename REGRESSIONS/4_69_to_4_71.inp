@@ -113,4 +113,12 @@ pieces white ke1 qf7 ra1h1 bc1f1 sb1g1 pa2b2c3d2e2f2g2h2
        black qc6d8 ra8h8 bc8f8 sb8g8 pa7b7c7d4e7g7h7
 Cond blacksupertransmutingking
 
+next
+
+title 4.51 to 4.69 generated two moves to g7 (one for each transmutation)
+pieces white kh8 ph7 black qa8 bg7
+stipulation ~1
+condition whitetransmutedking
+option nobk
+
 end
