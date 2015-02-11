@@ -28,7 +28,6 @@ void constraint_solve(slice_index si)
   switch (conditional_pipe_solve(si))
   {
     case previous_move_has_solved:
-    case next_move_has_solution:
       pipe_solve_delegate(si);
       break;
 
