@@ -28,11 +28,11 @@ void end_of_branch_solve(slice_index si)
 
   switch (conditional_pipe_solve(si))
   {
-    case next_move_has_solution:
+    case previous_move_has_solved:
       solve_result = previous_move_has_solved;
       break;
 
-    case next_move_has_no_solution:
+    case previous_move_has_not_solved:
     case immobility_on_next_move: /* we have to continue in series movers! */
       pipe_solve_delegate(si);
       break;

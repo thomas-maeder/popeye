@@ -1574,7 +1574,7 @@ conditions/circe/april$(OBJ_SUFFIX): conditions/circe/april.c \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/circe/rebirth_avoider.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/fork.h debugging/assert.h
+ solving/binary.h stipulation/fork.h debugging/assert.h
 
 conditions/circe/april.h:
 
@@ -1657,6 +1657,8 @@ conditions/circe/rebirth_avoider.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/binary.h:
 
 stipulation/fork.h:
 

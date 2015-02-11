@@ -262,13 +262,13 @@ boolean validate_observation_recursive(slice_index si)
 
     case STValidatingObservationGeometryByPlayingMove:
       result = (conditional_pipe_solve(temporary_hack_move_legality_tester[trait[nbply]])
-                ==next_move_has_solution);
+                ==previous_move_has_solved);
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
 
     case STValidateCheckMoveByPlayingCapture:
       result = (conditional_pipe_solve(temporary_hack_king_capture_legality_tester[trait[nbply]])
-                ==next_move_has_solution);
+                ==previous_move_has_solved);
       PUSH_OBSERVATION_TARGET_AGAIN(nbply);
       break;
 

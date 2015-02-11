@@ -29,7 +29,7 @@ void goal_immobile_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_this_move_doesnt_solve_if(si,conditional_pipe_solve(si)>next_move_has_solution);
+  pipe_this_move_doesnt_solve_if(si,conditional_pipe_solve(si)>previous_move_has_solved);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

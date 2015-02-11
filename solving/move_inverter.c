@@ -36,11 +36,11 @@ void move_inverter_solve(slice_index si)
       break;
 
     case immobility_on_next_move:
-    case next_move_has_no_solution:
+    case previous_move_has_not_solved:
       solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
       break;
 
-    case next_move_has_solution:
+    case previous_move_has_solved:
       solve_result = MOVE_HAS_SOLVED_LENGTH();
       break;
 

@@ -682,7 +682,7 @@ boolean castling_is_intermediate_king_move_legal(Side side, square to)
     push_move();
 
     result = (conditional_pipe_solve(temporary_hack_castling_intermediate_move_legality_tester[side])
-              ==next_move_has_solution);
+              ==previous_move_has_solved);
 
     finply();
   }

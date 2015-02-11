@@ -70,7 +70,7 @@ static boolean exists_legal_move_back_home(void)
 
   /* the first found legal move back home refutes */
   result = (conditional_pipe_solve(temporary_hack_back_home_finder[trait[nbply]])
-            == next_move_has_no_solution);
+            == previous_move_has_not_solved);
 
   legal_move_count_fini();
 

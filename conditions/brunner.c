@@ -24,7 +24,7 @@ boolean brunner_validate_observation(slice_index si)
   TraceFunctionParamListEnd();
 
   result = (conditional_pipe_solve(temporary_hack_brunner_check_defense_finder[trait[nbply]])
-            ==next_move_has_solution);
+            ==previous_move_has_solved);
 
   PUSH_OBSERVATION_TARGET_AGAIN(nbply);
 

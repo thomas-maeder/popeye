@@ -407,7 +407,7 @@ solving/fork_on_remaining$(OBJ_SUFFIX): solving/fork_on_remaining.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/binary.h stipulation/structure_traversal.h \
+ solving/binary.h stipulation/binary.h stipulation/structure_traversal.h \
  stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
@@ -451,6 +451,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/binary.h:
 
 stipulation/binary.h:
 
@@ -2657,7 +2659,9 @@ solving/binary$(OBJ_SUFFIX): solving/binary.c solving/binary.h \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h debugging/assert.h
+ solving/machinery/dispatch.h debugging/trace.h solving/pipe.h \
+ solving/fork.h solving/observation.h pieces/walks/vectors.h \
+ solving/ply.h solving/temporary_hacks.h debugging/assert.h
 
 solving/binary.h:
 
@@ -2690,6 +2694,18 @@ output/mode.enum.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+solving/pipe.h:
+
+solving/fork.h:
+
+solving/observation.h:
+
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
+solving/temporary_hacks.h:
 
 debugging/assert.h:
 solving/constraint$(OBJ_SUFFIX): solving/constraint.c solving/constraint.h \
@@ -3063,7 +3079,7 @@ solving/if_then_else$(OBJ_SUFFIX): solving/if_then_else.c solving/if_then_else.h
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- debugging/assert.h
+ solving/binary.h debugging/assert.h
 
 solving/if_then_else.h:
 
@@ -3100,6 +3116,8 @@ debugging/trace.h:
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
+
+solving/binary.h:
 
 debugging/assert.h:
 solving/move_inverter$(OBJ_SUFFIX): solving/move_inverter.c solving/move_inverter.h \

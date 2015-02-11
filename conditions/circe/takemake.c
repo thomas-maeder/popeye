@@ -53,7 +53,7 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
   init_single_piece_move_generator(sq_capture);
 
   result = (conditional_pipe_solve(temporary_hack_circe_take_make_rebirth_squares_finder[relevant_side])
-            ==next_move_has_solution);
+            ==previous_move_has_solved);
 
   assert(pi_capturing!=Invalid);
 

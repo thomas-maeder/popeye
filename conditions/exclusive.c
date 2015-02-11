@@ -313,7 +313,7 @@ void exclusive_chess_legality_tester_solve(slice_index si)
           solve_result = this_move_is_illegal;
           break;
 
-        case next_move_has_no_solution:
+        case previous_move_has_not_solved:
           pipe_solve_delegate(si);
           break;
 

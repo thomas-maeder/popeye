@@ -143,11 +143,11 @@ void ohneschach_stop_if_check_and_not_mate_solve(slice_index si)
         solve_result = MOVE_HAS_SOLVED_LENGTH();
         break;
 
-      case next_move_has_no_solution:
+      case previous_move_has_not_solved:
         solve_result = previous_move_is_illegal;
         break;
 
-      case next_move_has_solution:
+      case previous_move_has_solved:
         ohneschach_undecidable_goal_detected[nbply] = ohneschach_undecidable_goal_detected[nbply+1];
         TraceValue("%u",nbply);
         TraceValue("%u\n",ohneschach_undecidable_goal_detected[nbply]);

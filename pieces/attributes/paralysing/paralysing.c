@@ -137,7 +137,7 @@ boolean suffocated_by_paralysis(Side side)
   paralysis_suspended = true;
 
   result = (conditional_pipe_solve(temporary_hack_suffocation_by_paralysis_finder[side])
-            ==next_move_has_solution);
+            ==previous_move_has_solved);
 
   paralysis_suspended = false;
 
