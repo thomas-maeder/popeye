@@ -56,7 +56,7 @@ static boolean is_mate_square(Side other_side)
 
     occupy_square(being_solved.king_square[other_side],King,BIT(Royal)|BIT(other_side));
 
-    if (conditional_pipe_solve(temporary_hack_mate_tester[other_side])
+    if (conditional_pipe_solve_delegate(temporary_hack_mate_tester[other_side])
         ==previous_move_has_solved)
       result = true;
 

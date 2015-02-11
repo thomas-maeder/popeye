@@ -46,7 +46,7 @@ void countermate_filter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (conditional_pipe_solve(si)==previous_move_has_solved)
+  if (conditional_pipe_solve_delegate(si)==previous_move_has_solved)
     SETFLAG(goal_preprequisites_met[nbply],goal_countermate);
 
   pipe_solve_delegate(si);

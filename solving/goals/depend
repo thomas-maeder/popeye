@@ -6,7 +6,7 @@ solving/goals/reached_tester$(OBJ_SUFFIX): solving/goals/reached_tester.c \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/testing_pipe.h solving/pipe.h debugging/assert.h
+ solving/conditional_pipe.h solving/pipe.h debugging/assert.h
 
 solving/goals/reached_tester.h:
 
@@ -44,7 +44,7 @@ solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
-solving/testing_pipe.h:
+solving/conditional_pipe.h:
 
 solving/pipe.h:
 

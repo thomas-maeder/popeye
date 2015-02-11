@@ -7,12 +7,11 @@
  * @param si identifies the fork slice
  * @return one of
  *        previous_move_has_solved
+ *        previous_move_has_not_solved
  *        previous_move_is_illegal
- *        next_move_has_no_solution
- *        next_move_has_solution
  *        immobility_on_next_move
  */
-stip_length_type conditional_pipe_solve(slice_index si)
+stip_length_type conditional_pipe_solve_delegate(slice_index si)
 {
   stip_length_type result;
   stip_length_type const save_solve_nr_remaining = solve_nr_remaining;

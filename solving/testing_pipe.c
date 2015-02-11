@@ -2,7 +2,6 @@
 #include "solving/has_solution_type.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"
-#include "debugging/assert.h"
 
 /* Solve the next2 part of a fork
  * @param si identifies the fork slice
@@ -18,7 +17,7 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type testing_pipe_solve(slice_index si, stip_length_type n)
+stip_length_type testing_pipe_solve_delegate(slice_index si, stip_length_type n)
 {
   stip_length_type result;
   stip_length_type const save_solve_nr_remaining = solve_nr_remaining;

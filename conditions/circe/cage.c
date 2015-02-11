@@ -150,7 +150,7 @@ static boolean find_non_capturing_move(move_effect_journal_index_type rebirth,
   TraceFunctionParamListEnd();
 
   init_single_piece_move_generator(sq_rebirth);
-  result = (conditional_pipe_solve(temporary_hack_cagecirce_noncapture_finder[moving_side])
+  result = (conditional_pipe_solve_delegate(temporary_hack_cagecirce_noncapture_finder[moving_side])
             ==previous_move_has_solved);
 
   TraceFunctionExit(__func__);

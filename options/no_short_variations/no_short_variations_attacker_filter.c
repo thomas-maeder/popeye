@@ -41,7 +41,7 @@ static boolean has_short_solution(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  result = testing_pipe_solve(si,solve_nr_remaining-2)<=solve_nr_remaining-2;
+  result = testing_pipe_solve_delegate(si,solve_nr_remaining-2)<=solve_nr_remaining-2;
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);

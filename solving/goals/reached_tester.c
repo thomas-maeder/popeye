@@ -24,7 +24,7 @@ void goal_reached_tester_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (conditional_pipe_solve(si))
+  switch (conditional_pipe_solve_delegate(si))
   {
     case previous_move_is_illegal:
       solve_result = previous_move_is_illegal;

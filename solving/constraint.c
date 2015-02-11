@@ -25,7 +25,7 @@ void constraint_solve(slice_index si)
   TraceFunctionParamListEnd();
 
 
-  switch (conditional_pipe_solve(si))
+  switch (conditional_pipe_solve_delegate(si))
   {
     case previous_move_has_solved:
       pipe_solve_delegate(si);

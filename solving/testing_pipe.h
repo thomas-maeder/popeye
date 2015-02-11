@@ -1,7 +1,11 @@
 #if !defined(SOLVING_TESTING_PIPE_H)
 #define SOLVING_TESTING_PIPE_H
 
-/* Forks
+/* Testing pipes
+ * Delegate solving along the pipe only if testing the condition referred
+ * to by .next2 is successful.
+ * .next2 is a shortcut to a slice owned by somebody else. Deallocating a
+ * testing pipe will not deallocate .next2 and the slices attached to it.
  */
 
 #include "solving/machinery/solve.h"
@@ -20,6 +24,6 @@
  *            n+2 no solution found in this branch
  *            n+3 no solution found in next branch
  */
-stip_length_type testing_pipe_solve(slice_index si, stip_length_type n);
+stip_length_type testing_pipe_solve_delegate(slice_index si, stip_length_type n);
 
 #endif

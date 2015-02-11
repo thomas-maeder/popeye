@@ -26,7 +26,7 @@ void end_of_branch_solve(slice_index si)
 
   assert(solve_nr_remaining>=previous_move_has_solved);
 
-  switch (conditional_pipe_solve(si))
+  switch (conditional_pipe_solve_delegate(si))
   {
     case previous_move_has_solved:
       solve_result = previous_move_has_solved;

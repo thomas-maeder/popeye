@@ -307,7 +307,7 @@ void exclusive_chess_legality_tester_solve(slice_index si)
     if (is_current_move_in_table(exclusive_chess_undecidable_continuations[parent_ply[nbply]]))
       solve_result = this_move_is_illegal;
     else
-      switch (conditional_pipe_solve(temporary_hack_mate_tester[advers(trait[nbply])]))
+      switch (conditional_pipe_solve_delegate(temporary_hack_mate_tester[advers(trait[nbply])]))
       {
         case this_move_is_illegal:
           solve_result = this_move_is_illegal;
@@ -347,7 +347,7 @@ static void detect_exclusivity_and_solve_accordingly(slice_index si)
   exclusive_chess_nr_continuations_reaching_goal[nbply] = 0;
   nr_decidable_continuations_not_reaching_goal[nbply] = 0;
 
-  conditional_pipe_solve(temporary_hack_exclusive_mating_move_counter[SLICE_STARTER(si)]);
+  conditional_pipe_solve_delegate(temporary_hack_exclusive_mating_move_counter[SLICE_STARTER(si)]);
 
   TraceValue("%u",nbply);
   TraceValue("%u",nr_decidable_continuations_not_reaching_goal[nbply]);

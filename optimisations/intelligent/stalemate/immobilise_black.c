@@ -136,7 +136,7 @@ boolean intelligent_stalemate_immobilise_black(void)
   CLRCASTLINGFLAGMASK(Black,k_cancastle);
   current_state = &immobilisation_state;
 
-  conditional_pipe_solve(current_start_slice);
+  conditional_pipe_solve_delegate(current_start_slice);
 
   next_trouble_maker();
   current_state = 0;

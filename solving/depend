@@ -3797,7 +3797,7 @@ solving/testing_pipe$(OBJ_SUFFIX): solving/testing_pipe.c solving/testing_pipe.h
  solving/machinery/dispatch.h debugging/trace.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/fork.h solving/observation.h pieces/walks/vectors.h \
- solving/ply.h solving/temporary_hacks.h debugging/assert.h
+ solving/ply.h solving/temporary_hacks.h
 
 solving/testing_pipe.h:
 
@@ -3844,5 +3844,3 @@ pieces/walks/vectors.h:
 solving/ply.h:
 
 solving/temporary_hacks.h:
-
-debugging/assert.h:

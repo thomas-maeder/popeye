@@ -546,7 +546,7 @@ boolean ultra_mummer_validate_observation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  conditional_pipe_solve(temporary_hack_ultra_mummer_length_measurer[side_observing]);
+  conditional_pipe_solve_delegate(temporary_hack_ultra_mummer_length_measurer[side_observing]);
 
   result = (*mummer_measure_length[side_observing])()==mum_length[nbply];
 

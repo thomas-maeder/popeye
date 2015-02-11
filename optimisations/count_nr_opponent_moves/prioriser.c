@@ -66,7 +66,7 @@ void opponent_moves_few_moves_prioriser_solve(slice_index si)
   /* move_generator_invert_move_order(nbply); */
 
   copyply();
-  testing_pipe_solve(si,slack_length+2);
+  testing_pipe_solve_delegate(si,slack_length+2);
   finply();
 
   qsort(&move_generation_stack[base],
