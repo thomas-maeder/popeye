@@ -478,6 +478,10 @@ void dispatch(slice_index si)
       supertransmuting_kings_transmuter_solve(si);
       break;
 
+    case STSuperTransmutingKingMoveGenerationFilter:
+      supertransmuting_kings_move_generation_filter_solve(si);
+      break;
+
     case STAMUAttackCounter:
       amu_attack_counter_solve(si);
       break;

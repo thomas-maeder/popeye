@@ -121,4 +121,24 @@ stipulation ~1
 condition whitetransmutedking
 option nobk
 
+next
+
+title until 4.69, Popeye allowed checks to a super-transmuting king to be defended by moves of pieces other than the king
+author Karol Mlynka
+origin http://juliasfairies.com/ 20.12.2014
+remark reduced to the last 2 half moves of d)
+remark cf. discussion on http://juliasfairies.com/problems/jf-2014-iii/no-670/#comment-40662
+pieces white kh2 qe2 pc5g4h4 black kh1 rf7 pc6
+condition imitator e1 BlackSuperTransmutingKing
+stipulation hs#1
+
+next
+
+title minimal example of the same bug - until 4.69, Popeye didn't find the solution
+author Nicolas Dupont
+pieces white la7 black kb2 pc5e5
+stip #1
+condition BlackSuperTransmutingKing
+option nowk
+
 end

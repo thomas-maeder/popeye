@@ -445,6 +445,7 @@
     ENUMERATOR(STCastlingChessMovePlayer),                              \
     ENUMERATOR(STExchangeCastlingMovePlayer),                           \
     ENUMERATOR(STSuperTransmutingKingTransmuter),                       \
+    ENUMERATOR(STSuperTransmutingKingMoveGenerationFilter),             \
     ENUMERATOR(STReflectiveKingsMovesForPieceGenerator),                \
     ENUMERATOR(STVaultingKingsMovesForPieceGenerator),                  \
     ENUMERATOR(STTransmutingKingsMovesForPieceGenerator),               \

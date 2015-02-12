@@ -11,6 +11,7 @@
 #include "solving/has_solution_type.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "stipulation/slice_insertion.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "pieces/pieces.h"
@@ -20,6 +21,8 @@
 
 
 static piece_walk_type supertransmutation[toppile+1];
+
+static boolean exists_transmutation[maxply+1];
 
 #define MAX_OTHER_LEN 1000 /* needs to be at least the max of any value that can be returned in the len functions */
 
@@ -76,10 +79,44 @@ void supertransmuting_kings_transmuter_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static boolean generate_moves_of_supertransmuting_king(slice_index si)
+static boolean move_has_transmutation(numecoup n)
 {
-  boolean result = false;
+  return supertransmutation[move_generation_stack[n].id]!=Empty;
+}
 
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void supertransmuting_kings_move_generation_filter_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (exists_transmutation[nbply])
+  {
+    move_generator_filter_moves(MOVEBASE_OF_PLY(nbply),&move_has_transmutation);
+    exists_transmutation[nbply] = false;
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void generate_moves_of_supertransmuting_king(slice_index si)
+{
   piece_walk_type const *ptrans;
   for (ptrans = transmuting_kings_potential_transmutations; *ptrans!=Empty; ++ptrans)
     if (transmuting_kings_is_king_transmuting_as(*ptrans))
@@ -88,10 +125,19 @@ static boolean generate_moves_of_supertransmuting_king(slice_index si)
       pipe_move_generation_differnt_walk_delegate(si,*ptrans);
       for (; curr_id<current_move_id[nbply]; ++curr_id)
         supertransmutation[curr_id] = *ptrans;
-      result = true;
+      exists_transmutation[nbply] = true;
     }
+}
 
-  return result;
+static void generate_moves_for_piece_delegate(slice_index si)
+{
+  if (!exists_transmutation[nbply])
+  {
+    numecoup curr_id = current_move_id[nbply];
+    pipe_move_generation_delegate(si);
+    for (; curr_id<current_move_id[nbply]; ++curr_id)
+      supertransmutation[curr_id] = Empty;
+  }
 }
 
 /* Generate moves for a single piece
@@ -99,18 +145,16 @@ static boolean generate_moves_of_supertransmuting_king(slice_index si)
  */
 void supertransmuting_kings_generate_moves_for_piece(slice_index si)
 {
+  Flags const mask = BIT(trait[nbply])|BIT(Royal);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!(move_generation_current_walk==King
-        && generate_moves_of_supertransmuting_king(si)))
-  {
-    numecoup curr_id = current_move_id[nbply];
-    pipe_move_generation_delegate(si);
-    for (; curr_id<current_move_id[nbply]; ++curr_id)
-      supertransmutation[curr_id] = Empty;
-  }
+  if (TSTFULLFLAGMASK(being_solved.spec[curr_generation->departure],mask))
+    generate_moves_of_supertransmuting_king(si);
+
+  generate_moves_for_piece_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -136,6 +180,26 @@ static void instrument_move(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+static void insert_filter(slice_index si, stip_structure_traversal *st)
+{
+  Side const * const side = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_traverse_structure_children_pipe(si,st);
+
+  if (SLICE_STARTER(si)==*side)
+  {
+    slice_index const prototype = alloc_pipe(STSuperTransmutingKingMoveGenerationFilter);
+    slice_insertion_insert_contextually(si,st->context,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Instrument slices with move tracers
  * @param si identifies root slice of solving machinery
  * @param side for whom
@@ -152,6 +216,7 @@ void supertransmuting_kings_initialise_solving(slice_index si, Side side)
   solving_impose_starter(si,SLICE_STARTER(si));
 
   stip_structure_traversal_init(&st,&side);
+  stip_structure_traversal_override_single(&st,STGeneratingMoves,&insert_filter);
   stip_structure_traversal_override_single(&st,STMove,&instrument_move);
   stip_traverse_structure(si,&st);
 

@@ -77,10 +77,10 @@
       1...Kd7-d6 !
 
 
-  add_to_move_generation_stack:       24877
-                     play_move:       22277
- is_white_king_square_attacked:        2591
- is_black_king_square_attacked:       20470
+  add_to_move_generation_stack:       39211
+                     play_move:       32603
+ is_white_king_square_attacked:        1126
+ is_black_king_square_attacked:       32261
 Loesung beendet.
 
 
@@ -262,10 +262,10 @@ Loesung beendet.
       1...Tb7-g7 !
 
 
-  add_to_move_generation_stack:       39851
-                     play_move:       29140
- is_white_king_square_attacked:        4267
- is_black_king_square_attacked:       27453
+  add_to_move_generation_stack:       83149
+                     play_move:       29433
+ is_white_king_square_attacked:        3148
+ is_black_king_square_attacked:       28865
 Loesung beendet.
 
 
@@ -345,10 +345,10 @@ Loesung beendet.
           2.Db6-b7 #
 
 
-  add_to_move_generation_stack:       16843
-                     play_move:       13288
- is_white_king_square_attacked:        1592
- is_black_king_square_attacked:       12091
+  add_to_move_generation_stack:       30387
+                     play_move:       23198
+ is_white_king_square_attacked:         631
+ is_black_king_square_attacked:       22962
 Loesung beendet.
 
 
@@ -520,10 +520,10 @@ Nr. 39, 9. TT Chess Composition Microweb C 17.6.2002
       1...Td6-d5 !
 
 
-  add_to_move_generation_stack:      111650
-                     play_move:       94245
- is_white_king_square_attacked:        6482
- is_black_king_square_attacked:       92086
+  add_to_move_generation_stack:      188326
+                     play_move:       98439
+ is_white_king_square_attacked:        5446
+ is_black_king_square_attacked:       97316
 Loesung beendet.
 
 
@@ -558,10 +558,10 @@ a)
 
   1.Kg7-f8 Kd5-d4   2.a2-a1=D + Kd4*a1=D   3.Th8-g8 Da1-f6 #
 
-  add_to_move_generation_stack:     6163583
-                     play_move:     4466945
+  add_to_move_generation_stack:    17854406
+                     play_move:    10087529
  is_white_king_square_attacked:      176253
- is_black_king_square_attacked:     4131582
+ is_black_king_square_attacked:     9752166
 b) sBa2-->b2  
 
   1.Kg7-f8 Kd5-c6   2.Th8-g8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
@@ -570,10 +570,10 @@ b) sBa2-->b2
   1.Th8-g8 Kd5-c6   2.Kg7-f8 Kc6-b6   3.b2-b1=D + Kb6-f6=D #
   1.Th8-g8 Kd5-c5   2.Kg7-f8 Kc5-b6   3.b2-b1=D + Kb6-f6=D #
 
-  add_to_move_generation_stack:     6320382
-                     play_move:     4526979
+  add_to_move_generation_stack:    18721570
+                     play_move:    10151154
  is_white_king_square_attacked:      170482
- is_black_king_square_attacked:     4189185
+ is_black_king_square_attacked:     9813360
 Loesung beendet.
 
 

@@ -292,6 +292,10 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     /* prevent king first optimisation - the Ohneschach specific optimisation
      * is more effective */
   }
+  else if (CondFlag[whsupertrans_king] || CondFlag[blsupertrans_king])
+  {
+    /* prevent king first optimisation - doesn't work */
+  }
   else if (CondFlag[exclusive])
     ; /* use regular move generation to filter out non-unique mating moves */
   else if (CondFlag[MAFF])
