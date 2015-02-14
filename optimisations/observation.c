@@ -117,7 +117,7 @@ boolean undo_optimise_observation_by_queen(slice_index si)
 
 static slice_type const ortho_validation_slice_types_non_proxy[] =
 {
-    STUndoOptimiseObservationsByQueen,
+    STUndoOptimiseObservationsByQueen, /* needed when ProofInitialiseKingMoves() invokes is_observation_trivially_validated() */
     STEnforceObserverWalk
 };
 
@@ -128,7 +128,7 @@ enum {
 typedef struct
 {
     boolean non_ortho_seen;
-    unsigned int ortho_seen[nr_ortho_validation_slice_types_non_proxy];
+    boolean enforce_seen;
 } ortho_validation_trival_state_type;
 
 static unsigned int is_ortho_validation_slice_type(slice_type type)
@@ -168,7 +168,8 @@ static void is_validation_branch_remainder_ortho(slice_index si,
       state->non_ortho_seen = true;
     else
     {
-      ++state->ortho_seen[pos];
+      if (type==STEnforceObserverWalk)
+        state->enforce_seen = true;
       stip_traverse_structure_children(si,st);
     }
   }
@@ -179,8 +180,7 @@ static void is_validation_branch_remainder_ortho(slice_index si,
 
 static boolean is_validation_branch_ortho(slice_index entry)
 {
-  ortho_validation_trival_state_type state = { false, { 0 } };
-  boolean all_ortho_seen = true;
+  ortho_validation_trival_state_type state = { false, false };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",entry);
@@ -195,21 +195,12 @@ static boolean is_validation_branch_ortho(slice_index entry)
     stip_traverse_structure(entry,&st);
   }
 
-  {
-    unsigned int i;
-    for (i = 0; i!=nr_ortho_validation_slice_types_non_proxy; ++i)
-      if (state.ortho_seen[i]==0)
-        all_ortho_seen = false;
-  }
-
-  TraceValue("%u",state.non_ortho_seen);
-  TraceValue("%u",all_ortho_seen);
-  TraceEOL();
-
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",!state.non_ortho_seen && all_ortho_seen);
+  TraceFunctionResult("%u",state.non_ortho_seen);
+  TraceFunctionResult("%u",state.enforce_seen);
+  TraceFunctionResult("%u",!state.non_ortho_seen && state.enforce_seen);
   TraceFunctionResultEnd();
-  return !state.non_ortho_seen && all_ortho_seen;
+  return !state.non_ortho_seen && state.enforce_seen;
 }
 
 static slice_type const ortho_observation_slice_types_non_proxy[] =
@@ -327,7 +318,8 @@ static void optimise_side(slice_index si, Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (is_observation_trivially_validated(side)
+  if (!piece_walk_may_exist_fairy
+      && is_observation_trivially_validated(side)
       && is_observation_branch_ortho(SLICE_NEXT2(temporary_hack_is_square_observed[side])))
     stip_instrument_is_square_observed_testing(si,side,STIsSquareObservedOrtho);
   else

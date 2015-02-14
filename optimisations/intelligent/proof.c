@@ -1166,6 +1166,8 @@ static void ProofInitialiseKingMoves(Side side)
   }
   else
   {
+    boolean const trivial_validation = is_observation_trivially_validated(advers(side));
+
     /* set all squares to a maximum */
     for (bnp = boardnum; *bnp; ++bnp)
       KingMoves[side][*bnp] = current_length;
@@ -1175,10 +1177,11 @@ static void ProofInitialiseKingMoves(Side side)
         KingMoves[side][sq] = -1; /* blocked */
 
     for (sq = square_opponent_pawn_base; sq<square_opponent_pawn_base+nr_files_on_board; ++sq)
-      if (proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],advers(side)))
+      if (proofgames_target_position.board[sq]==Pawn
+          && TSTFLAG(proofgames_target_position.spec[sq],advers(side)))
       {
         KingMoves[side][sq]= -1;    /* blocked */
-        if (is_observation_trivially_validated(advers(side)))
+        if (trivial_validation)
         {
           KingMoves[side][sq+dir_backward+dir_left] = -2;
           KingMoves[side][sq+dir_backward+dir_right] = -2; /* guarded */
