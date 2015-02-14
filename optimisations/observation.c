@@ -118,6 +118,7 @@ boolean undo_optimise_observation_by_queen(slice_index si)
 static slice_type const ortho_validation_slice_types_non_proxy[] =
 {
     STUndoOptimiseObservationsByQueen, /* needed when ProofInitialiseKingMoves() invokes is_observation_trivially_validated() */
+    /* TODO: invoke intelligent_proof_solve() earlier - only possible once build_solvers() is split up into slices */
     STEnforceObserverWalk
 };
 
