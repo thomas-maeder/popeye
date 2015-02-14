@@ -125,7 +125,7 @@ slice_index alloc_intelligent_proof(void)
   return result;
 }
 
-static int ProofKingMovesNeeded(Side side)
+static int KingMovesNeeded(Side side)
 {
   int   needed;
   int   cast;
@@ -219,7 +219,7 @@ static stip_length_type PawnMovesNeeded(Side side, square sq)
 
   /* The first time ProofWhPawnMovesNeeded is called the following
      test is always false. It has already been checked in
-     ProofImpossible. But we need it here for the recursion.
+     Impossible. But we need it here for the recursion.
   */
   if ((get_walk_of_piece_on_square(sq)==Pawn && TSTFLAG(being_solved.spec[sq],side))
       && !(proofgames_target_position.board[sq]==Pawn && TSTFLAG(proofgames_target_position.spec[sq],side)))
@@ -635,7 +635,7 @@ static stip_length_type ArrangePawns(stip_length_type CapturesAllowed,
   return Diff;
 }
 
-static boolean ProofFairyImpossible(void)
+static boolean FairyImpossible(void)
 {
   square const *bnp;
   square sq;
@@ -830,7 +830,7 @@ static boolean ProofFairyImpossible(void)
   return false;
 }
 
-static boolean ProofImpossible(void)
+static boolean Impossible(void)
 {
   square const *bnp;
   stip_length_type moves_left[nr_sides] = { MovesLeft[White], MovesLeft[Black] };
@@ -932,18 +932,18 @@ static boolean ProofImpossible(void)
       return true;
 
   {
-    stip_length_type const white_king_moves_needed = ProofKingMovesNeeded(White);
+    stip_length_type const white_king_moves_needed = KingMovesNeeded(White);
     if (moves_left[White]<white_king_moves_needed)
     {
       TraceText(" white_moves_left<white_king_moves_needed\n");
       return true;
     }
     else
-      moves_left[White] -= ProofKingMovesNeeded(White);
+      moves_left[White] -= KingMovesNeeded(White);
   }
 
   {
-    stip_length_type const black_king_moves_needed = ProofKingMovesNeeded(Black);
+    stip_length_type const black_king_moves_needed = KingMovesNeeded(Black);
     if (moves_left[Black]<black_king_moves_needed)
     {
       TraceText("black_moves_left<black_king_moves_needed\n");
@@ -1090,7 +1090,7 @@ void goalreachable_guard_proofgame_solve(slice_index si)
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
-  pipe_this_move_doesnt_solve_if(si,ProofImpossible());
+  pipe_this_move_doesnt_solve_if(si,Impossible());
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
@@ -1129,7 +1129,7 @@ void goalreachable_guard_proofgame_fairy_solve(slice_index si)
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
   TraceValue("%u\n",MovesLeft[just_moved]);
 
-  pipe_this_move_doesnt_solve_if(si,ProofFairyImpossible());
+  pipe_this_move_doesnt_solve_if(si,FairyImpossible());
 
   ++MovesLeft[just_moved];
   TraceValue("%u",MovesLeft[SLICE_STARTER(si)]);
@@ -1139,7 +1139,7 @@ void goalreachable_guard_proofgame_fairy_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void ProofInitialiseKingMoves(Side side)
+static void InitialiseKingMoves(Side side)
 {
   square const *bnp;
   square sq;
@@ -1258,7 +1258,7 @@ static void ProofInitialiseKingMoves(Side side)
   TraceFunctionResultEnd();
 }
 
-static void ProofInitialiseIntelligentSide(Side side)
+static void InitialiseIntelligentSide(Side side)
 {
   square const square_base = side==White ? square_a1 : square_a8;
 
@@ -1331,22 +1331,22 @@ static void ProofInitialiseIntelligentSide(Side side)
       CLRCASTLINGFLAGMASK(side,k_cancastle);
 
     /* initialise king diff_move arrays */
-    ProofInitialiseKingMoves(side);
+    InitialiseKingMoves(side);
   }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
 
-static void ProofInitialiseIntelligent(void)
+static void InitialiseIntelligent(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
   current_length = MOVE_HAS_SOLVED_LENGTH();
 
-  ProofInitialiseIntelligentSide(White);
-  ProofInitialiseIntelligentSide(Black);
+  InitialiseIntelligentSide(White);
+  InitialiseIntelligentSide(Black);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1371,7 +1371,7 @@ void intelligent_proof_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  ProofInitialiseIntelligent();
+  InitialiseIntelligent();
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
