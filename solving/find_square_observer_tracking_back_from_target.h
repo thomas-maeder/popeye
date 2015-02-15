@@ -8,7 +8,7 @@
 
 extern piece_walk_type observing_walk[maxply+1];
 
-typedef boolean (checkfunction_t)(validator_id );
+typedef boolean (checkfunction_t)(validator_id);
 extern checkfunction_t *checkfunctions[nr_piece_walks];
 
 extern piece_walk_type checkpieces[nr_piece_walks-Leo+1]; /* only fairies ! */
