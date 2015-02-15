@@ -1,4 +1,5 @@
 #include "optimisations/orthodox_square_observation.h"
+#include "solving/find_square_observer_tracking_back_from_target.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "position/position.h"
 #include "debugging/trace.h"
@@ -152,6 +153,18 @@ boolean is_square_observed_ortho(Side side_checking,
       if ((p==Bishop || p==Queen) && TSTFLAG(being_solved.spec[sq_departure],side_checking))
         return true;
     }
+  }
+
+  {
+    piece_walk_type const *pcheck;
+
+    for (pcheck = checkpieces; *pcheck; ++pcheck)
+      if (being_solved.number_of_pieces[side_checking][*pcheck]>0)
+      {
+        observing_walk[nbply] = *pcheck;
+        if ((*checkfunctions[*pcheck])(EVALUATE(check)))
+          return true;
+      }
   }
 
   return false;

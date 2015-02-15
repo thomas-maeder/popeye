@@ -319,8 +319,7 @@ static void optimise_side(slice_index si, Side side)
   TraceEnumerator(Side,side,"");
   TraceFunctionParamListEnd();
 
-  if (!piece_walk_may_exist_fairy
-      && is_observation_trivially_validated(side)
+  if (is_observation_trivially_validated(side)
       && is_observation_branch_ortho(SLICE_NEXT2(temporary_hack_is_square_observed[side])))
     stip_instrument_is_square_observed_testing(si,side,STIsSquareObservedOrtho);
   else

@@ -170,9 +170,7 @@ optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h stipulation/pipe.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -182,7 +180,9 @@ optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/has_solution_type.h solving/has_solution_type.enum.h \
  solving/moves_traversal.h solving/pipe.h solving/castling.h \
- solving/move_effect_journal.h position/pieceid.h debugging/assert.h
+ solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
+ position/pieceid.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h debugging/assert.h
 
 optimisations/intelligent/moves_left.h:
 
@@ -216,18 +216,6 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
 stipulation/pipe.h:
 
 stipulation/structure_traversal.h:
@@ -260,7 +248,19 @@ solving/castling.h:
 
 solving/move_effect_journal.h:
 
+position/castling_rights.h:
+
+solving/ply.h:
+
 position/pieceid.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 debugging/assert.h:
 optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c \
@@ -269,19 +269,19 @@ optimisations/intelligent/proof$(OBJ_SUFFIX): optimisations/intelligent/proof.c 
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
- conditions/conditions.h conditions/circe/circe.h \
- stipulation/structure_traversal.h stipulation/slice.h \
- stipulation/slice_structural_type.h \
+ solving/machinery/dispatch.h debugging/trace.h position/pieceid.h \
+ conditions/conditions.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
+ conditions/circe/circe.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h solving/move_effect_journal.h \
- solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ solving/ply.h solving/machinery/twin.h \
+ conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/anticirce/anticirce.h \
@@ -328,6 +328,10 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+position/pieceid.h:
+
+conditions/conditions.h:
+
 position/position.h:
 
 position/color.h:
@@ -337,12 +341,6 @@ position/color.enum.h:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
-conditions/conditions.h:
 
 conditions/circe/circe.h:
 
@@ -367,6 +365,8 @@ stipulation/traversal.h:
 stipulation/slice_insertion.h:
 
 solving/move_effect_journal.h:
+
+solving/ply.h:
 
 solving/machinery/twin.h:
 
@@ -428,10 +428,10 @@ optimisations/intelligent/duplicate_avoider$(OBJ_SUFFIX): \
  utilities/bitmask.h utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ solving/machinery/dispatch.h debugging/trace.h \
+ optimisations/intelligent/intelligent.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h \
- optimisations/intelligent/intelligent.h position/pieceid.h \
+ position/castling_rights.h position/pieceid.h solving/ply.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -477,6 +477,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+optimisations/intelligent/intelligent.h:
+
 position/position.h:
 
 position/color.h:
@@ -487,11 +489,9 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
-solving/ply.h:
-
-optimisations/intelligent/intelligent.h:
-
 position/pieceid.h:
+
+solving/ply.h:
 
 optimisations/intelligent/piece_usage.h:
 
@@ -536,9 +536,7 @@ optimisations/intelligent/limit_nr_solutions_per_target$(OBJ_SUFFIX): \
  utilities/boolean.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/vectors.h \
- position/castling_rights.h solving/ply.h stipulation/pipe.h \
+ solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -580,18 +578,6 @@ output/mode.enum.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-pieces/walks/vectors.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
 
 stipulation/pipe.h:
 

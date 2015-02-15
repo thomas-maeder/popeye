@@ -360,14 +360,16 @@ optimisations/orthodox_square_observation$(OBJ_SUFFIX): \
  optimisations/orthodox_square_observation.c \
  optimisations/orthodox_square_observation.h position/side.h \
  position/side.enum.h position/board.h utilities/bitmask.h \
- utilities/boolean.h pieces/walks/pawns/en_passant.h \
- solving/machinery/solve.h stipulation/stipulation.h \
+ utilities/boolean.h \
+ solving/find_square_observer_tracking_back_from_target.h \
+ solving/observation.h stipulation/stipulation.h \
  stipulation/goals/goals.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h pieces/pieces.h output/mode.h \
- output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
- position/pieceid.h solving/observation.h pieces/walks/vectors.h \
- solving/temporary_hacks.h position/position.h position/color.h \
+ output/mode.enum.h solving/machinery/dispatch.h pieces/walks/vectors.h \
+ solving/ply.h debugging/trace.h solving/temporary_hacks.h \
+ pieces/walks/pawns/en_passant.h solving/machinery/solve.h \
+ solving/move_effect_journal.h position/castling_rights.h \
+ position/pieceid.h position/position.h position/color.h \
  position/color.enum.h
 
 optimisations/orthodox_square_observation.h:
@@ -382,9 +384,9 @@ utilities/bitmask.h:
 
 utilities/boolean.h:
 
-pieces/walks/pawns/en_passant.h:
+solving/find_square_observer_tracking_back_from_target.h:
 
-solving/machinery/solve.h:
+solving/observation.h:
 
 stipulation/stipulation.h:
 
@@ -402,21 +404,23 @@ output/mode.enum.h:
 
 solving/machinery/dispatch.h:
 
+pieces/walks/vectors.h:
+
+solving/ply.h:
+
 debugging/trace.h:
+
+solving/temporary_hacks.h:
+
+pieces/walks/pawns/en_passant.h:
+
+solving/machinery/solve.h:
 
 solving/move_effect_journal.h:
 
 position/castling_rights.h:
 
-solving/ply.h:
-
 position/pieceid.h:
-
-solving/observation.h:
-
-pieces/walks/vectors.h:
-
-solving/temporary_hacks.h:
 
 position/position.h:
 
