@@ -490,6 +490,9 @@ void dhtDestroy(HashTable *ht)
   dirEnumerate dEnum;
   InternHsElement *b;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   dEnum.index= 0;
   dEnum.current = 0;
   dEnum.dt= &ht->DirTab;
@@ -506,6 +509,9 @@ void dhtDestroy(HashTable *ht)
 
   freeDirTable(&ht->DirTab);
   FreeHashTable(ht);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void dhtDumpIndented(int ind, HashTable *ht, FILE *f)
@@ -724,11 +730,15 @@ LOCAL void ShrinkHashTable(HashTable *ht)
 
 LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
 {
-  uLong     h;
+  uLong h;
   InternHsElement **phe;
 
-  h= DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
-  phe= (InternHsElement**)accessAdr(&ht->DirTab, h);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p ",ht);
+  TraceFunctionParam("%p ",key);
+
+  h = DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
+  phe = (InternHsElement**)accessAdr(&ht->DirTab, h);
 
   while (*phe)
     if ((ht->procs.Equal)((*phe)->HsEl.Key, key))
@@ -736,6 +746,8 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
     else
       phe= &((*phe)->Next);
 
+  TraceFunctionExit(__func__);
+  TracePointerFunctionResult("%p\n",phe);
   return phe;
 }
 
@@ -832,6 +844,8 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
     TraceValue("%p\n",he);
     if (he==0)
     {
+      (ht->procs.FreeKey)(KeyV);
+      (ht->procs.FreeData)(DataV);
       TraceText("allocation of new intern Hs element failed\n");
       TraceFunctionExit(__func__);
       TracePointerFunctionResult("%p\n",dhtNilElement);
