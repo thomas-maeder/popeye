@@ -264,6 +264,14 @@ void fxfReset(void)
 #endif /*FREEMAP*/
 #endif /*SEGMENTED*/
 
+#if !defined(NDEBUG)
+  {
+    unsigned int i;
+    for (i = 1; i<=50; ++i)
+      assert(SizeData[i].MallocCount==0);
+  }
+#endif
+
   memset(SizeData, '\0', sizeof SizeData);
 }
 
