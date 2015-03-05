@@ -50,6 +50,10 @@ int dhtDebug= 0;
 #  define Nil(type)    (type *)0
 #endif /*New*/
 
+/* The next three values are those you may want to change */
+#define DefaultMaxLoadFactor    300     /* in percent */
+#define DefaultMinLoadFactor    100     /* in percent */
+
 
 /* One problem in implementing dynamic hashing is the table to hold
  * the pointers to the hash elements. This table should dynamicly
@@ -320,6 +324,8 @@ static void freeDirTable(dirTable *dt)
   return;
 }
 
+#define TMDBG(x) if (0) x
+
 static InternHsElement *stepDirTable(dirEnumerate *enumeration)
 {
   InternHsElement *result = &EndOfTable;
@@ -329,10 +335,11 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
 
   TraceValue("%lu ",enumeration->index);
   TraceValue("%lu\n",enumeration->dt->count);
+  TMDBG(printf("stepDirTable - index:%lu count:%lu\n",enumeration->index,enumeration->dt->count));
   if (enumeration->index<enumeration->dt->count)
   {
     dht_index_t di = enumeration->index & DIR_IDX_MASK;
-    TraceValue("%lu\n",di);
+    TMDBG(printf("stepDirTable - di:%lu\n",di));
     if (di==0)
       enumeration->current= (ht_dir*)accessAdr(enumeration->dt,
                                                enumeration->index);
@@ -343,6 +350,7 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
   }
   else
   {
+    TMDBG(printf("no further step\n"));
     TraceText("returning address of end of table pseudo-element\n");
   }
 
@@ -367,6 +375,8 @@ typedef struct dht {
     uLong       p;     /* Next bucket to split */
     uLong       maxp;  /* Upper bound on p during this expansion */
     uLong       KeyCount;       /* number keys stored in table */
+    uShort      MinLoadFactor;  /* Lower bound on the load factor */
+    uShort      MaxLoadFactor;  /* Upper bound on the load factor */
     uLong       CurrentSize;
     dirTable        DirTab;     /* The directory table */
     dirEnumerate    DirEnum;        /* stepping through the table */
@@ -380,6 +390,16 @@ typedef struct dht {
 #endif
 #define NewHashTable        (HashTable *)fxfAlloc(sizeof(dht))
 #define FreeHashTable(h)    fxfFree(h, sizeof(dht))
+#define OVERFLOW_SAVE 1
+#if defined(OVERFLOW_SAVE)
+#define ActualLoadFactor(h)                     \
+  ( (h)->CurrentSize < 10000                    \
+    ?  ((h)->KeyCount*100) / (h)->CurrentSize   \
+    :  (h)->KeyCount / ((h->CurrentSize/100))   \
+    )
+#else
+#define ActualLoadFactor(h) (((h)->KeyCount*100)/(h)->DirTab.count)
+#endif /*OVERFLOW_SAVE*/
 
 unsigned long dhtKeyCount(dht *h)
 {
@@ -445,6 +465,8 @@ dht *dhtCreate(dhtValueType KeyType, dhtValuePolicy KeyPolicy,
         ht->KeyCount=     0;
         ht->maxp=     PTR_PER_DIR;
         ht->CurrentSize=    ht->maxp;
+        ht->MinLoadFactor=  DefaultMinLoadFactor;
+        ht->MaxLoadFactor=  DefaultMaxLoadFactor;
         ht->KeyPolicy=        KeyPolicy;
         ht->DtaPolicy=        DataPolicy;
 
@@ -569,21 +591,17 @@ dhtElement *dhtGetFirstElement(HashTable *ht)
   if (ht->KeyCount>0)
   {
     ht->DirEnum.index= 0;
-    TracePointerValue("%p\n",&ht->DirTab);
     ht->DirEnum.dt = &ht->DirTab;
 
     for (b = stepDirTable(&ht->DirEnum);
          b!=&EndOfTable;
          b = stepDirTable(&ht->DirEnum))
-    {
-      TracePointerValue("%p\n",b);
       if (b!=0)
       {
         ht->NextStep= b->Next;
         result = &b->HsEl;
         break;
       }
-    }
   }
 
   TraceFunctionExit(__func__);
@@ -644,6 +662,9 @@ LOCAL dhtStatus ExpandHashTable(HashTable *ht)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p\n",ht);
+
+  TMDBG(printf("ExpandHashTable() - ht->DirTab.ld[0].valid:%d\n",
+               ht->DirTab.ld[0].valid));
 
   if (appendDirTable(&ht->DirTab,0))
   {
@@ -712,6 +733,7 @@ LOCAL void ShrinkHashTable(HashTable *ht)
   }
   ht->p--;
 
+  TMDBG(printf("ShrinkHashTable()\n"));
   new= (InternHsElement**)accessAdr(&ht->DirTab, ht->p);
   oldp= ht->p + ht->maxp;
   old= (InternHsElement**)accessAdr(&ht->DirTab, oldp);
@@ -736,35 +758,36 @@ LOCAL InternHsElement **LookupInternHsElement(HashTable *ht, dhtConstValue key)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%p ",ht);
   TraceFunctionParam("%p ",key);
+  TraceFunctionParamListEnd();
 
   h = DynamicHash(ht->p, ht->maxp, (ht->procs.Hash)(key));
   phe = (InternHsElement**)accessAdr(&ht->DirTab, h);
+  TMDBG(printf("h:%lu\n",h));
 
   while (*phe)
     if ((ht->procs.Equal)((*phe)->HsEl.Key, key))
+    {
+      TraceText("found");TraceEOL();
       break;
+    }
     else
       phe= &((*phe)->Next);
 
   TraceFunctionExit(__func__);
-  TracePointerFunctionResult("%p\n",phe);
+  TracePointerFunctionResult("%p",*phe);
+  TraceFunctionResultEnd();
   return phe;
-}
-
-static int dhtIsOverloaded(HashTable const *ht)
-{
-  return ht->KeyCount/3 > ht->CurrentSize;
-}
-
-static int dhtIsUnderloaded(HashTable const *ht)
-{
-  return ht->KeyCount < ht->CurrentSize;
 }
 
 void dhtRemoveElement(HashTable *ht, dhtValue key)
 {
   MYNAME(dhtRemoveElement)
-    InternHsElement **phe, *he;
+  InternHsElement **phe, *he;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%p ",ht);
+  TraceFunctionParam("%p ",key);
+  TraceFunctionParamListEnd();
 
   phe= LookupInternHsElement(ht, key);
   if (*phe)
@@ -782,7 +805,7 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
     (ht->procs.FreeKey)(he->HsEl.Key);
     FreeInternHsElement(he);
     ht->KeyCount--;
-    if (dhtIsUnderloaded(ht))
+    if (ActualLoadFactor(ht) < ht->MinLoadFactor)
     {
       DEBUG_CODE(
         fprintf(stderr,
@@ -801,7 +824,9 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
       dhtDump(ht, stderr);
       );
   }
-  return;
+  
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
@@ -869,13 +894,12 @@ dhtElement *dhtEnterElement(HashTable *ht, dhtConstValue key, dhtValue data)
   he->HsEl.Key = KeyV;
   he->HsEl.Data = DataV;
 
-  if (dhtIsOverloaded(ht))
+  if (ActualLoadFactor(ht)>ht->MaxLoadFactor)
   {
     /*
       fputs("Dumping Hash-Table before expansion\n",stderr);
       fDumpHashTable(ht, stderr);
     */
-    TraceValue("expanding hash table %p\n",ht);
     if (ExpandHashTable(ht)!=dhtOkStatus)
     {
       TraceText("expansion failed\n");
