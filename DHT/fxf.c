@@ -291,13 +291,13 @@ void fxfReset(void)
 #define TMDBG(x) if (0) x
 
 void *fxfAlloc(size_t size) {
-  TMDBG(printf("fxfAlloc %10lu - size:%lu",++alloc_count,size));
 #if defined(LOG) || defined(DEBUG)
   static char const * const myname= "fxfAlloc";
 #endif
   SizeHead *sh;
   char *ptr;
 
+  TMDBG(printf("fxfAlloc - size:%lu",size));
   DBG((stderr, "%s(%u) =", myname, (unsigned int)size));
 
   if (size<fxfMINSIZE)
@@ -363,10 +363,10 @@ void *fxfAlloc(size_t size) {
 }
 
 void fxfFree(void *ptr, size_t size) {
-  TMDBG(printf("fxfFree - ptr-Arena:%ld size:%lu",(char*)ptr-Arena,size));
   static char const * const myname= "fxfFree";
   SizeHead *sh;
 
+  TMDBG(printf("fxfFree - ptr-Arena:%ld size:%lu",(char*)ptr-Arena,size));
   DBG((df, "%s(%p, %u)\n", myname, ptr, (unsigned int)size));
   if (size > fxfMAXSIZE) {
     fprintf(stderr, "%s: size=%u >= %u\n",
