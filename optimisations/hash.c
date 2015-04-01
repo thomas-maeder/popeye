@@ -128,6 +128,10 @@ static boolean one_byte_hash;
 static unsigned int bytes_per_spec;
 static unsigned int bytes_per_piece;
 
+/* TODO we should remove help hash slices instead of testing this flag over and
+ * over */
+static boolean is_table_uncompressed;
+
 /* Minimal value of a hash table element.
  * compresshash() will remove all elements with a value less than
  * minimalElementValueAfterCompression, and increase
@@ -869,6 +873,8 @@ static void compresshash (void)
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
+
+  is_table_uncompressed = false;
 
   targetKeyCount = dhtKeyCount(pyhash);
   targetKeyCount -= targetKeyCount/16;
@@ -1735,6 +1741,8 @@ static void inithash(slice_index si)
   template_element.d.Data = 0;
   init_elements(&template_element);
 
+  is_table_uncompressed = true;     /* V3.60  TLi */
+
   dhtRegisterValue(dhtBCMemValue,0,&dhtBCMemoryProcs);
   dhtRegisterValue(dhtSimpleValue,0,&dhtSimpleProcs);
 
@@ -2373,22 +2381,27 @@ void help_hashed_solve(slice_index si)
 
   assert(solve_nr_remaining>=next_move_has_solution);
 
-  if (inhash_help(si))
-    solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
-  else
+  if (is_table_uncompressed || solve_nr_remaining>next_move_has_solution)
   {
-    if (SLICE_U(si).branch.min_length>slack_length+1)
-    {
-      SLICE_U(si).branch.min_length -= 2;
-      pipe_solve_delegate(si);
-      SLICE_U(si).branch.min_length += 2;
-    }
+    if (inhash_help(si))
+      solve_result = MOVE_HAS_NOT_SOLVED_LENGTH();
     else
-      pipe_solve_delegate(si);
+    {
+      if (SLICE_U(si).branch.min_length>slack_length+1)
+      {
+        SLICE_U(si).branch.min_length -= 2;
+        pipe_solve_delegate(si);
+        SLICE_U(si).branch.min_length += 2;
+      }
+      else
+        pipe_solve_delegate(si);
 
-    if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
-      addtohash_help(si);
+      if (solve_result==MOVE_HAS_NOT_SOLVED_LENGTH())
+        addtohash_help(si);
+    }
   }
+  else
+    pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
