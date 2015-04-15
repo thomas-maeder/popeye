@@ -247,6 +247,8 @@ Kommandos:
 	RueckenAnRuecken
 	WangeAnWange
 	Disparate
+	SnekSchach
+	SnekZirkulaerSchach
 
 	Nach den Schluesselwoertern Imitator, MagischeFelder, Loch,
 	UWFeldWeiss, UWFeldSchwarz oder irgendeines

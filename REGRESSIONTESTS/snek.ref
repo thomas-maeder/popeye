@@ -585,3 +585,198 @@ solution finished.
 solution finished.
 
 
+
+          Manfred Rittirsch
+2nd KoBulChess TT – Christmas Tourney 2014, 1st prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -R   .   .   .   .   8
+|                                   |
+7   .   .  -P   .   .   R   .   P   7
+|                                   |
+6   .   .   .   .  -P   .  -P   .   6
+|                                   |
+5   .   S   .   .  -K   .  -P  -R   5
+|                                   |
+4   .   .   .   .   .   .  -Q   .   4
+|                                   |
+3   .   .   S   .   P  -P   R  -S   3
+|                                   |
+2   .  -B   .   .   .   .  -P   P   2
+|                                   |
+1   .   .   .   .   K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hs#2.5                     8 + 12
+           SnekCircleChess
+
+a) 
+
+  1...Sh3-f2   2.Rf7-f5 + g6*f5   3.h7-h8=Q + Bb2*c3[h8=S] #
+
+  add_to_move_generation_stack:     5921034
+                     play_move:     3010485
+ is_white_king_square_attacked:     2961706
+ is_black_king_square_attacked:     1714229
+b) bQh5  
+
+  1...Rd8-d2   2.Sb5-d6 c7*d6   3.h7-h8=B + Qg4*g3[h8=R] #
+
+  add_to_move_generation_stack:     6053052
+                     play_move:     3020590
+ is_white_king_square_attacked:     2971367
+ is_black_king_square_attacked:     1702752
+solution finished.
+
+
+
+          Emmanuel Manolas
+2nd KoBulChess TT – Christmas Tourney 2014, 3rd prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .  -Q  -B   .   .   8
+|                                   |
+7   .   .   .   .   .   P   .  -R   7
+|                                   |
+6   .   .   .  -R   .   .   .   .   6
+|                                   |
+5   .   .   .  -P   .   .   .   .   5
+|                                   |
+4   .   .  -K   .   .   .   .   .   4
+|                                   |
+3   K   .   B   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .  -S   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   S   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         4 + 7
+           SnekCircleChess
+
+  1.Se2*c3[g1=B] f7*e8=S[h7=Q]   2.Qh7-d3 Se8*d6[f8=R] #
+  1.Bf8-g7 f7*e8=Q[h7=Q]   2.Bg7*c3[g1=B] Qe8*e2[h7=S] #
+
+  add_to_move_generation_stack:      107099
+                     play_move:       70367
+ is_white_king_square_attacked:       13692
+ is_black_king_square_attacked:       69265
+solution finished.
+
+
+
+           Pierre Tritten
+2nd KoBulChess TT – Christmas Tourney 2014, 4th prize
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K   .   .   .   8
+|                                   |
+7   .   .   .   .   .   B   .   .   7
+|                                   |
+6   .   .   .   .   .   .  -B   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .  -Q   .   .   4
+|                                   |
+3   .  -S  -B  -K  -P   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .  -R   .   R   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2                         3 + 7
+           SnekCircleChess
+
+  1.Sb3-d2 Rf1*f4[d1=Q]   2.Qd1-e2 Bf7*g6[d2=B] #
+  1.Bg6-e4 Bf7*b3[f4=S]   2.Sf4-e2 Rf1*d1[c3=R] #
+
+  add_to_move_generation_stack:      271258
+                     play_move:      133273
+ is_white_king_square_attacked:       48742
+ is_black_king_square_attacked:      132251
+solution finished.
+
+
+
+        Themis Argirakopoulos
+2nd KoBulChess TT – Christmas Tourney 2014, 5th prize, dedicated to S\'ebastien Luce
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .  -K   .   .   .   .   8
+|                                   |
+7   .   .   S   .   .   .   .   .   7
+|                                   |
+6   .   R   .   B   Q   .   .   .   6
+|                                   |
+5   .   P  -P   .   .   .   .   .   5
+|                                   |
+4   .   .   P   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -P   .  -P   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   K   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h=6                     7 + 4
+           SnekCircleChess
+
+  1.d2-d1=S   2.b2-b1=Q   3.Qb1-a2   4.Sd1-e3   5.Se3-g2   6.Qa2-a8 Kh1*g2[a8=S] =
+  1.d2-d1=B   2.b2-b1=R   3.Rb1-b2   4.Rb2-g2   5.Bd1-f3   6.Bf3-c6 Kh1*g2[c6=R] =
+
+  add_to_move_generation_stack:     2506765
+                     play_move:     1525277
+ is_white_king_square_attacked:      403310
+ is_black_king_square_attacked:     1420578
+solution finished.
+
+
+
+          Emmanuel Manolas
+2nd KoBulChess TT – Christmas Tourney 2014, Commendation
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   S   .   .   .   .   K   8
+|                                   |
+7   .   .   .   S  -P  -R   P   .   7
+|                                   |
+6   .   .   P   .  -S   .   .   .   6
+|                                   |
+5   .   .   .  -B   .   .  -P   R   5
+|                                   |
+4   .  -P  -K   .   .   .   .   .   4
+|                                   |
+3   .   .  -S   .   P   .   .   Q   3
+|                                   |
+2   .   .   .   .   .   .   .  -Q   2
+|                                   |
+1   .   .   .   .   .   .   .   Q   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #4                          9 + 9
+           SnekCircleChess
+
+   1.Qh1*d5[c3=B] + !
+      1...Kc4*d5[h5=Q]
+          2.Qh3*e6[h2=S] +
+              2...Kd5*e6
+                  3.Qh5*f7[c3=R] +
+                      3...Ke6*f7
+                          4.g7-g8=Q #
+
+
+  add_to_move_generation_stack:     1687800
+                     play_move:     1359028
+ is_white_king_square_attacked:     1233561
+ is_black_king_square_attacked:      164142
+solution finished.
+
+

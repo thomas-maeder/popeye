@@ -211,9 +211,10 @@ typedef enum
   chameleonsequence,      /* 190 */
   anticlonecirce,         /* 191 */
   snekchess,              /* 192 */
-  lastcapture,            /* 193 */
+  snekcirclechess,        /* 193 */
+  lastcapture,            /* 194 */
 
-  CondCount               /* 194 */
+  CondCount               /* 195 */
 } Cond;
 
 /* for intelligent specification of one-sided conditions */

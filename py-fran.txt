@@ -244,6 +244,8 @@ simples:
 	DosADos
 	JoueAJoue
 	Disparate
+	EchecsSnek
+	EchecsSnekCirculaires
 
 	Apres les mots-cle Imitator, CaseMagique, Trou,
 	BlancCasePromotion, NoirCasePromotion ou 

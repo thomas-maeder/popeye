@@ -5,7 +5,7 @@ protocol snek.ref
 title some Snek moves
 pieces white ba1 black rb2 bc4f8h7 black royal sh4
 stipulation ~1
-condition snek
+condition snekchess
 option nowk
 twin add black pb2
 twin add black sb2
@@ -16,7 +16,7 @@ next
 title generalisation to a different set of standard walks
 pieces white ba1 black trb2 ndc4f8h7 black royal msh4
 stipulation ~1
-condition snek ultramarine
+condition snekchess ultramarine
 option nowk
 twin add black mpb2
 twin add black msb2
@@ -29,7 +29,7 @@ origin 5th Bulgarian Wine Tourney, WCCC Bern 2014, 1st prize
 pieces white ba3 sg5 pd4e6g4 white royal sf5
        black qh3 re4 bf3 pb6d5e2f2f7 black royal sd3
 stipulation h#2
-condition snek
+condition snekchess
 twin move d4 a5
 twin move d4 e3
 
@@ -40,7 +40,7 @@ origin 5th Bulgarian Wine Tourney, WCCC Bern 2014, 2nd prize
 pieces white ka3 re4 bg6 sc3
        black kh4 rc7 bh7 sd6 pg4
 stipulation h#2
-condition snek
+condition snekchess
 
 next
 
@@ -49,7 +49,7 @@ origin 5th Bulgarian Wine Tourney, WCCC Bern 2014, 3rd-4th prize
 pieces white rc1 bf5 sa5b2 pe2 white royal ra2
        black kb4 sg3 pb5e5f6f7
 stipulation #2
-condition snek
+condition snekchess
 option set try vari
 
 next
@@ -59,7 +59,7 @@ origin 5th Bulgarian Wine Tourney, WCCC Bern 2014, 3rd-4th prize
 pieces white qh2 rb8f6 bf1 se3 pa4e5e6g3 white royal sa6
        black kc6 sh5 pa7b6d4f2f4g4h3
 stip #2
-condition snek
+condition snekchess
 option try vari
 
 next
@@ -70,6 +70,53 @@ pieces white kf7 rc1f6 bd1e7 sc6 pd2d3d6e2f4
        black kd5 qg1 bf3 pb6d4g6
 stip #2
 option try set vari
-condition snek
+condition snekchess
+
+next
+
+author Manfred Rittirsch
+origin 2nd KoBulChess TT – Christmas Tourney 2014, 1st prize
+pieces white ke1 rf7g3 sb5c3 pe3h2h7
+       black ke5 qg4 rd8h5 bb2 sh3 pc7e6f3g2g5g6
+stip hs#2.5
+condition snekcircle
+twin add black qh5
+
+next
+
+author Emmanuel Manolas
+origin 2nd KoBulChess TT – Christmas Tourney 2014, 3rd prize
+pieces white ka3 bc3 sg1 pf7
+       black kc4 qe8 rd6h7 bf8 se2 pd5
+stip h#2
+condition snekcircle
+
+next
+
+author Pierre Tritten
+origin 2nd KoBulChess TT – Christmas Tourney 2014, 4th prize
+pieces white ke8 rf1 bf7
+       black kd3 qf4 rd1 bc3g6 sb3 pe3
+stip h#2
+condition snekcircle
+
+next
+
+author Themis Argirakopoulos
+origin 2nd KoBulChess TT – Christmas Tourney 2014, 5th prize, dedicated to S\'ebastien Luce
+pieces white kh1 qe6 rb6 bd6 sc7 pb5c4
+       black kd8 pb2c5d2
+stip ser-h=6
+condition snekcircle
+
+next
+
+author  Emmanuel Manolas
+origin 2nd KoBulChess TT – Christmas Tourney 2014, Commendation
+pieces white kh8 qh1h3 rh5 sc8d7 pc6e3g7
+       black kc4 qh2 rf7 bd5 sc3e6 pb4e7g5
+stip #4
+condition snekcircle
+option vari
 
 end

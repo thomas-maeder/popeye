@@ -244,6 +244,8 @@ commands expect further parameters. Lets start with the simpler commands:
 	BackToBack
 	CheekToCheek
 	Disparate
+	SnekChess
+	SnekCircleChess
 
 	After the conditions Imitator, MagicSquare, Hole,
 	WhitePromSquares, BlackPromSquares or one of

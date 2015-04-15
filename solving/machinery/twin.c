@@ -950,6 +950,12 @@ static boolean verify_position(slice_index si)
     return false;
   }
 
+  if (CondFlag[snekchess] && CondFlag[snekcirclechess])
+  {
+    output_plaintext_verifie_message(NonsenseCombination);
+    return false;
+  }
+
 
   if (ExtraCondFlag[ultraschachzwang])
   {

@@ -68,6 +68,7 @@ static slice_type const move_slice_rank_order[] =
     STPiecesHalfNeutralRecolorer,
     STKobulKingSubstitutor,
     STSnekSubstitutor,
+    STSnekCircleSubstitutor,
     STDuellistsRememberDuellist,
     STSingleboxType2LatentPawnSelector,
     STSingleboxType2LatentPawnPromoter,

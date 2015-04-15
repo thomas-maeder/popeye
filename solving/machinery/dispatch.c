@@ -1047,6 +1047,10 @@ void dispatch(slice_index si)
       snek_substitutor_solve(si);
       break;
 
+    case STSnekCircleSubstitutor:
+      snek_circle_substitutor_solve(si);
+      break;
+
     case STDuellistsRememberDuellist:
       duellists_remember_duellist_solve(si);
       break;

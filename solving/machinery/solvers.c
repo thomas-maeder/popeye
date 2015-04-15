@@ -399,6 +399,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   if (CondFlag[snekchess])
     solving_insert_snek_chess(result);
+  if (CondFlag[snekcirclechess])
+    solving_insert_snekcircle_chess(result);
 
   if (TSTFLAG(some_pieces_flags,HalfNeutral))
     solving_insert_half_neutral_recolorers(result);
