@@ -1,8 +1,6 @@
 #include "conditions/extinction.h"
 #include "pieces/pieces.h"
-#include "pieces/walks/classification.h"
 #include "solving/pipe.h"
-#include "solving/castling.h"
 #include "solving/check.h"
 #include "solving/observation.h"
 #include "solving/move_generator.h"
@@ -23,13 +21,6 @@ static void substitute_all_pieces_observation_tester(slice_index si, stip_struct
 {
   stip_traverse_structure_children(si,st);
   pipe_substitute(si,alloc_pipe(STExtinctionAllPieceObservationTester));
-}
-
-/* only generate castling for the king on the original king square */
-static void substitute_castling_generator(slice_index si, stip_structure_traversal*st)
-{
-  stip_traverse_structure_children(si,st);
-  pipe_substitute(si,alloc_pipe(STExtinctionCastlingGenerator));
 }
 
 /* Initialise the solving machinery with Extinction Chess
@@ -57,9 +48,6 @@ void extinction_initialise_solving(slice_index si)
     stip_structure_traversal_override_single(&st,
                                              STKingSquareObservationTester,
                                              &substitute_all_pieces_observation_tester);
-    stip_structure_traversal_override_single(&st,
-                                             STCastlingGenerator,
-                                             &substitute_castling_generator);
     stip_traverse_structure(si,&st);
   }
 
@@ -143,29 +131,6 @@ void extinction_extincted_tester_solve(slice_index si)
                                    capturee==Empty
                                    || being_solved.number_of_pieces[side_in_check][capturee]!=0);
   }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Generate moves for a single piece
- * @param identifies generator slice
- */
-void extinction_generate_castling(slice_index si)
-{
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_move_generation_delegate(si);
-
-  /* TODO this should be the standard implementation, and the one in
-   * castling_generator_generate_castling() an optimisation.
-   */
-  if (is_king(move_generation_current_walk)
-      && game_array.board[curr_generation->departure]==move_generation_current_walk)
-    generate_castling();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -311,7 +311,7 @@
     ENUMERATOR(STVogtlaenderCheckTester),                               \
     ENUMERATOR(STExtinctionExtinctedTester),                            \
     ENUMERATOR(STExtinctionAllPieceObservationTester),                  \
-    ENUMERATOR(STExtinctionCastlingGenerator),                          \
+    ENUMERATOR(STCastlingGeneratorTestDeparture),                       \
     ENUMERATOR(STNoKingCheckTester),                                    \
     ENUMERATOR(STSATCheckTester),                                       \
     ENUMERATOR(STSATxyCheckTester),                                     \

@@ -531,6 +531,49 @@ void solving_initialise_castling(slice_index si)
   TraceFunctionResultEnd();
 }
 
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ */
+void castling_generate_test_departure(slice_index si)
+{
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_move_generation_delegate(si);
+
+  /* TODO this should be the standard implementation, and the one in
+   * castling_generator_generate_castling() an optimisation.
+   */
+  if (is_king(move_generation_current_walk)
+      && game_array.board[curr_generation->departure]==move_generation_current_walk)
+    generate_castling();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* only generate castling for the king on the original king square */
+static void substitute_castling_generator(slice_index si, stip_structure_traversal*st)
+{
+  stip_traverse_structure_children(si,st);
+  pipe_substitute(si,alloc_pipe(STCastlingGeneratorTestDeparture));
+}
+
+/* make sure that the king's departure square is tested before a castling is
+ * generated for a king
+ */
+void castling_generation_test_departure(slice_index si)
+{
+  stip_structure_traversal st;
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,
+                                           STCastlingGenerator,
+                                           &substitute_castling_generator);
+  stip_traverse_structure(si,&st);
+}
+
 static void remove_castling_player(slice_index si, stip_structure_traversal *st)
 {
   TraceFunctionEntry(__func__);

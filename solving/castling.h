@@ -93,7 +93,21 @@ void castling_generator_generate_castling(slice_index si);
  */
 void solving_initialise_castling(slice_index si);
 
+/* disable castling altogether
+* @param si identifies root slice of solving machinery
+*/
 void solving_disable_castling(slice_index si);
+
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ */
+void castling_generate_test_departure(slice_index si);
+
+/* make sure that the king's departure square is tested before a castling is
+ * generated for a king
+ * @param si identifies root slice of solving machinery
+ */
+void castling_generation_test_departure(slice_index si);
 
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index

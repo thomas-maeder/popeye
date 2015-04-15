@@ -268,9 +268,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[ohneschach])
     ohneschach_insert_check_guards(result);
 
-  if (CondFlag[losingchess])
-    solving_instrument_check_testing(result,STNoCheckConceptCheckTester);
-
   /* must come here because in conditions like MAFF, we are going to tamper with
    * the slices inserted here
    */
@@ -424,7 +421,16 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   solving_initialise_castling(result);
 
   if (CondFlag[extinction])
+  {
+    castling_generation_test_departure(result);
     extinction_initialise_solving(result);
+  }
+
+  if (CondFlag[losingchess])
+  {
+    castling_generation_test_departure(result);
+    solving_instrument_check_testing(result,STNoCheckConceptCheckTester);
+  }
 
   if (CondFlag[einstein])
     solving_insert_einstein_moving_adjusters(result);
