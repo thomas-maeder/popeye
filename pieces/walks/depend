@@ -325,9 +325,10 @@ pieces/walks/ubiubi$(OBJ_SUFFIX): pieces/walks/ubiubi.c pieces/walks/ubiubi.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h position/position.h \
- position/color.h position/color.enum.h position/castling_rights.h \
- solving/move_generator.h solving/machinery/solve.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h solving/move_generator.h \
+ solving/machinery/solve.h \
  solving/find_square_observer_tracking_back_from_target.h solving/fork.h
 
 pieces/walks/ubiubi.h:
@@ -366,8 +367,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
 position/position.h:
 
 position/color.h:
@@ -375,6 +374,8 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
 
 solving/move_generator.h:
 
@@ -705,9 +706,10 @@ pieces/walks/radial$(OBJ_SUFFIX): pieces/walks/radial.c pieces/walks/radial.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
- solving/machinery/solve.h solving/fork.h position/position.h \
- position/color.h position/color.enum.h position/castling_rights.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h solving/move_generator.h \
+ solving/machinery/solve.h solving/fork.h
 
 pieces/walks/radial.h:
 
@@ -745,14 +747,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-solving/move_generator.h:
-
-solving/machinery/solve.h:
-
-solving/fork.h:
-
 position/position.h:
 
 position/color.h:
@@ -760,15 +754,24 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+solving/move_generator.h:
+
+solving/machinery/solve.h:
+
+solving/fork.h:
 pieces/walks/edgehog$(OBJ_SUFFIX): pieces/walks/edgehog.c pieces/walks/edgehog.h \
  position/board.h utilities/bitmask.h solving/observation.h \
  stipulation/stipulation.h stipulation/goals/goals.h utilities/boolean.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
- solving/machinery/solve.h solving/fork.h position/position.h \
- position/color.h position/color.enum.h position/castling_rights.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h solving/move_generator.h \
+ solving/machinery/solve.h solving/fork.h
 
 pieces/walks/edgehog.h:
 
@@ -806,14 +809,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-solving/move_generator.h:
-
-solving/machinery/solve.h:
-
-solving/fork.h:
-
 position/position.h:
 
 position/color.h:
@@ -821,6 +816,14 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+solving/move_generator.h:
+
+solving/machinery/solve.h:
+
+solving/fork.h:
 pieces/walks/friend$(OBJ_SUFFIX): pieces/walks/friend.c pieces/walks/friend.h \
  pieces/pieces.h utilities/boolean.h position/board.h utilities/bitmask.h \
  position/position.h position/side.h position/side.enum.h \
@@ -963,10 +966,10 @@ pieces/walks/cat$(OBJ_SUFFIX): pieces/walks/cat.c pieces/walks/cat.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/leapers.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h solving/move_generator.h \
- solving/machinery/solve.h solving/fork.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h pieces/walks/leapers.h \
+ solving/move_generator.h solving/machinery/solve.h solving/fork.h
 
 pieces/walks/cat.h:
 
@@ -1004,10 +1007,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-pieces/walks/leapers.h:
-
 position/position.h:
 
 position/color.h:
@@ -1015,6 +1014,10 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+pieces/walks/leapers.h:
 
 solving/move_generator.h:
 
@@ -1028,10 +1031,10 @@ pieces/walks/bouncy$(OBJ_SUFFIX): pieces/walks/bouncy.c pieces/walks/bouncy.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
- solving/machinery/solve.h solving/fork.h position/position.h \
- position/color.h position/color.enum.h position/castling_rights.h \
- debugging/assert.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h solving/move_generator.h \
+ solving/machinery/solve.h solving/fork.h debugging/assert.h
 
 pieces/walks/bouncy.h:
 
@@ -1069,14 +1072,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-solving/move_generator.h:
-
-solving/machinery/solve.h:
-
-solving/fork.h:
-
 position/position.h:
 
 position/color.h:
@@ -1085,6 +1080,14 @@ position/color.enum.h:
 
 position/castling_rights.h:
 
+solving/temporary_hacks.h:
+
+solving/move_generator.h:
+
+solving/machinery/solve.h:
+
+solving/fork.h:
+
 debugging/assert.h:
 pieces/walks/cardinal$(OBJ_SUFFIX): pieces/walks/cardinal.c pieces/walks/cardinal.h \
  position/board.h utilities/bitmask.h solving/observation.h \
@@ -1092,10 +1095,10 @@ pieces/walks/cardinal$(OBJ_SUFFIX): pieces/walks/cardinal.c pieces/walks/cardina
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/angle/angles.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h solving/move_generator.h \
- solving/machinery/solve.h solving/fork.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h pieces/walks/angle/angles.h \
+ solving/move_generator.h solving/machinery/solve.h solving/fork.h
 
 pieces/walks/cardinal.h:
 
@@ -1133,10 +1136,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-pieces/walks/angle/angles.h:
-
 position/position.h:
 
 position/color.h:
@@ -1144,6 +1143,10 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+pieces/walks/angle/angles.h:
 
 solving/move_generator.h:
 
@@ -1157,10 +1160,11 @@ pieces/walks/reflecting_bishop$(OBJ_SUFFIX): pieces/walks/reflecting_bishop.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/angle/angles.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h pieces/walks/angle/angles.h \
  solving/move_generator.h solving/machinery/solve.h solving/fork.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h debugging/assert.h
+ debugging/assert.h
 
 pieces/walks/reflecting_bishop.h:
 
@@ -1198,6 +1202,14 @@ solving/ply.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/castling_rights.h:
+
 solving/temporary_hacks.h:
 
 pieces/walks/angle/angles.h:
@@ -1208,14 +1220,6 @@ solving/machinery/solve.h:
 
 solving/fork.h:
 
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
-
-position/castling_rights.h:
-
 debugging/assert.h:
 pieces/walks/bob$(OBJ_SUFFIX): pieces/walks/bob.c pieces/walks/bob.h \
  position/board.h utilities/bitmask.h solving/observation.h \
@@ -1223,9 +1227,9 @@ pieces/walks/bob$(OBJ_SUFFIX): pieces/walks/bob.c pieces/walks/bob.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/riders.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h solving/move_generator.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h pieces/walks/riders.h solving/move_generator.h \
  solving/machinery/solve.h solving/fork.h
 
 pieces/walks/bob.h:
@@ -1264,10 +1268,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-pieces/walks/riders.h:
-
 position/position.h:
 
 position/color.h:
@@ -1275,6 +1275,10 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+pieces/walks/riders.h:
 
 solving/move_generator.h:
 
@@ -1350,9 +1354,10 @@ pieces/walks/kangaroo$(OBJ_SUFFIX): pieces/walks/kangaroo.c pieces/walks/kangaro
  stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
  position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h solving/move_generator.h \
- solving/machinery/solve.h solving/fork.h position/position.h \
- position/color.h position/color.enum.h position/castling_rights.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h solving/move_generator.h \
+ solving/machinery/solve.h solving/fork.h
 
 pieces/walks/kangaroo.h:
 
@@ -1390,14 +1395,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-solving/move_generator.h:
-
-solving/machinery/solve.h:
-
-solving/fork.h:
-
 position/position.h:
 
 position/color.h:
@@ -1405,6 +1402,14 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+solving/move_generator.h:
+
+solving/machinery/solve.h:
+
+solving/fork.h:
 pieces/walks/locusts$(OBJ_SUFFIX): pieces/walks/locusts.c pieces/walks/locusts.h \
  position/board.h utilities/bitmask.h position/position.h position/side.h \
  position/side.enum.h position/color.h position/color.enum.h \
@@ -1593,9 +1598,9 @@ pieces/walks/querquisite$(OBJ_SUFFIX): pieces/walks/querquisite.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/leapers.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h pieces/walks/riders.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h pieces/walks/leapers.h pieces/walks/riders.h \
  solving/move_generator.h solving/machinery/solve.h solving/fork.h
 
 pieces/walks/querquisite.h:
@@ -1634,10 +1639,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-pieces/walks/leapers.h:
-
 position/position.h:
 
 position/color.h:
@@ -1645,6 +1646,10 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+pieces/walks/leapers.h:
 
 pieces/walks/riders.h:
 
@@ -1660,10 +1665,11 @@ pieces/walks/sting$(OBJ_SUFFIX): pieces/walks/sting.c pieces/walks/sting.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/hoppers.h \
- position/position.h position/color.h position/color.enum.h \
- position/castling_rights.h solving/move_generator.h \
- solving/machinery/solve.h pieces/walks/leapers.h
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h pieces/walks/hoppers.h \
+ solving/move_generator.h solving/machinery/solve.h \
+ pieces/walks/leapers.h
 
 pieces/walks/sting.h:
 
@@ -1701,10 +1707,6 @@ solving/ply.h:
 
 debugging/trace.h:
 
-solving/temporary_hacks.h:
-
-pieces/walks/hoppers.h:
-
 position/position.h:
 
 position/color.h:
@@ -1712,6 +1714,10 @@ position/color.h:
 position/color.enum.h:
 
 position/castling_rights.h:
+
+solving/temporary_hacks.h:
+
+pieces/walks/hoppers.h:
 
 solving/move_generator.h:
 
@@ -1725,12 +1731,13 @@ pieces/walks/combined$(OBJ_SUFFIX): pieces/walks/combined.c pieces/walks/combine
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h pieces/walks/vectors.h solving/ply.h \
- debugging/trace.h solving/temporary_hacks.h pieces/walks/pawns/pawn.h \
+ debugging/trace.h position/position.h position/color.h \
+ position/color.enum.h position/castling_rights.h \
+ solving/temporary_hacks.h pieces/walks/pawns/pawn.h \
  pieces/walks/pawns/en_passant.h solving/machinery/solve.h \
- solving/move_effect_journal.h position/castling_rights.h \
- position/pieceid.h pieces/walks/leapers.h position/position.h \
- position/color.h position/color.enum.h pieces/walks/riders.h \
- pieces/walks/hoppers.h solving/move_generator.h pieces/walks/kangaroo.h
+ solving/move_effect_journal.h position/pieceid.h pieces/walks/leapers.h \
+ pieces/walks/riders.h pieces/walks/hoppers.h solving/move_generator.h \
+ pieces/walks/kangaroo.h
 
 pieces/walks/combined.h:
 
@@ -1768,6 +1775,14 @@ solving/ply.h:
 
 debugging/trace.h:
 
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/castling_rights.h:
+
 solving/temporary_hacks.h:
 
 pieces/walks/pawns/pawn.h:
@@ -1778,17 +1793,9 @@ solving/machinery/solve.h:
 
 solving/move_effect_journal.h:
 
-position/castling_rights.h:
-
 position/pieceid.h:
 
 pieces/walks/leapers.h:
-
-position/position.h:
-
-position/color.h:
-
-position/color.enum.h:
 
 pieces/walks/riders.h:
 
@@ -1806,7 +1813,7 @@ pieces/walks/generate_moves$(OBJ_SUFFIX): pieces/walks/generate_moves.c \
  stipulation/stipulation.h stipulation/goals/goals.h \
  stipulation/slice_type.h stipulation/slice_type.enum.h output/mode.h \
  output/mode.enum.h solving/machinery/dispatch.h debugging/trace.h \
- solving/move_effect_journal.h solving/ply.h position/pieceid.h \
+ solving/ply.h solving/move_effect_journal.h position/pieceid.h \
  solving/observation.h solving/temporary_hacks.h pieces/walks/hoppers.h \
  solving/move_generator.h pieces/walks/leapers.h pieces/walks/riders.h \
  pieces/walks/pawns/pawns.h pieces/walks/pawns/pawn.h \
@@ -1869,9 +1876,9 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/move_effect_journal.h:
-
 solving/ply.h:
+
+solving/move_effect_journal.h:
 
 position/pieceid.h:
 
