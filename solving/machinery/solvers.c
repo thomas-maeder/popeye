@@ -308,9 +308,6 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[exclusive])
     optimise_away_unnecessary_selfcheckguards(result);
 
-  if (CondFlag[extinction])
-    extinction_initialise_solving(result);
-
   if (CondFlag[singlebox])
     switch (SingleBoxType)
     {
@@ -425,6 +422,9 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     solving_insert_protean_chess(result);
 
   solving_initialise_castling(result);
+
+  if (CondFlag[extinction])
+    extinction_initialise_solving(result);
 
   if (CondFlag[einstein])
     solving_insert_einstein_moving_adjusters(result);

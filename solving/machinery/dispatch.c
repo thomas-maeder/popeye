@@ -1755,6 +1755,10 @@ void dispatch(slice_index si)
       extinction_extincted_tester_solve(si);
       break;
 
+    case STExtinctionCastlingGenerator:
+      extinction_generate_castling(si);
+      break;
+
     case STBlackChecksNullMoveGenerator:
       black_checks_null_move_generator_solve(si);
       break;

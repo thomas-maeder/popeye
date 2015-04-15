@@ -21,6 +21,11 @@ boolean exctinction_all_piece_observation_tester_is_in_check(slice_index si,
  */
 void extinction_extincted_tester_solve(slice_index si);
 
+/* Generate moves for a single piece
+ * @param identifies generator slice
+ */
+void extinction_generate_castling(slice_index si);
+
 /* Initialise the solving machinery with Extinction Chess
  * @param si identifies root slice of stipulation
  */
