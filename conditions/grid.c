@@ -7,7 +7,6 @@
 #include "debugging/trace.h"
 
 grid_type_type grid_type;
-int currentgridnum;
 int gridlines[112][4];
 int numgridlines;
 

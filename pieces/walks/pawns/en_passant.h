@@ -15,6 +15,7 @@ extern unsigned int en_passant_top[maxply+1];
 
 enum
 {
+  en_passant_retro_min_squares = 3,
   en_passant_retro_capacity = 4
 };
 extern unsigned int en_passant_retro_squares[en_passant_retro_capacity];

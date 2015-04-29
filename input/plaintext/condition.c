@@ -472,109 +472,198 @@ static char *ParseCirceVariants(circe_variant_type *variant)
   return tok;
 }
 
-char *ReadSquares(SquareListContext context)
+static char *ReadImitatorPositions(void)
 {
-  char *tok = ReadNextTokStr();
-  char *lastTok = tok;
-  unsigned int nr_squares_read = 0;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-  size_t const l = strlen(tok);
-  if (l%2==1)
   {
-    if (context!=ReadGrid)
-      output_plaintext_input_error_message(WrongSquareList, 0);
-    currentgridnum = 0;
+    char *tok = ReadNextTokStr();
+    char *lastTok = tok;
+
+    being_solved.number_of_imitators = 0;
+
+    if (strlen(tok)%2==1)
+      output_plaintext_input_error_message(WrongSquareList,0);
+    else
+      while (*tok)
+      {
+        square const sq = SquareNum(*tok,tok[1]);
+        if (sq==initsquare)
+        {
+          if (being_solved.number_of_imitators!=0)
+          {
+            tok = lastTok;
+            break;
+          }
+        }
+        else
+        {
+          being_solved.isquare[being_solved.number_of_imitators++] = sq;
+          tok += 2;
+        }
+      }
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%s",tok);
+    TraceFunctionResultEnd();
     return tok;
   }
+}
 
-  while (*tok)
+static int currentgridnum;
+
+static char *ReadGridLine(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   {
-    square const sq = SquareNum(*tok,tok[1]);
-    if (sq==initsquare)
-    {
-      if (context==ReadGrid || nr_squares_read!=0)
-      {
-        currentgridnum = 0;
-        return lastTok;
-      }
-      if (nr_squares_read!=0)
-      {
-        output_plaintext_input_error_message(WrongSquareList,0);
-        return tok;
-      }
-    }
+    char *tok = ReadNextTokStr();
+    char *lastTok = tok;
+
+    unsigned int nr_squares_read = 0;
+
+    TraceValue("%s",tok);TraceEOL();
+
+    if (strlen(tok)%2==1)
+      currentgridnum = 0;
     else
-    {
-      switch (context)
+      while (*tok)
       {
-        case ReadImitators:
-          being_solved.isquare[nr_squares_read] = sq;
+        square const sq = SquareNum(*tok,tok[1]);
+        if (sq==initsquare)
+        {
+          currentgridnum = 0;
+          tok = lastTok;
           break;
-
-        case ReadHoles:
-          block_square(sq);
-          break;
-
-        case ReadEpSquares:
-          if (en_passant_nr_retro_squares==en_passant_retro_capacity)
-            output_plaintext_message(TooManyEpKeySquares);
-          else
-            en_passant_retro_squares[en_passant_nr_retro_squares++] = sq;
-          break;
-
-        case ReadBlRoyalSq:
-          royal_square[Black]= sq;
-          break;
-
-        case ReadWhRoyalSq:
-          royal_square[White]= sq;
-          break;
-
-        case ReadNoCastlingSquares:
-          switch (sq)
-          {
-            case square_a1:
-              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(White*black_castling_rights_offset));
-              break;
-            case square_e1:
-              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(White*black_castling_rights_offset));
-              break;
-            case square_h1:
-              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(White*black_castling_rights_offset));
-              break;
-            case square_a8:
-              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(Black*black_castling_rights_offset));
-              break;
-            case square_e8:
-              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(Black*black_castling_rights_offset));
-              break;
-            case square_h8:
-              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(Black*black_castling_rights_offset));
-              break;
-            default:
-              break;
-          }
-          break;
-
-        case ReadGrid:
+        }
+        else
+        {
           ClearGridNum(sq);
           sq_spec[sq] += currentgridnum << Grid;
-          break;
 
-        default:
-          SETFLAG(sq_spec[sq],context);
-          break;
+          ++nr_squares_read;
+          tok += 2;
+        }
       }
 
-      ++nr_squares_read;
-      tok += 2;
-    }
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%s",tok);
+    TraceFunctionResultEnd();
+    return tok;
   }
+}
 
-  if (context==ReadImitators)
-    being_solved.number_of_imitators = nr_squares_read;
+static char *ReadSquaresWithFlag(SquareFlags flag)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
-  return tok;
+  {
+    char *tok = ReadNextTokStr();
+    char *lastTok = tok;
+    unsigned int nr_squares_read = 0;
+
+    if (strlen(tok)%2==1)
+      output_plaintext_input_error_message(WrongSquareList,0);
+    else
+    {
+      while (*tok)
+      {
+        square const sq = SquareNum(*tok,tok[1]);
+        if (sq==initsquare)
+        {
+          if (nr_squares_read!=0)
+          {
+            tok = lastTok;
+            break;
+          }
+        }
+        else
+        {
+          SETFLAG(sq_spec[sq],flag);
+
+          ++nr_squares_read;
+          tok += 2;
+        }
+      }
+    }
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%s",tok);
+    TraceFunctionResultEnd();
+    return tok;
+  }
+}
+
+static char *ReadHoles(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    char *tok = ReadNextTokStr();
+    char *lastTok = tok;
+    unsigned int nr_squares_read = 0;
+
+    if (strlen(tok)%2==1)
+      output_plaintext_input_error_message(WrongSquareList, 0);
+    else
+      while (*tok)
+      {
+        square const sq = SquareNum(*tok,tok[1]);
+        if (sq==initsquare)
+        {
+          if (nr_squares_read!=0)
+          {
+            tok = lastTok;
+            break;
+          }
+        }
+        else
+        {
+          block_square(sq);
+
+          ++nr_squares_read;
+          tok += 2;
+        }
+      }
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%s",tok);
+    TraceFunctionResultEnd();
+    return tok;
+  }
+}
+
+static char *ReadRoyalSquare(Side side)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    char *tok = ReadNextTokStr();
+
+    if (strlen(tok)<2)
+      output_plaintext_input_error_message(WrongSquareList, 0);
+    else
+    {
+      square const sq = SquareNum(*tok,tok[1]);
+      if (sq==initsquare)
+        output_plaintext_input_error_message(WrongSquareList, 0);
+      else
+      {
+        royal_square[side]= sq;
+        tok += 2;
+      }
+    }
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%s",tok);
+    TraceFunctionResultEnd();
+    return tok;
+  }
 }
 
 static char *ParseKobulSides(boolean (*variant)[nr_sides])
@@ -685,151 +774,168 @@ static char *ParseSentinellesVariants(void)
 static char *ParseGridVariant(void)
 {
   char *tok = ReadNextTokStr();
+  GridVariantType type;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   do
   {
-    GridVariantType type = GetUniqIndex(GridVariantCount,GridVariantTypeTab,tok);
+    type = GetUniqIndex(GridVariantCount,GridVariantTypeTab,tok);
+    TraceValue("%s",tok);
+    TraceValue("%u",type);
+    TraceEOL();
 
-    if (type==GridVariantCount)
-      break;
-    else if (type>GridVariantCount)
-      output_plaintext_input_error_message(CondNotUniq,0);
-    else if (type==GridVariantShiftRank)
+    switch (type)
     {
-      square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++)
+      case GridVariantShiftRank:
       {
-        ClearGridNum(*bnp);
-        sq_spec[*bnp] += (((*bnp%24 - 8)/2)+4*((*bnp/24-7)/2)) << Grid;
-      }
-      grid_type = grid_vertical_shift;
-    }
-    else if (type==GridVariantShiftFile)
-    {
-      square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++)
-      {
-        ClearGridNum(*bnp);
-        sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-8)/2)) << Grid;
-      }
-      grid_type = grid_horizontal_shift;
-    }
-    else if (type==GridVariantShiftRankFile)
-    {
-      square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++)
-      {
-        ClearGridNum(*bnp);
-        sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-7)/2)) << Grid;
-      }
-      grid_type = grid_diagonal_shift;
-    }
-    else if (type==GridVariantOrthogonal)
-    {
-      square const *bnp;
-      int files[8], ranks[8];
-      int filenum=1;
-      int i;
-      char c;
-      tok = ReadNextTokStr();
-      for (i=0; i<8; i++)
-        files[i]=ranks[i]=0;
-      while ((c=*tok++))
-      {
-        if (c >= '1' && c <= '8')
+        square const *bnp;
+        for (bnp= boardnum; *bnp; bnp++)
         {
-          for (i=(c-'1')+1; i<8; i++)
-            ranks[i]++;
+          ClearGridNum(*bnp);
+          sq_spec[*bnp] += (((*bnp%24 - 8)/2)+4*((*bnp/24-7)/2)) << Grid;
         }
-        else if (tolower(c) >= 'a' && tolower(c) <= 'h')
-        {
-          for (i=(tolower(c)-'a')+1; i<8; i++)
-          files[i]++;
-          filenum++;
-        }
-        else
-        {
-          output_plaintext_input_error_message(CondNotUniq, 0);
-          return tok;
-        }
-      }
-      for (bnp= boardnum; *bnp; bnp++)
-      {
-        ClearGridNum(*bnp);
-        sq_spec[*bnp] += (files[*bnp%24-8]+filenum*ranks[*bnp/24-8]) << Grid;
-      }
-      grid_type = grid_orthogonal_lines;
-    }
-    else if (type==GridVariantIrregular)
-    {
-      square const *bnp;
-      for (bnp= boardnum; *bnp; bnp++)
-      ClearGridNum(*bnp);
-      grid_type = grid_irregular;
-      currentgridnum=1;
-      do
-      {
-        tok=ReadSquares(ReadGrid);
-      }
-      while (currentgridnum++);
-      continue;
-    }
-    else if (type==GridVariantExtraGridLines)
-    {
-      boolean parsed= true;
-      numgridlines= 0;
-      while (parsed && numgridlines < 100)
-      {
+        grid_type = grid_vertical_shift;
         tok = ReadNextTokStr();
-        if (strlen(tok) == 4)
+        break;
+      }
+      case GridVariantShiftFile:
+      {
+        square const *bnp;
+        for (bnp= boardnum; *bnp; bnp++)
         {
-          int f=0, r=0, l=0;
-          boolean horiz=false;
-          char c= tok[0];
-          if (tolower(c) == 'h')
-            horiz= true;
-          else if (tolower(c) == 'v')
-            horiz= false;
-          else
-            parsed= false;
-          c= tok[1];
-          if (tolower(c) >= 'a' && tolower(c) <= 'h')
-            f= (tolower(c)-'a');
-          else
-            parsed= false;
-          c= tok[2];
+          ClearGridNum(*bnp);
+          sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-8)/2)) << Grid;
+        }
+        grid_type = grid_horizontal_shift;
+        tok = ReadNextTokStr();
+        break;
+      }
+      case GridVariantShiftRankFile:
+      {
+        square const *bnp;
+        for (bnp= boardnum; *bnp; bnp++)
+        {
+          ClearGridNum(*bnp);
+          sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-7)/2)) << Grid;
+        }
+        grid_type = grid_diagonal_shift;
+        tok = ReadNextTokStr();
+        break;
+      }
+      case GridVariantOrthogonal:
+      {
+        square const *bnp;
+        int files[8], ranks[8];
+        int filenum=1;
+        int i;
+        char c;
+        tok = ReadNextTokStr();
+        for (i=0; i<8; i++)
+          files[i]=ranks[i]=0;
+        while ((c=*tok++))
+        {
           if (c >= '1' && c <= '8')
-            r=(c-'1');
-          else
-            parsed= false;
-          c= tok[3];
-          if (c >= '1' && c <= '8')
-            l=(c-'0');
-          else
-            parsed= false;
-          if (parsed)
           {
-            gridlines[numgridlines][0]=2*f;
-            gridlines[numgridlines][1]=2*r;
-            gridlines[numgridlines][2]=2*f+(horiz?2*l:0);
-            gridlines[numgridlines][3]=2*r+(horiz?0:2*l);
-            numgridlines++;
-            grid_type= grid_irregular;
+            for (i=(c-'1')+1; i<8; i++)
+              ranks[i]++;
+          }
+          else if (tolower(c) >= 'a' && tolower(c) <= 'h')
+          {
+            for (i=(tolower(c)-'a')+1; i<8; i++)
+            files[i]++;
+            filenum++;
+          }
+          else
+          {
+            output_plaintext_input_error_message(CondNotUniq, 0);
+            return tok;
           }
         }
-        else
+        for (bnp= boardnum; *bnp; bnp++)
         {
-          break;
+          ClearGridNum(*bnp);
+          sq_spec[*bnp] += (files[*bnp%24-8]+filenum*ranks[*bnp/24-8]) << Grid;
         }
+        grid_type = grid_orthogonal_lines;
+        tok = ReadNextTokStr();
+        break;
       }
-      continue;
+      case GridVariantIrregular:
+      {
+        square const *bnp;
+        for (bnp = boardnum; *bnp; bnp++)
+          ClearGridNum(*bnp);
+        grid_type = grid_irregular;
+        currentgridnum=1;
+        do
+        {
+          tok = ReadGridLine();
+        }
+        while (currentgridnum++);
+        break;
+      }
+      case GridVariantExtraGridLines:
+      {
+        boolean parsed= true;
+        numgridlines= 0;
+        while (parsed && numgridlines < 100)
+        {
+          tok = ReadNextTokStr();
+          if (strlen(tok) == 4)
+          {
+            int f = 0, r = 0, l = 0;
+            boolean horiz=false;
+            char c = tok[0];
+            if (tolower(c) == 'h')
+              horiz = true;
+            else if (tolower(c) == 'v')
+              horiz = false;
+            else
+              parsed = false;
+            c = tok[1];
+            if (tolower(c) >= 'a' && tolower(c) <= 'h')
+              f = (tolower(c)-'a');
+            else
+              parsed = false;
+            c = tok[2];
+            if (c >= '1' && c <= '8')
+              r = (c-'1');
+            else
+              parsed = false;
+            c = tok[3];
+            if (c >= '1' && c <= '8')
+              l =(c-'0');
+            else
+              parsed = false;
+            if (parsed)
+            {
+              gridlines[numgridlines][0]=2*f;
+              gridlines[numgridlines][1]=2*r;
+              gridlines[numgridlines][2]=2*f+(horiz?2*l:0);
+              gridlines[numgridlines][3]=2*r+(horiz?0:2*l);
+              numgridlines++;
+              grid_type = grid_irregular;
+            }
+          }
+          else
+            break;
+        }
+        break;
+      }
+      case GridVariantCount:
+        break;
+      default: /* >GridVariantCount */
+        output_plaintext_input_error_message(CondNotUniq,0);
+        tok = ReadNextTokStr();
+        break;
     }
-    else
-      return tok;
+  } while (type!=GridVariantCount);
 
-    tok = ReadNextTokStr();
-  } while (tok);
-
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -1029,10 +1135,14 @@ char *ParseCond(void)
 {
   char *tok = ReadNextTokStr();
   unsigned int CondCnt = 0;
+  Cond indexx;
 
-  while (true)
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  do
   {
-    Cond const indexx = GetUniqIndex(CondCount,CondTab,tok);
+    indexx = GetUniqIndex(CondCount,CondTab,tok);
     TraceValue("%s",tok);
     TraceValue("%u\n",indexx);
     if (indexx==CondCount)
@@ -1042,11 +1152,8 @@ char *ParseCond(void)
       {
         output_plaintext_input_error_message(CondNotUniq,0);
         tok = ReadNextTokStr();
-        break;
       }
-      else if (extra==ExtraCondCount)
-        break;
-      else
+      else if (extra<ExtraCondCount)
       {
         ExtraCondFlag[extra] = true;
 
@@ -1067,680 +1174,682 @@ char *ParseCond(void)
             break;
         }
 
-        continue;
+        indexx = 0;
       }
     }
-
-    if (indexx>CondCount)
+    else if (indexx>CondCount)
     {
       output_plaintext_input_error_message(CondNotUniq,0);
       tok = ReadNextTokStr();
-      continue;
     }
-
-    CondFlag[indexx]= true;
-
-    CondCnt++;
-
-    switch (indexx)
+    else
     {
-      case hypervolage:
-        CondFlag[volage]= true;
-        break;
-      case leofamily:
-        CondFlag[chinoises]= true;
-        break;
-      case contactgrid:
-        CondFlag[gridchess] = true;
-        CondFlag[koeko] = true;
-        break;
-      case imitators:
-        ReadSquares(ReadImitators);
-        break;
-      case blroyalsq:
-        ReadSquares(ReadBlRoyalSq);
-        break;
-      case whroyalsq:
-        ReadSquares(ReadWhRoyalSq);
-        break;
-      case magicsquare:
-        magic_square_type = ConditionType1;
-        ReadSquares(MagicSq);
-        break;
-      case wormholes:
-        ReadSquares(Wormhole);
-        break;
-      case dbltibet:
-        CondFlag[tibet]= true;
-        break;
-      case holes:
-        ReadSquares(ReadHoles);
-        break;
-      case trans_king:
-        CondFlag[whtrans_king] = true;
-        CondFlag[bltrans_king] = true;
-        calc_reflective_king[White]= true;
-        calc_reflective_king[Black]= true;
-        break;
-      case whtrans_king:
-        calc_reflective_king[White]= true;
-        break;
-      case bltrans_king:
-        calc_reflective_king[Black]= true;
-        break;
-      case whsupertrans_king:
-        calc_reflective_king[White]= true;
-        break;
-      case blsupertrans_king:
-        calc_reflective_king[Black]= true;
-        break;
-      case refl_king:
-        CondFlag[whrefl_king] = true;
-        CondFlag[blrefl_king] = true;
-        calc_reflective_king[White]= true;
-        calc_reflective_king[Black]= true;
-        break;
-      case whrefl_king:
-        calc_reflective_king[White]= true;
-        break;
-      case blrefl_king:
-        calc_reflective_king[Black]= true;
-        break;
-      case vault_king:
-        CondFlag[whvault_king] = true;
-        CondFlag[blvault_king] = true;
-        calc_reflective_king[White]= true;
-        calc_reflective_king[Black]= true;
-        vaulting_kings_transmuting[White] = false;
-        vaulting_kings_transmuting[Black] = false;
-        break;
-      case whvault_king:
-        calc_reflective_king[White]= true;
-        vaulting_kings_transmuting[White] = false;
-        break;
-      case blvault_king:
-        calc_reflective_king[Black]= true;
-        vaulting_kings_transmuting[Black] = false;
-        break;
-      case whforsqu:
-        ReadSquares(WhForcedSq);
-        break;
-      case blforsqu:
-        ReadSquares(BlForcedSq);
-        break;
-      case whconforsqu:
-        ReadSquares(WhForcedSq);
-        break;
-      case blconforsqu:
-        ReadSquares(BlForcedSq);
-        break;
+      CondFlag[indexx]= true;
 
-      /* different types of circe */
-      case circediametral:
-        CondFlag[circe] = true;
-        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_diametral;
-        break;
-      case circemirrorvertical:
-        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_verticalmirror;
-        CondFlag[circe] = true;
-        break;
-      case circechameleon:
-        CondFlag[circe] = true;
-        circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_chameleon;
-        break;
-      case circeturncoats:
-        CondFlag[circe] = true;
-        circe_variant.is_turncoat = true;
-        break;
-      case circerank:
-        CondFlag[circe] = true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_rank;
-        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_rank;
-        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_rank;
-        break;
-      case circediagramm:
-        CondFlag[circe] = true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
-        break;
-      case circefile:
-        CondFlag[circe] = true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        break;
-      case circecouscous:
-      case circecouscousmirror:
-        CondFlag[circe] = true;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.actual_relevant_piece = circe_relevant_piece_capturer;
-        break;
-      case circeequipollents:
-        CondFlag[circe] = true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
-        circe_variant.is_promotion_possible= true;
-        break;
-      case circesymmetry:
-        CondFlag[circe] = true;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
-        break;
-      case pwc:
-        CondFlag[circe] = true;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_pwc;
-        break;
-      case circeantipoden:
-        CondFlag[circe] = true;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
-        break;
-      case circetakeandmake:
-        CondFlag[circe] = true;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_take_and_make;
-        break;
-      case supercirce:
-        CondFlag[circe] = true;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
-        break;
-      case circecage:
-        CondFlag[circe] = true;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_cage;
-        break;
-      case circeparrain:
-        CondFlag[circe] = true;
-        circe_variant.relevant_capture = circe_relevant_capture_lastmove;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
-        break;
-      case circecontraparrain:
-        CondFlag[circe] = true;
-        circe_variant.relevant_capture = circe_relevant_capture_lastmove;
-        circe_variant.is_promotion_possible= true;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
-        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        break;
+      CondCnt++;
 
-      case anticirce:
-        break;
-      case antimirror:
-        CondFlag[anticirce] = true;
-        anticirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        break;
-      case anticlonecirce:
-        CondFlag[anticirce] = true;
-        anticirce_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
-        break;
-      case antiequipollents:
-        CondFlag[anticirce] = true;
-        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
-        anticirce_variant.is_promotion_possible = true;
-        break;
-      case antiantipoden:
-        CondFlag[anticirce] = true;
-        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
-        anticirce_variant.is_promotion_possible = true;
-        break;
-      case antimirrorfile:
-        CondFlag[anticirce] = true;
-        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        anticirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        break;
-      case antisymmetrie:
-        CondFlag[anticirce] = true;
-        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
-        anticirce_variant.is_promotion_possible = true;
-        break;
-      case antifile:
-        CondFlag[anticirce] = true;
-        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        break;
-      case antidiagramm:
-        CondFlag[anticirce] = true;
-        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
-        break;
-      case antisuper:
-        CondFlag[anticirce] = true;
-        anticirce_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-        anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
-        anticirce_variant.is_promotion_possible = true;
-        break;
-
-        /* different types of immunchess */
-      case immunmirror:
-        CondFlag[immun] = true;
-        immune_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        break;
-      case immunfile:
-        CondFlag[immun] = true;
-        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        break;
-      case immundiagramm:
-        CondFlag[immun] = true;
-        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
-        break;
-      case immunmirrorfile:
-        CondFlag[immun] = true;
-        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        immune_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        break;
-      case immunsymmetry:
-        CondFlag[immun] = true;
-        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
-        break;
-      case immunantipoden:
-        CondFlag[immun] = true;
-        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
-        break;
-      case immunequipollents:
-        CondFlag[immun] = true;
-        immune_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
-        break;
-
-        /* different types of mars circe */
-      case marsmirror:
-        CondFlag[mars] = true;
-        marscirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        break;
-      case antimarsmirror:
-        CondFlag[antimars] = true;
-        antimars_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        break;
-      case antimarsantipodean:
-        CondFlag[antimars] = true;
-        antimars_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
-        break;
-
-      case whprom_sq:
-        ReadSquares(WhPromSq);
-        break;
-      case blprom_sq:
-        ReadSquares(BlPromSq);
-        break;
-
-      default:
-        break;
-    }
-
-    switch (indexx)
-    {
-      case messigny:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&messigny_rex_inclusive, CirceVariantRexExclusive);
-        break;
-      case woozles:
-      case biwoozles:
-      case heffalumps:
-      case biheffalumps:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&woozles_rex_inclusive, CirceVariantRexExclusive);
-        break;
-      case immun:
-        tok = ParseCirceVariants(&immune_variant);
-        break;
-      case immunmirror:
-      case immundiagramm:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&immune_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circechameleon:
-        tok = ReadNextTokStr();
-        tok = ReadChameleonSequence(tok,
-                                    &circe_variant.chameleon_is_walk_squence_explicit,
-                                    &circe_variant.chameleon_walk_sequence);
-        break;
-      case chameleonsequence:
-      case chamchess:
-        tok = ReadNextTokStr();
-        tok = ReadChameleonSequence(tok,
-                                    &chameleon_is_squence_explicit,
-                                    &chameleon_walk_sequence);
-        break;
-      case circemirror:
-        CondFlag[circe] = true;
-        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circefilemirror:
-        CondFlag[circe] = true;
-        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circeclonemirror:
-        CondFlag[circe] = true;
-        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circecouscousmirror:
-        CondFlag[circecouscous] = true;
-        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circedoubleagents:
-        CondFlag[circe] = true;
-        circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-        circe_variant.is_turncoat = true;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circeassassin:
-        CondFlag[circe] = true;
-        circe_variant.on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circeclone:
-        CondFlag[circe] = true;
-        circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case frischauf:
-        CondFlag[circe] = true;
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_frischauf;
-        break;
-      case circefile:
-      case circeequipollents:
-      case circediagramm:
-      case circesymmetry:
-      case circeantipoden:
-      case circemirrorvertical:
-      case circediametral:
-      case circerank:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case circe:
-        tok = ParseCirceVariants(&circe_variant);
-        break;
-      case mars:
-        tok = ParseCirceVariants(&marscirce_variant);
-        break;
-      case marsmirror:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&marscirce_variant.is_rex_inclusive, CirceVariantRexExclusive);
-        break;
-      case antimars:
-        tok = ParseCirceVariants(&antimars_variant);
-        break;
-      case antimarsantipodean:
-      case antimarsmirror:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&antimars_variant.is_rex_inclusive, CirceVariantRexExclusive);
-        break;
-      case protean:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&protean_is_rex_inclusive, CirceVariantRexExclusive);
-        break;
-      case phantom:
-        tok = ParseCirceVariants(&phantom_variant);
-        break;
-      case madras:
-        tok = ReadNextTokStr();
-        tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case isardam:
-        tok = ParseLetteredType(&isardam_variant,ConditionTypeB);
-        tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
-        break;
-      case annan:
-        tok = ParseLetteredType(&annan_type,ConditionTypeD);
-        break;
-      case kobulkings:
-        kobul_who[White] = true;
-        kobul_who[Black] = true;
-        tok = ParseKobulSides(&kobul_who);
-        break;
-      case sentinelles:
-        tok = ParseSentinellesVariants();
-        break;
-
-        /*****  exact-maxis  *****/
-      case blmax:
-        tok = ParseMummerStrictness(&mummer_strictness[Black]);
-        break;
-      case whmax:
-        tok = ParseMummerStrictness(&mummer_strictness[White]);
-        break;
-      case blmin:
-        tok = ParseMummerStrictness(&mummer_strictness[Black]);
-        break;
-      case whmin:
-        tok = ParseMummerStrictness(&mummer_strictness[White]);
-        break;
-      case blcapt:
-        tok = ParseMummerStrictness(&mummer_strictness[Black]);
-        break;
-      case whcapt:
-        tok = ParseMummerStrictness(&mummer_strictness[White]);
-        break;
-
-      case blconforsqu:
-        mummer_strictness[Black] = mummer_strictness_ultra;
-        tok = ReadNextTokStr();
-        break;
-      case whconforsqu:
-        mummer_strictness[White] = mummer_strictness_ultra;
-        tok = ReadNextTokStr();
-        break;
-
-      case blfollow:
-      case blackalphabetic:
-      case blacksynchron:
-      case blackantisynchron:
-      case blsupertrans_king:
-      case blforsqu:
-      case schwarzschacher:
-        mummer_strictness[Black] = mummer_strictness_regular;
-        tok = ReadNextTokStr();
-        break;
-
-      case whfollow:
-      case whitealphabetic:
-      case whitesynchron:
-      case whiteantisynchron:
-      case whsupertrans_king:
-      case whforsqu:
-        mummer_strictness[White] = mummer_strictness_regular;
-        tok = ReadNextTokStr();
-        break;
-
-      case alphabetic:
-        mummer_strictness[Black] = mummer_strictness_regular;
-        mummer_strictness[White] = mummer_strictness_regular;
-        tok = ReadNextTokStr();
-        break;
-
-      case duellist:
-        mummer_strictness[Black] = mummer_strictness_regular;
-        mummer_strictness[White] = mummer_strictness_regular;
-        tok = ReadNextTokStr();
-        break;
-
-      case losingchess:
-        mummer_strictness[Black] = mummer_strictness_regular;
-        mummer_strictness[White] = mummer_strictness_regular;
-        OptFlag[sansrn] = true;
-        OptFlag[sansrb] = true;
-        tok = ReadNextTokStr();
-        break;
-
-      case dynasty:
-      case extinction:
-        OptFlag[sansrn] = true;
-        OptFlag[sansrb] = true;
-        tok = ReadNextTokStr();
-        break;
-
-        /*****  anticirce type    *****/
-      case anticirce:
-        tok = ParseCirceVariants(&anticirce_variant);
-        break;
-      case antimirror:
-      case antidiagramm:
-      case antifile:
-      case antisymmetrie:
-      case antimirrorfile:
-      case antiantipoden:
-      case antiequipollents:
-      case antisuper:
-        tok = ParseAnticirceVariant(&anticirce_variant.anticirce_type);
-        break;
-      case singlebox:
-        tok = ParseNumberedType(&SingleBoxType,ConditionType1,ConditionType3);
-        break;
-      case republican:
-        tok = ParseNumberedType(&RepublicanType,ConditionType2,ConditionType2);
-        break;
-      case magicsquare:
-        tok = ParseNumberedType(&magic_square_type,ConditionType1,ConditionType2);
-        break;
-      case promotiononly:
+      switch (indexx)
       {
-        unsigned int nr_walks_read;
-        tok = ReadNextTokStr();
-        tok = ReadWalks(tok,&promonly,&nr_walks_read);
-        if (nr_walks_read==0)
-        {
-          CondFlag[promotiononly] = false;
-          output_plaintext_input_error_message(WrongPieceName,0);
-        }
-        break;
-      }
-      case football:
-      {
-        unsigned int nr_walks_read;
-        football_are_substitutes_limited = false;
-        tok = ReadNextTokStr();
-        tok = ReadWalks(tok,&is_football_substitute,&nr_walks_read);
-        football_are_substitutes_limited = nr_walks_read>0;
-        init_football_substitutes();
-        break;
-      }
-      case april:
-      {
-        unsigned int nr_walks_read;
-        tok = ReadNextTokStr();
-        tok = ReadWalks(tok,&circe_variant.is_walk_affected,&nr_walks_read);
-        if (nr_walks_read==0)
-        {
-          CondFlag[april] = false;
-          output_plaintext_input_error_message(WrongPieceName,0);
-        }
-        else
-        {
+        case hypervolage:
+          CondFlag[volage]= true;
+          break;
+        case leofamily:
+          CondFlag[chinoises]= true;
+          break;
+        case contactgrid:
+          CondFlag[gridchess] = true;
+          CondFlag[koeko] = true;
+          break;
+        case imitators:
+          ReadImitatorPositions();
+          break;
+        case blroyalsq:
+          ReadRoyalSquare(Black);
+          break;
+        case whroyalsq:
+          ReadRoyalSquare(White);
+          break;
+        case magicsquare:
+          magic_square_type = ConditionType1;
+          ReadSquaresWithFlag(MagicSq);
+          break;
+        case wormholes:
+          ReadSquaresWithFlag(Wormhole);
+          break;
+        case dbltibet:
+          CondFlag[tibet]= true;
+          break;
+        case holes:
+          ReadHoles();
+          break;
+        case trans_king:
+          CondFlag[whtrans_king] = true;
+          CondFlag[bltrans_king] = true;
+          calc_reflective_king[White]= true;
+          calc_reflective_king[Black]= true;
+          break;
+        case whtrans_king:
+          calc_reflective_king[White]= true;
+          break;
+        case bltrans_king:
+          calc_reflective_king[Black]= true;
+          break;
+        case whsupertrans_king:
+          calc_reflective_king[White]= true;
+          break;
+        case blsupertrans_king:
+          calc_reflective_king[Black]= true;
+          break;
+        case refl_king:
+          CondFlag[whrefl_king] = true;
+          CondFlag[blrefl_king] = true;
+          calc_reflective_king[White]= true;
+          calc_reflective_king[Black]= true;
+          break;
+        case whrefl_king:
+          calc_reflective_king[White]= true;
+          break;
+        case blrefl_king:
+          calc_reflective_king[Black]= true;
+          break;
+        case vault_king:
+          CondFlag[whvault_king] = true;
+          CondFlag[blvault_king] = true;
+          calc_reflective_king[White]= true;
+          calc_reflective_king[Black]= true;
+          vaulting_kings_transmuting[White] = false;
+          vaulting_kings_transmuting[Black] = false;
+          break;
+        case whvault_king:
+          calc_reflective_king[White]= true;
+          vaulting_kings_transmuting[White] = false;
+          break;
+        case blvault_king:
+          calc_reflective_king[Black]= true;
+          vaulting_kings_transmuting[Black] = false;
+          break;
+        case whforsqu:
+          ReadSquaresWithFlag(WhForcedSq);
+          break;
+        case blforsqu:
+          ReadSquaresWithFlag(BlForcedSq);
+          break;
+        case whconforsqu:
+          ReadSquaresWithFlag(WhForcedSq);
+          break;
+        case blconforsqu:
+          ReadSquaresWithFlag(BlForcedSq);
+          break;
+
+        /* different types of circe */
+        case circediametral:
           CondFlag[circe] = true;
-          circe_variant.is_restricted_to_walks = true;
+          circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_diametral;
+          break;
+        case circemirrorvertical:
+          circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_verticalmirror;
+          CondFlag[circe] = true;
+          break;
+        case circechameleon:
+          CondFlag[circe] = true;
+          circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_chameleon;
+          break;
+        case circeturncoats:
+          CondFlag[circe] = true;
+          circe_variant.is_turncoat = true;
+          break;
+        case circerank:
+          CondFlag[circe] = true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_rank;
+          circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_rank;
+          circe_variant.relevant_side_overrider = circe_relevant_side_overrider_rank;
+          break;
+        case circediagramm:
+          CondFlag[circe] = true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
+          break;
+        case circefile:
+          CondFlag[circe] = true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+          break;
+        case circecouscous:
+        case circecouscousmirror:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.actual_relevant_piece = circe_relevant_piece_capturer;
+          break;
+        case circeequipollents:
+          CondFlag[circe] = true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+          circe_variant.is_promotion_possible= true;
+          break;
+        case circesymmetry:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
+          break;
+        case pwc:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_pwc;
+          break;
+        case circeantipoden:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
+          break;
+        case circetakeandmake:
+          CondFlag[circe] = true;
           circe_variant.is_promotion_possible= true;
           circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
-          circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_take_and_make;
+          break;
+        case supercirce:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
           circe_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
-        }
-        break;
+          break;
+        case circecage:
+          CondFlag[circe] = true;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_cage;
+          break;
+        case circeparrain:
+          CondFlag[circe] = true;
+          circe_variant.relevant_capture = circe_relevant_capture_lastmove;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+          break;
+        case circecontraparrain:
+          CondFlag[circe] = true;
+          circe_variant.relevant_capture = circe_relevant_capture_lastmove;
+          circe_variant.is_promotion_possible= true;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+          circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          break;
+
+        case anticirce:
+          break;
+        case antimirror:
+          CondFlag[anticirce] = true;
+          anticirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          break;
+        case anticlonecirce:
+          CondFlag[anticirce] = true;
+          anticirce_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
+          break;
+        case antiequipollents:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+          anticirce_variant.is_promotion_possible = true;
+          break;
+        case antiantipoden:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
+          anticirce_variant.is_promotion_possible = true;
+          break;
+        case antimirrorfile:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+          anticirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          break;
+        case antisymmetrie:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
+          anticirce_variant.is_promotion_possible = true;
+          break;
+        case antifile:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+          break;
+        case antidiagramm:
+          CondFlag[anticirce] = true;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
+          break;
+        case antisuper:
+          CondFlag[anticirce] = true;
+          anticirce_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+          anticirce_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
+          anticirce_variant.is_promotion_possible = true;
+          break;
+
+          /* different types of immunchess */
+        case immunmirror:
+          CondFlag[immun] = true;
+          immune_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          break;
+        case immunfile:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+          break;
+        case immundiagramm:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_diagram;
+          break;
+        case immunmirrorfile:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+          immune_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          break;
+        case immunsymmetry:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_symmetry;
+          break;
+        case immunantipoden:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
+          break;
+        case immunequipollents:
+          CondFlag[immun] = true;
+          immune_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
+          break;
+
+          /* different types of mars circe */
+        case marsmirror:
+          CondFlag[mars] = true;
+          marscirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          break;
+        case antimarsmirror:
+          CondFlag[antimars] = true;
+          antimars_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          break;
+        case antimarsantipodean:
+          CondFlag[antimars] = true;
+          antimars_variant.determine_rebirth_square = circe_determine_rebirth_square_antipodes;
+          break;
+
+        case whprom_sq:
+          ReadSquaresWithFlag(WhPromSq);
+          break;
+        case blprom_sq:
+          ReadSquaresWithFlag(BlPromSq);
+          break;
+
+        default:
+          break;
       }
-      case koeko:
-        koeko_nocontact= &nokingcontact;
-        nocontactfunc_parsed= &koeko_nocontact;
-        tok = ParseKoekoVariant();
-        break;
-      case antikoeko:
-        antikoeko_nocontact= nokingcontact;
-        nocontactfunc_parsed= &antikoeko_nocontact;
-        tok = ParseKoekoVariant();
-        break;
-      case white_oscillatingKs:
-        tok = ParseLetteredType(&OscillatingKings[White],ConditionTypeC);
-        break;
-      case black_oscillatingKs:
-        tok = ParseLetteredType(&OscillatingKings[Black],ConditionTypeC);
-        break;
-      case swappingkings:
-        CondFlag[white_oscillatingKs]= true;
-        OscillatingKings[White]= ConditionTypeC;
-        CondFlag[black_oscillatingKs]= true;
-        OscillatingKings[Black]= ConditionTypeC;
-        tok = ReadNextTokStr();
-        break;
-      case SAT:
-      case strictSAT:
+
+      switch (indexx)
       {
-        char *ptr;
-        tok = ReadNextTokStr();
-        SAT_max_nr_allowed_flights[White] = strtoul(tok,&ptr,10) + 1;
-        if (tok == ptr) {
-          SAT_max_nr_allowed_flights[White]= 1;
-          SAT_max_nr_allowed_flights[Black]= 1;
+        case messigny:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&messigny_rex_inclusive, CirceVariantRexExclusive);
+          break;
+        case woozles:
+        case biwoozles:
+        case heffalumps:
+        case biheffalumps:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&woozles_rex_inclusive, CirceVariantRexExclusive);
+          break;
+        case immun:
+          tok = ParseCirceVariants(&immune_variant);
+          break;
+        case immunmirror:
+        case immundiagramm:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&immune_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circechameleon:
+          tok = ReadNextTokStr();
+          tok = ReadChameleonSequence(tok,
+                                      &circe_variant.chameleon_is_walk_squence_explicit,
+                                      &circe_variant.chameleon_walk_sequence);
+          break;
+        case chameleonsequence:
+        case chamchess:
+          tok = ReadNextTokStr();
+          tok = ReadChameleonSequence(tok,
+                                      &chameleon_is_squence_explicit,
+                                      &chameleon_walk_sequence);
+          break;
+        case circemirror:
+          CondFlag[circe] = true;
+          circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circefilemirror:
+          CondFlag[circe] = true;
+          circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circeclonemirror:
+          CondFlag[circe] = true;
+          circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circecouscousmirror:
+          CondFlag[circecouscous] = true;
+          circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circedoubleagents:
+          CondFlag[circe] = true;
+          circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
+          circe_variant.is_turncoat = true;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circeassassin:
+          CondFlag[circe] = true;
+          circe_variant.on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circeclone:
+          CondFlag[circe] = true;
+          circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case frischauf:
+          CondFlag[circe] = true;
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_frischauf;
+          break;
+        case circefile:
+        case circeequipollents:
+        case circediagramm:
+        case circesymmetry:
+        case circeantipoden:
+        case circemirrorvertical:
+        case circediametral:
+        case circerank:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case circe:
+          tok = ParseCirceVariants(&circe_variant);
+          break;
+        case mars:
+          tok = ParseCirceVariants(&marscirce_variant);
+          break;
+        case marsmirror:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&marscirce_variant.is_rex_inclusive, CirceVariantRexExclusive);
+          break;
+        case antimars:
+          tok = ParseCirceVariants(&antimars_variant);
+          break;
+        case antimarsantipodean:
+        case antimarsmirror:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&antimars_variant.is_rex_inclusive, CirceVariantRexExclusive);
+          break;
+        case protean:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&protean_is_rex_inclusive, CirceVariantRexExclusive);
+          break;
+        case phantom:
+          tok = ParseCirceVariants(&phantom_variant);
+          break;
+        case madras:
+          tok = ReadNextTokStr();
+          tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case isardam:
+          tok = ParseLetteredType(&isardam_variant,ConditionTypeB);
+          tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
+          break;
+        case annan:
+          tok = ParseLetteredType(&annan_type,ConditionTypeD);
+          break;
+        case kobulkings:
+          kobul_who[White] = true;
+          kobul_who[Black] = true;
+          tok = ParseKobulSides(&kobul_who);
+          break;
+        case sentinelles:
+          tok = ParseSentinellesVariants();
+          break;
+
+          /*****  exact-maxis  *****/
+        case blmax:
+          tok = ParseMummerStrictness(&mummer_strictness[Black]);
+          break;
+        case whmax:
+          tok = ParseMummerStrictness(&mummer_strictness[White]);
+          break;
+        case blmin:
+          tok = ParseMummerStrictness(&mummer_strictness[Black]);
+          break;
+        case whmin:
+          tok = ParseMummerStrictness(&mummer_strictness[White]);
+          break;
+        case blcapt:
+          tok = ParseMummerStrictness(&mummer_strictness[Black]);
+          break;
+        case whcapt:
+          tok = ParseMummerStrictness(&mummer_strictness[White]);
+          break;
+
+        case blconforsqu:
+          mummer_strictness[Black] = mummer_strictness_ultra;
+          tok = ReadNextTokStr();
+          break;
+        case whconforsqu:
+          mummer_strictness[White] = mummer_strictness_ultra;
+          tok = ReadNextTokStr();
+          break;
+
+        case blfollow:
+        case blackalphabetic:
+        case blacksynchron:
+        case blackantisynchron:
+        case blsupertrans_king:
+        case blforsqu:
+        case schwarzschacher:
+          mummer_strictness[Black] = mummer_strictness_regular;
+          tok = ReadNextTokStr();
+          break;
+
+        case whfollow:
+        case whitealphabetic:
+        case whitesynchron:
+        case whiteantisynchron:
+        case whsupertrans_king:
+        case whforsqu:
+          mummer_strictness[White] = mummer_strictness_regular;
+          tok = ReadNextTokStr();
+          break;
+
+        case alphabetic:
+          mummer_strictness[Black] = mummer_strictness_regular;
+          mummer_strictness[White] = mummer_strictness_regular;
+          tok = ReadNextTokStr();
+          break;
+
+        case duellist:
+          mummer_strictness[Black] = mummer_strictness_regular;
+          mummer_strictness[White] = mummer_strictness_regular;
+          tok = ReadNextTokStr();
+          break;
+
+        case losingchess:
+          mummer_strictness[Black] = mummer_strictness_regular;
+          mummer_strictness[White] = mummer_strictness_regular;
+          OptFlag[sansrn] = true;
+          OptFlag[sansrb] = true;
+          tok = ReadNextTokStr();
+          break;
+
+        case dynasty:
+        case extinction:
+          OptFlag[sansrn] = true;
+          OptFlag[sansrb] = true;
+          tok = ReadNextTokStr();
+          break;
+
+          /*****  anticirce type    *****/
+        case anticirce:
+          tok = ParseCirceVariants(&anticirce_variant);
+          break;
+        case antimirror:
+        case antidiagramm:
+        case antifile:
+        case antisymmetrie:
+        case antimirrorfile:
+        case antiantipoden:
+        case antiequipollents:
+        case antisuper:
+          tok = ParseAnticirceVariant(&anticirce_variant.anticirce_type);
+          break;
+        case singlebox:
+          tok = ParseNumberedType(&SingleBoxType,ConditionType1,ConditionType3);
+          break;
+        case republican:
+          tok = ParseNumberedType(&RepublicanType,ConditionType2,ConditionType2);
+          break;
+        case magicsquare:
+          tok = ParseNumberedType(&magic_square_type,ConditionType1,ConditionType2);
+          break;
+        case promotiononly:
+        {
+          unsigned int nr_walks_read;
+          tok = ReadNextTokStr();
+          tok = ReadWalks(tok,&promonly,&nr_walks_read);
+          if (nr_walks_read==0)
+          {
+            CondFlag[promotiononly] = false;
+            output_plaintext_input_error_message(WrongPieceName,0);
+          }
           break;
         }
-        tok = ReadNextTokStr();
-        SAT_max_nr_allowed_flights[Black] = strtoul(tok,&ptr,10) + 1;
-        if (tok == ptr)
-          SAT_max_nr_allowed_flights[Black]= SAT_max_nr_allowed_flights[White];
-        break;
-      }
-      case BGL:
-      {
-        char *ptr;
-        BGL_global= false;
-        tok = ReadNextTokStr();
-        BGL_values[White] = ReadBGLNumber(tok,&ptr);
-        if (tok == ptr)
+        case football:
         {
-          BGL_values[White] = BGL_infinity;
-          BGL_values[Black] = BGL_infinity;
-          return tok;
-        }
-        else
-        {
+          unsigned int nr_walks_read;
+          football_are_substitutes_limited = false;
           tok = ReadNextTokStr();
-          BGL_values[Black]= ReadBGLNumber(tok,&ptr);
+          tok = ReadWalks(tok,&is_football_substitute,&nr_walks_read);
+          football_are_substitutes_limited = nr_walks_read>0;
+          init_football_substitutes();
+          break;
+        }
+        case april:
+        {
+          unsigned int nr_walks_read;
+          tok = ReadNextTokStr();
+          tok = ReadWalks(tok,&circe_variant.is_walk_affected,&nr_walks_read);
+          if (nr_walks_read==0)
+          {
+            CondFlag[april] = false;
+            output_plaintext_input_error_message(WrongPieceName,0);
+          }
+          else
+          {
+            CondFlag[circe] = true;
+            circe_variant.is_restricted_to_walks = true;
+            circe_variant.is_promotion_possible= true;
+            circe_variant.rebirth_reason = move_effect_reason_rebirth_choice;
+            circe_variant.on_occupied_rebirth_square_default = circe_on_occupied_rebirth_square_strict;
+            circe_variant.determine_rebirth_square = circe_determine_rebirth_square_super;
+          }
+          break;
+        }
+        case koeko:
+          koeko_nocontact= &nokingcontact;
+          nocontactfunc_parsed= &koeko_nocontact;
+          tok = ParseKoekoVariant();
+          break;
+        case antikoeko:
+          antikoeko_nocontact= nokingcontact;
+          nocontactfunc_parsed= &antikoeko_nocontact;
+          tok = ParseKoekoVariant();
+          break;
+        case white_oscillatingKs:
+          tok = ParseLetteredType(&OscillatingKings[White],ConditionTypeC);
+          break;
+        case black_oscillatingKs:
+          tok = ParseLetteredType(&OscillatingKings[Black],ConditionTypeC);
+          break;
+        case swappingkings:
+          CondFlag[white_oscillatingKs]= true;
+          OscillatingKings[White]= ConditionTypeC;
+          CondFlag[black_oscillatingKs]= true;
+          OscillatingKings[Black]= ConditionTypeC;
+          tok = ReadNextTokStr();
+          break;
+        case SAT:
+        case strictSAT:
+        {
+          char *ptr;
+          tok = ReadNextTokStr();
+          SAT_max_nr_allowed_flights[White] = strtoul(tok,&ptr,10) + 1;
+          if (tok == ptr) {
+            SAT_max_nr_allowed_flights[White]= 1;
+            SAT_max_nr_allowed_flights[Black]= 1;
+            break;
+          }
+          tok = ReadNextTokStr();
+          SAT_max_nr_allowed_flights[Black] = strtoul(tok,&ptr,10) + 1;
+          if (tok == ptr)
+            SAT_max_nr_allowed_flights[Black]= SAT_max_nr_allowed_flights[White];
+          break;
+        }
+        case BGL:
+        {
+          char *ptr;
+          BGL_global= false;
+          tok = ReadNextTokStr();
+          BGL_values[White] = ReadBGLNumber(tok,&ptr);
           if (tok == ptr)
           {
-            BGL_values[Black] = BGL_values[White];
-            BGL_global= true;
-            return tok;
+            BGL_values[White] = BGL_infinity;
+            BGL_values[Black] = BGL_infinity;
+            indexx = CondCount;
           }
+          else
+          {
+            tok = ReadNextTokStr();
+            BGL_values[Black] = ReadBGLNumber(tok,&ptr);
+            if (tok == ptr)
+            {
+              BGL_values[Black] = BGL_values[White];
+              BGL_global= true;
+              indexx = CondCount;
+            }
+            else
+              tok = ReadNextTokStr();
+          }
+          break;
         }
-        tok = ReadNextTokStr();
-        break;
+        case geneva:
+          tok = ParseCirceVariants(&geneva_variant);
+          break;
+        case whvault_king:
+          tok = ParseVaultingPieces(White);
+          break;
+        case blvault_king:
+          tok = ParseVaultingPieces(Black);
+          break;
+        case vault_king:
+          tok = ParseVaultingPieces(no_side);
+          break;
+        case gridchess:
+          tok = ParseGridVariant();
+          break;
+        case lastcapture:
+          tok = ReadNextTokStr();
+          retro_capture.on = initsquare;
+          tok = ParseLastCapturedPiece(tok);
+          CondFlag[lastcapture] = retro_capture.on!=initsquare;
+          break;
+        default:
+          tok = ReadNextTokStr();
+          break;
       }
-      case geneva:
-        tok = ParseCirceVariants(&geneva_variant);
-        break;
-      case whvault_king:
-        tok = ParseVaultingPieces(White);
-        break;
-      case blvault_king:
-        tok = ParseVaultingPieces(Black);
-        break;
-      case vault_king:
-        tok = ParseVaultingPieces(no_side);
-        break;
-      case gridchess:
-        tok = ParseGridVariant();
-        break;
-      case lastcapture:
-        tok = ReadNextTokStr();
-        retro_capture.on = initsquare;
-        tok = ParseLastCapturedPiece(tok);
-        CondFlag[lastcapture] = retro_capture.on!=initsquare;
-        break;
-      default:
-        tok = ReadNextTokStr();
-        break;
     }
   }
+  while (indexx!=CondCount);
 
   if (CondCnt==0)
     output_plaintext_input_error_message(UnrecCondition,0);
@@ -1749,6 +1858,9 @@ char *ParseCond(void)
       && CondFlag[white_oscillatingKs] && OscillatingKings[White]==ConditionTypeC)
     CondFlag[swappingkings] = true;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 

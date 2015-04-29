@@ -17,7 +17,6 @@ typedef enum
 } grid_type_type;
 
 extern grid_type_type grid_type;
-extern int currentgridnum;
 extern int gridlines[112][4];
 extern int numgridlines;
 

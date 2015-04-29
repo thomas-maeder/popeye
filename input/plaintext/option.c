@@ -55,17 +55,129 @@ static void ReadMutuallyExclusiveCastling(void)
   output_plaintext_error_message(MissngSquareList);
 }
 
+static char *ReadEpSquares(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    char *tok = ReadNextTokStr();
+
+    if (strlen(tok)%2==1)
+      output_plaintext_input_error_message(WrongSquareList, 0);
+    else
+    {
+      while (*tok)
+      {
+        square const sq = SquareNum(*tok,tok[1]);
+        if (sq==initsquare)
+        {
+          if (en_passant_nr_retro_squares<en_passant_retro_min_squares)
+          {
+            output_plaintext_input_error_message(WrongSquareList, 0);
+            tok = 0;
+            break;
+          }
+        }
+        else
+        {
+          if (en_passant_nr_retro_squares==en_passant_retro_capacity)
+            output_plaintext_message(TooManyEpKeySquares);
+          else
+            en_passant_retro_squares[en_passant_nr_retro_squares++] = sq;
+
+          tok += 2;
+        }
+      }
+    }
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%s",tok);
+    TraceFunctionResultEnd();
+    return tok;
+  }
+}
+
+static char *ReadNoCastlingSquares(void)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  {
+    char *tok = ReadNextTokStr();
+    char *lastTok = tok;
+    unsigned int nr_squares_read = 0;
+
+    if (strlen(tok)%2==1)
+      output_plaintext_input_error_message(WrongSquareList, 0);
+    else
+    {
+      while (*tok)
+      {
+        square const sq = SquareNum(*tok,tok[1]);
+        if (sq==initsquare)
+        {
+          if (nr_squares_read!=0)
+          {
+            tok = lastTok;
+            break;
+          }
+        }
+        else
+        {
+          switch (sq)
+          {
+            case square_a1:
+              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(White*black_castling_rights_offset));
+              break;
+            case square_e1:
+              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(White*black_castling_rights_offset));
+              break;
+            case square_h1:
+              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(White*black_castling_rights_offset));
+              break;
+            case square_a8:
+              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(Black*black_castling_rights_offset));
+              break;
+            case square_e8:
+              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(Black*black_castling_rights_offset));
+              break;
+            case square_h8:
+              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(Black*black_castling_rights_offset));
+              break;
+            default:
+              break;
+          }
+
+          ++nr_squares_read;
+          tok += 2;
+        }
+      }
+    }
+
+    TraceFunctionExit(__func__);
+    TraceFunctionResult("%s",tok);
+    TraceFunctionResultEnd();
+    return tok;
+  }
+}
+
 char *ParseOpt(slice_index root_slice_hook)
 {
   Opt indexx;
   unsigned int OptCnt = 0;
-  char    *tok;
+  char *tok = ReadNextTokStr();
 
-  tok = ReadNextTokStr();
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice_hook);
+  TraceFunctionParamListEnd();
+
   for (indexx = GetUniqIndex(OptCount,OptTab,tok);
        indexx<OptCount;
        indexx = GetUniqIndex(OptCount,OptTab,tok))
   {
+    TraceValue("%u",indexx);TraceEOL();
+
     if (indexx>OptCount)
     {
       output_plaintext_input_error_message(OptNotUniq,0);
@@ -96,7 +208,7 @@ char *ParseOpt(slice_index root_slice_hook)
         {
           OptFlag[maxtime]= false;
           output_plaintext_input_error_message(WrongInt, 0);
-          return ReadNextTokStr();
+          indexx = OptCount;
         }
         else
           setOptionMaxtime((maxtime_type)value);
@@ -104,8 +216,13 @@ char *ParseOpt(slice_index root_slice_hook)
       }
 
       case enpassant:
-        ReadSquares(ReadEpSquares);
+      {
+        char *xyz = ReadEpSquares();
+        TraceValue("%s",xyz);
+        if (xyz==tok)
+          indexx = OptCount+1;
         break;
+      }
 
       case maxsols:
         tok = ReadNextTokStr();
@@ -113,7 +230,7 @@ char *ParseOpt(slice_index root_slice_hook)
         {
           OptFlag[maxsols] = false;
           output_plaintext_input_error_message(WrongInt,0);
-          return ReadNextTokStr();
+          indexx = OptCount;
         }
         break;
 
@@ -130,7 +247,7 @@ char *ParseOpt(slice_index root_slice_hook)
         {
           OptFlag[restart] = false;
           output_plaintext_input_error_message(WrongInt,0);
-          return ReadNextTokStr();
+          indexx = OptCount;
         }
         OptFlag[movenbr]= true;
         break;
@@ -146,7 +263,7 @@ char *ParseOpt(slice_index root_slice_hook)
         {
           OptFlag[solmenaces] = false;
           output_plaintext_input_error_message(WrongInt,0);
-          return ReadNextTokStr();
+          indexx = OptCount;
         }
         break;
 
@@ -156,7 +273,7 @@ char *ParseOpt(slice_index root_slice_hook)
         {
           OptFlag[solflights] = false;
           output_plaintext_input_error_message(WrongInt,0);
-          return ReadNextTokStr();
+          indexx = OptCount;
         }
         break;
 
@@ -166,7 +283,7 @@ char *ParseOpt(slice_index root_slice_hook)
         {
           OptFlag[soltout] = false;
           output_plaintext_input_error_message(WrongInt,0);
-          return ReadNextTokStr();
+          indexx = OptCount;
         }
         break;
 
@@ -190,14 +307,14 @@ char *ParseOpt(slice_index root_slice_hook)
           {
             OptFlag[nontrivial] = false;
             output_plaintext_input_error_message(WrongInt, 0);
-            return ReadNextTokStr();
+            indexx = OptCount;
           }
         }
         else
         {
           OptFlag[nontrivial] = false;
           output_plaintext_input_error_message(WrongInt, 0);
-          return ReadNextTokStr();
+          indexx = OptCount;
         }
         break;
       }
@@ -208,7 +325,7 @@ char *ParseOpt(slice_index root_slice_hook)
 
       case nocastling:
         castling_flags_no_castling = bl_castlings|wh_castlings;
-        ReadSquares(ReadNoCastlingSquares);
+        ReadNoCastlingSquares();
         break;
 
       case mutuallyexclusivecastling:
@@ -219,12 +336,17 @@ char *ParseOpt(slice_index root_slice_hook)
         /* no extra action required */
         break;
     }
-    tok = ReadNextTokStr();
+
+    if (indexx<=OptCount)
+      tok = ReadNextTokStr();
   }
 
   if (OptCnt==0)
     output_plaintext_input_error_message(UnrecOption,0);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
