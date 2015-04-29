@@ -124,7 +124,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*115*/ "Il ne peut pas etre decide si une condition s'applique aux Blancs ou aux Noirs\n",
     /*116*/ "ImmunCage seulement avec CirceCage\n",
     /*117*/ "On ne peut pas decider si ce coup est refute\n",
-    /*118*/ "Capture de roi detectee - elements feeriques probablement incompatibles\n"
+    /*118*/ "Capture de roi detectee - elements feeriques probablement incompatibles\n",
+    /*119*/ "Information retro inconsistent\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -245,7 +246,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*115*/ "Es ist nicht entscheidbar, ob Bedingung fuer Weiss oder Schwarz gilt\n",
     /*116*/ "KaefigImmunSchach nur mit KaefigCirce\n",
     /*117*/ "Kann nicht entscheiden, ob dieser Zug widerlegt wird\n",
-    /*118*/ "Schlag eines Koenigs detektiert - Maerchenelemente scheinen unvereinbar\n"
+    /*118*/ "Schlag eines Koenigs detektiert - Maerchenelemente scheinen unvereinbar\n",
+    /*119*/ "Inkonsistente Retro-Information\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -366,7 +368,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*115*/ "Can't decide whether condition applies to White or Black\n",
     /*116*/ "CageImmunChess only with CageCirce\n",
     /*117*/ "Can't decide whether this move is refuted\n",
-    /*118*/ "King capture detected - fairy elements seem incompatible"
+    /*118*/ "King capture detected - fairy elements seem incompatible",
+    /*119*/ "Inconsistent retro information\n"
   }
 };
 

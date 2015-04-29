@@ -137,6 +137,7 @@ typedef enum
   NoCageImmuneWithoutCage                           = 116,
   ExclusiveRefutedUndecidable                       = 117,
   KingCaptureDetected                               = 118,
+  InconsistentRetroInformation                      = 119,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

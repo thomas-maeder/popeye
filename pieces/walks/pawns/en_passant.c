@@ -20,19 +20,44 @@ unsigned int en_passant_top[maxply+1];
 unsigned int en_passant_retro_squares[en_passant_retro_capacity];
 unsigned int en_passant_nr_retro_squares;
 
+/* Determine whether the retro information concernng en passant is consistent
+ * @return true iff the informatoin is consistent
+ */
+boolean en_passant_are_retro_squares_consistent(void)
+{
+  if (en_passant_nr_retro_squares>=en_passant_retro_min_squares)
+  {
+    unsigned int i;
+    for (i = 0; i!=en_passant_nr_retro_squares-1; ++i)
+      if (get_walk_of_piece_on_square(en_passant_retro_squares[i])!=Empty)
+        return false;
+
+    if (get_walk_of_piece_on_square(en_passant_retro_squares[en_passant_nr_retro_squares-1])==Empty)
+      return false;
+  }
+
+  return true;
+}
+
 /* Undo the pawn multistep movement indicated by the user (in prepration of
- * redoing it) */
+ * redoing it)
+ */
 void en_passant_undo_multistep(void)
 {
-  if (en_passant_nr_retro_squares>2)
+  boolean result = true;
+
+  if (en_passant_nr_retro_squares>=en_passant_retro_min_squares)
     move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
                                           en_passant_retro_squares[en_passant_nr_retro_squares-1],
                                           en_passant_retro_squares[0]);
 }
 
-/* Redo the multistep movement */
+/* Redo the multistep movement
+ */
 void en_passant_redo_multistep(void)
 {
+  boolean result = true;
+
   if (en_passant_nr_retro_squares>2)
   {
     unsigned int i;

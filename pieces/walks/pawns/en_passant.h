@@ -21,11 +21,18 @@ enum
 extern unsigned int en_passant_retro_squares[en_passant_retro_capacity];
 extern unsigned int en_passant_nr_retro_squares;
 
+/* Determine whether the retro information concernng en passant is consistent
+ * @return true iff the informatoin is consistent
+ */
+boolean en_passant_are_retro_squares_consistent(void);
+
 /* Undo the pawn multistep movement indicated by the user (in prepration of
- * redoing it) */
+ * @return false iff the position doesn't allow undoing the multistep
+ */
 void en_passant_undo_multistep(void);
 
-/* Redo the multistep movement */
+/* Redo the multistep movement
+ */
 void en_passant_redo_multistep(void);
 
 /* Remember a square avoided by a multistep move of a pawn

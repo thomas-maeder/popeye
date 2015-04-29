@@ -1266,6 +1266,13 @@ static boolean verify_position(slice_index si)
     }
   }
 
+  if (en_passant_nr_retro_squares>=en_passant_retro_min_squares
+      && !en_passant_are_retro_squares_consistent())
+  {
+    output_plaintext_verifie_message(InconsistentRetroInformation);
+    return false;
+  }
+
   change_moving_piece=
       TSTFLAG(some_pieces_flags, Kamikaze)
       || TSTFLAG(some_pieces_flags, Protean)
