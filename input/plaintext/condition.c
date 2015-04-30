@@ -479,7 +479,6 @@ static char *ReadImitatorPositions(void)
 
   {
     char *tok = ReadNextTokStr();
-    char *lastTok = tok;
 
     being_solved.number_of_imitators = 0;
 
@@ -491,11 +490,9 @@ static char *ReadImitatorPositions(void)
         square const sq = SquareNum(*tok,tok[1]);
         if (sq==initsquare)
         {
-          if (being_solved.number_of_imitators!=0)
-          {
-            tok = lastTok;
-            break;
-          }
+          if (being_solved.number_of_imitators==0)
+            output_plaintext_input_error_message(WrongSquareList,0);
+          break;
         }
         else
         {
@@ -513,7 +510,7 @@ static char *ReadImitatorPositions(void)
 
 static int currentgridnum;
 
-static char *ReadGridLine(void)
+static char *ReadGridCell(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -522,19 +519,17 @@ static char *ReadGridLine(void)
     char *tok = ReadNextTokStr();
     char *lastTok = tok;
 
-    unsigned int nr_squares_read = 0;
-
     TraceValue("%s",tok);TraceEOL();
 
     if (strlen(tok)%2==1)
-      currentgridnum = 0;
+      currentgridnum = 0; /* abort input of grid cells */
     else
       while (*tok)
       {
         square const sq = SquareNum(*tok,tok[1]);
         if (sq==initsquare)
         {
-          currentgridnum = 0;
+          currentgridnum = 0; /* abort input of grid cells */
           tok = lastTok;
           break;
         }
@@ -542,8 +537,6 @@ static char *ReadGridLine(void)
         {
           ClearGridNum(sq);
           sq_spec[sq] += currentgridnum << Grid;
-
-          ++nr_squares_read;
           tok += 2;
         }
       }
@@ -562,7 +555,6 @@ static char *ReadSquaresWithFlag(SquareFlags flag)
 
   {
     char *tok = ReadNextTokStr();
-    char *lastTok = tok;
     unsigned int nr_squares_read = 0;
 
     if (strlen(tok)%2==1)
@@ -574,11 +566,9 @@ static char *ReadSquaresWithFlag(SquareFlags flag)
         square const sq = SquareNum(*tok,tok[1]);
         if (sq==initsquare)
         {
-          if (nr_squares_read!=0)
-          {
-            tok = lastTok;
-            break;
-          }
+          if (nr_squares_read==0)
+            output_plaintext_input_error_message(WrongSquareList,0);
+          break;
         }
         else
         {
@@ -604,7 +594,6 @@ static char *ReadHoles(void)
 
   {
     char *tok = ReadNextTokStr();
-    char *lastTok = tok;
     unsigned int nr_squares_read = 0;
 
     if (strlen(tok)%2==1)
@@ -615,16 +604,13 @@ static char *ReadHoles(void)
         square const sq = SquareNum(*tok,tok[1]);
         if (sq==initsquare)
         {
-          if (nr_squares_read!=0)
-          {
-            tok = lastTok;
-            break;
-          }
+          if (nr_squares_read==0)
+            output_plaintext_input_error_message(WrongSquareList, 0);
+          break;
         }
         else
         {
           block_square(sq);
-
           ++nr_squares_read;
           tok += 2;
         }
@@ -868,10 +854,10 @@ static char *ParseGridVariant(void)
         for (bnp = boardnum; *bnp; bnp++)
           ClearGridNum(*bnp);
         grid_type = grid_irregular;
-        currentgridnum=1;
+        currentgridnum = 1;
         do
         {
-          tok = ReadGridLine();
+          tok = ReadGridCell();
         }
         while (currentgridnum++);
         break;

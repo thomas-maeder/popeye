@@ -73,11 +73,8 @@ static char *ReadEpSquares(void)
         if (sq==initsquare)
         {
           if (en_passant_nr_retro_squares<en_passant_retro_min_squares)
-          {
             output_plaintext_input_error_message(WrongSquareList, 0);
-            tok = 0;
-            break;
-          }
+          break;
         }
         else
         {
@@ -117,11 +114,9 @@ static char *ReadNoCastlingSquares(void)
         square const sq = SquareNum(*tok,tok[1]);
         if (sq==initsquare)
         {
-          if (nr_squares_read!=0)
-          {
-            tok = lastTok;
-            break;
-          }
+          if (nr_squares_read==0)
+            output_plaintext_input_error_message(WrongSquareList, 0);
+          break;
         }
         else
         {
