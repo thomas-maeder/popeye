@@ -472,158 +472,90 @@ static char *ParseCirceVariants(circe_variant_type *variant)
   return tok;
 }
 
-static char *ReadImitatorPositions(void)
+typedef void (*parsed_square_handler)(square s, void *param);
+
+static unsigned int ParseSquareList(char *tok,
+                                    parsed_square_handler handleSquare,
+                                    void *param)
 {
+  enum
+  {
+    chars_per_square = 2
+  };
+
+  unsigned int result = 0;
+
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  {
-    char *tok = ReadNextTokStr();
-
-    being_solved.number_of_imitators = 0;
-
-    if (strlen(tok)%2==1)
-      output_plaintext_input_error_message(WrongSquareList,0);
-    else
-      while (*tok)
-      {
-        square const sq = SquareNum(*tok,tok[1]);
-        if (sq==initsquare)
-        {
-          if (being_solved.number_of_imitators==0)
-            output_plaintext_input_error_message(WrongSquareList,0);
-          break;
-        }
-        else
-        {
-          being_solved.isquare[being_solved.number_of_imitators++] = sq;
-          tok += 2;
-        }
-      }
-
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%s",tok);
-    TraceFunctionResultEnd();
-    return tok;
-  }
-}
-
-static int currentgridnum;
-
-static char *ReadGridCell(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  {
-    char *tok = ReadNextTokStr();
-    char *lastTok = tok;
-
-    TraceValue("%s",tok);TraceEOL();
-
-    if (strlen(tok)%2==1)
-      currentgridnum = 0; /* abort input of grid cells */
-    else
-      while (*tok)
-      {
-        square const sq = SquareNum(*tok,tok[1]);
-        if (sq==initsquare)
-        {
-          currentgridnum = 0; /* abort input of grid cells */
-          tok = lastTok;
-          break;
-        }
-        else
-        {
-          ClearGridNum(sq);
-          sq_spec[sq] += currentgridnum << Grid;
-          tok += 2;
-        }
-      }
-
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%s",tok);
-    TraceFunctionResultEnd();
-    return tok;
-  }
-}
-
-static char *ReadSquaresWithFlag(SquareFlags flag)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  {
-    char *tok = ReadNextTokStr();
-    unsigned int nr_squares_read = 0;
-
-    if (strlen(tok)%2==1)
-      output_plaintext_input_error_message(WrongSquareList,0);
-    else
+  if (strlen(tok)%chars_per_square==0)
+    while (true)
     {
-      while (*tok)
+      square const sq = SquareNum(tok[0],tok[1]);
+      if (sq==initsquare)
+        break;
+      else
       {
-        square const sq = SquareNum(*tok,tok[1]);
-        if (sq==initsquare)
-        {
-          if (nr_squares_read==0)
-            output_plaintext_input_error_message(WrongSquareList,0);
+        handleSquare(sq,param);
+        ++result;
+        tok += chars_per_square;
+        if (*tok==0)
           break;
-        }
-        else
-        {
-          SETFLAG(sq_spec[sq],flag);
-
-          ++nr_squares_read;
-          tok += 2;
-        }
       }
     }
 
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%s",tok);
-    TraceFunctionResultEnd();
-    return tok;
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }
 
-static char *ReadHoles(void)
+static void HandleImitatorPosition(square pos, void *param)
 {
+  unsigned int * const number_of_imitators = param;
+
+  being_solved.isquare[(*number_of_imitators)++] = pos;
+}
+
+static void HandleGridCell(square cell, void *param)
+{
+  unsigned int * const currentgridnum = param;
+
+  ClearGridNum(cell);
+  sq_spec[cell] += *currentgridnum << Grid;
+}
+
+static void HandleSquaresWithFlag(square sq, void *param)
+{
+  SquareFlags * const flag = param;
+  SETFLAG(sq_spec[sq],*flag);
+}
+
+static char *ParseSquaresWithFlag(SquareFlags flag)
+{
+  char *tok;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  {
-    char *tok = ReadNextTokStr();
-    unsigned int nr_squares_read = 0;
+  tok = ReadNextTokStr();
 
-    if (strlen(tok)%2==1)
-      output_plaintext_input_error_message(WrongSquareList, 0);
-    else
-      while (*tok)
-      {
-        square const sq = SquareNum(*tok,tok[1]);
-        if (sq==initsquare)
-        {
-          if (nr_squares_read==0)
-            output_plaintext_input_error_message(WrongSquareList, 0);
-          break;
-        }
-        else
-        {
-          block_square(sq);
-          ++nr_squares_read;
-          tok += 2;
-        }
-      }
+  if (ParseSquareList(tok,&HandleSquaresWithFlag,&flag)==0)
+    output_plaintext_input_error_message(WrongSquareList,0);
 
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%s",tok);
-    TraceFunctionResultEnd();
-    return tok;
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
 }
 
-static char *ReadRoyalSquare(Side side)
+static void HandleHole(square sq, void *dummy)
+{
+  block_square(sq);
+}
+
+static char *ParseRoyalSquare(Side side)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -635,7 +567,7 @@ static char *ReadRoyalSquare(Side side)
       output_plaintext_input_error_message(WrongSquareList, 0);
     else
     {
-      square const sq = SquareNum(*tok,tok[1]);
+      square const sq = SquareNum(tok[0],tok[1]);
       if (sq==initsquare)
         output_plaintext_input_error_message(WrongSquareList, 0);
       else
@@ -850,16 +782,20 @@ static char *ParseGridVariant(void)
       }
       case GridVariantIrregular:
       {
+        unsigned int currentgridnum = 1;
         square const *bnp;
         for (bnp = boardnum; *bnp; bnp++)
           ClearGridNum(*bnp);
         grid_type = grid_irregular;
-        currentgridnum = 1;
-        do
+        tok = ReadNextTokStr();
+        while (ParseSquareList(tok,&HandleGridCell,&currentgridnum)>0)
         {
-          tok = ReadGridCell();
+          ++currentgridnum;
+          tok = ReadNextTokStr();
+          TraceValue("%s",tok);TraceEOL();
         }
-        while (currentgridnum++);
+        if (currentgridnum==1)
+          output_plaintext_input_error_message(WrongSquareList,0);
         break;
       }
       case GridVariantExtraGridLines:
@@ -1187,26 +1123,35 @@ char *ParseCond(void)
           CondFlag[koeko] = true;
           break;
         case imitators:
-          ReadImitatorPositions();
+          tok = ReadNextTokStr();
+          being_solved.number_of_imitators = 0;
+          if (ParseSquareList(tok,
+                             &HandleImitatorPosition,
+                             &being_solved.number_of_imitators)==0)
+            output_plaintext_input_error_message(WrongSquareList,0);
           break;
         case blroyalsq:
-          ReadRoyalSquare(Black);
+          ParseRoyalSquare(Black);
           break;
         case whroyalsq:
-          ReadRoyalSquare(White);
+          ParseRoyalSquare(White);
           break;
         case magicsquare:
+        {
           magic_square_type = ConditionType1;
-          ReadSquaresWithFlag(MagicSq);
+          ParseSquaresWithFlag(MagicSq);
           break;
+        }
         case wormholes:
-          ReadSquaresWithFlag(Wormhole);
+          ParseSquaresWithFlag(Wormhole);
           break;
         case dbltibet:
           CondFlag[tibet]= true;
           break;
         case holes:
-          ReadHoles();
+          tok = ReadNextTokStr();
+          if (ParseSquareList(tok,&HandleHole,0)==0)
+            output_plaintext_input_error_message(WrongSquareList,0);
           break;
         case trans_king:
           CondFlag[whtrans_king] = true;
@@ -1255,16 +1200,16 @@ char *ParseCond(void)
           vaulting_kings_transmuting[Black] = false;
           break;
         case whforsqu:
-          ReadSquaresWithFlag(WhForcedSq);
+          ParseSquaresWithFlag(WhForcedSq);
           break;
         case blforsqu:
-          ReadSquaresWithFlag(BlForcedSq);
+          ParseSquaresWithFlag(BlForcedSq);
           break;
         case whconforsqu:
-          ReadSquaresWithFlag(WhForcedSq);
+          ParseSquaresWithFlag(WhForcedSq);
           break;
         case blconforsqu:
-          ReadSquaresWithFlag(BlForcedSq);
+          ParseSquaresWithFlag(BlForcedSq);
           break;
 
         /* different types of circe */
@@ -1447,10 +1392,10 @@ char *ParseCond(void)
           break;
 
         case whprom_sq:
-          ReadSquaresWithFlag(WhPromSq);
+          ParseSquaresWithFlag(WhPromSq);
           break;
         case blprom_sq:
-          ReadSquaresWithFlag(BlPromSq);
+          ParseSquaresWithFlag(BlPromSq);
           break;
 
         default:
