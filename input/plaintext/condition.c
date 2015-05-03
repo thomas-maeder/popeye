@@ -503,8 +503,17 @@ static char *ParseSquaresWithFlag(SquareFlags flag)
 
   tok = ReadNextTokStr();
 
-  if (ParseSquareList(tok,&HandleSquaresWithFlag,&flag)==0)
-    output_plaintext_input_error_message(WrongSquareList,0);
+  switch (ParseSquareList(tok,&HandleSquaresWithFlag,&flag))
+  {
+    case 0:
+      output_plaintext_input_error_message(MissngSquareList,0);
+      break;
+    case UINT_MAX:
+      output_plaintext_error_message(WrongSquareList);
+      break;
+    default:
+      break;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -750,14 +759,27 @@ static char *ParseGridVariant(void)
           ClearGridNum(*bnp);
         grid_type = grid_irregular;
         tok = ReadNextTokStr();
-        while (ParseSquareList(tok,&HandleGridCell,&currentgridnum)>0)
+        while (true)
         {
-          ++currentgridnum;
-          tok = ReadNextTokStr();
-          TraceValue("%s",tok);TraceEOL();
+          unsigned int const len_gridline = ParseSquareList(tok,&HandleGridCell,&currentgridnum);
+          if (len_gridline==0)
+          {
+            if (currentgridnum==1)
+              output_plaintext_input_error_message(MissngSquareList,0);
+            break;
+          }
+          else if (len_gridline==UINT_MAX)
+          {
+            output_plaintext_error_message(WrongSquareList);
+            break;
+          }
+          else
+          {
+            ++currentgridnum;
+            tok = ReadNextTokStr();
+            TraceValue("%s",tok);TraceEOL();
+          }
         }
-        if (currentgridnum==1)
-          output_plaintext_input_error_message(WrongSquareList,0);
         break;
       }
       case GridVariantExtraGridLines:
@@ -1087,10 +1109,19 @@ char *ParseCond(void)
         case imitators:
           tok = ReadNextTokStr();
           being_solved.number_of_imitators = 0;
-          if (ParseSquareList(tok,
-                             &HandleImitatorPosition,
-                             &being_solved.number_of_imitators)==0)
-            output_plaintext_input_error_message(WrongSquareList,0);
+          switch (ParseSquareList(tok,
+                                  &HandleImitatorPosition,
+                                  &being_solved.number_of_imitators))
+          {
+            case 0:
+              output_plaintext_input_error_message(MissngSquareList,0);
+              break;
+            case UINT_MAX:
+              output_plaintext_error_message(WrongSquareList);
+              break;
+            default:
+              break;
+          }
           break;
         case blroyalsq:
           ParseRoyalSquare(Black);
@@ -1112,8 +1143,17 @@ char *ParseCond(void)
           break;
         case holes:
           tok = ReadNextTokStr();
-          if (ParseSquareList(tok,&HandleHole,0)==0)
-            output_plaintext_input_error_message(WrongSquareList,0);
+          switch (ParseSquareList(tok,&HandleHole,0))
+          {
+            case 0:
+              output_plaintext_input_error_message(MissngSquareList,0);
+              break;
+            case UINT_MAX:
+              output_plaintext_error_message(WrongSquareList);
+              break;
+            default:
+              break;
+          }
           break;
         case trans_king:
           CondFlag[whtrans_king] = true;

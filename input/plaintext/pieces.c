@@ -52,65 +52,43 @@ char *ParseSingleWalk(char *tok, piece_walk_type *result)
   }
 }
 
-static char *ParseSquareList2(char *tok,
-                              piece_walk_type Name,
-                              Flags Spec,
-                              piece_addition_type type)
+typedef struct
 {
-  /* We interpret the tokenString as SquareList
-     If we return always the next1 tokenstring
-  */
-  unsigned int SquareCnt = 0;
+    piece_walk_type walk;
+    Flags spec;
+    piece_addition_type type;
+} piece_addition_settings;
 
-  while (true)
+static void HandleAddedPiece(square s, void *param)
+{
+  piece_addition_settings * const settings = param;
+
+  if (!is_square_empty(s))
   {
-    square const Square = ParseSquare(tok[0],tok[1]);
-    if (tok[0]!=0 && tok[1]!=0 && Square!=initsquare)
+    if (settings->type==piece_addition_initial)
     {
-      if (!is_square_empty(Square))
-      {
-        if (type==piece_addition_initial)
-        {
-          WriteSquare(&output_plaintext_engine,stdout,Square);
-          output_plaintext_message(OverwritePiece);
+      WriteSquare(&output_plaintext_engine,stdout,s);
+      output_plaintext_message(OverwritePiece);
 
-          underworld_make_space(nr_ghosts);
-          underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(Square);
-          underworld[nr_ghosts-1].flags = being_solved.spec[Square];
-          underworld[nr_ghosts-1].on = Square;
-        }
-        else
-        {
-          move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,
-                                                         Square);
-          move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,
-                                               Square);
-        }
-      }
-
-      if (type==piece_addition_twinning)
-        move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                              Square,Name,Spec);
-      else
-        occupy_square(Square,Name,Spec);
-
-      tok += 2;
-      ++SquareCnt;
-    }
-    else if (SquareCnt==0)
-    {
-      output_plaintext_error_message(MissngSquareList);
-      tok = ReadNextTokStr();
+      underworld_make_space(nr_ghosts);
+      underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(s);
+      underworld[nr_ghosts-1].flags = being_solved.spec[s];
+      underworld[nr_ghosts-1].on = s;
     }
     else
     {
-      if (tok[0]!=0)
-        output_plaintext_error_message(WrongSquareList);
-      break;
+      move_effect_journal_do_circe_volcanic_remember(move_effect_reason_diagram_setup,
+                                                     s);
+      move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,
+                                           s);
     }
   }
 
-  return ReadNextTokStr();
+  if (settings->type==piece_addition_twinning)
+    move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                          s,settings->walk,settings->spec);
+  else
+    occupy_square(s,settings->walk,settings->spec);
 }
 
 static char *PrsPieShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
@@ -167,6 +145,8 @@ static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type
 
     if (Name>=King)
     {
+      piece_addition_settings settings = { Name, Spec, type};
+
       if (strchr("12345678",tok[1])==0)
         break;
       /* We have read a character (pair) that is a piece name short cut, but tok
@@ -177,7 +157,20 @@ static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type
       NameCnt++;
       if (*tok==0)
         tok = ReadNextTokStr();
-      tok = ParseSquareList2(tok, Name, Spec, type);
+      switch (ParseSquareList(tok,&HandleAddedPiece,&settings))
+      {
+        case 0:
+          output_plaintext_input_error_message(MissngSquareList,0);
+          break;
+        case UINT_MAX:
+          output_plaintext_error_message(WrongSquareList);
+          break;
+        default:
+          break;
+      }
+
+      tok = ReadNextTokStr();
+
       /* undocumented feature: "royal" only applies to the immediately next
        * piece indication because there can be at most 1 royal piece per side
        */

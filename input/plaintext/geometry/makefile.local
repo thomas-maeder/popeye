@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = square.c
+
+INCLUDES = square.h
+
+include makefile.rules $(CURRPWD)depend

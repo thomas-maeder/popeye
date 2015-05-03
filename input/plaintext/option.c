@@ -152,10 +152,18 @@ char *ParseOpt(slice_index root_slice_hook)
       case enpassant:
       {
         tok = ReadNextTokStr();
-        if (ParseSquareList(tok,&HandleEpSquare,0)==0)
+        switch (ParseSquareList(tok,&HandleEpSquare,0))
         {
-          output_plaintext_input_error_message(WrongSquareList, 0);
-          indexx = OptCount+1;
+          case 0:
+            output_plaintext_input_error_message(MissngSquareList,0);
+            indexx = OptCount+1;
+            break;
+          case UINT_MAX:
+            output_plaintext_error_message(WrongSquareList);
+            indexx = OptCount+1;
+            break;
+          default:
+            break;
         }
         break;
       }
@@ -262,8 +270,17 @@ char *ParseOpt(slice_index root_slice_hook)
       case nocastling:
         castling_flags_no_castling = bl_castlings|wh_castlings;
         tok = ReadNextTokStr();
-        if (ParseSquareList(tok,&HandleNoCastlingSquare,0)==0)
-          output_plaintext_input_error_message(WrongSquareList, 0);
+        switch (ParseSquareList(tok,&HandleNoCastlingSquare,0))
+        {
+          case 0:
+            output_plaintext_input_error_message(MissngSquareList,0);
+            break;
+          case UINT_MAX:
+            output_plaintext_error_message(WrongSquareList);
+            break;
+          default:
+            break;
+        }
         break;
 
       case mutuallyexclusivecastling:
