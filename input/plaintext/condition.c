@@ -1,5 +1,6 @@
 #include "input/plaintext/condition.h"
 #include "input/plaintext/pieces.h"
+#include "input/plaintext/geometry/square.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/message.h"
@@ -55,7 +56,7 @@
 
 static char *ParseSquareLastCapture(char *tok)
 {
-  retro_capture.on = SquareNum(tok[0],tok[1]);
+  retro_capture.on = ParseSquare(tok[0],tok[1]);
   if (retro_capture.on==initsquare || tok[2]!=0)
   {
     output_plaintext_error_message(WrongSquareList);
@@ -472,45 +473,6 @@ static char *ParseCirceVariants(circe_variant_type *variant)
   return tok;
 }
 
-typedef void (*parsed_square_handler)(square s, void *param);
-
-static unsigned int ParseSquareList(char *tok,
-                                    parsed_square_handler handleSquare,
-                                    void *param)
-{
-  enum
-  {
-    chars_per_square = 2
-  };
-
-  unsigned int result = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
-  TraceFunctionParamListEnd();
-
-  if (strlen(tok)%chars_per_square==0)
-    while (true)
-    {
-      square const sq = SquareNum(tok[0],tok[1]);
-      if (sq==initsquare)
-        break;
-      else
-      {
-        handleSquare(sq,param);
-        ++result;
-        tok += chars_per_square;
-        if (*tok==0)
-          break;
-      }
-    }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static void HandleImitatorPosition(square pos, void *param)
 {
   unsigned int * const number_of_imitators = param;
@@ -567,7 +529,7 @@ static char *ParseRoyalSquare(Side side)
       output_plaintext_input_error_message(WrongSquareList, 0);
     else
     {
-      square const sq = SquareNum(tok[0],tok[1]);
+      square const sq = ParseSquare(tok[0],tok[1]);
       if (sq==initsquare)
         output_plaintext_input_error_message(WrongSquareList, 0);
       else

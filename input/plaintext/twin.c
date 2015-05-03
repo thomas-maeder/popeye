@@ -6,6 +6,7 @@
 #include "input/plaintext/sstipulation.h"
 #include "input/plaintext/condition.h"
 #include "input/plaintext/option.h"
+#include "input/plaintext/geometry/square.h"
 #include "output/output.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
@@ -50,12 +51,12 @@ static char *ParseTwinningMove(void)
 
   {
     char const * const tok = ReadNextTokStr();
-    sq1 = SquareNum(tok[0],tok[1]);
+    sq1 = ParseSquare(tok[0],tok[1]);
   }
 
   {
     char const * const tok = ReadNextTokStr();
-    sq2 = SquareNum(tok[0],tok[1]);
+    sq2 = ParseSquare(tok[0],tok[1]);
   }
 
   if (sq1==initsquare || sq2==initsquare)
@@ -84,12 +85,12 @@ static char *ParseTwinningExchange(void)
 
   {
     char const * const tok = ReadNextTokStr();
-    sq1 = SquareNum(tok[0],tok[1]);
+    sq1 = ParseSquare(tok[0],tok[1]);
   }
 
   {
     char const * const tok = ReadNextTokStr();
-    sq2 = SquareNum(tok[0],tok[1]);
+    sq2 = ParseSquare(tok[0],tok[1]);
   }
 
   if (sq1==initsquare || sq2==initsquare)
@@ -180,7 +181,7 @@ static char *ParseTwinningMirror(void)
 static char *ParseTwinningShift(void)
 {
   char *tok = ReadNextTokStr();
-  square const sq1 = SquareNum(tok[0],tok[1]);
+  square const sq1 = ParseSquare(tok[0],tok[1]);
 
   if (sq1==initsquare)
   {
@@ -190,7 +191,7 @@ static char *ParseTwinningShift(void)
   else
   {
     char *tok = ReadNextTokStr();
-    square const sq2 = SquareNum(tok[0],tok[1]);
+    square const sq2 = ParseSquare(tok[0],tok[1]);
 
     if (sq2==initsquare)
     {
@@ -226,7 +227,7 @@ static char *ParseTwinningRemove(void)
 
       while (*tok2 && !WrongList)
       {
-        if (SquareNum(tok2[0],tok2[1])==initsquare)
+        if (ParseSquare(tok2[0],tok2[1])==initsquare)
           WrongList = true;
         tok2 += 2;
       }
@@ -237,7 +238,7 @@ static char *ParseTwinningRemove(void)
 
   while (*tok)
   {
-    square const sq = SquareNum(tok[0],tok[1]);
+    square const sq = ParseSquare(tok[0],tok[1]);
 
     if (get_walk_of_piece_on_square(sq)>=King)
       move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,sq);

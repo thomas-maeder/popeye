@@ -1,5 +1,5 @@
 #include "input/plaintext/option.h"
-#include "input/plaintext/pieces.h"
+#include "input/plaintext/geometry/square.h"
 #include "input/plaintext/condition.h"
 #include "input/plaintext/token.h"
 #include "output/output.h"
@@ -29,8 +29,8 @@ static void ReadMutuallyExclusiveCastling(void)
   char const *tok = ReadNextTokStr();
   if (strlen(tok)==4)
   {
-    square const white_rook_square = SquareNum(tok[0],tok[1]);
-    square const black_rook_square = SquareNum(tok[2],tok[3]);
+    square const white_rook_square = ParseSquare(tok[0],tok[1]);
+    square const black_rook_square = ParseSquare(tok[2],tok[3]);
     if (game_array.board[white_rook_square]==Rook
         && game_array.board[black_rook_square]==Rook)
     {
@@ -55,105 +55,44 @@ static void ReadMutuallyExclusiveCastling(void)
   output_plaintext_error_message(MissngSquareList);
 }
 
-static char *ReadEpSquares(void)
+static void HandleEpSquare(square sq, void *dummy)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  {
-    char *tok = ReadNextTokStr();
-
-    if (strlen(tok)%2==1)
-      output_plaintext_input_error_message(WrongSquareList, 0);
-    else
-    {
-      while (*tok)
-      {
-        square const sq = SquareNum(*tok,tok[1]);
-        if (sq==initsquare)
-        {
-          if (en_passant_nr_retro_squares<en_passant_retro_min_squares)
-            output_plaintext_input_error_message(WrongSquareList, 0);
-          break;
-        }
-        else
-        {
-          if (en_passant_nr_retro_squares==en_passant_retro_capacity)
-            output_plaintext_message(TooManyEpKeySquares);
-          else
-            en_passant_retro_squares[en_passant_nr_retro_squares++] = sq;
-
-          tok += 2;
-        }
-      }
-    }
-
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%s",tok);
-    TraceFunctionResultEnd();
-    return tok;
-  }
+  if (en_passant_nr_retro_squares==en_passant_retro_capacity)
+    output_plaintext_message(TooManyEpKeySquares);
+  else
+    en_passant_retro_squares[en_passant_nr_retro_squares++] = sq;
 }
 
-static char *ReadNoCastlingSquares(void)
+static void HandleNoCastlingSquare(square sq, void *dummy)
 {
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
+  switch (sq)
   {
-    char *tok = ReadNextTokStr();
-    char *lastTok = tok;
-    unsigned int nr_squares_read = 0;
+    case square_a1:
+      CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(White*black_castling_rights_offset));
+      break;
 
-    if (strlen(tok)%2==1)
-      output_plaintext_input_error_message(WrongSquareList, 0);
-    else
-    {
-      while (*tok)
-      {
-        square const sq = SquareNum(*tok,tok[1]);
-        if (sq==initsquare)
-        {
-          if (nr_squares_read==0)
-            output_plaintext_input_error_message(WrongSquareList, 0);
-          break;
-        }
-        else
-        {
-          switch (sq)
-          {
-            case square_a1:
-              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(White*black_castling_rights_offset));
-              break;
-            case square_e1:
-              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(White*black_castling_rights_offset));
-              break;
-            case square_h1:
-              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(White*black_castling_rights_offset));
-              break;
-            case square_a8:
-              CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(Black*black_castling_rights_offset));
-              break;
-            case square_e8:
-              CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(Black*black_castling_rights_offset));
-              break;
-            case square_h8:
-              CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(Black*black_castling_rights_offset));
-              break;
-            default:
-              break;
-          }
+    case square_e1:
+      CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(White*black_castling_rights_offset));
+      break;
 
-          ++nr_squares_read;
-          tok += 2;
-        }
-      }
-    }
+    case square_h1:
+      CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(White*black_castling_rights_offset));
+      break;
 
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%s",tok);
-    TraceFunctionResultEnd();
-    return tok;
+    case square_a8:
+      CLRFLAGMASK(castling_flags_no_castling,ra_cancastle<<(Black*black_castling_rights_offset));
+      break;
+
+    case square_e8:
+      CLRFLAGMASK(castling_flags_no_castling,k_cancastle<<(Black*black_castling_rights_offset));
+      break;
+
+    case square_h8:
+      CLRFLAGMASK(castling_flags_no_castling,rh_cancastle<<(Black*black_castling_rights_offset));
+      break;
+
+    default:
+      break;
   }
 }
 
@@ -212,10 +151,12 @@ char *ParseOpt(slice_index root_slice_hook)
 
       case enpassant:
       {
-        char *xyz = ReadEpSquares();
-        TraceValue("%s",xyz);
-        if (xyz==tok)
+        tok = ReadNextTokStr();
+        if (ParseSquareList(tok,&HandleEpSquare,0)==0)
+        {
+          output_plaintext_input_error_message(WrongSquareList, 0);
           indexx = OptCount+1;
+        }
         break;
       }
 
@@ -320,7 +261,9 @@ char *ParseOpt(slice_index root_slice_hook)
 
       case nocastling:
         castling_flags_no_castling = bl_castlings|wh_castlings;
-        ReadNoCastlingSquares();
+        tok = ReadNextTokStr();
+        if (ParseSquareList(tok,&HandleNoCastlingSquare,0)==0)
+          output_plaintext_input_error_message(WrongSquareList, 0);
         break;
 
       case mutuallyexclusivecastling:

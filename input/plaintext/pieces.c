@@ -1,4 +1,5 @@
 #include "input/plaintext/pieces.h"
+#include "input/plaintext/geometry/square.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/pieces.h"
 #include "output/plaintext/message.h"
@@ -51,18 +52,10 @@ char *ParseSingleWalk(char *tok, piece_walk_type *result)
   }
 }
 
-square SquareNum(char a, char b)
-{
-  if ('a'<=a && a<='h' && '1'<=b && b<='8')
-    return square_a1 + (a-'a')*dir_right +(b-'1')*dir_up;
-  else
-    return initsquare;
-}
-
-static char *ParseSquareList(char *tok,
-                             piece_walk_type Name,
-                             Flags Spec,
-                             piece_addition_type type)
+static char *ParseSquareList2(char *tok,
+                              piece_walk_type Name,
+                              Flags Spec,
+                              piece_addition_type type)
 {
   /* We interpret the tokenString as SquareList
      If we return always the next1 tokenstring
@@ -71,7 +64,7 @@ static char *ParseSquareList(char *tok,
 
   while (true)
   {
-    square const Square = SquareNum(tok[0],tok[1]);
+    square const Square = ParseSquare(tok[0],tok[1]);
     if (tok[0]!=0 && tok[1]!=0 && Square!=initsquare)
     {
       if (!is_square_empty(Square))
@@ -184,7 +177,7 @@ static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type
       NameCnt++;
       if (*tok==0)
         tok = ReadNextTokStr();
-      tok = ParseSquareList(tok, Name, Spec, type);
+      tok = ParseSquareList2(tok, Name, Spec, type);
       /* undocumented feature: "royal" only applies to the immediately next
        * piece indication because there can be at most 1 royal piece per side
        */

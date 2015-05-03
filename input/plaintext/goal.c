@@ -1,5 +1,5 @@
 #include "input/plaintext/goal.h"
-#include "input/plaintext/pieces.h"
+#include "input/plaintext/geometry/square.h"
 #include "output/output.h"
 #include "output/plaintext/message.h"
 #include "conditions/imitator.h"
@@ -113,7 +113,7 @@ char *ParseGoal(char *tok, slice_index proxy)
     {
       case goal_target:
       {
-        goal.target = SquareNum(tok[0],tok[1]);
+        goal.target = ParseSquare(tok[0],tok[1]);
 
         if (goal.target==initsquare)
         {
@@ -236,7 +236,7 @@ char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_kiss:
         {
-          goal.target = SquareNum(tok[0],tok[1]);
+          goal.target = ParseSquare(tok[0],tok[1]);
 
           if (goal.target==initsquare)
           {

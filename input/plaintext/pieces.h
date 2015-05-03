@@ -8,8 +8,6 @@ int GetPieNamIndex(char a, char b);
 
 char *ParseSingleWalk(char *tok, piece_walk_type *result);
 
-square SquareNum(char a, char b);
-
 typedef enum
 {
   piece_addition_initial,
