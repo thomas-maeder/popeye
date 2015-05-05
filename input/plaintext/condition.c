@@ -68,7 +68,7 @@ static char *ParseSquareLastCapture(char *tok)
 
 static char *ParsePieceWalkAndSquareLastCapture(char *tok)
 {
-  tok = ParsePieceName(tok,&retro_capture.walk);
+  tok = ParsePieceWalk(tok,&retro_capture.walk);
 
   if (retro_capture.walk>=King)
   {

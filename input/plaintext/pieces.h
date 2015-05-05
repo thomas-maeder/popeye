@@ -18,6 +18,6 @@ char *ParsePieces(piece_addition_type type);
 
 Flags ParseColour(char *tok, boolean colour_is_mandatory);
 char *ParsePieceFlags(Flags *flags);
-char *ParsePieceName(char *tok, piece_walk_type *name);
+char *ParsePieceWalk(char *tok, piece_walk_type *name);
 
 #endif

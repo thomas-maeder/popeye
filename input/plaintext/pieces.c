@@ -91,7 +91,7 @@ static void HandleAddedPiece(square s, void *param)
     occupy_square(s,settings->walk,settings->spec);
 }
 
-static char *PrsPieShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
+static char *ParseWalkShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
 {
   if (onechar)
   {
@@ -107,17 +107,17 @@ static char *PrsPieShortcut(boolean onechar, char *tok, piece_walk_type *pienam)
   return tok;
 }
 
-char *ParsePieceName(char *tok, piece_walk_type *name)
+char *ParsePieceWalk(char *tok, piece_walk_type *name)
 {
   size_t len_token;
   char const * const hunterseppos = strchr(tok,'/');
   if (hunterseppos!=0 && hunterseppos-tok<=2)
   {
     piece_walk_type away, home;
-    tok = PrsPieShortcut((hunterseppos-tok)%2==1,tok,&away);
+    tok = ParseWalkShortcut((hunterseppos-tok)%2==1,tok,&away);
     ++tok; /* skip slash */
     len_token = strlen(tok);
-    tok = PrsPieShortcut(len_token%2==1,tok,&home);
+    tok = ParseWalkShortcut(len_token%2==1,tok,&home);
     *name = hunter_make_type(away,home);
     if (*name==Invalid)
       output_plaintext_input_error_message(HunterTypeLimitReached,max_nr_hunter_walks);
@@ -125,48 +125,64 @@ char *ParsePieceName(char *tok, piece_walk_type *name)
   else
   {
     len_token = strlen(tok);
-    tok = PrsPieShortcut(len_token%2==1,tok,name);
+    tok = ParseWalkShortcut(len_token%2==1,tok,name);
   }
 
   return tok;
 }
 
-static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type type)
+static char *ParsePieceWalkAndSquares(char *tok, Flags Spec, piece_addition_type type)
 {
-  /* We read from tok the name of the piece */
-  int     NameCnt= 0;
-  char    *btok;
+  unsigned int nr_walks_parsed = 0;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
 
   while (true)
   {
-    piece_walk_type Name;
-    btok = tok; /* Save it, if we want to return it */
-    tok = ParsePieceName(tok,&Name);
+    piece_walk_type walk;
+    char * const save_tok = tok;
 
-    if (Name>=King)
+    tok = ParsePieceWalk(tok,&walk);
+
+    if (walk>=King)
     {
-      piece_addition_settings settings = { Name, Spec, type};
+      piece_addition_settings settings = { walk, Spec, type};
 
-      if (strchr("12345678",tok[1])==0)
-        break;
-      /* We have read a character (pair) that is a piece name short cut, but tok
-       * isn't a piecename squarelist squence.
-       * E.g. tok=="Black"; we have read 'B' for Bauer or Bishop, but "lack"
-       * isn't a list of squares.
-       */
-      NameCnt++;
-      if (*tok==0)
-        tok = ReadNextTokStr();
-      switch (ParseSquareList(tok,&HandleAddedPiece,&settings))
+      ++nr_walks_parsed;
+
+      if (tok[0]==0)
       {
-        case 0:
+        unsigned int nr_squares_parsed;
+
+        /* the next token must be a valid square list, e.g. B a1b2
+         */
+        tok = ReadNextTokStr();
+        nr_squares_parsed = ParseSquareList(tok,&HandleAddedPiece,&settings);
+        if (nr_squares_parsed==0)
+        {
           output_plaintext_input_error_message(MissngSquareList,0);
           break;
-        case UINT_MAX:
+        }
+        else if (nr_squares_parsed==UINT_MAX)
+        {
           output_plaintext_error_message(WrongSquareList);
           break;
-        default:
+        }
+      }
+      else
+      {
+        /* the remainder of the token may be
+         * * a valid square list, e.g. Ba1b2
+         * * the remainder of a different word e.g. Black
+         */
+        unsigned const nr_squares_parsed = ParseSquareList(tok,&HandleAddedPiece,&settings);
+        if (nr_squares_parsed==0 || nr_squares_parsed==UINT_MAX)
+        {
+          tok = save_tok;
           break;
+        }
       }
 
       tok = ReadNextTokStr();
@@ -176,16 +192,24 @@ static char *ParsePieceNameAndSquares(char *tok, Flags Spec, piece_addition_type
        */
       CLRFLAG(Spec,Royal);
     }
-    else if (NameCnt>0)
-      return btok;
     else
     {
-      output_plaintext_input_error_message(WrongPieceName,0);
-      tok = ReadNextTokStr();
+      if (nr_walks_parsed==0)
+      {
+        output_plaintext_input_error_message(WrongPieceName,0);
+        tok = ReadNextTokStr();
+      }
+      else
+        tok = save_tok;
+
+      break;
     }
   }
 
-  return btok;
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
 }
 
 Flags ParseColour(char *tok, boolean colour_is_mandatory)
@@ -245,7 +269,7 @@ char *ParsePieces(piece_addition_type type)
       tok = ParsePieceFlags(&nonCOLOURFLAGS);
       PieSpFlags |= nonCOLOURFLAGS;
 
-      tok = ParsePieceNameAndSquares(tok,PieSpFlags,type);
+      tok = ParsePieceWalkAndSquares(tok,PieSpFlags,type);
 
       ++nr_groups;
     }
