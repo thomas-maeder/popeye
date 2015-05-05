@@ -56,7 +56,7 @@
 
 static char *ParseSquareLastCapture(char *tok)
 {
-  retro_capture.on = ParseSquare(tok[0],tok[1]);
+  retro_capture.on = ParseSquare(tok);
   if (retro_capture.on==initsquare || tok[2]!=0)
   {
     output_plaintext_error_message(WrongSquareList);
@@ -538,7 +538,7 @@ static char *ParseRoyalSquare(Side side)
       output_plaintext_input_error_message(WrongSquareList, 0);
     else
     {
-      square const sq = ParseSquare(tok[0],tok[1]);
+      square const sq = ParseSquare(tok);
       if (sq==initsquare)
         output_plaintext_input_error_message(WrongSquareList, 0);
       else

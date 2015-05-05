@@ -113,7 +113,7 @@ char *ParseGoal(char *tok, slice_index proxy)
     {
       case goal_target:
       {
-        goal.target = ParseSquare(tok[0],tok[1]);
+        goal.target = ParseSquare(tok);
 
         if (goal.target==initsquare)
         {
@@ -236,7 +236,7 @@ char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_kiss:
         {
-          goal.target = ParseSquare(tok[0],tok[1]);
+          goal.target = ParseSquare(tok);
 
           if (goal.target==initsquare)
           {

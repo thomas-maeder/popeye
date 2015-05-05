@@ -5,8 +5,11 @@
 /* Parse a square from two characters
  * @return the parsed quare
  *         initsquare if a square can't be parsed form the characters */
-square ParseSquare(char char_file, char char_row)
+square ParseSquare(char const *tok)
 {
+  char const char_file = tok[0];
+  char const char_row = tok[1];
+
   if ('a'<=char_file && char_file<='h' && '1'<=char_row && char_row<='8')
     return square_a1 + (char_file-'a')*dir_right +(char_row-'1')*dir_up;
   else
@@ -30,7 +33,7 @@ unsigned int ParseSquareList(char *tok,
 
   while (tok[0]!=0)
   {
-    square const sq = ParseSquare(tok[0],tok[1]);
+    square const sq = ParseSquare(tok);
     if (tok[0]!=0 && tok[1]!=0 && sq!=initsquare)
     {
       handleSquare(sq,param);

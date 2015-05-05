@@ -8,7 +8,7 @@
 /* Parse a square from two characters
  * @return the parsed quare
  *         initsquare if a square can't be parsed form the characters */
-square ParseSquare(char char_file, char char_row);
+square ParseSquare(char const *tok);
 
 typedef void (*parsed_square_handler)(square s, void *param);
 

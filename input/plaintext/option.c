@@ -29,8 +29,8 @@ static void ReadMutuallyExclusiveCastling(void)
   char const *tok = ReadNextTokStr();
   if (strlen(tok)==4)
   {
-    square const white_rook_square = ParseSquare(tok[0],tok[1]);
-    square const black_rook_square = ParseSquare(tok[2],tok[3]);
+    square const white_rook_square = ParseSquare(tok);
+    square const black_rook_square = ParseSquare(tok+2);
     if (game_array.board[white_rook_square]==Rook
         && game_array.board[black_rook_square]==Rook)
     {
