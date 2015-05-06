@@ -56,14 +56,11 @@
 
 static char *ParseSquareLastCapture(char *tok)
 {
-  retro_capture.on = ParseSquare(tok);
-  if (retro_capture.on==initsquare || tok[2]!=0)
-  {
+  tok = ParseSquare(tok,&retro_capture.on);
+  if (retro_capture.on==initsquare || tok[0]!=0)
     output_plaintext_error_message(WrongSquareList);
-    return tok;
-  }
-  else
-    return ReadNextTokStr();
+
+  return ReadNextTokStr();
 }
 
 static char *ParsePieceWalkAndSquareLastCapture(char *tok)
@@ -528,31 +525,22 @@ static void HandleHole(square sq, void *dummy)
 
 static char *ParseRoyalSquare(Side side)
 {
+  char *tok = ReadNextTokStr();
+  square sq;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  {
-    char *tok = ReadNextTokStr();
+  tok = ParseSquare(tok,&sq);
+  if (sq==initsquare || tok[0]!=0)
+    output_plaintext_input_error_message(WrongSquareList, 0);
+  else
+    royal_square[side] = sq;
 
-    if (strlen(tok)<2)
-      output_plaintext_input_error_message(WrongSquareList, 0);
-    else
-    {
-      square const sq = ParseSquare(tok);
-      if (sq==initsquare)
-        output_plaintext_input_error_message(WrongSquareList, 0);
-      else
-      {
-        royal_square[side]= sq;
-        tok += 2;
-      }
-    }
-
-    TraceFunctionExit(__func__);
-    TraceFunctionResult("%s",tok);
-    TraceFunctionResultEnd();
-    return tok;
-  }
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
 }
 
 static char *ParseKobulSides(boolean (*variant)[nr_sides])

@@ -113,7 +113,7 @@ char *ParseGoal(char *tok, slice_index proxy)
     {
       case goal_target:
       {
-        goal.target = ParseSquare(tok);
+        tok = ParseSquare(tok,&goal.target);
 
         if (goal.target==initsquare)
         {
@@ -121,10 +121,7 @@ char *ParseGoal(char *tok, slice_index proxy)
           tok = 0;
         }
         else
-        {
           pipe_link(proxy,alloc_goal_target_reached_tester_system(goal.target));
-          tok += 2; /* skip over target square indication */
-        }
         break;
       }
 
@@ -236,7 +233,7 @@ char *ParseGoal(char *tok, slice_index proxy)
 
       case goal_kiss:
         {
-          goal.target = ParseSquare(tok);
+          tok = ParseSquare(tok,&goal.target);
 
           if (goal.target==initsquare)
           {
@@ -244,10 +241,7 @@ char *ParseGoal(char *tok, slice_index proxy)
             tok = 0;
           }
           else
-          {
             pipe_link(proxy,alloc_goal_kiss_reached_tester_system(goal.target));
-            tok += 2; /* skip over target square indication */
-          }
           break;
         }
         break;

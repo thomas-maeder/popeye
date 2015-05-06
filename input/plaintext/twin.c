@@ -50,13 +50,13 @@ static char *ParseTwinningMove(void)
   square sq2;
 
   {
-    char const * const tok = ReadNextTokStr();
-    sq1 = ParseSquare(tok);
+    char *tok = ReadNextTokStr();
+    tok = ParseSquare(tok,&sq1);
   }
 
   {
-    char const * const tok = ReadNextTokStr();
-    sq2 = ParseSquare(tok);
+    char *tok = ReadNextTokStr();
+    tok = ParseSquare(tok,&sq2);
   }
 
   if (sq1==initsquare || sq2==initsquare)
@@ -84,13 +84,13 @@ static char *ParseTwinningExchange(void)
   square sq2;
 
   {
-    char const * const tok = ReadNextTokStr();
-    sq1 = ParseSquare(tok);
+    char *tok = ReadNextTokStr();
+    tok = ParseSquare(tok,&sq1);
   }
 
   {
-    char const * const tok = ReadNextTokStr();
-    sq2 = ParseSquare(tok);
+    char *tok = ReadNextTokStr();
+    tok = ParseSquare(tok,&sq2);
   }
 
   if (sq1==initsquare || sq2==initsquare)
@@ -181,7 +181,8 @@ static char *ParseTwinningMirror(void)
 static char *ParseTwinningShift(void)
 {
   char *tok = ReadNextTokStr();
-  square const sq1 = ParseSquare(tok);
+  square sq1;
+  tok = ParseSquare(tok,&sq1);
 
   if (sq1==initsquare)
   {
@@ -191,7 +192,8 @@ static char *ParseTwinningShift(void)
   else
   {
     char *tok = ReadNextTokStr();
-    square const sq2 = ParseSquare(tok);
+    square sq2;
+    tok = ParseSquare(tok,&sq2);
 
     if (sq2==initsquare)
     {
@@ -210,45 +212,31 @@ static char *ParseTwinningShift(void)
   }
 }
 
+static void HandleRemovalSquare(square s, void *dummy)
+{
+  if (get_walk_of_piece_on_square(s)>=King)
+    move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,s);
+  else
+  {
+    WriteSquare(&output_plaintext_engine,stderr,s);
+    output_plaintext_error_message(NothingToRemove);
+  }
+}
+
 static char *ParseTwinningRemove(void)
 {
-  char*tok;
-  boolean WrongList;
+  char *tok = ReadNextTokStr();
 
-  do {
-    WrongList = false;
-    tok = ReadNextTokStr();
-
-    if (strlen(tok) % 2)
-      WrongList= true;
-    else
-    {
-      char *tok2= tok;
-
-      while (*tok2 && !WrongList)
-      {
-        if (ParseSquare(tok2)==initsquare)
-          WrongList = true;
-        tok2 += 2;
-      }
-    }
-    if (WrongList)
-      output_plaintext_error_message(WrongSquareList);
-  } while (WrongList);
-
-  while (*tok)
+  switch (ParseSquareList(tok,&HandleRemovalSquare,0))
   {
-    square const sq = ParseSquare(tok);
-
-    if (get_walk_of_piece_on_square(sq)>=King)
-      move_effect_journal_do_piece_removal(move_effect_reason_diagram_setup,sq);
-    else
-    {
-      WriteSquare(&output_plaintext_engine,stderr,sq);
-      output_plaintext_error_message(NothingToRemove);
-    }
-
-    tok += 2;
+    case 0:
+      output_plaintext_input_error_message(MissngSquareList,0);
+      break;
+    case UINT_MAX:
+      output_plaintext_error_message(WrongSquareList);
+      break;
+    default:
+      break;
   }
 
   return ReadNextTokStr();

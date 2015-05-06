@@ -2,29 +2,41 @@
 #include "utilities/boolean.h"
 #include "debugging/trace.h"
 
-/* Parse a square from two characters
+  enum
+  {
+    chars_per_square = 2
+  };
+
+  /* Parse a square from two characters
  * @return the parsed quare
  *         initsquare if a square can't be parsed form the characters */
-square ParseSquare(char const *tok)
+char *ParseSquare(char *tok, square *s)
 {
+  char *result = tok;
   char const char_file = tok[0];
-  char const char_row = tok[1];
 
-  if ('a'<=char_file && char_file<='h' && '1'<=char_row && char_row<='8')
-    return square_a1 + (char_file-'a')*dir_right +(char_row-'1')*dir_up;
-  else
-    return initsquare;
+  *s = initsquare;
+
+  if ('a'<=char_file && char_file<='h')
+  {
+    /* only know that we know that tok[0] is not the end of the string, or
+     * we might read past the end of a buffer!
+     */
+    char const char_row = tok[1];
+    if ('1'<=char_row && char_row<='8')
+    {
+      *s = square_a1 + (char_file-'a')*dir_right +(char_row-'1')*dir_up;
+      result += chars_per_square;
+    }
+  }
+
+  return result;
 }
 
 unsigned int ParseSquareList(char *tok,
                              parsed_square_handler handleSquare,
                              void *param)
 {
-  enum
-  {
-    chars_per_square = 2
-  };
-
   unsigned int result = 0;
 
   TraceFunctionEntry(__func__);
@@ -33,18 +45,18 @@ unsigned int ParseSquareList(char *tok,
 
   while (tok[0]!=0)
   {
-    square const sq = ParseSquare(tok);
-    if (tok[0]!=0 && tok[1]!=0 && sq!=initsquare)
-    {
-      handleSquare(sq,param);
-      ++result;
-      tok += chars_per_square;
-    }
-    else
+    square sq;
+    tok = ParseSquare(tok,&sq);
+    if (sq==initsquare)
     {
       if (result>0)
         result = UINT_MAX;
       break;
+    }
+    else
+    {
+      handleSquare(sq,param);
+      ++result;
     }
   }
 

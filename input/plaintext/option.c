@@ -26,33 +26,34 @@
 
 static void ReadMutuallyExclusiveCastling(void)
 {
-  char const *tok = ReadNextTokStr();
-  if (strlen(tok)==4)
-  {
-    square const white_rook_square = ParseSquare(tok);
-    square const black_rook_square = ParseSquare(tok+2);
-    if (game_array.board[white_rook_square]==Rook
-        && game_array.board[black_rook_square]==Rook)
-    {
-      square const white_castling = (white_rook_square==square_a1
-                                     ? queenside_castling
-                                     : kingside_castling);
-      castling_rights_type const white_flag = (white_rook_square==square_a1
-                                               ? ra_cancastle
-                                               : rh_cancastle);
-      square const black_castling = (black_rook_square==square_a8
-                                     ? queenside_castling
-                                     : kingside_castling);
-      castling_rights_type const black_flag = (black_rook_square==square_a8
-                                               ? ra_cancastle
-                                               : rh_cancastle);
-      castling_mutual_exclusive[White][white_castling-min_castling] |= black_flag;
-      castling_mutual_exclusive[Black][black_castling-min_castling] |= white_flag;
-      return;
-    }
-  }
+  char *tok = ReadNextTokStr();
+  square white_rook_square;
+  square black_rook_square;
 
-  output_plaintext_error_message(MissngSquareList);
+  tok = ParseSquare(tok,&white_rook_square);
+  tok = ParseSquare(tok,&black_rook_square);
+
+  if (game_array.board[white_rook_square]==Rook
+      && game_array.board[black_rook_square]==Rook
+      && tok[0]==0)
+  {
+    square const white_castling = (white_rook_square==square_a1
+                                   ? queenside_castling
+                                   : kingside_castling);
+    castling_rights_type const white_flag = (white_rook_square==square_a1
+                                             ? ra_cancastle
+                                             : rh_cancastle);
+    square const black_castling = (black_rook_square==square_a8
+                                   ? queenside_castling
+                                   : kingside_castling);
+    castling_rights_type const black_flag = (black_rook_square==square_a8
+                                             ? ra_cancastle
+                                             : rh_cancastle);
+    castling_mutual_exclusive[White][white_castling-min_castling] |= black_flag;
+    castling_mutual_exclusive[Black][black_castling-min_castling] |= white_flag;
+  }
+  else
+    output_plaintext_error_message(MissngSquareList);
 }
 
 static void HandleEpSquare(square sq, void *dummy)
