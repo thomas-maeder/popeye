@@ -507,6 +507,8 @@ static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
       break;
   }
 
+  tok = ReadNextTokStr();
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
@@ -531,6 +533,8 @@ static char *ParseRoyalSquare(char *tok, Side side)
     output_plaintext_input_error_message(WrongSquareList, 0);
   else
     royal_square[side] = sq;
+
+  tok = ReadNextTokStr();
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -1098,23 +1102,19 @@ char *ParseCond(void)
           tok = ReadNextTokStr();
           break;
         case blroyalsq:
-          ParseRoyalSquare(tok,Black);
-          tok = ReadNextTokStr();
+          tok = ParseRoyalSquare(tok,Black);
           break;
         case whroyalsq:
-          ParseRoyalSquare(tok,White);
-          tok = ReadNextTokStr();
+          tok = ParseRoyalSquare(tok,White);
           break;
         case magicsquare:
         {
           magic_square_type = ConditionType1;
-          ParseSquaresWithFlag(tok,MagicSq);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,MagicSq);
           break;
         }
         case wormholes:
-          ParseSquaresWithFlag(tok,Wormhole);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,Wormhole);
           break;
         case dbltibet:
           CondFlag[tibet]= true;
@@ -1180,20 +1180,16 @@ char *ParseCond(void)
           vaulting_kings_transmuting[Black] = false;
           break;
         case whforsqu:
-          ParseSquaresWithFlag(tok,WhForcedSq);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,WhForcedSq);
           break;
         case blforsqu:
-          ParseSquaresWithFlag(tok,BlForcedSq);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,BlForcedSq);
           break;
         case whconforsqu:
-          ParseSquaresWithFlag(tok,WhForcedSq);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,WhForcedSq);
           break;
         case blconforsqu:
-          ParseSquaresWithFlag(tok,BlForcedSq);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,BlForcedSq);
           break;
 
         /* different types of circe */
@@ -1376,12 +1372,10 @@ char *ParseCond(void)
           break;
 
         case whprom_sq:
-          ParseSquaresWithFlag(tok,WhPromSq);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,WhPromSq);
           break;
         case blprom_sq:
-          ParseSquaresWithFlag(tok,BlPromSq);
-          tok = ReadNextTokStr();
+          tok = ParseSquaresWithFlag(tok,BlPromSq);
           break;
 
         default:
