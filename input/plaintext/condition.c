@@ -489,14 +489,11 @@ static void HandleSquaresWithFlag(square sq, void *param)
   SETFLAG(sq_spec[sq],*flag);
 }
 
-static char *ParseSquaresWithFlag(SquareFlags flag)
+static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
 {
-  char *tok;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
-
-  tok = ReadNextTokStr();
 
   switch (ParseSquareList(tok,&HandleSquaresWithFlag,&flag))
   {
@@ -521,12 +518,12 @@ static void HandleHole(square sq, void *dummy)
   block_square(sq);
 }
 
-static char *ParseRoyalSquare(Side side)
+static char *ParseRoyalSquare(char *tok, Side side)
 {
-  char *tok = ReadNextTokStr();
   square sq;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   tok = ParseSquare(tok,&sq);
@@ -594,6 +591,7 @@ static char *ParseMaximumPawn(unsigned int *result,
 static char *ParseSentinellesVariants(char *tok)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   sentinelles_pawn_mode = sentinelles_pawn_propre;
@@ -645,6 +643,7 @@ static char *ParseGridVariant(char *tok)
   GridVariantType type;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   do
@@ -1067,6 +1066,8 @@ char *ParseCond(void)
 
       CondCnt++;
 
+      tok = ReadNextTokStr();
+
       switch (indexx)
       {
         case hypervolage:
@@ -1080,7 +1081,6 @@ char *ParseCond(void)
           CondFlag[koeko] = true;
           break;
         case imitators:
-          tok = ReadNextTokStr();
           being_solved.number_of_imitators = 0;
           switch (ParseSquareList(tok,
                                   &HandleImitatorPosition,
@@ -1095,27 +1095,31 @@ char *ParseCond(void)
             default:
               break;
           }
+          tok = ReadNextTokStr();
           break;
         case blroyalsq:
-          ParseRoyalSquare(Black);
+          ParseRoyalSquare(tok,Black);
+          tok = ReadNextTokStr();
           break;
         case whroyalsq:
-          ParseRoyalSquare(White);
+          ParseRoyalSquare(tok,White);
+          tok = ReadNextTokStr();
           break;
         case magicsquare:
         {
           magic_square_type = ConditionType1;
-          ParseSquaresWithFlag(MagicSq);
+          ParseSquaresWithFlag(tok,MagicSq);
+          tok = ReadNextTokStr();
           break;
         }
         case wormholes:
-          ParseSquaresWithFlag(Wormhole);
+          ParseSquaresWithFlag(tok,Wormhole);
+          tok = ReadNextTokStr();
           break;
         case dbltibet:
           CondFlag[tibet]= true;
           break;
         case holes:
-          tok = ReadNextTokStr();
           switch (ParseSquareList(tok,&HandleHole,0))
           {
             case 0:
@@ -1127,6 +1131,7 @@ char *ParseCond(void)
             default:
               break;
           }
+          tok = ReadNextTokStr();
           break;
         case trans_king:
           CondFlag[whtrans_king] = true;
@@ -1175,16 +1180,20 @@ char *ParseCond(void)
           vaulting_kings_transmuting[Black] = false;
           break;
         case whforsqu:
-          ParseSquaresWithFlag(WhForcedSq);
+          ParseSquaresWithFlag(tok,WhForcedSq);
+          tok = ReadNextTokStr();
           break;
         case blforsqu:
-          ParseSquaresWithFlag(BlForcedSq);
+          ParseSquaresWithFlag(tok,BlForcedSq);
+          tok = ReadNextTokStr();
           break;
         case whconforsqu:
-          ParseSquaresWithFlag(WhForcedSq);
+          ParseSquaresWithFlag(tok,WhForcedSq);
+          tok = ReadNextTokStr();
           break;
         case blconforsqu:
-          ParseSquaresWithFlag(BlForcedSq);
+          ParseSquaresWithFlag(tok,BlForcedSq);
+          tok = ReadNextTokStr();
           break;
 
         /* different types of circe */
@@ -1367,17 +1376,17 @@ char *ParseCond(void)
           break;
 
         case whprom_sq:
-          ParseSquaresWithFlag(WhPromSq);
+          ParseSquaresWithFlag(tok,WhPromSq);
+          tok = ReadNextTokStr();
           break;
         case blprom_sq:
-          ParseSquaresWithFlag(BlPromSq);
+          ParseSquaresWithFlag(tok,BlPromSq);
+          tok = ReadNextTokStr();
           break;
 
         default:
           break;
       }
-
-      tok = ReadNextTokStr();
 
       switch (indexx)
       {
