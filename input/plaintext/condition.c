@@ -239,10 +239,8 @@ static char *ReadChameleonSequence(char *tok,
   return tok;
 }
 
-static char *ParseCirceVariants(circe_variant_type *variant)
+static char *ParseCirceVariants(char *tok, circe_variant_type *variant)
 {
-  char *tok = ReadNextTokStr();
-
   while (true)
   {
     unsigned int const index = GetUniqIndex(CirceVariantCount,CirceVariantTypeTab,tok);
@@ -543,10 +541,8 @@ static char *ParseRoyalSquare(Side side)
   return tok;
 }
 
-static char *ParseKobulSides(boolean (*variant)[nr_sides])
+static char *ParseKobulSides(char *tok, boolean (*variant)[nr_sides])
 {
-  char *tok = ReadNextTokStr();
-
   do
   {
     KobulVariantType const type = GetUniqIndex(KobulVariantCount,KobulVariantTypeTab,tok);
@@ -595,14 +591,10 @@ static char *ParseMaximumPawn(unsigned int *result,
   return tok;
 }
 
-static char *ParseSentinellesVariants(void)
+static char *ParseSentinellesVariants(char *tok)
 {
-  char *tok;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
-
-  tok = ReadNextTokStr();
 
   sentinelles_pawn_mode = sentinelles_pawn_propre;
 
@@ -648,9 +640,8 @@ static char *ParseSentinellesVariants(void)
   return tok;
 }
 
-static char *ParseGridVariant(void)
+static char *ParseGridVariant(char *tok)
 {
-  char *tok = ReadNextTokStr();
   GridVariantType type;
 
   TraceFunctionEntry(__func__);
@@ -835,10 +826,8 @@ static char *ParseGridVariant(void)
 
 static nocontactfunc_t *nocontactfunc_parsed;
 
-static char *ParseKoekoVariant(void)
+static char *ParseKoekoVariant(char *tok)
 {
-  char *tok = ReadNextTokStr();
-
   unsigned int const type = GetUniqIndex(1,KoekoVariantTypeTab,tok);
 
   if (type==1)
@@ -892,9 +881,10 @@ static char *ParseKoekoVariant(void)
   return tok;
 }
 
-static char *ParseLetteredType(ConditionLetteredVariantType *variant, ConditionLetteredVariantType max_letter)
+static char *ParseLetteredType(char *tok,
+                               ConditionLetteredVariantType *variant,
+                               ConditionLetteredVariantType max_letter)
 {
-  char *tok = ReadNextTokStr();
   ConditionLetteredVariantType const type_read = GetUniqIndex(ConditionLetteredVariantTypeCount,ConditionLetteredVariantTypeTab,tok);
 
   *variant = ConditionTypeA;
@@ -919,11 +909,11 @@ static char *ParseLetteredType(ConditionLetteredVariantType *variant, ConditionL
   return tok;
 }
 
-static char *ParseNumberedType(ConditionNumberedVariantType *variant,
+static char *ParseNumberedType(char *tok,
+                               ConditionNumberedVariantType *variant,
                                ConditionNumberedVariantType default_number,
                                ConditionNumberedVariantType max_number)
 {
-  char *tok = ReadNextTokStr();
   ConditionNumberedVariantType const type_read = GetUniqIndex(ConditionNumberedVariantTypeCount,ConditionNumberedVariantTypeTab,tok);
 
   *variant = default_number;
@@ -948,10 +938,8 @@ static char *ParseNumberedType(ConditionNumberedVariantType *variant,
   return tok;
 }
 
-static char *ParseAnticirceVariant(anticirce_type_type *variant)
+static char *ParseAnticirceVariant(char *tok, anticirce_type_type *variant)
 {
-  char *tok = ReadNextTokStr();
-
   anticirce_type_type const type = GetUniqIndex(anticirce_type_count,AntiCirceVariantTypeTab,tok);
 
   *variant = anticirce_type_calvet;
@@ -972,10 +960,8 @@ static char *ParseAnticirceVariant(anticirce_type_type *variant)
     return tok;
 }
 
-static char *ParseMummerStrictness(mummer_strictness_type *strictness)
+static char *ParseMummerStrictness(char *tok, mummer_strictness_type *strictness)
 {
-  char *tok = ReadNextTokStr();
-
   if (mummer_strictness_ultra==GetUniqIndex(nr_mummer_strictness,mummer_strictness_tab,tok))
   {
     *strictness = mummer_strictness_ultra;
@@ -992,10 +978,8 @@ static char *ParseMummerStrictness(mummer_strictness_type *strictness)
   return tok;
 }
 
-static char *ParseVaultingPieces(Side side)
+static char *ParseVaultingPieces(char *tok, Side side)
 {
-  char *tok = ReadNextTokStr();
-
   while (true)
   {
     piece_walk_type p;
@@ -1054,7 +1038,8 @@ char *ParseCond(void)
         switch (extra)
         {
           case maxi:
-            tok = ParseMummerStrictness(&mummer_strictness_default_side);
+            tok = ReadNextTokStr();
+            tok = ParseMummerStrictness(tok,&mummer_strictness_default_side);
             ++CondCnt;
             break;
 
@@ -1392,36 +1377,33 @@ char *ParseCond(void)
           break;
       }
 
+      tok = ReadNextTokStr();
+
       switch (indexx)
       {
         case messigny:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&messigny_rex_inclusive, CirceVariantRexExclusive);
           break;
         case woozles:
         case biwoozles:
         case heffalumps:
         case biheffalumps:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&woozles_rex_inclusive, CirceVariantRexExclusive);
           break;
         case immun:
-          tok = ParseCirceVariants(&immune_variant);
+          tok = ParseCirceVariants(tok,&immune_variant);
           break;
         case immunmirror:
         case immundiagramm:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&immune_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circechameleon:
-          tok = ReadNextTokStr();
           tok = ReadChameleonSequence(tok,
                                       &circe_variant.chameleon_is_walk_squence_explicit,
                                       &circe_variant.chameleon_walk_sequence);
           break;
         case chameleonsequence:
         case chamchess:
-          tok = ReadNextTokStr();
           tok = ReadChameleonSequence(tok,
                                       &chameleon_is_squence_explicit,
                                       &chameleon_walk_sequence);
@@ -1429,51 +1411,43 @@ char *ParseCond(void)
         case circemirror:
           CondFlag[circe] = true;
           circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circefilemirror:
           CondFlag[circe] = true;
           circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
           circe_variant.determine_rebirth_square = circe_determine_rebirth_square_file;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circeclonemirror:
           CondFlag[circe] = true;
           circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
           circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circecouscousmirror:
           CondFlag[circecouscous] = true;
           circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circedoubleagents:
           CondFlag[circe] = true;
           circe_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
           circe_variant.is_turncoat = true;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circeassassin:
           CondFlag[circe] = true;
           circe_variant.on_occupied_rebirth_square = circe_on_occupied_rebirth_square_assassinate;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circeclone:
           CondFlag[circe] = true;
           circe_variant.reborn_walk_adapter = circe_reborn_walk_adapter_clone;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case frischauf:
           CondFlag[circe] = true;
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_frischauf;
           break;
@@ -1485,81 +1459,74 @@ char *ParseCond(void)
         case circemirrorvertical:
         case circediametral:
         case circerank:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&circe_variant.is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case circe:
-          tok = ParseCirceVariants(&circe_variant);
+          tok = ParseCirceVariants(tok,&circe_variant);
           break;
         case mars:
-          tok = ParseCirceVariants(&marscirce_variant);
+          tok = ParseCirceVariants(tok,&marscirce_variant);
           break;
         case marsmirror:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&marscirce_variant.is_rex_inclusive, CirceVariantRexExclusive);
           break;
         case antimars:
-          tok = ParseCirceVariants(&antimars_variant);
+          tok = ParseCirceVariants(tok,&antimars_variant);
           break;
         case antimarsantipodean:
         case antimarsmirror:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&antimars_variant.is_rex_inclusive, CirceVariantRexExclusive);
           break;
         case protean:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&protean_is_rex_inclusive, CirceVariantRexExclusive);
           break;
         case phantom:
-          tok = ParseCirceVariants(&phantom_variant);
+          tok = ParseCirceVariants(tok,&phantom_variant);
           break;
         case madras:
-          tok = ReadNextTokStr();
           tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case isardam:
-          tok = ParseLetteredType(&isardam_variant,ConditionTypeB);
+          tok = ParseLetteredType(tok,&isardam_variant,ConditionTypeB);
           tok = ParseRexIncl(tok,&madrasi_is_rex_inclusive, CirceVariantRexInclusive);
           break;
         case annan:
-          tok = ParseLetteredType(&annan_type,ConditionTypeD);
+          tok = ParseLetteredType(tok,&annan_type,ConditionTypeD);
           break;
         case kobulkings:
           kobul_who[White] = true;
           kobul_who[Black] = true;
-          tok = ParseKobulSides(&kobul_who);
+          tok = ParseKobulSides(tok,&kobul_who);
           break;
         case sentinelles:
-          tok = ParseSentinellesVariants();
+          tok = ParseSentinellesVariants(tok);
           break;
 
           /*****  exact-maxis  *****/
         case blmax:
-          tok = ParseMummerStrictness(&mummer_strictness[Black]);
+          tok = ParseMummerStrictness(tok,&mummer_strictness[Black]);
           break;
         case whmax:
-          tok = ParseMummerStrictness(&mummer_strictness[White]);
+          tok = ParseMummerStrictness(tok,&mummer_strictness[White]);
           break;
         case blmin:
-          tok = ParseMummerStrictness(&mummer_strictness[Black]);
+          tok = ParseMummerStrictness(tok,&mummer_strictness[Black]);
           break;
         case whmin:
-          tok = ParseMummerStrictness(&mummer_strictness[White]);
+          tok = ParseMummerStrictness(tok,&mummer_strictness[White]);
           break;
         case blcapt:
-          tok = ParseMummerStrictness(&mummer_strictness[Black]);
+          tok = ParseMummerStrictness(tok,&mummer_strictness[Black]);
           break;
         case whcapt:
-          tok = ParseMummerStrictness(&mummer_strictness[White]);
+          tok = ParseMummerStrictness(tok,&mummer_strictness[White]);
           break;
 
         case blconforsqu:
           mummer_strictness[Black] = mummer_strictness_ultra;
-          tok = ReadNextTokStr();
           break;
         case whconforsqu:
           mummer_strictness[White] = mummer_strictness_ultra;
-          tok = ReadNextTokStr();
           break;
 
         case blfollow:
@@ -1570,7 +1537,6 @@ char *ParseCond(void)
         case blforsqu:
         case schwarzschacher:
           mummer_strictness[Black] = mummer_strictness_regular;
-          tok = ReadNextTokStr();
           break;
 
         case whfollow:
@@ -1580,19 +1546,16 @@ char *ParseCond(void)
         case whsupertrans_king:
         case whforsqu:
           mummer_strictness[White] = mummer_strictness_regular;
-          tok = ReadNextTokStr();
           break;
 
         case alphabetic:
           mummer_strictness[Black] = mummer_strictness_regular;
           mummer_strictness[White] = mummer_strictness_regular;
-          tok = ReadNextTokStr();
           break;
 
         case duellist:
           mummer_strictness[Black] = mummer_strictness_regular;
           mummer_strictness[White] = mummer_strictness_regular;
-          tok = ReadNextTokStr();
           break;
 
         case losingchess:
@@ -1600,19 +1563,17 @@ char *ParseCond(void)
           mummer_strictness[White] = mummer_strictness_regular;
           OptFlag[sansrn] = true;
           OptFlag[sansrb] = true;
-          tok = ReadNextTokStr();
           break;
 
         case dynasty:
         case extinction:
           OptFlag[sansrn] = true;
           OptFlag[sansrb] = true;
-          tok = ReadNextTokStr();
           break;
 
           /*****  anticirce type    *****/
         case anticirce:
-          tok = ParseCirceVariants(&anticirce_variant);
+          tok = ParseCirceVariants(tok,&anticirce_variant);
           break;
         case antimirror:
         case antidiagramm:
@@ -1622,21 +1583,20 @@ char *ParseCond(void)
         case antiantipoden:
         case antiequipollents:
         case antisuper:
-          tok = ParseAnticirceVariant(&anticirce_variant.anticirce_type);
+          tok = ParseAnticirceVariant(tok,&anticirce_variant.anticirce_type);
           break;
         case singlebox:
-          tok = ParseNumberedType(&SingleBoxType,ConditionType1,ConditionType3);
+          tok = ParseNumberedType(tok,&SingleBoxType,ConditionType1,ConditionType3);
           break;
         case republican:
-          tok = ParseNumberedType(&RepublicanType,ConditionType2,ConditionType2);
+          tok = ParseNumberedType(tok,&RepublicanType,ConditionType2,ConditionType2);
           break;
         case magicsquare:
-          tok = ParseNumberedType(&magic_square_type,ConditionType1,ConditionType2);
+          tok = ParseNumberedType(tok,&magic_square_type,ConditionType1,ConditionType2);
           break;
         case promotiononly:
         {
           unsigned int nr_walks_read;
-          tok = ReadNextTokStr();
           tok = ReadWalks(tok,&promonly,&nr_walks_read);
           if (nr_walks_read==0)
           {
@@ -1649,7 +1609,6 @@ char *ParseCond(void)
         {
           unsigned int nr_walks_read;
           football_are_substitutes_limited = false;
-          tok = ReadNextTokStr();
           tok = ReadWalks(tok,&is_football_substitute,&nr_walks_read);
           football_are_substitutes_limited = nr_walks_read>0;
           init_football_substitutes();
@@ -1658,7 +1617,6 @@ char *ParseCond(void)
         case april:
         {
           unsigned int nr_walks_read;
-          tok = ReadNextTokStr();
           tok = ReadWalks(tok,&circe_variant.is_walk_affected,&nr_walks_read);
           if (nr_walks_read==0)
           {
@@ -1679,31 +1637,29 @@ char *ParseCond(void)
         case koeko:
           koeko_nocontact= &nokingcontact;
           nocontactfunc_parsed= &koeko_nocontact;
-          tok = ParseKoekoVariant();
+          tok = ParseKoekoVariant(tok);
           break;
         case antikoeko:
           antikoeko_nocontact= nokingcontact;
           nocontactfunc_parsed= &antikoeko_nocontact;
-          tok = ParseKoekoVariant();
+          tok = ParseKoekoVariant(tok);
           break;
         case white_oscillatingKs:
-          tok = ParseLetteredType(&OscillatingKings[White],ConditionTypeC);
+          tok = ParseLetteredType(tok,&OscillatingKings[White],ConditionTypeC);
           break;
         case black_oscillatingKs:
-          tok = ParseLetteredType(&OscillatingKings[Black],ConditionTypeC);
+          tok = ParseLetteredType(tok,&OscillatingKings[Black],ConditionTypeC);
           break;
         case swappingkings:
           CondFlag[white_oscillatingKs]= true;
           OscillatingKings[White]= ConditionTypeC;
           CondFlag[black_oscillatingKs]= true;
           OscillatingKings[Black]= ConditionTypeC;
-          tok = ReadNextTokStr();
           break;
         case SAT:
         case strictSAT:
         {
           char *ptr;
-          tok = ReadNextTokStr();
           SAT_max_nr_allowed_flights[White] = strtoul(tok,&ptr,10) + 1;
           if (tok == ptr) {
             SAT_max_nr_allowed_flights[White]= 1;
@@ -1720,7 +1676,6 @@ char *ParseCond(void)
         {
           char *ptr;
           BGL_global= false;
-          tok = ReadNextTokStr();
           BGL_values[White] = ReadBGLNumber(tok,&ptr);
           if (tok == ptr)
           {
@@ -1744,28 +1699,26 @@ char *ParseCond(void)
           break;
         }
         case geneva:
-          tok = ParseCirceVariants(&geneva_variant);
+          tok = ParseCirceVariants(tok,&geneva_variant);
           break;
         case whvault_king:
-          tok = ParseVaultingPieces(White);
+          tok = ParseVaultingPieces(tok,White);
           break;
         case blvault_king:
-          tok = ParseVaultingPieces(Black);
+          tok = ParseVaultingPieces(tok,Black);
           break;
         case vault_king:
-          tok = ParseVaultingPieces(no_side);
+          tok = ParseVaultingPieces(tok,no_side);
           break;
         case gridchess:
-          tok = ParseGridVariant();
+          tok = ParseGridVariant(tok);
           break;
         case lastcapture:
-          tok = ReadNextTokStr();
           retro_capture.on = initsquare;
           tok = ParseLastCapturedPiece(tok);
           CondFlag[lastcapture] = retro_capture.on!=initsquare;
           break;
         default:
-          tok = ReadNextTokStr();
           break;
       }
     }
