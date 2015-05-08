@@ -631,171 +631,209 @@ static char *ParseSentinellesVariants(char *tok)
   return tok;
 }
 
+/* parse the orthogonal grid lines from the current token
+ * @param tok current token
+ * @param file_numbers where to store file numbers
+ * @param row_numbers where to store row numbers
+ * @return position where parsing ends; end of token after successful parsing
+ */
+static char *ParseOrthogonalGridLines(char *tok,
+                                      unsigned int file_numbers[],
+                                      unsigned int row_numbers[])
+{
+  assert(*tok!=0); /* we are at the start of a token */
+
+  {
+    unsigned int i;
+    for (i = 0; i<nr_files_on_board; i++)
+      file_numbers[i] = 0;
+  }
+
+  {
+    unsigned int i;
+    for (i = 0; i<nr_rows_on_board; i++)
+      row_numbers[i] = 0;
+  }
+
+  do
+  {
+    char const c = tolower(*tok);
+    if (c>='1' && c<='8')
+    {
+      unsigned int i;
+      for (i = (c-'1')+1; i<nr_rows_on_board; ++i)
+        ++row_numbers[i];
+    }
+    else if (c>='a' && c<='h')
+    {
+      unsigned int i;
+      for (i = (c-'a')+1; i<nr_files_on_board; ++i)
+        ++file_numbers[i];
+    }
+    else
+      /* return position within token to indicate failure */
+      break;
+  } while (*++tok);
+
+  return tok;
+}
+
+static void InitOrthogonalGridLines(unsigned int const file_numbers[],
+                                    unsigned int const row_numbers[])
+{
+  unsigned int const rows_worth = file_numbers[nr_files_on_board-1]+1;
+
+  square const *bnp;
+  for (bnp = boardnum; *bnp; bnp++)
+  {
+    unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
+    unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
+    ClearGridNum(*bnp);
+    sq_spec[*bnp] += (file_numbers[file]+rows_worth*row_numbers[rank]) << Grid;
+  }
+}
+
 static char *ParseGridVariant(char *tok)
 {
-  GridVariantType type;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   do
   {
-    type = GetUniqIndex(GridVariantCount,GridVariantTypeTab,tok);
-    TraceValue("%s",tok);
-    TraceValue("%u",type);
-    TraceEOL();
+    GridVariantType const type = GetUniqIndex(GridVariantCount,GridVariantTypeTab,tok);
+    TraceValue("%u",type);TraceEOL();
 
-    switch (type)
+    if (type==GridVariantCount)
+      break;
+    else
     {
-      case GridVariantShiftRank:
+      tok = ReadNextTokStr();
+
+      switch (type)
       {
-        square const *bnp;
-        for (bnp= boardnum; *bnp; bnp++)
+        case GridVariantShiftRank:
         {
-          ClearGridNum(*bnp);
-          sq_spec[*bnp] += (((*bnp%24 - 8)/2)+4*((*bnp/24-7)/2)) << Grid;
-        }
-        grid_type = grid_vertical_shift;
-        tok = ReadNextTokStr();
-        break;
-      }
-      case GridVariantShiftFile:
-      {
-        square const *bnp;
-        for (bnp= boardnum; *bnp; bnp++)
-        {
-          ClearGridNum(*bnp);
-          sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-8)/2)) << Grid;
-        }
-        grid_type = grid_horizontal_shift;
-        tok = ReadNextTokStr();
-        break;
-      }
-      case GridVariantShiftRankFile:
-      {
-        square const *bnp;
-        for (bnp= boardnum; *bnp; bnp++)
-        {
-          ClearGridNum(*bnp);
-          sq_spec[*bnp] += (((*bnp%24 - 7)/2)+5*((*bnp/24-7)/2)) << Grid;
-        }
-        grid_type = grid_diagonal_shift;
-        tok = ReadNextTokStr();
-        break;
-      }
-      case GridVariantOrthogonal:
-      {
-        square const *bnp;
-        int files[8], ranks[8];
-        int filenum=1;
-        int i;
-        char c;
-        tok = ReadNextTokStr();
-        for (i=0; i<8; i++)
-          files[i]=ranks[i]=0;
-        while ((c=*tok++))
-        {
-          if (c >= '1' && c <= '8')
+          square const *bnp;
+          for (bnp = boardnum; *bnp; bnp++)
           {
-            for (i=(c-'1')+1; i<8; i++)
-              ranks[i]++;
+            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
+            unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const rows_worth = nr_rows_on_board/2;
+            ClearGridNum(*bnp);
+            sq_spec[*bnp] += (file/2 + rows_worth*(row+1)/2)  <<  Grid;
           }
-          else if (tolower(c) >= 'a' && tolower(c) <= 'h')
-          {
-            for (i=(tolower(c)-'a')+1; i<8; i++)
-            files[i]++;
-            filenum++;
-          }
-          else
-          {
-            output_plaintext_input_error_message(CondNotUniq, 0);
-            return tok;
-          }
+          grid_type = grid_vertical_shift;
+          break;
         }
-        for (bnp= boardnum; *bnp; bnp++)
+        case GridVariantShiftFile:
         {
-          ClearGridNum(*bnp);
-          sq_spec[*bnp] += (files[*bnp%24-8]+filenum*ranks[*bnp/24-8]) << Grid;
-        }
-        grid_type = grid_orthogonal_lines;
-        tok = ReadNextTokStr();
-        break;
-      }
-      case GridVariantIrregular:
-      {
-        unsigned int currentgridnum = 1;
-        square const *bnp;
-        for (bnp = boardnum; *bnp; bnp++)
-          ClearGridNum(*bnp);
-        grid_type = grid_irregular;
-        tok = ReadNextTokStr();
-        if (ParseMandatorySquareList(tok,&HandleGridCell,&currentgridnum)>0)
-          while (true)
+          square const *bnp;
+          for (bnp = boardnum; *bnp; bnp++)
           {
-            ++currentgridnum;
+            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
+            unsigned int const row = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const rows_worth = nr_rows_on_board/2 + 1;
+            ClearGridNum(*bnp);
+            sq_spec[*bnp] += ((file+1)/2 + rows_worth*(row/2))  <<  Grid;
+          }
+          grid_type = grid_horizontal_shift;
+          break;
+        }
+        case GridVariantShiftRankFile:
+        {
+          square const *bnp;
+          for (bnp = boardnum; *bnp; bnp++)
+          {
+            unsigned int const file = *bnp%onerow-nr_of_slack_files_left_of_board;
+            unsigned int const rank = *bnp/onerow-nr_of_slack_rows_below_board;
+            unsigned int const rows_worth = nr_rows_on_board/2 + 1;
+            ClearGridNum(*bnp);
+            sq_spec[*bnp] += ((file+1)/2 + rows_worth*(rank+1)/2) << Grid;
+          }
+          grid_type = grid_diagonal_shift;
+          break;
+        }
+        case GridVariantOrthogonal:
+        {
+          unsigned int file_numbers[nr_files_on_board];
+          unsigned int row_numbers[nr_rows_on_board];
+
+          if (*ParseOrthogonalGridLines(tok,file_numbers,row_numbers)==0)
+          {
+            InitOrthogonalGridLines(file_numbers,row_numbers);
+            grid_type = grid_orthogonal_lines;
             tok = ReadNextTokStr();
-            if (ParseOptionalSquareList(tok,&HandleGridCell,&currentgridnum)==0)
-              break;
-          }
-        break;
-      }
-      case GridVariantExtraGridLines:
-      {
-        boolean parsed= true;
-        numgridlines= 0;
-        while (parsed && numgridlines < 100)
-        {
-          tok = ReadNextTokStr();
-          if (strlen(tok) == 4)
-          {
-            int f = 0, r = 0, l = 0;
-            boolean horiz=false;
-            char c = tok[0];
-            if (tolower(c) == 'h')
-              horiz = true;
-            else if (tolower(c) == 'v')
-              horiz = false;
-            else
-              parsed = false;
-            c = tok[1];
-            if (tolower(c) >= 'a' && tolower(c) <= 'h')
-              f = (tolower(c)-'a');
-            else
-              parsed = false;
-            c = tok[2];
-            if (c >= '1' && c <= '8')
-              r = (c-'1');
-            else
-              parsed = false;
-            c = tok[3];
-            if (c >= '1' && c <= '8')
-              l =(c-'0');
-            else
-              parsed = false;
-            if (parsed)
-            {
-              gridlines[numgridlines][0]=2*f;
-              gridlines[numgridlines][1]=2*r;
-              gridlines[numgridlines][2]=2*f+(horiz?2*l:0);
-              gridlines[numgridlines][3]=2*r+(horiz?0:2*l);
-              numgridlines++;
-              grid_type = grid_irregular;
-            }
           }
           else
-            break;
+            output_plaintext_input_error_message(CondNotUniq, 0);
+
+          break;
         }
-        break;
+        case GridVariantIrregular:
+        {
+          unsigned int currentgridnum = 1;
+          square const *bnp;
+          for (bnp = boardnum; *bnp; bnp++)
+            ClearGridNum(*bnp);
+          grid_type = grid_irregular;
+          if (ParseMandatorySquareList(tok,&HandleGridCell,&currentgridnum)>0)
+            while (true)
+            {
+              ++currentgridnum;
+              tok = ReadNextTokStr();
+              if (ParseOptionalSquareList(tok,&HandleGridCell,&currentgridnum)==0)
+                break;
+            }
+          break;
+        }
+        case GridVariantExtraGridLines:
+        {
+          grid_type = grid_irregular;
+
+          numgridlines = 0;
+
+          while (numgridlines<100)
+            if (strlen(tok)==4)
+            {
+              char const dir_char = tolower(tok[0]);
+              char const file_char = tolower(tok[1]);
+              char const row_char = tok[2];
+              char const length_char = tok[3];
+
+              if ((dir_char=='h' || dir_char=='v')
+                  && (file_char>='a' && file_char<='h')
+                  && (row_char>='1' && row_char<='8')
+                  && (length_char>='1' && length_char<='8'))
+              {
+                unsigned int const file = file_char-'a';
+                unsigned int const row = row_char-'1';
+                unsigned int const length = length_char-'0';
+
+                gridlines[numgridlines][0] = 2*file;
+                gridlines[numgridlines][1] = 2*row;
+                gridlines[numgridlines][2] = 2*file;
+                gridlines[numgridlines][3] = 2*row;
+                gridlines[numgridlines][dir_char=='h' ? 2 : 3] += 2*length;
+
+                ++numgridlines;
+
+                tok = ReadNextTokStr();
+              }
+              else
+                break;
+            }
+            else
+              break;
+
+          break;
+        }
+        default:
+          output_plaintext_input_error_message(CondNotUniq,0);
+          break;
       }
-      case GridVariantCount:
-        break;
-      default: /* >GridVariantCount */
-        output_plaintext_input_error_message(CondNotUniq,0);
-        tok = ReadNextTokStr();
-        break;
     }
-  } while (type!=GridVariantCount);
+  } while (true);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
