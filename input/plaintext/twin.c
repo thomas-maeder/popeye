@@ -227,18 +227,7 @@ static char *ParseTwinningRemove(void)
 {
   char *tok = ReadNextTokStr();
 
-  switch (ParseSquareList(tok,&HandleRemovalSquare,0))
-  {
-    case 0:
-      output_plaintext_input_error_message(MissngSquareList,0);
-      break;
-    case UINT_MAX:
-      output_plaintext_error_message(WrongSquareList);
-      break;
-    default:
-      break;
-  }
-
+  ParseMandatorySquareList(tok,&HandleRemovalSquare,0);
   return ReadNextTokStr();
 }
 

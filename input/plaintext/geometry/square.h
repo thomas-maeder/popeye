@@ -19,8 +19,11 @@ typedef void (*parsed_square_handler)(square s, void *param);
  * @return number of squares parsed
  *         UINT_MAX if an error was detected after successful parsing of some squares
  */
-unsigned int ParseSquareList(char *tok,
-                             parsed_square_handler handleSquare,
-                             void *param);
+unsigned int  ParseMandatorySquareList(char *tok,
+                                       parsed_square_handler handleSquare,
+                                       void *param);
+unsigned int ParseOptionalSquareList(char *tok,
+                                     parsed_square_handler handleSquare,
+                                     void *param);
 
 #endif

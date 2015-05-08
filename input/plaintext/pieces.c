@@ -154,22 +154,10 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec, piece_addition_type
 
       if (tok[0]==0)
       {
-        unsigned int nr_squares_parsed;
-
         /* the next token must be a valid square list, e.g. B a1b2
          */
         tok = ReadNextTokStr();
-        nr_squares_parsed = ParseSquareList(tok,&HandleAddedPiece,&settings);
-        if (nr_squares_parsed==0)
-        {
-          output_plaintext_input_error_message(MissngSquareList,0);
-          break;
-        }
-        else if (nr_squares_parsed==UINT_MAX)
-        {
-          output_plaintext_error_message(WrongSquareList);
-          break;
-        }
+        ParseMandatorySquareList(tok,&HandleAddedPiece,&settings);
       }
       else
       {
@@ -177,8 +165,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec, piece_addition_type
          * * a valid square list, e.g. Ba1b2
          * * the remainder of a different word e.g. Black
          */
-        unsigned const nr_squares_parsed = ParseSquareList(tok,&HandleAddedPiece,&settings);
-        if (nr_squares_parsed==0 || nr_squares_parsed==UINT_MAX)
+        if (ParseOptionalSquareList(tok,&HandleAddedPiece,&settings)==0)
         {
           tok = save_tok;
           break;
