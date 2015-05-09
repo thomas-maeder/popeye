@@ -22,8 +22,8 @@ typedef void (*parsed_square_handler)(square s, void *param);
 unsigned int  ParseMandatorySquareList(char *tok,
                                        parsed_square_handler handleSquare,
                                        void *param);
-unsigned int ParseOptionalSquareList(char *tok,
-                                     parsed_square_handler handleSquare,
-                                     void *param);
+char *ParseOptionalSquareList(char *tok,
+                              parsed_square_handler handleSquare,
+                              void *param);
 
 #endif

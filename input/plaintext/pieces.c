@@ -165,7 +165,7 @@ static char *ParsePieceWalkAndSquares(char *tok, Flags Spec, piece_addition_type
          * * a valid square list, e.g. Ba1b2
          * * the remainder of a different word e.g. Black
          */
-        if (ParseOptionalSquareList(tok,&HandleAddedPiece,&settings)==0)
+        if (*ParseOptionalSquareList(tok,&HandleAddedPiece,&settings)!=0)
         {
           tok = save_tok;
           break;

@@ -73,12 +73,10 @@ unsigned int ParseMandatorySquareList(char *tok,
   return nr_squares;
 }
 
-unsigned int ParseOptionalSquareList(char *tok,
-                                     parsed_square_handler handleSquare,
-                                     void *param)
+char *ParseOptionalSquareList(char *tok,
+                              parsed_square_handler handleSquare,
+                              void *param)
 {
-  unsigned int nr_squares = 0;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
@@ -88,20 +86,13 @@ unsigned int ParseOptionalSquareList(char *tok,
     square sq;
     tok = ParseSquare(tok,&sq);
     if (sq==initsquare)
-    {
-      if (nr_squares>0)
-        nr_squares = 0;
       break;
-    }
     else
-    {
       handleSquare(sq,param);
-      ++nr_squares;
-    }
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",nr_squares);
+  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return nr_squares;
+  return tok;
 }
