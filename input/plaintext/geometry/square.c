@@ -1,5 +1,4 @@
 #include "input/plaintext/geometry/square.h"
-#include "utilities/boolean.h"
 #include "debugging/trace.h"
 
   enum
@@ -33,49 +32,9 @@ char *ParseSquare(char *tok, square *s)
   return result;
 }
 
-#include "output/plaintext/message.h"
-
-unsigned int ParseMandatorySquareList(char *tok,
-                                      parsed_square_handler handleSquare,
-                                      void *param)
-{
-  unsigned int nr_squares = 0;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
-  TraceFunctionParamListEnd();
-
-  do
-  {
-    square sq;
-    tok = ParseSquare(tok,&sq);
-    if (sq==initsquare)
-    {
-      if (nr_squares>0)
-        nr_squares = 0;
-      break;
-    }
-    else
-    {
-      handleSquare(sq,param);
-      ++nr_squares;
-    }
-  }   while (tok[0]!=0);
-
-  if (nr_squares==0)
-    output_plaintext_input_error_message(MissngSquareList,0);
-  else if (tok[0]!=0)
-    output_plaintext_error_message(WrongSquareList);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",nr_squares);
-  TraceFunctionResultEnd();
-  return nr_squares;
-}
-
-char *ParseOptionalSquareList(char *tok,
-                              parsed_square_handler handleSquare,
-                              void *param)
+char *ParseSquareList(char *tok,
+                      parsed_square_handler handleSquare,
+                      void *param)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);

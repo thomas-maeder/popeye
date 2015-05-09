@@ -16,14 +16,10 @@ typedef void (*parsed_square_handler)(square s, void *param);
  * @param tok the input token
  * @param handleSquare callback function invoked for each square parsed
  * @param param parameter passed to handleSquare
- * @return number of squares parsed
- *         UINT_MAX if an error was detected after successful parsing of some squares
+ * @return first unparsed element int the token
  */
-unsigned int  ParseMandatorySquareList(char *tok,
-                                       parsed_square_handler handleSquare,
-                                       void *param);
-char *ParseOptionalSquareList(char *tok,
-                              parsed_square_handler handleSquare,
-                              void *param);
+char *ParseSquareList(char *tok,
+                      parsed_square_handler handleSquare,
+                      void *param);
 
 #endif

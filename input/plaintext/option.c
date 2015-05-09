@@ -152,9 +152,17 @@ char *ParseOpt(slice_index root_slice_hook)
 
       case enpassant:
       {
-        tok = ReadNextTokStr();
-        if (ParseMandatorySquareList(tok,&HandleEpSquare,0)==0)
+        char * const squares_tok = ReadNextTokStr();
+
+        tok = ParseSquareList(squares_tok,&HandleEpSquare,0);
+        if (tok==squares_tok)
+        {
+          output_plaintext_input_error_message(MissngSquareList,0);
           indexx = OptCount+1;
+        }
+        else if (*tok!=0)
+          output_plaintext_error_message(WrongSquareList);
+
         break;
       }
 
@@ -258,10 +266,19 @@ char *ParseOpt(slice_index root_slice_hook)
         break;
 
       case nocastling:
+      {
+        char * const squares_tok = ReadNextTokStr();
+
         castling_flags_no_castling = bl_castlings|wh_castlings;
-        tok = ReadNextTokStr();
-        ParseMandatorySquareList(tok,&HandleNoCastlingSquare,0);
+
+        tok = ParseSquareList(squares_tok,&HandleNoCastlingSquare,0);
+        if (tok==squares_tok)
+          output_plaintext_input_error_message(MissngSquareList,0);
+        else if (*tok!=0)
+          output_plaintext_error_message(WrongSquareList);
+
         break;
+      }
 
       case mutuallyexclusivecastling:
         ReadMutuallyExclusiveCastling();

@@ -491,11 +491,18 @@ static void HandleSquaresWithFlag(square sq, void *param)
 
 static char *ParseSquaresWithFlag(char *tok, SquareFlags flag)
 {
+  char * const squares_tok = tok;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  ParseMandatorySquareList(tok,&HandleSquaresWithFlag,&flag);
+  tok = ParseSquareList(squares_tok,&HandleSquaresWithFlag,&flag);
+  if (tok==squares_tok)
+    output_plaintext_input_error_message(MissngSquareList,0);
+  else if (*tok!=0)
+    output_plaintext_error_message(WrongSquareList);
+
   tok = ReadNextTokStr();
 
   TraceFunctionExit(__func__);
@@ -777,14 +784,22 @@ static char *ParseGridVariant(char *tok)
           for (bnp = boardnum; *bnp; bnp++)
             ClearGridNum(*bnp);
           grid_type = grid_irregular;
-          if (ParseMandatorySquareList(tok,&HandleGridCell,&currentgridnum)>0)
-            while (true)
+
+          do {
+            char * const save_tok = tok;
+            tok = ParseSquareList(tok,&HandleGridCell,&currentgridnum);
+            if (*tok==0)
             {
               ++currentgridnum;
               tok = ReadNextTokStr();
-              if (*ParseOptionalSquareList(tok,&HandleGridCell,&currentgridnum)!=0)
-                break;
             }
+            else
+            {
+              tok = save_tok;
+              break;
+            }
+          } while (true);
+
           break;
         }
         case GridVariantExtraGridLines:
@@ -1083,7 +1098,7 @@ char *ParseCond(void)
     {
       CondFlag[indexx]= true;
 
-      CondCnt++;
+      ++CondCnt;
 
       tok = ReadNextTokStr();
 
@@ -1100,12 +1115,21 @@ char *ParseCond(void)
           CondFlag[koeko] = true;
           break;
         case imitators:
+        {
+          char * const squares_tok = tok;
+
           being_solved.number_of_imitators = 0;
-          ParseMandatorySquareList(tok,
-                                   &HandleImitatorPosition,
-                                   &being_solved.number_of_imitators);
+          tok = ParseSquareList(squares_tok,
+                                &HandleImitatorPosition,
+                                &being_solved.number_of_imitators);
+          if (tok==squares_tok)
+            output_plaintext_input_error_message(MissngSquareList,0);
+          else if (*tok!=0)
+            output_plaintext_error_message(WrongSquareList);
+
           tok = ReadNextTokStr();
           break;
+        }
         case blroyalsq:
           tok = ParseRoyalSquare(tok,Black);
           break;
@@ -1124,9 +1148,18 @@ char *ParseCond(void)
           CondFlag[tibet]= true;
           break;
         case holes:
-          ParseMandatorySquareList(tok,&HandleHole,0);
+        {
+          char * const squares_tok = tok;
+
+          tok = ParseSquareList(squares_tok,&HandleHole,0);
+          if (tok==squares_tok)
+            output_plaintext_input_error_message(MissngSquareList,0);
+          else if (*tok!=0)
+            output_plaintext_error_message(WrongSquareList);
+
           tok = ReadNextTokStr();
           break;
+        }
         case trans_king:
           CondFlag[whtrans_king] = true;
           CondFlag[bltrans_king] = true;
@@ -1181,20 +1214,12 @@ char *ParseCond(void)
 
         /*****  exact-maxis  *****/
         case blmax:
-          tok = ParseMummerStrictness(tok,&mummer_strictness[Black]);
-          break;
-        case whmax:
-          tok = ParseMummerStrictness(tok,&mummer_strictness[White]);
-          break;
         case blmin:
-          tok = ParseMummerStrictness(tok,&mummer_strictness[Black]);
-          break;
-        case whmin:
-          tok = ParseMummerStrictness(tok,&mummer_strictness[White]);
-          break;
         case blcapt:
           tok = ParseMummerStrictness(tok,&mummer_strictness[Black]);
           break;
+        case whmax:
+        case whmin:
         case whcapt:
           tok = ParseMummerStrictness(tok,&mummer_strictness[White]);
           break;
@@ -1249,9 +1274,11 @@ char *ParseCond(void)
           break;
 
         /* different types of circe */
+          /* just Circe - but maybe with many variants */
         case circe:
           tok = ParseCirceVariants(tok,&circe_variant);
           break;
+          /* Circe variant encoded in specific input tokens: */
         case circediametral:
           CondFlag[circe] = true;
           circe_variant.rebirth_square_adapter = circe_rebirth_square_adapter_diametral;
@@ -1419,9 +1446,12 @@ char *ParseCond(void)
           tok = ParseCirceVariants(tok,&geneva_variant);
           break;
 
+        /* different types of Anticirce */
+          /* just Anticirce - but maybe with many variants */
         case anticirce:
           tok = ParseCirceVariants(tok,&anticirce_variant);
           break;
+          /* Anticirce variant encoded in specific input tokens: */
         case antimirror:
           CondFlag[anticirce] = true;
           anticirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
@@ -1474,9 +1504,11 @@ char *ParseCond(void)
           break;
 
         /* different types of immunchess */
+          /* just immunchess - but maybe with many variants */
         case immun:
           tok = ParseCirceVariants(tok,&immune_variant);
           break;
+          /* immunchess variant encoded in specific input tokens: */
         case immunmirror:
           CondFlag[immun] = true;
           immune_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;
@@ -1509,10 +1541,12 @@ char *ParseCond(void)
           immune_variant.determine_rebirth_square = circe_determine_rebirth_square_equipollents;
           break;
 
-          /* different types of mars circe */
+        /* different types of mars circe */
+          /* just mars circe - but maybe with many variants */
         case mars:
           tok = ParseCirceVariants(tok,&marscirce_variant);
           break;
+          /* mars circe variant encoded in specific input tokens: */
         case marsmirror:
           CondFlag[mars] = true;
           marscirce_variant.relevant_side_overrider = circe_relevant_side_overrider_mirror;

@@ -225,9 +225,13 @@ static void HandleRemovalSquare(square s, void *dummy)
 
 static char *ParseTwinningRemove(void)
 {
-  char *tok = ReadNextTokStr();
+  char * const squares_tok = ReadNextTokStr();
+  char *tok = ParseSquareList(squares_tok,HandleRemovalSquare,0);
+  if (tok==squares_tok)
+    output_plaintext_input_error_message(MissngSquareList,0);
+  else if (*tok!=0)
+    output_plaintext_error_message(WrongSquareList);
 
-  ParseMandatorySquareList(tok,&HandleRemovalSquare,0);
   return ReadNextTokStr();
 }
 
