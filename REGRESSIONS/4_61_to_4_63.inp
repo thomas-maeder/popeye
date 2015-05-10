@@ -44,7 +44,6 @@ option maxsol 10
 next
 
 title all Popeye versions have wrongly detected a White check in the diagram
-BeginProblem
 Author Unknown
 Origin Unknown
 Stipulation h=1

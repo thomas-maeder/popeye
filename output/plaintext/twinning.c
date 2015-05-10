@@ -303,7 +303,7 @@ static void WriteIntro(void)
 
     case twin_zeroposition:
       output_plaintext_message(NewLine);
-      protocol_fprintf(stdout,"%s",TokenTab[ZeroPosition]);
+      protocol_fprintf(stdout,"%s",EndTwinTokenTab[ZeroPosition]);
       output_plaintext_message(NewLine);
       output_plaintext_message(NewLine);
       break;

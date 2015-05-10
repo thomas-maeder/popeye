@@ -14,36 +14,55 @@ typedef enum
 } GlobalToken;
 
 extern char const *GlobalTokenString[LanguageCount][GlobalTokenCount];
-extern char const **GlobalTokenTab;
+extern char const **GlobalTokenTab; /* used for determining language */
 
 typedef enum
 {
-  EndProblem,      /*  0 */
-  NextProblem,     /*  1 */
-  StipToken,       /*  2 */
-  StructStipToken, /*  3 */
-  Author,          /*  4 */
-  Origin,          /*  5 */
-  PieceToken,      /*  6 */
-  CondToken,       /*  7 */
-  OptToken,        /*  8 */
-  RemToken,        /*  9 */
-  TraceToken,      /* 10 */
-  SepToken,        /* 11 */
-  TitleToken,      /* 12 */
-  TwinProblem,     /* 13 */
-  ZeroPosition,    /* 14 */
-  LaTeXToken,      /* 15 */
-  LaTeXPieces,     /* 16 */
-  Award,           /* 17 */
-  Array,           /* 18 */
-  Forsyth,         /* 19 */
+  EndProblem,       /* 0 */
+  NextProblem,      /* 1 */
 
-  TokenCount       /* 20 */
-} Token;
+  ProblemTokenCount /* 2 */
+} ProblemToken;
 
-extern char const *TokenString[LanguageCount][TokenCount];
-extern char const **TokenTab; /* set according to language */
+extern char const *ProblemTokenString[LanguageCount][ProblemTokenCount];
+extern char const **ProblemTokenTab; /* set according to language */
+
+typedef enum
+{
+  TwinProblem,     /* 0 */
+  ZeroPosition,    /* 1 */
+
+  EndTwinTokenCount,  /* 2 */
+} EndTwinToken;
+
+extern char const *EndTwinTokenString[LanguageCount][EndTwinTokenCount];
+extern char const **EndTwinTokenTab; /* set according to language */
+
+typedef enum
+{
+  RemToken,        /*  0 */
+  StructStipToken, /*  1 */
+  Author,          /*  2 */
+  Origin,          /*  3 */
+  PieceToken,      /*  4 */
+  CondToken,       /*  5 */
+  OptToken,        /*  6 */
+  StipToken,       /*  7 */
+  TraceToken,      /*  8 */
+  SepToken,        /*  9 */
+  TitleToken,      /* 10 */
+  LaTeXToken,      /* 11 */
+  LaTeXPieces,     /* 12 */
+  Award,           /* 13 */
+  Array,           /* 14 */
+  Forsyth,         /* 15 */
+
+  InitialTwinTokenCount,       /* 16 */
+  SubsequentTwinTokenCount = 1
+} InitialTwinToken;
+
+extern char const *InitialTwinTokenString[LanguageCount][InitialTwinTokenCount];
+extern char const **InitialTwinTokenTab; /* set according to language */
 
 enum
 {

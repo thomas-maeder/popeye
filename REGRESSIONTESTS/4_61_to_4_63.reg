@@ -1484,9 +1484,5 @@ solution finished.
 
 input-error:cannot recognize the stipulation
 offending item: Option
-input-error:command not known
-offending item: Variation
-input-error:command not known
-offending item: NoBoard
 input-error:no stipulation specified
-offending item: end
+offending item: Variation

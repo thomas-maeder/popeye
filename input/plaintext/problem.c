@@ -77,12 +77,12 @@ static void write_problem_footer(void)
 /* Handle (read, solve, write) the current problem
  * @return the input token that ends the problem (NextProblem or EndProblem)
  */
-Token input_plaintext_problem_handle(void)
+char *input_plaintext_problem_handle(char *tok)
 {
-  Token result;
   slice_index stipulation_root_hook;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
@@ -97,7 +97,7 @@ Token input_plaintext_problem_handle(void)
 
   ply_reset();
 
-  result = ReadInitialTwin(stipulation_root_hook);
+  tok = ReadInitialTwin(tok,stipulation_root_hook);
 
   if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
@@ -105,7 +105,7 @@ Token input_plaintext_problem_handle(void)
   {
     StartTimer();
     initialise_piece_ids();
-    result = input_plaintext_twins_iterate(result,stipulation_root_hook);
+    tok = input_plaintext_twins_iterate(tok,stipulation_root_hook);
     write_problem_footer();
   }
 
@@ -122,7 +122,7 @@ Token input_plaintext_problem_handle(void)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return result;
+  return tok;
 }

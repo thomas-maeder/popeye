@@ -1697,7 +1697,9 @@ static char const * const mummer_strictness_string[LanguageCount][nr_mummer_stri
 
 void output_plaintext_select_language(Language lang)
 {
-  TokenTab = &TokenString[lang][0];
+  ProblemTokenTab = &ProblemTokenString[lang][0];
+  EndTwinTokenTab = &EndTwinTokenString[lang][0];
+  InitialTwinTokenTab = &InitialTwinTokenString[lang][0];
   OptTab= &OptString[lang][0];
   CondTab= &CondString[lang][0];
   TwinningTab= &TwinningString[lang][0];

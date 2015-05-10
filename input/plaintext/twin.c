@@ -270,12 +270,12 @@ static char *ParseTwinningSubstitute(void)
   return tok;
 }
 
-static char *ParseTwinning(slice_index root_slice_hook)
+static char *ParseTwinning(char *tok, slice_index root_slice_hook)
 {
-  char  *tok = ReadNextTokStr();
   TwinningType twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
 
@@ -457,41 +457,32 @@ static char *ParseForsyth(void)
   return ReadNextTokStr();
 }
 
-Token ReadInitialTwin(slice_index root_slice_hook)
+char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
 {
-  Token result;
-  char *tok;
+  InitialTwinToken result;
   boolean more_input = true;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
 
-  tok = ReadNextTokStr();
   while (more_input)
   {
-    result = GetUniqIndex(TokenCount,TokenTab,tok);
-    if (result>TokenCount)
+    result = GetUniqIndex(InitialTwinTokenCount,InitialTwinTokenTab,tok);
+    if (result>InitialTwinTokenCount)
     {
       output_plaintext_input_error_message(ComNotUniq,0);
       tok = ReadNextTokStr();
     }
+    else if (result==InitialTwinTokenCount)
+      break;
     else
       switch (result)
       {
-        case TokenCount:
+        case InitialTwinTokenCount:
           output_plaintext_input_error_message(ComNotKnown,0);
           tok = ReadNextTokStr();
-          break;
-
-        case TwinProblem:
-          more_input = false;
-          break;
-
-        case NextProblem:
-        case EndProblem:
-        case ZeroPosition:
-          more_input = false;
           break;
 
         case StipToken:
@@ -617,71 +608,48 @@ Token ReadInitialTwin(slice_index root_slice_hook)
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return result;
+  return tok;
 }
 
-static Token ReadSubsequentTwin(slice_index root_slice_hook)
+static char *ReadSubsequentTwin(char *tok, slice_index root_slice_hook)
 {
-  Token result;
-  char *tok;
-  boolean more_twinning = true;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
 
-  tok = ParseTwinning(root_slice_hook);
+  tok = ParseTwinning(tok,root_slice_hook);
 
-  while (more_twinning)
+  while (true)
   {
-    result = GetUniqIndex(TokenCount,TokenTab,tok);
-    if (result>TokenCount)
+    InitialTwinToken const result = GetUniqIndex(SubsequentTwinTokenCount,InitialTwinTokenTab,tok);
+    if (result>SubsequentTwinTokenCount)
     {
       output_plaintext_input_error_message(ComNotUniq,0);
       tok = ReadNextTokStr();
     }
+    else if (result==SubsequentTwinTokenCount)
+      break;
     else
       switch (result)
       {
-        case TwinProblem:
-          if (SLICE_NEXT1(root_slice_hook)==no_slice)
-          {
-            output_plaintext_input_error_message(NoStipulation,0);
-            tok = ReadNextTokStr();
-          }
-          else
-            more_twinning = false;
-          break;
-
-        case NextProblem:
-        case EndProblem:
-          if (root_slice_hook==no_slice)
-          {
-            output_plaintext_input_error_message(NoStipulation,0);
-            tok = ReadNextTokStr();
-          }
-          else
-            more_twinning = false;
-          break;
-
         case RemToken:
           ReadRemark();
           tok = ReadNextTokStr();
           break;
 
         default:
-          output_plaintext_input_error_message(ComNotKnown,0);
-          tok = ReadNextTokStr();
+          assert(0);
           break;
       }
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
+  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return result;
+  return tok;
 }
 
 typedef enum
@@ -855,84 +823,115 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-static Token twins_handle(slice_index stipulation_root_hook)
+static char *twins_handle(char *tok, slice_index stipulation_root_hook)
 {
-  Token result;
-
   twin_number = twin_a;
   twin_is_continued = false;
 
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
   deal_with_stipulation(stipulation_root_hook);
 
-  do
+  while (true)
   {
-    result = ReadSubsequentTwin(stipulation_root_hook);
+    tok = ReadSubsequentTwin(tok,stipulation_root_hook);
 
     if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
+    {
       output_plaintext_input_error_message(NoStipulation,0);
+      break;
+    }
     else
     {
-      twin_stage = result==TwinProblem ? twin_regular : twin_last;
-      deal_with_stipulation(stipulation_root_hook);
+      EndTwinToken const endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
+
+      if (endToken>EndTwinTokenCount)
+        output_plaintext_input_error_message(ComNotUniq,0);
+      else if (endToken==EndTwinTokenCount)
+      {
+        twin_stage = twin_last;
+        deal_with_stipulation(stipulation_root_hook);
+        break;
+      }
+      else if (endToken==TwinProblem)
+      {
+        twin_stage = twin_regular;
+        deal_with_stipulation(stipulation_root_hook);
+      }
+      else
+        assert(0);
+
+      tok = ReadNextTokStr();
     }
-
-    ply_reset();
   }
-  while (result==TwinProblem);
 
-  return result;
+  ply_reset();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
 }
 
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-Token input_plaintext_twins_iterate(Token end_of_initial_twin,
-                                    slice_index stipulation_root_hook)
+char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook)
 {
-  Token end_of_twins;
+  EndTwinToken endToken;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",end_of_initial_twin);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
   assert(nbply==ply_twinning);
 
-  if (end_of_initial_twin==ZeroPosition)
+  endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
+
+  if (endToken==ZeroPosition)
   {
     twin_stage = twin_zeroposition;
     deal_with_stipulation(stipulation_root_hook);
 
-    end_of_twins = ReadSubsequentTwin(stipulation_root_hook);
-    if (end_of_twins!=TwinProblem)
+    tok = ReadNextTokStr();
+    tok = ReadSubsequentTwin(tok,stipulation_root_hook);
+
+    endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
+
+    if (endToken!=TwinProblem)
       output_plaintext_input_error_message(ZeroPositionNoTwin,0);
     else if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
       output_plaintext_input_error_message(NoStipulation,0);
     else
     {
       twin_stage = twin_regular;
-      end_of_twins = twins_handle(stipulation_root_hook);
+      tok = ReadNextTokStr();
+      tok = twins_handle(tok,stipulation_root_hook);
     }
   }
-  else if (end_of_initial_twin==TwinProblem)
+  else if (endToken==TwinProblem)
   {
     twin_stage = twin_initial;
-    end_of_twins = twins_handle(stipulation_root_hook);
+    tok = ReadNextTokStr();
+    tok = twins_handle(tok,stipulation_root_hook);
   }
   else
   {
     twin_is_continued = false;
     twin_stage = twin_original_position_no_twins;
     deal_with_stipulation(stipulation_root_hook);
-    end_of_twins = end_of_initial_twin;
   }
 
   undo_move_effects();
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",end_of_twins);
+  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return end_of_twins;
+  return tok;
 }

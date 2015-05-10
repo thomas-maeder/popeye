@@ -15,6 +15,8 @@ static char LastChar = ' ';
 
 char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
+static char savedTokenLine[LINESIZE];
+
 static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]{}";
 /* Steingewinn ! */
 /* introductory move */
@@ -43,75 +45,99 @@ char const *GlobalTokenString[LanguageCount][GlobalTokenCount] =
   }
 };
 
-char const **TokenTab; /* set according to language */
+char const **ProblemTokenTab; /* set according to language */
 
-char const *TokenString[LanguageCount][TokenCount] =
+char const *ProblemTokenString[LanguageCount][ProblemTokenCount] =
 {
   { /* francais */
     /* 0*/  "FinProbleme",
-    /* 1*/  "asuivre",
-    /* 2*/  "enonce",
-    /* 3*/  "senonce",
-    /* 4*/  "auteur",
-    /* 5*/  "source",
-    /* 6*/  "pieces",
-    /* 7*/  "condition",
-    /* 8*/  "option",
-    /* 9*/  "remarque",
-    /*10*/  "protocol",
-    /*11*/  Sep,
-    /*12*/  "titre",
-    /*13*/  "jumeau",
-    /*14*/  "zeroposition",
-    /*15*/  "LaTeX",
-    /*16*/  "PiecesLaTeX",
-    /*17*/  "prix",
-    /*18*/  "PositionInitialPartie",
-    /*19*/  "Forsyth"
+    /* 1*/  "asuivre"
   },
   { /* Deutsch */
     /* 0*/  "EndeProblem",
-    /* 1*/  "WeiteresProblem",
-    /* 2*/  "Forderung",
-    /* 3*/  "sForderung",
-    /* 4*/  "Autor",
-    /* 5*/  "Quelle",
-    /* 6*/  "Steine",
-    /* 7*/  "Bedingung",
-    /* 8*/  "Option",
-    /* 9*/  "Bemerkung",
-    /*10*/  "Protokoll",
-    /*11*/  Sep,
-    /*12*/  "Titel",
-    /*13*/  "Zwilling",
-    /*14*/  "NullStellung",
-    /*15*/  "LaTeX",
-    /*16*/  "LaTeXSteine",
-    /*17*/  "Auszeichnung",
-    /*18*/  "PartieAnfangsStellung",
-    /*19*/  "Forsyth"
+    /* 1*/  "WeiteresProblem"
   },
   { /* english */
     /* 0*/  "endproblem",
-    /* 1*/  "nextproblem",
-    /* 2*/  "stipulation",
-    /* 3*/  "sstipulation",
-    /* 4*/  "author",
-    /* 5*/  "origin",
-    /* 6*/  "pieces",
-    /* 7*/  "condition",
-    /* 8*/  "option",
-    /* 9*/  "remark",
-    /*10*/  "protocol",
-    /*11*/  Sep,
-    /*12*/  "title",
-    /*13*/  "twin",
-    /*14*/  "zeroposition",
-    /*15*/  "LaTeX",
-    /*16*/  "LaTeXPieces",
-    /*17*/  "award",
-    /*18*/  "InitialGameArray",
-    /*19*/  "Forsyth"
+    /* 1*/  "nextproblem"
+  }
+};
+
+char const **EndTwinTokenTab; /* set according to language */
+
+char const *EndTwinTokenString[LanguageCount][EndTwinTokenCount] =
+{
+  { /* francais */
+    /* 0*/  "jumeau",
+    /* 1*/  "zeroposition"
+  },
+  { /* Deutsch */
+    /* 0*/  "Zwilling",
+    /* 1*/  "NullStellung"
+  },
+  { /* english */
+    /* 0*/  "twin",
+    /* 1*/  "zeroposition"
+  }
+};
+
+char const **InitialTwinTokenTab; /* set according to language */
+
+char const *InitialTwinTokenString[LanguageCount][InitialTwinTokenCount] =
+{
+  { /* francais */
+    /* 0*/  "remarque",
+    /* 1*/  "senonce",
+    /* 2*/  "auteur",
+    /* 3*/  "source",
+    /* 4*/  "pieces",
+    /* 5*/  "condition",
+    /* 6*/  "option",
+    /* 7*/  "enonce",
+    /* 8*/  "protocol",
+    /* 9*/  Sep,
+    /*10*/  "titre",
+    /*11*/  "LaTeX",
+    /*12*/  "PiecesLaTeX",
+    /*13*/  "prix",
+    /*14*/  "PositionInitialPartie",
+    /*15*/  "Forsyth"
+  },
+  { /* Deutsch */
+    /* 0*/  "Bemerkung",
+    /* 1*/  "sForderung",
+    /* 2*/  "Autor",
+    /* 3*/  "Quelle",
+    /* 4*/  "Steine",
+    /* 5*/  "Bedingung",
+    /* 6*/  "Option",
+    /* 7*/  "Forderung",
+    /* 8*/  "Protokoll",
+    /* 9*/  Sep,
+    /*10*/  "Titel",
+    /*11*/  "LaTeX",
+    /*12*/  "LaTeXSteine",
+    /*13*/  "Auszeichnung",
+    /*14*/  "PartieAnfangsStellung",
+    /*15*/  "Forsyth"
+  },
+  { /* english */
+    /* 0*/  "remark",
+    /* 1*/  "sstipulation",
+    /* 2*/  "author",
+    /* 3*/  "origin",
+    /* 4*/  "pieces",
+    /* 5*/  "condition",
+    /* 6*/  "option",
+    /* 7*/  "stipulation",
+    /* 8*/  "protocol",
+    /* 9*/  Sep,
+    /*10*/  "title",
+    /*11*/  "LaTeX",
+    /*12*/  "LaTeXPieces",
+    /*13*/  "award",
+    /*14*/  "InitialGameArray",
+    /*15*/  "Forsyth"
   }
 };
 
@@ -192,6 +218,7 @@ fpos_t InputGetPosition(void)
 
 void InputStartReplay(fpos_t pos)
 {
+  memcpy(savedTokenLine, TokenLine, sizeof TokenLine);
   Input = InputMirror;
   fgetpos(InputMirror,&mirrorEnd);
   fsetpos(Input,&pos);
@@ -199,9 +226,9 @@ void InputStartReplay(fpos_t pos)
 
 void InputEndReplay(void)
 {
-
   Input = InputOriginal;
   fsetpos(InputMirror,&mirrorEnd);
+  memcpy(TokenLine, savedTokenLine, sizeof TokenLine);
 }
 
 char *ReadNextCaseSensitiveTokStr(void)

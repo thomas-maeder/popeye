@@ -12,6 +12,6 @@ extern char ActStip[37];
 /* Handle (read, solve, write) the current problem
  * @return the input token that ends the problem (NextProblem or EndProblem)
  */
-Token input_plaintext_problem_handle(void);
+char *input_plaintext_problem_handle(char *tok);
 
 #endif

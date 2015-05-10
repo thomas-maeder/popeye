@@ -128,21 +128,38 @@ int parseCommandlineOptions(int argc, char *argv[])
 /* iterate until we detect an input token that identifies the user's language
  * @return the detected language
  */
-static Language detect_user_language(void)
+static char *detect_user_language(char *tok, Language *lang)
 {
-  while (true)
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  *lang = LanguageCount;
+
   {
-    char *tok = ReadNextTokStr();
-
-    Language lang;
-    for (lang = 0; lang<LanguageCount; ++lang)
-      if (GetUniqIndex(GlobalTokenCount,GlobalTokenString[lang],tok)==BeginProblem)
-        return lang;
-
-    output_plaintext_input_error_message(NoBegOfProblem, 0);
+    Language candidate;
+    for (candidate = 0; candidate<LanguageCount; ++candidate)
+    {
+      TraceValue("%u",candidate);TraceEOL();
+      if (GetUniqIndex(GlobalTokenCount,GlobalTokenString[candidate],tok)==BeginProblem)
+      {
+        *lang = candidate;
+        break;
+      }
+    }
   }
 
-  return LanguageCount; /* avoid compiler warning */
+  TraceValue("%u",*lang);TraceEOL();
+
+  if (*lang==LanguageCount)
+    output_plaintext_input_error_message(NoBegOfProblem, 0);
+
+  tok = ReadNextTokStr();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
 }
 
 /* Iterate over the problems read from standard input or the input
@@ -150,20 +167,34 @@ static Language detect_user_language(void)
  */
 static void iterate_problems(void)
 {
-  Token prev_token;
+  char *tok = ReadNextTokStr();
+  ProblemToken endToken;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  UserLanguage = detect_user_language();
+  tok = detect_user_language(tok,&UserLanguage);
 
   output_plaintext_select_language(UserLanguage);
   output_message_initialise_language(UserLanguage);
 
-  do
+  while (true)
   {
-    prev_token = input_plaintext_problem_handle();
-  } while (prev_token==NextProblem);
+    tok = input_plaintext_problem_handle(tok);
+    endToken = GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok);
+    if (endToken>ProblemTokenCount)
+    {
+      output_plaintext_input_error_message(ComNotUniq,0);
+      tok = ReadNextTokStr();
+    }
+    else if (endToken==ProblemTokenCount || endToken==EndProblem)
+      break;
+    else
+    {
+      assert(endToken==NextProblem);
+      tok = ReadNextTokStr();
+    }
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
