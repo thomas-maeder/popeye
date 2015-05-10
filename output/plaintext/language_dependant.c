@@ -4,6 +4,117 @@
 #include <stdlib.h>
 #include <string.h>
 
+char const **GlobalTokenTab; /* set according to language */
+
+char const *GlobalTokenString[LanguageCount][GlobalTokenCount] =
+{
+  { /* francais */
+    /* 0*/  "DebutProbleme"
+  },
+  { /* Deutsch */
+    /* 0*/  "AnfangProblem"
+  },
+  { /* english */
+    /* 0*/  "beginproblem"
+  }
+};
+
+char const **ProblemTokenTab; /* set according to language */
+
+char const *ProblemTokenString[LanguageCount][ProblemTokenCount] =
+{
+  { /* francais */
+    /* 0*/  "FinProbleme",
+    /* 1*/  "asuivre"
+  },
+  { /* Deutsch */
+    /* 0*/  "EndeProblem",
+    /* 1*/  "WeiteresProblem"
+  },
+  { /* english */
+    /* 0*/  "endproblem",
+    /* 1*/  "nextproblem"
+  }
+};
+
+char const **EndTwinTokenTab; /* set according to language */
+
+char const *EndTwinTokenString[LanguageCount][EndTwinTokenCount] =
+{
+  { /* francais */
+    /* 0*/  "jumeau",
+    /* 1*/  "zeroposition"
+  },
+  { /* Deutsch */
+    /* 0*/  "Zwilling",
+    /* 1*/  "NullStellung"
+  },
+  { /* english */
+    /* 0*/  "twin",
+    /* 1*/  "zeroposition"
+  }
+};
+
+char const **InitialTwinTokenTab; /* set according to language */
+
+char const *InitialTwinTokenString[LanguageCount][InitialTwinTokenCount] =
+{
+  { /* francais */
+    /* 0*/  "remarque",
+    /* 1*/  "senonce",
+    /* 2*/  "auteur",
+    /* 3*/  "source",
+    /* 4*/  "pieces",
+    /* 5*/  "condition",
+    /* 6*/  "option",
+    /* 7*/  "enonce",
+    /* 8*/  "protocol",
+    /* 9*/  "\n",
+    /*10*/  "titre",
+    /*11*/  "LaTeX",
+    /*12*/  "PiecesLaTeX",
+    /*13*/  "prix",
+    /*14*/  "PositionInitialPartie",
+    /*15*/  "Forsyth"
+  },
+  { /* Deutsch */
+    /* 0*/  "Bemerkung",
+    /* 1*/  "sForderung",
+    /* 2*/  "Autor",
+    /* 3*/  "Quelle",
+    /* 4*/  "Steine",
+    /* 5*/  "Bedingung",
+    /* 6*/  "Option",
+    /* 7*/  "Forderung",
+    /* 8*/  "Protokoll",
+    /* 9*/  "\n",
+    /*10*/  "Titel",
+    /*11*/  "LaTeX",
+    /*12*/  "LaTeXSteine",
+    /*13*/  "Auszeichnung",
+    /*14*/  "PartieAnfangsStellung",
+    /*15*/  "Forsyth"
+  },
+  { /* english */
+    /* 0*/  "remark",
+    /* 1*/  "sstipulation",
+    /* 2*/  "author",
+    /* 3*/  "origin",
+    /* 4*/  "pieces",
+    /* 5*/  "condition",
+    /* 6*/  "option",
+    /* 7*/  "stipulation",
+    /* 8*/  "protocol",
+    /* 9*/  "\n",
+    /*10*/  "title",
+    /*11*/  "LaTeX",
+    /*12*/  "LaTeXPieces",
+    /*13*/  "award",
+    /*14*/  "InitialGameArray",
+    /*15*/  "Forsyth"
+  }
+};
+
 typedef PieceChar PieTable[nr_piece_walks];
 
 static PieTable PieNamString[LanguageCount] =
