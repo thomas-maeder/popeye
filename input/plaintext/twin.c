@@ -39,9 +39,15 @@
 
 static void TwinResetPosition(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   assert(nbply==ply_twinning);
   undo_move_effects();
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static char *ParseTwinningMove(void)
@@ -267,48 +273,36 @@ static char *ParseTwinningSubstitute(void)
 static char *ParseTwinning(slice_index root_slice_hook)
 {
   char  *tok = ReadNextTokStr();
-  boolean TwinningRead= false;
+  TwinningType twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",root_slice_hook);
+  TraceFunctionParamListEnd();
 
   ++twin_number;
 
-  while (true)
+  if (twinning==TwinningContinued)
   {
-    TwinningType twinning = 0;
-    Token tk = StringToToken(tok);
-
-    if (twinning>=TwinningCount
-        || tk==TwinProblem
-        || tk==NextProblem
-        || tk==EndProblem)
-      break;
-
+    twin_is_continued = true;
+    tok = ReadNextTokStr();
     twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
-    if (twinning>=TwinningCount)
-      break;
-    else
-      switch (twinning)
-      {
-        case TwinningContinued:
-          if (TwinningRead)
-            output_plaintext_message(ContinuedFirst);
-          else
-            twin_is_continued = true;
-          tok = ReadNextTokStr();
-          continue;
+  }
+  else if (twinning<TwinningCount)
+  {
+    twin_is_continued = false;
+    TwinResetPosition();
+  }
 
-        default:
-          break;
-      }
-
-    if (!TwinningRead)
-    {
-      if (!twin_is_continued)
-        TwinResetPosition();
-    }
-
-    TwinningRead= true;
+  while (twinning<TwinningCount)
+  {
     switch(twinning)
     {
+      case TwinningContinued:
+      {
+        output_plaintext_message(ContinuedFirst);
+        tok = ReadNextTokStr();
+        break;
+      }
       case TwinningMove:
         tok = ParseTwinningMove();
         break;
@@ -369,14 +363,18 @@ static char *ParseTwinning(slice_index root_slice_hook)
         tok = ParseTwinningSubstitute();
         break;
       default:
-        /* no further action required */
+        assert(0);
         break;
     }
+
+    twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
   }
 
-  TraceText("ParseTwinning() returns\n");
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
-} /* ParseTwinning */
+}
 
 static square NextSquare(square sq)
 {
@@ -637,8 +635,6 @@ static Token ReadSubsequentTwin(slice_index root_slice_hook)
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParamListEnd();
-
-  twin_is_continued = false;
 
   tok = ParseTwinning(root_slice_hook);
 
