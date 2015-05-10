@@ -28,78 +28,90 @@ static char SepraChar[] = "\n\r;.,";
 
 static char Sep[] = "\n";
 
+char const **GlobalTokenTab; /* set according to language */
+
+char const *GlobalTokenString[LanguageCount][GlobalTokenCount] =
+{
+  { /* francais */
+    /* 0*/  "DebutProbleme"
+  },
+  { /* Deutsch */
+    /* 0*/  "AnfangProblem"
+  },
+  { /* english */
+    /* 0*/  "beginproblem"
+  }
+};
+
 char const **TokenTab; /* set according to language */
 
 char const *TokenString[LanguageCount][TokenCount] =
 {
   { /* francais */
-    /* 0*/  "DebutProbleme",
-    /* 1*/  "FinProbleme",
-    /* 2*/  "asuivre",
-    /* 3*/  "enonce",
-    /* 4*/  "senonce",
-    /* 5*/  "auteur",
-    /* 6*/  "source",
-    /* 7*/  "pieces",
-    /* 8*/  "condition",
-    /* 9*/  "option",
-    /*10*/  "remarque",
-    /*11*/  "protocol",
-    /*12*/  Sep,
-    /*13*/  "titre",
-    /*14*/  "jumeau",
-    /*15*/  "zeroposition",
-    /*16*/  "LaTeX",
-    /*17*/  "PiecesLaTeX",
-    /*18*/  "prix",
-    /*19*/  "PositionInitialPartie",
-    /*20*/  "Forsyth"
+    /* 0*/  "FinProbleme",
+    /* 1*/  "asuivre",
+    /* 2*/  "enonce",
+    /* 3*/  "senonce",
+    /* 4*/  "auteur",
+    /* 5*/  "source",
+    /* 6*/  "pieces",
+    /* 7*/  "condition",
+    /* 8*/  "option",
+    /* 9*/  "remarque",
+    /*10*/  "protocol",
+    /*11*/  Sep,
+    /*12*/  "titre",
+    /*13*/  "jumeau",
+    /*14*/  "zeroposition",
+    /*15*/  "LaTeX",
+    /*16*/  "PiecesLaTeX",
+    /*17*/  "prix",
+    /*18*/  "PositionInitialPartie",
+    /*19*/  "Forsyth"
   },
   { /* Deutsch */
-    /* 0*/  "AnfangProblem",
-    /* 1*/  "EndeProblem",
-    /* 2*/  "WeiteresProblem",
-    /* 3*/  "Forderung",
-    /* 4*/  "sForderung",
-    /* 5*/  "Autor",
-    /* 6*/  "Quelle",
-    /* 7*/  "Steine",
-    /* 8*/  "Bedingung",
-    /* 9*/  "Option",
-    /*10*/  "Bemerkung",
-    /*11*/  "Protokoll",
-    /*12*/  Sep,
-    /*13*/  "Titel",
-    /*14*/  "Zwilling",
-    /*15*/  "NullStellung",
-    /*16*/  "LaTeX",
-    /*17*/  "LaTeXSteine",
-    /*18*/  "Auszeichnung",
-    /*19*/  "PartieAnfangsStellung",
-    /*20*/  "Forsyth"
+    /* 0*/  "EndeProblem",
+    /* 1*/  "WeiteresProblem",
+    /* 2*/  "Forderung",
+    /* 3*/  "sForderung",
+    /* 4*/  "Autor",
+    /* 5*/  "Quelle",
+    /* 6*/  "Steine",
+    /* 7*/  "Bedingung",
+    /* 8*/  "Option",
+    /* 9*/  "Bemerkung",
+    /*10*/  "Protokoll",
+    /*11*/  Sep,
+    /*12*/  "Titel",
+    /*13*/  "Zwilling",
+    /*14*/  "NullStellung",
+    /*15*/  "LaTeX",
+    /*16*/  "LaTeXSteine",
+    /*17*/  "Auszeichnung",
+    /*18*/  "PartieAnfangsStellung",
+    /*19*/  "Forsyth"
   },
   { /* english */
-    /* 0*/  "beginproblem",
-    /* 1*/  "endproblem",
-    /* 2*/  "nextproblem",
-    /* 3*/  "stipulation",
-    /* 4*/  "sstipulation",
-    /* 5*/  "author",
-    /* 6*/  "origin",
-    /* 7*/  "pieces",
-    /* 8*/  "condition",
-    /* 9*/  "option",
-    /*10*/  "remark",
-    /*11*/  "protocol",
-    /*12*/  Sep,
-    /*13*/  "title",
-    /*14*/  "twin",
-    /*15*/  "zeroposition",
-    /*16*/  "LaTeX",
-    /*17*/  "LaTeXPieces",
-    /*18*/  "award",
-    /*19*/  "InitialGameArray",
-    /*20*/  "Forsyth"
+    /* 0*/  "endproblem",
+    /* 1*/  "nextproblem",
+    /* 2*/  "stipulation",
+    /* 3*/  "sstipulation",
+    /* 4*/  "author",
+    /* 5*/  "origin",
+    /* 6*/  "pieces",
+    /* 7*/  "condition",
+    /* 8*/  "option",
+    /* 9*/  "remark",
+    /*10*/  "protocol",
+    /*11*/  Sep,
+    /*12*/  "title",
+    /*13*/  "twin",
+    /*14*/  "zeroposition",
+    /*15*/  "LaTeX",
+    /*16*/  "LaTeXPieces",
+    /*17*/  "award",
+    /*18*/  "InitialGameArray",
+    /*19*/  "Forsyth"
   }
 };
 
@@ -316,11 +328,6 @@ unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char con
     else
       return limit+1;
   }
-}
-
-Token StringToToken(char const *tok)
-{
-  return GetUniqIndex(TokenCount,TokenTab,tok);
 }
 
 /* read into InputLine until the next1 end of line */

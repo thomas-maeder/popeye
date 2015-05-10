@@ -470,7 +470,7 @@ Token ReadInitialTwin(slice_index root_slice_hook)
   tok = ReadNextTokStr();
   while (more_input)
   {
-    result = StringToToken(tok);
+    result = GetUniqIndex(TokenCount,TokenTab,tok);
     if (result>TokenCount)
     {
       output_plaintext_input_error_message(ComNotUniq,0);
@@ -481,10 +481,6 @@ Token ReadInitialTwin(slice_index root_slice_hook)
       {
         case TokenCount:
           output_plaintext_input_error_message(ComNotKnown,0);
-          tok = ReadNextTokStr();
-          break;
-
-        case BeginProblem:
           tok = ReadNextTokStr();
           break;
 
@@ -640,7 +636,7 @@ static Token ReadSubsequentTwin(slice_index root_slice_hook)
 
   while (more_twinning)
   {
-    result = StringToToken(tok);
+    result = GetUniqIndex(TokenCount,TokenTab,tok);
     if (result>TokenCount)
     {
       output_plaintext_input_error_message(ComNotUniq,0);

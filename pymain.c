@@ -136,7 +136,7 @@ static Language detect_user_language(void)
 
     Language lang;
     for (lang = 0; lang<LanguageCount; ++lang)
-      if (GetUniqIndex(TokenCount,TokenString[lang],tok)==BeginProblem)
+      if (GetUniqIndex(GlobalTokenCount,GlobalTokenString[lang],tok)==BeginProblem)
         return lang;
 
     output_plaintext_input_error_message(NoBegOfProblem, 0);
