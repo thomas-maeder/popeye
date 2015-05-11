@@ -272,7 +272,7 @@ static char *ParseTwinningSubstitute(void)
 
 static char *ParseTwinning(char *tok, slice_index root_slice_hook)
 {
-  TwinningType twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
+  TwinningType initial_twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -281,93 +281,100 @@ static char *ParseTwinning(char *tok, slice_index root_slice_hook)
 
   ++twin_number;
 
-  if (twinning==TwinningContinued)
+  if (initial_twinning==TwinningContinued)
   {
     twin_is_continued = true;
     tok = ReadNextTokStr();
-    twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
   }
-  else if (twinning<TwinningCount)
+  else if (initial_twinning<TwinningCount)
   {
     twin_is_continued = false;
     TwinResetPosition();
   }
 
-  while (twinning<TwinningCount)
+  while (true)
   {
-    switch(twinning)
+    TwinningType const twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
+
+    if (twinning>TwinningCount)
     {
-      case TwinningContinued:
-      {
-        output_plaintext_message(ContinuedFirst);
-        tok = ReadNextTokStr();
-        break;
-      }
-      case TwinningMove:
-        tok = ParseTwinningMove();
-        break;
-      case TwinningExchange:
-        tok = ParseTwinningExchange();
-        break;
-      case TwinningRotate:
-        tok = ParseTwinningRotate();
-        break;
-      case TwinningMirror:
-        tok = ParseTwinningMirror();
-        break;
-      case TwinningStip:
-      {
-        fpos_t const beforeStip = InputGetPosition();
-
-        slice_index const next = SLICE_NEXT1(root_slice_hook);
-        pipe_unlink(root_slice_hook);
-        dealloc_slices(next);
-
-        tok = ParseStip(root_slice_hook);
-        move_effect_journal_do_remember_stipulation(root_slice_hook,beforeStip);
-        break;
-      }
-      case TwinningStructStip:
-      {
-        fpos_t const beforeStip = InputGetPosition();
-
-        slice_index const next = SLICE_NEXT1(root_slice_hook);
-        pipe_unlink(root_slice_hook);
-        dealloc_slices(next);
-
-        tok = ParseStructuredStip(root_slice_hook);
-        move_effect_journal_do_remember_sstipulation(root_slice_hook,beforeStip);
-        break;
-      }
-      case TwinningAdd:
-        tok = ParsePieces(piece_addition_twinning);
-        break;
-      case TwinningCond:
-      {
-        fpos_t const beforeCond = InputGetPosition();
-        InitCond();
-        tok = ParseCond();
-        move_effect_journal_do_remember_condition(beforeCond);
-        break;
-      }
-      case TwinningRemove:
-        tok = ParseTwinningRemove();
-        break;
-      case TwinningPolish:
-        tok = ParseTwinningPolish();
-        break;
-      case TwinningShift:
-        tok = ParseTwinningShift();
-        break;
-      case TwinningSubstitute:
-        tok = ParseTwinningSubstitute();
-        break;
-      default:
-        assert(0);
-        break;
+      output_plaintext_input_error_message(ComNotUniq,0);
+      tok = ReadNextTokStr();
     }
+    else if (twinning==TwinningCount)
+      break;
+    else
+      switch(twinning)
+      {
+        case TwinningContinued:
+        {
+          output_plaintext_message(ContinuedFirst);
+          tok = ReadNextTokStr();
+          break;
+        }
+        case TwinningMove:
+          tok = ParseTwinningMove();
+          break;
+        case TwinningExchange:
+          tok = ParseTwinningExchange();
+          break;
+        case TwinningRotate:
+          tok = ParseTwinningRotate();
+          break;
+        case TwinningMirror:
+          tok = ParseTwinningMirror();
+          break;
+        case TwinningStip:
+        {
+          fpos_t const beforeStip = InputGetPosition();
 
-    twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
+          slice_index const next = SLICE_NEXT1(root_slice_hook);
+          pipe_unlink(root_slice_hook);
+          dealloc_slices(next);
+
+          tok = ParseStip(root_slice_hook);
+          move_effect_journal_do_remember_stipulation(root_slice_hook,beforeStip);
+          break;
+        }
+        case TwinningStructStip:
+        {
+          fpos_t const beforeStip = InputGetPosition();
+
+          slice_index const next = SLICE_NEXT1(root_slice_hook);
+          pipe_unlink(root_slice_hook);
+          dealloc_slices(next);
+
+          tok = ParseStructuredStip(root_slice_hook);
+          move_effect_journal_do_remember_sstipulation(root_slice_hook,beforeStip);
+          break;
+        }
+        case TwinningAdd:
+          tok = ParsePieces(piece_addition_twinning);
+          break;
+        case TwinningCond:
+        {
+          fpos_t const beforeCond = InputGetPosition();
+          InitCond();
+          tok = ParseCond();
+          move_effect_journal_do_remember_condition(beforeCond);
+          break;
+        }
+        case TwinningRemove:
+          tok = ParseTwinningRemove();
+          break;
+        case TwinningPolish:
+          tok = ParseTwinningPolish();
+          break;
+        case TwinningShift:
+          tok = ParseTwinningShift();
+          break;
+        case TwinningSubstitute:
+          tok = ParseTwinningSubstitute();
+          break;
+        default:
+          assert(0);
+          break;
+      }
   }
 
   TraceFunctionExit(__func__);
