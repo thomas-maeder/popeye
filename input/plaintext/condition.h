@@ -3,7 +3,7 @@
 
 #include "position/board.h"
 
-char *ParseCond(void);
+char *ParseCond(char *tok);
 
 void  InitCond(void);
 

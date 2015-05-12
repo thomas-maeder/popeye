@@ -3,6 +3,6 @@
 
 #include "stipulation/stipulation.h"
 
-char *ParseStructuredStip(slice_index root_slice_hook);
+char *ParseStructuredStip(char *tok, slice_index root_slice_hook);
 
 #endif

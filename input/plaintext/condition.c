@@ -1041,9 +1041,8 @@ static char *ParseVaultingPieces(char *tok, Side side)
   return tok;
 }
 
-char *ParseCond(void)
+char *ParseCond(char *tok)
 {
-  char *tok = ReadNextTokStr();
   unsigned int CondCnt = 0;
   Cond indexx;
 

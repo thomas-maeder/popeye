@@ -245,10 +245,9 @@ char *ParsePieceFlags(Flags *flags)
   return tok;
 }
 
-char *ParsePieces(piece_addition_type type)
+char *ParsePieces(char *tok, piece_addition_type type)
 {
   int nr_groups = 0;
-  char *tok = ReadNextTokStr();
   while (true)
   {
     Flags PieSpFlags = ParseColour(tok,nr_groups==0);

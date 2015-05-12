@@ -1132,9 +1132,8 @@ static Side ParseStructuredStip_starter(char *tok)
  * @return token following structured stipulation
  * @return remainder of input token; 0 if parsing failed
  */
-char *ParseStructuredStip(slice_index root_slice_hook)
+char *ParseStructuredStip(char *tok, slice_index root_slice_hook)
 {
-  char *tok = 0;
   Side starter;
 
   TraceFunctionEntry(__func__);
@@ -1146,7 +1145,6 @@ char *ParseStructuredStip(slice_index root_slice_hook)
 
   AlphaStip[0] = 0;
 
-  tok = ReadNextTokStr();
   starter = ParseStructuredStip_starter(tok);
   if (starter!=no_side)
   {

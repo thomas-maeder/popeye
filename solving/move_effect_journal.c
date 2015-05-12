@@ -1242,7 +1242,7 @@ static void undo_input_condition(move_effect_journal_entry_type const *entry)
     {
       move_effect_journal_entry_type const * const cond = &move_effect_journal[idx_cond];
       InputStartReplay(cond->u.input_complex.start);
-      ParseCond();
+      ParseCond(ReadNextTokStr());
       InputEndReplay();
     }
   }
@@ -1360,7 +1360,7 @@ static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
       dealloc_slices(next);
 
       InputStartReplay(stip->u.input_complex.start);
-      ParseStructuredStip(root);
+      ParseStructuredStip(ReadNextTokStr(),root);
       InputEndReplay();
     }
   }

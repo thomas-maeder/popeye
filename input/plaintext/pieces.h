@@ -14,7 +14,7 @@ typedef enum
   piece_addition_twinning
 } piece_addition_type;
 
-char *ParsePieces(piece_addition_type type);
+char *ParsePieces(char *tok, piece_addition_type type);
 
 Flags ParseColour(char *tok, boolean colour_is_mandatory);
 char *ParsePieceFlags(Flags *flags);

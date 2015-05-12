@@ -344,18 +344,21 @@ static char *ParseTwinning(char *tok, slice_index root_slice_hook)
           pipe_unlink(root_slice_hook);
           dealloc_slices(next);
 
-          tok = ParseStructuredStip(root_slice_hook);
+          tok = ReadNextTokStr();
+          tok = ParseStructuredStip(tok,root_slice_hook);
           move_effect_journal_do_remember_sstipulation(root_slice_hook,beforeStip);
           break;
         }
         case TwinningAdd:
-          tok = ParsePieces(piece_addition_twinning);
+          tok = ReadNextTokStr();
+          tok = ParsePieces(tok,piece_addition_twinning);
           break;
         case TwinningCond:
         {
           fpos_t const beforeCond = InputGetPosition();
           InitCond();
-          tok = ParseCond();
+          tok = ReadNextTokStr();
+          tok = ParseCond(tok);
           move_effect_journal_do_remember_condition(beforeCond);
           break;
         }
@@ -442,9 +445,8 @@ static char *ParseForsythPieceAndColor(char *tok,
   return tok;
 }
 
-static char *ParseForsyth(void)
+static char *ParseForsyth(char *tok)
 {
-  char *tok = ReadNextCaseSensitiveTokStr();
   square sq = square_a8;
 
   while (sq && *tok)
@@ -509,7 +511,8 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
 
         case StructStipToken:
           *AlphaStip='\0';
-          tok = ParseStructuredStip(root_slice_hook);
+          tok = ReadNextTokStr();
+          tok = ParseStructuredStip(tok,root_slice_hook);
           break;
 
         case Author:
@@ -541,19 +544,22 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case PieceToken:
-          tok = ParsePieces(piece_addition_initial);
+          tok = ReadNextTokStr();
+          tok = ParsePieces(tok,piece_addition_initial);
           break;
 
         case CondToken:
         {
           fpos_t const beforeCond = InputGetPosition();
-          tok = ParseCond();
+          tok = ReadNextTokStr();
+          tok = ParseCond(tok);
           move_effect_journal_do_remember_condition(beforeCond);
           break;
         }
 
         case OptToken:
-          tok = ParseOpt(root_slice_hook);
+          tok = ReadNextTokStr();
+          tok = ParseOpt(tok,root_slice_hook);
           break;
 
         case RemToken:
@@ -578,7 +584,8 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
         }
 
         case LaTeXPieces:
-          tok = ParseLaTeXPieces(ReadNextTokStr());
+          tok = ReadNextTokStr();
+          tok = ParseLaTeXPieces(tok);
           break;
 
         case LaTeXToken:
@@ -586,7 +593,8 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           ReadToEndOfLine();
           LaTeXSetup();
 
-          tok = ParseLaTeXPieces(ReadNextTokStr());
+          tok = ReadNextTokStr();
+          tok = ParseLaTeXPieces(tok);
           break;
 
         case SepToken:
@@ -605,7 +613,8 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case Forsyth:
-          tok = ParseForsyth();
+          tok = ReadNextCaseSensitiveTokStr();
+          tok = ParseForsyth(tok);
           break;
 
         default:

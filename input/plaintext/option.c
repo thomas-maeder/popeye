@@ -97,11 +97,10 @@ static void HandleNoCastlingSquare(square sq, void *dummy)
   }
 }
 
-char *ParseOpt(slice_index root_slice_hook)
+char *ParseOpt(char *tok, slice_index root_slice_hook)
 {
   Opt indexx;
   unsigned int OptCnt = 0;
-  char *tok = ReadNextTokStr();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",root_slice_hook);
