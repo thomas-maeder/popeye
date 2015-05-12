@@ -1,0 +1,230 @@
+fors 3r4/1=p1r=p1=p1/rr1r4/8/2=p1R1=p1/=p7/1r=p1=p1=p1/8
+
+reference for mixhopper moves and captures
+wh should have 8 moves in each position
+black pieces able to move depend on which is paralysed by w
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   . -RE   .   .   .   .   8
+|                                   |
+7   . -RE -RE -RE   . -RE   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .  RE   .   . -RE   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 6
+               Madrasi
+               Duplex
+
+a) 
+
+   1.REe5-h6 !
+
+   1.REe5-h4 !
+
+
+   1.REh5-e6 !
+
+   1.REh5-e4 !
+
+   1.REb7-c8 !
+
+   1.REb7-c6 !
+
+   1.REc7-d6 !
+
+   1.REc7-b8 !
+
+   1.REc7-b6 !
+
+   1.REd7-f8 !
+
+   1.REd7-f6 !
+
+   1.REd7-e8 !
+
+   1.REd7-c8 !
+
+   1.REd7-c8 !
+
+   1.REd7-c6 !
+
+   1.REf7-d6 !
+
+   1.REd8-e7 !
+
+
+  add_to_move_generation_stack:          17
+                     play_move:          17
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+b) RE ==> BE  
+
+   1.BEe5*d8 !
+
+   1.BEe5-b6 !
+
+
+   1.BEh5-g8 !
+
+   1.BEh5-e6 !
+
+   1.BEc7-e7 !
+
+   1.BEc7-f6 !
+
+   1.BEc7-d4 !
+
+   1.BEf7-g4 !
+
+
+  add_to_move_generation_stack:           8
+                     play_move:           8
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+c) RE ==> RM  
+
+
+   1.RMh5-d6 !
+
+   1.RMh5-d4 !
+
+   1.RMb7-d6 !
+
+   1.RMc7-e6 !
+
+   1.RMc7-e8 !
+
+   1.RMc7-a8 !
+
+   1.RMc7-a6 !
+
+   1.RMd7-g6 !
+
+   1.RMd7-g8 !
+
+   1.RMd7-b8 !
+
+   1.RMd7-b6 !
+
+   1.RMf7-c8 !
+
+   1.RMf7-c6 !
+
+   1.RMd8-e6 !
+
+   1.RMd8-c6 !
+
+
+  add_to_move_generation_stack:          15
+                     play_move:          15
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+d) RE ==> BM  
+
+   1.BMe5*b7 !
+
+   1.BMe5-c8 !
+
+
+   1.BMh5-e7 !
+
+   1.BMh5-f8 !
+
+   1.BMc7-e8 !
+
+   1.BMc7-f5 !
+
+   1.BMc7-e4 !
+
+   1.BMf7-h4 !
+
+   1.BMd8-c6 !
+
+
+  add_to_move_generation_stack:           9
+                     play_move:           9
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+e) RE ==> RW  
+
+   1.RWe5-g6 !
+
+   1.RWe5-g4 !
+
+
+   1.RWh5-f4 !
+
+   1.RWh5-f6 !
+
+   1.RWb7-b8 !
+
+   1.RWb7-b6 !
+
+   1.RWc7-c6 !
+
+   1.RWc7-c8 !
+
+   1.RWd7-e8 !
+
+   1.RWd7-e6 !
+
+   1.RWd7-e7 !
+
+   1.RWd7-d6 !
+
+   1.RWf7-e6 !
+
+   1.RWf7-e8 !
+
+   1.RWd8-c8 !
+
+   1.RWd8-e8 !
+
+
+  add_to_move_generation_stack:          18
+                     play_move:          16
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+f) RE ==> BW  
+
+   1.BWe5*d7 !
+
+   1.BWe5-c6 !
+
+
+   1.BWh5-g7 !
+
+   1.BWh5-f6 !
+
+   1.BWc7-c8 !
+
+   1.BWc7-d5 !
+
+   1.BWc7-e6 !
+
+   1.BWf7-g5 !
+
+   1.BWf7-h6 !
+
+   1.BWd8-c8 !
+
+
+  add_to_move_generation_stack:          10
+                     play_move:          10
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

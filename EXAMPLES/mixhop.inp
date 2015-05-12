@@ -1,4 +1,7 @@
-beg
+begin
+
+protocol mixhop.ref
+
 stip ~1
 opt dupl nowk nobk
 rem fors 3r4/1=p1r=p1=p1/rr1r4/8/2=p1R1=p1/=p7/1r=p1=p1=p1/8
@@ -12,4 +15,6 @@ twin subst re rm
 twin subst re bm
 twin subst re rw
 twin subst re bw
+
 end
+
