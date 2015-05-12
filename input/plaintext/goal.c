@@ -78,7 +78,7 @@ typedef struct
    TraceFunctionParamListEnd();
 
    for (gic = goalInputConfig; gic!=goalInputConfig+nr_goals; ++gic)
-     if (gic->inputText!=0 && strstr(tok,gic->inputText)==tok)
+     if (gic->inputText!=0 && token_starts_with(gic->inputText,tok))
        break;
 
    TraceFunctionExit(__func__);

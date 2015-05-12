@@ -228,7 +228,15 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
 
 static int WriteStipulation(void)
 {
-  return protocol_fprintf(stdout,"  %s",AlphaStip);
+  char StipLower[sizeof AlphaStip];
+  char *stip = AlphaStip;
+  char *lower = StipLower;
+
+  while (*stip)
+    *lower++ = tolower(*stip++);
+  *lower = 0;
+
+  return protocol_fprintf(stdout,"  %s",StipLower);
 }
 
 static int WriteOptions(position const *pos)

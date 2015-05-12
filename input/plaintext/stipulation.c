@@ -525,7 +525,7 @@ static char *ParsePlay(char *tok,
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
-  if (strncmp("exact-", tok, 6) == 0)
+  if (token_starts_with("exact-",tok))
   {
     play_length = play_length_exact;
     tok += 6;
@@ -552,7 +552,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("ser-reci-h",tok,10) == 0)
+  else if (token_starts_with("ser-reci-h",tok))
   {
     /* skip over "ser-reci-h" */
     tok = ParseReciEnd(tok+10,proxy_next);
@@ -573,7 +573,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("ser-hs",tok,6)==0)
+  else if (token_starts_with("ser-hs",tok))
   {
     tok = ParseGoal(tok+6,proxy_next); /* skip over "ser-hs" */
     if (tok!=0)
@@ -607,7 +607,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("ser-h",tok,5) == 0)
+  else if (token_starts_with("ser-h",tok))
   {
     result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-h" */
     if (result!=0)
@@ -628,7 +628,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("ser-s",tok,5) == 0)
+  else if (token_starts_with("ser-s",tok))
   {
     result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-s" */
     if (result!=0)
@@ -638,7 +638,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("ser-r",tok,5) == 0)
+  else if (token_starts_with("ser-r",tok))
   {
     result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-r" */
     if (result!=0)
@@ -650,7 +650,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("ser-",tok,4) == 0)
+  else if (token_starts_with("ser-",tok))
   {
     result = ParseSeries(tok+4,proxy,proxy_next,play_length); /* skip over "ser-" */
     if (result!=0)
@@ -660,7 +660,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("phser-r",tok,7) == 0)
+  else if (token_starts_with("phser-r",tok))
   {
     boolean const shorten = true;
     result = ParseHelp(tok+7, /* skip over phser-r */
@@ -680,7 +680,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("phser-s",tok,7) == 0)
+  else if (token_starts_with("phser-s",tok))
   {
     boolean const shorten = true;
     result = ParseHelp(tok+7, /* skip over phser-s */
@@ -694,7 +694,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("phser-",tok,6) == 0)
+  else if (token_starts_with("phser-",tok))
   {
     boolean const shorten = true;
     result = ParseHelp(tok+6, /* skip over phser- */
@@ -708,7 +708,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("pser-hs",tok,7) == 0)
+  else if (token_starts_with("pser-hs",tok))
   {
     tok = ParseGoal(tok+7,proxy_next); /* skip over "ser-hs" */
     if (tok!=0)
@@ -733,7 +733,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("pser-h",tok,6) == 0)
+  else if (token_starts_with("pser-h",tok))
   {
     boolean const shorten = true;
     result = ParseHelp(tok+6, /* skip over pser-h */
@@ -754,7 +754,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("pser-r",tok,6) == 0)
+  else if (token_starts_with("pser-r",tok))
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+6, /* skip over pser-r */
@@ -771,7 +771,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("pser-s",tok,6) == 0)
+  else if (token_starts_with("pser-s",tok))
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+6, /* skip over pser-s */
@@ -787,7 +787,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("pser-",tok,5) == 0)
+  else if (token_starts_with("pser-",tok))
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+5, /* skip over pser- */
@@ -801,7 +801,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("reci-h",tok,6) == 0)
+  else if (token_starts_with("reci-h",tok))
   {
     char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
                                      proxy_next);
@@ -841,20 +841,20 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("dia",tok,3)==0)
+  else if (token_starts_with("dia",tok))
   {
     result = ParseHelpDia(tok,proxy,proxy_next,play_length);
     if (result!=0)
       solving_impose_starter(proxy,White);
   }
-  else if (strncmp("a=>b",tok,4)==0)
+  else if (token_starts_with("a=>b",tok))
   {
     result = ParseHelpDia(tok,proxy,proxy_next,play_length);
     if (result!=0)
       solving_impose_starter(proxy,Black);
   }
 
-  else if (strncmp("hs",tok,2)==0)
+  else if (token_starts_with("hs",tok))
   {
     boolean const shorten = true;
     result = ParseHelp(tok+2, /* skip over "hs" */
@@ -867,7 +867,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("hr",tok,2)==0)
+  else if (token_starts_with("hr",tok))
   {
     boolean const shorten = true;
     result = ParseHelp(tok+2, /* skip over "hr" */
@@ -884,7 +884,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (*tok=='h')
+  else if (token_starts_with("h",tok))
   {
     boolean const shorten = false;
     result = ParseHelp(tok+1, /* skip over "h" */
@@ -897,7 +897,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (strncmp("semi-r",tok,6)==0)
+  else if (token_starts_with("semi-r",tok))
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+6, /* skip over "semi-r" */
@@ -912,7 +912,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (*tok=='s')
+  else if (token_starts_with("s",tok))
   {
     boolean const ends_on_defense = true;
     result = ParseBattle(tok+1, /* skip over 's' */
@@ -925,7 +925,7 @@ static char *ParsePlay(char *tok,
     }
   }
 
-  else if (*tok=='r')
+  else if (token_starts_with("r",tok))
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+1, /* skip over 'r' */

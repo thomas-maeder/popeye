@@ -994,6 +994,10 @@ static char *ParseAnticirceVariant(char *tok, anticirce_type_type *variant)
 
 static char *ParseMummerStrictness(char *tok, mummer_strictness_type *strictness)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
   if (mummer_strictness_ultra==GetUniqIndex(nr_mummer_strictness,mummer_strictness_tab,tok))
   {
     *strictness = mummer_strictness_ultra;
@@ -1007,6 +1011,9 @@ static char *ParseMummerStrictness(char *tok, mummer_strictness_type *strictness
   else
     *strictness = mummer_strictness_regular;
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
   return tok;
 }
 
@@ -1044,17 +1051,16 @@ static char *ParseVaultingPieces(char *tok, Side side)
 char *ParseCond(char *tok)
 {
   unsigned int CondCnt = 0;
-  Cond indexx;
 
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   do
   {
-    indexx = GetUniqIndex(CondCount,CondTab,tok);
-    TraceValue("%s",tok);
-    TraceValue("%u\n",indexx);
-    if (indexx==CondCount)
+    Cond const cond = GetUniqIndex(CondCount,CondTab,tok);
+    TraceValue("%s",tok);TraceValue("%u",cond);TraceEOL();
+    if (cond==CondCount)
     {
       ExtraCond const extra = GetUniqIndex(ExtraCondCount,ExtraCondTab,tok);
       if (extra>ExtraCondCount)
@@ -1088,20 +1094,20 @@ char *ParseCond(char *tok)
         }
       }
     }
-    else if (indexx>CondCount)
+    else if (cond>CondCount)
     {
       output_plaintext_input_error_message(CondNotUniq,0);
       tok = ReadNextTokStr();
     }
     else
     {
-      CondFlag[indexx]= true;
+      CondFlag[cond]= true;
 
       ++CondCnt;
 
       tok = ReadNextTokStr();
 
-      switch (indexx)
+      switch (cond)
       {
         case hypervolage:
           CondFlag[volage]= true;

@@ -22,6 +22,14 @@ char *ReadNextCaseSensitiveTokStr(void);
 
 char *ReadNextTokStr(void);
 
+/* Test whether the next input token starts with a string
+ * @param start start to be matched
+ * @param token input token
+ * @return true iff the entire start is found at the start of token
+ * @note the comparison is done character-wise case-insensitively
+ */
+boolean token_starts_with(char const *start, char const *token);
+
 unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char const *tok);
 
 /* read into InputLine until the next1 end of line */

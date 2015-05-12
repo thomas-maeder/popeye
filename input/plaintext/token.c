@@ -204,16 +204,33 @@ char *ReadNextTokStr(void)
   }
 }
 
-static boolean sncmp(char const *a, char const *b)
+/* Test whether the next input token starts with a string
+ * @param start start to be matched
+ * @param token input token
+ * @return true iff the entire start is found at the start of token
+ * @note the comparison is done character-wise case-insensitively
+ */
+boolean token_starts_with(char const *start, char const *token)
 {
-  while (*b)
-  {
-    if ((isupper((int const)*a) ? tolower((int const)*a) : *a) == *b++)
-      /* EBCDIC support ! HD */
-      ++a;
-    else
+  while (*start)
+    if (tolower(*start++)!=tolower(*token++))
       return false;
-  }
+
+  return true;
+}
+
+/* This works just like token_starts_with() apart from the different order of
+ * arguments.
+ * Keeping the two functions separate hopefully clarifies things a bit:
+ * - sometimes, the token can be an abbreviation (provided it's unique)
+ * - sometimes, the token consists of different elements (e.g. h#2)
+ */
+static boolean token_matches_start_of_keyword(char const *keyword,
+                                              char const *token)
+{
+  while (*token)
+    if (tolower(*keyword++)!=tolower(*token++))
+      return false;
 
   return true;
 }
@@ -222,7 +239,7 @@ static unsigned int GetIndex(unsigned int index, unsigned int limit,
                              char const * const *list, char const *tok)
 {
   while (index<limit)
-    if (sncmp(list[index],tok))
+    if (token_matches_start_of_keyword(list[index],tok))
       return index;
     else
       ++index;

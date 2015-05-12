@@ -10,6 +10,7 @@
 #include "pieces/walks/hunters.h"
 #include "conditions/circe/parachute.h"
 
+#include <ctype.h>
 #include <string.h>
 
 int GetPieNamIndex(char a, char b)
@@ -17,18 +18,14 @@ int GetPieNamIndex(char a, char b)
   /* We search the array PieNam, for an index, where
      it matches the two characters a and b
   */
+  char const * ch = PieceTab[2];
   int indexx;
-  char *ch;
-
-  ch= PieceTab[2];
-  for (indexx= 2;
+  for (indexx = 2;
        indexx<nr_piece_walks;
-       indexx++,ch+= sizeof(PieceChar))
-  {
-    if (*ch == a && *(ch + 1) == b) {
+       ++indexx, ch += sizeof(PieceChar))
+    if (ch[0]==tolower(a) && ch[1]==tolower(b))
       return indexx;
-    }
-  }
+
   return 0;
 }
 
