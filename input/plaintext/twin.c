@@ -613,7 +613,7 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case Forsyth:
-          tok = ReadNextCaseSensitiveTokStr();
+          tok = ReadNextTokStr();
           tok = ParseForsyth(tok);
           break;
 

@@ -66,7 +66,7 @@ char *LaTeXWalk(piece_walk_type walk)
 
 char *ParseLaTeXPieces(char *tok)
 {
-  piece_walk_type Name;
+  piece_walk_type walk;
   int i;
 
   /* don't delete all this. Since both arrays are declared static,
@@ -74,46 +74,46 @@ char *ParseLaTeXPieces(char *tok)
    * Simply allow overwriting these definitions within the LaTeX clause
    * and let it be initialized from pie-<lang>.dat
    *
-   for (Name= 1; Name < PieceCount; Name++) {
-   if (LaTeXPiecesAbbr[Name]) {
-   free(LaTeXPiecesAbbr[Name]);
-   free(LaTeXPiecesFull[Name]);
+   for (walk= 1; walk < PieceCount; walk++) {
+   if (LaTeXPiecesAbbr[walk]) {
+   free(LaTeXPiecesAbbr[walk]);
+   free(LaTeXPiecesFull[walk]);
    }
-   LaTeXPiecesAbbr[Name]= NULL;
-   LaTeXPiecesFull[Name]= NULL;
+   LaTeXPiecesAbbr[walk]= NULL;
+   LaTeXPiecesFull[walk]= NULL;
    }
   */
 
-  if (strlen(tok) < 3) {
+  if (strlen(tok) < 3)
+  {
     while (true)
     {
-      Name= GetPieNamIndex(*tok, strlen(tok) == 1 ? ' ' : tok[1]);
+      walk = GetPieNamIndex(tolower(tok[0]), strlen(tok) == 1 ? ' ' : tolower(tok[1]));
 
-      if (Name < King) {
+      if (walk<King)
         return tok;
-      }
 
-      if (LaTeXPiecesAbbr[Name])
+      if (LaTeXPiecesAbbr[walk])
       {
-        free(LaTeXPiecesAbbr[Name]);
-        free(LaTeXPiecesFull[Name]);
+        free(LaTeXPiecesAbbr[walk]);
+        free(LaTeXPiecesFull[walk]);
       }
 
       tok = ReadNextTokStr();
-      LaTeXPiecesAbbr[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
+      LaTeXPiecesAbbr[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
       i= 0;
       while (tok[i]) {
         /* to avoid compiler warnings below made "better readable" */
-        /*      LaTeXPiecesAbbr[Name][i]= tok[i++]+ 'A' - 'a';          */
-        LaTeXPiecesAbbr[Name][i]= tok[i] + 'A' - 'a';
+        /*      LaTeXPiecesAbbr[walk][i]= tok[i++]+ 'A' - 'a';          */
+        LaTeXPiecesAbbr[walk][i]= tolower(tok[i]) + 'A' - 'a';
         i++;
       }
-      LaTeXPiecesAbbr[Name][i]= tok[i];
+      LaTeXPiecesAbbr[walk][i]= tolower(tok[i]);
 
       ReadToEndOfLine();
       tok = InputLine;
-      LaTeXPiecesFull[Name]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      strcpy(LaTeXPiecesFull[Name], tok);
+      LaTeXPiecesFull[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
+      strcpy(LaTeXPiecesFull[walk], tok);
 
       tok = ReadNextTokStr();
     }

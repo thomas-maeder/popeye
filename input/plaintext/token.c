@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static char SpaceChar[] = " \t\n\r;.,";
+static char SpaceChar[] = " \t\n\r;,";
 static char LastChar = ' ';
 
 char TokenLine[LINESIZE];    /* This array contains the lowercase input */
@@ -120,9 +120,9 @@ void InputEndReplay(void)
   memcpy(TokenLine, savedTokenLine, sizeof TokenLine);
 }
 
-char *ReadNextCaseSensitiveTokStr(void)
+char *ReadNextTokStr(void)
 {
-  while (strchr(" \t\n\r;,:",LastChar))  /* SpaceChar minus '.' which can be first char of extended Forsyth */
+  while (strchr(SpaceChar,LastChar))
     NextChar();
 
   if (strchr(TokenChar,LastChar))
@@ -133,47 +133,6 @@ char *ReadNextCaseSensitiveTokStr(void)
     do {
       *p++ = LastChar;
       *t++ = LastChar;
-      /* *t++= (isupper(ch)?tolower(ch):ch);  */
-      /* EBCDIC support ! HD */
-      NextChar();
-    } while (strchr(TokenChar,LastChar));
-
-    if (p >= (InputLine+sizeof(InputLine)))
-      output_plaintext_fatal_message(InpLineOverflow);
-
-    *t = '\0';
-    *p = '\0';
-    return TokenLine;
-  }
-  else if (strchr(SepraChar,LastChar))
-  {
-    do
-    {
-      NextChar();
-    } while (strchr(SepraChar,LastChar));
-    return Sep;
-  }
-  else
-  {
-    output_plaintext_input_error_message(WrongChar,LastChar);
-    LastChar = TokenLine[0]= ' ';
-    TokenLine[1] = '\0';
-    return TokenLine;
-  }
-}
-
-char *ReadNextTokStr(void)
-{
-  while (strchr(SpaceChar,LastChar))
-    NextChar();
-
-  if (strchr(TokenChar,LastChar))
-  {
-    char *p = InputLine;
-    char *t = TokenLine;
-    do {
-      *p++ = LastChar;
-      *t++ = (isupper((int)LastChar) ? tolower((int)LastChar) : LastChar);
       /* *t++= (isupper(ch)?tolower(ch):ch);  */
       /* EBCDIC support ! HD */
       NextChar();

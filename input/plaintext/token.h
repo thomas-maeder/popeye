@@ -18,8 +18,6 @@ extern char TokenLine[LINESIZE];
 boolean OpenInput(char const *s);
 void CloseInput(void);
 
-char *ReadNextCaseSensitiveTokStr(void);
-
 char *ReadNextTokStr(void);
 
 /* Test whether the next input token starts with a string
