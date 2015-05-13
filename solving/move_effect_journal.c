@@ -1301,7 +1301,7 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
       dealloc_slices(next);
 
       InputStartReplay(stip->u.input_complex.start);
-      ParseStip(root);
+      ParseStip(ReadNextTokStr(),root);
       InputEndReplay();
     }
   }

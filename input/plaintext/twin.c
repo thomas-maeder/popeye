@@ -332,7 +332,8 @@ static char *ParseTwinning(char *tok, slice_index root_slice_hook)
           pipe_unlink(root_slice_hook);
           dealloc_slices(next);
 
-          tok = ParseStip(root_slice_hook);
+          tok = ReadNextTokStr();
+          tok = ParseStip(tok,root_slice_hook);
           move_effect_journal_do_remember_stipulation(root_slice_hook,beforeStip);
           break;
         }
@@ -579,7 +580,8 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           {
             fpos_t const beforeCond = InputGetPosition();
             *AlphaStip='\0';
-            tok = ParseStip(root_slice_hook);
+            tok = ReadNextTokStr();
+            tok = ParseStip(tok,root_slice_hook);
             move_effect_journal_do_remember_stipulation(root_slice_hook,beforeCond);
           }
           else

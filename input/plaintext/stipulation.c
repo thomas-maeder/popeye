@@ -961,10 +961,8 @@ static char *ParsePlay(char *tok,
   return result;
 }
 
-char *ParseStip(slice_index root_slice_hook)
+char *ParseStip(char *tok, slice_index root_slice_hook)
 {
-  char *tok = ReadNextTokStr();
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
