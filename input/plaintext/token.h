@@ -36,8 +36,6 @@ unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char con
  */
 boolean ReadToEndOfLine(void);
 
-void ReadRemark(void);
-
 fpos_t InputGetPosition(void);
 void InputStartReplay(fpos_t pos);
 void InputEndReplay(void);

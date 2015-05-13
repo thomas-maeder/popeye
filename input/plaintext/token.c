@@ -253,13 +253,3 @@ boolean ReadToEndOfLine(void)
     return true;
   }
 }
-
-void ReadRemark(void)
-{
-  if (ReadToEndOfLine())
-  {
-    protocol_fprintf(stdout,"%s",InputLine);
-    output_plaintext_message(NewLine);
-    protocol_fflush(stdout);
-  }
-}

@@ -466,6 +466,91 @@ static char *ParseForsyth(char *tok)
   return ReadNextTokStr();
 }
 
+static char *ReadRemark(void)
+{
+  if (ReadToEndOfLine())
+  {
+    protocol_fprintf(stdout,"%s",InputLine);
+    output_plaintext_message(NewLine);
+    protocol_fflush(stdout);
+  }
+
+  return ReadNextTokStr();
+}
+
+static char *ReadTrace(void)
+{
+  if (ReadToEndOfLine())
+  {
+    {
+      FILE * const protocol = protocol_open(InputLine);
+      if (protocol==0)
+        output_plaintext_input_error_message(WrOpenError,0);
+      else
+        output_plaintext_print_version_info(protocol);
+    }
+  }
+
+  return ReadNextTokStr();
+}
+
+static char *ReadAuthor(void)
+{
+  if (ReadToEndOfLine())
+  {
+    strcat(ActAuthor,InputLine);
+    strcat(ActAuthor,"\n");
+  }
+
+  return ReadNextTokStr();
+}
+
+static char *ReadAward(void)
+{
+  if (ReadToEndOfLine())
+  {
+    strcpy(ActAward,InputLine);
+    strcat(ActAward, "\n");
+  }
+
+  return ReadNextTokStr();
+}
+
+static char *ReadOrigin(void)
+{
+  if (ReadToEndOfLine())
+  {
+    strcat(ActOrigin,InputLine);
+    strcat(ActOrigin,"\n");
+  }
+
+  return ReadNextTokStr();
+}
+
+static char *ReadTitle(void)
+{
+  if (ReadToEndOfLine())
+  {
+    strcat(ActTitle,InputLine);
+    strcat(ActTitle,"\n");
+  }
+
+  return ReadNextTokStr();
+}
+
+static char *ReadLaTeXToken(void)
+{
+  if (ReadToEndOfLine())
+  {
+    LaTeXShutdown();
+    LaTeXSetup();
+
+    return ParseLaTeXPieces(ReadNextTokStr());
+  }
+  else
+    return ReadNextTokStr();
+}
+
 char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
 {
   InitialTwinToken result;
@@ -489,11 +574,6 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
     else
       switch (result)
       {
-        case InitialTwinTokenCount:
-          output_plaintext_input_error_message(ComNotKnown,0);
-          tok = ReadNextTokStr();
-          break;
-
         case StipToken:
           if (SLICE_NEXT1(root_slice_hook)==no_slice)
           {
@@ -516,39 +596,19 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case Author:
-          if (ReadToEndOfLine())
-          {
-            strcat(ActAuthor,InputLine);
-            strcat(ActAuthor,"\n");
-          }
-          tok = ReadNextTokStr();
+          tok = ReadAuthor();
           break;
 
         case Award:
-          if (ReadToEndOfLine())
-          {
-            strcpy(ActAward,InputLine);
-            strcat(ActAward, "\n");
-          }
-          tok = ReadNextTokStr();
+          tok = ReadAward();
           break;
 
         case Origin:
-          if (ReadToEndOfLine())
-          {
-            strcat(ActOrigin,InputLine);
-            strcat(ActOrigin,"\n");
-          }
-          tok = ReadNextTokStr();
+          tok = ReadOrigin();
           break;
 
         case TitleToken:
-          if (ReadToEndOfLine())
-          {
-            strcat(ActTitle,InputLine);
-            strcat(ActTitle,"\n");
-          }
-          tok = ReadNextTokStr();
+          tok = ReadTitle();
           break;
 
         case PieceToken:
@@ -571,23 +631,11 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case RemToken:
-          ReadRemark();
-          tok = ReadNextTokStr();
+          tok = ReadRemark();
           break;
 
         case TraceToken:
-          if (ReadToEndOfLine())
-          {
-            {
-              FILE * const protocol = protocol_open(InputLine);
-              if (protocol==0)
-                output_plaintext_input_error_message(WrOpenError,0);
-              else
-                output_plaintext_print_version_info(protocol);
-            }
-          }
-
-          tok = ReadNextTokStr();
+          tok = ReadTrace();
           break;
 
         case LaTeXPieces:
@@ -596,16 +644,7 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case LaTeXToken:
-          if (ReadToEndOfLine())
-          {
-            LaTeXShutdown();
-            LaTeXSetup();
-
-            tok = ReadNextTokStr();
-            tok = ParseLaTeXPieces(tok);
-          }
-          else
-            tok = ReadNextTokStr();
+          tok = ReadLaTeXToken();
           break;
 
         case SepToken:
@@ -663,8 +702,7 @@ static char *ReadSubsequentTwin(char *tok, slice_index root_slice_hook)
       switch (result)
       {
         case RemToken:
-          ReadRemark();
-          tok = ReadNextTokStr();
+          tok = ReadRemark();
           break;
 
         default:
