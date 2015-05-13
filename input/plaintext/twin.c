@@ -510,36 +510,44 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case StructStipToken:
-          *AlphaStip='\0';
+          AlphaStip[0] ='\0';
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,root_slice_hook);
           break;
 
         case Author:
-          ReadToEndOfLine();
-          strcat(ActAuthor,InputLine);
-          strcat(ActAuthor,"\n");
+          if (ReadToEndOfLine())
+          {
+            strcat(ActAuthor,InputLine);
+            strcat(ActAuthor,"\n");
+          }
           tok = ReadNextTokStr();
           break;
 
         case Award:
-          ReadToEndOfLine();
-          strcpy(ActAward,InputLine);
-          strcat(ActAward, "\n");
+          if (ReadToEndOfLine())
+          {
+            strcpy(ActAward,InputLine);
+            strcat(ActAward, "\n");
+          }
           tok = ReadNextTokStr();
           break;
 
         case Origin:
-          ReadToEndOfLine();
-          strcat(ActOrigin,InputLine);
-          strcat(ActOrigin,"\n");
+          if (ReadToEndOfLine())
+          {
+            strcat(ActOrigin,InputLine);
+            strcat(ActOrigin,"\n");
+          }
           tok = ReadNextTokStr();
           break;
 
         case TitleToken:
-          ReadToEndOfLine();
-          strcat(ActTitle,InputLine);
-          strcat(ActTitle,"\n");
+          if (ReadToEndOfLine())
+          {
+            strcat(ActTitle,InputLine);
+            strcat(ActTitle,"\n");
+          }
           tok = ReadNextTokStr();
           break;
 
@@ -568,20 +576,19 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case TraceToken:
-        {
-          ReadToEndOfLine();
-
+          if (ReadToEndOfLine())
           {
-            FILE * const protocol = protocol_open(InputLine);
-            if (protocol==0)
-              output_plaintext_input_error_message(WrOpenError,0);
-            else
-              output_plaintext_print_version_info(protocol);
+            {
+              FILE * const protocol = protocol_open(InputLine);
+              if (protocol==0)
+                output_plaintext_input_error_message(WrOpenError,0);
+              else
+                output_plaintext_print_version_info(protocol);
+            }
           }
 
           tok = ReadNextTokStr();
           break;
-        }
 
         case LaTeXPieces:
           tok = ReadNextTokStr();
@@ -589,12 +596,16 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
           break;
 
         case LaTeXToken:
-          LaTeXShutdown();
-          ReadToEndOfLine();
-          LaTeXSetup();
+          if (ReadToEndOfLine())
+          {
+            LaTeXShutdown();
+            LaTeXSetup();
 
-          tok = ReadNextTokStr();
-          tok = ParseLaTeXPieces(tok);
+            tok = ReadNextTokStr();
+            tok = ParseLaTeXPieces(tok);
+          }
+          else
+            tok = ReadNextTokStr();
           break;
 
         case SepToken:

@@ -110,10 +110,12 @@ char *ParseLaTeXPieces(char *tok)
       }
       LaTeXPiecesAbbr[walk][i]= tolower(tok[i]);
 
-      ReadToEndOfLine();
-      tok = InputLine;
-      LaTeXPiecesFull[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
-      strcpy(LaTeXPiecesFull[walk], tok);
+      if (ReadToEndOfLine())
+      {
+        tok = InputLine;
+        LaTeXPiecesFull[walk]= (char *)malloc(sizeof(char)*(strlen(tok)+1));
+        strcpy(LaTeXPiecesFull[walk], tok);
+      }
 
       tok = ReadNextTokStr();
     }

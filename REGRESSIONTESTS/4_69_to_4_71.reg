@@ -657,3 +657,48 @@ LaTeXFile will not compile: undefined fairy piece
 solution finished.
 
 
+
+In 4.59, we fixed Popeye's behavior regarding empty remark lines
+But the same problem has been there for other line-oriented input elements
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   R   .   .   N   N   .   .   .   8
+|                                   |
+7   .   P   .   K   P   .   .   N   7
+|                                   |
+6   .   Q  -R   .   P  -B   .   .   6
+|                                   |
+5   .  -P   .   .   .   .   .   .   5
+|                                   |
+4   .  -K   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   P   B   .   .  -P   .   2
+|                                   |
+1   .   .  -R   .   .   .   N   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  s#1                        12 + 6
+          AntiCirce Cheylan
+         Football Q S R B N
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+LaTeXFile will not compile: undefined fairy piece
+
+   1.Ra8-a1=Q !
+      1...Bf6*a1=S[bSa1->b8] #
+
+   1.Ra8-a1 !
+      1...Bf6*a1=S[bSa1->b8] #
+
+
+  add_to_move_generation_stack:        4115
+                     play_move:        4342
+ is_white_king_square_attacked:        2217
+ is_black_king_square_attacked:        1695
+solution finished.
+
+

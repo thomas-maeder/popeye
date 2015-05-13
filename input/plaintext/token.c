@@ -222,33 +222,42 @@ unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char con
   }
 }
 
-/* read into InputLine until the next1 end of line */
-void ReadToEndOfLine(void)
+/* read into InputLine until the next1 end of line
+ * @return true iff something has actually been read, i.e. we have not already
+ *         been at the end of line
+ */
+boolean ReadToEndOfLine(void)
 {
-  char *p = InputLine;
-
-  do
+  if (LastChar=='\n')
+    return false;
+  else
   {
-    NextChar();
-  } while (strchr(LineSpaceChar,LastChar));
+    char *p = InputLine;
 
-  while (LastChar!='\n')
-  {
-    *p++ = LastChar;
-    NextChar();
+    do
+    {
+      NextChar();
+    } while (strchr(LineSpaceChar,LastChar));
+
+    while (LastChar!='\n')
+    {
+      *p++ = LastChar;
+      NextChar();
+    }
+
+    if (p >= (InputLine + sizeof(InputLine)))
+      output_plaintext_fatal_message(InpLineOverflow);
+
+    *p = '\0';
+
+    return true;
   }
-
-  if (p >= (InputLine + sizeof(InputLine)))
-    output_plaintext_fatal_message(InpLineOverflow);
-
-  *p = '\0';
 }
 
 void ReadRemark(void)
 {
-  if (LastChar != '\n')
+  if (ReadToEndOfLine())
   {
-    ReadToEndOfLine();
     protocol_fprintf(stdout,"%s",InputLine);
     output_plaintext_message(NewLine);
     protocol_fflush(stdout);

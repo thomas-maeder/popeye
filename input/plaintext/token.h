@@ -30,8 +30,11 @@ boolean token_starts_with(char const *start, char const *token);
 
 unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char const *tok);
 
-/* read into InputLine until the next1 end of line */
-void ReadToEndOfLine(void);
+/* read into InputLine until the next1 end of line
+ * @return true iff something has actually been read, i.e. we have not already
+ *         been at the end of line
+ */
+boolean ReadToEndOfLine(void);
 
 void ReadRemark(void);
 

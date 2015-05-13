@@ -141,4 +141,18 @@ stip #1
 condition BlackSuperTransmutingKing
 option nowk
 
+next
+
+title In 4.59, we fixed Popeye's behavior regarding empty remark lines
+title But the same problem has been there for other line-oriented input elements
+stipulation s#1
+title
+author
+origin
+award
+condition anticirce cheylan football q s r b n
+pieces white kd7 qb6 ra8 bd2 pb7c2e6e7 nd8e8g1h7
+       black kb4 rc6c1 bf6  pb5g2
+option variations
+
 end
