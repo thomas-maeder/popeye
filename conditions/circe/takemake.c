@@ -26,7 +26,11 @@ static unsigned int stack_pointer = 1;
 static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *context)
 {
   boolean result = false;
-  square sq_capture = move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture;
+  move_effect_journal_index_type const base = move_effect_journal_base[context->relevant_ply];
+  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  piece_walk_type const pi_capturing = get_walk_of_piece_on_square(sq_capture);
+  Flags const flags_capturing = being_solved.spec[sq_capture];
 
   /* we need to do this for this module to work in both Circe and Anticirce:
    * normally (i.e. unless e.g. mirror is selected), the capturee's walk
@@ -40,35 +44,25 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (en_passant_is_ep_capture(sq_capture))
-    sq_capture -= offset_en_passant_capture;
+  assert(move_effect_journal[capture].type==move_effect_piece_removal);
 
-  {
-    piece_walk_type const pi_capturing = get_walk_of_piece_on_square(sq_capture);
-    Flags const flags_capturing = being_solved.spec[sq_capture];
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+  take_make_circe_current_rebirth_square_index[stack_pointer] = take_make_circe_current_rebirth_square_index[stack_pointer-1];
 
-    take_make_circe_current_rebirth_square_index[stack_pointer] = take_make_circe_current_rebirth_square_index[stack_pointer-1];
+  occupy_square(sq_capture,
+                move_effect_journal[capture].u.piece_removal.walk,
+                move_effect_journal[capture].u.piece_removal.flags);
 
-    TraceWalk(pi_capturing);TraceSquare(sq_capture);TraceSquare(sq_capture-offset_en_passant_capture);TraceEOL();
+  init_single_piece_move_generator(sq_capture);
 
-    occupy_square(sq_capture,
-                  move_effect_journal[capture].u.piece_removal.walk,
-                  move_effect_journal[capture].u.piece_removal.flags);
+  result = (conditional_pipe_solve_delegate(temporary_hack_circe_take_make_rebirth_squares_finder[relevant_side])
+            ==previous_move_has_solved);
 
-    init_single_piece_move_generator(sq_capture);
+  assert(pi_capturing!=Invalid);
 
-    result = (conditional_pipe_solve_delegate(temporary_hack_circe_take_make_rebirth_squares_finder[relevant_side])
-              ==previous_move_has_solved);
-
-    assert(pi_capturing!=Invalid);
-
-    if (pi_capturing==Empty)
-      empty_square(sq_capture);
-    else
-      occupy_square(sq_capture,pi_capturing,flags_capturing);
-  }
+  if (pi_capturing==Empty) /* en passant, Locust, ... */
+    empty_square(sq_capture);
+  else
+    occupy_square(sq_capture,pi_capturing,flags_capturing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
