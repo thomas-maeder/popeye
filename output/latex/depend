@@ -343,7 +343,9 @@ output/latex/goal_writer$(OBJ_SUFFIX): output/latex/goal_writer.c \
  stipulation/stipulation.h stipulation/slice_type.h \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
+ solving/machinery/dispatch.h debugging/trace.h position/position.h \
+ position/color.h position/color.enum.h pieces/walks/vectors.h \
+ position/castling_rights.h solving/ply.h stipulation/pipe.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -384,6 +386,18 @@ output/mode.enum.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
+
+position/castling_rights.h:
+
+solving/ply.h:
 
 stipulation/pipe.h:
 

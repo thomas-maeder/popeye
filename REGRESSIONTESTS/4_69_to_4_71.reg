@@ -702,3 +702,42 @@ LaTeXFile will not compile: undefined fairy piece
 solution finished.
 
 
+
+since 4.65, en passant captures weren't supported in Circe Take&Make any more
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .  -P   .   .   6
+|                                   |
+5   .   .   .  -P   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 2
+           Circe Take&Make
+
+   1.e5-e6 !
+
+   1.e5*f6[+bPf5] !
+
+   1.e5*d6 ep.[+bPd4] !
+
+
+  add_to_move_generation_stack:           5
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+
