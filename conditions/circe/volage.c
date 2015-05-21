@@ -60,19 +60,24 @@ void circe_volage_recolorer_solve(slice_index si)
     {
       square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
 
-      if (TSTFLAG(being_solved.spec[sq_rebirth],Volage)
-          && (SquareCol(sq_rebirth)
-              !=SquareCol(move_generation_stack[CURRMOVE_OF_PLY(nbply)].capture)))
+      if (TSTFLAG(being_solved.spec[sq_rebirth],Volage))
       {
-        if (!TSTFLAG(being_solved.spec[sq_rebirth],trait[nbply]))
-          move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
-                                             sq_rebirth);
-        if (!CondFlag[hypervolage])
+        move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+        move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+        square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+
+        if (SquareCol(sq_rebirth)!=SquareCol(sq_capture))
         {
-          Flags changed = being_solved.spec[sq_rebirth];
-          CLRFLAG(changed,Volage);
-          move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
-                                              sq_rebirth,changed);
+          if (!TSTFLAG(being_solved.spec[sq_rebirth],trait[nbply]))
+            move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
+                                               sq_rebirth);
+          if (!CondFlag[hypervolage])
+          {
+            Flags changed = being_solved.spec[sq_rebirth];
+            CLRFLAG(changed,Volage);
+            move_effect_journal_do_flags_change(move_effect_reason_volage_side_change,
+                                                sq_rebirth,changed);
+          }
         }
       }
     }

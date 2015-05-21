@@ -741,3 +741,46 @@ since 4.65, en passant captures weren't supported in Circe Take&Make any more
 solution finished.
 
 
+
+since 4.65, there was an obscure en passant bug in Circe Volages
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   P   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          2 + 1
+           Circe Assassin
+               Volage
+            EinsteinChess
+
+   1.d5-d6=b !
+
+   1.d5*e6=S[+bPe7=w] !
+
+   1.f6-f7=b !
+
+   1.f6*e7 ep.=S[+bPe7=w] !
+
+
+  add_to_move_generation_stack:           4
+                     play_move:           4
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

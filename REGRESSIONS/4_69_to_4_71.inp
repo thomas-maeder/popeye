@@ -163,4 +163,12 @@ stipulation ~1
 condition circe take&make
 option enpassant d7d6d5 nobk nowk
 
+next
+
+title since 4.65, there was an obscure en passant bug in Circe Volages
+pieces white pf6d5 black pe6
+condition volage einstein circe assassin
+stipulation ~1
+option enpassant e8e7e6 nowk nobk
+
 end
