@@ -119,11 +119,11 @@ static void insert_visit_circe(slice_index si, stip_structure_traversal *st)
     stip_structure_traversal st_nested;
     branch_slice_insertion_state_type state_nested;
     slice_insertion_prepare_factored_order(si,
-                                                     st,
-                                                     &st_nested,&state_nested,
-                                                     circe_slice_rank_order,
-                                                     nr_circe_slice_rank_order_elmts,
-                                                     nr_circe_exit_slice_types);
+                                           st,
+                                           &st_nested,&state_nested,
+                                           circe_slice_rank_order,
+                                           nr_circe_slice_rank_order_elmts,
+                                           nr_circe_exit_slice_types);
     stip_traverse_structure_children_pipe(si,&st_nested);
   }
 
