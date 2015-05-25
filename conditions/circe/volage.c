@@ -62,9 +62,8 @@ void circe_volage_recolorer_solve(slice_index si)
 
       if (TSTFLAG(being_solved.spec[sq_rebirth],Volage))
       {
-        move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-        move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-        square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+        /* using relevant_square causes this to work for Parrain Circe as well */
+        square const sq_capture = circe_rebirth_context_stack[circe_rebirth_context_stack_pointer].relevant_square;
 
         if (SquareCol(sq_rebirth)!=SquareCol(sq_capture))
         {

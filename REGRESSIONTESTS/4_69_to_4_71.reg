@@ -784,3 +784,38 @@ since 4.65, there was an obscure en passant bug in Circe Volages
 solution finished.
 
 
+
+make sure that Volage works during an en passant capture in Circe Parrain
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .  -P   .   .   .   6
+|                                   |
+5   .   .   .  -P   P   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-zd72                    1 + 2
+            Circe Parrain
+               Volage
+
+  1.e5*d6 ep.   2.d6-d7=b[+bPd6=w] z
+
+  add_to_move_generation_stack:           3
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

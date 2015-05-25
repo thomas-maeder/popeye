@@ -171,4 +171,12 @@ condition volage einstein circe assassin
 stipulation ~1
 option enpassant e8e7e6 nowk nobk
 
+next
+
+title make sure that Volage works during an en passant capture in Circe Parrain
+pieces white pe5 black pd5e6
+stip ser-zd72
+condition volage circe parrain
+option enpassant d7d6d5 nowk nobk
+
 end
