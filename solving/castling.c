@@ -788,11 +788,10 @@ void generate_castling(void)
 
     if (allowed_castlings!=0 && !is_in_check(side))
     {
-      curr_generation->departure = save_departure; /* modified by is_in_check! */
-
       if ((allowed_castlings&rh_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_f))
       {
+        curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
         curr_generation->arrival = square_g;
         push_special_move(kingside_castling);
       }
@@ -800,6 +799,7 @@ void generate_castling(void)
       if ((allowed_castlings&ra_cancastle)
           && castling_is_intermediate_king_move_legal(side,square_d))
       {
+        curr_generation->departure = save_departure; /* modified by is_in_check or castling_is_intermediate_king_move_legal! */
         curr_generation->arrival = square_c;
         push_special_move(queenside_castling);
       }
