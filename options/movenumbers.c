@@ -30,7 +30,7 @@ static boolean restart_deep;
 
 static void write_history_recursive(ply ply)
 {
-  if (ply>ply_retro_move)
+  if (ply>ply_retro_move+1)
   {
     write_history_recursive(parent_ply[ply]);
     fputs(":",stdout);
