@@ -1,5 +1,7 @@
 #include "platform/platform.h"
 
+#include <limits.h>
+
 /* Guess the "bitness" of the platform
  * @return 32 if we run on a 32bit platform etc.
  */
