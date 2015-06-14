@@ -819,3 +819,40 @@ make sure that Volage works during an en passant capture in Circe Parrain
 solution finished.
 
 
+both sides need a king
+
+         Adrian Storisteanu
+Since 4.63, Messigny Chess allowed neutral pieces to swap with themselves
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .  =P   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                     0 + 0 + 1n
+            MessignyChess
+
+   1.nPd3-d4 !
+
+
+  add_to_move_generation_stack:           1
+                     play_move:           1
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

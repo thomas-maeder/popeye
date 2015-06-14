@@ -179,4 +179,12 @@ stip ser-zd72
 condition volage circe parrain
 option enpassant d7d6d5 nowk nobk
 
+next
+
+title Since 4.63, Messigny Chess allowed neutral pieces to swap with themselves
+Author Adrian Storisteanu
+Pieces Neutral Pd3
+Stipulation ~1
+Condition messigny
+
 end

@@ -84,7 +84,9 @@ void messigny_generate_moves_for_piece(slice_index si)
       for (bnp = boardnum; *bnp; ++bnp)
         if (piece_belongs_to_opponent(*bnp)
             && get_walk_of_piece_on_square(*bnp)==move_generation_current_walk
-            && *bnp!=forbidden_from && *bnp!=forbidden_to)
+            && *bnp!=forbidden_from && *bnp!=forbidden_to
+            /* prevent neutral piece from swapping with itself */
+            && *bnp!=curr_generation->departure)
         {
           curr_generation->arrival = *bnp;
           push_special_move(messigny_exchange);
