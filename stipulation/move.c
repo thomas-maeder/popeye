@@ -50,7 +50,6 @@ static slice_type const move_slice_rank_order[] =
     STProteanPawnAdjuster,
     STBeforePawnPromotion, /* moving pawn */
     STLandingAfterPawnPromotion,
-    STCirceParachuteUncoverer,
     STHauntedChessGhostSummoner,
     STFootballChessSubsitutor,
     STLineChameleonArrivingAdjuster,

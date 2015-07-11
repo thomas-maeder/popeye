@@ -187,4 +187,15 @@ Pieces Neutral Pd3
 Stipulation ~1
 Condition messigny
 
+next
+
+title Popeye 4.69 printed the "solution" 1.Bh8*g7[bBg7->f8] Ke8*f8[wKf8->e1] ==
+title because it forgot the rebirth of  the Bf8
+Author adrian s.
+Pieces
+White Ke8 Pg7
+Black Sf8 Bh8 Ke1
+Stipulation ser-h==1
+Condition anticirce parachute
+
 end

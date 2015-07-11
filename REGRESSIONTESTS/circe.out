@@ -777,13 +777,13 @@ Loesung beendet.
       1...Sg1*f3[+wBf2->v] +
           2.Tf2-f1[+wBf2] #
       1...Sd4*f3[+wBf2->v]
-          2.Tf2*d2[+wBf2][+sBd7] #
+          2.Tf2*d2[+sBd7][+wBf2] #
       1...Lh5*f3[+wBf2->v] +
           2.Tf2-g2[+wBf2] #
       1...Dc6-a4
           2.Sc3-d5 #
       1...Dc6*f3[+wBf2->v] +
-          2.Tf2*f3[+wBf2][+sDd8] #
+          2.Tf2*f3[+sDd8][+wBf2] #
       1...Tf8*f3[+wBf2->v]
           2.Tf2-e2[+wBf2] #
 
@@ -846,10 +846,10 @@ letzte 6 Halbz\"uge - Test f\"urs Hashing
  35  (Kh4-g4 )
  36  (Kh4-h5 + )
 
-  add_to_move_generation_stack:    44735764
-                     play_move:    23798931
- is_white_king_square_attacked:     9855627
- is_black_king_square_attacked:    20042657
+  add_to_move_generation_stack:    44735971
+                     play_move:    23799106
+ is_white_king_square_attacked:     9855693
+ is_black_king_square_attacked:    20042797
 Loesung beendet.
 
 

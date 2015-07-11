@@ -856,3 +856,38 @@ Since 4.63, Messigny Chess allowed neutral pieces to swap with themselves
 solution finished.
 
 
+
+              adrian s.
+Popeye 4.69 printed the "solution" 1.Bh8*g7[bBg7->f8] Ke8*f8[wKf8->e1] ==
+because it forgot the rebirth of  the Bf8
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   K  -S   .  -B   8
+|                                   |
+7   .   .   .   .   .   .   P   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .  -K   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ser-h==1                    2 + 3
+         AntiCirce Parachute
+
+
+  add_to_move_generation_stack:         771
+                     play_move:         414
+ is_white_king_square_attacked:         327
+ is_black_king_square_attacked:          10
+solution finished.
+
+
