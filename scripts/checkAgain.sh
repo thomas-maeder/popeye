@@ -5,15 +5,17 @@
 #
 # Usage: checkAgain.sh
 #
-# Start from the directory containing the output files of a regression
-# test (which should be a sibling directory of BEISPIEL and EXAMPLES).
+# Start from the directory containing the output files of a regression test.
 #
 # Uses: sed
 
-. `dirname $0`/parallelTester.lib
+SCRIPTDIR=$(dirname $0)
+POPEYEDIR=${SCRIPTDIR}/..
+
+. ${SCRIPTDIR}/parallelTester.lib
 
 # command to be invoked in parallel
-_cmd="../py -maxmem 1G -maxtrace 0 -regression"
+_cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
 PMAX=3
@@ -24,7 +26,7 @@ do
     if [ -f $f ]
     then
         stem=`echo $f | sed -e 's/[.]tst$//'`
-        echo ../TESTS/$stem.inp
+        echo ${POPEYEDIR}/TESTS/$stem.inp
     fi
 done
 
@@ -34,7 +36,7 @@ do
     if [ -f $f ]
     then
         stem=`echo $f | sed -e 's/[.]reg$//'`
-        echo ../REGRESSIONS/$stem.inp
+        echo ${POPEYEDIR}/REGRESSIONS/$stem.inp
     fi
 done
 
@@ -44,7 +46,7 @@ do
     if [ -f $f ]
     then
         stem=`echo $f | sed -e 's/[.]ref$//'`
-        echo ../EXAMPLES/$stem.inp
+        echo ${POPEYEDIR}/EXAMPLES/$stem.inp
     fi
 done
 
@@ -54,6 +56,6 @@ do
     if [ -f $f ]
     then
         stem=`echo $f | sed -e 's/[.]out$//'`
-        echo ../BEISPIEL/$stem.inp
+        echo ${POPEYEDIR}/BEISPIEL/$stem.inp
     fi
 done) | dispatchWork

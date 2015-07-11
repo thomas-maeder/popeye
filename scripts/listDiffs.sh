@@ -1,12 +1,14 @@
 #! /bin/bash
 
-# Script for solving all example problems from directories EXAMPLES
-# and BEISPIEL
+# Script for listing the regressions found in a regression test
+# 
+# Start from the directory containing the output files of a regression test.
 #
 # Usage: listDiffs.sh
 #
-# Run from an empty sibling directory of EXAMPLES and BEISPIEL.
-#
 # Uses: diff, ls
 
-for f in `ls -tr *`; do echo $f; diff -wb $f ../REGRESSIONTESTS/$f; done
+SCRIPTDIR=$(dirname $0)
+POPEYEDIR=${SCRIPTDIR}/..
+
+for f in `ls -tr *`; do echo $f; diff -wb $f ${POPEYEDIR}/REGRESSIONTESTS/$f; done

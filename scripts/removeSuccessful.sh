@@ -7,12 +7,14 @@
 #
 # Usage: removeSuccessful.sh
 #
-# Start from the directory containing the output files of a regression
-# test (which should be as sibling directory of REGRESSIONTESTS).
+# Start from the directory containing the output files of a regression test.
 #
 # Uses: diff, rm
 
+SCRIPTDIR=$(dirname $0)
+POPEYEDIR=${SCRIPTDIR}/..
+
 for f in *
 do
-    diff -q -wb $f ../REGRESSIONTESTS/$f > /dev/null && rm -f $f
+    diff -q -wb $f ${POPEYEDIR}/REGRESSIONTESTS/$f > /dev/null && rm -f $f
 done
