@@ -33,12 +33,12 @@ correction by TM
                      play_move:       39662
  is_white_king_square_attacked:       15601
  is_black_king_square_attacked:       29869
-solution finished. 
+solution finished.
 
 
 
          F.H. von Meyenfeldt
-            A, BCM 98 1988
+           A, BCM 98 1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -70,7 +70,7 @@ a)
                      play_move:      118566
  is_white_king_square_attacked:       50282
  is_black_king_square_attacked:       90476
-b) wBe4-->h1
+b) wBe4-->h1  
 
   1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Kb7-a8 Bh1*c6 #
   1.Sa8-b6 Rd1-e1   2.Sb6-d7 Re1-e8   3.Sd7-b6 Re8*b8 #
@@ -83,12 +83,12 @@ b) wBe4-->h1
                      play_move:       74418
  is_white_king_square_attacked:       31082
  is_black_king_square_attacked:       56020
-solution finished. 
+solution finished.
 
 
 
          F.H. von Meyenfeldt
-            B, BCM 98 1988
+           B, BCM 98 1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -124,7 +124,7 @@ a)
                      play_move:       62884
  is_white_king_square_attacked:       24157
  is_black_king_square_attacked:       53519
-b) bPd6-->b5
+b) bPd6-->b5  
 
   1.Ke4-d3 Sh2-f1   2.d5-d4 Bb7-f3   3.f5-f4 Se6*f4 #
   1.Ke4-d3 Kb3-a3   2.Kd3-c4 Se6-f4   3.d5-d4 Bb7-d5 #
@@ -135,12 +135,12 @@ b) bPd6-->b5
                      play_move:       38307
  is_white_king_square_attacked:       14935
  is_black_king_square_attacked:       32082
-solution finished. 
+solution finished.
 
 
 
          F.H. von Meyenfeldt
-            C, BCM 98 1988
+           C, BCM 98 1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -172,12 +172,12 @@ solution finished.
                      play_move:       29633
  is_white_king_square_attacked:       10469
  is_black_king_square_attacked:       24869
-solution finished. 
+solution finished.
 
 
 
          F.H. von Meyenfeldt
-          11322, BCM 98 1988
+         11322, BCM 98 1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -209,7 +209,7 @@ a)
                      play_move:      127005
  is_white_king_square_attacked:       65997
  is_black_king_square_attacked:       95610
-b) bPd3-->e5
+b) bPd3-->e5  
 
   1.Kc3-d3 Rh1-h3 +   2.Kd3-e4 Sd7-f6 +   3.Ke4-f4 Bb6-e3 #
   1.Kc3-d3 Bb6-e3   2.Kd3-e4 Ke1-e2   3.d5-d4 Ba8*c6 #
@@ -223,12 +223,12 @@ b) bPd3-->e5
                      play_move:      204872
  is_white_king_square_attacked:       98152
  is_black_king_square_attacked:      166447
-solution finished. 
+solution finished.
 
 
 
          F.H. von Meyenfeldt
-          11383, BCM 98 1988
+         11383, BCM 98 1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -274,12 +274,12 @@ solution finished.
                      play_move:       26524
  is_white_king_square_attacked:       10700
  is_black_king_square_attacked:       19723
-solution finished. 
+solution finished.
 
 
 
          F.H. von Meyenfeldt
-          11384, BCM 98 1988
+         11384, BCM 98 1988
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -308,7 +308,7 @@ solution finished.
                      play_move:    35741869
  is_white_king_square_attacked:    18638547
  is_black_king_square_attacked:    17315899
-solution finished. 
+solution finished.
 
 
 
@@ -344,7 +344,7 @@ http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
                      play_move:      446560
  is_white_king_square_attacked:      205289
  is_black_king_square_attacked:      299228
-solution finished. 
+solution finished.
 
 
 
@@ -379,12 +379,12 @@ http://www.ursta.com/chess/problems/hdm_2005/intro.htm 2002
                      play_move:     1435450
  is_white_king_square_attacked:      491267
  is_black_king_square_attacked:      969650
-solution finished. 
+solution finished.
 
 
 
            Rene J. Millour
-       HDM TT 30.11.2004, Prize
+      HDM TT 30.11.2004, Prize
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -416,7 +416,7 @@ a)
                      play_move:    33938943
  is_white_king_square_attacked:    21592104
  is_black_king_square_attacked:     2785834
-b) bBa8-->b8
+b) bBa8-->b8  
 
   1.a3-a2 e7-e8=R   2.a2-a1=S   1.Re8-e7 d3-d2   2.c7*b8=B[wBb8->c1] d2*c1=Q[bQc1->d8] #
 
@@ -424,7 +424,7 @@ b) bBa8-->b8
                      play_move:    24771470
  is_white_king_square_attacked:    16237460
  is_black_king_square_attacked:     2025015
-solution finished. 
+solution finished.
 
 
 
@@ -509,11 +509,11 @@ solution finished.
                      play_move:     2004450
  is_white_king_square_attacked:      745070
  is_black_king_square_attacked:     1567783
-solution finished. 
+solution finished.
 
 
 
-           Bernard Rothmann
+          Bernard Rothmann
     HDM TT 30.11.2004, 1st-2nd HM
 
 +---a---b---c---d---e---f---g---h---+
@@ -545,11 +545,11 @@ solution finished.
                      play_move:     4701526
  is_white_king_square_attacked:     4693587
  is_black_king_square_attacked:     2589766
-solution finished. 
+solution finished.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
       HDM TT 30.11.2004, 3rd HM
 
 +---a---b---c---d---e---f---g---h---+
@@ -590,14 +590,14 @@ solution finished.
   1.g6-g5 Sg7-e8   2.Kd5-e6   1.Qh8-d4 h7-h6   2.Se8-g7 #
 
   add_to_move_generation_stack:   282524930
-                     play_move:   170968417
+                     play_move:   169007022
  is_white_king_square_attacked:   133874907
- is_black_king_square_attacked:    48254510
-solution finished. 
+ is_black_king_square_attacked:    46293115
+solution finished.
 
 
 
-           Dejan Gli\vsi\'c
+          Dejan Gli\vsi\'c
  HDM TT 30.11.2004, 1st Commendation
 
 +---a---b---c---d---e---f---g---h---+
@@ -640,7 +640,7 @@ a)
                      play_move:      774082
  is_white_king_square_attacked:      284379
  is_black_king_square_attacked:      601955
-b) bRf1-->e1
+b) bRf1-->e1  
 
   1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Rb1-a1   2.Qd5-b3 #
   1.b2-b1=R d7-d8=Q   2.b3-b2   1.Qd8*d5 Rb1-c1   2.Sd3*e1 #
@@ -656,7 +656,7 @@ b) bRf1-->e1
                      play_move:      501325
  is_white_king_square_attacked:      177252
  is_black_king_square_attacked:      392512
-solution finished. 
+solution finished.
 
 
 
@@ -756,7 +756,7 @@ solution finished.
                      play_move:     7955941
  is_white_king_square_attacked:     3536328
  is_black_king_square_attacked:     4949232
-solution finished. 
+solution finished.
 
 
 
@@ -848,7 +848,7 @@ a)
                      play_move:     8075793
  is_white_king_square_attacked:     1160936
  is_black_king_square_attacked:     7589262
-b) bQh8-->h4  bRh2 
+b) bQh8-->h4  bRh2  
 
   1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 g3-g2   2.Sa6-b8 #
   1.RLg2*b2 RLb6*b2   2.Rh2*d2   1.RLd6*d2 Qh4-d8   2.Sa6-b4 #
@@ -894,11 +894,11 @@ b) bQh8-->h4  bRh2
                      play_move:     4321262
  is_white_king_square_attacked:      638772
  is_black_king_square_attacked:     4023436
-solution finished. 
+solution finished.
 
 
 
-            Dieter M"uller
+           Dieter M"uller
    HDM TT 30.11.2004, Commendation
 
 +---a---b---c---d---e---f---g---h---+
@@ -927,10 +927,10 @@ solution finished.
   1.Kf6-e5 Rg4-g5 +   2.Ke5-d4   1.Kc2-b3 Kd4-d3   2.Rg5-e5 Kd3-d4   3.Sd2-f3 + Kd4-d3   4.Re5-e3 #
 
   add_to_move_generation_stack:   201032401
-                     play_move:   165793706
+                     play_move:   163475067
  is_white_king_square_attacked:   145563028
- is_black_king_square_attacked:    22512421
-solution finished. 
+ is_black_king_square_attacked:    20193782
+solution finished.
 
 
 
@@ -965,7 +965,7 @@ solution finished.
                      play_move:       90432
  is_white_king_square_attacked:       34745
  is_black_king_square_attacked:       72383
-solution finished. 
+solution finished.
 
 
 
@@ -1000,7 +1000,7 @@ solution finished.
                      play_move:     3262178
  is_white_king_square_attacked:     1547915
  is_black_king_square_attacked:     1870262
-solution finished. 
+solution finished.
 
 
 
@@ -1037,7 +1037,7 @@ a)
                      play_move:   302848204
  is_white_king_square_attacked:   170483837
  is_black_king_square_attacked:   132474921
-b) bRc1-->c4
+b) bRc1-->c4  
 
   1.Rc4-g4 h3*g4   2.Kd1-e1 g4-g5   3.Ke1-f1 g5-g6   4.Kf1-g1 g6-g7   5.Kg1-h1   1.g7-g8=Q f5-f4   2.Qg8-g2 #
 
@@ -1045,7 +1045,7 @@ b) bRc1-->c4
                      play_move:   263950001
  is_white_king_square_attacked:   149242564
  is_black_king_square_attacked:   114834104
-solution finished. 
+solution finished.
 
 
 
@@ -1079,7 +1079,7 @@ solution finished.
                      play_move:    18254876
  is_white_king_square_attacked:     9260947
  is_black_king_square_attacked:     9008121
-solution finished. 
+solution finished.
 
 
 
@@ -1139,7 +1139,7 @@ solution finished.
                      play_move:    69205232
  is_white_king_square_attacked:    34584612
  is_black_king_square_attacked:    35992099
-solution finished. 
+solution finished.
 
 
 
@@ -1183,7 +1183,7 @@ a)
                      play_move:      521912
  is_white_king_square_attacked:      275252
  is_black_king_square_attacked:      496088
-b) wRa1-->b1
+b) wRa1-->b1  
 
   1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 c4-c3   2.Rc1*c3 #
   1.0-0-0 0-0   2.Rh8-e8   1.Rf1-c1 g4-g3   2.Rc1*c4 #
@@ -1198,7 +1198,7 @@ b) wRa1-->b1
                      play_move:      712156
  is_white_king_square_attacked:      305262
  is_black_king_square_attacked:      679992
-solution finished. 
+solution finished.
 
 
 
@@ -1232,6 +1232,6 @@ solution finished.
                      play_move:       27412
  is_white_king_square_attacked:       24081
  is_black_king_square_attacked:        3332
-solution finished. 
+solution finished.
 
 

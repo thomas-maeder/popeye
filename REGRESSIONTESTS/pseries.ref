@@ -1,5 +1,5 @@
 
- test for parry move at end of series
+test for parry move at end of series
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -28,7 +28,7 @@
                      play_move:        1054
  is_white_king_square_attacked:         124
  is_black_king_square_attacked:        1089
-solution finished. 
+solution finished.
 
 
 
@@ -61,12 +61,12 @@ solution finished.
                      play_move:     1600054
  is_white_king_square_attacked:      453423
  is_black_king_square_attacked:     1517182
-solution finished. 
+solution finished.
 
 
 
-             Dan Meinking
-      StrateGems 47, 2009, no. 1
+            Dan Meinking
+     StrateGems 47, 2009, no. 1
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -95,12 +95,12 @@ solution finished.
                      play_move:     9372796
  is_white_king_square_attacked:     1798395
  is_black_king_square_attacked:     1946468
-solution finished. 
+solution finished.
 
 
 
-             Dan Meinking
-      StrateGems 47, 2009, no. 2
+            Dan Meinking
+     StrateGems 47, 2009, no. 2
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -129,12 +129,12 @@ solution finished.
                      play_move:      325538
  is_white_king_square_attacked:       53670
  is_black_king_square_attacked:       55344
-solution finished. 
+solution finished.
 
 
 
 Dan Meinking (dedicated to Perry Sill)
-      StrateGems 47, 2009, no. 3
+     StrateGems 47, 2009, no. 3
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -165,7 +165,7 @@ a)
                      play_move:       50114
  is_white_king_square_attacked:       13470
  is_black_king_square_attacked:       21812
-b) wBd1 
+b) wBd1  
 
   1.e2-e1=B   2.Be1-c3 + Kb2-c1   3.Bc3-b2 + Kc1-d2   4.Bb2-c1 + Kd2-e1   5.Bc1-d2 + Ke1-f2   6.Bd2*e3 + Kf2-g3   7.Be3-g1 Bd1-f3 #
 
@@ -173,12 +173,12 @@ b) wBd1
                      play_move:      166873
  is_white_king_square_attacked:       43638
  is_black_king_square_attacked:       63386
-solution finished. 
+solution finished.
 
 
 
     Dan Meinking & George Sphicas
-      StrateGems 47, 2009, no. 4
+     StrateGems 47, 2009, no. 4
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -207,12 +207,12 @@ solution finished.
                      play_move:   180415235
  is_white_king_square_attacked:    51137401
  is_black_king_square_attacked:    94543805
-solution finished. 
+solution finished.
 
 
 
-             Dan Meinking
-      StrateGems 47, 2009, no. 5
+            Dan Meinking
+     StrateGems 47, 2009, no. 5
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -243,12 +243,12 @@ solution finished.
                      play_move:        5855
  is_white_king_square_attacked:        2626
  is_black_king_square_attacked:        5516
-solution finished. 
+solution finished.
 
 
 
-             Dan Meinking
-      StrateGems 47, 2009, no. 6
+            Dan Meinking
+     StrateGems 47, 2009, no. 6
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -278,11 +278,11 @@ solution finished.
                      play_move:     2486109
  is_white_king_square_attacked:     1562078
  is_black_king_square_attacked:     1506568
-solution finished. 
+solution finished.
 
 
 
-             Dan Meinking
+            Dan Meinking
 StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
 
 +---a---b---c---d---e---f---g---h---+
@@ -309,16 +309,16 @@ StrateGems 47, 2009, no. 7 (last 7 moves of pser-s#10)
   1.Qe8-e5 + Be1-c3   2.Kd6-e7   3.Ke7-f6   4.Kf6-g5   5.Kg5*h4   6.Kh4-g3   7.Qe5-e1 + Bc3*e1 #
   1.Qe8-e5 + Ra3-c3   2.Qe5-c5   3.Kd6-c6   4.Kc6-b5   5.Kb5-a5   6.Sc7-b5   7.Qc5-a3 + Rc3*a3 #
 
-  add_to_move_generation_stack:  1772061195
-                     play_move:   782935303
+  add_to_move_generation_stack:  1772061217
+                     play_move:   782935347
  is_white_king_square_attacked:   735770621
- is_black_king_square_attacked:   460767205
-solution finished. 
+ is_black_king_square_attacked:   460767250
+solution finished.
 
 
 
-             Mark Kirtley
-      StrateGems 47, 2009, no. 9
+            Mark Kirtley
+     StrateGems 47, 2009, no. 9
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -347,11 +347,11 @@ solution finished.
                      play_move:      213191
  is_white_king_square_attacked:       87827
  is_black_king_square_attacked:       36876
-solution finished. 
+solution finished.
 
 
 
-            George Sphicas
+           George Sphicas
 StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
 
 +---a---b---c---d---e---f---g---h---+
@@ -393,11 +393,11 @@ StrateGems 47, 2009, no. 10 (last 8 moves of pser-s=10)
                      play_move:     5354827
  is_white_king_square_attacked:     4737335
  is_black_king_square_attacked:     3022698
-solution finished. 
+solution finished.
 
 
 
-            George Sphicas
+           George Sphicas
 StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
 
 +---a---b---c---d---e---f---g---h---+
@@ -446,11 +446,11 @@ StrateGems 47, 2009, no. 11 (last 8 moves of pser-s#10)
                      play_move:   172863871
  is_white_king_square_attacked:   167271236
  is_black_king_square_attacked:   105672888
-solution finished. 
+solution finished.
 
 
 
-             Dan Meinking
+            Dan Meinking
 StrateGems 47, 2009, no. 12 (last 4 moves of a pser-h=18)
 
 +---a---b---c---d---e---f---g---h---+
@@ -480,7 +480,7 @@ StrateGems 47, 2009, no. 12 (last 4 moves of a pser-h=18)
                      play_move:     4151706
  is_white_king_square_attacked:     1620930
  is_black_king_square_attacked:     3882785
-solution finished. 
+solution finished.
 
 
 (last 7 moves of a phser-0027)
@@ -515,6 +515,6 @@ Good Companions Quick Composing Tourney 2010, 5th Prize
                      play_move:     7818990
  is_white_king_square_attacked:     3857369
  is_black_king_square_attacked:     6490739
-solution finished. 
+solution finished.
 
 
