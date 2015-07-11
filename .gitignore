@@ -1,0 +1,8 @@
+*.o
+*.a
+*.exe
+.project
+.cproject
+makefile
+py
+gengmarr
