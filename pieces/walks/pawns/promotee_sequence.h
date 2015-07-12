@@ -29,6 +29,7 @@ extern boolean promonly[nr_piece_walks];
 
 /* Start a sequence of promotees
  * @param sq_arrival arrival square of the move
+ * @param as_side side for which the pawn reached the square
  * @param sequence address of structure to represent the sequence
  * @note If sq_arrival is a promotion square of a side
  *          and sq_arrival is still occupied by a pawn of that side
@@ -36,7 +37,8 @@ extern boolean promonly[nr_piece_walks];
  *       Otherwise, state->promotee will be ==Empty.
  */
 void pieces_pawns_start_promotee_sequence(square sq_arrival,
-                                                pieces_pawns_promotion_sequence_type *sequence);
+                                          Side as_side,
+                                          pieces_pawns_promotion_sequence_type *sequence);
 
 /* Continue an iteration over a sequence of promotions of a pawn started with an
  * invokation of pieces_pawns_start_promotee_sequence().

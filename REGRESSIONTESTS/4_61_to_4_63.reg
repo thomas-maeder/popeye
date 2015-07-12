@@ -202,18 +202,18 @@ strange "cages" were selected for neutral pieces
   1.nPg5-g4 + Kf3-e2
   1.nPg5-g4 + Kf3-g2
   1.nPg5-g4 + Kf3*g4[+nPg5]
+  1.nPg5-g4 + Kf3*g4[+nPe8]
   1.nPg5-g4 + Kf3-e4
   1.nPg5-g4 + Kf3-f2
   1.nPg5-g4 + Kf3-e3
   1.nPg5-g4 + Kf3-f4
   1.nPg5-g4 + Kf3-g3
   1.nPg5-g4 + nPg4-g5
-  1.Ke7-d6 Kf3-e2
 
-  add_to_move_generation_stack:         749
-                     play_move:         141
+  add_to_move_generation_stack:         427
+                     play_move:         107
  is_white_king_square_attacked:          21
- is_black_king_square_attacked:         126
+ is_black_king_square_attacked:          99
 solving interrupted.
 
 

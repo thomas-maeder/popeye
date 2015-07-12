@@ -357,7 +357,8 @@ void circe_place_reborn_solve(slice_index si)
   move_effect_journal_do_piece_readdition(SLICE_U(si).circe_handler.variant->rebirth_reason,
                                           context->rebirth_square,
                                           context->reborn_walk,
-                                          context->reborn_spec);
+                                          context->reborn_spec,
+                                          context->rebirth_as);
   pipe_dispatch_delegate(si);
 
   TraceFunctionExit(__func__);

@@ -205,13 +205,17 @@ void circe_volcanic_swapper_solve(slice_index si)
   if (volcanic_rebirth[nbply])
   {
     piece_type const tmp = underworld[nr_ghosts-1];
+    circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
 
     underworld[nr_ghosts-1].walk = get_walk_of_piece_on_square(tmp.on);
     underworld[nr_ghosts-1].flags = being_solved.spec[tmp.on];
 
     move_effect_journal_do_piece_removal(move_effect_reason_volcanic_remember,tmp.on);
     move_effect_journal_do_piece_readdition(move_effect_reason_volcanic_remember,
-                                            tmp.on,tmp.walk,tmp.flags);
+                                            tmp.on,
+                                            tmp.walk,
+                                            tmp.flags,
+                                            context->rebirth_as);
   }
 
   pipe_dispatch_delegate(si);
@@ -247,8 +251,12 @@ void circe_parachute_uncoverer_solve(slice_index si)
 
     if (is_square_empty(from))
     {
+      circe_rebirth_context_elmt_type const * const context = &circe_rebirth_context_stack[circe_rebirth_context_stack_pointer];
       move_effect_journal_do_piece_readdition(move_effect_reason_volcanic_uncover,
-                                              from,underworld[i].walk,underworld[i].flags);
+                                              from,
+                                              underworld[i].walk,
+                                              underworld[i].flags,
+                                              context->rebirth_as);
       move_effect_journal_do_forget_ghost(i);
     }
     else

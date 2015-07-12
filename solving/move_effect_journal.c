@@ -215,11 +215,13 @@ static void redo_piece_movement(move_effect_journal_entry_type const *entry)
  * @param on where to insert the piece
  * @param added nature of added piece
  * @param addedspec specs of added piece
+ * @param for_side for which side is the (potientally neutral) piece re-added
  */
 void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
                                              square on,
                                              piece_walk_type added,
-                                             Flags addedspec)
+                                             Flags addedspec,
+                                             Side for_side)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_piece_readdition,reason);
 
@@ -227,12 +229,14 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
   TraceWalk(added);
+  TraceEnumerator(Side,for_side,"");
   TraceFunctionParamListEnd();
 
   entry->reason = reason;
-  entry->u.piece_addition.on = on;
-  entry->u.piece_addition.walk = added;
-  entry->u.piece_addition.flags = addedspec;
+  entry->u.piece_addition.added.on = on;
+  entry->u.piece_addition.added.walk = added;
+  entry->u.piece_addition.added.flags = addedspec;
+  entry->u.piece_addition.for_side = for_side;
 
   assert(is_square_empty(on));
   if (TSTFLAG(addedspec,White))
@@ -248,9 +252,9 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
 
 static void undo_piece_readdition(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.piece_addition.on;
-  piece_walk_type const added = entry->u.piece_addition.walk;
-  Flags const addedspec = entry->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const added = entry->u.piece_addition.added.walk;
+  Flags const addedspec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -268,9 +272,9 @@ static void undo_piece_readdition(move_effect_journal_entry_type const *entry)
 
 static void redo_piece_readdition(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.piece_addition.on;
-  piece_walk_type const added = entry->u.piece_addition.walk;
-  Flags const addedspec = entry->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const added = entry->u.piece_addition.added.walk;
+  Flags const addedspec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -292,11 +296,13 @@ static void redo_piece_readdition(move_effect_journal_entry_type const *entry)
  * @param on where to insert the piece
  * @param created nature of created piece
  * @param createdspec specs of created piece
+ * @param for which side is the (potentially neutral) piece created
  */
 void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
                                            square on,
                                            piece_walk_type created,
-                                           Flags createdspec)
+                                           Flags createdspec,
+                                           Side for_side)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_piece_creation,reason);
 
@@ -304,11 +310,13 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
   TraceFunctionParam("%u",reason);
   TraceSquare(on);
   TraceWalk(created);
+  TraceEnumerator(Side,for_side,"");
   TraceFunctionParamListEnd();
 
-  entry->u.piece_addition.on = on;
-  entry->u.piece_addition.walk = created;
-  entry->u.piece_addition.flags = createdspec;
+  entry->u.piece_addition.added.on = on;
+  entry->u.piece_addition.added.walk = created;
+  entry->u.piece_addition.added.flags = createdspec;
+  entry->u.piece_addition.for_side = for_side;
 
   assert(is_square_empty(on));
   if (TSTFLAG(createdspec,White))
@@ -324,9 +332,9 @@ void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
 
 static void undo_piece_creation(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.piece_addition.on;
-  piece_walk_type const created = entry->u.piece_addition.walk;
-  Flags const createdspec = entry->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const created = entry->u.piece_addition.added.walk;
+  Flags const createdspec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -347,9 +355,9 @@ static void undo_piece_creation(move_effect_journal_entry_type const *entry)
 
 static void redo_piece_creation(move_effect_journal_entry_type const *entry)
 {
-  square const on = entry->u.piece_addition.on;
-  piece_walk_type const created = entry->u.piece_addition.walk;
-  Flags const createdspec = entry->u.piece_addition.flags;
+  square const on = entry->u.piece_addition.added.on;
+  piece_walk_type const created = entry->u.piece_addition.added.walk;
+  Flags const createdspec = entry->u.piece_addition.added.flags;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -1407,10 +1415,10 @@ square move_effect_journal_follow_piece_through_other_effects(ply ply,
 
       case move_effect_piece_readdition:
       case move_effect_piece_creation:
-        if (GetPieceId(move_effect_journal[other].u.piece_addition.flags)==followed_id)
+        if (GetPieceId(move_effect_journal[other].u.piece_addition.added.flags)==followed_id)
         {
           assert(pos==initsquare);
-          pos = move_effect_journal[other].u.piece_addition.on;
+          pos = move_effect_journal[other].u.piece_addition.added.on;
         }
         break;
 
@@ -1847,13 +1855,13 @@ void update_king_squares(void)
       case move_effect_piece_readdition:
       case move_effect_piece_creation:
       {
-        Flags const addedspec = move_effect_journal[king_square_horizon].u.piece_addition.flags;
+        Flags const addedspec = move_effect_journal[king_square_horizon].u.piece_addition.added.flags;
         TraceValue("%u",TSTFLAG(addedspec,Royal));
         TraceValue("%u",TSTFLAG(addedspec,White));
         TraceValue("%u\n",TSTFLAG(addedspec,Black));
         if (TSTFLAG(addedspec,Royal))
         {
-          square const on = move_effect_journal[king_square_horizon].u.piece_addition.on;
+          square const on = move_effect_journal[king_square_horizon].u.piece_addition.added.on;
           if (new_king_square[White]==initsquare && TSTFLAG(addedspec,White))
             new_king_square[White] = on;
           if (new_king_square[Black]==initsquare && TSTFLAG(addedspec,Black))

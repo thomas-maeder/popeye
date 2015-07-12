@@ -83,7 +83,9 @@ static void HandleAddedPiece(square s, void *param)
 
   if (settings->type==piece_addition_twinning)
     move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                          s,settings->walk,settings->spec);
+                                          s,settings->walk,
+                                          settings->spec,
+                                          no_side);
   else
     occupy_square(s,settings->walk,settings->spec);
 }

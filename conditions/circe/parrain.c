@@ -22,7 +22,8 @@ void circe_parrain_undo_retro_capture(void)
   move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
                                         retro_capture.on,
                                         retro_capture.walk,
-                                        retro_capture.flags);
+                                        retro_capture.flags,
+                                        trait[nbply]);
 }
 
 /* Redo the retro capture */

@@ -177,6 +177,7 @@ void circe_initialise_reborn_from_capturee_solve(slice_index si)
   context->reborn_spec = move_effect_journal[capture].u.piece_removal.flags;
   context->relevant_square = move_effect_journal[capture].u.piece_removal.on;
   context->relevant_side = trait[context->relevant_ply];
+  context->rebirth_as = advers(trait[context->relevant_ply]);
 
   pipe_dispatch_delegate(si);
 
@@ -220,6 +221,8 @@ void circe_initialise_reborn_from_capturer_solve(slice_index si)
   /* TODO WinChloe uses the arrival square, which seems to make more sense */
   context->relevant_square = move_effect_journal[capture].u.piece_removal.on;
   context->relevant_side = advers(trait[context->relevant_ply]);
+
+  context->rebirth_as = trait[context->relevant_ply];
 
   pipe_dispatch_delegate(si);
 

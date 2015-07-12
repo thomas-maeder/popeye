@@ -73,6 +73,7 @@ static void init_promotee_sequence(pieces_pawns_promotee_sequence_selector_type 
 
 /* Start a sequence of promotees
  * @param sq_arrival arrival square of the move
+ * @param as_side side for which the pawn reached the square
  * @param sequence address of structure to represent the sequence
  * @note If sq_arrival is a promotion square of a side
  *          and sq_arrival is still occupied by a pawn of that side
@@ -80,10 +81,12 @@ static void init_promotee_sequence(pieces_pawns_promotee_sequence_selector_type 
  *       Otherwise, state->promotee will be ==Empty.
  */
 void pieces_pawns_start_promotee_sequence(square sq_arrival,
+                                          Side as_side,
                                           pieces_pawns_promotion_sequence_type *sequence)
 {
   TraceFunctionEntry(__func__);
   TraceSquare(sq_arrival);
+  TraceEnumerator(Side,as_side,"");
   TraceFunctionParamListEnd();
 
   /* Some fairy chess (e.g. Protean, Kamikaze) prevents promotion by
@@ -91,9 +94,7 @@ void pieces_pawns_start_promotee_sequence(square sq_arrival,
    * Only promote the piece if it is still a pawn belonging to the
    * moving side.
    */
-  if (is_square_occupied_by_promotable_pawn(sq_arrival)==no_side)
-    sequence->promotee = Empty;
-  else
+  if (is_square_occupied_by_promotable_pawn(sq_arrival)==as_side)
   {
     piece_walk_type const walk_moving = get_walk_of_piece_on_square(sq_arrival);
     sequence->selector = (walk_moving==MarinePawn
@@ -101,6 +102,8 @@ void pieces_pawns_start_promotee_sequence(square sq_arrival,
                           : pieces_pawns_promotee_chain_orthodox);
     sequence->promotee = pieces_pawns_promotee_sequence[sequence->selector][Empty];
   }
+  else
+    sequence->promotee = Empty;
 
   TraceWalk(sequence->promotee);TraceEOL();
 

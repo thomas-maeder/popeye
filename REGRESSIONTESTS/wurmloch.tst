@@ -95,8 +95,7 @@ solution finished.
 
 
 
-     neutral pawns are promoted
-even if transfered to the "wrong" promotion row
+neutral pawns are not promoted when transfered to the "wrong" promotion row
 
 +---a---b---c---d---e---f---g---h---+
 |                                   |
@@ -120,17 +119,11 @@ even if transfered to the "wrong" promotion row
   ~1                     0 + 0 + 1n
            Wormholes f1 d4
 
-   1.nPd3-d4[nPd4->f1=nQ] !
-
-   1.nPd3-d4[nPd4->f1=nS] !
-
-   1.nPd3-d4[nPd4->f1=nR] !
-
-   1.nPd3-d4[nPd4->f1=nB] !
+   1.nPd3-d4[nPd4->f1] !
 
 
   add_to_move_generation_stack:           1
-                     play_move:           4
+                     play_move:           1
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
 solution finished.

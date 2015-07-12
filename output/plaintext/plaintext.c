@@ -292,8 +292,8 @@ static Flags find_piece_walk(output_plaintext_move_context_type const *context,
           break;
 
       case move_effect_piece_readdition:
-        if (move_effect_journal[m].u.piece_addition.on==on)
-          return move_effect_journal[m].u.piece_addition.walk;
+        if (move_effect_journal[m].u.piece_addition.added.on==on)
+          return move_effect_journal[m].u.piece_addition.added.walk;
         else
           break;
 
@@ -380,8 +380,8 @@ static Flags find_piece_flags(output_plaintext_move_context_type const *context,
           break;
 
       case move_effect_piece_readdition:
-        if (move_effect_journal[m].u.piece_addition.on==on)
-          return move_effect_journal[m].u.piece_addition.flags;
+        if (move_effect_journal[m].u.piece_addition.added.on==on)
+          return move_effect_journal[m].u.piece_addition.added.flags;
         else
           break;
 
@@ -539,22 +539,22 @@ static void write_transfer(output_plaintext_move_context_type *context,
   (*context->engine->fprintf)(context->file,"%s",(*context->symbol_table)[output_symbol_right_arrow]);
 
   if (move_effect_journal[removal].u.piece_removal.flags
-      !=move_effect_journal[addition].u.piece_addition.flags
-      || (TSTFLAG(move_effect_journal[addition].u.piece_addition.flags,Royal)
+      !=move_effect_journal[addition].u.piece_addition.added.flags
+      || (TSTFLAG(move_effect_journal[addition].u.piece_addition.added.flags,Royal)
           && is_king(move_effect_journal[removal].u.piece_removal.walk)
-          && !is_king(move_effect_journal[addition].u.piece_addition.walk)))
+          && !is_king(move_effect_journal[addition].u.piece_addition.added.walk)))
   {
     WriteSpec(context->engine,context->file,
-               move_effect_journal[addition].u.piece_addition.flags,
-               move_effect_journal[addition].u.piece_addition.walk,
+               move_effect_journal[addition].u.piece_addition.added.flags,
+               move_effect_journal[addition].u.piece_addition.added.walk,
                false);
-    WriteWalk(context->engine,context->file,move_effect_journal[addition].u.piece_addition.walk);
+    WriteWalk(context->engine,context->file,move_effect_journal[addition].u.piece_addition.added.walk);
   }
   else if (move_effect_journal[removal].u.piece_removal.walk
-           !=move_effect_journal[addition].u.piece_addition.walk)
-    WriteWalk(context->engine,context->file,move_effect_journal[addition].u.piece_addition.walk);
+           !=move_effect_journal[addition].u.piece_addition.added.walk)
+    WriteWalk(context->engine,context->file,move_effect_journal[addition].u.piece_addition.added.walk);
 
-  WriteSquare(context->engine,context->file,move_effect_journal[addition].u.piece_addition.on);
+  WriteSquare(context->engine,context->file,move_effect_journal[addition].u.piece_addition.added.on);
 }
 
 static void write_piece_creation(output_plaintext_move_context_type *context,
@@ -562,9 +562,9 @@ static void write_piece_creation(output_plaintext_move_context_type *context,
 {
   next_context(context,curr,"[+","]");
   write_complete_piece(context,
-                       move_effect_journal[curr].u.piece_addition.flags,
-                       move_effect_journal[curr].u.piece_addition.walk,
-                       move_effect_journal[curr].u.piece_addition.on);
+                       move_effect_journal[curr].u.piece_addition.added.flags,
+                       move_effect_journal[curr].u.piece_addition.added.walk,
+                       move_effect_journal[curr].u.piece_addition.added.on);
 }
 
 static void write_piece_readdition(output_plaintext_move_context_type *context,
@@ -574,7 +574,7 @@ static void write_piece_readdition(output_plaintext_move_context_type *context,
     (*context->engine->fprintf)(context->file,"%s","->v");
   else
   {
-    PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.flags);
+    PieceIdType const id_added = GetPieceId(move_effect_journal[curr].u.piece_addition.added.flags);
     move_effect_journal_index_type const removal = find_piece_removal(context,
                                                                       curr,
                                                                       id_added);

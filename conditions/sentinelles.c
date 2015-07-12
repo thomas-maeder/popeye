@@ -41,7 +41,8 @@ static void insert_sentinelle(Side trait_ply)
       move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,
                                             sq_departure,
                                             sentinelle_walk,
-                                            sentinelle_spec);
+                                            sentinelle_spec,
+                                            trait[nbply]);
     }
     else
     {
@@ -72,7 +73,8 @@ static void insert_sentinelle(Side trait_ply)
         move_effect_journal_do_piece_creation(move_effect_reason_sentinelles,
                                               sq_departure,
                                               sentinelle_walk,
-                                              sentinelle_spec);
+                                              sentinelle_spec,
+                                              trait[nbply]);
       }
     }
   }

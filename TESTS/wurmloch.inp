@@ -18,8 +18,7 @@ option nowk nobk
 
 next
 
-title neutral pawns are promoted
-title even if transfered to the "wrong" promotion row
+title neutral pawns are not promoted when transfered to the "wrong" promotion row
 pieces neutral pd3
 condition wormholes d4f1
 stipulation ~1

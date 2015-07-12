@@ -83,7 +83,8 @@ void haunted_chess_ghost_summoner_solve(slice_index si)
       move_effect_journal_do_piece_readdition(move_effect_reason_summon_ghost,
                                               underworld[idx_ghost].on,
                                               underworld[idx_ghost].walk,
-                                              underworld[idx_ghost].flags);
+                                              underworld[idx_ghost].flags,
+                                              trait[nbply]);
 
       move_effect_journal_do_forget_ghost(idx_ghost);
     }

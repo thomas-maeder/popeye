@@ -153,7 +153,11 @@ typedef struct
             square from;
             square to;
         } piece_movement;
-        piece_type piece_addition;
+        struct
+        {
+            piece_type added;
+            Side for_side;
+        } piece_addition;
         piece_type piece_removal;
         struct
         {
@@ -300,22 +304,26 @@ void move_effect_journal_do_piece_movement(move_effect_reason_type reason,
  * @param on where to insert the piece
  * @param added nature of added piece
  * @param addedspec specs of added piece
+ * @param for_side for which side is the (potientally neutral) piece re-added
  */
 void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
                                              square on,
                                              piece_walk_type added,
-                                             Flags addedspec);
+                                             Flags addedspec,
+                                             Side for_side);
 
 /* Add an newly created piece to the current move of the current ply
  * @param reason reason for creating the piece
  * @param on where to insert the piece
  * @param created nature of created piece
  * @param createdspec specs of created piece
+ * @param for which side is the (potentially neutral) piece created
  */
 void move_effect_journal_do_piece_creation(move_effect_reason_type reason,
                                            square on,
                                            piece_walk_type created,
-                                           Flags createdspec);
+                                           Flags createdspec,
+                                           Side for_side);
 
 /* Fill the capture gap at the head of each move by no capture
  */

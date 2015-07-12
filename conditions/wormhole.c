@@ -141,7 +141,9 @@ void wormhole_transferer_solve(slice_index si)
                                          sq_arrival);
     move_effect_journal_do_piece_readdition(move_effect_reason_rebirth_choice,
                                             wormhole_positions[wormhole_next_transfer[nbply]-1],
-                                            added,addedspec);
+                                            added,
+                                            addedspec,
+                                            trait[nbply]);
 
     pipe_solve_delegate(si);
 

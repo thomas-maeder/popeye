@@ -352,7 +352,7 @@ static void adjust_castling_rights(Side trait_ply)
       case move_effect_piece_readdition:
       case move_effect_piece_creation:
         enable_castling_rights(move_effect_journal[curr].reason,
-                               move_effect_journal[curr].u.piece_addition.on);
+                               move_effect_journal[curr].u.piece_addition.added.on);
         break;
 
       case move_effect_piece_removal:

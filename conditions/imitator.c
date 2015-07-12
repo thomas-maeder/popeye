@@ -1161,7 +1161,10 @@ void imitator_pawn_promoter_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   {
-    square const sq_arrival = find_potential_promotion_square(promotion_horizon);
+    square sq_arrival;
+    Side as_side;
+
+    find_potential_promotion_square(promotion_horizon,&sq_arrival,&as_side);
 
     assert(stack_pointer<stack_size);
 

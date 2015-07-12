@@ -215,7 +215,7 @@ void singlebox_type2_initialise_singlebox_promotion_sequence(square sq_prom,
                                                              pieces_pawns_promotion_sequence_type *sequence)
 {
   *side = (is_forwardpawn(get_walk_of_piece_on_square(sq_prom)) ? ForwardPromSq(White,sq_prom) : ReversePromSq(White,sq_prom)) ? White : Black;
-  pieces_pawns_start_promotee_sequence(sq_prom,sequence);
+  pieces_pawns_start_promotee_sequence(sq_prom,*side,sequence);
   while (sequence->promotee!=Empty)
     if (sequence->promotee!=Pawn
         && being_solved.number_of_pieces[*side][sequence->promotee]<game_array.number_of_pieces[*side][sequence->promotee])

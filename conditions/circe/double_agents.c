@@ -54,9 +54,9 @@ void circe_doubleagents_adapt_reborn_side_solve(slice_index si)
   {
     move_effect_journal_index_type const rebirth = circe_find_current_rebirth();
     if (rebirth>=move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects
-        && !is_piece_neutral(move_effect_journal[rebirth].u.piece_addition.flags))
+        && !is_piece_neutral(move_effect_journal[rebirth].u.piece_addition.added.flags))
       move_effect_journal_do_side_change(move_effect_reason_circe_turncoats,
-                                         move_effect_journal[rebirth].u.piece_addition.on);
+                                         move_effect_journal[rebirth].u.piece_addition.added.on);
   }
 
   pipe_dispatch_delegate(si);

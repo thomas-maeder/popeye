@@ -163,7 +163,8 @@ static void place_king(Side moving)
   move_effect_journal_do_piece_creation(move_effect_reason_republican_king_insertion,
                                         king_placement[nbply],
                                         King,
-                                        king_flags);
+                                        king_flags,
+                                        trait[nbply]);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

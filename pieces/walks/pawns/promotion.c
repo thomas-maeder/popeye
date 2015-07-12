@@ -212,11 +212,21 @@ void promotion_insert_slice_sequence(slice_index si,
 
 /* Find the last square occupied by a piece since we last checked.
  * @param base index of move effects that have already been dealt with
- * @return the square; initsquare if there isn't any
+ * @param candidate to hold the square; initsquare if there isn't any
+ * @param as_side for whom did the pawn reach *candidate?
  */
-square find_potential_promotion_square(move_effect_journal_index_type base)
+void find_potential_promotion_square(move_effect_journal_index_type base,
+                                     square *candidate,
+                                     Side *as_side)
 {
   move_effect_journal_index_type curr = move_effect_journal_base[nbply+1];
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",base);
+  TraceFunctionParamListEnd();
+
+  *candidate = initsquare;
+  *as_side = no_side;
 
   while (curr>base)
   {
@@ -225,17 +235,27 @@ square find_potential_promotion_square(move_effect_journal_index_type base)
     switch (move_effect_journal[curr].type)
     {
       case move_effect_piece_movement:
-        return move_effect_journal[curr].u.piece_movement.to;
+        *candidate = move_effect_journal[curr].u.piece_movement.to;
+        *as_side = trait[nbply];
+        curr = base;
+        break;
 
       case move_effect_piece_readdition:
-        return move_effect_journal[curr].u.piece_addition.on;
+        *candidate = move_effect_journal[curr].u.piece_addition.added.on;
+        *as_side = move_effect_journal[curr].u.piece_addition.for_side;
+        curr = base;
+        break;
 
       default:
         break;
     }
   }
 
-  return initsquare;
+  TraceSquare(*candidate);
+  TraceEnumerator(Side,*as_side,"\n");
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Try to solve in solve_nr_remaining half-moves.
@@ -254,20 +274,28 @@ square find_potential_promotion_square(move_effect_journal_index_type base)
 void pawn_promoter_solve(slice_index si)
 {
   move_effect_journal_index_type const save_horizon = promotion_horizon;
+  square sq_potential_promotion;
+  Side as_side;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  find_potential_promotion_square(promotion_horizon,
+                                  &sq_potential_promotion,
+                                  &as_side);
+
+  assert(stack_pointer<stack_size);
+
+  if (sq_potential_promotion==initsquare)
+    pipe_solve_delegate(si);
+  else
   {
-    square const sq_potential_promotion = find_potential_promotion_square(promotion_horizon);
-
-    assert(stack_pointer<stack_size);
-
     promotion_horizon = move_effect_journal_base[nbply+1];
 
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
+                                           as_side,
                                            &promotion_stack[stack_pointer]);
 
     if (promotion_stack[stack_pointer].promotee==Empty)

@@ -25,7 +25,7 @@ static boolean find_removal(move_effect_journal_index_type top,
   move_effect_journal_index_type curr;
   for (curr = base; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_removal
-        && move_effect_journal[curr].u.piece_addition.on==on)
+        && move_effect_journal[curr].u.piece_addition.added.on==on)
       return true;
 
   return false;
@@ -37,7 +37,7 @@ static boolean find_creation(move_effect_journal_index_type curr,
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
   for (; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_creation
-        && move_effect_journal[curr].u.piece_addition.on==on)
+        && move_effect_journal[curr].u.piece_addition.added.on==on)
       return true;
 
   return false;
@@ -64,16 +64,16 @@ static void WritePieceCreation(move_effect_journal_index_type curr)
 {
   move_effect_journal_entry_type const *entry = &move_effect_journal[curr];
 
-  if (!find_removal(curr,entry->u.piece_addition.on))
+  if (!find_removal(curr,entry->u.piece_addition.added.on))
     protocol_fputc('+',stdout);
 
   WriteSpec(&output_plaintext_engine,
             stdout,
-            entry->u.piece_addition.flags,
-            entry->u.piece_addition.walk,
+            entry->u.piece_addition.added.flags,
+            entry->u.piece_addition.added.walk,
             true);
-  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_addition.walk);
-  WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_addition.on);
+  WriteWalk(&output_plaintext_engine,stdout,entry->u.piece_addition.added.walk);
+  WriteSquare(&output_plaintext_engine,stdout,entry->u.piece_addition.added.on);
   protocol_fprintf(stdout,"%s","  ");
 }
 

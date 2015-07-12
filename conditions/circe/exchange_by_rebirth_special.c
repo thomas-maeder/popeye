@@ -55,7 +55,7 @@ void circe_exchange_special_solve(slice_index si)
 
     if (rebirth>=move_effect_journal_base[nbply]+move_effect_journal_index_offset_other_effects)
     {
-      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
+      square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.added.on;
       square const sq_diagram = GetPositionInDiagram(being_solved.spec[sq_rebirth]);
       if (sq_rebirth!=initsquare
           && GetPositionInDiagram(being_solved.spec[sq_diagram])==sq_rebirth

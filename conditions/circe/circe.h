@@ -65,6 +65,7 @@ typedef struct
     square relevant_square;
     Side relevant_side;
     square rebirth_from;
+    Side rebirth_as;
 } circe_rebirth_context_elmt_type;
 
 extern circe_rebirth_context_elmt_type circe_rebirth_context_stack[maxply+1];

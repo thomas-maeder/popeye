@@ -73,7 +73,7 @@ static boolean find_removal(move_effect_journal_index_type top,
   move_effect_journal_index_type curr;
   for (curr = base; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_removal
-        && move_effect_journal[curr].u.piece_addition.on==on)
+        && move_effect_journal[curr].u.piece_addition.added.on==on)
       return true;
 
   return false;
@@ -85,7 +85,7 @@ static boolean find_creation(move_effect_journal_index_type curr,
   move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
   for (; curr!=top; ++curr)
     if (move_effect_journal[curr].type==move_effect_piece_creation
-        && move_effect_journal[curr].u.piece_addition.on==on)
+        && move_effect_journal[curr].u.piece_addition.added.on==on)
       return true;
 
   return false;
@@ -116,11 +116,11 @@ static void WritePieceCreation(move_effect_journal_index_type curr)
 
   sprintf(twinning+len,
           "%s\\%c%s %c%c",
-          find_removal(curr,entry->u.piece_addition.on) ? "" : "+",
-          is_piece_neutral(entry->u.piece_addition.flags) ? 'n' : (TSTFLAG(entry->u.piece_addition.flags, White) ? 'w' : 's'),
-          LaTeXWalk(entry->u.piece_addition.walk),
-          'a'-nr_of_slack_files_left_of_board+entry->u.piece_addition.on%onerow,
-          '1'-nr_of_slack_rows_below_board+entry->u.piece_addition.on/onerow);
+          find_removal(curr,entry->u.piece_addition.added.on) ? "" : "+",
+          is_piece_neutral(entry->u.piece_addition.added.flags) ? 'n' : (TSTFLAG(entry->u.piece_addition.added.flags, White) ? 'w' : 's'),
+          LaTeXWalk(entry->u.piece_addition.added.walk),
+          'a'-nr_of_slack_files_left_of_board+entry->u.piece_addition.added.on%onerow,
+          '1'-nr_of_slack_rows_below_board+entry->u.piece_addition.added.on/onerow);
 }
 
 static boolean WritePieceRemoval(move_effect_journal_index_type curr)

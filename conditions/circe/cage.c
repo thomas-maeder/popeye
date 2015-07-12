@@ -142,7 +142,7 @@ static boolean find_non_capturing_move(move_effect_journal_index_type rebirth,
                                        Side moving_side)
 {
   boolean result;
-  square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.on;
+  square const sq_rebirth = move_effect_journal[rebirth].u.piece_addition.added.on;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",rebirth);
