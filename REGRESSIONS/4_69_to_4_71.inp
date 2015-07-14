@@ -198,4 +198,11 @@ Black Sf8 Bh8 Ke1
 Stipulation ser-h==1
 Condition anticirce parachute
 
+next
+
+title recent Popeye versions promoted the neutral pawn on e1 as well
+pieces white ba4 black kh5 pa5 neutral pb4
+stipulation h+1
+condition circe parrain
+
 end
