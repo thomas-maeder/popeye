@@ -891,3 +891,46 @@ because it forgot the rebirth of  the Bf8
 solution finished.
 
 
+
+recent Popeye versions promoted the neutral pawn on e1 as well
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5  -P   .   .   .   .   .   .  -K   5
+|                                   |
+4   B  =P   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h+1                    1 + 2 + 1n
+            Circe Parrain
+
+  1.nPb4-b3 Ba4-e8 +
+  1.a5*b4 Ba4-d1[+nPe1] +
+  1.a5*b4 Ba4-e8[+nPf8=nQ] +
+  1.a5*b4 Ba4-e8[+nPf8=nS] +
+  1.a5*b4 Ba4-e8[+nPf8=nR] +
+  1.a5*b4 Ba4-e8[+nPf8=nB] +
+  1.Kh5-g4 Ba4-d1 +
+  1.Kh5-g4 Ba4-d7 +
+  1.Kh5-g6 Ba4-c2 +
+  1.Kh5-g6 Ba4-e8 +
+
+  add_to_move_generation_stack:          65
+                     play_move:          68
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:          68
+solution finished.
+
+

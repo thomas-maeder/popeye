@@ -84,7 +84,7 @@ void haunted_chess_ghost_summoner_solve(slice_index si)
                                               underworld[idx_ghost].on,
                                               underworld[idx_ghost].walk,
                                               underworld[idx_ghost].flags,
-                                              trait[nbply]);
+                                              no_side);
 
       move_effect_journal_do_forget_ghost(idx_ghost);
     }

@@ -232,6 +232,8 @@ void move_effect_journal_do_piece_readdition(move_effect_reason_type reason,
   TraceEnumerator(Side,for_side,"");
   TraceFunctionParamListEnd();
 
+  assert(for_side==no_side || (addedspec&BIT(for_side))!=0);
+
   entry->reason = reason;
   entry->u.piece_addition.added.on = on;
   entry->u.piece_addition.added.walk = added;

@@ -204,5 +204,6 @@ title recent Popeye versions promoted the neutral pawn on e1 as well
 pieces white ba4 black kh5 pa5 neutral pb4
 stipulation h+1
 condition circe parrain
+option nowk nobk
 
 end

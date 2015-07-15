@@ -16,6 +16,9 @@ retro_capture_type retro_capture;
 /* Undo the retro capture indicated by the user (in prepration of redoing it) */
 void circe_parrain_undo_retro_capture(void)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
   move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
                                         retro_capture.on,
                                         retro_capture_departure);
@@ -23,7 +26,10 @@ void circe_parrain_undo_retro_capture(void)
                                         retro_capture.on,
                                         retro_capture.walk,
                                         retro_capture.flags,
-                                        trait[nbply]);
+                                        no_side);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Redo the retro capture */

@@ -1723,9 +1723,11 @@ static void solve_any_stipulation(slice_index stipulation_root_hook)
 
       take_back_retro();
 
-      /* Make sure that trait is different from that of the first move (or there
+      /* Make sure that trait is the opposite of the first move (or there
        * will be no e.p. capture). */
-      nextply(no_side);
+      assert(slices[stipulation_root_hook].starter!=no_side);
+      nextply(advers(slices[stipulation_root_hook].starter));
+
       assert(nbply==ply_retro_move);
 
       replay_retro();
