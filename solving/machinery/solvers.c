@@ -226,6 +226,11 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
+  {
+    slice_index const proto = alloc_pipe(STRetroInitialiser);
+    slice_insertion_insert(result,&proto,1);
+  }
+
   goal_prerequisite_guards_initialse_solving(result);
 
   if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)

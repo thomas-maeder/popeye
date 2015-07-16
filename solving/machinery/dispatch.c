@@ -1305,6 +1305,13 @@ void dispatch(slice_index si)
       move_inverter_solve(si);
       break;
 
+    case STRetroInitialiser:
+    {
+      extern void retro_initialise(slice_index si);
+      retro_initialise(si);
+      break;
+    }
+
     case STMaxSolutionsInitialiser:
       maxsolutions_initialiser_solve(si);
       break;

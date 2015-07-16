@@ -1703,6 +1703,41 @@ static void replay_retro(void)
   TraceFunctionResultEnd();
 }
 
+extern void retro_initialise(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  nextply(no_side);
+  assert(nbply==ply_retro_move_takeback);
+
+  take_back_retro();
+
+  /* Make sure that trait is the opposite of the first move (or there
+   * will be no e.p. capture). */
+  assert(slices[si].starter!=no_side);
+  nextply(advers(slices[si].starter));
+
+  assert(nbply==ply_retro_move);
+
+  replay_retro();
+
+  pipe_solve_delegate(si);
+
+  /* undo retro replay */
+  undo_move_effects();
+
+  finply();
+
+  /* undo retro takeback */
+  undo_move_effects();
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
 
 static void solve_any_stipulation(slice_index stipulation_root_hook)
 {
@@ -1718,31 +1753,7 @@ static void solve_any_stipulation(slice_index stipulation_root_hook)
       slice_index const solving_machinery = build_solvers(stipulation_root_hook);
       TraceStipulation(solving_machinery);
 
-      nextply(no_side);
-      assert(nbply==ply_retro_move_takeback);
-
-      take_back_retro();
-
-      /* Make sure that trait is the opposite of the first move (or there
-       * will be no e.p. capture). */
-      assert(slices[stipulation_root_hook].starter!=no_side);
-      nextply(advers(slices[stipulation_root_hook].starter));
-
-      assert(nbply==ply_retro_move);
-
-      replay_retro();
-
       solve(solving_machinery);
-
-      /* undo retro replay */
-      undo_move_effects();
-
-      finply();
-
-      /* undo retro takeback */
-      undo_move_effects();
-
-      finply();
 
       dealloc_slices(solving_machinery);
 

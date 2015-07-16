@@ -570,6 +570,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlaintextMoveInversionCounter,
   STMoveInverterSetPlay,
   STOutputPlaintextMoveInversionCounterSetPlay,
+  STRetroInitialiser,
   STIllegalSelfcheckWriter,
   STSelfCheckGuard,
   STMaxSolutionsInitialiser,
