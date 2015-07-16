@@ -44,8 +44,6 @@ boolean en_passant_are_retro_squares_consistent(void)
  */
 void en_passant_undo_multistep(void)
 {
-  boolean result = true;
-
   if (en_passant_nr_retro_squares>=en_passant_retro_min_squares)
     move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
                                           en_passant_retro_squares[en_passant_nr_retro_squares-1],
@@ -56,7 +54,8 @@ void en_passant_undo_multistep(void)
  */
 void en_passant_redo_multistep(void)
 {
-  boolean result = true;
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
 
   if (en_passant_nr_retro_squares>2)
   {
@@ -69,6 +68,9 @@ void en_passant_redo_multistep(void)
     for (i = 1; i<en_passant_nr_retro_squares-1; ++i)
       en_passant_remember_multistep_over(en_passant_retro_squares[i]);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 /* Remember a square avoided by a multistep move of a pawn
@@ -261,6 +263,8 @@ boolean en_passant_is_capture_possible_to(Side side, square s)
   TraceEnumerator(Side,side,"");
   TraceSquare(s);
   TraceFunctionParamListEnd();
+
+  TraceEnumerator(Side,trait[ply_parent],"\n");
 
   if (trait[ply_parent]!=side)
   {
