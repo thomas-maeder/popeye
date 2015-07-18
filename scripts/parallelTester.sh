@@ -3,6 +3,9 @@
 # Run a regression test, using a configurable number of processors
 #
 # Run from the directory that is to contain the Popeye output.
+#
+# Pass -all as only option to also test the input files that take
+# a loooooooooooong time.
 
 SCRIPTDIR=$(dirname $0)
 POPEYEDIR=${SCRIPTDIR}/..
@@ -19,3 +22,11 @@ PMAX=3
 for item in ${POPEYEDIR}/TESTS/*.inp ${POPEYEDIR}/REGRESSIONS/*.inp ${POPEYEDIR}/EXAMPLES/*inp ${POPEYEDIR}/BEISPIEL/*inp; do
   echo "$item"
 done | dispatchWork
+
+if [ "$1" = "-all" ]
+then
+  for item in ${POPEYEDIR}/EXAMPLES/lengthy/*inp ${POPEYEDIR}/BEISPIEL/lengthy/*inp; do
+    echo "$item"
+  done | dispatchWork
+fi
+
