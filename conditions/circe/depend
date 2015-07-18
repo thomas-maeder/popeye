@@ -979,9 +979,10 @@ conditions/circe/parrain$(OBJ_SUFFIX): conditions/circe/parrain.c \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
  conditions/circe/relevant_side.h conditions/circe/rebirth_avoider.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/fork.h solving/binary.h solving/move_generator.h \
- solving/pipe.h debugging/assert.h
+ conditions/conditions.h position/position.h position/color.h \
+ position/color.enum.h pieces/walks/vectors.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h stipulation/fork.h solving/binary.h \
+ solving/move_generator.h solving/pipe.h debugging/assert.h
 
 conditions/circe/parrain.h:
 
@@ -1060,6 +1061,16 @@ conditions/circe/relevant_piece.h:
 conditions/circe/relevant_side.h:
 
 conditions/circe/rebirth_avoider.h:
+
+conditions/conditions.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+pieces/walks/vectors.h:
 
 solving/has_solution_type.h:
 

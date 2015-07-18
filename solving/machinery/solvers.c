@@ -227,8 +227,14 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
   {
-    slice_index const proto = alloc_pipe(STRetroInitialiser);
-    slice_insertion_insert(result,&proto,1);
+    slice_index const protos[] = {
+        alloc_pipe(STRetroRetractor),
+        alloc_pipe(STRetroRetractLastCapture),
+        alloc_pipe(STRetroInitialiser),
+        alloc_pipe(STRetroRedoLastCapture)
+    };
+    enum { nr_prototypes = sizeof protos / sizeof protos[0] };
+    slice_insertion_insert(result,protos,nr_prototypes);
   }
 
   goal_prerequisite_guards_initialse_solving(result);

@@ -13,7 +13,6 @@
 #include "conditions/anticirce/anticirce.h"
 #include "conditions/blackchecks.h"
 #include "conditions/circe/circe.h"
-#include "conditions/circe/parrain.h"
 #include "conditions/duellists.h"
 #include "conditions/exclusive.h"
 #include "conditions/follow_my_leader.h"
@@ -48,6 +47,7 @@
 #include "solving/king_capture_avoider.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/machinery/solvers.h"
+#include "solving/pipe.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -1664,28 +1664,12 @@ static boolean verify_position(slice_index si)
   return true;
 }
 
-static void take_back_retro(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  if (CondFlag[lastcapture])
-    circe_parrain_undo_retro_capture();
-  else if (OptFlag[enpassant])
-    en_passant_undo_multistep();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static void replay_retro(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[lastcapture])
-    circe_parrain_redo_retro_capture();
-  else
+  if (!CondFlag[lastcapture])
   {
     unsigned int i;
     for (i = 0; i!=move_effect_journal_index_offset_capture; ++i)
@@ -1703,7 +1687,7 @@ static void replay_retro(void)
   TraceFunctionResultEnd();
 }
 
-extern void retro_initialise(slice_index si)
+void retro_retract(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1712,7 +1696,24 @@ extern void retro_initialise(slice_index si)
   nextply(no_side);
   assert(nbply==ply_retro_move_takeback);
 
-  take_back_retro();
+  if (OptFlag[enpassant])
+    en_passant_undo_multistep();
+
+  pipe_solve_delegate(si);
+
+  undo_move_effects();
+
+  finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void retro_initialise(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
 
   /* Make sure that trait is the opposite of the first move (or there
    * will be no e.p. capture). */
@@ -1725,12 +1726,6 @@ extern void retro_initialise(slice_index si)
 
   pipe_solve_delegate(si);
 
-  /* undo retro replay */
-  undo_move_effects();
-
-  finply();
-
-  /* undo retro takeback */
   undo_move_effects();
 
   finply();

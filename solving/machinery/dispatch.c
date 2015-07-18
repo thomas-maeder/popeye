@@ -1305,6 +1305,21 @@ void dispatch(slice_index si)
       move_inverter_solve(si);
       break;
 
+    case STRetroRetractor:
+    {
+      extern void retro_retract(slice_index si);
+      retro_retract(si);
+      break;
+    }
+
+    case STRetroRetractLastCapture:
+      circe_parrain_undo_retro_capture(si);
+      break;
+
+    case STRetroRedoLastCapture:
+      circe_parrain_redo_retro_capture(si);
+      break;
+
     case STRetroInitialiser:
     {
       extern void retro_initialise(slice_index si);
