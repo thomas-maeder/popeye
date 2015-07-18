@@ -33,17 +33,14 @@ void circe_parrain_undo_retro_capture(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[lastcapture])
-  {
-    move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
-                                          retro_capture.on,
-                                          retro_capture_departure);
-    move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
-                                          retro_capture.on,
-                                          retro_capture.walk,
-                                          retro_capture.flags,
-                                          no_side);
-  }
+  move_effect_journal_do_piece_movement(move_effect_reason_diagram_setup,
+                                        retro_capture.on,
+                                        retro_capture_departure);
+  move_effect_journal_do_piece_creation(move_effect_reason_diagram_setup,
+                                        retro_capture.on,
+                                        retro_capture.walk,
+                                        retro_capture.flags,
+                                        no_side);
 
   pipe_solve_delegate(si);
 
@@ -70,11 +67,10 @@ void circe_parrain_redo_retro_capture(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (CondFlag[lastcapture])
-    move_effect_journal_do_capture_move(retro_capture_departure,
-                                        retro_capture.on,
-                                        retro_capture.on,
-                                        move_effect_reason_regular_capture);
+  move_effect_journal_do_capture_move(retro_capture_departure,
+                                      retro_capture.on,
+                                      retro_capture.on,
+                                      move_effect_reason_regular_capture);
 
   pipe_solve_delegate(si);
 

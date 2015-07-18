@@ -229,8 +229,16 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   {
     slice_index const protos[] = {
         alloc_pipe(STRetroRetractor),
+        alloc_pipe(STRetroInitialiser)
+    };
+    enum { nr_prototypes = sizeof protos / sizeof protos[0] };
+    slice_insertion_insert(result,protos,nr_prototypes);
+  }
+
+  if (CondFlag[lastcapture])
+  {
+    slice_index const protos[] = {
         alloc_pipe(STRetroRetractLastCapture),
-        alloc_pipe(STRetroInitialiser),
         alloc_pipe(STRetroRedoLastCapture)
     };
     enum { nr_prototypes = sizeof protos / sizeof protos[0] };
