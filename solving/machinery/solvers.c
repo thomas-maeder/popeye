@@ -244,6 +244,24 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     enum { nr_prototypes = sizeof protos / sizeof protos[0] };
     slice_insertion_insert(result,protos,nr_prototypes);
   }
+  else if (OptFlag[enpassant])
+  {
+    slice_index const protos[] = {
+        alloc_pipe(STRetroUndoLastPawnMultistep),
+        alloc_pipe(STRetroRedoLastPawnMultistep)
+    };
+    enum { nr_prototypes = sizeof protos / sizeof protos[0] };
+    slice_insertion_insert(result,protos,nr_prototypes);
+  }
+  else if (OptFlag[enpassant])
+  {
+    slice_index const protos[] = {
+        alloc_pipe(STRetroUndoLastPawnMultistep),
+        alloc_pipe(STRetroRedoLastPawnMultistep)
+    };
+    enum { nr_prototypes = sizeof protos / sizeof protos[0] };
+    slice_insertion_insert(result,protos,nr_prototypes);
+  }
 
   goal_prerequisite_guards_initialse_solving(result);
 

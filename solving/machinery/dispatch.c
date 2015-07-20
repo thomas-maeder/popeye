@@ -1312,6 +1312,13 @@ void dispatch(slice_index si)
       break;
     }
 
+    case STRetroRedoNullMove:
+    {
+      void retro_redo_null_move(slice_index si);
+      retro_redo_null_move(si);
+      break;
+    }
+
     case STRetroRetractLastCapture:
       circe_parrain_undo_retro_capture(si);
       break;
@@ -1320,9 +1327,17 @@ void dispatch(slice_index si)
       circe_parrain_redo_retro_capture(si);
       break;
 
+    case STRetroUndoLastPawnMultistep:
+      en_passant_undo_multistep(si);
+      break;
+
+    case STRetroRedoLastPawnMultistep:
+      en_passant_redo_multistep(si);
+      break;
+
     case STRetroInitialiser:
     {
-      extern void retro_initialise(slice_index si);
+      void retro_initialise(slice_index si);
       retro_initialise(si);
       break;
     }

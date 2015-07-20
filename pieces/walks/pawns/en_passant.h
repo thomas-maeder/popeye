@@ -26,14 +26,35 @@ extern unsigned int en_passant_nr_retro_squares;
  */
 boolean en_passant_are_retro_squares_consistent(void);
 
-/* Undo the pawn multistep movement indicated by the user (in prepration of
- * @return false iff the position doesn't allow undoing the multistep
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-void en_passant_undo_multistep(void);
+void en_passant_undo_multistep(slice_index si);
 
-/* Redo the multistep movement
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-void en_passant_redo_multistep(void);
+void en_passant_redo_multistep(slice_index si);
 
 /* Remember a square avoided by a multistep move of a pawn
  * @param index index of square (between 0<=index<en_passant_max_nr_multistep_over)

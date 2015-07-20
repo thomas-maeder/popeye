@@ -1664,24 +1664,14 @@ static boolean verify_position(slice_index si)
   return true;
 }
 
-static void replay_retro(void)
+void retro_redo_null_move(slice_index si)
 {
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!CondFlag[lastcapture])
-  {
-    unsigned int i;
-    for (i = 0; i!=move_effect_journal_index_offset_capture; ++i)
-      move_effect_journal_do_null_effect();
-
-    move_effect_journal_do_no_piece_removal();
-
-    if (OptFlag[enpassant])
-      en_passant_redo_multistep();
-    else
-      move_effect_journal_do_null_effect();
-  }
+  move_effect_journal_do_null_move();
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1695,9 +1685,6 @@ void retro_retract(slice_index si)
 
   nextply(no_side);
   assert(nbply==ply_retro_move_takeback);
-
-  if (OptFlag[enpassant])
-    en_passant_undo_multistep();
 
   pipe_solve_delegate(si);
 
@@ -1722,7 +1709,12 @@ void retro_initialise(slice_index si)
 
   assert(nbply==ply_retro_move);
 
-  replay_retro();
+  {
+    /* TODO let Mars Circe or SingleBox Type 3 add slices here that do this */
+    unsigned int i;
+    for (i = 0; i!=move_effect_journal_index_offset_capture; ++i)
+      move_effect_journal_do_null_effect();
+  }
 
   pipe_solve_delegate(si);
 
