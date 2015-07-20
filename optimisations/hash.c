@@ -1425,9 +1425,14 @@ byte *CommonEncode(byte *bp,
 
   if (CondFlag[disparate])
   {
-    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-    *bp++ = (byte)(nbply>=2 ? move_effect_journal[movement].u.piece_movement.moving : Empty);
+    if (nbply<=ply_retro_move) /* TODO this test is an ugly workaround!*/
+      *bp++ = (byte)Empty;
+    else
+    {
+      move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+      *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
+    }
     *bp++ = trait[nbply];
   }
 
