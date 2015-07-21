@@ -1329,28 +1329,25 @@ byte *CommonEncode(byte *bp,
     *bp++ = (byte)(duellists[Black] - square_a1);
   }
 
-  /* assert(nbply>ply_retro_move); would be correct */
-  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
+  if (CondFlag[blfollow] || CondFlag[whfollow])
+    *bp++ = (byte)(move_effect_journal_get_departure_square(nbply) - square_a1);
+
+  if (CondFlag[champursue])
   {
     if (nbply<=ply_retro_move) /* TODO this test is an ugly workaround!*/
       *bp++ = UCHAR_MAX;
     else
-    *bp++ = (byte)(move_effect_journal_get_departure_square(nbply) - square_a1);
+      *bp++ = (byte)(move_effect_journal_get_departure_square(nbply) - square_a1);
   }
 
   if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
       || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
   {
-    if (nbply<=ply_retro_move) /* TODO this test is an ugly workaround!*/
-      *bp++ = UCHAR_MAX;
-    else
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-      *bp++= (byte)(sq_num[move_effect_journal_get_departure_square(nbply)]
-                    -sq_num[move_effect_journal[movement].u.piece_movement.to]
-                    +64);
-    }
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+    *bp++= (byte)(sq_num[move_effect_journal_get_departure_square(nbply)]
+                  -sq_num[move_effect_journal[movement].u.piece_movement.to]
+                  +64);
   }
 
   if (CondFlag[imitators])
@@ -1425,14 +1422,9 @@ byte *CommonEncode(byte *bp,
 
   if (CondFlag[disparate])
   {
-    if (nbply<=ply_retro_move) /* TODO this test is an ugly workaround!*/
-      *bp++ = (byte)Empty;
-    else
-    {
-      move_effect_journal_index_type const top = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
-      *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
-    }
+    move_effect_journal_index_type const top = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const movement = top+move_effect_journal_index_offset_movement;
+    *bp++ = (byte)move_effect_journal[movement].u.piece_movement.moving;
     *bp++ = trait[nbply];
   }
 
