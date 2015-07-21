@@ -1374,7 +1374,6 @@ byte *CommonEncode(byte *bp,
     move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
     if (move_effect_journal[capture].type==move_effect_piece_removal)
     {
-      assert(nbply>ply_retro_move);
       /* a piece has been captured and can be reborn */
       square const from = move_effect_journal[capture].u.piece_removal.on;
       piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
