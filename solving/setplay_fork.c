@@ -24,12 +24,7 @@ void setplay_fork_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  nextply(no_side);
-  nextply(no_side);
   fork_solve_delegate(si);
-  finply();
-  finply();
-
   pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
