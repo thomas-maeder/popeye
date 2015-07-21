@@ -1324,21 +1324,15 @@ byte *CommonEncode(byte *bp,
       *bp++ = (byte)(0);
     }
   }
-  if (CondFlag[duellist]) {
+
+  if (CondFlag[duellist])
+  {
     *bp++ = (byte)(duellists[White] - square_a1);
     *bp++ = (byte)(duellists[Black] - square_a1);
   }
 
-  if (CondFlag[blfollow] || CondFlag[whfollow])
+  if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
     *bp++ = (byte)(move_effect_journal_get_departure_square(nbply) - square_a1);
-
-  if (CondFlag[champursue])
-  {
-    if (nbply<=ply_retro_move) /* TODO this test is an ugly workaround!*/
-      *bp++ = UCHAR_MAX;
-    else
-      *bp++ = (byte)(move_effect_journal_get_departure_square(nbply) - square_a1);
-  }
 
   if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
       || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
