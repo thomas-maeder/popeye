@@ -1370,7 +1370,27 @@ byte *CommonEncode(byte *bp,
 
   if (circe_variant.relevant_capture==circe_relevant_capture_lastmove)
   {
-    if (nbply<=ply_retro_move) /* TODO this test is an ugly workaround!*/
+    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+    move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
+    if (move_effect_journal[capture].type==move_effect_piece_removal)
+    {
+      assert(nbply>ply_retro_move);
+      /* a piece has been captured and can be reborn */
+      square const from = move_effect_journal[capture].u.piece_removal.on;
+      piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
+      Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
+
+      *bp++ = (byte)(from-square_a1);
+      if (one_byte_hash)
+        *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[removed]) << (CHAR_BIT/2));
+      else
+      {
+        *bp++ = removed;
+        *bp++ = (byte)(removedspec>>CHAR_BIT);
+        *bp++ = (byte)(removedspec&ByteMask);
+      }
+    }
+    else
     {
       *bp++ = (byte)0;
       if (one_byte_hash)
@@ -1380,40 +1400,6 @@ byte *CommonEncode(byte *bp,
         *bp++ = (byte)0;
         *bp++ = (byte)0;
         *bp++ = (byte)0;
-      }
-    }
-    else
-    {
-      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-      move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-      if (move_effect_journal[capture].type==move_effect_piece_removal)
-      {
-        /* a piece has been captured and can be reborn */
-        square const from = move_effect_journal[capture].u.piece_removal.on;
-        piece_walk_type const removed = move_effect_journal[capture].u.piece_removal.walk;
-        Flags const removedspec = move_effect_journal[capture].u.piece_removal.flags;
-
-        *bp++ = (byte)(from-square_a1);
-        if (one_byte_hash)
-          *bp++ = (byte)(removedspec) + ((byte)(piece_nbr[removed]) << (CHAR_BIT/2));
-        else
-        {
-          *bp++ = removed;
-          *bp++ = (byte)(removedspec>>CHAR_BIT);
-          *bp++ = (byte)(removedspec&ByteMask);
-        }
-      }
-      else
-      {
-        *bp++ = (byte)0;
-        if (one_byte_hash)
-          *bp++ = (byte)0;
-        else
-        {
-          *bp++ = (byte)0;
-          *bp++ = (byte)0;
-          *bp++ = (byte)0;
-        }
       }
     }
   }
