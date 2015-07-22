@@ -934,3 +934,50 @@ recent Popeye versions promoted the neutral pawn on e1 as well
 solution finished.
 
 
+both sides need a king
+
+           just to be sure
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .  -P   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   P   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hep1                        1 + 1
+            Uncapturable
+             GhostChess
+
+a) 
+
+  1.e7-e5 d5*e6 ep.[+buPe5]
+
+  add_to_move_generation_stack:           4
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+both sides need a king
+b) HauntedChess  
+
+  1.e7-e5 d5*e6 ep.[+bPe5]
+
+  add_to_move_generation_stack:           4
+                     play_move:           3
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

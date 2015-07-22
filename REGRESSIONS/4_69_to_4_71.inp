@@ -206,4 +206,12 @@ stipulation h+1
 condition circe parrain
 option nowk nobk
 
+next
+
+title just to be sure
+pieces black pe7 white pd5
+stip hep1
+condition ghostchess
+twin condition hauntedchess
+
 end
