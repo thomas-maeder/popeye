@@ -1,5 +1,6 @@
 #include "solving/ply.h"
 #include "pieces/walks/pawns/en_passant.h"
+#include "pieces/walks/pawns/promotion.h"
 #include "solving/move_effect_journal.h"
 #include "solving/post_move_iteration.h"
 #include "solving/move_generator.h"
@@ -50,6 +51,7 @@ void nextply(Side side)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
   ++post_move_iteration_id[nbply];
 
@@ -85,6 +87,7 @@ void siblingply(Side side)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
   ++post_move_iteration_id[nbply];
 
@@ -112,6 +115,7 @@ void copyply(void)
 
   move_effect_journal_base[nbply+1] = move_effect_journal_base[nbply];
   en_passant_top[nbply] = en_passant_top[nbply-1];
+  promotion_horizon[nbply] = move_effect_journal_base[nbply];
 
   ++post_move_iteration_id[nbply];
 

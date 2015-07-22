@@ -19,7 +19,7 @@ static unsigned int stack_pointer;
 
 static post_move_iteration_id_type prev_post_move_iteration_id[stack_size];
 
-move_effect_journal_index_type promotion_horizon;
+move_effect_journal_index_type promotion_horizon[maxply+1];
 
 /* Order in which the slice types for promotion execution appear
  */
@@ -273,7 +273,7 @@ void find_potential_promotion_square(move_effect_journal_index_type base,
  */
 void pawn_promoter_solve(slice_index si)
 {
-  move_effect_journal_index_type const save_horizon = promotion_horizon;
+  move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
   square sq_potential_promotion;
   Side as_side;
 
@@ -281,7 +281,7 @@ void pawn_promoter_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  find_potential_promotion_square(promotion_horizon,
+  find_potential_promotion_square(promotion_horizon[nbply],
                                   &sq_potential_promotion,
                                   &as_side);
 
@@ -291,7 +291,7 @@ void pawn_promoter_solve(slice_index si)
     pipe_solve_delegate(si);
   else
   {
-    promotion_horizon = move_effect_journal_base[nbply+1];
+    promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
 
     if (post_move_iteration_id[nbply]!=prev_post_move_iteration_id[stack_pointer])
       pieces_pawns_start_promotee_sequence(sq_potential_promotion,
@@ -324,7 +324,7 @@ void pawn_promoter_solve(slice_index si)
       prev_post_move_iteration_id[stack_pointer] = post_move_iteration_id[nbply];
     }
 
-    promotion_horizon = save_horizon;
+    promotion_horizon[nbply] = save_horizon;
   }
 
   TraceFunctionExit(__func__);

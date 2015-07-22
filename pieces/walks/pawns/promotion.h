@@ -17,7 +17,7 @@ enum
 };
 
 /* effects up to this index have been consumed for pawn promotions */
-extern move_effect_journal_index_type promotion_horizon;
+extern move_effect_journal_index_type promotion_horizon[maxply+1];
 
 /* Find the last square occupied by a piece since we last checked.
  * @param base index of move effects that have already been dealt with

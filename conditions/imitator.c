@@ -1164,7 +1164,7 @@ void imitator_pawn_promoter_solve(slice_index si)
     square sq_arrival;
     Side as_side;
 
-    find_potential_promotion_square(promotion_horizon,&sq_arrival,&as_side);
+    find_potential_promotion_square(promotion_horizon[nbply],&sq_arrival,&as_side);
 
     assert(stack_pointer<stack_size);
 
@@ -1177,9 +1177,9 @@ void imitator_pawn_promoter_solve(slice_index si)
 
     if (promotion_into_imitator[stack_pointer])
     {
-      move_effect_journal_index_type const save_horizon = promotion_horizon;
+      move_effect_journal_index_type const save_horizon = promotion_horizon[nbply];
 
-      promotion_horizon = move_effect_journal_base[nbply+1];
+      promotion_horizon[nbply] = move_effect_journal_base[nbply+1];
 
       move_effect_journal_do_piece_removal(move_effect_reason_pawn_promotion,
                                            sq_arrival);
@@ -1190,7 +1190,7 @@ void imitator_pawn_promoter_solve(slice_index si)
       fork_solve_delegate(si);
       --stack_pointer;
 
-      promotion_horizon = save_horizon;
+      promotion_horizon[nbply] = save_horizon;
 
       TraceValue("%u\n",post_move_iteration_locked[nbply]);
       if (!post_move_iteration_locked[nbply])
