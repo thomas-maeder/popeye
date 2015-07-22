@@ -67,7 +67,8 @@ void circe_volage_recolorer_solve(slice_index si)
 
         if (SquareCol(sq_rebirth)!=SquareCol(sq_capture))
         {
-          if (!TSTFLAG(being_solved.spec[sq_rebirth],trait[nbply]))
+          if (!TSTFLAG(being_solved.spec[sq_rebirth],
+                       advers(move_effect_journal[rebirth].u.piece_addition.for_side)))
             move_effect_journal_do_side_change(move_effect_reason_volage_side_change,
                                                sq_rebirth);
           if (!CondFlag[hypervolage])

@@ -981,3 +981,51 @@ b) HauntedChess
 solution finished.
 
 
+both sides need a king
+
+Circe Parrain + Volage has apparently never worked correctly
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -B   .   .   .   .   .   .   R   8
+|                                   |
+7   .   P   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  hzh31                       2 + 1
+                Circe
+               Volage
+
+a) 
+
+  1.Ba8*b7[+wPb2=b] Rh8-h3=b z
+
+  add_to_move_generation_stack:          15
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+both sides need a king
+b) Circe Parrain
+   Volage  
+
+  1.Ba8*b7 Rh8-h3=b[+wPb2=b] z
+
+  add_to_move_generation_stack:          15
+                     play_move:           2
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

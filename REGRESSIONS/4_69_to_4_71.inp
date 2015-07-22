@@ -214,4 +214,12 @@ stip hep1
 condition ghostchess
 twin condition hauntedchess
 
+next
+
+title Circe Parrain + Volage has apparently never worked correctly
+pieces black ba8 white pb7 rh8
+stipulation hzh31
+condition circe volage
+twin condition circe parrain volage
+
 end
