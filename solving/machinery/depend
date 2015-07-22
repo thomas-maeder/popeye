@@ -9,7 +9,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  position/castling_rights.h solving/ply.h position/pieceid.h \
  options/options.h conditions/conditions.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
- solving/selfcheck_guard.h solving/has_solution_type.h \
+ retro/retro.h solving/selfcheck_guard.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/check.h \
  pieces/walks/pawns/promotion.h stipulation/slice_insertion.h \
  stipulation/structure_traversal.h stipulation/slice.h \
@@ -162,6 +162,8 @@ position/color.h:
 position/color.enum.h:
 
 pieces/walks/vectors.h:
+
+retro/retro.h:
 
 solving/selfcheck_guard.h:
 

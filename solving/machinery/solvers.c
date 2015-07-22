@@ -3,6 +3,7 @@
 #include "pieces/pieces.h"
 #include "options/options.h"
 #include "conditions/conditions.h"
+#include "retro/retro.h"
 #include "solving/selfcheck_guard.h"
 #include "solving/has_solution_type.h"
 #include "solving/check.h"
@@ -238,19 +239,19 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   if (CondFlag[lastcapture])
   {
     slice_index const protos[] = {
-        alloc_pipe(STRetroRetractLastCapture),
         alloc_pipe(STRetroRedoLastCapture)
     };
     enum { nr_prototypes = sizeof protos / sizeof protos[0] };
+    retro_instrument_retractor(result,STRetroRetractLastCapture);
     slice_insertion_insert(result,protos,nr_prototypes);
   }
   else if (OptFlag[enpassant])
   {
     slice_index const protos[] = {
-        alloc_pipe(STRetroUndoLastPawnMultistep),
         alloc_pipe(STRetroRedoLastPawnMultistep)
     };
     enum { nr_prototypes = sizeof protos / sizeof protos[0] };
+    retro_instrument_retractor(result,STRetroUndoLastPawnMultistep);
     slice_insertion_insert(result,protos,nr_prototypes);
   }
   else
@@ -270,7 +271,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   insert_temporary_hacks(result);
 
   /* must come before stip_insert_selfcheck_guards() and
-   * stip_insert_move_generators() because flight counting machinery needs
+   * solving_insert_move_generators() because flight counting machinery needs
    * selfcheck guards and move generators */
   if (OptFlag[solflights])
     solving_insert_maxflight_guards(result);

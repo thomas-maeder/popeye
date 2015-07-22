@@ -52,4 +52,10 @@ void retro_start_retraction_ply(slice_index si);
  */
 void retro_start_retro_move_ply(slice_index si);
 
+/* Instrument the solving machinery with a retro move retractor slice
+ * @param solving_machinery index of entry slice into solving machinery
+ * @param type type of retractor slice
+ */
+void retro_instrument_retractor(slice_index solving_machinery, slice_type type);
+
 #endif

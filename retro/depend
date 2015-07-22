@@ -4,6 +4,13 @@ retro/retro$(OBJ_SUFFIX): retro/retro.c retro/retro.h solving/machinery/solve.h 
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/slice_insertion.h stipulation/structure_traversal.h \
+ stipulation/slice.h stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h solving/pipe.h debugging/assert.h
 
@@ -38,6 +45,26 @@ output/mode.enum.h:
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+stipulation/slice_insertion.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/traversal.h:
 
 solving/move_effect_journal.h:
 
