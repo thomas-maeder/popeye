@@ -1,5 +1,6 @@
 #include "retro/retro.h"
 #include "stipulation/slice_insertion.h"
+#include "stipulation/pipe.h"
 #include "solving/move_effect_journal.h"
 #include "solving/pipe.h"
 
@@ -120,6 +121,59 @@ void retro_instrument_retractor(slice_index solving_machinery, slice_type type)
   {
     slice_index const proto = alloc_pipe(type);
     slice_insertion_insert(solving_machinery,&proto,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void substitute(slice_index si, stip_structure_traversal*st)
+{
+  slice_type const *type = st->param;
+  stip_traverse_structure_children(si,st);
+  pipe_substitute(si,alloc_pipe(*type));
+}
+
+/* Substitute the default slice playing the last retro move by a slice of a
+ * different type
+ * @param solving_machinery index of entry slice into solving machinery
+ * @param type type of the substitute
+ */
+void retro_substitute_last_move_player(slice_index solving_machinery,
+                                       slice_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",solving_machinery);
+  TraceEnumerator(slice_type,type,"");
+  TraceFunctionParamListEnd();
+
+  {
+    stip_structure_traversal st;
+    stip_structure_traversal_init(&st,&type);
+    stip_structure_traversal_override_single(&st,
+                                             STRetroPlayNullMove,
+                                             &substitute);
+    stip_traverse_structure(solving_machinery,&st);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void retro_instrument_solving_default(slice_index solving_machinery)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",solving_machinery);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const protos[] = {
+        alloc_pipe(STRetroStartRetractionPly),
+        alloc_pipe(STRetroStartRetroMovePly),
+        alloc_pipe(STRetroPlayNullMove)
+    };
+    enum { nr_prototypes = sizeof protos / sizeof protos[0] };
+    slice_insertion_insert(solving_machinery,protos,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);

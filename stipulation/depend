@@ -856,9 +856,9 @@ stipulation/stipulation$(OBJ_SUFFIX): stipulation/stipulation.c \
  stipulation/battle_play/attack_adapter.h \
  stipulation/battle_play/defense_adapter.h stipulation/move_played.h \
  stipulation/goals/immobile/reached_tester.h \
- stipulation/help_play/adapter.h stipulation/proxy.h \
- optimisations/intelligent/mate/filter.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
+ stipulation/help_play/adapter.h stipulation/proxy.h retro/retro.h \
+ solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
+ optimisations/intelligent/mate/filter.h \
  optimisations/intelligent/stalemate/filter.h debugging/assert.h
 
 stipulation/stipulation.h:
@@ -939,13 +939,15 @@ stipulation/help_play/adapter.h:
 
 stipulation/proxy.h:
 
-optimisations/intelligent/mate/filter.h:
+retro/retro.h:
 
 solving/machinery/solve.h:
 
 solving/machinery/dispatch.h:
 
 debugging/trace.h:
+
+optimisations/intelligent/mate/filter.h:
 
 optimisations/intelligent/stalemate/filter.h:
 

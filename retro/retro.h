@@ -58,4 +58,14 @@ void retro_start_retro_move_ply(slice_index si);
  */
 void retro_instrument_retractor(slice_index solving_machinery, slice_type type);
 
+/* Substitute the default slice playing the last retro move by a slice of a
+ * different type
+ * @param solving_machinery index of entry slice into solving machinery
+ * @param type type of the substitute
+ */
+void retro_substitute_last_move_player(slice_index solving_machinery,
+                                       slice_type type);
+
+void retro_instrument_solving_default(slice_index solving_machinery);
+
 #endif

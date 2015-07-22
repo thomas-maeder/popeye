@@ -18,6 +18,7 @@
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/help_play/adapter.h"
 #include "stipulation/proxy.h"
+#include "retro/retro.h"
 #include "optimisations/intelligent/mate/filter.h"
 #include "optimisations/intelligent/stalemate/filter.h"
 #include "debugging/trace.h"
@@ -576,15 +577,7 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
 
   pipe_append(proxy,alloc_move_inverter_setplay_slice());
 
-  {
-    slice_index const protos[] = {
-        alloc_pipe(STRetroStartRetractionPly),
-        alloc_pipe(STRetroStartRetroMovePly),
-        alloc_pipe(STRetroPlayNullMove)
-    };
-    enum { nr_prototypes = sizeof protos / sizeof protos[0] };
-    slice_insertion_insert(SLICE_NEXT1(proxy),protos,nr_prototypes);
-  }
+  retro_instrument_solving_default(SLICE_NEXT1(proxy));
 
   TraceFunctionExit(__func__);
   TraceFunctionParamListEnd();
