@@ -1332,16 +1332,28 @@ byte *CommonEncode(byte *bp,
   }
 
   if (CondFlag[blfollow] || CondFlag[whfollow] || CondFlag[champursue])
-    *bp++ = (byte)(move_effect_journal_get_departure_square(nbply) - square_a1);
+  {
+    square const sq_departure = move_effect_journal_get_departure_square(nbply);
+    if (sq_departure==initsquare)
+      *bp++ = (byte)UCHAR_MAX;
+    else
+      *bp++ = (byte)(sq_departure-square_a1);
+  }
 
   if (CondFlag[blacksynchron] || CondFlag[whitesynchron]
       || CondFlag[blackantisynchron] || CondFlag[whiteantisynchron])
   {
-    move_effect_journal_index_type const base = move_effect_journal_base[nbply];
-    move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
-    *bp++= (byte)(sq_num[move_effect_journal_get_departure_square(nbply)]
-                  -sq_num[move_effect_journal[movement].u.piece_movement.to]
-                  +64);
+    square const sq_departure = move_effect_journal_get_departure_square(nbply);
+    if (sq_departure==initsquare)
+      *bp++ = (byte)UCHAR_MAX;
+    else
+    {
+      move_effect_journal_index_type const base = move_effect_journal_base[nbply];
+      move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
+      square const sq_arrival = move_effect_journal[movement].u.piece_movement.to;
+      enum { nr_squares = nr_rows_on_board*nr_files_on_board };
+      *bp++= (byte)(sq_num[sq_departure]-sq_num[sq_arrival]+nr_squares);
+    }
   }
 
   if (CondFlag[imitators])
