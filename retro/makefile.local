@@ -1,0 +1,7 @@
+# -*- Makefile -*-
+#
+SRC_CFILES = retro.c
+
+INCLUDES = retro.h
+
+include makefile.rules $(CURRPWD)depend

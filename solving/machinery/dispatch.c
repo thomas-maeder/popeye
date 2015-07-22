@@ -224,6 +224,7 @@
 #include "pieces/walks/generate_moves.h"
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
+#include "retro/retro.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/attack_adapter.h"
 #include "solving/battle_play/defense_adapter.h"
@@ -1306,18 +1307,12 @@ void dispatch(slice_index si)
       break;
 
     case STRetroRetractor:
-    {
-      extern void retro_retract(slice_index si);
-      retro_retract(si);
+      retro_start_retraction_ply(si);
       break;
-    }
 
     case STRetroRedoNullMove:
-    {
-      void retro_redo_null_move(slice_index si);
-      retro_redo_null_move(si);
+      retro_play_null_move(si);
       break;
-    }
 
     case STRetroRetractLastCapture:
       circe_parrain_undo_retro_capture(si);
@@ -1336,11 +1331,8 @@ void dispatch(slice_index si)
       break;
 
     case STRetroInitialiser:
-    {
-      void retro_initialise(slice_index si);
-      retro_initialise(si);
+      retro_start_retro_move_ply(si);
       break;
-    }
 
     case STMaxSolutionsInitialiser:
       maxsolutions_initialiser_solve(si);

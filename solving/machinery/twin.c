@@ -41,7 +41,6 @@
 #include "output/plaintext/message.h"
 #include "solving/castling.h"
 #include "solving/has_solution_type.h"
-#include "solving/move_effect_journal.h"
 #include "solving/moves_traversal.h"
 #include "solving/proofgames.h"
 #include "solving/king_capture_avoider.h"
@@ -1662,68 +1661,6 @@ static boolean verify_position(slice_index si)
     disable_killer_move_optimisation(White);
 
   return true;
-}
-
-void retro_redo_null_move(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_null_move();
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void retro_retract(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  nextply(no_side);
-  assert(nbply==ply_retro_move_takeback);
-
-  pipe_solve_delegate(si);
-
-  undo_move_effects();
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void retro_initialise(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  /* Make sure that trait is the opposite of the first move (or there
-   * will be no e.p. capture). */
-  assert(slices[si].starter!=no_side);
-  nextply(advers(slices[si].starter));
-
-  assert(nbply==ply_retro_move);
-
-  {
-    /* TODO let Mars Circe or SingleBox Type 3 add slices here that do this */
-    unsigned int i;
-    for (i = 0; i!=move_effect_journal_index_offset_capture; ++i)
-      move_effect_journal_do_null_effect();
-  }
-
-  pipe_solve_delegate(si);
-
-  undo_move_effects();
-
-  finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
 
 static void solve_any_stipulation(slice_index stipulation_root_hook)
