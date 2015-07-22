@@ -228,8 +228,8 @@ slice_index build_solvers(slice_index stipulation_root_hook)
 
   {
     slice_index const protos[] = {
-        alloc_pipe(STRetroRetractor),
-        alloc_pipe(STRetroInitialiser)
+        alloc_pipe(STRetroStartRetractionPly),
+        alloc_pipe(STRetroStartRetroMovePly)
     };
     enum { nr_prototypes = sizeof protos / sizeof protos[0] };
     slice_insertion_insert(result,protos,nr_prototypes);
@@ -256,7 +256,7 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   else
   {
     slice_index const protos[] = {
-        alloc_pipe(STRetroRedoNullMove)
+        alloc_pipe(STRetroPlayNullMove)
     };
     enum { nr_prototypes = sizeof protos / sizeof protos[0] };
     slice_insertion_insert(result,protos,nr_prototypes);

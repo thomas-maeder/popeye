@@ -1306,11 +1306,11 @@ void dispatch(slice_index si)
       move_inverter_solve(si);
       break;
 
-    case STRetroRetractor:
+    case STRetroStartRetractionPly:
       retro_start_retraction_ply(si);
       break;
 
-    case STRetroRedoNullMove:
+    case STRetroPlayNullMove:
       retro_play_null_move(si);
       break;
 
@@ -1330,7 +1330,7 @@ void dispatch(slice_index si)
       en_passant_redo_multistep(si);
       break;
 
-    case STRetroInitialiser:
+    case STRetroStartRetroMovePly:
       retro_start_retro_move_ply(si);
       break;
 

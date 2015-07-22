@@ -15,11 +15,11 @@
     ENUMERATOR(STReadyForHelpMove),                                     \
     /* other structural slices */                                      \
     ENUMERATOR(STSetplayFork),                                          \
-    ENUMERATOR(STRetroRetractor),                                       \
-    ENUMERATOR(STRetroRetractLastCapture),                                \
+    ENUMERATOR(STRetroStartRetractionPly),                              \
+    ENUMERATOR(STRetroRetractLastCapture),                              \
     ENUMERATOR(STRetroUndoLastPawnMultistep),                           \
-    ENUMERATOR(STRetroInitialiser),                                     \
-    ENUMERATOR(STRetroRedoNullMove),                                    \
+    ENUMERATOR(STRetroStartRetroMovePly),                               \
+    ENUMERATOR(STRetroPlayNullMove),                                    \
     ENUMERATOR(STRetroRedoLastCapture),                                 \
     ENUMERATOR(STRetroRedoLastPawnMultistep),                           \
     ENUMERATOR(STEndOfBranch), /* end of branch, general case (not reflex, not goal), */ \

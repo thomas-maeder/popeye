@@ -578,9 +578,9 @@ static void insert_set_play(slice_index si, slice_index setplay_slice)
 
   {
     slice_index const protos[] = {
-        alloc_pipe(STRetroRetractor),
-        alloc_pipe(STRetroInitialiser),
-        alloc_pipe(STRetroRedoNullMove)
+        alloc_pipe(STRetroStartRetractionPly),
+        alloc_pipe(STRetroStartRetroMovePly),
+        alloc_pipe(STRetroPlayNullMove)
     };
     enum { nr_prototypes = sizeof protos / sizeof protos[0] };
     slice_insertion_insert(SLICE_NEXT1(proxy),protos,nr_prototypes);
