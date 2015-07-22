@@ -29,6 +29,7 @@ void dummy_move_solve(slice_index si)
 
   /* insert an empty ply for the dummy defense */
   nextply(trait[nbply]);
+  move_effect_journal_do_null_move();
   pipe_solve_delegate(si);
   finply();
 
