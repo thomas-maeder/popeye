@@ -1319,10 +1319,7 @@ byte *CommonEncode(byte *bp,
       *bp++ = (byte)(move_effect_journal[movement].u.piece_exchange.from - square_a1);
     }
     else
-    {
-      *bp++ = (byte)(0);
-      *bp++ = (byte)(0);
-    }
+      *bp++ = (byte)UCHAR_MAX;
   }
 
   if (CondFlag[duellist])
@@ -1393,17 +1390,7 @@ byte *CommonEncode(byte *bp,
       }
     }
     else
-    {
       *bp++ = (byte)0;
-      if (one_byte_hash)
-        *bp++ = (byte)0;
-      else
-      {
-        *bp++ = (byte)0;
-        *bp++ = (byte)0;
-        *bp++ = (byte)0;
-      }
-    }
   }
 
   assert(validity_value<=(1<<CHAR_BIT));
