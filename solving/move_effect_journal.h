@@ -503,7 +503,7 @@ void king_square_updater_solve(slice_index si);
 /* Determine the departure square of a moveplayed
  * Assumes that the move has a single moving piece (i.e. is not a castling).
  * @param ply identifies the ply where the move is being or was played
- * @return the departure square; square_h8+1 if the last move didn't have a movement
+ * @return the departure square; initsquare if the last move didn't have a movement
  */
 square move_effect_journal_get_departure_square(ply ply);
 

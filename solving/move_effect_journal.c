@@ -2037,7 +2037,7 @@ void king_square_updater_solve(slice_index si)
 /* Determine the departure square of a moveplayed
  * Assumes that the move has a single moving piece (i.e. is not a castling).
  * @param ply identifies the ply where the move is being or was played
- * @return the departure square; square_h8+1 if the last move didn't have a movement
+ * @return the departure square; initsquare if the last move didn't have a movement
  */
 square move_effect_journal_get_departure_square(ply ply)
 {
@@ -2045,7 +2045,7 @@ square move_effect_journal_get_departure_square(ply ply)
   move_effect_journal_index_type const movement = base+move_effect_journal_index_offset_movement;
   PieceIdType const id_moving = GetPieceId(move_effect_journal[movement].u.piece_movement.movingspec);
   move_effect_journal_index_type curr;
-  square result = square_h8+1;
+  square result = initsquare;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",ply);
