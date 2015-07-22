@@ -74,7 +74,7 @@ static void insert_sentinelle(Side trait_ply)
                                               sq_departure,
                                               sentinelle_walk,
                                               sentinelle_spec,
-                                              trait[nbply]);
+                                              sentinelle_side);
       }
     }
   }
