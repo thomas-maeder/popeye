@@ -195,7 +195,7 @@ static void insert_refutation_writer(slice_index si,
 
 static structure_traversers_visitor const try_writer_inserters[] =
 {
-  { STOutputPlainTextKeyWriter,              &substitute_try_writer                 },
+  { STOutputLaTeXKeyWriter,                  &substitute_try_writer                 },
   { STOutputPlainTextRefutationsIntroWriter, &insert_refutation_writer              },
   { STEndOfBranchGoal,                       &stip_traverse_structure_children_pipe }
 };
