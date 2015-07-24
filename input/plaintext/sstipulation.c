@@ -734,9 +734,9 @@ static char *ParseStructuredStip_branch_a(char *tok,
 
     tok = ParseStructuredStip_branch_a_operand(tok,proxy,level);
 
-    if (tok!=0 && tok[0]=='+')
+    if (tok!=0 && token_starts_with("?+?",tok))
     {
-      ++tok;
+      tok += 3;
       parry = true;
     }
 
@@ -891,9 +891,9 @@ static char *ParseStructuredStip_branch_h(char *tok,
 
     tok = ParseStructuredStip_branch_h_operand(tok,proxy,max_length,level);
 
-    if (tok!=0 && tok[0]=='+')
+    if (tok!=0 && token_starts_with("?+?",tok))
     {
-      ++tok;
+      tok += 3;
       parry = true;
     }
 

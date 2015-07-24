@@ -17,7 +17,7 @@ char TokenLine[LINESIZE];    /* This array contains the lowercase input */
 
 static char savedTokenLine[LINESIZE];
 
-static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]{}";
+static char TokenChar[] = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#=+-%>!.<()~/&|:[]{}?";
 /* Steingewinn ! */
 /* introductory move */
 /* h##! */
