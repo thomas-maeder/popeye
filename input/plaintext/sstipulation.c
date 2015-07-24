@@ -727,16 +727,26 @@ static char *ParseStructuredStip_branch_a(char *tok,
   TraceFunctionParamListEnd();
 
   {
+    boolean parry = false;
     slice_index const branch = ParseStructuredStip_make_branch_a(min_length,
                                                                  max_length);
     link_to_branch(proxy,branch);
 
     tok = ParseStructuredStip_branch_a_operand(tok,proxy,level);
+
+    if (tok!=0 && tok[0]=='+')
+    {
+      ++tok;
+      parry = true;
+    }
+
     if (tok!=0 && tok[0]=='d')
     {
       tok = ParseStructuredStip_branch_d_operand(tok+1,proxy,level);
-      if (tok!=0 && level==0)
-        select_output_mode(proxy,output_mode_tree);
+      if (parry)
+        battle_branch_insert_defense_check_zigzag(proxy);
+      if (level==0 && tok!=0)
+        select_output_mode(proxy, parry ? output_mode_line : output_mode_tree);
     }
   }
 
@@ -874,14 +884,24 @@ static char *ParseStructuredStip_branch_h(char *tok,
   TraceFunctionParamListEnd();
 
   {
+    boolean parry = false;
     slice_index const branch = ParseStructuredStip_make_branch_h(min_length,
                                                                  max_length);
     link_to_branch(proxy,branch);
 
     tok = ParseStructuredStip_branch_h_operand(tok,proxy,max_length,level);
+
+    if (tok!=0 && tok[0]=='+')
+    {
+      ++tok;
+      parry = true;
+    }
+
     if (tok!=0 && tok[0]=='h')
     {
       tok = ParseStructuredStip_branch_h_operand(tok+1,proxy,max_length+1,level);
+      if (parry)
+        help_branch_insert_check_zigzag(proxy);
       if (level==0)
         select_output_mode(proxy,output_mode_line);
     }
