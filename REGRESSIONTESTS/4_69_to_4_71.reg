@@ -1029,3 +1029,41 @@ b) Circe Parrain
 solution finished.
 
 
+both sides need a king
+
+   4.63 ... 4.69 promoted the pawn
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -R  -S   .   .   .   .   .   .   8
+|                                   |
+7  -K  -P   P   .   .   .   .   .   7
+|                                   |
+6  -P  -P   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  #1                          1 + 6
+        ReversalEinsteinChess
+
+  1  (c7-c8=S + )
+   1.c7-c8=S # !
+
+  2  (c7*b8 )
+
+  add_to_move_generation_stack:           6
+                     play_move:           6
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           9
+solution finished.
+
+

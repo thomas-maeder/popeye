@@ -222,4 +222,12 @@ stipulation hzh31
 condition circe volage
 twin condition circe parrain volage
 
+next
+
+title 4.63 ... 4.69 promoted the pawn
+stipulation #1
+cond ReversalEinstein
+option movenum
+pieces white pc7 black Ka7 ra8 Sb8 pa6b6b7
+
 end

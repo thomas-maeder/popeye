@@ -600,7 +600,7 @@ static boolean verify_position(slice_index si)
     circe_variant.is_promotion_possible = true;
 
   /* initialize promotion squares */
-  if (!CondFlag[einstein])
+  if (!(CondFlag[einstein] || CondFlag[reveinstein]))
   {
     square i;
     if (!CondFlag[whprom_sq])
