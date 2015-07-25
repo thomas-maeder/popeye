@@ -94,7 +94,7 @@ void pieces_pawns_start_promotee_sequence(square sq_arrival,
    * Only promote the piece if it is still a pawn belonging to the
    * moving side.
    */
-  if (is_square_occupied_by_promotable_pawn(sq_arrival)==as_side)
+  if (is_square_occupied_by_promotable_pawn(sq_arrival,as_side))
   {
     piece_walk_type const walk_moving = get_walk_of_piece_on_square(sq_arrival);
     sequence->selector = (walk_moving==MarinePawn
@@ -131,31 +131,30 @@ void pieces_pawns_continue_promotee_sequence(pieces_pawns_promotion_sequence_typ
 
 /* Is a square occupied by a pawn that is to be promoted?
  * @param square_reached square reached by the pawn
- * @return side for which the pawn has reached the promotion square
- *         no_side if the pawn hasn't
+ * @param as_side side for which the pawn may occupy the square
+ * @return true iff the pawn occupies a prmotion square
  */
-Side is_square_occupied_by_promotable_pawn(square square_reached)
+boolean is_square_occupied_by_promotable_pawn(square square_reached,
+                                              Side as_side)
 {
-  Side result = no_side;
+  boolean result = false;
   piece_walk_type const walk_moving = get_walk_of_piece_on_square(square_reached);
 
   TraceFunctionEntry(__func__);
   TraceSquare(square_reached);
+  TraceEnumerator(Side,as_side,"");
   TraceFunctionParamListEnd();
 
   if (is_pawn(walk_moving))
   {
     boolean const forward = is_forwardpawn(walk_moving);
-    if ((forward ? ForwardPromSq(White,square_reached) : ReversePromSq(White,square_reached))
-        && TSTFLAG(being_solved.spec[square_reached],White))
-      result = White;
-    else if ((forward ? ForwardPromSq(Black,square_reached) : ReversePromSq(Black,square_reached))
-             && TSTFLAG(being_solved.spec[square_reached],Black))
-      result = Black;
+    if ((forward ? ForwardPromSq(as_side,square_reached) : ReversePromSq(as_side,square_reached))
+        && TSTFLAG(being_solved.spec[square_reached],as_side))
+      result = true;
   }
 
   TraceFunctionExit(__func__);
-  TraceEnumerator(Side,result,"");
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
