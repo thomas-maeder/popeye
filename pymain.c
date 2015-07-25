@@ -175,24 +175,27 @@ static void iterate_problems(void)
 
   tok = detect_user_language(tok,&UserLanguage);
 
-  output_plaintext_select_language(UserLanguage);
-  output_message_initialise_language(UserLanguage);
-
-  while (true)
+  if (UserLanguage!=LanguageCount)
   {
-    tok = input_plaintext_problem_handle(tok);
-    endToken = GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok);
-    if (endToken>ProblemTokenCount)
+    output_plaintext_select_language(UserLanguage);
+    output_message_initialise_language(UserLanguage);
+
+    while (true)
     {
-      output_plaintext_input_error_message(ComNotUniq,0);
-      tok = ReadNextTokStr();
-    }
-    else if (endToken==ProblemTokenCount || endToken==EndProblem)
-      break;
-    else
-    {
-      assert(endToken==NextProblem);
-      tok = ReadNextTokStr();
+      tok = input_plaintext_problem_handle(tok);
+      endToken = GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok);
+      if (endToken>ProblemTokenCount)
+      {
+        output_plaintext_input_error_message(ComNotUniq,0);
+        tok = ReadNextTokStr();
+      }
+      else if (endToken==ProblemTokenCount || endToken==EndProblem)
+        break;
+      else
+      {
+        assert(endToken==NextProblem);
+        tok = ReadNextTokStr();
+      }
     }
   }
 
