@@ -18,9 +18,10 @@ next
 
 author Dan Meinking
 origin StrateGems 47, 2009, no. 1
+remark actually a pser-h#7
 pieces white kh1 ra4
        black kb3 qb1 rb8 sc2f1 pg3h2h3
-stipulation pser-h#7
+sstipulation black 13h[1h[#]h]?+?h
 option intelligent
 
 next
@@ -117,6 +118,6 @@ origin Good Companions Quick Composing Tourney 2010, 5th Prize
 remark (last 7 moves of a phser-0027)
 pieces white ke1 bb6 ra1 pe3e5
        black kb4 rc8 bc2a6 pe4e6
-stip phser-007
+sstip white 13h[00]?+?h
 
 end
