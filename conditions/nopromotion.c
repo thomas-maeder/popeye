@@ -33,7 +33,7 @@ void nopromotion_avoid_promotion_moving_solve(slice_index si)
     square const pos = move_effect_journal_follow_piece_through_other_effects(nbply,
                                                                               moving_id,
                                                                               sq_arrival);
-    pipe_this_move_illegal_if(si,is_square_occupied_by_promotable_pawn(pos)!=no_side);
+    pipe_this_move_illegal_if(si,is_square_occupied_by_promotable_pawn(pos,trait[nbply]));
   }
 
   TraceFunctionExit(__func__);
