@@ -834,6 +834,33 @@ simples:
 	3h[- 4hh[#]]h   pas supporte (h#4 sans 2eme coup blanc)
 
 
+	Trait conditionnel
+	------------------
+
+	Le trait (le droit de jouer) peut etre soumis a une restriction R en
+	ajoutant le prefixe ?R? au symbol (h resp. d) respectif.
+
+	Le droit de jouer represente par un symbol ainsi decore n'est accorde
+	que si la restriction est remplie au moment pertinent.
+
+	Exemple: senonce blanc 7h[#]?+?h   (Synonyme de enonce phser-#4)
+
+	Actuellement, la selue restriction R supportee est que le camp qui a
+	(ou plutot aurait) le trait se trouve en echec.
+
+	En plus, ?A? n'est applicable qu'en deux contextes:
+	- dans ad au d
+	- dans hh au second h, si la longueur maximale de la branche est
+		  impaire
+
+	Autres exemples:
+	blanc 15a[#]?+?d			(pser-#8)
+	blanc 15a[1d[#]a]?+?d			(pser-s#8)
+	blanc 15a[>1a[#]d]?+?d			(pser-semi-r#8)
+	blanc 15a[>1a[#]d]?+?d{!1a[#]d}		(pser-r#8)
+	noir 15h[1a[#]d]?+?h			(pser-h#8)
+	blanc 15h[1d[#]a]?+?h			(phser-s#8)
+
 
 
  - forsyth: Cette commande est utiliser pour l'entree de la position en

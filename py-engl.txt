@@ -820,6 +820,34 @@ commands expect further parameters. Lets start with the simpler commands:
 	3h[- 4hh[#]]h   not supported (h#4 without 2nd white move)
 
 
+	Conditional right to move
+	-------------------------
+
+	The right to move can be restrained by a requirement R by prefixing the
+	respective symbol (h resp. d) with ?R?.
+
+	The right to move represented by a symbol decorated in this way is
+	granted only if the requirement is fulfilled at the relevant time.
+
+	Example: sstipulation white 7h[#]?+?h  (synonym of stipulation phser-#4)
+
+	Currently, the only supported requirement R is that the side at the move
+	be in check.
+
+	In addition, ?R? is only applicaple in two contexts:
+	- in ad to the d
+	- in hh to the second h, provided that the maximum length of the branch
+		is not divisible by 2
+
+	Further examples:
+	white 15a[#]?+?d			(pser-#8)
+	white 15a[1d[#]a]?+?d			(pser-s#8)
+	white 15a[>1a[#]d]?+?d			(pser-semi-r#8)
+	white 15a[>1a[#]d]?+?d{!1a[#]d}		(pser-r#8)
+	black 15h[1a[#]d]?+?h			(pser-h#8)
+	white 15h[1d[#]a]?+?h			(phser-s#8)
+
+
 
  - forsyth: With this command you can enter the position in forsyth notation.
 

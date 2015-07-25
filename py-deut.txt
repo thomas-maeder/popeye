@@ -845,6 +845,35 @@ Kommandos:
 	3h[- 4hh[#]]h   nicht unterstuetzt (h#4 ohne 2. weissen Zug)
 
 
+	Bedingtes Zugrecht
+	------------------
+
+	Das Zugrecht kann durch eine Anforderung A eingeschraenkt werden, indem
+	dem zugehoerigen Symbol (h bzw. d) das Praefix ?A? vorangestellt wird.
+
+	Das Zugrecht, welches durch ein derart dekoriertes Symbol repraesentiert
+	wird, wird nur gewaehrt, wenn die Anforderung zum betreffendne Zeitpunkt
+	erfuellt ist.
+
+	Beispiel: sforderung weiss 7h[#]?+?h   (Synonym zu forderung phser-#4)
+
+	Zurzeit wird als Anforderung A nur unterstuetzt, dass die am Zug
+	befindliche Seite im Schach steht.
+
+	Zudem ist ?A? ist nur in zwei Arten von Aesten anwendbar:
+	- bei ad auf das d
+	- bei hh auf das zweite h, sofern die maximale Laenge des Asts nicht
+		 durch 2 teilbar ist
+
+	Weitere Beispiele:
+	weiss 15a[#]?+?d			(pser-#8)
+	weiss 15a[1d[#]a]?+?d			(pser-s#8)
+	weiss 15a[>1a[#]d]?+?d			(pser-semi-r#8)
+	weiss 15a[>1a[#]d]?+?d{!1a[#]d}		(pser-r#8)
+	schwarz 15h[1a[#]d]?+?h			(pser-h#8)
+	weiss 15h[1d[#]a]?+?h			(phser-s#8)
+
+
 
  - Forsyth: Mit diesem Kommando kann die Stellung in Forsyth Notation
 	    angegeben werden.
