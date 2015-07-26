@@ -145,6 +145,8 @@ boolean is_square_occupied_by_promotable_pawn(square square_reached,
   TraceEnumerator(Side,as_side,"");
   TraceFunctionParamListEnd();
 
+  assert(as_side!=no_side);
+
   if (is_pawn(walk_moving))
   {
     boolean const forward = is_forwardpawn(walk_moving);
