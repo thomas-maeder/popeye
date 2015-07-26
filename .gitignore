@@ -1,8 +1,12 @@
 *.o
 *.a
+*.obj
+*.lib
 *.exe
+*.zip
 .project
 .cproject
 makefile
 py
+pymacos
 gengmarr
