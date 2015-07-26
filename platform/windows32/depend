@@ -1,11 +1,11 @@
-platform/windows32/maxmem.obj: platform/windows32/maxmem.c \
+platform/windows32/maxmem$(OBJ_SUFFIX): platform/windows32/maxmem.c \
  platform/maxmem.h utilities/boolean.h
 
 platform/maxmem.h:
 
 utilities/boolean.h:
-platform/windows32/maxtime.obj: platform/windows32/maxtime.c \
- platform/maxtime_impl.h platform/maxtime.h utilities/boolean.h \
+platform/windows32/maxtime$(OBJ_SUFFIX): platform/windows32/maxtime.c \
+ platform/maxtime_impl.h platform/maxtime.h utilities/boolean.h windows.h \
  debugging/assert.h
 
 platform/maxtime_impl.h:
@@ -14,16 +14,18 @@ platform/maxtime.h:
 
 utilities/boolean.h:
 
+windows.h:
+
 debugging/assert.h:
-platform/windows32/pytime.obj: platform/windows32/pytime.c \
+platform/windows32/pytime$(OBJ_SUFFIX): platform/windows32/pytime.c \
  platform/pytime.h
 
 platform/pytime.h:
-platform/windows32/priority.obj: platform/windows32/priority.c \
+platform/windows32/priority$(OBJ_SUFFIX): platform/windows32/priority.c \
  platform/priority.h
 
 platform/priority.h:
-platform/windows32/beep.obj: platform/windows32/beep.c platform/beep.h \
+platform/windows32/beep$(OBJ_SUFFIX): platform/windows32/beep.c platform/beep.h \
  utilities/boolean.h platform/beep_impl.h
 
 platform/beep.h:
@@ -31,8 +33,8 @@ platform/beep.h:
 utilities/boolean.h:
 
 platform/beep_impl.h:
-platform/windows32/snprintf.obj: platform/windows32/snprintf.c
-platform/windows32/tmpfile.obj: platform/windows32/tmpfile.c \
+platform/windows32/snprintf$(OBJ_SUFFIX): platform/windows32/snprintf.c
+platform/windows32/tmpfile$(OBJ_SUFFIX): platform/windows32/tmpfile.c \
  platform/tmpfile.h
 
 platform/tmpfile.h:

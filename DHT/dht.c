@@ -335,7 +335,7 @@ static InternHsElement *stepDirTable(dirEnumerate *enumeration)
 
   TraceValue("%lu ",enumeration->index);
   TraceValue("%lu\n",enumeration->dt->count);
-  TMDBG(printf("stepDirTable - index:%lu count:%lu\n",enumeration->index,enumeration->dt->count));
+  TMDBG(printf("stepDirTable - index:%u count:%lu\n",enumeration->index,enumeration->dt->count));
   if (enumeration->index<enumeration->dt->count)
   {
     dht_index_t di = enumeration->index & DIR_IDX_MASK;
@@ -824,7 +824,7 @@ void dhtRemoveElement(HashTable *ht, dhtValue key)
       dhtDump(ht, stderr);
       );
   }
-  
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

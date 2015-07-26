@@ -929,7 +929,9 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
         deal_with_stipulation(stipulation_root_hook);
       }
       else
+      {
         assert(0);
+      }
 
       tok = ReadNextTokStr();
     }

@@ -288,7 +288,7 @@ void fxfReset(void)
 #define  GetNextPtr(ptr)       *(char **)ALIGN(ptr)
 #define  PutNextPtr(dst, ptr)  *(char **)ALIGN(dst)= ptr
 
-#define TMDBG(x) if (0) x
+#define TMDBG(x) {}
 
 void *fxfAlloc(size_t size) {
 #if defined(LOG) || defined(DEBUG)

@@ -1,5 +1,6 @@
 #include "input/plaintext/goal.h"
 #include "input/plaintext/geometry/square.h"
+#include "input/plaintext/token.h"
 #include "output/output.h"
 #include "output/plaintext/message.h"
 #include "conditions/imitator.h"

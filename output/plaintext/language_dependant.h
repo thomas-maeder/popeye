@@ -40,7 +40,7 @@ typedef enum
   TwinProblem,     /* 0 */
   ZeroPosition,    /* 1 */
 
-  EndTwinTokenCount,  /* 2 */
+  EndTwinTokenCount  /* 2 */
 } EndTwinToken;
 
 extern char const *EndTwinTokenString[LanguageCount][EndTwinTokenCount];
