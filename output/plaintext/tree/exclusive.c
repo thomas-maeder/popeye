@@ -38,7 +38,7 @@ static void SignalExclusiveRefutedUndecidable(void)
   solve_result = previous_move_is_illegal;
 }
 
-static void SignalCheclessUndecidable(void)
+static void SignalChecklessUndecidable(void)
 {
   output_plaintext_tree_write_move();
   protocol_fputc(' ',stdout);
@@ -73,7 +73,7 @@ void exclusive_chess_undecidable_writer_tree_solve(slice_index si)
     if (solve_result==previous_move_has_solved
         && exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]<2
         && table_length(exclusive_chess_undecidable_continuations[parent_ply[nbply]])+exclusive_chess_nr_continuations_reaching_goal[parent_ply[nbply]]>1)
-      SignalCheclessUndecidable();
+      SignalChecklessUndecidable();
   }
 
   TraceFunctionExit(__func__);
