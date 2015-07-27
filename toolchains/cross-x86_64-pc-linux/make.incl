@@ -25,7 +25,10 @@ include toolchains/gcc/make.incl
 CCTARGET=x86_64-w64-mingw32-gcc
 
 # Linker for creating executables on target
-LDTARGET=x86_64-w64-mingw32-gcc
+# increase stack size to twice the default of 8MB to avoid
+# stack overflow when we do recursion detection (e.g. Ohneschach)
+# but only when compiling for the target
+LDTARGET=x86_64-w64-mingw32-gcc -Wl,--stack,16777216
 
 # Strip utility to remove unnecessary symbols from executable
 STRIPTARGET=x86_64-w64-mingw32-strip
@@ -43,10 +46,6 @@ ARCHIVE_INDEXER=x86_64-w64-mingw32-ranlib
 TARGETLIBS=-lwinmm
 # winmm = Windows Multimedia Library (we use Multimedia Timers to
 # implement option maxtime)
-
-# increase stack size to twice the default of 8MB to avoid
-# stack overflow when we do recursion detection (e.g. Ohneschach)
-LDFLAGS=-Wl,--stack,16777216
 
 
 # Platform spedific file names and suffixes
