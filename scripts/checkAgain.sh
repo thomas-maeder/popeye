@@ -16,6 +16,8 @@ POPEYEDIR=${SCRIPTDIR}/..
 
 # command to be invoked in parallel
 _cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
+#_cmd="WINEPREFIX=~/.wine ${POPEYEDIR}/pywin32.exe -maxmem 1G -maxtrace 0 -regression"
+#_cmd="WINEPREFIX=~/.wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
 PMAX=3

@@ -13,10 +13,14 @@ POPEYEDIR=${SCRIPTDIR}/..
 . ${SCRIPTDIR}/parallelTester.lib
 
 # command to be invoked in parallel
-_cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
+#_cmd="${POPEYEDIR}/py -maxmem 1G -maxtrace 0 -regression"
+#_cmd="WINEPREFIX=~/.wine wine ${POPEYEDIR}/pywin32.exe -maxmem 1G -maxtrace 0 -regression"
+_cmd="WINEPREFIX=~/.wine64 wine64 ${POPEYEDIR}/pywin64.exe -maxmem 1G -maxtrace 0 -regression"
 
 # number of processors
 PMAX=3
+
+#DEBUG=1
 
 # create and dispatch jobs
 for item in ${POPEYEDIR}/TESTS/*.inp ${POPEYEDIR}/REGRESSIONS/*.inp ${POPEYEDIR}/EXAMPLES/*inp ${POPEYEDIR}/BEISPIEL/*inp; do
