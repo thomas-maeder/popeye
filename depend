@@ -1,4 +1,4 @@
-pygmarr.obj: pygmarr.c position/position.h position/board.h \
+pygmarr$(OBJ_SUFFIX): pygmarr.c position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/color.h position/color.enum.h pieces/pieces.h \
  utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h
@@ -24,7 +24,7 @@ utilities/boolean.h:
 pieces/walks/vectors.h:
 
 position/castling_rights.h:
-gengmarr.obj: gengmarr.c position/position.h position/board.h \
+gengmarr$(OBJ_SUFFIX): gengmarr.c position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/color.h position/color.enum.h pieces/pieces.h \
  utilities/boolean.h pieces/walks/vectors.h position/castling_rights.h
