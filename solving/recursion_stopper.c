@@ -45,7 +45,7 @@ void recursion_stopper_solve(slice_index si)
 {
 #if defined(DOTRACE)
   /* empirically determined at 1 workstation */
-  ply const stop_at_ply = 250;
+  ply const stop_at_ply = 200;
 #else
   ply const stop_at_ply = maxply-3;
 #endif
