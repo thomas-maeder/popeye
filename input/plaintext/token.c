@@ -54,7 +54,9 @@ boolean OpenInput(char const *s)
   }
   else
   {
-    Input = fopen(s,"r");
+    /* b is essential for f[gs]etpos when s is a file with Linux EOL sequence
+     * tested on Windows! */
+    Input = fopen(s,"rb");
 
     if (Input==NULL)
       perror("error opening input file");
