@@ -44,6 +44,10 @@ TARGETLIBS=-lwinmm
 # winmm = Windows Multimedia Library (we use Multimedia Timers to
 # implement option maxtime)
 
+# increase stack size to twice the default of 8MB to avoid
+# stack overflow when we do recursion detection (e.g. Ohneschach)
+LDFLAGS=-Wl,--stack,16777216
+
 
 # Platform spedific file names and suffixes
 # ====================================
