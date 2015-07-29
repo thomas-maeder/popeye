@@ -1023,8 +1023,6 @@ static boolean verify_position(slice_index si)
   }
 
   if (CondFlag[bicolores]
-      || CondFlag[andernach]
-      || CondFlag[antiandernach]
       || CondFlag[magicsquare]
       || CondFlag[volage]
       || CondFlag[masand]
