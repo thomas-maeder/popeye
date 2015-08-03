@@ -11,7 +11,6 @@
 #include "solving/post_move_iteration.h"
 #include "solving/single_piece_move_generator.h"
 #include "solving/move_generator.h"
-#include "solving/single_piece_move_generator.h"
 #include "solving/conditional_pipe.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
@@ -26,9 +25,7 @@ static unsigned int stack_pointer = 1;
 static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *context)
 {
   boolean result = false;
-  move_effect_journal_index_type const base = move_effect_journal_base[context->relevant_ply];
-  move_effect_journal_index_type const capture = base+move_effect_journal_index_offset_capture;
-  square const sq_capture = move_effect_journal[capture].u.piece_removal.on;
+  square const sq_capture = context->relevant_square;
   piece_walk_type const pi_capturing = get_walk_of_piece_on_square(sq_capture);
   Flags const flags_capturing = being_solved.spec[sq_capture];
 
@@ -44,15 +41,13 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  assert(move_effect_journal[capture].type==move_effect_piece_removal);
-
   take_make_circe_current_rebirth_square_index[stack_pointer] = take_make_circe_current_rebirth_square_index[stack_pointer-1];
 
-  occupy_square(sq_capture,
-                move_effect_journal[capture].u.piece_removal.walk,
-                move_effect_journal[capture].u.piece_removal.flags);
+  occupy_square(context->relevant_square,
+		        context->relevant_walk,
+		        context->reborn_spec);
 
-  init_single_piece_move_generator(sq_capture);
+  init_single_piece_move_generator(context->relevant_square);
 
   result = (conditional_pipe_solve_delegate(temporary_hack_circe_take_make_rebirth_squares_finder[relevant_side])
             ==previous_move_has_solved);
@@ -60,9 +55,9 @@ static boolean init_rebirth_squares(circe_rebirth_context_elmt_type const *conte
   assert(pi_capturing!=Invalid);
 
   if (pi_capturing==Empty) /* en passant, Locust, ... */
-    empty_square(sq_capture);
+    empty_square(context->relevant_square);
   else
-    occupy_square(sq_capture,pi_capturing,flags_capturing);
+    occupy_square(context->relevant_square,pi_capturing,flags_capturing);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
