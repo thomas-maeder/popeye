@@ -1,0 +1,51 @@
+both sides need a king
+
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .  -S   .   .   .   .   .   .   2
+|                                   |
+1   B   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  ~1                          1 + 1
+      Circe Couscous Take&Make
+
+   1.Ba1*b2[+bSa3] !
+
+   1.Ba1*b2[+bSc3] !
+
+   1.Ba1*b2[+bSd4] !
+
+   1.Ba1*b2[+bSe5] !
+
+   1.Ba1*b2[+bSf6] !
+
+   1.Ba1*b2[+bSg7] !
+
+   1.Ba1*b2[+bSh8] !
+
+   1.Ba1*b2[+bSc1] !
+
+   1.Ba1*b2[+bSa1] !
+
+
+  add_to_move_generation_stack:          10
+                     play_move:           9
+ is_white_king_square_attacked:           0
+ is_black_king_square_attacked:           0
+solution finished.
+
+

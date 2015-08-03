@@ -1,0 +1,10 @@
+begin
+
+protocol 4_71_to_4_73.reg
+
+pieces white ba1 black sb2
+condition circe take couscous
+stipulation ~1
+
+end
+
