@@ -2,6 +2,7 @@ begin
 
 protocol 4_71_to_4_73.reg
 
+title condition circe take couscous ignored couscous
 pieces white ba1 black sb2
 condition circe take couscous
 stipulation ~1
