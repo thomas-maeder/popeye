@@ -6,7 +6,7 @@
 
 # Version number; . separates major and minor version part
 # developer versions have minor version numbers divisible by 2
-VERSION=4.72
+VERSION=4.73
 
 
 # NOTES ON CONDITIONAL COMPILATION
