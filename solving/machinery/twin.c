@@ -1672,7 +1672,16 @@ static void solve_any_stipulation(slice_index stipulation_root_hook)
     move_effect_journal_reset();
 
     {
-      slice_index const solving_machinery = build_solvers(stipulation_root_hook);
+      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+
+      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+
+      build_solvers(solving_machinery);
+
+      resolve_proxies(&solving_machinery);
+
+      adjust_slack_length(solving_machinery,previous_move_has_solved);
+
       TraceStipulation(solving_machinery);
 
       solve(solving_machinery);

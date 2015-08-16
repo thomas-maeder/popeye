@@ -212,91 +212,84 @@ void adjust_slack_length(slice_index si, stip_length_type to)
 }
 
 /* Instrument the slices representing the stipulation with solving slices
- * @param stipulation_root_hook proxy slice into stipulation
- * @return a copy of the stipulation instrumented with solvers
+ * @param solving_machinery proxy slice into the solving machinery to be built
  */
-slice_index build_solvers(slice_index stipulation_root_hook)
+void build_solvers(slice_index solving_machinery)
 {
-  slice_index result;
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
-  result = stip_deep_copy(stipulation_root_hook);
-
-  solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
-
-  retro_instrument_solving_default(result);
+  retro_instrument_solving_default(solving_machinery);
 
   if (CondFlag[lastcapture])
   {
-    retro_instrument_retractor(result,STRetroRetractLastCapture);
-    retro_substitute_last_move_player(result,STRetroRedoLastCapture);
+    retro_instrument_retractor(solving_machinery,STRetroRetractLastCapture);
+    retro_substitute_last_move_player(solving_machinery,STRetroRedoLastCapture);
   }
   else if (OptFlag[enpassant])
   {
-    retro_instrument_retractor(result,STRetroUndoLastPawnMultistep);
-    retro_substitute_last_move_player(result,STRetroRedoLastPawnMultistep);
+    retro_instrument_retractor(solving_machinery,STRetroUndoLastPawnMultistep);
+    retro_substitute_last_move_player(solving_machinery,STRetroRedoLastPawnMultistep);
   }
 
-  goal_prerequisite_guards_initialse_solving(result);
+  goal_prerequisite_guards_initialse_solving(solving_machinery);
 
   if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
-    pipe_append(result,alloc_pipe(STOutputPlainTextPositionWriter));
+    pipe_append(solving_machinery,alloc_pipe(STOutputPlainTextPositionWriter));
 
-  insert_temporary_hacks(result);
+  insert_temporary_hacks(solving_machinery);
 
   /* must come before stip_insert_selfcheck_guards() and
    * solving_insert_move_generators() because flight counting machinery needs
    * selfcheck guards and move generators */
   if (OptFlag[solflights])
-    solving_insert_maxflight_guards(result);
+    solving_insert_maxflight_guards(solving_machinery);
 
   /* must come before stip_insert_selfcheck_guards() because the
    * instrumentation of the goal filters inserts or slices of
    * which both branches need selfcheck guards */
   if (CondFlag[circe])
-    solving_insert_circe_goal_filters(result);
+    solving_insert_circe_goal_filters(solving_machinery);
   if (TSTFLAG(some_pieces_flags,Kamikaze))
-    solving_insert_kamikaze(result);
+    solving_insert_kamikaze(solving_machinery);
 
   /* must come before solving_apply_setplay() */
-  solving_insert_root_slices(result);
-  solving_insert_intro_slices(result);
+  solving_insert_root_slices(solving_machinery);
+  solving_insert_intro_slices(solving_machinery);
 
   /* must come before stip_insert_selfcheck_guards() because the set play
    * branch needs a selfcheck guard */
   if (OptFlag[solapparent] && !OptFlag[restart]
-      && !solving_apply_setplay(result))
+      && !solving_apply_setplay(solving_machinery))
     output_plaintext_message(SetPlayNotApplicable);
 
   /* must come before stip_insert_move_generators() because immobilise_black
    * needs a move generator */
-  if (!init_intelligent_mode(result))
+  if (!init_intelligent_mode(solving_machinery))
     output_plaintext_message(IntelligentRestricted);
 
   /* must come here because we generate branches that have to be provided with
    * self-check guards and move generators
    */
   if (CondFlag[ohneschach])
-    ohneschach_insert_check_guards(result);
+    ohneschach_insert_check_guards(solving_machinery);
 
   /* must come here because in conditions like MAFF, we are going to tamper with
    * the slices inserted here
    */
-  solving_insert_selfcheck_guards(result);
-  solving_insert_move_generators(result);
+  solving_insert_selfcheck_guards(solving_machinery);
+  solving_insert_move_generators(solving_machinery);
 
   if (OptFlag[keepmating])
-    solving_insert_keepmating_filters(result);
+    solving_insert_keepmating_filters(solving_machinery);
 
   if (CondFlag[amu])
-    solving_insert_amu_mate_filters(result);
+    solving_insert_amu_mate_filters(solving_machinery);
 
   if (CondFlag[whiteultraschachzwang]
       || CondFlag[blackultraschachzwang])
-    ultraschachzwang_initialise_solving(result);
+    ultraschachzwang_initialise_solving(solving_machinery);
 
   if (CondFlag[ohneschach])
   {
@@ -310,28 +303,28 @@ slice_index build_solvers(slice_index stipulation_root_hook)
   else if (CondFlag[exclusive])
     ; /* use regular move generation to filter out non-unique mating moves */
   else if (CondFlag[MAFF])
-    maff_replace_immobility_testers(result);
+    maff_replace_immobility_testers(solving_machinery);
   else if (CondFlag[OWU])
-    owu_replace_immobility_testers(result);
+    owu_replace_immobility_testers(solving_machinery);
   else
-    immobility_testers_substitute_king_first(result);
+    immobility_testers_substitute_king_first(solving_machinery);
 
   if (CondFlag[exclusive])
-    optimise_away_unnecessary_selfcheckguards(result);
+    optimise_away_unnecessary_selfcheckguards(solving_machinery);
 
   if (CondFlag[singlebox])
     switch (SingleBoxType)
     {
       case ConditionType1:
-        singlebox_type1_initialise_solving(result);
+        singlebox_type1_initialise_solving(solving_machinery);
         break;
 
       case ConditionType2:
-        stip_insert_singlebox_type2(result);
+        stip_insert_singlebox_type2(solving_machinery);
         break;
 
       case ConditionType3:
-        stip_insert_singlebox_type3(result);
+        stip_insert_singlebox_type3(solving_machinery);
         break;
 
       default:
@@ -339,463 +332,457 @@ slice_index build_solvers(slice_index stipulation_root_hook)
     }
 
   if (CondFlag[exclusive])
-    solving_insert_exclusive_chess(result);
+    solving_insert_exclusive_chess(solving_machinery);
 
-  solving_insert_king_capture_avoiders(result);
+  solving_insert_king_capture_avoiders(solving_machinery);
 
   if (CondFlag[isardam])
-    solving_insert_isardam_legality_testers(result);
+    solving_insert_isardam_legality_testers(solving_machinery);
 
   if (CondFlag[patience])
-    solving_insert_patience_chess(result);
+    solving_insert_patience_chess(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Paralysing))
-    paralysing_initialise_solving(result);
+    paralysing_initialise_solving(solving_machinery);
 
   if (CondFlag[strictSAT])
-    strictsat_initialise_solving(result);
+    strictsat_initialise_solving(solving_machinery);
   else if (CondFlag[SAT])
-    sat_initialise_solving(result);
+    sat_initialise_solving(solving_machinery);
 
   if (CondFlag[schwarzschacher])
-    blackchecks_initialise_solving(result);
+    blackchecks_initialise_solving(solving_machinery);
 
   if (CondFlag[masand])
-    solving_insert_masand(result);
+    solving_insert_masand(solving_machinery);
 
   if (CondFlag[dynasty])
-    dynasty_initialise_solving(result);
+    dynasty_initialise_solving(solving_machinery);
 
-  solving_insert_king_oscillators(result);
+  solving_insert_king_oscillators(solving_machinery);
 
   if (CondFlag[messigny])
-    solving_insert_messigny(result);
+    solving_insert_messigny(solving_machinery);
 
   if (CondFlag[arc])
-    solving_insert_actuated_revolving_centre(result);
+    solving_insert_actuated_revolving_centre(solving_machinery);
 
   if (CondFlag[actrevolving])
-    solving_insert_actuated_revolving_board(result);
+    solving_insert_actuated_revolving_board(solving_machinery);
 
   if (CondFlag[circe])
   {
-    circe_initialise_solving(result,&circe_variant,STMove,&move_insert_slices,STCirceConsideringRebirth);
+    circe_initialise_solving(solving_machinery,&circe_variant,STMove,&move_insert_slices,STCirceConsideringRebirth);
 
     if (circe_variant.is_rex_inclusive)
-      circe_rex_inclusive_initialise_check_validation(result);
+      circe_rex_inclusive_initialise_check_validation(solving_machinery);
 
     if (TSTFLAG(some_pieces_flags,Kamikaze))
-      circe_kamikaze_initialise_solving(result);
+      circe_kamikaze_initialise_solving(solving_machinery);
   }
 
   if (CondFlag[sentinelles])
-    solving_insert_sentinelles_inserters(result);
+    solving_insert_sentinelles_inserters(solving_machinery);
 
   if (CondFlag[anticirce])
   {
-    anticirce_initialise_solving(result);
+    anticirce_initialise_solving(solving_machinery);
 
     if (CondFlag[magicsquare] && magic_square_type==ConditionType2)
-      magic_square_type2_initialise_solving(result);
+      magic_square_type2_initialise_solving(solving_machinery);
   }
 
   if (CondFlag[duellist])
-    solving_insert_duellists(result);
+    solving_insert_duellists(solving_machinery);
 
   if (CondFlag[hauntedchess])
-    solving_insert_haunted_chess(result);
+    solving_insert_haunted_chess(solving_machinery);
 
   if (CondFlag[ghostchess])
-    solving_insert_ghost_chess(result);
+    solving_insert_ghost_chess(solving_machinery);
 
   if (kobul_who[White] || kobul_who[Black])
-    solving_insert_kobul_king_substitutors(result);
+    solving_insert_kobul_king_substitutors(solving_machinery);
 
   if (CondFlag[snekchess])
-    solving_insert_snek_chess(result);
+    solving_insert_snek_chess(solving_machinery);
   if (CondFlag[snekcirclechess])
-    solving_insert_snekcircle_chess(result);
+    solving_insert_snekcircle_chess(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,HalfNeutral))
-    solving_insert_half_neutral_recolorers(result);
+    solving_insert_half_neutral_recolorers(solving_machinery);
 
   if (CondFlag[andernach])
-    solving_insert_andernach(result);
+    solving_insert_andernach(solving_machinery);
 
   if (CondFlag[antiandernach])
-    solving_insert_antiandernach(result);
+    solving_insert_antiandernach(solving_machinery);
 
   if (CondFlag[champursue])
-    solving_insert_chameleon_pursuit(result);
+    solving_insert_chameleon_pursuit(solving_machinery);
 
   if (CondFlag[norsk])
-    solving_insert_norsk_chess(result);
+    solving_insert_norsk_chess(solving_machinery);
 
   if (CondFlag[protean] || TSTFLAG(some_pieces_flags,Protean))
-    solving_insert_protean_chess(result);
+    solving_insert_protean_chess(solving_machinery);
 
-  solving_initialise_castling(result);
+  solving_initialise_castling(solving_machinery);
 
   if (CondFlag[extinction])
   {
-    castling_generation_test_departure(result);
-    extinction_initialise_solving(result);
+    castling_generation_test_departure(solving_machinery);
+    extinction_initialise_solving(solving_machinery);
   }
 
   if (CondFlag[losingchess])
   {
-    castling_generation_test_departure(result);
-    solving_instrument_check_testing(result,STNoCheckConceptCheckTester);
+    castling_generation_test_departure(solving_machinery);
+    solving_instrument_check_testing(solving_machinery,STNoCheckConceptCheckTester);
   }
 
   if (CondFlag[einstein])
-    solving_insert_einstein_moving_adjusters(result);
+    solving_insert_einstein_moving_adjusters(solving_machinery);
 
   if (CondFlag[reveinstein])
-    solving_insert_reverse_einstein_moving_adjusters(result);
+    solving_insert_reverse_einstein_moving_adjusters(solving_machinery);
 
   if (CondFlag[antieinstein])
-    anti_einstein_instrument_solving(result);
+    anti_einstein_instrument_solving(solving_machinery);
 
   if (CondFlag[einstein] || CondFlag[antieinstein] || CondFlag[reveinstein])
-    solving_insert_einstein_en_passant_adjusters(result);
+    solving_insert_einstein_en_passant_adjusters(solving_machinery);
 
   if (CondFlag[traitor])
-    solving_insert_traitor_side_changers(result);
+    solving_insert_traitor_side_changers(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Volage))
-    solving_insert_volage_side_changers(result);
+    solving_insert_volage_side_changers(solving_machinery);
 
   if (CondFlag[magicsquare])
-    solving_insert_magic_square(result);
+    solving_insert_magic_square(solving_machinery);
 
   if (CondFlag[wormholes])
-    wormhole_initialse_solving(result);
+    wormhole_initialse_solving(solving_machinery);
 
   if (CondFlag[dbltibet])
-    solving_insert_double_tibet(result);
+    solving_insert_double_tibet(solving_machinery);
   else if (CondFlag[tibet])
-    solving_insert_tibet(result);
+    solving_insert_tibet(solving_machinery);
 
   if (CondFlag[degradierung])
-    solving_insert_degradierung(result);
+    solving_insert_degradierung(solving_machinery);
 
-  en_passant_initialise_solving(result);
+  en_passant_initialise_solving(solving_machinery);
 
   if (CondFlag[phantom] || CondFlag[mars] || CondFlag[plus] || CondFlag[antimars])
   {
-    move_generator_instrument_for_alternative_paths(result,nr_sides);
+    move_generator_instrument_for_alternative_paths(solving_machinery,nr_sides);
 
-    stip_instrument_moves(result,STMarsCirceMoveToRebirthSquare);
+    stip_instrument_moves(solving_machinery,STMarsCirceMoveToRebirthSquare);
     move_effect_journal_register_pre_capture_effect();
   }
 
   if (CondFlag[phantom])
-    solving_initialise_phantom(result);
+    solving_initialise_phantom(solving_machinery);
   else if (CondFlag[plus])
-    solving_initialise_plus(result);
+    solving_initialise_plus(solving_machinery);
   else
   {
     if (CondFlag[antimars])
-      solving_initialise_antimars(result);
+      solving_initialise_antimars(solving_machinery);
     if (CondFlag[mars])
-      solving_initialise_marscirce(result);
+      solving_initialise_marscirce(solving_machinery);
   }
 
   if (CondFlag[linechamchess])
-    solving_insert_line_chameleon_chess(result);
+    solving_insert_line_chameleon_chess(solving_machinery);
 
   if (CondFlag[chamchess])
-    chameleon_chess_initialise_solving(result);
+    chameleon_chess_initialise_solving(solving_machinery);
 
-  promotion_insert_slice_sequence(result,STMove,&move_insert_slices);
-  promotion_instrument_solving_default(result);
+  promotion_insert_slice_sequence(solving_machinery,STMove,&move_insert_slices);
+  promotion_instrument_solving_default(solving_machinery);
 
   /* this has to come after all promotion_insert_slice_sequence() invokations
    * to support for promotion into Chameleon
    */
   if (TSTFLAG(some_pieces_flags,Chameleon))
-    chameleon_initialise_solving(result);
+    chameleon_initialise_solving(solving_machinery);
 
   if (CondFlag[chamchess] || TSTFLAG(some_pieces_flags,Chameleon))
     chameleon_init_sequence_implicit(&chameleon_is_squence_explicit,
                                      &chameleon_walk_sequence);
 
   if (TSTFLAG(some_pieces_flags,ColourChange))
-    solving_insert_hurdle_colour_changers(result);
+    solving_insert_hurdle_colour_changers(solving_machinery);
 
   if (CondFlag[haanerchess])
-    solving_insert_haan_chess(result);
+    solving_insert_haan_chess(solving_machinery);
 
   if (CondFlag[castlingchess])
-    solving_insert_castling_chess(result);
+    solving_insert_castling_chess(solving_machinery);
 
   if (CondFlag[amu])
-    solving_insert_amu_attack_counter(result);
+    solving_insert_amu_attack_counter(solving_machinery);
 
   if (OptFlag[mutuallyexclusivecastling])
-    solving_insert_mutual_castling_rights_adjusters(result);
+    solving_insert_mutual_castling_rights_adjusters(solving_machinery);
 
   if (CondFlag[imitators])
-    solving_insert_imitator(result);
+    solving_insert_imitator(solving_machinery);
 
   if (CondFlag[football])
-    solving_insert_football_chess(result);
+    solving_insert_football_chess(solving_machinery);
 
   if (CondFlag[platzwechselrochade])
-    exchange_castling_initialise_solving(result);
+    exchange_castling_initialise_solving(solving_machinery);
 
-  solving_insert_post_move_iteration(result);
+  solving_insert_post_move_iteration(solving_machinery);
 
   if (isMaxtimeSet())
-    solving_insert_maxtime_guards(result);
+    solving_insert_maxtime_guards(solving_machinery);
 
   if (CondFlag[BGL])
-    bgl_initialise_solving(result);
+    bgl_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Patrol))
-    patrol_initialise_solving(result);
+    patrol_initialise_solving(solving_machinery);
   if (CondFlag[ultrapatrouille])
-    ultrapatrol_initialise_solving(result);
+    ultrapatrol_initialise_solving(solving_machinery);
 
   if (CondFlag[lortap])
-    lortap_initialise_solving(result);
+    lortap_initialise_solving(solving_machinery);
 
   if (CondFlag[provocateurs])
-    provocateurs_initialise_solving(result);
+    provocateurs_initialise_solving(solving_machinery);
 
   if (CondFlag[immun])
-    immune_initialise_solving(result);
+    immune_initialise_solving(solving_machinery);
 
   if (CondFlag[woozles])
-    woozles_initialise_solving(result);
+    woozles_initialise_solving(solving_machinery);
   if (CondFlag[biwoozles])
-    biwoozles_initialise_solving(result);
+    biwoozles_initialise_solving(solving_machinery);
   if (CondFlag[heffalumps])
-    heffalumps_initialise_solving(result);
+    heffalumps_initialise_solving(solving_machinery);
   if (CondFlag[biheffalumps])
-    biheffalumps_initialise_solving(result);
+    biheffalumps_initialise_solving(solving_machinery);
 
   if (CondFlag[nocapture] || CondFlag[nowhcapture] || CondFlag[noblcapture])
-    solving_insert_nocapture(result);
+    solving_insert_nocapture(solving_machinery);
 
   if (CondFlag[nowhiteprom] || CondFlag[noblackprom])
-    solving_insert_nopromotions(result);
+    solving_insert_nopromotions(solving_machinery);
 
   if (CondFlag[geneva])
-    geneva_initialise_solving(result);
+    geneva_initialise_solving(solving_machinery);
 
   if (CondFlag[contactgrid])
-    contact_grid_initialise_solving(result);
+    contact_grid_initialise_solving(solving_machinery);
   else if (CondFlag[koeko])
-    koeko_initialise_solving(result);
+    koeko_initialise_solving(solving_machinery);
   else if (CondFlag[antikoeko])
-    antikoeko_initialise_solving(result);
+    antikoeko_initialise_solving(solving_machinery);
   else if (CondFlag[newkoeko])
-    newkoeko_initialise_solving(result);
+    newkoeko_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Jigger))
-    jigger_initialise_solving(result);
+    jigger_initialise_solving(solving_machinery);
 
   if (CondFlag[monochro])
-      monochrome_initialise_solving(result);
+      monochrome_initialise_solving(solving_machinery);
   if (CondFlag[bichro])
-      bichrome_initialise_solving(result);
+      bichrome_initialise_solving(solving_machinery);
 
   if (CondFlag[superguards])
-    superguards_initialise_solving(result);
+    superguards_initialise_solving(solving_machinery);
 
   if (CondFlag[whiteedge] || CondFlag[blackedge])
-    solving_insert_edgemover(result);
+    solving_insert_edgemover(solving_machinery);
 
   if (CondFlag[gridchess])
-    grid_initialise_solving(result);
+    grid_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Uncapturable))
-    solving_insert_uncapturable(result);
+    solving_insert_uncapturable(solving_machinery);
 
   if (CondFlag[takemake])
-    solving_insert_take_and_make(result);
+    solving_insert_take_and_make(solving_machinery);
 
   if (OptFlag[noshort])
-    solving_insert_no_short_variations_filters(result);
+    solving_insert_no_short_variations_filters(solving_machinery);
 
   if (OptFlag[maxsols])
-    solving_insert_maxsolutions_filters(result);
+    solving_insert_maxsolutions_filters(solving_machinery);
 
-  solving_optimise_dead_end_slices(result);
+  solving_optimise_dead_end_slices(solving_machinery);
 
   if (OptFlag[stoponshort]
-      && !solving_insert_stoponshortsolutions_filters(result))
+      && !solving_insert_stoponshortsolutions_filters(solving_machinery))
     output_plaintext_message(NoStopOnShortSolutions);
 
-  solving_remove_irrelevant_constraints(result);
+  solving_remove_irrelevant_constraints(solving_machinery);
 
   if (OptFlag[movenbr])
-    solving_insert_restart_guards(result);
+    solving_insert_restart_guards(solving_machinery);
 
-  solving_insert_continuation_solvers(result);
+  solving_insert_continuation_solvers(solving_machinery);
 
-  solving_insert_find_shortest_solvers(result);
+  solving_insert_find_shortest_solvers(solving_machinery);
 
-  solving_optimise_with_orthodox_mating_move_generators(result);
+  solving_optimise_with_orthodox_mating_move_generators(solving_machinery);
 
-  solving_optimise_with_goal_non_reacher_removers(result);
+  solving_optimise_with_goal_non_reacher_removers(solving_machinery);
 
   if (!OptFlag[solvariantes])
-    solving_insert_play_suppressors(result);
+    solving_insert_play_suppressors(solving_machinery);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
-    solving_insert_threat_boundaries(result);
+    solving_insert_threat_boundaries(solving_machinery);
 
-  solving_spin_off_testers(result);
+  solving_spin_off_testers(solving_machinery);
 
-  mummer_initialise_solving(result);
+  mummer_initialise_solving(solving_machinery);
 
   if (CondFlag[ohneschach])
   {
-    ohneschach_optimise_away_redundant_immobility_tests(result);
-    ohneschach_optimise_away_immobility_tests_help(result);
-    ohneschach_optimise_immobility_testers(result);
+    ohneschach_optimise_away_redundant_immobility_tests(solving_machinery);
+    ohneschach_optimise_away_immobility_tests_help(solving_machinery);
+    ohneschach_optimise_immobility_testers(solving_machinery);
   }
 
   if (is_hashtable_allocated())
-    solving_insert_hashing(result);
+    solving_insert_hashing(solving_machinery);
 
-  solving_instrument_help_ends_of_branches(result);
+  solving_instrument_help_ends_of_branches(solving_machinery);
 
-  solving_insert_setplay_solvers(result);
+  solving_insert_setplay_solvers(solving_machinery);
 
   if (OptFlag[soltout]) /* this includes OptFlag[solessais] */
-    solving_insert_try_solvers(result);
+    solving_insert_try_solvers(solving_machinery);
 
-  solving_insert_trivial_variation_filters(result);
+  solving_insert_trivial_variation_filters(solving_machinery);
 
-  solving_insert_min_length(result);
+  solving_insert_min_length(solving_machinery);
 
   if (OptFlag[nontrivial])
-    solving_insert_max_nr_nontrivial_guards(result);
+    solving_insert_max_nr_nontrivial_guards(solving_machinery);
 
   if (OptFlag[solvariantes] && !OptFlag[nothreat])
-    solving_insert_threat_handlers(result);
+    solving_insert_threat_handlers(solving_machinery);
 
   if (OptFlag[degeneratetree])
-    solving_insert_degenerate_tree_guards(result);
+    solving_insert_degenerate_tree_guards(solving_machinery);
 
-  solving_insert_output_slices(result);
+  solving_insert_output_slices(solving_machinery);
 
   if (OptFlag[solmenaces]
-      && !solving_insert_maxthreatlength_guards(result))
+      && !solving_insert_maxthreatlength_guards(solving_machinery))
     output_plaintext_message(ThreatOptionAndExactStipulationIncompatible);
 
   if (CondFlag[republican])
-    solving_insert_republican_king_placers(result);
+    solving_insert_republican_king_placers(solving_machinery);
 
-  and_enable_shortcut_logic(result);
+  and_enable_shortcut_logic(solving_machinery);
 
-  solving_insert_avoid_unsolvable_forks(result);
+  solving_insert_avoid_unsolvable_forks(solving_machinery);
 
-  solving_insert_move_iterators(result);
+  solving_insert_move_iterators(solving_machinery);
 
-  stip_instrument_moves(result,STKingSquareUpdater);
+  stip_instrument_moves(solving_machinery,STKingSquareUpdater);
 
   if (TSTFLAG(some_pieces_flags,Magic))
-    solving_insert_magic_pieces_recolorers(result);
+    solving_insert_magic_pieces_recolorers(solving_machinery);
 
   if (CondFlag[vogt])
-    vogtlaender_initalise_solving(result);
+    vogtlaender_initalise_solving(solving_machinery);
 
   if (CondFlag[bicolores])
-    bicolores_initalise_solving(result);
+    bicolores_initalise_solving(solving_machinery);
 
   if (CondFlag[antikings])
-    antikings_initalise_solving(result);
+    antikings_initalise_solving(solving_machinery);
 
   if (CondFlag[madras])
-    madrasi_initialise_solving(result);
+    madrasi_initialise_solving(solving_machinery);
 
-  solving_initialise_hunters(result);
+  solving_initialise_hunters(solving_machinery);
 
   if (CondFlag[eiffel])
-    eiffel_initialise_solving(result);
+    eiffel_initialise_solving(solving_machinery);
 
   if (CondFlag[disparate])
-    disparate_initialise_solving(result);
+    disparate_initialise_solving(solving_machinery);
 
   if (CondFlag[central])
-    central_initialise_solving(result);
+    central_initialise_solving(solving_machinery);
 
   if (TSTFLAG(some_pieces_flags,Beamtet))
-    beamten_initialise_solving(result);
+    beamten_initialise_solving(solving_machinery);
 
   if (CondFlag[whvault_king])
-    vaulting_kings_initalise_solving(result,White);
+    vaulting_kings_initalise_solving(solving_machinery,White);
   if (CondFlag[blvault_king])
-    vaulting_kings_initalise_solving(result,Black);
+    vaulting_kings_initalise_solving(solving_machinery,Black);
 
   if (CondFlag[whsupertrans_king])
-    supertransmuting_kings_initialise_solving(result,White);
+    supertransmuting_kings_initialise_solving(solving_machinery,White);
   if (CondFlag[blsupertrans_king])
-    supertransmuting_kings_initialise_solving(result,Black);
+    supertransmuting_kings_initialise_solving(solving_machinery,Black);
 
   if (CondFlag[whtrans_king])
-    transmuting_kings_initialise_solving(result,White);
+    transmuting_kings_initialise_solving(solving_machinery,White);
   if (CondFlag[bltrans_king])
-    transmuting_kings_initialise_solving(result,Black);
+    transmuting_kings_initialise_solving(solving_machinery,Black);
 
   if (CondFlag[whrefl_king])
-    reflective_kings_initialise_solving(result,White);
+    reflective_kings_initialise_solving(solving_machinery,White);
   if (CondFlag[blrefl_king])
-    reflective_kings_initialise_solving(result,Black);
+    reflective_kings_initialise_solving(solving_machinery,Black);
 
   if (CondFlag[annan])
-    annan_initialise_solving(result);
+    annan_initialise_solving(solving_machinery);
 
 #if defined(DOTRACE)
-  solving_insert_move_tracers(result);
+  solving_insert_move_tracers(solving_machinery);
 #endif
 
 #if defined(DOMEASURE)
-  solving_insert_move_counters(result);
+  solving_insert_move_counters(solving_machinery);
 #endif
 
   if (CondFlag[shieldedkings])
-    shielded_kings_initialise_solving(result);
+    shielded_kings_initialise_solving(solving_machinery);
 
   if (CondFlag[brunner])
-    brunner_initialise_solving(result);
+    brunner_initialise_solving(solving_machinery);
 
   if (CondFlag[backhome])
-    backhome_initialise_solving(result);
+    backhome_initialise_solving(solving_machinery);
 
   if (CondFlag[facetoface])
-    facetoface_initialise_solving(result);
+    facetoface_initialise_solving(solving_machinery);
   if (CondFlag[backtoback])
-    backtoback_initialise_solving(result);
+    backtoback_initialise_solving(solving_machinery);
   if (CondFlag[cheektocheek])
-    cheektocheek_initialise_solving(result);
+    cheektocheek_initialise_solving(solving_machinery);
 
-  goal_kiss_init_piece_id(result);
+  goal_kiss_init_piece_id(solving_machinery);
 
-  solving_impose_starter(result,SLICE_STARTER(result));
-  solving_optimise_with_countnropponentmoves(result);
+  solving_impose_starter(solving_machinery,SLICE_STARTER(solving_machinery));
+  solving_optimise_with_countnropponentmoves(solving_machinery);
 
-  solving_optimise_with_killer_moves(result);
+  solving_optimise_with_killer_moves(solving_machinery);
 
   if (is_piece_neutral(some_pieces_flags))
-    solving_optimise_by_detecting_retracted_moves(result);
+    solving_optimise_by_detecting_retracted_moves(solving_machinery);
 
-  optimise_is_square_observed(result);
-  optimise_is_in_check(result);
+  optimise_is_square_observed(solving_machinery);
+  optimise_is_in_check(solving_machinery);
 
-  solving_impose_starter(result,SLICE_STARTER(result));
-
-  resolve_proxies(&result);
-
-  adjust_slack_length(result,previous_move_has_solved);
+  solving_impose_starter(solving_machinery,SLICE_STARTER(solving_machinery));
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
 }
