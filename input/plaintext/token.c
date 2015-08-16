@@ -230,7 +230,7 @@ unsigned int GetUniqIndex(unsigned int limit, char const * const *list, char con
  */
 boolean ReadToEndOfLine(void)
 {
-  if (LastChar=='\n')
+  if (LastChar=='\r' || LastChar=='\n')
     return false;
   else
   {
@@ -241,7 +241,7 @@ boolean ReadToEndOfLine(void)
       NextChar();
     } while (strchr(LineSpaceChar,LastChar));
 
-    while (LastChar!='\n')
+    while (LastChar!='\r' && LastChar!='\n')
     {
       *p++ = LastChar;
       NextChar();
