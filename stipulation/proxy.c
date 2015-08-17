@@ -106,23 +106,19 @@ static void fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 }
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si points to variable holding root slice of stipulation; if
- *           that slice's type is STProxy, the variable will be updated
- *           to hold the first non-proxy slice
+ * @param si root slice of solving machinery
  */
-void resolve_proxies(slice_index *si)
+void resolve_proxies(slice_index si)
 {
   slice_index i;
   stip_structure_traversal st;
   boolean is_resolved_proxy[max_nr_slices] = { false };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",*si);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  TraceStipulation(*si);
-
-  assert(SLICE_TYPE(*si)==STProxy);
+  TraceStipulation(si);
 
   stip_structure_traversal_init(&st,&is_resolved_proxy);
   stip_structure_traversal_override_by_structure(&st,
@@ -140,9 +136,7 @@ void resolve_proxies(slice_index *si)
   stip_structure_traversal_override_by_contextual(&st,
                                                   slice_contextual_binary,
                                                   &binary_resolve_proxies);
-  stip_traverse_structure(*si,&st);
-
-  proxy_slice_resolve(si,&st);
+  stip_traverse_structure(si,&st);
 
   for (i = 0; i!=max_nr_slices; ++i)
     if (is_resolved_proxy[i])

@@ -15,10 +15,8 @@
 slice_index alloc_proxy_slice(void);
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si points to variable holding root slice of stipulation; if
- *           that slice's type is STProxy, the variable will be updated
- *           to hold the first non-proxy slice
+ * @param si root slice of solving machinery
  */
-void resolve_proxies(slice_index *si);
+void resolve_proxies(slice_index si);
 
 #endif

@@ -1698,18 +1698,16 @@ static void solve_any_stipulation(slice_index solving_machinery)
 
     build_solvers(solving_machinery);
 
-    resolve_proxies(&solving_machinery);
+    resolve_proxies(solving_machinery);
 
     adjust_slack_length(solving_machinery,previous_move_has_solved);
 
     TraceStipulation(solving_machinery);
 
-    solve(solving_machinery);
+    solve(SLICE_NEXT1(solving_machinery));
 
     slack_length = 0;
   }
-
-  dealloc_slices(solving_machinery);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1736,6 +1734,7 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook)
       slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
       solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
       solve_any_stipulation(solving_machinery);
+      dealloc_slices(solving_machinery);
     }
 
     ProofRestoreTargetPosition();
@@ -1776,6 +1775,7 @@ void twin_solve(slice_index stipulation_root_hook)
       slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
       solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
       solve_any_stipulation(solving_machinery);
+      dealloc_slices(solving_machinery);
     }
   }
 
