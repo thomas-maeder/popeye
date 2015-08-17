@@ -18,9 +18,8 @@ extern position proofgames_start_position;
 extern position proofgames_target_position;
 
 /* Initialise the proof module for the current target position
- * @param si identifies start slice
  */
-void ProofInitialise(slice_index si);
+void ProofInitialise(void);
 
 /* Proof game: initialize start position from PAS
  */

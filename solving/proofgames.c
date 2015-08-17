@@ -264,10 +264,9 @@ static void loadTargetPiecesAndSquares(void)
   TraceFunctionResultEnd();
 }
 
-void ProofInitialise(slice_index si)
+void ProofInitialise(void)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   loadTargetPiecesAndSquares();

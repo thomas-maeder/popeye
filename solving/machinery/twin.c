@@ -1713,29 +1713,22 @@ static void solve_any_stipulation(slice_index solving_machinery)
   TraceFunctionResultEnd();
 }
 
-static void solve_proofgame_stipulation(slice_index stipulation_root_hook)
+static void solve_proofgame_stipulation(slice_index solving_machinery)
 {
-  slice_index const stipulation_root = SLICE_NEXT1(stipulation_root_hook);
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
   ProofSaveTargetPosition();
 
-  if (proofgame_restore_start(stipulation_root))
+  if (proofgame_restore_start(solving_machinery))
   {
     countPieces();
     initialise_piece_ids();
     initialise_piece_flags();
-    ProofInitialise(stipulation_root);
+    ProofInitialise();
     if (locate_royals(&being_solved.king_square))
-    {
-      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
-      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
       solve_any_stipulation(solving_machinery);
-      dealloc_slices(solving_machinery);
-    }
 
     ProofRestoreTargetPosition();
   }
@@ -1767,14 +1760,14 @@ void twin_solve(slice_index stipulation_root_hook)
                                                 Black,new_king_square[Black]);
     king_square_horizon = move_effect_journal_base[nbply+1];
 
-    if (stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_proofgame)
-        || stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_atob))
-      solve_proofgame_stipulation(stipulation_root_hook);
-    else
     {
       slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
       solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
-      solve_any_stipulation(solving_machinery);
+      if (stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_proofgame)
+          || stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_atob))
+        solve_proofgame_stipulation(solving_machinery);
+      else
+        solve_any_stipulation(solving_machinery);
       dealloc_slices(solving_machinery);
     }
   }
