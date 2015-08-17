@@ -47,6 +47,7 @@
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/machinery/solvers.h"
 #include "solving/pipe.h"
+#include "stipulation/proxy.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
 
@@ -1661,36 +1662,54 @@ static boolean verify_position(slice_index si)
   return true;
 }
 
-static void solve_any_stipulation(slice_index stipulation_root_hook)
+static void adjust_branch(slice_index si, stip_structure_traversal *st)
+{
+  int const * const diff = st->param;
+
+  stip_traverse_structure_children(si,st);
+
+  SLICE_U(si).branch.length += *diff;
+  SLICE_U(si).branch.min_length += *diff;
+}
+
+static void adjust_slack_length(slice_index si, stip_length_type to)
+{
+  int diff = (int)to-slack_length;
+
+  stip_structure_traversal st;
+  stip_structure_traversal_init(&st,&diff);
+  stip_structure_traversal_override_by_structure(&st,
+                                                 slice_structure_branch,
+                                                 &adjust_branch);
+  stip_traverse_structure(si,&st);
+
+  slack_length = to;
+}
+
+static void solve_any_stipulation(slice_index solving_machinery)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
-  if (verify_position(SLICE_NEXT1(stipulation_root_hook)))
+  if (verify_position(SLICE_NEXT1(solving_machinery)))
   {
     move_effect_journal_reset();
 
-    {
-      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+    build_solvers(solving_machinery);
 
-      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+    resolve_proxies(&solving_machinery);
 
-      build_solvers(solving_machinery);
+    adjust_slack_length(solving_machinery,previous_move_has_solved);
 
-      resolve_proxies(&solving_machinery);
+    TraceStipulation(solving_machinery);
 
-      adjust_slack_length(solving_machinery,previous_move_has_solved);
+    solve(solving_machinery);
 
-      TraceStipulation(solving_machinery);
-
-      solve(solving_machinery);
-
-      dealloc_slices(solving_machinery);
-
-      slack_length = 0;
-    }
+    slack_length = 0;
   }
+
+  dealloc_slices(solving_machinery);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1713,7 +1732,11 @@ static void solve_proofgame_stipulation(slice_index stipulation_root_hook)
     initialise_piece_flags();
     ProofInitialise(stipulation_root);
     if (locate_royals(&being_solved.king_square))
-      solve_any_stipulation(stipulation_root_hook);
+    {
+      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+      solve_any_stipulation(solving_machinery);
+    }
 
     ProofRestoreTargetPosition();
   }
@@ -1749,7 +1772,11 @@ void twin_solve(slice_index stipulation_root_hook)
         || stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_atob))
       solve_proofgame_stipulation(stipulation_root_hook);
     else
-      solve_any_stipulation(stipulation_root_hook);
+    {
+      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+      solve_any_stipulation(solving_machinery);
+    }
   }
 
   king_square_horizon = save_king_square_horizon;

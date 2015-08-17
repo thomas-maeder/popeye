@@ -187,30 +187,6 @@
 
 stip_length_type slack_length = 0;
 
-static void adjust_branch(slice_index si, stip_structure_traversal *st)
-{
-  int const * const diff = st->param;
-
-  stip_traverse_structure_children(si,st);
-
-  SLICE_U(si).branch.length += *diff;
-  SLICE_U(si).branch.min_length += *diff;
-}
-
-void adjust_slack_length(slice_index si, stip_length_type to)
-{
-  int diff = (int)to-slack_length;
-
-  stip_structure_traversal st;
-  stip_structure_traversal_init(&st,&diff);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_branch,
-                                                 &adjust_branch);
-  stip_traverse_structure(si,&st);
-
-  slack_length = to;
-}
-
 /* Instrument the slices representing the stipulation with solving slices
  * @param solving_machinery proxy slice into the solving machinery to be built
  */
