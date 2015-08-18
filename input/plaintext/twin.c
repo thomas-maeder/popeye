@@ -866,7 +866,12 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     if (OptFlag[duplex])
     {
       twin_duplex_type = twin_has_duplex;
-      twin_solve(stipulation_root_hook);
+      {
+        slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+        solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+        twin_solve(solving_machinery);
+        dealloc_slices(solving_machinery);
+      }
       twin_duplex_type = twin_is_duplex;
       twin_solve_duplex(stipulation_root_hook);
       twin_duplex_type = twin_no_duplex;
@@ -874,7 +879,12 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     else if (OptFlag[halfduplex])
       twin_solve_duplex(stipulation_root_hook);
     else
-      twin_solve(stipulation_root_hook);
+    {
+      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+      twin_solve(solving_machinery);
+      dealloc_slices(solving_machinery);
+    }
 
     output_plaintext_message(NewLine);
 

@@ -1738,15 +1738,15 @@ static void solve_proofgame_stipulation(slice_index solving_machinery)
 }
 
 /* Solve the current (actual or virtual) twin
- * @param stipulation_root_hook identifies the root slice of the stipulation
+ * @param solving_machinery identifies the root slice of the solving machinery
  */
-void twin_solve(slice_index stipulation_root_hook)
+void twin_solve(slice_index solving_machinery)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
   square new_king_square[nr_sides] = { initsquare, initsquare };
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
   initialise_piece_walk_caches();
@@ -1760,16 +1760,11 @@ void twin_solve(slice_index stipulation_root_hook)
                                                 Black,new_king_square[Black]);
     king_square_horizon = move_effect_journal_base[nbply+1];
 
-    {
-      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
-      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
-      if (stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_proofgame)
-          || stip_ends_in(SLICE_NEXT1(stipulation_root_hook),goal_atob))
-        solve_proofgame_stipulation(solving_machinery);
-      else
-        solve_any_stipulation(solving_machinery);
-      dealloc_slices(solving_machinery);
-    }
+    if (stip_ends_in(SLICE_NEXT1(solving_machinery),goal_proofgame)
+        || stip_ends_in(SLICE_NEXT1(solving_machinery),goal_atob))
+      solve_proofgame_stipulation(solving_machinery);
+    else
+      solve_any_stipulation(solving_machinery);
   }
 
   king_square_horizon = save_king_square_horizon;
@@ -1790,7 +1785,12 @@ void twin_solve_duplex(slice_index stipulation_root_hook)
   TraceFunctionParamListEnd();
 
   solving_impose_starter(stipulation_root_hook,advers(regular_starter));
-  twin_solve(stipulation_root_hook);
+  {
+    slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+    solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+    twin_solve(solving_machinery);
+    dealloc_slices(solving_machinery);
+  }
   solving_impose_starter(stipulation_root_hook,regular_starter);
 
   TraceFunctionExit(__func__);
