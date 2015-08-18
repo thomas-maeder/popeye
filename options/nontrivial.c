@@ -1,6 +1,6 @@
 #include "options/nontrivial.h"
 #include "stipulation/pipe.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"

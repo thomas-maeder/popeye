@@ -12,8 +12,9 @@ solving/help_play/adapter$(OBJ_SUFFIX): solving/help_play/adapter.c \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h stipulation/help_play/branch.h stipulation/pipe.h \
+ solving/machinery/slack_length.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/pipe.h \
+ stipulation/help_play/branch.h stipulation/pipe.h \
  stipulation/slice_insertion.h stipulation/branch.h stipulation/binary.h \
  stipulation/constraint.h solving/moves_traversal.h \
  stipulation/conditional_pipe.h debugging/assert.h
@@ -67,6 +68,8 @@ stipulation/slice_contextual_type.h:
 stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
+
+solving/machinery/slack_length.h:
 
 solving/has_solution_type.h:
 

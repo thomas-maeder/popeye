@@ -2,7 +2,7 @@
 #include "stipulation/slice_insertion.h"
 #include "stipulation/testing_pipe.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/pipe.h"
 #include "solving/fork.h"
 #include "debugging/trace.h"

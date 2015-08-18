@@ -1,6 +1,6 @@
 /******** IMPORTANT INFORMATION ****************
-This file is generated using the program ./gengmarr.exe -- DON'T CHANGE.
-./gengmarr.exe was compiled from gengmarr.c.
+This file is generated using the program ./gengmarr -- DON'T CHANGE.
+./gengmarr was compiled from gengmarr.c.
 ***********************************************/
 #include "position/position.h"
 position const game_array =

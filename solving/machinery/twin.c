@@ -1662,30 +1662,6 @@ static boolean verify_position(slice_index si)
   return true;
 }
 
-static void adjust_branch(slice_index si, stip_structure_traversal *st)
-{
-  int const * const diff = st->param;
-
-  stip_traverse_structure_children(si,st);
-
-  SLICE_U(si).branch.length += *diff;
-  SLICE_U(si).branch.min_length += *diff;
-}
-
-static void adjust_slack_length(slice_index si, stip_length_type to)
-{
-  int diff = (int)to-slack_length;
-
-  stip_structure_traversal st;
-  stip_structure_traversal_init(&st,&diff);
-  stip_structure_traversal_override_by_structure(&st,
-                                                 slice_structure_branch,
-                                                 &adjust_branch);
-  stip_traverse_structure(si,&st);
-
-  slack_length = to;
-}
-
 static void solve_any_stipulation(slice_index solving_machinery)
 {
   TraceFunctionEntry(__func__);
@@ -1700,13 +1676,7 @@ static void solve_any_stipulation(slice_index solving_machinery)
 
     resolve_proxies(solving_machinery);
 
-    adjust_slack_length(solving_machinery,previous_move_has_solved);
-
-    TraceStipulation(solving_machinery);
-
     solve(solving_machinery);
-
-    slack_length = 0;
   }
 
   TraceFunctionExit(__func__);

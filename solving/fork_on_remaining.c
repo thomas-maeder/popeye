@@ -1,6 +1,6 @@
 #include "solving/fork_on_remaining.h"
 #include "stipulation/stipulation.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/binary.h"
 #include "stipulation/binary.h"
 #include "debugging/trace.h"

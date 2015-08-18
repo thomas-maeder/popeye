@@ -3,6 +3,7 @@
 #include "stipulation/pipe.h"
 #include "stipulation/fork.h"
 #include "output/output.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/branch.h"
 #include "stipulation/move.h"

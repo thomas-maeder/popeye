@@ -860,6 +860,11 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   pipe_link(result,stip_deep_copy(stipulation_root_hook));
   solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
+  {
+    slice_index const prototype = alloc_pipe(STSlackLengthAdjuster);
+    slice_insertion_insert(result,&prototype,1);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();

@@ -13,10 +13,10 @@ solving/battle_play/continuation$(OBJ_SUFFIX): solving/battle_play/continuation.
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/testing_pipe.h stipulation/pipe.h \
- stipulation/battle_play/branch.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h solving/fork.h \
- solving/observation.h pieces/walks/vectors.h solving/ply.h \
- solving/temporary_hacks.h debugging/assert.h
+ stipulation/battle_play/branch.h solving/machinery/slack_length.h \
+ solving/pipe.h solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/ply.h solving/temporary_hacks.h \
+ debugging/assert.h
 
 solving/battle_play/continuation.h:
 
@@ -76,9 +76,7 @@ stipulation/pipe.h:
 
 stipulation/battle_play/branch.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 solving/pipe.h:
 
@@ -106,13 +104,13 @@ solving/battle_play/threat$(OBJ_SUFFIX): solving/battle_play/threat.c \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
- utilities/table.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/testing_pipe.h \
- stipulation/pipe.h stipulation/branch.h stipulation/proxy.h \
- stipulation/move_played.h stipulation/battle_play/branch.h \
- solving/avoid_unsolvable.h solving/check.h solving/fork.h \
- solving/observation.h pieces/walks/vectors.h solving/temporary_hacks.h \
- solving/testing_pipe.h solving/pipe.h debugging/assert.h
+ utilities/table.h solving/machinery/slack_length.h \
+ stipulation/testing_pipe.h stipulation/pipe.h stipulation/branch.h \
+ stipulation/proxy.h stipulation/move_played.h \
+ stipulation/battle_play/branch.h solving/avoid_unsolvable.h \
+ solving/check.h solving/fork.h solving/observation.h \
+ pieces/walks/vectors.h solving/temporary_hacks.h solving/testing_pipe.h \
+ solving/pipe.h debugging/assert.h
 
 solving/battle_play/threat.h:
 
@@ -168,9 +166,7 @@ solving/ply.h:
 
 utilities/table.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 stipulation/testing_pipe.h:
 
@@ -330,9 +326,9 @@ solving/battle_play/setplay$(OBJ_SUFFIX): solving/battle_play/setplay.c \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/battle_play/branch.h solving/battle_play/try.h \
- utilities/table.h debugging/trace.h debugging/assert.h
+ solving/machinery/slack_length.h stipulation/battle_play/branch.h \
+ solving/battle_play/try.h utilities/table.h debugging/trace.h \
+ debugging/assert.h
 
 solving/battle_play/setplay.h:
 
@@ -380,9 +376,7 @@ stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 stipulation/battle_play/branch.h:
 
@@ -483,8 +477,8 @@ solving/battle_play/min_length_guard$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/proxy.h stipulation/slice_insertion.h stipulation/branch.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/battle_play/branch.h \
+ solving/machinery/slack_length.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h stipulation/battle_play/branch.h \
  solving/battle_play/min_length_optimiser.h solving/pipe.h \
  debugging/assert.h
 
@@ -546,6 +540,8 @@ stipulation/slice_insertion.h:
 
 stipulation/branch.h:
 
+solving/machinery/slack_length.h:
+
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
@@ -571,10 +567,10 @@ solving/battle_play/attack_adapter$(OBJ_SUFFIX): \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h stipulation/pipe.h stipulation/slice_insertion.h \
- stipulation/branch.h stipulation/binary.h stipulation/conditional_pipe.h \
- debugging/assert.h
+ solving/machinery/slack_length.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/pipe.h stipulation/pipe.h \
+ stipulation/slice_insertion.h stipulation/branch.h stipulation/binary.h \
+ stipulation/conditional_pipe.h debugging/assert.h
 
 solving/battle_play/attack_adapter.h:
 
@@ -626,6 +622,8 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/machinery/slack_length.h:
+
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
@@ -658,8 +656,9 @@ solving/battle_play/defense_adapter$(OBJ_SUFFIX): \
  output/mode.h output/mode.enum.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h stipulation/pipe.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- solving/battle_play/attack_adapter.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h debugging/assert.h
+ solving/battle_play/attack_adapter.h solving/machinery/slack_length.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/pipe.h debugging/assert.h
 
 solving/battle_play/defense_adapter.h:
 
@@ -718,6 +717,8 @@ stipulation/branch.h:
 stipulation/battle_play/branch.h:
 
 solving/battle_play/attack_adapter.h:
+
+solving/machinery/slack_length.h:
 
 solving/has_solution_type.h:
 

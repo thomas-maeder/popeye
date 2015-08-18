@@ -92,9 +92,8 @@ optimisations/intelligent/stalemate/filter$(OBJ_SUFFIX): \
  utilities/bitmask.h position/side.h position/side.enum.h pieces/pieces.h \
  output/mode.h output/mode.enum.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/pipe.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/conditional_pipe.h stipulation/branch.h \
+ solving/machinery/slack_length.h solving/pipe.h stipulation/proxy.h \
+ stipulation/pipe.h stipulation/conditional_pipe.h stipulation/branch.h \
  stipulation/help_play/branch.h \
  stipulation/goals/immobile/reached_tester.h \
  optimisations/intelligent/intelligent.h position/position.h \
@@ -154,9 +153,7 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 solving/pipe.h:
 

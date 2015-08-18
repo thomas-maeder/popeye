@@ -4,7 +4,7 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
 #include "stipulation/move.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/pipe.h"
 #include "stipulation/proxy.h"
 #include "stipulation/slice_insertion.h"

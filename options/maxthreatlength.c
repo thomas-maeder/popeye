@@ -1,6 +1,6 @@
 #include "options/maxthreatlength.h"
 #include "stipulation/proxy.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/pipe.h"
 #include "solving/testing_pipe.h"
 #include "stipulation/testing_pipe.h"

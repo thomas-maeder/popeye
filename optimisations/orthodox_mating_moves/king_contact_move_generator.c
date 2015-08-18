@@ -1,4 +1,5 @@
 #include "optimisations/orthodox_mating_moves/king_contact_move_generator.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
 #include "solving/has_solution_type.h"

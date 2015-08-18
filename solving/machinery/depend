@@ -107,7 +107,7 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  optimisations/goals/remove_non_reachers.h \
  optimisations/detect_retraction.h optimisations/observation.h \
- debugging/assert.h debugging/measure.h
+ debugging/assert.h debugging/measure.h output/plaintext/protocol.h
 
 solving/machinery/solvers.h:
 
@@ -564,6 +564,8 @@ optimisations/observation.h:
 debugging/assert.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  solving/machinery/solve.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -571,8 +573,9 @@ solving/machinery/solve$(OBJ_SUFFIX): solving/machinery/solve.c \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- debugging/measure.h debugging/assert.h
+ solving/machinery/slack_length.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h debugging/measure.h \
+ output/plaintext/protocol.h debugging/assert.h
 
 solving/machinery/solve.h:
 
@@ -604,11 +607,15 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/machinery/slack_length.h:
+
 solving/has_solution_type.h:
 
 solving/has_solution_type.enum.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 
 debugging/assert.h:
 solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
@@ -658,7 +665,8 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  solving/has_solution_type.enum.h solving/moves_traversal.h \
  solving/proofgames.h solving/king_capture_avoider.h \
  solving/find_square_observer_tracking_back_from_target.h \
- solving/machinery/solvers.h solving/pipe.h debugging/assert.h
+ solving/machinery/solvers.h solving/pipe.h stipulation/proxy.h \
+ stipulation/pipe.h debugging/assert.h
 
 solving/machinery/twin.h:
 
@@ -848,6 +856,10 @@ solving/machinery/solvers.h:
 
 solving/pipe.h:
 
+stipulation/proxy.h:
+
+stipulation/pipe.h:
+
 debugging/assert.h:
 solving/machinery/intro$(OBJ_SUFFIX): solving/machinery/intro.c \
  solving/machinery/intro.h stipulation/stipulation.h \
@@ -865,7 +877,7 @@ solving/machinery/intro$(OBJ_SUFFIX): solving/machinery/intro.c \
  solving/battle_play/attack_adapter.h solving/machinery/solve.h \
  solving/machinery/dispatch.h debugging/trace.h \
  solving/battle_play/defense_adapter.h solving/help_play/adapter.h \
- debugging/assert.h debugging/measure.h
+ debugging/assert.h debugging/measure.h output/plaintext/protocol.h
 
 solving/machinery/intro.h:
 
@@ -928,6 +940,8 @@ solving/help_play/adapter.h:
 debugging/assert.h:
 
 debugging/measure.h:
+
+output/plaintext/protocol.h:
 solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/machinery/dispatch.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -1076,7 +1090,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  pieces/attributes/chameleon.h pieces/attributes/jigger.h \
  pieces/attributes/uncapturable.h pieces/attributes/kamikaze/kamikaze.h \
  pieces/walks/generate_moves.h pieces/walks/pawns/en_passant.h \
- pieces/walks/pawns/promotion.h retro/retro.h solving/avoid_unsolvable.h \
+ pieces/walks/pawns/promotion.h retro/retro.h \
+ solving/machinery/slack_length.h solving/avoid_unsolvable.h \
  solving/battle_play/attack_adapter.h \
  solving/battle_play/defense_adapter.h solving/battle_play/continuation.h \
  solving/battle_play/min_length_guard.h \
@@ -1108,7 +1123,8 @@ solving/machinery/dispatch$(OBJ_SUFFIX): solving/machinery/dispatch.c \
  solving/goals/kiss.h solving/goals/notcheck.h solving/goals/proofgame.h \
  solving/goals/steingewinn.h solving/goals/target.h \
  solving/goals/prerequisite_optimiser.h solving/goals/reached_tester.h \
- solving/pipe.h debugging/measure.h debugging/assert.h
+ solving/pipe.h debugging/measure.h output/plaintext/protocol.h \
+ debugging/assert.h
 
 solving/machinery/dispatch.h:
 
@@ -1634,6 +1650,8 @@ pieces/walks/pawns/promotion.h:
 
 retro/retro.h:
 
+solving/machinery/slack_length.h:
+
 solving/avoid_unsolvable.h:
 
 solving/battle_play/attack_adapter.h:
@@ -1766,4 +1784,71 @@ solving/pipe.h:
 
 debugging/measure.h:
 
+output/plaintext/protocol.h:
+
 debugging/assert.h:
+solving/machinery/slack_length$(OBJ_SUFFIX): solving/machinery/slack_length.c \
+ solving/machinery/slack_length.h stipulation/stipulation.h \
+ stipulation/goals/goals.h position/board.h utilities/bitmask.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ debugging/trace.h
+
+solving/machinery/slack_length.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+utilities/boolean.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+pieces/pieces.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+stipulation/traversal.h:
+
+debugging/trace.h:

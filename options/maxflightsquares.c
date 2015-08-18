@@ -1,5 +1,6 @@
 #include "options/maxflightsquares.h"
 #include "stipulation/pipe.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "solving/conditional_pipe.h"

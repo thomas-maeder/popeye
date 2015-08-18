@@ -1,5 +1,5 @@
 #include "options/goal_is_end.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/proxy.h"
 #include "stipulation/boolean/not.h"
 #include "stipulation/battle_play/branch.h"

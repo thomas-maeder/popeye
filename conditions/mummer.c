@@ -10,6 +10,7 @@
 #include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/temporary_hacks.h"
 #include "solving/post_move_iteration.h"
 #include "solving/observation.h"

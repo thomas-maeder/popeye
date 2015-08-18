@@ -1,6 +1,6 @@
 #include "optimisations/ohneschach/immobility_tests_help.h"
 #include "stipulation/stipulation.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/pipe.h"
 #include "optimisations/ohneschach/stop_if_check.h"
 #include "debugging/trace.h"

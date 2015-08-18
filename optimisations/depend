@@ -198,12 +198,12 @@ optimisations/hash$(OBJ_SUFFIX): optimisations/hash.c debugging/assert.h \
  conditions/circe/relevant_side.h conditions/circe/parachute.h \
  conditions/duellists.h conditions/haunted_chess.h position/underworld.h \
  conditions/imitator.h options/nontrivial.h solving/avoid_unsolvable.h \
- solving/castling.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h stipulation/proxy.h stipulation/pipe.h \
- stipulation/battle_play/branch.h stipulation/help_play/branch.h \
- stipulation/branch.h platform/maxtime.h platform/maxmem.h solving/pipe.h \
- pieces/attributes/neutral/neutral.h options/options.h \
- conditions/conditions.h
+ solving/castling.h solving/machinery/slack_length.h \
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ stipulation/proxy.h stipulation/pipe.h stipulation/battle_play/branch.h \
+ stipulation/help_play/branch.h stipulation/branch.h platform/maxtime.h \
+ platform/maxmem.h solving/pipe.h pieces/attributes/neutral/neutral.h \
+ options/options.h conditions/conditions.h
 
 debugging/assert.h:
 
@@ -330,6 +330,8 @@ options/nontrivial.h:
 solving/avoid_unsolvable.h:
 
 solving/castling.h:
+
+solving/machinery/slack_length.h:
 
 solving/has_solution_type.h:
 
@@ -475,9 +477,8 @@ optimisations/detect_retraction$(OBJ_SUFFIX): optimisations/detect_retraction.c 
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- stipulation/move.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/pipe.h stipulation/proxy.h \
- stipulation/slice_insertion.h debugging/assert.h
+ stipulation/move.h solving/machinery/slack_length.h solving/pipe.h \
+ stipulation/proxy.h stipulation/slice_insertion.h debugging/assert.h
 
 optimisations/detect_retraction.h:
 
@@ -543,9 +544,7 @@ stipulation/traversal.h:
 
 stipulation/move.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 solving/pipe.h:
 

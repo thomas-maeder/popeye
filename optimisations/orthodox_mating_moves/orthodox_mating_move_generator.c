@@ -7,7 +7,7 @@
 #include "solving/move_generator.h"
 #include "solving/move_effect_journal.h"
 #include "stipulation/stipulation.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/pipe.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "solving/pipe.h"

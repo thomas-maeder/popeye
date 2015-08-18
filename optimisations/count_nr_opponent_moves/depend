@@ -15,8 +15,8 @@ optimisations/count_nr_opponent_moves/move_generator$(OBJ_SUFFIX): \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/branch.h stipulation/battle_play/branch.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/fork_on_remaining.h solving/temporary_hacks.h debugging/assert.h
+ solving/machinery/slack_length.h solving/fork_on_remaining.h \
+ solving/temporary_hacks.h debugging/assert.h
 
 optimisations/count_nr_opponent_moves/move_generator.h:
 
@@ -78,9 +78,7 @@ stipulation/branch.h:
 
 stipulation/battle_play/branch.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 solving/fork_on_remaining.h:
 
@@ -183,9 +181,9 @@ optimisations/count_nr_opponent_moves/prioriser$(OBJ_SUFFIX): \
  stipulation/slice_type.enum.h position/side.h position/side.enum.h \
  pieces/pieces.h output/mode.h output/mode.enum.h \
  solving/machinery/dispatch.h debugging/trace.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- stipulation/binary.h stipulation/structure_traversal.h \
- stipulation/slice.h stipulation/slice_structural_type.h \
+ solving/machinery/slack_length.h stipulation/binary.h \
+ stipulation/structure_traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
  stipulation/slice_functional_type.h \
  stipulation/slice_functional_type.enum.h \
@@ -227,9 +225,7 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 stipulation/binary.h:
 

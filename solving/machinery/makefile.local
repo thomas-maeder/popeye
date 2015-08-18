@@ -1,6 +1,6 @@
 # -*- Makefile -*-
 #
-SRC_CFILES =   solvers.c solve.c twin.c intro.c dispatch.c
-INCLUDES = solvers.h solve.h twin.h intro.h dispatch.h
+SRC_CFILES =   solvers.c solve.c twin.c intro.c dispatch.c slack_length.c
+INCLUDES = solvers.h solve.h twin.h intro.h dispatch.h slack_length.h
 
 include makefile.rules $(CURRPWD)depend

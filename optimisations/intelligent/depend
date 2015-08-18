@@ -178,11 +178,11 @@ optimisations/intelligent/moves_left$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/moves_traversal.h solving/pipe.h solving/castling.h \
- solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
- position/pieceid.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h debugging/assert.h
+ solving/machinery/slack_length.h solving/moves_traversal.h \
+ solving/pipe.h solving/castling.h solving/move_effect_journal.h \
+ position/castling_rights.h solving/ply.h position/pieceid.h \
+ position/position.h position/color.h position/color.enum.h \
+ pieces/walks/vectors.h debugging/assert.h
 
 optimisations/intelligent/moves_left.h:
 
@@ -236,9 +236,7 @@ stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 solving/moves_traversal.h:
 

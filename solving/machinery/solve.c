@@ -1,4 +1,5 @@
 #include "solving/machinery/solve.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"

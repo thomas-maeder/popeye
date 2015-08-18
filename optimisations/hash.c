@@ -98,6 +98,7 @@
 #include "options/nontrivial.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/castling.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/proxy.h"
 #include "stipulation/battle_play/branch.h"

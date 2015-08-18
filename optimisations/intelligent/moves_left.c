@@ -1,7 +1,7 @@
 #include "optimisations/intelligent/moves_left.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/moves_traversal.h"
 #include "solving/pipe.h"
 #include "solving/castling.h"

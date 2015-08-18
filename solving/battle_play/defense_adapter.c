@@ -3,6 +3,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
 #include "solving/battle_play/attack_adapter.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "solving/machinery/solve.h"

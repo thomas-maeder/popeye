@@ -6,7 +6,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/boolean/true.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/goals/check/reached_tester.h"
 #include "debugging/trace.h"
 

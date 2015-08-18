@@ -1273,10 +1273,9 @@ solving/goals/prerequisite_optimiser$(OBJ_SUFFIX): \
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- stipulation/branch.h solving/has_solution_type.h \
- solving/has_solution_type.enum.h solving/goals/prerequisite_guards.h \
- solving/ply.h solving/avoid_unsolvable.h solving/pipe.h \
- debugging/assert.h
+ stipulation/branch.h solving/machinery/slack_length.h \
+ solving/goals/prerequisite_guards.h solving/ply.h \
+ solving/avoid_unsolvable.h solving/pipe.h debugging/assert.h
 
 solving/goals/prerequisite_optimiser.h:
 
@@ -1332,9 +1331,7 @@ stipulation/traversal.h:
 
 stipulation/branch.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/machinery/slack_length.h:
 
 solving/goals/prerequisite_guards.h:
 

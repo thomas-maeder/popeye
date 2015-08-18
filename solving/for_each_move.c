@@ -1,5 +1,6 @@
 #include "solving/for_each_move.h"
 #include "stipulation/pipe.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
 #include "solving/pipe.h"
 #include "stipulation/branch.h"

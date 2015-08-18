@@ -225,6 +225,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "retro/retro.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/attack_adapter.h"
 #include "solving/battle_play/defense_adapter.h"
@@ -317,6 +318,10 @@ void dispatch(slice_index si)
   {
     case STStartOfSolvingMachinery:
       solve(SLICE_NEXT1(si));
+      break;
+
+    case STSlackLengthAdjuster:
+      adjust_slack_length(si);
       break;
 
     case STThreatSolver:

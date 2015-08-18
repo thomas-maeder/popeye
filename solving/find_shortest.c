@@ -5,7 +5,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/slice_insertion.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/fork_on_remaining.h"

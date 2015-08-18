@@ -1,6 +1,7 @@
 #include "solving/non_king_move_generator.h"
 #include "solving/move_generator.h"
 #include "stipulation/stipulation.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/has_solution_type.h"
 #include "stipulation/pipe.h"
 #include "solving/temporary_hacks.h"

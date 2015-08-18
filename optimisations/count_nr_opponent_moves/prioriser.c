@@ -1,6 +1,6 @@
 #include "optimisations/count_nr_opponent_moves/prioriser.h"
 #include "stipulation/stipulation.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/binary.h"
 #include "solving/testing_pipe.h"
 #include "optimisations/count_nr_opponent_moves/opponent_moves_counter.h"

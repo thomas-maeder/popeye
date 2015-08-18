@@ -1,7 +1,7 @@
 #include "options/degenerate_tree.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/branch.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"

@@ -1,7 +1,7 @@
 #include "options/movenumbers/restart_guard_intelligent.h"
 #include "stipulation/stipulation.h"
 #include "stipulation/pipe.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/pipe.h"
 #include "debugging/trace.h"
 #include "options/movenumbers.h"

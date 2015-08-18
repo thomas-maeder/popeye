@@ -1,5 +1,5 @@
 #include "options/quodlibet.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "stipulation/battle_play/branch.h"
 #include "debugging/trace.h"
 

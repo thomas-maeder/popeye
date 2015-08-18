@@ -185,8 +185,6 @@
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 
-stip_length_type slack_length = 0;
-
 /* Instrument the slices representing the stipulation with solving slices
  * @param solving_machinery proxy slice into the solving machinery to be built
  */

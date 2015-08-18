@@ -3,7 +3,7 @@
 #include "stipulation/proxy.h"
 #include "stipulation/branch.h"
 #include "stipulation/battle_play/branch.h"
-#include "solving/has_solution_type.h"
+#include "solving/machinery/slack_length.h"
 #include "solving/fork_on_remaining.h"
 #include "solving/temporary_hacks.h"
 #include "debugging/trace.h"
