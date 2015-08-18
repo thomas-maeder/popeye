@@ -45,7 +45,6 @@
 #include "solving/proofgames.h"
 #include "solving/king_capture_avoider.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
-#include "solving/machinery/solvers.h"
 #include "solving/pipe.h"
 #include "stipulation/proxy.h"
 #include "debugging/assert.h"
@@ -1671,8 +1670,6 @@ static void solve_any_stipulation(slice_index solving_machinery)
   if (verify_position(solving_machinery))
   {
     move_effect_journal_reset();
-
-    build_solvers(solving_machinery);
 
     solve(solving_machinery);
   }

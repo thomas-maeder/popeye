@@ -68,7 +68,7 @@ void solving_insert_intro_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
-  assert(SLICE_TYPE(si)==STStartOfSolvingMachinery);
+  assert(SLICE_TYPE(si)==STSolversBuilder);
 
   spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);

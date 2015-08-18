@@ -149,6 +149,22 @@ slice_index copy_slice(slice_index original)
   return result;
 }
 
+static void dealloc_solvers_builder(slice_index si, stip_structure_traversal *st)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  st->activity = stip_traversal_activity_testing;
+  stip_traverse_structure(SLICE_TESTER(si),st);
+  st->activity = stip_traversal_activity_solving;
+
+  stip_traverse_structure_children(si,st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 /* Deallocate slices reachable from a slice
  * @param si slice where to start deallocating
  */
@@ -164,9 +180,7 @@ void dealloc_slices(slice_index si)
   TraceStipulation(si);
 
   stip_structure_traversal_init(&st,0);
-  st.activity = stip_traversal_activity_testing;
-  stip_traverse_structure(SLICE_TESTER(si),&st);
-  st.activity = stip_traversal_activity_solving;
+  stip_structure_traversal_override_single(&st,STSolversBuilder,&dealloc_solvers_builder);
   stip_traverse_structure(si,&st);
 
   for (i = 0; i!=max_nr_slices; ++i)
@@ -251,7 +265,7 @@ void solving_insert_root_slices(slice_index si)
   TraceFunctionParamListEnd();
 
   TraceStipulation(si);
-  assert(SLICE_TYPE(si)==STStartOfSolvingMachinery);
+  assert(SLICE_TYPE(si)==STSolversBuilder);
 
   spin_off_state_init(&state);
   stip_structure_traversal_init(&st,&state);

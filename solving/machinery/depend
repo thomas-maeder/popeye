@@ -74,13 +74,14 @@ solving/machinery/solvers$(OBJ_SUFFIX): solving/machinery/solvers.c \
  stipulation/constraint.h solving/moves_traversal.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/kiss/reached_tester.h stipulation/branch.h \
- stipulation/fork.h stipulation/move.h solving/king_capture_avoider.h \
- solving/testers.h solving/find_shortest.h solving/for_each_move.h \
- solving/battle_play/try.h solving/battle_play/threat.h \
- solving/battle_play/continuation.h solving/battle_play/setplay.h \
- solving/battle_play/min_length_guard.h solving/boolean/and.h \
- solving/goals/prerequisite_guards.h solving/trivial_end_filter.h \
- solving/avoid_unsolvable.h solving/play_suppressor.h solving/castling.h \
+ stipulation/fork.h stipulation/move.h solving/pipe.h \
+ solving/king_capture_avoider.h solving/testers.h solving/find_shortest.h \
+ solving/for_each_move.h solving/battle_play/try.h \
+ solving/battle_play/threat.h solving/battle_play/continuation.h \
+ solving/battle_play/setplay.h solving/battle_play/min_length_guard.h \
+ solving/boolean/and.h solving/goals/prerequisite_guards.h \
+ solving/trivial_end_filter.h solving/avoid_unsolvable.h \
+ solving/play_suppressor.h solving/castling.h \
  pieces/walks/pawns/en_passant.h solving/post_move_iteration.h \
  pieces/attributes/magic.h pieces/attributes/paralysing/paralysing.h \
  pieces/attributes/kamikaze/kamikaze.h \
@@ -451,6 +452,8 @@ stipulation/fork.h:
 
 stipulation/move.h:
 
+solving/pipe.h:
+
 solving/king_capture_avoider.h:
 
 solving/testers.h:
@@ -677,9 +680,8 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  solving/castling.h solving/has_solution_type.h \
  solving/has_solution_type.enum.h solving/moves_traversal.h \
  solving/proofgames.h solving/king_capture_avoider.h \
- solving/find_square_observer_tracking_back_from_target.h \
- solving/machinery/solvers.h solving/pipe.h stipulation/proxy.h \
- stipulation/pipe.h debugging/assert.h
+ solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
+ stipulation/proxy.h stipulation/pipe.h debugging/assert.h
 
 solving/machinery/twin.h:
 
@@ -864,8 +866,6 @@ solving/proofgames.h:
 solving/king_capture_avoider.h:
 
 solving/find_square_observer_tracking_back_from_target.h:
-
-solving/machinery/solvers.h:
 
 solving/pipe.h:
 

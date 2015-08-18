@@ -320,6 +320,10 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STSolversBuilder:
+      build_solvers(si);
+      break;
+
     case STProxyResolver:
       proxies_resolve(si);
       break;

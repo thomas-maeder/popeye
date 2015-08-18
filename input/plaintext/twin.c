@@ -858,16 +858,18 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
 
   result = alloc_pipe(STStartOfSolvingMachinery);
   pipe_link(result,stip_deep_copy(SLICE_NEXT1(stipulation_root_hook)));
-  solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
   {
     slice_index const prototypes[] = {
+        alloc_pipe(STSolversBuilder),
         alloc_pipe(STProxyResolver),
         alloc_pipe(STSlackLengthAdjuster)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(result,prototypes,nr_prototypes);
   }
+
+  solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
