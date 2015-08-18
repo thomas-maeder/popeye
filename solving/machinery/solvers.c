@@ -210,7 +210,10 @@ void build_solvers(slice_index solving_machinery)
   goal_prerequisite_guards_initialse_solving(solving_machinery);
 
   if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
-    pipe_append(solving_machinery,alloc_pipe(STOutputPlainTextPositionWriter));
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlainTextPositionWriter);
+    slice_insertion_insert(solving_machinery,&prototype,1);
+  }
 
   insert_temporary_hacks(solving_machinery);
 

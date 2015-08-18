@@ -556,6 +556,7 @@ static slice_index const slice_rank_order[] =
 {
   STProxy,
   STStartOfSolvingMachinery,
+  STProxyResolver,
   STSlackLengthAdjuster,
   STHashOpener,
   STMaxTimeSetter,
@@ -567,6 +568,7 @@ static slice_index const slice_rank_order[] =
   STOutputEndOfIntro,
   STStrictSATInitialiser,
   STHurdleColourChangeInitialiser,
+  STAnd, /* needed for reci-h#1 */
   STSetplayFork,
   STMoveInverter,
   STOutputPlaintextMoveInversionCounter,

@@ -15,8 +15,8 @@
 slice_index alloc_proxy_slice(void);
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si root slice of solving machinery
+ * @param si slice_index
  */
-void resolve_proxies(slice_index si);
+void proxies_resolve(slice_index si);
 
 #endif

@@ -1674,8 +1674,6 @@ static void solve_any_stipulation(slice_index solving_machinery)
 
     build_solvers(solving_machinery);
 
-    resolve_proxies(solving_machinery);
-
     solve(solving_machinery);
   }
 

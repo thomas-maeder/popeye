@@ -3,6 +3,7 @@
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
+  ENUMERATOR(STProxyResolver),                                          \
   ENUMERATOR(STSlackLengthAdjuster),                                    \
   /* battle play structural slices */                                 \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \

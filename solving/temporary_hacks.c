@@ -471,7 +471,7 @@ void insert_temporary_hacks(slice_index root_slice)
 
     temporary_hack_check_tester = make_check_tester();
 
-    pipe_append(root_slice,entry_point);
+    slice_insertion_insert(root_slice,&entry_point,1);
 
     pipe_append(proxy,temporary_hack_mate_tester[White]);
     pipe_append(temporary_hack_mate_tester[White],

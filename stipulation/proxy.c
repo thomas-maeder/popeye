@@ -4,6 +4,7 @@
 #include "stipulation/fork.h"
 #include "stipulation/branch.h"
 #include "stipulation/binary.h"
+#include "solving/pipe.h"
 #include "debugging/trace.h"
 
 #include "debugging/assert.h"
@@ -106,9 +107,9 @@ static void fork_resolve_proxies(slice_index si, stip_structure_traversal *st)
 }
 
 /* Substitute links to proxy slices by the proxy's target
- * @param si root slice of solving machinery
+ * @param si slice_index
  */
-void resolve_proxies(slice_index si)
+void proxies_resolve(slice_index si)
 {
   slice_index i;
   stip_structure_traversal st;
@@ -141,6 +142,8 @@ void resolve_proxies(slice_index si)
   for (i = 0; i!=max_nr_slices; ++i)
     if (is_resolved_proxy[i])
       dealloc_slice(i);
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
