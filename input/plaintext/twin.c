@@ -873,11 +873,21 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
         dealloc_slices(solving_machinery);
       }
       twin_duplex_type = twin_is_duplex;
-      twin_solve_duplex(stipulation_root_hook);
+      {
+        slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+        solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+        twin_solve_duplex(solving_machinery);
+        dealloc_slices(solving_machinery);
+      }
       twin_duplex_type = twin_no_duplex;
     }
     else if (OptFlag[halfduplex])
-      twin_solve_duplex(stipulation_root_hook);
+    {
+      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
+      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+      twin_solve_duplex(solving_machinery);
+      dealloc_slices(solving_machinery);
+    }
     else
     {
       slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);

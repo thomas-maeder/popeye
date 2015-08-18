@@ -1774,24 +1774,19 @@ void twin_solve(slice_index solving_machinery)
 }
 
 /* Solve the duplex of the current twin
- * @param stipulation_root_hook identifies the root slice of the stipulation
+ * @param solving_machinery identifies the root slice of the solving machinery
  */
-void twin_solve_duplex(slice_index stipulation_root_hook)
+void twin_solve_duplex(slice_index solving_machinery)
 {
-  Side const regular_starter = SLICE_STARTER(stipulation_root_hook);
+  Side const regular_starter = SLICE_STARTER(solving_machinery);
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
-  solving_impose_starter(stipulation_root_hook,advers(regular_starter));
-  {
-    slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
-    solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
-    twin_solve(solving_machinery);
-    dealloc_slices(solving_machinery);
-  }
-  solving_impose_starter(stipulation_root_hook,regular_starter);
+  solving_impose_starter(solving_machinery,advers(regular_starter));
+  twin_solve(solving_machinery);
+  solving_impose_starter(solving_machinery,regular_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

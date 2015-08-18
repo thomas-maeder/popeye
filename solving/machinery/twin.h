@@ -53,9 +53,9 @@ boolean twin_twinning_shift_validate(square from, square to);
 void twin_solve(slice_index solving_machinery);
 
 /* Solve the duplex of the current twin
- * @param stipulation_root_hook identifies the root slice of the stipulation
+ * @param solving_machinery identifies the root slice of the solving machinery
  */
-void twin_solve_duplex(slice_index stipulation_root_hook);
+void twin_solve_duplex(slice_index solving_machinery);
 
 /* Assign every piece of the position their id
  */
