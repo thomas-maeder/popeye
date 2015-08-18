@@ -856,7 +856,8 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  result = stip_deep_copy(stipulation_root_hook);
+  result = alloc_pipe(STStartOfSolvingMachinery);
+  pipe_link(result,stip_deep_copy(stipulation_root_hook));
   solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
   TraceFunctionExit(__func__);

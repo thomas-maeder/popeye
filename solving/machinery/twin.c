@@ -1692,7 +1692,7 @@ static void solve_any_stipulation(slice_index solving_machinery)
   TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
-  if (verify_position(SLICE_NEXT1(solving_machinery)))
+  if (verify_position(solving_machinery))
   {
     move_effect_journal_reset();
 
@@ -1704,7 +1704,7 @@ static void solve_any_stipulation(slice_index solving_machinery)
 
     TraceStipulation(solving_machinery);
 
-    solve(SLICE_NEXT1(solving_machinery));
+    solve(solving_machinery);
 
     slack_length = 0;
   }

@@ -2,6 +2,7 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
+  ENUMERATOR(STStartOfSolvingMachinery),                                \
   /* battle play structural slices */                                 \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \

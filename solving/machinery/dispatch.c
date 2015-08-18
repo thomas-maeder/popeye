@@ -315,6 +315,10 @@ void dispatch(slice_index si)
   TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
   switch (SLICE_TYPE(si))
   {
+    case STStartOfSolvingMachinery:
+      solve(SLICE_NEXT1(si));
+      break;
+
     case STThreatSolver:
       threat_solver_solve(si);
       break;
