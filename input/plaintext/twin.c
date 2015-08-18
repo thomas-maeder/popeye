@@ -848,6 +848,23 @@ static void complete_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
+static slice_index build_solving_machinery(slice_index stipulation_root_hook)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
+  result = stip_deep_copy(stipulation_root_hook);
+  solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 static void deal_with_stipulation(slice_index stipulation_root_hook)
 {
   TraceFunctionEntry(__func__);
@@ -867,15 +884,13 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     {
       twin_duplex_type = twin_has_duplex;
       {
-        slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
-        solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+        slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
         twin_solve(solving_machinery);
         dealloc_slices(solving_machinery);
       }
       twin_duplex_type = twin_is_duplex;
       {
-        slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
-        solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+        slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
         twin_solve_duplex(solving_machinery);
         dealloc_slices(solving_machinery);
       }
@@ -883,15 +898,13 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     }
     else if (OptFlag[halfduplex])
     {
-      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
-      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+      slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
       twin_solve_duplex(solving_machinery);
       dealloc_slices(solving_machinery);
     }
     else
     {
-      slice_index const solving_machinery = stip_deep_copy(stipulation_root_hook);
-      solving_impose_starter(solving_machinery,SLICE_STARTER(stipulation_root_hook));
+      slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
       twin_solve(solving_machinery);
       dealloc_slices(solving_machinery);
     }
