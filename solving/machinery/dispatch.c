@@ -320,6 +320,10 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STMoveEffectsJournalReset:
+      move_effect_journal_reset(si);
+      break;
+
     case STSolversBuilder:
       build_solvers(si);
       break;

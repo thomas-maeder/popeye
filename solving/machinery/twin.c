@@ -1668,11 +1668,7 @@ static void solve_any_stipulation(slice_index solving_machinery)
   TraceFunctionParamListEnd();
 
   if (verify_position(solving_machinery))
-  {
-    move_effect_journal_reset();
-
     solve(solving_machinery);
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

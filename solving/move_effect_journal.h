@@ -279,7 +279,7 @@ void move_effect_journal_register_pre_capture_effect(void);
 
 /* Reset the move effects journal from pre-capture effect reservations
  */
-void move_effect_journal_reset(void);
+void move_effect_journal_reset(slice_index si);
 
 /* Allocate an entry
  * @param type type of the effect

@@ -54,7 +54,7 @@ void move_effect_journal_register_pre_capture_effect(void)
 
 /* Reset the move effects journal from pre-capture effect reservations
  */
-void move_effect_journal_reset(void)
+void move_effect_journal_reset(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -62,6 +62,8 @@ void move_effect_journal_reset(void)
   move_effect_journal_index_offset_capture = 0;
   move_effect_journal_index_offset_movement = 1;
   move_effect_journal_index_offset_other_effects = 2;
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
