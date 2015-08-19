@@ -255,33 +255,23 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
   return result;
 }
 
-static boolean proofgame_restore_start(slice_index stipulation_root)
+static void proofgame_restore_start(slice_index stipulation_root)
 {
-  boolean result = false;
-
   switch (find_unique_goal(stipulation_root).type)
   {
-    case no_goal:
-      output_plaintext_verifie_message(MultipleGoalsWithProofGameNotAcceptable);
-      break;
-
     case goal_proofgame:
       ProofInitialiseStartPosition();
       ProofRestoreStartPosition();
-      result = true;
       break;
 
     case goal_atob:
       ProofRestoreStartPosition();
-      result = true;
       break;
 
     default:
       assert(0);
       break;
   }
-
-  return result;
 }
 
 void initialise_piece_ids(void)
@@ -1668,17 +1658,16 @@ void proof_solve(slice_index si)
 
   ProofSaveTargetPosition();
 
-  if (proofgame_restore_start(si))
-  {
-    countPieces();
-    initialise_piece_ids();
-    initialise_piece_flags();
-    ProofInitialise();
-    if (locate_royals(&being_solved.king_square))
-      pipe_solve_delegate(si);
+  proofgame_restore_start(si);
 
-    ProofRestoreTargetPosition();
-  }
+  countPieces();
+  initialise_piece_ids();
+  initialise_piece_flags();
+  ProofInitialise();
+  if (locate_royals(&being_solved.king_square))
+    pipe_solve_delegate(si);
+
+  ProofRestoreTargetPosition();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -848,6 +848,14 @@ static void complete_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
+void proof_verify_unique_goal(slice_index si)
+{
+  if (find_unique_goal(si).type==no_goal)
+    output_plaintext_verifie_message(MultipleGoalsWithProofGameNotAcceptable);
+  else
+    pipe_solve_delegate(si);
+}
+
 static slice_index build_solving_machinery(slice_index stipulation_root_hook)
 {
   slice_index result;

@@ -225,6 +225,7 @@
 #include "pieces/walks/pawns/en_passant.h"
 #include "pieces/walks/pawns/promotion.h"
 #include "retro/retro.h"
+#include "stipulation/proxy.h"
 #include "solving/machinery/slack_length.h"
 #include "solving/avoid_unsolvable.h"
 #include "solving/battle_play/attack_adapter.h"
@@ -294,6 +295,7 @@
 #include "solving/goals/reached_tester.h"
 #include "solving/pipe.h"
 #include "solving/machinery/solve.h"
+#include "solving/machinery/solvers.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
@@ -319,6 +321,13 @@ void dispatch(slice_index si)
     case STStartOfSolvingMachinery:
       solve(SLICE_NEXT1(si));
       break;
+
+    case STProofgameVerifyUniqueGoal:
+    {
+      void proof_verify_unique_goal(slice_index si);
+      proof_verify_unique_goal(si);
+      break;
+    }
 
     case STProofgameInitialiser:
     {
