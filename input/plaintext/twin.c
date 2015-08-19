@@ -865,7 +865,8 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
         alloc_pipe(STMoveEffectsJournalReset),
         alloc_pipe(STSolversBuilder),
         alloc_pipe(STProxyResolver),
-        alloc_pipe(STSlackLengthAdjuster)
+        alloc_pipe(STSlackLengthAdjuster),
+        alloc_pipe(STStartOfStipulation)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(result,prototypes,nr_prototypes);

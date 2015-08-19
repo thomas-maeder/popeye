@@ -9,6 +9,7 @@
   ENUMERATOR(STSolversBuilder),                                         \
   ENUMERATOR(STProxyResolver),                                          \
   ENUMERATOR(STSlackLengthAdjuster),                                    \
+  ENUMERATOR(STStartOfStipulation),                                     \
   /* battle play structural slices */                                 \
     ENUMERATOR(STAttackAdapter),   /* switch from generic play to attack play */ \
     ENUMERATOR(STDefenseAdapter),  /* switch from generic play to defense play */ \
