@@ -871,6 +871,16 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
     slice_insertion_insert(result,prototypes,nr_prototypes);
   }
 
+  if (stip_ends_in(SLICE_NEXT1(result),goal_proofgame)
+      || stip_ends_in(SLICE_NEXT1(result),goal_atob))
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STProofgameInitialiser)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(result,prototypes,nr_prototypes);
+  }
+
   solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
 
   TraceFunctionExit(__func__);

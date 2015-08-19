@@ -556,6 +556,7 @@ static slice_index const slice_rank_order[] =
 {
   STProxy,
   STStartOfSolvingMachinery,
+  STProofgameInitialiser,
   STInputVerification,
   STMoveEffectsJournalReset,
   STSolversBuilder,
@@ -571,7 +572,6 @@ static slice_index const slice_rank_order[] =
   STOutputEndOfIntro,
   STStrictSATInitialiser,
   STHurdleColourChangeInitialiser,
-  STAnd, /* needed for reci-h#1 */
   STSetplayFork,
   STMoveInverter,
   STOutputPlaintextMoveInversionCounter,
@@ -594,6 +594,9 @@ static slice_index const slice_rank_order[] =
   STImmobilityTester,
   STRecursionStopper,
   STMaxSolutionsCounter,
+  STAnd,
+  STOr,
+  STNot,
   STAttackAdapter,
   STDefenseAdapter,
   STHelpAdapter

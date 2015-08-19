@@ -3,6 +3,7 @@
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
+  ENUMERATOR(STProofgameInitialiser),                                   \
   ENUMERATOR(STInputVerification),                                      \
   ENUMERATOR(STMoveEffectsJournalReset),                                \
   ENUMERATOR(STSolversBuilder),                                         \

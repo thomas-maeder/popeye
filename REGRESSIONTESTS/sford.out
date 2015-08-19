@@ -533,7 +533,7 @@ Loesung beendet.
 
   add_to_move_generation_stack:         222
                      play_move:         192
- is_white_king_square_attacked:          98
+ is_white_king_square_attacked:          96
  is_black_king_square_attacked:         121
 Loesung beendet.
 
@@ -582,8 +582,8 @@ zweimal eine Anzuginversion (-)
 
   add_to_move_generation_stack:       13049
                      play_move:        8968
- is_white_king_square_attacked:        5255
- is_black_king_square_attacked:        6524
+ is_white_king_square_attacked:        5251
+ is_black_king_square_attacked:        6522
 Loesung beendet.
 
 

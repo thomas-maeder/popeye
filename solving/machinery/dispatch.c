@@ -320,6 +320,13 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STProofgameInitialiser:
+    {
+      void proof_solve(slice_index si);
+      proof_solve(si);
+      break;
+    }
+
     case STInputVerification:
     {
       void verify_position(slice_index si);

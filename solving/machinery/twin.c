@@ -1660,22 +1660,22 @@ void verify_position(slice_index si)
   pipe_solve_delegate(si);
 }
 
-static void solve_proofgame_stipulation(slice_index solving_machinery)
+void proof_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",solving_machinery);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   ProofSaveTargetPosition();
 
-  if (proofgame_restore_start(solving_machinery))
+  if (proofgame_restore_start(si))
   {
     countPieces();
     initialise_piece_ids();
     initialise_piece_flags();
     ProofInitialise();
     if (locate_royals(&being_solved.king_square))
-      solve(solving_machinery);
+      pipe_solve_delegate(si);
 
     ProofRestoreTargetPosition();
   }
@@ -1707,11 +1707,7 @@ void twin_solve(slice_index solving_machinery)
                                                 Black,new_king_square[Black]);
     king_square_horizon = move_effect_journal_base[nbply+1];
 
-    if (stip_ends_in(SLICE_NEXT1(solving_machinery),goal_proofgame)
-        || stip_ends_in(SLICE_NEXT1(solving_machinery),goal_atob))
-      solve_proofgame_stipulation(solving_machinery);
-    else
-      solve(solving_machinery);
+    solve(solving_machinery);
   }
 
   king_square_horizon = save_king_square_horizon;
