@@ -861,6 +861,7 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
 
   {
     slice_index const prototypes[] = {
+        alloc_pipe(STInputVerification),
         alloc_pipe(STMoveEffectsJournalReset),
         alloc_pipe(STSolversBuilder),
         alloc_pipe(STProxyResolver),

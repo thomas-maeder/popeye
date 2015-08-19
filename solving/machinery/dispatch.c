@@ -320,6 +320,13 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STInputVerification:
+    {
+      void verify_position(slice_index si);
+      verify_position(si);
+      break;
+    }
+
     case STMoveEffectsJournalReset:
       move_effect_journal_reset(si);
       break;
