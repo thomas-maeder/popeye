@@ -558,6 +558,7 @@ static slice_index const slice_rank_order[] =
   STStartOfSolvingMachinery,
   STProofgameVerifyUniqueGoal,
   STProofgameInitialiser,
+  STAToBInitialiser,
   STInputVerification,
   STMoveEffectsJournalReset,
   STSolversBuilder,

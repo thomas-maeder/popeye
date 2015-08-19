@@ -286,6 +286,8 @@ static void WriteTwinning(void)
       case move_effect_remember_volcanic:
         /* Forsberg twinning */
         break;
+      case move_effect_snapshot_proofgame_target_position:
+        break;
 
       default:
         assert(0);

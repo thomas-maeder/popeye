@@ -57,6 +57,8 @@ typedef enum
   move_effect_twinning_substitute,
   move_effect_twinning_shift,
 
+  move_effect_snapshot_proofgame_target_position,
+
   nr_move_effect_types
 } move_effect_type;
 

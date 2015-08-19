@@ -28,6 +28,7 @@
 #include "stipulation/battle_play/branch.h"
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/machinery/twin.h"
+#include "solving/pipe.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "debugging/trace.h"
@@ -880,11 +881,18 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
     slice_insertion_insert(result,prototypes,nr_prototypes);
   }
 
-  if (stip_ends_in(SLICE_NEXT1(result),goal_proofgame)
-      || stip_ends_in(SLICE_NEXT1(result),goal_atob))
+  if (stip_ends_in(SLICE_NEXT1(result),goal_proofgame))
   {
     slice_index const prototypes[] = {
         alloc_pipe(STProofgameInitialiser)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(result,prototypes,nr_prototypes);
+  }
+  if (stip_ends_in(SLICE_NEXT1(result),goal_atob))
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STAToBInitialiser)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(result,prototypes,nr_prototypes);

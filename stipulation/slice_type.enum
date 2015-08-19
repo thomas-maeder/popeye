@@ -5,6 +5,7 @@
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STProofgameVerifyUniqueGoal),                              \
   ENUMERATOR(STProofgameInitialiser),                                   \
+  ENUMERATOR(STAToBInitialiser),                                        \
   ENUMERATOR(STInputVerification),                                      \
   ENUMERATOR(STMoveEffectsJournalReset),                                \
   ENUMERATOR(STSolversBuilder),                                         \

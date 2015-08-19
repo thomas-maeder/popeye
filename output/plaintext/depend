@@ -1,4 +1,4 @@
-output/plaintext/plaintext.obj: output/plaintext/plaintext.c \
+output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  output/plaintext/plaintext.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -183,7 +183,7 @@ stipulation/pipe.h:
 solving/pipe.h:
 
 debugging/assert.h:
-output/plaintext/end_of_phase_writer.obj: \
+output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \
  output/plaintext/end_of_phase_writer.c \
  output/plaintext/end_of_phase_writer.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -275,7 +275,7 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/traversal.h:
 
 solving/pipe.h:
-output/plaintext/illegal_selfcheck_writer.obj: \
+output/plaintext/illegal_selfcheck_writer$(OBJ_SUFFIX): \
  output/plaintext/illegal_selfcheck_writer.c \
  output/plaintext/illegal_selfcheck_writer.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -357,7 +357,7 @@ solving/has_solution_type.h:
 solving/has_solution_type.enum.h:
 
 solving/pipe.h:
-output/plaintext/move_inversion_counter.obj: \
+output/plaintext/move_inversion_counter$(OBJ_SUFFIX): \
  output/plaintext/move_inversion_counter.c \
  output/plaintext/move_inversion_counter.h solving/machinery/solve.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -429,7 +429,7 @@ stipulation/traversal.h:
 solving/pipe.h:
 
 debugging/assert.h:
-output/plaintext/ohneschach_detect_undecidable_goal.obj: \
+output/plaintext/ohneschach_detect_undecidable_goal$(OBJ_SUFFIX): \
  output/plaintext/ohneschach_detect_undecidable_goal.c \
  output/plaintext/ohneschach_detect_undecidable_goal.h \
  solving/machinery/solve.h stipulation/stipulation.h \
@@ -516,7 +516,7 @@ output/message.h:
 input/plaintext/language.h:
 
 solving/pipe.h:
-output/plaintext/goal_writer.obj: output/plaintext/goal_writer.c \
+output/plaintext/goal_writer$(OBJ_SUFFIX): output/plaintext/goal_writer.c \
  output/plaintext/goal_writer.h stipulation/goals/goals.h \
  position/board.h utilities/bitmask.h utilities/boolean.h \
  solving/machinery/solve.h stipulation/stipulation.h \
@@ -599,7 +599,7 @@ input/plaintext/language.h:
 solving/pipe.h:
 
 debugging/assert.h:
-output/plaintext/language_dependant.obj: \
+output/plaintext/language_dependant$(OBJ_SUFFIX): \
  output/plaintext/language_dependant.c \
  output/plaintext/language_dependant.h pieces/pieces.h \
  utilities/boolean.h position/position.h position/board.h \
@@ -732,7 +732,7 @@ output/plaintext/message.h:
 output/message.h:
 
 debugging/assert.h:
-output/plaintext/condition.obj: output/plaintext/condition.c \
+output/plaintext/condition$(OBJ_SUFFIX): output/plaintext/condition.c \
  output/plaintext/condition.h utilities/boolean.h output/output.h \
  output/mode.h output/mode.enum.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
@@ -952,7 +952,7 @@ conditions/transmuting_kings/vaulting_kings.h:
 conditions/woozles.h:
 
 debugging/assert.h:
-output/plaintext/position.obj: output/plaintext/position.c \
+output/plaintext/position$(OBJ_SUFFIX): output/plaintext/position.c \
  output/plaintext/position.h position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/color.h position/color.enum.h pieces/pieces.h \
@@ -1138,7 +1138,7 @@ solving/move_generator.h:
 solving/proofgames.h:
 
 debugging/assert.h:
-output/plaintext/pieces.obj: output/plaintext/pieces.c \
+output/plaintext/pieces$(OBJ_SUFFIX): output/plaintext/pieces.c \
  output/plaintext/pieces.h position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
  position/color.h position/color.enum.h pieces/pieces.h \
@@ -1290,7 +1290,7 @@ solving/observation.h:
 solving/temporary_hacks.h:
 
 debugging/assert.h:
-output/plaintext/twinning.obj: output/plaintext/twinning.c \
+output/plaintext/twinning$(OBJ_SUFFIX): output/plaintext/twinning.c \
  output/plaintext/twinning.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
  utilities/boolean.h stipulation/slice_type.h \
@@ -1442,7 +1442,7 @@ input/plaintext/stipulation.h:
 solving/pipe.h:
 
 debugging/assert.h:
-output/plaintext/message.obj: output/plaintext/message.c \
+output/plaintext/message$(OBJ_SUFFIX): output/plaintext/message.c \
  output/plaintext/message.h output/message.h input/plaintext/language.h \
  output/plaintext/protocol.h output/plaintext/plaintext.h \
  stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
@@ -1586,13 +1586,13 @@ platform/pytime.h:
 platform/maxmem.h:
 
 platform/platform.h:
-output/plaintext/stdio.obj: output/plaintext/stdio.c \
+output/plaintext/stdio$(OBJ_SUFFIX): output/plaintext/stdio.c \
  output/plaintext/stdio.h utilities/boolean.h
 
 output/plaintext/stdio.h:
 
 utilities/boolean.h:
-output/plaintext/protocol.obj: output/plaintext/protocol.c \
+output/plaintext/protocol$(OBJ_SUFFIX): output/plaintext/protocol.c \
  output/plaintext/protocol.h output/plaintext/stdio.h
 
 output/plaintext/protocol.h:

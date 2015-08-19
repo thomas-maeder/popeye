@@ -1620,6 +1620,7 @@ void redo_move_effects(void)
         break;
 
         /* intentionally not mentioning the twinnings - they are not redone */
+        /* intentionally not mentioning move_effect_snapshot_proofgame_target_position - it's not redone */
 
       default:
         assert(0);
@@ -1788,6 +1789,10 @@ void undo_move_effects(void)
 
       case move_effect_input_sstipulation:
         undo_input_sstipulation(entry);
+        break;
+
+      case move_effect_snapshot_proofgame_target_position:
+        move_effect_journal_undo_snapshot_proofgame_target_position(entry);
         break;
 
       default:

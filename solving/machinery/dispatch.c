@@ -336,6 +336,13 @@ void dispatch(slice_index si)
       break;
     }
 
+    case STAToBInitialiser:
+    {
+      void atob_solve(slice_index si);
+      atob_solve(si);
+      break;
+    }
+
     case STInputVerification:
     {
       void verify_position(slice_index si);
