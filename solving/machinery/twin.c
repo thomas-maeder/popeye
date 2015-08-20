@@ -197,9 +197,10 @@ static boolean locate_unique_royal(Side side, square *location)
   return nr_royals<=1;
 }
 
-static boolean locate_royals(square (*new_king_square)[nr_sides])
+static boolean locate_royals(void)
 {
   boolean result = true;
+  square new_king_square[nr_sides] = { initsquare, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -222,7 +223,7 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
           SETFLAGMASK(being_solved.spec[s],all_royals_flags);
           if (being_solved.number_of_pieces[king_side][King]==1)
           {
-            (*new_king_square)[king_side] = s;
+            new_king_square[king_side] = s;
             SETFLAG(being_solved.spec[s],Royal);
           }
         }
@@ -242,11 +243,20 @@ static boolean locate_royals(square (*new_king_square)[nr_sides])
       }
     }
   }
-  else if (!locate_unique_royal(White,&(*new_king_square)[White])
-           || !locate_unique_royal(Black,&(*new_king_square)[Black]))
+  else if (!locate_unique_royal(White,&new_king_square[White])
+           || !locate_unique_royal(Black,&new_king_square[Black]))
   {
     output_plaintext_verifie_message(OneKing);
     result = false;
+  }
+
+  if (result)
+  {
+    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
+                                                White,new_king_square[White]);
+    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
+                                                Black,new_king_square[Black]);
+    king_square_horizon = move_effect_journal_base[nbply+1];
   }
 
   TraceFunctionExit(__func__);
@@ -1633,12 +1643,11 @@ void verify_position(slice_index si)
 
 void move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_type reason)
 {
-  move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_snapshot_proofgame_target_position,reason);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",reason);
   TraceFunctionParamListEnd();
 
+  move_effect_journal_allocate_entry(move_effect_snapshot_proofgame_target_position,reason);
   ProofSaveTargetPosition();
 
   TraceFunctionExit(__func__);
@@ -1659,7 +1668,6 @@ void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_jou
 void proof_solve(slice_index si)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
-  square new_king_square[nr_sides] = { initsquare, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1674,16 +1682,8 @@ void proof_solve(slice_index si)
   initialise_piece_ids();
   initialise_piece_flags();
   ProofInitialise();
-  if (locate_royals(&new_king_square))
-  {
-    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
-                                                White,new_king_square[White]);
-    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
-                                                Black,new_king_square[Black]);
-    king_square_horizon = move_effect_journal_base[nbply+1];
-
+  if (locate_royals())
     pipe_solve_delegate(si);
-  }
 
   king_square_horizon = save_king_square_horizon;
 
@@ -1694,7 +1694,6 @@ void proof_solve(slice_index si)
 void atob_solve(slice_index si)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
-  square new_king_square[nr_sides] = { initsquare, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1708,16 +1707,8 @@ void atob_solve(slice_index si)
   initialise_piece_ids();
   initialise_piece_flags();
   ProofInitialise();
-  if (locate_royals(&new_king_square))
-  {
-    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
-                                                White,new_king_square[White]);
-    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
-                                                Black,new_king_square[Black]);
-    king_square_horizon = move_effect_journal_base[nbply+1];
-
+  if (locate_royals())
     pipe_solve_delegate(si);
-  }
 
   king_square_horizon = save_king_square_horizon;
 
@@ -1731,7 +1722,6 @@ void atob_solve(slice_index si)
 void twin_solve(slice_index solving_machinery)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
-  square new_king_square[nr_sides] = { initsquare, initsquare };
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",solving_machinery);
@@ -1740,16 +1730,8 @@ void twin_solve(slice_index solving_machinery)
   initialise_piece_walk_caches();
   countPieces();
 
-  if (locate_royals(&new_king_square))
-  {
-    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
-                                                White,new_king_square[White]);
-    move_effect_journal_do_king_square_movement(move_effect_reason_diagram_setup,
-                                                Black,new_king_square[Black]);
-    king_square_horizon = move_effect_journal_base[nbply+1];
-
+  if (locate_royals())
     solve(solving_machinery);
-  }
 
   king_square_horizon = save_king_square_horizon;
 
