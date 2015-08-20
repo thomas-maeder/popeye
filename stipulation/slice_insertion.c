@@ -560,6 +560,7 @@ static slice_index const slice_rank_order[] =
   STProofgameVerifyUniqueGoal,
   STProofgameInitialiser,
   STAToBInitialiser,
+  STRoyalsLocator, /* above for target position, now for starting position */
   STInputVerification,
   STMoveEffectsJournalReset,
   STSolversBuilder,

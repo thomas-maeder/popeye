@@ -1667,8 +1667,6 @@ void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_jou
 
 void proof_solve(slice_index si)
 {
-  move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -1682,10 +1680,8 @@ void proof_solve(slice_index si)
   initialise_piece_ids();
   initialise_piece_flags();
   ProofInitialise();
-  if (locate_royals())
-    pipe_solve_delegate(si);
 
-  king_square_horizon = save_king_square_horizon;
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1693,8 +1689,6 @@ void proof_solve(slice_index si)
 
 void atob_solve(slice_index si)
 {
-  move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -1707,10 +1701,8 @@ void atob_solve(slice_index si)
   initialise_piece_ids();
   initialise_piece_flags();
   ProofInitialise();
-  if (locate_royals())
-    pipe_solve_delegate(si);
 
-  king_square_horizon = save_king_square_horizon;
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

@@ -885,7 +885,8 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   if (stip_ends_in(SLICE_NEXT1(result),goal_proofgame))
   {
     slice_index const prototypes[] = {
-        alloc_pipe(STProofgameInitialiser)
+        alloc_pipe(STProofgameInitialiser),
+        alloc_pipe(STRoyalsLocator)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(result,prototypes,nr_prototypes);
@@ -893,7 +894,8 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   if (stip_ends_in(SLICE_NEXT1(result),goal_atob))
   {
     slice_index const prototypes[] = {
-        alloc_pipe(STAToBInitialiser)
+        alloc_pipe(STAToBInitialiser),
+        alloc_pipe(STRoyalsLocator)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(result,prototypes,nr_prototypes);
