@@ -322,6 +322,13 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STRoyalsLocator:
+    {
+      void royals_locator_solve(slice_index si);
+      royals_locator_solve(si);
+      break;
+    }
+
     case STProofgameVerifyUniqueGoal:
     {
       void proof_verify_unique_goal(slice_index si);

@@ -1716,13 +1716,21 @@ void atob_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+void royals_locator_solve(slice_index si)
+{
+  move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
+
+  if (locate_royals())
+    pipe_solve_delegate(si);
+
+  king_square_horizon = save_king_square_horizon;
+}
+
 /* Solve the current (actual or virtual) twin
  * @param solving_machinery identifies the root slice of the solving machinery
  */
 void twin_solve(slice_index solving_machinery)
 {
-  move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
@@ -1730,10 +1738,7 @@ void twin_solve(slice_index solving_machinery)
   initialise_piece_walk_caches();
   countPieces();
 
-  if (locate_royals())
-    solve(solving_machinery);
-
-  king_square_horizon = save_king_square_horizon;
+  solve(solving_machinery);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
