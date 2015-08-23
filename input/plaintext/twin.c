@@ -878,6 +878,15 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
     slice_insertion_insert(result,prototypes,nr_prototypes);
   }
 
+  if (OptFlag[halfduplex])
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STHalfDuplexSolver)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(result,prototypes,nr_prototypes);
+  }
+
   if (stip_ends_in(SLICE_NEXT1(result),goal_proofgame))
   {
     slice_index const prototypes[] = {
@@ -907,6 +916,22 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+void half_duplex_solve(slice_index si)
+{
+  Side const regular_starter = SLICE_STARTER(si);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  solving_impose_starter(si,advers(regular_starter));
+  pipe_solve_delegate(si);
+  solving_impose_starter(si,regular_starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 static void solve_duplex(slice_index solving_machinery)
@@ -953,12 +978,6 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
         dealloc_slices(solving_machinery);
       }
       twin_duplex_type = twin_no_duplex;
-    }
-    else if (OptFlag[halfduplex])
-    {
-      slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-      solve_duplex(solving_machinery);
-      dealloc_slices(solving_machinery);
     }
     else
     {

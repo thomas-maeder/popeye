@@ -322,6 +322,13 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STHalfDuplexSolver:
+    {
+      void half_duplex_solve(slice_index si);
+      half_duplex_solve(si);
+      break;
+    }
+
     case STCreateBuilderSetupPly:
       create_builder_setup_ply_solve(si);
       break;
