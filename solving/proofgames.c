@@ -37,9 +37,12 @@ position proofgames_start_position;
 position proofgames_target_position;
 
 /* an array to store the position */
-static piece_walk_type ProofPieces[nr_squares_on_board];
-static Flags ProofSpecs[nr_squares_on_board];
-static square ProofSquares[nr_squares_on_board];
+static struct
+{
+    piece_walk_type type;
+    Flags spec;
+    square pos;
+} target_pieces[nr_squares_on_board];
 
 static unsigned int ProofNbrAllPieces;
 
@@ -127,23 +130,13 @@ static boolean compareProofPieces(void)
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  TraceValue("%u\n",ProofNbrAllPieces);
-
   for (i = 0; i<ProofNbrAllPieces; ++i)
-  {
-    TraceSquare(ProofSquares[i]);
-    TraceWalk(ProofPieces[i]);
-    TraceValue("%x",ProofSpecs[i]);
-    TraceWalk(being_solved.board[ProofSquares[i]]);
-    TraceValue("%x",being_solved.spec[ProofSquares[i]]);
-    TraceEOL();
-    if (ProofPieces[i]!=get_walk_of_piece_on_square(ProofSquares[i])
-        || ProofSpecs[i]!=(being_solved.spec[ProofSquares[i]]&PieSpMask))
+    if (target_pieces[i].type!=get_walk_of_piece_on_square(target_pieces[i].pos)
+        || target_pieces[i].spec!=(being_solved.spec[target_pieces[i].pos]&PieSpMask))
     {
       result = false;
       break;
     }
-  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
@@ -231,9 +224,9 @@ static void ProofInitialise(void)
     piece_walk_type const p = proofgames_target_position.board[square_i];
     if (p!=Empty && p!=Invalid)
     {
-      ProofPieces[ProofNbrAllPieces] = p;
-      ProofSpecs[ProofNbrAllPieces] = proofgames_target_position.spec[square_i]&PieSpMask;
-      ProofSquares[ProofNbrAllPieces] = square_i;
+      target_pieces[ProofNbrAllPieces].type = p;
+      target_pieces[ProofNbrAllPieces].spec = proofgames_target_position.spec[square_i]&PieSpMask;
+      target_pieces[ProofNbrAllPieces].pos = square_i;
       ++ProofNbrAllPieces;
     }
   }
