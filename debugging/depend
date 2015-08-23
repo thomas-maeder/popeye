@@ -193,39 +193,10 @@ output/output.h:
 
 debugging/assert.h:
 debugging/has_solution_type$(OBJ_SUFFIX): debugging/has_solution_type.c \
- solving/has_solution_type.h stipulation/stipulation.h \
- stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- utilities/boolean.h stipulation/slice_type.h \
- stipulation/slice_type.enum.h position/side.h position/side.enum.h \
- pieces/pieces.h output/mode.h output/mode.enum.h \
- solving/has_solution_type.enum.h solving/has_solution_type.enum \
- utilities/enumeration.h
+ solving/has_solution_type.h solving/has_solution_type.enum.h \
+ solving/has_solution_type.enum utilities/enumeration.h
 
 solving/has_solution_type.h:
-
-stipulation/stipulation.h:
-
-stipulation/goals/goals.h:
-
-position/board.h:
-
-utilities/bitmask.h:
-
-utilities/boolean.h:
-
-stipulation/slice_type.h:
-
-stipulation/slice_type.enum.h:
-
-position/side.h:
-
-position/side.enum.h:
-
-pieces/pieces.h:
-
-output/mode.h:
-
-output/mode.enum.h:
 
 solving/has_solution_type.enum.h:
 

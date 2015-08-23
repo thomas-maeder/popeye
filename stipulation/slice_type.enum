@@ -3,6 +3,8 @@
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
+  ENUMERATOR(STPiecesCounter),                                          \
+  ENUMERATOR(STPiecesFlagsInitialiser),                                 \
   ENUMERATOR(STRoyalsLocator),                                          \
   ENUMERATOR(STProofgameVerifyUniqueGoal),                              \
   ENUMERATOR(STProofgameInitialiser),                                   \

@@ -61,8 +61,4 @@ void twin_solve_duplex(slice_index solving_machinery);
  */
 void initialise_piece_ids(void);
 
-/* Initialise piece flags from conditions, the pieces themselve etc.
- */
-void initialise_piece_flags(void);
-
 #endif

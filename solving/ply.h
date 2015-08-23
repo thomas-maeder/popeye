@@ -31,6 +31,7 @@ enum
   ply_nil,
   ply_diagram_setup,
   ply_twinning,
+  ply_setup_solving,
   ply_retro_move_takeback,
   ply_retro_move
 };

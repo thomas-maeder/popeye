@@ -168,25 +168,12 @@ static boolean locate_unique_royal(Side side, square *location)
     for (bnp = boardnum; *bnp; ++bnp)
     {
       square const s = *bnp;
-      if (is_king(get_walk_of_piece_on_square(s)))
+      if ((is_king(get_walk_of_piece_on_square(s))
+           || TSTFLAG(being_solved.spec[s],Royal))
+           && TSTFLAG(being_solved.spec[s],side))
       {
-        if (TSTFLAG(being_solved.spec[s],side))
-        {
-          *location = s;
-          ++nr_royals;
-        }
-        CLRFLAGMASK(being_solved.spec[s],all_pieces_flags);
-        SETFLAGMASK(being_solved.spec[s],all_royals_flags|BIT(Royal));
-      }
-      else if (TSTFLAG(being_solved.spec[s],Royal))
-      {
-        if (TSTFLAG(being_solved.spec[s],side))
-        {
-          *location = s;
-          ++nr_royals;
-        }
-        CLRFLAGMASK(being_solved.spec[s],all_pieces_flags);
-        SETFLAGMASK(being_solved.spec[s],all_royals_flags);
+        *location = s;
+        ++nr_royals;
       }
     }
   }
@@ -215,18 +202,11 @@ static boolean locate_royals(void)
       for (bnp = boardnum; *bnp; ++bnp)
       {
         square const s = *bnp;
+        Side const king_side = TSTFLAG(being_solved.spec[s],White) ? White : Black;
         CLRFLAG(being_solved.spec[s],Royal); /* piece may be royal from previous twin */
-        if (get_walk_of_piece_on_square(s)==King)
-        {
-          Side const king_side = TSTFLAG(being_solved.spec[s],White) ? White : Black;
-          CLRFLAGMASK(being_solved.spec[s],all_pieces_flags);
-          SETFLAGMASK(being_solved.spec[s],all_royals_flags);
-          if (being_solved.number_of_pieces[king_side][King]==1)
-          {
-            new_king_square[king_side] = s;
-            SETFLAG(being_solved.spec[s],Royal);
-          }
-        }
+        if (get_walk_of_piece_on_square(s)==King
+            && being_solved.number_of_pieces[king_side][King]==1)
+          new_king_square[king_side] = s;
       }
     }
   }
@@ -274,7 +254,7 @@ void initialise_piece_ids(void)
 
   currPieceId = MinPieceId;
   for (bnp = boardnum; *bnp; ++bnp)
-    if (!is_square_empty(*bnp))
+    if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
     {
       assert(currPieceId<=MaxPieceId);
       SetPieceId(being_solved.spec[*bnp],currPieceId++);
@@ -288,7 +268,7 @@ void initialise_piece_ids(void)
 
 /* Initialise piece flags from conditions, the pieces themselve etc.
  */
-void initialise_piece_flags(void)
+static void initialise_piece_flags(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -349,25 +329,85 @@ void initialise_piece_flags(void)
   {
     square const *bnp;
     for (bnp = boardnum; *bnp; ++bnp)
-      if (!is_square_empty(*bnp))
+      if (!is_square_empty(*bnp) && !is_square_blocked(*bnp))
       {
         piece_walk_type const p = get_walk_of_piece_on_square(*bnp);
-        SETFLAGMASK(being_solved.spec[*bnp],all_pieces_flags);
+        Flags spec = being_solved.spec[*bnp];
+        SETFLAGMASK(spec,all_pieces_flags);
+        move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
 
         SavePositionInDiagram(being_solved.spec[*bnp],*bnp);
 
-        if (TSTFLAG(being_solved.spec[*bnp],ColourChange)
+        if (TSTFLAG(spec,ColourChange)
             && !(is_simplehopper(p)
                  || is_chineserider(p)
                  || is_lion(p)
                  || p==ContraGras))
         {
           /* relies on imitators already having been implemented */
-          CLRFLAG(being_solved.spec[*bnp],ColourChange);
+          CLRFLAG(spec,ColourChange);
+          move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,*bnp,spec);
           output_plaintext_error_message(ColourChangeRestricted);
         }
       }
   }
+
+  if (CondFlag[dynasty])
+  {
+    {
+      Flags spec = being_solved.spec[being_solved.king_square[White]];
+      CLRFLAGMASK(spec,all_pieces_flags);
+      SETFLAGMASK(spec,all_royals_flags);
+      if (being_solved.number_of_pieces[White][King]==1)
+        SETFLAG(spec,Royal);
+      move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,
+                                          being_solved.king_square[White],
+                                          spec);
+    }
+    {
+      Flags spec = being_solved.spec[being_solved.king_square[Black]];
+      CLRFLAGMASK(spec,all_pieces_flags);
+      SETFLAGMASK(spec,all_royals_flags);
+      if (being_solved.number_of_pieces[Black][King]==1)
+        SETFLAG(spec,Royal);
+      move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,
+                                          being_solved.king_square[Black],
+                                          spec);
+    }
+  }
+  else if (CondFlag[losingchess] || CondFlag[extinction])
+  {
+    /* nothing */
+  }
+  else
+  {
+    if (being_solved.king_square[White]!=initsquare)
+    {
+      Flags spec = being_solved.spec[being_solved.king_square[White]];
+      CLRFLAGMASK(spec,all_pieces_flags);
+      if (is_king(get_walk_of_piece_on_square(being_solved.king_square[White])))
+        SETFLAGMASK(spec,all_royals_flags|BIT(Royal));
+      else
+        SETFLAGMASK(spec,all_royals_flags);
+      move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,
+                                          being_solved.king_square[White],
+                                          spec);
+    }
+    if (being_solved.king_square[Black]!=initsquare)
+    {
+      Flags spec = being_solved.spec[being_solved.king_square[Black]];
+      CLRFLAGMASK(spec,all_pieces_flags);
+      if (is_king(get_walk_of_piece_on_square(being_solved.king_square[Black])))
+        SETFLAGMASK(spec,all_royals_flags|BIT(Royal));
+      else
+        SETFLAGMASK(spec,all_royals_flags);
+      move_effect_journal_do_flags_change(move_effect_reason_diagram_setup,
+                                          being_solved.king_square[Black],
+                                          spec);
+    }
+  }
+
+  king_square_horizon = move_effect_journal_base[nbply+1];
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1676,9 +1716,7 @@ void proof_solve(slice_index si)
   ProofInitialiseStartPosition();
   ProofRestoreStartPosition();
 
-  countPieces();
   initialise_piece_ids();
-  initialise_piece_flags();
   ProofInitialise();
 
   pipe_solve_delegate(si);
@@ -1697,9 +1735,7 @@ void atob_solve(slice_index si)
 
   ProofRestoreStartPosition();
 
-  countPieces();
   initialise_piece_ids();
-  initialise_piece_flags();
   ProofInitialise();
 
   pipe_solve_delegate(si);
@@ -1718,6 +1754,18 @@ void royals_locator_solve(slice_index si)
   king_square_horizon = save_king_square_horizon;
 }
 
+void initialise_piece_flags_solve(slice_index si)
+{
+  initialise_piece_flags();
+  pipe_solve_delegate(si);
+}
+
+void pieces_counter_solve(slice_index si)
+{
+  countPieces();
+  pipe_solve_delegate(si);
+}
+
 /* Solve the current (actual or virtual) twin
  * @param solving_machinery identifies the root slice of the solving machinery
  */
@@ -1727,10 +1775,15 @@ void twin_solve(slice_index solving_machinery)
   TraceFunctionParam("%u",solving_machinery);
   TraceFunctionParamListEnd();
 
+  nextply(no_side);
+  assert(nbply==ply_setup_solving);
+
   initialise_piece_walk_caches();
-  countPieces();
 
   solve(solving_machinery);
+
+  undo_move_effects();
+  finply();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

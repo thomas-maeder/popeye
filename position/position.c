@@ -99,7 +99,9 @@ void swap_sides(void)
   being_solved.king_square[Black] = save_white_king_square==initsquare ? initsquare : save_white_king_square;
 
   for (bnp = boardnum; *bnp; bnp++)
-    if (!is_piece_neutral(being_solved.spec[*bnp]) && !is_square_empty(*bnp))
+    if (!is_piece_neutral(being_solved.spec[*bnp])
+        && !is_square_empty(*bnp)
+        && !is_square_blocked(*bnp))
       piece_change_side(&being_solved.spec[*bnp]);
 
   areColorsSwapped = !areColorsSwapped;

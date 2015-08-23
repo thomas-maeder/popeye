@@ -4884,10 +4884,10 @@ Ohneschach-Anomalie !
    1.Th8-e8 kann nicht entscheiden, ob dieser Zug legal ist.
 
 
-  add_to_move_generation_stack:      151939
-                     play_move:       95620
- is_white_king_square_attacked:       33847
- is_black_king_square_attacked:       75724
+  add_to_move_generation_stack:      151772
+                     play_move:       95485
+ is_white_king_square_attacked:       33833
+ is_black_king_square_attacked:       75589
 Loesung beendet.
 
 

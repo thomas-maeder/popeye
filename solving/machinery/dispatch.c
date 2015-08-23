@@ -322,6 +322,20 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STPiecesCounter:
+    {
+      void pieces_counter_solve(slice_index si);
+      pieces_counter_solve(si);
+      break;
+    }
+
+    case STPiecesFlagsInitialiser:
+    {
+      void initialise_piece_flags_solve(slice_index si);
+      initialise_piece_flags_solve(si);
+      break;
+    }
+
     case STRoyalsLocator:
     {
       void royals_locator_solve(slice_index si);

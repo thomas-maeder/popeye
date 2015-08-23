@@ -272,7 +272,7 @@ static void WriteTwinLetterToSolution(FILE *file)
 
 static void WriteTwinning(void)
 {
-  move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1]-2; /* reduce by 2 king square movements*/
+  move_effect_journal_index_type const top = move_effect_journal_base[ply_twinning+1];
   move_effect_journal_index_type const base = twin_is_continued ? last_horizon : move_effect_journal_base[ply_twinning];
   move_effect_journal_index_type curr;
   boolean written_on_last_entry = false;

@@ -870,7 +870,9 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
 
   {
     slice_index const prototypes[] = {
+        alloc_pipe(STPiecesCounter),
         alloc_pipe(STRoyalsLocator),
+        alloc_pipe(STPiecesFlagsInitialiser),
         alloc_pipe(STInputVerification),
         alloc_pipe(STMoveEffectsJournalReset),
         alloc_pipe(STSolversBuilder),
@@ -886,7 +888,9 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STProofgameInitialiser),
-        alloc_pipe(STRoyalsLocator)
+        alloc_pipe(STPiecesCounter),
+        alloc_pipe(STRoyalsLocator),
+        alloc_pipe(STPiecesFlagsInitialiser)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(result,prototypes,nr_prototypes);
@@ -895,7 +899,9 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STAToBInitialiser),
-        alloc_pipe(STRoyalsLocator)
+        alloc_pipe(STPiecesCounter),
+        alloc_pipe(STRoyalsLocator),
+        alloc_pipe(STPiecesFlagsInitialiser)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(result,prototypes,nr_prototypes);
@@ -922,8 +928,6 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
   else
   {
-    initialise_piece_flags();
-
     if (OptFlag[duplex])
     {
       twin_duplex_type = twin_has_duplex;

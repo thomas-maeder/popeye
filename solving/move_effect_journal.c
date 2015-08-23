@@ -1865,9 +1865,6 @@ void update_king_squares(void)
       case move_effect_piece_creation:
       {
         Flags const addedspec = move_effect_journal[king_square_horizon].u.piece_addition.added.flags;
-        TraceValue("%u",TSTFLAG(addedspec,Royal));
-        TraceValue("%u",TSTFLAG(addedspec,White));
-        TraceValue("%u\n",TSTFLAG(addedspec,Black));
         if (TSTFLAG(addedspec,Royal))
         {
           square const on = move_effect_journal[king_square_horizon].u.piece_addition.added.on;

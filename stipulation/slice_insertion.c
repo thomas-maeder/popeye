@@ -556,11 +556,15 @@ static slice_index const slice_rank_order[] =
 {
   STProxy,
   STStartOfSolvingMachinery,
+  STPiecesCounter,
   STRoyalsLocator,
+  STPiecesFlagsInitialiser,
   STProofgameVerifyUniqueGoal,
   STProofgameInitialiser,
   STAToBInitialiser,
+  STPiecesCounter,
   STRoyalsLocator, /* above for target position, now for starting position */
+  STPiecesFlagsInitialiser,
   STInputVerification,
   STMoveEffectsJournalReset,
   STSolversBuilder,
