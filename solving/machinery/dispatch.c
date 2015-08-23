@@ -322,6 +322,10 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STPieceWalkCacheInitialiser:
+      piece_walk_caches_initialiser_solve(si);
+      break;
+
     case STPiecesCounter:
     {
       void pieces_counter_solve(slice_index si);

@@ -862,6 +862,7 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
 
   {
     slice_index const prototypes[] = {
+        alloc_pipe(STPieceWalkCacheInitialiser),
         alloc_pipe(STPiecesCounter),
         alloc_pipe(STRoyalsLocator),
         alloc_pipe(STPiecesFlagsInitialiser),

@@ -3,6 +3,7 @@
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
+  ENUMERATOR(STPieceWalkCacheInitialiser),                              \
   ENUMERATOR(STPiecesCounter),                                          \
   ENUMERATOR(STPiecesFlagsInitialiser),                                 \
   ENUMERATOR(STRoyalsLocator),                                          \
