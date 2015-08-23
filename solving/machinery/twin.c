@@ -64,7 +64,7 @@ twin_duplex_type_type twin_duplex_type;
 unsigned int twin_number;
 boolean twin_is_continued;
 
-/* Initialse the piece walk caches.
+/* Initialise the piece walk caches.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
@@ -1718,10 +1718,7 @@ void pieces_counter_solve(slice_index si)
   pipe_solve_delegate(si);
 }
 
-/* Solve the current (actual or virtual) twin
- * @param solving_machinery identifies the root slice of the solving machinery
- */
-void twin_solve(slice_index solving_machinery)
+void create_builder_setup_ply_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",solving_machinery);
@@ -1730,29 +1727,10 @@ void twin_solve(slice_index solving_machinery)
   nextply(no_side);
   assert(nbply==ply_setup_solving);
 
-  solve(solving_machinery);
+  pipe_solve_delegate(si);
 
   undo_move_effects();
   finply();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Solve the duplex of the current twin
- * @param solving_machinery identifies the root slice of the solving machinery
- */
-void twin_solve_duplex(slice_index solving_machinery)
-{
-  Side const regular_starter = SLICE_STARTER(solving_machinery);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",solving_machinery);
-  TraceFunctionParamListEnd();
-
-  solving_impose_starter(solving_machinery,advers(regular_starter));
-  twin_solve(solving_machinery);
-  solving_impose_starter(solving_machinery,regular_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

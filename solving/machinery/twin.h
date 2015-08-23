@@ -47,7 +47,7 @@ extern unsigned int twin_number;
  */
 boolean twin_twinning_shift_validate(square from, square to);
 
-/* Initialse the piece walk caches.
+/* Initialise the piece walk caches.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
  *            previous_move_is_illegal the move just played is illegal
@@ -62,15 +62,20 @@ boolean twin_twinning_shift_validate(square from, square to);
  */
 void piece_walk_caches_initialiser_solve(slice_index si);
 
-/* Solve the current (actual or virtual) twin
- * @param solving_machinery identifies the root slice of the solving machinery
+/* Create the builder setup ply.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
  */
-void twin_solve(slice_index solving_machinery);
-
-/* Solve the duplex of the current twin
- * @param solving_machinery identifies the root slice of the solving machinery
- */
-void twin_solve_duplex(slice_index solving_machinery);
+void create_builder_setup_ply_solve(slice_index si);
 
 /* Assign every piece of the position their id
  */

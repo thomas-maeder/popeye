@@ -322,6 +322,10 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STCreateBuilderSetupPly:
+      create_builder_setup_ply_solve(si);
+      break;
+
     case STPieceWalkCacheInitialiser:
       piece_walk_caches_initialiser_solve(si);
       break;

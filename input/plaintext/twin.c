@@ -862,6 +862,7 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
 
   {
     slice_index const prototypes[] = {
+        alloc_pipe(STCreateBuilderSetupPly),
         alloc_pipe(STPieceWalkCacheInitialiser),
         alloc_pipe(STPiecesCounter),
         alloc_pipe(STRoyalsLocator),
@@ -908,6 +909,22 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   return result;
 }
 
+static void solve_duplex(slice_index solving_machinery)
+{
+  Side const regular_starter = SLICE_STARTER(solving_machinery);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",solving_machinery);
+  TraceFunctionParamListEnd();
+
+  solving_impose_starter(solving_machinery,advers(regular_starter));
+  solve(solving_machinery);
+  solving_impose_starter(solving_machinery,regular_starter);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void deal_with_stipulation(slice_index stipulation_root_hook)
 {
   TraceFunctionEntry(__func__);
@@ -926,13 +943,13 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
       twin_duplex_type = twin_has_duplex;
       {
         slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-        twin_solve(solving_machinery);
+        solve(solving_machinery);
         dealloc_slices(solving_machinery);
       }
       twin_duplex_type = twin_is_duplex;
       {
         slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-        twin_solve_duplex(solving_machinery);
+        solve_duplex(solving_machinery);
         dealloc_slices(solving_machinery);
       }
       twin_duplex_type = twin_no_duplex;
@@ -940,13 +957,13 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     else if (OptFlag[halfduplex])
     {
       slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-      twin_solve_duplex(solving_machinery);
+      solve_duplex(solving_machinery);
       dealloc_slices(solving_machinery);
     }
     else
     {
       slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-      twin_solve(solving_machinery);
+      solve(solving_machinery);
       dealloc_slices(solving_machinery);
     }
 
