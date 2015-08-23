@@ -2543,9 +2543,10 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  pieces/pieces.h output/mode.h output/mode.enum.h solving/proofgames.h \
  position/position.h position/color.h position/color.enum.h \
  pieces/walks/vectors.h position/castling_rights.h \
- solving/has_solution_type.h solving/has_solution_type.enum.h \
- solving/machinery/solve.h solving/machinery/dispatch.h debugging/trace.h \
- solving/pipe.h solving/observation.h solving/ply.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ position/pieceid.h solving/has_solution_type.h \
+ solving/has_solution_type.enum.h solving/pipe.h solving/observation.h \
  solving/temporary_hacks.h platform/maxtime.h pieces/walks/walks.h \
  output/plaintext/language_dependant.h conditions/conditions.h \
  options/options.h input/plaintext/twin.h input/plaintext/token.h \
@@ -2558,8 +2559,7 @@ solving/proofgames$(OBJ_SUFFIX): solving/proofgames.c stipulation/stipulation.h 
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
- stipulation/slice_insertion.h solving/move_effect_journal.h \
- position/pieceid.h solving/machinery/twin.h \
+ stipulation/slice_insertion.h solving/machinery/twin.h \
  conditions/circe/rebirth_square_occupied.h \
  conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
  conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
@@ -2602,9 +2602,7 @@ pieces/walks/vectors.h:
 
 position/castling_rights.h:
 
-solving/has_solution_type.h:
-
-solving/has_solution_type.enum.h:
+solving/move_effect_journal.h:
 
 solving/machinery/solve.h:
 
@@ -2612,11 +2610,17 @@ solving/machinery/dispatch.h:
 
 debugging/trace.h:
 
+solving/ply.h:
+
+position/pieceid.h:
+
+solving/has_solution_type.h:
+
+solving/has_solution_type.enum.h:
+
 solving/pipe.h:
 
 solving/observation.h:
-
-solving/ply.h:
 
 solving/temporary_hacks.h:
 
@@ -2661,10 +2665,6 @@ stipulation/slice_contextual_type.enum.h:
 stipulation/traversal.h:
 
 stipulation/slice_insertion.h:
-
-solving/move_effect_journal.h:
-
-position/pieceid.h:
 
 solving/machinery/twin.h:
 

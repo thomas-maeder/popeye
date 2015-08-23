@@ -52,7 +52,7 @@ static void override_standard_walk(square s, Side side, piece_walk_type orthodox
   ++proofgames_start_position.number_of_pieces[side][overriding_walk];
 }
 
-void ProofInitialiseStartPosition(void)
+static void initialise_start_position(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
@@ -103,28 +103,6 @@ void ProofSaveStartPosition(void)
   TraceFunctionParamListEnd();
 
   proofgames_start_position = being_solved;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void ProofRestoreStartPosition(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  being_solved = proofgames_start_position;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void ProofSaveTargetPosition(void)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  proofgames_target_position = being_solved;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -238,7 +216,7 @@ boolean ProofIdentical(void)
   return result;
 }
 
-static void loadTargetPiecesAndSquares(void)
+static void ProofInitialise(void)
 {
   int i;
 
@@ -264,13 +242,119 @@ static void loadTargetPiecesAndSquares(void)
   TraceFunctionResultEnd();
 }
 
-void ProofInitialise(void)
+/* Take a snapshot of the current (target) position
+ * @param reason reason for taking the snapshot
+ */
+static void move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_type reason)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",reason);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_allocate_entry(move_effect_snapshot_proofgame_target_position,reason);
+  proofgames_target_position = being_solved;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Restore the current position to the target position of a proofgame or A=>B stipulation
+ * @param entry address of move effect journal entry that represents taking the
+ *              restored snapshot
+ */
+void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  loadTargetPiecesAndSquares();
+  being_solved = proofgames_target_position;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+/* solve a proofgame stipulation
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void proof_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_diagram_setup);
+
+  initialise_start_position();
+  being_solved = proofgames_start_position;
+
+  initialise_piece_ids();
+  ProofInitialise();
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* solve an A=>B stipulation
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void atob_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_diagram_setup);
+
+  being_solved = proofgames_start_position;
+
+  initialise_piece_ids();
+  ProofInitialise();
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* verify that the proof or A=>B goal is unique
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void proof_verify_unique_goal_solve(slice_index si)
+{
+  if (find_unique_goal(si).type==no_goal)
+    output_plaintext_verifie_message(MultipleGoalsWithProofGameNotAcceptable);
+  else
+    pipe_solve_delegate(si);
 }

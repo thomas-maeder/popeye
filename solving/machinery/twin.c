@@ -1681,69 +1681,6 @@ void verify_position(slice_index si)
   pipe_solve_delegate(si);
 }
 
-void move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_type reason)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",reason);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_allocate_entry(move_effect_snapshot_proofgame_target_position,reason);
-  ProofSaveTargetPosition();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  ProofRestoreTargetPosition();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void proof_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_diagram_setup);
-
-  ProofInitialiseStartPosition();
-  ProofRestoreStartPosition();
-
-  initialise_piece_ids();
-  ProofInitialise();
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void atob_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  move_effect_journal_do_snapshot_proofgame_target_position(move_effect_reason_diagram_setup);
-
-  ProofRestoreStartPosition();
-
-  initialise_piece_ids();
-  ProofInitialise();
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 void royals_locator_solve(slice_index si)
 {
   move_effect_journal_index_type const save_king_square_horizon = king_square_horizon;

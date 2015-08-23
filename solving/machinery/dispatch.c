@@ -344,25 +344,16 @@ void dispatch(slice_index si)
     }
 
     case STProofgameVerifyUniqueGoal:
-    {
-      void proof_verify_unique_goal(slice_index si);
-      proof_verify_unique_goal(si);
+      proof_verify_unique_goal_solve(si);
       break;
-    }
 
     case STProofgameInitialiser:
-    {
-      void proof_solve(slice_index si);
       proof_solve(si);
       break;
-    }
 
     case STAToBInitialiser:
-    {
-      void atob_solve(slice_index si);
       atob_solve(si);
       break;
-    }
 
     case STInputVerification:
     {
