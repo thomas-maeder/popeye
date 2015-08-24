@@ -319,11 +319,8 @@ void dispatch(slice_index si)
   switch (SLICE_TYPE(si))
   {
     case STSolvingMachineryBuilder:
-    {
-      void build_solving_machinery2(slice_index si);
-      build_solving_machinery2(si);
+      build_solving_machinery(si);
       break;
-    }
 
     case STStartOfSolvingEnvironment:
     case STStartOfSolvingMachinery:

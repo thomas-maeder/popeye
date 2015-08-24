@@ -849,7 +849,7 @@ static void complete_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-static slice_index build_solving_machinery(slice_index stipulation_root_hook)
+static slice_index build(slice_index stipulation_root_hook)
 {
   slice_index result;
 
@@ -901,15 +901,13 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
     slice_insertion_insert(result,prototypes,nr_prototypes);
   }
 
-  solving_impose_starter(result,SLICE_STARTER(stipulation_root_hook));
-
   TraceFunctionExit(__func__);
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
 
-void build_solving_machinery2(slice_index si)
+void build_solving_machinery(slice_index si)
 {
   slice_index const stipulation_prototype = SLICE_NEXT2(si);
 
@@ -917,7 +915,7 @@ void build_solving_machinery2(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_link(si,build_solving_machinery(stipulation_prototype));
+  pipe_link(si,build(stipulation_prototype));
   solving_impose_starter(si,SLICE_STARTER(si));
   TraceStipulation(si);
 

@@ -40,4 +40,6 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook);
  */
 char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook);
 
+void build_solving_machinery(slice_index si);
+
 #endif
