@@ -878,15 +878,6 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
     slice_insertion_insert(result,prototypes,nr_prototypes);
   }
 
-  if (OptFlag[halfduplex])
-  {
-    slice_index const prototypes[] = {
-        alloc_pipe(STHalfDuplexSolver)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(result,prototypes,nr_prototypes);
-  }
-
   if (stip_ends_in(SLICE_NEXT1(result),goal_proofgame))
   {
     slice_index const prototypes[] = {
@@ -918,6 +909,51 @@ static slice_index build_solving_machinery(slice_index stipulation_root_hook)
   return result;
 }
 
+void build_solving_machinery2(slice_index si)
+{
+  slice_index const stipulation_prototype = SLICE_NEXT2(si);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_link(si,build_solving_machinery(stipulation_prototype));
+  solving_impose_starter(si,SLICE_STARTER(si));
+  TraceStipulation(si);
+
+  pipe_solve_delegate(si);
+
+  dealloc_slices(SLICE_NEXT1(si));
+  SLICE_NEXT1(si) = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void duplex_solve(slice_index si)
+{
+  Side const regular_starter = SLICE_STARTER(si);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  twin_duplex_type = twin_has_duplex;
+
+  pipe_solve_delegate(si);
+
+  twin_duplex_type = twin_is_duplex;
+
+  solving_impose_starter(si,advers(regular_starter));
+  pipe_solve_delegate(si);
+  solving_impose_starter(si,regular_starter);
+
+  twin_duplex_type = twin_no_duplex;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void half_duplex_solve(slice_index si)
 {
   Side const regular_starter = SLICE_STARTER(si);
@@ -929,22 +965,6 @@ void half_duplex_solve(slice_index si)
   solving_impose_starter(si,advers(regular_starter));
   pipe_solve_delegate(si);
   solving_impose_starter(si,regular_starter);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void solve_duplex(slice_index solving_machinery)
-{
-  Side const regular_starter = SLICE_STARTER(solving_machinery);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",solving_machinery);
-  TraceFunctionParamListEnd();
-
-  solving_impose_starter(solving_machinery,advers(regular_starter));
-  solve(solving_machinery);
-  solving_impose_starter(solving_machinery,regular_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -963,28 +983,32 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
   else
   {
+    slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+    slice_index const builder = alloc_pipe(STSolvingMachineryBuilder);
+    slices[builder].next2 = stipulation_root_hook;
+    pipe_link(environment,builder);
+
     if (OptFlag[duplex])
     {
-      twin_duplex_type = twin_has_duplex;
-      {
-        slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-        solve(solving_machinery);
-        dealloc_slices(solving_machinery);
-      }
-      twin_duplex_type = twin_is_duplex;
-      {
-        slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-        solve_duplex(solving_machinery);
-        dealloc_slices(solving_machinery);
-      }
-      twin_duplex_type = twin_no_duplex;
+      slice_index const prototypes[] = {
+          alloc_pipe(STDuplexSolver)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(environment,prototypes,nr_prototypes);
     }
-    else
+    else if (OptFlag[halfduplex])
     {
-      slice_index const solving_machinery = build_solving_machinery(stipulation_root_hook);
-      solve(solving_machinery);
-      dealloc_slices(solving_machinery);
+      slice_index const prototypes[] = {
+          alloc_pipe(STHalfDuplexSolver)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(environment,prototypes,nr_prototypes);
     }
+
+    solving_impose_starter(environment,SLICE_STARTER(stipulation_root_hook));
+    solve(environment);
+
+    dealloc_slices(environment);
 
     output_plaintext_message(NewLine);
 

@@ -318,9 +318,24 @@ void dispatch(slice_index si)
   TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
   switch (SLICE_TYPE(si))
   {
+    case STSolvingMachineryBuilder:
+    {
+      void build_solving_machinery2(slice_index si);
+      build_solving_machinery2(si);
+      break;
+    }
+
+    case STStartOfSolvingEnvironment:
     case STStartOfSolvingMachinery:
       solve(SLICE_NEXT1(si));
       break;
+
+    case STDuplexSolver:
+    {
+      void duplex_solve(slice_index si);
+      duplex_solve(si);
+      break;
+    }
 
     case STHalfDuplexSolver:
     {

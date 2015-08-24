@@ -555,8 +555,11 @@ void slice_insertion_init_traversal(stip_structure_traversal *st,
 static slice_index const slice_rank_order[] =
 {
   STProxy,
-  STStartOfSolvingMachinery,
+  STStartOfSolvingEnvironment,
+  STDuplexSolver,
   STHalfDuplexSolver,
+  STSolvingMachineryBuilder,
+  STStartOfSolvingMachinery,
   STCreateBuilderSetupPly,
   STPieceWalkCacheInitialiser,
   STPiecesCounter,

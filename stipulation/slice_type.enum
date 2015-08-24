@@ -2,7 +2,10 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
+  ENUMERATOR(STStartOfSolvingEnvironment),                              \
+  ENUMERATOR(STSolvingMachineryBuilder),                                \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
+  ENUMERATOR(STDuplexSolver),                                           \
   ENUMERATOR(STHalfDuplexSolver),                                       \
   ENUMERATOR(STCreateBuilderSetupPly),                                  \
   ENUMERATOR(STPieceWalkCacheInitialiser),                              \

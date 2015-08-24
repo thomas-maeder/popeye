@@ -1721,7 +1721,7 @@ void pieces_counter_solve(slice_index si)
 void create_builder_setup_ply_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",solving_machinery);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
