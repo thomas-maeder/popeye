@@ -916,7 +916,7 @@ void build_solving_machinery(slice_index si)
   TraceFunctionParamListEnd();
 
   pipe_link(si,build(stipulation_prototype));
-  solving_impose_starter(si,SLICE_STARTER(si));
+  solving_impose_starter(si,SLICE_STARTER(stipulation_prototype));
   TraceStipulation(si);
 
   pipe_solve_delegate(si);
@@ -928,10 +928,45 @@ void build_solving_machinery(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static void swap_side(slice_index si, stip_structure_traversal *st)
+{
+  slice_index const stpiulation_root = SLICE_NEXT2(si);
+  Side const regular_starter = SLICE_STARTER(stpiulation_root);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  solving_impose_starter(stpiulation_root,advers(regular_starter));
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void half_duplex_solve(slice_index si)
+{
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&swap_side);
+  stip_traverse_structure(si,&st);
+
+  pipe_solve_delegate(si);
+
+  stip_structure_traversal_init(&st,0);
+  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&swap_side);
+  stip_traverse_structure(si,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 void duplex_solve(slice_index si)
 {
-  Side const regular_starter = SLICE_STARTER(si);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
@@ -942,27 +977,9 @@ void duplex_solve(slice_index si)
 
   twin_duplex_type = twin_is_duplex;
 
-  solving_impose_starter(si,advers(regular_starter));
-  pipe_solve_delegate(si);
-  solving_impose_starter(si,regular_starter);
+  half_duplex_solve(si);
 
   twin_duplex_type = twin_no_duplex;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void half_duplex_solve(slice_index si)
-{
-  Side const regular_starter = SLICE_STARTER(si);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  solving_impose_starter(si,advers(regular_starter));
-  pipe_solve_delegate(si);
-  solving_impose_starter(si,regular_starter);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1003,7 +1020,6 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
       slice_insertion_insert(environment,prototypes,nr_prototypes);
     }
 
-    solving_impose_starter(environment,SLICE_STARTER(stipulation_root_hook));
     solve(environment);
 
     dealloc_slices(environment);
