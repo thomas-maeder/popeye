@@ -1040,23 +1040,21 @@ void twin_id_adjuster_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void deal_with_stipulation(slice_index stipulation_root_hook)
+void solving_environment_builder_solve(slice_index si)
 {
-  slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
-  slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
-  slice_index const completer = alloc_pipe(STStipulationCompleter);
-  slice_index const writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
-  slice_index const builder = alloc_pipe(STSolvingMachineryBuilder);
-  slices[builder].next2 = stipulation_root_hook;
-
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_link(environment,adjuster);
-  pipe_link(adjuster,completer);
-  pipe_link(completer,writer);
-  pipe_link(writer,builder);
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STTwinIdAdjuster),
+        alloc_pipe(STStipulationCompleter),
+        alloc_pipe(STOutputPlainTextEndOfTwinWriter)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
 
 #if defined(DOMEASURE)
   {
@@ -1064,7 +1062,7 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
         alloc_pipe(STCountersWriter)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(environment,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 #endif
 
@@ -1074,7 +1072,7 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
         alloc_pipe(STDuplexSolver)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(environment,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
   else if (OptFlag[halfduplex])
   {
@@ -1082,12 +1080,10 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
         alloc_pipe(STHalfDuplexSolver)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(environment,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
 
-  solve(environment);
-
-  dealloc_slices(environment);
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1103,7 +1099,18 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  deal_with_stipulation(stipulation_root_hook);
+  {
+    slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+    slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+    slice_index const machinery_builder = alloc_pipe(STSolvingMachineryBuilder);
+    slices[machinery_builder].next2 = stipulation_root_hook;
+    pipe_link(environment,environment_builder);
+    pipe_link(environment_builder,machinery_builder);
+
+    solve(environment);
+
+    dealloc_slices(environment);
+  }
 
   while (true)
   {
@@ -1122,14 +1129,33 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
         output_plaintext_input_error_message(ComNotUniq,0);
       else if (endToken==EndTwinTokenCount)
       {
+        slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+        slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+        slice_index const machinery_builder = alloc_pipe(STSolvingMachineryBuilder);
+        slices[machinery_builder].next2 = stipulation_root_hook;
+        pipe_link(environment,environment_builder);
+        pipe_link(environment_builder,machinery_builder);
+
         twin_stage = twin_last;
-        deal_with_stipulation(stipulation_root_hook);
+        solve(environment);
+
+        dealloc_slices(environment);
+
         break;
       }
       else if (endToken==TwinProblem)
       {
+        slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+        slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+        slice_index const machinery_builder = alloc_pipe(STSolvingMachineryBuilder);
+        slices[machinery_builder].next2 = stipulation_root_hook;
+        pipe_link(environment,environment_builder);
+        pipe_link(environment_builder,machinery_builder);
+
         twin_stage = twin_regular;
-        deal_with_stipulation(stipulation_root_hook);
+        solve(environment);
+
+        dealloc_slices(environment);
       }
       else
       {
@@ -1167,8 +1193,19 @@ char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook
 
   if (endToken==ZeroPosition)
   {
-    twin_stage = twin_zeroposition;
-    deal_with_stipulation(stipulation_root_hook);
+    {
+      slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+      slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+      slice_index const machinery_builder = alloc_pipe(STSolvingMachineryBuilder);
+      slices[machinery_builder].next2 = stipulation_root_hook;
+      pipe_link(environment,environment_builder);
+      pipe_link(environment_builder,machinery_builder);
+
+      twin_stage = twin_zeroposition;
+      solve(environment);
+
+      dealloc_slices(environment);
+    }
 
     tok = ReadNextTokStr();
     tok = ReadSubsequentTwin(tok,stipulation_root_hook);
@@ -1194,9 +1231,18 @@ char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook
   }
   else
   {
+    slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+    slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+    slice_index const machinery_builder = alloc_pipe(STSolvingMachineryBuilder);
+    slices[machinery_builder].next2 = stipulation_root_hook;
+    pipe_link(environment,environment_builder);
+    pipe_link(environment_builder,machinery_builder);
+
     twin_is_continued = false;
     twin_stage = twin_original_position_no_twins;
-    deal_with_stipulation(stipulation_root_hook);
+    solve(environment);
+
+    dealloc_slices(environment);
   }
 
   undo_move_effects();

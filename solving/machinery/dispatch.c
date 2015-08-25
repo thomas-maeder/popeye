@@ -318,6 +318,10 @@ void dispatch(slice_index si)
   TraceEnumerator(slice_type,SLICE_TYPE(si),"\n");
   switch (SLICE_TYPE(si))
   {
+    case STSolvingEnvironmentBuilder:
+      solving_environment_builder_solve(si);
+      break;
+
     case STStipulationCompleter:
       stipulation_completer_solve(si);
       break;
