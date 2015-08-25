@@ -28,15 +28,6 @@
     ++counter##name;                    \
   }
 
-/* Write the value of a counter defined elsewhere
- */
-#define WRITE_COUNTER(name)                       \
-  {                                               \
-    extern COUNTER_TYPE counter##name;            \
-    protocol_fprintf(stdout,"%30s:%12lu\n",#name,counter##name);   \
-    counter##name = 0;                                          \
-  }
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -56,13 +47,13 @@ void move_counter_solve(slice_index si);
  */
 void solving_insert_move_counters(slice_index si);
 
+void counters_writer_solve(slice_index si);
+
 #else
 
 #define DEFINE_COUNTER(name)
 
 #define INCREMENT_COUNTER(name)
-
-#define WRITE_COUNTER(name)
 
 #endif
 

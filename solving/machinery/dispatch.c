@@ -615,6 +615,10 @@ void dispatch(slice_index si)
     case STMoveCounter:
       move_counter_solve(si);
       break;
+
+    case STCountersWriter:
+      counters_writer_solve(si);
+      break;
 #endif
 
     case STOrthodoxMatingMoveGenerator:

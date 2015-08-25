@@ -1005,6 +1005,16 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     pipe_link(environment,writer);
     pipe_link(writer,builder);
 
+#if defined(DOMEASURE)
+    {
+      slice_index const prototypes[] = {
+          alloc_pipe(STCountersWriter)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(environment,prototypes,nr_prototypes);
+    }
+#endif
+
     if (OptFlag[duplex])
     {
       slice_index const prototypes[] = {
@@ -1025,11 +1035,6 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     solve(environment);
 
     dealloc_slices(environment);
-
-    WRITE_COUNTER(add_to_move_generation_stack);
-    WRITE_COUNTER(play_move);
-    WRITE_COUNTER(is_white_king_square_attacked);
-    WRITE_COUNTER(is_black_king_square_attacked);
   }
 
   ++twin_id;
