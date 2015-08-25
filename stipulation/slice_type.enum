@@ -6,6 +6,7 @@
   ENUMERATOR(STStipulationCompleter),                                   \
   ENUMERATOR(STCountersWriter),                                         \
   ENUMERATOR(STSolvingMachineryBuilder),                                \
+  ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STDuplexSolver),                                           \
   ENUMERATOR(STHalfDuplexSolver),                                       \

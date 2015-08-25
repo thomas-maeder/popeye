@@ -326,6 +326,10 @@ void dispatch(slice_index si)
       build_solving_machinery(si);
       break;
 
+    case STTwinIdAdjuster:
+      twin_id_adjuster_solve(si);
+      break;
+
     case STStartOfSolvingEnvironment:
     case STStartOfSolvingMachinery:
       solve(SLICE_NEXT1(si));

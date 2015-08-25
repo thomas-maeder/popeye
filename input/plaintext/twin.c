@@ -1026,55 +1026,68 @@ void stipulation_completer_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+void twin_id_adjuster_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  ++twin_id;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void deal_with_stipulation(slice_index stipulation_root_hook)
 {
+  slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+  slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
+  slice_index const completer = alloc_pipe(STStipulationCompleter);
+  slice_index const writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
+  slice_index const builder = alloc_pipe(STSolvingMachineryBuilder);
+  slices[builder].next2 = stipulation_root_hook;
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  {
-    slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
-    slice_index const completer = alloc_pipe(STStipulationCompleter);
-    slice_index const writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
-    slice_index const builder = alloc_pipe(STSolvingMachineryBuilder);
-    slices[builder].next2 = stipulation_root_hook;
-    pipe_link(environment,completer);
-    pipe_link(completer,writer);
-    pipe_link(writer,builder);
+  pipe_link(environment,adjuster);
+  pipe_link(adjuster,completer);
+  pipe_link(completer,writer);
+  pipe_link(writer,builder);
 
 #if defined(DOMEASURE)
-    {
-      slice_index const prototypes[] = {
-          alloc_pipe(STCountersWriter)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      slice_insertion_insert(environment,prototypes,nr_prototypes);
-    }
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STCountersWriter)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(environment,prototypes,nr_prototypes);
+  }
 #endif
 
-    if (OptFlag[duplex])
-    {
-      slice_index const prototypes[] = {
-          alloc_pipe(STDuplexSolver)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      slice_insertion_insert(environment,prototypes,nr_prototypes);
-    }
-    else if (OptFlag[halfduplex])
-    {
-      slice_index const prototypes[] = {
-          alloc_pipe(STHalfDuplexSolver)
-      };
-      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-      slice_insertion_insert(environment,prototypes,nr_prototypes);
-    }
-
-    solve(environment);
-
-    dealloc_slices(environment);
+  if (OptFlag[duplex])
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STDuplexSolver)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(environment,prototypes,nr_prototypes);
+  }
+  else if (OptFlag[halfduplex])
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STHalfDuplexSolver)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(environment,prototypes,nr_prototypes);
   }
 
-  ++twin_id;
+  solve(environment);
+
+  dealloc_slices(environment);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
