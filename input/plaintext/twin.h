@@ -42,4 +42,6 @@ char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook
 
 void build_solving_machinery(slice_index si);
 
+void stipulation_completer_solve(slice_index si);
+
 #endif

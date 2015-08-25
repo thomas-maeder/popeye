@@ -985,10 +985,13 @@ void duplex_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void deal_with_stipulation(slice_index stipulation_root_hook)
+static void complete_it(slice_index si, stip_structure_traversal *st)
 {
+  boolean * const completed = st->param;
+  slice_index const stipulation_root_hook = SLICE_NEXT2(si);
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   if (SLICE_STARTER(stipulation_root_hook)==no_side)
@@ -997,12 +1000,46 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
   if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
     output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
   else
+    *completed = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void stipulation_completer_solve(slice_index si)
+{
+  stip_structure_traversal st;
+  boolean completed = false;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&completed);
+  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&complete_it);
+  stip_traverse_structure(si,&st);
+
+  if (completed)
+    pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void deal_with_stipulation(slice_index stipulation_root_hook)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
   {
     slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+    slice_index const completer = alloc_pipe(STStipulationCompleter);
     slice_index const writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
     slice_index const builder = alloc_pipe(STSolvingMachineryBuilder);
     slices[builder].next2 = stipulation_root_hook;
-    pipe_link(environment,writer);
+    pipe_link(environment,completer);
+    pipe_link(completer,writer);
     pipe_link(writer,builder);
 
 #if defined(DOMEASURE)
