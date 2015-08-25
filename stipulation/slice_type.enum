@@ -494,6 +494,7 @@
     ENUMERATOR(STBlackChecksNullMoveGenerator),                         \
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
+    ENUMERATOR(STOutputPlainTextEndOfTwinWriter),                       \
     ENUMERATOR(STOutputPlainTextPositionWriter),                        \
     ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \

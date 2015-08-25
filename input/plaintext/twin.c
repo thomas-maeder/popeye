@@ -999,9 +999,11 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
   else
   {
     slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+    slice_index const writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
     slice_index const builder = alloc_pipe(STSolvingMachineryBuilder);
     slices[builder].next2 = stipulation_root_hook;
-    pipe_link(environment,builder);
+    pipe_link(environment,writer);
+    pipe_link(writer,builder);
 
     if (OptFlag[duplex])
     {
@@ -1023,8 +1025,6 @@ static void deal_with_stipulation(slice_index stipulation_root_hook)
     solve(environment);
 
     dealloc_slices(environment);
-
-    output_plaintext_message(NewLine);
 
     WRITE_COUNTER(add_to_move_generation_stack);
     WRITE_COUNTER(play_move);
