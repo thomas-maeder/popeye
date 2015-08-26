@@ -293,7 +293,7 @@ static char *ParseTwinning(char *tok, slice_index root_slice_hook)
     TwinResetPosition();
   }
 
-  while (true)
+  while (tok)
   {
     TwinningType const twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
 
@@ -335,7 +335,13 @@ static char *ParseTwinning(char *tok, slice_index root_slice_hook)
 
           tok = ReadNextTokStr();
           tok = ParseStip(tok,root_slice_hook);
-          move_effect_journal_do_remember_stipulation(root_slice_hook,beforeStip);
+          if (SLICE_NEXT1(root_slice_hook)==no_slice)
+          {
+            output_plaintext_input_error_message(NoStipulation,0);
+            tok = 0;
+          }
+          else
+            move_effect_journal_do_remember_stipulation(root_slice_hook,beforeStip);
           break;
         }
         case TwinningStructStip:
@@ -348,7 +354,13 @@ static char *ParseTwinning(char *tok, slice_index root_slice_hook)
 
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,root_slice_hook);
-          move_effect_journal_do_remember_sstipulation(root_slice_hook,beforeStip);
+          if (SLICE_NEXT1(root_slice_hook)==no_slice)
+          {
+            output_plaintext_input_error_message(NoStipulation,0);
+            tok = 0;
+          }
+          else
+            move_effect_journal_do_remember_sstipulation(root_slice_hook,beforeStip);
           break;
         }
         case TwinningAdd:
@@ -691,7 +703,7 @@ static char *ReadSubsequentTwin(char *tok, slice_index root_slice_hook)
 
   tok = ParseTwinning(tok,root_slice_hook);
 
-  while (true)
+  while (tok)
   {
     InitialTwinToken const result = GetUniqIndex(SubsequentTwinTokenCount,InitialTwinTokenTab,tok);
     if (result>SubsequentTwinTokenCount)
@@ -1130,16 +1142,11 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
     solve(environment);
   }
 
-  while (true)
+  while (tok)
   {
     tok = ReadSubsequentTwin(tok,stipulation_root_hook);
 
-    if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
-    {
-      output_plaintext_input_error_message(NoStipulation,0);
-      break;
-    }
-    else
+    if (tok)
     {
       EndTwinToken const endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
@@ -1170,6 +1177,8 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
 
       tok = ReadNextTokStr();
     }
+    else
+      break;
   }
 
   ply_reset();
