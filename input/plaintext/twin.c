@@ -977,7 +977,9 @@ void start_of_solving_machinery_solve(slice_index si)
 
 void build_solving_machinery(slice_index si)
 {
-  slice_index const start_of_machinery = SLICE_NEXT1(si);
+  slice_index const start_of_machinery = branch_find_slice(STStartOfSolvingMachinery,
+                                                           si,
+                                                           stip_traversal_context_intro);
   slice_index const stipulation_prototype = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
