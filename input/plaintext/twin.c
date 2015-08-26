@@ -1138,7 +1138,7 @@ static char *twins_handle(char *tok, slice_index start)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   twin_number = twin_a;

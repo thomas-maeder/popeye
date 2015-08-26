@@ -166,7 +166,7 @@ void input_halfduplex_solve(slice_index si)
 void input_instrument_duplex(slice_index start, slice_type type)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   {
@@ -176,4 +176,39 @@ void input_instrument_duplex(slice_index start, slice_type type)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
+}
+
+static void report_instrumented(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+boolean input_is_instrumented_with_duplex(slice_index start)
+{
+  boolean result = false;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,STInputDuplex,&report_instrumented);
+  stip_structure_traversal_override_single(&st,STInputHalfduplex,&report_instrumented);
+  stip_structure_traversal_override_single(&st,STEndOfInput,&stip_structure_visitor_noop);
+  stip_traverse_structure(start,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

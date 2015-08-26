@@ -285,10 +285,16 @@ char *ParseOpt(char *tok, slice_index start)
         break;
 
       case duplex:
-        input_instrument_duplex(start,STInputDuplex);
+        if (input_is_instrumented_with_duplex(start))
+          output_plaintext_input_error_message(InconsistentDuplexOption,0);
+        else
+          input_instrument_duplex(start,STInputDuplex);
         break;
       case halfduplex:
-        input_instrument_duplex(start,STInputHalfduplex);
+        if (input_is_instrumented_with_duplex(start))
+          output_plaintext_input_error_message(InconsistentDuplexOption,0);
+        else
+          input_instrument_duplex(start,STInputHalfduplex);
         break;
 
       default:

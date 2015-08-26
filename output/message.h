@@ -138,6 +138,7 @@ typedef enum
   ExclusiveRefutedUndecidable                       = 117,
   KingCaptureDetected                               = 118,
   InconsistentRetroInformation                      = 119,
+  InconsistentDuplexOption                          = 120,
 
   MsgCount /* THIS MUST BE THE LAST ENUMERATOR */
 } message_id_t;

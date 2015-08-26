@@ -62,4 +62,6 @@ void input_duplex_solve(slice_index si);
  */
 void input_instrument_duplex(slice_index start, slice_type type);
 
+boolean input_is_instrumented_with_duplex(slice_index start);
+
 #endif
