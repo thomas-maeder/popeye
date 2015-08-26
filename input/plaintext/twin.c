@@ -1277,10 +1277,11 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
     solve(start);
   }
 
-  dealloc_slices(start);
-
   undo_move_effects();
   finply();
+
+  dealloc_slices(start);
+  dealloc_slices(stipulation_root_hook);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -1318,7 +1319,10 @@ char *input_plaintext_twins_handle(char *tok)
   tok = ReadInitialTwin(tok,stipulation_root_hook);
 
   if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
+  {
     output_plaintext_input_error_message(NoStipulation,0);
+    dealloc_slices(stipulation_root_hook);
+  }
   else
   {
     StartTimer();
@@ -1326,8 +1330,6 @@ char *input_plaintext_twins_handle(char *tok)
     tok = input_plaintext_twins_iterate(tok,stipulation_root_hook);
     write_problem_footer();
   }
-
-  dealloc_slices(stipulation_root_hook);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
