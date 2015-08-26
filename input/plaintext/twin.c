@@ -276,13 +276,51 @@ static char *ParseTwinningSubstitute(void)
   return tok;
 }
 
-static char *ParseTwinning(char *tok, slice_index root_slice_hook)
+static void get_stipulation_root(slice_index si, stip_structure_traversal* st)
 {
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = SLICE_NEXT2(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static slice_index find_stipulation_root(slice_index si)
+{
+  slice_index result = no_slice;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,STEndOfInput,&stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,STInputStipulation,&get_stipulation_root);
+  stip_traverse_structure(si,&st);
+
+  assert(result!=no_slice);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
+static char *ParseTwinning(char *tok, slice_index start)
+{
+  slice_index const root_slice_hook = find_stipulation_root(start);
+
   TwinningType initial_twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",root_slice_hook);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   ++twin_number;
@@ -699,14 +737,14 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
   return tok;
 }
 
-static char *ReadSubsequentTwin(char *tok, slice_index root_slice_hook)
+static char *ReadSubsequentTwin(char *tok, slice_index start)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",root_slice_hook);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
-  tok = ParseTwinning(tok,root_slice_hook);
+  tok = ParseTwinning(tok,start);
 
   while (tok)
   {
@@ -1166,46 +1204,8 @@ static slice_index input_stipulation_alloc(slice_index stipulation_root_hook)
   return result;
 }
 
-static void get_stipulation_root(slice_index si, stip_structure_traversal* st)
+static char *twins_handle(char *tok, slice_index start)
 {
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *result = SLICE_NEXT2(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static slice_index find_stipulation_root(slice_index si)
-{
-  slice_index result = no_slice;
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_single(&st,STEndOfInput,&stip_structure_visitor_noop);
-  stip_structure_traversal_override_single(&st,STInputStipulation,&get_stipulation_root);
-  stip_traverse_structure(si,&st);
-
-  assert(result!=no_slice);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
-static char *twins_handle(char *tok, slice_index start, slice_index end)
-{
-  slice_index const stipulation_root_hook = find_stipulation_root(start);
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",stipulation_root_hook);
@@ -1218,7 +1218,7 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
 
   while (tok)
   {
-    tok = ReadSubsequentTwin(tok,stipulation_root_hook);
+    tok = ReadSubsequentTwin(tok,start);
 
     if (tok)
     {
@@ -1260,18 +1260,14 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook)
+static char *input_plaintext_twins_iterate(char *tok, slice_index start)
 {
-  slice_index const start = alloc_pipe(STStartOfInput);
-  slice_index const input_stip = input_stipulation_alloc(stipulation_root_hook);
-  slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
-  slice_index const end = alloc_pipe(STEndOfInput);
-  slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
   EndTwinToken endToken;
+  slice_index const stipulation_root_hook = find_stipulation_root(start);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
@@ -1279,18 +1275,13 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
 
   endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
-  pipe_link(start,input_stip);
-  pipe_link(input_stip,environment_builder);
-  pipe_link(environment_builder,end);
-  pipe_link(end,start_of_machinery);
-
   if (endToken==ZeroPosition)
   {
     twin_stage = twin_zeroposition;
     solve(start);
 
     tok = ReadNextTokStr();
-    tok = ReadSubsequentTwin(tok,stipulation_root_hook);
+    tok = ReadSubsequentTwin(tok,start);
 
     endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
@@ -1302,14 +1293,14 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
     {
       twin_stage = twin_regular;
       tok = ReadNextTokStr();
-      tok = twins_handle(tok,start,end);
+      tok = twins_handle(tok,start);
     }
   }
   else if (endToken==TwinProblem)
   {
     twin_stage = twin_initial;
     tok = ReadNextTokStr();
-    tok = twins_handle(tok,start,end);
+    tok = twins_handle(tok,start);
   }
   else
   {
@@ -1320,8 +1311,6 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
 
   undo_move_effects();
   finply();
-
-  dealloc_slices(start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -1348,28 +1337,35 @@ static void write_problem_footer(void)
 
 char *input_plaintext_twins_handle(char *tok)
 {
-  slice_index stipulation_root_hook;
+  slice_index const stipulation_root_hook = alloc_proxy_slice();
+  slice_index const start = alloc_pipe(STStartOfInput);
+  slice_index const input_stip = input_stipulation_alloc(stipulation_root_hook);
+  slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+  slice_index const end = alloc_pipe(STEndOfInput);
+  slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  stipulation_root_hook = alloc_proxy_slice();
+  pipe_link(start,input_stip);
+  pipe_link(input_stip,environment_builder);
+  pipe_link(environment_builder,end);
+  pipe_link(end,start_of_machinery);
 
   tok = ReadInitialTwin(tok,stipulation_root_hook);
 
   if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
-  {
     output_plaintext_input_error_message(NoStipulation,0);
-    dealloc_slices(stipulation_root_hook);
-  }
   else
   {
     StartTimer();
     initialise_piece_ids();
-    tok = input_plaintext_twins_iterate(tok,stipulation_root_hook);
+    tok = input_plaintext_twins_iterate(tok,start);
     write_problem_footer();
   }
+
+  dealloc_slices(start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
