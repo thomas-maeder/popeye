@@ -10,6 +10,7 @@
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
+#include "solving/duplex.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>

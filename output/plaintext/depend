@@ -34,7 +34,7 @@ output/plaintext/plaintext$(OBJ_SUFFIX): output/plaintext/plaintext.c \
  conditions/singlebox/type1.h pieces/walks/pawns/en_passant.h \
  solving/observation.h solving/temporary_hacks.h \
  pieces/walks/classification.h stipulation/pipe.h solving/pipe.h \
- debugging/assert.h
+ solving/duplex.h debugging/assert.h
 
 output/plaintext/plaintext.h:
 
@@ -181,6 +181,8 @@ pieces/walks/classification.h:
 stipulation/pipe.h:
 
 solving/pipe.h:
+
+solving/duplex.h:
 
 debugging/assert.h:
 output/plaintext/end_of_phase_writer$(OBJ_SUFFIX): \

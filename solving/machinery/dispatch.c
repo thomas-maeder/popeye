@@ -241,6 +241,7 @@
 #include "solving/boolean/and.h"
 #include "solving/boolean/not.h"
 #include "solving/castling.h"
+#include "solving/duplex.h"
 #include "solving/capture_counter.h"
 #include "solving/find_by_increasing_length.h"
 #include "solving/find_move.h"
@@ -351,18 +352,12 @@ void dispatch(slice_index si)
       break;
 
     case STDuplexSolver:
-    {
-      void duplex_solve(slice_index si);
       duplex_solve(si);
       break;
-    }
 
     case STHalfDuplexSolver:
-    {
-      void half_duplex_solve(slice_index si);
       half_duplex_solve(si);
       break;
-    }
 
     case STCreateBuilderSetupPly:
       create_builder_setup_ply_solve(si);

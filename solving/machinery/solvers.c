@@ -126,6 +126,7 @@
 #include "stipulation/branch.h"
 #include "stipulation/fork.h"
 #include "stipulation/move.h"
+#include "solving/duplex.h"
 #include "solving/pipe.h"
 #include "solving/king_capture_avoider.h"
 #include "solving/testers.h"

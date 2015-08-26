@@ -40,6 +40,7 @@
 #include "optimisations/orthodox_mating_moves/orthodox_mating_moves_generation.h"
 #include "output/plaintext/message.h"
 #include "solving/castling.h"
+#include "solving/duplex.h"
 #include "solving/has_solution_type.h"
 #include "solving/moves_traversal.h"
 #include "solving/proofgames.h"

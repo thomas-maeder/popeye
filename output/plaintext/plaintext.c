@@ -22,6 +22,7 @@
 #include "stipulation/slice_insertion.h"
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
+#include "solving/duplex.h"
 #include "debugging/trace.h"
 #include "debugging/assert.h"
 

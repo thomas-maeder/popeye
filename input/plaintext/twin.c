@@ -32,6 +32,7 @@
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
+#include "solving/duplex.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
@@ -988,63 +989,6 @@ void build_solving_machinery(slice_index si)
   TraceStipulation(si);
 
   pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static void swap_side(slice_index si, stip_structure_traversal *st)
-{
-  slice_index const stpiulation_root = SLICE_NEXT2(si);
-  Side const regular_starter = SLICE_STARTER(stpiulation_root);
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  solving_impose_starter(stpiulation_root,advers(regular_starter));
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void half_duplex_solve(slice_index si)
-{
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&swap_side);
-  stip_traverse_structure(si,&st);
-
-  pipe_solve_delegate(si);
-
-  stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&swap_side);
-  stip_traverse_structure(si,&st);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void duplex_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  twin_duplex_type = twin_has_duplex;
-
-  pipe_solve_delegate(si);
-
-  twin_duplex_type = twin_is_duplex;
-
-  half_duplex_solve(si);
-
-  twin_duplex_type = twin_no_duplex;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
