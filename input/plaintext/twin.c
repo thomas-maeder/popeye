@@ -866,16 +866,14 @@ static void complete_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
-static slice_index build(slice_index stipulation_root_hook)
+static void build(slice_index start, slice_index stipulation_root_hook)
 {
-  slice_index result;
-
   TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  result = alloc_pipe(STStartOfSolvingMachinery);
-  pipe_link(result,stip_deep_copy(SLICE_NEXT1(stipulation_root_hook)));
+  pipe_link(start,stip_deep_copy(SLICE_NEXT1(stipulation_root_hook)));
 
   {
     slice_index const prototypes[] = {
@@ -892,10 +890,10 @@ static slice_index build(slice_index stipulation_root_hook)
         alloc_pipe(STStartOfStipulation)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(result,prototypes,nr_prototypes);
+    slice_insertion_insert(start,prototypes,nr_prototypes);
   }
 
-  if (stip_ends_in(SLICE_NEXT1(result),goal_proofgame))
+  if (stip_ends_in(SLICE_NEXT1(start),goal_proofgame))
   {
     slice_index const prototypes[] = {
         alloc_pipe(STProofgameInitialiser),
@@ -904,9 +902,9 @@ static slice_index build(slice_index stipulation_root_hook)
         alloc_pipe(STPiecesFlagsInitialiser)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(result,prototypes,nr_prototypes);
+    slice_insertion_insert(start,prototypes,nr_prototypes);
   }
-  if (stip_ends_in(SLICE_NEXT1(result),goal_atob))
+  if (stip_ends_in(SLICE_NEXT1(start),goal_atob))
   {
     slice_index const prototypes[] = {
         alloc_pipe(STAToBInitialiser),
@@ -915,31 +913,42 @@ static slice_index build(slice_index stipulation_root_hook)
         alloc_pipe(STPiecesFlagsInitialiser)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(result,prototypes,nr_prototypes);
+    slice_insertion_insert(start,prototypes,nr_prototypes);
   }
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
-  return result;
+}
+
+void start_of_solving_machinery_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  dealloc_slices(SLICE_NEXT1(si));
+  SLICE_NEXT1(si) = no_slice;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
 void build_solving_machinery(slice_index si)
 {
+  slice_index const start_of_machinery = SLICE_NEXT1(si);
   slice_index const stipulation_prototype = SLICE_NEXT2(si);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  pipe_link(si,build(stipulation_prototype));
+  build(start_of_machinery,stipulation_prototype);
   solving_impose_starter(si,SLICE_STARTER(stipulation_prototype));
   TraceStipulation(si);
 
   pipe_solve_delegate(si);
-
-  dealloc_slices(SLICE_NEXT1(si));
-  SLICE_NEXT1(si) = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1112,10 +1121,12 @@ void end_of_input_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
+  TraceStipulation(si);
+
   pipe_solve_delegate(si);
 
   dealloc_slices(SLICE_NEXT1(si));
-  SLICE_NEXT1(si) = no_slice;
+  SLICE_NEXT1(si) = alloc_pipe(STStartOfSolvingMachinery);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1133,7 +1144,7 @@ static slice_index alloc_solving_machinery_builder(slice_index stipulation_root_
   slices[result].next2 = stipulation_root_hook;
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
+  TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
 }
@@ -1175,7 +1186,7 @@ static slice_index find_stipulation_root(slice_index si)
   stip_structure_traversal st;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
@@ -1205,7 +1216,7 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
 
   {
     slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-    pipe_link(end,machinery_builder);
+    slice_insertion_insert(start,&machinery_builder,1);
 
     solve(start);
   }
@@ -1223,7 +1234,7 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
       else if (endToken==EndTwinTokenCount)
       {
         slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-        pipe_link(end,machinery_builder);
+        slice_insertion_insert(start,&machinery_builder,1);
 
         twin_stage = twin_last;
         solve(start);
@@ -1233,7 +1244,7 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
       else if (endToken==TwinProblem)
       {
         slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-        pipe_link(end,machinery_builder);
+        slice_insertion_insert(start,&machinery_builder,1);
 
         twin_stage = twin_regular;
         solve(start);
@@ -1266,6 +1277,7 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
   slice_index const input_stip = input_stipulation_alloc(stipulation_root_hook);
   slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
   slice_index const end = alloc_pipe(STEndOfInput);
+  slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
   EndTwinToken endToken;
 
   TraceFunctionEntry(__func__);
@@ -1281,12 +1293,13 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
   pipe_link(start,input_stip);
   pipe_link(input_stip,environment_builder);
   pipe_link(environment_builder,end);
+  pipe_link(end,start_of_machinery);
 
   if (endToken==ZeroPosition)
   {
     {
       slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-      pipe_link(end,machinery_builder);
+      slice_insertion_insert(start,&machinery_builder,1);
 
       twin_stage = twin_zeroposition;
       solve(start);
@@ -1317,7 +1330,7 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
   else
   {
     slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-    pipe_link(end,machinery_builder);
+    slice_insertion_insert(start,&machinery_builder,1);
 
     twin_is_continued = false;
     twin_stage = twin_original_position_no_twins;

@@ -52,4 +52,6 @@ void end_of_input_solve(slice_index si);
 
 void input_stipulation_solve(slice_index si);
 
+void start_of_solving_machinery_solve(slice_index si);
+
 #endif

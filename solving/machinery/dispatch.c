@@ -335,12 +335,15 @@ void dispatch(slice_index si)
       break;
 
     case STStartOfInput:
-    case STStartOfSolvingMachinery:
       solve(SLICE_NEXT1(si));
       break;
 
     case STEndOfInput:
       end_of_input_solve(si);
+      break;
+
+    case STStartOfSolvingMachinery:
+      start_of_solving_machinery_solve(si);
       break;
 
     case STInputStipulation:
