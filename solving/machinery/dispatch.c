@@ -334,9 +334,13 @@ void dispatch(slice_index si)
       twin_id_adjuster_solve(si);
       break;
 
-    case STStartOfSolvingEnvironment:
+    case STStartOfInput:
     case STStartOfSolvingMachinery:
       solve(SLICE_NEXT1(si));
+      break;
+
+    case STEndOfInput:
+      end_of_input_solve(si);
       break;
 
     case STDuplexSolver:

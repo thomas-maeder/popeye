@@ -1097,6 +1097,18 @@ void solving_environment_builder_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void end_of_input_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
   dealloc_slices(SLICE_NEXT1(si));
   SLICE_NEXT1(si) = no_slice;
 
@@ -1125,21 +1137,23 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
 {
   twin_number = twin_a;
   twin_is_continued = false;
-  slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+  slice_index const start = alloc_pipe(STStartOfInput);
   slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+  slice_index const end = alloc_pipe(STEndOfInput);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
 
-  pipe_link(environment,environment_builder);
+  pipe_link(start,environment_builder);
+  pipe_link(environment_builder,end);
 
   {
     slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-    pipe_link(environment_builder,machinery_builder);
+    pipe_link(end,machinery_builder);
 
-    solve(environment);
+    solve(start);
   }
 
   while (tok)
@@ -1155,20 +1169,20 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
       else if (endToken==EndTwinTokenCount)
       {
         slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-        pipe_link(environment_builder,machinery_builder);
+        pipe_link(end,machinery_builder);
 
         twin_stage = twin_last;
-        solve(environment);
+        solve(start);
 
         break;
       }
       else if (endToken==TwinProblem)
       {
         slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-        pipe_link(environment_builder,machinery_builder);
+        pipe_link(end,machinery_builder);
 
         twin_stage = twin_regular;
-        solve(environment);
+        solve(start);
       }
       else
       {
@@ -1183,7 +1197,7 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
 
   ply_reset();
 
-  dealloc_slices(environment);
+  dealloc_slices(start);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);
@@ -1208,18 +1222,20 @@ char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook
 
   endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
-  slice_index const environment = alloc_pipe(STStartOfSolvingEnvironment);
+  slice_index const start = alloc_pipe(STStartOfInput);
   slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
-  pipe_link(environment,environment_builder);
+  slice_index const end = alloc_pipe(STEndOfInput);
+  pipe_link(start,environment_builder);
+  pipe_link(environment_builder,end);
 
   if (endToken==ZeroPosition)
   {
     {
       slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-      pipe_link(environment_builder,machinery_builder);
+      pipe_link(end,machinery_builder);
 
       twin_stage = twin_zeroposition;
-      solve(environment);
+      solve(start);
     }
 
     tok = ReadNextTokStr();
@@ -1247,15 +1263,15 @@ char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook
   else
   {
     slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-    pipe_link(environment,environment_builder);
-    pipe_link(environment_builder,machinery_builder);
+    pipe_link(start,environment_builder);
+    pipe_link(end,machinery_builder);
 
     twin_is_continued = false;
     twin_stage = twin_original_position_no_twins;
-    solve(environment);
+    solve(start);
   }
 
-  dealloc_slices(environment);
+  dealloc_slices(start);
 
   undo_move_effects();
   finply();
