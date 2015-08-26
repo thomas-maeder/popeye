@@ -176,6 +176,7 @@
 #include "options/no_short_variations/no_short_variations_attacker_filter.h"
 #include "options/stoponshortsolutions/filter.h"
 #include "options/stoponshortsolutions/initialiser.h"
+#include "input/plaintext/twin.h"
 #include "output/output.h"
 #include "output/plaintext/plaintext.h"
 #include "output/plaintext/end_of_phase_writer.h"
@@ -337,6 +338,10 @@ void dispatch(slice_index si)
 
     case STStartOfInput:
       solve(SLICE_NEXT1(si));
+      break;
+
+    case STInputDuplex:
+      input_duplex_solve(si);
       break;
 
     case STEndOfInput:
