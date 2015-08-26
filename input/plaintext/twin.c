@@ -608,14 +608,15 @@ static char *ReadLaTeXToken(void)
     return ReadNextTokStr();
 }
 
-char *ReadInitialTwin(char *tok, slice_index root_slice_hook)
+char *ReadInitialTwin(char *tok, slice_index start)
 {
+  slice_index const root_slice_hook = find_stipulation_root(start);
   InitialTwinToken result;
   boolean more_input = true;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
-  TraceFunctionParam("%u",root_slice_hook);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   while (more_input)
@@ -1353,7 +1354,7 @@ char *input_plaintext_twins_handle(char *tok)
   pipe_link(environment_builder,end);
   pipe_link(end,start_of_machinery);
 
-  tok = ReadInitialTwin(tok,stipulation_root_hook);
+  tok = ReadInitialTwin(tok,start);
 
   if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
