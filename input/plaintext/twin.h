@@ -38,7 +38,7 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook);
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook);
+char *input_plaintext_twins_handle(char *tok);
 
 void build_solving_machinery(slice_index si);
 

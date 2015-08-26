@@ -18,6 +18,8 @@
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
 #include "options/quodlibet.h"
 #include "options/goal_is_end.h"
+#include "options/maxsolutions/maxsolutions.h"
+#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "pieces/attributes/chameleon.h"
 #include "stipulation/pipe.h"
@@ -26,11 +28,14 @@
 #include "stipulation/stipulation.h"
 #include "stipulation/help_play/branch.h"
 #include "stipulation/battle_play/branch.h"
+#include "stipulation/proxy.h"
 #include "solving/goals/prerequisite_guards.h"
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
+#include "platform/maxtime.h"
+#include "platform/pytime.h"
 #include "debugging/trace.h"
 #include "debugging/measure.h"
 #include "debugging/assert.h"
@@ -1135,8 +1140,6 @@ static slice_index alloc_solving_machinery_builder(slice_index stipulation_root_
 
 static char *twins_handle(char *tok, slice_index stipulation_root_hook)
 {
-  twin_number = twin_a;
-  twin_is_continued = false;
   slice_index const start = alloc_pipe(STStartOfInput);
   slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
   slice_index const end = alloc_pipe(STEndOfInput);
@@ -1145,6 +1148,9 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",stipulation_root_hook);
   TraceFunctionParamListEnd();
+
+  twin_number = twin_a;
+  twin_is_continued = false;
 
   pipe_link(start,environment_builder);
   pipe_link(environment_builder,end);
@@ -1208,8 +1214,11 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
 /* Iterate over the twins of a problem
  * @return token that ended the last twin
  */
-char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook)
+static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook)
 {
+  slice_index const start = alloc_pipe(STStartOfInput);
+  slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
+  slice_index const end = alloc_pipe(STEndOfInput);
   EndTwinToken endToken;
 
   TraceFunctionEntry(__func__);
@@ -1222,9 +1231,6 @@ char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook
 
   endToken = GetUniqIndex(EndTwinTokenCount,EndTwinTokenTab,tok);
 
-  slice_index const start = alloc_pipe(STStartOfInput);
-  slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
-  slice_index const end = alloc_pipe(STEndOfInput);
   pipe_link(start,environment_builder);
   pipe_link(environment_builder,end);
 
@@ -1275,6 +1281,53 @@ char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_root_hook
 
   undo_move_effects();
   finply();
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%s",tok);
+  TraceFunctionResultEnd();
+  return tok;
+}
+
+static void write_problem_footer(void)
+{
+  if (max_solutions_reached()
+      || was_max_nr_solutions_per_target_position_reached()
+      || has_short_solution_been_found_in_problem()
+      || hasMaxtimeElapsed())
+    output_plaintext_message(InterMessage);
+  else
+    output_plaintext_message(FinishProblem);
+
+  output_plaintext_print_time(" ","");
+  output_plaintext_message(NewLine);
+  output_plaintext_message(NewLine);
+  output_plaintext_message(NewLine);
+  protocol_fflush(stdout);
+}
+
+char *input_plaintext_twins_handle(char *tok)
+{
+  slice_index stipulation_root_hook;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%s",tok);
+  TraceFunctionParamListEnd();
+
+  stipulation_root_hook = alloc_proxy_slice();
+
+  tok = ReadInitialTwin(tok,stipulation_root_hook);
+
+  if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
+    output_plaintext_input_error_message(NoStipulation,0);
+  else
+  {
+    StartTimer();
+    initialise_piece_ids();
+    tok = input_plaintext_twins_iterate(tok,stipulation_root_hook);
+    write_problem_footer();
+  }
+
+  dealloc_slices(stipulation_root_hook);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

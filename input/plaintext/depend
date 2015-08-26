@@ -236,11 +236,14 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  output/latex/twinning.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
  options/quodlibet.h options/goal_is_end.h \
+ options/maxsolutions/maxsolutions.h \
+ options/stoponshortsolutions/stoponshortsolutions.h \
  pieces/attributes/neutral/neutral.h pieces/attributes/chameleon.h \
  stipulation/pipe.h stipulation/branch.h stipulation/move_inverter.h \
  stipulation/help_play/branch.h stipulation/battle_play/branch.h \
- solving/goals/prerequisite_guards.h solving/pipe.h utilities/table.h \
- platform/maxmem.h debugging/measure.h debugging/assert.h
+ stipulation/proxy.h solving/goals/prerequisite_guards.h solving/pipe.h \
+ utilities/table.h platform/maxmem.h platform/maxtime.h platform/pytime.h \
+ debugging/measure.h debugging/assert.h
 
 input/plaintext/twin.h:
 
@@ -380,6 +383,10 @@ options/quodlibet.h:
 
 options/goal_is_end.h:
 
+options/maxsolutions/maxsolutions.h:
+
+options/stoponshortsolutions/stoponshortsolutions.h:
+
 pieces/attributes/neutral/neutral.h:
 
 pieces/attributes/chameleon.h:
@@ -394,6 +401,8 @@ stipulation/help_play/branch.h:
 
 stipulation/battle_play/branch.h:
 
+stipulation/proxy.h:
+
 solving/goals/prerequisite_guards.h:
 
 solving/pipe.h:
@@ -401,6 +410,10 @@ solving/pipe.h:
 utilities/table.h:
 
 platform/maxmem.h:
+
+platform/maxtime.h:
+
+platform/pytime.h:
 
 debugging/measure.h:
 
@@ -1326,11 +1339,8 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
  conditions/circe/relevant_side.h conditions/sentinelles.h \
  options/maxsolutions/maxsolutions.h \
  optimisations/intelligent/limit_nr_solutions_per_target.h \
- options/stoponshortsolutions/stoponshortsolutions.h \
  pieces/walks/hunters.h solving/observation.h solving/temporary_hacks.h \
- position/underworld.h solving/move_generator.h stipulation/proxy.h \
- stipulation/pipe.h platform/maxtime.h platform/pytime.h \
- debugging/assert.h
+ position/underworld.h solving/move_generator.h debugging/assert.h
 
 input/plaintext/problem.h:
 
@@ -1448,8 +1458,6 @@ options/maxsolutions/maxsolutions.h:
 
 optimisations/intelligent/limit_nr_solutions_per_target.h:
 
-options/stoponshortsolutions/stoponshortsolutions.h:
-
 pieces/walks/hunters.h:
 
 solving/observation.h:
@@ -1459,14 +1467,6 @@ solving/temporary_hacks.h:
 position/underworld.h:
 
 solving/move_generator.h:
-
-stipulation/proxy.h:
-
-stipulation/pipe.h:
-
-platform/maxtime.h:
-
-platform/pytime.h:
 
 debugging/assert.h:
 input/plaintext/language$(OBJ_SUFFIX): input/plaintext/language.c \

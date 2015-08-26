@@ -8,13 +8,9 @@
 #include "output/plaintext/language_dependant.h"
 #include "options/maxsolutions/maxsolutions.h"
 #include "optimisations/intelligent/limit_nr_solutions_per_target.h"
-#include "options/stoponshortsolutions/stoponshortsolutions.h"
 #include "pieces/walks/hunters.h"
 #include "position/underworld.h"
 #include "solving/move_generator.h"
-#include "stipulation/proxy.h"
-#include "platform/maxtime.h"
-#include "platform/pytime.h"
 #include "debugging/assert.h"
 
 char ActAuthor[256];
@@ -57,30 +53,11 @@ static void InitBoard(void)
   being_solved.king_square[Black] = initsquare;
 }
 
-static void write_problem_footer(void)
-{
-  if (max_solutions_reached()
-      || was_max_nr_solutions_per_target_position_reached()
-      || has_short_solution_been_found_in_problem()
-      || hasMaxtimeElapsed())
-    output_plaintext_message(InterMessage);
-  else
-    output_plaintext_message(FinishProblem);
-
-  output_plaintext_print_time(" ","");
-  output_plaintext_message(NewLine);
-  output_plaintext_message(NewLine);
-  output_plaintext_message(NewLine);
-  protocol_fflush(stdout);
-}
-
 /* Handle (read, solve, write) the current problem
  * @return the input token that ends the problem (NextProblem or EndProblem)
  */
 char *input_plaintext_problem_handle(char *tok)
 {
-  slice_index stipulation_root_hook;
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
@@ -93,23 +70,10 @@ char *input_plaintext_problem_handle(char *tok)
   InitCond();
   InitOpt();
 
-  stipulation_root_hook = alloc_proxy_slice();
-
   ply_reset();
 
-  tok = ReadInitialTwin(tok,stipulation_root_hook);
+  tok = input_plaintext_twins_handle(tok);
 
-  if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
-    output_plaintext_input_error_message(NoStipulation,0);
-  else
-  {
-    StartTimer();
-    initialise_piece_ids();
-    tok = input_plaintext_twins_iterate(tok,stipulation_root_hook);
-    write_problem_footer();
-  }
-
-  dealloc_slices(stipulation_root_hook);
   assert_no_leaked_slices();
 
   reset_max_solutions();
