@@ -3,6 +3,7 @@
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
   ENUMERATOR(STStartOfInput),                                           \
+  ENUMERATOR(STInputStipulation),                                       \
   ENUMERATOR(STSolvingEnvironmentBuilder),                              \
   ENUMERATOR(STEndOfInput),                                             \
   ENUMERATOR(STStipulationCompleter),                                   \
