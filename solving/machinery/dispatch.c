@@ -344,6 +344,10 @@ void dispatch(slice_index si)
       input_duplex_solve(si);
       break;
 
+    case STInputHalfduplex:
+      input_halfduplex_solve(si);
+      break;
+
     case STEndOfInput:
       end_of_input_solve(si);
       break;

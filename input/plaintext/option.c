@@ -285,9 +285,14 @@ char *ParseOpt(char *tok, slice_index start)
         break;
 
       case duplex:
-      case halfduplex:
       {
         slice_index const duplex = alloc_pipe(STInputDuplex);
+        slice_insertion_insert(start,&duplex,1);
+        break;
+      }
+      case halfduplex:
+      {
+        slice_index const duplex = alloc_pipe(STInputHalfduplex);
         slice_insertion_insert(start,&duplex,1);
         break;
       }

@@ -559,6 +559,7 @@ static slice_index const slice_rank_order[] =
   STInputStipulation,
   STSolvingEnvironmentBuilder,
   STInputDuplex,
+  STInputHalfduplex,
   STEndOfInput,
   STTwinIdAdjuster,
   STStipulationCompleter,

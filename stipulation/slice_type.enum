@@ -6,6 +6,7 @@
   ENUMERATOR(STInputStipulation),                                       \
   ENUMERATOR(STSolvingEnvironmentBuilder),                              \
   ENUMERATOR(STInputDuplex),                                            \
+  ENUMERATOR(STInputHalfduplex),                                        \
   ENUMERATOR(STEndOfInput),                                             \
   ENUMERATOR(STStipulationCompleter),                                   \
   ENUMERATOR(STCountersWriter),                                         \
