@@ -1214,12 +1214,7 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
   twin_number = twin_a;
   twin_is_continued = false;
 
-  {
-    slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-    slice_insertion_insert(start,&machinery_builder,1);
-
-    solve(start);
-  }
+  solve(start);
 
   while (tok)
   {
@@ -1233,9 +1228,6 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
         output_plaintext_input_error_message(ComNotUniq,0);
       else if (endToken==EndTwinTokenCount)
       {
-        slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-        slice_insertion_insert(start,&machinery_builder,1);
-
         twin_stage = twin_last;
         solve(start);
 
@@ -1243,9 +1235,6 @@ static char *twins_handle(char *tok, slice_index start, slice_index end)
       }
       else if (endToken==TwinProblem)
       {
-        slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-        slice_insertion_insert(start,&machinery_builder,1);
-
         twin_stage = twin_regular;
         solve(start);
       }
@@ -1297,13 +1286,8 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
 
   if (endToken==ZeroPosition)
   {
-    {
-      slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-      slice_insertion_insert(start,&machinery_builder,1);
-
-      twin_stage = twin_zeroposition;
-      solve(start);
-    }
+    twin_stage = twin_zeroposition;
+    solve(start);
 
     tok = ReadNextTokStr();
     tok = ReadSubsequentTwin(tok,stipulation_root_hook);
@@ -1329,9 +1313,6 @@ static char *input_plaintext_twins_iterate(char *tok, slice_index stipulation_ro
   }
   else
   {
-    slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-    slice_insertion_insert(start,&machinery_builder,1);
-
     twin_is_continued = false;
     twin_stage = twin_original_position_no_twins;
     solve(start);
@@ -1398,9 +1379,13 @@ char *input_plaintext_twins_handle(char *tok)
 
 void input_stipulation_solve(slice_index si)
 {
+  slice_index const machinery_builder = alloc_solving_machinery_builder(SLICE_NEXT2(si));
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
+
+  slice_insertion_insert(si,&machinery_builder,1);
 
   pipe_solve_delegate(si);
 
