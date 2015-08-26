@@ -158,3 +158,22 @@ void input_halfduplex_solve(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+/* Instrument the input machinery with a dpulex type
+ * @param start start slice of input machinery
+ * @param type duplex type to instrument input machinery with
+ */
+void input_instrument_duplex(slice_index start, slice_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const duplex = alloc_pipe(type);
+    slice_insertion_insert(start,&duplex,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

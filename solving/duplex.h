@@ -56,4 +56,10 @@ void duplex_solve(slice_index si);
  */
 void input_duplex_solve(slice_index si);
 
+/* Instrument the input machinery with a dpulex type
+ * @param start start slice of input machinery
+ * @param type duplex type to instrument input machinery with
+ */
+void input_instrument_duplex(slice_index start, slice_type type);
+
 #endif
