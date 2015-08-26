@@ -18,6 +18,7 @@
 #include "solving/move_generator.h"
 #include "solving/castling.h"
 #include "solving/battle_play/try.h"
+#include "stipulation/pipe.h"
 #include "platform/beep.h"
 #include "platform/maxtime.h"
 
@@ -97,13 +98,13 @@ static void HandleNoCastlingSquare(square sq, void *dummy)
   }
 }
 
-char *ParseOpt(char *tok, slice_index root_slice_hook)
+char *ParseOpt(char *tok, slice_index start)
 {
   Opt indexx;
   unsigned int OptCnt = 0;
 
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",root_slice_hook);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   for (indexx = GetUniqIndex(OptCount,OptTab,tok);
@@ -282,6 +283,14 @@ char *ParseOpt(char *tok, slice_index root_slice_hook)
       case mutuallyexclusivecastling:
         ReadMutuallyExclusiveCastling();
         break;
+
+      case duplex:
+      case halfduplex:
+      {
+        slice_index const duplex = alloc_pipe(STInputDuplex);
+        slice_insertion_insert(start,&duplex,1);
+        break;
+      }
 
       default:
         /* no extra action required */

@@ -687,7 +687,7 @@ char *ReadInitialTwin(char *tok, slice_index start)
 
         case OptToken:
           tok = ReadNextTokStr();
-          tok = ParseOpt(tok,root_slice_hook);
+          tok = ParseOpt(tok,start);
           break;
 
         case RemToken:
@@ -1269,7 +1269,6 @@ char *input_plaintext_twins_handle(char *tok)
   slice_index const start = alloc_pipe(STStartOfInput);
   slice_index const input_stip = input_stipulation_alloc(stipulation_root_hook);
   slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
-  slice_index const duplex = alloc_pipe(STInputDuplex);
   slice_index const end = alloc_pipe(STEndOfInput);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
@@ -1281,8 +1280,6 @@ char *input_plaintext_twins_handle(char *tok)
   pipe_link(input_stip,environment_builder);
   pipe_link(environment_builder,end);
   pipe_link(end,start_of_machinery);
-
-  slice_insertion_insert(start,&duplex,1);
 
   tok = ReadInitialTwin(tok,start);
 
