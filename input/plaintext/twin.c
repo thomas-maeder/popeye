@@ -1158,7 +1158,6 @@ static char *twins_handle(char *tok, slice_index stipulation_root_hook)
       else if (endToken==TwinProblem)
       {
         slice_index const machinery_builder = alloc_solving_machinery_builder(stipulation_root_hook);
-        pipe_link(environment,environment_builder);
         pipe_link(environment_builder,machinery_builder);
 
         twin_stage = twin_regular;
