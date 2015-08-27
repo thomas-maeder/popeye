@@ -935,25 +935,17 @@ static void build(slice_index start, slice_index stipulation_root_hook)
 
   if (stip_ends_in(SLICE_NEXT1(start),goal_proofgame))
   {
-    slice_index const prototypes[] = {
-        alloc_pipe(STProofgameInitialiser),
-        alloc_pipe(STPiecesCounter),
-        alloc_pipe(STRoyalsLocator),
-        alloc_pipe(STPiecesFlagsInitialiser)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(start,prototypes,nr_prototypes);
+    if (input_is_instrumented_with_duplex(start))
+      output_plaintext_input_error_message(InconsistentProofTarget,0);
+    else
+      input_instrument_proof(start,STProofgameInitialiser);
   }
   if (stip_ends_in(SLICE_NEXT1(start),goal_atob))
   {
-    slice_index const prototypes[] = {
-        alloc_pipe(STAToBInitialiser),
-        alloc_pipe(STPiecesCounter),
-        alloc_pipe(STRoyalsLocator),
-        alloc_pipe(STPiecesFlagsInitialiser)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(start,prototypes,nr_prototypes);
+    if (input_is_instrumented_with_duplex(start))
+      output_plaintext_input_error_message(InconsistentProofTarget,0);
+    else
+      input_instrument_proof(start,STAToBInitialiser);
   }
 
   TraceFunctionExit(__func__);

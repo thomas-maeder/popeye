@@ -17,6 +17,7 @@
 # include <mem.h>
 #endif
 #include "stipulation/stipulation.h"
+#include "stipulation/pipe.h"
 #include "solving/proofgames.h"
 #include "solving/has_solution_type.h"
 #include "solving/machinery/solve.h"
@@ -350,4 +351,68 @@ void proof_verify_unique_goal_solve(slice_index si)
     output_plaintext_verifie_message(MultipleGoalsWithProofGameNotAcceptable);
   else
     pipe_solve_delegate(si);
+}
+
+/* Instrument the input machinery with a proof games type
+ * @param start start slice of input machinery
+ * @param type proof games type to instrument input machinery with
+ */
+void input_instrument_proof(slice_index start, slice_type type)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(type),
+        alloc_pipe(STPiecesCounter),
+        alloc_pipe(STRoyalsLocator),
+        alloc_pipe(STPiecesFlagsInitialiser)
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(start,prototypes,nr_prototypes);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+static void report_instrumented(slice_index si, stip_structure_traversal *st)
+{
+  boolean * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = true;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Has the input branch already been instrumend with a proofgame solver?
+ * @param start entry into input branch
+ * @return true iff input branch has already been instrumend
+ */
+boolean input_is_instrumented_with_proof(slice_index start)
+{
+  boolean result = false;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,STProofgameInitialiser,&report_instrumented);
+  stip_structure_traversal_override_single(&st,STAToBInitialiser,&report_instrumented);
+  stip_structure_traversal_override_single(&st,STStartOfSolvingMachinery,&stip_structure_visitor_noop);
+  stip_traverse_structure(start,&st);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
 }

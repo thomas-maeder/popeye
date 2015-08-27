@@ -126,7 +126,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*117*/ "On ne peut pas decider si ce coup est refute\n",
     /*118*/ "Capture de roi detectee - elements feeriques probablement incompatibles\n",
     /*119*/ "Information retro inconsistent\n",
-    /*120*/ "Options duplex inconsistentes\n"
+    /*120*/ "Options duplex inconsistentes\n",
+    /*121*/ "Inconsistent buts pcpj\n"
   },
   /*1*/ {
     /* 0*/  "Fataler Fehler:\n",
@@ -249,7 +250,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*117*/ "Kann nicht entscheiden, ob dieser Zug widerlegt wird\n",
     /*118*/ "Schlag eines Koenigs detektiert - Maerchenelemente scheinen unvereinbar\n",
     /*119*/ "Inkonsistente Retro-Information\n",
-    /*120*/ "Inkonsistente Duplex-Optionen\n"
+    /*120*/ "Inkonsistente Duplex-Optionen\n",
+    /*121*/ "Inkonsistente Beweispartie-Ziele\n"
   },
   /*2*/ {
     /* 0*/  "fatal error:\n",
@@ -372,7 +374,8 @@ char const *MessageTabs[LanguageCount][MsgCount] =
     /*117*/ "Can't decide whether this move is refuted\n",
     /*118*/ "King capture detected - fairy elements seem incompatible",
     /*119*/ "Inconsistent retro information\n",
-    /*120*/ "Inconsistent duplex options\n"
+    /*120*/ "Inconsistent duplex options\n",
+    /*121*/ "Inconsistent proof game targets\n"
   }
 };
 

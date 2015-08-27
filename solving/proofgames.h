@@ -79,4 +79,16 @@ void proof_verify_unique_goal_solve(slice_index si);
  */
 void move_effect_journal_undo_snapshot_proofgame_target_position(move_effect_journal_entry_type const *entry);
 
+/* Instrument the input machinery with a proof games type
+ * @param start start slice of input machinery
+ * @param type proof games type to instrument input machinery with
+ */
+void input_instrument_proof(slice_index start, slice_type type);
+
+/* Has the input branch already been instrumend with a proofgame solver?
+ * @param start entry into input branch
+ * @return true iff input branch has already been instrumend
+ */
+boolean input_is_instrumented_with_proof(slice_index start);
+
 #endif
