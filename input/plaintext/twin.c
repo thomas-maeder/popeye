@@ -996,10 +996,10 @@ void build_solving_machinery(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void complete_it(slice_index si, stip_structure_traversal *st)
+void stipulation_completer_solve(slice_index si)
 {
-  boolean * const completed = st->param;
-  slice_index const stipulation_root_hook = SLICE_NEXT2(si);
+  slice_index const builder = branch_find_slice(STSolvingMachineryBuilder,si,stip_traversal_context_intro);
+  slice_index const stipulation_root_hook = SLICE_NEXT2(builder);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -1011,26 +1011,6 @@ static void complete_it(slice_index si, stip_structure_traversal *st)
   if (SLICE_STARTER(SLICE_NEXT1(stipulation_root_hook))==no_side)
     output_plaintext_verifie_message(CantDecideWhoIsAtTheMove);
   else
-    *completed = true;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void stipulation_completer_solve(slice_index si)
-{
-  stip_structure_traversal st;
-  boolean completed = false;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&completed);
-  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&complete_it);
-  stip_traverse_structure(si,&st);
-
-  if (completed)
     pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
@@ -1051,38 +1031,6 @@ void twin_id_adjuster_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void solving_environment_builder_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] = {
-        alloc_pipe(STTwinIdAdjuster),
-        alloc_pipe(STStipulationCompleter),
-        alloc_pipe(STOutputPlainTextEndOfTwinWriter)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-
-#if defined(DOMEASURE)
-  {
-    slice_index const prototypes[] = {
-        alloc_pipe(STCountersWriter)
-    };
-    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-#endif
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 void end_of_input_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -1093,8 +1041,13 @@ void end_of_input_solve(slice_index si)
 
   pipe_solve_delegate(si);
 
-  dealloc_slices(SLICE_NEXT1(si));
-  SLICE_NEXT1(si) = alloc_pipe(STStartOfSolvingMachinery);
+  {
+    slice_index const machinery = branch_find_slice(STStartOfSolvingMachinery,
+                                                    si,
+                                                    stip_traversal_context_intro);
+    dealloc_slices(SLICE_NEXT1(machinery));
+    SLICE_NEXT1(machinery) = no_slice;
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1267,11 +1220,13 @@ static void write_problem_footer(void)
 
 char *input_plaintext_twins_handle(char *tok)
 {
-  slice_index const stipulation_root_hook = alloc_proxy_slice();
   slice_index const start = alloc_pipe(STStartOfInput);
+  slice_index const stipulation_root_hook = alloc_proxy_slice();
   slice_index const input_stip = input_stipulation_alloc(stipulation_root_hook);
-  slice_index const environment_builder = alloc_pipe(STSolvingEnvironmentBuilder);
   slice_index const end = alloc_pipe(STEndOfInput);
+  slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
+  slice_index const completer = alloc_pipe(STStipulationCompleter);
+  slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
   TraceFunctionEntry(__func__);
@@ -1279,9 +1234,15 @@ char *input_plaintext_twins_handle(char *tok)
   TraceFunctionParamListEnd();
 
   pipe_link(start,input_stip);
-  pipe_link(input_stip,environment_builder);
-  pipe_link(environment_builder,end);
-  pipe_link(end,start_of_machinery);
+  pipe_link(input_stip,end);
+  pipe_link(end,adjuster);
+  pipe_link(adjuster,completer);
+  pipe_link(completer,end_writer);
+  pipe_link(end_writer,start_of_machinery);
+
+#if defined(DOMEASURE)
+  pipe_append(completer,alloc_pipe(STCountersWriter));
+#endif
 
   tok = ReadInitialTwin(tok,start);
 

@@ -4,7 +4,6 @@
   ENUMERATOR(STTemporaryHackFork),                                      \
   ENUMERATOR(STStartOfInput),                                           \
   ENUMERATOR(STInputStipulation),                                       \
-  ENUMERATOR(STSolvingEnvironmentBuilder),                              \
   ENUMERATOR(STInputDuplex),                                            \
   ENUMERATOR(STInputHalfduplex),                                        \
   ENUMERATOR(STEndOfInput),                                             \
