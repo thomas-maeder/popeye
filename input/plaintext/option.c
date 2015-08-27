@@ -288,13 +288,13 @@ char *ParseOpt(char *tok, slice_index start)
         if (input_is_instrumented_with_duplex(start))
           output_plaintext_input_error_message(InconsistentDuplexOption,0);
         else
-          input_instrument_duplex(start,STInputDuplex);
+          input_instrument_duplex(start,STDuplexSolver);
         break;
       case halfduplex:
         if (input_is_instrumented_with_duplex(start))
           output_plaintext_input_error_message(InconsistentDuplexOption,0);
         else
-          input_instrument_duplex(start,STInputHalfduplex);
+          input_instrument_duplex(start,STHalfDuplexSolver);
         break;
 
       default:

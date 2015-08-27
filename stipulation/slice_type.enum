@@ -4,8 +4,6 @@
   ENUMERATOR(STTemporaryHackFork),                                      \
   ENUMERATOR(STStartOfInput),                                           \
   ENUMERATOR(STInputStipulation),                                       \
-  ENUMERATOR(STInputDuplex),                                            \
-  ENUMERATOR(STInputHalfduplex),                                        \
   ENUMERATOR(STEndOfInput),                                             \
   ENUMERATOR(STStipulationCompleter),                                   \
   ENUMERATOR(STCountersWriter),                                         \

@@ -336,14 +336,6 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
-    case STInputDuplex:
-      input_duplex_solve(si);
-      break;
-
-    case STInputHalfduplex:
-      input_halfduplex_solve(si);
-      break;
-
     case STEndOfInput:
       end_of_input_solve(si);
       break;
