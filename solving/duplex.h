@@ -47,6 +47,10 @@ void duplex_solve(slice_index si);
  */
 void input_instrument_duplex(slice_index start, slice_type type);
 
+/* Has the input branch already been instrumend with a (half)duplex solver?
+ * @param start entry into input branch
+ * @return true iff input branch has already been instrumend
+ */
 boolean input_is_instrumented_with_duplex(slice_index start);
 
 #endif

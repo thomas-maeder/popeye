@@ -122,6 +122,10 @@ static void report_instrumented(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
+/* Has the input branch already been instrumend with a (half)duplex solver?
+ * @param start entry into input branch
+ * @return true iff input branch has already been instrumend
+ */
 boolean input_is_instrumented_with_duplex(slice_index start)
 {
   boolean result = false;
