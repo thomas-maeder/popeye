@@ -301,7 +301,7 @@ static slice_index find_stipulation_root(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_single(&st,STEndOfInput,&stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,STStartOfSolvingMachinery,&stip_structure_visitor_noop);
   stip_structure_traversal_override_single(&st,STInputStipulation,&get_stipulation_root);
   stip_traverse_structure(si,&st);
 
@@ -1031,28 +1031,6 @@ void twin_id_adjuster_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void end_of_input_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  TraceStipulation(si);
-
-  pipe_solve_delegate(si);
-
-  {
-    slice_index const machinery = branch_find_slice(STStartOfSolvingMachinery,
-                                                    si,
-                                                    stip_traversal_context_intro);
-    dealloc_slices(SLICE_NEXT1(machinery));
-    SLICE_NEXT1(machinery) = no_slice;
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 static slice_index alloc_solving_machinery_builder(slice_index stipulation_root_hook)
 {
   slice_index result;
@@ -1220,10 +1198,8 @@ static void write_problem_footer(void)
 
 char *input_plaintext_twins_handle(char *tok)
 {
-  slice_index const start = alloc_pipe(STStartOfInput);
   slice_index const stipulation_root_hook = alloc_proxy_slice();
-  slice_index const input_stip = input_stipulation_alloc(stipulation_root_hook);
-  slice_index const end = alloc_pipe(STEndOfInput);
+  slice_index const start = input_stipulation_alloc(stipulation_root_hook);
   slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
   slice_index const completer = alloc_pipe(STStipulationCompleter);
   slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
@@ -1233,9 +1209,7 @@ char *input_plaintext_twins_handle(char *tok)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  pipe_link(start,input_stip);
-  pipe_link(input_stip,end);
-  pipe_link(end,adjuster);
+  pipe_link(start,adjuster);
   pipe_link(adjuster,completer);
   pipe_link(completer,end_writer);
   pipe_link(end_writer,start_of_machinery);

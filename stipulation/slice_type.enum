@@ -2,9 +2,7 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
-  ENUMERATOR(STStartOfInput),                                           \
   ENUMERATOR(STInputStipulation),                                       \
-  ENUMERATOR(STEndOfInput),                                             \
   ENUMERATOR(STStipulationCompleter),                                   \
   ENUMERATOR(STCountersWriter),                                         \
   ENUMERATOR(STSolvingMachineryBuilder),                                \
