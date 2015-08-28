@@ -114,7 +114,7 @@ solving/move_effect_journal$(OBJ_SUFFIX): solving/move_effect_journal.c \
  position/underworld.h conditions/sat.h conditions/circe/parachute.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h pieces/attributes/neutral/neutral.h \
- pieces/attributes/neutral/half.h solving/pipe.h \
+ pieces/attributes/neutral/half.h solving/pipe.h solving/machinery/twin.h \
  input/plaintext/condition.h input/plaintext/token.h \
  input/plaintext/language.h input/plaintext/stipulation.h \
  input/plaintext/sstipulation.h debugging/assert.h
@@ -214,6 +214,8 @@ pieces/attributes/neutral/neutral.h:
 pieces/attributes/neutral/half.h:
 
 solving/pipe.h:
+
+solving/machinery/twin.h:
 
 input/plaintext/condition.h:
 

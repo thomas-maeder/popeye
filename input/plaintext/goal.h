@@ -3,6 +3,6 @@
 
 #include "stipulation/stipulation.h"
 
-char *ParseGoal(char *tok, slice_index proxy);
+char *ParseGoal(char *tok, slice_index start, slice_index proxy);
 
 #endif

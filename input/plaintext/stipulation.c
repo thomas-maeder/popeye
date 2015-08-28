@@ -52,6 +52,7 @@ static void alloc_reci_end(slice_index proxy_nonreci,
 }
 
 static char *ParseReciGoal(char *tok,
+                           slice_index start,
                            slice_index proxy_nonreci,
                            slice_index proxy_reci)
 {
@@ -67,13 +68,13 @@ static char *ParseReciGoal(char *tok,
     if (closingParenPos!=0)
     {
       slice_index const proxy_to_reci = alloc_proxy_slice();
-      tok = ParseGoal(tok+1,proxy_to_reci);
+      tok = ParseGoal(tok+1,start,proxy_to_reci);
       if (tok!=0)
       {
         if (tok==closingParenPos)
         {
           slice_index const proxy_to_nonreci = alloc_proxy_slice();
-          result = ParseGoal(tok+1,proxy_to_nonreci);
+          result = ParseGoal(tok+1,start,proxy_to_nonreci);
           if (result!=NULL)
           {
             slice_index const nonreci = SLICE_NEXT1(proxy_to_nonreci);
@@ -92,7 +93,7 @@ static char *ParseReciGoal(char *tok,
   else
   {
     slice_index const proxy_to_nonreci = alloc_proxy_slice();
-    result = ParseGoal(tok,proxy_to_nonreci);
+    result = ParseGoal(tok,start,proxy_to_nonreci);
     if (result!=NULL)
     {
       slice_index const nonreci_testing = SLICE_NEXT1(proxy_to_nonreci);
@@ -110,20 +111,21 @@ static char *ParseReciGoal(char *tok,
   return result;
 }
 
-static char *ParseReciEnd(char *tok, slice_index proxy)
+static char *ParseReciEnd(char *tok, slice_index start, slice_index proxy)
 {
   slice_index op1;
   slice_index op2;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
   op1 = alloc_proxy_slice();
   op2 = alloc_proxy_slice();
 
-  tok = ParseReciGoal(tok,op1,op2);
+  tok = ParseReciGoal(tok,start,op1,op2);
   if (SLICE_NEXT1(op1)!=no_slice && SLICE_NEXT1(op2)!=no_slice)
   {
     slice_index const reci = alloc_and_slice(op1,op2);
@@ -208,6 +210,7 @@ typedef enum
 } play_length_type;
 
 static char *ParseBattle(char *tok,
+                         slice_index start,
                          slice_index proxy,
                          slice_index proxy_goal,
                          play_length_type play_length,
@@ -217,13 +220,14 @@ static char *ParseBattle(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",proxy_goal);
   TraceFunctionParam("%u",play_length);
   TraceFunctionParam("%u",ends_on_defense);
   TraceFunctionParamListEnd();
 
-  result = ParseGoal(tok,proxy_goal);
+  result = ParseGoal(tok,start,proxy_goal);
   if (result!=0)
   {
     stip_length_type length = 0;
@@ -310,6 +314,7 @@ static char *ParseHelpLength(char *tok,
 }
 
 static char *ParseHelp(char *tok,
+                       slice_index start,
                        slice_index proxy,
                        slice_index proxy_goal,
                        play_length_type play_length,
@@ -319,13 +324,14 @@ static char *ParseHelp(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",proxy_goal);
   TraceFunctionParam("%u",play_length);
   TraceFunctionParam("%u",shorten);
   TraceFunctionParamListEnd();
 
-  result = ParseGoal(tok,proxy_goal);
+  result = ParseGoal(tok,start,proxy_goal);
   if (result!=0)
   {
     stip_length_type length;
@@ -348,6 +354,7 @@ static char *ParseHelp(char *tok,
 }
 
 static char *ParseHelpDia(char *tok,
+                          slice_index start,
                           slice_index proxy,
                           slice_index proxy_next,
                           play_length_type play_length)
@@ -356,12 +363,13 @@ static char *ParseHelpDia(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",proxy_next);
   TraceFunctionParam("%u",play_length);
   TraceFunctionParamListEnd();
 
-  result = ParseGoal(tok,proxy_next);
+  result = ParseGoal(tok,start,proxy_next);
   if (result!=0)
   {
     stip_length_type length;
@@ -417,6 +425,7 @@ static char *ParseSeriesLength(char *tok,
 }
 
 static char *ParseSeries(char *tok,
+                         slice_index start,
                          slice_index proxy,
                          slice_index proxy_goal,
                          play_length_type play_length)
@@ -425,12 +434,13 @@ static char *ParseSeries(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",proxy_goal);
   TraceFunctionParam("%u",play_length);
   TraceFunctionParamListEnd();
 
-  result = ParseGoal(tok,proxy_goal);
+  result = ParseGoal(tok,start,proxy_goal);
   if (result!=0)
   {
     stip_length_type length;
@@ -511,7 +521,7 @@ static slice_index MakeEndOfSelfPlay(slice_index proxy_to_goal)
 }
 
 static char *ParsePlay(char *tok,
-                       slice_index root_slice_hook,
+                       slice_index start,
                        slice_index proxy,
                        play_length_type play_length)
 {
@@ -522,6 +532,8 @@ static char *ParsePlay(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
@@ -540,7 +552,7 @@ static char *ParsePlay(char *tok,
       output_plaintext_input_error_message(WrongInt, 0);
     else
     {
-      result = ParsePlay(arrowpos+2,root_slice_hook,proxy_next,play_length);
+      result = ParsePlay(arrowpos+2,start,proxy_next,play_length);
       if (result!=0 && SLICE_NEXT1(proxy_next)!=no_slice)
       {
         /* >=1 move of starting side required */
@@ -555,7 +567,7 @@ static char *ParsePlay(char *tok,
   else if (token_starts_with("ser-reci-h",tok))
   {
     /* skip over "ser-reci-h" */
-    tok = ParseReciEnd(tok+10,proxy_next);
+    tok = ParseReciEnd(tok+10,start,proxy_next);
     if (tok!=0 && SLICE_NEXT1(proxy_next)!=no_slice)
     {
       stip_length_type length;
@@ -575,7 +587,7 @@ static char *ParsePlay(char *tok,
 
   else if (token_starts_with("ser-hs",tok))
   {
-    tok = ParseGoal(tok+6,proxy_next); /* skip over "ser-hs" */
+    tok = ParseGoal(tok+6,start,proxy_next); /* skip over "ser-hs" */
     if (tok!=0)
     {
       stip_length_type length;
@@ -609,7 +621,7 @@ static char *ParsePlay(char *tok,
 
   else if (token_starts_with("ser-h",tok))
   {
-    result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-h" */
+    result = ParseSeries(tok+5,start,proxy,proxy_next,play_length); /* skip over "ser-h" */
     if (result!=0)
     {
       slice_index const help = alloc_help_branch(1,1);
@@ -630,7 +642,7 @@ static char *ParsePlay(char *tok,
 
   else if (token_starts_with("ser-s",tok))
   {
-    result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-s" */
+    result = ParseSeries(tok+5,start,proxy,proxy_next,play_length); /* skip over "ser-s" */
     if (result!=0)
     {
       help_branch_set_end_forced(proxy,MakeEndOfSelfPlay(proxy_next),1);
@@ -640,7 +652,7 @@ static char *ParsePlay(char *tok,
 
   else if (token_starts_with("ser-r",tok))
   {
-    result = ParseSeries(tok+5,proxy,proxy_next,play_length); /* skip over "ser-r" */
+    result = ParseSeries(tok+5,start,proxy,proxy_next,play_length); /* skip over "ser-r" */
     if (result!=0)
     {
       slice_index const proxy_semi = MakeSemireflexBranch(proxy_next);
@@ -652,7 +664,7 @@ static char *ParsePlay(char *tok,
 
   else if (token_starts_with("ser-",tok))
   {
-    result = ParseSeries(tok+4,proxy,proxy_next,play_length); /* skip over "ser-" */
+    result = ParseSeries(tok+4,start,proxy,proxy_next,play_length); /* skip over "ser-" */
     if (result!=0)
     {
       help_branch_set_end_goal(proxy,proxy_next,1);
@@ -664,6 +676,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const shorten = true;
     result = ParseHelp(tok+7, /* skip over phser-r */
+                       start,
                        proxy,proxy_next,
                        play_length,shorten);
     if (result!=0)
@@ -684,6 +697,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const shorten = true;
     result = ParseHelp(tok+7, /* skip over phser-s */
+                       start,
                        proxy,proxy_next,
                        play_length,shorten);
     if (result!=0)
@@ -698,6 +712,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const shorten = true;
     result = ParseHelp(tok+6, /* skip over phser- */
+                       start,
                        proxy,proxy_next,
                        play_length,shorten);
     if (result!=0)
@@ -710,7 +725,7 @@ static char *ParsePlay(char *tok,
 
   else if (token_starts_with("pser-hs",tok))
   {
-    tok = ParseGoal(tok+7,proxy_next); /* skip over "ser-hs" */
+    tok = ParseGoal(tok+7,start,proxy_next); /* skip over "ser-hs" */
     if (tok!=0)
     {
       stip_length_type length;
@@ -737,6 +752,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const shorten = true;
     result = ParseHelp(tok+6, /* skip over pser-h */
+                       start,
                        proxy,proxy_next,
                        play_length,shorten);
     if (result!=0)
@@ -758,6 +774,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+6, /* skip over pser-r */
+                         start,
                          proxy,proxy_next,
                          play_length,ends_on_defense);
     if (result!=0)
@@ -775,6 +792,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+6, /* skip over pser-s */
+                         start,
                          proxy,proxy_next,
                          play_length,ends_on_defense);
     if (result!=0)
@@ -791,6 +809,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+5, /* skip over pser- */
+                         start,
                          proxy,proxy_next,
                          play_length,ends_on_defense);
     if (result!=0)
@@ -804,7 +823,7 @@ static char *ParsePlay(char *tok,
   else if (token_starts_with("reci-h",tok))
   {
     char * const tok2 = ParseReciEnd(tok+6, /* skip over "reci-h" */
-                                     proxy_next);
+                                     start,proxy_next);
     if (tok2!=0 && SLICE_NEXT1(proxy_next)!=no_slice)
     {
       stip_length_type length;
@@ -843,13 +862,13 @@ static char *ParsePlay(char *tok,
 
   else if (token_starts_with("dia",tok))
   {
-    result = ParseHelpDia(tok,proxy,proxy_next,play_length);
+    result = ParseHelpDia(tok,start,proxy,proxy_next,play_length);
     if (result!=0)
       solving_impose_starter(proxy,White);
   }
   else if (token_starts_with("a=>b",tok))
   {
-    result = ParseHelpDia(tok,proxy,proxy_next,play_length);
+    result = ParseHelpDia(tok,start,proxy,proxy_next,play_length);
     if (result!=0)
       solving_impose_starter(proxy,Black);
   }
@@ -858,6 +877,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const shorten = true;
     result = ParseHelp(tok+2, /* skip over "hs" */
+                       start,
                        proxy,proxy_next,
                        play_length,shorten);
     if (result!=0)
@@ -871,6 +891,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const shorten = true;
     result = ParseHelp(tok+2, /* skip over "hr" */
+                       start,
                        proxy,proxy_next,
                        play_length,shorten);
     if (result!=0)
@@ -888,6 +909,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const shorten = false;
     result = ParseHelp(tok+1, /* skip over "h" */
+                       start,
                        proxy,proxy_next,
                        play_length,shorten);
     if (result!=0)
@@ -901,6 +923,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+6, /* skip over "semi-r" */
+                         start,
                          proxy,proxy_next,
                          play_length,ends_on_defense);
     if (result!=0)
@@ -916,6 +939,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const ends_on_defense = true;
     result = ParseBattle(tok+1, /* skip over 's' */
+                         start,
                          proxy,proxy_next,
                          play_length,ends_on_defense);
     if (result!=0)
@@ -929,6 +953,7 @@ static char *ParsePlay(char *tok,
   {
     boolean const ends_on_defense = false;
     result = ParseBattle(tok+1, /* skip over 'r' */
+                         start,
                          proxy,proxy_next,
                          play_length,ends_on_defense);
     if (result!=0)
@@ -944,7 +969,7 @@ static char *ParsePlay(char *tok,
   else
   {
     boolean const ends_on_defense = false;
-    result = ParseBattle(tok,proxy,proxy_next,play_length,ends_on_defense);
+    result = ParseBattle(tok,start,proxy,proxy_next,play_length,ends_on_defense);
     if (result!=0)
     {
       select_output_mode(proxy,output_mode_tree);
@@ -961,16 +986,19 @@ static char *ParsePlay(char *tok,
   return result;
 }
 
-char *ParseStip(char *tok, slice_index root_slice_hook)
+char *ParseStip(char *tok, slice_index start)
 {
+  slice_index const root_slice_hook = input_find_stipulation(start);
+
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParamListEnd();
 
   stipulation_reset();
 
   strcpy(AlphaStip,tok);
-  if (ParsePlay(tok,root_slice_hook,root_slice_hook,play_length_minimum))
+  if (ParsePlay(tok,start,root_slice_hook,play_length_minimum))
   {
     if (SLICE_NEXT1(root_slice_hook)!=no_slice
         && ActStip[0]=='\0')

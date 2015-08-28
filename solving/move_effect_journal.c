@@ -15,6 +15,7 @@
 #include "pieces/attributes/neutral/half.h"
 #include "position/pieceid.h"
 #include "solving/pipe.h"
+#include "solving/machinery/twin.h"
 #include "input/plaintext/condition.h"
 #include "input/plaintext/token.h"
 #include "input/plaintext/stipulation.h"
@@ -1267,16 +1268,16 @@ static void undo_input_condition(move_effect_journal_entry_type const *entry)
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
  */
-void move_effect_journal_do_remember_stipulation(slice_index root_slice_hook,
-                                                 fpos_t start)
+void move_effect_journal_do_remember_stipulation(slice_index start,
+                                                 fpos_t start_pos)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_stipulation,move_effect_reason_diagram_setup);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
-  entry->u.input_complex.start = start;
-  entry->u.input_complex.root = root_slice_hook;
+  entry->u.input_complex.start = start_pos;
+  entry->u.input_complex.start_index = start;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1307,13 +1308,14 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
     if (idx_stip!=move_effect_journal_index_null)
     {
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
-      slice_index const root = stip->u.input_complex.root;
+      slice_index const start = stip->u.input_complex.start_index;
+      slice_index const root = input_find_stipulation(start);
       slice_index const next = SLICE_NEXT1(root);
       pipe_unlink(root);
       dealloc_slices(next);
 
       InputStartReplay(stip->u.input_complex.start);
-      ParseStip(ReadNextTokStr(),root);
+      ParseStip(ReadNextTokStr(),start);
       InputEndReplay();
     }
   }
@@ -1326,7 +1328,7 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
  */
-void move_effect_journal_do_remember_sstipulation(slice_index root_slice_hook,
+void move_effect_journal_do_remember_sstipulation(slice_index start_index,
                                                   fpos_t start)
 {
   move_effect_journal_entry_type * const entry = move_effect_journal_allocate_entry(move_effect_input_sstipulation,move_effect_reason_diagram_setup);
@@ -1334,8 +1336,8 @@ void move_effect_journal_do_remember_sstipulation(slice_index root_slice_hook,
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();
 
+  entry->u.input_complex.start_index = start_index;
   entry->u.input_complex.start = start;
-  entry->u.input_complex.root = root_slice_hook;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1366,13 +1368,14 @@ static void undo_input_sstipulation(move_effect_journal_entry_type const *entry)
     if (idx_stip!=move_effect_journal_index_null)
     {
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
-      slice_index const root = stip->u.input_complex.root;
+      slice_index const start = stip->u.input_complex.start_index;
+      slice_index const root = input_find_stipulation(start);
       slice_index const next = SLICE_NEXT1(root);
       pipe_unlink(root);
       dealloc_slices(next);
 
       InputStartReplay(stip->u.input_complex.start);
-      ParseStructuredStip(ReadNextTokStr(),root);
+      ParseStructuredStip(ReadNextTokStr(),start);
       InputEndReplay();
     }
   }

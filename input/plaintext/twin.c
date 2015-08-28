@@ -33,6 +33,7 @@
 #include "solving/machinery/twin.h"
 #include "solving/pipe.h"
 #include "solving/duplex.h"
+#include "solving/proofgames.h"
 #include "utilities/table.h"
 #include "platform/maxmem.h"
 #include "platform/maxtime.h"
@@ -277,45 +278,9 @@ static char *ParseTwinningSubstitute(void)
   return tok;
 }
 
-static void get_stipulation_root(slice_index si, stip_structure_traversal* st)
-{
-  slice_index * const result = st->param;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  *result = SLICE_NEXT2(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-static slice_index find_stipulation_root(slice_index si)
-{
-  slice_index result = no_slice;
-  stip_structure_traversal st;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  stip_structure_traversal_init(&st,&result);
-  stip_structure_traversal_override_single(&st,STStartOfSolvingMachinery,&stip_structure_visitor_noop);
-  stip_structure_traversal_override_single(&st,STInputStipulation,&get_stipulation_root);
-  stip_traverse_structure(si,&st);
-
-  assert(result!=no_slice);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static char *ParseTwinning(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = find_stipulation_root(start);
+  slice_index const root_slice_hook = input_find_stipulation(start);
 
   TwinningType initial_twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
 
@@ -378,14 +343,14 @@ static char *ParseTwinning(char *tok, slice_index start)
           dealloc_slices(next);
 
           tok = ReadNextTokStr();
-          tok = ParseStip(tok,root_slice_hook);
+          tok = ParseStip(tok,start);
           if (SLICE_NEXT1(root_slice_hook)==no_slice)
           {
             output_plaintext_input_error_message(NoStipulation,0);
             tok = 0;
           }
           else
-            move_effect_journal_do_remember_stipulation(root_slice_hook,beforeStip);
+            move_effect_journal_do_remember_stipulation(start,beforeStip);
           break;
         }
         case TwinningStructStip:
@@ -397,14 +362,14 @@ static char *ParseTwinning(char *tok, slice_index start)
           dealloc_slices(next);
 
           tok = ReadNextTokStr();
-          tok = ParseStructuredStip(tok,root_slice_hook);
+          tok = ParseStructuredStip(tok,start);
           if (SLICE_NEXT1(root_slice_hook)==no_slice)
           {
             output_plaintext_input_error_message(NoStipulation,0);
             tok = 0;
           }
           else
-            move_effect_journal_do_remember_sstipulation(root_slice_hook,beforeStip);
+            move_effect_journal_do_remember_sstipulation(start,beforeStip);
           break;
         }
         case TwinningAdd:
@@ -611,7 +576,7 @@ static char *ReadLaTeXToken(void)
 
 char *ReadInitialTwin(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = find_stipulation_root(start);
+  slice_index const root_slice_hook = input_find_stipulation(start);
   InitialTwinToken result;
   boolean more_input = true;
 
@@ -639,8 +604,8 @@ char *ReadInitialTwin(char *tok, slice_index start)
             fpos_t const beforeCond = InputGetPosition();
             *AlphaStip='\0';
             tok = ReadNextTokStr();
-            tok = ParseStip(tok,root_slice_hook);
-            move_effect_journal_do_remember_stipulation(root_slice_hook,beforeCond);
+            tok = ParseStip(tok,start);
+            move_effect_journal_do_remember_stipulation(start,beforeCond);
           }
           else
           {
@@ -652,7 +617,7 @@ char *ReadInitialTwin(char *tok, slice_index start)
         case StructStipToken:
           AlphaStip[0] ='\0';
           tok = ReadNextTokStr();
-          tok = ParseStructuredStip(tok,root_slice_hook);
+          tok = ParseStructuredStip(tok,start);
           break;
 
         case Author:
@@ -1116,7 +1081,7 @@ static char *twins_handle(char *tok, slice_index start)
 static char *input_plaintext_twins_iterate(char *tok, slice_index start)
 {
   EndTwinToken endToken;
-  slice_index const stipulation_root_hook = find_stipulation_root(start);
+  slice_index const stipulation_root_hook = input_find_stipulation(start);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);

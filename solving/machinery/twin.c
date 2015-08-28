@@ -1751,3 +1751,43 @@ boolean twin_twinning_shift_validate(square from, square to)
 
   return true;
 }
+
+static void get_stipulation_root(slice_index si, stip_structure_traversal* st)
+{
+  slice_index * const result = st->param;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  *result = SLICE_NEXT2(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Find the entry slice into the stipulation
+ * @param start entry slice into the input branch
+ * @return entry slice into the stipulation
+ */
+slice_index input_find_stipulation(slice_index si)
+{
+  slice_index result = no_slice;
+  stip_structure_traversal st;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  stip_structure_traversal_init(&st,&result);
+  stip_structure_traversal_override_single(&st,STStartOfSolvingMachinery,&stip_structure_visitor_noop);
+  stip_structure_traversal_override_single(&st,STInputStipulation,&get_stipulation_root);
+  stip_traverse_structure(si,&st);
+
+  assert(result!=no_slice);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}

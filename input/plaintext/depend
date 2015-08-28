@@ -242,8 +242,9 @@ input/plaintext/twin$(OBJ_SUFFIX): input/plaintext/twin.c input/plaintext/twin.h
  stipulation/pipe.h stipulation/branch.h stipulation/move_inverter.h \
  stipulation/help_play/branch.h stipulation/battle_play/branch.h \
  stipulation/proxy.h solving/goals/prerequisite_guards.h solving/pipe.h \
- solving/duplex.h utilities/table.h platform/maxmem.h platform/maxtime.h \
- platform/pytime.h debugging/measure.h debugging/assert.h
+ solving/duplex.h solving/proofgames.h utilities/table.h \
+ platform/maxmem.h platform/maxtime.h platform/pytime.h \
+ debugging/measure.h debugging/assert.h
 
 input/plaintext/twin.h:
 
@@ -408,6 +409,8 @@ solving/goals/prerequisite_guards.h:
 solving/pipe.h:
 
 solving/duplex.h:
+
+solving/proofgames.h:
 
 utilities/table.h:
 

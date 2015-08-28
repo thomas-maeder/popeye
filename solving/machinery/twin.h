@@ -73,4 +73,10 @@ void create_builder_setup_ply_solve(slice_index si);
  */
 void initialise_piece_ids(void);
 
+/* Find the entry slice into the stipulation
+ * @param start entry slice into the input branch
+ * @return entry slice into the stipulation
+ */
+slice_index input_find_stipulation(slice_index start);
+
 #endif

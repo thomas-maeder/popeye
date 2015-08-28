@@ -238,7 +238,7 @@ typedef struct
         } duellist;
         struct
         {
-            slice_index root;
+            slice_index start_index;
             fpos_t start;
         } input_complex;
         struct
@@ -435,9 +435,9 @@ void move_effect_journal_do_remember_condition(fpos_t start);
  * been modified by a twinning
  * @param start input position at start of parsing the stipulation
  */
-void move_effect_journal_do_remember_stipulation(slice_index root_slice_hook,
+void move_effect_journal_do_remember_stipulation(slice_index start_index,
                                                  fpos_t start);
-void move_effect_journal_do_remember_sstipulation(slice_index root_slice_hook,
+void move_effect_journal_do_remember_sstipulation(slice_index start_index,
                                                   fpos_t start);
 
 /* Execute a twinning that shifts the entire position

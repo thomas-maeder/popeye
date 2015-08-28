@@ -88,12 +88,13 @@ typedef struct
    return gic;
  }
 
-char *ParseGoal(char *tok, slice_index proxy)
+char *ParseGoal(char *tok, slice_index start, slice_index proxy)
 {
   goalInputConfig_t const *gic;
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 

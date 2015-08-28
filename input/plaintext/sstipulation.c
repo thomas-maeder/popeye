@@ -51,29 +51,34 @@ typedef enum
 
 /* Parse a stipulation expression
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of expression slice; no_slice if expression
  *              can't be parsed
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_expression(char *tok,
+                                            slice_index start,
                                             slice_index proxy,
                                             expression_type *type,
                                             unsigned int level);
 
 /* Parse an stipulation operand
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of operand; no_slice if operand couldn't be parsed
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_operand(char *tok,
+                                         slice_index start,
                                          slice_index proxy,
                                          expression_type *type,
                                          unsigned int level);
 
 /* Parse a parenthesised stipulation expression
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of expression slice; no_slice if expression
  *              can't be parsed
  * @param level nesting level of the operand (0 means top level)
@@ -81,17 +86,19 @@ static char *ParseStructuredStip_operand(char *tok,
  */
 static char *
 ParseStructuredStip_parenthesised_expression(char *tok,
+                                             slice_index start,
                                              slice_index proxy,
                                              expression_type *type,
                                              unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_expression(tok+1,proxy,type,level);
+  tok = ParseStructuredStip_expression(tok+1,start,proxy,type,level);
 
   if (tok!=0)
   {
@@ -112,22 +119,25 @@ ParseStructuredStip_parenthesised_expression(char *tok,
 
 /* Parse a not operator
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of branch; no_slice if operator couldn't be parsed
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_not(char *tok,
+                                     slice_index start,
                                      slice_index proxy,
                                      expression_type *type,
                                      unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,type,level);
+  tok = ParseStructuredStip_operand(tok+1,start,proxy,type,level);
   if (tok!=0)
   {
     if (*type==expression_type_goal)
@@ -151,22 +161,25 @@ static char *ParseStructuredStip_not(char *tok,
 
 /* Parse a move inversion
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of branch; no_slice if operator couldn't be parsed
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_move_inversion(char *tok,
+                                                slice_index start,
                                                 slice_index proxy,
                                                 expression_type *type,
                                                 unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
-  tok = ParseStructuredStip_operand(tok+1,proxy,type,level);
+  tok = ParseStructuredStip_operand(tok+1,start,proxy,type,level);
 
   {
     slice_index const operand = SLICE_NEXT1(proxy);
@@ -272,12 +285,14 @@ static slice_index ParseStructuredStip_make_branch_d(stip_length_type min_length
 
 /* Parse a nested branch
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy_operand identifier of proxy slice where to attach the branch
  * @param type address of object where to return the operand type of the branch
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_nested_branch(char *tok,
+                                               slice_index start,
                                                slice_index proxy_operand,
                                                nested_branch_type *type,
                                                unsigned int level)
@@ -288,6 +303,7 @@ static char *ParseStructuredStip_nested_branch(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy_operand);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -304,7 +320,7 @@ static char *ParseStructuredStip_nested_branch(char *tok,
     ++tok;
   }
 
-  tok = ParseStructuredStip_expression(tok,proxy_operand,etype,level+1);
+  tok = ParseStructuredStip_expression(tok,start,proxy_operand,etype,level+1);
 
   if (tok!=0)
   {
@@ -336,16 +352,19 @@ static char *ParseStructuredStip_nested_branch(char *tok,
 
 /* Parse an "a operand"
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param identifier of entry slice of "ad branch"
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_d_operand(char *tok,
+                                                  slice_index start,
                                                   slice_index branch,
                                                   unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",branch);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -357,7 +376,7 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       nested_branch_type nested_type;
-      tok = ParseStructuredStip_nested_branch(tok+1,proxy_operand,&nested_type,level);
+      tok = ParseStructuredStip_nested_branch(tok+1,start,proxy_operand,&nested_type,level);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
@@ -386,7 +405,7 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       expression_type nested_type;
-      tok = ParseStructuredStip_expression(tok+1,proxy_operand,&nested_type,level+1);
+      tok = ParseStructuredStip_expression(tok+1,start,proxy_operand,&nested_type,level+1);
       if (tok!=0 && tok[0]=='}')
       {
         ++tok;
@@ -410,16 +429,19 @@ static char *ParseStructuredStip_branch_d_operand(char *tok,
 
 /* Parse an "a operand"
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param branch identifier of entry slice of "ad branch"
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_a_operand(char *tok,
+                                                  slice_index start,
                                                   slice_index branch,
                                                   unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",branch);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -432,7 +454,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
       slice_index const proxy_operand = alloc_proxy_slice();
       nested_branch_type nested_type;
 
-      tok = ParseStructuredStip_nested_branch(tok+1,proxy_operand,&nested_type,level);
+      tok = ParseStructuredStip_nested_branch(tok+1,start,proxy_operand,&nested_type,level);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
@@ -461,7 +483,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       expression_type nested_type;
-      tok = ParseStructuredStip_expression(tok+1,proxy_operand,&nested_type,level+1);
+      tok = ParseStructuredStip_expression(tok+1,start,proxy_operand,&nested_type,level+1);
       if (tok!=0 && tok[0]=='}')
       {
         ++tok;
@@ -484,6 +506,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
  * @param tok input token
  * @param min_length minimal number of half moves
  * @param max_length maximal number of half moves
+ * @param start index of entry into solving machinery
  * @param proxy index of branch; no_slice if branch couldn't be
  *              parsed
  * @param level nesting level of the operand (0 means top level)
@@ -492,6 +515,7 @@ static char *ParseStructuredStip_branch_a_operand(char *tok,
 static char *ParseStructuredStip_branch_d(char *tok,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
+                                          slice_index start,
                                           slice_index proxy,
                                           unsigned int level)
 {
@@ -499,6 +523,7 @@ static char *ParseStructuredStip_branch_d(char *tok,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -508,10 +533,10 @@ static char *ParseStructuredStip_branch_d(char *tok,
                                                                  max_length);
     link_to_branch(proxy,battle_branch_make_postkeyplay(branch));
 
-    tok = ParseStructuredStip_branch_d_operand(tok,proxy,level);
+    tok = ParseStructuredStip_branch_d_operand(tok,start,proxy,level);
     if (tok!=0 && tok[0]=='a')
     {
-      tok = ParseStructuredStip_branch_a_operand(tok+1,proxy,level);
+      tok = ParseStructuredStip_branch_a_operand(tok+1,start,proxy,level);
       if (tok!=0 && level==0)
         select_output_mode(proxy,output_mode_tree);
     }
@@ -561,16 +586,19 @@ static slice_index ParseStructuredStip_make_branch_s(stip_length_type min_length
 
 /* Parse a "s operand"
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param identifier of entry slice of "s branch"
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_s_operand(char *tok,
+                                                  slice_index start,
                                                   slice_index branch,
                                                   unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",branch);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -583,7 +611,7 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
       slice_index const proxy_operand = alloc_proxy_slice();
       nested_branch_type nested_type;
 
-      tok = ParseStructuredStip_nested_branch(tok+1,proxy_operand,&nested_type,level);
+      tok = ParseStructuredStip_nested_branch(tok+1,start,proxy_operand,&nested_type,level);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
@@ -614,7 +642,7 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       expression_type nested_type;
-      tok = ParseStructuredStip_expression(tok+1,proxy_operand,&nested_type,level+1);
+      tok = ParseStructuredStip_expression(tok+1,start,proxy_operand,&nested_type,level+1);
       if (tok!=0 && tok[0]=='}')
       {
         ++tok;
@@ -640,6 +668,7 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
  * @param tok input token
  * @param min_length minimal number of half moves
  * @param max_length maximal number of half moves
+ * @param start index of entry into solving machinery
  * @param proxy index of branch; no_slice if branch couldn't be
  *              parsed
  * @param level nesting level of the operand (0 means top level)
@@ -648,6 +677,7 @@ static char *ParseStructuredStip_branch_s_operand(char *tok,
 static char *ParseStructuredStip_branch_s(char *tok,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
+                                          slice_index start,
                                           slice_index proxy,
                                           unsigned int level)
 {
@@ -655,6 +685,7 @@ static char *ParseStructuredStip_branch_s(char *tok,
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -664,7 +695,7 @@ static char *ParseStructuredStip_branch_s(char *tok,
                                                                  max_length);
     link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_s_operand(tok,proxy,level);
+    tok = ParseStructuredStip_branch_s_operand(tok,start,proxy,level);
     if (tok!=0 && level==0)
       select_output_mode(proxy,output_mode_line);
   }
@@ -707,6 +738,7 @@ static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length
  * @param tok input token
  * @param min_length minimal number of half moves
  * @param max_length maximal number of half moves
+ * @param start index of entry into solving machinery
  * @param proxy index of branch; no_slice if branch couldn't be
  *              parsed
  * @param level nesting level of the operand (0 means top level)
@@ -715,6 +747,7 @@ static slice_index ParseStructuredStip_make_branch_a(stip_length_type min_length
 static char *ParseStructuredStip_branch_a(char *tok,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
+                                          slice_index start,
                                           slice_index proxy,
                                           unsigned int level)
 {
@@ -722,6 +755,7 @@ static char *ParseStructuredStip_branch_a(char *tok,
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -732,7 +766,7 @@ static char *ParseStructuredStip_branch_a(char *tok,
                                                                  max_length);
     link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_a_operand(tok,proxy,level);
+    tok = ParseStructuredStip_branch_a_operand(tok,start,proxy,level);
 
     if (tok!=0 && token_starts_with("?+?",tok))
     {
@@ -742,7 +776,7 @@ static char *ParseStructuredStip_branch_a(char *tok,
 
     if (tok!=0 && tok[0]=='d')
     {
-      tok = ParseStructuredStip_branch_d_operand(tok+1,proxy,level);
+      tok = ParseStructuredStip_branch_d_operand(tok+1,start,proxy,level);
       if (parry)
         battle_branch_insert_defense_check_zigzag(proxy);
       if (level==0 && tok!=0)
@@ -786,18 +820,21 @@ static slice_index ParseStructuredStip_make_branch_h(stip_length_type min_length
 
 /* Parse a "h operand"
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param branch identifier of entry slice of "hh branch"
  * @param parity indicates after which help move of the branch to insert
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch_h_operand(char *tok,
+                                                  slice_index start,
                                                   slice_index branch,
                                                   unsigned int parity,
                                                   unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",branch);
   TraceFunctionParam("%u",parity);
   TraceFunctionParam("%u",level);
@@ -811,7 +848,7 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
       slice_index const proxy_operand = alloc_proxy_slice();
       nested_branch_type nested_type;
 
-      tok = ParseStructuredStip_nested_branch(tok+1,proxy_operand,&nested_type,level);
+      tok = ParseStructuredStip_nested_branch(tok+1,start,proxy_operand,&nested_type,level);
       if (tok!=0 && tok[0]==']')
       {
         ++tok;
@@ -842,7 +879,7 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
     {
       slice_index const proxy_operand = alloc_proxy_slice();
       expression_type nested_type;
-      tok = ParseStructuredStip_expression(tok+1,proxy_operand,&nested_type,level+1);
+      tok = ParseStructuredStip_expression(tok+1,start,proxy_operand,&nested_type,level+1);
       if (tok!=0 && tok[0]=='}'
           && help_branch_insert_constraint(branch,proxy_operand,parity))
         ++tok;
@@ -864,6 +901,7 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
  * @param tok input token
  * @param min_length minimal number of half moves
  * @param max_length maximal number of half moves
+ * @param start index of entry into solving machinery
  * @param proxy index of branch; no_slice if branch couldn't be
  *              parsed
  * @param level nesting level of the operand (0 means top level)
@@ -872,6 +910,7 @@ static char *ParseStructuredStip_branch_h_operand(char *tok,
 static char *ParseStructuredStip_branch_h(char *tok,
                                           stip_length_type min_length,
                                           stip_length_type max_length,
+                                          slice_index start,
                                           slice_index proxy,
                                           unsigned int level)
 {
@@ -879,6 +918,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",min_length);
   TraceFunctionParam("%u",max_length);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -889,7 +929,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
                                                                  max_length);
     link_to_branch(proxy,branch);
 
-    tok = ParseStructuredStip_branch_h_operand(tok,proxy,max_length,level);
+    tok = ParseStructuredStip_branch_h_operand(tok,start,proxy,max_length,level);
 
     if (tok!=0 && token_starts_with("?+?",tok))
     {
@@ -899,7 +939,7 @@ static char *ParseStructuredStip_branch_h(char *tok,
 
     if (tok!=0 && tok[0]=='h')
     {
-      tok = ParseStructuredStip_branch_h_operand(tok+1,proxy,max_length+1,level);
+      tok = ParseStructuredStip_branch_h_operand(tok+1,start,proxy,max_length+1,level);
       if (parry)
         help_branch_insert_check_zigzag(proxy);
       if (level==0)
@@ -917,12 +957,14 @@ static char *ParseStructuredStip_branch_h(char *tok,
 
 /* Parse a stipulation branch
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of branch; no_slice if branch couldn't be
  *              parsed
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_branch(char *tok,
+                                        slice_index start,
                                         slice_index proxy,
                                         expression_type *type,
                                         unsigned int level)
@@ -932,6 +974,7 @@ static char *ParseStructuredStip_branch(char *tok,
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -942,22 +985,22 @@ static char *ParseStructuredStip_branch(char *tok,
   {
     case 'd':
       *type = expression_type_defense;
-      tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,proxy,level);
+      tok = ParseStructuredStip_branch_d(tok+1,min_length,max_length,start,proxy,level);
       break;
 
     case 's':
       *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,proxy,level);
+      tok = ParseStructuredStip_branch_s(tok+1,min_length,max_length,start,proxy,level);
       break;
 
     case 'a':
       *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,proxy,level);
+      tok = ParseStructuredStip_branch_a(tok+1,min_length,max_length,start,proxy,level);
       break;
 
     case 'h':
       *type = expression_type_attack;
-      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,proxy,level);
+      tok = ParseStructuredStip_branch_h(tok+1,min_length,max_length,start,proxy,level);
       break;
 
     default:
@@ -972,17 +1015,20 @@ static char *ParseStructuredStip_branch(char *tok,
 
 /* Parse an stipulation operand
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of operand; no_slice if operand couldn't be parsed
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_operand(char *tok,
+                                         slice_index start,
                                          slice_index proxy,
                                          expression_type *type,
                                          unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
@@ -991,21 +1037,21 @@ static char *ParseStructuredStip_operand(char *tok,
   tok = ParseStructuredStip_skip_whitespace(tok);
 
   if (tok[0]=='(')
-    tok = ParseStructuredStip_parenthesised_expression(tok,proxy,type,level);
+    tok = ParseStructuredStip_parenthesised_expression(tok,start,proxy,type,level);
   else if (tok[0]=='!')
     /* !d# - white at the move does *not* deliver mate */
-    tok = ParseStructuredStip_not(tok,proxy,type,level);
+    tok = ParseStructuredStip_not(tok,start,proxy,type,level);
   else if (tok[0]=='-')
     /* -3hh# - h#2 by the non-starter */
-    tok = ParseStructuredStip_move_inversion(tok,proxy,type,level);
+    tok = ParseStructuredStip_move_inversion(tok,start,proxy,type,level);
   else if (isdigit(tok[0]) && tok[0]!='0')
     /* e.g. 3ad# for a #2 - but not 00 (castling goal!)*/
-    tok = ParseStructuredStip_branch(tok,proxy,type,level);
+    tok = ParseStructuredStip_branch(tok,start,proxy,type,level);
   else
   {
     /* e.g. d= for a =1 */
     *type = expression_type_goal;
-    tok = ParseGoal(tok,proxy);
+    tok = ParseGoal(tok,start,proxy);
   }
 
   TraceFunctionExit(__func__);
@@ -1050,25 +1096,28 @@ static char *ParseStructuredStip_operator(char *tok, slice_type *result)
 
 /* Parse a stipulation expression
  * @param tok input token
+ * @param start index of entry into solving machinery
  * @param proxy index of expression slice; no_slice if expression
  *              can't be parsed
  * @param level nesting level of the operand (0 means top level)
  * @return remainder of input token; 0 if parsing failed
  */
 static char *ParseStructuredStip_expression(char *tok,
+                                            slice_index start,
                                             slice_index proxy,
                                             expression_type *type,
                                             unsigned int level)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
+  TraceFunctionParam("%u",start);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParam("%u",level);
   TraceFunctionParamListEnd();
 
   {
     slice_index const operand1 = alloc_proxy_slice();
-    tok = ParseStructuredStip_operand(tok,operand1,type,level);
+    tok = ParseStructuredStip_operand(tok,start,operand1,type,level);
     if (tok!=0 && SLICE_NEXT1(operand1)!=no_slice)
     {
       slice_type operator_type;
@@ -1081,7 +1130,7 @@ static char *ParseStructuredStip_expression(char *tok,
         {
           slice_index const operand2 = alloc_proxy_slice();
           expression_type type2;
-          tok = ParseStructuredStip_expression(tok,operand2,&type2,level);
+          tok = ParseStructuredStip_expression(tok,start,operand2,&type2,level);
           if (tok!=0 && SLICE_NEXT1(operand2)!=no_slice)
           {
             if (*type==type2)
@@ -1156,11 +1205,12 @@ static Side ParseStructuredStip_starter(char *tok)
 }
 
 /* Parse a structured stipulation (keyword sstipulation)
- * @return token following structured stipulation
+ * @param start index of entry into solving machinery
  * @return remainder of input token; 0 if parsing failed
  */
-char *ParseStructuredStip(char *tok, slice_index root_slice_hook)
+char *ParseStructuredStip(char *tok, slice_index start)
 {
+  slice_index const root_slice_hook = input_find_stipulation(start);
   Side starter;
 
   TraceFunctionEntry(__func__);
@@ -1179,7 +1229,7 @@ char *ParseStructuredStip(char *tok, slice_index root_slice_hook)
     strcat(AlphaStip,TokenLine);
     strcat(AlphaStip," ");
     tok = ReadNextTokStr();
-    tok = ParseStructuredStip_expression(tok,root_slice_hook,&type,0);
+    tok = ParseStructuredStip_expression(tok,start,root_slice_hook,&type,0);
     if (tok==0)
       tok = ReadNextTokStr();
     else if (SLICE_NEXT1(root_slice_hook)!=no_slice)
