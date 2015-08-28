@@ -328,6 +328,14 @@ void dispatch(slice_index si)
       build_solving_machinery(si);
       break;
 
+    case STProofSolverBuilder:
+      build_proof_solving_machinery(si);
+      break;
+
+    case STAToBSolverBuilder:
+      build_atob_solving_machinery(si);
+      break;
+
     case STTwinIdAdjuster:
       twin_id_adjuster_solve(si);
       break;

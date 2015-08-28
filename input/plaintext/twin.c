@@ -898,21 +898,6 @@ static void build(slice_index start, slice_index stipulation_root_hook)
     slice_insertion_insert(start,prototypes,nr_prototypes);
   }
 
-  if (stip_ends_in(SLICE_NEXT1(start),goal_proofgame))
-  {
-    if (input_is_instrumented_with_proof(start))
-      output_plaintext_input_error_message(InconsistentProofTarget,0);
-    else
-      input_instrument_proof(start,STProofgameInitialiser);
-  }
-  if (stip_ends_in(SLICE_NEXT1(start),goal_atob))
-  {
-    if (input_is_instrumented_with_proof(start))
-      output_plaintext_input_error_message(InconsistentProofTarget,0);
-    else
-      input_instrument_proof(start,STAToBInitialiser);
-  }
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -946,6 +931,54 @@ void build_solving_machinery(slice_index si)
   build(start_of_machinery,stipulation_prototype);
   solving_impose_starter(si,SLICE_STARTER(stipulation_prototype));
   TraceStipulation(si);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void build_atob_solving_machinery(slice_index si)
+{
+  slice_index const start_of_machinery = branch_find_slice(STStartOfSolvingMachinery,
+                                                           si,
+                                                           stip_traversal_context_intro);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (stip_ends_in(start_of_machinery,goal_atob))
+  {
+    if (input_is_instrumented_with_proof(start_of_machinery))
+      output_plaintext_input_error_message(InconsistentProofTarget,0);
+    else
+      input_instrument_proof(start_of_machinery,STAToBInitialiser);
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void build_proof_solving_machinery(slice_index si)
+{
+  slice_index const start_of_machinery = branch_find_slice(STStartOfSolvingMachinery,
+                                                           si,
+                                                           stip_traversal_context_intro);
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (stip_ends_in(start_of_machinery,goal_proofgame))
+  {
+    if (input_is_instrumented_with_proof(start_of_machinery))
+      output_plaintext_input_error_message(InconsistentProofTarget,0);
+    else
+      input_instrument_proof(start_of_machinery,STProofgameInitialiser);
+  }
 
   pipe_solve_delegate(si);
 
@@ -1197,13 +1230,19 @@ char *input_plaintext_twins_handle(char *tok)
 
 void input_stipulation_solve(slice_index si)
 {
-  slice_index const machinery_builder = alloc_solving_machinery_builder(SLICE_NEXT2(si));
-
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  slice_insertion_insert(si,&machinery_builder,1);
+  {
+    slice_index const prototypes[] = {
+        alloc_solving_machinery_builder(SLICE_NEXT2(si)),
+        alloc_pipe(STProofSolverBuilder),
+        alloc_pipe(STAToBSolverBuilder)
+    };
+
+    slice_insertion_insert(si,prototypes,3);
+  }
 
   pipe_solve_delegate(si);
 

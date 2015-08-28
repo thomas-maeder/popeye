@@ -563,6 +563,8 @@ static slice_index const slice_rank_order[] =
   STDuplexSolver,
   STHalfDuplexSolver,
   STSolvingMachineryBuilder,
+  STProofSolverBuilder,
+  STAToBSolverBuilder,
   STStartOfSolvingMachinery,
   STCreateBuilderSetupPly,
   STPieceWalkCacheInitialiser,
