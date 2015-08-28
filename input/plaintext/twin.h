@@ -48,8 +48,6 @@ void stipulation_completer_solve(slice_index si);
 
 void twin_id_adjuster_solve(slice_index si);
 
-void input_stipulation_solve(slice_index si);
-
 void start_of_solving_machinery_solve(slice_index si);
 
 #endif

@@ -344,10 +344,6 @@ void dispatch(slice_index si)
       start_of_solving_machinery_solve(si);
       break;
 
-    case STInputStipulation:
-      input_stipulation_solve(si);
-      break;
-
     case STDuplexSolver:
       duplex_solve(si);
       break;

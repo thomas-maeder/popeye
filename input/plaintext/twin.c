@@ -1038,23 +1038,6 @@ static slice_index alloc_solving_machinery_builder(slice_index stipulation_root_
   return result;
 }
 
-static slice_index input_stipulation_alloc(slice_index stipulation_root_hook)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STInputStipulation);
-  SLICE_NEXT2(result) = stipulation_root_hook;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
-}
-
 static char *twins_handle(char *tok, slice_index start)
 {
   TraceFunctionEntry(__func__);
@@ -1189,8 +1172,7 @@ static void write_problem_footer(void)
 char *input_plaintext_twins_handle(char *tok)
 {
   slice_index const stipulation_root_hook = alloc_proxy_slice();
-  slice_index const start = input_stipulation_alloc(stipulation_root_hook);
-  slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
+  slice_index const start = alloc_pipe(STTwinIdAdjuster);
   slice_index const completer = alloc_pipe(STStipulationCompleter);
   slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
@@ -1199,14 +1181,23 @@ char *input_plaintext_twins_handle(char *tok)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  pipe_link(start,adjuster);
-  pipe_link(adjuster,completer);
+  pipe_link(start,completer);
   pipe_link(completer,end_writer);
   pipe_link(end_writer,start_of_machinery);
 
 #if defined(DOMEASURE)
   pipe_append(completer,alloc_pipe(STCountersWriter));
 #endif
+
+  {
+    slice_index const prototypes[] = {
+        alloc_solving_machinery_builder(stipulation_root_hook),
+        alloc_pipe(STProofSolverBuilder),
+        alloc_pipe(STAToBSolverBuilder)
+    };
+
+    slice_insertion_insert(start,prototypes,3);
+  }
 
   tok = ReadInitialTwin(tok,start);
 
@@ -1226,26 +1217,4 @@ char *input_plaintext_twins_handle(char *tok)
   TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
   return tok;
-}
-
-void input_stipulation_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  {
-    slice_index const prototypes[] = {
-        alloc_solving_machinery_builder(SLICE_NEXT2(si)),
-        alloc_pipe(STProofSolverBuilder),
-        alloc_pipe(STAToBSolverBuilder)
-    };
-
-    slice_insertion_insert(si,prototypes,3);
-  }
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
 }
