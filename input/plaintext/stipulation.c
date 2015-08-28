@@ -533,7 +533,6 @@ static char *ParsePlay(char *tok,
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParam("%u",start);
-  TraceFunctionParam("%u",root_slice_hook);
   TraceFunctionParam("%u",proxy);
   TraceFunctionParamListEnd();
 
