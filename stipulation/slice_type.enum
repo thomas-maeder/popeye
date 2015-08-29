@@ -5,7 +5,7 @@
   ENUMERATOR(STInputStipulation),                                       \
   ENUMERATOR(STStipulationCompleter),                                   \
   ENUMERATOR(STCountersWriter),                                         \
-  ENUMERATOR(STSolvingMachineryBuilder),                                \
+  ENUMERATOR(STStipulationCopier),                                      \
   ENUMERATOR(STProofSolverBuilder),                                     \
   ENUMERATOR(STAToBSolverBuilder),                                      \
   ENUMERATOR(STTwinIdAdjuster),                                         \
