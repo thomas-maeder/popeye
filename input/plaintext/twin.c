@@ -894,6 +894,12 @@ static void build(slice_index start, slice_index stipulation_root_hook)
     slice_insertion_insert(start,prototypes,nr_prototypes);
   }
 
+  if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlainTextPositionWriter);
+    slice_insertion_insert(start,&prototype,1);
+  }
+
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }

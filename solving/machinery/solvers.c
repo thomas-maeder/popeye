@@ -211,12 +211,6 @@ void build_solvers(slice_index si)
 
   goal_prerequisite_guards_initialse_solving(si);
 
-  if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
-  {
-    slice_index const prototype = alloc_pipe(STOutputPlainTextPositionWriter);
-    slice_insertion_insert(si,&prototype,1);
-  }
-
   insert_temporary_hacks(si);
 
   /* must come before stip_insert_selfcheck_guards() and

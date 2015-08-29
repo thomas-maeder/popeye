@@ -574,6 +574,7 @@ static slice_index const slice_rank_order[] =
   STProofgameVerifyUniqueGoal,
   STProofgameInitialiser,
   STAToBInitialiser,
+  STOutputPlainTextPositionWriter,
   STPiecesCounter,
   STRoyalsLocator, /* above for target position, now for starting position */
   STPiecesFlagsInitialiser,
@@ -585,7 +586,6 @@ static slice_index const slice_rank_order[] =
   STHashOpener,
   STMaxTimeSetter,
   STTemporaryHackFork,
-  STOutputPlainTextPositionWriter,
   STOutputModeSelector,
   STOutputPlaintextTwinIntroWriter,
   STOutputLaTeXTwinningWriter,
