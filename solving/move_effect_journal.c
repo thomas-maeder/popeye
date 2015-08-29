@@ -1309,10 +1309,10 @@ static void undo_input_stipulation(move_effect_journal_entry_type const *entry)
     {
       move_effect_journal_entry_type const * const stip = &move_effect_journal[idx_stip];
       slice_index const start = stip->u.input_complex.start_index;
-      slice_index const root = input_find_stipulation(start);
-      slice_index const next = SLICE_NEXT1(root);
-      pipe_unlink(root);
-      dealloc_slices(next);
+
+      slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+      dealloc_slices(SLICE_NEXT2(builder));
+      pipe_remove(builder);
 
       InputStartReplay(stip->u.input_complex.start);
       ParseStip(ReadNextTokStr(),start);

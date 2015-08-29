@@ -43,13 +43,13 @@ void half_duplex_solve(slice_index si)
   TraceFunctionParamListEnd();
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&swap_side);
+  stip_structure_traversal_override_single(&st,STStipulationCopier,&swap_side);
   stip_traverse_structure(si,&st);
 
   pipe_solve_delegate(si);
 
   stip_structure_traversal_init(&st,0);
-  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&swap_side);
+  stip_structure_traversal_override_single(&st,STStipulationCopier,&swap_side);
   stip_traverse_structure(si,&st);
 
   TraceFunctionExit(__func__);

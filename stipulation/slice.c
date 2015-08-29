@@ -33,7 +33,7 @@ static slice_type const branch_slice_types[] =
 
 static slice_type const fork_slice_types[] =
 {
-    STSolvingMachineryBuilder,
+    STStipulationCopier,
     STEndOfBranchGoal,
     STEndOfBranchGoalImmobile,
     STAvoidUnsolvable,

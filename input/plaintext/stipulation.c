@@ -987,7 +987,7 @@ static char *ParsePlay(char *tok,
 
 char *ParseStip(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = input_find_stipulation(start);
+  slice_index const root_slice_hook = alloc_proxy_slice();
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -1002,7 +1002,10 @@ char *ParseStip(char *tok, slice_index start)
     if (SLICE_NEXT1(root_slice_hook)!=no_slice
         && ActStip[0]=='\0')
       strcpy(ActStip, AlphaStip);
+    input_instrument_with_stipulation(start,root_slice_hook);
   }
+  else
+    dealloc_slices(root_slice_hook);
 
   tok = ReadNextTokStr();
 

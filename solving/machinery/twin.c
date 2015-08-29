@@ -1781,7 +1781,7 @@ slice_index input_find_stipulation(slice_index si)
 
   stip_structure_traversal_init(&st,&result);
   stip_structure_traversal_override_single(&st,STStartOfSolvingMachinery,&stip_structure_visitor_noop);
-  stip_structure_traversal_override_single(&st,STSolvingMachineryBuilder,&get_stipulation_root);
+  stip_structure_traversal_override_single(&st,STStipulationCopier,&get_stipulation_root);
   stip_traverse_structure(si,&st);
 
   assert(result!=no_slice);
@@ -1790,4 +1790,21 @@ slice_index input_find_stipulation(slice_index si)
   TraceFunctionResult("%u",result);
   TraceFunctionResultEnd();
   return result;
+}
+
+void input_instrument_with_stipulation(slice_index start,
+                                       slice_index stipulation_root_hook)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototype = alloc_pipe(STStipulationCopier);
+    slices[prototype].next2 = stipulation_root_hook;
+    slice_insertion_insert(start,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

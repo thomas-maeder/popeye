@@ -324,8 +324,8 @@ void dispatch(slice_index si)
       stipulation_completer_solve(si);
       break;
 
-    case STSolvingMachineryBuilder:
-      build_solving_machinery(si);
+    case STStipulationCopier:
+      stipulation_copier_solve(si);
       break;
 
     case STProofSolverBuilder:

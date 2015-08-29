@@ -280,8 +280,6 @@ static char *ParseTwinningSubstitute(void)
 
 static char *ParseTwinning(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = input_find_stipulation(start);
-
   TwinningType initial_twinning = GetUniqIndex(TwinningCount,TwinningTab,tok);
 
   TraceFunctionEntry(__func__);
@@ -337,14 +335,14 @@ static char *ParseTwinning(char *tok, slice_index start)
         case TwinningStip:
         {
           fpos_t const beforeStip = InputGetPosition();
+          slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
 
-          slice_index const next = SLICE_NEXT1(root_slice_hook);
-          pipe_unlink(root_slice_hook);
-          dealloc_slices(next);
+          dealloc_slices(SLICE_NEXT2(builder));
+          pipe_remove(builder);
 
           tok = ReadNextTokStr();
           tok = ParseStip(tok,start);
-          if (SLICE_NEXT1(root_slice_hook)==no_slice)
+          if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
           {
             output_plaintext_input_error_message(NoStipulation,0);
             tok = 0;
@@ -356,14 +354,14 @@ static char *ParseTwinning(char *tok, slice_index start)
         case TwinningStructStip:
         {
           fpos_t const beforeStip = InputGetPosition();
+          slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
 
-          slice_index const next = SLICE_NEXT1(root_slice_hook);
-          pipe_unlink(root_slice_hook);
-          dealloc_slices(next);
+          dealloc_slices(SLICE_NEXT2(builder));
+          pipe_remove(builder);
 
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,start);
-          if (SLICE_NEXT1(root_slice_hook)==no_slice)
+          if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
           {
             output_plaintext_input_error_message(NoStipulation,0);
             tok = 0;
@@ -576,7 +574,6 @@ static char *ReadLaTeXToken(void)
 
 char *ReadInitialTwin(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = input_find_stipulation(start);
   InitialTwinToken result;
   boolean more_input = true;
 
@@ -599,20 +596,23 @@ char *ReadInitialTwin(char *tok, slice_index start)
       switch (result)
       {
         case StipToken:
-          if (SLICE_NEXT1(root_slice_hook)==no_slice)
+        {
+          fpos_t const beforeStip = InputGetPosition();
+          *AlphaStip='\0';
+          tok = ReadNextTokStr();
+          tok = ParseStip(tok,start);
           {
-            fpos_t const beforeCond = InputGetPosition();
-            *AlphaStip='\0';
-            tok = ReadNextTokStr();
-            tok = ParseStip(tok,start);
-            move_effect_journal_do_remember_stipulation(start,beforeCond);
+            slice_index const root_slice_hook = input_find_stipulation(start);
+            if (SLICE_NEXT1(root_slice_hook)==no_slice)
+            {
+              output_plaintext_input_error_message(UnrecStip,0);
+              tok = ReadNextTokStr();
+            }
+            else
+              move_effect_journal_do_remember_stipulation(start,beforeStip);
+            break;
           }
-          else
-          {
-            output_plaintext_input_error_message(UnrecStip,0);
-            tok = ReadNextTokStr();
-          }
-          break;
+        }
 
         case StructStipToken:
           AlphaStip[0] ='\0';
@@ -917,7 +917,7 @@ void start_of_solving_machinery_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-void build_solving_machinery(slice_index si)
+void stipulation_copier_solve(slice_index si)
 {
   slice_index const start_of_machinery = branch_find_slice(STStartOfSolvingMachinery,
                                                            si,
@@ -988,7 +988,7 @@ void build_proof_solving_machinery(slice_index si)
 
 void stipulation_completer_solve(slice_index si)
 {
-  slice_index const builder = branch_find_slice(STSolvingMachineryBuilder,si,stip_traversal_context_intro);
+  slice_index const builder = branch_find_slice(STStipulationCopier,si,stip_traversal_context_intro);
   slice_index const stipulation_root_hook = SLICE_NEXT2(builder);
 
   TraceFunctionEntry(__func__);
@@ -1019,23 +1019,6 @@ void twin_id_adjuster_solve(slice_index si)
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
-}
-
-static slice_index alloc_solving_machinery_builder(slice_index stipulation_root_hook)
-{
-  slice_index result;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",stipulation_root_hook);
-  TraceFunctionParamListEnd();
-
-  result = alloc_pipe(STSolvingMachineryBuilder);
-  slices[result].next2 = stipulation_root_hook;
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%u",result);
-  TraceFunctionResultEnd();
-  return result;
 }
 
 static char *twins_handle(char *tok, slice_index start)
@@ -1171,7 +1154,6 @@ static void write_problem_footer(void)
 
 char *input_plaintext_twins_handle(char *tok)
 {
-  slice_index const stipulation_root_hook = alloc_proxy_slice();
   slice_index const start = alloc_pipe(STTwinIdAdjuster);
   slice_index const completer = alloc_pipe(STStipulationCompleter);
   slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
@@ -1191,17 +1173,16 @@ char *input_plaintext_twins_handle(char *tok)
 
   {
     slice_index const prototypes[] = {
-        alloc_solving_machinery_builder(stipulation_root_hook),
         alloc_pipe(STProofSolverBuilder),
         alloc_pipe(STAToBSolverBuilder)
     };
 
-    slice_insertion_insert(start,prototypes,3);
+    slice_insertion_insert(start,prototypes,2);
   }
 
   tok = ReadInitialTwin(tok,start);
 
-  if (SLICE_NEXT1(stipulation_root_hook)==no_slice)
+  if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
   else
   {

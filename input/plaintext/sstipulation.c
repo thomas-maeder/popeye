@@ -1210,7 +1210,7 @@ static Side ParseStructuredStip_starter(char *tok)
  */
 char *ParseStructuredStip(char *tok, slice_index start)
 {
-  slice_index const root_slice_hook = input_find_stipulation(start);
+  slice_index const root_slice_hook = alloc_proxy_slice();
   Side starter;
 
   TraceFunctionEntry(__func__);
@@ -1233,7 +1233,10 @@ char *ParseStructuredStip(char *tok, slice_index start)
     if (tok==0)
       tok = ReadNextTokStr();
     else if (SLICE_NEXT1(root_slice_hook)!=no_slice)
+    {
       solving_impose_starter(root_slice_hook,starter);
+      input_instrument_with_stipulation(start,root_slice_hook);
+    }
   }
 
   /* signal to our caller that the stipulation has changed */

@@ -40,7 +40,7 @@ char *ReadInitialTwin(char *tok, slice_index root_slice_hook);
  */
 char *input_plaintext_twins_handle(char *tok);
 
-void build_solving_machinery(slice_index si);
+void stipulation_copier_solve(slice_index si);
 void build_proof_solving_machinery(slice_index si);
 void build_atob_solving_machinery(slice_index si);
 
