@@ -670,7 +670,8 @@ solving/machinery/twin$(OBJ_SUFFIX): solving/machinery/twin.c \
  solving/has_solution_type.enum.h solving/moves_traversal.h \
  solving/proofgames.h solving/king_capture_avoider.h \
  solving/find_square_observer_tracking_back_from_target.h solving/pipe.h \
- stipulation/proxy.h stipulation/pipe.h debugging/assert.h
+ stipulation/branch.h stipulation/proxy.h stipulation/pipe.h \
+ debugging/assert.h
 
 solving/machinery/twin.h:
 
@@ -859,6 +860,8 @@ solving/king_capture_avoider.h:
 solving/find_square_observer_tracking_back_from_target.h:
 
 solving/pipe.h:
+
+stipulation/branch.h:
 
 stipulation/proxy.h:
 

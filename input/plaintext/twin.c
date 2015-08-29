@@ -335,10 +335,8 @@ static char *ParseTwinning(char *tok, slice_index start)
         case TwinningStip:
         {
           fpos_t const beforeStip = InputGetPosition();
-          slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
 
-          dealloc_slices(SLICE_NEXT2(builder));
-          pipe_remove(builder);
+          input_uninstrument_with_stipulation(start);
 
           tok = ReadNextTokStr();
           tok = ParseStip(tok,start);
@@ -354,10 +352,8 @@ static char *ParseTwinning(char *tok, slice_index start)
         case TwinningStructStip:
         {
           fpos_t const beforeStip = InputGetPosition();
-          slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
 
-          dealloc_slices(SLICE_NEXT2(builder));
-          pipe_remove(builder);
+          input_uninstrument_with_stipulation(start);
 
           tok = ReadNextTokStr();
           tok = ParseStructuredStip(tok,start);
@@ -948,13 +944,10 @@ void build_atob_solving_machinery(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (stip_ends_in(start_of_machinery,goal_atob))
-  {
-    if (input_is_instrumented_with_proof(start_of_machinery))
-      output_plaintext_input_error_message(InconsistentProofTarget,0);
-    else
-      input_instrument_proof(start_of_machinery,STAToBInitialiser);
-  }
+  if (input_is_instrumented_with_proof(start_of_machinery))
+    output_plaintext_input_error_message(InconsistentProofTarget,0);
+  else
+    input_instrument_proof(start_of_machinery,STAToBInitialiser);
 
   pipe_solve_delegate(si);
 
@@ -972,13 +965,10 @@ void build_proof_solving_machinery(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (stip_ends_in(start_of_machinery,goal_proofgame))
-  {
-    if (input_is_instrumented_with_proof(start_of_machinery))
-      output_plaintext_input_error_message(InconsistentProofTarget,0);
-    else
-      input_instrument_proof(start_of_machinery,STProofgameInitialiser);
-  }
+  if (input_is_instrumented_with_proof(start_of_machinery))
+    output_plaintext_input_error_message(InconsistentProofTarget,0);
+  else
+    input_instrument_proof(start_of_machinery,STProofgameInitialiser);
 
   pipe_solve_delegate(si);
 
@@ -1154,45 +1144,38 @@ static void write_problem_footer(void)
 
 char *input_plaintext_twins_handle(char *tok)
 {
-  slice_index const start = alloc_pipe(STTwinIdAdjuster);
+  slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
   slice_index const completer = alloc_pipe(STStipulationCompleter);
   slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
+  slice_index const start = alloc_pipe(STStartOfStipulationSpecific);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  pipe_link(start,completer);
+  pipe_link(adjuster,completer);
   pipe_link(completer,end_writer);
-  pipe_link(end_writer,start_of_machinery);
+  pipe_link(end_writer,start);
+  pipe_link(start,start_of_machinery);
 
 #if defined(DOMEASURE)
   pipe_append(completer,alloc_pipe(STCountersWriter));
 #endif
 
-  {
-    slice_index const prototypes[] = {
-        alloc_pipe(STProofSolverBuilder),
-        alloc_pipe(STAToBSolverBuilder)
-    };
+  tok = ReadInitialTwin(tok,adjuster);
 
-    slice_insertion_insert(start,prototypes,2);
-  }
-
-  tok = ReadInitialTwin(tok,start);
-
-  if (branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro)==no_slice)
+  if (branch_find_slice(STStipulationCopier,adjuster,stip_traversal_context_intro)==no_slice)
     output_plaintext_input_error_message(NoStipulation,0);
   else
   {
     StartTimer();
     initialise_piece_ids();
-    tok = input_plaintext_twins_iterate(tok,start);
+    tok = input_plaintext_twins_iterate(tok,adjuster);
     write_problem_footer();
   }
 
-  dealloc_slices(start);
+  dealloc_slices(adjuster);
 
   TraceFunctionExit(__func__);
   TraceFunctionResult("%s",tok);

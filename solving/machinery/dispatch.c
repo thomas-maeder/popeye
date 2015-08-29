@@ -340,6 +340,10 @@ void dispatch(slice_index si)
       twin_id_adjuster_solve(si);
       break;
 
+    case STStartOfStipulationSpecific:
+      solve(SLICE_NEXT1(si));
+      break;
+
     case STStartOfSolvingMachinery:
       start_of_solving_machinery_solve(si);
       break;

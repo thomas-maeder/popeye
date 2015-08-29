@@ -208,11 +208,18 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
         break;
 
       case goal_proofgame:
+      {
+        slice_index const prototype = alloc_pipe(STProofSolverBuilder);
+        slice_insertion_insert(start,&prototype,1);
         pipe_link(proxy,alloc_goal_proofgame_reached_tester_system());
         break;
+      }
 
       case goal_atob:
       {
+        slice_index const prototype = alloc_pipe(STAToBSolverBuilder);
+        slice_insertion_insert(start,&prototype,1);
+
         pipe_link(proxy,alloc_goal_atob_reached_tester_system());
 
         ProofSaveStartPosition();

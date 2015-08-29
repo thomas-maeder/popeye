@@ -47,6 +47,7 @@
 #include "solving/king_capture_avoider.h"
 #include "solving/find_square_observer_tracking_back_from_target.h"
 #include "solving/pipe.h"
+#include "stipulation/branch.h"
 #include "stipulation/proxy.h"
 #include "debugging/assert.h"
 #include "debugging/trace.h"
@@ -1803,6 +1804,27 @@ void input_instrument_with_stipulation(slice_index start,
     slice_index const prototype = alloc_pipe(STStipulationCopier);
     slices[prototype].next2 = stipulation_root_hook;
     slice_insertion_insert(start,&prototype,1);
+  }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void input_uninstrument_with_stipulation(slice_index start)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",start);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const builder = branch_find_slice(STStipulationCopier,start,stip_traversal_context_intro);
+    dealloc_slices(SLICE_NEXT2(builder));
+  }
+
+  {
+    slice_index const specific = branch_find_slice(STStartOfStipulationSpecific,start,stip_traversal_context_intro);
+    while (SLICE_TYPE(SLICE_NEXT1(specific))!=STStartOfSolvingMachinery)
+      pipe_remove(SLICE_NEXT1(specific));
   }
 
   TraceFunctionExit(__func__);
