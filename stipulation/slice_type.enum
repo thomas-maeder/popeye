@@ -10,6 +10,7 @@
   ENUMERATOR(STAToBSolverBuilder),                                      \
   ENUMERATOR(STEndOfStipulationSpecific),                               \
   ENUMERATOR(STSolvingMachineryIntroBuilder),                           \
+  ENUMERATOR(STStartOfWriterBuilders),                                  \
   ENUMERATOR(STOutputPlainTextPositionWriterBuilder),                   \
   ENUMERATOR(STOutputPlainTextProofPositionWriterBuilder),              \
   ENUMERATOR(STOutputPlainTextAToBPositionWriterBuilder),               \
@@ -505,9 +506,12 @@
     /* output slices */                                                 \
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STOutputPlainTextEndOfTwinWriter),                       \
+    ENUMERATOR(STOutputPlainTextMetaWriter),                            \
+    ENUMERATOR(STOutputPlainTextCurrentBoardWriter),                    \
+    ENUMERATOR(STOutputPlainTextPieceCountsWriter),                     \
+    ENUMERATOR(STOutputPlainTextAToBIntraWriter),                       \
     ENUMERATOR(STOutputPlainTextPositionWriter),                        \
     ENUMERATOR(STOutputPlainTextProofPositionWriter),                   \
-    ENUMERATOR(STOutputPlainTextAToBPositionWriter),                    \
     ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \

@@ -1151,6 +1151,7 @@ char *input_plaintext_twins_handle(char *tok)
   slice_index const start_of_stip_specific = alloc_pipe(STStartOfStipulationSpecific);
   slice_index const end_of_stip_specific = alloc_pipe(STEndOfStipulationSpecific);
   slice_index const intro_builder = alloc_pipe(STSolvingMachineryIntroBuilder);
+  slice_index const start_of_writer_builders = alloc_pipe(STStartOfWriterBuilders);
   slice_index const writer_builder = alloc_pipe(STOutputPlainTextPositionWriterBuilder);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
@@ -1163,7 +1164,8 @@ char *input_plaintext_twins_handle(char *tok)
   pipe_link(end_writer,start_of_stip_specific);
   pipe_link(start_of_stip_specific,end_of_stip_specific);
   pipe_link(end_of_stip_specific,intro_builder);
-  pipe_link(intro_builder,writer_builder);
+  pipe_link(intro_builder,start_of_writer_builders);
+  pipe_link(start_of_writer_builders,writer_builder);
   pipe_link(writer_builder,start_of_machinery);
 
 #if defined(DOMEASURE)

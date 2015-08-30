@@ -301,10 +301,11 @@ char *ParseOpt(char *tok, slice_index start)
 
       case noboard:
       {
-        slice_index const writer_builder = branch_find_slice(STOutputPlainTextPositionWriterBuilder,
+        slice_index const start_builders = branch_find_slice(STStartOfWriterBuilders,
                                                              start,
                                                              stip_traversal_context_intro);
-        pipe_remove(writer_builder);
+        while (SLICE_TYPE(SLICE_NEXT1(start_builders))!=STStartOfSolvingMachinery)
+          pipe_remove(SLICE_NEXT1(start_builders));
         break;
       }
 

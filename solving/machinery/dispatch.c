@@ -343,6 +343,7 @@ void dispatch(slice_index si)
 
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:
+    case STStartOfWriterBuilders:
       solve(SLICE_NEXT1(si));
       break;
 
@@ -1477,16 +1478,28 @@ void dispatch(slice_index si)
       output_plaintext_write_twin_intro(si);
       break;
 
+    case STOutputPlainTextMetaWriter:
+      output_plaintext_write_meta(si);
+      break;
+
+    case STOutputPlainTextCurrentBoardWriter:
+      output_plaintext_write_current_board(si);
+      break;
+
+    case STOutputPlainTextPieceCountsWriter:
+      output_plaintext_write_piece_counts(si);
+      break;
+
+    case STOutputPlainTextAToBIntraWriter:
+      output_plaintext_write_atob_intra(si);
+      break;
+
     case STOutputPlainTextPositionWriter:
       output_plaintext_write_position(si);
       break;
 
     case STOutputPlainTextProofPositionWriter:
       output_plaintext_write_proof_target_position(si);
-      break;
-
-    case STOutputPlainTextAToBPositionWriter:
-      output_plaintext_write_atob_positions(si);
       break;
 
     case STOutputEndOfIntro:
