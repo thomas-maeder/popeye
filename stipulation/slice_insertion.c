@@ -584,7 +584,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlainTextCurrentBoardWriter,
   STOutputPlainTextPieceCountsWriter,
   STOutputPlainTextAToBIntraWriter,
-  STOutputPlainTextPositionWriter,
+  STOutputPlainTextCaptionsWriter,
   STOutputPlainTextProofPositionWriter,
   STPiecesCounter,
   STRoyalsLocator, /* above for target position, now for starting position */

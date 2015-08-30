@@ -556,14 +556,11 @@ void output_plaintext_write_piece_counts(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_write_position(slice_index si)
+void output_plaintext_write_captions(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  assert(find_unique_goal(si).type!=goal_proofgame);
-  assert(find_unique_goal(si).type!=goal_atob);
 
   WriteCaptions(&being_solved);
 
@@ -643,7 +640,7 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_pipe(STOutputPlainTextCurrentBoardWriter),
-        alloc_pipe(STOutputPlainTextPositionWriter)
+        alloc_pipe(STOutputPlainTextCaptionsWriter)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);

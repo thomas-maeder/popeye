@@ -39,7 +39,7 @@ void output_plaintext_write_atob_intra(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_write_position(slice_index si);
+void output_plaintext_write_captions(slice_index si);
 void output_plaintext_write_proof_target_position(slice_index si);
 
 void output_plaintext_position_writer_builder_solve(slice_index si);

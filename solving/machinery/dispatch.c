@@ -1494,8 +1494,8 @@ void dispatch(slice_index si)
       output_plaintext_write_atob_intra(si);
       break;
 
-    case STOutputPlainTextPositionWriter:
-      output_plaintext_write_position(si);
+    case STOutputPlainTextCaptionsWriter:
+      output_plaintext_write_captions(si);
       break;
 
     case STOutputPlainTextProofPositionWriter:
