@@ -458,6 +458,8 @@ static void WriteCaptions(position const *pos)
 
   if (CondFlag[gridchess] && OptFlag[writegrid])
     WriteGrid();
+
+  protocol_fflush(stdout);
 }
 
 void WritePositionAtoB(Side starter)
