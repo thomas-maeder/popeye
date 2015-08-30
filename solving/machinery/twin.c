@@ -1823,7 +1823,7 @@ void input_uninstrument_with_stipulation(slice_index start)
 
   {
     slice_index const specific = branch_find_slice(STStartOfStipulationSpecific,start,stip_traversal_context_intro);
-    while (SLICE_TYPE(SLICE_NEXT1(specific))!=STStartOfSolvingMachinery)
+    while (SLICE_TYPE(SLICE_NEXT1(specific))!=STEndOfStipulationSpecific)
       pipe_remove(SLICE_NEXT1(specific));
   }
 

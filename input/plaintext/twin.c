@@ -1153,7 +1153,8 @@ char *input_plaintext_twins_handle(char *tok)
   slice_index const adjuster = alloc_pipe(STTwinIdAdjuster);
   slice_index const completer = alloc_pipe(STStipulationCompleter);
   slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
-  slice_index const start = alloc_pipe(STStartOfStipulationSpecific);
+  slice_index const start_of_stip_specific = alloc_pipe(STStartOfStipulationSpecific);
+  slice_index const end_of_stip_specific = alloc_pipe(STEndOfStipulationSpecific);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
   TraceFunctionEntry(__func__);
@@ -1162,8 +1163,9 @@ char *input_plaintext_twins_handle(char *tok)
 
   pipe_link(adjuster,completer);
   pipe_link(completer,end_writer);
-  pipe_link(end_writer,start);
-  pipe_link(start,start_of_machinery);
+  pipe_link(end_writer,start_of_stip_specific);
+  pipe_link(start_of_stip_specific,end_of_stip_specific);
+  pipe_link(end_of_stip_specific,start_of_machinery);
 
 #if defined(DOMEASURE)
   pipe_append(completer,alloc_pipe(STCountersWriter));

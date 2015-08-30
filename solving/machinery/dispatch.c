@@ -341,6 +341,7 @@ void dispatch(slice_index si)
       break;
 
     case STStartOfStipulationSpecific:
+    case STEndOfStipulationSpecific:
       solve(SLICE_NEXT1(si));
       break;
 

@@ -8,6 +8,7 @@
   ENUMERATOR(STStipulationCopier),                                      \
   ENUMERATOR(STProofSolverBuilder),                                     \
   ENUMERATOR(STAToBSolverBuilder),                                      \
+  ENUMERATOR(STEndOfStipulationSpecific),                               \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STDuplexSolver),                                           \
