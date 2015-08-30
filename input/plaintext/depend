@@ -734,7 +734,7 @@ input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h
  solving/machinery/dispatch.h debugging/trace.h \
  solving/move_effect_journal.h position/castling_rights.h solving/ply.h \
  position/pieceid.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h stipulation/pipe.h \
+ position/color.enum.h pieces/walks/vectors.h stipulation/branch.h \
  stipulation/structure_traversal.h stipulation/slice.h \
  stipulation/slice_structural_type.h \
  stipulation/slice_structural_type.enum.h \
@@ -742,6 +742,7 @@ input/plaintext/goal$(OBJ_SUFFIX): input/plaintext/goal.c input/plaintext/goal.h
  stipulation/slice_functional_type.enum.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
+ stipulation/pipe.h stipulation/slice_insertion.h \
  stipulation/goals/target/reached_tester.h \
  stipulation/goals/immobile/reached_tester.h \
  stipulation/goals/reached_tester.h \
@@ -829,7 +830,7 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
-stipulation/pipe.h:
+stipulation/branch.h:
 
 stipulation/structure_traversal.h:
 
@@ -848,6 +849,10 @@ stipulation/slice_contextual_type.h:
 stipulation/slice_contextual_type.enum.h:
 
 stipulation/traversal.h:
+
+stipulation/pipe.h:
+
+stipulation/slice_insertion.h:
 
 stipulation/goals/target/reached_tester.h:
 

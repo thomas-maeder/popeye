@@ -4,7 +4,9 @@
 #include "output/output.h"
 #include "output/plaintext/message.h"
 #include "conditions/imitator.h"
+#include "stipulation/branch.h"
 #include "stipulation/pipe.h"
+#include "stipulation/slice_insertion.h"
 #include "stipulation/goals/target/reached_tester.h"
 #include "stipulation/goals/immobile/reached_tester.h"
 #include "stipulation/goals/reached_tester.h"
@@ -211,6 +213,18 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
       {
         slice_index const prototype = alloc_pipe(STProofSolverBuilder);
         slice_insertion_insert(start,&prototype,1);
+
+        {
+          slice_index const writer = branch_find_slice(STOutputPlainTextPositionWriterBuilder,
+                                                       start,
+                                                       stip_traversal_context_intro);
+          if (writer!=no_slice)
+          {
+            pipe_append(writer,alloc_pipe(STOutputPlainTextProofPositionWriterBuilder));
+            pipe_remove(writer);
+          }
+        }
+
         pipe_link(proxy,alloc_goal_proofgame_reached_tester_system());
         break;
       }
@@ -219,6 +233,17 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
       {
         slice_index const prototype = alloc_pipe(STAToBSolverBuilder);
         slice_insertion_insert(start,&prototype,1);
+
+        {
+          slice_index const writer = branch_find_slice(STOutputPlainTextPositionWriterBuilder,
+                                                       start,
+                                                       stip_traversal_context_intro);
+          if (writer!=no_slice)
+          {
+            pipe_append(writer,alloc_pipe(STOutputPlainTextAToBPositionWriterBuilder));
+            pipe_remove(writer);
+          }
+        }
 
         pipe_link(proxy,alloc_goal_atob_reached_tester_system());
 

@@ -30,6 +30,8 @@ void output_plaintext_write_move(output_engine_type const *engine,
  *            (with n denominating solve_nr_remaining)
  */
 void output_plaintext_write_position(slice_index si);
+void output_plaintext_write_proof_target_position(slice_index si);
+void output_plaintext_write_atob_positions(slice_index si);
 
 /* Instrument the solving machinery with slices that write the solution in
  * plain text

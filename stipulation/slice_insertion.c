@@ -568,6 +568,8 @@ static slice_index const slice_rank_order[] =
   STEndOfStipulationSpecific,
   STSolvingMachineryIntroBuilder,
   STOutputPlainTextPositionWriterBuilder,
+  STOutputPlainTextProofPositionWriterBuilder,
+  STOutputPlainTextAToBPositionWriterBuilder,
   STStartOfSolvingMachinery,
   STCreateBuilderSetupPly,
   STPieceWalkCacheInitialiser,
@@ -578,6 +580,8 @@ static slice_index const slice_rank_order[] =
   STProofgameInitialiser,
   STAToBInitialiser,
   STOutputPlainTextPositionWriter,
+  STOutputPlainTextProofPositionWriter,
+  STOutputPlainTextAToBPositionWriter,
   STPiecesCounter,
   STRoyalsLocator, /* above for target position, now for starting position */
   STPiecesFlagsInitialiser,

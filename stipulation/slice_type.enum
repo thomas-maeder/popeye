@@ -11,6 +11,8 @@
   ENUMERATOR(STEndOfStipulationSpecific),                               \
   ENUMERATOR(STSolvingMachineryIntroBuilder),                           \
   ENUMERATOR(STOutputPlainTextPositionWriterBuilder),                   \
+  ENUMERATOR(STOutputPlainTextProofPositionWriterBuilder),              \
+  ENUMERATOR(STOutputPlainTextAToBPositionWriterBuilder),               \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STDuplexSolver),                                           \
@@ -504,6 +506,8 @@
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STOutputPlainTextEndOfTwinWriter),                       \
     ENUMERATOR(STOutputPlainTextPositionWriter),                        \
+    ENUMERATOR(STOutputPlainTextProofPositionWriter),                   \
+    ENUMERATOR(STOutputPlainTextAToBPositionWriter),                    \
     ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \

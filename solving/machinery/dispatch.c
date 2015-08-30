@@ -353,6 +353,14 @@ void dispatch(slice_index si)
       output_plaintext_position_writer_builder_solve(si);
       break;
 
+    case STOutputPlainTextProofPositionWriterBuilder:
+      output_plaintext_proof_position_writer_builder_solve(si);
+      break;
+
+    case STOutputPlainTextAToBPositionWriterBuilder:
+      output_plaintext_atob_position_writer_builder_solve(si);
+      break;
+
     case STStartOfSolvingMachinery:
       start_of_solving_machinery_solve(si);
       break;
@@ -1470,6 +1478,14 @@ void dispatch(slice_index si)
 
     case STOutputPlainTextPositionWriter:
       output_plaintext_write_position(si);
+      break;
+
+    case STOutputPlainTextProofPositionWriter:
+      output_plaintext_write_proof_target_position(si);
+      break;
+
+    case STOutputPlainTextAToBPositionWriter:
+      output_plaintext_write_atob_positions(si);
       break;
 
     case STOutputEndOfIntro:
