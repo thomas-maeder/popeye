@@ -512,6 +512,7 @@
     ENUMERATOR(STOutputPlainTextAToBIntraWriter),                       \
     ENUMERATOR(STOutputPlainTextCaptionsWriter),                        \
     ENUMERATOR(STOutputPlainTextProofPositionWriter),                   \
+    ENUMERATOR(STOutputPlainTextEndOfPositionWriters),                  \
     ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \
     ENUMERATOR(STIllegalSelfcheckWriter), /* indicate illegal self-check in the diagram position */ \

@@ -1502,6 +1502,10 @@ void dispatch(slice_index si)
       output_plaintext_write_proof_target_position(si);
       break;
 
+    case STOutputPlainTextEndOfPositionWriters:
+      output_plaintext_end_of_position_writer_writers_solve(si);
+      break;
+
     case STOutputEndOfIntro:
       output_end_of_intro(si);
       break;
