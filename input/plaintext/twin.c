@@ -867,6 +867,25 @@ static void complete_stipulation(slice_index stipulation_root_hook)
   TraceFunctionResultEnd();
 }
 
+void output_plaintext_position_writer_builder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlainTextPositionWriter);
+    SLICE_STARTER(prototype) = SLICE_STARTER(si);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
 static void build(slice_index start, slice_index stipulation_root_hook)
 {
   TraceFunctionEntry(__func__);
@@ -893,27 +912,6 @@ static void build(slice_index start, slice_index stipulation_root_hook)
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(start,prototypes,nr_prototypes);
   }
-
-  if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
-  {
-    slice_index const prototype = alloc_pipe(STOutputPlainTextPositionWriter);
-    slice_insertion_insert(start,&prototype,1);
-  }
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-void start_of_solving_machinery_solve(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  pipe_solve_delegate(si);
-
-  dealloc_slices(SLICE_NEXT1(si));
-  SLICE_NEXT1(si) = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -977,6 +975,21 @@ void build_proof_solving_machinery(slice_index si)
     input_instrument_proof(start_of_machinery,STProofgameInitialiser);
 
   pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void start_of_solving_machinery_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  pipe_solve_delegate(si);
+
+  dealloc_slices(SLICE_NEXT1(si));
+  SLICE_NEXT1(si) = no_slice;
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -1155,6 +1168,7 @@ char *input_plaintext_twins_handle(char *tok)
   slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
   slice_index const start_of_stip_specific = alloc_pipe(STStartOfStipulationSpecific);
   slice_index const end_of_stip_specific = alloc_pipe(STEndOfStipulationSpecific);
+  slice_index const writer_builder = alloc_pipe(STOutputPlainTextPositionWriterBuilder);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
   TraceFunctionEntry(__func__);
@@ -1165,7 +1179,8 @@ char *input_plaintext_twins_handle(char *tok)
   pipe_link(completer,end_writer);
   pipe_link(end_writer,start_of_stip_specific);
   pipe_link(start_of_stip_specific,end_of_stip_specific);
-  pipe_link(end_of_stip_specific,start_of_machinery);
+  pipe_link(end_of_stip_specific,writer_builder);
+  pipe_link(writer_builder,start_of_machinery);
 
 #if defined(DOMEASURE)
   pipe_append(completer,alloc_pipe(STCountersWriter));

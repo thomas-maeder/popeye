@@ -9,6 +9,7 @@
   ENUMERATOR(STProofSolverBuilder),                                     \
   ENUMERATOR(STAToBSolverBuilder),                                      \
   ENUMERATOR(STEndOfStipulationSpecific),                               \
+  ENUMERATOR(STOutputPlainTextPositionWriterBuilder),                   \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STDuplexSolver),                                           \
