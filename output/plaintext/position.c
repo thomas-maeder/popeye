@@ -21,6 +21,8 @@
 #include "solving/castling.h"
 #include "solving/move_generator.h"
 #include "solving/proofgames.h"
+#include "solving/pipe.h"
+#include "stipulation/pipe.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -462,31 +464,172 @@ static void WriteCaptions(position const *pos)
   protocol_fflush(stdout);
 }
 
-void WritePositionAtoB(Side starter)
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_position(slice_index si)
 {
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(find_unique_goal(si).type!=goal_proofgame);
+  assert(find_unique_goal(si).type!=goal_atob);
+
+  WriteMeta();
+  WriteBoard(&being_solved);
+  WriteCaptions(&being_solved);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_proof_target_position(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(find_unique_goal(si).type==goal_proofgame);
+
+  WriteMeta();
+  WriteBoard(&proofgames_target_position);
+  WriteCaptions(&proofgames_target_position);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_atob_positions(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(find_unique_goal(si).type==goal_atob);
+
   WriteMeta();
   WriteBoard(&proofgames_start_position);
   WritePieceCounts(&proofgames_start_position,0);
   protocol_fputc('\n',stdout);
 
   protocol_fputc('\n',stdout);
-  protocol_fprintf_c(stdout,board_width,"=> (%s ->)\n",ColourTab[starter]);
+  protocol_fprintf_c(stdout,board_width,"=> (%s ->)\n",ColourTab[SLICE_STARTER(si)]);
   protocol_fputc('\n',stdout);
 
   WriteBoard(&proofgames_target_position);
   WriteCaptions(&proofgames_target_position);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-void WritePositionProofGame(void)
+void output_plaintext_position_writer_builder_solve(slice_index si)
 {
-  WriteMeta();
-  WriteBoard(&proofgames_target_position);
-  WriteCaptions(&proofgames_target_position);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(find_unique_goal(si).type!=goal_proofgame);
+  assert(find_unique_goal(si).type!=goal_atob);
+
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlainTextPositionWriter);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  pipe_solve_delegate(si);
+
+  /* only build the position writers once per problem */
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }
 
-void WritePositionRegular(void)
+void output_plaintext_proof_position_writer_builder_solve(slice_index si)
 {
-  WriteMeta();
-  WriteBoard(&being_solved);
-  WriteCaptions(&being_solved);
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(find_unique_goal(si).type==goal_proofgame);
+
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlainTextProofPositionWriter);;
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  pipe_solve_delegate(si);
+
+  /* only build the position writers once per problem */
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void output_plaintext_atob_position_writer_builder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  assert(find_unique_goal(si).type==goal_atob);
+
+  {
+    slice_index const prototype = alloc_pipe(STOutputPlainTextAToBPositionWriter);
+    SLICE_STARTER(prototype) = SLICE_STARTER(si);
+    slice_insertion_insert(si,&prototype,1);
+  }
+
+  pipe_solve_delegate(si);
+
+  /* only build the position writers once per problem */
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
 }

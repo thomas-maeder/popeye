@@ -183,6 +183,7 @@
 #include "output/plaintext/ohneschach_detect_undecidable_goal.h"
 #include "output/plaintext/illegal_selfcheck_writer.h"
 #include "output/plaintext/goal_writer.h"
+#include "output/plaintext/position.h"
 #include "output/plaintext/move_inversion_counter.h"
 #include "output/plaintext/line/line_writer.h"
 #include "output/plaintext/line/end_of_intro_series_marker.h"

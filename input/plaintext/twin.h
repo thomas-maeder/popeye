@@ -46,10 +46,6 @@ void build_atob_solving_machinery(slice_index si);
 
 void solving_machinery_intro_builder_solve(slice_index si);
 
-void output_plaintext_position_writer_builder_solve(slice_index si);
-void output_plaintext_proof_position_writer_builder_solve(slice_index si);
-void output_plaintext_atob_position_writer_builder_solve(slice_index si);
-
 void stipulation_completer_solve(slice_index si);
 
 void twin_id_adjuster_solve(slice_index si);
