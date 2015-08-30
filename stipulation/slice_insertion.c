@@ -566,6 +566,7 @@ static slice_index const slice_rank_order[] =
   STProofSolverBuilder,
   STAToBSolverBuilder,
   STEndOfStipulationSpecific,
+  STSolvingMachineryIntroBuilder,
   STOutputPlainTextPositionWriterBuilder,
   STStartOfSolvingMachinery,
   STCreateBuilderSetupPly,

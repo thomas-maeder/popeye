@@ -345,6 +345,10 @@ void dispatch(slice_index si)
       solve(SLICE_NEXT1(si));
       break;
 
+    case STSolvingMachineryIntroBuilder:
+      solving_machinery_intro_builder_solve(si);
+      break;
+
     case STOutputPlainTextPositionWriterBuilder:
       output_plaintext_position_writer_builder_solve(si);
       break;

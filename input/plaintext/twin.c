@@ -886,14 +886,11 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
-static void build(slice_index start, slice_index stipulation_root_hook)
+void solving_machinery_intro_builder_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",start);
-  TraceFunctionParam("%u",stipulation_root_hook);
+  TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
-
-  pipe_link(start,stip_deep_copy(SLICE_NEXT1(stipulation_root_hook)));
 
   {
     slice_index const prototypes[] = {
@@ -910,8 +907,12 @@ static void build(slice_index start, slice_index stipulation_root_hook)
         alloc_pipe(STStartOfStipulation)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
-    slice_insertion_insert(start,prototypes,nr_prototypes);
+    slice_insertion_insert(si,prototypes,nr_prototypes);
   }
+
+  solving_impose_starter(si,SLICE_STARTER(si));
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -928,7 +929,7 @@ void stipulation_copier_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  build(start_of_machinery,stipulation_prototype);
+  pipe_link(start_of_machinery,stip_deep_copy(SLICE_NEXT1(stipulation_prototype)));
   solving_impose_starter(si,SLICE_STARTER(stipulation_prototype));
   TraceStipulation(si);
 
@@ -1168,6 +1169,7 @@ char *input_plaintext_twins_handle(char *tok)
   slice_index const end_writer = alloc_pipe(STOutputPlainTextEndOfTwinWriter);
   slice_index const start_of_stip_specific = alloc_pipe(STStartOfStipulationSpecific);
   slice_index const end_of_stip_specific = alloc_pipe(STEndOfStipulationSpecific);
+  slice_index const intro_builder = alloc_pipe(STSolvingMachineryIntroBuilder);
   slice_index const writer_builder = alloc_pipe(STOutputPlainTextPositionWriterBuilder);
   slice_index const start_of_machinery = alloc_pipe(STStartOfSolvingMachinery);
 
@@ -1179,7 +1181,8 @@ char *input_plaintext_twins_handle(char *tok)
   pipe_link(completer,end_writer);
   pipe_link(end_writer,start_of_stip_specific);
   pipe_link(start_of_stip_specific,end_of_stip_specific);
-  pipe_link(end_of_stip_specific,writer_builder);
+  pipe_link(end_of_stip_specific,intro_builder);
+  pipe_link(intro_builder,writer_builder);
   pipe_link(writer_builder,start_of_machinery);
 
 #if defined(DOMEASURE)
