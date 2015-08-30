@@ -2,7 +2,6 @@
 #define ENUMERATORS \
   ENUMERATOR(STProxy),                                                  \
   ENUMERATOR(STTemporaryHackFork),                                      \
-  ENUMERATOR(STInputStipulation),                                       \
   ENUMERATOR(STStipulationCompleter),                                   \
   ENUMERATOR(STCountersWriter),                                         \
   ENUMERATOR(STStartOfStipulationSpecific),                             \
