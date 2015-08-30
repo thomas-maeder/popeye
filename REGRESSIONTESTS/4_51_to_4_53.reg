@@ -1339,6 +1339,30 @@ there is no solution, but 4.51 gave 1.Qb2#
 solution finished.
 
 
+
+     White or Black maximummer?
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8  -K   .   .   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   K   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  white 3a[#]d | 4hh[#]       1 + 1
+             Maximummer
 Can't decide whether condition applies to White or Black
 
 problem ignored

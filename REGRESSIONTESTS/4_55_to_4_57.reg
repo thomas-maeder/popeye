@@ -420,7 +420,6 @@ f) ser-h#5
 solution finished.
 
 
-try play not applicable
 
 option Try not applicable in postkey battle play
 
@@ -444,6 +443,7 @@ option Try not applicable in postkey battle play
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #2                          0 + 0
+try play not applicable
 
  zugzwang.
 
@@ -454,7 +454,6 @@ option Try not applicable in postkey battle play
 solution finished.
 
 
-Option "Threat" not applicable or indicated maximum threat length too big
 
 option Threat only applicable in sufficiently long battle play
 
@@ -478,6 +477,7 @@ option Threat only applicable in sufficiently long battle play
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   #3/3                        0 + 0
+Option "Threat" not applicable or indicated maximum threat length too big
 
 a) 
 
@@ -938,7 +938,6 @@ only example so far of a series stipulation with option stoponshort
 solving interrupted.
 
 
-both sides need a king
 
 earlier versions didn't stop solving after 1.h2-h3 z !
 
@@ -963,6 +962,7 @@ earlier versions didn't stop solving after 1.h2-h3 z !
 +---a---b---c---d---e---f---g---h---+
   szh31                       2 + 1
               Quodlibet
+both sides need a king
 
    1.h2-h4 !
       1...g4*h3 ep. z
@@ -977,7 +977,6 @@ earlier versions didn't stop solving after 1.h2-h3 z !
 solution finished.
 
 
-Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces.
 
 earlier versions would crash or produce incorrect output
 
@@ -1001,6 +1000,7 @@ earlier versions would crash or produce incorrect output
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   h#=2                        0 + 0
+Intelligent Mode only with h#/=, ser-#/= and ser-h#/=, with a limited set of fairy conditions and without fairy pieces.
 
 
   add_to_move_generation_stack:           0

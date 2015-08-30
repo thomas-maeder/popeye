@@ -1168,8 +1168,9 @@ input/plaintext/option$(OBJ_SUFFIX): input/plaintext/option.c \
  output/plaintext/message.h output/message.h \
  pieces/walks/pawns/en_passant.h solving/observation.h \
  solving/temporary_hacks.h solving/move_generator.h solving/castling.h \
- solving/battle_play/try.h utilities/table.h stipulation/pipe.h \
- platform/beep.h platform/maxtime.h
+ solving/battle_play/try.h utilities/table.h solving/duplex.h \
+ stipulation/pipe.h stipulation/branch.h platform/beep.h \
+ platform/maxtime.h
 
 input/plaintext/option.h:
 
@@ -1311,7 +1312,11 @@ solving/battle_play/try.h:
 
 utilities/table.h:
 
+solving/duplex.h:
+
 stipulation/pipe.h:
+
+stipulation/branch.h:
 
 platform/beep.h:
 

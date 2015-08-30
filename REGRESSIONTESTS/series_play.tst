@@ -161,8 +161,6 @@ solution finished.
 solution finished.
 
 
-both sides need a king
-SetPlay not applicable - ignored
 
   set play not applicable in ser-#
 
@@ -186,6 +184,8 @@ SetPlay not applicable - ignored
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-#5                      0 + 0
+both sides need a king
+SetPlay not applicable - ignored
 
 
   add_to_move_generation_stack:           0

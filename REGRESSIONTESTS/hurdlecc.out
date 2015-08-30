@@ -33,8 +33,6 @@
 Loesung beendet.
 
 
-Es fehlt ein weisser oder schwarzer Koenig
-
 
 Test und Dokumentation f\"ur Umwandlung in sprungbockfarbewechselnde H\"upfer
 
@@ -59,6 +57,8 @@ Test und Dokumentation f\"ur Umwandlung in sprungbockfarbewechselnde H\"upfer
 +---a---b---c---d---e---f---g---h---+
   ~1                          2 + 3
    SprungbockFarbeWechselnd f4 b1
+Es fehlt ein weisser oder schwarzer Koenig
+
 
    1.h5-h6 !
 

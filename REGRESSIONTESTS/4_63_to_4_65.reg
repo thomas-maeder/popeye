@@ -1296,7 +1296,6 @@ solution finished.
 solution finished.
 
 
-both sides need a king
 
 4.63 gave all captures g5*h4 as refutations
 
@@ -1321,6 +1320,7 @@ both sides need a king
 +---a---b---c---d---e---f---g---h---+
   zg22                        2 + 2
          Circe Super April B
+both sides need a king
 
    1.Rh3-h2 ? threat:
           2.Rh2-g2 z
@@ -1652,7 +1652,6 @@ solution finished.
 solution finished.
 
 
-both sides need a king
 
 no check in 4.63 because the Kobul transformation would transfer
 the capturee's identity, causing the king to be reborn on g2
@@ -1680,6 +1679,7 @@ the capturee's identity, causing the king to be reborn on g2
               Royal e4
      Circe Diagram RexInclusive
              KobulKings
+both sides need a king
 
    1.Bh1*g2[e4=K] + !
 
@@ -1763,7 +1763,6 @@ the Patrouille supporter doesn't need a Patrouille supporter
 solution finished.
 
 
-both sides need a king
 
 king transmutes even if rebirth square is empty
 
@@ -1789,6 +1788,7 @@ king transmutes even if rebirth square is empty
   ~1                          1 + 1
          Circe RexInclusive
            TransmutedKings
+both sides need a king
 
    1.Ke4-c3 !
 
@@ -1916,7 +1916,6 @@ leaf hopper checks have never been detected correctly
 solution finished.
 
 
-both sides need a king
 
 up to 4.63, Popeye wouldn't recolor Qd1
 
@@ -1943,6 +1942,7 @@ up to 4.63, Popeye wouldn't recolor Qd1
               Magic b4
                 Circe
               AntiCirce
+both sides need a king
 
    1.Qb3*b4[wQb4->d1][+bmQd8][d1=b] x !
 

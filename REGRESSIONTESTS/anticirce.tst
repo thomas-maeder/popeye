@@ -1,4 +1,3 @@
-both sides need a king
 
            Anticirce Cage
 
@@ -23,6 +22,7 @@ both sides need a king
 +---a---b---c---d---e---f---g---h---+
   ~1                          1 + 2
            AntiCirce Cage
+both sides need a king
 
    1.Be5-a1 !
 

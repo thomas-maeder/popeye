@@ -873,7 +873,6 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (!OptFlag[noboard] && twin_duplex_type!=twin_is_duplex)
   {
     slice_index const prototype = alloc_pipe(STOutputPlainTextPositionWriter);
     SLICE_STARTER(prototype) = SLICE_STARTER(si);
@@ -881,6 +880,9 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
   }
 
   pipe_solve_delegate(si);
+
+  /* only build the position writers once per problem */
+  pipe_remove(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

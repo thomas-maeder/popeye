@@ -354,8 +354,6 @@ Demonstrationsbeispiel für die spezielle Patt-Regel
 Loesung beendet.
 
 
-Es fehlt ein weisser oder schwarzer Koenig
-
 
 Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 
@@ -380,6 +378,8 @@ Demonstrationsbeispiel für spezielle Patt-Regel im Eigenpatt
 +---a---b---c---d---e---f---g---h---+
   !=1                         2 + 3
           Paralysierend h3
+Es fehlt ein weisser oder schwarzer Koenig
+
 
    1.Kc2-d3 != !
 

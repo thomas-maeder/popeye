@@ -30,7 +30,7 @@
                      play_move:          94
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 
@@ -75,11 +75,10 @@ solution finished.
                      play_move:         102
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 not 1.g1~
-both sides need a king
 
 
 +---a---b---c---d---e---f---g---h---+
@@ -102,6 +101,7 @@ both sides need a king
 |                                   |
 +---a---b---c---d---e---f---g---h---+
   ser-hc812                   1 + 2
+both sides need a king
 
   1.Sh5-f6   2.Sf6-g8 h7*g8=Q c81
   1.Sh5-f6   2.Sf6-g8 h7*g8=S c81
@@ -112,7 +112,7 @@ both sides need a king
                      play_move:          61
  is_white_king_square_attacked:           0
  is_black_king_square_attacked:           0
-solution finished. 
+solution finished.
 
 
 post-key play
@@ -149,6 +149,6 @@ post-key play
                      play_move:         122
  is_white_king_square_attacked:          34
  is_black_king_square_attacked:          54
-solution finished. 
+solution finished.
 
 

@@ -1306,6 +1306,33 @@ b) nBc1-->d2
 solution finished.
 
 
+
+    Vlaicu Crisan & \'Eric Huber
+17\`eme T.T. Chess Composition Microweb 2005, 3\`eme Mention d'Honneur
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   K   .   .   .   .   .   8
+|                                   |
+7   .   .   .   .   .   .   .   .   7
+|                                   |
+6   .   .   .   .   .   .   .   .   6
+|                                   |
+5 -DU   .   .  -K   .   .   .   .   5
+|                                   |
+4   .   .   .   .   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .  =R   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .  =B   .   .  -L   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#2.5                  1 + 3 + 2n
+            Uncapturable
+              Bicolores
+             GhostChess
 too much fairy chess for neutral pieces
 problem ignored
 

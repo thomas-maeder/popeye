@@ -819,7 +819,6 @@ make sure that Volage works during an en passant capture in Circe Parrain
 solution finished.
 
 
-both sides need a king
 
          Adrian Storisteanu
 Since 4.63, Messigny Chess allowed neutral pieces to swap with themselves
@@ -845,6 +844,7 @@ Since 4.63, Messigny Chess allowed neutral pieces to swap with themselves
 +---a---b---c---d---e---f---g---h---+
   ~1                     0 + 0 + 1n
             MessignyChess
+both sides need a king
 
    1.nPd3-d4 !
 
@@ -934,7 +934,6 @@ recent Popeye versions promoted the neutral pawn on e1 as well
 solution finished.
 
 
-both sides need a king
 
            just to be sure
 
@@ -960,6 +959,7 @@ both sides need a king
   hep1                        1 + 1
             Uncapturable
              GhostChess
+both sides need a king
 
 a) 
 
@@ -981,7 +981,6 @@ b) HauntedChess
 solution finished.
 
 
-both sides need a king
 
 Circe Parrain + Volage has apparently never worked correctly
 
@@ -1007,6 +1006,7 @@ Circe Parrain + Volage has apparently never worked correctly
   hzh31                       2 + 1
                 Circe
                Volage
+both sides need a king
 
 a) 
 
@@ -1029,7 +1029,6 @@ b) Circe Parrain
 solution finished.
 
 
-both sides need a king
 
    4.63 ... 4.69 promoted the pawn
 
@@ -1054,6 +1053,7 @@ both sides need a king
 +---a---b---c---d---e---f---g---h---+
   #1                          1 + 6
         ReversalEinsteinChess
+both sides need a king
 
   1  (c7-c8=S + )
    1.c7-c8=S # !

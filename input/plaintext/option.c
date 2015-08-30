@@ -18,7 +18,9 @@
 #include "solving/move_generator.h"
 #include "solving/castling.h"
 #include "solving/battle_play/try.h"
+#include "solving/duplex.h"
 #include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "platform/beep.h"
 #include "platform/maxtime.h"
 
@@ -296,6 +298,15 @@ char *ParseOpt(char *tok, slice_index start)
         else
           input_instrument_duplex(start,STHalfDuplexSolver);
         break;
+
+      case noboard:
+      {
+        slice_index const writer_builder = branch_find_slice(STOutputPlainTextPositionWriterBuilder,
+                                                             start,
+                                                             stip_traversal_context_intro);
+        pipe_remove(writer_builder);
+        break;
+      }
 
       default:
         /* no extra action required */
