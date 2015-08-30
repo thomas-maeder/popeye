@@ -842,24 +842,6 @@ static void select_output_mode(slice_index si, stip_structure_traversal *st)
   TraceFunctionResultEnd();
 }
 
-static void write_position(slice_index si)
-{
-  switch (find_unique_goal(si).type)
-  {
-    case goal_atob:
-      WritePositionAtoB(SLICE_STARTER(si));
-      break;
-
-    case goal_proofgame:
-      WritePositionProofGame();
-      break;
-
-    default:
-      WritePositionRegular();
-      break;
-  }
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -879,20 +861,18 @@ void output_plaintext_write_position(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  switch (twin_stage)
+  switch (find_unique_goal(si).type)
   {
-    case twin_original_position_no_twins:
-    case twin_zeroposition:
-    case twin_initial:
-      write_position(si);
+    case goal_atob:
+      WritePositionAtoB(SLICE_STARTER(si));
       break;
 
-    case twin_regular:
-    case twin_last:
+    case goal_proofgame:
+      WritePositionProofGame();
       break;
 
     default:
-      assert(0);
+      WritePositionRegular();
       break;
   }
 
