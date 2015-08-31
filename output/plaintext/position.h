@@ -39,6 +39,9 @@ void output_plaintext_write_atob_intra(slice_index si);
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
+void output_plaintext_write_stipulation(slice_index si);
+void output_plaintext_write_stipulation_options(slice_index si);
+void output_plaintext_write_royal_piece_positions(slice_index si);
 void output_plaintext_write_captions(slice_index si);
 void output_plaintext_write_proof_target_position(slice_index si);
 

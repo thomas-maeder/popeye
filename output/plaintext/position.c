@@ -212,6 +212,8 @@ static void DoPieceCounts(position const *pos,
   }
 }
 
+static int indentation = 0;
+
 static void WritePieceCounts(position const *pos, unsigned int indentation)
 {
   unsigned piece_per_colour[nr_colours] = { 0 };
@@ -220,7 +222,7 @@ static void WritePieceCounts(position const *pos, unsigned int indentation)
 
   {
     char const *format = piece_per_colour[colour_neutral]>0 ? "%d + %d + %dn\n" : "%d + %d\n";
-    int const width = nr_files_on_board*fileWidth+3-indentation;
+    int const width = nr_files_on_board*fileWidth+4-indentation;
     protocol_fprintf_r(stdout,width,format,
                        piece_per_colour[colour_white],
                        piece_per_colour[colour_black],
@@ -244,6 +246,8 @@ static int WriteStipulation(void)
 static int WriteOptions(position const *pos)
 {
   int result = 0;
+
+  TraceValue("%u\n",indentation);
 
   if (OptFlag[solmenaces])
   {
@@ -442,8 +446,6 @@ static void WriteCondition(FILE* dummy, char const CondLine[], condition_rank ra
 
 static void WriteCaptions(position const *pos)
 {
-  WritePieceCounts(pos,WriteStipulation()+WriteOptions(pos));
-  WriteRoyalPiecePositions(pos);
   WriteNonRoyalAttributedPieces(pos);
   WriteConditions(0,&WriteCondition);
   WriteCastlingMutuallyExclusive();
@@ -533,7 +535,88 @@ void output_plaintext_write_piece_counts(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WritePieceCounts(&proofgames_start_position,0);
+  WritePieceCounts(&being_solved,indentation);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_royal_piece_positions(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  WriteRoyalPiecePositions(&being_solved);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_stipulation_options(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  indentation += WriteOptions(&being_solved);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_stipulation(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  indentation = WriteStipulation();
 
   pipe_solve_delegate(si);
 
@@ -588,6 +671,10 @@ void output_plaintext_write_proof_target_position(slice_index si)
   TraceFunctionParamListEnd();
 
   WriteBoard(&proofgames_target_position);
+  indentation = WriteStipulation();
+  indentation += WriteOptions(&proofgames_target_position);
+  WritePieceCounts(&proofgames_target_position,indentation);
+  WriteRoyalPiecePositions(&proofgames_target_position);
   WriteCaptions(&proofgames_target_position);
 
   pipe_solve_delegate(si);
@@ -665,6 +752,10 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_pipe(STOutputPlainTextCurrentBoardWriter),
+        alloc_pipe(STOutputPlainTextStipulationWriter),
+        alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
+        alloc_pipe(STOutputPlainTextPieceCountsWriter),
+        alloc_pipe(STOutputPlainTextRoyalPiecePositionsWriter),
         alloc_pipe(STOutputPlainTextCaptionsWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };

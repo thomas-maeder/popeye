@@ -1490,8 +1490,20 @@ void dispatch(slice_index si)
       output_plaintext_write_piece_counts(si);
       break;
 
+    case STOutputPlainTextRoyalPiecePositionsWriter:
+      output_plaintext_write_royal_piece_positions(si);
+      break;
+
     case STOutputPlainTextAToBIntraWriter:
       output_plaintext_write_atob_intra(si);
+      break;
+
+    case STOutputPlainTextStipulationWriter:
+      output_plaintext_write_stipulation(si);
+      break;
+
+    case STOutputPlainTextStipulationOptionsWriter:
+      output_plaintext_write_stipulation_options(si);
       break;
 
     case STOutputPlainTextCaptionsWriter:

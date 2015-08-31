@@ -510,6 +510,9 @@
     ENUMERATOR(STOutputPlainTextCurrentBoardWriter),                    \
     ENUMERATOR(STOutputPlainTextPieceCountsWriter),                     \
     ENUMERATOR(STOutputPlainTextAToBIntraWriter),                       \
+    ENUMERATOR(STOutputPlainTextStipulationWriter),                     \
+    ENUMERATOR(STOutputPlainTextStipulationOptionsWriter),              \
+    ENUMERATOR(STOutputPlainTextRoyalPiecePositionsWriter),             \
     ENUMERATOR(STOutputPlainTextCaptionsWriter),                        \
     ENUMERATOR(STOutputPlainTextProofPositionWriter),                   \
     ENUMERATOR(STOutputPlainTextEndOfPositionWriters),                  \
