@@ -513,6 +513,8 @@
     ENUMERATOR(STOutputPlainTextStipulationWriter),                     \
     ENUMERATOR(STOutputPlainTextStipulationOptionsWriter),              \
     ENUMERATOR(STOutputPlainTextRoyalPiecePositionsWriter),             \
+    ENUMERATOR(STOutputPlainTextNonRoyalAttributesWriter),              \
+    ENUMERATOR(STOutputPlainTextConditionsWriter),                      \
     ENUMERATOR(STOutputPlainTextCaptionsWriter),                        \
     ENUMERATOR(STOutputPlainTextProofPositionWriter),                   \
     ENUMERATOR(STOutputPlainTextEndOfPositionWriters),                  \

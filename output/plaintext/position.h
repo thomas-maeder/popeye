@@ -42,6 +42,8 @@ void output_plaintext_write_atob_intra(slice_index si);
 void output_plaintext_write_stipulation(slice_index si);
 void output_plaintext_write_stipulation_options(slice_index si);
 void output_plaintext_write_royal_piece_positions(slice_index si);
+void output_plaintext_write_non_royal_attributes(slice_index si);
+void output_plaintext_write_conditions(slice_index si);
 void output_plaintext_write_captions(slice_index si);
 void output_plaintext_write_proof_target_position(slice_index si);
 

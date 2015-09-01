@@ -1494,6 +1494,14 @@ void dispatch(slice_index si)
       output_plaintext_write_royal_piece_positions(si);
       break;
 
+    case STOutputPlainTextNonRoyalAttributesWriter:
+      output_plaintext_write_non_royal_attributes(si);
+      break;
+
+    case STOutputPlainTextConditionsWriter:
+      output_plaintext_write_conditions(si);
+      break;
+
     case STOutputPlainTextAToBIntraWriter:
       output_plaintext_write_atob_intra(si);
       break;
