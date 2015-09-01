@@ -44,7 +44,10 @@ void output_plaintext_write_stipulation_options(slice_index si);
 void output_plaintext_write_royal_piece_positions(slice_index si);
 void output_plaintext_write_non_royal_attributes(slice_index si);
 void output_plaintext_write_conditions(slice_index si);
-void output_plaintext_write_captions(slice_index si);
+void output_plaintext_write_mutually_exclusive_castlings(slice_index si);
+void output_plaintext_write_duplex(slice_index si);
+void output_plaintext_write_quodlibet(slice_index si);
+void output_plaintext_write_grid(slice_index si);
 void output_plaintext_write_proof_target_position(slice_index si);
 
 void output_plaintext_position_writer_builder_solve(slice_index si);

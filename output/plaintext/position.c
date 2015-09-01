@@ -444,22 +444,6 @@ static void WriteCondition(FILE* dummy, char const CondLine[], condition_rank ra
     protocol_fprintf_c(stdout,board_width,"%s\n",CondLine);
 }
 
-static void WriteCaptions(position const *pos)
-{
-  WriteCastlingMutuallyExclusive();
-
-  if (OptFlag[halfduplex])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[halfduplex]);
-  else if (OptFlag[duplex])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[duplex]);
-
-  if (OptFlag[quodlibet])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[quodlibet]);
-
-  if (CondFlag[gridchess] && OptFlag[writegrid])
-    WriteGrid();
-}
-
 /* Try to solve in solve_nr_remaining half-moves.
  * @param si slice index
  * @note assigns solve_result the length of solution found and written, i.e.:
@@ -689,13 +673,99 @@ void output_plaintext_write_conditions(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_write_captions(slice_index si)
+void output_plaintext_write_mutually_exclusive_castlings(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteCaptions(&being_solved);
+  WriteCastlingMutuallyExclusive();
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_duplex(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (OptFlag[halfduplex])
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[halfduplex]);
+  else if (OptFlag[duplex])
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[duplex]);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_quodlibet(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (OptFlag[quodlibet])
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[quodlibet]);
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Try to solve in solve_nr_remaining half-moves.
+ * @param si slice index
+ * @note assigns solve_result the length of solution found and written, i.e.:
+ *            previous_move_is_illegal the move just played is illegal
+ *            this_move_is_illegal     the move being played is illegal
+ *            immobility_on_next_move  the moves just played led to an
+ *                                     unintended immobility on the next move
+ *            <=n+1 length of shortest solution found (n+1 only if in next
+ *                                     branch)
+ *            n+2 no solution found in this branch
+ *            n+3 no solution found in next branch
+ *            (with n denominating solve_nr_remaining)
+ */
+void output_plaintext_write_grid(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (CondFlag[gridchess] && OptFlag[writegrid])
+    WriteGrid();
 
   pipe_solve_delegate(si);
 
@@ -729,7 +799,15 @@ void output_plaintext_write_proof_target_position(slice_index si)
   WriteRoyalPiecePositions(&proofgames_target_position);
   WriteNonRoyalAttributedPieces(&proofgames_target_position);
   WriteConditions(0,&WriteCondition);
-  WriteCaptions(&proofgames_target_position);
+  WriteCastlingMutuallyExclusive();
+  if (OptFlag[halfduplex])
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[halfduplex]);
+  else if (OptFlag[duplex])
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[duplex]);
+  if (OptFlag[quodlibet])
+    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[quodlibet]);
+  if (CondFlag[gridchess] && OptFlag[writegrid])
+    WriteGrid();
 
   pipe_solve_delegate(si);
 
@@ -812,7 +890,10 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
         alloc_pipe(STOutputPlainTextRoyalPiecePositionsWriter),
         alloc_pipe(STOutputPlainTextNonRoyalAttributesWriter),
         alloc_pipe(STOutputPlainTextConditionsWriter),
-        alloc_pipe(STOutputPlainTextCaptionsWriter),
+        alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter),
+        alloc_pipe(STOutputPlainTextDuplexWriter),
+        alloc_pipe(STOutputPlainTextQuodlibetWriter),
+        alloc_pipe(STOutputPlainTextGridWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };

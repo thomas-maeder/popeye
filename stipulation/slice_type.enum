@@ -515,7 +515,10 @@
     ENUMERATOR(STOutputPlainTextRoyalPiecePositionsWriter),             \
     ENUMERATOR(STOutputPlainTextNonRoyalAttributesWriter),              \
     ENUMERATOR(STOutputPlainTextConditionsWriter),                      \
-    ENUMERATOR(STOutputPlainTextCaptionsWriter),                        \
+    ENUMERATOR(STOutputPlainTextMutuallyExclusiveCastlingsWriter),      \
+    ENUMERATOR(STOutputPlainTextDuplexWriter),                          \
+    ENUMERATOR(STOutputPlainTextQuodlibetWriter),                       \
+    ENUMERATOR(STOutputPlainTextGridWriter),                            \
     ENUMERATOR(STOutputPlainTextProofPositionWriter),                   \
     ENUMERATOR(STOutputPlainTextEndOfPositionWriters),                  \
     ENUMERATOR(STOutputEndOfIntro),                                     \

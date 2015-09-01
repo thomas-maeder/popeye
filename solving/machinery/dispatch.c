@@ -1502,6 +1502,18 @@ void dispatch(slice_index si)
       output_plaintext_write_conditions(si);
       break;
 
+    case STOutputPlainTextMutuallyExclusiveCastlingsWriter:
+      output_plaintext_write_mutually_exclusive_castlings(si);
+      break;
+
+    case STOutputPlainTextDuplexWriter:
+      output_plaintext_write_duplex(si);
+      break;
+
+    case STOutputPlainTextQuodlibetWriter:
+      output_plaintext_write_quodlibet(si);
+      break;
+
     case STOutputPlainTextAToBIntraWriter:
       output_plaintext_write_atob_intra(si);
       break;
@@ -1514,8 +1526,8 @@ void dispatch(slice_index si)
       output_plaintext_write_stipulation_options(si);
       break;
 
-    case STOutputPlainTextCaptionsWriter:
-      output_plaintext_write_captions(si);
+    case STOutputPlainTextGridWriter:
+      output_plaintext_write_grid(si);
       break;
 
     case STOutputPlainTextProofPositionWriter:
