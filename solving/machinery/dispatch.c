@@ -364,6 +364,14 @@ void dispatch(slice_index si)
       output_plaintext_atob_start_position_writer_builder_solve(si);
       break;
 
+    case STOutputPlainTextDuplexWriterBuilder:
+      output_plaintext_separate_duplex_writer_builder_solve(si);
+      break;
+
+    case STOutputPlainTextHalfDuplexWriterBuilder:
+      output_plaintext_separate_halfduplex_writer_builder_solve(si);
+      break;
+
     case STOutputPlainTextQuodlibetWriterBuilder:
       output_plaintext_separate_quodlibet_writer_builder_solve(si);
       break;
@@ -1517,6 +1525,10 @@ void dispatch(slice_index si)
 
     case STOutputPlainTextDuplexWriter:
       output_plaintext_write_duplex(si);
+      break;
+
+    case STOutputPlainTextHalfDuplexWriter:
+      output_plaintext_write_halfduplex(si);
       break;
 
     case STOutputPlainTextQuodlibetWriter:

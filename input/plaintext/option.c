@@ -290,13 +290,20 @@ char *ParseOpt(char *tok, slice_index start)
         if (input_is_instrumented_with_duplex(start))
           output_plaintext_input_error_message(InconsistentDuplexOption,0);
         else
+        {
           input_instrument_duplex(start,STDuplexSolver);
+          input_instrument_duplex(start,STOutputPlainTextDuplexWriterBuilder);
+        }
         break;
+
       case halfduplex:
         if (input_is_instrumented_with_duplex(start))
           output_plaintext_input_error_message(InconsistentDuplexOption,0);
         else
+        {
           input_instrument_duplex(start,STHalfDuplexSolver);
+          input_instrument_duplex(start,STOutputPlainTextHalfDuplexWriterBuilder);
+        }
         break;
 
       case noboard:
