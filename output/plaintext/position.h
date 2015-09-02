@@ -54,6 +54,7 @@ void output_plaintext_position_writer_builder_solve(slice_index si);
 void output_plaintext_proof_position_writer_builder_solve(slice_index si);
 void output_plaintext_atob_start_position_writer_builder_solve(slice_index si);
 
+void output_plaintext_mutually_exclusive_castlings_writer_builder_solve(slice_index si);
 void output_plaintext_separate_duplex_writer_builder_solve(slice_index si);
 void output_plaintext_separate_halfduplex_writer_builder_solve(slice_index si);
 void output_plaintext_separate_quodlibet_writer_builder_solve(slice_index si);

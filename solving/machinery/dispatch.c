@@ -364,6 +364,10 @@ void dispatch(slice_index si)
       output_plaintext_atob_start_position_writer_builder_solve(si);
       break;
 
+    case STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder:
+      output_plaintext_mutually_exclusive_castlings_writer_builder_solve(si);
+      break;
+
     case STOutputPlainTextDuplexWriterBuilder:
       output_plaintext_separate_duplex_writer_builder_solve(si);
       break;

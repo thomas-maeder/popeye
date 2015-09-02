@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void ReadMutuallyExclusiveCastling(void)
+static void ReadMutuallyExclusiveCastling(slice_index start)
 {
   char *tok = ReadNextTokStr();
   square white_rook_square;
@@ -54,6 +54,14 @@ static void ReadMutuallyExclusiveCastling(void)
                                              : rh_cancastle);
     castling_mutual_exclusive[White][white_castling-min_castling] |= black_flag;
     castling_mutual_exclusive[Black][black_castling-min_castling] |= white_flag;
+
+    {
+      slice_index const prototypes[] = {
+          alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder)
+      };
+      enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+      slice_insertion_insert(start,prototypes,nr_prototypes);
+    }
   }
   else
     output_plaintext_error_message(MissngSquareList);
@@ -283,7 +291,7 @@ char *ParseOpt(char *tok, slice_index start)
       }
 
       case mutuallyexclusivecastling:
-        ReadMutuallyExclusiveCastling();
+        ReadMutuallyExclusiveCastling(start);
         break;
 
       case duplex:

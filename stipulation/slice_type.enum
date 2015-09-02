@@ -15,6 +15,7 @@
   ENUMERATOR(STOutputPlainTextProofPositionWriterBuilder),              \
   ENUMERATOR(STOutputPlainTextAToBStartPositionWriterBuilder),          \
   ENUMERATOR(STOutputPlainTextQuodlibetWriterBuilder),                  \
+  ENUMERATOR(STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder), \
   ENUMERATOR(STOutputPlainTextDuplexWriterBuilder),                     \
   ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
