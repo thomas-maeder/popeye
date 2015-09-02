@@ -1115,3 +1115,18 @@ void output_plaintext_separate_grid_writer_builder_solve(slice_index si)
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
+
+void output_plaintext_option_noboard_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  while (SLICE_TYPE(SLICE_NEXT1(si))!=STStartOfSolvingMachinery)
+    pipe_remove(SLICE_NEXT1(si));
+
+  pipe_solve_delegate(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}

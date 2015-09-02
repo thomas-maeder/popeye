@@ -11,6 +11,7 @@
   ENUMERATOR(STEndOfStipulationSpecific),                               \
   ENUMERATOR(STSolvingMachineryIntroBuilder),                           \
   ENUMERATOR(STStartOfWriterBuilders),                                  \
+  ENUMERATOR(STOutputPlainTextOptionNoboard),                           \
   ENUMERATOR(STOutputPlainTextPositionWriterBuilder),                   \
   ENUMERATOR(STOutputPlainTextProofPositionWriterBuilder),              \
   ENUMERATOR(STOutputPlainTextAToBStartPositionWriterBuilder),          \

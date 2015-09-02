@@ -61,4 +61,6 @@ void output_plaintext_separate_halfduplex_writer_builder_solve(slice_index si);
 void output_plaintext_separate_quodlibet_writer_builder_solve(slice_index si);
 void output_plaintext_separate_grid_writer_builder_solve(slice_index si);
 
+void output_plaintext_option_noboard_solve(slice_index si);
+
 #endif

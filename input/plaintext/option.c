@@ -316,11 +316,11 @@ char *ParseOpt(char *tok, slice_index start)
 
       case noboard:
       {
-        slice_index const start_builders = branch_find_slice(STStartOfWriterBuilders,
-                                                             start,
-                                                             stip_traversal_context_intro);
-        while (SLICE_TYPE(SLICE_NEXT1(start_builders))!=STStartOfSolvingMachinery)
-          pipe_remove(SLICE_NEXT1(start_builders));
+        slice_index const prototypes[] = {
+            alloc_pipe(STOutputPlainTextOptionNoboard)
+        };
+        enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+        slice_insertion_insert(start,prototypes,nr_prototypes);
         break;
       }
 

@@ -352,6 +352,10 @@ void dispatch(slice_index si)
       solving_machinery_intro_builder_solve(si);
       break;
 
+    case STOutputPlainTextOptionNoboard:
+      output_plaintext_option_noboard_solve(si);
+      break;
+
     case STOutputPlainTextPositionWriterBuilder:
       output_plaintext_position_writer_builder_solve(si);
       break;
