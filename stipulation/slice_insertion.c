@@ -571,6 +571,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlainTextPositionWriterBuilder,
   STOutputPlainTextAToBStartPositionWriterBuilder,
   STOutputPlainTextProofPositionWriterBuilder,
+  STOutputPlainTextConditionsWriterBuilder,
   STOutputPlainTextMutuallyExclusiveCastlingsWriterBuilder,
   STOutputPlainTextDuplexWriterBuilder,
   STOutputPlainTextHalfDuplexWriterBuilder,
