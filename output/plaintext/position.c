@@ -737,8 +737,7 @@ void output_plaintext_write_quodlibet(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  if (OptFlag[quodlibet])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[quodlibet]);
+  protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[quodlibet]);
 
   pipe_solve_delegate(si);
 
