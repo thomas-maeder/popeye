@@ -344,6 +344,7 @@ void dispatch(slice_index si)
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:
     case STStartOfWriterBuilders:
+    case STOutputPlainTextStartOfTargetWriter:
       solve(SLICE_NEXT1(si));
       break;
 
@@ -359,8 +360,8 @@ void dispatch(slice_index si)
       output_plaintext_proof_position_writer_builder_solve(si);
       break;
 
-    case STOutputPlainTextAToBPositionWriterBuilder:
-      output_plaintext_atob_position_writer_builder_solve(si);
+    case STOutputPlainTextAToBStartPositionWriterBuilder:
+      output_plaintext_atob_start_position_writer_builder_solve(si);
       break;
 
     case STStartOfSolvingMachinery:

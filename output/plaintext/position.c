@@ -890,11 +890,10 @@ void output_plaintext_proof_position_writer_builder_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  assert(find_unique_goal(si).type==goal_proofgame);
-
   {
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
+        alloc_pipe(STOutputPlainTextStartOfTargetWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&proofgames_target_position),
         alloc_pipe(STOutputPlainTextStipulationWriter),
         alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
@@ -938,7 +937,7 @@ static slice_index alloc_atob_intra_writer(Side starter)
   return result;
 }
 
-void output_plaintext_atob_position_writer_builder_solve(slice_index si)
+void output_plaintext_atob_start_position_writer_builder_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
@@ -948,24 +947,11 @@ void output_plaintext_atob_position_writer_builder_solve(slice_index si)
 
   {
     slice_index const prototypes[] = {
-        alloc_pipe(STOutputPlainTextMetaWriter),
         alloc_position_handler(STOutputPlainTextBoardWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextPieceCountsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&being_solved),
-        alloc_atob_intra_writer(SLICE_STARTER(si)),
-        alloc_position_handler(STOutputPlainTextBoardWriter,&proofgames_target_position),
-        alloc_pipe(STOutputPlainTextStipulationWriter),
-        alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
-        alloc_position_handler(STOutputPlainTextPieceCountsWriter,&proofgames_target_position),
-        alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&proofgames_target_position),
-        alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&proofgames_target_position),
-        alloc_pipe(STOutputPlainTextConditionsWriter),
-        alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter),
-        alloc_pipe(STOutputPlainTextDuplexWriter),
-        alloc_pipe(STOutputPlainTextQuodlibetWriter),
-        alloc_pipe(STOutputPlainTextGridWriter),
-        alloc_pipe(STOutputPlainTextEndOfPositionWriters)
+        alloc_atob_intra_writer(SLICE_STARTER(si))
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);

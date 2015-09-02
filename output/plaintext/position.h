@@ -51,6 +51,6 @@ void output_plaintext_write_grid(slice_index si);
 
 void output_plaintext_position_writer_builder_solve(slice_index si);
 void output_plaintext_proof_position_writer_builder_solve(slice_index si);
-void output_plaintext_atob_position_writer_builder_solve(slice_index si);
+void output_plaintext_atob_start_position_writer_builder_solve(slice_index si);
 
 #endif

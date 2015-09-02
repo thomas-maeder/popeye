@@ -240,7 +240,8 @@ char *ParseGoal(char *tok, slice_index start, slice_index proxy)
                                                        stip_traversal_context_intro);
           if (writer!=no_slice)
           {
-            pipe_append(writer,alloc_pipe(STOutputPlainTextAToBPositionWriterBuilder));
+            pipe_append(writer,alloc_pipe(STOutputPlainTextProofPositionWriterBuilder));
+            pipe_append(writer,alloc_pipe(STOutputPlainTextAToBStartPositionWriterBuilder));
             pipe_remove(writer);
           }
         }

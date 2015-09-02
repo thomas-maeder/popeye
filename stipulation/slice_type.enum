@@ -13,7 +13,7 @@
   ENUMERATOR(STStartOfWriterBuilders),                                  \
   ENUMERATOR(STOutputPlainTextPositionWriterBuilder),                   \
   ENUMERATOR(STOutputPlainTextProofPositionWriterBuilder),              \
-  ENUMERATOR(STOutputPlainTextAToBPositionWriterBuilder),               \
+  ENUMERATOR(STOutputPlainTextAToBStartPositionWriterBuilder),          \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STDuplexSolver),                                           \
@@ -510,6 +510,7 @@
     ENUMERATOR(STOutputPlainTextBoardWriter),                           \
     ENUMERATOR(STOutputPlainTextPieceCountsWriter),                     \
     ENUMERATOR(STOutputPlainTextAToBIntraWriter),                       \
+    ENUMERATOR(STOutputPlainTextStartOfTargetWriter),                   \
     ENUMERATOR(STOutputPlainTextStipulationWriter),                     \
     ENUMERATOR(STOutputPlainTextStipulationOptionsWriter),              \
     ENUMERATOR(STOutputPlainTextRoyalPiecePositionsWriter),             \
