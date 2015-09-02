@@ -154,13 +154,8 @@ static void WriteNonRoyalAttributedPieces(position const *pos)
   piece_flag_type sp;
 
   for (sp = Royal+1; sp<nr_piece_flags; ++sp)
-    if (TSTFLAG(some_pieces_flags,sp))
-    {
-      if (!(sp==Patrol && CondFlag[patrouille])
-          && !(sp==Volage && CondFlag[volage])
-          && !(sp==Beamtet && CondFlag[beamten]))
-        WritePiecesWithAttribute(pos,sp);
-    }
+    if (!TSTFLAG(all_pieces_flags,sp) && TSTFLAG(some_pieces_flags,sp))
+      WritePiecesWithAttribute(pos,sp);
 }
 
 static void WriteRoyalPiecePositions(position const *pos)
