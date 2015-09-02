@@ -866,7 +866,6 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
         alloc_pipe(STOutputPlainTextConditionsWriter),
         alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter),
         alloc_pipe(STOutputPlainTextDuplexWriter),
-        alloc_pipe(STOutputPlainTextQuodlibetWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -901,7 +900,6 @@ void output_plaintext_proof_position_writer_builder_solve(slice_index si)
         alloc_pipe(STOutputPlainTextConditionsWriter),
         alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter),
         alloc_pipe(STOutputPlainTextDuplexWriter),
-        alloc_pipe(STOutputPlainTextQuodlibetWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -949,6 +947,29 @@ void output_plaintext_atob_start_position_writer_builder_solve(slice_index si)
         alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
         alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&being_solved),
         alloc_atob_intra_writer(SLICE_STARTER(si))
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  pipe_solve_delegate(si);
+
+  /* only build the position writers once per problem */
+  pipe_remove(si);
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+void output_plaintext_separate_quodlibet_writer_builder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  {
+    slice_index const prototypes[] = {
+        alloc_pipe(STOutputPlainTextQuodlibetWriter)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);

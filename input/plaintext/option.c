@@ -319,6 +319,16 @@ char *ParseOpt(char *tok, slice_index start)
         break;
       }
 
+      case quodlibet:
+      {
+        slice_index const prototypes[] = {
+            alloc_pipe(STOutputPlainTextQuodlibetWriterBuilder)
+        };
+        enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+        slice_insertion_insert(start,prototypes,nr_prototypes);
+        break;
+      }
+
       default:
         /* no extra action required */
         break;
