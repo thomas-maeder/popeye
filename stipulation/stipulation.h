@@ -31,6 +31,7 @@ enum
 };
 
 struct circe_variant_type;
+struct position;
 
 typedef struct
 {
@@ -98,6 +99,11 @@ typedef struct
         {
             FILE *file;
         } writer;
+
+        struct
+        {
+          struct position const *position;
+        } position_handler;
 
         struct
         {

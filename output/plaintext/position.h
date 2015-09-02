@@ -22,7 +22,7 @@ void WriteBoard(position const *pos);
  *            (with n denominating solve_nr_remaining)
  */
 void output_plaintext_write_meta(slice_index si);
-void output_plaintext_write_current_board(slice_index si);
+void output_plaintext_write_board(slice_index si);
 void output_plaintext_write_piece_counts(slice_index si);
 void output_plaintext_write_atob_intra(slice_index si);
 
@@ -48,7 +48,6 @@ void output_plaintext_write_mutually_exclusive_castlings(slice_index si);
 void output_plaintext_write_duplex(slice_index si);
 void output_plaintext_write_quodlibet(slice_index si);
 void output_plaintext_write_grid(slice_index si);
-void output_plaintext_write_proof_target_position(slice_index si);
 
 void output_plaintext_position_writer_builder_solve(slice_index si);
 void output_plaintext_proof_position_writer_builder_solve(slice_index si);

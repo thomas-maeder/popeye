@@ -507,7 +507,7 @@
     ENUMERATOR(STOutputModeSelector), /* select an output mode for the subsequent play */ \
     ENUMERATOR(STOutputPlainTextEndOfTwinWriter),                       \
     ENUMERATOR(STOutputPlainTextMetaWriter),                            \
-    ENUMERATOR(STOutputPlainTextCurrentBoardWriter),                    \
+    ENUMERATOR(STOutputPlainTextBoardWriter),                           \
     ENUMERATOR(STOutputPlainTextPieceCountsWriter),                     \
     ENUMERATOR(STOutputPlainTextAToBIntraWriter),                       \
     ENUMERATOR(STOutputPlainTextStipulationWriter),                     \
@@ -519,7 +519,6 @@
     ENUMERATOR(STOutputPlainTextDuplexWriter),                          \
     ENUMERATOR(STOutputPlainTextQuodlibetWriter),                       \
     ENUMERATOR(STOutputPlainTextGridWriter),                            \
-    ENUMERATOR(STOutputPlainTextProofPositionWriter),                   \
     ENUMERATOR(STOutputPlainTextEndOfPositionWriters),                  \
     ENUMERATOR(STOutputEndOfIntro),                                     \
     ENUMERATOR(STOutputPlaintextTwinIntroWriter),                       \

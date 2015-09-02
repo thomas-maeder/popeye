@@ -484,13 +484,14 @@ void output_plaintext_write_meta(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_write_current_board(slice_index si)
+void output_plaintext_write_board(slice_index si)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteBoard(&being_solved);
+  WriteBoard(slices[si].u.position_handler.position);
+  indentation = 0;
 
   pipe_solve_delegate(si);
 
@@ -517,7 +518,7 @@ void output_plaintext_write_piece_counts(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WritePieceCounts(&being_solved,indentation);
+  WritePieceCounts(slices[si].u.position_handler.position,indentation);
 
   pipe_solve_delegate(si);
 
@@ -544,7 +545,7 @@ void output_plaintext_write_royal_piece_positions(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteRoyalPiecePositions(&being_solved);
+  WriteRoyalPiecePositions(slices[si].u.position_handler.position);
 
   pipe_solve_delegate(si);
 
@@ -598,7 +599,7 @@ void output_plaintext_write_stipulation(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  indentation = WriteStipulation();
+  indentation += WriteStipulation();
 
   pipe_solve_delegate(si);
 
@@ -625,7 +626,7 @@ void output_plaintext_write_non_royal_attributes(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  WriteNonRoyalAttributedPieces(&being_solved);
+  WriteNonRoyalAttributedPieces(slices[si].u.position_handler.position);
 
   pipe_solve_delegate(si);
 
@@ -786,48 +787,6 @@ void output_plaintext_write_grid(slice_index si)
  *            n+3 no solution found in next branch
  *            (with n denominating solve_nr_remaining)
  */
-void output_plaintext_write_proof_target_position(slice_index si)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%u",si);
-  TraceFunctionParamListEnd();
-
-  WriteBoard(&proofgames_target_position);
-  indentation = WriteStipulation();
-  indentation += WriteOptions(&proofgames_target_position);
-  WritePieceCounts(&proofgames_target_position,indentation);
-  WriteRoyalPiecePositions(&proofgames_target_position);
-  WriteNonRoyalAttributedPieces(&proofgames_target_position);
-  WriteConditions(0,&WriteCondition);
-  WriteCastlingMutuallyExclusive();
-  if (OptFlag[halfduplex])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[halfduplex]);
-  else if (OptFlag[duplex])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[duplex]);
-  if (OptFlag[quodlibet])
-    protocol_fprintf_c(stdout,board_width,"%s\n",OptTab[quodlibet]);
-  if (CondFlag[gridchess] && OptFlag[writegrid])
-    WriteGrid();
-
-  pipe_solve_delegate(si);
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
-/* Try to solve in solve_nr_remaining half-moves.
- * @param si slice index
- * @note assigns solve_result the length of solution found and written, i.e.:
- *            previous_move_is_illegal the move just played is illegal
- *            this_move_is_illegal     the move being played is illegal
- *            immobility_on_next_move  the moves just played led to an
- *                                     unintended immobility on the next move
- *            <=n+1 length of shortest solution found (n+1 only if in next
- *                                     branch)
- *            n+2 no solution found in this branch
- *            n+3 no solution found in next branch
- *            (with n denominating solve_nr_remaining)
- */
 void output_plaintext_write_atob_intra(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -871,6 +830,22 @@ void output_plaintext_end_of_position_writer_writers_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static slice_index alloc_position_handler(slice_type type, position const *pos)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(type);
+  slices[result].u.position_handler.position = pos;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void output_plaintext_position_writer_builder_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -883,12 +858,12 @@ void output_plaintext_position_writer_builder_solve(slice_index si)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
-        alloc_pipe(STOutputPlainTextCurrentBoardWriter),
+        alloc_position_handler(STOutputPlainTextBoardWriter,&being_solved),
         alloc_pipe(STOutputPlainTextStipulationWriter),
         alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
-        alloc_pipe(STOutputPlainTextPieceCountsWriter),
-        alloc_pipe(STOutputPlainTextRoyalPiecePositionsWriter),
-        alloc_pipe(STOutputPlainTextNonRoyalAttributesWriter),
+        alloc_position_handler(STOutputPlainTextPieceCountsWriter,&being_solved),
+        alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
+        alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&being_solved),
         alloc_pipe(STOutputPlainTextConditionsWriter),
         alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter),
         alloc_pipe(STOutputPlainTextDuplexWriter),
@@ -920,7 +895,17 @@ void output_plaintext_proof_position_writer_builder_solve(slice_index si)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
-        alloc_pipe(STOutputPlainTextProofPositionWriter),
+        alloc_position_handler(STOutputPlainTextBoardWriter,&proofgames_target_position),
+        alloc_pipe(STOutputPlainTextStipulationWriter),
+        alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
+        alloc_position_handler(STOutputPlainTextPieceCountsWriter,&proofgames_target_position),
+        alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&proofgames_target_position),
+        alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&proofgames_target_position),
+        alloc_pipe(STOutputPlainTextConditionsWriter),
+        alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter),
+        alloc_pipe(STOutputPlainTextDuplexWriter),
+        alloc_pipe(STOutputPlainTextQuodlibetWriter),
+        alloc_pipe(STOutputPlainTextGridWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
@@ -936,6 +921,23 @@ void output_plaintext_proof_position_writer_builder_solve(slice_index si)
   TraceFunctionResultEnd();
 }
 
+static slice_index alloc_atob_intra_writer(Side starter)
+{
+  slice_index result;
+
+  TraceFunctionEntry(__func__);
+  TraceEnumerator(Side,starter,"");
+  TraceFunctionParamListEnd();
+
+  result = alloc_pipe(STOutputPlainTextAToBIntraWriter);
+  SLICE_STARTER(result) = starter;
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResult("%u",result);
+  TraceFunctionResultEnd();
+  return result;
+}
+
 void output_plaintext_atob_position_writer_builder_solve(slice_index si)
 {
   TraceFunctionEntry(__func__);
@@ -947,16 +949,26 @@ void output_plaintext_atob_position_writer_builder_solve(slice_index si)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STOutputPlainTextMetaWriter),
-        alloc_pipe(STOutputPlainTextCurrentBoardWriter),
-        alloc_pipe(STOutputPlainTextPieceCountsWriter),
-        alloc_pipe(STOutputPlainTextAToBIntraWriter),
-        alloc_pipe(STOutputPlainTextProofPositionWriter),
+        alloc_position_handler(STOutputPlainTextBoardWriter,&being_solved),
+        alloc_position_handler(STOutputPlainTextPieceCountsWriter,&being_solved),
+        alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&being_solved),
+        alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&being_solved),
+        alloc_atob_intra_writer(SLICE_STARTER(si)),
+        alloc_position_handler(STOutputPlainTextBoardWriter,&proofgames_target_position),
+        alloc_pipe(STOutputPlainTextStipulationWriter),
+        alloc_pipe(STOutputPlainTextStipulationOptionsWriter),
+        alloc_position_handler(STOutputPlainTextPieceCountsWriter,&proofgames_target_position),
+        alloc_position_handler(STOutputPlainTextRoyalPiecePositionsWriter,&proofgames_target_position),
+        alloc_position_handler(STOutputPlainTextNonRoyalAttributesWriter,&proofgames_target_position),
+        alloc_pipe(STOutputPlainTextConditionsWriter),
+        alloc_pipe(STOutputPlainTextMutuallyExclusiveCastlingsWriter),
+        alloc_pipe(STOutputPlainTextDuplexWriter),
+        alloc_pipe(STOutputPlainTextQuodlibetWriter),
+        alloc_pipe(STOutputPlainTextGridWriter),
         alloc_pipe(STOutputPlainTextEndOfPositionWriters)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(si,prototypes,nr_prototypes);
-
-    solving_impose_starter(si,SLICE_STARTER(si));
   }
 
   pipe_solve_delegate(si);

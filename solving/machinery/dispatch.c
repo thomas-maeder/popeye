@@ -1482,8 +1482,8 @@ void dispatch(slice_index si)
       output_plaintext_write_meta(si);
       break;
 
-    case STOutputPlainTextCurrentBoardWriter:
-      output_plaintext_write_current_board(si);
+    case STOutputPlainTextBoardWriter:
+      output_plaintext_write_board(si);
       break;
 
     case STOutputPlainTextPieceCountsWriter:
@@ -1528,10 +1528,6 @@ void dispatch(slice_index si)
 
     case STOutputPlainTextGridWriter:
       output_plaintext_write_grid(si);
-      break;
-
-    case STOutputPlainTextProofPositionWriter:
-      output_plaintext_write_proof_target_position(si);
       break;
 
     case STOutputPlainTextEndOfPositionWriters:

@@ -39,7 +39,7 @@ typedef square imarr[maxinum]; /* squares currently occupied by imitators */
 /* Structure containing the pieces of data that together represent a
  * position.
  */
-typedef struct
+typedef struct position
 {
     echiquier board;                     /* placement of the pieces */
     Flags spec[maxsquare+5];      /* spec[s] contains flags for piece board[i]*/
