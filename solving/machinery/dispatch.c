@@ -364,6 +364,10 @@ void dispatch(slice_index si)
       output_plaintext_atob_start_position_writer_builder_solve(si);
       break;
 
+    case STOutputPlainTextSeparateGridWriterBuilder:
+      output_plaintext_separate_grid_writer_builder_solve(si);
+      break;
+
     case STStartOfSolvingMachinery:
       start_of_solving_machinery_solve(si);
       break;

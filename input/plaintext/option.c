@@ -309,6 +309,16 @@ char *ParseOpt(char *tok, slice_index start)
         break;
       }
 
+      case writegrid:
+      {
+        slice_index const prototypes[] = {
+            alloc_pipe(STOutputPlainTextSeparateGridWriterBuilder)
+        };
+        enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+        slice_insertion_insert(start,prototypes,nr_prototypes);
+        break;
+      }
+
       default:
         /* no extra action required */
         break;
