@@ -82,7 +82,7 @@ void output_latex_goal_writer_solve(slice_index si)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  fprintf(SLICE_U(si).goal_writer.file,latex_goal_end_marker[goal.type]);
+  fprintf(SLICE_U(si).goal_writer.file,"%s",latex_goal_end_marker[goal.type]);
 
   pipe_solve_delegate(si);
 
