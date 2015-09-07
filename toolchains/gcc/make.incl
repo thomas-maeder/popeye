@@ -51,7 +51,7 @@ ARCHIVE_INDEXER = ranlib
 # ================
 
 # Select warning level
-WARN=-W -Wall -pedantic -Wno-unused-parameter -Wdeclaration-after-statement
+WARN=-W -Wall -pedantic -Wno-unused-parameter -Wdeclaration-after-statement -Werror=format-security
 
 # Select whether to produce an executable with debugging and profiling
 # info
