@@ -3672,10 +3672,10 @@ RochadenGegenseitigAusschliessend h1h8
   1.e7-e5 0-0   2.Ke8-e7 Tf1-d1   3.Ke7-d6 Ld2-b4 #
   1.0-0 Th1-f1   2.Kg8-h7 Tf1-f4   3.Kh7-h6 Tf4*h4 #
 
-  add_to_move_generation_stack:    15753227
-                     play_move:    15747892
- is_white_king_square_attacked:     1212417
- is_black_king_square_attacked:     1388001
+  add_to_move_generation_stack:    16034364
+                     play_move:    16028300
+ is_white_king_square_attacked:     1224542
+ is_black_king_square_attacked:     1411952
 Loesung beendet.
 
 

@@ -86,6 +86,7 @@ static void pin_by_promoted_pawn(unsigned int pinner_index,
  * @param pinner_index identifiespinnter
  * @param pin_from where to put pinner
  * @param is_pin_on_diagonal is the piece to be pinned on a diagonal
+ * @note will leave pin_from occupied by the last piece tried
  */
 static void pin_using_specific_piece_on(unsigned int pinner_index,
                                         square pin_from,

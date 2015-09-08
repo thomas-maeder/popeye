@@ -189,10 +189,10 @@ guard with check -> selfpin with check -> selfpin with guard by s
 
   1...Rh1-h3 #
 
-  add_to_move_generation_stack:         125
-                     play_move:         106
- is_white_king_square_attacked:          13
- is_black_king_square_attacked:          90
+  add_to_move_generation_stack:         133
+                     play_move:         117
+ is_white_king_square_attacked:          14
+ is_black_king_square_attacked:         102
 solution finished.
 
 

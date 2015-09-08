@@ -37,6 +37,12 @@ void intelligent_place_black_knight(unsigned int placed_index,
                                     square placed_on,
                                     void (*go_on)(void));
 
+/* Place a black piece
+ * @param placed_index index of the piece in array black[]
+ * @param placed_on where to place the black piece
+ * @param go_on what to do with piece placed_index on square placed_on?
+ * @note will leave placed_on occupied by the last piece tried
+ */
 void intelligent_place_black_piece(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void));

@@ -227,6 +227,11 @@ void intelligent_place_white_rider(unsigned int placed_index,
   TraceSquare(placed_on);
   TraceFunctionParamListEnd();
 
+  TraceValue("%d",dir);
+  TraceValue("%d",guard_dir_guard_uninterceptable);
+  TraceValue("%u",index_of_guarding_piece);
+  TraceEOL();
+
   switch (dir)
   {
     case guard_dir_check_uninterceptable:
@@ -317,6 +322,12 @@ void intelligent_place_white_knight(unsigned int placed_index,
   TraceFunctionResultEnd();
 }
 
+/* Place a white piece
+ * @param placed_index index of the piece in array white[]
+ * @param placed_on where to place the white piece
+ * @param go_on what to do with piece placed_index on square placed_on?
+ * @note will leave placed_on occupied by the last piece tried
+ */
 void intelligent_place_white_piece(unsigned int placed_index,
                                    square placed_on,
                                    void (*go_on)(void))

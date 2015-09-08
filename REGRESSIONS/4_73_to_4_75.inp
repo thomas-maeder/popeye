@@ -1,0 +1,11 @@
+begin
+
+protocol 4_73_to_4_75.reg
+
+title wasn't solved until 4.73
+author Viktoras Paliulionis
+stipulation h#1
+pieces white kd4 Qb6 Rf6 black Kf8 Qg8 bg7
+option intelligent
+
+end

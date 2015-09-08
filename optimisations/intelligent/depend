@@ -1446,7 +1446,7 @@ optimisations/intelligent/count_nr_of_moves$(OBJ_SUFFIX): \
  solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
  optimisations/intelligent/piece_usage.h \
  optimisations/intelligent/piece_usage.enum.h solving/proofgames.h \
- pieces/walks/pawns/en_passant.h solving/move_effect_journal.h \
+ solving/move_effect_journal.h pieces/walks/pawns/en_passant.h \
  solving/observation.h solving/temporary_hacks.h \
  pieces/walks/pawns/promotee_sequence.h solving/castling.h \
  position/move_diff_code.h optimisations/intelligent/moves_left.h \
@@ -1506,9 +1506,9 @@ optimisations/intelligent/piece_usage.enum.h:
 
 solving/proofgames.h:
 
-pieces/walks/pawns/en_passant.h:
-
 solving/move_effect_journal.h:
+
+pieces/walks/pawns/en_passant.h:
 
 solving/observation.h:
 

@@ -317,7 +317,7 @@ static void place_queen_opposition(square guard_from)
   {
     assert(nr_reasons_for_staying_empty[to_be_intercepted]==0);
     intercept_check_on_guarded_square(to_be_intercepted);
-    intelligent_intercept_orthogonal_check_by_pin(to_be_intercepted);
+    intelligent_intercept_check_by_pin(to_be_intercepted);
     empty_square(to_be_intercepted);
   }
   else
@@ -341,6 +341,11 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
 
   {
     int const dir = GuardDir[rider_type-Pawn][guard_from].dir;
+
+    TraceValue("%d",dir);
+    TraceValue("%d",guard_dir_check_uninterceptable);
+    TraceEOL();
+
     switch (dir)
     {
       case guard_dir_check_uninterceptable:
@@ -350,6 +355,10 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
       case guard_dir_guard_uninterceptable:
       {
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
+        TraceSquare(guarded);
+        TraceValue("%u",TSTFLAG(being_solved.spec[guarded],Black));
+        TraceWalk(being_solved.board[guarded]);
+        TraceEOL();
         if (!TSTFLAG(being_solved.spec[guarded],Black))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
@@ -358,6 +367,8 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
           {
             assert(nr_reasons_for_staying_empty[guarded]==0);
             intercept_check_on_guarded_square(guarded);
+            intelligent_intercept_check_by_pin(guarded);
+            empty_square(guarded);
           }
           else
             intelligent_continue_guarding_flights();
@@ -368,6 +379,9 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
       default:
       {
         square const guarded = GuardDir[rider_type-Pawn][guard_from].target;
+        TraceSquare(guarded);
+        TraceValue("%u",TSTFLAG(being_solved.spec[guarded],Black));
+        TraceEOL();
         if (!TSTFLAG(being_solved.spec[guarded],Black) && is_line_empty(guard_from,guarded,dir))
         {
           occupy_square(guard_from,rider_type,white[index_of_guarding_piece].flags);
@@ -378,6 +392,8 @@ static void place_rider(piece_walk_type rider_type, square guard_from)
             {
               assert(nr_reasons_for_staying_empty[guarded]==0);
               intercept_check_on_guarded_square(guarded);
+              intelligent_intercept_check_by_pin(guarded);
+              empty_square(guarded);
             }
             else
             {
@@ -878,7 +894,7 @@ void intelligent_continue_guarding_flights(void)
 }
 
 /* guard king flights with the white king */
-static void king()
+static void king(void)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParamListEnd();

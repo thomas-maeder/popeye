@@ -110,7 +110,9 @@ static void plan_blocks_of_flights(void)
     square const flight = being_solved.king_square[Black]+vec[i];
 
     if (is_square_blocked(flight) || TSTFLAG(being_solved.spec[flight],Black))
-      ; /* 'flight' is off board or blocked - don't bother */
+    {
+      /* 'flight' is off board or blocked - don't bother */
+    }
     else if (!is_square_observed_ortho(White,flight))
     {
       if (TSTFLAG(being_solved.spec[flight],White)

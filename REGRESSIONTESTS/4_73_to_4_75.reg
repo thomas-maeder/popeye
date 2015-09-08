@@ -1,0 +1,34 @@
+
+        Viktoras Paliulionis
+      wasn't solved until 4.73
+
++---a---b---c---d---e---f---g---h---+
+|                                   |
+8   .   .   .   .   .  -K  -Q   .   8
+|                                   |
+7   .   .   .   .   .   .  -B   .   7
+|                                   |
+6   .   Q   .   .   .   R   .   .   6
+|                                   |
+5   .   .   .   .   .   .   .   .   5
+|                                   |
+4   .   .   .   K   .   .   .   .   4
+|                                   |
+3   .   .   .   .   .   .   .   .   3
+|                                   |
+2   .   .   .   .   .   .   .   .   2
+|                                   |
+1   .   .   .   .   .   .   .   .   1
+|                                   |
++---a---b---c---d---e---f---g---h---+
+  h#1                         3 + 3
+
+  1.Qg8-f7 Qb6-d8 #
+
+  add_to_move_generation_stack:          62
+                     play_move:          57
+ is_white_king_square_attacked:           5
+ is_black_king_square_attacked:          27
+solution finished.
+
+
