@@ -580,7 +580,7 @@ static slice_index const slice_rank_order[] =
   STOutputPlainTextSeparateGridWriterBuilder,
   STStartOfSolvingMachinery,
   STCreateBuilderSetupPly,
-  STOutputLaTeXDiagramStartWriterBuilder,
+  STOutputLaTeXDiagramWriterBuilder,
   STPieceWalkCacheInitialiser,
   STPiecesCounter,
   STRoyalsLocator,

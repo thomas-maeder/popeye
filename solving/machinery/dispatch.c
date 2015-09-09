@@ -393,7 +393,7 @@ void dispatch(slice_index si)
       output_plaintext_separate_grid_writer_builder_solve(si);
       break;
 
-    case STOutputLaTeXDiagramStartWriterBuilder:
+    case STOutputLaTeXDiagramWriterBuilder:
       output_latex_diagram_writer_builder_solve(si);
       break;
 

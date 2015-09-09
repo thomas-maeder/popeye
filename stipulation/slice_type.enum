@@ -21,7 +21,7 @@
   ENUMERATOR(STOutputPlainTextDuplexWriterBuilder),                     \
   ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
-  ENUMERATOR(STOutputLaTeXDiagramStartWriterBuilder),                       \
+  ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                       \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STDuplexSolver),                                           \
