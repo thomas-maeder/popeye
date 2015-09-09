@@ -21,6 +21,7 @@
   ENUMERATOR(STOutputPlainTextDuplexWriterBuilder),                     \
   ENUMERATOR(STOutputPlainTextHalfDuplexWriterBuilder),                 \
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
+  ENUMERATOR(STOutputLaTeXDiagramStartWriterBuilder),                       \
   ENUMERATOR(STTwinIdAdjuster),                                         \
   ENUMERATOR(STStartOfSolvingMachinery),                                \
   ENUMERATOR(STDuplexSolver),                                           \
@@ -559,6 +560,8 @@
     ENUMERATOR(STOutputPlaintextMoveInversionCounter), /* plain text output: count move inversions */  \
     ENUMERATOR(STOutputPlaintextMoveInversionCounterSetPlay), \
     ENUMERATOR(STOutputPlaintextLineEndOfIntroSeriesMarker), /* handles the end of the intro series */  \
+    ENUMERATOR(STOutputLaTeXDiagramStartWriter),                        \
+    ENUMERATOR(STOutputLaTeXDiagramEndWriter),                          \
     ENUMERATOR(STOutputLaTeXTwinningWriter),                            \
     ENUMERATOR(STOutputLaTeXLineLineWriter), /* LaTeX output, line mode: write a line */  \
     ENUMERATOR(STOutputLaTeXGoalWriter), /* LaTeX output: write the reached goal */  \

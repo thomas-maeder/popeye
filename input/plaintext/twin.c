@@ -883,6 +883,7 @@ void solving_machinery_intro_builder_solve(slice_index si)
   {
     slice_index const prototypes[] = {
         alloc_pipe(STCreateBuilderSetupPly),
+        alloc_pipe(STOutputLaTeXDiagramStartWriterBuilder),
         alloc_pipe(STPieceWalkCacheInitialiser),
         alloc_pipe(STPiecesCounter),
         alloc_pipe(STRoyalsLocator),

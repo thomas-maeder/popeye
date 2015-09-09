@@ -1,7 +1,7 @@
 # -*- Makefile -*-
 #
-SRC_CFILES = latex.c twinning.c goal_writer.c message.c
+SRC_CFILES = latex.c diagram.c twinning.c goal_writer.c message.c
 
-INCLUDES = latex.h twinning.h goal_writer.h message.h
+INCLUDES = latex.h diagram.h twinning.h goal_writer.h message.h
 
 include makefile.rules $(CURRPWD)depend

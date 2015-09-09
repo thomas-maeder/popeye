@@ -16,13 +16,13 @@ output/output$(OBJ_SUFFIX): output/output.c output/output.h output/mode.h \
  stipulation/slice_contextual_type.h \
  stipulation/slice_contextual_type.enum.h stipulation/traversal.h \
  stipulation/slice_insertion.h output/plaintext/plaintext.h \
- solving/move_effect_journal.h solving/machinery/solve.h \
- solving/machinery/dispatch.h debugging/trace.h \
- position/castling_rights.h solving/ply.h position/pieceid.h \
  output/latex/latex.h position/position.h position/color.h \
- position/color.enum.h pieces/walks/vectors.h input/plaintext/twin.h \
- input/plaintext/token.h input/plaintext/language.h \
- solving/machinery/twin.h solving/pipe.h
+ position/color.enum.h pieces/walks/vectors.h position/castling_rights.h \
+ input/plaintext/twin.h input/plaintext/token.h \
+ input/plaintext/language.h solving/machinery/twin.h \
+ solving/move_effect_journal.h solving/machinery/solve.h \
+ solving/machinery/dispatch.h debugging/trace.h solving/ply.h \
+ position/pieceid.h solving/pipe.h
 
 output/output.h:
 
@@ -74,20 +74,6 @@ stipulation/slice_insertion.h:
 
 output/plaintext/plaintext.h:
 
-solving/move_effect_journal.h:
-
-solving/machinery/solve.h:
-
-solving/machinery/dispatch.h:
-
-debugging/trace.h:
-
-position/castling_rights.h:
-
-solving/ply.h:
-
-position/pieceid.h:
-
 output/latex/latex.h:
 
 position/position.h:
@@ -98,6 +84,8 @@ position/color.enum.h:
 
 pieces/walks/vectors.h:
 
+position/castling_rights.h:
+
 input/plaintext/twin.h:
 
 input/plaintext/token.h:
@@ -105,6 +93,18 @@ input/plaintext/token.h:
 input/plaintext/language.h:
 
 solving/machinery/twin.h:
+
+solving/move_effect_journal.h:
+
+solving/machinery/solve.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/ply.h:
+
+position/pieceid.h:
 
 solving/pipe.h:
 output/message$(OBJ_SUFFIX): output/message.c output/plaintext/message.h \

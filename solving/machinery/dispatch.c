@@ -200,6 +200,7 @@
 #include "output/plaintext/tree/zugzwang_writer.h"
 #include "output/plaintext/tree/exclusive.h"
 #include "output/plaintext/twinning.h"
+#include "output/latex/diagram.h"
 #include "output/latex/twinning.h"
 #include "output/latex/line/line_writer.h"
 #include "output/latex/goal_writer.h"
@@ -390,6 +391,10 @@ void dispatch(slice_index si)
 
     case STOutputPlainTextSeparateGridWriterBuilder:
       output_plaintext_separate_grid_writer_builder_solve(si);
+      break;
+
+    case STOutputLaTeXDiagramStartWriterBuilder:
+      output_latex_diagram_writer_builder_solve(si);
       break;
 
     case STStartOfSolvingMachinery:
@@ -838,6 +843,14 @@ void dispatch(slice_index si)
 
     case STOutputLaTeXLineLineWriter:
       output_latex_line_line_writer_solve(si);
+      break;
+
+    case STOutputLaTeXDiagramStartWriter:
+      output_latex_write_diagram_start(si);
+      break;
+
+    case STOutputLaTeXDiagramEndWriter:
+      output_latex_write_diagram_end(si);
       break;
 
     case STOutputLaTeXTwinningWriter:

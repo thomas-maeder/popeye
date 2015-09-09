@@ -11,6 +11,7 @@
 #include "stipulation/pipe.h"
 #include "solving/pipe.h"
 #include "solving/duplex.h"
+#include "solving/machinery/twin.h"
 #include "debugging/assert.h"
 
 #include <ctype.h>
@@ -409,63 +410,18 @@ void output_latex_write_twinning(slice_index si)
   switch (twin_stage)
   {
     case twin_original_position_no_twins:
-      if (twin_duplex_type!=twin_is_duplex)
-      {
-        LaTeXBeginDiagram(file);
-        LaTexOpenSolution(file);
-      }
-
-      pipe_solve_delegate(si);
-
-      if (twin_duplex_type!=twin_has_duplex)
-      {
-        LaTexCloseSolution(file);
-        LaTeXFlushTwinning(file);
-        LaTeXEndDiagram(file);
-      }
-      break;
-
     case twin_zeroposition:
-      LaTeXBeginDiagram(file);
-      LaTexOpenSolution(file);
       pipe_solve_delegate(si);
       break;
 
     case twin_initial:
-      if (twin_duplex_type!=twin_is_duplex)
-      {
-        LaTeXBeginDiagram(file);
-        LaTexOpenSolution(file);
-        WriteTwinning();
-      }
-
-      if (twin_duplex_type!=twin_is_duplex)
-        WriteTwinLetterToSolution(file);
-      pipe_solve_delegate(si);
-      break;
-
     case twin_regular:
-      if (twin_duplex_type!=twin_is_duplex)
-        WriteTwinning();
-
-      if (twin_duplex_type!=twin_is_duplex)
-        WriteTwinLetterToSolution(file);
-      pipe_solve_delegate(si);
-      break;
-
     case twin_last:
       if (twin_duplex_type!=twin_is_duplex)
         WriteTwinning();
-
       if (twin_duplex_type!=twin_is_duplex)
         WriteTwinLetterToSolution(file);
       pipe_solve_delegate(si);
-      if (twin_duplex_type!=twin_has_duplex)
-      {
-        LaTexCloseSolution(file);
-        LaTeXFlushTwinning(file);
-        LaTeXEndDiagram(file);
-      }
       break;
 
     default:

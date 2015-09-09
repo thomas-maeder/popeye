@@ -1,4 +1,5 @@
 #include "output/latex/latex.h"
+#include "output/latex/diagram.h"
 #include "output/latex/twinning.h"
 #include "output/latex/line/line.h"
 #include "output/latex/tree/tree.h"
@@ -16,6 +17,7 @@
 #include "pieces/walks/classification.h"
 #include "pieces/attributes/neutral/neutral.h"
 #include "stipulation/pipe.h"
+#include "solving/pipe.h"
 #include "conditions/bgl.h"
 #include "conditions/grid.h"
 #include "conditions/singlebox/type1.h"
@@ -1080,18 +1082,6 @@ static void visit_output_mode_selector(slice_index si, stip_structure_traversal 
     solving_insert_output_latex_tree_slices(si,is_setplay,file);
   }
 
-  {
-    slice_index const prototypes[] =
-    {
-        alloc_output_latex_twinning_writer(file)
-    };
-    enum
-    {
-      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
-    };
-    slice_insertion_insert(si,prototypes,nr_prototypes);
-  }
-
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
 }
@@ -1117,6 +1107,36 @@ void output_latex_instrument_solving(slice_index si)
                                              &visit_output_mode_selector);
     stip_traverse_structure(si,&st);
   }
+
+  TraceFunctionExit(__func__);
+  TraceFunctionResultEnd();
+}
+
+/* Instrument the solving machinery with slices that write the solution in
+ * LaTeX
+ */
+void output_latex_diagram_writer_builder_solve(slice_index si)
+{
+  TraceFunctionEntry(__func__);
+  TraceFunctionParam("%u",si);
+  TraceFunctionParamListEnd();
+
+  if (LaTeXFile!=0)
+  {
+    slice_index const prototypes[] =
+    {
+	alloc_output_latex_diagram_start_writer(LaTeXFile),
+	alloc_output_latex_diagram_end_writer(LaTeXFile),
+	alloc_output_latex_twinning_writer(LaTeXFile)
+    };
+    enum
+    {
+      nr_prototypes = sizeof prototypes / sizeof prototypes[0]
+    };
+    slice_insertion_insert(si,prototypes,nr_prototypes);
+  }
+
+  pipe_solve_delegate(si);
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
