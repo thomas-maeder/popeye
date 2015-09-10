@@ -23,6 +23,7 @@
   ENUMERATOR(STOutputPlainTextSeparateGridWriterBuilder),               \
   ENUMERATOR(STOutputLaTeXDiagramWriterBuilder),                        \
   ENUMERATOR(STTwinIdAdjuster),                                         \
+  ENUMERATOR(STStartOfAllProblems),                                     \
   ENUMERATOR(STStartOfCurrentProblem),                                  \
   ENUMERATOR(STStartOfCurrentTwin),                                     \
   ENUMERATOR(STDuplexSolver),                                           \

@@ -11,6 +11,8 @@
 #include "pieces/walks/hunters.h"
 #include "position/underworld.h"
 #include "solving/move_generator.h"
+#include "stipulation/pipe.h"
+#include "stipulation/branch.h"
 #include "debugging/assert.h"
 
 char ActAuthor[256];
@@ -56,7 +58,7 @@ static void InitBoard(void)
 /* Handle (read, solve, write) the current problem
  * @return the input token that ends the problem (NextProblem or EndProblem)
  */
-char *input_plaintext_problem_handle(char *tok)
+char *input_plaintext_problem_handle(char *tok, slice_index start)
 {
   TraceFunctionEntry(__func__);
   TraceFunctionParam("%s",tok);
@@ -73,12 +75,24 @@ char *input_plaintext_problem_handle(char *tok)
   ply_reset();
 
   {
-    slice_index const start_of_current_problem = alloc_pipe(STStartOfCurrentProblem);
-    tok = input_plaintext_twins_handle(tok,start_of_current_problem);
-    dealloc_slices(start_of_current_problem);
-  }
+    slice_index const prototypes[] =
+    {
+        alloc_pipe(STStartOfCurrentProblem),
+        alloc_pipe(STOutputLaTeXDiagramWriterBuilder),
+    };
+    enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
+    slice_insertion_insert(start,prototypes,nr_prototypes);
 
-  assert_no_leaked_slices();
+    tok = input_plaintext_twins_handle(tok,start);
+
+    {
+      slice_index const start_of_current_problem = branch_find_slice(STStartOfCurrentProblem,
+                                                                     start,
+                                                                     stip_traversal_context_intro);
+      dealloc_slices(start_of_current_problem);
+      SLICE_NEXT1(SLICE_PREV(start_of_current_problem)) = no_slice;
+    }
+  }
 
   reset_max_solutions();
   reset_was_max_nr_solutions_per_target_position_reached();

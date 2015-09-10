@@ -177,12 +177,14 @@ static void iterate_problems(void)
 
   if (UserLanguage!=LanguageCount)
   {
+    slice_index const start_of_all_problems = alloc_pipe(STStartOfAllProblems);
+
     output_plaintext_select_language(UserLanguage);
     output_message_initialise_language(UserLanguage);
 
     while (true)
     {
-      tok = input_plaintext_problem_handle(tok);
+      tok = input_plaintext_problem_handle(tok,start_of_all_problems);
       endToken = GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok);
       if (endToken>ProblemTokenCount)
       {
@@ -197,7 +199,11 @@ static void iterate_problems(void)
         tok = ReadNextTokStr();
       }
     }
+
+    dealloc_slices(start_of_all_problems);
   }
+
+  assert_no_leaked_slices();
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();

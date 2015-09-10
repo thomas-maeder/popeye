@@ -343,6 +343,7 @@ void dispatch(slice_index si)
       twin_id_adjuster_solve(si);
       break;
 
+    case STStartOfAllProblems:
     case STStartOfCurrentProblem:
     case STStartOfStipulationSpecific:
     case STEndOfStipulationSpecific:

@@ -1125,9 +1125,9 @@ void output_latex_diagram_writer_builder_solve(slice_index si)
   {
     slice_index const prototypes[] =
     {
-	alloc_output_latex_diagram_start_writer(LaTeXFile),
-	alloc_output_latex_diagram_end_writer(LaTeXFile),
-	alloc_output_latex_twinning_writer(LaTeXFile)
+        alloc_output_latex_diagram_start_writer(LaTeXFile),
+        alloc_output_latex_diagram_end_writer(LaTeXFile),
+        alloc_output_latex_twinning_writer(LaTeXFile)
     };
     enum
     {

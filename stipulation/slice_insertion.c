@@ -571,6 +571,7 @@ void slice_insertion_init_traversal(stip_structure_traversal *st,
 static slice_index const slice_rank_order[] =
 {
   STProxy,
+  STStartOfAllProblems,
   STStartOfCurrentProblem,
   STTwinIdAdjuster,
   STStipulationCompleter,
@@ -583,6 +584,7 @@ static slice_index const slice_rank_order[] =
   STProofSolverBuilder,
   STAToBSolverBuilder,
   STEndOfStipulationSpecific,
+  STOutputLaTeXDiagramWriterBuilder,
   STSolvingMachineryIntroBuilder,
   STStartOfWriterBuilders,
   STOutputPlainTextOptionNoboard,
@@ -597,7 +599,6 @@ static slice_index const slice_rank_order[] =
   STOutputPlainTextSeparateGridWriterBuilder,
   STStartOfCurrentTwin,
   STCreateBuilderSetupPly,
-  STOutputLaTeXDiagramWriterBuilder,
   STPieceWalkCacheInitialiser,
   STPiecesCounter,
   STRoyalsLocator,
