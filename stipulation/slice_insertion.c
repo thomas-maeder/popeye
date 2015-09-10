@@ -222,8 +222,22 @@ static void insert_beyond(slice_index si, stip_structure_traversal *st)
   TraceFunctionParam("%u",si);
   TraceFunctionParamListEnd();
 
-  state->prev = si;
-  stip_traverse_structure_children_pipe(si,st);
+  if (SLICE_NEXT1(si)==no_slice)
+  {
+    slice_index curr = si;
+    unsigned int i;
+    for (i = 0; i!=state->nr_prototypes; ++i)
+    {
+      slice_index const copy = copy_slice(state->prototypes[i]);
+      pipe_link(curr,copy);
+      curr = copy;
+    }
+  }
+  else
+  {
+    state->prev = si;
+    stip_traverse_structure_children_pipe(si,st);
+  }
 
   TraceFunctionExit(__func__);
   TraceFunctionResultEnd();
@@ -241,7 +255,9 @@ static void insert_visit_pipe(slice_index si, stip_structure_traversal *st)
     if (rank==no_slice_rank)
       insert_beyond(si,st);
     else if (insert_before(si,rank,st))
+    {
       ; /* nothing - work is done*/
+    }
     else
     {
       state->base_rank = rank;

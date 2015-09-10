@@ -1157,8 +1157,6 @@ char *input_plaintext_twins_handle(char *tok, slice_index start)
   TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
-  pipe_link(start,alloc_pipe(STStartOfCurrentTwin));
-
   {
     slice_index const prototypes[] = {
       alloc_pipe(STTwinIdAdjuster),
@@ -1171,7 +1169,8 @@ char *input_plaintext_twins_handle(char *tok, slice_index start)
       alloc_pipe(STEndOfStipulationSpecific),
       alloc_pipe(STSolvingMachineryIntroBuilder),
       alloc_pipe(STStartOfWriterBuilders),
-      alloc_pipe(STOutputPlainTextPositionWriterBuilder)
+      alloc_pipe(STOutputPlainTextPositionWriterBuilder),
+      alloc_pipe(STStartOfCurrentTwin)
     };
     enum { nr_prototypes = sizeof prototypes / sizeof prototypes[0] };
     slice_insertion_insert(start,prototypes,nr_prototypes);
