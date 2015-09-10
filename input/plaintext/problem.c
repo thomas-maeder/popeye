@@ -56,16 +56,18 @@ static void InitBoard(void)
 }
 
 /* Handle (read, solve, write) the current problem
- * @return the input token that ends the problem (NextProblem or EndProblem)
  */
-char *input_plaintext_problem_handle(char *tok, slice_index start)
+void input_plaintext_problem_handle(slice_index start)
 {
+  char *tok;
+
   TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
   TraceFunctionParamListEnd();
 
   nextply(no_side);
   assert(nbply==ply_diagram_setup);
+
+  tok = ReadNextTokStr();
 
   InitMetaData();
   InitBoard();
@@ -104,7 +106,5 @@ char *input_plaintext_problem_handle(char *tok, slice_index start)
   finply();
 
   TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
   TraceFunctionResultEnd();
-  return tok;
 }

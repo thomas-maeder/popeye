@@ -43,6 +43,176 @@ output/message.h:
 output/plaintext/protocol.h:
 
 platform/tmpfile.h:
+input/plaintext/plaintext$(OBJ_SUFFIX): input/plaintext/plaintext.c \
+ input/plaintext/plaintext.h optimisations/hash.h DHT/dhtbcmem.h \
+ pieces/pieces.h utilities/boolean.h solving/machinery/solve.h \
+ stipulation/stipulation.h stipulation/goals/goals.h position/board.h \
+ utilities/bitmask.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ output/mode.h output/mode.enum.h solving/machinery/dispatch.h \
+ debugging/trace.h solving/ply.h solving/moves_traversal.h \
+ stipulation/traversal.h stipulation/slice.h \
+ stipulation/slice_structural_type.h \
+ stipulation/slice_structural_type.enum.h \
+ stipulation/slice_functional_type.h \
+ stipulation/slice_functional_type.enum.h \
+ stipulation/slice_contextual_type.h \
+ stipulation/slice_contextual_type.enum.h \
+ optimisations/orthodox_check_directions.h pieces/walks/vectors.h \
+ input/plaintext/problem.h input/plaintext/memory.h \
+ output/plaintext/language_dependant.h position/position.h \
+ position/color.h position/color.enum.h position/castling_rights.h \
+ conditions/conditions.h options/options.h input/plaintext/twin.h \
+ input/plaintext/token.h input/plaintext/language.h conditions/mummer.h \
+ conditions/anticirce/anticirce.h conditions/circe/circe.h \
+ stipulation/structure_traversal.h stipulation/slice_insertion.h \
+ solving/move_effect_journal.h position/pieceid.h \
+ solving/machinery/twin.h conditions/circe/rebirth_square_occupied.h \
+ conditions/circe/reborn_piece.h conditions/circe/rebirth_square.h \
+ conditions/circe/relevant_capture.h conditions/circe/relevant_piece.h \
+ conditions/circe/relevant_side.h conditions/sentinelles.h \
+ output/plaintext/message.h output/message.h output/plaintext/protocol.h \
+ output/latex/latex.h output/output.h output/plaintext/plaintext.h \
+ platform/platform.h platform/maxtime.h platform/maxmem.h \
+ platform/pytime.h platform/priority.h stipulation/pipe.h
+
+input/plaintext/plaintext.h:
+
+optimisations/hash.h:
+
+DHT/dhtbcmem.h:
+
+pieces/pieces.h:
+
+utilities/boolean.h:
+
+solving/machinery/solve.h:
+
+stipulation/stipulation.h:
+
+stipulation/goals/goals.h:
+
+position/board.h:
+
+utilities/bitmask.h:
+
+stipulation/slice_type.h:
+
+stipulation/slice_type.enum.h:
+
+position/side.h:
+
+position/side.enum.h:
+
+output/mode.h:
+
+output/mode.enum.h:
+
+solving/machinery/dispatch.h:
+
+debugging/trace.h:
+
+solving/ply.h:
+
+solving/moves_traversal.h:
+
+stipulation/traversal.h:
+
+stipulation/slice.h:
+
+stipulation/slice_structural_type.h:
+
+stipulation/slice_structural_type.enum.h:
+
+stipulation/slice_functional_type.h:
+
+stipulation/slice_functional_type.enum.h:
+
+stipulation/slice_contextual_type.h:
+
+stipulation/slice_contextual_type.enum.h:
+
+optimisations/orthodox_check_directions.h:
+
+pieces/walks/vectors.h:
+
+input/plaintext/problem.h:
+
+input/plaintext/memory.h:
+
+output/plaintext/language_dependant.h:
+
+position/position.h:
+
+position/color.h:
+
+position/color.enum.h:
+
+position/castling_rights.h:
+
+conditions/conditions.h:
+
+options/options.h:
+
+input/plaintext/twin.h:
+
+input/plaintext/token.h:
+
+input/plaintext/language.h:
+
+conditions/mummer.h:
+
+conditions/anticirce/anticirce.h:
+
+conditions/circe/circe.h:
+
+stipulation/structure_traversal.h:
+
+stipulation/slice_insertion.h:
+
+solving/move_effect_journal.h:
+
+position/pieceid.h:
+
+solving/machinery/twin.h:
+
+conditions/circe/rebirth_square_occupied.h:
+
+conditions/circe/reborn_piece.h:
+
+conditions/circe/rebirth_square.h:
+
+conditions/circe/relevant_capture.h:
+
+conditions/circe/relevant_piece.h:
+
+conditions/circe/relevant_side.h:
+
+conditions/sentinelles.h:
+
+output/plaintext/message.h:
+
+output/message.h:
+
+output/plaintext/protocol.h:
+
+output/latex/latex.h:
+
+output/output.h:
+
+output/plaintext/plaintext.h:
+
+platform/platform.h:
+
+platform/maxtime.h:
+
+platform/maxmem.h:
+
+platform/pytime.h:
+
+platform/priority.h:
+
+stipulation/pipe.h:
 input/plaintext/pieces$(OBJ_SUFFIX): input/plaintext/pieces.c \
  input/plaintext/pieces.h position/position.h position/board.h \
  utilities/bitmask.h position/side.h position/side.enum.h \
@@ -1322,14 +1492,14 @@ platform/beep.h:
 
 platform/maxtime.h:
 input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
- input/plaintext/problem.h input/plaintext/token.h \
- input/plaintext/language.h utilities/boolean.h stipulation/stipulation.h \
+ input/plaintext/problem.h stipulation/stipulation.h \
  stipulation/goals/goals.h position/board.h utilities/bitmask.h \
- stipulation/slice_type.h stipulation/slice_type.enum.h position/side.h \
- position/side.enum.h pieces/pieces.h output/mode.h output/mode.enum.h \
- input/plaintext/condition.h input/plaintext/option.h \
- input/plaintext/twin.h output/plaintext/protocol.h \
- output/plaintext/message.h output/message.h \
+ utilities/boolean.h stipulation/slice_type.h \
+ stipulation/slice_type.enum.h position/side.h position/side.enum.h \
+ pieces/pieces.h output/mode.h output/mode.enum.h input/plaintext/token.h \
+ input/plaintext/language.h input/plaintext/condition.h \
+ input/plaintext/option.h input/plaintext/twin.h \
+ output/plaintext/protocol.h output/plaintext/message.h output/message.h \
  output/plaintext/language_dependant.h position/position.h \
  position/color.h position/color.enum.h pieces/walks/vectors.h \
  position/castling_rights.h conditions/conditions.h options/options.h \
@@ -1357,12 +1527,6 @@ input/plaintext/problem$(OBJ_SUFFIX): input/plaintext/problem.c \
 
 input/plaintext/problem.h:
 
-input/plaintext/token.h:
-
-input/plaintext/language.h:
-
-utilities/boolean.h:
-
 stipulation/stipulation.h:
 
 stipulation/goals/goals.h:
@@ -1370,6 +1534,8 @@ stipulation/goals/goals.h:
 position/board.h:
 
 utilities/bitmask.h:
+
+utilities/boolean.h:
 
 stipulation/slice_type.h:
 
@@ -1384,6 +1550,10 @@ pieces/pieces.h:
 output/mode.h:
 
 output/mode.enum.h:
+
+input/plaintext/token.h:
+
+input/plaintext/language.h:
 
 input/plaintext/condition.h:
 

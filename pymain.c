@@ -1,6 +1,7 @@
 #include "optimisations/hash.h"
 #include "solving/moves_traversal.h"
 #include "optimisations/orthodox_check_directions.h"
+#include "input/plaintext/plaintext.h"
 #include "input/plaintext/problem.h"
 #include "input/plaintext/memory.h"
 #include "output/plaintext/language_dependant.h"
@@ -125,90 +126,6 @@ int parseCommandlineOptions(int argc, char *argv[])
   return idx;
 }
 
-/* iterate until we detect an input token that identifies the user's language
- * @return the detected language
- */
-static char *detect_user_language(char *tok, Language *lang)
-{
-  TraceFunctionEntry(__func__);
-  TraceFunctionParam("%s",tok);
-  TraceFunctionParamListEnd();
-
-  *lang = LanguageCount;
-
-  {
-    Language candidate;
-    for (candidate = 0; candidate<LanguageCount; ++candidate)
-    {
-      TraceValue("%u",candidate);TraceEOL();
-      if (GetUniqIndex(GlobalTokenCount,GlobalTokenString[candidate],tok)==BeginProblem)
-      {
-        *lang = candidate;
-        break;
-      }
-    }
-  }
-
-  TraceValue("%u",*lang);TraceEOL();
-
-  if (*lang==LanguageCount)
-    output_plaintext_input_error_message(NoBegOfProblem, 0);
-
-  tok = ReadNextTokStr();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResult("%s",tok);
-  TraceFunctionResultEnd();
-  return tok;
-}
-
-/* Iterate over the problems read from standard input or the input
- * file indicated in the command line options
- */
-static void iterate_problems(void)
-{
-  char *tok = ReadNextTokStr();
-  ProblemToken endToken;
-
-  TraceFunctionEntry(__func__);
-  TraceFunctionParamListEnd();
-
-  tok = detect_user_language(tok,&UserLanguage);
-
-  if (UserLanguage!=LanguageCount)
-  {
-    slice_index const start_of_all_problems = alloc_pipe(STStartOfAllProblems);
-
-    output_plaintext_select_language(UserLanguage);
-    output_message_initialise_language(UserLanguage);
-
-    while (true)
-    {
-      tok = input_plaintext_problem_handle(tok,start_of_all_problems);
-      endToken = GetUniqIndex(ProblemTokenCount,ProblemTokenTab,tok);
-      if (endToken>ProblemTokenCount)
-      {
-        output_plaintext_input_error_message(ComNotUniq,0);
-        tok = ReadNextTokStr();
-      }
-      else if (endToken==ProblemTokenCount || endToken==EndProblem)
-        break;
-      else
-      {
-        assert(endToken==NextProblem);
-        tok = ReadNextTokStr();
-      }
-    }
-
-    dealloc_slices(start_of_all_problems);
-  }
-
-  assert_no_leaked_slices();
-
-  TraceFunctionExit(__func__);
-  TraceFunctionResultEnd();
-}
-
 int main(int argc, char *argv[])
 {
   int idx_end_of_options;
@@ -239,7 +156,7 @@ int main(int argc, char *argv[])
 
     output_plaintext_print_version_info(stdout);
 
-    iterate_problems();
+    input_plaintext_start();
 
     CloseInput();
   }
