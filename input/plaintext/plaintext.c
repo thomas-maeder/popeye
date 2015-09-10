@@ -1,24 +1,9 @@
 #include "input/plaintext/plaintext.h"
-#include "optimisations/hash.h"
-#include "solving/moves_traversal.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "input/plaintext/problem.h"
-#include "input/plaintext/memory.h"
 #include "output/plaintext/language_dependant.h"
-#include "output/plaintext/protocol.h"
-#include "output/latex/latex.h"
-#include "platform/platform.h"
-#include "platform/maxtime.h"
-#include "platform/maxmem.h"
-#include "platform/pytime.h"
-#include "platform/priority.h"
 #include "stipulation/pipe.h"
 #include "debugging/trace.h"
-
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /* iterate until we detect an input token that identifies the user's language
  * @return the detected language

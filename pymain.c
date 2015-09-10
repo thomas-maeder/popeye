@@ -2,8 +2,6 @@
 #include "solving/moves_traversal.h"
 #include "optimisations/orthodox_check_directions.h"
 #include "input/plaintext/plaintext.h"
-#include "input/plaintext/problem.h"
-#include "input/plaintext/memory.h"
 #include "output/plaintext/language_dependant.h"
 #include "output/plaintext/protocol.h"
 #include "output/latex/latex.h"
